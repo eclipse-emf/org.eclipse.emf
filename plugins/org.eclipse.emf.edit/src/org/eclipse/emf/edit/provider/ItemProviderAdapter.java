@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.8 2004/08/20 23:49:32 marcelop Exp $
+ * $Id: ItemProviderAdapter.java,v 1.9 2004/08/23 00:23:28 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -762,7 +762,8 @@ public class ItemProviderAdapter
            commandParameter.getEStructuralFeature() != null ?
              commandParameter.getEStructuralFeature() :
              getSetFeature(commandParameter.getEOwner(), commandParameter.getValue()),
-           commandParameter.getValue());
+           commandParameter.getValue(),
+           commandParameter.getIndex());
     }
     else if (commandClass == CopyCommand.class)
     {
@@ -858,6 +859,14 @@ public class ItemProviderAdapter
   protected Command createSetCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value) 
   {
     return new SetCommand(domain, owner, feature, value);
+  }
+
+  /**
+   * This creates a primitive {@link org.eclipse.emf.edit.command.SetCommand}.
+   */
+  protected Command createSetCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value, int index) 
+  {
+    return new SetCommand(domain, owner, feature, value, index);
   }
 
   /**
