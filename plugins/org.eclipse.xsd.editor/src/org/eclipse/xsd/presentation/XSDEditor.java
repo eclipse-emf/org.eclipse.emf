@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.4 2004/04/12 12:50:56 emerks Exp $
+ * $Id: XSDEditor.java,v 1.5 2004/05/16 16:45:17 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -1968,7 +1968,7 @@ public class XSDEditor
         xsdSchema.eResource().setURI(URI.createURI("platform:/resource" + file.getFullPath()));
         IFileEditorInput modelFile = new FileEditorInput(file);
         setInput(modelFile);
-        setTitle(file.getName());
+        setPartName(file.getName());
         doSave(getActionBars().getStatusLineManager().getProgressMonitor());
       }
     }
@@ -2003,7 +2003,7 @@ public class XSDEditor
     {
       setSite(site);
       setInput(editorInput);
-      setTitle(((IFileEditorInput)editorInput).getFile().getName());
+      setPartName(((IFileEditorInput)editorInput).getFile().getName());
       site.setSelectionProvider(new MultiPageSelectionProvider(this)); // EATM
       site.getPage().addPartListener(partListener);
     }
