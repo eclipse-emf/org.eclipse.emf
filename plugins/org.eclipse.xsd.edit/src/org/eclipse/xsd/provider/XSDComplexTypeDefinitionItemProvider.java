@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionItemProvider.java,v 1.2 2004/04/07 22:12:58 davidms Exp $
+ * $Id: XSDComplexTypeDefinitionItemProvider.java,v 1.3 2004/04/15 05:43:24 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -392,7 +392,7 @@ public class XSDComplexTypeDefinitionItemProvider
   }
 
   /**
-   * This adds to the collection of {@link org.eclipse.emf.edit.command. CommandParameter}s 
+   * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s 
    * describing all of the children that can be created under this object.
    */
   protected void collectNewChildDescriptors(Collection newChildDescriptors,
