@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePlugin.java,v 1.2 2004/03/12 23:36:34 emerks Exp $
+ * $Id: XSD2EcorePlugin.java,v 1.3 2004/05/16 16:49:45 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore;
 
-
-import org.eclipse.core.runtime.IPluginDescriptor;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -104,9 +102,9 @@ public final class XSD2EcorePlugin extends EMFPlugin
      * @param descriptor the description of the plugin.
      * @generated
      */
-    public Implementation(IPluginDescriptor descriptor)
+    public Implementation()
     {
-      super(descriptor);
+      super();
 
       // Remember the static instance.
       //

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMainTest.java,v 1.2 2004/03/08 21:32:14 emerks Exp $
+ * $Id: XSDMainTest.java,v 1.3 2004/05/16 16:43:32 emerks Exp $
  */
 package org.eclipse.xsd.test;
 
@@ -23,7 +23,7 @@ import java.util.Iterator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import org.eclipse.core.boot.IPlatformRunnable;
+import org.eclipse.core.runtime.IPlatformRunnable;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;

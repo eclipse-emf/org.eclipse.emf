@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditPlugin.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDEditPlugin.java,v 1.2 2004/05/16 16:45:59 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -24,7 +24,7 @@ import java.text.MessageFormat;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import org.eclipse.core.runtime.IPluginDescriptor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 
 
@@ -81,7 +81,7 @@ public class XSDEditPlugin extends Plugin
     }
     else
     {
-      String baseURL =  XSDEditPlugin.getPlugin().getDescriptor().getInstallURL().toString();
+      String baseURL =  getPlugin().getBundle().getEntry("/").toString();
       return baseURL;
     }
   }
@@ -132,7 +132,7 @@ public class XSDEditPlugin extends Plugin
     }
     else 
     {
-      return plugin.getDescriptor().getResourceBundle().getString(key);
+      return Platform.getResourceBundle(plugin.getBundle()).getString(key);
     }
   }
 
@@ -163,9 +163,9 @@ public class XSDEditPlugin extends Plugin
    * Creates an instance.
    * @param descriptor the description of the plugin.
    */
-  public XSDEditPlugin(IPluginDescriptor descriptor)
+  public XSDEditPlugin()
   {
-    super(descriptor);
+    super();
 
     // Remember the static instance.
     //

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGenerateHTML.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDGenerateHTML.java,v 1.2 2004/05/16 16:43:32 emerks Exp $
  */
 package org.eclipse.xsd.test;
 
@@ -38,7 +38,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import org.eclipse.core.boot.IPlatformRunnable;
+import org.eclipse.core.runtime.IPlatformRunnable;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
