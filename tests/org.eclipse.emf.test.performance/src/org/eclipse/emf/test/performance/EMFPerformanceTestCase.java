@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.7 2005/02/17 18:47:07 marcelop Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.8 2005/02/21 18:17:22 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -106,7 +106,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
   
   protected void startMeasuring()
   {
-    if (!isWarmingUp())
+    if (TestUtil.isRunningUnderEclipse() && !isWarmingUp())
     {
       super.startMeasuring();
     }
@@ -114,7 +114,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
   
   protected void stopMeasuring()
   {
-    if (!isWarmingUp())
+    if (TestUtil.isRunningUnderEclipse() && !isWarmingUp())
     {
       super.stopMeasuring();
     }
@@ -122,8 +122,11 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
   
   protected void setUp() throws Exception
   {
-    super.setUp();    
-    tagAsSummary("Perf " + getClass().getPackage().getName(), ALL_DIMENSIONS);
+    if (TestUtil.isRunningUnderEclipse())
+    {
+      super.setUp();
+      tagAsSummary("Perf " + getClass().getPackage().getName(), ALL_DIMENSIONS);
+    }
   }
 
   protected void runTest() throws Throwable
@@ -155,8 +158,11 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
   
   protected void tearDown() throws Exception
   {
-    commitMeasurements();
-    assertPerformance();    
-    super.tearDown();
+    if (TestUtil.isRunningUnderEclipse())
+    {
+      commitMeasurements();
+      assertPerformance();    
+      super.tearDown();
+    }
   }  
 }

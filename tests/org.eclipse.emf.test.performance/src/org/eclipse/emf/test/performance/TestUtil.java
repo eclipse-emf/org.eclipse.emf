@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.2 2005/02/15 20:19:27 bportier Exp $
+ * $Id: TestUtil.java,v 1.3 2005/02/21 18:17:22 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.Platform;
 public class TestUtil
 {
   private static class Foo{};
+  private static int runningUnderEclipseFlag = -1;
   
   public static String getPluginDirectory()
   {
@@ -45,5 +46,22 @@ public class TestUtil
     String path = url.getPath();
     path = path.substring(0, path.indexOf("org.eclipse.emf.test.performance/") + "org.eclipse.emf.test.performance/".length());
     return new File(path).getAbsolutePath();
+  }
+  
+  
+  public static boolean isRunningUnderEclipse()
+  {
+    if (runningUnderEclipseFlag == -1)
+    {
+      runningUnderEclipseFlag = 0; 
+      try
+      {
+        if (Platform.isRunning()) runningUnderEclipseFlag = 1;
+      }
+      catch (Throwable t)
+      {
+      }
+    }
+    return (runningUnderEclipseFlag == 1);
   }
 }
