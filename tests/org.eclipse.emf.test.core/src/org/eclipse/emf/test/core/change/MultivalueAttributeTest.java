@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MultivalueAttributeTest.java,v 1.7 2005/02/10 22:11:50 marcelop Exp $
+ * $Id: MultivalueAttributeTest.java,v 1.8 2005/02/22 16:13:33 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -120,7 +120,7 @@ public class MultivalueAttributeTest extends TestCase
   {
     getManyInt().add(new Integer(1));
     
-    ChangeRecorder changeRecorder = new ChangeRecorder((EObject)thing);
+    ChangeRecorder changeRecorder = new ChangeRecorder(thing);
     
     getManyInt().add(new Integer(2));
     getManyInt().add(new Integer(3));
@@ -172,7 +172,7 @@ public class MultivalueAttributeTest extends TestCase
   {
     List beforeChange = new ArrayList(getManyInt());
     
-    ChangeRecorder changeRecorder = new ChangeRecorder((EObject)thing);
+    ChangeRecorder changeRecorder = new ChangeRecorder(thing);
     getManyInt().add(new Integer(2));
     getManyInt().add(new Integer(3));
     ChangeDescription changeDescription = changeRecorder.endRecording();
@@ -204,7 +204,7 @@ public class MultivalueAttributeTest extends TestCase
     List intBeforeChange = new ArrayList(getManyInt());
     List stringBeforeChange = new ArrayList(getManyString());
     
-    ChangeRecorder changeRecorder = new ChangeRecorder((EObject)thing);
+    ChangeRecorder changeRecorder = new ChangeRecorder(thing);
     getManyInt().add(new Integer(2));
     getManyInt().add(new Integer(3));
     getManyString().add("b");

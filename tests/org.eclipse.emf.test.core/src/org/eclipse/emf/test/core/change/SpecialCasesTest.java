@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.12 2005/02/10 22:11:50 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.13 2005/02/22 16:13:33 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -808,7 +808,7 @@ public class SpecialCasesTest  extends TestCase
     
     EReference children = EcoreFactory.eINSTANCE.createEReference();
     children.setName("children");
-    children.setUpperBound(EReference.UNBOUNDED_MULTIPLICITY);
+    children.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     children.setContainment(true);
     children.setEType(person);
     family.getEStructuralFeatures().add(children);

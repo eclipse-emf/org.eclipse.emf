@@ -1,3 +1,19 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2005 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: EqualityTest.java,v 1.3 2005/02/22 16:13:33 marcelop Exp $
+ */
 package org.eclipse.emf.test.core.common.util;
 
 
@@ -14,7 +30,6 @@ import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -371,7 +386,7 @@ public class EqualityTest extends TestCase
     ratingsAttr = ecoreFactory.createEAttribute();
     employeeClass.getEStructuralFeatures().add(ratingsAttr);
     ratingsAttr.setName("phoneNumbers");
-    ratingsAttr.setUpperBound(EStructuralFeature.UNBOUNDED_MULTIPLICITY);
+    ratingsAttr.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     ratingsAttr.setEType(ecorePackage.getEIntegerObject());
 
     // create a one-way reference to an Employee, employeesRef.
@@ -379,7 +394,7 @@ public class EqualityTest extends TestCase
     employeesRef = ecoreFactory.createEReference();
     employeeClass.getEStructuralFeatures().add(employeesRef);
     employeesRef.setName("employees");
-    employeesRef.setUpperBound(EStructuralFeature.UNBOUNDED_MULTIPLICITY);
+    employeesRef.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     employeesRef.setEType(employeeClass);
 
     // to test FeatureMaps with EAttributes Entries

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.8 2005/02/11 04:41:21 marcelop Exp $
+ * $Id: ASTTest.java,v 1.9 2005/02/22 16:13:34 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -105,7 +105,7 @@ public class ASTTest extends TestCase
    assertEquals("org.eclipse.emf.ecore.impl.EObjectImpl", ((ImportDeclaration)importDeclarations.get(4)).getName().getFullyQualifiedName());
    
    //** Types
-   List typeDeclarations = (List)compilationUnit.types();
+   List typeDeclarations = compilationUnit.types();
    assertEquals(2, typeDeclarations.size());
    
    //** Class Example

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.4 2005/02/21 22:34:17 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.5 2005/02/22 16:13:34 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -157,7 +157,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 
   private void initModel()
   {
-    List properties = ((DataObject)po).getType().getProperties();
+    List properties = po.getType().getProperties();
     shipToProp = (Property)properties.get(0);
     billToProp = (Property)properties.get(1);
     commentProp = (Property)properties.get(2);
@@ -182,7 +182,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 
   private void serializeDataGraph()
   {
-    DataGraph dataGraph = ((DataObject)po).getDataGraph();
+    DataGraph dataGraph = po.getDataGraph();
     try
     {
       String fileName = DATA + "ipoDG1.xml";
