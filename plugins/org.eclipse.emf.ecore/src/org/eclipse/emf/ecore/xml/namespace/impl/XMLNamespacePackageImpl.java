@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackageImpl.java,v 1.5 2004/07/20 16:18:56 emerks Exp $
+ * $Id: XMLNamespacePackageImpl.java,v 1.6 2004/08/12 14:57:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -127,6 +127,9 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
 
     // Initialize created meta-data
     theXMLNamespacePackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theXMLNamespacePackage.freeze();
 
     return theXMLNamespacePackage;
   }

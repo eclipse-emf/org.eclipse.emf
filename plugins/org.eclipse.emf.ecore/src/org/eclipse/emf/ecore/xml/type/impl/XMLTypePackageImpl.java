@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.10 2004/07/20 16:18:56 emerks Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.11 2004/08/12 14:57:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -547,6 +547,9 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
            return XMLTypeValidator.INSTANCE;
          }
        });
+
+    // Mark meta-data to indicate it can't be changed
+    theXMLTypePackage.freeze();
 
     return theXMLTypePackage;
   }
