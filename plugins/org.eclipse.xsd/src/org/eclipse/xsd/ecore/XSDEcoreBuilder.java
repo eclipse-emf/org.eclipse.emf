@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.24 2004/12/11 12:14:43 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.25 2004/12/24 17:30:47 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -977,75 +977,8 @@ public class XSDEcoreBuilder extends MapBuilder
                 group = eStructuralFeature;
               }
 
-              XSDTypeDefinition elementTypeDefinition = xsdElementDeclaration.getTypeDefinition();
-              EClassifier eClassifier = getEClassifier(elementTypeDefinition);
-
-              XSDTypeDefinition referenceType = getEcoreTypeQNameAttribute(xsdElementDeclaration, "reference");
-              if (referenceType != null)
-              {
-                EClassifier referenceClassifier = getEClassifier(referenceType);
-
-                boolean needsHolder = false;
-                if (elementTypeDefinition instanceof XSDSimpleTypeDefinition)
-                {
-                  XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)elementTypeDefinition;
-                  if (xsdSimpleTypeDefinition.getVariety() == XSDVariety.LIST_LITERAL)
-                  {
-                    needsHolder = true;
-                    // Create a holder class like an anonymous complex type.
-                    //
-                    EClass holderClass = EcoreFactory.eINSTANCE.createEClass();
-                    setAnnotations(holderClass, xsdElementDeclaration);
-                    String holderName = xsdElementDeclaration.getName() + ":holder";
-                    holderClass.setName(validName(holderName, true));
-                    extendedMetaData.setName(holderClass, holderName);
-                    extendedMetaData.setContentKind(holderClass, ExtendedMetaData.SIMPLE_CONTENT);
-              
-                    EPackage holderPackage = getEPackage(xsdElementDeclaration);
-                    addToSortedList(holderPackage.getEClassifiers(), holderClass);
-
-                    EReference holderReference =
-                      (EReference)createFeature
-                        (holderClass,
-                         "value",
-                         referenceClassifier,
-                         null,
-                         0,
-                         -1);
-
-                    holderReference.setResolveProxies(!isLocalReferenceType(xsdSimpleTypeDefinition));
-
-                    referenceClassifier = holderClass;
-                  }
-                }
-
-                eStructuralFeature =
-                  createFeature
-                    (eClass,
-                     name,
-                     referenceClassifier,
-                     xsdParticle,
-                     effectiveOccurrence.minOccurs,
-                     effectiveOccurrence.maxOccurs);
-
-                ((EReference)eStructuralFeature).setContainment(needsHolder);
-                if (needsHolder)
-                {
-                  ((EReference)eStructuralFeature).setUnsettable(false);
-                  ((EReference)eStructuralFeature).setResolveProxies(false);
-                }
-              }
-              else
-              {
-                eStructuralFeature =
-                  createFeature
-                    (eClass,
-                     name,
-                     eClassifier,
-                     xsdParticle,
-                     effectiveOccurrence.minOccurs,
-                     effectiveOccurrence.maxOccurs);
-              }
+              eStructuralFeature = 
+                 createFeature(eClass, xsdElementDeclaration, name, xsdParticle, effectiveOccurrence.minOccurs, effectiveOccurrence.maxOccurs);
 
               // If the group is turned off, we better make the feature changeable.
               //
@@ -1108,57 +1041,8 @@ public class XSDEcoreBuilder extends MapBuilder
           name = validName(xsdAttributeDeclaration.getName(), true);
         }
 
-        XSDSimpleTypeDefinition attributeTypeDefinition = xsdAttributeDeclaration.getTypeDefinition();
-        EDataType eDataType = getEDataType(attributeTypeDefinition);
-
-        EStructuralFeature eStructuralFeature;
-        XSDTypeDefinition referenceType = getEcoreTypeQNameAttribute(xsdAttributeDeclaration, "reference");
-        if (referenceType != null)
-        {
-          int lowerBound = xsdAttributeUse.isRequired() ? 1 : 0;
-          int upperBound = 1;
-          if (attributeTypeDefinition.getVariety() == XSDVariety.LIST_LITERAL)
-          {
-            if (xsdAttributeUse.isRequired())
-            {
-              XSDMinLengthFacet xsdMinLengthFacet = attributeTypeDefinition.getEffectiveMinLengthFacet();
-              if (xsdMinLengthFacet != null)
-              {
-                lowerBound = xsdMinLengthFacet.getValue();
-              }
-            }
-            XSDMaxLengthFacet xsdMaxLengthFacet = attributeTypeDefinition.getEffectiveMaxLengthFacet();
-            if (xsdMaxLengthFacet != null)
-            {
-              upperBound = xsdMaxLengthFacet.getValue();
-            }
-            else
-            {
-              upperBound = -1;
-            }
-          }
-
-          EClassifier referenceClassifier = getEClassifier(referenceType);
-          eStructuralFeature =
-            createFeature
-              (eClass,
-               name,
-               referenceClassifier,
-               xsdAttributeUse,
-               lowerBound,
-               upperBound);
-        }
-        else
-        {
-          eStructuralFeature =
-            createFeature
-              (eClass,
-               name,
-               eDataType,
-               xsdAttributeUse,
-               xsdAttributeUse.isRequired() ? 1 : 0,
-               1);
-        }
+        EStructuralFeature eStructuralFeature = 
+          createFeature(eClass, xsdAttributeDeclaration, name, xsdAttributeUse, xsdAttributeUse.isRequired());
       
         if (isRestriction)
         {
@@ -1320,7 +1204,6 @@ public class XSDEcoreBuilder extends MapBuilder
         EReference eReference = EcoreFactory.eINSTANCE.createEReference();
         setAnnotations(eReference, xsdComponent);
         eReference.setName(name);
-        eReference.setUnique(false);
         eReference.setEType(EcorePackage.eINSTANCE.getEStringToStringMapEntry());
         eReference.setLowerBound(0);
         eReference.setUpperBound(-1);
@@ -1370,7 +1253,6 @@ public class XSDEcoreBuilder extends MapBuilder
             {
               eReference.setContainment(false);
               eReference.setResolveProxies(!isLocalReferenceType((XSDSimpleTypeDefinition)xsdElementDeclaration.getTypeDefinition()));
-
             }
 
             if (maxOccurs == 1 && xsdElementDeclaration.isNillable())
@@ -1436,8 +1318,22 @@ public class XSDEcoreBuilder extends MapBuilder
         }
         else if (xsdComponent instanceof XSDAttributeUse)
         {
+          String opposite = getEcoreAttribute(xsdComponent, "opposite");
+          if (opposite != null)
+          {
+            eReferenceToOppositeNameMap.put(eReference, opposite);
+          }
+          
           XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)xsdComponent;
           XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
+          extendedMetaData.setFeatureKind(eReference, ExtendedMetaData.ATTRIBUTE_FEATURE);
+          extendedMetaData.setName(eReference, xsdAttributeDeclaration.getName());
+          extendedMetaData.setNamespace(eReference, xsdAttributeDeclaration.getTargetNamespace());
+          eReference.setResolveProxies(!isLocalReferenceType(xsdAttributeDeclaration.getTypeDefinition()));
+        }
+        else if (xsdComponent instanceof XSDAttributeDeclaration)
+        {
+          XSDAttributeDeclaration xsdAttributeDeclaration = (XSDAttributeDeclaration)xsdComponent;
           extendedMetaData.setFeatureKind(eReference, ExtendedMetaData.ATTRIBUTE_FEATURE);
           extendedMetaData.setName(eReference, xsdAttributeDeclaration.getName());
           extendedMetaData.setNamespace(eReference, xsdAttributeDeclaration.getTargetNamespace());
@@ -1584,6 +1480,140 @@ public class XSDEcoreBuilder extends MapBuilder
       }
 
       return eAttribute;
+    }
+  }
+
+  protected EStructuralFeature createFeature
+   (EClass eClass, XSDElementDeclaration xsdElementDeclaration, String name, XSDComponent xsdComponent, int minOccurs, int maxOccurs)
+  {
+    XSDTypeDefinition elementTypeDefinition = xsdElementDeclaration.getTypeDefinition();
+    EClassifier eClassifier = getEClassifier(elementTypeDefinition);
+  
+    XSDTypeDefinition referenceType = getEcoreTypeQNameAttribute(xsdElementDeclaration, "reference");
+    if (referenceType != null)
+    {
+      EClassifier referenceClassifier = getEClassifier(referenceType);
+      boolean needsHolder = false;
+      if (elementTypeDefinition instanceof XSDSimpleTypeDefinition)
+      {
+        XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)elementTypeDefinition;
+        if (xsdSimpleTypeDefinition.getVariety() == XSDVariety.LIST_LITERAL)
+        {
+          needsHolder = true;
+          
+          EPackage holderPackage = getEPackage(xsdElementDeclaration);
+          String holderName = xsdElementDeclaration.getName() + ":holder";
+          EClass holderClass = (EClass)extendedMetaData.getType(holderPackage, holderName);
+          if (holderClass == null)
+          {
+            // Create a holder class like an anonymous complex type.
+            //
+            holderClass = EcoreFactory.eINSTANCE.createEClass();
+            setAnnotations(holderClass, xsdElementDeclaration);
+            holderClass.setName(validName(holderName, true));
+            extendedMetaData.setName(holderClass, holderName);
+            extendedMetaData.setContentKind(holderClass, ExtendedMetaData.SIMPLE_CONTENT);
+                   
+            addToSortedList(holderPackage.getEClassifiers(), holderClass);
+     
+            EReference holderReference =
+              (EReference)createFeature
+                (holderClass,
+                 "value",
+                 referenceClassifier,
+                 null,
+                 0,
+                 -1);
+     
+            holderReference.setResolveProxies(!isLocalReferenceType(xsdSimpleTypeDefinition));
+          }
+          referenceClassifier = holderClass;
+        }
+      }
+      EStructuralFeature result =
+        createFeature
+          (eClass,
+           name,
+           referenceClassifier,
+           xsdComponent,
+           minOccurs,
+           maxOccurs);
+      ((EReference)result).setContainment(needsHolder);
+      if (needsHolder)
+      {
+        ((EReference)result).setUnsettable(false);
+        ((EReference)result).setResolveProxies(false);
+      }
+      return result;
+    }
+    else
+    {
+      EStructuralFeature result =
+        createFeature
+          (eClass,
+           name,
+           eClassifier,
+           xsdComponent,
+           minOccurs,
+           maxOccurs);
+      return result;
+    }
+  }
+
+  protected EStructuralFeature createFeature
+    (EClass eClass, XSDAttributeDeclaration xsdAttributeDeclaration, String name, XSDComponent xsdComponent, boolean isRequired)
+  {
+    XSDSimpleTypeDefinition attributeTypeDefinition = xsdAttributeDeclaration.getTypeDefinition();
+    EDataType eDataType = getEDataType(attributeTypeDefinition);
+  
+    XSDTypeDefinition referenceType = getEcoreTypeQNameAttribute(xsdAttributeDeclaration, "reference");
+    if (referenceType != null)
+    {
+      int lowerBound = isRequired ? 1 : 0;
+      int upperBound = 1;
+      if (attributeTypeDefinition.getVariety() == XSDVariety.LIST_LITERAL)
+      {
+        if (isRequired)
+        {
+          XSDMinLengthFacet xsdMinLengthFacet = attributeTypeDefinition.getEffectiveMinLengthFacet();
+          if (xsdMinLengthFacet != null)
+          {
+            lowerBound = xsdMinLengthFacet.getValue();
+          }
+        }
+        XSDMaxLengthFacet xsdMaxLengthFacet = attributeTypeDefinition.getEffectiveMaxLengthFacet();
+        if (xsdMaxLengthFacet != null)
+        {
+          upperBound = xsdMaxLengthFacet.getValue();
+        }
+        else
+        {
+          upperBound = -1;
+        }
+      }
+  
+      EClassifier referenceClassifier = getEClassifier(referenceType);
+      EStructuralFeature result =
+        createFeature
+          (eClass,
+           name,
+           referenceClassifier,
+           xsdComponent,
+           lowerBound,
+           upperBound);
+      return result;
+    }
+    else
+    {
+      EStructuralFeature result =
+        createFeature
+          (eClass,
+           name,
+           eDataType,
+           xsdComponent,
+           isRequired ? 1 : 0,
+           1);
+      return result;
     }
   }
 
@@ -1884,23 +1914,25 @@ public class XSDEcoreBuilder extends MapBuilder
       {
         name= validName(xsdFeature.getName(), false);
       }
-      eStructuralFeature =
-        createFeature
-          (documentEClass,
-           name,
-           getEClassifier(xsdFeature.getType()),
-           xsdFeature);
-
+      
       if (xsdFeature instanceof XSDElementDeclaration)
       {
-        eStructuralFeature.setDerived(true);
-        eStructuralFeature.setTransient(true);
-        eStructuralFeature.setVolatile(true);
-
         // Mark the bound as unspecified so that it won't be considered many 
         // but can nevertheless be recognized as being unspecified and perhaps still be treat as many.
         //
-        eStructuralFeature.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
+        EStructuralFeature result = 
+          createFeature(documentEClass, (XSDElementDeclaration)xsdFeature, name, xsdFeature, 0, ETypedElement.UNSPECIFIED_MULTIPLICITY);
+            
+        result.setDerived(true);
+        result.setTransient(true);
+        result.setVolatile(true);
+        return result;
+      }
+      else
+      {
+        EStructuralFeature result = 
+          createFeature(documentEClass, (XSDAttributeDeclaration)xsdFeature, name, xsdFeature, false);
+        return result;
       }
     }
 
