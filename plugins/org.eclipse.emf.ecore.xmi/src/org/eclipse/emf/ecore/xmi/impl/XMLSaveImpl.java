@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.23 2004/12/23 19:32:59 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.24 2004/12/24 17:27:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -27,9 +27,11 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
@@ -124,6 +126,10 @@ public class XMLSaveImpl implements XMLSave
   protected static final int OBJECT_ELEMENT_IDREF_MANY              = 19;
   protected static final int ATTRIBUTE_FEATURE_MAP                  = 20;
   protected static final int ELEMENT_FEATURE_MAP                    = 21;
+  protected static final int OBJECT_ATTRIBUTE_SINGLE                = 22;
+  protected static final int OBJECT_ATTRIBUTE_MANY                  = 23;
+  protected static final int OBJECT_ATTRIBUTE_IDREF_SINGLE          = 24;
+  protected static final int OBJECT_ATTRIBUTE_IDREF_MANY            = 25;
 
   protected static final String XML_VERSION = "1.0";
 
@@ -1033,6 +1039,26 @@ public class XMLSaveImpl implements XMLSave
               continue LOOP;
             }
             break;
+          }
+          case OBJECT_ATTRIBUTE_SINGLE:
+          {
+            saveEObjectSingle(o, f);
+            continue LOOP;
+          }
+          case OBJECT_ATTRIBUTE_MANY:
+          {
+            saveEObjectMany(o, f);
+            continue LOOP;
+          }
+          case OBJECT_ATTRIBUTE_IDREF_SINGLE:
+          {
+            saveIDRefSingle(o, f);
+            continue LOOP;
+          }
+          case OBJECT_ATTRIBUTE_IDREF_MANY:
+          {
+            saveIDRefMany(o, f);
+            continue LOOP;
           }
           case OBJECT_HREF_SINGLE_UNSETTABLE:
           {
@@ -2046,18 +2072,51 @@ public class XMLSaveImpl implements XMLSave
   {
     List values = (List)helper.getValue(o, f);
     int size = values.size();
+    Set repeats = null;
     for (int i = 0; i < size; i++)
     {
       FeatureMap.Entry entry = (FeatureMap.Entry)values.get(i);
       EStructuralFeature entryFeature = entry.getEStructuralFeature();
-      Object value = entry.getValue();
       if (entryFeature instanceof EReference)
       {
-        throw new UnsupportedOperationException();
-        // saveElement((EObject)value, entryFeature);
+        EReference referenceEntryFeature = (EReference)entryFeature;
+        if (referenceEntryFeature.isMany())
+        {
+          if (repeats == null)
+          {
+            repeats = new HashSet();
+          }
+          else if (repeats.contains(referenceEntryFeature))
+          {
+            continue;
+          }
+          
+          repeats.add(referenceEntryFeature);
+          
+          if (referenceEntryFeature.isResolveProxies())
+          {
+            saveEObjectMany(o, entryFeature);
+          }
+          else
+          {
+            saveIDRefMany(o, entryFeature);
+          }
+        }
+        else
+        {
+          if (referenceEntryFeature.isResolveProxies())
+          {
+            saveEObjectSingle(o, entryFeature);
+          }
+          else
+          {
+            saveIDRefSingle(o, entryFeature);
+          }
+        }
       }
       else
       {
+        Object value = entry.getValue();
         String svalue = getDatatypeValue(value, entryFeature);
         if (!toDOM)
         {
@@ -2301,6 +2360,17 @@ public class XMLSaveImpl implements XMLSave
         {
           switch (extendedMetaData.getFeatureKind(f))
           {
+            case ExtendedMetaData.ATTRIBUTE_FEATURE:
+            {
+              return
+                  r.isResolveProxies() ?
+                    isMany ?
+                      OBJECT_ATTRIBUTE_MANY : 
+                      OBJECT_ATTRIBUTE_SINGLE : 
+                    isMany ?
+                      OBJECT_ATTRIBUTE_IDREF_MANY : 
+                      OBJECT_ATTRIBUTE_IDREF_SINGLE;
+            }
             case ExtendedMetaData.SIMPLE_FEATURE:
             case ExtendedMetaData.ELEMENT_FEATURE:
             {
