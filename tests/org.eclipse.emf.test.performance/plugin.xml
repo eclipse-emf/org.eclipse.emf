@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.2 2005/01/31 22:26:09 marcelop Exp $
+ * $Id: plugin.xml,v 1.3 2005/02/12 23:59:29 nickb Exp $
  */
 -->
 
@@ -36,6 +36,7 @@
       <import plugin="org.eclipse.xsd"/>
       <import plugin="org.junit"/>
       <import plugin="org.eclipse.test.performance"/>
+      <import plugin="org.apache.derby"/>
    </requires>
 
    <runtime>

@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.19 2005/01/31 23:19:37 nickb Exp $
+ * $Id: feature.xml,v 1.20 2005/02/12 23:59:29 nickb Exp $
  */
 -->
 
@@ -66,6 +66,12 @@ http://www.eclipse.org/legal/cpl-v10.html
          download-size="0"
          install-size="0"
          version="3.1.0"/>
+
+   <plugin
+         id="org.apache.derby"
+         download-size="0"
+         install-size="0"
+         version="10.0.2"/>
 
    <plugin
          id="org.eclipse.test.performance.win32"
