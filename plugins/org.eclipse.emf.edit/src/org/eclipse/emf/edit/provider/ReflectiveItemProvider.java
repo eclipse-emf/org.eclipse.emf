@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.7 2004/06/19 21:33:50 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.8 2004/09/24 04:15:38 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -36,6 +38,8 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
 /**
@@ -215,11 +219,22 @@ public class ReflectiveItemProvider
   {
     EObject eObject = (EObject)object;
     EClass eClass = eObject.eClass();
+    String label = format(capName(eClass.getName()), ' ');
+
     EStructuralFeature feature = getLabelFeature(eClass);
-    Object label = feature == null ? feature : eObject.eGet(feature);
-    return label == null ? eClass.getName() : eClass.getName() + " " + label.toString();
+    if (feature != null)
+    {
+      Object value = eObject.eGet(feature);
+      if (value != null)
+      {
+        return label + " " + value.toString();
+      }
+    }
+    return label;
   }
 
+  /**
+   */  
   protected EStructuralFeature getLabelFeature(EClass eClass)
   {
     EAttribute result = null;
@@ -249,6 +264,137 @@ public class ReflectiveItemProvider
 
   /**
    */
+  protected String capName(String name)
+  {
+    return name.length() == 0 ? name : name.substring(0, 1).toUpperCase() + name.substring(1);
+  }
+
+  /**
+   */
+  public String format(String name, char separator)
+  {
+    StringBuffer result = new StringBuffer();
+
+    for (Iterator i = parseName(name, '_').iterator(); i.hasNext(); )
+    {
+      String component = (String)i.next();
+      result.append(component);
+      if (i.hasNext() && component.length() > 1)
+      {
+        result.append(separator);
+      }
+    }
+    return result.toString();
+  }
+
+  /**
+   */
+  protected List parseName(String sourceName, char sourceSeparator)
+  {
+    List result = new ArrayList();
+    StringBuffer currentWord = new StringBuffer();
+
+    int length = sourceName.length();
+    boolean lastIsLower = false;
+
+    for (int index = 0; index < length; index++)
+    {
+      char curChar = sourceName.charAt(index);
+      if (Character.isUpperCase(curChar) || (!lastIsLower && Character.isDigit(curChar)) || curChar == sourceSeparator)
+      {
+        if (lastIsLower || curChar == sourceSeparator)
+        {
+          result.add(currentWord.toString());
+          currentWord = new StringBuffer();
+        }
+        lastIsLower = false;
+      }
+      else
+      {
+        if (!lastIsLower)
+        {
+          int currentWordLength = currentWord.length();
+          if (currentWordLength > 1)
+          {
+            char lastChar = currentWord.charAt(--currentWordLength);
+            currentWord.setLength(currentWordLength);
+            result.add(currentWord.toString());
+            currentWord = new StringBuffer();
+            currentWord.append(lastChar);
+          }
+        }
+        lastIsLower = true;
+      }
+      if (curChar != sourceSeparator)
+      {
+        currentWord.append(curChar);
+      }
+    }
+
+    result.add(currentWord.toString());
+    return result;
+  }
+
+  /**
+   */  
+  protected List getAllDelegatedFeatures(EStructuralFeature feature)
+  {
+    if (!FeatureMapUtil.isFeatureMap(feature)) return Collections.EMPTY_LIST;
+
+    EClass eClass = feature.getEContainingClass();
+    List delegated = new ArrayList();
+
+    if (ExtendedMetaData.INSTANCE.getMixedFeature(eClass) == feature)
+    {
+       delegated.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment());
+       delegated.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text());
+
+       if (ExtendedMetaData.INSTANCE.getDocumentRoot(eClass.getEPackage()) != eClass)
+       {
+         delegated.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA());
+       }
+
+       for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+       {
+         EStructuralFeature otherFeature = (EStructuralFeature)i.next();
+         if (otherFeature != feature && otherFeature.isDerived() &&
+             ExtendedMetaData.INSTANCE.getGroup(otherFeature) == null)
+         {
+           delegated.add(otherFeature);
+         }
+       }
+    }
+    else if (ExtendedMetaData.INSTANCE.getFeatureKind(feature) == ExtendedMetaData.GROUP_FEATURE)
+    {
+      for (Iterator i = eClass.getEStructuralFeatures().iterator(); i.hasNext(); )
+      {
+        EStructuralFeature otherFeature = (EStructuralFeature)i.next();
+        if (otherFeature != feature && otherFeature.isDerived() && otherFeature.isChangeable() &&
+            ExtendedMetaData.INSTANCE.getGroup(otherFeature) == feature)
+        {
+          delegated.add(otherFeature);
+        }
+      }
+    }
+
+    List result = new ArrayList();
+    for (Iterator iter = delegated.iterator(); iter.hasNext(); )
+    {
+      EStructuralFeature delegatedFeature = (EStructuralFeature)iter.next();
+      if (FeatureMapUtil.isFeatureMap(delegatedFeature))
+      {
+        result.addAll(getAllDelegatedFeatures(delegatedFeature));
+      }
+      else
+      {
+        result.add(delegatedFeature);
+      }
+    }
+    return result;
+  }
+
+  /**
+   */
   protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)    
   {
     EObject eObject = (EObject)object;
@@ -258,21 +404,71 @@ public class ReflectiveItemProvider
     //
     getAllEClasses(eClass);
 
-    for (Iterator i = eClass.getEAllReferences().iterator(); i.hasNext(); )
+    for (Iterator i = getChildrenFeatures(object).iterator(); i.hasNext(); )
     {
-      EReference eReference = (EReference)i.next();
-      if (eReference.isContainment() && eReference.isChangeable())
-      {
-        EClass referenceType = eReference.getEReferenceType();
+      EStructuralFeature feature = (EStructuralFeature)i.next();
 
-        for (Iterator j = getAllConcreteSubclasses(referenceType).iterator(); j.hasNext(); )
+      if (FeatureMapUtil.isFeatureMap(feature))
+      {
+        for (Iterator j = getAllDelegatedFeatures(feature).iterator(); j.hasNext(); )
         {
-          EClass concreteType = (EClass)j.next();
-          newChildDescriptors.add
-            (createChildParameter
-              (eReference,
-               EcoreUtil.create(concreteType)));
+          EStructuralFeature delegatedFeature = (EStructuralFeature)j.next();
+
+          if (delegatedFeature instanceof EAttribute)
+          {
+            EDataType type = ((EAttribute)delegatedFeature).getEAttributeType();
+            Object value = delegatedFeature.getDefaultValue();
+
+            if (value == null)
+            {
+              Class instanceClass = type.getInstanceClass();
+
+              if (instanceClass == String.class)
+              {
+                value = "";
+              }
+              else if (instanceClass == Boolean.class)
+              {
+                value = Boolean.FALSE;
+              }
+              else if (instanceClass == Character.class)
+              {
+                value = new Character('\u0000');
+              }
+              else
+              {
+                String literal = instanceClass != null && Number.class.isAssignableFrom(instanceClass) ? "0" : ""; 
+                try
+                {
+                  value = EcoreUtil.createFromString(type, literal);
+                }
+                catch (Exception e) {}
+              }
+            }
+
+            if (value != null)
+            {
+              newChildDescriptors.add(createChildParameter(feature, FeatureMapUtil.createEntry(delegatedFeature, value)));
+            }
+          }
+          else if (delegatedFeature instanceof EReference)
+          {
+            EReference delegatedReference = (EReference)delegatedFeature;
+
+            for (Iterator k = getAllConcreteSubclasses((EClass)delegatedFeature.getEType()).iterator(); k.hasNext(); )
+            {
+              FeatureMap.Entry entry = FeatureMapUtil.createEntry(delegatedFeature, EcoreUtil.create((EClass)k.next()));
+              newChildDescriptors.add(createChildParameter(feature, entry));
+            }
+          }
         }
+      }
+      else if (feature instanceof EReference && feature.isChangeable())
+      {
+        for (Iterator j = getAllConcreteSubclasses((EClass)feature.getEType()).iterator(); j.hasNext(); )
+        {
+          newChildDescriptors.add(createChildParameter(feature, EcoreUtil.create((EClass)j.next())));
+        }        
       }
     }
   }
@@ -281,6 +477,13 @@ public class ReflectiveItemProvider
    */
   public Object getCreateChildImage(Object owner, Object feature, Object child, Collection selection)
   {
+    if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
+    {
+      FeatureMap.Entry entry = (FeatureMap.Entry)child;
+      feature = entry.getEStructuralFeature();
+      child = entry.getValue();        
+    }
+
     if (feature instanceof EReference && child instanceof EObject)
     {
       EReference reference = (EReference)feature;
@@ -299,18 +502,24 @@ public class ReflectiveItemProvider
    */
   protected String getTypeText(Object object)
   {
-    return object instanceof EObject ?
-      ((EObject)object).eClass().getName() :
-      getString("_UI_Unknown_type");
+    String text = object instanceof EObject ? ((EObject)object).eClass().getName() : getString("_UI_Unknown_type");
+    return format(capName(text), ' ');
+  }
+
+  /**
+   */
+  protected String getTypeText(EAttribute attribute)
+  {
+    return format(capName(attribute.getEAttributeType().getName()), ' ');
   }
 
   /**
    */
   protected String getFeatureText(Object feature)
   {
-    return feature instanceof EStructuralFeature ?
-      ((EStructuralFeature)feature).getName() :
-      getResourceLocator().getString("_UI_Unknown_feature");
+    String text = feature instanceof EStructuralFeature ?
+      ((EStructuralFeature)feature).getName() : getResourceLocator().getString("_UI_Unknown_feature");
+    return format(capName(text), ' ');
   }
 
   /**
@@ -323,18 +532,25 @@ public class ReflectiveItemProvider
     EClass eClass = object.eClass();
     EStructuralFeature feature = (EStructuralFeature)notification.getFeature();
 
-    boolean label = feature == getLabelFeature(eClass);
-    boolean content =
-      (ExtendedMetaData.INSTANCE.getContentKind(eClass) == ExtendedMetaData.MIXED_CONTENT &&
-       feature.getEType().getInstanceClass() == FeatureMap.Entry.class &&
-       ExtendedMetaData.INSTANCE.getGroup(feature) == null) ||
-      (feature instanceof EReference &&
-       ((EReference)feature).isContainment() &&
-       ExtendedMetaData.INSTANCE.getGroup(feature) == null);
+    // Is this a containment reference child?
+    //
+    boolean child = 
+      ExtendedMetaData.INSTANCE.getContentKind(eClass) != ExtendedMetaData.MIXED_CONTENT &&
+      feature instanceof EReference && ((EReference)feature).isContainment() &&
+      ExtendedMetaData.INSTANCE.getGroup(feature) == null;
 
-    if (content || label)
-    {
-      fireNotifyChanged(new ViewerNotification(notification, object, content, label));
-    }
+    // Or a feature map child?
+    //
+    child |=
+      feature instanceof EAttribute &&
+      ExtendedMetaData.INSTANCE.getGroup(feature) == null &&
+      feature.getEType().getInstanceClass() == FeatureMap.Entry.class &&
+      !feature.isDerived();
+
+    // Is this the label feature?
+    //
+    boolean label = feature == getLabelFeature(eClass);
+
+    fireNotifyChanged(new ViewerNotification(notification, object, child, !child || (child && label)));
   }
 }
