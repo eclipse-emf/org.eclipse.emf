@@ -7,8 +7,8 @@ based on simple class models.
 </intro>
 
 <item><b>What is EMF?</b>
-	Read the <topic href="/org.eclipse.emf.doc/references/emfov.pdf">overview</topic> article to learn about EMF.
-	Then, follow the <topic href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod_main.html">tutorial</topic> to see how easy it is to generate a model.
+	Read the <topic href="/org.eclipse.emf.doc/references/overview/EMF.html">overview</topic> article to learn about EMF.
+	Then, follow the <topic href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html">tutorial</topic> to see how easy it is to generate a model.
 </item>
 
 <item><b>Learn More</b>
