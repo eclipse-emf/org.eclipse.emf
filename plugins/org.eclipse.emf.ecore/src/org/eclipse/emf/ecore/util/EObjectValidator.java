@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.6 2005/03/14 15:43:02 marcelop Exp $
+ * $Id: EObjectValidator.java,v 1.7 2005/03/16 18:48:48 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -70,6 +70,54 @@ public class EObjectValidator implements EValidator
   public static final int DATA_VALUE__TOTAL_DIGITS_IN_RANGE = 10;
   public static final int DATA_VALUE__FRACTION_DIGITS_IN_RANGE = 11;
 
+  /**
+   * @since 2.1.0
+   */
+  public static String getObjectLabel(EObject eObject, Map context)
+  {
+    if (context != null)
+    {
+      SubstitutionLabelProvider substitutionlabelProvider = (SubstitutionLabelProvider)context.get(SubstitutionLabelProvider.class);
+      if (substitutionlabelProvider != null)
+      {
+        return substitutionlabelProvider.getObjectLabel(eObject);
+      }
+    }
+    return EcoreUtil.getIdentification(eObject);
+  }
+
+  /**
+   * @since 2.1.0
+   */
+  public static String getFeatureLabel(EStructuralFeature eStructuralFeature, Map context)
+  {
+    if (context != null)
+    {
+      SubstitutionLabelProvider substitutionlabelProvider = (SubstitutionLabelProvider)context.get(SubstitutionLabelProvider.class);
+      if (substitutionlabelProvider != null)
+      {
+        return substitutionlabelProvider.getFeatureLabel(eStructuralFeature);
+      }
+    }
+    return eStructuralFeature.getName();
+  }
+
+  /**
+   * @since 2.1.0
+   */
+  public static String getValueLabel(EDataType eDataType, Object value, Map context)
+  {
+    if (context != null)
+    {
+      SubstitutionLabelProvider substitutionlabelProvider = (SubstitutionLabelProvider)context.get(SubstitutionLabelProvider.class);
+      if (substitutionlabelProvider != null)
+      {
+        return substitutionlabelProvider.getValueLabel(eDataType, value);
+      }
+    }
+    return EcoreUtil.convertToString(eDataType, value);
+  }
+
   public EObjectValidator()
   {
   }
@@ -91,33 +139,6 @@ public class EObjectValidator implements EValidator
     }
     
     return Diagnostician.INSTANCE;
-  }
-
-  protected String getObjectLabel(EObject eObject, Map context)
-  {
-    SubstitutionLabelProvider substitutionlabelProvider = (SubstitutionLabelProvider)context.get(SubstitutionLabelProvider.class);
-    return 
-      substitutionlabelProvider == null ?
-        EcoreUtil.getIdentification(eObject) :
-        substitutionlabelProvider.getObjectLabel(eObject);
-  }
-
-  protected String getFeatureLabel(EStructuralFeature eStructuralFeature, Map context)
-  {
-    SubstitutionLabelProvider substitutionlabelProvider = (SubstitutionLabelProvider)context.get(SubstitutionLabelProvider.class);
-    return 
-      substitutionlabelProvider == null ?
-        eStructuralFeature.getName() :
-        substitutionlabelProvider.getFeatureLabel(eStructuralFeature);
-  }
-
-  protected String getValueLabel(EDataType eDataType, Object value, Map context)
-  {
-    SubstitutionLabelProvider substitutionlabelProvider = (SubstitutionLabelProvider)context.get(SubstitutionLabelProvider.class);
-    return 
-      substitutionlabelProvider == null ?
-        EcoreUtil.convertToString(eDataType, value) :
-        substitutionlabelProvider.getValueLabel(eDataType, value);
   }
 
   /**

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.12 2005/02/23 19:29:14 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.13 2005/03/16 18:48:47 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -539,18 +539,12 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 		{
 			if (<%=diagnostics%> != null)
 			{
-				<%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%>.SubstitutionLabelProvider labelProvider = <%=context%> == null ?
-					null :
-					(EValidator.SubstitutionLabelProvider)<%=context%>.get(EValidator.SubstitutionLabelProvider.class);
-				String objectLabel = labelProvider == null ?
-					<%=genModel.getImportedName("org.eclipse.emf.ecore.util.EcoreUtil")%>.getIdentification(this) :
-					labelProvider.getObjectLabel(this);
-				<%=((GenParameter)genOperation.getGenParameters().get(0)).getName()%>.add
+				<%=diagnostics%>.add
 					(new <%=genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic")%>
 						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
 						 <%=opClass.getGenPackage().getImportedValidatorClassName()%>.DIAGNOSTIC_SOURCE,
 						 <%=opClass.getGenPackage().getImportedValidatorClassName()%>.<%=opClass.getOperationID(genOperation)%>,
- 						 <%=genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin")%>.INSTANCE.getString("_UI_GenericInvariant_diagnostic", new Object[] { "<%=genOperation.getName()%>", objectLabel }),<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+						 <%=genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin")%>.INSTANCE.getString("_UI_GenericInvariant_diagnostic", new Object[] { "<%=genOperation.getName()%>", <%=genModel.getImportedName("org.eclipse.emf.ecore.util.EObjectValidator")%>.getObjectLabel(this, <%=context%>) }),<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 						 new Object [] { this }));
 			}
 			return false;
