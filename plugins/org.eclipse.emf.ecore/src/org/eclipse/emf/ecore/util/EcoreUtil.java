@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.8 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.9 2004/08/12 14:58:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -50,6 +50,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -2489,6 +2490,21 @@ public class EcoreUtil
         //
         uuid[i + 6] = (byte)((currentTime >> 8 * (1 - i) + 48) & 0xFFL);
       }
+    }
+  }
+
+  /**
+   * Marks the package to indicate that it and everything it contains or that its contents depend on can no longer be changed.
+   * This helps to improve the performance of the model but has no other effect.
+   */
+  public static void freeze(EPackage ePackage)
+  {
+    try
+    {
+      ((EPackageImpl)ePackage).freeze();
+    }
+    catch (ClassCastException exception)
+    {
     }
   }
 
