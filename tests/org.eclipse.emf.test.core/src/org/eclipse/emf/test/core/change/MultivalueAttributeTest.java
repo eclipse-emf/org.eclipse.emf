@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MultivalueAttributeTest.java,v 1.1 2004/07/21 14:25:49 marcelop Exp $
+ * $Id: MultivalueAttributeTest.java,v 1.2 2004/08/11 15:55:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -44,7 +44,7 @@ public class MultivalueAttributeTest extends TestCase
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite();
+    TestSuite ts = new TestSuite("MultivalueAttributeTest");
     ts.addTest(new MultivalueAttributeTest("testMultiValueAttributeChange"));
     return ts;
   }

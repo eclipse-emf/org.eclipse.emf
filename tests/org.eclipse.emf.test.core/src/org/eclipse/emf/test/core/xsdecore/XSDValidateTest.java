@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.2 2004/06/16 20:12:34 elena Exp $
+ * $Id: XSDValidateTest.java,v 1.3 2004/08/11 15:55:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.xsdecore;
 
@@ -612,7 +612,7 @@ public class XSDValidateTest extends TestCase
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite();
+    TestSuite ts = new TestSuite("XSDValidateTest");
     ts.addTestSuite(XSDValidateTest.class);
     // add this test to print error messages for 'xsdFile'
     //ts.addTest(new XSDValidateTest("printValidationErrors"));

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NamespaceTest.java,v 1.2 2004/06/16 18:01:17 elena Exp $
+ * $Id: NamespaceTest.java,v 1.3 2004/08/11 15:55:52 marcelop Exp $
  */
 
 package org.eclipse.emf.test.core.xmi;
@@ -50,7 +50,7 @@ public class NamespaceTest extends TestCase
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite();
+    TestSuite ts = new TestSuite("NamespaceTest");
     ts.addTest(new NamespaceTest("fileisLoadXML"));
     ts.addTest(new NamespaceTest("byteisLoadXML"));
     return ts;

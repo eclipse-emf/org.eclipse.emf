@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.3 2004/08/09 18:00:07 marcelop Exp $
+ * $Id: DataGraphTest.java,v 1.4 2004/08/11 15:55:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo;
 
@@ -60,7 +60,7 @@ public class DataGraphTest extends TestCase
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite();
+    TestSuite ts = new TestSuite("DataGraphTest");
     ts.addTest(new DataGraphTest("testSave"));
     ts.addTest(new DataGraphTest("testLoad"));
     ts.addTest(new DataGraphTest("testOldContainer"));

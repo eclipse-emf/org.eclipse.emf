@@ -44,7 +44,7 @@ public class TestSDO extends TestCase
   
   public static Test suite()
   {
-    TestSuite ts = new TestSuite();
+    TestSuite ts = new TestSuite("TestSDO");
     ts.addTest(new TestSDO("testStaticModel"));
     ts.addTest(new TestSDO("testDynamicModel"));
     return ts;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SDOUtilGetTest.java,v 1.1 2004/05/12 22:05:58 marcelop Exp $
+ * $Id: SDOUtilGetTest.java,v 1.2 2004/08/11 15:55:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types;
 
@@ -40,7 +40,7 @@ public class SDOUtilGetTest extends TestCase
   private AThing thing;
   public static Test suite()
   {
-    TestSuite testSuite = new TestSuite();
+    TestSuite testSuite = new TestSuite("SDOUtilGetTest");
     testSuite.addTestSuite(SDOUtilGetTest.class);
     return testSuite;
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.3 2004/03/25 04:16:08 marcelop Exp $
+ * $Id: SimpleModelTest.java,v 1.4 2004/08/11 15:55:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -58,7 +58,7 @@ public class SimpleModelTest extends TestCase
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite();
+    TestSuite ts = new TestSuite("SimpleModelTest");
     ts.addTest(new SimpleModelTest("testPackageAndFactory"));
     ts.addTest(new SimpleModelTest("testAttributes"));
     ts.addTest(new SimpleModelTest("testReference"));

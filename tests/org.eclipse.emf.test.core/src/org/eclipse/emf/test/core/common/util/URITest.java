@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URITest.java,v 1.3 2004/07/26 15:41:11 davidms Exp $
+ * $Id: URITest.java,v 1.4 2004/08/11 15:55:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -34,7 +34,7 @@ public class URITest extends TestCase
 
   public static Test suite()
   {
-    TestSuite suite = new TestSuite();
+    TestSuite suite = new TestSuite("URITest");
     suite.addTest(new URITest("testParse"));
     suite.addTest(new URITest("testResolve"));
     suite.addTest(new URITest("testDeresolve"));

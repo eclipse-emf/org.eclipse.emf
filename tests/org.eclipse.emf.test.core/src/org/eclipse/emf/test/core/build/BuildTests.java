@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.21 2004/08/03 22:20:51 marcelop Exp $
+ * $Id: BuildTests.java,v 1.22 2004/08/11 15:55:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -1067,7 +1067,7 @@ public class BuildTests extends TestCase
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite();
+    TestSuite ts = new TestSuite("BuildTests");
     ts.addTest(new BuildTests("testFeatureFiles"));
     ts.addTest(new BuildTests("testPluginFiles"));
     ts.addTest(new BuildTests("testChkpii"));

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtilStaticMethodsTest.java,v 1.1 2004/06/16 15:51:14 marcelop Exp $
+ * $Id: EcoreUtilStaticMethodsTest.java,v 1.2 2004/08/11 15:55:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -41,7 +41,7 @@ public class EcoreUtilStaticMethodsTest extends TestCase
   
   public static Test suite()
   {
-    TestSuite testSuite = new TestSuite();
+    TestSuite testSuite = new TestSuite("EcoreUtilStaticMethodsTest");
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testGenerateUUID"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testIndexOf"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testSetEList"));
