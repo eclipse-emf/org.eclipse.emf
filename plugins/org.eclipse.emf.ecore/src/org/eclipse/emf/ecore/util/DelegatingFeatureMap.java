@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.6 2004/05/13 21:48:08 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.7 2004/05/17 13:54:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -946,13 +946,34 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
   public Object[] toArray(EStructuralFeature feature)
   {
-    return new Object[0];
+    List result = new BasicEList();
+    FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
+    for (int i = 0, size = delegateSize(); i < size; ++i)
+    {
+      Entry entry = (Entry)delegateGet(i);
+      if (validator.isValid(entry.getEStructuralFeature()))
+      {
+        result.add(entry.getValue());
+      }
+    }
+    return result.toArray();
   }
 
   public Object[] toArray(EStructuralFeature feature, Object [] array)
   {
-    return array;
+    List result = new BasicEList();
+    FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
+    for (int i = 0, size = delegateSize(); i < size; ++i)
+    {
+      Entry entry = (Entry)delegateGet(i);
+      if (validator.isValid(entry.getEStructuralFeature()))
+      {
+        result.add(entry.getValue());
+      }
+    }
+    return result.toArray(array);
   }
+
 
   public void set(EStructuralFeature feature, Object object)
   {
