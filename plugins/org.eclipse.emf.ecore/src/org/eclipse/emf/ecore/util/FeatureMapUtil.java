@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.12 2004/06/18 09:52:40 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.13 2004/08/26 16:25:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -46,9 +46,6 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 public final class FeatureMapUtil
 {
   protected static final Class VALIDATOR_CLASS = Validator.class;
-  protected static final EStructuralFeature TEXT = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text();
-  protected static final EStructuralFeature CDATA = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA();
-  protected static final EStructuralFeature COMMENT = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment();
 
   private FeatureMapUtil()
   {
@@ -56,32 +53,32 @@ public final class FeatureMapUtil
 
   public static void addText(FeatureMap featureMap, String text)
   {
-    featureMap.add(TEXT, text);
+    featureMap.add(XMLTypeFeatures.TEXT, text);
   }
 
   public static void addText(FeatureMap featureMap, int index, String text)
   {
-    featureMap.add(index, TEXT, text);
+    featureMap.add(index, XMLTypeFeatures.TEXT, text);
   }
 
   public static void addCDATA(FeatureMap featureMap, String cdata)
   {
-    featureMap.add(CDATA, cdata);
+    featureMap.add(XMLTypeFeatures.CDATA, cdata);
   }
 
   public static void addCDATA(FeatureMap featureMap, int index, String cdata)
   {
-    featureMap.add(index, CDATA, cdata);
+    featureMap.add(index, XMLTypeFeatures.CDATA, cdata);
   }
 
   public static void addComment(FeatureMap featureMap, String comment)
   {
-    featureMap.add(COMMENT, comment);
+    featureMap.add(XMLTypeFeatures.COMMENT, comment);
   }
 
   public static void addComment(FeatureMap featureMap, int index, String comment)
   {
-    featureMap.add(index, COMMENT, comment);
+    featureMap.add(index, XMLTypeFeatures.COMMENT, comment);
   }
 
   public static boolean isFeatureMap(EStructuralFeature eStructuralFeature)
@@ -1348,3 +1345,11 @@ public final class FeatureMapUtil
     }
   }
 }
+
+final class XMLTypeFeatures
+{
+  public static final EStructuralFeature TEXT = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text();
+  public static final EStructuralFeature CDATA = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA();
+  public static final EStructuralFeature COMMENT = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment();
+}
+
