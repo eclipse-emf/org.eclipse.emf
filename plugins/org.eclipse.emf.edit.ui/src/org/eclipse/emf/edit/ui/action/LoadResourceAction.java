@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LoadResourceAction.java,v 1.1 2004/04/19 20:46:30 emerks Exp $
+ * $Id: LoadResourceAction.java,v 1.2 2004/04/22 15:56:37 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -112,7 +112,7 @@ public class LoadResourceAction extends Action
       (Shell parent, EditingDomain domain)
     {
       super(parent);
-      setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX);
+      setShellStyle(getShellStyle() | SWT.MAX);
       this.domain = domain;
     }
 
@@ -135,6 +135,8 @@ public class LoadResourceAction extends Action
         data.verticalAlignment = GridData.FILL;
         data.grabExcessVerticalSpace = true;
         data.horizontalAlignment = GridData.FILL;
+        data.heightHint = 80;
+        data.widthHint = 400;
         composite.setLayoutData(data);
       }
 
@@ -218,7 +220,16 @@ public class LoadResourceAction extends Action
         data.horizontalSpan = 2;
         resourceURIField.setLayoutData(data);
       }
-
+      
+      Label separatorLabel = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
+      {
+        GridData data = new GridData();
+        data.horizontalAlignment = GridData.FILL;
+        data.grabExcessHorizontalSpace = true;
+        data.horizontalSpan = 2;
+        separatorLabel.setLayoutData(data);
+      }      
+      
       return composite;
     }
 
