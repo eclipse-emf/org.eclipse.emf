@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.10 2004/10/19 21:17:48 nickb Exp $
+ * $Id: feature.xml,v 1.11 2004/10/21 21:53:01 nickb Exp $
  */
 -->
 
@@ -32,8 +32,8 @@
 
    <url>
 <!--      <update label="%updateSiteName" url="http://update.eclipse.org/updates/3.0"/> -->
-      <update label="%secondaryUpdateSiteName" url="http://download1.eclipse.org/tools/emf/updates/"/>
-      <discovery label="%secondaryUpdateSiteName" url="http://download1.eclipse.org/tools/emf/updates/"/>
+      <update label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
+      <discovery label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
    </url>
 
    <requires>
