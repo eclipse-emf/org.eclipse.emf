@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.3 2004/12/08 17:37:38 marcelop Exp $
+ * $Id: plugin.xml,v 1.4 2005/01/31 23:19:37 nickb Exp $
  */
 -->
 
@@ -35,6 +35,7 @@
       <import plugin="org.eclipse.emf.test.edit"/>
       <import plugin="org.eclipse.emf.test.sdo"/>
       <import plugin="org.eclipse.emf.test.xml"/>
+      <import plugin="org.eclipse.emf.test.performance"/>
    </requires>
 
    <runtime>
