@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.12 2004/09/25 02:05:28 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.13 2004/11/09 17:25:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -292,6 +292,7 @@ public class JavaEcoreBuilder
           eReference.setLowerBound(eAttribute.getLowerBound());
           eReference.setUpperBound(eAttribute.getUpperBound());
           eReference.setName(eTypedElement.getName());
+          EcoreUtil.setDocumentation(eReference, EcoreUtil.getDocumentation(eTypedElement));
           container.getEStructuralFeatures().add(container.getEStructuralFeatures().indexOf(eTypedElement), eReference);
           container.getEStructuralFeatures().remove(eTypedElement);
           eTypedElement = eReference;
@@ -307,6 +308,7 @@ public class JavaEcoreBuilder
           eAttribute.setLowerBound(eReference.getLowerBound());
           eAttribute.setUpperBound(eReference.getUpperBound());
           eAttribute.setName(eTypedElement.getName());
+          EcoreUtil.setDocumentation(eAttribute, EcoreUtil.getDocumentation(eTypedElement));
           container.getEStructuralFeatures().add(container.getEStructuralFeatures().indexOf(eTypedElement), eAttribute);
           container.getEStructuralFeatures().remove(eTypedElement);
           eTypedElement = eAttribute;
@@ -788,6 +790,7 @@ public class JavaEcoreBuilder
         eModelElementToIDOMNodeMap.put(eClass, type);
         eClass.setName(type.getName());
         ePackage.getEClassifiers().add(eClass);
+        EcoreUtil.setDocumentation(eClass, getModelDocumentation(type.getComment()));
 
         String [] superInterfaces = type.getSuperInterfaces();
         String extend = getExtendsAnnotation(type.getComment());
@@ -828,6 +831,7 @@ public class JavaEcoreBuilder
         eModelElementToIDOMNodeMap.put(eEnum, type);
         eEnum.setName(type.getName());
         ePackage.getEClassifiers().add(eEnum);
+        EcoreUtil.setDocumentation(eEnum, getModelDocumentation(type.getComment()));
         
         // Walk the fields.
         //
@@ -925,6 +929,7 @@ public class JavaEcoreBuilder
                     eDataType.setSerializable(false);
                   }
                   eDataTypes.add(eDataType);
+                  EcoreUtil.setDocumentation(eDataType, getModelDocumentation(method.getComment()));
                 }
                 else if (returnType.endsWith("EClass"))
                 {
@@ -979,6 +984,7 @@ public class JavaEcoreBuilder
                          null);
                     }
                   }
+                  EcoreUtil.setDocumentation(eClass, getModelDocumentation(method.getComment()));
                 }
               }
             }
@@ -995,6 +1001,7 @@ public class JavaEcoreBuilder
           ePackage.setName(name);
           ePackage.getEClassifiers().addAll(eClasses);
           ePackage.getEClassifiers().addAll(eDataTypes);
+          EcoreUtil.setDocumentation(ePackage, getModelDocumentation(type.getComment()));
 
           ePackageToPrefixMap.put(ePackage, packagePrefix);
           
@@ -1026,6 +1033,10 @@ public class JavaEcoreBuilder
       String [] parameterTypes = method.getParameterTypes();
 
       ETypedElement eTypedElement = analyzeMethod(eClass, modelAnnotation, methodName,returnType, parameterNames, parameterTypes);
+      if (eTypedElement != null)
+      {
+        EcoreUtil.setDocumentation(eTypedElement, getModelDocumentation(method.getComment()));
+      }
 
       eModelElementToIDOMNodeMap.put(eTypedElement, method);
       if (eTypedElement instanceof EOperation)
@@ -1322,6 +1333,7 @@ public class JavaEcoreBuilder
       EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
       eModelElementToIDOMNodeMap.put(eEnumLiteral, field);
       eEnumLiteral.setName(literalName);
+      EcoreUtil.setDocumentation(eEnumLiteral, getModelDocumentation(field.getComment()));
       if (field.getInitializer() != null)
       {
         try
@@ -1343,6 +1355,31 @@ public class JavaEcoreBuilder
     }
   }
 
+  /**
+   * The pattern for extracting the @model annotations.
+   */
+  protected static Pattern modelDocExpression = 
+    Pattern.compile
+      ("<!--\\s*begin-model-doc\\s*-->[ \\f\\n\\r\\t]*\\*\\s?(.*?)<!--\\s*end-model-doc\\s*-->", Pattern.MULTILINE|Pattern.DOTALL);
+  
+  /**
+   * Returns the model documentation, or null.
+   */
+  protected String getModelDocumentation(String comment)
+  {
+    if (comment != null)
+    {
+      Matcher matcher = modelDocExpression.matcher(comment);
+      if (matcher.find())
+      {
+        return 
+          comment.substring(matcher.start(1), matcher.end(1)).replaceAll("[\\n\\r]*\\s*\\*[\\s]?", "\n").replaceAll("\\s*$", "");
+      }
+    }
+
+    return null;
+  }
+  
   /**
    * The pattern for extracting the @model annotations.
    */
