@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.7 2004/05/25 19:47:36 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.8 2004/06/08 12:06:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -1552,7 +1553,10 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         // Mark the bound as unspecified so that it won't be considered many
         // but can nevertheless be recognized as being unspecified and perhaps still be treat as many.
         //
-        eReference.setUpperBound(-2);
+        if (isElement)
+        {
+          eReference.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
+        }
 
         return eReference;
       }
@@ -1572,7 +1576,10 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         // Mark the bound as unspecified so that it won't be considered many
         // but can nevertheless be recognized as being unspecified and perhaps still be treat as many.
         //
-        eAttribute.setUpperBound(-2);
+        if (isElement)
+        {
+          eAttribute.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
+        }
 
         return eAttribute;
       }
