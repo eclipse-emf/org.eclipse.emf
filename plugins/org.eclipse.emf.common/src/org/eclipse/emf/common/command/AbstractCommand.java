@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractCommand.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: AbstractCommand.java,v 1.2 2004/05/29 16:07:06 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -240,5 +240,12 @@ public abstract class AbstractCommand implements Command
     result.append(" (isExecutable: " + isExecutable + ")");
 
     return result.toString();
+  }
+
+  /**
+   * A marker interface implemented by commands that don't dirty the model.
+   */
+  public static interface NonDirtying
+  {
   }
 }
