@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDSchemaImpl.java,v 1.2 2004/03/26 11:32:01 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2881,6 +2881,7 @@ public class XSDSchemaImpl
 
       XSDSchemaImpl redefinedSchema = (XSDSchemaImpl)cloneConcreteComponent(true, true);
       getIncorporatedVersions().add(redefinedSchema);
+      redefinedSchema.setSchemaLocation(getSchemaLocation());
 
       redefinedSchema.incorporate(xsdRedefine);
       return redefinedSchema;
@@ -2917,6 +2918,7 @@ public class XSDSchemaImpl
         }
         XSDSchemaImpl includedSchema = (XSDSchemaImpl)cloneConcreteComponent(true, true);
         getIncorporatedVersions().add(includedSchema);
+        includedSchema.setSchemaLocation(getSchemaLocation());
         includedSchema.incorporate(xsdInclude);
         return includedSchema;
       }
