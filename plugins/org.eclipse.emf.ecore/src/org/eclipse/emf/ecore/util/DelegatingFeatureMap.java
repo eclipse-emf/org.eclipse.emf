@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.10 2004/06/04 13:20:24 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.11 2004/06/09 18:22:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -29,15 +29,12 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
 
@@ -119,30 +116,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
   protected boolean isMany(EStructuralFeature feature)
   {
-    int upperBound = feature.getUpperBound();
-    if (upperBound == ETypedElement.UNSPECIFIED_MULTIPLICITY)
-    {
-      EClass eclass = owner.eClass();
-      if (eclass.getEAllStructuralFeatures().contains(feature))
-      {
-        return false;
-      }
-      else if (feature.getEContainingClass().getEPackage() == XMLTypePackage.eINSTANCE)
-      {
-        return true;
-      }
-      else
-      {
-        EStructuralFeature affiliation = ExtendedMetaData.INSTANCE.getAffiliation(eclass, feature);
-        return
-          affiliation == null ||
-            affiliation.isMany() && ExtendedMetaData.INSTANCE.getFeatureKind(affiliation) != ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE;
-      }
-    }
-    else
-    {
-      return upperBound == ETypedElement.UNBOUNDED_MULTIPLICITY || upperBound > 1 || FeatureMapUtil.isFeatureMap(feature);
-    }
+    return FeatureMapUtil.isMany(owner, feature);
   }
 
   protected boolean hasInverse()
