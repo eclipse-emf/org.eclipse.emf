@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.6 2005/02/16 22:30:52 nickb Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.7 2005/02/16 23:05:44 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -39,6 +39,16 @@ extends Plugin
             System.setProperty("test.target", "performance");
             System.setProperty("eclipse.perf.dbloc", "net://localhost:1527/");
             System.setProperty("eclipse.perf.config" ,"build=fromJava");
+            System.setProperty("derby.lib.folder", "/home/www-data/derby/org.apache.derby/");
+            System.setProperty("java.class.path", 
+              System.getProperty("java.class.path")+":"+
+                System.getProperty("derby.lib.folder")+"derby.jar"+":"+
+                System.getProperty("derby.lib.folder")+"derbynet.jar"+":"+
+                System.getProperty("derby.lib.folder")+"derbytools.jar"+":"+
+                System.getProperty("derby.lib.folder")+"db2jcc.jar"+":"+
+                System.getProperty("derby.lib.folder")+"db2jcc_license_c.jar"+":"+
+              "."
+            );
           }
         }
         catch (ClassNotFoundException e)
