@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.16 2004/12/16 16:22:42 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.17 2005/01/19 01:44:36 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -1219,7 +1219,7 @@ public class JavaEcoreBuilder
           eStructuralFeature.setUnique(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "unique")));
         }
 
-        // For lists and maps, the default is many-valued, which can be overriden by an upper-bound declaration
+        // For lists, maps, and feature maps, the default is many-valued, which can be overriden by an upper-bound declaration
         if (dataType == null || mapType != null)
         {
           if ("EList".equals(returnType) || 
@@ -1239,7 +1239,9 @@ public class JavaEcoreBuilder
           else if ("EMap".equals(returnType) || 
                      "org.eclipse.emf.common.util.EMap".equals(returnType) ||
                      "Map".equals(returnType)  || 
-                     "java.util.Map".equals(returnType)) 
+                     "java.util.Map".equals(returnType) ||
+                     "FeatureMap".equals(returnType) ||
+                     "org.eclipse.emf.common.util.FeatureMap".equals(returnType))
           {
             eStructuralFeature.setUpperBound(-1);
           }
@@ -1793,6 +1795,15 @@ public class JavaEcoreBuilder
     if (EcorePackage.eINSTANCE.getEObject().getInstanceClassName().equals(typeName))
     {
       eClassifier = EcorePackage.eINSTANCE.getEObject();
+    }
+
+    // Just to be helpful, we'll recognize a type of org.eclipse.emf.ecore.util.FeatureMap and convert it to EFeatureMapEntry.
+    // This way a dataType need not be specified. But, we won't do this if recordDemandCreateEDataType is false, so we don't
+    // change the instanceClass of a new EDataType that's implicitly being defined for FeatureMap.
+    //
+    if (eClassifier == null && recordDemandCreatedEDataType && EcorePackage.eINSTANCE.getEFeatureMap().getInstanceClassName().equals(typeName))
+    {
+      eClassifier = EcorePackage.eINSTANCE.getEFeatureMapEntry();
     }
 
     // If we don't have one yet, maybe it's one of the special types...
