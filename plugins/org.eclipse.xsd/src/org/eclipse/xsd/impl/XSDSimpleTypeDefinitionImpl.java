@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.5 2004/10/07 12:17:04 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.6 2004/11/09 17:05:15 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1893,6 +1893,13 @@ public class XSDSimpleTypeDefinitionImpl
 
     if (!newContents.isEmpty())
     {
+      for (Iterator i = newContents.iterator(); i.hasNext(); )
+      {
+        if (!(i.next() instanceof XSDFacet))
+        {
+          i.remove();
+        }
+      }
       setListContentAndOrder(getFacetContents(), newContents);
     }
 
