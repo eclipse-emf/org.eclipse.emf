@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.4 2005/02/10 22:11:51 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.5 2005/03/15 15:44:27 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -35,6 +35,59 @@ import org.eclipse.emf.codegen.ecore.Generator;
  * two operations performed when generating code with EMF: the creation of the EMF files
  * (genmodel and ecore) from a given model specification and the code generation.
  * </p>
+ * <p>
+ * These are the common attributes provided by this class:
+ * </p>
+ * <table order="1" cellpadding="2" cellspacing="0">
+ * <tr><td><b>Attribute</b></td><td><b>Description</b></td></tr>
+ * <tr>
+ *    <td valign="top">model</td>
+ *    <td>The file that defines the model.</td>
+ * </tr>
+ * <tr>
+ *    <td valign="top">genModel</td>
+ *    <td>The .genmodel file.</td>
+ * </tr>
+ * <tr>
+ *    <td valign="top">reconcileGenModel</td>
+ *    <td>Specifies how the genmodel file is to be supposed to be handled.  The possible values are:
+ *    <ul>
+ *        <li>overwrite - <i>(default)</i>Replaces the genmodel file if it exists;</li>
+ *        <li>keep - Doesn't generate the genmodel if one is provided and</li>
+ *        <li>reload - Reloads the genmodel to reflect model changes. <b>Not implemented yet</b></li>
+ *    </ul> 
+ *    </td>
+ * </tr>
+ * <tr>
+ *    <td valign="top">generateJavaCode</td>
+ *    <td>Boolean value indicating whether the java code should be generated.  Should be set to 
+ *    <tt>false</tt> when you want to generate only the .ecore and .genmodel files</td>
+ * </tr>
+ * <tr>
+ *    <td valign="top">templatePath</td>
+ *    <td>The directory where your customized JET templates are located.</td>
+ * </tr>
+ * <tr>
+ *    <td valign="top">modelProject</td>
+ *    <td>The directory where the files generated for the model will be placed into.</td>
+ * </tr>
+ * <tr>
+ *    <td valign="top">modelProjectFragmentPath</td>
+ *    <td>The model project relative path of the source folder.</td>
+ * </tr>
+ * <tr>
+ *    <td valign="top">modelPluginID</td>
+ *    <td>The ID of the generated model plugin.</td>
+ * </tr>
+ * <tr>
+ *    <td valign="top">sdo</td>
+ *    <td>Boolean value indicating whether the SDO API should be generated.</td>
+ * </tr>
+ * <tr>
+ *    <td valign="top">copyright</td>
+ *    <td>The copyright text.</td>
+ * </tr>
+ * </table>
  * 
  * @since 2.1.0
  */
