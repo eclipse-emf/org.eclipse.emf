@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.2 2004/03/16 17:33:15 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.3 2004/04/05 20:11:25 elena Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -661,7 +662,11 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   public List /*EStructuralFeature*/ getAllElements(EClass eClass)
   {
-    List result = new ArrayList();
+    // REVISIT: this may affect performance. 
+    // In general, there is no multiple inheritance. 
+    // The multiple inheritance case handled here 
+    // is for org.eclipse.emf.ecore.sdo.EDataObjectSimpleAnyType
+    List result = new UniqueEList();
     for (Iterator i = eClass.getESuperTypes().iterator(); i.hasNext(); )
     {
       EClass eSuperType = (EClass)i.next();
