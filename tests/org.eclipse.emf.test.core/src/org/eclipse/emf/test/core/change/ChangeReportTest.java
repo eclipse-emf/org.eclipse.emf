@@ -1,7 +1,9 @@
 package org.eclipse.emf.test.core.change;
 
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -27,14 +29,14 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 
-public class ChangeDescriptionTest
+public class ChangeReportTest
 extends TestCase
 {
   private ResourceSet resourceSet;
   private EAnnotation eAnnotation;
   private EClass eClass0;
   
-  public ChangeDescriptionTest(String name)
+  public ChangeReportTest(String name)
   {
     super(name);
   }
@@ -42,7 +44,8 @@ extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite();
-    ts.addTest(new ChangeDescriptionTest("testChangeRecorder"));
+    ts.addTest(new ChangeReportTest("testSetElement"));
+    ts.addTest(new ChangeReportTest("testRemoveElementAndApply"));
     return ts;
   }
   
@@ -74,7 +77,7 @@ extends TestCase
     ePackage.getEAnnotations().add(eAnnotation);
   }
 
-  public void testChangeRecorder()
+  public void testSetElement()
   {
     ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
 
@@ -107,7 +110,7 @@ extends TestCase
         case ChangeKind.ADD:
           assertEquals(0, listChange.getIndex());
         	assertEquals(1, listChange.getValues().size());
-        	//assertEquals(eClass1, listChange.getValues().get(0));
+        	assertEquals(eClass0, listChange.getValues().get(0));
         	checker += 1;
           break;
         
@@ -120,4 +123,47 @@ extends TestCase
     }
     assertEquals(5, checker);
   }
+  
+  /*
+   * bugzilla 68200
+   */
+  public void testRemoveElementAndApply()
+  {
+    EClass eClass1 = EcoreFactory.eINSTANCE.createEClass();
+    eClass1.setName("testEClass1");
+    eAnnotation.getContents().add(eClass1);
+    
+    List beforeChange = Arrays.asList(eAnnotation.getContents().toArray());
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(eAnnotation);
+    eAnnotation.getContents().remove(eClass0);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    //Tests if the change description has what we expect
+    assertEquals(1, changeDescription.getObjectsToAttach().size());
+    assertEquals(eClass0, changeDescription.getObjectsToAttach().get(0));
+    EMap objectChanges = changeDescription.getObjectChanges(); 
+    assertEquals(1, objectChanges.size());
+    assertTrue(objectChanges.get(eAnnotation) instanceof EList);
+    EList featureChanges = (EList)objectChanges.get(eAnnotation);
+    assertEquals(1, featureChanges.size());
+    FeatureChange featureChange = (FeatureChange)featureChanges.get(0);
+    assertEquals(1, featureChange.getListChanges().size());
+    ListChange listChange = (ListChange)featureChange.getListChanges().get(0);
+    assertEquals(ChangeKind.ADD_LITERAL, listChange.getKind());
+    assertEquals(1, listChange.getReferenceValues().size());
+    assertEquals(eClass0, listChange.getReferenceValues().get(0));
+    
+    //Tests if the list is different
+    assertFalse(Arrays.equals(beforeChange.toArray(), eAnnotation.getContents().toArray()));
+    
+    changeDescription.apply(); 
+    
+    //Tests if the change description was reset
+    assertEquals(0, changeDescription.getObjectChanges().size());
+    assertEquals(0, changeDescription.getObjectsToAttach().size());
+    
+    //Tests if the list was rolled back
+    assertTrue(Arrays.equals(beforeChange.toArray(), eAnnotation.getContents().toArray()));
+  }  
 }
