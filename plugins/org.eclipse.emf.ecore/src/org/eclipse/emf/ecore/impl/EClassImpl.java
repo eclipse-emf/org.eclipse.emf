@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.4 2004/06/11 22:14:52 emerks Exp $
+ * $Id: EClassImpl.java,v 1.5 2004/06/21 13:55:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -41,6 +41,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -365,26 +367,36 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
           BasicEList containmentsList = new EStructuralFeatureUniqueEList();
           BasicEList crossReferencesList = new EStructuralFeatureUniqueEList();
+          boolean isMixed = "mixed".equals(EcoreUtil.getAnnotation(EClassImpl.this, ExtendedMetaData.ANNOTATION_URI, "kind"));
           for (int i = 0;  i < size; ++i)
           {
             // Skip derived features.
             //
             EStructuralFeature eStructuralFeature = (EStructuralFeature)data[i];
-            if (!eStructuralFeature.isDerived())
+            if (eStructuralFeature instanceof EReference)
             {
-              if (eStructuralFeature instanceof EReference)
+              EReference eReference = (EReference)eStructuralFeature;
+              if (eReference.isContainment())
               {
-                EReference eReference = (EReference)eStructuralFeature;
-                if (eReference.isContainment())
+                if (!eReference.isDerived())
                 {
                   containmentsList.add(eReference);
                 }
-                else if (!eReference.isContainer())
+              }
+              else if (!eReference.isContainer())
+              {
+                // Include derived relations only if they won't also come from mixed or a group.
+                //
+                if (!eReference.isDerived() || 
+                      !isMixed && EcoreUtil.getAnnotation(eReference, ExtendedMetaData.ANNOTATION_URI, "group") == null)
                 {
                   crossReferencesList.add(eReference);
                 }
               }
-              else if (FeatureMapUtil.isFeatureMap(eStructuralFeature))
+            }
+            else if (FeatureMapUtil.isFeatureMap(eStructuralFeature))
+            {
+              if (!eStructuralFeature.isDerived())
               {
                 containmentsList.add(eStructuralFeature);
                 crossReferencesList.add(eStructuralFeature);
