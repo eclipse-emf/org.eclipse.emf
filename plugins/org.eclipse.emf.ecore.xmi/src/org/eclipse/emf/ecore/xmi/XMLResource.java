@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.13 2004/09/01 20:10:50 emerks Exp $
+ * $Id: XMLResource.java,v 1.14 2004/10/01 20:08:26 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -136,6 +136,13 @@ public interface XMLResource extends Resource
    * Faster for large computer-generated files
    */
   String OPTION_SKIP_ESCAPE  = "SKIP_ESCAPE";
+  
+  /**
+   * Skip escaping special characters, such as '&' char, in URIs during XML serialization.
+   * The default is <code>Boolean.TRUE</code>. To enforce escaping special characters, set this 
+   * option to <code>Boolean.FALSE</code>/.
+   */
+  String OPTION_SKIP_ESCAPE_URI = "SKIP_ESCAPE_URI";
 
   /**
    * This can be one of "THROW", "DISCARD", "RECORD", where "THROW" is the default.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.17 2004/09/29 14:47:35 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.18 2004/10/01 20:08:26 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -71,6 +71,7 @@ public class XMLSaveImpl implements XMLSave
   protected boolean declareXML;
   protected boolean saveTypeInfo;
   protected Escape escape;
+  protected Escape escapeURI;
   protected Lookup featureTable;
   protected String encoding;
   protected String idAttributeName = "id";
@@ -260,6 +261,10 @@ public class XMLSaveImpl implements XMLSave
       Boolean.TRUE.equals(options.get(XMLResource.OPTION_SKIP_ESCAPE)) ?
         null :
         new Escape();
+    
+    escapeURI = Boolean.FALSE.equals(options.get(XMLResource.OPTION_SKIP_ESCAPE_URI)) ?
+        escape :
+        null;
 
     if (options.containsKey(XMLResource.OPTION_ENCODING))
     {
@@ -1233,6 +1238,10 @@ public class XMLSaveImpl implements XMLSave
       String id = helper.getHREF(value);
       if (id != null)
       {
+        if (escapeURI != null)
+        {
+          id = escapeURI.convert(id);
+        } 
         doc.startAttribute(name);
         if (!id.startsWith("#"))
         {
@@ -1265,6 +1274,10 @@ public class XMLSaveImpl implements XMLSave
         String id = helper.getHREF(value);
         if (id != null)
         {
+          if (escapeURI != null)
+          {
+            id = escapeURI.convert(id);
+          }
           if (!id.startsWith("#"))
           {
             EClass eClass = value.eClass();
@@ -1332,6 +1345,10 @@ public class XMLSaveImpl implements XMLSave
     String href = helper.getHREF(remote);
     if (href != null)
     {
+      if (escapeURI != null)
+      {
+        href = escapeURI.convert(href);
+      }
       doc.startElement(name);
       EClass eClass = remote.eClass();
       EClass expectedType = (EClass)f.getEType();
@@ -1365,7 +1382,12 @@ public class XMLSaveImpl implements XMLSave
   protected String getElementReferenceSingleSimple(EObject o, EStructuralFeature f)
   {
     EObject value = (EObject)helper.getValue(o, f);
-    return helper.getHREF(value);
+    String href = helper.getHREF(value);
+    if (escapeURI != null && href != null)
+    {
+      href = escapeURI.convert(href);
+    }
+    return href;
   }
 
   protected String getElementReferenceManySimple(EObject o, EStructuralFeature f)
@@ -1373,9 +1395,15 @@ public class XMLSaveImpl implements XMLSave
     InternalEList values = (InternalEList)helper.getValue(o, f);
     StringBuffer result = new StringBuffer();
     int size = values.size();
+    String href = null;
     for (int i = 0; i < size; i++)
     {
-      result.append(helper.getHREF(((EObject)values.basicGet(i))));
+      href = helper.getHREF(((EObject)values.basicGet(i)));
+      if (escapeURI != null && href != null)
+      {
+        href = escapeURI.convert(href);
+      }
+      result.append(href);
       result.append(' ');
     }
     return result.substring(0, result.length() - 1);
@@ -1460,6 +1488,10 @@ public class XMLSaveImpl implements XMLSave
     String href = helper.getHREF(remote);
     if (href != null)
     {
+      if (escapeURI != null)
+      {
+        href = escapeURI.convert(href);
+      }
       doc.startElement(name);
       EClass eClass = remote.eClass();
 
@@ -2015,6 +2047,7 @@ public class XMLSaveImpl implements XMLSave
      */
     public String convert(String input)
     {
+      //TODO: performance could be improved (e.g. avoid copy characters on each string)
       boolean changed = false;
       int inputLength = input.length();
       grow(inputLength);
@@ -2078,14 +2111,17 @@ public class XMLSaveImpl implements XMLSave
      */
     public String convertText(String input)
     {
+      //TODO: performance could be improved (e.g. avoid copy characters on each string)
       boolean changed = false;
       int inputLength = input.length();
       grow(inputLength);
       input.getChars(0, inputLength, value, 0);
       int pos = 0;
+      char ch;
       while (inputLength-- > 0)
       {
-        switch (value[pos])
+        ch = value[pos];
+        switch (ch)
         {
           case '&':
             pos = replace(pos, AMP, inputLength);
@@ -2106,6 +2142,10 @@ public class XMLSaveImpl implements XMLSave
             break;
           }
           default:
+            if (!XMLChar.isValid(ch))
+            {
+              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString((int)ch)+") was found in the element content:" +input);
+            }
             pos++;
             break;
         }
