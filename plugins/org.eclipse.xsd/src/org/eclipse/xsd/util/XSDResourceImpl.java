@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.2 2004/03/10 14:33:34 emerks Exp $
+ * $Id: XSDResourceImpl.java,v 1.3 2004/07/29 13:33:09 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -359,8 +359,6 @@ public class XSDResourceImpl extends ResourceImpl
 
   /**
    * Loads a new {@link XSDResourceImpl} into the resource set.
-   * @param resourceSet the resource set to hold the new resource.
-   * @param uri the URI of the new resource.
    * @param inputStream the contents of the new resource.
    * @param options any options to influence loading behavior.
    * @return a new XSDResourceImpl.

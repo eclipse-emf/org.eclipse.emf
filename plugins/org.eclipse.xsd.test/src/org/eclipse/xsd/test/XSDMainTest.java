@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMainTest.java,v 1.3 2004/05/16 16:43:32 emerks Exp $
+ * $Id: XSDMainTest.java,v 1.4 2004/07/29 13:32:55 marcelop Exp $
  */
 package org.eclipse.xsd.test;
 
@@ -82,7 +82,7 @@ public class XSDMainTest // implements IPlatformRunnable
 
   /**
    * Executes a stand-alone test.
-   * @param objects an array of Strings from the command line.
+   * @param args an array of Strings from the command line.
    * @see #run
    */
   public static void main(String args[]) 
@@ -101,7 +101,7 @@ public class XSDMainTest // implements IPlatformRunnable
    * Executes a headless workbench test.
    * If no arguments are provided, the {@link XSDPrototypicalSchema} will be tested;
    * otherwise each argument is taken to be the URI of a schema which will be loaded and printed.
-   * @param objects an array of Strings from the command line, each representing the URI of a schema.
+   * @param object an array of Strings from the command line, each representing the URI of a schema.
    * @return <code>0</code> indicating success, or <code>1</code> indicating failure.
    * @see #main
    */

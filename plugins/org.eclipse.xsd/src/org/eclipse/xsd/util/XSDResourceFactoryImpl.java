@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceFactoryImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDResourceFactoryImpl.java,v 1.2 2004/07/29 13:33:09 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -43,7 +43,6 @@ public class XSDResourceFactoryImpl extends ResourceFactoryImpl
   /**
    * Creates an {@link XSDResourceImpl}.
    * @param uri the URI of the new resource.
-   * @param extent the extent of the new resource.
    * @return an XSDResourceImpl.
    */
   public Resource createResource(URI uri)

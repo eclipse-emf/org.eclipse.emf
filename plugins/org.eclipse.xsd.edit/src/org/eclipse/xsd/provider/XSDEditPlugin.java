@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditPlugin.java,v 1.2 2004/05/16 16:45:59 emerks Exp $
+ * $Id: XSDEditPlugin.java,v 1.3 2004/07/29 13:33:15 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -161,7 +161,6 @@ public class XSDEditPlugin extends Plugin
 
   /**
    * Creates an instance.
-   * @param descriptor the description of the plugin.
    */
   public XSDEditPlugin()
   {

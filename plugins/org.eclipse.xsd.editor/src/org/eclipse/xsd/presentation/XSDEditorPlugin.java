@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditorPlugin.java,v 1.2 2004/05/16 16:44:32 emerks Exp $
+ * $Id: XSDEditorPlugin.java,v 1.3 2004/07/29 13:32:41 marcelop Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -69,7 +69,6 @@ public final class XSDEditorPlugin extends EMFPlugin
   {
     /**
      * Creates an instance.
-     * @param descriptor the description of the plugin.
      */
     public Implementation()
     {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPlugin.java,v 1.2 2004/05/16 16:47:54 emerks Exp $
+ * $Id: XSDPlugin.java,v 1.3 2004/07/29 13:33:09 marcelop Exp $
  */
 package org.eclipse.xsd;
 
@@ -77,7 +77,6 @@ public final class XSDPlugin extends EMFPlugin
   {
     /**
      * Creates an instance.
-     * @param descriptor the description of the plugin.
      */
     public Implementation()
     {

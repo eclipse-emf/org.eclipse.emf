@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XSDSchemaQueryTools.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDSchemaQueryTools.java,v 1.2 2004/07/29 13:33:09 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -112,7 +112,7 @@ public abstract class XSDSchemaQueryTools
    * simpleTypes; complexType support needs to be added.</p>
    *
    * @see #findTypesDerivedFrom(XSDSchema, String, String)
-   * @param typeDef to see if it's derived from
+   * @param typedef to see if it's derived from
    * @param namespace for the type derived from
    * @param localName for the type derived from
    * @return true if it is; false otherwise
@@ -347,7 +347,7 @@ public abstract class XSDSchemaQueryTools
    * then recurses to any other schemas found.</p>
    * 
    * @param schema object to search for imports/includes/redefines
-   * @param HashMap where keys are the URI's of any other schemas 
+   * @param hash where keys are the URI's of any other schemas 
    * found, and values are one of 'import', 'include', 'redefine'; 
    * this object is mutated by this method
    * @param level of iteration we're on

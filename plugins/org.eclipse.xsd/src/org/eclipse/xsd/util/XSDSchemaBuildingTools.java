@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XSDSchemaBuildingTools.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDSchemaBuildingTools.java,v 1.2 2004/07/29 13:33:09 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -131,7 +131,7 @@ public abstract class XSDSchemaBuildingTools
    * would be simple to add.</p>
    *
    * @param schema to add the complexTypeDefinition to
-   * @param name localName for the type
+   * @param localName localName for the type
    * @param type localName of base of type; in this method must be 
    * resolveable within this schema
    * @param attrs HashMap of attributes to add; keys are names 
@@ -409,10 +409,10 @@ public abstract class XSDSchemaBuildingTools
    * XSDComplexTypeDefinition we set this group to be the 
    * single content of the typedef.</p>
    *
-   * @param schema to add the modelGroupDefinition to
+   * @param component to add the modelGroupDefinition to
    * @param localName for the group
    * @param compositor to use for the group
-   * @param termList List of XSDTerm objects to put in the 
+   * @param groupTerms List of XSDTerm objects to put in the 
    * group, in list.iterator() order; we throw an exception 
    * if any of these objects are not valid
    * @return the modelGroup created, after having been 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPrototypicalSchema.java,v 1.2 2004/04/15 05:52:40 marcelop Exp $
+ * $Id: XSDPrototypicalSchema.java,v 1.3 2004/07/29 13:33:09 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -852,14 +852,14 @@ public class XSDPrototypicalSchema
    *  // if the schema does not have an {@link XSDConcreteComponent#getElement element} or {@link XSDSchema#getDocument document} yet.
    *  //
    *  {@link Element <em>Element</em>} appinfo = annotation.{@link XSDAnnotation#createApplicationInformation createApplicationInformation}("http://www.example.com/appinfo");
-   *  annotation.{@link XSDConcreteComponent#getElement getElement}().{@link Element#appendChild <em>appendChild</em>}(appinfo);
+   *  annotation.{@link XSDConcreteComponent#getElement getElement}().{@link org.w3c.dom.Node#appendChild <em>appendChild</em>}(appinfo);
    *
    *  // Create a documentation DOM element with the given sourceURI attribute.
    *  // Also add the element as the annotation's child.
    *  //
    *  Element documentation = annotation.{@link XSDAnnotation#createUserInformation createUserInformation}("http://www.example.com/documentation");
    *  annotation.getElement().appendChild(documentation);
-   *  documentation.{@link Element#appendChild <em>appendChild</em>}
+   *  documentation.{@link org.w3c.dom.Node#appendChild <em>appendChild</em>}
    *    (documentation.getOwnerDocument().createTextNode
    *      ("A simple recursive complex type definition."));
    *
