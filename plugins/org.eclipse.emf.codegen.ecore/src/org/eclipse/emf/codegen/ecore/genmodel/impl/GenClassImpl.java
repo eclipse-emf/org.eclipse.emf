@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.14 2004/09/24 04:09:14 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.15 2004/10/30 19:16:01 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -895,16 +895,30 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List getMixinGenClasses()
   {
-    // simple cases: no mixins for no inheritance or for a single base class
-    if (getEcoreClass().getESuperTypes().size() <= 1)
+    // Simple cases: no mixins for no inheritance or for a single base class.
+    //
+    List superTypes = getEcoreClass().getESuperTypes();
+    if (superTypes.isEmpty() || (superTypes.size() == 1 && !((EClass)superTypes.get(0)).isInterface()))
     {
       return Collections.EMPTY_LIST;
     }
 
-    // otherwise, mixins are everything after base class, even if interface
     List allBases = getAllBaseGenClasses();
-    int i = allBases.indexOf(getBaseGenClass()) + 1;
-    return new ArrayList(allBases.subList(i, allBases.size()));
+    List result = new ArrayList(allBases.size());
+
+	// If extending an interface, its mixins must be included, since there is no implementation to handle them.
+	//
+    GenClass baseGenClass = getBaseGenClass();
+    if (baseGenClass.isInterface())
+    {
+      result.addAll(baseGenClass.getMixinGenClasses());
+    }
+
+	// Mixins are everything after the base class.
+	//
+    int i = allBases.indexOf(baseGenClass) + 1;
+    result.addAll(allBases.subList(i, allBases.size()));
+    return result;
   }
 
   public List getMixinGenFeatures()
