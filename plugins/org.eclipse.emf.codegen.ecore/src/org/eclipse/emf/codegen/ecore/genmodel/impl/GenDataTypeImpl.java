@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.4 2004/06/08 12:34:36 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.5 2004/06/11 16:11:29 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.codegen.ecore.genmodel.impl;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -40,6 +41,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
 /**
@@ -267,7 +270,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public boolean isObjectType()
   {
-    return "java.lang.Object".equals(getEcoreDataType());
+    return "java.lang.Object".equals(getEcoreDataType().getInstanceClassName());
   }
 
   public String getPrimitiveValueFunction()
@@ -548,6 +551,65 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return ExtendedMetaData.WHITE_SPACE_KINDS[ExtendedMetaData.UNSPECIFIED_WHITE_SPACE];
   }
 
+  protected static final List xmlCalendarTypes = 
+    Arrays.asList
+      (new String[]
+       {
+         "date",
+         "dateTime",
+         "gDay",
+         "gMonth",
+         "gMonthDay",
+         "gYear",
+         "gYearMonth",
+         "time"
+       });
+
+  public boolean isXMLCalendar()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      String namespace = extendedMetaData.getNamespace(eDataType);
+      String name = extendedMetaData.getName(eDataType);
+      if (XMLTypePackage.eNS_URI.equals(namespace) && xmlCalendarTypes.contains(name))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean isXMLDuration()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      String namespace = extendedMetaData.getNamespace(eDataType);
+      String name = extendedMetaData.getName(eDataType);
+      if (XMLTypePackage.eNS_URI.equals(namespace) && "duration".equals(name))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean isXMLBoolean()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      String namespace = extendedMetaData.getNamespace(eDataType);
+      String name = extendedMetaData.getName(eDataType);
+      if (XMLTypePackage.eNS_URI.equals(namespace) && "boolean".equals(name))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public List getPatterns()
   {
     List result = new ArrayList();
@@ -728,7 +790,24 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       }
       if (!replaced)
       {
-        return null;
+        String result = 
+          getGenPackage().getImportedFactoryInterfaceName() + 
+            ".eINSTANCE.createFromString(" + 
+            getGenPackage().getImportedPackageInterfaceName() + 
+            ".eINSTANCE.get" + 
+            getName() + 
+            "(), " + 
+            Literals.toLiteral(literal) +
+            ")";
+        if (isPrimitiveType())
+        {
+          result = "((" + getObjectInstanceClassName() + ")" + result + ")." + getPrimitiveValueFunction() + "()";
+        }
+        else if (!isObjectType())
+        {
+          result = "(" + getImportedInstanceClassName() + ")" + result;
+        }
+        return result;
       }
     }
 
@@ -737,7 +816,10 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     {
       try
       {
-        defaultObject = EcoreFactory.eINSTANCE.createFromString((EDataType)eDataType, literal);
+        defaultObject = 
+          isXMLBoolean() ?
+            XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getBoolean(), literal) :
+            EcoreFactory.eINSTANCE.createFromString((EDataType)eDataType, literal);
       }
       catch (Exception e)
       {
