@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.4 2004/03/23 17:00:31 emerks Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.5 2004/05/16 17:21:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -50,6 +50,9 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+
+//import org.eclipse.emf.edit.ui.action.LoadResourceAction;
+//import org.eclipse.emf.edit.ui.action.ValidateAction;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
@@ -96,7 +99,7 @@ public class GenModelActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected IAction showPropertiesViewAction = 
+  protected IAction showPropertiesViewAction =
     new Action(GenModelEditPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))
     {
       public void run()
@@ -105,7 +108,7 @@ public class GenModelActionBarContributor
         {
           getPage().showView("org.eclipse.ui.views.PropertySheet");
         }
-        catch(PartInitException exception)
+        catch (PartInitException exception)
         {
           GenModelEditPlugin.INSTANCE.log(exception);
         }
@@ -114,19 +117,19 @@ public class GenModelActionBarContributor
       
   /**
    * This action refreshes the viewer of the current editor if the editor
-   * implements {@link IViewerProvider}.
+   * implements {@link org.eclipse.emf.common.ui.viewer.IViewerProvider}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected IAction refreshViewerAction = 
+  protected IAction refreshViewerAction =
     new Action(GenModelEditPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item"))
     {
       public boolean isEnabled()
       {
         return activeEditorPart instanceof IViewerProvider;
       }
-      
+
       public void run()
       {
         if (activeEditorPart instanceof IViewerProvider)
@@ -427,9 +430,23 @@ public class GenModelActionBarContributor
 
     menuManager.insertBefore("additions", new Separator("schema-actions"));
     menuManager.insertAfter("schema-actions", generateSchemaAction);
+  }
 
+  /**
+   * This inserts global actions before the "additions-end" separator.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addGlobalActions(IMenuManager menuManager)
+  {
     menuManager.insertAfter("additions-end", new Separator("ui-actions"));
     menuManager.insertAfter("ui-actions", showPropertiesViewAction);
+
+    refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());		
     menuManager.insertAfter("ui-actions", refreshViewerAction);
+
+    super.addGlobalActions(menuManager);
   }
+
 }

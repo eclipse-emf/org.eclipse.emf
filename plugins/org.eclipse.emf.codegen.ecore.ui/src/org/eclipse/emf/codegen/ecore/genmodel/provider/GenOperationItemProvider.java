@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationItemProvider.java,v 1.3 2004/04/03 20:43:55 davidms Exp $
+ * $Id: GenOperationItemProvider.java,v 1.4 2004/05/16 17:20:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -183,4 +183,5 @@ public class GenOperationItemProvider
   {
     return GenModelEditPlugin.INSTANCE;
   }
+
 }

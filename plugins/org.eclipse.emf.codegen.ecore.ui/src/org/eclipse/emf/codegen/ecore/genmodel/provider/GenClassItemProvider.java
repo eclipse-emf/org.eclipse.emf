@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassItemProvider.java,v 1.4 2004/04/05 14:09:37 davidms Exp $
+ * $Id: GenClassItemProvider.java,v 1.5 2004/05/16 17:20:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -194,7 +194,6 @@ public class GenClassItemProvider
     return super.getChildFeature(object, child);
   }
 
-
   /**
    */
   public Object getImage(Object object)
@@ -275,4 +274,5 @@ public class GenClassItemProvider
   {
     return GenModelEditPlugin.INSTANCE;
   }
+
 }

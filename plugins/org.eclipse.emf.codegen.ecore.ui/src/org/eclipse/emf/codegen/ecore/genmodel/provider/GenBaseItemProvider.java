@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseItemProvider.java,v 1.2 2004/04/03 20:43:55 davidms Exp $
+ * $Id: GenBaseItemProvider.java,v 1.3 2004/05/16 17:20:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -109,7 +109,6 @@ public class GenBaseItemProvider
     return itemPropertyDescriptors;
   }
 
-
   /**
    * This returns the label text for the adapted class.
    * <!-- begin-user-doc -->
@@ -144,6 +143,7 @@ public class GenBaseItemProvider
   {
     return GenModelEditPlugin.INSTANCE;
   }
+
   /**
    * Returns whether changes to the object will be persisted.
    */

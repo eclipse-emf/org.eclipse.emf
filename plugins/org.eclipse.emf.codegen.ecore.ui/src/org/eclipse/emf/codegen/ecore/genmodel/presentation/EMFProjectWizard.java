@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.5 2004/05/06 18:40:59 emerks Exp $
+ * $Id: EMFProjectWizard.java,v 1.6 2004/05/16 17:21:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -42,7 +42,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
@@ -127,6 +126,7 @@ import org.eclipse.emf.edit.provider.ItemProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
+import org.osgi.framework.Bundle;
 
 
 /**
@@ -1458,7 +1458,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
            }
          });
 
-      Plugin xsd2ecorePlugin = Platform.getPlugin("org.eclipse.emf.mapping.xsd2ecore");
+      Bundle xsd2ecorePlugin = Platform.getBundle("org.eclipse.emf.mapping.xsd2ecore");
       if (xsd2ecorePlugin != null)
       {
         createMapButton = new Button(composite, SWT.CHECK);
@@ -1556,24 +1556,22 @@ public class EMFProjectWizard extends Wizard implements INewWizard
               progressMonitor.subTask
                 (GenModelEditPlugin.INSTANCE.getString("_UI_Loading_message", new Object [] { xmlSchemaModelLocations }));
 
-              Plugin xsdPlugin = Platform.getPlugin("org.eclipse.xsd");
-              Class theGeneratorClass = xsdPlugin.getClass().getClassLoader().loadClass("org.eclipse.xsd.ecore.XSDEcoreBuilder");
+              Bundle xsdPlugin = Platform.getBundle("org.eclipse.xsd");
+              Class theGeneratorClass = xsdPlugin.loadClass("org.eclipse.xsd.ecore.XSDEcoreBuilder");
               Object ecoreGenerator = theGeneratorClass.newInstance();
 
               // Set the mapper to build an XSD2EcoreMappingRoot, if available.
               //
-              Plugin xsd2ecorePlugin = Platform.getPlugin("org.eclipse.emf.mapping.xsd2ecore");
+              Bundle xsd2ecorePlugin = Platform.getBundle("org.eclipse.emf.mapping.xsd2ecore");
               if (xsd2ecorePlugin != null && createMapButton != null && createMapButton.getSelection())
               {
                 try
                 {
                   Class theMapperInterface =
-                    xsdPlugin.getClass().getClassLoader().loadClass
-                      ("org.eclipse.xsd.ecore.MapBuilder$Mapper");
+                    xsdPlugin.loadClass("org.eclipse.xsd.ecore.MapBuilder$Mapper");
 
                   Class theMapperClass =
-                    xsd2ecorePlugin.getClass().getClassLoader().loadClass
-                      ("org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMapper");
+                    xsd2ecorePlugin.loadClass("org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMapper");
 
                   Object mapper = theMapperClass.newInstance();
 
@@ -1615,7 +1613,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
                 {
                   MultiStatus status =
                     new MultiStatus
-                      (GenModelEditPlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+                      (GenModelEditPlugin.getPlugin().getBundle().getSymbolicName(),
                        0,
                        GenModelEditPlugin.INSTANCE.getString("_UI_ErrorsWereDetectedXMLSchema_message"),
                        null);
@@ -1629,7 +1627,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
                            "warning".equals(information.get(0)) ?
                              IStatus.WARNING :
                              IStatus.INFO,
-                        GenModelEditPlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+                        GenModelEditPlugin.getPlugin().getBundle().getSymbolicName(),
                         0,
                         (String)information.get(1),
                         null));
@@ -3162,7 +3160,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
            }
          });
 
-      if (Platform.getPluginRegistry().getPluginDescriptor("org.eclipse.xsd.editor") == null)
+      if (Platform.getBundle("org.eclipse.xsd.editor") == null)
       {
         loadFromXMLSchema.setEnabled(false);
         if (whichModel == XSD)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureItemProvider.java,v 1.4 2004/04/03 20:43:55 davidms Exp $
+ * $Id: GenFeatureItemProvider.java,v 1.5 2004/05/16 17:20:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -301,4 +301,5 @@ public class GenFeatureItemProvider
   {
     return GenModelEditPlugin.INSTANCE;
   }
+
 }

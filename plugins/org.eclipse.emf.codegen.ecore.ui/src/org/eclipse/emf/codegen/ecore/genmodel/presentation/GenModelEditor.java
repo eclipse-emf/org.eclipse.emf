@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.6 2004/03/24 18:00:30 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.7 2004/05/16 17:21:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -908,7 +908,7 @@ public class GenModelEditor
           (URI.createPlatformResourceURI(file.getFullPath().toString()));
         IFileEditorInput modelFile = new FileEditorInput(file);
         setInput(modelFile);
-        setTitle(file.getName());
+        setPartName(file.getName());
         doSave(getActionBars().getStatusLineManager().getProgressMonitor());
       }
     }
@@ -935,7 +935,7 @@ public class GenModelEditor
     {
       setSite(site);
       setInput(editorInput);
-      setTitle(((IFileEditorInput)editorInput).getFile().getName());
+      setPartName(((IFileEditorInput)editorInput).getFile().getName());
       site.setSelectionProvider(this);
       site.getPage().addPartListener(partListener);
       ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);

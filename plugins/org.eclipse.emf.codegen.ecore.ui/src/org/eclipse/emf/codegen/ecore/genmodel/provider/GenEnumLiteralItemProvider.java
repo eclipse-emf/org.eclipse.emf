@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralItemProvider.java,v 1.3 2004/04/03 20:43:55 davidms Exp $
+ * $Id: GenEnumLiteralItemProvider.java,v 1.4 2004/05/16 17:20:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -140,4 +140,5 @@ public class GenEnumLiteralItemProvider
   {
     return GenModelEditPlugin.INSTANCE;
   }
+
 }
