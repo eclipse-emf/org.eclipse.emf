@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEMap.java,v 1.2 2004/04/30 11:10:33 emerks Exp $
+ * $Id: BasicEMap.java,v 1.3 2004/05/03 11:53:50 emerks Exp $
  */
 package  org.eclipse.emf.common.util;
 
@@ -225,7 +225,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   {
     if (entryData == null)
     {
-      entryData = newEntryData(2 * size);
+      entryData = newEntryData(2 * size + 1);
 
       // This should be transparent.
       //
