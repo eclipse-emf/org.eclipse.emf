@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:order xmlns:p="http://org/eclipse/emf/test/models/Order"
+       xmlns:m="http://org/eclipse/emf/test/models/MovieDB"
+       xmlns:c="http://org/eclipse/emf/test/models/Customer"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation="http://org/eclipse/emf/test/models/Order ../xsd/order.xsd"
+       customerID="c12345">
+   
+   <moviesToSee>
+     <dateRequested>2004-06-06</dateRequested>
+     <movies>m1</movies>
+   </moviesToSee>
+
+   <m:movieDB>
+     <m:movie c:ID="m1">
+       <title>Pulp Fiction</title>
+       <actors>J.Travolta S.Jackson</actors>
+       <director>Quentin Tarantino</director>
+       <genre>Drama</genre>
+       <summary>The film initiates with two small-time thieves, Honey Bunny and Pumpkin, 
+who spontaneously decide to hold up a restaurant. The film then shifts to the story of 
+Jules and Vincent, who hit men for the well known and feared Marsellus Wallace, 
+who is caught up in a deal gone wrong with struggling boxer Butch Coolidge.
+       </summary>
+       <m:criticsReview ReviewedBy="Toronto Star">
+         <rating>10</rating>
+       </m:criticsReview>
+       <m:checkedOutBy>#c12345</m:checkedOutBy>
+     </m:movie>
+     <m:movie c:ID="m2">
+       <title>Lock, Stock and Two Smoking Barrels</title>
+       <actors>J.Flemyng D.Fletcher</actors>
+       <director>Guy Ritchie</director>
+       <genre>Comedy</genre>
+       <summary>Four Jack-the-lads find themselves heavily - seriously heavily - in debt to an East End hard man and his
+ enforcers after a crooked card game. Overhearing their neighbours in the next flat plotting to hold up a group of
+ out-of-their-depth drug growers, our heros decide to stitch up the robbers in turn. In a way the confusion really
+ starts when a pair of antique double-barrelled shotguns go missing in a completely different scam.
+       </summary>
+       <m:criticsReview ReviewedBy="Toronto Star">
+         <rating>9</rating>
+       </m:criticsReview>
+       <m:checkedOutBy>#c12345</m:checkedOutBy>
+     </m:movie>
+   </m:movieDB>
+
+   <c:customers>
+     <c:customer c:ID="c12345">
+      <name>Pete Potter</name>
+      <address xsi:type="c:canadaAddr">
+        <street>123 Pine ave.</street>
+        <town>Toronto</town>
+        <zip>L2R 1K9</zip>
+        <province>ON</province>       
+      </address>
+      <creditCard>
+        <holder>Pete Potter</holder>
+        <cc_number>1234123412341</cc_number>
+        <expireDate>2006-09</expireDate>
+      </creditCard>
+      <paymentDay xsi:nil="true"/>
+     </c:customer>
+   </c:customers>
+
+</p:order>
