@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.4 2004/03/25 04:16:08 marcelop Exp $
+ * $Id: BuildTests.java,v 1.5 2004/03/25 06:54:49 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -643,6 +643,7 @@ public class BuildTests extends TestCase
       {
       }
       aProcess.waitFor();
+      Thread.sleep(1000);
     }
     catch (IOException e)
     {
