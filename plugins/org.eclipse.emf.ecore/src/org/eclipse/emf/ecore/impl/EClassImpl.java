@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.5 2004/06/21 13:55:47 emerks Exp $
+ * $Id: EClassImpl.java,v 1.6 2004/08/12 15:05:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -99,6 +99,18 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     super();
   }
 
+  public void freeze()
+  {
+    getEAllAttributes();
+    getEAllReferences();
+    getEAllContainments();
+    getEAllOperations();
+    getEAllStructuralFeatures();
+    getEAllSuperTypes();
+
+    super.freeze();
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -134,10 +146,9 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return eStructuralFeatures;
   }
 
-  public EList getEAllAttributes()
+  public EList getEAllAttributesGen()
   {
     ESuperAdapter a = getESuperAdapter(); 
-
     if (eAllAttributes == null || a.isAllAttributesCollectionModified())
     {
       eIDAttribute = null;
@@ -220,7 +231,12 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return eAllAttributes;
   }
 
-  public EList getEAllReferences()
+  public EList getEAllAttributes()
+  {
+    return isFrozen() ? eAllAttributes : getEAllAttributesGen();
+  }
+
+  public EList getEAllReferencesGen()
   {
     ESuperAdapter a = getESuperAdapter();
     if (eAllReferences == null || a.isAllReferencesCollectionModified())
@@ -282,7 +298,13 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
         new EcoreEList.UnmodifiableEList
           (this, EcorePackage.eINSTANCE.getEClass_EAllReferences(), result.size(), result.data());
     }
+
     return eAllReferences;
+  }
+
+  public EList getEAllReferences()
+  {
+    return isFrozen() ? eAllReferences : getEAllReferencesGen();
   }
 
   /**
@@ -312,7 +334,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * <!-- end-user-doc -->
    * @generated modifiable
    */
-  public EList getEAllStructuralFeatures() 
+  public EList getEAllStructuralFeaturesGen() 
   {
     // The algorithm for the order of the features in this list should never change.
     // Also, the fact that a new list is created whenever the contents change 
@@ -454,12 +476,17 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return eAllStructuralFeatures;
   }
 
+  public EList getEAllStructuralFeatures()
+  {
+    return isFrozen() ? eAllStructuralFeatures : getEAllStructuralFeaturesGen();
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated modifiable
    */
-  public EList getEAllOperations()
+  public EList getEAllOperationsGen()
   {
     ESuperAdapter a = getESuperAdapter(); 
     if (eAllOperations == null || a.isAllOperationsCollectionModified())
@@ -493,6 +520,10 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return eAllOperations;
   }
 
+  public EList getEAllOperations()
+  {
+    return isFrozen() ? eAllOperations : getEAllOperationsGen();
+  }
 
   /**
    * <!-- begin-user-doc -->
@@ -549,7 +580,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
         null;
   }
 
-  public EList getEAllContainments()
+  public EList getEAllContainmentsGen()
   {
     ESuperAdapter a = getESuperAdapter();
     if (eAllContainments == null || a.isAllContainmentsCollectionModified())
@@ -585,6 +616,11 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     }
 
     return eAllContainments;
+  }
+
+  public EList getEAllContainments()
+  {
+    return isFrozen() ? eAllContainments : getEAllContainmentsGen();
   }
 
   public EStructuralFeature getEStructuralFeature(String name)
@@ -1017,12 +1053,11 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   }
 
   /**
-   * Returns all the supertypes in the hierarchy
+   * Returns all the supertypes in the hierarchy.
    */
-  public EList getEAllSuperTypes()
+  public EList getEAllSuperTypesGen()
   {
     ESuperAdapter a = getESuperAdapter(); 
-
     if (eAllSuperTypes == null || a.isAllSuperCollectionModified())
     {
       BasicEList result = 
@@ -1057,6 +1092,11 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     }
 
     return eAllSuperTypes;
+  }
+
+  public EList getEAllSuperTypes()
+  {
+    return isFrozen() ? eAllSuperTypes : getEAllSuperTypesGen();
   }
 
   protected boolean dynamicIsInstance(EObject eObject)
