@@ -301,6 +301,7 @@ public class PackageClass
     genModel.markImportLocation(stringBuffer);
     genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Registry");
     genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Descriptor");
+    for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) genModel.addPseudoImport(genPackage.getQualifiedPackageInterfaceName() + "." + genPackage.getClassifierID((GenClassifier)i.next()));
     stringBuffer.append(TEXT_6);
     stringBuffer.append(genPackage.getPackageClassName());
     stringBuffer.append(TEXT_7);

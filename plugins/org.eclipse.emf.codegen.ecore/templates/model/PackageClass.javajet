@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.15 2004/10/06 20:54:18 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.16 2004/11/17 16:15:22 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -22,6 +22,7 @@ package <%=genPackage.getClassPackageName()%>;
 <%genModel.markImportLocation(stringBuffer);%>
 <%genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Registry");%>
 <%genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Descriptor");%>
+<%for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) genModel.addPseudoImport(genPackage.getQualifiedPackageInterfaceName() + "." + genPackage.getClassifierID((GenClassifier)i.next()));%>
 
 /**
  * <!-- begin-user-doc -->
