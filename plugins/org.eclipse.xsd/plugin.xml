@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/09/28 14:38:46 emerks Exp $
+ * $Id: plugin.xml,v 1.6 2004/10/14 16:46:46 marcelop Exp $
  */
 -->
 
@@ -48,6 +48,10 @@
 
   <extension point = "org.eclipse.emf.ecore.extension_parser">
     <parser type="xsd" class="org.eclipse.xsd.util.XSDResourceFactoryImpl"/>
+  </extension>
+
+  <extension point="org.eclipse.team.core.fileTypes">
+    <fileTypes extension="xsd" type="text"/>    
   </extension>
 
 <extension

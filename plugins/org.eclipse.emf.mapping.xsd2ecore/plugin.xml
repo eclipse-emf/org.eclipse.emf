@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.4 2004/07/20 17:17:32 marcelop Exp $
+ * $Id: plugin.xml,v 1.5 2004/10/14 16:46:55 marcelop Exp $
  */
 -->
 
@@ -53,6 +53,10 @@
     <parser 
        type="xsd2ecore" 
        class="org.eclipse.emf.mapping.xsd2ecore.util.XSD2EcoreResourceFactoryImpl" />
+  </extension>
+
+  <extension point="org.eclipse.team.core.fileTypes">
+    <fileTypes extension="xsd2ecore" type="text"/>    
   </extension>
 
 </plugin>
