@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.4 2004/06/20 15:36:37 emerks Exp $
+ * $Id: JETCompiler.java,v 1.5 2004/06/22 03:15:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -37,37 +37,49 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.CodeGenPlugin;
 
 
-public class JETCompiler implements JETParseEventListener 
+public class JETCompiler implements JETParseEventListener
 {
-  protected final static char [] NULL_CHAR_ARRAY = {};
+  protected final static char[] NULL_CHAR_ARRAY = {};
 
-  protected String [] templateURIPath;
+  protected String[] templateURIPath;
+
   protected String templateURI;
+
   protected JETParser parser;
+
   protected JETSkeleton skeleton;
+
   protected JETReader reader;
+
   protected PrintWriter writer;
+
   protected List generators = new ArrayList(100);
+
   protected List constants = new ArrayList(100);
+
   protected Map constantDictionary = new HashMap(100, 100);
-  protected long constantCount  = 0;
+
+  protected long constantCount = 0;
+
   protected boolean fNoNewLineForScriptlets = true;
+
   protected boolean fUseStaticFinalConstants = true;
-  protected char[]  fSavedLine = null;
+
+  protected char[] fSavedLine = null;
 
   protected static final String CONSTANT_PREFIX = "TEXT_";
 
-  public JETCompiler(String templateURI) throws JETException 
+  public JETCompiler(String templateURI) throws JETException
   {
     this(templateURI, "UTF8");
   }
 
-  public JETCompiler(String templateURI, String encoding) throws JETException 
+  public JETCompiler(String templateURI, String encoding) throws JETException
   {
     this(templateURI, openStream(templateURI), encoding);
   }
 
-  public JETCompiler(String templateURI, InputStream inputStream, String encoding) throws JETException 
+  public JETCompiler(String templateURI, InputStream inputStream, String encoding) throws JETException
   {
     super();
 
@@ -75,12 +87,12 @@ public class JETCompiler implements JETParseEventListener
     this.reader = new JETReader(templateURI, inputStream, encoding);
   }
 
-  public JETCompiler(String [] templateURIPath, String relativeTemplateURI) throws JETException 
+  public JETCompiler(String[] templateURIPath, String relativeTemplateURI) throws JETException
   {
     this(templateURIPath, relativeTemplateURI, "UTF8");
   }
 
-  public JETCompiler(String [] templateURIPath, String relativeTemplateURI, String encoding) throws JETException 
+  public JETCompiler(String[] templateURIPath, String relativeTemplateURI, String encoding) throws JETException
   {
     super();
 
@@ -95,7 +107,7 @@ public class JETCompiler implements JETParseEventListener
     return reader.getFile(0);
   }
 
-  public void handleDirective(String directive, JETMark start, JETMark stop, Map attributes) throws JETException 
+  public void handleDirective(String directive, JETMark start, JETMark stop, Map attributes) throws JETException
   {
     // This will drop the trailing newline.
     //
@@ -106,7 +118,7 @@ public class JETCompiler implements JETParseEventListener
       if (fileURI != null)
       {
         String currentURI = start.getFile();
-        String [] resolvedFileURI = resolveLocation(templateURIPath, currentURI, fileURI);
+        String[] resolvedFileURI = resolveLocation(templateURIPath, currentURI, fileURI);
         try
         {
           BufferedInputStream bufferedInputStream = new BufferedInputStream(openStream(resolvedFileURI[1]));
@@ -114,22 +126,17 @@ public class JETCompiler implements JETParseEventListener
         }
         catch (JETException exception)
         {
-          throw 
-            new JETException
-              (CodeGenPlugin.getPlugin().getString
-                ("jet.error.file.cannot.read", 
-                 new Object [] { resolvedFileURI[1], start.format("jet.mark.file.line.column") }),
-               exception);
+          throw new JETException(CodeGenPlugin.getPlugin().getString(
+            "jet.error.file.cannot.read",
+            new Object []{ resolvedFileURI[1], start.format("jet.mark.file.line.column") }), exception);
 
         }
       }
       else
       {
-        throw 
-          new JETException
-            (CodeGenPlugin.getPlugin().getString
-              ("jet.error.missing.attribute", 
-               new Object [] { "href", start.format("jet.mark.file.line.column") }));
+        throw new JETException(CodeGenPlugin.getPlugin().getString(
+          "jet.error.missing.attribute",
+          new Object []{ "href", start.format("jet.mark.file.line.column") }));
       }
     }
     else if (directive.equals("jet"))
@@ -148,9 +155,11 @@ public class JETCompiler implements JETParseEventListener
         {
           try
           {
-            BufferedInputStream bufferedInputStream = 
-              new BufferedInputStream(openStream(resolveLocation(templateURIPath, templateURI, skeletonURI)[1]));
-            byte [] input = new byte [bufferedInputStream.available()];
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(openStream(resolveLocation(
+              templateURIPath,
+              templateURI,
+              skeletonURI)[1]));
+            byte[] input = new byte [bufferedInputStream.available()];
             bufferedInputStream.read(input);
             bufferedInputStream.close();
             skeleton.setCompilationUnitContents(new String(input));
@@ -161,7 +170,7 @@ public class JETCompiler implements JETParseEventListener
           }
         }
 
-        for (Iterator entries = attributes.entrySet().iterator(); entries.hasNext(); )
+        for (Iterator entries = attributes.entrySet().iterator(); entries.hasNext();)
         {
           Map.Entry entry = (Map.Entry)entries.next();
 
@@ -199,41 +208,39 @@ public class JETCompiler implements JETParseEventListener
             // Ignore the version
           }
 
-    /*
-          if ( attr.equals("package") )
-                  skeleton.setPackageName((String) attributes.get(attr));
+          /*
+           if ( attr.equals("package") )
+           skeleton.setPackageName((String) attributes.get(attr));
 
-          else if ( attr.equals("imports") )
-                  skeleton.setImportsList((String) attributes.get(attr));
+           else if ( attr.equals("imports") )
+           skeleton.setImportsList((String) attributes.get(attr));
 
-          else if ( attr.equals("class") )
-                  skeleton.setClassName((String) attributes.get(attr));
+           else if ( attr.equals("class") )
+           skeleton.setClassName((String) attributes.get(attr));
 
-          else if ( attr.equals("extends") )
-                  skeleton.setExtendsName((String) attributes.get(attr));
+           else if ( attr.equals("extends") )
+           skeleton.setExtendsName((String) attributes.get(attr));
 
-          else if ( attr.equals("implements") )
-                  skeleton.setImplementsList((String) attributes.get(attr));
+           else if ( attr.equals("implements") )
+           skeleton.setImplementsList((String) attributes.get(attr));
 
-          else if ( attr.equals("methodname") || attr.equals("methodName"))
-                  skeleton.setMethodName((String) attributes.get(attr));
+           else if ( attr.equals("methodname") || attr.equals("methodName"))
+           skeleton.setMethodName((String) attributes.get(attr));
 
-          else if ( attr.equals("throws") )
-                  skeleton.setThrowsList((String) attributes.get(attr));
+           else if ( attr.equals("throws") )
+           skeleton.setThrowsList((String) attributes.get(attr));
 
-          else if ( attr.equals("parameters") )
-                  skeleton.setParametersList((String) attributes.get(attr));
+           else if ( attr.equals("parameters") )
+           skeleton.setParametersList((String) attributes.get(attr));
 
-          else if ( attr.equals("writer") )
-                  skeleton.setWriterName((String) attributes.get(attr));
+           else if ( attr.equals("writer") )
+           skeleton.setWriterName((String) attributes.get(attr));
 
-    */
+           */
           else
-            throw 
-              new JETException
-                (CodeGenPlugin.getPlugin().getString
-                  ("jet.error.bad.attribute", 
-                   new Object [] { entry.getKey(), start.format("jet.mark.file.line.column") }));
+            throw new JETException(CodeGenPlugin.getPlugin().getString(
+              "jet.error.bad.attribute",
+              new Object []{ entry.getKey(), start.format("jet.mark.file.line.column") }));
         }
 
         handleNewSkeleton();
@@ -247,13 +254,13 @@ public class JETCompiler implements JETParseEventListener
 
   public void handleExpression(JETMark start, JETMark stop, Map attributes) throws JETException
   {
-    JETGenerator gen = new JETExpressionGenerator( reader.getChars(start, stop));
+    JETGenerator gen = new JETExpressionGenerator(reader.getChars(start, stop));
     addGenerator(gen);
   }
 
   public void handleScriptlet(JETMark start, JETMark stop, Map attributes) throws JETException
   {
-    fSavedLine = null;       
+    fSavedLine = null;
     JETGenerator gen = new JETScriptletGenerator(reader.getChars(start, stop));
     addGenerator(gen);
   }
@@ -270,11 +277,11 @@ public class JETCompiler implements JETParseEventListener
     }
     else
     {
-     addCharDataGenerator(chars);
+      addCharDataGenerator(chars);
     }
   }
 
-  public void addGenerator(JETGenerator gen) throws JETException 
+  public void addGenerator(JETGenerator gen) throws JETException
   {
     if (fSavedLine != null)
     {
@@ -284,7 +291,7 @@ public class JETCompiler implements JETParseEventListener
     generators.add(gen);
   }
 
-  public void addCharDataGenerator(char[] chars) throws JETException 
+  public void addCharDataGenerator(char[] chars) throws JETException
   {
     if (fUseStaticFinalConstants)
     {
@@ -311,10 +318,13 @@ public class JETCompiler implements JETParseEventListener
 
   protected char[] stripFirstNewLineWithBlanks(char[] chars)
   {
-    if (chars.length >=  2 && 
-          (chars[0] == '\n' && chars[1] == '\r' || chars[0] == '\r' && chars[1] == '\n'))
+    if (chars.length >= 2 && (chars[0] == '\n' && chars[1] == '\r' || chars[0] == '\r' && chars[1] == '\n'))
     {
       chars = new String(chars, 2, chars.length - 2).toCharArray();
+    }
+    else if (chars.length >= 1 && (chars[0] == '\n' || chars[0] == '\r'))
+    {
+      chars = new String(chars, 1, chars.length - 1).toCharArray();
     }
     return chars;
   }
@@ -322,13 +332,13 @@ public class JETCompiler implements JETParseEventListener
   protected char[] stripLastNewLineWithBlanks(char[] chars)
   {
     int i = chars.length - 1;
-    while ( i > 0 && chars[i] == ' ' )
+    while (i > 0 && chars[i] == ' ')
     {
       --i;
     }
     if (chars[i] == '\n')
     {
-      if (i > 0 && chars[i-1] == '\r')
+      if (i > 0 && chars[i - 1] == '\r')
       {
         --i;
       }
@@ -339,7 +349,7 @@ public class JETCompiler implements JETParseEventListener
       }
       else
       {
-        chars = new String(chars, 0, i+1).toCharArray();
+        chars = new String(chars, 0, i + 1).toCharArray();
         return chars;
       }
     }
@@ -357,29 +367,27 @@ public class JETCompiler implements JETParseEventListener
   {
     if (skeleton == null)
     {
-      throw
-        new JETException
-          (CodeGenPlugin.getPlugin().getString
-            ("jet.error.missing.jet.directive",
-              new Object [] { reader.mark().format("jet.mark.file.line.column") }));
+      throw new JETException(CodeGenPlugin.getPlugin().getString(
+        "jet.error.missing.jet.directive",
+        new Object []{ reader.mark().format("jet.mark.file.line.column") }));
     }
 
     // Add last line if saved
     //
-    if (fSavedLine != null)  
+    if (fSavedLine != null)
     {
       addCharDataGenerator(fSavedLine);
     }
 
     List generatedConstants = new ArrayList(constants.size());
-    for (Iterator i = constants.iterator(); i.hasNext(); )
+    for (Iterator i = constants.iterator(); i.hasNext();)
     {
       generatedConstants.add(((JETConstantDataGenerator)(i.next())).generateConstant());
     }
     skeleton.setConstants(generatedConstants);
 
     List generatedBody = new ArrayList(generators.size());
-    for (Iterator i = generators.iterator(); i.hasNext(); )
+    for (Iterator i = generators.iterator(); i.hasNext();)
     {
       generatedBody.add(((JETGenerator)(i.next())).generate());
     }
@@ -397,20 +405,20 @@ public class JETCompiler implements JETParseEventListener
     directive.getDirectives().add("include");
 
     JETCoreElement[] coreElements = 
-      {
-        directive,
-        new JETParser.QuoteEscape(), 
-        new JETParser.Expression(), 
-        new JETParser.Scriptlet()
-      };
+    	{ 
+    		directive, 
+    		new JETParser.QuoteEscape(), 
+    		new JETParser.Expression(), 
+    		new JETParser.Scriptlet()
+    	};
 
     Class[] accept = 
-      {
-        JETParser.Directive.class, 
-        JETParser.QuoteEscape.class, 
-        JETParser.Expression.class, 
-        JETParser.Scriptlet.class
-      };
+    	{ 
+    		JETParser.Directive.class, 
+    		JETParser.QuoteEscape.class, 
+    		JETParser.Expression.class, 
+    		JETParser.Scriptlet.class 
+    	};
 
     parse(coreElements, accept);
   }
@@ -424,7 +432,7 @@ public class JETCompiler implements JETParseEventListener
 
   public void generate(OutputStream oStream) throws JETException
   {
-    writer =  new PrintWriter(oStream);
+    writer = new PrintWriter(oStream);
     endPageProcessing();
     writer.close();
   }
@@ -434,9 +442,9 @@ public class JETCompiler implements JETParseEventListener
     return skeleton;
   }
 
-  protected static String [] resolveLocation(String [] templateURIPath, String baseLocationURI, String locationURI)
+  protected static String[] resolveLocation(String[] templateURIPath, String baseLocationURI, String locationURI)
   {
-    String [] result = new String [] { locationURI, locationURI };
+    String[] result = new String []{ locationURI, locationURI };
     try
     {
       String file;
@@ -479,7 +487,7 @@ public class JETCompiler implements JETParseEventListener
     return result;
   }
 
-  public static String find(String [] locationURIPath, String relativeLocationURI)
+  public static String find(String[] locationURIPath, String relativeLocationURI)
   {
     String result = null;
     for (int i = 0; i < locationURIPath.length; ++i)
