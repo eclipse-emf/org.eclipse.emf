@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.1 2004/05/21 22:13:38 elena Exp $
+ * $Id: RegEx.java,v 1.2 2004/05/26 13:54:36 elena Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -1261,7 +1261,7 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.1 2004/05/21 22:13:38 elena Exp $
+   * @version $Id: RegEx.java,v 1.2 2004/05/26 13:54:36 elena Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
       static final boolean DEBUG = false;
@@ -4832,7 +4832,7 @@ public final class RegEx
 
       public void setLocale(Locale locale) {
           try {
-              this.resources = ResourceBundle.getBundle("org.apache.xerces.impl.xpath.regex.message", locale);
+              this.resources = ResourceBundle.getBundle("org.eclipse.emf.ecore.xml.type.internal.message", locale);
           } catch (MissingResourceException mre) {
               throw new RuntimeException("Installation Problem???  Couldn't load messages: "
                                          +mre.getMessage());
@@ -7401,7 +7401,7 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.1 2004/05/21 22:13:38 elena Exp $
+   * @version $Id: RegEx.java,v 1.2 2004/05/26 13:54:36 elena Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {
