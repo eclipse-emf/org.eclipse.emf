@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.13 2004/06/23 15:25:55 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.14 2004/06/30 20:38:40 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -347,6 +347,28 @@ public class ChangeRecorder implements Adapter
     int eventType = notification.getEventType();
     switch (eventType)
     {
+      case Notification.SET:
+      case Notification.UNSET:
+      {
+        if (change == null && recording)
+        {
+          EList oldValue = new BasicEList(resource.getContents());
+          int index = notification.getPosition();
+          if (index != Notification.NO_INDEX)
+          {
+            oldValue.set(index, notification.getOldValue());
+          }
+          change = createResourceChange(resource, oldValue);
+          getResourceChanges().add(change);
+
+          Notifier newValue = (Notifier)notification.getNewValue();
+          if (newValue != null)
+          {
+            addAdapter(newValue);
+          }
+        }
+        break;
+      }
       case Notification.ADD:
       {
         if (change == null && recording)
