@@ -5,12 +5,12 @@
     editorDirectory="/org.eclipse.emf.mapping.ecore2ecore.editor/src" modelPluginID="org.eclipse.emf.mapping.ecore2ecore"
     runtimeJar="true" modelName="Ecore2Ecore" editPluginClass="org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePlugin"
     editorPluginClass="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorPlugin"
-    nonNLSMarkers="true" usedGenPackages="../../../org.eclipse.emf.mapping/src/model/Mapping.genmodel#//mapping ../../../org.eclipse.emf.ecore/src/model/Ecore.genmodel#//ecore">
+    nonNLSMarkers="true" runtimeCompatibility="false" usedGenPackages="../../../org.eclipse.emf.mapping/src/model/Mapping.genmodel#//mapping ../../../org.eclipse.emf.ecore/src/model/Ecore.genmodel#//ecore">
   <foreignModel>Ecore2Ecore.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>
   <genPackages prefix="Ecore2Ecore" basePackage="org.eclipse.emf.mapping" resource="XMI"
       ecorePackage="Ecore2Ecore.ecore#/">
-    <genClasses ecoreClass="Ecore2Ecore.ecore#//Ecore2EcoreMappingRoot"/>
+    <genClasses image="false" ecoreClass="Ecore2Ecore.ecore#//Ecore2EcoreMappingRoot"/>
   </genPackages>
 </genmodel:GenModel>
