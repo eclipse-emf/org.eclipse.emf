@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.6 2004/03/25 08:15:49 marcelop Exp $
+ * $Id: BuildTests.java,v 1.7 2004/03/25 08:31:56 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -730,7 +730,6 @@ public class BuildTests extends TestCase
   private String getExcludeFile(int type)
   {
     String file = EMFTestCorePlugin.getPlugin().getPluginDirectory() + File.separator + "chkpiiIgnoreFiles";
-    System.out.println(file);
     switch (type)
     {
       case HTML:
