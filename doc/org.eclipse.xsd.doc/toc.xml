@@ -13,15 +13,12 @@
 
 	<topic label="Online Docs">
 		<topic label="Release Notes">
-			<topic label="What's New in v2.1.0" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=2.1.0" />
-			<topic label="What's New in v2.0.1" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=2.0.1" />
-			<topic label="What's New in v2.0.0" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=2.0.0" />
-			<topic label="What's New in v1.1.1" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=1.1.1" />
-			<topic label="What's New in v1.1.0" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=1.1.0" />
-			<topic label="What's New in v1.0" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=1.0" />
+			<topic label="What's New in v2.1" href="http://www.eclipse.org/emf/news/release-notes.php?product=xsd&version=2.1" />
+			<topic label="What's New in v2.0" href="http://www.eclipse.org/emf/news/release-notes.php?product=xsd&version=2.0" />
+			<topic label="What's New in v1.x" href="http://www.eclipse.org/emf/news/release-notes-1.x.php" />
 		</topic>
 
-		<topic label="XSD FAQ" href="http://download.eclipse.org/technology/xsd/scripts/faq.php" />
+		<topic label="XSD FAQ" href="http://www.eclipse.org/emf/faq/faq.php?FAQ=XSD" />
 	</topic>
 
 	<topic label="Javadoc" href="references/javadoc/index.html"/>
