@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.10 2004/03/25 09:57:27 marcelop Exp $
+ * $Id: BuildTests.java,v 1.11 2004/03/25 10:21:15 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -634,7 +634,6 @@ public class BuildTests extends TestCase
   {
     Runtime aRuntime = Runtime.getRuntime();
     String chkpiiString = getChkpiiString(type);
-    System.out.println(chkpiiString);
     try
     {
       Process aProcess = aRuntime.exec(chkpiiString);
