@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbpricePackageImpl.java,v 1.1 2004/11/04 05:52:46 marcelop Exp $
+ * $Id: DbpricePackageImpl.java,v 1.2 2005/02/22 23:08:09 marcelop Exp $
  */
 package org.eclipse.emf.test.models.dbprice.impl;
 
@@ -109,7 +109,7 @@ public class DbpricePackageImpl extends EPackageImpl implements DbpricePackage
     XMLTypePackageImpl.init();
 
     // Obtain or create and register interdependencies
-    DbitemPackageImpl theDbitemPackage = (DbitemPackageImpl)(EPackage.Registry.INSTANCE.get(DbitemPackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(DbitemPackage.eNS_URI) : DbitemPackageImpl.eINSTANCE);
+    DbitemPackageImpl theDbitemPackage = (DbitemPackageImpl)(EPackage.Registry.INSTANCE.get(DbitemPackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(DbitemPackage.eNS_URI) : DbitemPackage.eINSTANCE);
 
     // Step 1: create meta-model objects
     theDbpricePackage.createPackageContents();

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbitemPackageImpl.java,v 1.1 2004/11/04 05:52:46 marcelop Exp $
+ * $Id: DbitemPackageImpl.java,v 1.2 2005/02/22 23:08:09 marcelop Exp $
  */
 package org.eclipse.emf.test.models.dbitem.impl;
 
@@ -103,7 +103,7 @@ public class DbitemPackageImpl extends EPackageImpl implements DbitemPackage
     isInited = true;
 
     // Obtain or create and register interdependencies
-    DbpricePackageImpl theDbpricePackage = (DbpricePackageImpl)(EPackage.Registry.INSTANCE.get(DbpricePackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(DbpricePackage.eNS_URI) : DbpricePackageImpl.eINSTANCE);
+    DbpricePackageImpl theDbpricePackage = (DbpricePackageImpl)(EPackage.Registry.INSTANCE.get(DbpricePackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(DbpricePackage.eNS_URI) : DbpricePackage.eINSTANCE);
 
     // Step 1: create meta-model objects
     theDbitemPackage.createPackageContents();

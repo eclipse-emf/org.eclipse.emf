@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DocumentRootImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: DocumentRootImpl.java,v 1.2 2005/02/22 23:08:12 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
@@ -179,7 +179,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public NotificationChain basicSetCustomers(CustomersType newCustomers, NotificationChain msgs)
   {
-    return ((FeatureMap.Internal)getMixed()).basicAdd(CustomerPackage.eINSTANCE.getDocumentRoot_Customers(), newCustomers, null);
+    return ((FeatureMap.Internal)getMixed()).basicAdd(CustomerPackage.eINSTANCE.getDocumentRoot_Customers(), newCustomers, msgs);
   }
 
   /**

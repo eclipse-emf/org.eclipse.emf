@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerPackageImpl.java,v 1.1 2004/11/04 05:52:46 marcelop Exp $
+ * $Id: CustomerPackageImpl.java,v 1.2 2005/02/22 23:08:09 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
@@ -190,8 +190,8 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     XMLTypePackageImpl.init();
 
     // Obtain or create and register interdependencies
-    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.get(OrderPackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(OrderPackage.eNS_URI) : OrderPackageImpl.eINSTANCE);
-    DbPackageImpl theDbPackage = (DbPackageImpl)(EPackage.Registry.INSTANCE.get(DbPackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(DbPackage.eNS_URI) : DbPackageImpl.eINSTANCE);
+    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.get(OrderPackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(OrderPackage.eNS_URI) : OrderPackage.eINSTANCE);
+    DbPackageImpl theDbPackage = (DbPackageImpl)(EPackage.Registry.INSTANCE.get(DbPackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(DbPackage.eNS_URI) : DbPackage.eINSTANCE);
 
     // Create package meta-data objects
     theCustomerPackage.createPackageContents();

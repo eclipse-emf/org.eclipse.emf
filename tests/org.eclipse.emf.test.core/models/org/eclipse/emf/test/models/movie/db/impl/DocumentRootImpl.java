@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DocumentRootImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: DocumentRootImpl.java,v 1.2 2005/02/22 23:08:12 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
@@ -216,7 +216,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public NotificationChain basicSetCriticsReview(CriticsReviewType newCriticsReview, NotificationChain msgs)
   {
-    return ((FeatureMap.Internal)getMixed()).basicAdd(DbPackage.eINSTANCE.getDocumentRoot_CriticsReview(), newCriticsReview, null);
+    return ((FeatureMap.Internal)getMixed()).basicAdd(DbPackage.eINSTANCE.getDocumentRoot_CriticsReview(), newCriticsReview, msgs);
   }
 
   /**
@@ -246,7 +246,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public NotificationChain basicSetCustomerReview(CustomerReviewType newCustomerReview, NotificationChain msgs)
   {
-    return ((FeatureMap.Internal)getMixed()).basicAdd(DbPackage.eINSTANCE.getDocumentRoot_CustomerReview(), newCustomerReview, null);
+    return ((FeatureMap.Internal)getMixed()).basicAdd(DbPackage.eINSTANCE.getDocumentRoot_CustomerReview(), newCustomerReview, msgs);
   }
 
   /**
@@ -296,7 +296,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public NotificationChain basicSetMovieDB(MovieDBType newMovieDB, NotificationChain msgs)
   {
-    return ((FeatureMap.Internal)getMixed()).basicAdd(DbPackage.eINSTANCE.getDocumentRoot_MovieDB(), newMovieDB, null);
+    return ((FeatureMap.Internal)getMixed()).basicAdd(DbPackage.eINSTANCE.getDocumentRoot_MovieDB(), newMovieDB, msgs);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.4 2005/01/25 21:35:19 elena Exp $
+ * $Id: AllSuites.java,v 1.5 2005/02/22 23:08:09 marcelop Exp $
  */
 package org.eclipse.emf.test.xml;
 
@@ -39,7 +39,7 @@ public class AllSuites extends TestSuite
 
   public static Test suite()
   {
-    return new AllSuites("EMF Edit JUnit Test Suite");
+    return new AllSuites("EMF XML and XMI JUnit Test Suite");
   }
 
   public AllSuites()

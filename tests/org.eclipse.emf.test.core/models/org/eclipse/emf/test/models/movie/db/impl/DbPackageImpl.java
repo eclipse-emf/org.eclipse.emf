@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbPackageImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: DbPackageImpl.java,v 1.2 2005/02/22 23:08:12 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
@@ -195,8 +195,8 @@ public class DbPackageImpl extends EPackageImpl implements DbPackage
     XMLTypePackageImpl.init();
 
     // Obtain or create and register interdependencies
-    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) : CustomerPackageImpl.eINSTANCE);
-    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) instanceof OrderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) : OrderPackageImpl.eINSTANCE);
+    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) : CustomerPackage.eINSTANCE);
+    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) instanceof OrderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) : OrderPackage.eINSTANCE);
 
     // Create package meta-data objects
     theDbPackage.createPackageContents();

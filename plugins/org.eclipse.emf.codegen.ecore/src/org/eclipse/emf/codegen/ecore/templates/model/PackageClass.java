@@ -394,7 +394,7 @@ public class PackageClass
     stringBuffer.append(TEXT_49);
     stringBuffer.append(interdep.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_50);
-    stringBuffer.append(interdep.getImportedPackageClassName());
+    stringBuffer.append(interdep.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_51);
     }
     stringBuffer.append(TEXT_52);
