@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.2 2004/04/01 11:30:13 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -56,6 +56,7 @@ import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDAttributeGroupDefinition;
 import org.eclipse.xsd.XSDAttributeUse;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDCompositor;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDDiagnostic;
 import org.eclipse.xsd.XSDDiagnosticSeverity;
@@ -2634,6 +2635,7 @@ public abstract class XSDConcreteComponentImpl
     }
     xsdModelGroupDefinition.setResolvedModelGroupDefinition(xsdModelGroupDefinition);
     XSDModelGroup xsdModelGroup = XSDFactory.eINSTANCE.createXSDModelGroup();
+    xsdModelGroup.setCompositor(XSDCompositor.SEQUENCE_LITERAL);
     xsdModelGroupDefinition.setModelGroup(xsdModelGroup);
     return xsdModelGroupDefinition;
   }
