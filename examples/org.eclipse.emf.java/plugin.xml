@@ -16,14 +16,14 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/10/29 19:21:02 marcelop Exp $
+ * $Id: plugin.xml,v 1.6 2004/11/29 19:52:53 emerks Exp $
  */
 -->
 
 <plugin
     name = "%pluginName"
     id = "org.eclipse.emf.java"
-    version = "2.0.1"
+    version = "2.1.0"
     provider-name = "%providerName" 
     class="org.eclipse.emf.java.JavaPlugin$Implementation"> 
 
@@ -39,6 +39,9 @@
     </library>
   </runtime>
 
+  <!-- 
+  These aren't registered to avoid collision with the Visual Editor.
+  
   <extension point = "org.eclipse.emf.ecore.extension_parser">
     <parser type="java" class="org.eclipse.emf.java.util.JavaResourceFactoryImpl"/>
   </extension>
@@ -46,5 +49,7 @@
   <extension point = "org.eclipse.emf.ecore.extension_parser">
     <parser type="packages" class="org.eclipse.emf.java.util.JavaPackageResourceFactoryImpl"/>
   </extension>
+
+  -->
 
 </plugin>
