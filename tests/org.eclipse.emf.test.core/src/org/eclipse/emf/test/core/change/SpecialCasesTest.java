@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.1 2004/09/01 13:11:35 emerks Exp $
+ * $Id: SpecialCasesTest.java,v 1.2 2004/10/22 19:25:49 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -53,14 +53,6 @@ public class SpecialCasesTest  extends TestCase
     ts.addTest(new SpecialCasesTest("testOneToOneContainment"));
     ts.addTest(new SpecialCasesTest("testBiDirectional"));
     return ts;
-  }
-
-  protected void setUp()
-  {
-  }
-  
-  protected void tearDown()
-  {
   }
 
   public void testFeatureMapChange() throws Exception
