@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.3 2004/05/16 17:29:58 emerks Exp $
+ * $Id: GenModelPackageImpl.java,v 1.4 2004/05/23 04:06:25 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -202,7 +202,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   {
     if (isInited) return (GenModelPackage)EPackage.Registry.INSTANCE.get(GenModelPackage.eNS_URI);
 
-    // Obtain or create and register package.
+    // Obtain or create and register package
     GenModelPackageImpl theGenModelPackage = (GenModelPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new GenModelPackageImpl());
 
     isInited = true;
@@ -210,12 +210,10 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     // Initialize simple dependencies
     EcorePackageImpl.init();
 
-    // Obtain or create and register interdependencies
-
-    // Step 1: create meta-model objects
+    // Create package meta-data objects
     theGenModelPackage.createPackageContents();
 
-    // Step 2: complete initialization
+    // Initialize created meta-data
     theGenModelPackage.initializePackageContents();
 
     return theGenModelPackage;
@@ -626,9 +624,9 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_EcorePackage()
+  public EAttribute getGenPackage_LoadInitialization()
   {
-    return (EReference)genPackageEClass.getEStructuralFeatures().get(4);
+    return (EAttribute)genPackageEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -636,7 +634,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenModel()
+  public EReference getGenPackage_EcorePackage()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(5);
   }
@@ -646,7 +644,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenEnums()
+  public EReference getGenPackage_GenModel()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(6);
   }
@@ -656,7 +654,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenDataTypes()
+  public EReference getGenPackage_GenEnums()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(7);
   }
@@ -666,7 +664,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenClasses()
+  public EReference getGenPackage_GenDataTypes()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(8);
   }
@@ -676,7 +674,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_NestedGenPackages()
+  public EReference getGenPackage_GenClasses()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(9);
   }
@@ -686,9 +684,19 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenClassifiers()
+  public EReference getGenPackage_NestedGenPackages()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(10);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getGenPackage_GenClassifiers()
+  {
+    return (EReference)genPackageEClass.getEStructuralFeatures().get(11);
   }
 
   /**
@@ -1112,6 +1120,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genPackageEClass, GEN_PACKAGE__BASE_PACKAGE);
     createEAttribute(genPackageEClass, GEN_PACKAGE__RESOURCE);
     createEAttribute(genPackageEClass, GEN_PACKAGE__ADAPTER_FACTORY);
+    createEAttribute(genPackageEClass, GEN_PACKAGE__LOAD_INITIALIZATION);
     createEReference(genPackageEClass, GEN_PACKAGE__ECORE_PACKAGE);
     createEReference(genPackageEClass, GEN_PACKAGE__GEN_MODEL);
     createEReference(genPackageEClass, GEN_PACKAGE__GEN_ENUMS);
@@ -1248,6 +1257,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenPackage_BasePackage(), ecorePackage.getEString(), "basePackage", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_Resource(), this.getGenResourceKind(), "resource", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_AdapterFactory(), ecorePackage.getEBoolean(), "adapterFactory", "true", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenPackage_LoadInitialization(), ecorePackage.getEBoolean(), "loadInitialization", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenPackage_EcorePackage(), theEcorePackage.getEPackage(), null, "ecorePackage", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenPackage_GenModel(), this.getGenModel(), this.getGenModel_GenPackages(), "genModel", null, 1, 1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenPackage_GenEnums(), this.getGenEnum(), null, "genEnums", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

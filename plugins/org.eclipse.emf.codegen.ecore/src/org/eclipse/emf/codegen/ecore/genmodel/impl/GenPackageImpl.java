@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.5 2004/05/16 17:29:58 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.6 2004/05/23 04:06:25 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -22,13 +22,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
@@ -91,6 +95,7 @@ import org.osgi.framework.Bundle;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getBasePackage <em>Base Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getResource <em>Resource</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isAdapterFactory <em>Adapter Factory</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isLoadInitialization <em>Load Initialization</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenEnums <em>Gen Enums</em>}</li>
@@ -186,6 +191,26 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected boolean adapterFactory = ADAPTER_FACTORY_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isLoadInitialization() <em>Load Initialization</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isLoadInitialization()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean LOAD_INITIALIZATION_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isLoadInitialization() <em>Load Initialization</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isLoadInitialization()
+   * @generated
+   * @ordered
+   */
+  protected boolean loadInitialization = LOAD_INITIALIZATION_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getEcorePackage() <em>Ecore Package</em>}' reference.
@@ -369,6 +394,29 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     adapterFactory = newAdapterFactory;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY, oldAdapterFactory, adapterFactory));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isLoadInitialization()
+  {
+    return loadInitialization;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setLoadInitialization(boolean newLoadInitialization)
+  {
+    boolean oldLoadInitialization = loadInitialization;
+    loadInitialization = newLoadInitialization;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION, oldLoadInitialization, loadInitialization));
   }
 
   public  EModelElement getEcoreModelElement()
@@ -623,6 +671,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return getResource();
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
         return isAdapterFactory() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
+        return isLoadInitialization() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         if (resolve) return getEcorePackage();
         return basicGetEcorePackage();
@@ -659,6 +709,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return resource != RESOURCE_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
         return adapterFactory != ADAPTER_FACTORY_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
+        return loadInitialization != LOAD_INITIALIZATION_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         return ecorePackage != null;
       case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
@@ -697,6 +749,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return;
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
         setAdapterFactory(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
+        setLoadInitialization(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)newValue);
@@ -745,6 +800,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
         setAdapterFactory(ADAPTER_FACTORY_EDEFAULT);
         return;
+      case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
+        setLoadInitialization(LOAD_INITIALIZATION_EDEFAULT);
+        return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)null);
         return;
@@ -785,6 +843,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(resource);
     result.append(", adapterFactory: ");
     result.append(adapterFactory);
+    result.append(", loadInitialization: ");
+    result.append(loadInitialization);
     result.append(')');
     return result.toString();
   }
@@ -1009,6 +1069,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return getGenClassifiers().indexOf(genClassifier);
   }
 
+  public int getLocalClassifierIndex(GenClassifier genClassifier)
+  {
+    return getEcorePackage().getEClassifiers().indexOf(genClassifier.getEcoreClassifier());
+  }
+
   public List getPackageSimpleDependencies()
   {
     return dependencyHelper.getSimpleDependencies();
@@ -1017,6 +1082,16 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   public List getPackageInterDependencies()
   {
     return dependencyHelper.getInterDependencies();
+  }
+
+  public List getPackageLoadInterDependencies()
+  {
+    return dependencyHelper.getLoadInterDependencies();
+  }
+
+  public List getPackageBuildInterDependencies()
+  {
+    return dependencyHelper.getBuildInterDependencies();
   }
 
   public List getPackageInitializationDependencies()
@@ -1036,8 +1111,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   private class DependencyHelper extends GenBaseImpl.UniqueNameHelper
   {
-    private List interDependencies;
     private List simpleDependencies;
+    private List interDependencies;
+    private List loadInterDependencies;
+    private List buildInterDependencies;
     private List initializationDependencies;
 
     public DependencyHelper()
@@ -1046,14 +1123,28 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       add(GenPackageImpl.this);
 
+      simpleDependencies = new ArrayList(getGenModel().getUsedGenPackages());
+      addAll(simpleDependencies);
+      
       interDependencies = new ArrayList();
       collectPackages(interDependencies, getGenModel().getGenPackages(), -1);
       interDependencies.remove(GenPackageImpl.this);
       addAll(interDependencies);
 
-      simpleDependencies = new ArrayList();
-      collectPackages(simpleDependencies, getGenModel().getUsedGenPackages(), -1);
-      addAll(simpleDependencies);
+      loadInterDependencies = new ArrayList();
+      buildInterDependencies = new ArrayList();
+      for (Iterator i = interDependencies.iterator(); i.hasNext(); )
+      {
+        GenPackage genPackage = (GenPackage)i.next();
+        if (genPackage.isLoadedInitialization())
+        {
+          loadInterDependencies.add(genPackage);
+        }
+        else
+        {
+          buildInterDependencies.add(genPackage);
+        }
+      }
 
       initializationDependencies = new UniqueEList();
       for (Iterator i = getSubGenPackages().iterator(); i.hasNext(); )
@@ -1145,14 +1236,24 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       return ((GenPackage)o).getPackageInterfaceName();
     }
 
+    public List getSimpleDependencies()
+    {
+      return simpleDependencies;
+    }
+
     public List getInterDependencies()
     {
       return interDependencies;
     }
 
-    public List getSimpleDependencies()
+    public List getLoadInterDependencies()
     {
-      return simpleDependencies;
+      return loadInterDependencies;
+    }
+
+    public List getBuildInterDependencies()
+    {
+      return buildInterDependencies;
     }
 
     public List getInitializationDependencies()
@@ -1209,6 +1310,45 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return null;
   }
 
+  public GenPackage getRootGenPackage()
+  {
+    GenPackage root = this;
+    while (true)
+    {
+      GenPackage container = root.getSuperGenPackage();
+      if (container == null)
+      {
+        return root;
+      }
+      else if (this == container)
+      {
+        throw new RuntimeException("inheritance loop at " + getPackageName());
+      }
+      root = container;
+    }
+  }
+
+  public boolean isLoadingInitialization()
+  {
+    return getRootGenPackage() == this && needsLoadInitialization(this);
+  }
+
+  public boolean isLoadedInitialization()
+  {
+    return needsLoadInitialization(getRootGenPackage());
+  }
+
+  private boolean needsLoadInitialization(GenPackage genPackage)
+  {
+    if (genPackage.isLoadInitialization()) return true;
+    
+    for (Iterator i = genPackage.getSubGenPackages().iterator(); i.hasNext(); )
+    {
+      if (needsLoadInitialization((GenPackage)i.next())) return true;
+    }
+    return false;
+  }
+  
   public boolean isEcorePackage()
   {
     return (EcorePackage.eNS_URI.equals(getNSURI()));
@@ -1516,6 +1656,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       genPackage.initialize(nestedEPackage);
       getNestedGenPackages().add(genPackage);
     }
+  
+    setLoadInitialization(isBigModel());
   }
 
   protected boolean hasModelContribution()
@@ -1529,7 +1671,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       if (!canGenerate()) return;
 
-      progressMonitor.beginTask("", 2 * getGenClasses().size() + 2 * getGenEnums().size() + 7 + getNestedGenPackages().size());
+      progressMonitor.beginTask("", 2 * getGenClasses().size() + 2 * getGenEnums().size() + 8 + getNestedGenPackages().size());
       progressMonitor.subTask
         (CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingPackage_message", new Object [] { getPackageInterfaceName() }));
 
@@ -1559,6 +1701,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         if (getGenModel().isGenerateSchema())
         {
           generateSchema();
+        }
+
+        if (isLoadingInitialization())
+        {
+          generatePackageSerialization(new SubProgressMonitor(progressMonitor, 1));
         }
 
         progressMonitor.subTask
@@ -1863,6 +2010,78 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       }
     }
   }
+
+  public void generatePackageSerialization(IProgressMonitor progressMonitor)
+  {
+    try
+    {
+      if (!canGenerate() || !isLoadingInitialization()) return;
+
+      String outputFile = getGenModel().getModelDirectory() + "/" + getClassPackageName().replace('.', '/') + "/" + getSerializedPackageFilename();
+
+      progressMonitor.beginTask("", 2);
+      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingPackageSerialization_message", new Object [] { outputFile }));
+
+      IPath outputFilePath = new Path(outputFile);
+      findOrCreateContainer
+        (new SubProgressMonitor(progressMonitor, 1),
+         Generator.EMF_MODEL_PROJECT_STYLE,
+         getGenModel().getEffectiveModelPluginVariables(),
+         outputFilePath.removeLastSegments(1),
+         false);
+
+      URI outputURI = URI.createPlatformResourceURI(outputFilePath.toString());
+      Resource outputResource = getEcorePackage().eResource();
+      ResourceSet set = outputResource.getResourceSet();
+
+      Map oldURIs = new HashMap();
+
+      // Set URIs of EPackage-containing resources: output resource to desired target URI, and others to package
+      // namespace URIs (so cross-references will be resolved via package registry when deserialized). 
+      //
+      for (Iterator i = set.getResources().iterator(); i.hasNext(); )
+      {
+        Resource resource = (Resource)i.next();
+        List contents = resource.getContents();
+        
+        if (!contents.isEmpty() && contents.get(0) instanceof EPackage)
+        {
+          EPackage ePackage = (EPackage)contents.get(0);
+          oldURIs.put(resource, resource.getURI());
+          resource.setURI(resource == outputResource ? outputURI : URI.createURI(ePackage.getNsURI()));
+        }        
+      }
+
+      try
+      {
+        outputResource.save(null);
+      }
+      catch (IOException exception)
+      {
+        CodeGenEcorePlugin.INSTANCE.log(exception);
+      }
+
+      // Restore original resource URI values.
+      //
+      for (Iterator i = set.getResources().iterator(); i.hasNext(); )
+      {
+        Resource resource = (Resource)i.next();
+        List contents = resource.getContents();
+        
+        if (!contents.isEmpty() && contents.get(0) instanceof EPackage)
+        {
+          EPackage ePackage = (EPackage)contents.get(0);
+          resource.setURI((URI)oldURIs.get(resource));
+        }        
+      }
+
+      progressMonitor.worked(1);
+    }
+    finally
+    {
+      progressMonitor.done();
+    }
+  }    
 
   //
   // EMFEdit generation
@@ -2553,5 +2772,48 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
     EAnnotation eAnnotation = getEcorePackage().getEAnnotation(XSD2ECORE_URI);
     return eAnnotation == null || eAnnotation.getDetails().get("targetNamespace") != null;
+  }
+
+  public String getSerializedPackageFilename()
+  {
+    return getName() + ".ecore";
+  }
+  
+  protected boolean isBigModel()
+  {
+    int classes = getGenClasses().size();
+    int supers = 0;
+    int features = 0;
+    int operations = 0;
+    int parameters = 0;
+    int exceptions = 0;
+    
+    for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
+    {
+      GenClass genClass = (GenClass)i.next();
+      supers += genClass.getEcoreClass().getESuperTypes().size();
+      features += genClass.getGenFeatures().size();
+      operations += genClass.getGenOperations().size();
+      
+      for (Iterator j = genClass.getGenOperations().iterator(); j.hasNext(); )
+      {
+        GenOperation genOperation = (GenOperation)j.next();
+        parameters += genOperation.getGenParameters().size();
+        exceptions += genOperation.getEcoreOperation().getEExceptions().size();
+      }
+    }
+
+    int enums = getGenEnums().size();
+    int literals = 0;
+
+    for (Iterator i = getGenEnums().iterator(); i.hasNext(); )
+    {
+      GenEnum genEnum = (GenEnum)i.next();
+      literals += genEnum.getGenEnumLiterals().size();
+    }
+
+    int datatypes = getGenDataTypes().size();
+
+    return (classes + supers + features + operations + parameters + exceptions + enums + literals + datatypes) > 500;
   }
 } //GenPackageImpl

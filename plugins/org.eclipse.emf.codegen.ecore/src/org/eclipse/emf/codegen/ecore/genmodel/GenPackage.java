@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.3 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenPackage.java,v 1.4 2004/05/23 04:06:25 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getBasePackage <em>Base Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getResource <em>Resource</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isAdapterFactory <em>Adapter Factory</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isLoadInitialization <em>Load Initialization</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenEnums <em>Gen Enums</em>}</li>
@@ -158,6 +159,32 @@ public interface GenPackage extends GenBase{
    * @generated
    */
   void setAdapterFactory(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Load Initialization</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If true, the package meta-data will be initialized by loading it from a resource, instead of building it up programmatically.
+   * This should be used for large packasges, for which the generated code for building it would excede the 64k method limit.
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Load Initialization</em>' attribute.
+   * @see #setLoadInitialization(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_LoadInitialization()
+   * @model 
+   * @generated
+   */
+  boolean isLoadInitialization();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isLoadInitialization <em>Load Initialization</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Load Initialization</em>' attribute.
+   * @see #isLoadInitialization()
+   * @generated
+   */
+  void setLoadInitialization(boolean value);
 
   /**
    * Returns the value of the '<em><b>Ecore Package</b></em>' reference.
@@ -342,9 +369,12 @@ public interface GenPackage extends GenBase{
 
   String getClassifierID(GenClassifier genClassifier);
   int getClassifierValue(GenClassifier genClassifier);
+  int getLocalClassifierIndex(GenClassifier genClassifier);
 
   List /*of GenPackage*/ getPackageSimpleDependencies();
   List /*of GenPackage*/ getPackageInterDependencies();
+  List /*of GenPackage*/ getPackageLoadInterDependencies();
+  List /*of GenPackage*/ getPackageBuildInterDependencies();
   List /*of GenPackage*/ getPackageInitializationDependencies();
   String getPackageInstanceVariable(GenPackage genPackage);
 
@@ -360,6 +390,22 @@ public interface GenPackage extends GenBase{
    */
   GenPackage getSuperGenPackage();
 
+  /**
+   * Returns the top-most GenPackage-typed container for which
+   * hasClassifiers() is true, which may be this GenPackage, itself.
+   */
+  GenPackage getRootGenPackage();
+  
+  /**
+   * Returns true if this is a root package that requires, or has a direct or indirect subpackage that requires, load initialization.
+   */
+  boolean isLoadingInitialization();
+  
+  /**
+   * Returns true if this package's root, which may be itself, requires, or has a subpackage that requires, load initialization.
+   */
+  boolean isLoadedInitialization();
+  
   boolean isEcorePackage();
   boolean hasInterfaceImplConflict();
   boolean hasJavaLangConflict();
@@ -436,4 +482,6 @@ public interface GenPackage extends GenBase{
   boolean hasTargetNamespace();
 
   boolean hasConstraints();
+
+  String getSerializedPackageFilename();
 }
