@@ -310,7 +310,7 @@ public class ValidatorClass
   protected final String TEXT_302 = NL + "\t\tint length = ";
   protected final String TEXT_303 = ".";
   protected final String TEXT_304 = ";  " + NL + "\t\tboolean ";
-  protected final String TEXT_305 = " = length < ";
+  protected final String TEXT_305 = " = length >= ";
   protected final String TEXT_306 = ";" + NL + "\t\tif (!";
   protected final String TEXT_307 = " && ";
   protected final String TEXT_308 = " != null) " + NL + "\t\t\treportMinLengthViolation(";
@@ -324,7 +324,7 @@ public class ValidatorClass
   protected final String TEXT_316 = NL + "\t\tint length = ";
   protected final String TEXT_317 = ".";
   protected final String TEXT_318 = ";  " + NL + "\t\tboolean ";
-  protected final String TEXT_319 = " = length > ";
+  protected final String TEXT_319 = " = length <= ";
   protected final String TEXT_320 = ";" + NL + "\t\tif (!";
   protected final String TEXT_321 = " && ";
   protected final String TEXT_322 = " != null) " + NL + "\t\t\treportMaxLengthViolation(";

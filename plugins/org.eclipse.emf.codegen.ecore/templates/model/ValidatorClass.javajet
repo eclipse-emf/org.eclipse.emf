@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.4 2004/06/11 16:09:55 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.5 2004/08/24 15:11:48 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -342,13 +342,13 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 <%}%>
 <%} else if (constraint.equals("MinLength") && genDataType.getMinLength() != -1) {%>
 		int length = <%=genDataType.getSafeUncapName()%>.<%=genDataType.getLengthAccessorFunction()%>;  
-		boolean <%=result%> = length < <%=genDataType.getMinLength()%>;
+		boolean <%=result%> = length >= <%=genDataType.getMinLength()%>;
 		if (!<%=result%> && <%=diagnostics%> != null) 
 			reportMinLengthViolation(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), <%=genDataType.getSafeUncapName()%>, length, <%=genDataType.getMinLength()%>, <%=diagnostics%>, <%=context%>);
 		return <%=result%>;
 <%} else if (constraint.equals("MaxLength") && genDataType.getMaxLength() != -1) {%>
 		int length = <%=genDataType.getSafeUncapName()%>.<%=genDataType.getLengthAccessorFunction()%>;  
-		boolean <%=result%> = length > <%=genDataType.getMaxLength()%>;
+		boolean <%=result%> = length <= <%=genDataType.getMaxLength()%>;
 		if (!<%=result%> && <%=diagnostics%> != null) 
 			reportMaxLengthViolation(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), <%=genDataType.getSafeUncapName()%>, length, <%=genDataType.getMaxLength()%>, <%=diagnostics%>, <%=context%>);
 		return <%=result%>;
