@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.5 2004/05/31 16:46:59 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.6 2004/06/01 22:16:25 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -564,20 +564,21 @@ public class AdapterFactoryEditingDomain implements EditingDomain
       for (Iterator i = treeIterator(getRoot(object)); i.hasNext(); )
       {
         Object element = i.next();
-        if (element instanceof IWrapperItemProvider)
+        Object elementValue = element; 
+        while (elementValue instanceof IWrapperItemProvider)
         {
-          Object elementValue = ((IWrapperItemProvider)element).getValue();
-          if (elementValue == object)
+          elementValue = ((IWrapperItemProvider)elementValue).getValue();
+        }
+        if (elementValue == object)
+        {
+          return element;
+        }
+        else if (elementValue instanceof FeatureMap.Entry)
+        {
+          Object entryValue = ((FeatureMap.Entry)elementValue).getValue();
+          if (entryValue == object)
           {
             return element;
-          }
-          else if (elementValue instanceof FeatureMap.Entry)
-          {
-            Object entryValue = ((FeatureMap.Entry)elementValue).getValue();
-            if (entryValue == object)
-            {
-              return element;
-            }
           }
         }
       }
