@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.2 2004/12/28 22:40:02 marcelop Exp $
+ * $Id: XSDValidateTest.java,v 1.3 2004/12/28 23:20:08 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -245,8 +245,8 @@ public class XSDValidateTest extends TestCase
       "XSD: The type may not have duplicate name and target namespace 'http://www.example.com/Bad#badComplexExtension'",
       "XSD: The type may not have duplicate name and target namespace 'http://www.example.com/Bad#badSimpleBaseForRestrictionSimpleContent'",
       "XSD: The location 'Other.xsd' has not been resolved",
-      "XSD: The attribute 'minOccurs' is not permitted",
       "XSD: The attribute 'maxOccurs' is not permitted",
+      "XSD: The attribute 'minOccurs' is not permitted",
       "XSD: The value 'id:id' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#sequence' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#all'; expecting annotation | element | nothing",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#annotation' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#explicitGroup'; expecting choice | sequence | element | any | group | nothing",
