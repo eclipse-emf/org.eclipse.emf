@@ -78,7 +78,27 @@
 		    (object Class "D"
 			quid       	"412355B20125")
 		    (object Class "E"
-			quid       	"4123579B00CE")
+			quid       	"4123579B00CE"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "name"
+				quid       	"4162B274027D"
+				type       	"String"
+				exportControl 	"Public")
+			    (object ClassAttribute "ids"
+				quid       	"4162B2780111"
+				stereotype 	"0..*"
+				type       	"String"
+				exportControl 	"Public")
+			    (object ClassAttribute "labels"
+				attributes 	(list Attribute_Set
+				    (object Attribute
+					tool       	"Ecore"
+					name       	"isUnique"
+					value      	FALSE))
+				quid       	"4162BB1C03D8"
+				stereotype 	"0..*"
+				type       	"String"
+				exportControl 	"Public")))
 		    (object Association "$UNNAMED$0"
 			quid       	"4122BDEB0227"
 			roles      	(list role_list
@@ -258,10 +278,10 @@
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
-				location   	(624, 224)
+				location   	(464, 192)
 				label      	(object ItemLabel
 				    Parent_View 	@1
-				    location   	(543, 173)
+				    location   	(383, 141)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	162
@@ -277,10 +297,10 @@
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
-				location   	(624, 416)
+				location   	(464, 384)
 				label      	(object ItemLabel
 				    Parent_View 	@2
-				    location   	(543, 365)
+				    location   	(383, 333)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	162
@@ -296,10 +316,10 @@
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
-				location   	(336, 688)
+				location   	(176, 656)
 				label      	(object ItemLabel
 				    Parent_View 	@3
-				    location   	(255, 637)
+				    location   	(95, 605)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	162
@@ -312,17 +332,17 @@
 				height     	126
 				autoResize 	TRUE)
 			    (object AssociationViewNew "$UNNAMED$0" @4
-				location   	(340, 330)
+				location   	(180, 298)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4122BDEB0227"
 				roleview_list 	(list RoleViews
 				    (object RoleView "$UNNAMED$1" @5
 					Parent_View 	@4
-					location   	(-92, -246)
+					location   	(-252, -278)
 					label      	(object SegLabel @6
 					    Parent_View 	@5
-					    location   	(475, 189)
+					    location   	(315, 157)
 					    hidden     	TRUE
 					    anchor     	1
 					    anchor_loc 	1
@@ -339,18 +359,18 @@
 					client     	@4
 					supplier   	@1
 					vertices   	(list Points
-					    (340, 330)
-					    (340, 230)
-					    (534, 230))
+					    (180, 298)
+					    (180, 198)
+					    (374, 198))
 					line_style 	3
-					origin_attachment 	(340, 330)
-					terminal_attachment 	(534, 230))
+					origin_attachment 	(180, 298)
+					terminal_attachment 	(374, 198))
 				    (object RoleView "a" @7
 					Parent_View 	@4
-					location   	(-92, -246)
+					location   	(-252, -278)
 					label      	(object SegLabel @8
 					    Parent_View 	@7
-					    location   	(316, 523)
+					    location   	(156, 491)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -366,11 +386,11 @@
 					client     	@4
 					supplier   	@3
 					line_style 	3
-					origin_attachment 	(340, 330)
-					terminal_attachment 	(340, 625)
+					origin_attachment 	(180, 298)
+					terminal_attachment 	(180, 593)
 					label      	(object SegLabel @9
 					    Parent_View 	@7
-					    location   	(313, 594)
+					    location   	(153, 562)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -381,17 +401,17 @@
 					    height     	28
 					    orientation 	1))))
 			    (object AssociationViewNew "$UNNAMED$6" @10
-				location   	(479, 551)
+				location   	(319, 519)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4122BEE80260"
 				roleview_list 	(list RoleViews
 				    (object RoleView "c2" @11
 					Parent_View 	@10
-					location   	(127, -57)
+					location   	(-33, -89)
 					label      	(object SegLabel @12
 					    Parent_View 	@11
-					    location   	(482, 484)
+					    location   	(322, 452)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -409,7 +429,7 @@
 					line_style 	0
 					label      	(object SegLabel @13
 					    Parent_View 	@11
-					    location   	(583, 526)
+					    location   	(423, 494)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -421,10 +441,10 @@
 					    orientation 	1))
 				    (object RoleView "a" @14
 					Parent_View 	@10
-					location   	(127, -57)
+					location   	(-33, -89)
 					label      	(object SegLabel @15
 					    Parent_View 	@14
-					    location   	(407, 580)
+					    location   	(247, 548)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -442,7 +462,7 @@
 					line_style 	0
 					label      	(object SegLabel @16
 					    Parent_View 	@14
-					    location   	(479, 589)
+					    location   	(319, 557)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -456,10 +476,10 @@
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
-				location   	(912, 688)
+				location   	(752, 656)
 				label      	(object ItemLabel
 				    Parent_View 	@17
-				    location   	(831, 637)
+				    location   	(671, 605)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	162
@@ -472,17 +492,17 @@
 				height     	126
 				autoResize 	TRUE)
 			    (object AssociationViewNew "$UNNAMED$2" @18
-				location   	(906, 328)
+				location   	(746, 296)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4122BDEE02CC"
 				roleview_list 	(list RoleViews
 				    (object RoleView "$UNNAMED$3" @19
 					Parent_View 	@18
-					location   	(74, -248)
+					location   	(-86, -280)
 					label      	(object SegLabel @20
 					    Parent_View 	@19
-					    location   	(774, 183)
+					    location   	(614, 151)
 					    hidden     	TRUE
 					    anchor     	1
 					    anchor_loc 	1
@@ -499,18 +519,18 @@
 					client     	@18
 					supplier   	@1
 					vertices   	(list Points
-					    (906, 328)
-					    (906, 224)
-					    (714, 224))
+					    (746, 296)
+					    (746, 192)
+					    (554, 192))
 					line_style 	3
-					origin_attachment 	(906, 328)
-					terminal_attachment 	(714, 224))
+					origin_attachment 	(746, 296)
+					terminal_attachment 	(554, 192))
 				    (object RoleView "b" @21
 					Parent_View 	@18
-					location   	(74, -248)
+					location   	(-86, -280)
 					label      	(object SegLabel @22
 					    Parent_View 	@21
-					    location   	(962, 519)
+					    location   	(802, 487)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -526,11 +546,11 @@
 					client     	@18
 					supplier   	@17
 					line_style 	3
-					origin_attachment 	(906, 328)
-					terminal_attachment 	(906, 625)
+					origin_attachment 	(746, 296)
+					terminal_attachment 	(746, 593)
 					label      	(object SegLabel @23
 					    Parent_View 	@21
-					    location   	(976, 595)
+					    location   	(816, 563)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -541,17 +561,17 @@
 					    height     	70
 					    orientation 	0))))
 			    (object AssociationViewNew "$UNNAMED$5" @24
-				location   	(767, 551)
+				location   	(607, 519)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4122BECA029C"
 				roleview_list 	(list RoleViews
 				    (object RoleView "c2" @25
 					Parent_View 	@24
-					location   	(-161, -57)
+					location   	(-321, -89)
 					label      	(object SegLabel @26
 					    Parent_View 	@25
-					    location   	(769, 484)
+					    location   	(609, 452)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -569,7 +589,7 @@
 					line_style 	0
 					label      	(object SegLabel @27
 					    Parent_View 	@25
-					    location   	(663, 525)
+					    location   	(503, 493)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -581,10 +601,10 @@
 					    orientation 	0))
 				    (object RoleView "b" @28
 					Parent_View 	@24
-					location   	(-161, -57)
+					location   	(-321, -89)
 					label      	(object SegLabel @29
 					    Parent_View 	@28
-					    location   	(765, 589)
+					    location   	(605, 557)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -602,7 +622,7 @@
 					line_style 	0
 					label      	(object SegLabel @30
 					    Parent_View 	@28
-					    location   	(860, 590)
+					    location   	(700, 558)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -613,17 +633,17 @@
 					    height     	37
 					    orientation 	0))))
 			    (object AssociationViewNew "$UNNAMED$4" @31
-				location   	(623, 688)
+				location   	(463, 656)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4122BE01012C"
 				roleview_list 	(list RoleViews
 				    (object RoleView "b" @32
 					Parent_View 	@31
-					location   	(223, 80)
+					location   	(63, 48)
 					label      	(object SegLabel @33
 					    Parent_View 	@32
-					    location   	(780, 647)
+					    location   	(620, 615)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -641,7 +661,7 @@
 					line_style 	0
 					label      	(object SegLabel @34
 					    Parent_View 	@32
-					    location   	(784, 742)
+					    location   	(624, 710)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -653,10 +673,10 @@
 					    orientation 	1))
 				    (object RoleView "a" @35
 					Parent_View 	@31
-					location   	(223, 80)
+					location   	(63, 48)
 					label      	(object SegLabel @36
 					    Parent_View 	@35
-					    location   	(466, 647)
+					    location   	(306, 615)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -674,7 +694,7 @@
 					line_style 	0
 					label      	(object SegLabel @37
 					    Parent_View 	@35
-					    location   	(462, 742)
+					    location   	(302, 710)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -688,10 +708,10 @@
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
-				location   	(336, 1024)
+				location   	(176, 992)
 				label      	(object ItemLabel
 				    Parent_View 	@38
-				    location   	(255, 973)
+				    location   	(95, 941)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	162
@@ -704,17 +724,17 @@
 				height     	126
 				autoResize 	TRUE)
 			    (object AssociationViewNew "$UNNAMED$7" @39
-				location   	(336, 855)
+				location   	(176, 823)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"412355D802A6"
 				roleview_list 	(list RoleViews
 				    (object RoleView "c" @40
 					Parent_View 	@39
-					location   	(-16, 247)
+					location   	(-176, 215)
 					label      	(object SegLabel @41
 					    Parent_View 	@40
-					    location   	(280, 921)
+					    location   	(120, 889)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -732,7 +752,7 @@
 					line_style 	0
 					label      	(object SegLabel @42
 					    Parent_View 	@40
-					    location   	(393, 918)
+					    location   	(233, 886)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -744,7 +764,7 @@
 					    orientation 	0))
 				    (object RoleView "$UNNAMED$8" @43
 					Parent_View 	@39
-					location   	(-16, 247)
+					location   	(-176, 215)
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"412355D9014A"
@@ -755,29 +775,38 @@
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
-				location   	(1472, 1024)
+				location   	(1360, 992)
 				label      	(object ItemLabel
 				    Parent_View 	@44
-				    location   	(1391, 973)
+				    location   	(1146, 861)
 				    fill_color 	13434879
 				    nlines     	1
-				    max_width  	162
+				    max_width  	428
 				    justify    	0
 				    label      	"E")
 				icon_style 	"Icon"
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"4123579B00CE"
-				height     	126
+				compartment 	(object Compartment
+				    Parent_View 	@44
+				    location   	(1146, 921)
+				    icon_style 	"Icon"
+				    fill_color 	16777215
+				    anchor     	2
+				    nlines     	4
+				    max_width  	425)
+				width      	446
+				height     	286
 				autoResize 	TRUE)
 			    (object ClassView "Class" "Logical View::ref::D" @45
 				ShowCompartmentStereotypes 	TRUE
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
-				location   	(912, 1024)
+				location   	(752, 992)
 				label      	(object ItemLabel
 				    Parent_View 	@45
-				    location   	(831, 973)
+				    location   	(671, 941)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	162
@@ -790,17 +819,17 @@
 				height     	126
 				autoResize 	TRUE)
 			    (object AssociationViewNew "$UNNAMED$9" @46
-				location   	(912, 855)
+				location   	(752, 823)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"412355DC034C"
 				roleview_list 	(list RoleViews
 				    (object RoleView "d" @47
 					Parent_View 	@46
-					location   	(-16, 247)
+					location   	(-176, 215)
 					label      	(object SegLabel @48
 					    Parent_View 	@47
-					    location   	(857, 918)
+					    location   	(697, 886)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -818,7 +847,7 @@
 					line_style 	0
 					label      	(object SegLabel @49
 					    Parent_View 	@47
-					    location   	(982, 914)
+					    location   	(822, 882)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -830,7 +859,7 @@
 					    orientation 	0))
 				    (object RoleView "$UNNAMED$10" @50
 					Parent_View 	@46
-					location   	(-16, 247)
+					location   	(-176, 215)
 					stereotype 	TRUE
 					line_color 	3342489
 					quidu      	"412355DD025E"
@@ -838,17 +867,17 @@
 					supplier   	@17
 					line_style 	0)))
 			    (object AssociationViewNew "$UNNAMED$11" @51
-				location   	(623, 1024)
+				location   	(463, 992)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"412355F80139"
 				roleview_list 	(list RoleViews
 				    (object RoleView "d" @52
 					Parent_View 	@51
-					location   	(271, 160)
+					location   	(111, 128)
 					label      	(object SegLabel @53
 					    Parent_View 	@52
-					    location   	(762, 984)
+					    location   	(602, 952)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -866,7 +895,7 @@
 					line_style 	0
 					label      	(object SegLabel @54
 					    Parent_View 	@52
-					    location   	(767, 1077)
+					    location   	(607, 1045)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -878,10 +907,10 @@
 					    orientation 	1))
 				    (object RoleView "c" @55
 					Parent_View 	@51
-					location   	(271, 160)
+					location   	(111, 128)
 					label      	(object SegLabel @56
 					    Parent_View 	@55
-					    location   	(466, 983)
+					    location   	(306, 951)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -899,7 +928,7 @@
 					line_style 	0
 					label      	(object SegLabel @57
 					    Parent_View 	@55
-					    location   	(462, 1077)
+					    location   	(302, 1045)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -910,17 +939,17 @@
 					    height     	53
 					    orientation 	0))))
 			    (object AssociationViewNew "$UNNAMED$12" @58
-				location   	(1191, 1024)
+				location   	(989, 992)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"412357C5016E"
 				roleview_list 	(list RoleViews
 				    (object RoleView "e" @59
 					Parent_View 	@58
-					location   	(263, 112)
+					location   	(61, 80)
 					label      	(object SegLabel @60
 					    Parent_View 	@59
-					    location   	(1327, 984)
+					    location   	(1094, 952)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -938,7 +967,7 @@
 					line_style 	0
 					label      	(object SegLabel @61
 					    Parent_View 	@59
-					    location   	(1325, 1077)
+					    location   	(1093, 1045)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -950,10 +979,10 @@
 					    orientation 	1))
 				    (object RoleView "d" @62
 					Parent_View 	@58
-					location   	(263, 112)
+					location   	(61, 80)
 					label      	(object SegLabel @63
 					    Parent_View 	@62
-					    location   	(1062, 984)
+					    location   	(890, 952)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -971,21 +1000,21 @@
 					line_style 	0
 					label      	(object SegLabel @64
 					    Parent_View 	@62
-					    location   	(1056, 1077)
+					    location   	(899, 1045)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
 					    max_width  	15
 					    justify    	0
 					    label      	"0..*"
-					    pctDist    	0.714286
+					    pctDist    	0.612245
 					    height     	53
 					    orientation 	0))))
 			    (object NoteView @65
-				location   	(1600, 496)
+				location   	(1440, 432)
 				label      	(object ItemLabel
 				    Parent_View 	@65
-				    location   	(1187, 168)
+				    location   	(1027, 104)
 				    fill_color 	13434879
 				    nlines     	13
 				    max_width  	790

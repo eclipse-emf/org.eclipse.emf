@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EItemProvider.java,v 1.1 2004/08/22 23:34:56 davidms Exp $
+ * $Id: EItemProvider.java,v 1.2 2004/10/20 23:14:51 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -23,6 +23,9 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import org.eclipse.emf.edit.provider.ViewerNotification;
+
+import org.eclipse.emf.test.models.ref.E;
 import org.eclipse.emf.test.models.ref.RefPackage;
 
 /**
@@ -63,9 +66,69 @@ public class EItemProvider
     {
       super.getPropertyDescriptors(object);
 
+      addNamePropertyDescriptor(object);
+      addIdsPropertyDescriptor(object);
+      addLabelsPropertyDescriptor(object);
       addDPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
+  }
+
+  /**
+   * This adds a property descriptor for the Name feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addNamePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_E_name_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_E_name_feature", "_UI_E_type"),
+         RefPackage.eINSTANCE.getE_Name(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+  }
+
+  /**
+   * This adds a property descriptor for the Ids feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addIdsPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_E_ids_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_E_ids_feature", "_UI_E_type"),
+         RefPackage.eINSTANCE.getE_Ids(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+  }
+
+  /**
+   * This adds a property descriptor for the Labels feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addLabelsPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_E_labels_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_E_labels_feature", "_UI_E_type"),
+         RefPackage.eINSTANCE.getE_Labels(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
   }
 
   /**
@@ -94,7 +157,10 @@ public class EItemProvider
    */
   public String getText(Object object)
   {
-    return getString("_UI_E_type");
+    String label = ((E)object).getName();
+    return label == null || label.length() == 0 ?
+      getString("_UI_E_type") :
+      getString("_UI_E_type") + " " + label;
   }
 
   /**
@@ -107,6 +173,15 @@ public class EItemProvider
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
+
+    switch (notification.getFeatureID(E.class))
+    {
+      case RefPackage.E__NAME:
+      case RefPackage.E__IDS:
+      case RefPackage.E__LABELS:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+        return;
+    }
     super.notifyChanged(notification);
   }
 

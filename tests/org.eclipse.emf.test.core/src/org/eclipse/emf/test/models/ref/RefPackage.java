@@ -2,10 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefPackage.java,v 1.1 2004/08/22 23:34:56 davidms Exp $
+ * $Id: RefPackage.java,v 1.2 2004/10/20 23:14:51 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -24,8 +25,7 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.emf.test.models.ref.RefFactory
  * @generated
  */
-public interface RefPackage extends EPackage
-{
+public interface RefPackage extends EPackage{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -300,13 +300,40 @@ public interface RefPackage extends EPackage
   int E = 6;
 
   /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int E__NAME = 0;
+
+  /**
+   * The feature id for the '<em><b>Ids</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int E__IDS = 1;
+
+  /**
+   * The feature id for the '<em><b>Labels</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int E__LABELS = 2;
+
+  /**
    * The feature id for the '<em><b>D</b></em>' reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int E__D = 0;
+  int E__D = 3;
 
   /**
    * The number of structural features of the the '<em>E</em>' class.
@@ -315,7 +342,7 @@ public interface RefPackage extends EPackage
    * @generated
    * @ordered
    */
-  int E_FEATURE_COUNT = 1;
+  int E_FEATURE_COUNT = 4;
 
 
   /**
@@ -530,6 +557,39 @@ public interface RefPackage extends EPackage
    * @generated
    */
   EClass getE();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.models.ref.E#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see org.eclipse.emf.test.models.ref.E#getName()
+   * @see #getE()
+   * @generated
+   */
+  EAttribute getE_Name();
+
+  /**
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.models.ref.E#getIds <em>Ids</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Ids</em>'.
+   * @see org.eclipse.emf.test.models.ref.E#getIds()
+   * @see #getE()
+   * @generated
+   */
+  EAttribute getE_Ids();
+
+  /**
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.models.ref.E#getLabels <em>Labels</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Labels</em>'.
+   * @see org.eclipse.emf.test.models.ref.E#getLabels()
+   * @see #getE()
+   * @generated
+   */
+  EAttribute getE_Labels();
 
   /**
    * Returns the meta object for the reference list '{@link org.eclipse.emf.test.models.ref.E#getD <em>D</em>}'.

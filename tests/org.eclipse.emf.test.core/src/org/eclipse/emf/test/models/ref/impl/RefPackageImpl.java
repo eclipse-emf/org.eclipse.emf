@@ -2,10 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefPackageImpl.java,v 1.1 2004/08/22 23:34:56 davidms Exp $
+ * $Id: RefPackageImpl.java,v 1.2 2004/10/20 23:14:51 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -354,9 +355,39 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getE_Name()
+  {
+    return (EAttribute)eEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getE_Ids()
+  {
+    return (EAttribute)eEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getE_Labels()
+  {
+    return (EAttribute)eEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getE_D()
   {
-    return (EReference)eEClass.getEStructuralFeatures().get(0);
+    return (EReference)eEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -415,6 +446,9 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
     createEReference(dEClass, D__E);
 
     eEClass = createEClass(E);
+    createEAttribute(eEClass, E__NAME);
+    createEAttribute(eEClass, E__IDS);
+    createEAttribute(eEClass, E__LABELS);
     createEReference(eEClass, E__D);
   }
 
@@ -471,6 +505,9 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
     initEReference(getD_E(), this.getE(), this.getE_D(), "e", null, 0, -1, D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(eEClass, E.class, "E", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getE_Name(), ecorePackage.getEString(), "name", null, 0, 1, E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getE_Ids(), ecorePackage.getEString(), "ids", null, 0, -1, E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getE_Labels(), ecorePackage.getEString(), "labels", null, 0, -1, E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getE_D(), this.getD(), this.getD_E(), "d", null, 0, -1, E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Create resource

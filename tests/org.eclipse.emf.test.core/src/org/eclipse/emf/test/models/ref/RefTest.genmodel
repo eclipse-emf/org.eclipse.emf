@@ -34,6 +34,9 @@
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//D/e"/>
     </genClasses>
     <genClasses image="false" ecoreClass="RefTest.ecore#//E">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTest.ecore#//E/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTest.ecore#//E/ids"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTest.ecore#//E/labels"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//E/d"/>
     </genClasses>
   </genPackages>
