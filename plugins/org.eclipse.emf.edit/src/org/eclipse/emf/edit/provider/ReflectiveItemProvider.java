@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.5 2004/05/26 15:15:44 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.6 2004/06/18 15:20:36 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -78,7 +78,7 @@ public class ReflectiveItemProvider
                getResourceLocator().getString
                  ("_UI_Property_description", new Object [] { getFeatureText(eFeature), eFeature.getEType().getName() }),
                eFeature,
-               !eFeature.isMany(),
+               eFeature.isChangeable(),
                ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
         }
       }
