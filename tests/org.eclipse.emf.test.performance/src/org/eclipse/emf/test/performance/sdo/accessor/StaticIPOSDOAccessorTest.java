@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.24 2005/04/01 17:59:25 nickb Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.25 2005/04/04 18:18:26 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -49,14 +49,14 @@ import commonj.sdo.Property;
 public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 {
 
-  protected static final int ITERATIONS_40K =    32000; //40000;
+  protected static final int ITERATIONS_40K = 32000000; //40000;
 
-  protected static final int ITERATIONS_400K =  320000; //400000;
+  protected static final int ITERATIONS_400K = 320000000; //400000;
 
-  protected static final int ITERATIONS_800K =  640000; //800000;
+  protected static final int ITERATIONS_800K = 640000000; //800000;
 
-  protected static final int ITERATIONS_1_6M = 1280000; // should be 12.8 billion but that's too big for an int, so do 10 reps of this
-  protected static final int ITERATIONS_600K =  480000;
+  protected static final int ITERATIONS_1_6M =  1280000000; // should be 12.8 billion but that's too big for an int, so do 10 reps of this
+  protected static final int ITERATIONS_600K = 480000000;
 
   // values for get with generated code.
   protected Address addressBillToValue;
@@ -79,18 +79,18 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 //    testSuite.addTest(new StaticIPOSDOAccessorTest("getFromMap").setWarmUp(500).setRepetitions(REPETITIONS_10));
 //    testSuite.addTest(new StaticIPOSDOAccessorTest("setInMap").setWarmUp(2000).setRepetitions(REPETITIONS_10));
 //
-    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByGenerated").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByGenerated").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByGenerated").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByGenerated").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
 
-    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectWithESet").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectWithESet").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
 
-    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByIndex").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByIndex").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByIndex").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByIndex").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
 
-    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
 
 	//    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByGenerated").setWarmUp(3000).setRepetitions(REPETITIONS_10));
 	//    testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByGenerated").setWarmUp(1000).setRepetitions(REPETITIONS_10));
