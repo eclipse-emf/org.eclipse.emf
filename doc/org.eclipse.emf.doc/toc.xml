@@ -16,11 +16,11 @@
 	</topic>
 
 	<topic label="Release Notes">
-		<topic label="What's New in v2.0.0" href="news/release-notes2.0.0.html" />
-		<topic label="What's New in v1.1.1" href="news/release-notes1.1.1.html" />
-		<topic label="What's New in v1.1.0" href="news/release-notes1.1.0.html" />
-		<topic label="What's New in v1.0.2" href="news/release-notes1.0.2.html" />
-		<topic label="What's New in v1.0.1" href="news/release-notes1.0.1.html" />
+		<topic label="What's New in v2.0.0" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=2.0.0" />
+		<topic label="What's New in v1.1.1" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.1.1" />
+		<topic label="What's New in v1.1.0" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.1.0" />
+		<topic label="What's New in v1.0.2" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.2" />
+		<topic label="What's New in v1.0.1" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.1" />
 	</topic>
 
 	<topic label="Javadoc" href="references/javadoc/index.html"/>
