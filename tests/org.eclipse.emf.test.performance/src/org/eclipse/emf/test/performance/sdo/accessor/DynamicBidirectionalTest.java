@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: DynamicBidirectionalTest.java,v 1.4 2005/03/18 16:20:37 nickb Exp $
+ * $Id: DynamicBidirectionalTest.java,v 1.5 2005/04/02 15:19:22 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
+
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -24,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.test.performance.EMFPerformanceTestCase;
 
+import com.example.sdo.library.Library;
 import com.example.sdo.library.LibraryFactory;
 import com.example.sdo.library.util.DoNothingAdapter;
 import commonj.sdo.DataObject;
@@ -42,13 +45,7 @@ public class DynamicBidirectionalTest extends EMFPerformanceTestCase
 
   protected DoNothingAdapter adapter = DoNothingAdapter.INSTANCE;
 
-  DataObject book0;
-
-  DataObject book1;
-
-  DataObject writer0;
-
-  DataObject writer1;
+  DataObject lib;
 
   // model
 
@@ -78,10 +75,6 @@ public class DynamicBidirectionalTest extends EMFPerformanceTestCase
     super.setUp();
     tagAsSummary("Performance Results for " + getClass().getName(), TIME_DIMENSIONS);
     libSetup();
-    assertNotNull(book0);
-    assertNotNull(book1);
-    assertNotNull(writer0);
-    assertNotNull(writer1);
   }
 
   protected void libSetup()
@@ -91,9 +84,12 @@ public class DynamicBidirectionalTest extends EMFPerformanceTestCase
 
   public void setWithESet()
   {
-    EObject book0 = (EObject)this.book0;
-    Object writer0 = this.writer0;
-    Object writer1 = this.writer1;
+    // TODO this won't work for dynamic!
+    Library lib = (Library)this.lib;
+    List writers = lib.getWriters();
+    EObject book0 = (EObject)lib.getBooks().get(0);
+    Object writer0 = writers.get(0);
+    Object writer1 = writers.get(1);
     EStructuralFeature authorFeat = this.authorFeat;
 
     startMeasuring();
