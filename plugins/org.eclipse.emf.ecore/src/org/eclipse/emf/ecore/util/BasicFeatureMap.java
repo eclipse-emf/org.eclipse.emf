@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.3 2004/04/07 18:56:54 elena Exp $
+ * $Id: BasicFeatureMap.java,v 1.4 2004/05/09 16:35:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -53,9 +53,12 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
   protected Object validate(int index, Object object)
   {
     Object result = super.validate(index, object);
-    if (!featureMapValidator.isValid(((Entry)object).getEStructuralFeature()))
+    EStructuralFeature eStructuralFeature = ((Entry)object).getEStructuralFeature();
+    if (!eStructuralFeature.isChangeable() || !featureMapValidator.isValid(eStructuralFeature))
     {
-      throw new RuntimeException("Invalid entry feature.");
+      throw 
+        new RuntimeException
+          ("Invalid entry feature '" + eStructuralFeature.getEContainingClass().getName() + "." + eStructuralFeature.getName() + "'");
     }
     return result;
   }

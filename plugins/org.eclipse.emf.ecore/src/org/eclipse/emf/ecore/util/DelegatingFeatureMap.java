@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.4 2004/04/22 16:47:41 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.5 2004/05/09 16:35:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -71,9 +71,12 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
   protected Object validate(int index, Object object)
   {
     Object result = super.validate(index, object);
-    if (!featureMapValidator.isValid(((Entry)object).getEStructuralFeature()))
+    EStructuralFeature eStructuralFeature = ((Entry)object).getEStructuralFeature();
+    if (!eStructuralFeature.isChangeable() || !featureMapValidator.isValid(eStructuralFeature))
     {
-      throw new RuntimeException("Invalid entry feature.");
+      throw
+        new RuntimeException
+          ("Invalid entry feature '" + eStructuralFeature.getEContainingClass().getName() + "." + eStructuralFeature.getName() + "'");
     }
     return result;
   }
