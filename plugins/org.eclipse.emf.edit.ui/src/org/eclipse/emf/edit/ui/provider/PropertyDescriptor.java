@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.6 2004/09/24 04:22:29 davidms Exp $
+ * $Id: PropertyDescriptor.java,v 1.7 2005/03/09 14:24:51 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -140,7 +140,8 @@ public class PropertyDescriptor implements IPropertyDescriptor
          {
            public String isValid(Object object)
            {
-             if (EDataTypeCellEditor.this.eDataType.isInstance(object))
+             if (EDataTypeCellEditor.this.eDataType.isInstance(object) &&
+                   !(EDataTypeCellEditor.this.eDataType.getInstanceClass() == Object.class && object instanceof String))
              {
                return null;
              }
