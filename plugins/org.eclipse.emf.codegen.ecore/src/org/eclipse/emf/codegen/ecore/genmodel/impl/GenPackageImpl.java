@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.9 2004/07/05 03:16:51 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.10 2004/07/08 08:16:02 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1125,7 +1125,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       add(GenPackageImpl.this);
 
-      simpleDependencies = new ArrayList(getGenModel().getUsedGenPackages());
+      simpleDependencies = new ArrayList();
+      collectPackages(simpleDependencies, getGenModel().getUsedGenPackages(), 1);
       addAll(simpleDependencies);
       
       interDependencies = new ArrayList();
