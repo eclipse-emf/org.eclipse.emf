@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.4 2004/06/08 18:29:32 emerks Exp $
+ * $Id: EClassItemProvider.java,v 1.5 2005/03/09 15:54:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -122,7 +122,7 @@ public class EClassItemProvider
    * This adds a property descriptor for the ESuper Types feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected void addESuperTypesPropertyDescriptor(Object object)
   {
@@ -133,7 +133,26 @@ public class EClassItemProvider
          getString("_UI_EClass_eSuperTypes_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EClass_eSuperTypes_feature", "_UI_EClass_type"),
          EcorePackage.eINSTANCE.getEClass_ESuperTypes(),
-         true));
+         true)
+       {
+         public Collection getChoiceOfValues(Object object)
+         {
+           EClass eClass = (EClass)object;
+           
+           // Filter out classes that aren't permitted.
+           //
+           Collection result = super.getChoiceOfValues(object);
+           for (Iterator i = result.iterator(); i.hasNext(); )
+           {
+             EClass otherEClass = (EClass)i.next();
+             if (otherEClass == eClass || otherEClass.getEAllSuperTypes().contains(eClass))
+             {
+               i.remove();
+             }
+           }
+           return result;
+         }
+       });
   }
 
   /**
