@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreActionBarContributor.java,v 1.2 2004/05/16 16:52:49 emerks Exp $
+ * $Id: Ecore2EcoreActionBarContributor.java,v 1.3 2004/06/17 11:02:45 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -70,13 +70,13 @@ public class Ecore2EcoreActionBarContributor extends EditingDomainActionBarContr
    * @generated
    */
   protected IAction showPropertiesViewAction =
-    new Action(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item")) //$NON-NLS-1$
+    new Action(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))
     {
       public void run()
       {
         try
         {
-          getPage().showView("org.eclipse.ui.views.PropertySheet"); //$NON-NLS-1$
+          getPage().showView("org.eclipse.ui.views.PropertySheet");
         }
         catch (PartInitException exception)
         {
@@ -93,7 +93,7 @@ public class Ecore2EcoreActionBarContributor extends EditingDomainActionBarContr
    * @generated
    */
   protected IAction refreshViewerAction =
-    new Action(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item")) //$NON-NLS-1$
+    new Action(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item"))
     {
       public boolean isEnabled()
       {
@@ -133,8 +133,8 @@ public class Ecore2EcoreActionBarContributor extends EditingDomainActionBarContr
    */
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
-    toolBarManager.add(new Separator("ecore2ecore-settings")); //$NON-NLS-1$
-    toolBarManager.add(new Separator("ecore2ecore-additions")); //$NON-NLS-1$
+    toolBarManager.add(new Separator("ecore2ecore-settings"));
+    toolBarManager.add(new Separator("ecore2ecore-additions"));
   }
 
   /**
@@ -148,12 +148,12 @@ public class Ecore2EcoreActionBarContributor extends EditingDomainActionBarContr
   {
     super.contributeToMenu(menuManager);
 
-    IMenuManager submenuManager = new MenuManager(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditor_menu"), "org.eclipse.emf.mapping.ecore2ecoreMenuID"); //$NON-NLS-1$ //$NON-NLS-2$
-    menuManager.insertAfter("additions", submenuManager); //$NON-NLS-1$
-    submenuManager.add(new Separator("settings")); //$NON-NLS-1$
-    submenuManager.add(new Separator("actions")); //$NON-NLS-1$
-    submenuManager.add(new Separator("additions")); //$NON-NLS-1$
-    submenuManager.add(new Separator("additions-end")); //$NON-NLS-1$
+    IMenuManager submenuManager = new MenuManager(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditor_menu"), "org.eclipse.emf.mapping.ecore2ecoreMenuID");
+    menuManager.insertAfter("additions", submenuManager);
+    submenuManager.add(new Separator("settings"));
+    submenuManager.add(new Separator("actions"));
+    submenuManager.add(new Separator("additions"));
+    submenuManager.add(new Separator("additions-end"));
 
     // Add your contributions.
     // Ensure that you remove @generated or mark it @generated NOT
@@ -229,11 +229,11 @@ public class Ecore2EcoreActionBarContributor extends EditingDomainActionBarContr
    */
   protected void addGlobalActions(IMenuManager menuManager)
   {
-    menuManager.insertAfter("additions-end", new Separator("ui-actions")); //$NON-NLS-1$ //$NON-NLS-2$
-    menuManager.insertAfter("ui-actions", showPropertiesViewAction); //$NON-NLS-1$
+    menuManager.insertAfter("additions-end", new Separator("ui-actions"));
+    menuManager.insertAfter("ui-actions", showPropertiesViewAction);
 
     refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());		
-    menuManager.insertAfter("ui-actions", refreshViewerAction); //$NON-NLS-1$
+    menuManager.insertAfter("ui-actions", refreshViewerAction);
 
     super.addGlobalActions(menuManager);
   }

@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreFactoryImpl.java,v 1.2 2004/05/16 16:53:58 emerks Exp $
+ * $Id: Ecore2EcoreFactoryImpl.java,v 1.3 2004/06/17 11:03:06 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
@@ -51,7 +51,7 @@ public class Ecore2EcoreFactoryImpl extends EFactoryImpl implements Ecore2EcoreF
     {
       case Ecore2EcorePackage.ECORE2_ECORE_MAPPING_ROOT: return createEcore2EcoreMappingRoot();
       default:
-        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
+        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
   }
 

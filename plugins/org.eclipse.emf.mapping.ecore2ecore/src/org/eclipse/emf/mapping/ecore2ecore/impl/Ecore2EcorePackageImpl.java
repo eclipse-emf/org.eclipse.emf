@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcorePackageImpl.java,v 1.3 2004/06/08 17:55:09 emerks Exp $
+ * $Id: Ecore2EcorePackageImpl.java,v 1.4 2004/06/17 11:03:06 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
@@ -188,7 +188,7 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
     ecore2EcoreMappingRootEClass.getESuperTypes().add(theMappingPackage.getMappingRoot());
 
     // Initialize classes and features; add operations and parameters
-    initEClass(ecore2EcoreMappingRootEClass, Ecore2EcoreMappingRoot.class, "Ecore2EcoreMappingRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+    initEClass(ecore2EcoreMappingRootEClass, Ecore2EcoreMappingRoot.class, "Ecore2EcoreMappingRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);
