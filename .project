@@ -4,7 +4,6 @@
     <comment></comment>
     <projects>
         <project>org.eclipse.emf.ecore</project>
-        <project>org.apache.xerces</project>
         <project>org.eclipse.core.resources</project>
     </projects>
     <buildSpec>
