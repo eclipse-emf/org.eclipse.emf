@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta name="generator" content="HTML Tidy, see www.w3.org" />
-<meta http-equiv="Content-Type"
-content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="images/../../../css/book.css" type="text/css" />
+<link rel="stylesheet" href="images/../../../css/emf-book.css" type="text/css" />
 <title>Specifying Package Information in Rose</title>
 </head>
-<body>
-<h2>Specifying Package Information in Rose</h2>
+<body lang="EN-US" xml:lang="EN-US">
+<h1>Specifying Package Information in Rose</h1>
 
 <p>When a Rational Rose class diagram is used as the source for EMF
 model generation, there are a number of pieces of information about
@@ -18,9 +18,9 @@ preferable to store them directly in the Rose model as model
 properties.</p>
 
 <p>To show how this is done, we will use a slightly modified
-version of the library model from the <cite>Generating an EMF
-Model</cite> tutorial: <a target="_code"
-href="images/../library.mdl">library.mdl</a>.</p>
+version of the library model from the 
+<a href="../../tutorials/clibmod/clibmod.html">Generating an EMF Model</a>
+tutorial: <a target="_code" href="images/../library.mdl">library.mdl</a>.</p>
 
 <p>The model elements must belong to a package. When the model is
 converted to Ecore, if there are any elements that are not
@@ -45,15 +45,6 @@ height="403" /><br />
 property file, "ecore.pty". Before we can set them, we must add
 them to Rose's vocabulary.</p>
 
-<!--[ Needed for web version until next build is posted...
-    <p>The property file is contained in the EMF Source package.  If you
-    have installed that package, you must locate the 
-    "src/org.eclipse.emf.ecore_1.0.1/emf.ecore.src.zip" archive under it,
-    and unzip it in place.  Then, the property file will be available in
-    the "src/org.eclipse.emf.ecore_1.0.1/model" subdirectory.  Otherwise,
-    it is available here to be saved to your workstation:
-    <a href="ecore.pty">ecore.pty</a>.</p>
--->
 <ul>
 <li>From the "Tools" menu, select "Model Properties", and then
 "Add...".<br />
@@ -67,12 +58,6 @@ select "ecore.pty", and click the "Open" button.<br />
  <img src="images/rp04.gif"
 alt="Update model properties from ecore.pty" width="426"
 height="264" /> 
-<!--[ Needed for web version until next build is posted...
-        Locate and select the "ecore.pty" file, and click the "Open" button.
-        <br>
-        <img src="images/rp07.gif" alt="Update model properties from ecore.pty"
-          width="426" height="264">
--->
 <br />
 &nbsp;</li>
 </ul>
@@ -86,7 +71,7 @@ Specification..." from the pop-up menu.<br />
 height="165" /><br />
 &nbsp;</li>
 
-<li>Switch to the "eCore" tab. To change a property, simply click
+<li>Switch to the "Ecore" tab. To change a property, simply click
 on the "Value" column, and type the new text. When finished setting
 properties, click the "OK" button.<br />
  <img src="images/rp06.gif" alt="eCore properties" width="344"
@@ -101,7 +86,7 @@ GenModel that drives code generation.</p>
 <p>The Ecore properties are as follows:</p>
 
 <blockquote>
-<table summary="" cellpadding="8" cellspacing="0" border="0">
+<table cellpadding="8" cellspacing="0" border="0">
 <tr>
 <td valign="top">packageName</td>
 <td valign="top">The name of the Ecore package, if different from
@@ -114,14 +99,25 @@ lower case, is used.</td>
 <td valign="top">The namespace prefix for the package's <a
 href="http://www.w3.org/TR/REC-xml-names/">XML namespace</a>, used
 in a qualified name to select the package's namespace. If not set,
-the value of packageName is used.</td>
+the value of packageName, qualified by basePackage below, is used.</td>
 </tr>
 
 <tr>
 <td valign="top">nsURI</td>
 <td valign="top">The unique URI reference that indentifies the
 package's XML namespace. If not set, the value of nsPrefix, with
-"http:///" prepended and ".xmi" appended, is used.</td>
+"http:///" prepended, ".ecore" appended, and all "/"s converted to "."s, is
+used.</td>
+</tr>
+
+<tr>
+<td valign="top">annotation</td>
+<td valign="top">Any annotations to be attached to the package. Annotations
+provide a flexible mechanism for attaching additional information to Ecore model
+elements. An annotation is identified by a source, a unique string that's
+typically a URI, and includes as details key/value string pairs. It is specified
+as follows:<br /><br />
+<tt>http://www.example.org/sourceURI key1='value1' key2='value2' ...</tt></td>
 </tr>
 </table>
 </blockquote>
@@ -129,7 +125,7 @@ package's XML namespace. If not set, the value of nsPrefix, with
 <p>The GenModel properties are as follows:</p>
 
 <blockquote>
-<table summary="" cellpadding="8" cellspacing="0" border="0">
+<table cellpadding="8" cellspacing="0" border="0">
 <tr>
 <td valign="top">prefix</td>
 <td valign="top">The prefix used in the names of generated package,
@@ -150,10 +146,7 @@ packages). If not set, no default is used.</td>
 
 <p>In addition to these package properties, the Ecore property file
 defines properties for classes, attributes, relations, and
-operations, all of which can be found on the "eCore" tabs of their
-respective Specification dialog boxes. Feel free to experiment with
-them, or refer to sections 3.1.1.4 through 3.1.1.7 of the <cite>EMF
-Users' Guide</cite> for complete explanations.</p>
+operations, all of which can be found on the "Ecore" tabs of their
+respective Specification dialog boxes.</p>
 </body>
 </html>
-
