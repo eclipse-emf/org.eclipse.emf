@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.3 2004/05/29 16:06:14 emerks Exp $
+ * $Id: CommonPlugin.java,v 1.4 2004/06/08 16:58:37 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -83,6 +83,14 @@ public final class CommonPlugin extends EMFPlugin
   }
 
   /**
+   * Use the platform, if available, to resolve the URL.
+   */
+  public static URI resolve(URI uri)
+  {
+    return plugin == null ? uri : Implementation.resolve(uri);
+  }
+
+  /**
    * The actual implementation of the Eclipse <b>Plugin</b>.
    */
   public static class Implementation extends EclipsePlugin 
@@ -109,20 +117,42 @@ public final class CommonPlugin extends EMFPlugin
       {
         String fragment = uri.fragment();
         URL url = Platform.asLocalURL(new URL(uri.trimFragment().toString()));
-        URI result = 
-          "file".equalsIgnoreCase(url.getProtocol()) ?
-            URI.createFileURI(url.getFile()) :
-            URI.createURI(url.toString());
-        if (fragment != null)
-        {
-          result = result.appendFragment(fragment);
-        }
-        return result;
+        return fix(url, fragment);
       }
       catch (IOException exception)
       {
       }
       return uri;
+    }
+
+    /**
+     * Use the platform to convert to a local URI.
+     */
+    protected static URI resolve(URI uri)
+    {
+      try
+      {
+        String fragment = uri.fragment();
+        URL url = Platform.resolve(new URL(uri.trimFragment().toString()));
+        return fix(url, fragment);
+      }
+      catch (IOException exception)
+      {
+      }
+      return uri;
+    }
+
+    protected static URI fix(URL url, String fragment) throws IOException
+    {
+      URI result = 
+        "file".equalsIgnoreCase(url.getProtocol()) ?
+          URI.createFileURI(url.getFile()) :
+          URI.createURI(url.toString());
+      if (fragment != null)
+      {
+        result = result.appendFragment(fragment);
+      }
+      return result;
     }
   }
 }
