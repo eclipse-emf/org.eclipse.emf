@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2GenModel.java,v 1.8 2005/03/09 16:51:45 marcelop Exp $
+ * $Id: XSD2GenModel.java,v 1.9 2005/04/01 17:54:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -70,7 +70,7 @@ public class XSD2GenModel extends Generator
 
   protected void printUsage()
   {
-    System.out.println("Usage: { <model.xsd> | <model.wsdl> }+ [ <model.genmodel> ] <OPTION>");
+    System.out.println("Usage: { <model.xsd> | <model.wsdl> }+ [ <model.genmodel> [ -reload ] ] <OPTION>");
     System.out.println("<OPTION>          ::= [ <PROJECT-OPTION> ]  [ <PACKAGE-MAP> ] [ <PACKAGES> ]");
     System.out.println("                      [ <TEMPLATE-PATH> ] [ <MODEL-PLUGIN-ID> ] [ <COPYRIGHT> ] [ <SDO> ]");
     System.out.println("<PROJECT-OPTION>  ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ] [ <TESTS-PROJECT> ]");
@@ -192,6 +192,7 @@ public class XSD2GenModel extends Generator
 
     URI genModelURI =  URI.createFileURI(genModelPath.toOSString());
 
+    boolean reload = false;
     IPath modelProjectLocationPath = null;
     IPath modelFragmentPath = null;
     IPath editProjectLocationPath = null;
@@ -207,7 +208,11 @@ public class XSD2GenModel extends Generator
 
     for (; index < arguments.length; ++index)
     {
-      if (arguments[index].equalsIgnoreCase("-modelProject"))
+      if (arguments[index].equalsIgnoreCase("-reload"))
+      {
+        reload = true;
+      }      
+      else if (arguments[index].equalsIgnoreCase("-modelProject"))
       {
         modelProjectLocationPath = new Path(new File(arguments[++index]).getAbsolutePath());
         modelFragmentPath = new Path(arguments[++index]);
@@ -316,6 +321,15 @@ public class XSD2GenModel extends Generator
     }
 
     ResourceSet resourceSet = new ResourceSetImpl();
+
+    GenModel originalGenModel = null;
+    if (reload)
+    {
+      Resource resource = resourceSet.getResource(genModelURI, true);
+      originalGenModel = (GenModel)resource.getContents().get(0);
+      originalGenModel.reconcile();
+    }
+    
     for (Iterator i = ePackageList.iterator(); i.hasNext(); )
     {
       EPackage ePackage = (EPackage)i.next();
@@ -435,6 +449,11 @@ public class XSD2GenModel extends Generator
     {
       setSDODefaults(generatedGenModel);
     }
+    
+    if (originalGenModel != null)
+    {
+      generatedGenModel.reconcile(originalGenModel);
+    }    
 
     for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext(); )
     {

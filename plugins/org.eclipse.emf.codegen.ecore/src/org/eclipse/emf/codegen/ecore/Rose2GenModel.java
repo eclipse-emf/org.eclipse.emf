@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Rose2GenModel.java,v 1.12 2005/03/09 16:49:35 marcelop Exp $
+ * $Id: Rose2GenModel.java,v 1.13 2005/04/01 17:54:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -82,7 +82,7 @@ public class Rose2GenModel extends Generator
 
   protected void printUsage()
   {
-    System.out.println("Usage: <model.mdl> [ <model.genmodel> ] <OPTION>");
+    System.out.println("Usage: <model.mdl> [ <model.genmodel> [ -reload ] ] <OPTION>");
     System.out.println("<OPTION>          ::= [ <PROJECT-OPTION> ]  [ <PATHMAP> ]");
     System.out.println("                      { <PACKAGE> }+  { <REF-PACKAGE> }*");
     System.out.println("                      [ <TEMPLATE-PATH> ] [ <MODEL-PLUGIN-ID> ] [ <COPYRIGHT> ] [ <SDO> ]");
@@ -184,6 +184,7 @@ public class Rose2GenModel extends Generator
         new Path(new File(arguments[index++]).getAbsolutePath()) :
         roseModelPath.removeFileExtension().addFileExtension("genmodel");
 
+    boolean reload = false;
     IPath modelProjectLocationPath = null;
     IPath modelFragmentPath = null;
     IPath editProjectLocationPath = null;
@@ -199,7 +200,11 @@ public class Rose2GenModel extends Generator
 
     for (; index < arguments.length; ++index)
     {
-      if (arguments[index].equalsIgnoreCase("-noQualify"))
+      if (arguments[index].equalsIgnoreCase("-reload"))
+      {
+        reload = true;
+      }
+      else if (arguments[index].equalsIgnoreCase("-noQualify"))
       {
         noQualify = true;
       }
@@ -326,11 +331,20 @@ public class Rose2GenModel extends Generator
     // roseUtil.showRoseUnitTree(unitTree);
     roseUtil.processUnitTree(unitTree);
 
-    traverseUnitTree(unitTree);
-
-    traverseEPackages(ePackageList);
-
     ResourceSet resourceSet = new ResourceSetImpl();
+
+    GenModel originalGenModel = null;
+    URI genModelURI = URI.createFileURI(genModelPath.toOSString());
+    if (reload)
+    {
+      Resource resource = resourceSet.getResource(genModelURI, true);
+      originalGenModel = (GenModel)resource.getContents().get(0);
+      originalGenModel.reconcile();
+    }
+    
+    traverseUnitTree(unitTree);
+    traverseEPackages(ePackageList);
+    
     for (Iterator i = ePackageList.iterator(); i.hasNext(); )
     {
       EPackage ePackage = (EPackage)i.next();
@@ -349,10 +363,9 @@ public class Rose2GenModel extends Generator
       }
       resource.getContents().add(ePackage);
     }
-
-    URI genModelURI = URI.createFileURI(genModelPath.toOSString());
+    
     Resource genModelResource = 
-      Resource.Factory.Registry.INSTANCE.getFactory(genModelURI).createResource(genModelURI);
+      Resource.Factory.Registry.INSTANCE.getFactory(genModelURI).createResource(genModelURI);    
     GenModelFactory genModelFactory = GenModelFactory.eINSTANCE;
 
     GenModel generatedGenModel = genModelFactory.createGenModel();
@@ -441,6 +454,11 @@ public class Rose2GenModel extends Generator
     if (sdo)
     {
       setSDODefaults(generatedGenModel);
+    }
+    
+    if (originalGenModel != null)
+    {
+      generatedGenModel.reconcile(originalGenModel);
     }
 
     for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext(); )

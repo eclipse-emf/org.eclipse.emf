@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.5 2005/03/15 15:44:27 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.6 2005/04/01 17:54:40 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -53,8 +53,8 @@ import org.eclipse.emf.codegen.ecore.Generator;
  *    <td>Specifies how the genmodel file is to be supposed to be handled.  The possible values are:
  *    <ul>
  *        <li>overwrite - <i>(default)</i>Replaces the genmodel file if it exists;</li>
- *        <li>keep - Doesn't generate the genmodel if one is provided and</li>
- *        <li>reload - Reloads the genmodel to reflect model changes. <b>Not implemented yet</b></li>
+ *        <li>keep - Doesn't generate the genmodel if one is provided; and</li>
+ *        <li>reload - Reloads the genmodel to reflect model changes.</li>
  *    </ul> 
  *    </td>
  * </tr>
@@ -182,7 +182,6 @@ public abstract class GeneratorTask extends EMFTask
     else if ("reload".equals(value))
     {
       reconcileGenModel = GENMODEL_RELOAD;
-      throw new UnsupportedOperationException("'genModelAction=\"reload\"' is not supported yet.");
     }
   }
 
@@ -206,9 +205,13 @@ public abstract class GeneratorTask extends EMFTask
     {
       assertTrue("The 'model' attribute must be specified.", model != null);
     }
+    
+    if (reconcileGenModel != GENMODEL_RELOAD)
+    {
+      assertTrue("The 'modelProject' attribute must be specified.", modelProject != null);
+    }
 
     assertTrue("The 'genModel' attribute must be specified.", genModel != null);
-    assertTrue("The 'modelProject' attribute must be specified.", modelProject != null);
     assertTrue("The specifed 'templatePath' attribute is not a valid directory.", templatePath == null || templatePath.isDirectory());
   }
 
@@ -216,14 +219,17 @@ public abstract class GeneratorTask extends EMFTask
   {
     switch (reconcileGenModel)
     {
-      case GENMODEL_KEEP: {
-        if (genModel.exists())
-          break;
+      case GENMODEL_KEEP:
+      {
+        if (genModel.exists()) break;
       }
-      case GENMODEL_OVERWRITE: {
+      case GENMODEL_RELOAD:
+      case GENMODEL_OVERWRITE:
+      {
         addGenModelArguments();
         adjustEditAndEditorProjects();
         createGenModel(getCommandline().getArguments());
+        break;
       }
     }
 
@@ -238,14 +244,26 @@ public abstract class GeneratorTask extends EMFTask
 
   protected void addGenModelArguments()
   {
-    getCommandline().createArgument(true).setValue(genModel.getAbsolutePath());
-    if (useModelAttribute)
+    if (genModel != null)
+    {
+      getCommandline().createArgument(true).setValue(genModel.getAbsolutePath());
+      if (reconcileGenModel == GENMODEL_RELOAD)
+      {
+        getCommandline().createArgument().setValue("-reload");
+      }
+    }
+    
+    if (model != null)
     {
       getCommandline().createArgument(true).setValue(model.getAbsolutePath());
     }
 
-    getCommandline().createArgument().setValue("-modelProject");
-    getCommandline().createArgument().setValue(modelProject.getAbsolutePath());
+    if (modelProject != null)
+    {
+      getCommandline().createArgument().setValue("-modelProject");
+      getCommandline().createArgument().setValue(modelProject.getAbsolutePath());
+    }
+    
     if (modelProjectFragmentPath != null)
     {
       getCommandline().createArgument().setValue(modelProjectFragmentPath);
@@ -278,25 +296,32 @@ public abstract class GeneratorTask extends EMFTask
   protected void adjustEditAndEditorProjects()
   {
     String arguments = getCommandline().toString();
+
     if (arguments.indexOf("-editProject") < 0)
     {
       generateEditProject = false;
-      getCommandline().createArgument().setValue("-editProject");
-      getCommandline().createArgument().setValue(modelProject.getAbsolutePath() + ".edit");
-      if (modelProjectFragmentPath != null)
+      if (modelProject != null)
       {
-        getCommandline().createArgument().setValue(modelProjectFragmentPath);
+        getCommandline().createArgument().setValue("-editProject");
+        getCommandline().createArgument().setValue(modelProject.getAbsolutePath() + ".edit");
+        if (modelProjectFragmentPath != null)
+        {
+          getCommandline().createArgument().setValue(modelProjectFragmentPath);
+        }
       }
     }
 
     if (arguments.indexOf("-editorProject") < 0)
     {
       generateEditorProject = false;
-      getCommandline().createArgument().setValue("-editorProject");
-      getCommandline().createArgument().setValue(modelProject.getAbsolutePath() + ".editor");
-      if (modelProjectFragmentPath != null)
+      if (modelProject != null)
       {
-        getCommandline().createArgument().setValue(modelProjectFragmentPath);
+        getCommandline().createArgument().setValue("-editorProject");
+        getCommandline().createArgument().setValue(modelProject.getAbsolutePath() + ".editor");
+        if (modelProjectFragmentPath != null)
+        {
+          getCommandline().createArgument().setValue(modelProjectFragmentPath);
+        }
       }
     }
   }
