@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDItemProviderAdapterFactory.java,v 1.3 2004/08/05 17:27:30 marcelop Exp $
+ * $Id: XSDItemProviderAdapterFactory.java,v 1.4 2004/10/19 21:24:51 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -1163,13 +1163,6 @@ public class XSDItemProviderAdapterFactory
     return null;
   }
 
-  public Adapter adaptNew(Notifier object, Object type)
-  {
-    Adapter result = super.adaptNew(object, type);
-    disposable.add(result);
-    return result;
-  }
-
   /**
    * This adds a listener.
    */
@@ -1196,6 +1189,15 @@ public class XSDItemProviderAdapterFactory
     if (parentAdapterFactory != null)
     {
       parentAdapterFactory.fireNotifyChanged(notification);
+    }
+  }
+
+  protected void associate(Adapter adapter, Notifier target)
+  {
+    super.associate(adapter, target);
+    if (adapter != null)
+    {
+      disposable.add(adapter);
     }
   }
 
