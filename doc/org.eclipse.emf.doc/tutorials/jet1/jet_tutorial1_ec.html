@@ -10,10 +10,8 @@
 <body lang="EN-US" xml:lang="EN-US">
 
 <div align="right">&nbsp; <font face="Times New Roman, Times, serif" size="2">&copy; 
-  Copyright International Business Machines Corporation, 2004. All rights reserved</font> 
-  <br>
-  <font face="Times New Roman, Times, serif" size="2">&copy; Copyright Remko Popma, 
-  2004. All rights reserved</font> 
+  Copyright <a href="http://www.azzurri.jp">Azzurri Ltd.</a> 2003, 2004. All rights 
+  reserved</font>  
   <table border=0 cellspacing=0 cellpadding=2 width="100%">
 
     <tr> 
@@ -23,7 +21,7 @@
   </table>
 </div>
 <div align="left"> 
-  <h1><img src="http://www.eclipse.org/images/Idea.jpg" align=CENTER width="120" height="86"></h1>
+  <h1><img src="images/Idea.jpg" align=CENTER width="120" height="86"></h1>
 </div>
 
 <h1 align="CENTER">JET Tutorial Part 1 (Introduction to JET) </h1>
@@ -48,26 +46,29 @@
     the EMF runtime download. </p>
 
   <p>
+
   In this article you will learn how to create JET templates, how to use the JET 
   Nature and JET Builder to automatically translate templates into Java classes, 
   and how to use these classes to generate source code. This article also provides 
   a short reference to the JET syntax. 
   </p>
-  <p>Contributed by Remko Popma, Azzurri Ltd., remko.popma at azzurri dot jp, July 30, 2003. Used with permission. Last update: May 31, 2004.</p>
+  <p>Contributed by Remko Popma, Azzurri Ltd., remko.popma at azzurri dot jp, 
+    July 30, 2003. Last update: May 31, 2004 for EMF 2.0 (Eclipse 3.0).</p>
 </blockquote>
 
 <hr width="100%" />
 
 <h2>Getting Started</h2>
-<p>Before creating our first template, you'll need the EMF plug-in. If you haven't 
-  installed it yet, install it now before continuing with this tutorial. I am 
-  using EMF version 2.0.0 Integration Build I200405200923. </p>
+<p>Before creating our first template, you'll need the EMF plug-in version 2.0. 
+  If you haven't installed it yet, install it now before continuing with this 
+  tutorial.</p>
 
 <p>A JET template is a text file with a file name that ends with &quot;jet&quot;. 
   I will follow the EMF convention of appending &quot;jet&quot; to whatever the 
   file extension of the generated code would be, so <i>.javajet</i> implies that 
   the template generates a .java file, <i>.xmljet</i> templates generate XML, 
   templates that generate SQL have the <i>.sqljet</i> extension, and so on.</p>
+
 <h3> JET Nature and JET Builder </h3>
 
 <p>
@@ -75,6 +76,7 @@ Let's follow tradition and start with a template that creates the message &quot;
 world&quot;. We will create our first template using the following four step process: </p>
 <ol>
   <li> Create a new Java project and give it a &quot;<i>src</i>&quot; source folder</li>
+
   <li> Add the JET Nature to the project. This will create a folder called &quot;<i>templates</i>&quot; 
     under the project root</li>
 
@@ -102,6 +104,7 @@ Project wizard. Create a new Java project and add a source folder to it named
   folder with a file name ending in &quot;jet&quot; to a Java class. </p>
 <p> <img src="images/newproject.gif" border="1"/></p>
 <h4> Step 3. Change JET Settings </h4>
+
 <p> Before creating our first template, let's make sure that the <i>src</i> source 
   folder of the project is the destination folder of the translated templates. 
   Right-click on the project and select &quot;Properties&quot; from the popup 
@@ -111,6 +114,7 @@ Project wizard. Create a new Java project and add a source folder to it named
   page of the Project Properties dialog. </p>
 
 <p>
+
 <img src="images/projectProperties.gif"/> 
 </p>
 <p> <i><img src="images/tip.gif" width="62" height="13"/>Note: you can specify 
@@ -167,6 +171,7 @@ Project wizard. Create a new Java project and add a source folder to it named
   argument to the template. </p>
 <p><img src="images/tryit.gif" width="61" height="13"/>Add a new JET template file 
   or change the existing one to the following content: </p>
+
 <pre class="code">
 
  <span class="highlight">&lt;%@ jet package=&quot;hello&quot; class=&quot;GreetingTemplate&quot; %&gt;</span>
@@ -175,6 +180,7 @@ Project wizard. Create a new Java project and add a source folder to it named
 <p> The JET Builder will translate this template to a class <tt class="code">GreetingTemplate</tt> 
   in the <tt class="code">hello</tt> package. Again we create an instance of this template 
   class, but this time we pass a string argument to the <tt class="code">generate</tt> method: 
+
 
 </p>
 <pre class="code"> GreetingTemplate sayHello = new GreetingTemplate();
@@ -286,6 +292,7 @@ the intact JSP tag: the &quot;&lt;%&quot; and &quot;%&gt;&quot; character string
 are not interpreted as a JET scriptlet, but are simply inserted in the generated 
 code. 
 
+
 <pre class="code">
  <img src="images/tag_3.gif" width="24" height="13"/>  &lt;%= request.getParameter(&quot;button&quot;) %&gt; &lt;!-- this is generated JSP --&gt;
 </pre>
@@ -313,6 +320,7 @@ and how to use these Java implementation classes to generate code.
 </pre>
 <p> The template above is translated to a Java implementation class like below: 
 
+
 </p>
 <pre class="code">
  package hello;
@@ -329,6 +337,7 @@ and how to use these Java implementation classes to generate code.
      stringBuffer.append(TEXT_1);
 <img src="images/tag_1.gif" width="24" height="13"/>  stringBuffer.append(<b>argument</b>);
      stringBuffer.append(TEXT_2);
+
 
 <img src="images/tag_2.gif" width="24" height="13"/>  <b>stringBuffer.append(&quot;Hello again!&quot;);</b>
      return stringBuffer.toString();
@@ -355,6 +364,7 @@ and how to use these Java implementation classes to generate code.
      return &quot;&quot;;
    }
  }
+
 
 </pre>
 <p> The skeleton definition looks almost like a normal Java class, except for 
@@ -403,6 +413,7 @@ and how to use these Java implementation classes to generate code.
  Hello, <span class="highlight">&lt;%=argument%&gt;</span>!
  The current time is <span class="highlight">&lt;%=new java.util.Date()%&gt;</span>.
 
+
 </pre>
 <p>
 After the JET Builder translates the template, the implementation class looks 
@@ -419,6 +430,7 @@ like this:
    protected final String TEXT_3 = &quot;.&quot;;
    protected final String TEXT_4 = NL;
  
+
 
 <img src="images/tag_2.gif" width="24" height="13"/>/* (non-javadoc)
     * @see IGenerator#generate(Object)
@@ -477,6 +489,7 @@ There may be optional white space after the &quot;&lt;%@&quot; and before &quot;
 </p><p>
 Directives affect how a template is translated, but do not produce any output 
 in the generated String when the template is invoked. 
+
 </p>
 
 <h3> Jet Directive </h3>
@@ -493,6 +506,7 @@ in the generated String when the template is invoked.
 <pre class="code">
  &lt;%@ jet package=&quot;hello&quot; class=&quot;HelloWorldTemplate&quot; imports=&quot;java.io.* java.util.*&quot; %&gt;</pre>
 <p>The details of the attributes for the <tt class="code">jet</tt> directive are as follows: 
+
 
 </p>
 <table border="1" cellpadding="3" cellspacing="0">
@@ -579,6 +593,7 @@ in the generated String when the template is invoked.
   provide custom include files that override the original include files without 
   modifying the templates of the original application.</i><br/>
 </p>
+
 <h2>JET Scripting Elements </h2>
 
 <p>JET has two scripting language elements: scriptlets and expressions. A scriptlet 
@@ -589,6 +604,7 @@ Each scripting element has a &quot;&lt;%&quot;-based syntax as follows: </p>
  &lt;% this is a scriptlet %&gt;
  &lt;%= this is an expression %&gt;
 </pre>
+
 <p>White space is optional after &quot;&lt;%&quot;, and &quot;&lt;%=&quot;, and before 
 
 &quot;%&gt;&quot;. 
@@ -598,6 +614,7 @@ rather than to end the scriptlet, you can escape them by typing %\&gt;. Similarl
 the &lt;% character sequence can be escaped by using &lt;\%. 
 </p>
 <h3> Scriptlets </h3>
+
 <p>Scriptlets can contain any valid Java code fragment. </p>
 <p> Scriptlets are executed at template invocation time. Whether or not they produce 
   any output into the result String depends on the actual code in the scriptlet. 
@@ -611,6 +628,7 @@ Example:
  &lt;% if (Calendar.getInstance().get(Calendar.AM_PM) == Calendar.AM) {%&gt;
  Good Morning
  &lt;% } else { %&gt;
+
  Good Afternoon
  &lt;% } %&gt;
 </pre>
@@ -618,6 +636,7 @@ Example:
 <p> <b><i>Syntax</i></b> </p>
 <p> <i>&lt;% scriptlet %&gt;</i> </p>
 <h3> Expressions </h3>
+
 <p>A JET expression element is a Java expression that is evaluated and the result 
   is appended to the <tt class="code">StringBuffer</tt> object returned by the <tt class="code">generate</tt> 
   method. Expressions are evaluated at template invocation time. </p>
@@ -627,6 +646,7 @@ Example:
   a complete Java expression. </p>
 <p> Side-effects in expressions are supported. They take effect when the JET expression 
   is evaluated. JET expressions are evaluated left-to-right in the JET template.</p>
+
 <p>In the next example, the current date is appended to the <tt class="code">StringBuffer</tt> 
   result.</p>
 <pre class="code">&lt;%= (new java.util.Date()).toLocaleString() %&gt; </pre>
@@ -634,11 +654,13 @@ Example:
 <p><b><i>Syntax</i></b> </p>
 <p><i>&lt;%= expression %&gt;</i> </p>
 <h2>Resources</h2>
+
 <p><a href="http://www.javaworld.com/javaworld/jw-11-2001/jw-1102-codegen.html" target="_blank">http://www.javaworld.com/javaworld/jw-11-2001/jw-1102-codegen.html</a> 
 </p>
 <p> <a href="http://www.eclipse.org/emf/" target="_blank">http://www.eclipse.org/emf/</a> 
 </p>
-<br />
+<p><small>Java and all Java-based trademarks and logos are trademarks or registered trademarks of Sun 
+Microsystems, Inc. in the United States, other countries, or both.</small></p>
 </body>
 
 </html>
