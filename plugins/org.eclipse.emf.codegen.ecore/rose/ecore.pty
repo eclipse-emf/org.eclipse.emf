@@ -43,6 +43,10 @@
                 name       	"classifierName"
                 value      	"")
             (object Attribute
+                tool       	"Ecore"
+                name       	"constraints"
+                value      	"")
+            (object Attribute
                 tool        "Ecore"
                 name        "xmlName"
                 value       "")
