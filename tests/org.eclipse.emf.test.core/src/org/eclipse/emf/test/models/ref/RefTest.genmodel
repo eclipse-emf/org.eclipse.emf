@@ -7,7 +7,8 @@
     editPluginClass="org.eclipse.emf.test.models.ref.provider.RefTestEditPlugin" editorPluginClass="org.eclipse.emf.test.models.ref.presentation.RefTestEditorPlugin"
     runtimeCompatibility="false">
   <foreignModel>..\..\..\..\..\..\..\data\rose\RefTest.mdl</foreignModel>
-  <genPackages prefix="Ref" basePackage="org.eclipse.emf.test.models" ecorePackage="RefTest.ecore#/">
+  <genPackages prefix="Ref" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
+      ecorePackage="RefTest.ecore#/">
     <genClasses image="false" ecoreClass="RefTest.ecore#//A">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//A/b"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//A/c2"/>

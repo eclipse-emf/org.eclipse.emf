@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefItemProviderAdapterFactory.java,v 1.1 2004/08/22 23:34:56 davidms Exp $
+ * $Id: RefItemProviderAdapterFactory.java,v 1.2 2004/10/24 22:41:01 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -17,6 +17,7 @@ import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
+import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -35,7 +36,7 @@ import org.eclipse.emf.test.models.ref.util.RefAdapterFactory;
  * <!-- end-user-doc -->
  * @generated
  */
-public class RefItemProviderAdapterFactory extends RefAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier
+public class RefItemProviderAdapterFactory extends RefAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable
 {
   /**
    * This keeps track of the root adapter factory that delegates to this adapter factory.
@@ -342,6 +343,23 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
     {
       parentAdapterFactory.fireNotifyChanged(notification);
     }
+  }
+
+  /**
+   * This disposes all of the item providers created by this factory. 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void dispose()
+  {
+    if (aItemProvider != null) aItemProvider.dispose();
+    if (bItemProvider != null) bItemProvider.dispose();
+    if (c1ItemProvider != null) c1ItemProvider.dispose();
+    if (c2ItemProvider != null) c2ItemProvider.dispose();
+    if (cItemProvider != null) cItemProvider.dispose();
+    if (dItemProvider != null) dItemProvider.dispose();
+    if (eItemProvider != null) eItemProvider.dispose();
   }
 
 }
