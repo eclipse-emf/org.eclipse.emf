@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.4 2004/03/18 20:08:54 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.5 2004/03/23 09:56:55 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -92,6 +92,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -119,7 +120,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
  */
 public class GenModelEditor
   extends MultiPageEditorPart
-  implements IEditingDomainProvider, ISelectionProvider, IMenuListener
+  implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider
 {
   /**
    * This keeps track of the editing domain that is used to track all changes to the model.
@@ -639,6 +640,17 @@ public class GenModelEditor
   }
 
   /**
+   * This returns the viewer as required by the {@link IViewerProvider} interface.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Viewer getViewer()
+  {
+    return currentViewer;
+  }
+
+  /**
    * This creates a context menu for the viewer and adds a listener as well registering the menu for extension.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -751,7 +763,7 @@ public class GenModelEditor
 
     // This is a temporary workaround... EATM
     //
-    Control control = (Control) getControl(pageIndex);
+    Control control = getControl(pageIndex);
     if (control != null)
     {
       control.setVisible(true);
