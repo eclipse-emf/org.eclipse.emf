@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.6 2005/02/16 22:30:50 nickb Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.7 2005/02/17 18:47:07 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -123,17 +123,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
   protected void setUp() throws Exception
   {
     super.setUp();    
-    
-    Dimension[] allDimensions = new Dimension[] {
-      Dimension.COMITTED
-      ,Dimension.CPU_TIME
-      ,Dimension.ELAPSED_PROCESS
-      ,Dimension.KERNEL_TIME
-      ,Dimension.USED_JAVA_HEAP
-      ,Dimension.WORKING_SET
-      ,Dimension.WORKING_SET_PEAK
-    };   
-    tagAsSummary("Perf Results", allDimensions);
+    tagAsSummary("Perf " + getClass().getPackage().getName(), ALL_DIMENSIONS);
   }
 
   protected void runTest() throws Throwable
