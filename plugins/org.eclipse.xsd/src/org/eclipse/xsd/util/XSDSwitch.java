@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSwitch.java,v 1.4 2004/07/29 13:33:09 marcelop Exp $
+ * $Id: XSDSwitch.java,v 1.5 2005/04/06 15:10:08 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -38,7 +38,8 @@ import org.eclipse.xsd.*;
  * @see org.eclipse.xsd.XSDPackage
  * @generated
  */
-public class XSDSwitch {
+public class XSDSwitch
+{
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -130,6 +131,14 @@ public class XSDSwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case XSDPackage.XSD_ATTRIBUTE_GROUP_CONTENT:
+      {
+        XSDAttributeGroupContent xsdAttributeGroupContent = (XSDAttributeGroupContent)theEObject;
+        Object result = caseXSDAttributeGroupContent(xsdAttributeGroupContent);
+        if (result == null) result = caseXSDConcreteComponent(xsdAttributeGroupContent);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION:
       {
         XSDAttributeGroupDefinition xsdAttributeGroupDefinition = (XSDAttributeGroupDefinition)theEObject;
@@ -176,6 +185,15 @@ public class XSDSwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case XSDPackage.XSD_COMPLEX_TYPE_CONTENT:
+      {
+        XSDComplexTypeContent xsdComplexTypeContent = (XSDComplexTypeContent)theEObject;
+        Object result = caseXSDComplexTypeContent(xsdComplexTypeContent);
+        if (result == null) result = caseXSDComponent(xsdComplexTypeContent);
+        if (result == null) result = caseXSDConcreteComponent(xsdComplexTypeContent);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION:
       {
         XSDComplexTypeDefinition xsdComplexTypeDefinition = (XSDComplexTypeDefinition)theEObject;
@@ -188,6 +206,31 @@ public class XSDSwitch {
         if (result == null) result = caseXSDNamedComponent(xsdComplexTypeDefinition);
         if (result == null) result = caseXSDSchemaContent(xsdComplexTypeDefinition);
         if (result == null) result = caseXSDConcreteComponent(xsdComplexTypeDefinition);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_COMPONENT:
+      {
+        XSDComponent xsdComponent = (XSDComponent)theEObject;
+        Object result = caseXSDComponent(xsdComponent);
+        if (result == null) result = caseXSDConcreteComponent(xsdComponent);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_CONCRETE_COMPONENT:
+      {
+        XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)theEObject;
+        Object result = caseXSDConcreteComponent(xsdConcreteComponent);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_CONSTRAINING_FACET:
+      {
+        XSDConstrainingFacet xsdConstrainingFacet = (XSDConstrainingFacet)theEObject;
+        Object result = caseXSDConstrainingFacet(xsdConstrainingFacet);
+        if (result == null) result = caseXSDFacet(xsdConstrainingFacet);
+        if (result == null) result = caseXSDComponent(xsdConstrainingFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdConstrainingFacet);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -225,6 +268,36 @@ public class XSDSwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case XSDPackage.XSD_FACET:
+      {
+        XSDFacet xsdFacet = (XSDFacet)theEObject;
+        Object result = caseXSDFacet(xsdFacet);
+        if (result == null) result = caseXSDComponent(xsdFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_FEATURE:
+      {
+        XSDFeature xsdFeature = (XSDFeature)theEObject;
+        Object result = caseXSDFeature(xsdFeature);
+        if (result == null) result = caseXSDNamedComponent(xsdFeature);
+        if (result == null) result = caseXSDComponent(xsdFeature);
+        if (result == null) result = caseXSDConcreteComponent(xsdFeature);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_FIXED_FACET:
+      {
+        XSDFixedFacet xsdFixedFacet = (XSDFixedFacet)theEObject;
+        Object result = caseXSDFixedFacet(xsdFixedFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdFixedFacet);
+        if (result == null) result = caseXSDFacet(xsdFixedFacet);
+        if (result == null) result = caseXSDComponent(xsdFixedFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdFixedFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case XSDPackage.XSD_FRACTION_DIGITS_FACET:
       {
         XSDFractionDigitsFacet xsdFractionDigitsFacet = (XSDFractionDigitsFacet)theEObject;
@@ -234,6 +307,16 @@ public class XSDSwitch {
         if (result == null) result = caseXSDFacet(xsdFractionDigitsFacet);
         if (result == null) result = caseXSDComponent(xsdFractionDigitsFacet);
         if (result == null) result = caseXSDConcreteComponent(xsdFractionDigitsFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_FUNDAMENTAL_FACET:
+      {
+        XSDFundamentalFacet xsdFundamentalFacet = (XSDFundamentalFacet)theEObject;
+        Object result = caseXSDFundamentalFacet(xsdFundamentalFacet);
+        if (result == null) result = caseXSDFacet(xsdFundamentalFacet);
+        if (result == null) result = caseXSDComponent(xsdFundamentalFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdFundamentalFacet);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -293,6 +376,18 @@ public class XSDSwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case XSDPackage.XSD_MAX_FACET:
+      {
+        XSDMaxFacet xsdMaxFacet = (XSDMaxFacet)theEObject;
+        Object result = caseXSDMaxFacet(xsdMaxFacet);
+        if (result == null) result = caseXSDFixedFacet(xsdMaxFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdMaxFacet);
+        if (result == null) result = caseXSDFacet(xsdMaxFacet);
+        if (result == null) result = caseXSDComponent(xsdMaxFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdMaxFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case XSDPackage.XSD_MAX_INCLUSIVE_FACET:
       {
         XSDMaxInclusiveFacet xsdMaxInclusiveFacet = (XSDMaxInclusiveFacet)theEObject;
@@ -328,6 +423,18 @@ public class XSDSwitch {
         if (result == null) result = caseXSDFacet(xsdMinExclusiveFacet);
         if (result == null) result = caseXSDComponent(xsdMinExclusiveFacet);
         if (result == null) result = caseXSDConcreteComponent(xsdMinExclusiveFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_MIN_FACET:
+      {
+        XSDMinFacet xsdMinFacet = (XSDMinFacet)theEObject;
+        Object result = caseXSDMinFacet(xsdMinFacet);
+        if (result == null) result = caseXSDFixedFacet(xsdMinFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdMinFacet);
+        if (result == null) result = caseXSDFacet(xsdMinFacet);
+        if (result == null) result = caseXSDComponent(xsdMinFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdMinFacet);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -381,6 +488,15 @@ public class XSDSwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case XSDPackage.XSD_NAMED_COMPONENT:
+      {
+        XSDNamedComponent xsdNamedComponent = (XSDNamedComponent)theEObject;
+        Object result = caseXSDNamedComponent(xsdNamedComponent);
+        if (result == null) result = caseXSDComponent(xsdNamedComponent);
+        if (result == null) result = caseXSDConcreteComponent(xsdNamedComponent);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case XSDPackage.XSD_NOTATION_DECLARATION:
       {
         XSDNotationDeclaration xsdNotationDeclaration = (XSDNotationDeclaration)theEObject;
@@ -424,6 +540,14 @@ public class XSDSwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case XSDPackage.XSD_PARTICLE_CONTENT:
+      {
+        XSDParticleContent xsdParticleContent = (XSDParticleContent)theEObject;
+        Object result = caseXSDParticleContent(xsdParticleContent);
+        if (result == null) result = caseXSDConcreteComponent(xsdParticleContent);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case XSDPackage.XSD_PATTERN_FACET:
       {
         XSDPatternFacet xsdPatternFacet = (XSDPatternFacet)theEObject;
@@ -433,6 +557,27 @@ public class XSDSwitch {
         if (result == null) result = caseXSDFacet(xsdPatternFacet);
         if (result == null) result = caseXSDComponent(xsdPatternFacet);
         if (result == null) result = caseXSDConcreteComponent(xsdPatternFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_REDEFINABLE_COMPONENT:
+      {
+        XSDRedefinableComponent xsdRedefinableComponent = (XSDRedefinableComponent)theEObject;
+        Object result = caseXSDRedefinableComponent(xsdRedefinableComponent);
+        if (result == null) result = caseXSDNamedComponent(xsdRedefinableComponent);
+        if (result == null) result = caseXSDRedefineContent(xsdRedefinableComponent);
+        if (result == null) result = caseXSDComponent(xsdRedefinableComponent);
+        if (result == null) result = caseXSDSchemaContent(xsdRedefinableComponent);
+        if (result == null) result = caseXSDConcreteComponent(xsdRedefinableComponent);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_REDEFINE_CONTENT:
+      {
+        XSDRedefineContent xsdRedefineContent = (XSDRedefineContent)theEObject;
+        Object result = caseXSDRedefineContent(xsdRedefineContent);
+        if (result == null) result = caseXSDSchemaContent(xsdRedefineContent);
+        if (result == null) result = caseXSDConcreteComponent(xsdRedefineContent);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -447,6 +592,17 @@ public class XSDSwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case XSDPackage.XSD_REPEATABLE_FACET:
+      {
+        XSDRepeatableFacet xsdRepeatableFacet = (XSDRepeatableFacet)theEObject;
+        Object result = caseXSDRepeatableFacet(xsdRepeatableFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdRepeatableFacet);
+        if (result == null) result = caseXSDFacet(xsdRepeatableFacet);
+        if (result == null) result = caseXSDComponent(xsdRepeatableFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdRepeatableFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case XSDPackage.XSD_SCHEMA:
       {
         XSDSchema xsdSchema = (XSDSchema)theEObject;
@@ -454,6 +610,42 @@ public class XSDSwitch {
         if (result == null) result = caseXSDScope(xsdSchema);
         if (result == null) result = caseXSDComponent(xsdSchema);
         if (result == null) result = caseXSDConcreteComponent(xsdSchema);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_SCHEMA_COMPOSITOR:
+      {
+        XSDSchemaCompositor xsdSchemaCompositor = (XSDSchemaCompositor)theEObject;
+        Object result = caseXSDSchemaCompositor(xsdSchemaCompositor);
+        if (result == null) result = caseXSDSchemaDirective(xsdSchemaCompositor);
+        if (result == null) result = caseXSDSchemaContent(xsdSchemaCompositor);
+        if (result == null) result = caseXSDConcreteComponent(xsdSchemaCompositor);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_SCHEMA_CONTENT:
+      {
+        XSDSchemaContent xsdSchemaContent = (XSDSchemaContent)theEObject;
+        Object result = caseXSDSchemaContent(xsdSchemaContent);
+        if (result == null) result = caseXSDConcreteComponent(xsdSchemaContent);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_SCHEMA_DIRECTIVE:
+      {
+        XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)theEObject;
+        Object result = caseXSDSchemaDirective(xsdSchemaDirective);
+        if (result == null) result = caseXSDSchemaContent(xsdSchemaDirective);
+        if (result == null) result = caseXSDConcreteComponent(xsdSchemaDirective);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_SCOPE:
+      {
+        XSDScope xsdScope = (XSDScope)theEObject;
+        Object result = caseXSDScope(xsdScope);
+        if (result == null) result = caseXSDComponent(xsdScope);
+        if (result == null) result = caseXSDConcreteComponent(xsdScope);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -472,6 +664,16 @@ public class XSDSwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case XSDPackage.XSD_TERM:
+      {
+        XSDTerm xsdTerm = (XSDTerm)theEObject;
+        Object result = caseXSDTerm(xsdTerm);
+        if (result == null) result = caseXSDComponent(xsdTerm);
+        if (result == null) result = caseXSDParticleContent(xsdTerm);
+        if (result == null) result = caseXSDConcreteComponent(xsdTerm);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case XSDPackage.XSD_TOTAL_DIGITS_FACET:
       {
         XSDTotalDigitsFacet xsdTotalDigitsFacet = (XSDTotalDigitsFacet)theEObject;
@@ -481,6 +683,19 @@ public class XSDSwitch {
         if (result == null) result = caseXSDFacet(xsdTotalDigitsFacet);
         if (result == null) result = caseXSDComponent(xsdTotalDigitsFacet);
         if (result == null) result = caseXSDConcreteComponent(xsdTotalDigitsFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_TYPE_DEFINITION:
+      {
+        XSDTypeDefinition xsdTypeDefinition = (XSDTypeDefinition)theEObject;
+        Object result = caseXSDTypeDefinition(xsdTypeDefinition);
+        if (result == null) result = caseXSDRedefinableComponent(xsdTypeDefinition);
+        if (result == null) result = caseXSDRedefineContent(xsdTypeDefinition);
+        if (result == null) result = caseXSDNamedComponent(xsdTypeDefinition);
+        if (result == null) result = caseXSDSchemaContent(xsdTypeDefinition);
+        if (result == null) result = caseXSDComponent(xsdTypeDefinition);
+        if (result == null) result = caseXSDConcreteComponent(xsdTypeDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
