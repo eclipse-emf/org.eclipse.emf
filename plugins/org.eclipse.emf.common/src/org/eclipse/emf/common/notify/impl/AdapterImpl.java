@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: AdapterImpl.java,v 1.2 2004/10/04 21:50:53 davidms Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.common.notify.Notifier;
 /**
  * An extensible adapter implementation.
  */
-public class AdapterImpl implements Adapter
+public class AdapterImpl implements Adapter.Internal
 {
   /**
    * The last notifier set to this adapter.
@@ -71,5 +71,16 @@ public class AdapterImpl implements Adapter
   public void setTarget(Notifier newTarget)
   {
     target = newTarget;
+  }
+
+  /*
+   * Javadoc copied from interface.
+   */
+  public void unsetTarget(Notifier oldTarget)
+  {
+    if (target == oldTarget)
+    {
+      setTarget(null);
+    }
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Adapter.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: Adapter.java,v 1.2 2004/10/04 21:50:53 davidms Exp $
  */
 package org.eclipse.emf.common.notify;
 
@@ -40,6 +40,8 @@ public interface Adapter
 
   /**
    * Sets the target from which the adapter will receive notification.
+   * This method is only to be called by a notifier when this adapter
+   * is added to or removed from its adapter list.
    * In general, an adapter may be shared by more than one notifier.
    * @param newTarget the new notifier.
    * @see #getTarget
@@ -54,4 +56,22 @@ public interface Adapter
    * @see AdapterFactory#isFactoryForType
    */
   boolean isAdapterForType(Object type);
+
+  /**
+   * An internal interface implemented by adapters. It allows a shared adapter to be informed when a specific notifier
+   * removes it from its adapter list.
+   */
+  interface Internal extends Adapter
+  {
+    /**
+     * Unsets the target from which the adapter will receive notification. This method is only to be called by a
+     * notifier when this adapter is removed from its adapter list. In general, an adapter may be shared by more
+     * than one notifier, so this mechanism allows the adapter to know specifically which notifier will no longer
+     * be notifying.
+     * @param oldTarget the old notifier.
+     * @see #getTarget
+     * @see #setTarget
+     */
+    void unsetTarget(Notifier oldTarget);
+  }
 }
