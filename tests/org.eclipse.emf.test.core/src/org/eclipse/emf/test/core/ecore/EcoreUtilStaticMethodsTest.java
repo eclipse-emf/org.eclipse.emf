@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtilStaticMethodsTest.java,v 1.4 2004/08/25 21:49:21 marcelop Exp $
+ * $Id: EcoreUtilStaticMethodsTest.java,v 1.5 2004/11/04 05:52:10 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -29,15 +29,8 @@ import junit.framework.TestSuite;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.test.core.EMFTestCorePlugin;
-import org.eclipse.emf.test.models.order.CustomerOrder;
-import org.eclipse.emf.test.models.order.Order;
-import org.eclipse.emf.test.models.order.OrderFactory;
 
 public class EcoreUtilStaticMethodsTest extends TestCase
 {
@@ -52,42 +45,9 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testGenerateUUID"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testIndexOf"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testSetEList"));
-    testSuite.addTest(new EcoreUtilStaticMethodsTest("testIsAncestor"));
     return testSuite;
   }
   
-  public void testIsAncestor()
-  {
-    ResourceSet resourceSet = new ResourceSetImpl();
-    Resource resource = new ResourceImpl();
-    Order order = OrderFactory.eINSTANCE.createOrder();
-    CustomerOrder customerOrder = OrderFactory.eINSTANCE.createCustomerOrder();
-    
-    assertFalse(EcoreUtil.isAncestor(customerOrder, order));
-    assertFalse(EcoreUtil.isAncestor(resource, order));
-    assertFalse(EcoreUtil.isAncestor(resourceSet, order));
-    
-    resource.getContents().add(order);
-    assertFalse(EcoreUtil.isAncestor(customerOrder, order));
-    assertTrue(EcoreUtil.isAncestor(resource, order));
-    assertFalse(EcoreUtil.isAncestor(resourceSet, order));
-    
-    resourceSet.getResources().add(resource);
-    assertFalse(EcoreUtil.isAncestor(customerOrder, order));
-    assertTrue(EcoreUtil.isAncestor(resource, order));
-    assertTrue(EcoreUtil.isAncestor(resourceSet, order));
-    
-    customerOrder.setMoviesSeen(order);
-    assertTrue(EcoreUtil.isAncestor(customerOrder, order));
-    assertFalse(EcoreUtil.isAncestor(resource, order));
-    assertFalse(EcoreUtil.isAncestor(resourceSet, order));
-    
-    resource.getContents().add(customerOrder);
-    assertTrue(EcoreUtil.isAncestor(customerOrder, order));
-    assertTrue(EcoreUtil.isAncestor(resource, order));
-    assertTrue(EcoreUtil.isAncestor(resourceSet, order));
-  }
-
   public void testIndexOf()
   {
     assertIndexOf(populateList(new ArrayList()));

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.22 2004/11/04 05:20:17 marcelop Exp $
+ * $Id: AllSuites.java,v 1.23 2004/11/04 05:52:10 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -35,15 +35,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.core.ecore.NotUniqueListTest.suite()
     ,org.eclipse.emf.test.core.ecore.ResourceCacheMechanismTest.suite()
     ,org.eclipse.emf.test.core.ecore.PersistenceTest.suite()
-    ,org.eclipse.emf.test.core.xmi.NamespaceTest.suite()
-    ,org.eclipse.emf.test.core.xmi.OrderTest.suite()
-    ,org.eclipse.emf.test.core.xmi.QNameTest.suite()
-    ,org.eclipse.emf.test.core.xsdecore.XSD2EcoreTest.suite()
-    ,org.eclipse.emf.test.core.xsdecore.XSDValidateTest.suite()
     ,org.eclipse.emf.test.core.featuremap.FeatureMapTest.suite()
-    ,org.eclipse.emf.test.core.edit.command.AddCommandTest.suite()
-    ,org.eclipse.emf.test.core.edit.command.RemoveCommandTest.suite()
-    ,org.eclipse.emf.test.core.edit.command.SetCommandTest.suite()
   };
 
   public static Test suite()
