@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObject.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: EObject.java,v 1.3 2004/10/03 15:49:41 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -62,6 +62,8 @@ import org.eclipse.emf.ecore.resource.Resource;
  * which provides lower-level access that is not necessarily suitable for general consumption
  * but is required for maintaining the EMF support mechanisms.
  * </p>
+ * 
+ * @extends Notifier
  * <!-- end-user-doc -->
  *
  *
