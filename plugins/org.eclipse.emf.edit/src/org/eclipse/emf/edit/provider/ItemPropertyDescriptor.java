@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.10 2004/08/11 15:08:51 marcelop Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.11 2004/09/24 04:14:11 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -50,13 +50,14 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor.OverrideableCommandOwner;
 
 
 /**
  * This implementation of an item property descriptor supports delegating of the {@link IItemPropertySource} interface
  * to the {@link IItemPropertyDescriptor} interface.
  */
-public class ItemPropertyDescriptor implements IItemPropertyDescriptor
+public class ItemPropertyDescriptor implements IItemPropertyDescriptor, OverrideableCommandOwner
 {
   public static final Object BOOLEAN_VALUE_IMAGE = EMFEditPlugin.INSTANCE.getImage("full/obj16/BooleanValue");
   public static final Object GENERIC_VALUE_IMAGE = EMFEditPlugin.INSTANCE.getImage("full/obj16/GenericValue");
@@ -127,6 +128,11 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   protected Object staticImage;
 
   /**
+   * If non-null, this object will be the owner of commands created to set the property's value. 
+   */
+  protected Object commandOwner;
+
+  /**
    * This class uses a static image
    */
   protected class ItemDelegator extends AdapterFactoryItemDelegator
@@ -151,7 +157,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
         EDataType eDataType = ((EAttribute)feature).getEAttributeType();
         if (eDataType.isSerializable())
         {
-          if (feature.isMany())
+          if (isMany(object))
           {
             if (object instanceof List)
             {
@@ -217,8 +223,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the category and filter flags are empty 
-   * and the cell editor is determined from the type of the structural feature.
+   * This creates an instance that does not use a resource locator and determines the cell editor from the type of the
+   * structural feature.  It assumed that the feature should be setable from this property.
+   * 
+   * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean)
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -226,12 +236,16 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       String description,
       EStructuralFeature feature)
   {
-    this(adapterFactory, null, displayName, description, feature, true);
+    this(adapterFactory, null, displayName, description, feature, true, null, null, null);
   }
 
   /**
-   * This creates an instance where the category and filter flags are empty 
-   * and the cell editor is determined from the type of the structural feature.
+   * This creates an instance that uses a resource locator and determines the cell editor from the type of the
+   * structural feature.  It assumed that the feature should be setable from this property.
+   * 
+   * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean)
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -240,12 +254,16 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       String description,
       EStructuralFeature feature)
   {
-    this(adapterFactory, resourceLocator, displayName, description, feature, true);
+    this(adapterFactory, resourceLocator, displayName, description, feature, true, null, null, null);
   }
 
   /**
-   * This creates an instance where the category and filter flags are empty 
-   * and the cell editor is determined from the type of the structural feature.
+   * This creates an instance that does not use a resource locator and determines the cell editor from the type of the
+   * structural feature. 
+   * 
+   * <p>To reduce the number of constructors for this class, this ony may be deprecated in the future.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean)
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -254,12 +272,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       EStructuralFeature feature, 
       boolean isSettable)
   {
-    this(adapterFactory, null, displayName, description, feature, isSettable, null);
+    this(adapterFactory, null, displayName, description, feature, isSettable, null, null, null);
   }
 
   /**
-   * This creates an instance where the category and filter flags are empty 
-   * and the cell editor is determined from the type of the structural feature.
+   * This creates an instance that uses a resource locator and determines the cell editor from the type of the
+   * structural feature. 
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -269,13 +287,16 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       EStructuralFeature feature, 
       boolean isSettable)
   {
-    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, null);
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, null, null, null);
   }
 
   /**
-   * This creates an instance where the category and filter flags are empty,
-   * there is a static image used, and the cell editor is determined from
-   * the type of the structural feature.
+   * This creates an instance that does not use a resource locator, specifies a static image, and determines the cell
+   * editor from the type of the structural feature. 
+   * 
+   * <p>To reduce the number of constructors for this class, this one may be deprecated in the future.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, Object)
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -285,13 +306,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       boolean isSettable,
       Object staticImage)
   {
-    this(adapterFactory, null, displayName, description, feature, isSettable, staticImage, null);
+    this(adapterFactory, null, displayName, description, feature, isSettable, staticImage, null, null);
   }
 
   /**
-   * This creates an instance where the category and filter flags are empty,
-   * there is a static image used, and the cell editor is determined from
-   * the type of the structural feature.
+   * This creates an instance that uses a resource locator, specifies a static image, and determines the cell editor
+   * from the type of the structural feature. 
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -302,13 +322,16 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       boolean isSettable,
       Object staticImage)
   {
-    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, staticImage, null);
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, staticImage, null, null);
   }
 
   /**
-   * This creates an instance where the filter flags are empty, there is a
-   * a specifed category, and the cell editor is determined from the type of
-   * the structural feature.
+   * This creates an instance that does not use a resource locator, specifies a category, and determines the cell
+   * editor from the type of the structural feature. 
+   * 
+   * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, String, String[])
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -322,9 +345,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the filter flags are empty, there is a
-   * a specifed category, and the cell editor is determined from the type of
-   * the structural feature.
+   * This creates an instance that uses a resource locator, specifies a category, and determines the cell editor from
+   * the type of the structural feature. 
+   * 
+   * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, String, String[])
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -339,9 +365,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the filter flags are empty, there is a
-   * static image used and a specifed category, and the cell editor is
-   * determined from the type of the structural feature.
+   * This creates an instance that does not use a resource locator, specifies a static image and category, and
+   * determines the cell editor from the type of the structural feature. 
+   * 
+   * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, Object, String, String[])
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -356,9 +385,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the filter flags are empty, there is a
-   * static image used and a specifed category, and the cell editor is
-   * determined from the type of the structural feature.
+   * This creates an instance that uses a resource locator, specifies a static image and category, and determines the
+   * cell editor from the type of the structural feature. 
+   * 
+   * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, Object, String, String[])
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -374,9 +406,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the filter flags are specified, there is a
-   * a specifed category, and the cell editor is determined from the type of
-   * the structural feature.
+   * This creates an instance that does not use a resource locator, specifies a category and filter flags, and
+   * determines the cell editor from the type of the structural feature. 
+   * 
+   * <p>To reduce the number of constructors for this class, this one may be deprecated in the future.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, String, String[])
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -391,9 +426,8 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the filter flags are specified, there is a
-   * a specifed category, and the cell editor is determined from the type of
-   * the structural feature.
+   * This creates an instance that uses a resource locator, specifies a category and filter flags, and determines the
+   * cell editor from the type of the structural feature. 
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -409,9 +443,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the filter flags are specified, there is a
-   * static image used and a specifed category, and the cell editor is
-   * determined from the type of the structural feature.
+   * This creates an instance that does not use a resource locator; specifies a static image, a category, and filter
+   * flags; and determines the cell editor from the type of the structural feature. 
+   * 
+   * <p>To reduce the number of constructors for this class, this one may be deprecated in the future.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, Object, String, String[])
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -427,9 +464,8 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the filter flags are specified, there is a
-   * static image used and a specifed category, and the cell editor is
-   * determined from the type of the structural feature.
+   * This creates an instance that uses a resource locator; specifies a static image, a category, and filter flags;
+   * and determines the cell editor from the type of the structural feature. 
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -455,8 +491,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the category and filter flags are empty 
-   * and the cell editor is determined for the references.
+   * This creates an instance that does not use a resource locator and determines the cell editor from the parent
+   * references.  It assumed that the feature should be setable from this property.
+   * 
+   * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EReference[], boolean)
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -464,12 +504,16 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       String description,
       EReference [] parentReferences)
   {
-    this(adapterFactory, null, displayName, description, parentReferences, true);
+    this(adapterFactory, null, displayName, description, parentReferences, true, null, null);
   }
 
   /**
-   * This creates an instance where the category and filter flags are empty 
-   * and the cell editor is determined for the references.
+   * This creates an instance that uses a resource locator and determines the cell editor from the parent references. 
+   * It assumed that the feature should be setable from this property.
+   * 
+   * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EReference[], boolean)
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -478,12 +522,16 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       String description,
       EReference [] parentReferences)
   {
-    this(adapterFactory, resourceLocator, displayName, description, parentReferences, true);
+    this(adapterFactory, resourceLocator, displayName, description, parentReferences, true, null, null);
   }
 
   /**
-   * This creates an instance where the category and filter flags are empty 
-   * and the cell editor is determined for the references.
+   * This creates an instance that does not use a resource locator and determines the cell editor from the parent
+   * references. 
+   * 
+   * <p>To reduce the number of constructors for this class, this one may be deprecated in the future.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EReference[], boolean)
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -496,8 +544,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the category and filter flags are empty 
-   * and the cell editor is determined for the references.
+   * This creates an instance that uses a resource locator and determines the cell editor from the parent references. 
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -511,8 +558,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the filter flags are specified, there is a specifed category,
-   * and the cell editor is determined for the references.
+   * This creates an instance that does not use a resource locator, specifies a category, and determines the cell
+   * editor from the parent references. 
+   * 
+   * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EReference[], boolean, String, String[])
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -526,8 +577,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the filter flags are specified, there is a specifed category,
-   * and the cell editor is determined for the references.
+   * This creates an instance that uses a resource locator, specifies a category, and determines the cell editor from
+   * the parent references. 
+   * 
+   * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EReference[], boolean, String, String[])
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -542,8 +597,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the filter flags are specified, there is a specifed category,
-   * and the cell editor is determined for the references.
+   * This creates an instance that does not use a resource locator, specifies a category and filter flags, and
+   * determines the cell editor from the parent references. 
+   * 
+   * <p>To reduce the number of constructors for this class, this one may be deprecated in the future.  For new code, please
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EReference[], boolean, String, String[])
+   * this} form, instead.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -558,8 +617,8 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
-   * This creates an instance where the filter flags are specified, there is a specifed category,
-   * and the cell editor is determined for the references.
+   * This creates an instance that uses a resource locator, specifies a category and filter flags, and determines the
+   * cell editor from the parent references. 
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
@@ -923,6 +982,15 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
+   * This is called by {@link #getPropertyValue getPropertyValue} to reflectively obtain the value of a feature
+   * from an object.  It can be overridden by a subclass to provide additional processing of the value.
+   */
+  protected Object getValue(EObject object, EStructuralFeature feature)
+  {
+    return object.eGet(feature);
+  }
+
+  /**
    * This does the delegated job of getting the property value from the given object; 
    * and it sets object, which is necessary if {@link #getComboBoxObjects getComboBoxObjects} is called.
    * It is implemented in a generic way using the structural feature or parent references.
@@ -933,7 +1001,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
     if (feature instanceof EAttribute)
     {
       EAttribute attribute = (EAttribute)feature;
-      Object result =  eObject.eGet(attribute);
+      Object result =  getValue(eObject, attribute);
       if (result == null)
       {
         return getDefaultValue(attribute.getEType());
@@ -947,7 +1015,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
     {
       for (int i = 0; i < parentReferences.length; ++i)
       {
-        Object result = eObject.eGet(parentReferences[i]);
+        Object result = getValue(eObject, parentReferences[i]);
         if (result != null)
         {
           return createPropertyValueWrapper(object, result);
@@ -957,7 +1025,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
     }
     else 
     {
-      return createPropertyValueWrapper(object, eObject.eGet(feature));
+      return createPropertyValueWrapper(object, getValue(eObject, feature));
     }
   }
 
@@ -1001,8 +1069,32 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
+   * Sets the object to use as the owner of commands created to set the property's value.
+   */
+  public void setCommandOwner(Object commandOwner)
+  {
+    this.commandOwner = commandOwner;
+  }
+
+  /**
+   * Returns the override command owner set via {@link setCommandOwner setCommandOwner}.
+   */
+  public Object getCommandOwner()
+  {
+    return commandOwner;
+  }
+
+  /**
+   * Returns either the override command owner set via {@link #setCommandOwner setCommandOwner} or, if that is null, the
+   * fallback object provided.
+   */
+  protected Object getCommandOwner(Object fallback)
+  {
+    return commandOwner != null ? commandOwner : fallback;
+  }
+
+  /**
    * This does the delegated job of resetting property value back to it's default value.
-   * This does nothing by default. I need to think more about what it should do.
    */
   public void resetPropertyValue(Object object)
   {
@@ -1023,7 +1115,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
           }
           else
           {
-            editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, eObject, parentReference, null));
+            editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, getCommandOwner(eObject), parentReference, null));
           }
           break;
         }
@@ -1037,11 +1129,11 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       }
       else if (feature.isMany())
       {
-        editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, eObject, feature, Collections.EMPTY_LIST));
+        editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, getCommandOwner(eObject), feature, Collections.EMPTY_LIST));
       }
       else
       {
-        editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, eObject, feature, null));
+        editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, getCommandOwner(eObject), feature, null));
       }
     }
   }
@@ -1099,7 +1191,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
             }
             else
             {
-              editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, eObject, parentReference, value));
+              editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, getCommandOwner(eObject), parentReference, value));
             }
             return;
           }
@@ -1111,7 +1203,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
             }
             else
             {
-              removeCommand = SetCommand.create(editingDomain, eObject, parentReference, null);
+              removeCommand = SetCommand.create(editingDomain, getCommandOwner(eObject), parentReference, null);
             }
             break;
           }
@@ -1133,12 +1225,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
             {
               final CompoundCommand compoundCommand = new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL);
               compoundCommand.append(removeCommand);
-              compoundCommand.append(SetCommand.create(editingDomain, eObject, parentReference, value));
+              compoundCommand.append(SetCommand.create(editingDomain, getCommandOwner(eObject), parentReference, value));
               editingDomain.getCommandStack().execute(compoundCommand);
             }
             else
             {
-              editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, eObject, parentReference, value));
+              editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, getCommandOwner(eObject), parentReference, value));
             }
           }
           break;
@@ -1153,7 +1245,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       }
       else
       {
-        editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, eObject, feature, value));
+        editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, getCommandOwner(eObject), feature, value));
       }
     }
   }
@@ -1172,6 +1264,15 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
     {
       return null;
     }
+  }
+
+  /**
+   * Returns whether this property represents multiple values.  This is true only if we're using a {@link #feature
+   * structural feature} to provide the values for this property, and if that feature is multi-valued.
+   */
+  public boolean isMany(Object object)
+  {
+    return parentReferences == null && feature != null && feature.isMany();
   }
 
   public Collection getChoiceOfValues(Object object)
