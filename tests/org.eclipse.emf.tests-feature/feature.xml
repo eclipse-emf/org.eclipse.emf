@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.6 2004/09/24 20:26:29 davidms Exp $
+ * $Id: feature.xml,v 1.7 2004/09/29 16:22:05 nickb Exp $
  */
 -->
 
@@ -42,11 +42,13 @@
 
    <!-- Required Eclipse plugins -->
    
+   <!-- the plugin is actually numbered _0.0.0, but for some hackish reason, the folder, when created at test-time, is named _2.1.0 -->
+   <!-- so I'm trying to hack this with this workaround -->
    <plugin
          id="org.eclipse.test"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="2.1.0"/>
 
    <plugin
          id="org.eclipse.ant.optional.junit"
