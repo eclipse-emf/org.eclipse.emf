@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.5 2004/06/22 03:15:11 marcelop Exp $
+ * $Id: JETCompiler.java,v 1.6 2004/06/22 05:19:19 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -349,7 +349,7 @@ public class JETCompiler implements JETParseEventListener
       }
       else
       {
-        chars = new String(chars, 0, i + 1).toCharArray();
+        chars = new String(chars, 0, i).toCharArray();
         return chars;
       }
     }
