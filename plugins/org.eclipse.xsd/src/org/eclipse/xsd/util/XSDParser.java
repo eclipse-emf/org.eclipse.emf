@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.2 2004/04/15 05:52:40 marcelop Exp $
+ * $Id: XSDParser.java,v 1.3 2004/05/18 13:12:37 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -359,6 +359,8 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     saveLocation();
     document = createDocument();
     xsdSchema = null;
+
+    getEncoding();
   }
 
   public static Document createDocument()
@@ -382,6 +384,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
   {
     element = null;
     saveLocation();
+    this.locator = null;
   }
 
   public void characters(char [] characters, int start, int length) throws SAXException
