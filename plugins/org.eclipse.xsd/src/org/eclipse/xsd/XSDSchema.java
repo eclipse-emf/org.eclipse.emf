@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchema.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDSchema.java,v 1.2 2004/08/24 15:54:00 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -700,6 +700,7 @@ public interface XSDSchema extends XSDScope
    * When a schema instance is constructed without an underlying DOM,
    * it is necessary to populate this map with at least a mapping for the 
    * {@link #getSchemaForSchemaQNamePrefix schema for schema namespace prefix}.
+   * Note that the default prefix is represented as <code>null</code> not as a zero length string.
    * @return the map defined by the xmlns attributes of the underlying XML representation.
    * @see #getSchemaForSchemaQNamePrefix()
    * @see #getSchemaForSchemaNamespace()
