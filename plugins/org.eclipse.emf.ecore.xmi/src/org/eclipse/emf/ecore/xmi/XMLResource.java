@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.6 2004/04/18 23:14:47 emerks Exp $
+ * $Id: XMLResource.java,v 1.7 2004/06/12 12:01:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -163,6 +163,7 @@ public interface XMLResource extends Resource
 
   String XSI_NS = "xsi";
   String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
+  String XML_SCHEMA_URI = "http://www.w3.org/2001/XMLSchema";
 
   /**
    * Returns whether the contents will be zipped.
