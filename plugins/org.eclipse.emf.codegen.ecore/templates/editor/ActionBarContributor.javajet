@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.6 2004/04/21 15:54:13 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.7 2004/05/05 19:44:36 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -151,6 +151,7 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	public <%=genPackage.getActionBarContributorClassName()%>()
 	{
 		loadResourceAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.LoadResourceAction")%>();
+		validateAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.ValidateAction")%>();
 	}
 
 	/**
