@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.6 2004/05/16 17:29:16 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.7 2004/05/26 15:23:01 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -218,7 +218,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       if (container != null)
       {
         IFile targetFile = container.getFile(new Path(outputFilePath.substring(outputFilePath.lastIndexOf("/") + 1)));
-        if (targetFile.exists() && !outputFilePath.endsWith(".properties"))
+        if (targetFile.exists() && (outputFilePath.endsWith("/build.properties") || !outputFilePath.endsWith(".properties")))
         {
           return;
         }
