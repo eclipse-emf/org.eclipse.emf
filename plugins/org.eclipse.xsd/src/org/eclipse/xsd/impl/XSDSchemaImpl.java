@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.7 2004/08/31 13:24:02 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.8 2004/10/07 12:17:41 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2828,6 +2828,42 @@ public class XSDSchemaImpl
     isIncrementalUpdate = true;
     traverseToRootForPatching();
     isIncrementalUpdate = oldIsIncrementalUpdate;
+  }
+
+  public void update(boolean force)
+  {
+    forceResolve = force;
+    update();
+    forceResolve = false;
+  }
+
+  public void reset()
+  {
+    super.reset();
+
+    reset(getAttributeDeclarations());
+    reset(getAttributeGroupDefinitions());
+    reset(getElementDeclarations());
+    reset(getModelGroupDefinitions());
+    reset(getTypeDefinitions());
+    reset(getNotationDeclarations());
+    reset(getIdentityConstraintDefinitions());
+
+    forceResolve = true;
+    update();
+    forceResolve = false;
+  }
+
+  protected void reset(List components)
+  {
+    for (Iterator i = components.iterator(); i.hasNext(); )
+    {
+      XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)i.next();
+      if (xsdConcreteComponent.getSchema() != this)
+      {
+        i.remove();
+      }
+    }
   }
 
   protected String pendingSchemaLocation;

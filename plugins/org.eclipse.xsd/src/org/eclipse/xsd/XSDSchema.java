@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchema.java,v 1.2 2004/08/24 15:54:00 emerks Exp $
+ * $Id: XSDSchema.java,v 1.3 2004/10/07 12:14:17 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -774,4 +774,19 @@ public interface XSDSchema extends XSDScope
    * @see #update
    */
   void update();
+
+  /**
+   * Resolves QNames and performs analysis.
+   * If <code>force</code> is <code>true</code> even previously resolved QNames are resolved again.
+   * @param force whether previously resolved names should be resolved again.
+   * @see #isIncrementalUpdate
+   * @see #update
+   */
+  void update(boolean force);
+
+  /**
+   * Resets the effects of imports, includes, and redefines so that they will be reprocessed.
+   * @see #update
+   */
+  void reset();
 }
