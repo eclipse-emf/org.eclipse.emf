@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RemoveCommand.java,v 1.3 2004/07/29 13:33:00 marcelop Exp $
+ * $Id: RemoveCommand.java,v 1.4 2004/10/20 23:11:03 davidms Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.emf.common.command.Command;
@@ -39,18 +40,26 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * <p>
  * The implementation of this class is low-level and EMF specific;
  * it allows one or more objects to be removed from a many-valued feature of an owner.
- * i.e., it is equivalent of the call
+ * i.e., it is almost equivalent of the call
  * <pre>
  *   ((EList)((EObject)owner).eGet((EStructuralFeature)feature)).removeAll((Collection)collection);
  * </pre>
  *
  * <p>
- * It can also be used as an equivalent to the call
+ * It can also be used as a near-equivalent to the call
  * <pre>
  *   ((EList)extent).removeAll((Collection)collection);
  * </pre>
  * which is how root objects are removed from the contents of a resource.
- * Like all the low-level comands in this package, the remove command is undoable.
+ *
+ * <p>
+ * The one difference is that, while <code>EList.removeAll(Collection)</code> removes all values equal to a value in
+ * the collection, this command will remove no more than one value per value in the collection. When duplicates are
+ * allowed and present in the list, this command will first look for identical (<code>==</code>) values, in order, and
+ * failing that, equal values (<code>.equals()</code>).
+ *
+ * <p>
+ * Like all the low-level comands in this package, the remove command is undoable. 
  *
  * <p>
  * A remove command is an {@link OverrideableCommand}.
@@ -240,48 +249,195 @@ public class RemoveCommand extends AbstractOverrideableCommand
 
   public void doExecute() 
   {
-    // Record the position of each object in the collection.
+    // Iterate over the owner list twice, first matching objects from the collection by identity (==), then matching
+    // objects by value equality (.equals()). The positions of matched objects in the owner list are recorded, and
+    // the objects are stored in the same order. The lists are then merged to form a final, in-order list of objects
+    // and corresponding indices in ownerList. This is very important for undo to interpret the indices correctly.
+    // Also, this yields exactly one object removed for each object in the collection, with preference given to
+    // identity over value equality.
     //
-    indices = new int[collection.size()];
-  
-    // This records the position index of each item.
-    // And, it reorders the collection objects to be in the owner list order!
-    // This is very important for undo to interpret the indexes correctly.
-    //
-  
-    // This is the index into the collection and hence index into indices.
-    //
+    List identity = new ArrayList(collection.size());
+    int[] identityIndices = new int[collection.size()];
+
     int i = 0;
-  
-    // We iterate over the owner list itself, not the collection!
-    //
+
     for (ListIterator ownedObjects = ownerList.listIterator(); ownedObjects.hasNext(); )
     {
       Object ownedObject = ownedObjects.next();
-  
+
       // If this owned object is one from the collection...
       //
-      if (collection.contains(ownedObject))
+      if (containsExact(collection, ownedObject))
       {
-        // Remove the object from the collection and then add it back in again.
-        // This puts each object at the end in owner list order, achieving the affect we want.
+        // Remove the object from the collection and add it to the identity list.
         //
-        collection.remove(ownedObject);
-        collection.add(ownedObject);
-  
+        removeExact(collection, ownedObject);
+        identity.add(ownedObject);
+
         // Record the index.
         //
-        indices[i++] =  ownedObjects.previousIndex();
+        identityIndices[i++] = ownedObjects.previousIndex();
       }
     }
-  
-    // Simply remove all the object in the collection from the list.
+
+    // Second pass: match by value equality.
     //
-    ownerList.removeAll(collection);
-  
+    List equality = new ArrayList(collection.size());
+    int[] equalityIndices = new int[collection.size()];
+    i = 0;
+
+    for (ListIterator ownedObjects = ownerList.listIterator(); ownedObjects.hasNext(); )
+    {
+      Object ownedObject = ownedObjects.next();
+      int index = ownedObjects.previousIndex();
+
+      // If this owned object is equal to one from the collection...
+      //
+      if (collection.contains(ownedObject) && !contains(identityIndices, index))
+      {
+        // Remove the object from the collection and add it to the equality list. 
+        //
+        collection.remove(ownedObject);
+        equality.add(ownedObject);
+
+        // Record the index.
+        //
+        equalityIndices[i++] = index;
+      }
+    }
+
+    // Merge the lists.
+    //
+    merge(identity, identityIndices, equality, equalityIndices);
+
+    // Remove objects from the owner list by index, starting from the end.
+    //
+    for (i = indices.length - 1; i >= 0; i--)
+    {
+      ownerList.remove(indices[i]);
+    }
+
     // We'd like the owner selected after this remove completes.
     //
     affectedObjects = owner == null ? Collections.EMPTY_SET : Collections.singleton(owner);
+  }
+
+  /**
+   * Returns whether the given collection contains the given target object itself (according to ==, not .equals()).
+   */
+  protected boolean containsExact(Collection collection, Object target)
+  {
+    for (Iterator i = collection.iterator(); i.hasNext(); )
+    {
+      if (i.next() == target) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Returns whether the given int array contains the given target value.
+   */
+  protected boolean contains(int[] values, int target)
+  {
+    for (int i = 0, len = values.length; i < len; i++)
+    {
+      if (values[i] == target) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Removes the first occurence of the given target object, itself, from the collection.
+   */
+  protected boolean removeExact(Collection collection, Object target)
+  {
+    for (Iterator i = collection.iterator(); i.hasNext(); )
+    {
+      if (i.next() == target)
+      {
+        i.remove();
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Merges two sets of object lists and index arrays, such that both are ordered by increasing indices. The results
+   * are stored as the {@link #collection} and {@link #indices}. The two input sets must already be in increasing index
+   * order, with the corresponding object-index pairs in the same positions.
+   */
+  protected void merge(List objects1, int[] indices1, List objects2, int[] indices2)
+  {
+    // If either list is empty, the result is simply the other.
+    //
+    if (objects2.isEmpty())
+    {
+      collection = objects1;
+      indices = indices1;
+      return;
+    }
+
+    if (objects1.isEmpty())
+    {
+      collection = objects2;
+      indices = indices2;
+      return;
+    }
+
+    // Allocate list and array for objects and indices.
+    //
+    int size = objects1.size() + objects2.size();
+    collection = new ArrayList(size);
+    indices = new int[size];
+
+    // Index counters into indices1, indices2, and indices. 
+    //
+    int i1 = 0;
+    int i2 = 0;
+    int i = 0;
+
+    // Object iterators.
+    //
+    Iterator iter1 = objects1.iterator();
+    Iterator iter2 = objects2.iterator();
+
+    Object o1 = iter1.hasNext() ? iter1.next() : null;
+    Object o2 = iter2.hasNext() ? iter2.next() : null;
+
+    // Repeatedly select the lower index and corresponding object, and advance past the selected pair.
+    //
+    while (o1 != null && o2 != null)
+    {
+      if (indices1[i1] < indices2[i2])
+      {
+        indices[i++] = indices1[i1++];
+        collection.add(o1);
+        o1 = iter1.hasNext() ? iter1.next() : null;
+      }
+      else
+      {
+        indices[i++] = indices2[i2++];
+        collection.add(o2);
+        o2 = iter2.hasNext() ? iter2.next() : null;
+      }
+    }
+
+    // Add any remaining object-index pairs from either set.
+    //
+    while (o1 != null)
+    {
+      indices[i++] = indices1[i1++];
+      collection.add(o1);
+      o1 = iter1.hasNext() ? iter1.next() : null;
+    }
+
+    while (o2 != null)
+    {
+      indices[i++] = indices2[i2++];
+      collection.add(o2);
+      o2 = iter2.hasNext() ? iter2.next() : null;
+    }
   }
 
   public void doUndo() 
@@ -307,10 +463,13 @@ public class RemoveCommand extends AbstractOverrideableCommand
   
   public void doRedo()
   {
-    // Simply remove all the object in the collection from the list.
+    // Remove objects from the owner list by index, starting from the end.
     //
-    ownerList.removeAll(collection);
-  
+    for (int i = indices.length - 1; i >= 0; i--)
+    {
+      ownerList.remove(indices[i]);
+    }
+
     // We'd like the owner selected after this remove completes.
     //
     affectedObjects = owner == null ? (Collection)Collections.EMPTY_SET : Collections.singleton(owner);
