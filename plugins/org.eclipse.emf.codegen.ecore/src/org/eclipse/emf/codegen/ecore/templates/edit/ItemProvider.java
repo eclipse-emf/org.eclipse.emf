@@ -45,7 +45,7 @@ public class ItemProvider
   protected final String TEXT_37 = ".";
   protected final String TEXT_38 = "));";
   protected final String TEXT_39 = NL + "\t}" + NL;
-  protected final String TEXT_40 = NL + "\t/**" + NL + "\t * This specifies how to implement {@link #getChildren} " + NL + "\t * and {@link org.eclipse.emf.edit.command.AddCommand} and {@link org.eclipse.emf.edit.command.RemoveCommand} " + NL + "\t * support in {@link #createCommand}." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
+  protected final String TEXT_40 = NL + "\t/**" + NL + "\t * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an" + NL + "\t * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or" + NL + "\t * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
   protected final String TEXT_41 = " getChildrenFeatures(Object object)" + NL + "\t{" + NL + "\t\tif (childrenFeatures == null)" + NL + "\t\t{" + NL + "\t\t\tsuper.getChildrenFeatures(object);";
   protected final String TEXT_42 = NL + "\t\t\tchildrenFeatures.add(";
   protected final String TEXT_43 = ".eINSTANCE.get";
