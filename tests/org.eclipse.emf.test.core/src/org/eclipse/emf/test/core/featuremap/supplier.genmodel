@@ -7,7 +7,7 @@
     editPluginClass="" editorPluginClass="" runtimeCompatibility="false">
   <foreignModel>supplier.xsd</foreignModel>
   <genPackages prefix="Supplier" basePackage="org.eclipse.emf.test.core.featuremap"
-      resource="XML" ecorePackage="com.example.supplier.ecore#/">
+      resource="XML" disposableProviderFactory="true" ecorePackage="com.example.supplier.ecore#/">
     <genClasses ecoreClass="com.example.supplier.ecore#//PurchaseOrder">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.supplier.ecore#//PurchaseOrder/id"/>
     </genClasses>

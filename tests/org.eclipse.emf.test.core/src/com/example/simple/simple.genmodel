@@ -12,7 +12,8 @@
   <staticPackages>http://www.eclipse.org/emf/2003/SDO</staticPackages>
   <modelPluginVariables>EMF_COMMONJ_SDO=org.eclipse.emf.commonj.sdo</modelPluginVariables>
   <modelPluginVariables>EMF_ECORE_SDO=org.eclipse.emf.ecore.sdo</modelPluginVariables>
-  <genPackages prefix="Simple" basePackage="com.example" resource="XML" ecorePackage="com.example.simple.ecore#/">
+  <genPackages prefix="Simple" basePackage="com.example" resource="XML" disposableProviderFactory="true"
+      ecorePackage="com.example.simple.ecore#/">
     <genClasses ecoreClass="com.example.simple.ecore#//Quote">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.simple.ecore#//Quote/symbol"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.simple.ecore#//Quote/companyName"/>

@@ -13,7 +13,7 @@
   <modelPluginVariables>EMF_COMMONJ_SDO=org.eclipse.emf.commonj.sdo</modelPluginVariables>
   <modelPluginVariables>EMF_ECORE_SDO=org.eclipse.emf.ecore.sdo</modelPluginVariables>
   <genPackages prefix="Types" basePackage="org.eclipse.emf.test.core.sdo.types.model"
-      resource="XML" ecorePackage="com.example.types.ecore#/">
+      resource="XML" disposableProviderFactory="true" ecorePackage="com.example.types.ecore#/">
     <genDataTypes ecoreDataType="com.example.types.ecore#//MyBytes"/>
     <genDataTypes ecoreDataType="com.example.types.ecore#//MyChar"/>
     <genDataTypes ecoreDataType="com.example.types.ecore#//MyCharObject"/>
