@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.11 2005/02/16 15:39:25 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.12 2005/02/23 19:29:14 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -530,9 +530,31 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	{
   <%if (genOperation.hasBody()) {%>
 		<%=genOperation.getBody(genModel.getIndentation(stringBuffer))%>
-  <%} else if (genOperation.isInvariant()) {%>
+  <%} else if (genOperation.isInvariant()) {GenClass opClass = genOperation.getGenClass(); String diagnostics = ((GenParameter)genOperation.getGenParameters().get(0)).getName(); String context = ((GenParameter)genOperation.getGenParameters().get(1)).getName();%>
 		// TODO: implement this method
+		// -> specify the condition that violates the invariant
+		// -> verify the details of the diagnostic, including severity and message
 		// Ensure that you remove @generated or mark it @generated NOT
+		if (false)
+		{
+			if (<%=diagnostics%> != null)
+			{
+				<%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%>.SubstitutionLabelProvider labelProvider = <%=context%> == null ?
+					null :
+					(EValidator.SubstitutionLabelProvider)<%=context%>.get(EValidator.SubstitutionLabelProvider.class);
+				String objectLabel = labelProvider == null ?
+					<%=genModel.getImportedName("org.eclipse.emf.ecore.util.EcoreUtil")%>.getIdentification(this) :
+					labelProvider.getObjectLabel(this);
+				<%=((GenParameter)genOperation.getGenParameters().get(0)).getName()%>.add
+					(new <%=genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic")%>
+						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
+						 <%=opClass.getGenPackage().getImportedValidatorClassName()%>.DIAGNOSTIC_SOURCE,
+						 <%=opClass.getGenPackage().getImportedValidatorClassName()%>.<%=opClass.getOperationID(genOperation)%>,
+ 						 <%=genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin")%>.INSTANCE.getString("_UI_GenericInvariant_diagnostic", new Object[] { "<%=genOperation.getName()%>", objectLabel }),<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+						 new Object [] { this }));
+			}
+			return false;
+		}
 		return true;
   <%} else {%>
 		// TODO: implement this method
