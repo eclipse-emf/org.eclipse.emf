@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.7 2004/05/25 17:18:32 emerks Exp $
+ * $Id: XSDEditor.java,v 1.8 2004/05/25 17:56:14 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -943,8 +943,6 @@ public class XSDEditor
 
             progressMonitor.worked(1);
             progressMonitor.subTask(XSDEditorPlugin.INSTANCE.getString("_UI_ReportingErrors_message"));
-
-            handleDiagnostics(progressMonitor);
           }
           finally
           {
@@ -1135,6 +1133,8 @@ public class XSDEditor
 
       IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
       int pageIndex = addPage(textEditor, modelFile);
+
+      handleDiagnostics(null);
 
       setPageText(pageIndex, "Source");
 
