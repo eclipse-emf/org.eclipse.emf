@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIEditorInput.java,v 1.1 2004/06/09 19:41:35 marcelop Exp $
+ * $Id: URIEditorInput.java,v 1.2 2004/06/14 23:48:58 marcelop Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -38,6 +38,14 @@ public class URIEditorInput implements IEditorInput
   {
     this.uri = uri;
   }
+  
+  /**
+   * @return the uri
+   */
+  public URI getURI()
+  {
+    return uri;
+  }  
 
   /**
    * Returns <b>true</b> only if the URI represents a file and if 
@@ -46,9 +54,9 @@ public class URIEditorInput implements IEditorInput
    */
   public boolean exists()
   {
-    if (uri.isFile())
+    if (getURI().isFile())
     {
-      return new File(uri.toFileString()).exists();
+      return new File(getURI().toFileString()).exists();
     }
     else
     {
@@ -62,15 +70,15 @@ public class URIEditorInput implements IEditorInput
    */
   public String getName()
   {
-    return uri.toString();
+    return getURI().toString();
   }
   
-  /**
-   * @return the uri
+  /*
+   * @see org.eclipse.ui.IEditorInput#getToolTipText()
    */
-  public URI getURI()
+  public String getToolTipText()
   {
-    return uri;
+      return getName();
   }
 
   /* (non-Javadoc)
@@ -85,14 +93,6 @@ public class URIEditorInput implements IEditorInput
    * @see org.eclipse.ui.IEditorInput#getPersistable()
    */
   public IPersistableElement getPersistable()
-  {
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.eclipse.ui.IEditorInput#getToolTipText()
-   */
-  public String getToolTipText()
   {
     return null;
   }
