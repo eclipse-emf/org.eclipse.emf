@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.4 2004/05/16 17:24:20 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.5 2004/06/10 11:42:49 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -78,7 +78,6 @@
         name = "%_UI_<%=genPackage.getModelWizardClassName()%>_label"
         class = "<%=genPackage.getQualifiedModelWizardClassName()%>"
         category = "org.eclipse.emf.ecore.Wizard.category.ID"
-        availableAsShortcut="true"
         icon = "icons/full/obj16/<%=genPackage.getPrefix()%>ModelFile.gif">
       <description>%_UI_<%=genPackage.getModelWizardClassName()%>_description</description>
       <selection class = "org.eclipse.core.resources.IResource" />

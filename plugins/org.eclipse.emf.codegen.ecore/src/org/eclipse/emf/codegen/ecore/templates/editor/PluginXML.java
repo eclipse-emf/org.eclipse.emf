@@ -31,7 +31,7 @@ public class PluginXML
   protected final String TEXT_23 = NL + "  <extension" + NL + "    point = \"org.eclipse.ui.newWizards\">" + NL + "    <category" + NL + "       id = \"org.eclipse.emf.ecore.Wizard.category.ID\"" + NL + "       name=\"%_UI_Wizard_category\">" + NL + "    </category>" + NL + "    <wizard" + NL + "        id = \"";
   protected final String TEXT_24 = "ID\"" + NL + "        name = \"%_UI_";
   protected final String TEXT_25 = "_label\"" + NL + "        class = \"";
-  protected final String TEXT_26 = "\"" + NL + "        category = \"org.eclipse.emf.ecore.Wizard.category.ID\"" + NL + "        availableAsShortcut=\"true\"" + NL + "        icon = \"icons/full/obj16/";
+  protected final String TEXT_26 = "\"" + NL + "        category = \"org.eclipse.emf.ecore.Wizard.category.ID\"" + NL + "        icon = \"icons/full/obj16/";
   protected final String TEXT_27 = "ModelFile.gif\">" + NL + "      <description>%_UI_";
   protected final String TEXT_28 = "_description</description>" + NL + "      <selection class = \"org.eclipse.core.resources.IResource\" />" + NL + "    </wizard>" + NL + "  </extension>" + NL;
   protected final String TEXT_29 = NL + "  <extension point = \"org.eclipse.ui.editors\">" + NL + "    <editor" + NL + "        id = \"";
