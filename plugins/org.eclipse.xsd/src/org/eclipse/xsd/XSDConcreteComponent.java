@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponent.java,v 1.2 2004/07/29 17:56:18 marcelop Exp $
+ * $Id: XSDConcreteComponent.java,v 1.3 2004/09/28 15:21:12 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -550,6 +550,8 @@ public interface XSDConcreteComponent extends EObject
   /**
    * Validates whether this component conforms to the constraints defined in the XML Schema standard.
    * {@link #getDiagnostics() Diagnostics} are produced to report any problems.
+   * The effect of calling this for a component not directly or indirectly contained by a {@link org.eclipse.xsd.XSDSchema schema}
+   * is undefined, and is likely to result in null pointer exceptions.
    * @see #getDiagnostics()
    * @see #clearDiagnostics()
    */
