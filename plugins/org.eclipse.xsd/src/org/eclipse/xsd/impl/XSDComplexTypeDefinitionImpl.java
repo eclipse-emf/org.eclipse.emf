@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.4 2004/07/19 14:41:23 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.5 2004/09/28 14:36:44 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1237,6 +1237,10 @@ public class XSDComplexTypeDefinitionImpl
               }
             }
           }
+        }
+        else if (isEmptyContent)
+        {
+          newContentTypeCategory = XSDContentTypeCategory.EMPTY_LITERAL;
         }
       }
       else
