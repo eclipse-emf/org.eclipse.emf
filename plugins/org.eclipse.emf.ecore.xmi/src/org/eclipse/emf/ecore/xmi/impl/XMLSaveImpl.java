@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.11 2004/06/08 21:33:19 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.12 2004/06/09 18:19:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -275,7 +275,7 @@ public class XMLSaveImpl implements XMLSave
       {
         eObjectToExtensionMap = null;
       }
-      else
+      else if (extendedMetaData == null)
       {
         extendedMetaData =
           resource.getResourceSet() == null ?
