@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.2 2004/05/06 12:45:59 fbudinsky Exp $
+ * $Id: ChangeRecorder.java,v 1.3 2004/05/14 21:41:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -209,7 +209,7 @@ public class ChangeRecorder implements Adapter
         if (change == null)
         {
           Object oldValue = notification.getOldValue();
-          change = createFeatureChange(feature, oldValue, notification.wasSet());
+          change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
           changes.add(change);
         }
         if (containment != null)
@@ -228,7 +228,7 @@ public class ChangeRecorder implements Adapter
         {
           List oldValue = new BasicEList((Collection)eObject.eGet(feature));
           oldValue.remove(notification.getPosition());
-          change = createFeatureChange(feature, oldValue, notification.wasSet());
+          change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
           changes.add(change);
         }
         if (containment != null)
@@ -248,7 +248,7 @@ public class ChangeRecorder implements Adapter
           {
             oldValue.remove(position);
           }
-          change = createFeatureChange(feature, oldValue, notification.wasSet());
+          change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
           changes.add(change);
         }
         if (containment != null)
@@ -276,7 +276,7 @@ public class ChangeRecorder implements Adapter
             position = 0;
           }
           oldValue.add(position, notification.getOldValue());
-          change = createFeatureChange(feature, oldValue, notification.wasSet());
+          change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
           changes.add(change);
         }
         break;
@@ -299,7 +299,7 @@ public class ChangeRecorder implements Adapter
               oldValue.add(positions[i], removedValues.get(i));
             }
           }
-          change = createFeatureChange(feature, oldValue, notification.wasSet());
+          change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
           changes.add(change);
         }
         break;
@@ -312,7 +312,7 @@ public class ChangeRecorder implements Adapter
           int position = notification.getPosition();
           int oldPosition = ((Integer)notification.getOldValue()).intValue();
           oldValue.move(oldPosition, position);
-          change = createFeatureChange(feature, oldValue, notification.wasSet());
+          change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
           changes.add(change);
         }
         break;
@@ -614,7 +614,7 @@ public class ChangeRecorder implements Adapter
     return listChange;
   }
 
-  protected FeatureChange createFeatureChange(EStructuralFeature eStructuralFeature, Object value, boolean isSet)
+  protected FeatureChange createFeatureChange(EObject eObject, EStructuralFeature eStructuralFeature, Object value, boolean isSet)
   {
     return ChangeFactory.eINSTANCE.createFeatureChange(eStructuralFeature, value, isSet);
   }
