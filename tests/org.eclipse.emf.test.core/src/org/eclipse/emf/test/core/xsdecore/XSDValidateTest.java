@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.1 2004/06/16 18:01:17 elena Exp $
+ * $Id: XSDValidateTest.java,v 1.2 2004/06/16 20:12:34 elena Exp $
  */
 package org.eclipse.emf.test.core.xsdecore;
 
@@ -53,8 +53,8 @@ public class XSDValidateTest extends TestCase
   // specify file to validate and print messages to be added to "expectedMsg" array
   final static String xsdFile = "Bad.xsd";
 
-  final static String[] xsdFiles = { "Bad.xsd", "BadMinExclusiveFacet.xsd", "BadAttriButeDeclaration.xsd", "BadMinInclusiveFacet.xsd",
-      "BadAttriButeGroupDefinition.xsd", "BadMinLengthFacet.xsd", "BadComplexTypeDefinition.xsd", "BadModelGroup.xsd", "BadDataType.xsd",
+  final static String[] xsdFiles = { "Bad.xsd", "BadMinExclusiveFacet.xsd", "BadAttributeDeclaration.xsd", "BadMinInclusiveFacet.xsd",
+      "BadAttributeGroupDefinition.xsd", "BadMinLengthFacet.xsd", "BadComplexTypeDefinition.xsd", "BadModelGroup.xsd", "BadDataType.xsd",
       "BadModelGroupDefinition.xsd", "BadElementDeclaration.xsd", "BadNotationDeclaration.xsd", "BadEnumerationFacet.xsd",
       "BadPatternFacet.xsd", "BadFractionDigitsFacet.xsd", "BadSchema.xsd", "BadIdentityConstraintDefinition.xsd",
       "BadSimpleTypeDefinition.xsd", "BadLengthFacet.xsd", "BadTotalDigitsFacet.xsd", "BadMaxExclusiveFacet.xsd", "BadWhiteSpaceFacet.xsd",
