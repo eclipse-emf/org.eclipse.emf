@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.3 2004/05/22 19:07:38 marcelop Exp $
+ * $Id: PropertyDescriptor.java,v 1.4 2004/08/06 11:41:03 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -365,7 +365,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
                 }
               };
           }
-          else if (eDataType == EcorePackage.eINSTANCE.getEBoolean() || eDataType == EcorePackage.eINSTANCE.getEBooleanObject())
+          else if (eDataType.getInstanceClass() == Boolean.class || eDataType.getInstanceClass() == Boolean.TYPE)
           {
             result = 
               new ExtendedComboBoxCellEditor
