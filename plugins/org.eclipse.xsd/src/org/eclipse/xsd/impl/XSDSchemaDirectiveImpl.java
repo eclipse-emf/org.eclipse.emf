@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.3 2004/03/26 18:23:58 emerks Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.4 2004/07/06 18:09:06 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -373,36 +373,38 @@ public abstract class XSDSchemaDirectiveImpl
             }
 
             XSDSchema resolvedSchema = locateSchema(xsdSchema, namespace, schemaLocation, resolvedSchemaLocation);
-
-            URI uri = URI.createURI(resolvedSchemaLocation);
-            Resource resolvedResource = resourceSet.getResource(uri, false);
-            if (resolvedResource == null)
+            if (resolvedSchema == null)
             {
-              try
+              URI uri = URI.createURI(resolvedSchemaLocation);
+              Resource resolvedResource = resourceSet.getResource(uri, false);
+              if (resolvedResource == null)
               {
-                InputStream inputStream = resourceSet.getURIConverter().createInputStream(uri);
-                resolvedResource = resourceSet.createResource(URI.createURI("*.xsd"));
-                resolvedResource.setURI(uri);
-                resolvedResource.load(inputStream, resourceSet.getLoadOptions());
+                try
+                {
+                  InputStream inputStream = resourceSet.getURIConverter().createInputStream(uri);
+                  resolvedResource = resourceSet.createResource(URI.createURI("*.xsd"));
+                  resolvedResource.setURI(uri);
+                  resolvedResource.load(inputStream, resourceSet.getLoadOptions());
+                }
+                catch (IOException exception)
+                {
+                  // It is generally not an error to fail to resolve.
+                  // If a resource is actually created, 
+                  // which happens only when we can create an input stream,
+                  // then it's an error if it's not a good schema
+                }
               }
-              catch (IOException exception)
+  
+              if (resolvedResource != null)
               {
-                // It is generally not an error to fail to resolve.
-                // If a resource is actually created, 
-                // which happens only when we can create an input stream,
-                // then it's an error if it's not a good schema
-              }
-            }
-
-            if (resolvedResource != null)
-            {
-              if (resolvedResource instanceof XSDResourceImpl)
-              {
-                resolvedSchema = ((XSDResourceImpl)resolvedResource).getSchema();
-              }
-              else
-              {
-                resolvedSchema = XSDFactory.eINSTANCE.createXSDSchema();
+                if (resolvedResource instanceof XSDResourceImpl)
+                {
+                  resolvedSchema = ((XSDResourceImpl)resolvedResource).getSchema();
+                }
+                else
+                {
+                  resolvedSchema = XSDFactory.eINSTANCE.createXSDSchema();
+                }
               }
             }
 
