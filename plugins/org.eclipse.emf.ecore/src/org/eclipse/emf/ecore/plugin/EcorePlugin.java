@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.3 2004/05/18 15:38:13 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.4 2004/06/07 19:39:17 marcelop Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -21,14 +21,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.osgi.framework.BundleContext;
+
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
-import org.osgi.framework.BundleContext;
 // ECLIPSE-DEPEND-END
 
 
@@ -285,7 +287,10 @@ public class EcorePlugin
     {
       super.start(context);
 
-      workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+      if (Platform.getBundle("org.eclipse.core.resources") != null)
+      {
+        workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+      }
 
       new GeneratedPackageRegistryReader().readRegistry();
       new ExtensionParserRegistryReader().readRegistry();
