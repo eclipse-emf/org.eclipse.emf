@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETNature.java,v 1.2 2004/05/16 17:33:10 emerks Exp $
+ * $Id: JETNature.java,v 1.3 2004/06/30 20:31:15 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -61,6 +61,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.common.util.URI;
 
 
 public class JETNature implements IJETNature 
@@ -696,9 +697,13 @@ public class JETNature implements IJETNature
   public static IContainer getContainer(IProject project, IPath path) 
   {
     IContainer result = project;
-    if (!path.isEmpty())  
+    if (!path.isEmpty())
     {
-      if (path.isAbsolute())
+      if (path.getDevice() != null)
+      {
+        result = null;
+      }
+      else if (path.isAbsolute() && path.getDevice() == null)
       {
         IResource resource = project.getWorkspace().getRoot().findMember(path);
         if (resource instanceof IContainer)
@@ -725,7 +730,19 @@ public class JETNature implements IJETNature
     for (StringTokenizer stringTokenizer = new StringTokenizer(paths, " ;"); stringTokenizer.hasMoreTokens(); )
     {
       String path = stringTokenizer.nextToken();
-      result.add(getContainer(project, new Path(path)));
+      IContainer container = getContainer(project, new Path(path));
+      if (container == null)
+      {
+        URI uri = URI.createURI(path);
+        if (!uri.isRelative())
+        {
+          result.add(uri);
+        }
+      }
+      else
+      {
+        result.add(container);
+      }
     }
     return result;
   }
@@ -735,12 +752,19 @@ public class JETNature implements IJETNature
     StringBuffer result = new StringBuffer();
     for (Iterator i = containers.iterator(); i.hasNext(); )
     {
-      IContainer container = (IContainer)i.next();
+      Object container = i.next();
       if (result.length() != 0)
       {
         result.append(";");
       }
-      result.append(getContainer(project, container));
+      if (container instanceof IContainer)
+      {
+        result.append(getContainer(project, (IContainer)container));
+      }
+      else if (container instanceof URI)
+      {
+        result.append(container);
+      }
     }
     return result.toString();
   }

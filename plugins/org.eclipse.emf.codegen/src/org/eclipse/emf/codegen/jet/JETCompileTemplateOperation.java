@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: JETCompileTemplateOperation.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETCompileTemplateOperation.java,v 1.2 2004/06/30 20:31:15 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.util.URI;
 
 
 public class JETCompileTemplateOperation implements IWorkspaceRunnable 
@@ -66,7 +69,15 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
     this.containers = containers;
     for (Iterator i = containers.iterator(); i.hasNext(); )
     {
-      consider((IContainer)i.next());
+      Object container = i.next();
+      if (container instanceof IContainer)
+      {
+        consider((IContainer)container);
+      }
+      else 
+      {
+        consider(container.toString());
+      }
     }
   }
 
@@ -117,6 +128,40 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
   }
 
   /**
+   * Adds the URI.
+   */
+  protected void consider(String uri) 
+  {
+    URI baseURI = URI.createURI(uri);
+    URI localURI = CommonPlugin.asLocalURI(baseURI);
+    if (localURI.isFile() && !localURI.isRelative())
+    {
+      File file = new File(localURI.toFileString());
+      if (file.isDirectory() && !uri.endsWith("/"))
+      {
+        baseURI = URI.createURI(uri + "/");
+      }
+      consider(baseURI, localURI, new File(localURI.toFileString()));
+    }
+  }
+
+  protected void consider(URI baseURI, URI localURI, File file) 
+  {
+    if (file.isDirectory())
+    {
+      File [] files = file.listFiles();
+      for (int i = 0; i < files.length; ++i)
+      {
+        consider(baseURI, localURI, files[i]);
+      }
+    }
+    else if (file.isFile() && file.getName().endsWith(JET_EXTENSION) && file.getName().indexOf('.') != -1)
+    {
+      files.add(URI.createFileURI(file.getAbsolutePath()).deresolve(localURI).resolve(baseURI));
+    }
+  }
+
+  /**
    * Adds the file to {@link #files} the file ends with the {@link #JET_EXTENSION} extension.
    */
   protected void consider(IFile file) 
@@ -164,34 +209,41 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
 
       for (Iterator i = files.iterator(); i.hasNext(); )
       {
-        IFile file = (IFile)i.next();
-        String fileName = file.getName();
+        Object file = i.next();
+        String fileName = file instanceof IFile ? ((IFile)file).getName() : file.toString();
 
         progressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_JETCompile_message", new Object [] { fileName }));
 
         JETNature nature = JETNature.getRuntime(project);
         IContainer directory = nature.getJavaSourceContainer();
 
-        IPath filePath = file.getFullPath();
+        IPath filePath = file instanceof IFile ? ((IFile)file).getFullPath() : new Path(file.toString());
         List templateContainers = nature.getTemplateContainers();
 
         String [] containerLocations = new String [templateContainers.size()];
         for (ListIterator j = templateContainers.listIterator(); j.hasNext(); )
         {
-          IContainer container = (IContainer)j.next();
-          containerLocations[j.previousIndex()] = "platform:/resource" + container.getFullPath();
+          Object container = j.next();
+          if (container instanceof IContainer)
+          {
+            containerLocations[j.previousIndex()] = "platform:/resource" + ((IContainer)container).getFullPath();
+          }
+          else
+          {
+            containerLocations[j.previousIndex()] = container.toString();
+          }
         }
 
         for (Iterator j = templateContainers.iterator(); j.hasNext(); )
         {
-          IContainer container = (IContainer)j.next();
-          IPath containerPath = container.getFullPath();
+          Object container = j.next();
+          IPath containerPath = container instanceof IContainer ? ((IContainer)container).getFullPath() : new Path(container.toString());
           if (containerPath.isPrefixOf(filePath))
           {
             JETCompiler compiler = 
               new JETCompiler
                 (containerLocations, 
-                 filePath.removeFirstSegments(containerPath.segmentCount()).toString());
+                 filePath.removeFirstSegments(containerPath.segmentCount()).setDevice(null).toString());
             compiler.parse();
 
             ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
