@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.2 2004/03/09 20:44:49 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.3 2004/05/05 19:40:50 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -79,29 +79,59 @@ public class <%=genPackage.getSwitchClassName()%>
 	 */
 	public Object doSwitch(EObject theEObject)
 	{
-		EClass theEClass = theEObject.eClass();
+		return doSwitch(theEObject.eClass(), theEObject);
+	}
+
+	/**
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
+	protected Object doSwitch(EClass theEClass, EObject theEObject)
+	{
 		if (theEClass.eContainer() == modelPackage)
 		{
-			switch (theEClass.getClassifierID())
-			{
+			return doSwitch(theEClass.getClassifierID(), theEObject);
+		}
+		else
+		{
+			<%=genModel.getImportedName("java.util.List")%> eSuperTypes = theEClass.getESuperTypes();
+			return
+				eSuperTypes.isEmpty() ?
+					defaultCase(theEObject) :
+					doSwitch((EClass)eSuperTypes.get(0), theEObject);
+		}
+	}
+
+	/**
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
+	protected Object doSwitch(int classifierID, EObject theEObject)
+	{
+		switch (classifierID)
+		{
 <%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
 <%if (!genClass.isAbstract() && !genClass.isEObject()) { String result = "result".equals(genClass.getSafeUncapName()) ? "theResult" : "result"; %>
-				case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genPackage.getClassifierID(genClass)%>:
-				{
-					<%=genClass.getImportedInterfaceName()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%>)theEObject;
-					Object <%=result%> = case<%=genPackage.getClassUniqueName(genClass)%>(<%=genClass.getSafeUncapName()%>);
+			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genPackage.getClassifierID(genClass)%>:
+			{
+				<%=genClass.getImportedInterfaceName()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%>)theEObject;
+				Object <%=result%> = case<%=genPackage.getClassUniqueName(genClass)%>(<%=genClass.getSafeUncapName()%>);
 <%for (Iterator b=genClass.getSwitchGenClasses().iterator(); b.hasNext();) { GenClass baseGenClass = (GenClass)b.next();%>
-					if (<%=result%> == null) <%=result%> = case<%=genPackage.getClassUniqueName(baseGenClass)%>(<%=genClass.getSafeUncapName()%>);
+				if (<%=result%> == null) <%=result%> = case<%=genPackage.getClassUniqueName(baseGenClass)%>(<%=genClass.getSafeUncapName()%>);
 <%}%>
-					if (<%=result%> == null) <%=result%> = defaultCase(theEObject);
-					return <%=result%>;
-				}
-<%}%>
-<%}%>
-				default: return defaultCase(theEObject);
+				if (<%=result%> == null) <%=result%> = defaultCase(theEObject);
+				return <%=result%>;
 			}
+<%}%>
+<%}%>
+			default: return defaultCase(theEObject);
 		}
-		return defaultCase(theEObject);
 	}
 <%for (Iterator i=genPackage.getAllSwitchGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
 
