@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EPackageImpl.java,v 1.2 2004/05/05 19:31:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -722,6 +722,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
   protected static final boolean IS_UNSETTABLE = true;
   protected static final boolean IS_UNIQUE = true;
   protected static final boolean IS_ID = true;
+  protected static final boolean IS_ORDERED = true;
 
   /**
    * @deprecated
@@ -801,8 +802,54 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
      boolean isUnique,
      boolean isDerived)
   {
+    return 
+      initEAttribute
+        (a, 
+         type, 
+         name, 
+         defaultValue, 
+         lowerBound, 
+         upperBound, 
+         isTransient, 
+         isVolatile, 
+         isChangeable, 
+         isUnsettable, 
+         isID, 
+         isUnique, 
+         isDerived, 
+         true);
+  }
+
+  protected EAttribute initEAttribute
+    (EAttribute a, 
+     EClassifier type,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isUnsettable,
+     boolean isID,
+     boolean isUnique,
+     boolean isDerived,
+     boolean isOrdered)
+  {
     initEStructuralFeature
-      (a, type, name, defaultValue, lowerBound, upperBound, isTransient, isVolatile, isChangeable, isUnsettable, isUnique, isDerived);
+      (a, 
+       type, 
+       name, 
+       defaultValue, 
+       lowerBound, 
+       upperBound, 
+       isTransient, 
+       isVolatile, 
+       isChangeable, 
+       isUnsettable, 
+       isUnique, 
+       isDerived, 
+       isOrdered);
     a.setID(isID);
     return a;
   }
@@ -937,8 +984,58 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
      boolean isUnique,
      boolean isDerived)
   {
+    initEReference
+      (r, 
+       type, 
+       otherEnd, 
+       name, 
+       defaultValue, 
+       lowerBound, 
+       upperBound, 
+       isTransient, 
+       isVolatile, 
+       isChangeable, 
+       isContainment, 
+       isResolveProxies, 
+       isUnsettable, 
+       isUnique,
+       isDerived,
+       true);
+    return r;
+  }
+
+  protected EReference initEReference
+    (EReference r, 
+     EClassifier type, 
+     EReference otherEnd,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isContainment, 
+     boolean isResolveProxies,
+     boolean isUnsettable,
+     boolean isUnique,
+     boolean isDerived,
+     boolean isOrdered)
+  {
     initEStructuralFeature
-      (r, type, name, defaultValue, lowerBound, upperBound, isTransient, isVolatile, isChangeable, isUnsettable, isUnique, isDerived);
+      (r, 
+       type, 
+       name, 
+       defaultValue, 
+       lowerBound, 
+       upperBound, 
+       isTransient, 
+       isVolatile, 
+       isChangeable, 
+       isUnsettable, 
+       isUnique, 
+       isDerived, 
+       isOrdered);
     r.setContainment(isContainment);
     if (otherEnd != null)
     {
@@ -960,7 +1057,8 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
      boolean isChangeable,
      boolean isUnsettable,
      boolean isUnique,
-     boolean isDerived)
+     boolean isDerived,
+     boolean isOrdered)
   {
     s.setName(name);
     ((EStructuralFeatureImpl)s).setContainerClass(((EClassifier)s.eContainer()).getInstanceClass());
@@ -970,6 +1068,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
     s.setUnsettable(isUnsettable);
     s.setUnique(isUnique);
     s.setDerived(isDerived);
+    s.setOrdered(isOrdered);
     s.setLowerBound(lowerBound);
     s.setUpperBound(upperBound);
     s.setEType(type);
