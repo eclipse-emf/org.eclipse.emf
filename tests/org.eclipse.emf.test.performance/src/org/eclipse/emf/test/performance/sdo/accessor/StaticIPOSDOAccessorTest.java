@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.13 2005/03/10 16:12:21 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.14 2005/03/10 22:11:50 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -133,6 +133,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     //serializeDataGraph();
 
     initModel();
+    initNewValues();
     ITERATIONS_SETDO = 50000;
   }
 
