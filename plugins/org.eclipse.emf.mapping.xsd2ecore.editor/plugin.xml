@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.4 2004/05/16 16:48:27 emerks Exp $
+ * $Id: plugin.xml,v 1.5 2004/06/07 19:34:40 marcelop Exp $
  */
 -->
 
@@ -128,4 +128,9 @@
     </editorContribution>
   </extension>
 
+  <extension point="org.eclipse.ui.activities">
+    <activityPatternBinding
+      activityId="org.eclipse.EMF"
+      pattern="org\.eclipse\.emf\.mapping\.xsd2ecore\.editor/.*"/>
+  </extension> 
 </plugin>
