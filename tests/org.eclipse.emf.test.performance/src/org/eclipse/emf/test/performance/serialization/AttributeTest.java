@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AttributeTest.java,v 1.2 2005/02/01 18:23:32 marcelop Exp $
+ * $Id: AttributeTest.java,v 1.3 2005/02/04 21:16:38 elena Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -70,12 +70,12 @@ public class AttributeTest extends EMFPerformanceTestCase
     String length500 = stringBuffer.toString();
 
     TestSuite testSuite = new TestSuite();
-    testSuite.addTest(new AttributeTest("test1", "a", Collections.EMPTY_MAP, Collections.EMPTY_MAP).setWarmUp(WARM_UP).setIterations(ITERATION));
-    testSuite.addTest(new AttributeTest("test2", "a", Collections.EMPTY_MAP, Collections.EMPTY_MAP).setWarmUp(WARM_UP).setIterations(ITERATION));
-    testSuite.addTest(new AttributeTest("test3", "a", Collections.EMPTY_MAP, Collections.EMPTY_MAP).setWarmUp(WARM_UP).setIterations(ITERATION));
-    testSuite.addTest(new AttributeTest("test4", length500, Collections.EMPTY_MAP, Collections.EMPTY_MAP).setWarmUp(WARM_UP).setIterations(ITERATION));
-    testSuite.addTest(new AttributeTest("test5", length500, Collections.EMPTY_MAP, Collections.EMPTY_MAP).setWarmUp(WARM_UP).setIterations(ITERATION));
-    testSuite.addTest(new AttributeTest("test6", length500, Collections.EMPTY_MAP, Collections.EMPTY_MAP).setWarmUp(WARM_UP).setIterations(ITERATION));
+    testSuite.addTest(new AttributeTest("test1", "a", Collections.EMPTY_MAP, Collections.EMPTY_MAP).setWarmUp(WARM_UP).setRepetitions(ITERATION));
+    testSuite.addTest(new AttributeTest("test2", "a", Collections.EMPTY_MAP, Collections.EMPTY_MAP).setWarmUp(WARM_UP).setRepetitions(ITERATION));
+    testSuite.addTest(new AttributeTest("test3", "a", Collections.EMPTY_MAP, Collections.EMPTY_MAP).setWarmUp(WARM_UP).setRepetitions(ITERATION));
+    testSuite.addTest(new AttributeTest("test4", length500, Collections.EMPTY_MAP, Collections.EMPTY_MAP).setWarmUp(WARM_UP).setRepetitions(ITERATION));
+    testSuite.addTest(new AttributeTest("test5", length500, Collections.EMPTY_MAP, Collections.EMPTY_MAP).setWarmUp(WARM_UP).setRepetitions(ITERATION));
+    testSuite.addTest(new AttributeTest("test6", length500, Collections.EMPTY_MAP, Collections.EMPTY_MAP).setWarmUp(WARM_UP).setRepetitions(ITERATION));
     return testSuite;
   }
   

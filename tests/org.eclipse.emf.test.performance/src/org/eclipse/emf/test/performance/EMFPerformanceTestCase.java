@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.3 2005/02/01 18:23:32 marcelop Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.4 2005/02/04 21:16:38 elena Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -27,10 +27,10 @@ import org.eclipse.test.performance.PerformanceTestCase;
  * don't affect the measurements.</li>
  * <li>Invoking <tt><b>super.</b>setUp</tt> and <tt><b>super.</b>tearDown</tt> is
  * mandatory if these methods are being overwritten by subclasses</li>
- * <li>The <tt>iterations</tt> attribute defines how many times a test will be invoked.  
+ * <li>The <tt>repetitions</tt> attribute defines how many times a test will be invoked.  
  * If the <tt>startMeasuring</tt> and <tt>stopMeasuring</tt> are invoked in the test, each 
- * iteration is measured and the final result is an average of all iterations.  The default 
- * number of iterations is 1.</li>
+ * iteration is measured and the final result is an average of all repetitions.  The default 
+ * number of repetitions is 1.</li>
  * <li>The <tt>warmUp</tt> attribute defines how many times a test will be invoked
  * <b>before</b> the measurements take place.  The <tt>startMeasuring</tt> and 
  * <tt>stopMeasuring</tt> methods won't do anything while the test is being warmed up.</li>
@@ -63,7 +63,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     ,Dimension.WORKING_SET_PEAK
   };
   
-  private int iterations = 1;
+  private int repetitions = 1;
   private int warmUp = 0;
   private boolean warmingUp = false;
   
@@ -77,15 +77,15 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     super();
   }
   
-  public EMFPerformanceTestCase setIterations(int repeat)
+  public EMFPerformanceTestCase setRepetitions(int repeat)
   {
-    this.iterations = repeat;
+    this.repetitions = repeat;
     return this;
   }
   
-  public int getIterations()
+  public int getRepetitions()
   {
-    return iterations;
+    return repetitions;
   }
   
   public EMFPerformanceTestCase setWarmUp(int warmUp)
@@ -122,10 +122,10 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
   
   protected void runTest() throws Throwable
   {
-    assertTrue("Iterations must be greater than 0", getIterations() > 0); 
+    assertTrue("Iterations must be greater than 0", getRepetitions() > 0); 
     
     warmUp();
-    for (int i=0, maxi=getIterations(); i<maxi; i++)
+    for (int i=0, maxi=getRepetitions(); i<maxi; i++)
     {
       super.runTest();
     }
