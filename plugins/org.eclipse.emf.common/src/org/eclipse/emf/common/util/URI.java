@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.6 2004/06/17 21:01:07 davidms Exp $
+ * $Id: URI.java,v 1.7 2004/07/26 15:41:30 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -741,8 +741,8 @@ public final class URI
    * href="#archive_explanation">archive URI</a>; <code>false</code>
    * otherwise.
    *
-   * <p>To be valid, the authority, itself, must be an absolute URI with no
-   * fragment, followed by the character <code>!</code>.
+   * <p>To be valid, the authority, itself, must be a URI with no fragment,
+   * followed by the character <code>!</code>.
    */
   public static boolean validArchiveAuthority(String value)
   {
@@ -752,7 +752,7 @@ public final class URI
       try
       {
         URI archiveURI = createURI(value.substring(0, value.length() - 1));
-        return !archiveURI.isRelative() && !archiveURI.hasFragment();
+        return !archiveURI.hasFragment();
       }
       catch (IllegalArgumentException e)
       {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URITest.java,v 1.2 2004/04/14 15:13:39 davidms Exp $
+ * $Id: URITest.java,v 1.3 2004/07/26 15:41:11 davidms Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -261,15 +261,15 @@ public class URITest extends TestCase
     "JAR:http://eclipse.org/myapp.jar!/schema.xsd",
     "jar:http://eclipse.org/jar-server?some-jar!/support/xml/schema.xsd",
     "jar:http://eclipse.org/jar-server?some-jar!/support/xml/schema?myquery#top",
+    "jar:dave/myapp.jar!/schema.xsd",
+    "jar:/home/dave/myapp.jar!/schema.xsd",
+    "zip://capilano/home/dave/myapp.jar!/schema.xsd",
   };
 
   protected static final String[] BAD_JAR_URIS = {
     "jar:",
     "jar:file:/dave/myapp.jar",
     "jar:file:/dave/myapp.jar!",
-    "jar:dave/myapp.jar!/schema.xsd",
-    "jar:/home/dave/myapp.jar!/schema.xsd",
-    "jar://capilano/home/dave/myapp.jar!/schema.xsd",
     "jar:http://eclipse.org/jar-server?some-jar#foo!/schema?myquery"
   };
 
