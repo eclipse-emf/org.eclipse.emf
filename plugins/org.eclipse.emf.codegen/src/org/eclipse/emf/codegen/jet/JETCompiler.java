@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.6 2004/06/22 05:19:19 marcelop Exp $
+ * $Id: JETCompiler.java,v 1.7 2004/06/22 12:10:01 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -126,16 +126,21 @@ public class JETCompiler implements JETParseEventListener
         }
         catch (JETException exception)
         {
-          throw new JETException(CodeGenPlugin.getPlugin().getString(
-            "jet.error.file.cannot.read",
-            new Object []{ resolvedFileURI[1], start.format("jet.mark.file.line.column") }), exception);
+          throw 
+            new JETException
+              (CodeGenPlugin.getPlugin().getString
+                ("jet.error.file.cannot.read", 
+                 new Object [] { resolvedFileURI[1], start.format("jet.mark.file.line.column") }),
+               exception);
 
         }
       }
       else
       {
-        throw new JETException(CodeGenPlugin.getPlugin().getString(
-          "jet.error.missing.attribute",
+        throw 
+          new JETException
+            (CodeGenPlugin.getPlugin().getString
+              ("jet.error.missing.attribute", 
           new Object []{ "href", start.format("jet.mark.file.line.column") }));
       }
     }
@@ -155,10 +160,8 @@ public class JETCompiler implements JETParseEventListener
         {
           try
           {
-            BufferedInputStream bufferedInputStream = new BufferedInputStream(openStream(resolveLocation(
-              templateURIPath,
-              templateURI,
-              skeletonURI)[1]));
+            BufferedInputStream bufferedInputStream = 
+              new BufferedInputStream(openStream(resolveLocation(templateURIPath, templateURI, skeletonURI)[1]));
             byte[] input = new byte [bufferedInputStream.available()];
             bufferedInputStream.read(input);
             bufferedInputStream.close();
@@ -238,8 +241,10 @@ public class JETCompiler implements JETParseEventListener
 
            */
           else
-            throw new JETException(CodeGenPlugin.getPlugin().getString(
-              "jet.error.bad.attribute",
+            throw 
+              new JETException
+                (CodeGenPlugin.getPlugin().getString
+                  ("jet.error.bad.attribute", 
               new Object []{ entry.getKey(), start.format("jet.mark.file.line.column") }));
         }
 
@@ -318,11 +323,13 @@ public class JETCompiler implements JETParseEventListener
 
   protected char[] stripFirstNewLineWithBlanks(char[] chars)
   {
-    if (chars.length >= 2 && (chars[0] == '\n' && chars[1] == '\r' || chars[0] == '\r' && chars[1] == '\n'))
+    if (chars.length >=  2 && 
+          (chars[0] == '\n' && chars[1] == '\r' || chars[0] == '\r' && chars[1] == '\n'))
     {
       chars = new String(chars, 2, chars.length - 2).toCharArray();
     }
-    else if (chars.length >= 1 && (chars[0] == '\n' || chars[0] == '\r'))
+    else if (chars.length >= 1 && 
+          (chars[0] == '\n' || chars[0] == '\r'))
     {
       chars = new String(chars, 1, chars.length - 1).toCharArray();
     }
@@ -367,8 +374,10 @@ public class JETCompiler implements JETParseEventListener
   {
     if (skeleton == null)
     {
-      throw new JETException(CodeGenPlugin.getPlugin().getString(
-        "jet.error.missing.jet.directive",
+      throw
+        new JETException
+          (CodeGenPlugin.getPlugin().getString
+            ("jet.error.missing.jet.directive",
         new Object []{ reader.mark().format("jet.mark.file.line.column") }));
     }
 
@@ -405,20 +414,20 @@ public class JETCompiler implements JETParseEventListener
     directive.getDirectives().add("include");
 
     JETCoreElement[] coreElements = 
-    	{ 
-    		directive, 
-    		new JETParser.QuoteEscape(), 
-    		new JETParser.Expression(), 
-    		new JETParser.Scriptlet()
-    	};
+      { 
+        directive, 
+        new JETParser.QuoteEscape(), 
+        new JETParser.Expression(), 
+        new JETParser.Scriptlet()
+      };
 
     Class[] accept = 
-    	{ 
-    		JETParser.Directive.class, 
-    		JETParser.QuoteEscape.class, 
-    		JETParser.Expression.class, 
-    		JETParser.Scriptlet.class 
-    	};
+      { 
+        JETParser.Directive.class, 
+        JETParser.QuoteEscape.class, 
+        JETParser.Expression.class, 
+        JETParser.Scriptlet.class 
+      };
 
     parse(coreElements, accept);
   }
