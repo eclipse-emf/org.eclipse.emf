@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.22 2005/03/07 21:28:42 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.23 2005/03/16 20:52:49 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -611,6 +611,94 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return Integer.toString(getEcoreClass().getEStructuralFeatures().indexOf(genFeature.getEcoreFeature()));
   }
 
+  public String getFlagsField(GenFeature genFeature)
+  {
+    if (genFeature.isFlag())
+    {
+      String flagsField = getGenModel().getBooleanFlagsField();
+      if (!isBlank(flagsField))
+      {
+        int flagIndex = getFlagIndex(genFeature);
+        if (flagIndex / 32 > 0)
+        {
+          flagsField += String.valueOf(flagIndex / 32);
+        }
+        return flagsField;
+      }
+    }
+    return null;
+  }
+
+  public int getFlagIndex(GenFeature genFeature)
+  {
+    if (genFeature.isFlag())
+    {
+      int reservedBooleanFlags = getGenModel().getBooleanFlagsReservedBits();
+      int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
+
+      for (Iterator otherGenFeatures = getAllGenFeatures().iterator(); otherGenFeatures.hasNext();)
+      {
+        GenFeature otherGenFeature = (GenFeature)otherGenFeatures.next();
+        if (otherGenFeature.isFlag())
+        {
+          index++;
+
+          if (otherGenFeature.getEcoreFeature() == genFeature.getEcoreFeature())
+            return index;
+        }
+        if (otherGenFeature.isESetFlag())
+        {
+          index++;
+        }
+      }
+    }
+    return -1;
+  }
+
+  public String getESetFlagsField(GenFeature genFeature)
+  {
+    if (genFeature.isESetFlag())
+    {
+      String isSetFlagsField = getGenModel().getBooleanFlagsField();
+      if (!isBlank(isSetFlagsField))
+      {
+        int isSetFlagIndex = getESetFlagIndex(genFeature);
+        if (isSetFlagIndex / 32 > 0)
+        {
+          isSetFlagsField += String.valueOf(isSetFlagIndex / 32);
+        }
+        return isSetFlagsField;
+      }
+    }
+    return null;
+  }
+
+  public int getESetFlagIndex(GenFeature genFeature)
+  {
+    if (genFeature.isESetFlag())
+    {
+      int reservedBooleanFlags = getGenModel().getBooleanFlagsReservedBits();
+      int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
+
+      for (Iterator otherGenFeatures = getAllGenFeatures().iterator(); otherGenFeatures.hasNext();)
+      {
+        GenFeature otherGenFeature = (GenFeature)otherGenFeatures.next();
+        if (otherGenFeature.isFlag())
+        {
+          index++;
+        }
+        if (otherGenFeature.isESetFlag())
+        {
+          index++;
+
+          if (otherGenFeature.getEcoreFeature() == genFeature.getEcoreFeature())
+            return index;
+        }
+      }
+    }
+    return -1;
+  }
+
   public String getFeatureCountID()
   {
     return getClassifierID() + "_FEATURE_COUNT";
@@ -818,6 +906,28 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
              return !genOperation.getGenClass().isEObject();
            }
          });
+  }
+
+  public List getFlagGenFeatures()
+  {
+    return collectGenFeatures(getImplementedGenClasses(), null, new GenFeatureFilter()
+      {
+        public boolean accept(GenFeature genFeature)
+        {
+          return genFeature.isFlag();
+        }
+      });
+  }
+
+  public List getFlagGenFeatures(final String staticDefaultValue)
+  {
+    return collectGenFeatures(null, getFlagGenFeatures(), new GenFeatureFilter()
+      {
+        public boolean accept(GenFeature genFeature)
+        {
+          return staticDefaultValue.equalsIgnoreCase(genFeature.getStaticDefaultValue());
+        }
+      });
   }
 
   public List getESetGenFeatures()

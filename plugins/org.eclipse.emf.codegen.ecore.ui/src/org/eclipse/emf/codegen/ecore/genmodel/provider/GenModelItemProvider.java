@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.8 2005/03/07 21:25:52 khussey Exp $
+ * $Id: GenModelItemProvider.java,v 1.9 2005/03/16 20:52:51 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -105,6 +105,8 @@ public class GenModelItemProvider
       addCodeFormattingPropertyDescriptor(object);
       addTestsDirectoryPropertyDescriptor(object);
       addTestSuiteClassPropertyDescriptor(object);
+      addBooleanFlagsFieldPropertyDescriptor(object);
+      addBooleanFlagsReservedBitsPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -740,6 +742,46 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Boolean Flags Field feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addBooleanFlagsFieldPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_booleanFlagsField_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_GenModel_booleanFlagsField_feature", "_UI_GenModel_type"),
+         GenModelPackage.eINSTANCE.getGenModel_BooleanFlagsField(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelFeaturePropertyCategory")));
+  }
+
+  /**
+   * This adds a property descriptor for the Boolean Flags Reserved Bits feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addBooleanFlagsReservedBitsPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_booleanFlagsReservedBits_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_GenModel_booleanFlagsReservedBits_feature", "_UI_GenModel_type"),
+         GenModelPackage.eINSTANCE.getGenModel_BooleanFlagsReservedBits(),
+         true,
+         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+         getString("_UI_ModelFeaturePropertyCategory")));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -835,6 +877,8 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
       case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
       case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
+      case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_FIELD:
+      case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:

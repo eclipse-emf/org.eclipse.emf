@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.12 2005/03/07 21:26:07 khussey Exp $
+ * $Id: GenModel.java,v 1.13 2005/03/16 20:52:48 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -73,6 +73,8 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCodeFormatting <em>Code Formatting</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsDirectory <em>Tests Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestSuiteClass <em>Test Suite Class</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getBooleanFlagsField <em>Boolean Flags Field</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getBooleanFlagsReservedBits <em>Boolean Flags Reserved Bits</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -961,6 +963,59 @@ public interface GenModel extends GenBase{
   void setTestSuiteClass(String value);
 
   /**
+   * Returns the value of the '<em><b>Boolean Flags Field</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Boolean Flags Field</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Boolean Flags Field</em>' attribute.
+   * @see #setBooleanFlagsField(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_BooleanFlagsField()
+   * @model
+   * @generated
+   */
+  String getBooleanFlagsField();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getBooleanFlagsField <em>Boolean Flags Field</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Boolean Flags Field</em>' attribute.
+   * @see #getBooleanFlagsField()
+   * @generated
+   */
+  void setBooleanFlagsField(String value);
+
+  /**
+   * Returns the value of the '<em><b>Boolean Flags Reserved Bits</b></em>' attribute.
+   * The default value is <code>"-1"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Boolean Flags Reserved Bits</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Boolean Flags Reserved Bits</em>' attribute.
+   * @see #setBooleanFlagsReservedBits(int)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_BooleanFlagsReservedBits()
+   * @model default="-1"
+   * @generated
+   */
+  int getBooleanFlagsReservedBits();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getBooleanFlagsReservedBits <em>Boolean Flags Reserved Bits</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Boolean Flags Reserved Bits</em>' attribute.
+   * @see #getBooleanFlagsReservedBits()
+   * @generated
+   */
+  void setBooleanFlagsReservedBits(int value);
+
+  /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
@@ -1157,4 +1212,7 @@ public interface GenModel extends GenBase{
    * Creates and returns a new JDT code formatter.
    */
   CodeFormatter createCodeFormatter();
+
+  boolean isBooleanFlagsEnabled();
+
 }

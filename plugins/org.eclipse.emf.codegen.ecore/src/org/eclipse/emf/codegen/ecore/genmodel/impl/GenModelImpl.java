@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.22 2005/03/09 16:50:17 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.23 2005/03/16 20:52:48 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -114,6 +114,8 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCodeFormatting <em>Code Formatting</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestsDirectory <em>Tests Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestSuiteClass <em>Test Suite Class</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getBooleanFlagsField <em>Boolean Flags Field</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getBooleanFlagsReservedBits <em>Boolean Flags Reserved Bits</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -792,6 +794,46 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected String testSuiteClass = TEST_SUITE_CLASS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getBooleanFlagsField() <em>Boolean Flags Field</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getBooleanFlagsField()
+   * @generated
+   * @ordered
+   */
+  protected static final String BOOLEAN_FLAGS_FIELD_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getBooleanFlagsField() <em>Boolean Flags Field</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getBooleanFlagsField()
+   * @generated
+   * @ordered
+   */
+  protected String booleanFlagsField = BOOLEAN_FLAGS_FIELD_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getBooleanFlagsReservedBits() <em>Boolean Flags Reserved Bits</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getBooleanFlagsReservedBits()
+   * @generated
+   * @ordered
+   */
+  protected static final int BOOLEAN_FLAGS_RESERVED_BITS_EDEFAULT = -1;
+
+  /**
+   * The cached value of the '{@link #getBooleanFlagsReservedBits() <em>Boolean Flags Reserved Bits</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getBooleanFlagsReservedBits()
+   * @generated
+   * @ordered
+   */
+  protected int booleanFlagsReservedBits = BOOLEAN_FLAGS_RESERVED_BITS_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -3041,6 +3083,52 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getBooleanFlagsField()
+  {
+    return booleanFlagsField;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setBooleanFlagsField(String newBooleanFlagsField)
+  {
+    String oldBooleanFlagsField = booleanFlagsField;
+    booleanFlagsField = newBooleanFlagsField;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_FIELD, oldBooleanFlagsField, booleanFlagsField));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getBooleanFlagsReservedBits()
+  {
+    return booleanFlagsReservedBits;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setBooleanFlagsReservedBits(int newBooleanFlagsReservedBits)
+  {
+    int oldBooleanFlagsReservedBits = booleanFlagsReservedBits;
+    booleanFlagsReservedBits = newBooleanFlagsReservedBits;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS, oldBooleanFlagsReservedBits, booleanFlagsReservedBits));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getGenPackages()
   {
     if (genPackages == null)
@@ -3216,6 +3304,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getTestsDirectory();
       case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
         return getTestSuiteClass();
+      case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_FIELD:
+        return getBooleanFlagsField();
+      case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
+        return new Integer(getBooleanFlagsReservedBits());
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3303,6 +3395,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return TESTS_DIRECTORY_EDEFAULT == null ? testsDirectory != null : !TESTS_DIRECTORY_EDEFAULT.equals(testsDirectory);
       case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
         return TEST_SUITE_CLASS_EDEFAULT == null ? testSuiteClass != null : !TEST_SUITE_CLASS_EDEFAULT.equals(testSuiteClass);
+      case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_FIELD:
+        return BOOLEAN_FLAGS_FIELD_EDEFAULT == null ? booleanFlagsField != null : !BOOLEAN_FLAGS_FIELD_EDEFAULT.equals(booleanFlagsField);
+      case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
+        return booleanFlagsReservedBits != BOOLEAN_FLAGS_RESERVED_BITS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3427,6 +3523,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
         setTestSuiteClass((String)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_FIELD:
+        setBooleanFlagsField((String)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
+        setBooleanFlagsReservedBits(((Integer)newValue).intValue());
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -3554,6 +3656,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
         setTestSuiteClass(TEST_SUITE_CLASS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_FIELD:
+        setBooleanFlagsField(BOOLEAN_FLAGS_FIELD_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
+        setBooleanFlagsReservedBits(BOOLEAN_FLAGS_RESERVED_BITS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -3644,6 +3752,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(testsDirectory);
     result.append(", testSuiteClass: ");
     result.append(testSuiteClass);
+    result.append(", booleanFlagsField: ");
+    result.append(booleanFlagsField);
+    result.append(", booleanFlagsReservedBits: ");
+    result.append(booleanFlagsReservedBits);
     result.append(')');
     return result.toString();
   }
@@ -4319,6 +4431,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     
     setTestsDirectory(oldGenModelVersion.getTestsDirectory());
     setTestSuiteClass(oldGenModelVersion.getTestSuiteClass());
+    
+    setBooleanFlagsField(oldGenModelVersion.getBooleanFlagsField());
+    setBooleanFlagsReservedBits(oldGenModelVersion.getBooleanFlagsReservedBits());
   }
 
   public boolean reconcile()
@@ -4486,4 +4601,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return ToolFactory.createCodeFormatter(codeFormatterOptions);
   }
+  
+  public boolean isBooleanFlagsEnabled()
+  {
+    return !isBlank(getBooleanFlagsField()) && !isReflectiveDelegation();
+  }
+
 } //GenModelImpl

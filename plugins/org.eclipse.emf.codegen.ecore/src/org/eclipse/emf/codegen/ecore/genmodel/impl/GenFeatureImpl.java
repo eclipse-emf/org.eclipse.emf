@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.12 2004/12/16 16:21:32 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.13 2005/03/16 20:52:49 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -791,6 +791,16 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   public boolean isEffectiveSuppressEMFTypes()
   {
     return getGenModel().isSuppressEMFTypes();
+  }
+
+  public boolean isFlag()
+  {
+    return getGenModel().isBooleanFlagsEnabled() && isBooleanType() && !isVolatile();
+  }
+
+  public boolean isESetFlag()
+  {
+    return getGenModel().isBooleanFlagsEnabled() && isUnsettable() && !isListType() && !isVolatile();
   }
 
   public String getEffectiveMapType()

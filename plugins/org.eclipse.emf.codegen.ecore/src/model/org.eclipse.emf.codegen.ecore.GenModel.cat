@@ -184,6 +184,15 @@
 		(object ClassAttribute "testSuiteClass"
 		    quid       	"421B9FC90347"
 		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "booleanFlagsField"
+		    quid       	"4237490D0135"
+		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "booleanFlagsReservedBits"
+		    quid       	"423749270205"
+		    type       	"int"
+		    initv      	"-1"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"

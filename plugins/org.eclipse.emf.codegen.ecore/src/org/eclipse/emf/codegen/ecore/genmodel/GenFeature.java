@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.7 2004/12/16 21:32:41 emerks Exp $
+ * $Id: GenFeature.java,v 1.8 2005/03/16 20:52:48 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -258,7 +258,9 @@ public interface GenFeature extends GenBase
   String getEObjectCast(); // this returns either "(EObject)", "(org.eclipse.emf.ecore.EObject)", or "" as needed for the reference type.
   String getInternalTypeCast(); // this returns either "(EObject)", "(org.eclipse.emf.ecore.EObject)", or "" as needed for the reference type.
   boolean isEffectiveSuppressEMFTypes();
-
+  boolean isFlag();
+  boolean isESetFlag();
+  
   String getTypeClassifier();
   GenPackage getTypeGenPackage();
 

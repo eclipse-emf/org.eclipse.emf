@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.9 2005/03/07 21:26:07 khussey Exp $
+ * $Id: GenClass.java,v 1.10 2005/03/16 20:52:48 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -248,6 +248,10 @@ public interface GenClass extends GenClassifier
   String getOperationID(GenOperation genOperation);
   String getFeatureValue(GenFeature genFeature);
   String getLocalFeatureIndex(GenFeature genFeature);
+  String getFlagsField(GenFeature genFeature);
+  int getFlagIndex(GenFeature genFeature);
+  String getESetFlagsField(GenFeature genFeature);
+  int getESetFlagIndex(GenFeature genFeature);
 
   String getFeatureCountID();
   String getQualifiedFeatureCountID();
@@ -276,6 +280,9 @@ public interface GenClass extends GenClassifier
   List/*of GenClass*/ getImplementedGenClasses();
   List/*of GenFeature*/ getImplementedGenFeatures();
   List/*of GenOperation*/ getImplementedGenOperations();
+
+  List/*of GenFeature*/ getFlagGenFeatures();
+  List/*of GenFeature*/ getFlagGenFeatures(String staticDefaultValue);
 
   List/*of GenFeature*/ getESetGenFeatures();
   List/*of GenFeature*/ getEInverseAddGenFeatures();
