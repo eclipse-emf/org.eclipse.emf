@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.2 2004/04/10 20:30:57 emerks Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.3 2004/05/05 19:37:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -26,6 +26,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EValidator;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
@@ -33,6 +35,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
+
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeValidator;
 
 /**
  * <!-- begin-user-doc -->
@@ -534,6 +538,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
 
     // Step 2: complete initialization
     theXMLTypePackage.initializePackageContents();
+
+    EValidator.Registry.INSTANCE.put(theXMLTypePackage, XMLTypeValidator.INSTANCE);
 
     return theXMLTypePackage;
   }
@@ -1409,22 +1415,22 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(anyTypeEClass, AnyType.class, "AnyType", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getAnyType_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getAnyType_Any(), ecorePackage.getEFeatureMapEntry(), "any", null, 0, -1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED);
-    initEAttribute(getAnyType_AnyAttribute(), ecorePackage.getEFeatureMapEntry(), "anyAttribute", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getAnyType_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAnyType_Any(), ecorePackage.getEFeatureMapEntry(), "any", null, 0, -1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAnyType_AnyAttribute(), ecorePackage.getEFeatureMapEntry(), "anyAttribute", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(simpleAnyTypeEClass, SimpleAnyType.class, "SimpleAnyType", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getSimpleAnyType_RawValue(), theXMLTypePackage_1.getString(), "rawValue", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED);
-    initEAttribute(getSimpleAnyType_Value(), theXMLTypePackage_1.getAnySimpleType(), "value", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED);
-    initEReference(getSimpleAnyType_InstanceType(), ecorePackage.getEDataType(), null, "instanceType", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getSimpleAnyType_RawValue(), theXMLTypePackage_1.getString(), "rawValue", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEAttribute(getSimpleAnyType_Value(), theXMLTypePackage_1.getAnySimpleType(), "value", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEReference(getSimpleAnyType_InstanceType(), ecorePackage.getEDataType(), null, "instanceType", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xmlTypeDocumentRootEClass, XMLTypeDocumentRoot.class, "XMLTypeDocumentRoot", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXMLTypeDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXMLTypeDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXMLTypeDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXMLTypeDocumentRoot_CDATA(), this.getString(), "cDATA", null, 0, -2, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED);
-    initEAttribute(getXMLTypeDocumentRoot_Comment(), this.getString(), "comment", null, 0, -2, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED);
-    initEAttribute(getXMLTypeDocumentRoot_Text(), this.getString(), "text", null, 0, -2, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED);
+    initEAttribute(getXMLTypeDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXMLTypeDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXMLTypeDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXMLTypeDocumentRoot_CDATA(), this.getString(), "cDATA", null, 0, -2, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXMLTypeDocumentRoot_Comment(), this.getString(), "comment", null, 0, -2, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXMLTypeDocumentRoot_Text(), this.getString(), "text", null, 0, -2, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
     // Initialize data types
     initEDataType(anySimpleTypeEDataType, Object.class, "AnySimpleType", IS_SERIALIZABLE);
@@ -1553,7 +1559,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        source, 
        new String[] 
        {
-       "name", "anyURI"
+       "name", "anyURI",
+       "whiteSpace", "collapse"
        });			
     addAnnotation
       (base64BinaryEDataType, 
@@ -1561,14 +1568,16 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "base64Binary",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });			
     addAnnotation
       (booleanEDataType, 
        source, 
        new String[] 
        {
-       "name", "boolean"
+       "name", "boolean",
+       "whiteSpace", "collapse"
        });		
     addAnnotation
       (booleanObjectEDataType, 
@@ -1583,7 +1592,9 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        source, 
        new String[] 
        {
-       "name", "byte"
+       "name", "byte",
+       "minInclusive", "-128",
+       "maxInclusive", "127"
        });		
     addAnnotation
       (byteObjectEDataType, 
@@ -1599,7 +1610,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "date",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });			
     addAnnotation
       (dateTimeEDataType, 
@@ -1607,21 +1619,24 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "dateTime",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });			
     addAnnotation
       (decimalEDataType, 
        source, 
        new String[] 
        {
-       "name", "decimal"
+       "name", "decimal",
+       "whiteSpace", "collapse"
        });			
     addAnnotation
       (doubleEDataType, 
        source, 
        new String[] 
        {
-       "name", "double"
+       "name", "double",
+       "whiteSpace", "collapse"
        });		
     addAnnotation
       (doubleObjectEDataType, 
@@ -1637,7 +1652,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "duration",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });			
     addAnnotation
       (entitiesEDataType, 
@@ -1645,7 +1661,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "ENTITIES",
-       "baseType", "ENTITIES_._base"
+       "baseType", "ENTITIES_._base",
+       "minLength", "1"
        });		
     addAnnotation
       (entitiesBaseEDataType, 
@@ -1668,7 +1685,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        source, 
        new String[] 
        {
-       "name", "float"
+       "name", "float",
+       "whiteSpace", "collapse"
        });		
     addAnnotation
       (floatObjectEDataType, 
@@ -1684,7 +1702,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "gDay",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });			
     addAnnotation
       (gMonthEDataType, 
@@ -1692,7 +1711,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "gMonth",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });			
     addAnnotation
       (gMonthDayEDataType, 
@@ -1700,7 +1720,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "gMonthDay",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });			
     addAnnotation
       (gYearEDataType, 
@@ -1708,7 +1729,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "gYear",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });			
     addAnnotation
       (gYearMonthEDataType, 
@@ -1716,7 +1738,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "gYearMonth",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });			
     addAnnotation
       (hexBinaryEDataType, 
@@ -1724,7 +1747,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "hexBinary",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });		
     addAnnotation
       (idEDataType, 
@@ -1748,7 +1772,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "IDREFS",
-       "baseType", "IDREFS_._base"
+       "baseType", "IDREFS_._base",
+       "minLength", "1"
        });		
     addAnnotation
       (idrefsBaseEDataType, 
@@ -1763,14 +1788,18 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        source, 
        new String[] 
        {
-       "name", "int"
+       "name", "int",
+       "minInclusive", "-2147483648",
+       "maxInclusive", "2147483647"
        });		
     addAnnotation
       (integerEDataType, 
        source, 
        new String[] 
        {
-       "name", "integer"
+       "name", "integer",
+       "fractionDigits", "0",
+       "pattern", "[\\-+]?[0-9]+"
        });		
     addAnnotation
       (intObjectEDataType, 
@@ -1786,14 +1815,17 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "language",
-       "baseType", "token"
+       "baseType", "token",
+       "pattern", "[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"
        });			
     addAnnotation
       (longEDataType, 
        source, 
        new String[] 
        {
-       "name", "long"
+       "name", "long",
+       "minInclusive", "-9223372036854775808",
+       "maxInclusive", "9223372036854775807"
        });		
     addAnnotation
       (longObjectEDataType, 
@@ -1809,7 +1841,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "Name",
-       "baseType", "token"
+       "baseType", "token",
+       "pattern", "\\i\\c*"
        });		
     addAnnotation
       (ncNameEDataType, 
@@ -1817,7 +1850,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "NCName",
-       "baseType", "Name"
+       "baseType", "Name",
+       "pattern", "[\\i-[:]][\\c-[:]]*"
        });		
     addAnnotation
       (negativeIntegerEDataType, 
@@ -1825,7 +1859,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "negativeInteger",
-       "baseType", "nonPositiveInteger"
+       "baseType", "nonPositiveInteger",
+       "maxInclusive", "-1"
        });		
     addAnnotation
       (nmtokenEDataType, 
@@ -1833,7 +1868,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "NMTOKEN",
-       "baseType", "token"
+       "baseType", "token",
+       "pattern", "\\c+"
        });			
     addAnnotation
       (nmtokensEDataType, 
@@ -1841,7 +1877,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "NMTOKENS",
-       "baseType", "NMTOKENS_._base"
+       "baseType", "NMTOKENS_._base",
+       "minLength", "1"
        });		
     addAnnotation
       (nmtokensBaseEDataType, 
@@ -1857,7 +1894,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "nonNegativeInteger",
-       "baseType", "integer"
+       "baseType", "integer",
+       "minInclusive", "0"
        });		
     addAnnotation
       (nonPositiveIntegerEDataType, 
@@ -1865,7 +1903,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "nonPositiveInteger",
-       "baseType", "integer"
+       "baseType", "integer",
+       "maxInclusive", "0"
        });		
     addAnnotation
       (normalizedStringEDataType, 
@@ -1873,7 +1912,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "normalizedString",
-       "baseType", "string"
+       "baseType", "string",
+       "whiteSpace", "replace"
        });			
     addAnnotation
       (notationEDataType, 
@@ -1881,7 +1921,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "NOTATION",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });		
     addAnnotation
       (positiveIntegerEDataType, 
@@ -1889,7 +1930,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "positiveInteger",
-       "baseType", "nonNegativeInteger"
+       "baseType", "nonNegativeInteger",
+       "minInclusive", "1"
        });			
     addAnnotation
       (qNameEDataType, 
@@ -1897,14 +1939,17 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "QName",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });		
     addAnnotation
       (shortEDataType, 
        source, 
        new String[] 
        {
-       "name", "short"
+       "name", "short",
+       "minInclusive", "-32768",
+       "maxInclusive", "32767"
        });		
     addAnnotation
       (shortObjectEDataType, 
@@ -1951,7 +1996,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        source, 
        new String[] 
        {
-       "name", "string"
+       "name", "string",
+       "whiteSpace", "preserve"
        });			
     addAnnotation
       (timeEDataType, 
@@ -1959,7 +2005,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "time",
-       "baseType", "anySimpleType"
+       "baseType", "anySimpleType",
+       "whiteSpace", "collapse"
        });		
     addAnnotation
       (tokenEDataType, 
@@ -1967,14 +2014,16 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "token",
-       "baseType", "normalizedString"
+       "baseType", "normalizedString",
+       "whiteSpace", "collapse"
        });		
     addAnnotation
       (unsignedByteEDataType, 
        source, 
        new String[] 
        {
-       "name", "unsignedByte"
+       "name", "unsignedByte",
+       "maxInclusive", "255"
        });		
     addAnnotation
       (unsignedByteObjectEDataType, 
@@ -1989,7 +2038,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        source, 
        new String[] 
        {
-       "name", "unsignedInt"
+       "name", "unsignedInt",
+       "maxInclusive", "4294967295"
        });		
     addAnnotation
       (unsignedIntObjectEDataType, 
@@ -2005,14 +2055,16 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "unsignedLong",
-       "baseType", "nonNegativeInteger"
+       "baseType", "nonNegativeInteger",
+       "maxInclusive", "18446744073709551615"
        });		
     addAnnotation
       (unsignedShortEDataType, 
        source, 
        new String[] 
        {
-       "name", "unsignedShort"
+       "name", "unsignedShort",
+       "maxInclusive", "65535"
        });		
     addAnnotation
       (unsignedShortObjectEDataType, 
