@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.6 2004/08/12 15:05:10 emerks Exp $
+ * $Id: EClassImpl.java,v 1.7 2004/08/26 11:20:59 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -175,7 +175,8 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             }
           }
         };
-      eAttributes = 
+
+      BasicEList attributes = 
         new UniqueEList()
         {
           protected Object [] newData(int capacity)
@@ -200,14 +201,14 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
         EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
         if (eStructuralFeature instanceof EAttribute)
         {
-          eAttributes.add(eStructuralFeature);
+          attributes.add(eStructuralFeature);
         }
       }
 
-      eAttributes.shrink();
+      attributes.shrink();
       eAttributes = 
         new EcoreEList.UnmodifiableEList
-          (this, EcorePackage.eINSTANCE.getEClass_EAttributes(), eAttributes.size(), eAttributes.data())
+          (this, EcorePackage.eINSTANCE.getEClass_EAttributes(), attributes.size(), attributes.data())
         {
           public void addUnique(Object object)
           {
@@ -258,7 +259,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
         }
       }
       BasicEList result = new ReferenceList();
-      eReferences = new ReferenceList();
+      BasicEList references = new ReferenceList();
       a.setAllReferencesCollectionModified(false);
 
       for (Iterator i = getESuperTypes().iterator(); i.hasNext(); )
@@ -271,14 +272,14 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
         EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
         if (eStructuralFeature instanceof EReference)
         {
-          eReferences.add(eStructuralFeature);
+          references.add(eStructuralFeature);
         }
       }
 
-      eReferences.shrink();
+      references.shrink();
       eReferences = 
         new EcoreEList.UnmodifiableEList
-          (this, EcorePackage.eINSTANCE.getEClass_EReferences(), eReferences.size(), eReferences.data())
+          (this, EcorePackage.eINSTANCE.getEClass_EReferences(), references.size(), references.data())
         {
           public void addUnique(Object object)
           {
