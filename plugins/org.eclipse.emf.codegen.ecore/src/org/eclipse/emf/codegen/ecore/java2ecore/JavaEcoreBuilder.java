@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.15 2004/12/01 12:19:48 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.16 2004/12/16 16:22:42 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -65,7 +65,9 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -87,6 +89,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -292,11 +295,7 @@ public class JavaEcoreBuilder
           eReference.setLowerBound(eAttribute.getLowerBound());
           eReference.setUpperBound(eAttribute.getUpperBound());
           eReference.setName(eTypedElement.getName());
-          EcoreUtil.setDocumentation(eReference, EcoreUtil.getDocumentation(eTypedElement));
-          EcoreUtil.setSuppressedVisibility(eReference, EcoreUtil.GET, EcoreUtil.isSuppressedVisibility(eAttribute, EcoreUtil.GET));
-          EcoreUtil.setSuppressedVisibility(eReference, EcoreUtil.SET, EcoreUtil.isSuppressedVisibility(eAttribute, EcoreUtil.SET));
-          EcoreUtil.setSuppressedVisibility(eReference, EcoreUtil.IS_SET, EcoreUtil.isSuppressedVisibility(eAttribute, EcoreUtil.IS_SET));
-          EcoreUtil.setSuppressedVisibility(eReference, EcoreUtil.UNSET, EcoreUtil.isSuppressedVisibility(eAttribute, EcoreUtil.UNSET));
+          eReference.getEAnnotations().addAll(eTypedElement.getEAnnotations());
           container.getEStructuralFeatures().add(container.getEStructuralFeatures().indexOf(eTypedElement), eReference);
           container.getEStructuralFeatures().remove(eTypedElement);
           eTypedElement = eReference;
@@ -312,12 +311,7 @@ public class JavaEcoreBuilder
           eAttribute.setLowerBound(eReference.getLowerBound());
           eAttribute.setUpperBound(eReference.getUpperBound());
           eAttribute.setName(eTypedElement.getName());
-          EcoreUtil.setDocumentation(eAttribute, EcoreUtil.getDocumentation(eTypedElement));
-          EcoreUtil.setSuppressedVisibility(eAttribute, EcoreUtil.GET, EcoreUtil.isSuppressedVisibility(eReference, EcoreUtil.GET));
-          EcoreUtil.setSuppressedVisibility(eAttribute, EcoreUtil.SET, EcoreUtil.isSuppressedVisibility(eReference, EcoreUtil.SET));
-          EcoreUtil.setSuppressedVisibility(eAttribute, EcoreUtil.IS_SET, EcoreUtil.isSuppressedVisibility(eReference, EcoreUtil.IS_SET));
-          EcoreUtil.setSuppressedVisibility(eAttribute, EcoreUtil.UNSET, EcoreUtil.isSuppressedVisibility(eReference, EcoreUtil.UNSET));
-          container.getEStructuralFeatures().add(container.getEStructuralFeatures().indexOf(eTypedElement), eAttribute);
+          eAttribute.getEAnnotations().addAll(eTypedElement.getEAnnotations());
           container.getEStructuralFeatures().remove(eTypedElement);
           eTypedElement = eAttribute;
         }
@@ -798,6 +792,7 @@ public class JavaEcoreBuilder
         eModelElementToIDOMNodeMap.put(eClass, type);
         eClass.setName(type.getName());
         ePackage.getEClassifiers().add(eClass);
+        eClass.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
         EcoreUtil.setDocumentation(eClass, getModelDocumentation(type.getComment()));
 
         String [] superInterfaces = type.getSuperInterfaces();
@@ -867,6 +862,7 @@ public class JavaEcoreBuilder
         eModelElementToIDOMNodeMap.put(eEnum, type);
         eEnum.setName(type.getName());
         ePackage.getEClassifiers().add(eEnum);
+        eEnum.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
         EcoreUtil.setDocumentation(eEnum, getModelDocumentation(type.getComment()));
         
         // Walk the fields.
@@ -965,6 +961,7 @@ public class JavaEcoreBuilder
                     eDataType.setSerializable(false);
                   }
                   eDataTypes.add(eDataType);
+                  eDataType.getEAnnotations().addAll(extractEAnnotations(methodAnnotation));
                   EcoreUtil.setDocumentation(eDataType, getModelDocumentation(method.getComment()));
                 }
                 else if (returnType.endsWith("EClass"))
@@ -1020,6 +1017,7 @@ public class JavaEcoreBuilder
                          null);
                     }
                   }
+                  eClass.getEAnnotations().addAll(extractEAnnotations(methodAnnotation));
                   EcoreUtil.setDocumentation(eClass, getModelDocumentation(method.getComment()));
                 }
               }
@@ -1037,6 +1035,10 @@ public class JavaEcoreBuilder
           ePackage.setName(name);
           ePackage.getEClassifiers().addAll(eClasses);
           ePackage.getEClassifiers().addAll(eDataTypes);
+          if (modelAnnotation != null)
+          {
+            ePackage.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
+          }
           EcoreUtil.setDocumentation(ePackage, getModelDocumentation(type.getComment()));
 
           ePackageToPrefixMap.put(ePackage, packagePrefix);
@@ -1186,7 +1188,7 @@ public class JavaEcoreBuilder
             ("true".equals(containment) || 
                mapType != null && !returnType.endsWith("Entry") || 
                keyType != null && valueType != null);
-          eReference.setResolveProxies(!"false".equals(resolveProxies));
+          eReference.setResolveProxies(!eReference.isContainment() && !"false".equals(resolveProxies));
           eReference.setUnsettable("true".equals(getModelAnnotationAttribute(modelAnnotation, "unsettable")));
 
           // Defer the handling of the opposite.
@@ -1332,6 +1334,10 @@ public class JavaEcoreBuilder
     //
     eTypedElement.setName(featureName);
 
+    // Process the annotations.
+    //
+    eTypedElement.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
+
     return eTypedElement;
   }
 
@@ -1376,6 +1382,7 @@ public class JavaEcoreBuilder
       EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
       eModelElementToIDOMNodeMap.put(eEnumLiteral, field);
       eEnumLiteral.setName(literalName);
+      eEnumLiteral.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
       EcoreUtil.setDocumentation(eEnumLiteral, getModelDocumentation(field.getComment()));
       if (field.getInitializer() != null)
       {
@@ -1427,7 +1434,7 @@ public class JavaEcoreBuilder
    * The pattern for extracting the @model annotations.
    */
   protected static Pattern modelAnnotationExpression = 
-    Pattern.compile("@[ \\f\\n\\r\\t*]*model[ \\f\\n\\r\\t*]*((\\w*\\s*=\\s*(['\"]).*?\\3[ \\f\\n\\r\\t*]*)*)", Pattern.MULTILINE);
+    Pattern.compile("@[ \\f\\n\\r\\t*]*model[ \\f\\n\\r\\t*]*((\\w*\\s*=\\s*(['\"])(?>\\\\.|.)*?\\3[ \\f\\n\\r\\t*]*)*)", Pattern.MULTILINE);
 
   /**
    * Returns the @model annotation contents, or null.
@@ -1492,7 +1499,7 @@ public class JavaEcoreBuilder
   protected String getModelAnnotationAttribute(String modelAnnotation, String attributeName)
   {
     Pattern modelAnnotationAttributeExpressionDoubleQuote = 
-      Pattern.compile("\\b" + attributeName + "\\s*=\\s*([\"'])(.*?)\\1", Pattern.MULTILINE); 
+      Pattern.compile("\\b" + attributeName + "\\s*=\\s*([\"'])((?>\\\\.|.)*?)\\1", Pattern.MULTILINE); 
     Matcher matcher = modelAnnotationAttributeExpressionDoubleQuote.matcher(modelAnnotation);
     if (matcher.find())
     {
@@ -1505,13 +1512,93 @@ public class JavaEcoreBuilder
   }
 
   /**
+   * Returns the space separated concatenation of the unquoted value of each attribute-name="value" or attribute-name='value' repeat, or null.
+   */
+  protected String getModelAnnotationAttributes(String modelAnnotation, String attributeName)
+  {
+    StringBuffer result = null;
+    Pattern modelAnnotationAttributeExpressionDoubleQuote = 
+      Pattern.compile("\\b" + attributeName + "\\s*=\\s*([\"'])((?>\\\\.|.)*?)\\1", Pattern.MULTILINE); 
+    for (Matcher matcher = modelAnnotationAttributeExpressionDoubleQuote.matcher(modelAnnotation); matcher.find(); )
+    {
+      if (result == null)
+      {
+        result = new StringBuffer();
+      }
+      else
+      {
+        result.append(' ');
+      }
+      result.append(modelAnnotation.subSequence(matcher.start(2), matcher.end(2)));
+    }
+    
+    return result == null ? null : result.toString();
+  }
+
+  protected static Pattern eAnnotationExpression = 
+    Pattern.compile
+      ("\\G\\s*((?>\\\\.|\\S)+)((?:\\s+(?>\\\\.|\\S)+\\s*+=\\s*(['\"])((?>\\\\.|.)*?)\\3)*)");
+      
+  protected static Pattern eAnnotationDetailExpression = 
+    Pattern.compile
+      ("\\s+((?>\\\\.|\\S)+)\\s*+=\\s*((['\"])((?>\\\\.|.)*?)\\3)");
+  
+  protected List extractEAnnotations(String modelAnnotation)
+  {
+    List result = Collections.EMPTY_LIST;
+    String annotations = getModelAnnotationAttributes(modelAnnotation, "annotation");
+    if (annotations != null)
+    {
+      for (Matcher matcher = eAnnotationExpression.matcher(annotations); matcher.find(); )
+      {
+        if (result == Collections.EMPTY_LIST)
+        {
+          result = new ArrayList();
+        }
+        EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+        result.add(eAnnotation);
+        eAnnotation.setSource(parseString(matcher.group(1)));
+        EMap details = eAnnotation.getDetails();
+        for (Matcher detailMatcher = eAnnotationDetailExpression.matcher(matcher.group(2));  detailMatcher.find(); )
+        {
+          details.put(parseString(detailMatcher.group(1)), parseString(detailMatcher.group(4)));
+        }
+      }
+    }
+    
+    String extendedMetaDataAnnotations = getModelAnnotationAttributes(modelAnnotation, "extendedMetaData");
+    if (extendedMetaDataAnnotations != null)
+    {
+      if (result == Collections.EMPTY_LIST)
+      {
+        result = new ArrayList();
+      }
+      EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+      result.add(eAnnotation);
+      eAnnotation.setSource(ExtendedMetaData.ANNOTATION_URI);
+      EMap details = eAnnotation.getDetails();
+      for (Matcher detailMatcher = eAnnotationDetailExpression.matcher(" " + extendedMetaDataAnnotations);  detailMatcher.find(); )
+      {
+        details.put(parseString(detailMatcher.group(1)), parseString(detailMatcher.group(4)));
+      }
+    }
+    
+    return result;
+  }
+  
+  private static String parseString(String stringLiteralBody)
+  {
+    return org.eclipse.emf.codegen.ecore.rose2ecore.EcoreBuilder.parseString(stringLiteralBody);
+  }
+  
+  /**
    * Returns the filtered matches xyzAttribute-name="value" or of xyxAttribute-name='value', or null.
    */
   protected String getFilteredModelAnnotations(String modelAnnotation, String filter)
   {
     StringBuffer result = new StringBuffer();
     Pattern modelAnnotationAttributeExpressionDoubleQuote = 
-      Pattern.compile("\\b" + filter + "([A-Z]\\w*\\s*=\\s*([\"'])(.*?)\\2)", Pattern.MULTILINE); 
+      Pattern.compile("\\b" + filter + "([A-Z]\\w*\\s*=\\s*([\"'])((?>\\\\.|.)*?)\\2)", Pattern.MULTILINE); 
     int start = 0;
     int end = modelAnnotation.length();
     Matcher matcher;
