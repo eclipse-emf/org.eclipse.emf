@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceCacheMechanismTest.java,v 1.1 2004/10/21 16:13:05 marcelop Exp $
+ * $Id: ResourceCacheMechanismTest.java,v 1.2 2004/11/08 16:28:39 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -191,14 +191,22 @@ public class ResourceCacheMechanismTest extends TestCase
     assertNull(xmlResource.getEObject("MARY"));
     assertEquals("externalIDForJohn", xmlResource.getID(john));
     assertNull(xmlResource.getID(mary));
+ 
+    //Setting mary's external ID again
+    xmlResource.setID(mary, "MARY");
+    //john and mary can be retrieved by their external IDs
+    assertEquals(john, xmlResource.getEObject("externalIDForJohn"));
+    assertEquals(mary, xmlResource.getEObject("MARY"));
     
-    //Removing mary
+    //Removing mary from the resource
     xmlResource.getContents().remove(mary);
     assertEquals(1, xmlResource.getContents().size());
     
     //Mary should not be in the maps.
     assertEquals(john, xmlResource.getEObject("externalIDForJohn"));
     assertEquals("externalIDForJohn", xmlResource.getID(john));
+    assertNull(xmlResource.getEObject("MARY"));
+    assertNull(xmlResource.getID(mary));
   }
 
   /*
@@ -253,6 +261,12 @@ public class ResourceCacheMechanismTest extends TestCase
     assertEquals(1, ((XMLResourceImpl)xmlResource).getEObjectToIDMap().size());
     assertEquals("externalIDForJohn", ((XMLResourceImpl)xmlResource).getEObjectToIDMap().get(john));
     assertNull(((XMLResourceImpl)xmlResource).getEObjectToIDMap().get(mary));
+    
+    //Setting mary's external ID again
+    xmlResource.setID(mary, "MARY");
+    //john and mary can be retrieved by their external IDs
+    assertEquals(john, xmlResource.getEObject("externalIDForJohn"));
+    assertEquals(mary, xmlResource.getEObject("MARY"));    
     
     //Removing mary
     xmlResource.getContents().remove(mary);
