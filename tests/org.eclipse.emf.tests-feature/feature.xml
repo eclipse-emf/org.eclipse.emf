@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.16 2004/12/08 17:36:15 marcelop Exp $
+ * $Id: feature.xml,v 1.17 2005/01/05 20:06:05 marcelop Exp $
  */
 -->
 
@@ -76,6 +76,13 @@ http://www.eclipse.org/legal/cpl-v10.html
          install-size="0"
          version="2.1.0">
    </plugin>
+
+   <plugin
+         id="org.eclipse.emf.test.performance"
+         download-size="0"
+         install-size="0"
+         version="2.1.0">
+   </plugin>   
 
    <plugin
          id="org.eclipse.emf.test.build"
