@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseParser.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: RoseParser.java,v 1.2 2004/08/17 19:02:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore.parser;
 
@@ -26,8 +26,8 @@ import java.util.Stack;
  * This parser uses the following contex-free grammar:
  * <pre>
  *   E  -> ( O )  |  ( L )  |  ( V )  |   S'  ;expression
- *   S' -> S  |  "|" S'                       ;sequence of strings for key value pair
- *   S" -> EPS | S S"                         ;sequence of strings inside list
+ *   S' -> S  |  "|" S'                       ;sequence of strings
+ *   S" -> EPS | S' S"                        ;sequence of strings inside list
  *   O  -> object S P'                        ;object
  *   V  -> value S S'                         ;value
  *   P' -> EPS  |  P P'                       ;sequence of pairs
@@ -514,7 +514,7 @@ public class RoseParser
         root = new RoseNode(key, label, RoseNode.LIST);
       }
     } 
-    else if (tok.getType() == RoseToken.STRING) 
+    else if (tok.getType() == RoseToken.STRING || tok.getType() == RoseToken.VERTICAL_BAR) 
     {
       root = null;
       if (!isTreeOnly || isAllowed) 
@@ -523,14 +523,14 @@ public class RoseParser
       }
       while (true) 
       {
-        tok = lexer.getNext();
-        if (tok.getType() != RoseToken.STRING) 
+        tok = lexer.peekNext();
+        if (tok.getType() != RoseToken.STRING && tok.getType() != RoseToken.VERTICAL_BAR) 
         {
-          System.out.println("  Parsing error in parseList - expecting string");
+          System.out.println("  Parsing error in parseList - expecting string or |");
           return null;
         }
         RoseNode node = null;
-        node = new RoseNode("", tok.getValue(), RoseNode.STRING);
+        node = parseS_prime("");
         if (root != null)
         {
           root.addNode(node);
@@ -545,7 +545,7 @@ public class RoseParser
     else 
     {
       lexer.getNext();
-      System.out.println("  Parsing error in parseList - expecting left/right parenthesis or string "+tok.lineNum);
+      System.out.println("  Parsing error in parseList - expecting left/right parenthesis or string or | "+tok.lineNum);
       root = null;
     }
 
