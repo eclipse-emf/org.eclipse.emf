@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.7 2004/05/12 22:31:07 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.8 2004/05/16 17:08:18 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -37,7 +37,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Plugin;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -124,6 +123,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
+import org.osgi.framework.Bundle;
 
 
 /**
@@ -142,15 +142,15 @@ public class EcoreEditor
     {
       try
       {
-        Plugin plugin = Platform.getPlugin("org.eclipse.xsd.editor");
+        Bundle plugin = Platform.getBundle("org.eclipse.xsd.editor");
         Class theClass = 
-          plugin.getClass().getClassLoader().loadClass
+          plugin.loadClass
             ("org.eclipse.xsd.presentation.XSDEditor$GenericXMLResourceFactoryImpl");
         Object genericXMLResourceFactory = theClass.newInstance();
         editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", genericXMLResourceFactory);
 
         Class theItemProviderClass =
-          plugin.getClass().getClassLoader().loadClass
+          plugin.loadClass
             ("org.eclipse.xsd.provider.XSDItemProviderAdapterFactory");
         AdapterFactory xsdItemProviderAdapterFactory = (AdapterFactory)theItemProviderClass.newInstance();
         adapterFactory.insertAdapterFactory(xsdItemProviderAdapterFactory);
@@ -784,12 +784,12 @@ public class EcoreEditor
   }
 
   /**
-   * This is the method used by the framework to install your own controls.
+   * This is the method called to load a resource into the editing domain's resource set based on the editor's input.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
-  public void createPages()
+  public void createModel()
   {
     // I assume that the input is a file object.
     //
@@ -802,16 +802,23 @@ public class EcoreEditor
       Resource resource = 
         editingDomain.loadResource
           (URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
-
-      // The one object in the resource's extent should be the root object.
-      //
-      // rootObject = (EObject)((Resource)editingDomain.getResourceSet().getResources().iterator().next()).getContents().get(0);
     }
     catch (Exception exception)
     {
-      exception.printStackTrace();
+      EcoreEditorPlugin.INSTANCE.log(exception);
     }
+  }
 
+  /**
+   * This is the method used by the framework to install your own controls.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void createPages()
+  {
+    createModel();
+    
     // Create a page for the selection tree view.
     //
     {
@@ -1117,7 +1124,7 @@ public class EcoreEditor
       {
         // This is the method that gets invoked when the operation runs.
         //
-        protected void execute(IProgressMonitor monitor) throws CoreException
+        public void execute(IProgressMonitor monitor)
         {
           try
           {
@@ -1206,7 +1213,7 @@ public class EcoreEditor
 
         IFileEditorInput modelFile = new FileEditorInput(file);
         setInput(modelFile);
-        setTitle(file.getName());
+        setPartName(file.getName());
         doSave(getActionBars().getStatusLineManager().getProgressMonitor());
       }
     }
@@ -1249,19 +1256,12 @@ public class EcoreEditor
    */
   public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException, PartInitException
   {
-    if (editorInput instanceof IFileEditorInput)
-    {
-      setSite(site);
-      setInput(editorInput);
-      setTitle(((IFileEditorInput)editorInput).getFile().getName());
-      site.setSelectionProvider(this);
-      site.getPage().addPartListener(partListener);
-      ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
-    }
-    else
-    {
-      throw new PartInitException("Invalid Input: Must be IFileEditorInput.");
-    }
+    setSite(site);
+    setInput(editorInput);
+    setPartName(editorInput.getName());
+    site.setSelectionProvider(this);
+    site.getPage().addPartListener(partListener);
+    ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
   }
 
   /**
@@ -1460,4 +1460,5 @@ public class EcoreEditor
 
     super.dispose();
   }
+
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeItemProvider.java,v 1.2 2004/04/07 22:04:10 davidms Exp $
+ * $Id: FeatureChangeItemProvider.java,v 1.3 2004/05/16 17:10:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -152,7 +152,6 @@ public class FeatureChangeItemProvider
     return childrenFeatures;
   }
 
-
   /**
    * This returns FeatureChange.gif.
    * <!-- begin-user-doc -->
@@ -212,4 +211,5 @@ public class FeatureChangeItemProvider
   {
     return ChangeEditPlugin.INSTANCE;
   }
+
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.3 2004/05/05 11:56:29 emerks Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.4 2004/05/16 17:09:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -143,7 +143,6 @@ public class EAnnotationItemProvider
     return super.getChildFeature(object, child);
   }
 
-
   /**
    * This returns EAnnotation.gif.
    * <!-- begin-user-doc -->
@@ -226,4 +225,5 @@ public class EAnnotationItemProvider
   {
     return EcoreEditPlugin.INSTANCE;
   }
+
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryImpl.java,v 1.3 2004/03/15 20:08:13 emerks Exp $
+ * $Id: EObjectToChangesMapEntryImpl.java,v 1.4 2004/05/16 17:10:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -328,4 +328,5 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
     EObject container = eContainer();
     return container == null ? null : (EMap)container.eGet(eContainmentFeature());
   }
+
 } //EObjectToChangesMapEntryImpl

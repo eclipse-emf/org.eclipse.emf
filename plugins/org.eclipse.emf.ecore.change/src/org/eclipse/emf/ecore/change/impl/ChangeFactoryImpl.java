@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeFactoryImpl.java,v 1.2 2004/03/15 20:08:13 emerks Exp $
+ * $Id: ChangeFactoryImpl.java,v 1.3 2004/05/16 17:10:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -77,7 +77,11 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
     switch (eDataType.getClassifierID())
     {
       case ChangePackage.CHANGE_KIND:
-        return ChangeKind.get(initialValue);
+      {
+        ChangeKind result = ChangeKind.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -186,6 +190,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
   {
     return ChangePackage.eINSTANCE;
   }
+
   public Map.Entry createEObjectToChangesMapEntry(EObject eObject)
   {
     EObjectToChangesMapEntryImpl eObjectToChangesMapEntry = new EObjectToChangesMapEntryImpl();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumItemProvider.java,v 1.2 2004/04/06 03:26:15 davidms Exp $
+ * $Id: EEnumItemProvider.java,v 1.3 2004/05/16 17:09:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -91,7 +91,6 @@ public class EEnumItemProvider
     return childrenFeatures;
   }
 
-
   /**
    * This returns EEnum.gif.
    * <!-- begin-user-doc -->
@@ -164,4 +163,5 @@ public class EEnumItemProvider
   {
     return EcoreEditPlugin.INSTANCE;
   }
+
 }

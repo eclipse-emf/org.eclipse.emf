@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.5 2004/05/11 13:05:35 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.6 2004/05/16 17:09:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -314,4 +314,5 @@ public class ETypedElementItemProvider
   {
     return EcoreEditPlugin.INSTANCE;
   }
+
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRootImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLNamespaceDocumentRootImpl.java,v 1.2 2004/05/16 17:13:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -96,7 +96,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * @generated
    * @ordered
    */
-  protected static final Object BASE_EDEFAULT = null;
+  protected static final String BASE_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getBase() <em>Base</em>}' attribute.
@@ -106,7 +106,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * @generated
    * @ordered
    */
-  protected Object base = BASE_EDEFAULT;
+  protected String base = BASE_EDEFAULT;
 
   /**
    * The default value of the '{@link #getLang() <em>Lang</em>}' attribute.
@@ -224,7 +224,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getBase()
+  public String getBase()
   {
     return base;
   }
@@ -234,9 +234,9 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setBase(Object newBase)
+  public void setBase(String newBase)
   {
-    Object oldBase = base;
+    String oldBase = base;
     base = newBase;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__BASE, oldBase, base));
@@ -386,7 +386,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
         getXSISchemaLocation().addAll((Collection)newValue);
         return;
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__BASE:
-        setBase((Object)newValue);
+        setBase((String)newValue);
         return;
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__LANG:
         setLang((String)newValue);

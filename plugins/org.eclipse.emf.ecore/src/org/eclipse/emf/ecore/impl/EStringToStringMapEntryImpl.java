@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EStringToStringMapEntryImpl.java,v 1.2 2004/05/16 17:14:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -322,4 +322,5 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
     EObject container = eContainer();
     return container == null ? null : (EMap)container.eGet(eContainmentFeature());
   }
+
 } //EStringToStringMapEntryImpl

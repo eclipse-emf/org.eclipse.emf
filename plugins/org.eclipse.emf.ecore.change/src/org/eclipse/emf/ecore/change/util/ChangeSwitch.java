@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ChangeSwitch.java,v 1.2 2004/03/15 20:08:13 emerks Exp $
+ * $Id: ChangeSwitch.java,v 1.3 2004/05/16 17:10:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
@@ -68,50 +69,80 @@ public class ChangeSwitch {
    */
   public Object doSwitch(EObject theEObject)
   {
-    EClass theEClass = theEObject.eClass();
+    return doSwitch(theEObject.eClass(), theEObject);
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  {
     if (theEClass.eContainer() == modelPackage)
     {
-      switch (theEClass.getClassifierID())
-      {
-        case ChangePackage.CHANGE_DESCRIPTION:
-        {
-          ChangeDescription changeDescription = (ChangeDescription)theEObject;
-          Object result = caseChangeDescription(changeDescription);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY:
-        {
-          Map.Entry eObjectToChangesMapEntry = (Map.Entry)theEObject;
-          Object result = caseEObjectToChangesMapEntry(eObjectToChangesMapEntry);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case ChangePackage.FEATURE_CHANGE:
-        {
-          FeatureChange featureChange = (FeatureChange)theEObject;
-          Object result = caseFeatureChange(featureChange);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case ChangePackage.LIST_CHANGE:
-        {
-          ListChange listChange = (ListChange)theEObject;
-          Object result = caseListChange(listChange);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case ChangePackage.RESOURCE_CHANGE:
-        {
-          ResourceChange resourceChange = (ResourceChange)theEObject;
-          Object result = caseResourceChange(resourceChange);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        default: return defaultCase(theEObject);
-      }
+      return doSwitch(theEClass.getClassifierID(), theEObject);
     }
-    return defaultCase(theEObject);
+    else
+    {
+      List eSuperTypes = theEClass.getESuperTypes();
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+    }
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(int classifierID, EObject theEObject)
+  {
+    switch (classifierID)
+    {
+      case ChangePackage.CHANGE_DESCRIPTION:
+      {
+        ChangeDescription changeDescription = (ChangeDescription)theEObject;
+        Object result = caseChangeDescription(changeDescription);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY:
+      {
+        Map.Entry eObjectToChangesMapEntry = (Map.Entry)theEObject;
+        Object result = caseEObjectToChangesMapEntry(eObjectToChangesMapEntry);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case ChangePackage.FEATURE_CHANGE:
+      {
+        FeatureChange featureChange = (FeatureChange)theEObject;
+        Object result = caseFeatureChange(featureChange);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case ChangePackage.LIST_CHANGE:
+      {
+        ListChange listChange = (ListChange)theEObject;
+        Object result = caseListChange(listChange);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case ChangePackage.RESOURCE_CHANGE:
+      {
+        ResourceChange resourceChange = (ResourceChange)theEObject;
+        Object result = caseResourceChange(resourceChange);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      default: return defaultCase(theEObject);
+    }
   }
 
   /**

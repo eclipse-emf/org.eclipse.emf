@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.2 2004/05/05 19:49:10 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.3 2004/05/16 17:14:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2070,6 +2070,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     // Create resource
     createResource(eNS_URI);
   }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

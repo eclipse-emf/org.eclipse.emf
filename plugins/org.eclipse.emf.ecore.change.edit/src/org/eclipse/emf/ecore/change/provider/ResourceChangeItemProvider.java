@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceChangeItemProvider.java,v 1.2 2004/04/07 22:04:10 davidms Exp $
+ * $Id: ResourceChangeItemProvider.java,v 1.3 2004/05/16 17:10:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -143,7 +143,6 @@ public class ResourceChangeItemProvider
     return childrenFeatures;
   }
 
-
   /**
    * This returns ResourceChange.gif.
    * <!-- begin-user-doc -->
@@ -204,4 +203,5 @@ public class ResourceChangeItemProvider
   {
     return ChangeEditPlugin.INSTANCE;
   }
+
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceFactoryImpl.java,v 1.2 2004/03/10 13:03:07 emerks Exp $
+ * $Id: XMLNamespaceFactoryImpl.java,v 1.3 2004/05/16 17:13:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -67,7 +67,11 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
     switch (eDataType.getClassifierID())
     {
       case XMLNamespacePackage.SPACE_TYPE:
-        return SpaceType.get(initialValue);
+      {
+        SpaceType result = SpaceType.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XMLNamespacePackage.SPACE_TYPE_OBJECT:
         return createSpaceTypeObjectFromString(eDataType, initialValue);
       default:
@@ -144,4 +148,5 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
   {
     return XMLNamespacePackage.eINSTANCE;
   }
+
 } //XMLNamespaceFactoryImpl

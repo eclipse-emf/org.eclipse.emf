@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeItemProvider.java,v 1.2 2004/04/07 22:04:10 davidms Exp $
+ * $Id: ListChangeItemProvider.java,v 1.3 2004/05/16 17:10:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -154,7 +154,6 @@ public class ListChangeItemProvider
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
   }
 
-
   /**
    * This returns ListChange.gif.
    * <!-- begin-user-doc -->
@@ -214,4 +213,5 @@ public class ListChangeItemProvider
   {
     return ChangeEditPlugin.INSTANCE;
   }
+
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeItemProvider.java,v 1.2 2004/04/06 03:26:15 davidms Exp $
+ * $Id: EAttributeItemProvider.java,v 1.3 2004/05/16 17:09:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -111,7 +111,6 @@ public class EAttributeItemProvider
          false));
   }
 
-
   /**
    * This returns EAttribute.gif.
    * <!-- begin-user-doc -->
@@ -185,4 +184,5 @@ public class EAttributeItemProvider
   {
     return EcoreEditPlugin.INSTANCE;
   }
+
 }

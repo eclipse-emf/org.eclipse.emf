@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.3 2004/05/11 13:05:02 emerks Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.4 2004/05/16 17:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -477,4 +477,5 @@ public class EcoreActionBarContributor
 
     super.addGlobalActions(menuManager);
   }
+
 }

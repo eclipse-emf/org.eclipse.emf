@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.2 2004/03/10 00:18:34 emerks Exp $
+ * $Id: EcoreModelWizard.java,v 1.3 2004/05/16 17:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -599,4 +599,5 @@ public class EcoreModelWizard extends Wizard implements INewWizard
   {
     return newFileCreationPage.getModelFile();
   }
+
 }
