@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.2 2005/01/27 01:39:14 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.3 2005/02/01 18:30:52 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -42,6 +42,7 @@ public abstract class GeneratorTask extends EMFTask
   private File model;
   private File genModel;
   private File modelProject;
+  private String modelPluginID;
   private String modelProjectFragmentPath;
   private File templatePath;
   private String copyright;
@@ -71,6 +72,11 @@ public abstract class GeneratorTask extends EMFTask
   public void setModelProjectFragmentPath(String modelProjectFragmentPath)
   {
     this.modelProjectFragmentPath = modelProjectFragmentPath;
+  }
+
+  public void setModelPluginID(String modelPluginID)
+  {
+    this.modelPluginID = modelPluginID;
   }
 
   public Commandline.Argument createArg()
@@ -146,6 +152,12 @@ public abstract class GeneratorTask extends EMFTask
       getCommandline().createArgument().setValue("-templatePath");
       getCommandline().createArgument().setValue(templatePath.getAbsolutePath());
     }
+    
+    if (modelPluginID != null)
+    {
+      getCommandline().createArgument().setValue("-modelPluginID");
+      getCommandline().createArgument().setValue(modelPluginID);
+    }    
 
     if (copyright != null)
     {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGeneratorTask.java,v 1.2 2005/01/27 01:37:14 marcelop Exp $
+ * $Id: XSDGeneratorTask.java,v 1.3 2005/02/01 18:30:52 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -56,7 +56,8 @@ import org.eclipse.emf.codegen.ecore.XSD2GenModel;
  * &lt;emf.XSD2Java model=&quot;c:/lib/model/lib.xsd&quot; 
  *                genModel=&quot;c:/lib/emf/lib.genmodel&quot; 
  *                modelProject=&quot;c:/lib&quot; 
- *                modelProjectFragmentPath=&quot;src&quot;&gt;
+ *                modelProjectFragmentPath=&quot;src&quot;
+ *                modelPluginID=&quot;emf.lib.example&quot;&gt;
  *        &lt;arg line=&quot;-packages http://www.example.eclipse.org/Library&quot;/&gt;
  *  &lt;/emf.XSD2Java&gt;
  * </pre>

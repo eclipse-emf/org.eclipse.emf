@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2GenModel.java,v 1.3 2004/05/16 17:31:01 emerks Exp $
+ * $Id: XSD2GenModel.java,v 1.4 2005/02/01 18:30:53 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -71,17 +71,18 @@ public class XSD2GenModel extends Generator
   protected void printUsage()
   {
     System.out.println("Usage: { <model.xsd> | <model.wsdl> }+ [ <model.genmodel> ] <OPTION>");
-    System.out.println("<OPTION>         ::= [ <PROJECT-OPTION> ]  [ <PACKAGE-MAP> ] [ <PACKAGES> ]");
-    System.out.println("                     [ <TEMPLATE-PATH> ] [ <COPYRIGHT> ] [ <SDO> ]");
-    System.out.println("<PROJECT-OPTION> ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ]");
-    System.out.println("<MODEL-PROJECT>  ::= -modelProject <model-directory> <fragment-path>");
-    System.out.println("<EDIT-PROJECT>   ::= -editProject <edit-directory> <fragment-path>");
-    System.out.println("<EDITOR-PROJECT> ::= -editorProject <editor-directory> <fragment-path>");
-    System.out.println("<PACKAGE-MAP>    ::= -packageMap { <nsURI> <qualified-package-name> }+");
-    System.out.println("<PACKAGES>       ::= -packages { <nsURI> }+");
-    System.out.println("<TEMPLATE-PATH>  ::= -templatePath <template-directory>");
-    System.out.println("<COPYRIGHT>      ::= -copyright <copyright-string>");
-    System.out.println("<SDO>            ::= -sdo");
+    System.out.println("<OPTION>          ::= [ <PROJECT-OPTION> ]  [ <PACKAGE-MAP> ] [ <PACKAGES> ]");
+    System.out.println("                      [ <TEMPLATE-PATH> ] [ <COPYRIGHT> ] [ <SDO> ]");
+    System.out.println("<PROJECT-OPTION>  ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ]");
+    System.out.println("<MODEL-PROJECT>   ::= -modelProject <model-directory> <fragment-path>");
+    System.out.println("<EDIT-PROJECT>    ::= -editProject <edit-directory> <fragment-path>");
+    System.out.println("<EDITOR-PROJECT>  ::= -editorProject <editor-directory> <fragment-path>");
+    System.out.println("<PACKAGE-MAP>     ::= -packageMap { <nsURI> <qualified-package-name> }+");
+    System.out.println("<PACKAGES>        ::= -packages { <nsURI> }+");
+    System.out.println("<TEMPLATE-PATH>   ::= -templatePath <template-directory>");
+    System.out.println("<MODEL-PLUGIN-ID> ::= -modelPluginID <plugin-ID>");    
+    System.out.println("<COPYRIGHT>       ::= -copyright <copyright-string>");
+    System.out.println("<SDO>             ::= -sdo");
     System.out.println("");
     System.out.println("Specifying no -packages is the same as specifying them all");
     System.out.println("Use ##local to represent the null nsURI");
@@ -199,6 +200,7 @@ public class XSD2GenModel extends Generator
     String templatePath = null;
     String copyright = null;
     boolean sdo = false;
+    String modelPluginID = null;
 
     for (; index < arguments.length; ++index)
     {
@@ -244,6 +246,10 @@ public class XSD2GenModel extends Generator
         }
         while (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"));
       }
+      else if (arguments[index].equalsIgnoreCase("-modelPluginID"))
+      {
+        modelPluginID = arguments[++index];
+      }      
       else if (arguments[index].equalsIgnoreCase("-copyright"))
       {
         copyright = arguments[++index];
@@ -358,8 +364,16 @@ public class XSD2GenModel extends Generator
     referencedGenModel.initialize(referencedEPackageList);
     generatedGenModel.getUsedGenPackages().addAll(referencedGenModel.getGenPackages());
 
-    generatedGenModel.setModelPluginID
+    if (modelPluginID == null)
+    {
+      generatedGenModel.setModelPluginID
       (((GenPackage)generatedGenModel.getGenPackages().get(0)).getInterfacePackageName());
+    }
+    else
+    {
+      generatedGenModel.setModelPluginID(modelPluginID);
+    }
+    
     generatedGenModel.setEditPluginClass
       (generatedGenModel.getModelPluginID() + ".provider." + 
          Generator.validName(generatedGenModel.getModelName()) + "EditPlugin");

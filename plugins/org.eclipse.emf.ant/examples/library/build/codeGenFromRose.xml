@@ -16,7 +16,8 @@
 					model="${main.directory}/model/@{modelName}.mdl"
 					genModel="${main.directory}/emf/@{modelName}.genmodel"
 					modelProject="${main.directory}"
-					modelProjectFragmentPath="${source.directory}">					
+					modelProjectFragmentPath="${source.directory}"
+					modelPluginID="@{modelName}.model">					
 					<settings/>
 				</emf.Rose2Java>
 			</sequential>

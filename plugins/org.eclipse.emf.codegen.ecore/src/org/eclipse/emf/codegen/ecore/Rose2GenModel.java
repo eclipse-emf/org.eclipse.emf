@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Rose2GenModel.java,v 1.7 2004/12/29 22:19:15 marcelop Exp $
+ * $Id: Rose2GenModel.java,v 1.8 2005/02/01 18:30:53 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -83,19 +83,20 @@ public class Rose2GenModel extends Generator
   protected void printUsage()
   {
     System.out.println("Usage: <model.mdl> [ <model.genmodel> ] <OPTION>");
-    System.out.println("<OPTION>         ::= [ <PROJECT-OPTION> ]  [ <PATHMAP> ]");
-    System.out.println("                     { <PACKAGE> }+  { <REF-PACKAGE> }*");
-    System.out.println("                     [ <TEMPLATE-PATH> ] [ <COPYRIGHT> ] [ <SDO> ]");
-    System.out.println("<PROJECT-OPTION> ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ]");
-    System.out.println("<MODEL-PROJECT>  ::= -modelProject <mode-directory> <fragment-path>");
-    System.out.println("<EDIT-PROJECT>   ::= -editProject <edit-directory> <fragment-path>");
-    System.out.println("<EDITOR-PROJECT> ::= -editorProject <editor-directory> <fragment-path>");
-    System.out.println("<PATHMAP>        ::= -pathMap { <symbol> <directory> }+");
-    System.out.println("<PACKAGE>        ::= -package <name> [ <nsPrefix> <nsURI> <base> <prefix> ]");
-    System.out.println("<REF-PACKAGE>    ::= -refPackage <name> [ <nsPrefix> <nsURI> <base> <prefix> ]");
-    System.out.println("<TEMPLATE-PATH>  ::= -templatePath <template-directory>");
-    System.out.println("<COPYRIGHT>      ::= -copyright <copyright-string>");
-    System.out.println("<SDO>            ::= -sdo");
+    System.out.println("<OPTION>          ::= [ <PROJECT-OPTION> ]  [ <PATHMAP> ]");
+    System.out.println("                      { <PACKAGE> }+  { <REF-PACKAGE> }*");
+    System.out.println("                      [ <TEMPLATE-PATH> ] [ <COPYRIGHT> ] [ <SDO> ]");
+    System.out.println("<PROJECT-OPTION>  ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ]");
+    System.out.println("<MODEL-PROJECT>   ::= -modelProject <mode-directory> <fragment-path>");
+    System.out.println("<EDIT-PROJECT>    ::= -editProject <edit-directory> <fragment-path>");
+    System.out.println("<EDITOR-PROJECT>  ::= -editorProject <editor-directory> <fragment-path>");
+    System.out.println("<PATHMAP>         ::= -pathMap { <symbol> <directory> }+");
+    System.out.println("<PACKAGE>         ::= -package <name> [ <nsPrefix> <nsURI> <base> <prefix> ]");
+    System.out.println("<REF-PACKAGE>     ::= -refPackage <name> [ <nsPrefix> <nsURI> <base> <prefix> ]");
+    System.out.println("<TEMPLATE-PATH>   ::= -templatePath <template-directory>");
+    System.out.println("<MODEL-PLUGIN-ID> ::= -modelPluginID <plugin-ID>");    
+    System.out.println("<COPYRIGHT>       ::= -copyright <copyright-string>");
+    System.out.println("<SDO>             ::= -sdo");
     System.out.println("");
     System.out.println("For example:");
     System.out.println("");
@@ -191,6 +192,7 @@ public class Rose2GenModel extends Generator
     String templatePath = null;
     String copyright = null;
     boolean sdo = false;
+    String modelPluginID = null;
 
     for (; index < arguments.length; ++index)
     {
@@ -268,6 +270,10 @@ public class Rose2GenModel extends Generator
           throw new RuntimeException();
         }
       }
+      else if (arguments[index].equalsIgnoreCase("-modelPluginID"))
+      {
+        modelPluginID = arguments[++index];
+      }      
       else if (arguments[index].equalsIgnoreCase("-copyright"))
       {
         copyright = arguments[++index];
@@ -359,8 +365,16 @@ public class Rose2GenModel extends Generator
     generatedGenModel.getUsedGenPackages().addAll(referencedGenModel.getGenPackages());
 
     // generatedGenModel.setModelPluginID(modelProjectLocationPath.lastSegment());
-    generatedGenModel.setModelPluginID
-      (((GenPackage)generatedGenModel.getGenPackages().get(0)).getInterfacePackageName());
+    if (modelPluginID == null)
+    {
+      generatedGenModel.setModelPluginID
+        (((GenPackage)generatedGenModel.getGenPackages().get(0)).getInterfacePackageName());
+    }
+    else
+    {
+      generatedGenModel.setModelPluginID(modelPluginID);
+    }
+
     generatedGenModel.setEditPluginClass
       (generatedGenModel.getModelPluginID() + ".provider." + 
          Generator.validName(generatedGenModel.getModelName()) + "EditPlugin");
