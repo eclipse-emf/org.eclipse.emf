@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeReportTest.java,v 1.9 2004/08/24 16:09:06 marcelop Exp $
+ * $Id: ChangeReportTest.java,v 1.10 2004/10/14 17:38:35 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -89,9 +89,6 @@ extends TestCase
   }
   
   
-  /* (non-Javadoc)
-   * @see junit.framework.TestCase#setUp()
-   */
   protected void setUp() throws Exception
   {
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
