@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryImpl.java,v 1.2 2004/03/15 15:01:26 marcelop Exp $
+ * $Id: EObjectToChangesMapEntryImpl.java,v 1.3 2004/03/15 20:08:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -102,7 +102,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
     if (key != null && key.eIsProxy())
     {
       EObject oldKey = key;
-      key = eResolveProxy((InternalEObject)key);
+      key = (EObject)eResolveProxy((InternalEObject)key);
       if (key != oldKey)
       {
         if (eNotificationRequired())

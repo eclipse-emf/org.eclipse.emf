@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeFactoryImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ChangeFactoryImpl.java,v 1.2 2004/03/15 20:08:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -24,13 +24,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.change.ChangeDescription;
-import org.eclipse.emf.ecore.change.ChangeFactory;
-import org.eclipse.emf.ecore.change.ChangeKind;
-import org.eclipse.emf.ecore.change.ChangePackage;
-import org.eclipse.emf.ecore.change.FeatureChange;
-import org.eclipse.emf.ecore.change.ListChange;
-import org.eclipse.emf.ecore.change.ResourceChange;
+import org.eclipse.emf.ecore.change.*;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 
