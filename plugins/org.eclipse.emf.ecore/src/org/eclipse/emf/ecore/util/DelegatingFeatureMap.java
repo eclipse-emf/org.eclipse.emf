@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.7 2004/05/17 13:54:42 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.8 2004/05/20 12:51:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -134,7 +134,9 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       else
       {
         EStructuralFeature affiliation = ExtendedMetaData.INSTANCE.getAffiliation(eclass, feature);
-        return affiliation == null || affiliation.isMany();
+        return
+          affiliation == null ||
+            affiliation.isMany() && ExtendedMetaData.INSTANCE.getFeatureKind(affiliation) != ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE;
       }
     }
     else

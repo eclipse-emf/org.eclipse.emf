@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.6 2004/05/17 13:54:42 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.7 2004/05/20 12:51:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -91,7 +91,9 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       else
       {
         EStructuralFeature affiliation = ExtendedMetaData.INSTANCE.getAffiliation(eclass, feature);
-        return affiliation == null || affiliation.isMany();
+        return 
+          affiliation == null || 
+            affiliation.isMany() && ExtendedMetaData.INSTANCE.getFeatureKind(affiliation) != ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE;
       }
     }
     else
