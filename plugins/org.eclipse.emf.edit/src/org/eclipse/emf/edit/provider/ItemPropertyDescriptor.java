@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.2 2004/03/31 14:54:39 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -372,7 +372,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       {
         if (feature instanceof EReference)
         {
-          return getReachableObjectsOfType((EObject)object, feature.getEType());
+          Collection result = getReachableObjectsOfType((EObject)object, feature.getEType());
+          if (!feature.isMany())
+          {
+            result.add(null);
+          }
+          return result;
         }
         else if (feature.getEType() instanceof EEnum)
         {
