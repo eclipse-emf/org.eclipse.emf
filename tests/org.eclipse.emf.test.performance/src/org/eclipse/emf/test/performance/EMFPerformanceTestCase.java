@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.8 2005/02/21 18:17:22 marcelop Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.9 2005/02/22 05:17:50 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -125,7 +125,6 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     if (TestUtil.isRunningUnderEclipse())
     {
       super.setUp();
-      tagAsSummary("Perf " + getClass().getPackage().getName(), ALL_DIMENSIONS);
     }
   }
 
@@ -165,4 +164,36 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
       super.tearDown();
     }
   }  
+  
+  public void tagAsGlobalSummary(String shortName, Dimension dimension)
+  {
+    if (TestUtil.isRunningUnderEclipse())
+    {
+      super.tagAsGlobalSummary(shortName, dimension);
+    }
+  }
+  
+  public void tagAsGlobalSummary(String shortName, Dimension[] dimensions)
+  {
+    if (TestUtil.isRunningUnderEclipse())
+    {
+      super.tagAsGlobalSummary(shortName, dimensions);
+    }
+  }
+  
+  public void tagAsSummary(String shortName, Dimension dimension)
+  {
+    if (TestUtil.isRunningUnderEclipse())
+    {
+      super.tagAsSummary(shortName, dimension);
+    }
+  }
+  
+  public void tagAsSummary(String shortName, Dimension[] dimensions)
+  {
+    if (TestUtil.isRunningUnderEclipse())
+    {
+      super.tagAsSummary(shortName, dimensions);
+    }
+  }
 }

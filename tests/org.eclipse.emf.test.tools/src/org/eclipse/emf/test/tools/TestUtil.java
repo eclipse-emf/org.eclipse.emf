@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.4 2005/02/11 05:18:32 marcelop Exp $
+ * $Id: TestUtil.java,v 1.5 2005/02/22 05:17:43 marcelop Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -31,30 +31,45 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 
-/**
- * @author marcelop
- */
 public class TestUtil
 {
-  private static class Foo{};
+  private static final String PLUGIN_ID = "org.eclipse.emf.test.tools";
+  private static final String CLASS_FILE = "org/eclipse/emf/test/tools/TestUtil.class";
   
   public static String getPluginDirectory()
   {
     try
     {
-      if (Platform.isRunning())
-      {
-        return new java.io.File(Platform.asLocalURL(EMFTestToolsPlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
-      }
+       return new File(Platform.asLocalURL(EMFTestToolsPlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
     }
     catch (Throwable t)
     {
     }
-    
-    URL url = new Foo().getClass().getResource(".");
-    String path = url.getPath();
-    path = path.substring(0, path.indexOf("org.eclipse.emf.test.tools/") + "org.eclipse.emf.test.tools/".length());
-    return new File(path).getAbsolutePath();
+
+    URL url = ClassLoader.getSystemResource(CLASS_FILE);
+    if (url != null)
+    {
+      String path = url.getPath();
+      path = path.substring(0, path.indexOf(PLUGIN_ID));
+      if (path.startsWith("file:"))
+      {
+        path = path.substring("file:".length());
+      }
+      File parentDir = new File(path);
+      if (parentDir.isDirectory())
+      {
+        File[] files = parentDir.listFiles();
+        for (int i = 0, maxi = files.length; i < maxi; i++)
+        {
+          if (files[i].isDirectory() && files[i].getName().startsWith(PLUGIN_ID))
+          {
+            return files[i].getAbsolutePath();
+          }
+        }
+      }
+    }
+
+    return null;
   }
   
   public static String getPluginDirectory(String pluginID)
