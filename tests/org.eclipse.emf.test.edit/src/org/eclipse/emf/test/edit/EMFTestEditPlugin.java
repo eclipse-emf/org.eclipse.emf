@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestEditPlugin.java,v 1.2 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: EMFTestEditPlugin.java,v 1.3 2005/02/22 16:03:44 marcelop Exp $
  */
 package org.eclipse.emf.test.edit;
 
@@ -22,7 +22,6 @@ public class EMFTestEditPlugin
 extends Plugin
 {
     private static EMFTestEditPlugin instance;
-    private static class Foo{};
     
     public EMFTestEditPlugin()
     {
