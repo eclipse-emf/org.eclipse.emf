@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.3 2004/05/18 13:12:37 emerks Exp $
+ * $Id: XSDParser.java,v 1.4 2004/06/03 11:45:10 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -517,6 +517,11 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     if ("-//W3C//DTD XMLSCHEMA 200102//EN".equals(publicId))
     {
       inputSource = new InputSource( XSDPlugin.INSTANCE.getBaseURL() + "cache/www.w3.org/2001/XMLSchema.dtd");
+      inputSource.setPublicId(publicId);
+    }
+    else if (systemId != null && systemId.startsWith("file://bundleentry:"))
+    {
+      inputSource = new InputSource(systemId.substring(7));
       inputSource.setPublicId(publicId);
     }
     else
