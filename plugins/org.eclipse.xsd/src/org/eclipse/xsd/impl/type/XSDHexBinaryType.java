@@ -12,35 +12,22 @@
  *
  * </copyright>
  *
- * $Id: XSDHexBinaryType.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDHexBinaryType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
  */
 package org.eclipse.xsd.impl.type;
 
-
-import org.eclipse.xsd.impl.type.DataValue.HexBin;
-
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.HexBin;
 
 public class XSDHexBinaryType extends XSDAnySimpleType
 {
-  public boolean isValidLiteral(String literal)
-  {
-    try
-    {
-      return HexBin.decode(literal) != null;
-    }
-    catch (RuntimeException exception)
-    {
-      return false;
-    }
-  }
-
   public Object getValue(String literal)
   {
-    return new ByteSequence(this, HexBin.decode(literal.getBytes()));
+    byte[] bytes = HexBin.decode(literal);
+    if (bytes != null)
+    {
+    	return new HexSequence(this, bytes);
+    }
+  	return null;
   }
 
-  public String getCanonicalLiteral(Object value)
-  {
-    return new String(HexBin.encode(((ByteSequence)value).getBytes()));
-  }
 }

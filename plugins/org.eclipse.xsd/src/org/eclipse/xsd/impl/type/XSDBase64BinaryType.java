@@ -12,35 +12,17 @@
  *
  * </copyright>
  *
- * $Id: XSDBase64BinaryType.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDBase64BinaryType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
  */
 package org.eclipse.xsd.impl.type;
 
-
-import org.eclipse.xsd.impl.type.DataValue.Base64;
-
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.Base64;
 
 public class XSDBase64BinaryType extends XSDAnySimpleType
 {
-  public boolean isValidLiteral(String literal)
-  {
-    try
-    {
-      return Base64.decode(literal) != null;
-    }
-    catch (RuntimeException exception)
-    {
-      return false;
-    }
-  }
-
   public Object getValue(String literal)
   {
-    return new ByteSequence(this, Base64.decode(literal.getBytes()));
-  }
-
-  public String getCanonicalLiteral(Object value)
-  {
-    return new String(Base64.encode(((ByteSequence)value).getBytes()));
+    byte[] bytes = Base64.decode(literal);
+    return (bytes != null) ? new ByteSequence(this, bytes) : null;
   }
 }

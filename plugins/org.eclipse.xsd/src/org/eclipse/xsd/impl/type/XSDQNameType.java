@@ -12,29 +12,24 @@
  *
  * </copyright>
  *
- * $Id: XSDQNameType.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDQNameType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
  */
 package org.eclipse.xsd.impl.type;
 
-
-import org.eclipse.xsd.impl.type.DataValue.XMLChar;
-
+import org.eclipse.emf.ecore.xml.type.internal.QName;
 
 
 public class XSDQNameType extends XSDAnySimpleType
 {
-  public boolean isValidLiteral(String normalizedLiteral)
+  public Object getValue(String literal)
   {
-    int index = normalizedLiteral.indexOf(":");
-    if (index < 0)
+    try
     {
-      return XMLChar.isValidNCName(normalizedLiteral);
+      return new QName(literal);
     }
-    else
+    catch (RuntimeException e)
     {
-      return 
-        XMLChar.isValidNCName(normalizedLiteral.substring(0, index)) && 
-          XMLChar.isValidNCName(normalizedLiteral.substring(index + 1));
+      return null;
     }
   }
 }

@@ -12,65 +12,29 @@
  *
  * </copyright>
  *
- * $Id: XSDDateTimeType.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDDateTimeType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
  */
 package org.eclipse.xsd.impl.type;
 
-
-import org.eclipse.xsd.impl.type.DataValue.DateTimeDV;
-import org.eclipse.xsd.impl.type.DataValue.InvalidDatatypeValueException;
-
-
+import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 
 public class XSDDateTimeType extends XSDAnySimpleType
 {
-  public static class AccessibleDateTimeDV extends DateTimeDV
-  {
-    public String dateToString(int[] dateTime)
-    {
-      return super.dateToString(dateTime);
-    }
-
-    public short compareDates(int[] dateTime1, int[] dateTime2, boolean strict) 
-    {
-      return super.compareDates(dateTime1, dateTime2, strict);
-    }
-  }
-
-  protected static final AccessibleDateTimeDV dateTimeDV = new AccessibleDateTimeDV();
-
-  public boolean isValidLiteral(String normalizedLiteral)
-  {
-    try
-    {
-      dateTimeDV.getActualValue(normalizedLiteral, null);
-      return true;
-    }
-    catch (InvalidDatatypeValueException exception)
-    {
-      return false;
-    }
-  }
 
   public Object getValue(String normalizedLiteral)
   {
     try
     {
-      return new IntSequence(this, (int [])dateTimeDV.getActualValue(normalizedLiteral, null));
+      return new XMLCalendar(normalizedLiteral, XMLCalendar.DATETIME);
     }
-    catch (InvalidDatatypeValueException exception)
-    {
-      return null;
+    catch (RuntimeException exception)
+    {  
     }
-  }
-
-  public String getCanonicalLiteral(Object value)
-  {
-    return value == null ? null : dateTimeDV.dateToString(((IntSequence)value).getInts());
+    return null;
   }
 
   public int compareValues(Object value1, Object value2)
   {
-    return dateTimeDV.compareDates(((IntSequence)value1).getInts(), ((IntSequence)value2).getInts(), true);
+    return XMLCalendar.compare((XMLCalendar)value1, (XMLCalendar)value2);
   }
 }

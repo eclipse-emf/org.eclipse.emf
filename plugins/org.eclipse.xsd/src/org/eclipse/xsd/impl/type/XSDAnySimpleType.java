@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: XSDAnySimpleType.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDAnySimpleType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
  */
 package org.eclipse.xsd.impl.type;
 
 
 import java.util.Arrays;
 
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.Base64;
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.HexBin;
 import org.eclipse.xsd.XSDPlugin;
 import org.eclipse.xsd.impl.XSDSimpleTypeDefinitionImpl;
 
@@ -29,6 +31,7 @@ public class XSDAnySimpleType
   {
     protected final XSDAnySimpleType xsdAnySimpleType;
     protected final byte [] bytes;
+    protected String canonical;
 
     public ByteSequence(XSDAnySimpleType xsdAnySimpleType, byte [] bytes)
     {
@@ -70,65 +73,37 @@ public class XSDAnySimpleType
 
     public String toString()
     {
-      return xsdAnySimpleType.getCanonicalLiteral(this);
-    }
+      if (canonical == null)
+      {
+        canonical = Base64.encode(bytes);
+      }
+      return canonical;
+    }   
   }
-
-  public static class IntSequence
+  
+  public static class HexSequence extends ByteSequence
   {
-    protected final XSDAnySimpleType xsdAnySimpleType;
-    protected final int [] ints;
-
-    public IntSequence(XSDAnySimpleType xsdAnySimpleType, int [] ints)
+    public HexSequence(XSDAnySimpleType xsdAnySimpleType, byte [] bytes)
     {
-      this.xsdAnySimpleType = xsdAnySimpleType;
-      this.ints = ints;
+      super(xsdAnySimpleType, bytes);
     }
-
-    public int [] getInts()
-    {
-      return ints;
-    }
-
-    public boolean equals(Object that)
-    {
-      if (that == this)
-      {
-        return true;
-      }
-      else if (that instanceof IntSequence)
-      {
-        return Arrays.equals(this.ints, ((IntSequence)that).ints);
-      }
-      else
-      {
-        return false;
-      }
-    }
-
-    public int hashCode()
-    {
-      int hashCode = 1;
-      for (int i = 0; i < ints.length; ++i)
-      {
-        int theInt = ints[i];
-        hashCode = 31 * hashCode + theInt;
-      }
-      return hashCode;
-    }
-
     public String toString()
     {
-      return xsdAnySimpleType.getCanonicalLiteral(this);
-    }
+      if (canonical == null)
+      {
+        canonical = HexBin.encode(bytes);
+      }
+      return canonical;
+    } 
   }
 
   public void assess(XSDSimpleTypeDefinitionImpl.AssessmentImpl assessment)
   {
     assessment.xsdAnySimpleType = this;
-    if (isValidLiteral(assessment.normalizedLiteral))
+    Object value = getValue(assessment.normalizedLiteral);    
+    if (value != null)
     {
-      assessment.value = getValue(assessment.normalizedLiteral);
+      assessment.value = value;
     }
     else
     {
@@ -136,10 +111,6 @@ public class XSDAnySimpleType
     }
   }
 
-  public boolean isValidLiteral(String normalizedLiteral)
-  {
-    return true;
-  }
 
   public Object getValue(String normalizedLiteral)
   {

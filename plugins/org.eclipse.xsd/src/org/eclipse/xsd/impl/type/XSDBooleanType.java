@@ -12,34 +12,23 @@
  *
  * </copyright>
  *
- * $Id: XSDBooleanType.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDBooleanType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
  */
 package org.eclipse.xsd.impl.type;
 
-
-
-
 public class XSDBooleanType extends XSDAnySimpleType
 {
-  public boolean isValidLiteral(String literal)
-  {
-    try
-    {
-      return "true".equals(literal) || "false".equals(literal) || "0".equals(literal) || "1".equals(literal);
-    }
-    catch (RuntimeException exception)
-    {
-      return false;
-    }
-  }
 
   public Object getValue(String literal)
   {
-    return "true".equals(literal) || "1".equals(literal) ? Boolean.TRUE : Boolean.FALSE;
-  }
-
-  public String getCanonicalLiteral(Object value)
-  {
-    return value.toString();
+    if ("true".equals(literal) || "1".equals(literal))
+    {
+      return Boolean.TRUE;
+    }
+    else if ("false".equals(literal) || "0".equals(literal))
+    {
+      return Boolean.FALSE;
+    }
+    return null;
   }
 }

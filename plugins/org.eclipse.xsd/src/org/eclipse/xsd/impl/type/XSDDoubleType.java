@@ -12,37 +12,23 @@
  *
  * </copyright>
  *
- * $Id: XSDDoubleType.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDDoubleType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
  */
 package org.eclipse.xsd.impl.type;
 
-
-
-
 public class XSDDoubleType extends XSDAnySimpleType
 {
-  public boolean isValidLiteral(String literal)
-  {
-    try
-    {
-      Double value = new Double(literal);
-      return true;
-    }
-    catch (RuntimeException exception)
-    {
-      return false;
-    }
-  }
 
   public Object getValue(String literal)
   {
-    Double value = new Double(literal);
-    return value;
-  }
-
-  public String getCanonicalLiteral(Object value)
-  {
-    return value.toString();
+  	try 
+	{
+    	return new Double(literal);
+	}
+  	catch (NumberFormatException e)
+	{
+  		return null;
+	}
   }
 
   public int compareValues(Object value1, Object value2)

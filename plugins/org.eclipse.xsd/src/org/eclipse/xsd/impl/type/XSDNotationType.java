@@ -12,19 +12,23 @@
  *
  * </copyright>
  *
- * $Id: XSDNotationType.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDNotationType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
  */
 package org.eclipse.xsd.impl.type;
 
-
-import org.eclipse.xsd.impl.type.DataValue.XMLChar;
-
-
+import org.eclipse.emf.ecore.xml.type.internal.QName;
 
 public class XSDNotationType extends XSDAnySimpleType
 {
-  public boolean isValidLiteral(String normalizedLiteral)
+  public Object getValue (String literal)
   {
-    return XMLChar.isValidNCName(normalizedLiteral);
+  	try
+	{
+  		return new QName(literal);
+	}
+  	catch (RuntimeException e)
+	{
+  		return null;
+	}
   }
 }

@@ -12,37 +12,23 @@
  *
  * </copyright>
  *
- * $Id: XSDFloatType.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDFloatType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
  */
 package org.eclipse.xsd.impl.type;
 
-
-
-
 public class XSDFloatType extends XSDAnySimpleType
 {
-  public boolean isValidLiteral(String literal)
-  {
-    try
-    {
-      Float value = new Float(literal);
-      return true;
-    }
-    catch (RuntimeException exception)
-    {
-      return false;
-    }
-  }
 
   public Object getValue(String literal)
   {
-    Float value = new Float(literal);
-    return value;
-  }
-
-  public String getCanonicalLiteral(Object value)
-  {
-    return value.toString();
+    try 
+	{
+    	return new Float(literal);
+	}
+    catch (NumberFormatException e)
+	{
+    	return null;
+	}
   }
 
   public int compareValues(Object value1, Object value2)

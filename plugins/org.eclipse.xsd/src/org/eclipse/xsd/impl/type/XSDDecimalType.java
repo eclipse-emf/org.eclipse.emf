@@ -12,40 +12,31 @@
  *
  * </copyright>
  *
- * $Id: XSDDecimalType.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDDecimalType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
  */
 package org.eclipse.xsd.impl.type;
 
-
 import java.math.BigDecimal;
-
 
 public class XSDDecimalType extends XSDAnySimpleType
 {
-  public boolean isValidLiteral(String literal)
+  public Object getValue(String literal)
   {
     try
     {
       BigDecimal value = new BigDecimal(literal);
-      return literal.indexOf('e') == -1 && literal.indexOf('E') == -1;
+
+      if (literal.indexOf('e') == -1 && literal.indexOf('E') == -1)
+      {
+        return value;
+      }
     }
-    catch (RuntimeException exception)
+    catch (RuntimeException e)
     {
-      return false;
     }
+    return null;
   }
-
-  public Object getValue(String literal)
-  {
-    BigDecimal value = new BigDecimal(literal);
-    return value;
-  }
-
-  public String getCanonicalLiteral(Object value)
-  {
-    return value.toString();
-  }
-
+  
   public int compareValues(Object value1, Object value2)
   {
     return ((BigDecimal)value1).compareTo(value2);

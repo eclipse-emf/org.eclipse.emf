@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.5 2004/05/16 16:45:17 emerks Exp $
+ * $Id: XSDEditor.java,v 1.6 2004/05/22 19:05:17 marcelop Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -140,6 +140,7 @@ import org.eclipse.emf.ecore.xmi.impl.SAXXMLHandler;
 import org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.EncodingMap;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -176,7 +177,6 @@ import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
-import org.eclipse.xsd.impl.type.DataValue.EncodingMap;
 import org.eclipse.xsd.provider.XSDItemProviderAdapterFactory;
 import org.eclipse.xsd.provider.XSDSemanticItemProviderAdapterFactory;
 import org.eclipse.xsd.util.XSDParser;
@@ -1027,7 +1027,7 @@ public class XSDEditor
     {
       Node node = (Node)i.next();
       Collection parents = new HashSet();
-      XSDConcreteComponent bestXSDConcreteComponent = ((XSDSchema)xsdSchema).getCorrespondingComponent(node);
+      XSDConcreteComponent bestXSDConcreteComponent = xsdSchema.getCorrespondingComponent(node);
       if (bestXSDConcreteComponent != null)
       {
         boolean add = true;
@@ -1476,7 +1476,7 @@ public class XSDEditor
 
     // This is a temporary workaround... EATM
     //
-    Control control = (Control) getControl(pageIndex);
+    Control control = getControl(pageIndex);
     if (control != null)
     {
       control.setVisible(true);

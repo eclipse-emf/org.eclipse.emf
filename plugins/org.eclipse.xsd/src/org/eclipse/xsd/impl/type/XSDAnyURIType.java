@@ -12,46 +12,32 @@
  *
  * </copyright>
  *
- * $Id: XSDAnyURIType.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDAnyURIType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
  */
 package org.eclipse.xsd.impl.type;
 
-
-import org.eclipse.xsd.impl.type.DataValue.URI;
-
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.URI;
 
 public class XSDAnyURIType extends XSDAnySimpleType
 {
-  static protected URI DUMMY_URI;
-
+  public Object getValue(String normalizedLiteral)
   {
     try
     {
-      DUMMY_URI = new URI("http://www.dummy.com");
+      if (normalizedLiteral.length() >0)
+      {
+        //encode special characters using XLink 5.4 algorithm
+        normalizedLiteral = URI.encode(normalizedLiteral);
+        // Support for relative URLs
+        // According to Java 1.1: URLs may also be specified with a
+        // String and the URL object that it is related to.
+        new URI(URI.BASE_URI, normalizedLiteral);
+      }
+      return normalizedLiteral;
     }
     catch (URI.MalformedURIException exception)
     {
     }
-  }
-
-  public boolean isValidLiteral(String normalizedLiteral)
-  {
-    try
-    {
-      URI absoluteURI = new URI(normalizedLiteral);
-      return true;
-    }
-    catch (URI.MalformedURIException exception)
-    {
-      try
-      {
-        URI relativeURI = new URI(DUMMY_URI, normalizedLiteral);
-        return true;
-      }
-      catch (URI.MalformedURIException anotherException)
-      {
-      }
-    }
-    return false;
+    return null;
   }
 }
