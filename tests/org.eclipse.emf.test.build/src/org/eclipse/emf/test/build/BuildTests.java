@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.6 2004/11/04 17:08:22 nickb Exp $
+ * $Id: BuildTests.java,v 1.7 2004/11/04 17:32:08 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -612,7 +612,7 @@ public class BuildTests extends TestCase
     String[] zipFiles = locateBuildGeneratedZipFiles();
     String sniffFolder = Platform.getInstanceLocation().getURL().getFile();
     
-    System.out("sniffFolder = "+sniffFolder);
+    System.out.println("sniffFolder = "+sniffFolder);
     
     FileTool.IZipFilter zipFilter = getTrueFilter();
 
@@ -620,7 +620,7 @@ public class BuildTests extends TestCase
     {
       try
       {
-            System.out("Unzipping: "+zipFiles[i]);
+            System.out.println("Unzipping: "+zipFiles[i]);
             FileTool.unzip(zipFilter, new ZipFile(zipFiles[i]), new File(sniffFolder));
       }
       catch (IOException e)
