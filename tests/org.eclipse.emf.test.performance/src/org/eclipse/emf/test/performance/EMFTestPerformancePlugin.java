@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.10 2005/02/17 18:55:50 marcelop Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.11 2005/02/17 19:42:01 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -34,7 +34,7 @@ extends Plugin
           {
             System.out.println("*** Derby is in the classpath.");
             System.setProperty("test.target", "performance");
-            System.setProperty("eclipse.perf.dbloc", "net://localhost;dbuser=app;dbpasswd=app");
+            System.setProperty("eclipse.perf.dbloc", "net://localhost/;dbuser=app;dbpasswd=app");
             System.setProperty("eclipse.perf.config" ,"build=fromJava");
           }
         }
