@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.2 2004/03/11 11:15:04 emerks Exp $
+ * $Id: EClassImpl.java,v 1.3 2004/03/20 21:49:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -422,7 +422,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             {
               for (int last = this.size; index < last; ++index)
               {
-                if (get(index) == object)
+                if (data[index] == object)
                 {
                   return index;
                 }
