@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostician.java,v 1.2 2004/05/08 13:09:50 emerks Exp $
+ * $Id: Diagnostician.java,v 1.3 2004/06/08 12:12:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -151,6 +151,23 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
     {
       return true;
     }
+  }
+
+  public Diagnostic validate(EDataType eDataType, Object value)
+  {
+    Map context = new HashMap();
+    context.put(EValidator.SubstitutionLabelProvider.class, this);
+    context.put(EValidator.class, this);
+    BasicDiagnostic diagnostics = 
+      new BasicDiagnostic
+        ("org.eclipse.emf.ecore",
+         0,
+         EcorePlugin.INSTANCE.getString
+           ("_UI_DiagnosticRoot_diagnostic", 
+            new Object [] { getValueLabel(eDataType, value) }),
+         new Object [] { value, eDataType });
+    validate(eDataType, value, diagnostics, context);
+    return diagnostics;
   }
 
   public boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map context)
