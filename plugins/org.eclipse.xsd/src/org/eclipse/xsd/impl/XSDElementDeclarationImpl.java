@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.6 2004/10/07 12:15:37 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.7 2005/02/24 12:48:25 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1396,6 +1396,11 @@ public class XSDElementDeclarationImpl
     }
     else
     {
+      if (theElement != null && eReference == XSDPackage.eINSTANCE.getXSDElementDeclaration_ResolvedElementDeclaration())
+      {
+        niceSetAttributeURIValue(theElement, XSDConstants.REF_ATTRIBUTE, null);
+      }
+      
       if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDElementDeclaration_TypeDefinition())
       {
         XSDTypeDefinition theTypeDefinition = getTypeDefinition();
