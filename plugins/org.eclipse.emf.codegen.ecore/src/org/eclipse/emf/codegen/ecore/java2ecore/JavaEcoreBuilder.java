@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.5 2004/04/16 10:40:32 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.6 2004/05/05 19:46:13 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -1215,6 +1215,7 @@ public class JavaEcoreBuilder
         // Set the EStructuralFeature attributes.
         //
         eStructuralFeature.setChangeable(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "changeable")));
+        eStructuralFeature.setOrdered(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "ordered")));
         eStructuralFeature.setDerived("true".equals(getModelAnnotationAttribute(modelAnnotation, "derived")));
         eStructuralFeature.setVolatile("true".equals(getModelAnnotationAttribute(modelAnnotation, "volatile")));
         eStructuralFeature.setTransient("true".equals(getModelAnnotationAttribute(modelAnnotation, "transient")));
