@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcorePackageImpl.java,v 1.2 2004/05/16 16:53:58 emerks Exp $
+ * $Id: Ecore2EcorePackageImpl.java,v 1.3 2004/06/08 17:55:09 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
@@ -96,8 +96,8 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
   {
     if (isInited) return (Ecore2EcorePackage)EPackage.Registry.INSTANCE.get(Ecore2EcorePackage.eNS_URI);
 
-    // Obtain or create and register package.
-    Ecore2EcorePackageImpl theEcore2EcorePackage = (Ecore2EcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new Ecore2EcorePackageImpl());
+    // Obtain or create and register package
+    Ecore2EcorePackageImpl theEcore2EcorePackage = (Ecore2EcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof Ecore2EcorePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new Ecore2EcorePackageImpl());
 
     isInited = true;
 
@@ -105,12 +105,10 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
     MappingPackageImpl.init();
     EcorePackageImpl.init();
 
-    // Obtain or create and register interdependencies
-
-    // Step 1: create meta-model objects
+    // Create package meta-data objects
     theEcore2EcorePackage.createPackageContents();
 
-    // Step 2: complete initialization
+    // Initialize created meta-data
     theEcore2EcorePackage.initializePackageContents();
 
     return theEcore2EcorePackage;
@@ -190,7 +188,7 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
     ecore2EcoreMappingRootEClass.getESuperTypes().add(theMappingPackage.getMappingRoot());
 
     // Initialize classes and features; add operations and parameters
-    initEClass(ecore2EcoreMappingRootEClass, Ecore2EcoreMappingRoot.class, "Ecore2EcoreMappingRoot", !IS_ABSTRACT, !IS_INTERFACE); //$NON-NLS-1$
+    initEClass(ecore2EcoreMappingRootEClass, Ecore2EcoreMappingRoot.class, "Ecore2EcoreMappingRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
     // Create resource
     createResource(eNS_URI);

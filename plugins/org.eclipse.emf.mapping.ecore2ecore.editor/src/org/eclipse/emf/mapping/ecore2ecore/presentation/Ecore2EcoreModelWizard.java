@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreModelWizard.java,v 1.2 2004/05/16 16:52:49 emerks Exp $
+ * $Id: Ecore2EcoreModelWizard.java,v 1.3 2004/06/08 17:54:33 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -65,9 +65,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Label;
-
-import org.eclipse.swt.custom.CCombo;
 
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -389,7 +388,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
-    protected CCombo initialObjectField;
+    protected Combo initialObjectField;
 
     /**
      * @generated
@@ -403,7 +402,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
-    protected CCombo encodingField;
+    protected Combo encodingField;
 
     /**
      * Pass in the selection.
@@ -446,7 +445,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
         containerLabel.setLayoutData(data);
       }
 
-      initialObjectField = new CCombo(composite, SWT.BORDER);
+      initialObjectField = new Combo(composite, SWT.BORDER);
       {
         GridData data = new GridData();
         data.horizontalAlignment = GridData.FILL;
@@ -492,7 +491,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
         data.horizontalAlignment = GridData.FILL;
         encodingLabel.setLayoutData(data);
       }
-      encodingField = new CCombo(composite, SWT.BORDER);
+      encodingField = new Combo(composite, SWT.BORDER);
       {
         GridData data = new GridData();
         data.horizontalAlignment = GridData.FILL;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaModelWizard.java,v 1.1 2004/04/13 02:50:50 marcelop Exp $
+ * $Id: JavaModelWizard.java,v 1.2 2004/06/08 17:55:49 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -40,12 +40,12 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -360,7 +360,7 @@ public class JavaModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
-    protected CCombo initialObjectField;
+    protected Combo initialObjectField;
 
     /**
      * @generated
@@ -374,7 +374,7 @@ public class JavaModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
-    protected CCombo encodingField;
+    protected Combo encodingField;
 
     /**
      * Pass in the selection.
@@ -417,7 +417,7 @@ public class JavaModelWizard extends Wizard implements INewWizard
         containerLabel.setLayoutData(data);
       }
 
-      initialObjectField = new CCombo(composite, SWT.BORDER);
+      initialObjectField = new Combo(composite, SWT.BORDER);
       {
         GridData data = new GridData();
         data.horizontalAlignment = GridData.FILL;
@@ -463,7 +463,7 @@ public class JavaModelWizard extends Wizard implements INewWizard
         data.horizontalAlignment = GridData.FILL;
         encodingLabel.setLayoutData(data);
       }
-      encodingField = new CCombo(composite, SWT.BORDER);
+      encodingField = new Combo(composite, SWT.BORDER);
       {
         GridData data = new GridData();
         data.horizontalAlignment = GridData.FILL;
@@ -609,4 +609,5 @@ public class JavaModelWizard extends Wizard implements INewWizard
   {
     return newFileCreationPage.getModelFile();
   }
+
 }
