@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLParserPoolImpl.java,v 1.1 2004/03/29 21:29:56 elena Exp $
+ * $Id: XMLParserPoolImpl.java,v 1.2 2004/07/29 17:56:24 marcelop Exp $
  */
 
 package org.eclipse.emf.ecore.xmi.impl;
@@ -38,7 +38,7 @@ public class XMLParserPoolImpl implements XMLParserPool
   private final HashMap parserCache = new HashMap();
 
   /**
-   * @see #get(Map, Map)
+   * @see XMLParserPool#get(Map, Map, boolean)
    */
   public synchronized SAXParser get(Map features, Map properties, boolean useLexicalHandler)
       throws ParserConfigurationException, SAXException
@@ -69,7 +69,7 @@ public class XMLParserPoolImpl implements XMLParserPool
   }
 
   /**
-   * @see #release(SAXParser, Map, Map)
+   * @see XMLParserPool#release(SAXParser, Map, Map, boolean)
    */
   public synchronized void release(SAXParser parser, Map features, Map properties, boolean useLexicalHandler)
   {

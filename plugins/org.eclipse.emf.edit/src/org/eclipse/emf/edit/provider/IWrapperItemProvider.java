@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IWrapperItemProvider.java,v 1.1 2004/03/31 19:49:32 davidms Exp $
+ * $Id: IWrapperItemProvider.java,v 1.2 2004/07/29 17:56:15 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -29,7 +29,7 @@ public interface IWrapperItemProvider extends IDisposable
 
   /**
    * Returns the index within a feature at which the value is located, or {@link
-   * org.eclipse.emf.edit.command.CommandParameter.NO_INDEX} if the index isn't known to the wrapper.
+   * org.eclipse.emf.edit.command.CommandParameter#NO_INDEX} if the index isn't known to the wrapper.
    */
   int getIndex();
 

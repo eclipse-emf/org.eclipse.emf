@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.6 2004/05/28 12:18:25 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.7 2004/07/29 17:56:15 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -973,7 +973,7 @@ public class ItemProviderAdapter
    * This returned a primitive {@link org.eclipse.emf.edit.command.MoveCommand}, but it has been replaced since
    * this command is now used on attributes, too. The replacement method still calls this method for references, to
    * provide backwards compatibility.
-   * @deprecated As of EMF 2.0, replaced by {@link #createMoveCommand(EditingDomain, EObject, EStructuralFeature, EObject, int)
+   * @deprecated As of EMF 2.0, replaced by {@link #createMoveCommand(EditingDomain, EObject, EStructuralFeature, Object, int)
    * createMoveCommand}.
    */
   protected Command createMoveCommand(EditingDomain domain, EObject owner, EReference feature, EObject value, int index) 
@@ -1006,7 +1006,7 @@ public class ItemProviderAdapter
    * This returned a primitive {@link org.eclipse.emf.edit.command.CreateChildCommand}, but it has been replaced since
    * this command is now used on attributes, too. The replacement method still calls this method for references, to
    * provide backwards compatibility.
-   * @deprecated As of EMF 2.0, replaced by {@link #createCreateChildCommand(EditingDomain, EObject, EStructuralFeature, EObject, int, Collection)
+   * @deprecated As of EMF 2.0, replaced by {@link #createCreateChildCommand(EditingDomain, EObject, EStructuralFeature, Object, int, Collection)
    * createCreateChildCommand}.
    */
   protected Command createCreateChildCommand(EditingDomain domain, EObject owner, EReference feature, EObject value, int index, Collection collection)
@@ -1462,7 +1462,7 @@ public class ItemProviderAdapter
   }
 
   /**
-   * This returns the icon image for {@link CreateChildCommand}.
+   * This returns the icon image for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
    */
   public Object getCreateChildImage(Object owner, Object feature, Object child, Collection selection)
   {

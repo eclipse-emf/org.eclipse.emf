@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.7 2004/06/12 12:01:48 emerks Exp $
+ * $Id: XMLResource.java,v 1.8 2004/07/29 17:56:24 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -189,7 +189,6 @@ public interface XMLResource extends Resource
 
   /**
    * Returns <a href='http://www.w3.org/TR/2004/REC-xml-20040204/#NT-PubidLiteral'>public identifier</a> specified on the doctype.
-   * @return
    */
   String getPublicId();
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.3 2004/07/29 13:33:00 marcelop Exp $
+ * $Id: WrapperItemProvider.java,v 1.4 2004/07/29 17:56:15 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -93,7 +93,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
   }
 
   /**
-   * Returns {@link org.eclipse.emf.edit.command.CommandParameter.NO_INDEX}, indicating that the index isn't known to
+   * Returns {@link org.eclipse.emf.edit.command.CommandParameter#NO_INDEX}, indicating that the index isn't known to
    * this base wrapper implementation.
    */
   public int getIndex()

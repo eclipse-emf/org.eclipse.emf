@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryContentProvider.java,v 1.3 2004/04/05 18:35:05 davidms Exp $
+ * $Id: AdapterFactoryContentProvider.java,v 1.4 2004/07/29 17:56:22 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -140,7 +140,7 @@ public class AdapterFactoryContentProvider
   }
 
   /**
-   * This implements {@link ITreeContentProvider}.getChildren to forward the call to an object that implements 
+   * This implements {@link org.eclipse.jface.viewers.ITreeContentProvider}.getChildren to forward the call to an object that implements 
    * {@link org.eclipse.emf.edit.provider.ITreeItemContentProvider#getChildren ITreeItemContentProvider.getChildren}.
    */
   public Object [] getChildren(Object object)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommandStackListener.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: CommandStackListener.java,v 1.2 2004/07/29 17:56:20 marcelop Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -21,12 +21,12 @@ import java.util.EventObject;
 
 
 /**
- * A listener to a {@link CommandStack}.
+ * A listener to a {@link org.eclipse.emf.common.command.CommandStack}.
  */ 
 public interface CommandStackListener
 {
   /**
-   * Called when the {@link CommandStack}'s state has changed.
+   * Called when the {@link org.eclipse.emf.common.command.CommandStack}'s state has changed.
    * @param event the event.
    */
   void commandStackChanged(EventObject event);

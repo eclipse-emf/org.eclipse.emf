@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.3 2004/06/09 15:33:00 elena Exp $
+ * $Id: RegEx.java,v 1.4 2004/07/29 17:56:30 marcelop Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -720,7 +720,7 @@ public final class RegEx
      * Creates a RegularExpression instance.
      * This method caches created instances.
      *
-     * @see RegularExpression#RegularExpression(java.lang.String, java.lang.String)
+     * @see RegularExpression#RegularExpression(String, String)
      */
     public static RegularExpression createRegex(String pattern, String options)
         throws ParseException {
@@ -755,7 +755,7 @@ public final class RegEx
 
     /**
      *
-     * @see RegularExpression#matches(java.lang.String)
+     * @see RegularExpression#matches(String)
      */
     public static boolean matches(String regex, String target) throws ParseException {
         return REUtil.createRegex(regex, null).matches(target);
@@ -763,7 +763,7 @@ public final class RegEx
 
     /**
      *
-     * @see RegularExpression#matches(java.lang.String)
+     * @see RegularExpression#matches(String)
      */
     public static boolean matches(String regex, String options, String target) throws ParseException {
         return REUtil.createRegex(regex, options).matches(target);
@@ -1262,7 +1262,7 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.3 2004/06/09 15:33:00 elena Exp $
+   * @version $Id: RegEx.java,v 1.4 2004/07/29 17:56:30 marcelop Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
       static final boolean DEBUG = false;
@@ -3815,7 +3815,7 @@ public final class RegEx
        * The order of letters in it may be different from a string specified
        * in a constructor or <code>setPattern()</code>.
        *
-       * @see #RegularExpression(java.lang.String,java.lang.String)
+       * @see #RegularExpression(String, String)
        * @see #setPattern(java.lang.String,java.lang.String)
        */
       public String getOptions() {
@@ -7396,7 +7396,7 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.3 2004/06/09 15:33:00 elena Exp $
+   * @version $Id: RegEx.java,v 1.4 2004/07/29 17:56:30 marcelop Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {

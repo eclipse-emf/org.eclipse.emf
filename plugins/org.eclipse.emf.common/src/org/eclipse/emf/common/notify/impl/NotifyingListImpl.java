@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.2 2004/07/29 13:32:37 marcelop Exp $
+ * $Id: NotifyingListImpl.java,v 1.3 2004/07/29 17:56:20 marcelop Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -79,7 +79,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
   }
 
   /**
-   * Returns {@link Notification#NO_FEATURE_ID}.
+   * Returns {@link org.eclipse.emf.common.notify.Notification#NO_FEATURE_ID}.
    * @return <code>Notification.NO_FEATURE_ID</code>.
    */
   public int getFeatureID()
