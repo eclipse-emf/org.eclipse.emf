@@ -62,5 +62,12 @@
 @packagesets@
 				
 		</javadoc>
+		
+		<!-- make sure the doc-files are copied -->
+        <dirname property="antfile.dir" file="${ant.file}"/>
+        <property name="pluginDir" location="${antfile.dir}/.."/>
+        <copy todir="${destDir}" failonerror="false">
+                <fileset dir="${pluginDir}/src" includes="**/doc-files/**"/>
+        </copy>		
 	</target>
 </project>
