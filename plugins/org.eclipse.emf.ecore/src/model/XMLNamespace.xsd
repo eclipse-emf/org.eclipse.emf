@@ -23,6 +23,9 @@
  <xs:attribute name="base" type="xs:anyURI">
  </xs:attribute>
 
+ <xs:attribute name="id" type="xs:ID">
+ </xs:attribute>
+
  <xs:attributeGroup name="specialAttrs">
   <xs:attribute ref="xml:base"/>
   <xs:attribute ref="xml:lang"/>
