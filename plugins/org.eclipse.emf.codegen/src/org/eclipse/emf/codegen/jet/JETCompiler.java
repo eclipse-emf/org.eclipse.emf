@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.2 2004/03/09 20:43:18 emerks Exp $
+ * $Id: JETCompiler.java,v 1.3 2004/05/16 17:33:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -385,7 +385,7 @@ public class JETCompiler implements JETParseEventListener
     }
     skeleton.setBody(generatedBody);
 
-    writer.print(skeleton.getCompilationUnit().getContents());
+    writer.print(skeleton.getCompilationUnitContents());
   }
 
   public void parse() throws JETException
