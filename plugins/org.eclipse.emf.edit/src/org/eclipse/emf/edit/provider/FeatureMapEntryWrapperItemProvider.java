@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryWrapperItemProvider.java,v 1.1 2004/03/31 19:50:25 davidms Exp $
+ * $Id: FeatureMapEntryWrapperItemProvider.java,v 1.2 2004/04/01 02:15:39 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -345,7 +345,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
       {
         public IWrapperItemProvider copy()
         {
-          Iterator i = command.getResult().iterator();
+          Iterator i = getCommand().getResult().iterator();
           return new FeatureMapEntryWrapperItemProvider(
             FeatureMapUtil.createEntry(getEntryFeature(), i.next()), (EObject)owner, attribute, index, adapterFactory);
         }

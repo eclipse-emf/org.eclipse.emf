@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.1 2004/03/31 19:50:25 davidms Exp $
+ * $Id: WrapperItemProvider.java,v 1.2 2004/04/01 02:15:39 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -457,7 +457,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
 
     /**
      * Concrete subclasses must implement this to copy and return the value and wrapper. The result of the
-     * adaptable-value-copying command is available as <code>command.getResult()</code>.
+     * adaptable-value-copying command is available from <code>getCommand().getResult()</code>.
      */
     public abstract IWrapperItemProvider copy();
 
