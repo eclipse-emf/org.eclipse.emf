@@ -61,7 +61,7 @@
       <genFeatures property="None" children="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>
-    <genClasses ecoreClass="GenModel.ecore#//GenPackage">
+    <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/prefix"/>
       <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/basePackage"/>
       <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/resource"/>
@@ -74,7 +74,7 @@
       <genFeatures property="None" children="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/nestedGenPackages"/>
       <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genClassifiers"/>
     </genClasses>
-    <genClasses ecoreClass="GenModel.ecore#//GenClass">
+    <genClasses image="false" ecoreClass="GenModel.ecore#//GenClass">
       <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenClass/provider"/>
       <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenClass/image"/>
       <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/ecoreClass"/>
@@ -82,7 +82,7 @@
       <genFeatures property="None" children="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/genOperations"/>
       <genFeatures ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/labelFeature"/>
     </genClasses>
-    <genClasses ecoreClass="GenModel.ecore#//GenFeature">
+    <genClasses image="false" ecoreClass="GenModel.ecore#//GenFeature">
       <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/property"/>
       <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/notify"/>
       <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/children"/>
@@ -90,26 +90,26 @@
       <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenFeature/ecoreFeature"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenBase"/>
-    <genClasses ecoreClass="GenModel.ecore#//GenEnum">
+    <genClasses image="false" ecoreClass="GenModel.ecore#//GenEnum">
       <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnum/ecoreEnum"/>
       <genFeatures property="None" children="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnum/genEnumLiterals"/>
     </genClasses>
-    <genClasses ecoreClass="GenModel.ecore#//GenEnumLiteral">
+    <genClasses image="false" ecoreClass="GenModel.ecore#//GenEnumLiteral">
       <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnumLiteral/genEnum"/>
       <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnumLiteral/ecoreEnumLiteral"/>
     </genClasses>
-    <genClasses provider="None" ecoreClass="GenModel.ecore#//GenClassifier">
+    <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenClassifier">
       <genFeatures property="None" ecoreFeature="ecore:EReference GenModel.ecore#//GenClassifier/genPackage"/>
     </genClasses>
-    <genClasses ecoreClass="GenModel.ecore#//GenDataType">
+    <genClasses image="false" ecoreClass="GenModel.ecore#//GenDataType">
       <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenDataType/ecoreDataType"/>
     </genClasses>
-    <genClasses ecoreClass="GenModel.ecore#//GenOperation">
+    <genClasses image="false" ecoreClass="GenModel.ecore#//GenOperation">
       <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genClass"/>
       <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/ecoreOperation"/>
       <genFeatures property="None" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genParameters"/>
     </genClasses>
-    <genClasses provider="None" ecoreClass="GenModel.ecore#//GenParameter">
+    <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenParameter">
       <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenParameter/genOperation"/>
       <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenParameter/ecoreParameter"/>
     </genClasses>
