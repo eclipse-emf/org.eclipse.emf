@@ -31,7 +31,7 @@
   <xs:complexType name="simpleAnyType">
     <xs:simpleContent>
       <xs:restriction base="xs.ecore:anyType">
-        <xs:attribute name="instanceType" type="xs:QName" ecore:reference="ecore:EDataType"/>
+        <!-- <xs:attribute name="instanceType" type="xs:QName" ecore:reference="ecore:EDataType"/> -->
       </xs:restriction>
     </xs:simpleContent>
   </xs:complexType>
