@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.4 2005/02/11 05:18:32 marcelop Exp $
+ * $Id: AntTest.java,v 1.5 2005/02/11 06:25:36 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -121,8 +121,9 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "library.xsd");
     File antScript = new File(rootDir, "build/codeGenFromXSD.xml");
 
-    String[] testTokenReplacements = new String[1];
+    String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
+    testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
   }
@@ -133,8 +134,9 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "library.xsds");
     File antScript = new File(rootDir, "build/codeGenFromMultipleXSD.xml");
 
-    String[] testTokenReplacements = new String[1];
+    String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
+    testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
   }
@@ -199,11 +201,7 @@ public class AntTest extends TestCase
     //Remove CVS tags
     expectedContent = expectedContent.replaceAll("\\$Id.*\\$", "");
     generatedContent = generatedContent.replaceAll("\\$Id.*\\$", "");
-    
-    //Remove CRLF
-    expectedContent = expectedContent.replaceAll("\\r", "").replaceAll("\\n", "");
-    generatedContent = generatedContent.replaceAll("\\r", "").replaceAll("\\n", "");
-    
+        
     assertEquals("File: " + file, expectedContent, generatedContent);
   }  
 }

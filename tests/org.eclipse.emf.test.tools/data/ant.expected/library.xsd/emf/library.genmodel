@@ -7,7 +7,7 @@
       editorDirectory="@TEST_TOKEN@0/library.xsd.editor/./src/."
       modelPluginID="org.examples.library" runtimeJar="true" modelName="Library" editPluginClass="org.examples.library.provider.LibraryEditPlugin"
       editorPluginClass="org.examples.library.presentation.LibraryEditorPlugin" runtimeCompatibility="false">
-    <foreignModel>file:/@TEST_TOKEN@0/library.xsd/model/library.xsd</foreignModel>
+    <foreignModel>file:@TEST_TOKEN@1@TEST_TOKEN@0/library.xsd/model/library.xsd</foreignModel>
     <genPackages prefix="Library" basePackage="org.examples" resource="XML" disposableProviderFactory="true"
         ecorePackage="org.examples.library.ecore#/">
       <genEnums ecoreEnum="org.examples.library.ecore#//BookCategory">
@@ -34,6 +34,6 @@
     </genPackages>
   </genmodel:GenModel>
   <genmodel:GenModel runtimeJar="true" modelName="References" runtimeCompatibility="false">
-    <foreignModel>file:/@TEST_TOKEN@0/library.xsd/model/library.xsd</foreignModel>
+    <foreignModel>file:@TEST_TOKEN@1@TEST_TOKEN@0/library.xsd/model/library.xsd</foreignModel>
   </genmodel:GenModel>
 </xmi:XMI>

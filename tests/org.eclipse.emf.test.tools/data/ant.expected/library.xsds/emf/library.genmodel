@@ -7,8 +7,8 @@
       editorDirectory="@TEST_TOKEN@0/library.xsds.editor/./src/."
       modelPluginID="library.model" runtimeJar="true" modelName="Library" editPluginClass="library.model.provider.LibraryEditPlugin"
       editorPluginClass="library.model.presentation.LibraryEditorPlugin" runtimeCompatibility="false">
-    <foreignModel>file:/@TEST_TOKEN@0/library.xsds/model/libraryPart2.xsd</foreignModel>
-    <foreignModel>file:/@TEST_TOKEN@0/library.xsds/model/libraryPart1.xsd</foreignModel>
+    <foreignModel>file:@TEST_TOKEN@1@TEST_TOKEN@0/library.xsds/model/libraryPart2.xsd</foreignModel>
+    <foreignModel>file:@TEST_TOKEN@1@TEST_TOKEN@0/library.xsds/model/libraryPart1.xsd</foreignModel>
     <genPackages prefix="Elements" basePackage="org.examples.library" resource="XML"
         disposableProviderFactory="true" ecorePackage="org.examples.library.elements.ecore#/">
       <genEnums ecoreEnum="org.examples.library.elements.ecore#//BookCategory">
@@ -38,7 +38,7 @@
     </genPackages>
   </genmodel:GenModel>
   <genmodel:GenModel runtimeJar="true" modelName="References" runtimeCompatibility="false">
-    <foreignModel>file:/@TEST_TOKEN@0/library.xsds/model/libraryPart2.xsd</foreignModel>
-    <foreignModel>file:/@TEST_TOKEN@0/library.xsds/model/libraryPart1.xsd</foreignModel>
+    <foreignModel>file:@TEST_TOKEN@1@TEST_TOKEN@0/library.xsds/model/libraryPart2.xsd</foreignModel>
+    <foreignModel>file:@TEST_TOKEN@1@TEST_TOKEN@0/library.xsds/model/libraryPart1.xsd</foreignModel>
   </genmodel:GenModel>
 </xmi:XMI>
