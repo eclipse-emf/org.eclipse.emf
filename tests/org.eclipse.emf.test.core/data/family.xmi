@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ASCII"?>
+<Family xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="http://www.eclipse.org/emf/test.core.change/testLoadChangeDescritpion">
+  <spouse1 name="John"/>
+  <spouse2 name="Lisa"/>
+  <children name="Paul"/>
+  <children name="Anna"/>
+</Family>

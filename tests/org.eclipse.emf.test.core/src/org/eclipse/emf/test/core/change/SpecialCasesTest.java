@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.9 2005/02/08 18:41:24 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.10 2005/02/08 20:09:16 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -770,11 +770,15 @@ public class SpecialCasesTest  extends TestCase
   
   public void testLoadChangeDescritpions() throws Exception
   {
-    URI[] uris = new URI[]
+    URI[] changeDescriptionURIs = new URI[]
     {
       URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithObjectsToDetach.xmi")
-      ,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithoutObjectsToDetach.xmi")
+      ,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithObjectsToDetach.xmi")
+      //,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithoutObjectsToDetach.xmi")
+      ,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/changeDescriptionWithObjectsToDetach.xmi")
+      //,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/changeDescriptionWithoutObjectsToDetach.xmi")
     };
+    URI familyURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/data/family.xmi");
     
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
     pack.setName("pack");
@@ -835,14 +839,17 @@ public class SpecialCasesTest  extends TestCase
       johnsFamily.eSet(spouse2, mary);
       ((List)johnsFamily.eGet(children)).add(paul);
             
-      Resource resource = new XMIResourceImpl(uris[1]);
-      resource.getContents().add(johnsFamily);
+      int changeDescriptionURIIndex = 2;
+
+      Resource familyResource = new XMIResourceImpl(changeDescriptionURIIndex <= 1? changeDescriptionURIs[changeDescriptionURIIndex] :  familyURI);
+      familyResource.getContents().add(johnsFamily);
       
       ChangeRecorder changeRecorder = new ChangeRecorder(johnsFamily);
       johnsFamily.eSet(spouse2, lisa);
       ((List)johnsFamily.eGet(children)).add(anna);
       ChangeDescription changeDescription = changeRecorder.endRecording();
-      resource.getContents().add(changeDescription);
+      Resource changeDescriptionResource = changeDescriptionURIIndex <= 1? familyResource :  new XMIResourceImpl(changeDescriptionURIs[changeDescriptionURIIndex]);
+      changeDescriptionResource.getContents().add(changeDescription);
       
       List objectsToDetach = changeDescription.getObjectsToDetach();
       assertEquals(2, objectsToDetach.size());
@@ -852,21 +859,27 @@ public class SpecialCasesTest  extends TestCase
       assertEquals(1, objectsToAttach.size());
       assertTrue(objectsToAttach.contains(mary));
       
-      resource.save(Collections.EMPTY_MAP);
+      familyResource.save(Collections.EMPTY_MAP);
+      changeDescriptionResource.save(Collections.EMPTY_MAP);
     }
     
-    for (int i = 0; i < uris.length; i++)
+    for (int i = 0; i < changeDescriptionURIs.length; i++)
     {
-      String file = uris[i].toFileString();
+      String file = changeDescriptionURIs[i].toFileString();
       assertTrue(file + " doesn't exist", new File(file).exists());
       
       ResourceSet resourceSet = new ResourceSetImpl();
       resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
       resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
-      Resource resource = resourceSet.getResource(uris[i], true);
-      assertEquals(2, resource.getContents().size());
       
-      EObject johnsFamily = (EObject)resource.getContents().get(0);
+      Resource changeDescriptionResource = resourceSet.getResource(changeDescriptionURIs[i], true);
+      
+      ChangeDescription changeDescription = (ChangeDescription)changeDescriptionResource.getContents().get(changeDescriptionResource.getContents().size()-1);
+      assertEquals(file, 2, changeDescription.getObjectsToDetach().size());
+      assertEquals(file, 1, changeDescription.getObjectsToAttach().size());
+      
+      Resource familyResource = i <= 1 ? changeDescriptionResource : resourceSet.getResource(familyURI, true);      
+      EObject johnsFamily = (EObject)familyResource.getContents().get(0);
       EObject john = (EObject)johnsFamily.eGet(spouse1);
       assertEquals("John", john.eGet(name));
       EObject lisa = (EObject)johnsFamily.eGet(spouse2);
@@ -875,16 +888,18 @@ public class SpecialCasesTest  extends TestCase
       assertEquals("Paul", paul.eGet(name));
       EObject anna = (EObject)((List)johnsFamily.eGet(children)).get(1);
       assertEquals("Anna", anna.eGet(name));
+
+      List resolvedObjectsToDetach = new ArrayList(2);
+      for (Iterator j = changeDescription.getObjectsToDetach().iterator(); j.hasNext();)
+      {
+        EObject eObject = (EObject)j.next();
+        resolvedObjectsToDetach.add(eObject.eIsProxy()?EcoreUtil.resolve(eObject, resourceSet):eObject);
+      }
       
-      ChangeDescription changeDescription = (ChangeDescription)resource.getContents().get(1);
-      List objectsToDetach = changeDescription.getObjectsToDetach();
-      assertEquals(2, objectsToDetach.size());
-      assertTrue(objectsToDetach.contains(lisa));
-      assertTrue(objectsToDetach.contains(anna));
-      List objectsToAttach = changeDescription.getObjectsToAttach();
-      assertEquals(1, objectsToAttach.size());
-      EObject mary = (EObject)objectsToAttach.get(0);
-      assertEquals("Mary", mary.eGet(name));      
+      assertTrue(file, resolvedObjectsToDetach.contains(lisa));
+      assertTrue(file, resolvedObjectsToDetach.contains(anna));
+      EObject mary = (EObject)changeDescription.getObjectsToAttach().get(0);
+      assertEquals(file, "Mary", mary.eGet(name));      
     }    
   }  
 }
