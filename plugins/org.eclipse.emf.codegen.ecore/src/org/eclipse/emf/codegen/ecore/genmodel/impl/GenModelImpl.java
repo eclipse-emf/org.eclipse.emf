@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.25 2005/04/01 15:20:37 khussey Exp $
+ * $Id: GenModelImpl.java,v 1.26 2005/04/04 19:25:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -37,11 +37,16 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
+import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
+import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
@@ -1105,9 +1110,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         }
       }
 
-      GenPackage genPackage = ePackageGenModel().getGenModelFactory().createGenPackage();
-      genPackage.initialize(ePackage);
+      GenPackage genPackage = createGenPackage();
       getGenPackages().add(genPackage);
+      genPackage.initialize(ePackage);
     }
   }
 
@@ -3161,11 +3166,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         EPackage staticEPackage = eResource().getResourceSet().getPackageRegistry().getEPackage(nsURI);
         if (staticEPackage != null)
         {
-          GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
-          GenPackage staticGenPackage = GenModelFactory.eINSTANCE.createGenPackage();
-          staticGenPackage.initialize(staticEPackage);
+          GenModel genModel = getGenModel().createGenModel();
+          GenPackage staticGenPackage = getGenModel().createGenPackage();
           staticGenPackages.add(staticGenPackage);
           genModel.getGenPackages().add(staticGenPackage);
+          staticGenPackage.initialize(staticEPackage);
         }
       }
     }
@@ -4610,4 +4615,49 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return !isBlank(getBooleanFlagsField()) && !isReflectiveDelegation();
   }
 
+  public GenModel createGenModel()
+  {
+    return GenModelFactory.eINSTANCE.createGenModel();
+  }
+
+  public GenPackage createGenPackage()
+  {
+    return GenModelFactory.eINSTANCE.createGenPackage();
+  }
+
+  public GenClass createGenClass()
+  {
+    return GenModelFactory.eINSTANCE.createGenClass();
+  }
+
+  public GenFeature createGenFeature()
+  {
+    return GenModelFactory.eINSTANCE.createGenFeature();
+  }
+
+  public GenEnum createGenEnum()
+  {
+    return GenModelFactory.eINSTANCE.createGenEnum();
+  }
+
+  public GenEnumLiteral createGenEnumLiteral()
+  {
+    return GenModelFactory.eINSTANCE.createGenEnumLiteral();
+  }
+
+  public GenDataType createGenDataType()
+  {
+    return GenModelFactory.eINSTANCE.createGenDataType();
+  }
+
+  public GenOperation createGenOperation()
+  {
+    return GenModelFactory.eINSTANCE.createGenOperation();
+  }
+
+  public GenParameter createGenParameter()
+  {
+    return GenModelFactory.eINSTANCE.createGenParameter();
+  }
+  
 } //GenModelImpl
