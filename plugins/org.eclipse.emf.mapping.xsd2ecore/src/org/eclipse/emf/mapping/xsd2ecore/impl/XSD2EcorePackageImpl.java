@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePackageImpl.java,v 1.4 2004/07/20 16:18:13 emerks Exp $
+ * $Id: XSD2EcorePackageImpl.java,v 1.5 2004/08/12 14:50:33 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
@@ -110,6 +110,9 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
 
     // Initialize created meta-data
     theXSD2EcorePackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theXSD2EcorePackage.freeze();
 
     return theXSD2EcorePackage;
   }

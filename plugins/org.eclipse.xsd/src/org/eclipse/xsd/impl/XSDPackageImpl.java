@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackageImpl.java,v 1.5 2004/07/20 16:18:22 emerks Exp $
+ * $Id: XSDPackageImpl.java,v 1.6 2004/08/12 14:50:43 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -4726,6 +4726,9 @@ public class XSDPackageImpl
 
     // Initialize created meta-data
     theXSDPackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theXSDPackage.freeze();
 
     return theXSDPackage;
   }
