@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.17 2004/11/15 14:54:43 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.18 2004/11/23 12:41:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1833,6 +1833,15 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     setProvider(oldGenClassVersion.getProvider());
     setImage(oldGenClassVersion.isImage());
+    GenFeature oldLabelFeature = ((GenClassImpl)oldGenClassVersion).getLabelFeatureGen();
+    if (oldLabelFeature != null)
+    {
+      EStructuralFeature newLabelFeature =  getEcoreClass().getEStructuralFeature(oldLabelFeature.getEcoreFeature().getName());
+      if (newLabelFeature != null)
+      {
+        setLabelFeature(findGenFeature(newLabelFeature));
+      } 
+    }
   }
 
   public boolean reconcile()
