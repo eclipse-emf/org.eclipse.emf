@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.8 2004/05/25 19:48:51 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.9 2004/06/08 12:08:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -39,7 +39,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -1265,24 +1264,20 @@ public final class FeatureMapUtil
 
     public boolean isValid(EStructuralFeature feature)
     {
-      if (groupMembers != null && groupMembers.contains(feature))
+      if (groupMembers != null &&
+            (groupMembers.contains(feature) ||
+               groupMembers.contains(ExtendedMetaData.INSTANCE.getGroup(feature)) ||
+               groupMembers.contains(ExtendedMetaData.INSTANCE.getAffiliation(containingClass, feature))))
       {
         return true;
       }
 
-      if (wildcards != null && feature.getUpperBound() == ETypedElement.UNSPECIFIED_MULTIPLICITY)
+      if (wildcards != null)
       {
         if (ExtendedMetaData.INSTANCE.matches(wildcards, ExtendedMetaData.INSTANCE.getNamespace(feature)))
         {
           return isElement == (ExtendedMetaData.INSTANCE.getFeatureKind(feature) == ExtendedMetaData.ELEMENT_FEATURE);
         }
-      }
-
-      if (groupMembers != null &&
-            (groupMembers.contains(ExtendedMetaData.INSTANCE.getGroup(feature)) ||
-               groupMembers.contains(ExtendedMetaData.INSTANCE.getAffiliation(containingClass, feature))))
-      {
-        return true;
       }
 
       return false;
