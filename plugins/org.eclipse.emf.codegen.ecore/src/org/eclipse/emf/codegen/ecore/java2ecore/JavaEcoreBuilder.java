@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.14 2004/11/15 15:03:12 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.15 2004/12/01 12:19:48 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -1737,7 +1737,11 @@ public class JavaEcoreBuilder
     if (eClassifier == null && !(eModelElement instanceof EReference))
     {
       EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
-      eDataType.setInstanceClassName(typeName);
+
+      // If the name isn't qualified, assume it's in the current package and use the nsPrefix as the qualified package name.
+      //
+      eDataType.setInstanceClassName(typeName.indexOf(".") == -1 ? ePackage.getNsPrefix() + '.' + typeName : typeName);
+
       String name = baseName;
       for (int j = 1; ePackage.getEClassifier(name) != null; ++j)
       {
