@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.11 2004/07/28 16:39:30 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.12 2004/09/25 02:05:28 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -697,7 +697,26 @@ public class JavaEcoreBuilder
         byte [] input = new byte [bufferedInputStream.available()];
         bufferedInputStream.read(input);
         bufferedInputStream.close();
-        IDOMCompilationUnit jCompilationUnit = jdomFactory.createCompilationUnit(new String(input), "NAME");
+        
+        //purpose: using charset from 'file' to decode bytes into in-memory 
+        //         String object
+        //modifer: Wu Zhi Qiang
+        //date:    Aug 25, 2004
+        //action:  first get the charset from 'file', then use it 
+        //         to decode the 'input' bytes object
+        String encoding = null;
+        try
+        {
+          encoding = file.getCharset();
+        }
+        catch (CoreException ce)
+        {
+          // use no encoding
+        }
+        String contents = encoding == null 
+          ? new String(input)
+          : new String(input, encoding);     
+        IDOMCompilationUnit jCompilationUnit = jdomFactory.createCompilationUnit(contents, "NAME");
         analyzeCompilationUnit(jCompilationUnit);
       }
       catch (IOException exception)
