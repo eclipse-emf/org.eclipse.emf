@@ -12,14 +12,21 @@
  *
  * </copyright>
  *
- * $Id: EPackageRegistryImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EPackageRegistryImpl.java,v 1.2 2004/06/21 13:52:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 import org.eclipse.emf.ecore.EPackage;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 
 /**
@@ -27,6 +34,34 @@ import org.eclipse.emf.ecore.EPackage;
  */
 public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
 {
+  public static EPackage.Registry createGlobalRegistry()
+  {
+    try
+    {
+      String className = System.getProperty("org.eclipse.emf.ecore.EPackage.Registry.INSTANCE");
+      if (className == null)
+      {
+        if (EcorePlugin.getPlugin() == null)
+        {
+          return new Delegator();
+        }
+        else
+        {
+          return new EPackageRegistryImpl();
+        }
+      }
+      else
+      {
+        return (EPackage.Registry)Class.forName(className).newInstance();
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+      return new EPackageRegistryImpl();
+    }
+  }
+
   protected EPackage.Registry delegateRegistry;
 
   public EPackageRegistryImpl()
@@ -66,30 +101,9 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
 
   protected void initialize(EPackage ePackage)
   {
-/*
-    // Try to invoke init method to initialize prerequisite packages
-    //
-    try
-    {
-      Method initMethod = ePackage.getClass().getMethod("init", null);
-      initMethod.invoke(null, null);
-    }
-    catch (NoSuchMethodException e)
-    {
-       throw new WrappedException(e);
-    }
-    catch (IllegalAccessException e)
-    {
-       throw new WrappedException(e);
-    }
-    catch (InvocationTargetException e)
-    {
-      throw new WrappedException(e);
-    }
-*/
   }
 
-  public EPackage delegatedGetEPackage(String nsURI)
+  protected EPackage delegatedGetEPackage(String nsURI)
   {
     if (delegateRegistry != null)
     {
@@ -102,5 +116,115 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
   public boolean containsKey(Object key)
   {
     return super.containsKey(key) || delegateRegistry != null && delegateRegistry.containsKey(key);
+  }
+
+  protected static Map classLoaderToRegistryMap = new WeakHashMap();
+
+  public static synchronized EPackage.Registry getRegistry(ClassLoader classLoader)
+  {
+    EPackage.Registry result = (EPackage.Registry)classLoaderToRegistryMap.get(classLoader);
+    if (result == null)
+    {
+      if (classLoader == null)
+      {
+        result = null;  
+      }
+      else
+      {
+        result = new EPackageRegistryImpl(getRegistry(classLoader.getParent()));
+        classLoaderToRegistryMap.put(classLoader, result);
+      }
+    }
+    return result;
+  }
+
+  public static class Delegator implements EPackage.Registry
+  {
+    protected EPackage.Registry delegateRegistry(ClassLoader classLoader)
+    {
+      return getRegistry(classLoader);
+    }
+
+    protected EPackage.Registry delegateRegistry()
+    {
+      return delegateRegistry(Thread.currentThread().getContextClassLoader());
+    }
+
+    public EPackage getEPackage(String key)
+    {
+      return delegateRegistry().getEPackage(key);
+    }
+
+    public int size()
+    {
+      return delegateRegistry().size();
+    }
+
+    public boolean isEmpty()
+    {
+      return delegateRegistry().isEmpty();
+    }
+
+    public boolean containsKey(Object key)
+    {
+      return delegateRegistry().containsKey(key);
+    }
+
+    public boolean containsValue(Object value)
+    {
+      return delegateRegistry().containsValue(value);
+    }
+
+    public Object get(Object key)
+    {
+      return delegateRegistry().get(key);
+    }
+
+    public Object put(Object key, Object value)
+    {
+      ClassLoader classLoader = value.getClass().getClassLoader();
+      if (classLoader == Delegator.class.getClassLoader())
+      {
+        return delegateRegistry().put(key, value);
+      }
+      else
+      {
+        return delegateRegistry(classLoader).put(key, value);
+      }
+    }
+
+    public Object remove(Object key)
+    {
+      return delegateRegistry().remove(key);
+    }
+
+    public void putAll(Map map)
+    {
+      for (Iterator i = map.entrySet().iterator(); i.hasNext(); )
+      {
+        Map.Entry entry = (Map.Entry)i.next();
+        put(entry.getKey(), entry.getValue());
+      }
+    }
+
+    public void clear()
+    {
+      delegateRegistry().clear();
+    }
+
+    public Set keySet()
+    {
+      return delegateRegistry().keySet();
+    }
+
+    public Collection values()
+    {
+      return delegateRegistry().values();
+    }
+
+    public Set entrySet()
+    {
+      return delegateRegistry().entrySet();
+    }
   }
 }
