@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageRegistryImpl.java,v 1.3 2004/07/20 16:16:55 emerks Exp $
+ * $Id: EPackageRegistryImpl.java,v 1.4 2004/09/29 14:40:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -41,7 +41,7 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
       String className = System.getProperty("org.eclipse.emf.ecore.EPackage.Registry.INSTANCE");
       if (className == null)
       {
-        if (EcorePlugin.getPlugin() == null)
+        if (!EcorePlugin.IS_ECLIPSE_RUNNING)
         {
           return new Delegator();
         }
