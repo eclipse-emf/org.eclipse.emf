@@ -6,8 +6,8 @@
     modelPluginID="org.eclipse.emf.ecore" modelName="XML Types for XML Schema" updateClasspath="false"
     runtimeCompatibility="false">
   <foreignModel>XMLType.xsd</foreignModel>
-  <genPackages prefix="XMLType" basePackage="org.eclipse.emf.ecore.xml" adapterFactory="false"
-      ecorePackage="XMLType.ecore#/">
+  <genPackages prefix="XMLType" basePackage="org.eclipse.emf.ecore.xml" disposableProviderFactory="true"
+      adapterFactory="false" ecorePackage="XMLType.ecore#/">
     <genDataTypes ecoreDataType="XMLType.ecore#//AnySimpleType"/>
     <genDataTypes ecoreDataType="XMLType.ecore#//AnyURI"/>
     <genDataTypes ecoreDataType="XMLType.ecore#//Base64Binary"/>

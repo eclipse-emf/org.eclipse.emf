@@ -6,8 +6,8 @@
     modelPluginID="org.eclipse.emf.ecore" modelName="XMLNamespace" updateClasspath="false"
     runtimeCompatibility="false">
   <foreignModel>XMLNamespace.xsd</foreignModel>
-  <genPackages prefix="XMLNamespace" basePackage="org.eclipse.emf.ecore.xml" adapterFactory="false"
-      ecorePackage="XMLNamespace.ecore#/">
+  <genPackages prefix="XMLNamespace" basePackage="org.eclipse.emf.ecore.xml" disposableProviderFactory="true"
+      adapterFactory="false" ecorePackage="XMLNamespace.ecore#/">
     <genEnums ecoreEnum="XMLNamespace.ecore#//SpaceType">
       <genEnumLiterals ecoreEnumLiteral="XMLNamespace.ecore#//SpaceType/default"/>
       <genEnumLiterals ecoreEnumLiteral="XMLNamespace.ecore#//SpaceType/preserve"/>
