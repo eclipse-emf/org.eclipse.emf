@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.13 2004/11/09 17:22:51 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.14 2004/11/10 13:32:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -554,68 +554,76 @@ public class EcoreUtil
      */
     protected void copyReference(EReference eReference, EObject eObject, EObject copyEObject)
     {
-      boolean isBidirectional = eReference.getEOpposite() != null;
-      if (eReference.isMany())
+      if (eObject.eIsSet(eReference))
       {
-        InternalEList value = (InternalEList)copyEObject.eGet(getTarget(eReference));
-        int index = 0;
-        for (Iterator k = ((List)eObject.eGet(eReference)).iterator(); k.hasNext();)
+        if (eReference.isMany())
         {
-          Object referencedEObject = k.next();
-          Object copyReferencedEObject = get(referencedEObject);
-          if (copyReferencedEObject == null)
+          List source = (List)eObject.eGet(eReference);
+          InternalEList target = (InternalEList)copyEObject.eGet(getTarget(eReference));
+          if (source.isEmpty())
           {
-            if (!isBidirectional)
-            {
-              value.addUnique(index, referencedEObject);
-              ++index;
-            }
+            target.clear();
           }
           else
           {
-            if (isBidirectional)
+            boolean isBidirectional = eReference.getEOpposite() != null;
+            int index = 0;
+            for (Iterator k = source.iterator(); k.hasNext();)
             {
-              int position = value.indexOf(copyReferencedEObject);
-              if (position == -1)
+              Object referencedEObject = k.next();
+              Object copyReferencedEObject = get(referencedEObject);
+              if (copyReferencedEObject == null)
               {
-                value.addUnique(index, copyReferencedEObject);
+                if (!isBidirectional)
+                {
+                  target.addUnique(index, referencedEObject);
+                  ++index;
+                }
               }
-              else if (index != position)
+              else
               {
-                value.move(index, copyReferencedEObject);
+                if (isBidirectional)
+                {
+                  int position = target.indexOf(copyReferencedEObject);
+                  if (position == -1)
+                  {
+                    target.addUnique(index, copyReferencedEObject);
+                  }
+                  else if (index != position)
+                  {
+                    target.move(index, copyReferencedEObject);
+                  }
+                }
+                else
+                {
+                  target.addUnique(index, copyReferencedEObject);
+                }
+                ++index;
               }
             }
-            else
-            {
-              value.addUnique(index, copyReferencedEObject);
-            }
-            ++index;
-          }
-        }
-      }
-      else
-      {
-        Object referencedEObject = eObject.eGet(eReference);
-        if (referencedEObject == null)
-        {
-          if (eObject.eIsSet(eReference))
-          {
-            copyEObject.eSet(getTarget(eReference), null);
           }
         }
         else
         {
-          Object copyReferencedEObject = get(referencedEObject);
-          if (copyReferencedEObject == null)
+          Object referencedEObject = eObject.eGet(eReference);
+          if (referencedEObject == null)
           {
-            if (!isBidirectional)
-            {
-              copyEObject.eSet(getTarget(eReference), referencedEObject);
-            }
+            copyEObject.eSet(getTarget(eReference), null);
           }
           else
           {
-            copyEObject.eSet(getTarget(eReference), copyReferencedEObject);
+            Object copyReferencedEObject = get(referencedEObject);
+            if (copyReferencedEObject == null)
+            {
+              if (eReference.getEOpposite() == null)
+              {
+                copyEObject.eSet(getTarget(eReference), referencedEObject);
+              }
+            }
+            else
+            {
+              copyEObject.eSet(getTarget(eReference), copyReferencedEObject);
+            }
           }
         }
       }
