@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.8 2004/05/26 15:17:31 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.9 2004/05/28 19:33:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -682,6 +682,12 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     String result = !getEcoreClass().isInterface() ? "!" : "";
     return result + "IS_INTERFACE";
+  }
+
+  public String getGeneratedInstanceClassFlag()
+  {
+    String result = isExternalInterface() ? "!" : "";
+    return result + "IS_GENERATED_INSTANCE_CLASS";
   }
 
   public boolean isExternalInterface()

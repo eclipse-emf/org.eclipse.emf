@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifier.java,v 1.3 2004/05/26 15:17:31 emerks Exp $
+ * $Id: GenClassifier.java,v 1.4 2004/05/28 19:33:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -80,4 +80,6 @@ public interface GenClassifier extends GenBase {
   GenClassifier getConstraintImplementor(String constraint);
   GenClassifier getConstraintDelegate(String constraint);
   boolean hasOnlyDefaultConstraints();
+
+  String getGeneratedInstanceClassFlag();
 }

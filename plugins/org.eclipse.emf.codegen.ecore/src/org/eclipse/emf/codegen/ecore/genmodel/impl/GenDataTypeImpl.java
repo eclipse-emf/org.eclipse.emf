@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.3 2004/05/28 19:33:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -246,6 +246,12 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   {
     String result = !getEcoreDataType().isSerializable() ? "!" : "";
     return result + "IS_SERIALIZABLE";
+  }
+
+  public String getGeneratedInstanceClassFlag()
+  {
+    String result = this instanceof GenEnum || getBaseType() instanceof GenEnum ? "" : "!";
+    return result + "IS_GENERATED_INSTANCE_CLASS";
   }
 
   public boolean isPrimitiveType()
