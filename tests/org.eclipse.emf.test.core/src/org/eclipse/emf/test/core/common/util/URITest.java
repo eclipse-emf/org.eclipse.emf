@@ -1,0 +1,478 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: URITest.java,v 1.1 2004/04/12 17:10:40 davidms Exp $
+ */
+package org.eclipse.emf.test.core.common.util;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.eclipse.emf.common.util.URI;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+public class URITest extends TestCase
+{
+  public URITest(String name)
+  {
+    super(name);
+  }
+
+  public static Test suite()
+  {
+    TestSuite suite = new TestSuite();
+    suite.addTest(new URITest("testParse"));
+    suite.addTest(new URITest("testResolve"));
+    suite.addTest(new URITest("testDeresolve"));
+    suite.addTest(new URITest("testAuthorityParse"));
+    suite.addTest(new URITest("testJARParse"));
+    return suite;
+  }
+
+  protected static final String URN = "mailto:me@yahoo.com";
+
+  protected static final String[] ABSOLUTE_URLS = {
+    "file:/",
+    "file:/bar",
+    "file:/bar/",
+    "file:/bar/baz",
+    "file:/bar/baz/",
+    "file:/c:",
+    "file:/c:/",
+    "file:/c:/bar",
+    "file:/c:/bar/",
+    "file:/c:/bar/baz",
+    "file:/c:/bar/baz/",
+    "file://foo",
+    "file://foo/",
+    "file://foo/bar",
+    "file://foo/bar/",
+    "file://foo/bar/baz",
+    "file://foo/bar/baz/",
+    "file://foo/c:",
+    "file://foo/c:/",
+    "file://foo/c:/bar",
+    "file://foo/c:/bar/",
+    "file://foo/c:/bar/baz",
+    "file://foo/c:/bar/baz/"
+  };
+
+  protected static final String[] RELATIVE_URLS = {
+    "",
+    "nif",
+    "nif/",
+    "nif/phi",
+    "nif/phi/",
+    "/",
+    "/nif",
+    "/nif/",
+    "/nif/phi",
+    "/nif/phi/",
+    "/d:",
+    "/d:/nif",
+    "/d:/nif/",
+    "/d:/nif/phi",
+    "/d:/nif/phi/",
+    "//sig",
+    "//sig/",
+    "//sig/nif",
+    "//sig/nif/",
+    "//sig/nif/phi",
+    "//sig/nif/phi/",
+    "//sig/d:",
+    "//sig/d:/",
+    "//sig/d:/nif",
+    "//sig/d:/nif/",
+    "//sig/d:/nif/phi",
+    "//sig/d:/nif/phi/"
+  };
+
+  protected static final String[] QUERIES = { "", "?q=huh" };
+  
+  protected static final String[] FRAGMENTS = { "", "#toc" };
+
+  protected static final String BASE_URI = "http://a/b/c/d;p?q";
+
+  protected static final String[] UNRESOLVED_URIS = {
+    "g:h",
+    "g",
+    "./g",
+    "g/",
+    "/g",
+    "//g",
+    "?y",
+    "g?y",
+    "#s",
+    "g#s",
+    "g?y#s",
+    ";x",
+    "g;x",
+    "g;x?y#s",
+    ".",
+    "./",
+    "..",
+    "../",
+    "../g",
+    "../..",
+    "../../",
+    "../../g",
+    "",
+    "/./g",
+    "/../g",
+    "g.",
+    ".g",
+    "g..",
+    "..g",
+    "./../g",
+    "./g/.",
+    "g/./h",
+    "g/../h",
+    "g;x=1/./y",
+    "g;x=1/../y",
+    "g?y/./x",
+    "g?y/../x",
+    "g#s/./x",
+    "g#s/../x",
+    "http:g"
+  };
+    
+  protected static final String[] RESOLVED_URIS = {
+    "g:h",
+    "http://a/b/c/g",
+    "http://a/b/c/g",
+    "http://a/b/c/g/",
+    "http://a/g",
+    "http://g",
+    "http://a/b/c/?y",
+    "http://a/b/c/g?y",
+    "http://a/b/c/d;p?q#s",
+    "http://a/b/c/g#s",
+    "http://a/b/c/g?y#s",
+    "http://a/b/c/;x",
+    "http://a/b/c/g;x",
+    "http://a/b/c/g;x?y#s",
+    "http://a/b/c/",
+    "http://a/b/c/",
+    "http://a/b/",
+    "http://a/b/",
+    "http://a/b/g",
+    "http://a/",
+    "http://a/",
+    "http://a/g",
+    "http://a/b/c/d;p?q",
+    "http://a/./g",
+    "http://a/../g",
+    "http://a/b/c/g.",
+    "http://a/b/c/.g",
+    "http://a/b/c/g..",
+    "http://a/b/c/..g",
+    "http://a/b/g",
+    "http://a/b/c/g/",
+    "http://a/b/c/g/h",
+    "http://a/b/c/h",
+    "http://a/b/c/g;x=1/y",
+    "http://a/b/c/y",
+    "http://a/b/c/g?y/./x",
+    "http://a/b/c/g?y/../x",
+    "http://a/b/c/g#s/./x",
+    "http://a/b/c/g#s/../x",
+    "http:g"
+  };
+
+  protected static final String[] UNRESOLVED_ABOVE_ROOT_URIS = { "../../../g", "../../../../g" };
+
+  protected static final String[] RESOLVED_PRESERVE_ABOVE_ROOT_URIS = { "http://a/../g", "http://a/../../g" };
+
+  protected static final String[] RESOLVED_NO_PRESERVE_ABOVE_ROOT_URIS = { "http://a/g", "http://a/g" };
+
+  protected static final String[] NON_CANONICAL_UNRESOLVED_URIS = {
+    "./../g",
+    "./g/.",
+    "g/./h",
+    "g/../h",
+    "g;x=1/./y",
+    "g;x=1/../y"
+  };
+
+  protected static final String[] NON_CANONICAL_PRESERVE_ABOVE_ROOT_UNRESOLVED_URIS = { };
+  
+  protected static final String[] NON_CANONICAL_NO_PRESERVE_ABOVE_ROOT_UNRESOLVED_URIS = { "../../../g", "../../../../g" };    
+  
+  protected static final String[] AUTHORITY_PARSE_URIS = {
+    "not/here",
+    "//myhost/",
+    "//me@myhost/",
+    "//myhost:1234/",
+    "//me@myhost:1234",
+    "//me@:1234",
+    "//@:"
+  };
+
+  protected static final String[] AUTHORITY_PARSE_USER_INFOS = {
+    null,
+    null,
+    "me",
+    null,
+    "me",
+    "me",
+    ""
+  };
+
+  protected static final String[] AUTHORITY_PARSE_HOSTS = {
+    null,
+    "myhost",
+    "myhost",
+    "myhost",
+    "myhost",
+    "",
+    ""
+  };
+
+  protected static final String[] AUTHORITY_PARSE_PORTS = {
+    null,
+    null,
+    null,
+    "1234",
+    "1234",
+    "1234",
+    ""
+  };
+
+  protected static final String[] JAR_URIS = {
+    "jar:file:/home/dave/myapp.jar!/",
+    "jar:file:/dave/myapp.jar!/schema.xsd",
+    "jar:file:/dave/myapp.jar!/support/schema.xsd",
+    "jar:file:/dave/myapp.jar!/support/xml/schema.xsd",
+    "JAR:http://eclipse.org/myapp.jar!/schema.xsd",
+    "jar:http://eclipse.org/jar-server?some-jar!/support/xml/schema.xsd",
+    "jar:http://eclipse.org/jar-server?some-jar!/support/xml/schema?myquery#top",
+  };
+
+  protected static final String[] BAD_JAR_URIS = {
+    "jar:",
+    "jar:file:/dave/myapp.jar",
+    "jar:file:/dave/myapp.jar!",
+    "jar:dave/myapp.jar!/schema.xsd",
+    "jar:/home/dave/myapp.jar!/schema.xsd",
+    "jar://capilano/home/dave/myapp.jar!/schema.xsd",
+    "jar:http://eclipse.org/jar-server?some-jar#foo!/schema?myquery"
+  };
+
+  protected String[] getURNs()
+  {
+    return new String[] { URN + FRAGMENTS[0], URN + FRAGMENTS[1] };
+  }
+
+  protected String[] getAbsoluteURLs()
+  {
+    String[] result = new String[ABSOLUTE_URLS.length * QUERIES.length * FRAGMENTS.length];
+    for (int i = 0, x = 0; x < FRAGMENTS.length; x++)
+      for (int y = 0; y < QUERIES.length; y++)
+        for (int z = 0; z < ABSOLUTE_URLS.length; z++)
+          result[i++] = ABSOLUTE_URLS[z] + QUERIES[y] + FRAGMENTS[x];
+
+    return result;
+  }
+
+  protected String[] getRelativeURLs()
+  {
+    String[] result = new String[RELATIVE_URLS.length * QUERIES.length * FRAGMENTS.length];
+    for (int i = 0, x = 0; x < FRAGMENTS.length; x++)
+      for (int y = 0; y < QUERIES.length; y++)
+        for (int z = 0; z < RELATIVE_URLS.length; z++)
+          result[i++] = RELATIVE_URLS[z] + QUERIES[y] + FRAGMENTS[x];
+
+    return result;
+  }
+
+  protected String[] getAllURLs()
+  {
+    String[] result = new String[(ABSOLUTE_URLS.length + RELATIVE_URLS.length) * QUERIES.length * FRAGMENTS.length];
+    int i = 0;
+
+    for (int x = 0; x < FRAGMENTS.length; x++)
+      for (int y = 0; y < QUERIES.length; y++)
+        for (int z = 0; z < ABSOLUTE_URLS.length; z++)
+          result[i++] = ABSOLUTE_URLS[z] + QUERIES[y] + FRAGMENTS[x];
+
+    for (int x = 0; x < FRAGMENTS.length; x++)
+      for (int y = 0; y < QUERIES.length; y++)
+        for (int z = 0; z < RELATIVE_URLS.length; z++)
+          result[i++] = RELATIVE_URLS[z] + QUERIES[y] + FRAGMENTS[x];
+
+    return result;
+  }
+
+  protected String[] getUnresolvedURIs()
+  {
+    String[] result = new String[UNRESOLVED_URIS.length + UNRESOLVED_ABOVE_ROOT_URIS.length];
+    
+    System.arraycopy(UNRESOLVED_URIS, 0, result, 0, UNRESOLVED_URIS.length);
+    System.arraycopy(UNRESOLVED_ABOVE_ROOT_URIS, 0, result, RESOLVED_URIS.length, UNRESOLVED_ABOVE_ROOT_URIS.length);    
+    return result;
+  }
+  
+  protected String[] getResolvedURIs(boolean preserve)
+  {
+    String[] aboveRoot = preserve ? RESOLVED_PRESERVE_ABOVE_ROOT_URIS : RESOLVED_NO_PRESERVE_ABOVE_ROOT_URIS;
+    String[] result = new String[RESOLVED_URIS.length + aboveRoot.length];
+    
+    System.arraycopy(RESOLVED_URIS, 0, result, 0, RESOLVED_URIS.length);
+    System.arraycopy(aboveRoot, 0, result, RESOLVED_URIS.length, aboveRoot.length);    
+    return result;
+  }
+  
+  protected String[] getNonCanonicalUnresolvedURIs(boolean preserve)
+  {
+    String[] aboveRoot = preserve ? NON_CANONICAL_PRESERVE_ABOVE_ROOT_UNRESOLVED_URIS : NON_CANONICAL_NO_PRESERVE_ABOVE_ROOT_UNRESOLVED_URIS;
+    String[] result = new String[NON_CANONICAL_UNRESOLVED_URIS.length + aboveRoot.length];
+    
+    System.arraycopy(NON_CANONICAL_UNRESOLVED_URIS, 0, result, 0, NON_CANONICAL_UNRESOLVED_URIS.length);
+    System.arraycopy(aboveRoot, 0, result, NON_CANONICAL_UNRESOLVED_URIS.length, aboveRoot.length);    
+    return result;
+  }
+
+  /**
+   * Parses URIs and converts them back to strings, comparing with the originals.
+   *
+   */
+  public void testParse()
+  {
+    String[] uriStrings = getAllURLs();
+    for (int i = 0, len = uriStrings.length; i < len; i++)
+    {
+      String s = uriStrings[i];
+      URI u = URI.createURI(s);
+      assertEquals("Bad URL parse", s, u.toString());
+    }
+
+    uriStrings = getURNs();
+    for (int i = 0, len = uriStrings.length; i < len; i++)
+    {
+      String s = uriStrings[i];
+      URI u = URI.createURI(s);
+      assertEquals("Bad URN parse", s, u.toString());
+    }
+  }    
+
+  /**
+   * Resolves URIs against a base, comparing with the known correct results.
+   * This tests both preserving and not preserving path segments above root.
+   */
+  public void testResolve()
+  {
+    URI base = URI.createURI(BASE_URI);
+
+    for (int i = 0; i < 2; i++)
+    {
+      boolean preserve = i == 0;
+      
+      String[] uriStrings = getUnresolvedURIs();
+      String[] resolvedStrings = getResolvedURIs(preserve);
+
+      for (int j = 0, len = uriStrings.length; j < len; j++)
+      {
+        URI uri = URI.createURI(uriStrings[j]);
+        URI resolved = URI.createURI(resolvedStrings[j]);
+        URI myResolved = uri.resolve(base, preserve);
+        assertEquals("Bad resolve: " + uri, resolved, myResolved);
+      }
+    }
+  }
+
+  /**
+   * Deresolves URIs against a base, comparing with the known correct results.
+   * This tests both preserving and no preserving path segments above roots, and skips cases where the unresolved URI
+   * is non-canonical.
+   */
+  public void testDeresolve()
+  {
+    URI base = URI.createURI(BASE_URI);
+
+    for (int i = 0; i < 2; i++)
+    {
+      boolean preserve = i == 0;
+
+      String[] uriStrings = getResolvedURIs(preserve);
+      String[] deresolvedStrings = getUnresolvedURIs();
+      List skipStrings = Arrays.asList(getNonCanonicalUnresolvedURIs(preserve));
+
+      for (int j = 0, len = uriStrings.length; j < len; j++)
+      {
+        URI uri = URI.createURI(uriStrings[j]);
+  
+        if ((j > 0 && uriStrings[j].equals(uriStrings[j - 1])) ||
+            skipStrings.contains(deresolvedStrings[j]))
+          continue;
+  
+        URI deresolved = URI.createURI(deresolvedStrings[j]);
+        URI myDeresolved = uri.deresolve(base, preserve, deresolved.hasRelativePath(), false);
+        assertEquals("Bad deresolve: " + uri, deresolved, myDeresolved);
+      }
+    }
+  }
+
+  /**
+   * Parses URIs and calls the authority sub-part accessors, comparing with known results. 
+   */
+  public void testAuthorityParse()
+  {
+    String[] uriStrings = AUTHORITY_PARSE_URIS;
+    String[] userInfos = AUTHORITY_PARSE_USER_INFOS;
+    String[] hosts = AUTHORITY_PARSE_HOSTS;
+    String[] ports = AUTHORITY_PARSE_PORTS;
+    
+    for (int i = 0, len = uriStrings.length; i < len; i++)
+    {
+      URI uri = URI.createURI(uriStrings[i]);
+      assertEquals("Bad user info parse: " + uriStrings[i], userInfos[i], uri.userInfo()); 
+      assertEquals("Bad host parse: " + uriStrings[i], hosts[i], uri.host()); 
+      assertEquals("Bad port parse: " + uriStrings[i], ports[i], uri.port()); 
+    }
+  }
+
+  /*
+   * Parses URIs with JAR scheme and converts them back to strings, comparing with the originals.  Parses invalid
+   * JAR-scheme URIs, checking to ensure that the correct exceptions are thrown.
+   */
+  public void testJARParse()
+  {
+    String[] uriStrings = JAR_URIS;
+
+    for (int i = 0, len = uriStrings.length; i < len; i++)
+    {
+      String s = uriStrings[i];
+      URI u = URI.createURI(s);
+      assertEquals("Bad JAR-scheme URI parse", s, u.toString());
+    }
+
+    uriStrings = BAD_JAR_URIS;
+
+    for (int i = 0, len = uriStrings.length; i < len; i++)
+    {
+      String s = uriStrings[i];
+      try
+      {
+        URI u = URI.createURI(s);
+        fail("Parse of bad JAR-scheme URI failed to throw IllegalArgumentException: " + s);
+      }
+      catch (IllegalArgumentException e)
+      {
+      }
+    }
+  }
+}
