@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.13 2004/11/09 17:25:01 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.14 2004/11/15 15:03:12 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -293,6 +293,10 @@ public class JavaEcoreBuilder
           eReference.setUpperBound(eAttribute.getUpperBound());
           eReference.setName(eTypedElement.getName());
           EcoreUtil.setDocumentation(eReference, EcoreUtil.getDocumentation(eTypedElement));
+          EcoreUtil.setSuppressedVisibility(eReference, EcoreUtil.GET, EcoreUtil.isSuppressedVisibility(eAttribute, EcoreUtil.GET));
+          EcoreUtil.setSuppressedVisibility(eReference, EcoreUtil.SET, EcoreUtil.isSuppressedVisibility(eAttribute, EcoreUtil.SET));
+          EcoreUtil.setSuppressedVisibility(eReference, EcoreUtil.IS_SET, EcoreUtil.isSuppressedVisibility(eAttribute, EcoreUtil.IS_SET));
+          EcoreUtil.setSuppressedVisibility(eReference, EcoreUtil.UNSET, EcoreUtil.isSuppressedVisibility(eAttribute, EcoreUtil.UNSET));
           container.getEStructuralFeatures().add(container.getEStructuralFeatures().indexOf(eTypedElement), eReference);
           container.getEStructuralFeatures().remove(eTypedElement);
           eTypedElement = eReference;
@@ -309,6 +313,10 @@ public class JavaEcoreBuilder
           eAttribute.setUpperBound(eReference.getUpperBound());
           eAttribute.setName(eTypedElement.getName());
           EcoreUtil.setDocumentation(eAttribute, EcoreUtil.getDocumentation(eTypedElement));
+          EcoreUtil.setSuppressedVisibility(eAttribute, EcoreUtil.GET, EcoreUtil.isSuppressedVisibility(eReference, EcoreUtil.GET));
+          EcoreUtil.setSuppressedVisibility(eAttribute, EcoreUtil.SET, EcoreUtil.isSuppressedVisibility(eReference, EcoreUtil.SET));
+          EcoreUtil.setSuppressedVisibility(eAttribute, EcoreUtil.IS_SET, EcoreUtil.isSuppressedVisibility(eReference, EcoreUtil.IS_SET));
+          EcoreUtil.setSuppressedVisibility(eAttribute, EcoreUtil.UNSET, EcoreUtil.isSuppressedVisibility(eReference, EcoreUtil.UNSET));
           container.getEStructuralFeatures().add(container.getEStructuralFeatures().indexOf(eTypedElement), eAttribute);
           container.getEStructuralFeatures().remove(eTypedElement);
           eTypedElement = eAttribute;
@@ -812,7 +820,6 @@ public class JavaEcoreBuilder
         String isInterface = getModelAnnotationAttribute(modelAnnotation, "interface");
         eClass.setInterface("true".equals(isInterface));
 
-
         // Walk the methods.
         //
         for (IDOMNode child = type.getFirstChild(); child != null; child = child.getNextNode())
@@ -820,6 +827,35 @@ public class JavaEcoreBuilder
           if (child.getNodeType() == IDOMNode.METHOD)
           {
             analyzeMethod(eClass, (IDOMMethod)child);
+          }
+        }
+
+        // Additional attributes and references may be defined directly on the interface in order to allow the
+        // get accessor method to have suppressed visibility.
+        //
+        String features = getModelAnnotationAttribute(modelAnnotation, "features");
+        if (features != null)
+        {
+          for (StringTokenizer stringTokenizer = new StringTokenizer(features, " "); 
+               stringTokenizer.hasMoreTokens();)
+          {
+            String feature = stringTokenizer.nextToken();
+            if (eClass.getEStructuralFeature(feature) == null)
+            {
+              analyzeMethod
+                (eClass, 
+                 getFilteredModelAnnotations(modelAnnotation, feature),
+                 "get" + Character.toUpperCase(feature.charAt(0)) + feature.substring(1), 
+                 "java.lang.Object", 
+                 null,
+                 null);
+            }
+            else
+            {
+              error
+                (CodeGenEcorePlugin.INSTANCE.getString
+                 ("_UI_DuplicateFeature_message", new Object [] { feature, eClass.getName() }));
+            }
           }
         }
       }
@@ -1269,6 +1305,13 @@ public class JavaEcoreBuilder
         {
           eStructuralFeature.setUpperBound(Integer.parseInt(upperBound));
         }
+
+        // Set the visibility annotations for the EstructuralFeature.
+        //
+        EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.GET, "true".equals(getModelAnnotationAttribute(modelAnnotation, "suppressedGetVisibility")));
+        EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.SET, "true".equals(getModelAnnotationAttribute(modelAnnotation, "suppressedSetVisibility")));
+        EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET, "true".equals(getModelAnnotationAttribute(modelAnnotation, "suppressedIsSetVisibility")));
+        EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, "true".equals(getModelAnnotationAttribute(modelAnnotation, "suppressedUnsetVisibility")));
       }
       else
       {
@@ -1356,7 +1399,7 @@ public class JavaEcoreBuilder
   }
 
   /**
-   * The pattern for extracting the @model annotations.
+   * The pattern for extracting the model documentation.
    */
   protected static Pattern modelDocExpression = 
     Pattern.compile
