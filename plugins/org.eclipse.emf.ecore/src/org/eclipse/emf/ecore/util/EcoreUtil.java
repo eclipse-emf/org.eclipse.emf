@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.2 2004/03/20 21:46:57 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.3 2004/04/22 21:00:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -46,6 +47,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -1830,7 +1832,7 @@ public class EcoreUtil
     }
     else
     {
-      setting.set(null);
+      setting.unset();
     }
   }
 
@@ -1867,7 +1869,7 @@ public class EcoreUtil
     }
     else
     {
-      eObject.eSet(eStructuralFeature, null);
+      eObject.eUnset(eStructuralFeature);
     }
   }
 
@@ -2109,6 +2111,57 @@ public class EcoreUtil
       eModelElement.getEAnnotations().add(eAnnotation);
     }
     eAnnotation.getDetails().put("documentation", documentation);
+  }
+
+  public static List getConstraints(EModelElement eModelElement)
+  {
+    EAnnotation eAnnotation = eModelElement.getEAnnotation(EcorePackage.eNS_URI);
+    if (eAnnotation == null)
+    {
+      return Collections.EMPTY_LIST;
+    }
+    else
+    {
+      List result = new ArrayList();
+      for (StringTokenizer stringTokenizer = new StringTokenizer((String)eAnnotation.getDetails().get("constraints")); 
+           stringTokenizer.hasMoreTokens(); )
+      {
+        String constraint = stringTokenizer.nextToken();
+        result.add(constraint);
+      }
+      return result;
+    }
+  }
+
+  public static void setConstraints(EModelElement eModelElement, List constraints)
+  {
+    EAnnotation eAnnotation = eModelElement.getEAnnotation(EcorePackage.eNS_URI);
+    if (constraints == null || constraints.isEmpty())
+    {
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("constraints");
+      }
+    }
+    else
+    {
+      if (eAnnotation == null)
+      {
+        eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+        eAnnotation.setSource(EcorePackage.eNS_URI);
+        eModelElement.getEAnnotations().add(eAnnotation);
+      }
+      StringBuffer value = new StringBuffer();
+      for (Iterator i = constraints.iterator(); i.hasNext(); )
+      {
+        value.append(i.next());
+        if (i.hasNext())
+        {
+          value.append(' ');
+        }
+      }
+      eAnnotation.getDetails().put("constraints", value.toString());
+    }
   }
 
   /**
