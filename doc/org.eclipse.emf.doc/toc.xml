@@ -18,16 +18,11 @@
 
 	<topic label="Online Docs">
 		<topic label="Release Notes">
-			<topic label="What's New in v2.1.0" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=2.1.0" />
-			<topic label="What's New in v2.0.1" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=2.0.1" />
-			<topic label="What's New in v2.0.0" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=2.0.0" />
-			<topic label="What's New in v1.1.1" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.1.1" />
-			<topic label="What's New in v1.1.0" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.1.0" />
-			<topic label="What's New in v1.0.2" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.2" />
-			<topic label="What's New in v1.0.1" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.1" />
+			<topic label="What's New in v2.0" href="http://www.eclipse.org/emf/news/release-notes.php?product=emf&version=2.0" />
+			<topic label="What's New in v1.x" href="http://www.eclipse.org/emf/news/release-notes-1.x.php" />
 		</topic>
 
-		<topic label="EMF FAQ" href="http://download.eclipse.org/tools/emf/scripts/faq.php" />
+		<topic label="EMF FAQ" href="http://www.eclipse.org/emf/faq/faq.php?FAQ=EMF" />
 	</topic>
 
 	<topic label="Javadoc" href="references/javadoc/index.html"/>
