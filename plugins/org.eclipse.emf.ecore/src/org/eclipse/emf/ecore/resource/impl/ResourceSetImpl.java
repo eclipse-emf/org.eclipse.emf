@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetImpl.java,v 1.5 2004/10/14 19:02:43 emerks Exp $
+ * $Id: ResourceSetImpl.java,v 1.6 2004/10/20 15:27:19 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -294,9 +294,10 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    */
   public Resource getResource(URI uri, boolean loadOnDemand)
   {
-    if (getURIResourceMap() != null)
+    Map map = getURIResourceMap();
+    if (map != null)
     {
-      Resource resource = (Resource)getURIResourceMap().get(uri);
+      Resource resource = (Resource)map.get(uri);
       if (resource != null)
       {
         if (loadOnDemand && !resource.isLoaded())
@@ -319,9 +320,9 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
           demandLoadHelper(resource);
         }
         
-        if (getURIResourceMap() != null)
+        if (map != null)
         {
-          getURIResourceMap().put(uri, resource);
+          map.put(uri, resource);
         } 
         return resource;
       }
@@ -330,9 +331,9 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
     Resource delegatedResource = delegatedGetResource(uri, loadOnDemand);
     if (delegatedResource != null)
     {
-      if (getURIResourceMap() != null)
+      if (map != null)
       {
-        getURIResourceMap().put(uri, delegatedResource);
+        map.put(uri, delegatedResource);
       }
       return delegatedResource;
     }
@@ -347,9 +348,9 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
 
       demandLoadHelper(resource);
 
-      if (getURIResourceMap() != null)
+      if (map != null)
       {
-        getURIResourceMap().put(uri, resource);
+        map.put(uri, resource);
       }      
       return resource;
     }
@@ -492,9 +493,10 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
     protected NotificationChain inverseRemove(Object object, NotificationChain notifications)
     {
       Resource.Internal resource = (Resource.Internal)object;
-      if (getURIResourceMap() != null)
+      Map map = getURIResourceMap();
+      if (map != null)
       {
-        for (Iterator i = getURIResourceMap().values().iterator(); i.hasNext();)
+        for (Iterator i = map.values().iterator(); i.hasNext();)
         {
           if (resource == i.next())
           {
