@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainActionBarContributor.java,v 1.4 2004/05/05 19:29:30 emerks Exp $
+ * $Id: EditingDomainActionBarContributor.java,v 1.5 2004/05/08 21:18:26 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -332,21 +332,29 @@ public class EditingDomainActionBarContributor
     menuManager.add(new ActionContributionItem(deleteAction));
     menuManager.add(new Separator());
 
+    // Add our other standard marker.
+    //
+    menuManager.add(new Separator("additions-end"));
+
+    addGlobalActions(menuManager);
+  }
+
+  /**
+   * This inserts global actions before the "additions-end" separator.
+   */
+  protected void addGlobalActions(IMenuManager menuManager)
+  {
     if (validateAction != null)
     {
-      menuManager.add(new ActionContributionItem(validateAction));
-      menuManager.add(new Separator());
+      menuManager.insertBefore("additions-end", new ActionContributionItem(validateAction));
+      menuManager.insertBefore("additions-end", new Separator());
     }
 
     if (loadResourceAction != null)
     {
-      menuManager.add(new ActionContributionItem(loadResourceAction));
-      menuManager.add(new Separator());
+      menuManager.insertBefore("additions-end", new ActionContributionItem(loadResourceAction));
+      menuManager.insertBefore("additions-end", new Separator());
     }
-
-    // Add our other standard marker.
-    //
-    menuManager.add(new Separator("additions-end"));
   }
 
   public void propertyChanged(Object source, int id)

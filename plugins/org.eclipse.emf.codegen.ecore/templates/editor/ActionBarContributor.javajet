@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.7 2004/05/05 19:44:36 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.8 2004/05/08 21:17:28 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -194,10 +194,24 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		//
 		createSiblingMenuManager = new <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%>(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_CreateSibling_menu_item"));<%=genModel.getNonNLS()%>
 		submenuManager.insertBefore("additions", createSiblingMenuManager);<%=genModel.getNonNLS()%>
+
+		// Force an update because Eclipse hides empty menus now.
+		//
+		submenuManager.addMenuListener
+			(new <%=genModel.getImportedName("org.eclipse.jface.action.IMenuListener")%>()
+			 {
+				 public void menuAboutToShow(<%=genModel.getImportedName("org.eclipse.jface.action.IMenuManager")%> menuManager)
+				 {
+					 menuManager.updateAll(true);
+				 }
+			 });
+
 <%} else {%>
 		// Add your contributions.
 		// Ensure that you remove @generated or mark it @generated NOT
+
 <%}%>
+		addGlobalActions(submenuManager);
 	}
 
 	/**
@@ -420,12 +434,23 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		populateManager(submenuManager, createSiblingActions, null);
 		menuManager.insertBefore("additions", submenuManager);<%=genModel.getNonNLS()%>
 <%}%>
+	}
 
+	/**
+	 * This inserts global actions before the "additions-end" separator.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addGlobalActions(<%=genModel.getImportedName("org.eclipse.jface.action.IMenuManager")%> menuManager)
+	{
 		menuManager.insertAfter("additions-end", new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>("ui-actions"));<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 		menuManager.insertAfter("ui-actions", showPropertiesViewAction);<%=genModel.getNonNLS()%>
 
 		refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());		
 		menuManager.insertAfter("ui-actions", refreshViewerAction);<%=genModel.getNonNLS()%>
+
+		super.addGlobalActions(menuManager);
 	}
 }
 <%genModel.emitSortedImports();%>
