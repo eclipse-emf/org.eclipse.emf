@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConstants.java,v 1.2 2004/09/01 13:25:27 emerks Exp $
+ * $Id: XSDConstants.java,v 1.3 2004/11/17 12:57:46 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -72,11 +72,6 @@ public class XSDConstants
    * The value <code>"http://www.w3.org/2001/XMLSchema-instance"</code>.
    */
   public static final String SCHEMA_INSTANCE_URI_2001 = "http://www.w3.org/2001/XMLSchema-instance";
-
-  /**
-   * @deprecated
-   */
-  //public static final String SCHEMA_FOR_SCHEMA_URI = SCHEMA_FOR_SCHEMA_URI_2001;
 
   /**
    * Returns whether the given namespace is (one of) the XML namespace(s).
