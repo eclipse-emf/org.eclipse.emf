@@ -9,7 +9,8 @@
   <foreignModel>Change.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>
-  <genPackages prefix="Change" basePackage="org.eclipse.emf.ecore" ecorePackage="Change.ecore#/">
+  <genPackages prefix="Change" basePackage="org.eclipse.emf.ecore" disposableProviderFactory="true"
+      ecorePackage="Change.ecore#/">
     <genEnums ecoreEnum="Change.ecore#//ChangeKind">
       <genEnumLiterals ecoreEnumLiteral="Change.ecore#//ChangeKind/ADD"/>
       <genEnumLiterals ecoreEnumLiteral="Change.ecore#//ChangeKind/REMOVE"/>
