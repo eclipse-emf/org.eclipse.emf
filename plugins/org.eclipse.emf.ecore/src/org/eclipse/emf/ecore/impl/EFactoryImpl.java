@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.3 2004/05/11 15:40:04 elena Exp $
+ * $Id: EFactoryImpl.java,v 1.4 2004/06/08 12:13:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 
 /**
@@ -230,6 +231,20 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       return ((EEnum)eDataType).getEEnumLiteral(stringValue);
     }
 
+    switch (ExtendedMetaData.INSTANCE.getWhiteSpaceFacet(eDataType))
+    {
+      case ExtendedMetaData.REPLACE_WHITE_SPACE:
+      {
+        stringValue = replaceWhiteSpace(stringValue);
+        break;
+      }
+      case ExtendedMetaData.COLLAPSE_WHITE_SPACE:
+      {
+        stringValue = collapseWhiteSpace(stringValue);
+        break;
+      }
+    }
+    
     EDataType baseType = ExtendedMetaData.INSTANCE.getBaseType(eDataType);
     if (baseType != null)
     {
@@ -352,7 +367,6 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       formatException = e;
     }
     throw new IllegalArgumentException(formatException.getCause().toString());
-
   }
 
   /**
@@ -421,6 +435,16 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     {
       return null;
     }
+  }
+
+  protected String replaceWhiteSpace(String value)
+  {
+    return XMLTypeUtil.normalize(value, false);
+  }
+
+  protected String collapseWhiteSpace(String value)
+  {
+    return XMLTypeUtil.normalize(value, true);
   }
 
   /**
