@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.9 2004/06/17 10:37:37 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.10 2004/07/16 16:27:26 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1015,32 +1015,35 @@ public class GenModelEditor
   public void setStatusLineManager(ISelection selection)
   {
     IStatusLineManager statusLineManager = getActionBars().getStatusLineManager();
-    if (selection instanceof IStructuredSelection)
+    if(statusLineManager != null)
     {
-      Collection collection = ((IStructuredSelection)selection).toList();
-      switch (collection.size())
+      if (selection instanceof IStructuredSelection)
       {
-        case 0:
+        Collection collection = ((IStructuredSelection)selection).toList();
+        switch (collection.size())
         {
-          statusLineManager.setMessage(getString("_UI_NoObjectSelected"));
-          break;
-        }
-        case 1:
-        {
-          String text = new AdapterFactoryItemDelegator(adapterFactory).getText(collection.iterator().next());
-          statusLineManager.setMessage(getString("_UI_SingleObjectSelected", text));
-          break;
-        }
-        default:
-        {
-          statusLineManager.setMessage(getString("_UI_MultiObjectSelected", Integer.toString(collection.size())));
-          break;
+          case 0:
+          {
+            statusLineManager.setMessage(getString("_UI_NoObjectSelected"));
+            break;
+          }
+          case 1:
+          {
+            String text = new AdapterFactoryItemDelegator(adapterFactory).getText(collection.iterator().next());
+            statusLineManager.setMessage(getString("_UI_SingleObjectSelected", text));
+            break;
+          }
+          default:
+          {
+            statusLineManager.setMessage(getString("_UI_MultiObjectSelected", Integer.toString(collection.size())));
+            break;
+          }
         }
       }
-    }
-    else
-    {
-      statusLineManager.setMessage("");
+      else
+      {
+        statusLineManager.setMessage("");
+      }
     }
   }
 
