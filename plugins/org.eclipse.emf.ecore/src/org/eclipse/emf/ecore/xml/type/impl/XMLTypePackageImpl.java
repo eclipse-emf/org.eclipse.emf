@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.5 2004/05/26 15:18:51 emerks Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.6 2004/06/08 15:35:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -1413,17 +1413,17 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     simpleAnyTypeEClass.getESuperTypes().add(this.getAnyType());
 
     // Initialize classes and features; add operations and parameters
-    initEClass(anyTypeEClass, AnyType.class, "AnyType", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(anyTypeEClass, AnyType.class, "AnyType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getAnyType_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getAnyType_Any(), ecorePackage.getEFeatureMapEntry(), "any", null, 0, -1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEAttribute(getAnyType_AnyAttribute(), ecorePackage.getEFeatureMapEntry(), "anyAttribute", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(simpleAnyTypeEClass, SimpleAnyType.class, "SimpleAnyType", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(simpleAnyTypeEClass, SimpleAnyType.class, "SimpleAnyType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getSimpleAnyType_RawValue(), theXMLTypePackage_1.getString(), "rawValue", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEAttribute(getSimpleAnyType_Value(), theXMLTypePackage_1.getAnySimpleType(), "value", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getSimpleAnyType_InstanceType(), ecorePackage.getEDataType(), null, "instanceType", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xmlTypeDocumentRootEClass, XMLTypeDocumentRoot.class, "XMLTypeDocumentRoot", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xmlTypeDocumentRootEClass, XMLTypeDocumentRoot.class, "XMLTypeDocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXMLTypeDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXMLTypeDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXMLTypeDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1432,64 +1432,64 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     initEAttribute(getXMLTypeDocumentRoot_Text(), this.getString(), "text", null, 0, -2, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
     // Initialize data types
-    initEDataType(anySimpleTypeEDataType, Object.class, "AnySimpleType", IS_SERIALIZABLE);
-    initEDataType(anyURIEDataType, String.class, "AnyURI", IS_SERIALIZABLE);
-    initEDataType(base64BinaryEDataType, byte[].class, "Base64Binary", IS_SERIALIZABLE);
-    initEDataType(booleanEDataType, boolean.class, "Boolean", IS_SERIALIZABLE);
-    initEDataType(booleanObjectEDataType, Boolean.class, "BooleanObject", IS_SERIALIZABLE);
-    initEDataType(byteEDataType, byte.class, "Byte", IS_SERIALIZABLE);
-    initEDataType(byteObjectEDataType, Byte.class, "ByteObject", IS_SERIALIZABLE);
-    initEDataType(dateEDataType, Object.class, "Date", IS_SERIALIZABLE);
-    initEDataType(dateTimeEDataType, Object.class, "DateTime", IS_SERIALIZABLE);
-    initEDataType(decimalEDataType, BigDecimal.class, "Decimal", IS_SERIALIZABLE);
-    initEDataType(doubleEDataType, double.class, "Double", IS_SERIALIZABLE);
-    initEDataType(doubleObjectEDataType, Double.class, "DoubleObject", IS_SERIALIZABLE);
-    initEDataType(durationEDataType, Object.class, "Duration", IS_SERIALIZABLE);
-    initEDataType(entitiesEDataType, List.class, "ENTITIES", IS_SERIALIZABLE);
-    initEDataType(entitiesBaseEDataType, List.class, "ENTITIESBase", IS_SERIALIZABLE);
-    initEDataType(entityEDataType, String.class, "ENTITY", IS_SERIALIZABLE);
-    initEDataType(floatEDataType, float.class, "Float", IS_SERIALIZABLE);
-    initEDataType(floatObjectEDataType, Float.class, "FloatObject", IS_SERIALIZABLE);
-    initEDataType(gDayEDataType, Object.class, "GDay", IS_SERIALIZABLE);
-    initEDataType(gMonthEDataType, Object.class, "GMonth", IS_SERIALIZABLE);
-    initEDataType(gMonthDayEDataType, Object.class, "GMonthDay", IS_SERIALIZABLE);
-    initEDataType(gYearEDataType, Object.class, "GYear", IS_SERIALIZABLE);
-    initEDataType(gYearMonthEDataType, Object.class, "GYearMonth", IS_SERIALIZABLE);
-    initEDataType(hexBinaryEDataType, byte[].class, "HexBinary", IS_SERIALIZABLE);
-    initEDataType(idEDataType, String.class, "ID", IS_SERIALIZABLE);
-    initEDataType(idrefEDataType, String.class, "IDREF", IS_SERIALIZABLE);
-    initEDataType(idrefsEDataType, List.class, "IDREFS", IS_SERIALIZABLE);
-    initEDataType(idrefsBaseEDataType, List.class, "IDREFSBase", IS_SERIALIZABLE);
-    initEDataType(intEDataType, int.class, "Int", IS_SERIALIZABLE);
-    initEDataType(integerEDataType, BigInteger.class, "Integer", IS_SERIALIZABLE);
-    initEDataType(intObjectEDataType, Integer.class, "IntObject", IS_SERIALIZABLE);
-    initEDataType(languageEDataType, String.class, "Language", IS_SERIALIZABLE);
-    initEDataType(longEDataType, long.class, "Long", IS_SERIALIZABLE);
-    initEDataType(longObjectEDataType, Long.class, "LongObject", IS_SERIALIZABLE);
-    initEDataType(nameEDataType, String.class, "Name", IS_SERIALIZABLE);
-    initEDataType(ncNameEDataType, String.class, "NCName", IS_SERIALIZABLE);
-    initEDataType(negativeIntegerEDataType, BigInteger.class, "NegativeInteger", IS_SERIALIZABLE);
-    initEDataType(nmtokenEDataType, String.class, "NMTOKEN", IS_SERIALIZABLE);
-    initEDataType(nmtokensEDataType, List.class, "NMTOKENS", IS_SERIALIZABLE);
-    initEDataType(nmtokensBaseEDataType, List.class, "NMTOKENSBase", IS_SERIALIZABLE);
-    initEDataType(nonNegativeIntegerEDataType, BigInteger.class, "NonNegativeInteger", IS_SERIALIZABLE);
-    initEDataType(nonPositiveIntegerEDataType, BigInteger.class, "NonPositiveInteger", IS_SERIALIZABLE);
-    initEDataType(normalizedStringEDataType, String.class, "NormalizedString", IS_SERIALIZABLE);
-    initEDataType(notationEDataType, Object.class, "NOTATION", IS_SERIALIZABLE);
-    initEDataType(positiveIntegerEDataType, BigInteger.class, "PositiveInteger", IS_SERIALIZABLE);
-    initEDataType(qNameEDataType, Object.class, "QName", IS_SERIALIZABLE);
-    initEDataType(shortEDataType, short.class, "Short", IS_SERIALIZABLE);
-    initEDataType(shortObjectEDataType, Short.class, "ShortObject", IS_SERIALIZABLE);
-    initEDataType(stringEDataType, String.class, "String", IS_SERIALIZABLE);
-    initEDataType(timeEDataType, Object.class, "Time", IS_SERIALIZABLE);
-    initEDataType(tokenEDataType, String.class, "Token", IS_SERIALIZABLE);
-    initEDataType(unsignedByteEDataType, short.class, "UnsignedByte", IS_SERIALIZABLE);
-    initEDataType(unsignedByteObjectEDataType, Short.class, "UnsignedByteObject", IS_SERIALIZABLE);
-    initEDataType(unsignedIntEDataType, long.class, "UnsignedInt", IS_SERIALIZABLE);
-    initEDataType(unsignedIntObjectEDataType, Long.class, "UnsignedIntObject", IS_SERIALIZABLE);
-    initEDataType(unsignedLongEDataType, BigInteger.class, "UnsignedLong", IS_SERIALIZABLE);
-    initEDataType(unsignedShortEDataType, int.class, "UnsignedShort", IS_SERIALIZABLE);
-    initEDataType(unsignedShortObjectEDataType, Integer.class, "UnsignedShortObject", IS_SERIALIZABLE);
+    initEDataType(anySimpleTypeEDataType, Object.class, "AnySimpleType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(anyURIEDataType, String.class, "AnyURI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(base64BinaryEDataType, byte[].class, "Base64Binary", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(booleanEDataType, boolean.class, "Boolean", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(booleanObjectEDataType, Boolean.class, "BooleanObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(byteEDataType, byte.class, "Byte", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(byteObjectEDataType, Byte.class, "ByteObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(dateEDataType, Object.class, "Date", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(dateTimeEDataType, Object.class, "DateTime", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(decimalEDataType, BigDecimal.class, "Decimal", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(doubleEDataType, double.class, "Double", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(doubleObjectEDataType, Double.class, "DoubleObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(durationEDataType, Object.class, "Duration", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(entitiesEDataType, List.class, "ENTITIES", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(entitiesBaseEDataType, List.class, "ENTITIESBase", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(entityEDataType, String.class, "ENTITY", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(floatEDataType, float.class, "Float", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(floatObjectEDataType, Float.class, "FloatObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(gDayEDataType, Object.class, "GDay", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(gMonthEDataType, Object.class, "GMonth", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(gMonthDayEDataType, Object.class, "GMonthDay", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(gYearEDataType, Object.class, "GYear", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(gYearMonthEDataType, Object.class, "GYearMonth", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(hexBinaryEDataType, byte[].class, "HexBinary", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(idEDataType, String.class, "ID", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(idrefEDataType, String.class, "IDREF", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(idrefsEDataType, List.class, "IDREFS", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(idrefsBaseEDataType, List.class, "IDREFSBase", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(intEDataType, int.class, "Int", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(integerEDataType, BigInteger.class, "Integer", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(intObjectEDataType, Integer.class, "IntObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(languageEDataType, String.class, "Language", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(longEDataType, long.class, "Long", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(longObjectEDataType, Long.class, "LongObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(nameEDataType, String.class, "Name", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(ncNameEDataType, String.class, "NCName", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(negativeIntegerEDataType, BigInteger.class, "NegativeInteger", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(nmtokenEDataType, String.class, "NMTOKEN", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(nmtokensEDataType, List.class, "NMTOKENS", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(nmtokensBaseEDataType, List.class, "NMTOKENSBase", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(nonNegativeIntegerEDataType, BigInteger.class, "NonNegativeInteger", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(nonPositiveIntegerEDataType, BigInteger.class, "NonPositiveInteger", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(normalizedStringEDataType, String.class, "NormalizedString", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(notationEDataType, Object.class, "NOTATION", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(positiveIntegerEDataType, BigInteger.class, "PositiveInteger", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(qNameEDataType, Object.class, "QName", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(shortEDataType, short.class, "Short", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(shortObjectEDataType, Short.class, "ShortObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(stringEDataType, String.class, "String", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(timeEDataType, Object.class, "Time", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(tokenEDataType, String.class, "Token", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(unsignedByteEDataType, short.class, "UnsignedByte", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(unsignedByteObjectEDataType, Short.class, "UnsignedByteObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(unsignedIntEDataType, long.class, "UnsignedInt", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(unsignedIntObjectEDataType, Long.class, "UnsignedIntObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(unsignedLongEDataType, BigInteger.class, "UnsignedLong", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(unsignedShortEDataType, int.class, "UnsignedShort", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(unsignedShortObjectEDataType, Integer.class, "UnsignedShortObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);
@@ -1497,8 +1497,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     // Create annotations
     // http:///org/eclipse/emf/ecore/util/ExtendedMetaData
     createExtendedMetaDataAnnotations();
-    // null
-    createNullAnnotations();
   }
 
   /**
@@ -1552,7 +1550,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "wildcards", "##any",
        "name", ":2",
        "processing", "lax"
-       });			
+       });		
     addAnnotation
       (anyURIEDataType, 
        source, 
@@ -1560,7 +1558,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "anyURI",
        "whiteSpace", "collapse"
-       });			
+       });		
     addAnnotation
       (base64BinaryEDataType, 
        source, 
@@ -1568,7 +1566,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "base64Binary",
        "whiteSpace", "collapse"
-       });			
+       });		
     addAnnotation
       (booleanEDataType, 
        source, 
@@ -1590,9 +1588,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        source, 
        new String[] 
        {
-       "name", "byte",
-       "minInclusive", "-128",
-       "maxInclusive", "127"
+       "name", "byte"
        });		
     addAnnotation
       (byteObjectEDataType, 
@@ -1601,7 +1597,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "byte:Object",
        "baseType", "byte"
-       });			
+       });		
     addAnnotation
       (dateEDataType, 
        source, 
@@ -1610,7 +1606,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "date",
        "baseType", "anySimpleType",
        "whiteSpace", "collapse"
-       });			
+       });		
     addAnnotation
       (dateTimeEDataType, 
        source, 
@@ -1619,7 +1615,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "dateTime",
        "baseType", "anySimpleType",
        "whiteSpace", "collapse"
-       });			
+       });		
     addAnnotation
       (decimalEDataType, 
        source, 
@@ -1627,7 +1623,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "decimal",
        "whiteSpace", "collapse"
-       });			
+       });		
     addAnnotation
       (doubleEDataType, 
        source, 
@@ -1643,7 +1639,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "double:Object",
        "baseType", "double"
-       });			
+       });		
     addAnnotation
       (durationEDataType, 
        source, 
@@ -1652,7 +1648,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "duration",
        "baseType", "anySimpleType",
        "whiteSpace", "collapse"
-       });			
+       });		
     addAnnotation
       (entitiesEDataType, 
        source, 
@@ -1677,7 +1673,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "ENTITY",
        "baseType", "NCName"
-       });			
+       });		
     addAnnotation
       (floatEDataType, 
        source, 
@@ -1693,7 +1689,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "float:Object",
        "baseType", "float"
-       });			
+       });		
     addAnnotation
       (gDayEDataType, 
        source, 
@@ -1702,7 +1698,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "gDay",
        "baseType", "anySimpleType",
        "whiteSpace", "collapse"
-       });			
+       });		
     addAnnotation
       (gMonthEDataType, 
        source, 
@@ -1711,7 +1707,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "gMonth",
        "baseType", "anySimpleType",
        "whiteSpace", "collapse"
-       });			
+       });		
     addAnnotation
       (gMonthDayEDataType, 
        source, 
@@ -1720,7 +1716,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "gMonthDay",
        "baseType", "anySimpleType",
        "whiteSpace", "collapse"
-       });			
+       });		
     addAnnotation
       (gYearEDataType, 
        source, 
@@ -1729,7 +1725,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "gYear",
        "baseType", "anySimpleType",
        "whiteSpace", "collapse"
-       });			
+       });		
     addAnnotation
       (gYearMonthEDataType, 
        source, 
@@ -1738,7 +1734,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "gYearMonth",
        "baseType", "anySimpleType",
        "whiteSpace", "collapse"
-       });			
+       });		
     addAnnotation
       (hexBinaryEDataType, 
        source, 
@@ -1762,7 +1758,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "IDREF",
        "baseType", "NCName"
-       });			
+       });		
     addAnnotation
       (idrefsEDataType, 
        source, 
@@ -1785,18 +1781,14 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        source, 
        new String[] 
        {
-       "name", "int",
-       "minInclusive", "-2147483648",
-       "maxInclusive", "2147483647"
+       "name", "int"
        });		
     addAnnotation
       (integerEDataType, 
        source, 
        new String[] 
        {
-       "name", "integer",
-       "fractionDigits", "0",
-       "pattern", "[\\-+]?[0-9]+"
+       "name", "integer"
        });		
     addAnnotation
       (intObjectEDataType, 
@@ -1814,15 +1806,13 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "language",
        "baseType", "token",
        "pattern", "[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"
-       });			
+       });		
     addAnnotation
       (longEDataType, 
        source, 
        new String[] 
        {
-       "name", "long",
-       "minInclusive", "-9223372036854775808",
-       "maxInclusive", "9223372036854775807"
+       "name", "long"
        });		
     addAnnotation
       (longObjectEDataType, 
@@ -1867,7 +1857,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "NMTOKEN",
        "baseType", "token",
        "pattern", "\\c+"
-       });			
+       });		
     addAnnotation
       (nmtokensEDataType, 
        source, 
@@ -1911,7 +1901,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "normalizedString",
        "baseType", "string",
        "whiteSpace", "replace"
-       });			
+       });		
     addAnnotation
       (notationEDataType, 
        source, 
@@ -1929,7 +1919,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "positiveInteger",
        "baseType", "nonNegativeInteger",
        "minInclusive", "1"
-       });			
+       });		
     addAnnotation
       (qNameEDataType, 
        source, 
@@ -1944,9 +1934,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        source, 
        new String[] 
        {
-       "name", "short",
-       "minInclusive", "-32768",
-       "maxInclusive", "32767"
+       "name", "short"
        });		
     addAnnotation
       (shortObjectEDataType, 
@@ -1987,7 +1975,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", ":5",
        "kind", "simple"
-       });			
+       });		
     addAnnotation
       (stringEDataType, 
        source, 
@@ -1995,7 +1983,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "string",
        "whiteSpace", "preserve"
-       });			
+       });		
     addAnnotation
       (timeEDataType, 
        source, 
@@ -2020,7 +2008,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "unsignedByte",
-       "maxInclusive", "255"
+       "maxInclusive", "255",
+       "minInclusive", "0"
        });		
     addAnnotation
       (unsignedByteObjectEDataType, 
@@ -2036,7 +2025,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "unsignedInt",
-       "maxInclusive", "4294967295"
+       "maxInclusive", "4294967295",
+       "minInclusive", "0"
        });		
     addAnnotation
       (unsignedIntObjectEDataType, 
@@ -2045,7 +2035,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "unsignedInt:Object",
        "baseType", "unsignedInt"
-       });			
+       });		
     addAnnotation
       (unsignedLongEDataType, 
        source, 
@@ -2053,7 +2043,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "unsignedLong",
        "baseType", "nonNegativeInteger",
-       "maxInclusive", "18446744073709551615"
+       "maxInclusive", "18446744073709551615",
+       "minInclusive", "0"
        });		
     addAnnotation
       (unsignedShortEDataType, 
@@ -2061,7 +2052,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "unsignedShort",
-       "maxInclusive", "65535"
+       "maxInclusive", "65535",
+       "minInclusive", "0"
        });		
     addAnnotation
       (unsignedShortObjectEDataType, 

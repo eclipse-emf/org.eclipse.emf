@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeValidator.java,v 1.3 2004/05/26 15:17:34 emerks Exp $
+ * $Id: XMLTypeValidator.java,v 1.4 2004/06/08 15:35:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -310,53 +311,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateByte(byte byte_, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateByte_Min(byte_, diagnostics, context);
-    if (result || diagnostics != null) result &= validateByte_Max(byte_, diagnostics, context);
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @see #validateByte_Min
-   */
-  public static final byte BYTE__MIN__VALUE = -128;
-
-  /**
-   * Validates the Min constraint of '<em>Byte</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean validateByte_Min(byte byte_, DiagnosticChain diagnostics, Map context)
-  {
-    boolean result = byte_ >= BYTE__MIN__VALUE;
-    if (!result && diagnostics != null) 
-      reportMinViolation(XMLTypePackage.eINSTANCE.getByte(), new Byte(byte_), new Byte(BYTE__MIN__VALUE), true, diagnostics, context);
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @see #validateByte_Max
-   */
-  public static final byte BYTE__MAX__VALUE = 127;
-
-  /**
-   * Validates the Max constraint of '<em>Byte</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean validateByte_Max(byte byte_, DiagnosticChain diagnostics, Map context)
-  {
-    boolean result = byte_ <= BYTE__MAX__VALUE;
-    if (!result && diagnostics != null) 
-      reportMaxViolation(XMLTypePackage.eINSTANCE.getByte(), new Byte(byte_), new Byte(BYTE__MAX__VALUE), true, diagnostics, context);
-    return result; 
+    return true;
   }
 
   /**
@@ -366,9 +321,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateByteObject(Byte byteObject, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateByte_Min(byteObject.byteValue(), diagnostics, context);
-    if (result || diagnostics != null) result &= validateByte_Max(byteObject.byteValue(), diagnostics, context);
-    return result;
+    return true;
   }
 
   /**
@@ -438,7 +391,8 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateENTITIES(List entities, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateENTITIES_MinLength(entities, diagnostics, context);
+    boolean result = validateENTITIESBase_ItemType(entities, diagnostics, context);
+    if (result || diagnostics != null) result &= validateENTITIES_MinLength(entities, diagnostics, context);
     return result;
   }
 
@@ -464,7 +418,33 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateENTITIESBase(List entitiesBase, DiagnosticChain diagnostics, Map context)
   {
-    return true;
+    boolean result = validateENTITIESBase_ItemType(entitiesBase, diagnostics, context);
+    return result;
+  }
+
+  /**
+   * Validates the ItemType constraint of '<em>ENTITIES Base</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateENTITIESBase_ItemType(List entitiesBase, DiagnosticChain diagnostics, Map context)
+  {
+    boolean result = true;
+    for (Iterator i = entitiesBase.iterator(); i.hasNext() && (result || diagnostics != null); )
+    {
+      Object item = i.next();
+      if (XMLTypePackage.eINSTANCE.getENTITY().isInstance(item))
+      {
+        result &= validateENTITY((String)item, diagnostics, context);
+      }
+      else
+      {
+        result = false;
+        reportDataValueTypeViolation(XMLTypePackage.eINSTANCE.getENTITY(), item, diagnostics, context);
+      }
+    }
+    return result;
   }
 
   /**
@@ -587,7 +567,8 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateIDREFS(List idrefs, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateIDREFS_MinLength(idrefs, diagnostics, context);
+    boolean result = validateIDREFSBase_ItemType(idrefs, diagnostics, context);
+    if (result || diagnostics != null) result &= validateIDREFS_MinLength(idrefs, diagnostics, context);
     return result;
   }
 
@@ -613,7 +594,33 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateIDREFSBase(List idrefsBase, DiagnosticChain diagnostics, Map context)
   {
-    return true;
+    boolean result = validateIDREFSBase_ItemType(idrefsBase, diagnostics, context);
+    return result;
+  }
+
+  /**
+   * Validates the ItemType constraint of '<em>IDREFS Base</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateIDREFSBase_ItemType(List idrefsBase, DiagnosticChain diagnostics, Map context)
+  {
+    boolean result = true;
+    for (Iterator i = idrefsBase.iterator(); i.hasNext() && (result || diagnostics != null); )
+    {
+      Object item = i.next();
+      if (XMLTypePackage.eINSTANCE.getIDREF().isInstance(item))
+      {
+        result &= validateIDREF((String)item, diagnostics, context);
+      }
+      else
+      {
+        result = false;
+        reportDataValueTypeViolation(XMLTypePackage.eINSTANCE.getIDREF(), item, diagnostics, context);
+      }
+    }
+    return result;
   }
 
   /**
@@ -623,53 +630,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateInt(int int_, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateInt_Min(int_, diagnostics, context);
-    if (result || diagnostics != null) result &= validateInt_Max(int_, diagnostics, context);
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @see #validateInt_Min
-   */
-  public static final int INT__MIN__VALUE = -2147483648;
-
-  /**
-   * Validates the Min constraint of '<em>Int</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean validateInt_Min(int int_, DiagnosticChain diagnostics, Map context)
-  {
-    boolean result = int_ >= INT__MIN__VALUE;
-    if (!result && diagnostics != null) 
-      reportMinViolation(XMLTypePackage.eINSTANCE.getInt(), new Integer(int_), new Integer(INT__MIN__VALUE), true, diagnostics, context);
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @see #validateInt_Max
-   */
-  public static final int INT__MAX__VALUE = 2147483647;
-
-  /**
-   * Validates the Max constraint of '<em>Int</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean validateInt_Max(int int_, DiagnosticChain diagnostics, Map context)
-  {
-    boolean result = int_ <= INT__MAX__VALUE;
-    if (!result && diagnostics != null) 
-      reportMaxViolation(XMLTypePackage.eINSTANCE.getInt(), new Integer(int_), new Integer(INT__MAX__VALUE), true, diagnostics, context);
-    return result; 
+    return true;
   }
 
   /**
@@ -678,30 +639,6 @@ public class XMLTypeValidator extends EObjectValidator
    * @generated
    */
   public boolean validateInteger(BigInteger integer, DiagnosticChain diagnostics, Map context)
-  {
-    boolean result = validateInteger_Pattern(integer, diagnostics, context);
-    if (result || diagnostics != null) result &= validateInteger_FractionDigits(integer, diagnostics, context);
-    return result;
-  }
-
-  /**
-   * Validates the Pattern constraint of '<em>Integer</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean validateInteger_Pattern(BigInteger integer, DiagnosticChain diagnostics, Map context)
-  {
-    return true;
-  }
-
-  /**
-   * Validates the FractionDigits constraint of '<em>Integer</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean validateInteger_FractionDigits(BigInteger integer, DiagnosticChain diagnostics, Map context)
   {
     return true;
   }
@@ -713,9 +650,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateIntObject(Integer intObject, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateInt_Min(intObject.intValue(), diagnostics, context);
-    if (result || diagnostics != null) result &= validateInt_Max(intObject.intValue(), diagnostics, context);
-    return result;
+    return true;
   }
 
   /**
@@ -730,6 +665,21 @@ public class XMLTypeValidator extends EObjectValidator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @see #validateLanguage_Pattern
+   */
+  public static final  PatternMatcher [][] LANGUAGE__PATTERN__VALUES =
+    new PatternMatcher [][] 
+    {
+      new PatternMatcher [] 
+      {
+        XMLTypeUtil.createPatternMatcher("[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*")
+      }
+    };
+
+  /**
    * Validates the Pattern constraint of '<em>Language</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -737,7 +687,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateLanguage_Pattern(String language, DiagnosticChain diagnostics, Map context)
   {
-    return true;
+    return validatePattern(XMLTypePackage.eINSTANCE.getLanguage(), language, LANGUAGE__PATTERN__VALUES, diagnostics, context);
   }
 
   /**
@@ -747,53 +697,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateLong(long long_, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateLong_Min(long_, diagnostics, context);
-    if (result || diagnostics != null) result &= validateLong_Max(long_, diagnostics, context);
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @see #validateLong_Min
-   */
-  public static final long LONG__MIN__VALUE = -9223372036854775808L;
-
-  /**
-   * Validates the Min constraint of '<em>Long</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean validateLong_Min(long long_, DiagnosticChain diagnostics, Map context)
-  {
-    boolean result = long_ >= LONG__MIN__VALUE;
-    if (!result && diagnostics != null) 
-      reportMinViolation(XMLTypePackage.eINSTANCE.getLong(), new Long(long_), new Long(LONG__MIN__VALUE), true, diagnostics, context);
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @see #validateLong_Max
-   */
-  public static final long LONG__MAX__VALUE = 9223372036854775807L;
-
-  /**
-   * Validates the Max constraint of '<em>Long</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean validateLong_Max(long long_, DiagnosticChain diagnostics, Map context)
-  {
-    boolean result = long_ <= LONG__MAX__VALUE;
-    if (!result && diagnostics != null) 
-      reportMaxViolation(XMLTypePackage.eINSTANCE.getLong(), new Long(long_), new Long(LONG__MAX__VALUE), true, diagnostics, context);
-    return result; 
+    return true;
   }
 
   /**
@@ -803,9 +707,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateLongObject(Long longObject, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateLong_Min(longObject.longValue(), diagnostics, context);
-    if (result || diagnostics != null) result &= validateLong_Max(longObject.longValue(), diagnostics, context);
-    return result;
+    return true;
   }
 
   /**
@@ -820,6 +722,21 @@ public class XMLTypeValidator extends EObjectValidator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @see #validateName_Pattern
+   */
+  public static final  PatternMatcher [][] NAME__PATTERN__VALUES =
+    new PatternMatcher [][] 
+    {
+      new PatternMatcher [] 
+      {
+        XMLTypeUtil.createPatternMatcher("\\i\\c*")
+      }
+    };
+
+  /**
    * Validates the Pattern constraint of '<em>Name</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -827,7 +744,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateName_Pattern(String name, DiagnosticChain diagnostics, Map context)
   {
-    return true;
+    return validatePattern(XMLTypePackage.eINSTANCE.getName_(), name, NAME__PATTERN__VALUES, diagnostics, context);
   }
 
   /**
@@ -842,6 +759,25 @@ public class XMLTypeValidator extends EObjectValidator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @see #validateNCName_Pattern
+   */
+  public static final  PatternMatcher [][] NC_NAME__PATTERN__VALUES =
+    new PatternMatcher [][] 
+    {
+      new PatternMatcher [] 
+      {
+        XMLTypeUtil.createPatternMatcher("[\\i-[:]][\\c-[:]]*")
+      },
+      new PatternMatcher [] 
+      {
+        XMLTypeUtil.createPatternMatcher("\\i\\c*")
+      }
+    };
+
+  /**
    * Validates the Pattern constraint of '<em>NC Name</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -849,8 +785,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateNCName_Pattern(String ncName, DiagnosticChain diagnostics, Map context)
   {
-    // TODO override the constraint
-    return validateName_Pattern(ncName, diagnostics, context);
+    return validatePattern(XMLTypePackage.eINSTANCE.getNCName(), ncName, NC_NAME__PATTERN__VALUES, diagnostics, context);
   }
 
   /**
@@ -861,8 +796,6 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateNegativeInteger(BigInteger negativeInteger, DiagnosticChain diagnostics, Map context)
   {
     boolean result = validateNegativeInteger_Max(negativeInteger, diagnostics, context);
-    if (result || diagnostics != null) result &= validateInteger_Pattern(negativeInteger, diagnostics, context);
-    if (result || diagnostics != null) result &= validateInteger_FractionDigits(negativeInteger, diagnostics, context);
     return result;
   }
 
@@ -900,6 +833,21 @@ public class XMLTypeValidator extends EObjectValidator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @see #validateNMTOKEN_Pattern
+   */
+  public static final  PatternMatcher [][] NMTOKEN__PATTERN__VALUES =
+    new PatternMatcher [][] 
+    {
+      new PatternMatcher [] 
+      {
+        XMLTypeUtil.createPatternMatcher("\\c+")
+      }
+    };
+
+  /**
    * Validates the Pattern constraint of '<em>NMTOKEN</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -907,7 +855,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateNMTOKEN_Pattern(String nmtoken, DiagnosticChain diagnostics, Map context)
   {
-    return true;
+    return validatePattern(XMLTypePackage.eINSTANCE.getNMTOKEN(), nmtoken, NMTOKEN__PATTERN__VALUES, diagnostics, context);
   }
 
   /**
@@ -917,7 +865,8 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateNMTOKENS(List nmtokens, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateNMTOKENS_MinLength(nmtokens, diagnostics, context);
+    boolean result = validateNMTOKENSBase_ItemType(nmtokens, diagnostics, context);
+    if (result || diagnostics != null) result &= validateNMTOKENS_MinLength(nmtokens, diagnostics, context);
     return result;
   }
 
@@ -943,7 +892,33 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateNMTOKENSBase(List nmtokensBase, DiagnosticChain diagnostics, Map context)
   {
-    return true;
+    boolean result = validateNMTOKENSBase_ItemType(nmtokensBase, diagnostics, context);
+    return result;
+  }
+
+  /**
+   * Validates the ItemType constraint of '<em>NMTOKENS Base</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateNMTOKENSBase_ItemType(List nmtokensBase, DiagnosticChain diagnostics, Map context)
+  {
+    boolean result = true;
+    for (Iterator i = nmtokensBase.iterator(); i.hasNext() && (result || diagnostics != null); )
+    {
+      Object item = i.next();
+      if (XMLTypePackage.eINSTANCE.getNMTOKEN().isInstance(item))
+      {
+        result &= validateNMTOKEN((String)item, diagnostics, context);
+      }
+      else
+      {
+        result = false;
+        reportDataValueTypeViolation(XMLTypePackage.eINSTANCE.getNMTOKEN(), item, diagnostics, context);
+      }
+    }
+    return result;
   }
 
   /**
@@ -953,9 +928,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateNonNegativeInteger(BigInteger nonNegativeInteger, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateInteger_Pattern(nonNegativeInteger, diagnostics, context);
-    if (result || diagnostics != null) result &= validateInteger_FractionDigits(nonNegativeInteger, diagnostics, context);
-    if (result || diagnostics != null) result &= validateNonNegativeInteger_Min(nonNegativeInteger, diagnostics, context);
+    boolean result = validateNonNegativeInteger_Min(nonNegativeInteger, diagnostics, context);
     return result;
   }
 
@@ -988,9 +961,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateNonPositiveInteger(BigInteger nonPositiveInteger, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateInteger_Pattern(nonPositiveInteger, diagnostics, context);
-    if (result || diagnostics != null) result &= validateInteger_FractionDigits(nonPositiveInteger, diagnostics, context);
-    if (result || diagnostics != null) result &= validateNonPositiveInteger_Max(nonPositiveInteger, diagnostics, context);
+    boolean result = validateNonPositiveInteger_Max(nonPositiveInteger, diagnostics, context);
     return result;
   }
 
@@ -1044,8 +1015,6 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validatePositiveInteger(BigInteger positiveInteger, DiagnosticChain diagnostics, Map context)
   {
     boolean result = validatePositiveInteger_Min(positiveInteger, diagnostics, context);
-    if (result || diagnostics != null) result &= validateInteger_Pattern(positiveInteger, diagnostics, context);
-    if (result || diagnostics != null) result &= validateInteger_FractionDigits(positiveInteger, diagnostics, context);
     return result;
   }
 
@@ -1088,53 +1057,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateShort(short short_, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateShort_Min(short_, diagnostics, context);
-    if (result || diagnostics != null) result &= validateShort_Max(short_, diagnostics, context);
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @see #validateShort_Min
-   */
-  public static final short SHORT__MIN__VALUE = -32768;
-
-  /**
-   * Validates the Min constraint of '<em>Short</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean validateShort_Min(short short_, DiagnosticChain diagnostics, Map context)
-  {
-    boolean result = short_ >= SHORT__MIN__VALUE;
-    if (!result && diagnostics != null) 
-      reportMinViolation(XMLTypePackage.eINSTANCE.getShort(), new Short(short_), new Short(SHORT__MIN__VALUE), true, diagnostics, context);
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @see #validateShort_Max
-   */
-  public static final short SHORT__MAX__VALUE = 32767;
-
-  /**
-   * Validates the Max constraint of '<em>Short</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean validateShort_Max(short short_, DiagnosticChain diagnostics, Map context)
-  {
-    boolean result = short_ <= SHORT__MAX__VALUE;
-    if (!result && diagnostics != null) 
-      reportMaxViolation(XMLTypePackage.eINSTANCE.getShort(), new Short(short_), new Short(SHORT__MAX__VALUE), true, diagnostics, context);
-    return result; 
+    return true;
   }
 
   /**
@@ -1144,9 +1067,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateShortObject(Short shortObject, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateShort_Min(shortObject.shortValue(), diagnostics, context);
-    if (result || diagnostics != null) result &= validateShort_Max(shortObject.shortValue(), diagnostics, context);
-    return result;
+    return true;
   }
 
   /**
@@ -1186,7 +1107,30 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateUnsignedByte(short unsignedByte, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateUnsignedByte_Max(unsignedByte, diagnostics, context);
+    boolean result = validateUnsignedByte_Min(unsignedByte, diagnostics, context);
+    if (result || diagnostics != null) result &= validateUnsignedByte_Max(unsignedByte, diagnostics, context);
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @see #validateUnsignedByte_Min
+   */
+  public static final short UNSIGNED_BYTE__MIN__VALUE = 0;
+
+  /**
+   * Validates the Min constraint of '<em>Unsigned Byte</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateUnsignedByte_Min(short unsignedByte, DiagnosticChain diagnostics, Map context)
+  {
+    boolean result = unsignedByte >= UNSIGNED_BYTE__MIN__VALUE;
+    if (!result && diagnostics != null) 
+      reportMinViolation(XMLTypePackage.eINSTANCE.getUnsignedByte(), new Short(unsignedByte), new Short(UNSIGNED_BYTE__MIN__VALUE), true, diagnostics, context);
     return result;
   }
 
@@ -1219,7 +1163,8 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateUnsignedByteObject(Short unsignedByteObject, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateUnsignedByte_Max(unsignedByteObject.shortValue(), diagnostics, context);
+    boolean result = validateUnsignedByte_Min(unsignedByteObject.shortValue(), diagnostics, context);
+    if (result || diagnostics != null) result &= validateUnsignedByte_Max(unsignedByteObject.shortValue(), diagnostics, context);
     return result;
   }
 
@@ -1230,7 +1175,30 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateUnsignedInt(long unsignedInt, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateUnsignedInt_Max(unsignedInt, diagnostics, context);
+    boolean result = validateUnsignedInt_Min(unsignedInt, diagnostics, context);
+    if (result || diagnostics != null) result &= validateUnsignedInt_Max(unsignedInt, diagnostics, context);
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @see #validateUnsignedInt_Min
+   */
+  public static final long UNSIGNED_INT__MIN__VALUE = 0L;
+
+  /**
+   * Validates the Min constraint of '<em>Unsigned Int</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateUnsignedInt_Min(long unsignedInt, DiagnosticChain diagnostics, Map context)
+  {
+    boolean result = unsignedInt >= UNSIGNED_INT__MIN__VALUE;
+    if (!result && diagnostics != null) 
+      reportMinViolation(XMLTypePackage.eINSTANCE.getUnsignedInt(), new Long(unsignedInt), new Long(UNSIGNED_INT__MIN__VALUE), true, diagnostics, context);
     return result;
   }
 
@@ -1263,7 +1231,8 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateUnsignedIntObject(Long unsignedIntObject, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateUnsignedInt_Max(unsignedIntObject.longValue(), diagnostics, context);
+    boolean result = validateUnsignedInt_Min(unsignedIntObject.longValue(), diagnostics, context);
+    if (result || diagnostics != null) result &= validateUnsignedInt_Max(unsignedIntObject.longValue(), diagnostics, context);
     return result;
   }
 
@@ -1274,11 +1243,31 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateUnsignedLong(BigInteger unsignedLong, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateNonNegativeInteger_Min(unsignedLong, diagnostics, context);
-    if (result || diagnostics != null) result &= validateInteger_Pattern(unsignedLong, diagnostics, context);
-    if (result || diagnostics != null) result &= validateInteger_FractionDigits(unsignedLong, diagnostics, context);
+    boolean result = validateUnsignedLong_Min(unsignedLong, diagnostics, context);
     if (result || diagnostics != null) result &= validateUnsignedLong_Max(unsignedLong, diagnostics, context);
     return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @see #validateUnsignedLong_Min
+   */
+  public static final BigInteger UNSIGNED_LONG__MIN__VALUE = new BigInteger("0");
+
+  /**
+   * Validates the Min constraint of '<em>Unsigned Long</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateUnsignedLong_Min(BigInteger unsignedLong, DiagnosticChain diagnostics, Map context)
+  {
+    boolean result = unsignedLong.compareTo(UNSIGNED_LONG__MIN__VALUE) >= 0;
+    if (!result && diagnostics != null) 
+      reportMinViolation(XMLTypePackage.eINSTANCE.getUnsignedLong(), unsignedLong, UNSIGNED_LONG__MIN__VALUE, true, diagnostics, context);
+    return result; 
   }
 
   /**
@@ -1310,7 +1299,30 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateUnsignedShort(int unsignedShort, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateUnsignedShort_Max(unsignedShort, diagnostics, context);
+    boolean result = validateUnsignedShort_Min(unsignedShort, diagnostics, context);
+    if (result || diagnostics != null) result &= validateUnsignedShort_Max(unsignedShort, diagnostics, context);
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @see #validateUnsignedShort_Min
+   */
+  public static final int UNSIGNED_SHORT__MIN__VALUE = 0;
+
+  /**
+   * Validates the Min constraint of '<em>Unsigned Short</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateUnsignedShort_Min(int unsignedShort, DiagnosticChain diagnostics, Map context)
+  {
+    boolean result = unsignedShort >= UNSIGNED_SHORT__MIN__VALUE;
+    if (!result && diagnostics != null) 
+      reportMinViolation(XMLTypePackage.eINSTANCE.getUnsignedShort(), new Integer(unsignedShort), new Integer(UNSIGNED_SHORT__MIN__VALUE), true, diagnostics, context);
     return result;
   }
 
@@ -1343,7 +1355,8 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateUnsignedShortObject(Integer unsignedShortObject, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validateUnsignedShort_Max(unsignedShortObject.intValue(), diagnostics, context);
+    boolean result = validateUnsignedShort_Min(unsignedShortObject.intValue(), diagnostics, context);
+    if (result || diagnostics != null) result &= validateUnsignedShort_Max(unsignedShortObject.intValue(), diagnostics, context);
     return result;
   }
 

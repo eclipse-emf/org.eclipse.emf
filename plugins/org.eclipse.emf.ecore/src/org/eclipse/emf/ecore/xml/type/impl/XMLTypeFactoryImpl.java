@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.7 2004/05/21 22:13:38 elena Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.8 2004/06/08 15:35:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -388,6 +388,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createAnyURIFromString(EDataType eDataType, String initialValue)
   {
+    initialValue = collapseWhiteSpace(initialValue);
     if (initialValue != null)
     {
       //encode special characters using XLink 5.4 algorithm
@@ -425,7 +426,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   public byte[] createBase64BinaryFromString(EDataType eDataType, String initialValue)
   {
     if (initialValue == null) return null;
-    byte[] value = Base64.decode(initialValue);
+    byte[] value = Base64.decode(collapseWhiteSpace(initialValue));
     if (value == null)
     {
       throw new InvalidDatatypeValueException("Invalid base64Binary value: '"+initialValue+"'");
@@ -490,7 +491,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigDecimal createDecimalFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new BigDecimal(initialValue);
+    return initialValue == null ? null : new BigDecimal(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -510,7 +511,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigInteger createIntegerFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new BigInteger(initialValue);
+    return initialValue == null ? null : new BigInteger(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -530,7 +531,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Integer createIntObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Integer.valueOf(initialValue);
+    return initialValue == null ? null : Integer.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -550,7 +551,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Long createLongFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Long.valueOf(initialValue);
+    return initialValue == null ? null : Long.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -570,7 +571,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Long createLongObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Long.valueOf(initialValue);
+    return initialValue == null ? null : Long.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -590,7 +591,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Integer createIntFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Integer.valueOf(initialValue);
+    return initialValue == null ? null : Integer.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -610,7 +611,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Short createShortFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Short.valueOf(initialValue);
+    return initialValue == null ? null : Short.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -630,7 +631,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Short createShortObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Short.valueOf(initialValue);
+    return initialValue == null ? null : Short.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -650,7 +651,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Byte createByteFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Byte.valueOf(initialValue);
+    return initialValue == null ? null : Byte.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -670,7 +671,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Byte createByteObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Byte.valueOf(initialValue);
+    return initialValue == null ? null : Byte.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -690,7 +691,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createDateFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.DATE);
+    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.DATE);
 
   }
 
@@ -711,7 +712,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createDateTimeFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.DATETIME);
+    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.DATETIME);
   }
 
   /**
@@ -751,7 +752,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Double createDoubleFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Double.valueOf(initialValue);
+    return initialValue == null ? null : Double.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -771,7 +772,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Double createDoubleObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Double.valueOf(initialValue);
+    return initialValue == null ? null : Double.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -791,7 +792,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createDurationFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new XMLDuration(initialValue);
+    return initialValue == null ? null : new XMLDuration(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -847,7 +848,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createNormalizedStringFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue;
+    return replaceWhiteSpace(initialValue);
   }
 
   /**
@@ -867,7 +868,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createTokenFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue;
+    return collapseWhiteSpace(initialValue);
   }
 
   /**
@@ -977,7 +978,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Float createFloatFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Float.valueOf(initialValue);
+    return initialValue == null ? null : Float.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -997,7 +998,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Float createFloatObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Float.valueOf(initialValue);
+    return initialValue == null ? null : Float.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -1017,7 +1018,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGDayFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.GDAY);
+    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.GDAY);
 
   }
 
@@ -1038,7 +1039,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGMonthFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.GMONTH);
+    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.GMONTH);
 }
 
   /**
@@ -1058,7 +1059,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGMonthDayFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.GMONTHDAY);
+    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.GMONTHDAY);
   }
 
   /**
@@ -1078,7 +1079,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGYearFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.GYEAR);
+    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.GYEAR);
 }
 
   /**
@@ -1098,7 +1099,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGYearMonthFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.GYEARMONTH);
+    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.GYEARMONTH);
 }
 
   /**
@@ -1119,7 +1120,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   public byte[] createHexBinaryFromString(EDataType eDataType, String initialValue)
   {
     if (initialValue == null) return null;
-    byte[] value = HexBin.decode(initialValue);
+    byte[] value = HexBin.decode(collapseWhiteSpace(initialValue));
     if (value == null)
     {
       throw new InvalidDatatypeValueException("Invalid hexBinary value: '"+initialValue+"'");
@@ -1236,11 +1237,11 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String createLanguageFromString(EDataType eDataType, String initialValue)
   {
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getToken(), initialValue);
+    return collapseWhiteSpace(initialValue);
   }
 
   /**
@@ -1260,7 +1261,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigInteger createNonPositiveIntegerFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new BigInteger(initialValue);
+    return initialValue == null ? null : new BigInteger(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -1381,7 +1382,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigInteger createNonNegativeIntegerFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new BigInteger(initialValue);
+    return initialValue == null ? null : new BigInteger(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -1401,7 +1402,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createNOTATIONFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new QName(initialValue); 
+    return initialValue == null ? null : new QName(collapseWhiteSpace(initialValue)); 
   }
 
   /**
@@ -1441,7 +1442,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createQNameFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new QName(initialValue);    
+    return initialValue == null ? null : new QName(collapseWhiteSpace(initialValue));    
   }
 
   /**
@@ -1461,7 +1462,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createTimeFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.TIME);
+    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.TIME);
 }
 
   /**
@@ -1501,7 +1502,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Long createUnsignedIntFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Long.valueOf(initialValue);
+    return initialValue == null ? null : Long.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -1521,7 +1522,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Long createUnsignedIntObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Long.valueOf(initialValue);
+    return initialValue == null ? null : Long.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -1541,7 +1542,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Integer createUnsignedShortFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Integer.valueOf(initialValue);
+    return initialValue == null ? null : Integer.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -1561,7 +1562,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Integer createUnsignedShortObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Integer.valueOf(initialValue);
+    return initialValue == null ? null : Integer.valueOf(collapseWhiteSpace(initialValue));
   }
 
   /**
@@ -1637,6 +1638,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
 
   protected Boolean booleanValueOf(String initialValue)
   {
+    initialValue = collapseWhiteSpace(initialValue);
     if ("true".equals(initialValue) || "1".equals(initialValue))
     {
       return Boolean.TRUE;
