@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.15 2004/10/21 16:12:02 marcelop Exp $
+ * $Id: XMLResource.java,v 1.16 2004/10/21 16:20:26 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -285,7 +285,8 @@ public interface XMLResource extends Resource
   
   /**
    * Sets the ID for the given object. If you are storing the ID
-   * with the object itself, you should override this method.
+   * with the object itself, you should override this method.  You can remove the
+   * ID of a given eObject by using <code>null</code> as the id value.
    */
   void setID(EObject eObject, String id);
 
