@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.1 2005/01/05 20:42:53 marcelop Exp $
+ * $Id: TestUtil.java,v 1.2 2005/02/15 20:19:27 bportier Exp $
  */
 package org.eclipse.emf.test.performance;
 
