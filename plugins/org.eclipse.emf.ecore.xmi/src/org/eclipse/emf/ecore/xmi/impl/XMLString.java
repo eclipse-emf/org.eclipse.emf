@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLString.java,v 1.2 2004/03/11 23:40:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -388,7 +388,8 @@ public class XMLString extends StringSegment
 
     // Ensure correct indentation for a top level attribute.
     //
-    elementNames.add("mark");
+    // elementNames.add("mark");
+    ++depth;
 
     currentLineWidth = markedLineWidth;
   }
