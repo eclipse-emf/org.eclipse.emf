@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.6 2004/06/16 15:50:24 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.7 2004/06/18 13:34:40 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -550,9 +550,7 @@ public class ChangeRecorder implements Adapter
       Object newObject = objects.next();
       if (oldList.size() <= index)
       {
-        ListChange listChange = createListChange(changesList, ChangeKind.ADD_LITERAL, index);
-        listChange.getValues().add(newObject);
-        oldList.add(newObject);
+        createAddListChanges(oldList, changesList, newObject, index, -1);
       }
       else
       {
@@ -569,8 +567,7 @@ public class ChangeRecorder implements Adapter
               int targetIndex = EcoreUtil.indexOf(newList, targetObject, index);
               if (targetIndex == -1)
               {
-                ListChange listChange = createListChange(changesList, ChangeKind.REMOVE_LITERAL, index);
-                oldList.remove(index);
+                createRemoveListChanges(oldList, changesList, newObject, index, targetIndex);
                 done = false;
               }
               else if (targetIndex > position)
@@ -579,23 +576,16 @@ public class ChangeRecorder implements Adapter
                 {
                   targetIndex = oldList.size() - 1;
                 }
-                ListChange listChange = createListChange(changesList, ChangeKind.MOVE_LITERAL, index);
-                listChange.setMoveToIndex(targetIndex);
-                oldList.move(targetIndex, index);
+                createMoveListChanges(oldList, changesList, newObject, index, targetIndex);
                 done = false;
               }
               else
               {
-                ListChange listChange = createListChange(changesList, ChangeKind.MOVE_LITERAL, position);
-                listChange.setMoveToIndex(index);
-                oldList.move(index, position);
+                createAddListChanges(oldList, changesList, newObject, index, targetIndex);
               }
             }
             else
             {
-              ListChange listChange = createListChange(changesList, ChangeKind.ADD_LITERAL, index);
-              listChange.getValues().add(newObject);
-              oldList.add(index, newObject);
             }
           }
         }
@@ -604,10 +594,44 @@ public class ChangeRecorder implements Adapter
     }
     for (int i = oldList.size(); i > index;)
     {
-      ListChange listChange = createListChange(changesList, ChangeKind.REMOVE_LITERAL, --i);
-      oldList.remove(i);
+      createRemoveListChanges(oldList, changesList, null, --i, -1);
     }
   }
+  
+  /**
+   * Convenience method added to allow subclasses to modify the default implementation 
+   * for the scenario in which an element was added to the monitored list.
+   * @see #createListChanges(EList, EList, EList) 
+   */
+  protected void createAddListChanges(EList oldList, EList changesList, Object newObject, int index, int targetIndex)
+  {
+    ListChange listChange = createListChange(changesList, ChangeKind.ADD_LITERAL, index);
+    listChange.getValues().add(newObject);
+    oldList.add(newObject);    
+  }
+
+  /**
+   * Convenience method added to allow subclasses to modify the default implementation 
+   * for the scenario in which an element was removed from the monitored list.
+   * @see #createListChanges(EList, EList, EList) 
+   */
+  protected void createRemoveListChanges(EList oldList, EList changesList, Object newObject, int index, int targetIndex)
+  {
+    ListChange listChange = createListChange(changesList, ChangeKind.REMOVE_LITERAL, index);
+    oldList.remove(index);
+  }
+
+  /**
+   * Convenience method added to allow subclasses to modify the default implementation 
+   * for the scenario in which an element was moved in the monitored list.
+   * @see #createListChanges(EList, EList, EList) 
+   */
+  protected void createMoveListChanges(EList oldList, EList changesList, Object newObject, int index, int targetIndex)
+  {
+    ListChange listChange = createListChange(changesList, ChangeKind.MOVE_LITERAL, index);
+    listChange.setMoveToIndex(targetIndex);
+    oldList.move(targetIndex, index);
+   }  
 
   protected ListChange createListChange(EList changesList, ChangeKind kind, int index)
   {
