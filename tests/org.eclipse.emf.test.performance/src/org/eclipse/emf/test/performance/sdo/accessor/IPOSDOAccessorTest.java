@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SDOAccessorTest.java,v 1.1 2005/02/15 20:21:05 bportier Exp $
+ * $Id: IPOSDOAccessorTest.java,v 1.1 2005/02/16 23:02:12 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -25,7 +25,7 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 
 
-public class SDOAccessorTest
+public class IPOSDOAccessorTest
 {
 
   private static int ITERATIONS;
@@ -110,7 +110,7 @@ public class SDOAccessorTest
 
   private String partNum;
 
-  public SDOAccessorTest(
+  public IPOSDOAccessorTest(
     int iterations,
     Property shipToProp,
     Property billToProp,

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSDOAccessorTest.java,v 1.1 2005/02/15 20:21:05 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.1 2005/02/16 23:02:12 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -48,7 +48,7 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 
 
-public class StaticSDOAccessorTest extends EMFPerformanceTestCase
+public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
 {
   private static final int REPETITIONS = 5;
 
@@ -66,7 +66,7 @@ public class StaticSDOAccessorTest extends EMFPerformanceTestCase
 
   private static final String DATA_URI = "file:///" + DATA;
 
-  private SDOAccessorTest accessorTest;
+  private IPOSDOAccessorTest accessorTest;
 
   // static model
 
@@ -161,7 +161,7 @@ public class StaticSDOAccessorTest extends EMFPerformanceTestCase
 
   private String partNum = "part123456";
 
-  public StaticSDOAccessorTest(String name)
+  public StaticIPOSDOAccessorTest(String name)
   {
     super(name);
   }
@@ -171,14 +171,14 @@ public class StaticSDOAccessorTest extends EMFPerformanceTestCase
 
     TestSuite testSuite = new TestSuite();
 
-    testSuite.addTest(new StaticSDOAccessorTest("getStronglyTyped").setWarmUp(TYPED_WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new StaticSDOAccessorTest("getByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new StaticSDOAccessorTest("getByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new StaticSDOAccessorTest("getByPath").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new StaticSDOAccessorTest("setStronglyTyped").setWarmUp(TYPED_WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new StaticSDOAccessorTest("setByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new StaticSDOAccessorTest("setByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new StaticSDOAccessorTest("setByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getStronglyTyped").setWarmUp(TYPED_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getByPath").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setStronglyTyped").setWarmUp(TYPED_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
 
     return testSuite;
   }
@@ -191,7 +191,7 @@ public class StaticSDOAccessorTest extends EMFPerformanceTestCase
 
     initPO();
 
-    accessorTest = new SDOAccessorTest(
+    accessorTest = new IPOSDOAccessorTest(
       ITERATIONS,
       shipToProp,
       billToProp,
@@ -219,7 +219,7 @@ public class StaticSDOAccessorTest extends EMFPerformanceTestCase
       partNum);
 
     // serialize DG so that it can be deserialized by DynamicAccessorTest
-    //serializeDataGraph();
+    serializeDataGraph();
 
     assertNotNull(po);
   }
@@ -310,7 +310,7 @@ public class StaticSDOAccessorTest extends EMFPerformanceTestCase
     DataGraph dataGraph = ((DataObject)po).getDataGraph();
     try
     {
-      String fileName = DATA + "ipoDG.xml";
+      String fileName = DATA + "ipoDG1.xml";
       Resource resource = ((EDataGraph)dataGraph).getDataGraphResource();
       resource.save(new FileOutputStream(fileName), Collections.EMPTY_MAP);
     }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.5 2005/02/15 20:21:05 bportier Exp $
+ * $Id: AllSuites.java,v 1.6 2005/02/16 23:02:12 bportier Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -32,8 +32,14 @@ public class AllSuites extends TestSuite
     org.eclipse.emf.test.performance.deserialization.DynamicIpoLoad.suite(),
     org.eclipse.emf.test.performance.deserialization.StaticIpoLoad.suite(),
     
-    org.eclipse.emf.test.performance.sdo.accessor.StaticSDOAccessorTest.suite(),
-    org.eclipse.emf.test.performance.sdo.accessor.DynamicSDOAccessorTest.suite()
+    org.eclipse.emf.test.performance.sdo.serialization.DynamicIPOSDOSaveTest.suite(),
+    org.eclipse.emf.test.performance.sdo.serialization.StaticIPOSDOSaveTest.suite(),
+    
+    org.eclipse.emf.test.performance.sdo.deserialization.DynamicIPOSDOLoadTest.suite(),
+    org.eclipse.emf.test.performance.sdo.deserialization.StaticIPOSDOLoadTest.suite(),
+    
+    org.eclipse.emf.test.performance.sdo.accessor.DynamicIPOSDOAccessorTest.suite(),
+    org.eclipse.emf.test.performance.sdo.accessor.StaticIPOSDOAccessorTest.suite()
   };
 
   public static Test suite()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicSDOAccessorTest.java,v 1.1 2005/02/15 20:21:05 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.1 2005/02/16 23:02:12 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -53,21 +53,21 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 
 
-public class DynamicSDOAccessorTest extends EMFPerformanceTestCase
+public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 {
   private static final int REPETITIONS = 5;
 
   private static final int ITERATIONS = 40000;
 
   private static final int WARMUP = 200;
-  
+
   private static final int PATH_WARMUP = 100;
 
   private static final String DATA = TestUtil.getPluginDirectory() + "/data/";
 
   private static final String DATA_URI = "file:///" + DATA;
 
-  private SDOAccessorTest accessorTest;
+  private IPOSDOAccessorTest accessorTest;
 
   // dynamic model
 
@@ -136,7 +136,7 @@ public class DynamicSDOAccessorTest extends EMFPerformanceTestCase
 
   private String partNum = "part123456";
 
-  public DynamicSDOAccessorTest(String name)
+  public DynamicIPOSDOAccessorTest(String name)
   {
     super(name);
 
@@ -147,12 +147,12 @@ public class DynamicSDOAccessorTest extends EMFPerformanceTestCase
 
     TestSuite testSuite = new TestSuite();
 
-    testSuite.addTest(new DynamicSDOAccessorTest("getByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicSDOAccessorTest("getByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicSDOAccessorTest("getByPath").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicSDOAccessorTest("setByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicSDOAccessorTest("setByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicSDOAccessorTest("setByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByPath").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
 
     return testSuite;
   }
@@ -170,7 +170,7 @@ public class DynamicSDOAccessorTest extends EMFPerformanceTestCase
     // load the po DG from XML.
     initPO();
 
-    accessorTest = new SDOAccessorTest(
+    accessorTest = new IPOSDOAccessorTest(
       ITERATIONS,
       shipToProp,
       billToProp,
@@ -266,9 +266,10 @@ public class DynamicSDOAccessorTest extends EMFPerformanceTestCase
 
     try
     {
-      String fileName = DATA + "ipoDG.xml";
-      FileInputStream fis = new FileInputStream(fileName);
-      EDataGraph dataGraph = SDOUtil.loadDataGraph(fis, loadOptions);
+      String fileName = DATA + "ipoDG1.xml";
+      FileInputStream inputStream = new FileInputStream(fileName);
+      EDataGraph dataGraph = SDOUtil.loadDataGraph(inputStream, loadOptions);
+      inputStream.close();
       DataObject root = (DataObject)dataGraph.getERootObject();
       po = root.getDataObject("purchaseOrder");
 

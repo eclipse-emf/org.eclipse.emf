@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpoLoad.java,v 1.1 2005/02/04 22:11:08 elena Exp $
+ * $Id: DynamicIpoLoad.java,v 1.2 2005/02/16 23:02:12 bportier Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -179,7 +179,7 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
-  protected void load(int iter, HashMap loadOptions) throws Exception
+  protected final void load(int iter, HashMap loadOptions) throws Exception
   {
     for (int i = 0; i < iter; i++)
     {

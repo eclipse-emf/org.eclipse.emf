@@ -1,28 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sdo:datagraph xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ipo="http://www.example.com/IPO"
-    xmlns:sdo="commonj.sdo">
+<?xml version="1.0"?>
+<sdo:datagraph
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ipo="http://www.example.com/IPO"
+  xmlns:sdo="commonj.sdo">
+
   <changeSummary/>
-  <ipo:purchaseOrder orderDate="2005-02-10">
-    <shipTo xsi:type="ipo:USAddress">
-      <name>The Address</name>
-      <street>24 Lakeshore Dr.</street>
-      <city>Austin</city>
-      <state>AR</state>
-      <zip>78741</zip>
+
+  <ipo:purchaseOrder orderDate="1999-12-01">
+      
+    <shipTo exportCode="1" xsi:type="ipo:UKAddress">
+      <name>Helen Zoe</name>
+      <street>47 Eden Street</street>
+      <city>Cambridge</city>
+      <postcode>CB1 1JR</postcode>
     </shipTo>
+
     <billTo xsi:type="ipo:USAddress">
-      <name>One of many</name>
-      <street>411 Duplex Av.</street>
-      <city>Paris</city>
-      <state>AK</state>
-      <zip>14665</zip>
+      <name>Robert Smith</name>
+      <street>8 Oak Avenue</street>
+      <city>Old Town</city>
+      <state>PA</state>
+      <zip>95819</zip>
     </billTo>
+
     <items>
-      <item partNum="part num 010">
-        <productName>The 0 name</productName>
-        <USPrice>100</USPrice>
-        <ipo:comment>comment 0</ipo:comment>
-        <shipDate>2005-02-20</shipDate>
+      <item partNum="833-AA">
+        <productName>Lapi necklace</productName>
+        <quantity>1</quantity>
+        <USPrice>99.95</USPrice>
+        <ipo:comment>Want this for the holidays</ipo:comment>
+        <shipDate>1999-12-05</shipDate>
       </item>
     </items>
   </ipo:purchaseOrder>

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpo.java,v 1.2 2005/02/04 22:11:08 elena Exp $
+ * $Id: DynamicIpo.java,v 1.3 2005/02/16 23:02:13 bportier Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -49,10 +49,10 @@ import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 public class DynamicIpo extends EMFPerformanceTestCase
 {
   final static String BASE_XSD_URI = "file:///" + TestUtil.getPluginDirectory() + "/data/";
-  
+
   final static int REPETITIONS = 10;
 
-  final static int ITERATIONS = 1500;
+  final static int ITERATIONS = 1000;
 
   final static int WARMUP = 3000;
 
@@ -85,20 +85,20 @@ public class DynamicIpo extends EMFPerformanceTestCase
    */
   protected void setUp() throws Exception
   {
-    super.setUp();   
-    ResourceSet rs = new ResourceSetImpl();  
+    super.setUp();
+    ResourceSet rs = new ResourceSetImpl();
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, registerModel(rs));
 
     // SET INSTANCE DOCUMENT URI
     resource = rs.createResource(getXMLInstanceURI());
-    
+
     // LOAD INSTANCE DOCUMENT
     resource.load(options);
-     
+
     // WARMUP
     serialize(WARMUP, options);
   }
-  
+
   protected ExtendedMetaData registerModel(ResourceSet rs)
   {
     Registry packageRegistry = rs.getPackageRegistry();
@@ -108,7 +108,7 @@ public class DynamicIpo extends EMFPerformanceTestCase
     rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMLResourceFactoryImpl());
 
     Collection packageList = xsdEcoreBuilder.generate(getXSDURI());
-   
+
     for (Iterator packageIterator = packageList.iterator(); packageIterator.hasNext();)
     {
       EPackage epackage = (EPackage)packageIterator.next();
@@ -118,12 +118,12 @@ public class DynamicIpo extends EMFPerformanceTestCase
 
     return new BasicExtendedMetaData(packageRegistry);
   }
-  
+
   protected URI getXMLInstanceURI()
   {
     return URI.createURI(BASE_XSD_URI + "ipo.xml");
   }
-  
+
   protected URI getXSDURI()
   {
     return URI.createURI(BASE_XSD_URI + "ipo.xsd");
@@ -158,7 +158,7 @@ public class DynamicIpo extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
-  protected void serialize(int iter, HashMap saveOptions) throws Exception
+  protected final void serialize(int iter, HashMap saveOptions) throws Exception
   {
     for (int i = 0; i < iter; i++)
     {
