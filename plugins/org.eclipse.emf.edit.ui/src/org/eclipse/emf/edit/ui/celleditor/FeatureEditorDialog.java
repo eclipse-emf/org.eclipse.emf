@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureEditorDialog.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: FeatureEditorDialog.java,v 1.2 2004/05/20 11:45:01 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
@@ -37,6 +37,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -147,7 +148,8 @@ public class FeatureEditorDialog extends Dialog
 
     final Table featureTable = new Table(contents,SWT.MULTI | SWT.BORDER);
     GridData featureTableGridData = new GridData();
-    featureTableGridData.widthHint = 200;
+    featureTableGridData.widthHint = Display.getCurrent().getBounds().width / 5;
+    featureTableGridData.heightHint = Display.getCurrent().getBounds().height / 3;
     featureTableGridData.verticalAlignment = GridData.FILL;
     featureTableGridData.horizontalAlignment = GridData.FILL;
     featureTableGridData.grabExcessHorizontalSpace= true;
@@ -204,7 +206,8 @@ public class FeatureEditorDialog extends Dialog
     if (choiceTable != null)
     {
       GridData choiceTableGridData = new GridData();
-      choiceTableGridData.widthHint = 200;
+      choiceTableGridData.widthHint = Display.getCurrent().getBounds().width / 5;
+      choiceTableGridData.heightHint = Display.getCurrent().getBounds().height / 3;
       choiceTableGridData.verticalAlignment = GridData.FILL;
       choiceTableGridData.horizontalAlignment = GridData.FILL;
       choiceTableGridData.grabExcessHorizontalSpace= true;
@@ -224,7 +227,7 @@ public class FeatureEditorDialog extends Dialog
     if (choiceText != null)
     {
       GridData choiceTextGridData = new GridData();
-      choiceTextGridData.widthHint = 200;
+      choiceTextGridData.widthHint = Display.getCurrent().getBounds().width / 5;
       choiceTextGridData.verticalAlignment = GridData.BEGINNING;
       choiceTextGridData.grabExcessHorizontalSpace= true;
       choiceText.setLayoutData(choiceTextGridData);
@@ -242,6 +245,7 @@ public class FeatureEditorDialog extends Dialog
                  values.getChildren().add(value);
                  choiceText.setText("");
                  featureTableViewer.setSelection(new StructuredSelection(value));
+                 event.doit = false;
                }
                catch (RuntimeException exception)
                {
@@ -250,6 +254,7 @@ public class FeatureEditorDialog extends Dialog
              else if (event.character == '\33') 
              {
                choiceText.setText("");
+               event.doit = false;
              }
            }
          });
