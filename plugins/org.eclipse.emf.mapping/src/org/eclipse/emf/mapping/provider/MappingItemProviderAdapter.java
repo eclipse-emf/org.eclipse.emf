@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingItemProviderAdapter.java,v 1.2 2004/04/06 22:53:50 davidms Exp $
+ * $Id: MappingItemProviderAdapter.java,v 1.3 2004/04/07 21:02:50 davidms Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -32,13 +32,5 @@ public class MappingItemProviderAdapter extends ItemProviderAdapter
   protected MappingItemProviderAdapter(AdapterFactory adapterFactory)
   {
     super(adapterFactory);
-  }
-
-  /**
-   * Returns false, since wrappers are never needed.
-   */
-  protected boolean isWrappingNeeded(Object object)
-  {
-    return false;
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.3 2004/04/03 20:08:04 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.4 2004/04/07 21:02:48 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1591,11 +1591,11 @@ public class ItemProviderAdapter
    * #createWrapper createWrapper} also tests this method and will not create any wrappers if it returns
    * <code>false</code>.
    * 
-   * <p>This implementation consults {@link #getChildrenFeatures getChildrenFeatures}, returning true if any attributes
-   * or non-containment references contribute children. This provides backwards compatibility with pre-2.0 subclasses
-   * and enables the more useful new default behaviour for these types of features. Subclasses may override this to
-   * immediately return <code>true</code> or <code>false</code>, as desired. This is a convenient way to disable all
-   * of the new wrapping features in 2.0.
+   * <p>This implementation consults {@link #getChildrenFeatures getChildrenFeatures}, returning true if any feature
+   * map or simple attributes contribute children. This provides backwards compatibility with pre-2.0 subclasses
+   * and enables the more useful new default behaviour for attributes, which were previously not allowed. Subclasses
+   * may override this to enable wrapping of cross-referenced model objects, or to immediately return <code>true</code> 
+   * or <code>false</code>, as desired. This is a convenient way to disable all of the new wrapping features in 2.0.
    */
   protected boolean isWrappingNeeded(Object object)
   {
@@ -1606,7 +1606,7 @@ public class ItemProviderAdapter
       for (Iterator i = getAnyChildrenFeatures(object).iterator(); i.hasNext(); )
       {
         EStructuralFeature f = (EStructuralFeature)i.next();
-        if (f instanceof EAttribute || !((EReference)f).isContainment())
+        if (f instanceof EAttribute)
         {
           wrappingNeeded = Boolean.TRUE;
         }
@@ -1993,10 +1993,14 @@ public class ItemProviderAdapter
 
   /**
    * Creates and returns a wrapper for the given value, at the given index in the given feature of the given object
-   * if such a wrapper is needed; otherwise, returns the original value. This implementation creates different wrappers
-   * that implement {@link IWrapperItemProvider} for feature maps, simple attributes, and cross references, but only
-   * if {@link #isWrappingNeeded isWrappingNeeded} returns <code>true</code>. Subclasses may override it to change this
-   * behaviour or to create their own specialized wrappers.
+   * if such a wrapper is needed; otherwise, returns the original value. This implementation consults {@link
+   * #isWrappingNeeded isWrappingNeeded} and, if it is <code>true</code>, creates different wrappers that implement
+   * {@link IWrapperItemProvider} for feature maps, simple attributes, and cross references.
+   * 
+   * By default, {@link #isWrappingNeeded isWrappingNeeded} does not return <code>true</code> unless there is at
+   * least one feature map or simple attribute that contributes children, in order to maintain backwards compatibility.
+   * As a result, it may be necessary to override that method in order to wrap cross-referenced model objects here.
+   * Subclasses may also override this method, in order to create their own specialized wrappers.
    */
   protected Object createWrapper(EObject object, EStructuralFeature feature, Object value, int index)
   {
