@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.2 2004/03/21 15:20:05 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.3 2004/05/05 13:26:32 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2088,13 +2088,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         {
           case '\n':
           {
-            stringBuffer.replace(i, i + (i < stringBuffer.length() && stringBuffer.charAt(i + 1) == '\r' ? 2 : 1), separator);
+            stringBuffer.replace(i, i + (i + 1 < stringBuffer.length() && stringBuffer.charAt(i + 1) == '\r' ? 2 : 1), separator);
             i += increment;
             break;
           }
           case '\r':
           {
-            stringBuffer.replace(i, i + (i < stringBuffer.length() && stringBuffer.charAt(i + 1) == '\n' ? 2 : 1), separator);
+            stringBuffer.replace(i, i + (i + 1 < stringBuffer.length() && stringBuffer.charAt(i + 1) == '\n' ? 2 : 1), separator);
             i += increment;
             break;
           }
