@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.3 2004/05/27 20:21:55 emerks Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.4 2004/08/12 12:16:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -265,7 +265,7 @@ public abstract class DelegatingEcoreEList
 
   protected EObject resolveProxy(EObject eObject)
   {
-    return owner.eResolveProxy((InternalEObject)eObject);
+    return eObject.eIsProxy() ? owner.eResolveProxy((InternalEObject)eObject) : eObject;
   }
 
   public Object[] toArray()
