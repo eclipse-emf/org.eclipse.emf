@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.examples"
       label="Examples for Eclipse Modeling Framework"
-      version="2.0.0"
+      version="2.0.1"
       provider-name="Eclipse.org"
       image="eclipse_update_120.jpg">
 
@@ -35,7 +35,7 @@ http://www.eclipse.org/legal/cpl-v10.html
          id="org.eclipse.emf.examples"
          download-size="0"
          install-size="0"
-         version="2.0.0"/>
+         version="2.0.1"/>
 
    <plugin
          id="org.eclipse.emf.java"
@@ -53,7 +53,7 @@ http://www.eclipse.org/legal/cpl-v10.html
          id="org.eclipse.emf.java.editor"
          download-size="0"
          install-size="0"
-         version="2.0.0"/>
+         version="2.0.1"/>
 
    <plugin
          id="org.eclipse.emf.activities"
