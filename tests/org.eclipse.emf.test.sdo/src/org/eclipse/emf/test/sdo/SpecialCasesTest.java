@@ -48,8 +48,6 @@ public class SpecialCasesTest extends TestCase
    */
   public void testClassCastExceptionProblem() throws Exception
   {
-    System.out.println("TestMain.testClassCastExceptionProblem()");
-    
     // 1. set up a library with one writer
     Library library = LibraryFactory.eINSTANCE.createLibrary();
     library.setName("Test Library");
