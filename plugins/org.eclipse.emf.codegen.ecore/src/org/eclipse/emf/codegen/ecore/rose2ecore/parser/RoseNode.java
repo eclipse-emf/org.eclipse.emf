@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseNode.java,v 1.3 2004/11/15 14:56:27 davidms Exp $
+ * $Id: RoseNode.java,v 1.4 2004/11/23 17:20:13 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore.parser;
 
@@ -658,7 +658,11 @@ public class RoseNode
                   RoseNode subSubNode = (RoseNode)k.next();
                   if (subSubNode.getRoseNodeType() == RoseNode.STRING)
                   {
-                    stringV = subSubNode.getValue() + " " + stringV;
+                    if (stringV.length() > 0)
+                    {
+                      stringV += " ";
+                    }
+                    stringV += subSubNode.getValue();
                   }
                 }
                 if (node.getKey().equals(RoseStrings.TOOL)) 
@@ -680,7 +684,27 @@ public class RoseNode
                 if (stringNodes != null && stringNodes.size() == 1) 
                 {
                   RoseNode stringNode = (RoseNode)stringNodes.get(0);
-                  String stringV = dequote(stringNode.getValue());
+                  String stringV = "";
+                  if (stringNode.getRoseNodeType() == RoseNode.STRING)
+                  {
+                    stringV = stringNode.getValue();
+                  }
+                  else if (stringNode.getRoseNodeType() == RoseNode.STRING_SEQ)
+                  {
+                    for (Iterator k = stringNode.getNodes().iterator(); k.hasNext(); )
+                    {
+                      RoseNode subSubNode = (RoseNode)k.next();
+                      if (subSubNode.getRoseNodeType() == RoseNode.STRING)
+                      {
+                        if (stringV.length() > 0)
+                        {
+                          stringV += " ";
+                        }
+                        stringV += subSubNode.getValue();
+                      }
+                    }
+                  }
+                  stringV = dequote(stringV);
                   if (node.getKey().equals(RoseStrings.TOOL)) 
                   {
                     setName = stringV;
