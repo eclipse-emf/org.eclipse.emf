@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDUtil.java,v 1.3 2004/12/24 17:46:16 emerks Exp $
+ * $Id: XSDUtil.java,v 1.4 2004/12/27 12:50:48 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -364,7 +364,7 @@ public final class XSDUtil extends XSDConstants
    * @param name the name to search
    * @return the matching component, if any.
    */
-  public XSDNamedComponent findInSortedList(List xsdNamedComponents, String namespace, String name)
+  public static XSDNamedComponent findInSortedList(List xsdNamedComponents, String namespace, String name)
   {
     return XSDNamedComponentImpl.findInSortedList(xsdNamedComponents, namespace, name);
   }
