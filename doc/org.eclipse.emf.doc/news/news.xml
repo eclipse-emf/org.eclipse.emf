@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doc>
+<news date="April 8, 2004" showOn="whatsnew">
+	Stable <a href="#emf_200">Version 2.0.0</a> build
+	(<a href="#emf_200g">I200404080600</a>) is available 
+	for <a href="downloads-xsd.php">download</a>.
+</news>
 <news date="March 25, 2004" showOn="whatsnew">
 	Stable <a href="#emf_200">Version 2.0.0</a> build 
 	(<a href="#emf_200f">I200403081633</a>) is available 
