@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.1 2005/01/05 20:42:52 marcelop Exp $
+ * $Id: TestUtil.java,v 1.2 2005/02/10 22:11:11 marcelop Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -22,6 +22,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.types.FileSet;
+
+import org.eclipse.ant.core.AntRunner;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 
 /**
@@ -35,7 +42,7 @@ public class TestUtil
   {
     try
     {
-      if (EMFTestToolsPlugin.getPlugin() != null)
+      if (Platform.isRunning())
       {
         return new java.io.File(Platform.asLocalURL(EMFTestToolsPlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
       }
@@ -48,6 +55,36 @@ public class TestUtil
     String path = url.getPath();
     path = path.substring(0, path.indexOf("org.eclipse.emf.test.tools/") + "org.eclipse.emf.test.tools/".length());
     return new File(path).getAbsolutePath();
+  }
+  
+  public static String getPluginDirectory(String pluginID)
+  {
+    try
+    {
+      if (Platform.isRunning())
+      {
+        return new java.io.File(Platform.asLocalURL(Platform.getBundle(pluginID).getEntry("/")).getFile()).toString();
+      }
+    }
+    catch (Throwable t)
+    {
+    }
+    
+    File parentDirectory = new File(getPluginDirectory());
+    File[] plugins = parentDirectory.listFiles();
+    for (int i = 0, maxi = plugins.length; i < maxi; i++)
+    {
+      if (plugins[i].isDirectory())
+      {
+        String name = plugins[i].getName();
+        if (name.equals(pluginID) || name.startsWith(pluginID + "_"))
+        {
+          return plugins[i].getAbsolutePath();
+        }
+      }
+    }
+    
+    return null;
   }
   
   public static String readFile(File file)
@@ -85,5 +122,41 @@ public class TestUtil
       stringBuffer.deleteCharAt(length - 1);
     }
     return stringBuffer.toString();
+  }  
+  
+  public static void delete(File file)
+  {
+    if (file.isDirectory())
+    {
+      File[] children = file.listFiles();
+      for (int i = 0, maxi = children.length; i < maxi; i++)
+      {
+        delete(children[i]);
+      }
+    }
+    
+    if (file.exists())
+    {
+      file.delete();
+    }
+  }
+  
+  public static void copyFiles(File fromDir, File toDir)
+  {
+    Copy antCopyTask = new Copy();
+    antCopyTask.setProject(new Project());
+    antCopyTask.setTodir(toDir);
+    FileSet fromDirFS = new FileSet();
+    fromDirFS.setDir(fromDir);
+    antCopyTask.addFileset(fromDirFS);
+    antCopyTask.execute();    
+  }
+  
+  public static void runAnt(File script, String arguments) throws CoreException
+  {
+    AntRunner antRunner = new AntRunner();
+    antRunner.setBuildFileLocation(script.getAbsolutePath());
+    if (arguments != null) antRunner.setArguments(arguments);
+    antRunner.run(new NullProgressMonitor());
   }  
 }
