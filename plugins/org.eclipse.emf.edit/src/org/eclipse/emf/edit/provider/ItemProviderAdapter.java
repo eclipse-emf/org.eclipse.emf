@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.9 2004/08/23 00:23:28 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.10 2004/08/26 18:44:53 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -856,17 +856,26 @@ public class ItemProviderAdapter
   /**
    * This creates a primitive {@link org.eclipse.emf.edit.command.SetCommand}.
    */
-  protected Command createSetCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value) 
+  protected Command createSetCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value, int index) 
   {
-    return new SetCommand(domain, owner, feature, value);
+    if (index == CommandParameter.NO_INDEX)
+    {
+      return createSetCommand(domain, owner, feature, value);
+    }
+    return new SetCommand(domain, owner, feature, value, index);
   }
 
   /**
-   * This creates a primitive {@link org.eclipse.emf.edit.command.SetCommand}.
+   * This returned a primitive {@link org.eclipse.emf.edit.command.SetCommand}, but it has been replaced, since this
+   * command can now take an index.  The replacement method still calls this method when invoked with {@link
+   * CommandParameter#NO_INDEX no index}, to provide backwards compatibility.
+   * 
+   * <p>This method will soon be deprecated.  New code should use or override the {@link
+   * #createSetCommand(EditingDomain, EObject, EStructuralFeature, Object, int) new form}, instead.
    */
-  protected Command createSetCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value, int index) 
+  protected Command createSetCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value) 
   {
-    return new SetCommand(domain, owner, feature, value, index);
+    return new SetCommand(domain, owner, feature, value);
   }
 
   /**
