@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-    <name>org.eclipse.emf.codegen.ecore.ui</name>
-    <comment></comment>
-    <projects>
-        <project>org.eclipse.emf.codegen.ecore</project>
-        <project>org.eclipse.emf.edit.ui</project>
-        <project>org.eclipse.emf.ecore.edit</project>
-        <project>org.eclipse.jdt.core</project>
-    </projects>
-    <buildSpec>
-        <buildCommand>
-            <name>org.eclipse.jdt.core.javabuilder</name>
-            <arguments>
-            </arguments>
-        </buildCommand>
+	<name>org.eclipse.emf.codegen.ecore.ui</name>
+	<comment></comment>
+	<projects>
+		<project>org.eclipse.emf.codegen.ecore</project>
+		<project>org.eclipse.emf.edit.ui</project>
+		<project>org.eclipse.emf.ecore.edit</project>
+		<project>org.eclipse.jdt.core</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 		<buildCommand>
 			<name>org.eclipse.pde.ManifestBuilder</name>
 			<arguments>
@@ -24,9 +24,9 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
-    </buildSpec>
-    <natures>
-        <nature>org.eclipse.jdt.core.javanature</nature>
-        <nature>org.eclipse.pde.PluginNature</nature>
-    </natures>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.eclipse.pde.PluginNature</nature>
+	</natures>
 </projectDescription>
