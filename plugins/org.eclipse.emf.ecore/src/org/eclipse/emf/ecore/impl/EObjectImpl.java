@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectImpl.java,v 1.4 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: EObjectImpl.java,v 1.5 2004/08/12 11:49:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -43,23 +43,29 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
   protected static final int EDELIVER = 0x0001;
   
   /**
-   * The bit of {@link #eFlags} that is used to represent {@link #eIsProxy()}.
+   * The bit of {@link #eFlags} that is used to represent whether there is a dynamic EClass.
    */
-  protected static final int EPROXY = 0x0010;
+  protected static final int EDYNAMIC_CLASS = 0x0002;
 
   /**
-   * The last bit used by this class; derived classes may use bit values higher than this
+   * The bit of {@link #eFlags} that is used to represent {@link #eIsProxy}.
+   */
+  protected static final int EPROXY = 0x004;
+
+  /**
+   * The last bit used by this class; derived classes may use bit values higher than this.
    */
   protected static final int ELAST_NOTIFIER_FLAG = EPROXY;
 
   /**
-   * This is unused, but we can reserve bits with eFlags.
+   * The last bit used by this class; derived classes may use bit values higher than this.
    */
   public static final int ELAST_EOBJECT_FLAG = ELAST_NOTIFIER_FLAG;
 
   /**
    * An extensible set of bit flags;
-   * the first bit is used for {@link #EDELIVER} to implement {@link #eDeliver}.
+   * the first bit is used for {@link #EDELIVER} to implement {@link #eDeliver}
+   * and the second bit is used for {@link #EPROXY} to implement {@link #eIsProxy}.
    */
   protected int eFlags = EDELIVER;
 
@@ -68,8 +74,20 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
    */
   protected BasicEList eAdapters;
 
+  /**
+   * The container of this object.
+   */
   protected InternalEObject eContainer;
+
+  /**
+   * The feature ID of this object's container holding feature, if there is one,
+   * or {@link #EOPPOSITE_FEATURE_BASE EOPPOSITE_FEATURE_BASE} minus the feature ID of the container's feature that contains this object.
+   */
   protected int eContainerFeatureID;
+
+  /**
+   * Additional less frequently used fields.
+   */
   protected EPropertiesHolder eProperties;
   
   /**
@@ -125,11 +143,11 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
   {
     if (deliver)
     {
-      this.eFlags |= EDELIVER;
+      eFlags |= EDELIVER;
     }
     else
     {
-      this.eFlags &= ~EDELIVER;
+      eFlags &= ~EDELIVER;
     }
   }
 
@@ -149,11 +167,11 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
     super.eSetProxyURI(uri);
     if (uri != null)
     {
-      this.eFlags |= EPROXY;
+      eFlags |= EPROXY;
     }
     else
     {
-      this.eFlags &= ~EPROXY;
+      eFlags &= ~EPROXY;
     }
   }
   
@@ -186,5 +204,22 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
     eContainer = newContainer;
     eContainerFeatureID = newContainerFeatureID;
   }
-}
 
+  public EClass eClass()
+  {
+    return (eFlags & EDYNAMIC_CLASS) == 0 ? eStaticClass() : eProperties().getEClass();
+  }
+
+  public void eSetClass(EClass eClass)
+  {
+    super.eSetClass(eClass);
+    if (eClass != null)
+    {
+      eFlags |= EDYNAMIC_CLASS;
+    }
+    else
+    {
+      eFlags &= ~EDYNAMIC_CLASS;
+    }
+  }
+}
