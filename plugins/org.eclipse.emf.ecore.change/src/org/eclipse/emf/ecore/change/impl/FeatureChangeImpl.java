@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.10 2004/11/24 17:19:48 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.11 2004/12/19 04:02:57 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -436,19 +436,24 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
         value = getListValue((EList)((EObject)((Map.Entry)eContainer()).getKey()).eGet(feature));
       }
     }
-    else if (value == null)
+    else if (feature instanceof EReference)
     {
-      if (feature instanceof EAttribute)
+      EObject referenceValue = getReferenceValue();
+      if (referenceValue == null || referenceValue.eIsProxy())
       {
-        EDataType type = (EDataType)feature.getEType();
-        value = EcoreUtil.createFromString(type, valueString);
+        return referenceValue;
       }
       else
       {
-        value = getReferenceValue();
+        value = referenceValue;
       }
     }
-    return value;
+    else if (value == null) // feature is instance of EAttribute
+    {
+      EDataType type = (EDataType)feature.getEType();
+      value = EcoreUtil.createFromString(type, valueString);
+    }
+    return value;    
   }
 
   protected void setValue(Object value)
