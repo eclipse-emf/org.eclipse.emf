@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.4 2004/04/02 17:44:54 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.5 2004/04/03 20:06:11 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1218,10 +1218,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List/*of GenFeature*/ getLabelNotifyFeatures()
   {
-    GenFeature feature = getLabelFeature();
-    return feature != null && feature.isNotify() && !feature.isChildren() ?
-      Collections.singletonList(feature) :
-      Collections.EMPTY_LIST;
+    return collectGenFeatures(getProviderImplementedGenClasses(), null,
+      new GenFeatureFilter()
+      {
+        public boolean accept(GenFeature genFeature)
+        {
+          return genFeature.isNotify() && !genFeature.isChildren();
+        }
+      });
   }
 
   public List/*of GenFeature*/ getContentNotifyFeatures()
