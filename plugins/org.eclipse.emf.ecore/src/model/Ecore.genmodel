@@ -205,7 +205,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//ETypedElement/eType"/>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EStringToStringMapEntry">
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStringToStringMapEntry/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStringToStringMapEntry/key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStringToStringMapEntry/value"/>
     </genClasses>
   </genPackages>
