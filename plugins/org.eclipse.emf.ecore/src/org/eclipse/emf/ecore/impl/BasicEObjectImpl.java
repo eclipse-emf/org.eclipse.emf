@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.4 2004/10/18 13:19:37 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.2.2.1 2005/02/01 19:31:51 nickb Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -269,22 +269,12 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     int dotIndex = uriFragmentSegment.indexOf(".");
     if (dotIndex == -1)
     {
-      String name = uriFragmentSegment.substring(1);
-      EStructuralFeature eStructuralFeature = eClass().getEStructuralFeature(name);
-      if (eStructuralFeature == null)
-      {
-        throw new IllegalArgumentException("The feature '" + name + "' is not a valid feature");
-      }
+      EStructuralFeature eStructuralFeature = eClass().getEStructuralFeature(uriFragmentSegment.substring(1));
       return (EObject)eGet(eStructuralFeature, false);
     }
     else
     {
-      String name = uriFragmentSegment.substring(1, dotIndex);
-      EStructuralFeature eStructuralFeature = eClass().getEStructuralFeature(name);
-      if (eStructuralFeature == null)
-      {
-        throw new IllegalArgumentException("The feature '" + name + "' is not a valid feature");
-      }
+      EStructuralFeature eStructuralFeature = eClass().getEStructuralFeature(uriFragmentSegment.substring(1, dotIndex));
       EList eList = (EList)eGet(eStructuralFeature, false);
       int position = 0;
       try
@@ -399,13 +389,13 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
           {
             if (featureMap.getValue(i) == this)
             {
-              EStructuralFeature entryFeature = featureMap.getEStructuralFeature(i);
-              if (entryFeature instanceof EReference)
+            EStructuralFeature entryFeature = featureMap.getEStructuralFeature(i);
+            if (entryFeature instanceof EReference)
+            {
+              EReference entryReference = (EReference)entryFeature;
+              if (entryReference.isContainment())
               {
-                EReference entryReference = (EReference)entryFeature;
-                if (entryReference.isContainment())
-                {
-                  return entryReference;
+                return entryReference;
                 }
               }
             }
