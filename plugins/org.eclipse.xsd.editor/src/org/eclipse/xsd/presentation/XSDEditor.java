@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.12 2004/07/16 16:27:03 marcelop Exp $
+ * $Id: XSDEditor.java,v 1.13 2004/10/29 19:54:22 marcelop Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -49,6 +49,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -1021,7 +1022,7 @@ public class XSDEditor
         {
           try
           {
-            progressMonitor.beginTask("", 10);
+            progressMonitor.beginTask("", 12);
 
             IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
             IFile file = modelFile.getFile();
@@ -1039,7 +1040,7 @@ public class XSDEditor
 
             if (determineEncoding() != null)
             {
-              file.setCharset(determineEncoding());
+              file.setCharset(determineEncoding(), new SubProgressMonitor(progressMonitor, 2));
             }
 
             progressMonitor.worked(1);
