@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.6 2004/05/27 20:16:30 emerks Exp $
+ * $Id: GenPackageItemProvider.java,v 1.7 2004/10/22 19:19:04 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -75,6 +75,7 @@ public class GenPackageItemProvider
       addPrefixPropertyDescriptor(object);
       addBasePackagePropertyDescriptor(object);
       addResourcePropertyDescriptor(object);
+      addDisposableProviderFactoryPropertyDescriptor(object);
       addAdapterFactoryPropertyDescriptor(object);
       addLoadInitializationPropertyDescriptor(object);
       addEcorePackagePropertyDescriptor(object);
@@ -137,6 +138,26 @@ public class GenPackageItemProvider
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory")));
+  }
+
+  /**
+   * This adds a property descriptor for the Disposable Provider Factory feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addDisposableProviderFactoryPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_disposableProviderFactory_feature"),
+         getString("_UI_GenPackage_disposableProviderFactory_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_DisposableProviderFactory(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory")));
   }
 
   /**
@@ -261,6 +282,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__PREFIX:
       case GenModelPackage.GEN_PACKAGE__BASE_PACKAGE:
       case GenModelPackage.GEN_PACKAGE__RESOURCE:
+      case GenModelPackage.GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY:
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
