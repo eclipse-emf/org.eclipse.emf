@@ -108,7 +108,7 @@ public class SwitchClass
     stringBuffer.append(genModel.getImportedName("java.util.List"));
     stringBuffer.append(TEXT_17);
     for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
-    if (!genClass.isAbstract() && !genClass.isEObject()) { String result = "result".equals(genClass.getSafeUncapName()) ? "theResult" : "result"; 
+    if (!genClass.isEObject()) { String result = "result".equals(genClass.getSafeUncapName()) ? "theResult" : "result"; 
     stringBuffer.append(TEXT_18);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_19);
