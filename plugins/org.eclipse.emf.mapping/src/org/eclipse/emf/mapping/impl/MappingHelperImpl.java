@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelperImpl.java,v 1.2 2004/03/15 15:01:23 marcelop Exp $
+ * $Id: MappingHelperImpl.java,v 1.3 2004/03/21 17:56:41 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -138,7 +138,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
     if (helpedObject != null && helpedObject.eIsProxy())
     {
       EObject oldHelpedObject = helpedObject;
-      helpedObject = eResolveProxy((InternalEObject)helpedObject);
+      helpedObject = (EObject)eResolveProxy((InternalEObject)helpedObject);
       if (helpedObject != oldHelpedObject)
       {
         if (eNotificationRequired())
