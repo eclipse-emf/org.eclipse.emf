@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.18 2005/02/18 20:13:15 marcelop Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.19 2005/02/18 22:01:30 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 
 
@@ -114,6 +115,7 @@ public class EMFTestPerformancePlugin extends Plugin
             try
             {
               System.out.println("*** Starting Derby...");
+              if (home != null) System.setProperty("derby.system.home", home);
               Method startMethod = networkServerControlClass.getDeclaredMethod("start", new Class []{ PrintWriter.class });
               startMethod.invoke(networkServerControl, new Object [1]);
             }
@@ -130,10 +132,13 @@ public class EMFTestPerformancePlugin extends Plugin
 
     public void writeSystemProperties()
     {
-      System.setProperty("derby.system.home", home);
       System.setProperty("test.target", "performance");
-      System.setProperty("eclipse.perf.config", performanceConfiguration);
+      if (home != null) System.setProperty("derby.system.home", home);
+      if (performanceConfiguration != null) System.setProperty("eclipse.perf.config", performanceConfiguration);
 
+      String userAtt = user != null ? "" : (";dbuser=" + user);
+      String passAtt = pass != null ? "" : (";dbpasswd=" + pass);
+      
       Class driverClass = null;
       try
       {
@@ -145,11 +150,11 @@ public class EMFTestPerformancePlugin extends Plugin
 
       if (driverClass != null)
       {
-        System.setProperty("eclipse.perf.dbloc", "net://localhost;dbuser=" + user + ";dbpasswd=" + pass);
+        System.setProperty("eclipse.perf.dbloc", "net://localhost" + userAtt + passAtt);
       }
       else
       {
-        System.setProperty("eclipse.perf.dbloc", home + ";dbuser=" + user + ";dbpasswd=" + pass);
+        System.setProperty("eclipse.perf.dbloc", home + userAtt + passAtt);
       }
     }
 
@@ -173,14 +178,51 @@ public class EMFTestPerformancePlugin extends Plugin
     DerbyHelper derbyHelper = new DerbyHelper();
     if (derbyHelper.isAvailable())
     {
-      derbyHelper.setHome("/home/www-data/derby/derbyroot");
-      derbyHelper.setUser("app");
-      derbyHelper.setPass("app");
-      derbyHelper.setPerformanceConfiguration("build=" + hashCode());
+      setDerbyAttributes(derbyHelper);
       
       derbyHelper.startIfDown();
       derbyHelper.writeSystemProperties();
       derbyHelper.printSystemProperties();
+    }
+  }
+  
+  private static void setDerbyAttributes(DerbyHelper derbyHelper)
+  {
+    if (Platform.isRunning())
+    {
+      String[] args = Platform.getApplicationArgs();
+      for (int i = 0, maxi = args.length; i < maxi; i++)
+      {
+        String arg = args[i];
+        int index = arg.indexOf("emf.test.performance");
+        if (index >= 0)
+        {
+          index = arg.indexOf(".dbuser=");
+          if (index >= 0)
+          {
+            derbyHelper.setUser(arg.substring(index + ".dbuser=".length()));
+            continue;
+          }
+          index = arg.indexOf(".dbpass=");
+          if (index >= 0)
+          {
+            derbyHelper.setPass(arg.substring(index + ".dbpass=".length()));
+            continue;
+          }
+          index = arg.indexOf(".dbhome=");
+          if (index >= 0)
+          {
+            derbyHelper.setHome(arg.substring(index + ".dbhome=".length()));
+            continue;
+          }
+          index = arg.indexOf(".dbconf=");
+          if (index >= 0)
+          {
+            derbyHelper.setPerformanceConfiguration(arg.substring(index + ".dbconf=".length()));
+            continue;
+          }
+        }
+      }
     }
   }
 
