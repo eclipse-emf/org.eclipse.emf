@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.11 2004/09/24 04:09:14 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.12 2004/09/25 02:02:32 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -43,6 +43,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -437,7 +438,26 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
         if (changed)
         {
-          InputStream contents = new ByteArrayInputStream(newContents.getBytes());
+          //purpose: using charset from 'targetFile' to encode in-memory 
+          //         'newContents' object into bytes
+          //modifer: Wu Zhi Qiang
+          //date:    Aug 25, 2004
+          //action:  first get the charset from 'targetFile', then use it 
+          //         to encode the 'newContents' object into bytes
+          String encoding = null;
+          try
+          {
+            encoding = targetFile.getCharset();
+          }
+          catch (CoreException ce)
+          {
+            // use no encoding
+          }
+          byte[] bytes = encoding == null 
+            ? newContents.getBytes() 
+            : newContents.getBytes(encoding);
+
+          InputStream contents = new ByteArrayInputStream(bytes);
 
           String redirection = getGenModel().getRedirection();
           boolean redirect = redirection != null && redirection.indexOf("{0}") != -1;
