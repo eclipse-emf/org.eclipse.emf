@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.10 2004/06/17 10:36:54 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.11 2004/06/17 13:22:55 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -174,7 +174,7 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 		// Register package validator
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%>.Registry.INSTANCE.put
 			(the<%=genPackage.getPackageInterfaceName()%>, 
-			 new  <%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%>.Descriptor()
+			 new <%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%>.Descriptor()
 			 {
 				 public <%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%> getEValidator()
 				 {

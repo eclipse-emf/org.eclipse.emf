@@ -83,7 +83,7 @@ public class PackageClass
   protected final String TEXT_73 = NL;
   protected final String TEXT_74 = NL + "\t\t// Register package validator" + NL + "\t\t";
   protected final String TEXT_75 = ".Registry.INSTANCE.put" + NL + "\t\t\t(the";
-  protected final String TEXT_76 = ", " + NL + "\t\t\t new  ";
+  protected final String TEXT_76 = ", " + NL + "\t\t\t new ";
   protected final String TEXT_77 = ".Descriptor()" + NL + "\t\t\t {" + NL + "\t\t\t\t public ";
   protected final String TEXT_78 = " getEValidator()" + NL + "\t\t\t\t {" + NL + "\t\t\t\t\t return ";
   protected final String TEXT_79 = ".INSTANCE;" + NL + "\t\t\t\t }" + NL + "\t\t\t });" + NL;
