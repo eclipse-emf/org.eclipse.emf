@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackage.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLTypePackage.java,v 1.2 2004/04/10 20:30:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -278,7 +278,7 @@ public interface XMLTypePackage extends EPackage
    * The meta object id for the '<em>Any URI</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see java.lang.Object
+   * @see java.lang.String
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getAnyURI()
    * @generated
    */
@@ -1010,12 +1010,12 @@ public interface XMLTypePackage extends EPackage
   EDataType getAnySimpleType();
 
   /**
-   * Returns the meta object for data type '{@link java.lang.Object <em>Any URI</em>}'.
+   * Returns the meta object for data type '{@link java.lang.String <em>Any URI</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Any URI</em>'.
-   * @see java.lang.Object
-   * @model instanceClass="java.lang.Object"
+   * @see java.lang.String
+   * @model instanceClass="java.lang.String"
    * @generated
    */
   EDataType getAnyURI();

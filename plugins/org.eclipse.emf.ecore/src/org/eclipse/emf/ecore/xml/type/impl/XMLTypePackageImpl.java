@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.2 2004/04/10 20:30:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -1428,7 +1428,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
 
     // Initialize data types
     initEDataType(anySimpleTypeEDataType, Object.class, "AnySimpleType", IS_SERIALIZABLE);
-    initEDataType(anyURIEDataType, Object.class, "AnyURI", IS_SERIALIZABLE);
+    initEDataType(anyURIEDataType, String.class, "AnyURI", IS_SERIALIZABLE);
     initEDataType(base64BinaryEDataType, Object.class, "Base64Binary", IS_SERIALIZABLE);
     initEDataType(booleanEDataType, boolean.class, "Boolean", IS_SERIALIZABLE);
     initEDataType(booleanObjectEDataType, Boolean.class, "BooleanObject", IS_SERIALIZABLE);
@@ -1492,6 +1492,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     // Create annotations
     // http:///org/eclipse/emf/ecore/util/ExtendedMetaData
     createExtendedMetaDataAnnotations();
+    // null
+    createNullAnnotations();
   }
 
   /**
@@ -1545,15 +1547,14 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "wildcards", "##any",
        "name", ":2",
        "processing", "lax"
-       });		
+       });			
     addAnnotation
       (anyURIEDataType, 
        source, 
        new String[] 
        {
-       "name", "anyURI",
-       "baseType", "anySimpleType"
-       });		
+       "name", "anyURI"
+       });			
     addAnnotation
       (base64BinaryEDataType, 
        source, 
@@ -1561,7 +1562,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "base64Binary",
        "baseType", "anySimpleType"
-       });		
+       });			
     addAnnotation
       (booleanEDataType, 
        source, 
@@ -1591,7 +1592,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "byte:Object",
        "baseType", "byte"
-       });		
+       });			
     addAnnotation
       (dateEDataType, 
        source, 
@@ -1599,7 +1600,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "date",
        "baseType", "anySimpleType"
-       });		
+       });			
     addAnnotation
       (dateTimeEDataType, 
        source, 
@@ -1607,14 +1608,14 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "dateTime",
        "baseType", "anySimpleType"
-       });		
+       });			
     addAnnotation
       (decimalEDataType, 
        source, 
        new String[] 
        {
        "name", "decimal"
-       });		
+       });			
     addAnnotation
       (doubleEDataType, 
        source, 
@@ -1629,7 +1630,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "double:Object",
        "baseType", "double"
-       });		
+       });			
     addAnnotation
       (durationEDataType, 
        source, 
@@ -1637,7 +1638,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "duration",
        "baseType", "anySimpleType"
-       });		
+       });			
     addAnnotation
       (entitiesEDataType, 
        source, 
@@ -1661,7 +1662,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "ENTITY",
        "baseType", "NCName"
-       });		
+       });			
     addAnnotation
       (floatEDataType, 
        source, 
@@ -1676,7 +1677,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "float:Object",
        "baseType", "float"
-       });		
+       });			
     addAnnotation
       (gDayEDataType, 
        source, 
@@ -1684,7 +1685,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "gDay",
        "baseType", "anySimpleType"
-       });		
+       });			
     addAnnotation
       (gMonthEDataType, 
        source, 
@@ -1692,7 +1693,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "gMonth",
        "baseType", "anySimpleType"
-       });		
+       });			
     addAnnotation
       (gMonthDayEDataType, 
        source, 
@@ -1700,7 +1701,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "gMonthDay",
        "baseType", "anySimpleType"
-       });		
+       });			
     addAnnotation
       (gYearEDataType, 
        source, 
@@ -1708,7 +1709,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "gYear",
        "baseType", "anySimpleType"
-       });		
+       });			
     addAnnotation
       (gYearMonthEDataType, 
        source, 
@@ -1716,7 +1717,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "gYearMonth",
        "baseType", "anySimpleType"
-       });		
+       });			
     addAnnotation
       (hexBinaryEDataType, 
        source, 
@@ -1740,7 +1741,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "IDREF",
        "baseType", "NCName"
-       });		
+       });			
     addAnnotation
       (idrefsEDataType, 
        source, 
@@ -1786,7 +1787,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "language",
        "baseType", "token"
-       });		
+       });			
     addAnnotation
       (longEDataType, 
        source, 
@@ -1833,7 +1834,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "NMTOKEN",
        "baseType", "token"
-       });		
+       });			
     addAnnotation
       (nmtokensEDataType, 
        source, 
@@ -1873,7 +1874,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "normalizedString",
        "baseType", "string"
-       });		
+       });			
     addAnnotation
       (notationEDataType, 
        source, 
@@ -1889,7 +1890,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "positiveInteger",
        "baseType", "nonNegativeInteger"
-       });		
+       });			
     addAnnotation
       (qNameEDataType, 
        source, 
@@ -1944,14 +1945,14 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", ":5",
        "kind", "simple"
-       });		
+       });			
     addAnnotation
       (stringEDataType, 
        source, 
        new String[] 
        {
        "name", "string"
-       });		
+       });			
     addAnnotation
       (timeEDataType, 
        source, 
@@ -1997,7 +1998,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        {
        "name", "unsignedInt:Object",
        "baseType", "unsignedInt"
-       });		
+       });			
     addAnnotation
       (unsignedLongEDataType, 
        source, 
@@ -2080,5 +2081,15 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "name", "text",
        "namespace", "##targetNamespace"
        });
+  }
+
+  /**
+   * Initializes the annotations for <b>null</b>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void createNullAnnotations()
+  {
   }
 } //XMLTypePackageImpl

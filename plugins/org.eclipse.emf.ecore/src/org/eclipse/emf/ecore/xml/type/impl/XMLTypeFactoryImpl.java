@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.3 2004/04/01 16:15:10 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.4 2004/04/10 20:30:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -384,9 +384,9 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object createAnyURIFromString(EDataType eDataType, String initialValue)
+  public String createAnyURIFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    return (String)super.createFromString(eDataType, initialValue);
   }
 
   /**
@@ -396,7 +396,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertAnyURIToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return super.convertToString(eDataType, instanceValue);
   }
 
   /**

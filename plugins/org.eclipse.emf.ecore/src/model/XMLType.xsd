@@ -425,7 +425,7 @@
     </xs:restriction>
    </xs:simpleType>
 
-   <xs:simpleType name="anyURI" id="anyURI">
+   <xs:simpleType ecore:instanceClass="java.lang.String" name="anyURI" id="anyURI">
     <xs:annotation>
       <xs:appinfo>
         <hfp:hasFacet name="length"/>
