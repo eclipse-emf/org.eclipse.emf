@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.2 2004/06/21 21:33:18 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.3 2004/09/27 14:04:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -269,12 +269,22 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     int dotIndex = uriFragmentSegment.indexOf(".");
     if (dotIndex == -1)
     {
-      EStructuralFeature eStructuralFeature = eClass().getEStructuralFeature(uriFragmentSegment.substring(1));
+      String name = uriFragmentSegment.substring(1);
+      EStructuralFeature eStructuralFeature = eClass().getEStructuralFeature(name);
+      if (eStructuralFeature == null)
+      {
+        throw new IllegalArgumentException("The feature '" + name + "' is not a valid feature");
+      }
       return (EObject)eGet(eStructuralFeature, false);
     }
     else
     {
-      EStructuralFeature eStructuralFeature = eClass().getEStructuralFeature(uriFragmentSegment.substring(1, dotIndex));
+      String name = uriFragmentSegment.substring(1, dotIndex);
+      EStructuralFeature eStructuralFeature = eClass().getEStructuralFeature(name);
+      if (eStructuralFeature == null)
+      {
+        throw new IllegalArgumentException("The feature '" + name + "' is not a valid feature");
+      }
       EList eList = (EList)eGet(eStructuralFeature, false);
       int position = 0;
       try
