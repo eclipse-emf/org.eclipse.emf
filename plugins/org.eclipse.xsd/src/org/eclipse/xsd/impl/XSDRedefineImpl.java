@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineImpl.java,v 1.4 2004/11/30 11:33:37 emerks Exp $
+ * $Id: XSDRedefineImpl.java,v 1.5 2004/12/24 15:13:11 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -629,7 +629,15 @@ public class XSDRedefineImpl
     clonedRedefine.isReconciling = true;
 
     clonedRedefine.setSchemaLocation(getSchemaLocation());
-
+    
+    if (deep)
+    {
+      if (!getContents().isEmpty())
+      {
+        clonedRedefine.getContents().addAll(cloneConcreteComponents(getContents(), true, shareDOM));
+      }
+    }
+    
     if (shareDOM && getElement() != null)
     {
       clonedRedefine.setElement(getElement());
