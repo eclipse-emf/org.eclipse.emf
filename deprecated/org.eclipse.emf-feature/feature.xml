@@ -24,6 +24,7 @@ http://www.eclipse.org/legal/cpl-v10.html
 
    <url>
       <update label="%updateSiteName" url="http://update.eclipse.org/updates"/>
+      <update label="%backupUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates"/>
    </url>
 
    <plugin
