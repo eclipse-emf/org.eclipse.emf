@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.5 2004/04/14 15:13:45 davidms Exp $
+ * $Id: URI.java,v 1.6 2004/06/17 21:01:07 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -21,8 +21,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 /**
  * A representation of a Uniform Resource Identifier (URI), as specified by
@@ -49,7 +52,7 @@ import java.util.Map;
  * class's functionality is for handling such URIs, which can be identified
  * via {@link #isHierarchical}.
  *
- * <p><a name="device_explaination">
+ * <p><a name="device_explanation">
  * The primary enhancement beyond the RFC description is an optional
  * device component.  Instead of treating the device as just another segment
  * in the path, it can be stored as a separate component (almost a
@@ -70,20 +73,25 @@ import java.util.Map;
  * can be used, in which a non-null <code>device</code> parameter can be
  * specified.
  *
- * <p><a name="jar_explaination"> 
+ * <p><a name="archive_explanation"> 
  * The other enhancement provides support for the almost-hierarchical
- * JAR scheme, defined for the Java Platform in the documentation for {@link
- * java.net.JarURLConnection}.  This support is enabled for absolute URIs
- * with scheme equal to "jar" (ignoring case), and is implemented by a
- * hierarchical URI, whose authority includes the entire archive URI, up to
- * and including the <code>!</code> character.  The archive URI must be
- * absolute and have no fragment.  JAR-scheme URIs must have no device and
- * an absolute path.  Special handling is supported for {@link #createURI
- * creating}, {@link #validJarAuthority validating}, {@link #devicePath
- * getting the path} from, and {@link #toString displaying} JAR-scheme URIs.
- * In all other operations, including {@link #resolve(URI) resolving} and
- * {@link #deresolve(URI) deresolving}, they are handled like any ordinary
- * URI.
+ * form used for files within archives, such as the JAR scheme, defined
+ * for the Java Platform in the documentation for {@link
+ * java.net.JarURLConnection}. By default, this support is enabled for
+ * absolute URIs with scheme equal to "jar" or "zip" (ignoring case), and
+ * is implemented by a hierarchical URI, whose authority includes the
+ * entire URI of the archive, up to and including the <code>!</code>
+ * character.  The URI of the archive must be absolute and have no
+ * fragment.  The whole archive URI must have no device and an absolute
+ * path.  Special handling is supported for {@link #createURI creating},
+ * {@link #validArchiveAuthority validating}, {@link #devicePath getting
+ * the path} from, and {@link #toString displaying} archive URIs. In all
+ * other operations, including {@link #resolve(URI) resolving} and {@link
+ * #deresolve(URI) deresolving}, they are handled like any ordinary URI.
+ * The schemes that identify archive URIs can be changed from their default
+ * by setting the <code>org.eclipse.emf.common.util.URI.archiveSchemes</code>
+ * system property. Multiple schemes should be space separated, and the test
+ * of whether a URI's scheme matches is always case-insensitive.
  *
  * <p>Compared to the RFC description, this implementation is quite relaxed
  * about validity.  Static methods whose names begin with "valid" test
@@ -130,9 +138,13 @@ public final class URI
   // the fragment.
   private static final Map uriCache = Collections.synchronizedMap(new HashMap());
 
+  // The lower-cased schemes that will be used to identify archive URIs.
+  private static final Set archiveSchemes;
+
   // Identifies a file-type absolute URI.
   private static final String SCHEME_FILE = "file";
   private static final String SCHEME_JAR = "jar";
+  private static final String SCHEME_ZIP = "zip";
 
   // Special segment values interpreted at resolve and resolve time.
   private static final String SEGMENT_EMPTY = "";
@@ -154,8 +166,30 @@ public final class URI
     SCHEME_SEPARATOR, SEGMENT_SEPARATOR, QUERY_SEPARATOR, FRAGMENT_SEPARATOR };
   private static final char[] SEGMENT_END = {
     SEGMENT_SEPARATOR, QUERY_SEPARATOR, FRAGMENT_SEPARATOR };
-  private static final char JAR_IDENTIFIER = '!';
-  private static final String JAR_SEPARATOR = "!/";
+  private static final char ARCHIVE_IDENTIFIER = '!';
+  private static final String ARCHIVE_SEPARATOR = "!/";
+
+  // Static initializer for archiveSchemes.
+  static
+  {
+    Set set = new HashSet();
+    String propertyValue = System.getProperty("org.eclipse.emf.common.util.URI.archiveSchemes");
+
+    if (propertyValue == null)
+    {
+      set.add(SCHEME_JAR);
+      set.add(SCHEME_ZIP);
+    }
+    else
+    { 
+      for (StringTokenizer t = new StringTokenizer(propertyValue); t.hasMoreTokens(); )
+      {
+        set.add(t.nextToken().toLowerCase());
+      }
+    }
+    
+    archiveSchemes = Collections.unmodifiableSet(set);
+  }
 
   /**
    * Static factory method for a generic, non-hierarchical URI.  There is no
@@ -163,8 +197,8 @@ public final class URI
    * created.
    *
    * @exception java.lang.IllegalArgumentException if <code>scheme</code> is
-   * null, if <code>scheme</code> is "jar" by case-insensitive comparison,
-   * or if <code>scheme</code>, <code>opaquePart</code>, or
+   * null, if <code>scheme</code> is an <a href="#archive_explanation">archive
+   * URI</a> scheme, or if <code>scheme</code>, <code>opaquePart</code>, or
    * <code>fragment</code> is not valid according to {@link #validScheme},
    * {@link #validOpaquePart}, or {@link #validFragment}, respectively.
    */
@@ -176,9 +210,9 @@ public final class URI
       throw new IllegalArgumentException("relative non-hierarchical URI");
     }
 
-    if (SCHEME_JAR.equalsIgnoreCase(scheme))
+    if (isArchiveScheme(scheme))
     {
-      throw new IllegalArgumentException("non-hierarchical JAR-scheme URI");
+      throw new IllegalArgumentException("non-hierarchical archive URI");
     }
 
     validateURI(false, scheme, opaquePart, null, false, NO_SEGMENTS, null, fragment);
@@ -193,11 +227,12 @@ public final class URI
    *
    * @exception java.lang.IllegalArgumentException if <code>scheme</code> is
    * non-null while <code>authority</code> and <code>device</code> are null,
-   * if <code>scheme</code> is "jar" by case-insensitive comparison, or
-   * if <code>scheme</code>, <code>authority</code>, <code>device</code>,
-   * <code>query</code>, or <code>fragment</code> is not valid according to
-   * {@link #validScheme}, {@link #validAuthority}, {@link #validDevice},
-   * {@link #validQuery}, or {@link #validFragment}, respectively.
+   * if <code>scheme</code> is an <a href="#archive_explanation">archive
+   * URI</a> scheme, or if <code>scheme</code>, <code>authority</code>,
+   * <code>device</code>, <code>query</code>, or <code>fragment</code> is not
+   * valid according to {@link #validScheme}, {@link #validAuthority}, {@link
+   * #validDevice}, {@link #validQuery}, or {@link #validFragment},
+   * respectively.
    */
   public static URI createHierarchicalURI(String scheme, String authority,
                                           String device, String query,
@@ -209,9 +244,9 @@ public final class URI
         "absolute hierarchical URI without authority, device, path");
     }
 
-    if (SCHEME_JAR.equalsIgnoreCase(scheme))
+    if (isArchiveScheme(scheme))
     {
-      throw new IllegalArgumentException("JAR-scheme URI with no path");
+      throw new IllegalArgumentException("archive URI with no path");
     }
 
     validateURI(true, scheme, authority, device, false, NO_SEGMENTS, query, fragment);
@@ -230,21 +265,21 @@ public final class URI
    * element of the array. 
    *
    * @exception java.lang.IllegalArgumentException if <code>scheme</code> is
-   * "jar" by case-insensitive comparison and <code>device</code> is
-   * non-null, or if <code>scheme</code>, <code>authority</code>,
-   * <code>device</code>, <code>segments</code> <code>query</code>, or
-   * <code>fragment</code> is not valid according to {@link #validScheme},
-   * {@link #validAuthority} or {@link #validJarAuthority}, {@link
-   * #validDevice}, {@link #validSegments}, {@link #validQuery}, or {@link
-   * #validFragment}, as appropriate.
+   * an <a href="#archive_explanation">archive URI</a> scheme and 
+   * <code>device</code> is non-null, or if <code>scheme</code>,
+   * <code>authority</code>, <code>device</code>, <code>segments</code>,
+   * <code>query</code>, or <code>fragment</code> is not valid according to
+   * {@link #validScheme}, {@link #validAuthority} or {@link
+   * #validArchiveAuthority}, {@link #validDevice}, {@link #validSegments},
+   * {@link #validQuery}, or {@link #validFragment}, as appropriate.
    */
   public static URI createHierarchicalURI(String scheme, String authority,
                                           String device, String[] segments,
                                           String query, String fragment)
   {
-    if (SCHEME_JAR.equalsIgnoreCase(scheme) && device != null)
+    if (isArchiveScheme(scheme) && device != null)
     {
-      throw new IllegalArgumentException("JAR-scheme URI with device");
+      throw new IllegalArgumentException("archive URI with device");
     }
 
     segments = fix(segments);
@@ -282,8 +317,8 @@ public final class URI
   
   /**
    * Static factory method based on parsing a URI string, with 
-   * <a href="#device_explaination">explicit device support</a> and handling
-   * for <a href="#jar_explaination">JAR-scheme URIs</a> enabled. The
+   * <a href="#device_explanation">explicit device support</a> and handling
+   * for <a href="#archive_explanation">archive URIs</a> enabled. The
    * specified string is parsed as described in <a
    * href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>, and an
    * appropriate <code>URI</code> is created and returned.  Note that
@@ -295,7 +330,7 @@ public final class URI
    * @exception java.lang.IllegalArgumentException if any component parsed
    * from <code>uri</code> is not valid according to {@link #validScheme},
    * {@link #validOpaquePart}, {@link #validAuthority}, {@link
-   * #validJarAuthority}, {@link #validDevice}, {@link #validSegments},
+   * #validArchiveAuthority}, {@link #validDevice}, {@link #validSegments},
    * {@link #validQuery}, or {@link #validFragment}, as appropriate.
    */
   public static URI createURI(String uri)
@@ -305,7 +340,7 @@ public final class URI
 
   /**
    * Static factory method based on parsing a URI string, with 
-   * <a href="#device_explaination">explicit device support</a> enabled.  
+   * <a href="#device_explanation">explicit device support</a> enabled.  
    * Note that validity testing is not a strict as in the RFC; essentially,
    * only separator characters are considered.  So, for example, non-Latin
    * alphabet characters appearing in the scheme would not be considered an
@@ -314,7 +349,7 @@ public final class URI
    * @exception java.lang.IllegalArgumentException if any component parsed
    * from <code>uri</code> is not valid according to {@link #validScheme},
    * {@link #validOpaquePart}, {@link #validAuthority}, {@link
-   * #validJarAuthority}, {@link #validDevice}, {@link #validSegments},
+   * #validArchiveAuthority}, {@link #validDevice}, {@link #validSegments},
    * {@link #validQuery}, or {@link #validFragment}, as appropriate.
    *
    * @deprecated Use {@link #createURI}, which now has explicit device
@@ -374,13 +409,13 @@ public final class URI
       i = j + 1;
     }
 
-    boolean jarScheme = SCHEME_JAR.equalsIgnoreCase(scheme);
-    if (jarScheme)
+    boolean archiveScheme = isArchiveScheme(scheme);
+    if (archiveScheme)
     {
-      j = uri.indexOf(JAR_SEPARATOR, i);
+      j = uri.indexOf(ARCHIVE_SEPARATOR, i);
       if (j == -1)
       {
-        throw new IllegalArgumentException("no JAR separator");
+        throw new IllegalArgumentException("no archive separator");
       }
       hierarchical = true;
       authority = uri.substring(i, ++j);
@@ -402,7 +437,7 @@ public final class URI
       i = j;
     }
 
-    if (!jarScheme && i < uri.length() && uri.charAt(i) == SEGMENT_SEPARATOR)
+    if (!archiveScheme && i < uri.length() && uri.charAt(i) == SEGMENT_SEPARATOR)
     {
       j = findSeparator(uri, i + 1, SEGMENT_END);
       String s = uri.substring(i + 1, j);
@@ -611,8 +646,6 @@ public final class URI
                                     boolean absolutePath, String[] segments,
                                     String query, String fragment)
   {
-    boolean jarScheme = SCHEME_JAR.equalsIgnoreCase(scheme);
-
     if (!validScheme(scheme))
     {
       throw new IllegalArgumentException("invalid scheme: " + scheme);
@@ -621,11 +654,11 @@ public final class URI
     {
       throw new IllegalArgumentException("invalid opaquePart: " + authority);
     }
-    if (hierarchical && !jarScheme && !validAuthority(authority))
+    if (hierarchical && !isArchiveScheme(scheme) && !validAuthority(authority))
     {
       throw new IllegalArgumentException("invalid authority: " + authority);
     }
-    if (hierarchical && jarScheme && !validJarAuthority(authority))
+    if (hierarchical && isArchiveScheme(scheme) && !validArchiveAuthority(authority))
     {
       throw new IllegalArgumentException("invalid authority: " + authority);
     }
@@ -703,30 +736,43 @@ public final class URI
   }
 
   /**
-   * Return <code>true</code> if the specified <code>value</code> would be
-   * valid as the authority component of a <a
-   * href="#jar_explaination">JAR-scheme URI</a>; <code>false</code>
+   * Returns <code>true</code> if the specified <code>value</code> would be
+   * valid as the authority component of an <a
+   * href="#archive_explanation">archive URI</a>; <code>false</code>
    * otherwise.
    *
-   * <p>To be valid, a JAR-scheme URI must have an authority that is,
-   * itself, an absolute URI with no fragment, followed by the character
-   * <code>!</code>.
+   * <p>To be valid, the authority, itself, must be an absolute URI with no
+   * fragment, followed by the character <code>!</code>.
    */
-  public static boolean validJarAuthority(String value)
+  public static boolean validArchiveAuthority(String value)
   {
     if (value != null && value.length() > 0 &&
-        value.charAt(value.length() - 1) == JAR_IDENTIFIER)
+        value.charAt(value.length() - 1) == ARCHIVE_IDENTIFIER)
     {
       try
       {
-        URI jarURI = createURI(value.substring(0, value.length() - 1));
-        return !jarURI.isRelative() && !jarURI.hasFragment();
+        URI archiveURI = createURI(value.substring(0, value.length() - 1));
+        return !archiveURI.isRelative() && !archiveURI.hasFragment();
       }
       catch (IllegalArgumentException e)
       {
       }
     }
     return false;
+  }
+
+  /**
+   * Tests whether the specificed <code>value</code> would be valid as the
+   * authority component of an <a href="#archive_explanation">archive
+   * URI</a>. This method has been replaced by {@link
+   * #validArchiveAuthority}, since the same form of URI is now supported
+   * for schemes other than "jar". This now simply calls that method.
+   * 
+   * @deprecated As of EMF 2.0, replaced by {@link #validArchiveAuthority}.
+   */
+  public static boolean validJarAuthority(String value)
+  {
+    return validArchiveAuthority(value);
   }
 
   /**
@@ -967,14 +1013,22 @@ public final class URI
       ((isRelative() && !hasQuery()) || SCHEME_FILE.equalsIgnoreCase(scheme));
   }
 
-  // Returns true if this is a JAR-scheme URI.  If so, we should expect that
+  // Returns true if this is an archive URI.  If so, we should expect that
   // it is also hierarchical, with an authority (consisting of an absolute
   // URI followed by "!"), no device, and an absolute path.
-  private boolean isJar()
+  private boolean isArchive()
   {
-    return SCHEME_JAR.equalsIgnoreCase(scheme);
+    return isArchiveScheme(scheme);
   }
 
+  // Returns true if the given value is an archive scheme, as defined by
+  // the org.eclipse.emf.common.util.URI.archiveSchemes system property.
+  // By default, "jar" and "zip" are considered archives.
+  private static boolean isArchiveScheme(String value)
+  {
+    return value != null && archiveSchemes.contains(value.toLowerCase());
+  }
+  
   /**
    * Returns the hash code.
    */
@@ -1165,7 +1219,7 @@ public final class URI
    * representation of the path; <code>null</code> otherwise.  The path
    * consists of a leading segment separator character (a slash), if the
    * path is absolute, followed by the slash-separated path segments.  If
-   * this URI has a separate <a href="#device_explaination">device
+   * this URI has a separate <a href="#device_explanation">device
    * component</a>, it is <em>not</em> included in the path.
    */
   public String path()
@@ -1186,7 +1240,7 @@ public final class URI
   /**
    * If this is a hierarchical URI with a path, returns a string
    * representation of the path, including the authority and the 
-   * <a href="#device_explaination">device component</a>; 
+   * <a href="#device_explanation">device component</a>; 
    * <code>null</code> otherwise.  
    *
    * <p>If there is no authority, the format of this string is:
@@ -1197,7 +1251,7 @@ public final class URI
    * <pre>
    *   //authority/device/pathSegment1/pathSegment2...</pre>
    *
-   * <p>For a <a href="#jar_explaination">JAR-scheme URI</a>, it's just:
+   * <p>For an <a href="#archive_explanation">archive URI</a>, it's just:
    * <pre>
    *   authority/pathSegment1/pathSegment2...</pre>
    */
@@ -1209,7 +1263,7 @@ public final class URI
 
     if (hasAuthority())
     {
-      if (!isJar()) result.append(AUTHORITY_SEPARATOR);
+      if (!isArchive()) result.append(AUTHORITY_SEPARATOR);
       result.append(authority);
 
       if (hasDevice()) result.append(SEGMENT_SEPARATOR);
@@ -1759,7 +1813,7 @@ public final class URI
    * <pre>
    *   scheme://authority/device/pathSegment1/pathSegment2...?query#fragment</pre>
    *
-   * <p>For a <a href="#jar_explaination">JAR-scheme URI</a>, it's just:
+   * <p>For an <a href="#archive_explanation">archive URI</a>, it's just:
    * <pre>
    *   scheme:authority/pathSegment1/pathSegment2...?query#fragment</pre>
    * <p>Of course, absent components and their separators will be omitted.
@@ -1779,7 +1833,7 @@ public final class URI
       {
         if (hasAuthority())
         {
-          if (!isJar()) result.append(AUTHORITY_SEPARATOR);
+          if (!isArchive()) result.append(AUTHORITY_SEPARATOR);
           result.append(authority);
         }
 
