@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.2 2004/03/31 19:46:39 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.3 2004/04/03 20:08:04 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1585,6 +1585,37 @@ public class ItemProviderAdapter
   }
 
   /**
+   * Returns whether this item provider may need to use wrappers for some or all of the values it returns as {@link
+   * #getChildren children}. This is used to determine whether to use a store to keep track of children and whether to
+   * use command wrappers that re-wrap results and affected objects. The default implementation of {@link
+   * #createWrapper createWrapper} also tests this method and will not create any wrappers if it returns
+   * <code>false</code>.
+   * 
+   * <p>This implementation consults {@link #getChildrenFeatures getChildrenFeatures}, returning true if any attributes
+   * or non-containment references contribute children. This provides backwards compatibility with pre-2.0 subclasses
+   * and enables the more useful new default behaviour for these types of features. Subclasses may override this to
+   * immediately return <code>true</code> or <code>false</code>, as desired. This is a convenient way to disable all
+   * of the new wrapping features in 2.0.
+   */
+  protected boolean isWrappingNeeded(Object object)
+  {
+    if (wrappingNeeded == null)
+    {
+      wrappingNeeded = Boolean.FALSE;
+      
+      for (Iterator i = getAnyChildrenFeatures(object).iterator(); i.hasNext(); )
+      {
+        EStructuralFeature f = (EStructuralFeature)i.next();
+        if (f instanceof EAttribute || !((EReference)f).isContainment())
+        {
+          wrappingNeeded = Boolean.TRUE;
+        }
+      }
+    }
+    return wrappingNeeded.booleanValue();
+  }
+
+  /**
    * Returns the store for the children of the given object, or null if no such store is being maintained.
    */
   protected ChildrenStore getChildrenStore(Object object)
@@ -1963,11 +1994,14 @@ public class ItemProviderAdapter
   /**
    * Creates and returns a wrapper for the given value, at the given index in the given feature of the given object
    * if such a wrapper is needed; otherwise, returns the original value. This implementation creates different wrappers
-   * that implement {@link IWrapperItemProvider} for feature maps, simple attributes, and cross references. Subclasses
-   * may override it to change this behaviour or to create their own specialized wrappers.
+   * that implement {@link IWrapperItemProvider} for feature maps, simple attributes, and cross references, but only
+   * if {@link #isWrappingNeeded isWrappingNeeded} returns <code>true</code>. Subclasses may override it to change this
+   * behaviour or to create their own specialized wrappers.
    */
   protected Object createWrapper(EObject object, EStructuralFeature feature, Object value, int index)
   {
+    if (!isWrappingNeeded(object)) return value;
+
     if (FeatureMapUtil.isFeatureMap(feature))
     {
       value = new FeatureMapEntryWrapperItemProvider((FeatureMap.Entry)value, object, (EAttribute)feature, index, adapterFactory);
@@ -1982,35 +2016,6 @@ public class ItemProviderAdapter
     }
 
     return value;
-  }
-
-  /**
-   * Returns whether this item provider may need to use wrappers for some or all of the values it returns as {@link
-   * #getChildren children}. This is used to determine whether to use a store to keep track of children and whether to
-   * use command wrappers that re-wrap results and affected objects.
-   * 
-   * <p>This implementation consults {@link #getChildrenFeatures getChildrenFeatures}, returning true if any attributes
-   * or non-containment references contribute children. This provides backwards compatibility with pre-2.0 subclasses
-   * and enables the more useful new default behaviour for these types of features. Subclasses may override this to
-   * immediately return <code>true</code> or <code>false</code>, as desired. It should return <code>true</code> if
-   * wrappers might be returned {@link #createWrapper createWrapper}.
-   */
-  protected boolean isWrappingNeeded(Object object)
-  {
-    if (wrappingNeeded == null)
-    {
-      wrappingNeeded = Boolean.FALSE;
-      
-      for (Iterator i = getAnyChildrenFeatures(object).iterator(); i.hasNext(); )
-      {
-        EStructuralFeature f = (EStructuralFeature)i.next();
-        if (f instanceof EAttribute || !((EReference)f).isContainment())
-        {
-          wrappingNeeded = Boolean.TRUE;
-        }
-      }
-    }
-    return wrappingNeeded.booleanValue();
   }
 
   /**
