@@ -12,19 +12,17 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.8 2004/05/22 19:04:36 marcelop Exp $
+ * $Id: XMLHelperImpl.java,v 1.9 2004/06/12 12:07:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.BasicEMap;
@@ -52,6 +50,7 @@ import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.ecore.xml.type.internal.QName;
 
 
@@ -82,6 +81,7 @@ public class XMLHelperImpl implements XMLHelper
   protected EClass anySimpleType;
   // true if seen xmlns="" declaration
   protected boolean seenEmptyStringMapping;
+  protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
 
   public static String saveString(Map options, List contents, String encoding, XMLHelper helper) throws Exception
   {
@@ -294,7 +294,12 @@ public class XMLHelperImpl implements XMLHelper
     String nsPrefix = (String)packages.get(ePackage);
     if (nsPrefix == null || mustHavePrefix && nsPrefix.length() == 0)
     {
-      String nsURI = extendedMetaData == null ? ePackage.getNsURI() : extendedMetaData.getNamespace(ePackage);
+      String nsURI = 
+        xmlSchemaTypePackage == ePackage ?
+          XMLResource.XML_SCHEMA_URI :
+          extendedMetaData == null ? 
+            ePackage.getNsURI() : 
+            extendedMetaData.getNamespace(ePackage);
 
       boolean found = false;
       for (Iterator i = prefixesToURIs.entrySet().iterator(); i.hasNext(); )
@@ -315,7 +320,7 @@ public class XMLHelperImpl implements XMLHelper
       {
         if (nsURI != null)
         {
-          nsPrefix = ePackage.getNsPrefix();
+          nsPrefix = xmlSchemaTypePackage == ePackage ? "xsd" : ePackage.getNsPrefix();
         }
         if (nsPrefix == null)
         {
@@ -651,21 +656,22 @@ public class XMLHelperImpl implements XMLHelper
 
   public EPackage[] packages()
   {
-    Set pkgs = packages.keySet();
-    EPackage[] packages = new EPackage[pkgs.size()];
-    pkgs.toArray(packages);
-    Comparator comparator =
-      new Comparator()
+    Map map = new TreeMap();
+
+    // Sort and eliminate duplicates caused by having both a regular package and a demanded package for the same nsURI.
+    //
+    for (Iterator i = packages.entrySet().iterator(); i.hasNext(); )
+    {
+      Map.Entry entry = (Map.Entry)i.next();
+      EPackage conflict = (EPackage)map.put(entry.getValue(), entry.getKey());
+      if (conflict != null && conflict.eResource() != null)
       {
-        public int compare(Object o1, Object o2)
-        {
-          // EATM very slow
-          return getPrefix((EPackage)o1).compareTo(getPrefix((EPackage) o2));
-          //return ((EPackage) o1).getNsPrefix().compareTo(((EPackage) o2).getNsPrefix());
-        }
-      };
-    Arrays.sort(packages, comparator);
-    return packages;
+        map.put(entry.getValue(), conflict);
+      }
+    }
+    EPackage[] result = new EPackage[map.size()];
+    map.values().toArray(result);
+    return result;
   }
 
   public void setValue(EObject object, EStructuralFeature feature, Object value, int position)
@@ -936,7 +942,14 @@ public class XMLHelperImpl implements XMLHelper
         ePackage =  extendedMetaData.getPackage(namespace);
         if (ePackage == null && !XMLResource.XSI_URI.equals(namespace))
         {
-          ePackage = extendedMetaData.demandPackage(namespace);
+          if (XMLResource.XML_SCHEMA_URI.equals(namespace))
+          {
+            ePackage = xmlSchemaTypePackage;
+          }
+          else
+          {
+            ePackage = extendedMetaData.demandPackage(namespace);
+          }
         }
       }
       if (ePackage != null && !packages.containsKey(ePackage))
