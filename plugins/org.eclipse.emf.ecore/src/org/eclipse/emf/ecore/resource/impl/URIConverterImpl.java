@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.3 2004/09/01 20:10:10 emerks Exp $
+ * $Id: URIConverterImpl.java,v 1.4 2004/09/29 16:54:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -126,7 +126,7 @@ public class URIConverterImpl implements URIConverter
       {
         if (previouslyFlushed)
         {
-          file.appendContents(inputStream, force, keepHistory, progressMonitor); 
+          file.appendContents(inputStream, force, false, progressMonitor); 
         }
         else if (!file.exists())
         {
