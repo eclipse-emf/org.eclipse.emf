@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.4 2004/05/08 21:19:23 emerks Exp $
+ * $Id: ValidateAction.java,v 1.5 2004/06/09 19:40:19 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -25,70 +25,135 @@ import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-
-import org.eclipse.emf.common.notify.AdapterFactory;
-
-import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-
-import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.DiagnosticChain;
-import org.eclipse.emf.common.util.URI;
-
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EValidator;
-
-import org.eclipse.emf.ecore.resource.Resource;
-
-import org.eclipse.emf.ecore.util.Diagnostician;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
-
-import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
-
-import org.eclipse.swt.widgets.Shell;
-
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
-
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
-
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
-
 import org.eclipse.ui.part.ISetSelectionTarget;
+
+import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EValidator;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
 
 /**
  */
 public class ValidateAction extends Action implements ISelectionChangedListener 
 {
+  public static class MarkerUtil
+  {
+    public void createMarkers(IFile file, Diagnostic diagnostic)
+    {
+      EObject eObject = null;
+      List data = diagnostic.getData();
+      if (!data.isEmpty())
+      {
+        Object target = data.get(0);
+        if (target instanceof EObject)
+        {
+          eObject = (EObject)target;
+        }
+      }
+
+      if (diagnostic.getChildren().isEmpty())
+      {
+        try
+        {
+          IMarker marker = file.createMarker(EValidator.MARKER);
+          int severity = diagnostic.getSeverity();
+          if (severity < Diagnostic.WARNING)
+          {
+            marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+          }
+          else if (severity < Diagnostic.ERROR)
+          {
+            marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+          }
+          else
+          {
+            marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+          }
+          marker.setAttribute(IMarker.MESSAGE, diagnostic.getMessage());
+          if (eObject != null)
+          {
+            marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
+          }
+        }
+        catch (CoreException exception)
+        {
+          EMFEditUIPlugin.INSTANCE.log(exception);
+        }
+      }
+      else
+      {
+        String parentMessage = diagnostic.getMessage() + ". ";
+        for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
+        {
+          Diagnostic childDiagnostic = (Diagnostic)i.next();
+          try
+          {
+            IMarker marker = file.createMarker(EValidator.MARKER);
+            int severity = childDiagnostic.getSeverity();
+            if (severity < Diagnostic.WARNING)
+            {
+              marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+            }
+            else if (severity < Diagnostic.ERROR)
+            {
+              marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+            }
+            else
+            {
+              marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+            }
+            marker.setAttribute(IMarker.MESSAGE, parentMessage + childDiagnostic.getMessage());
+            if (eObject != null)
+            {
+              marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
+            }
+          }
+          catch (CoreException exception)
+          {
+            EMFEditUIPlugin.INSTANCE.log(exception);
+          }
+        }
+      }
+    }    
+  }
+  
   protected ISelectionProvider selectionProvider;
   protected List selectedObjects;
   protected EditingDomain domain;
+  protected MarkerUtil markerUtil;
 
   /**
    * This contructs an instance.
@@ -213,7 +278,6 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
   protected void handleDiagnostic(final Diagnostic diagnostic)
   {
-    final IFile file = getFile();
     final int result = 
       ErrorDialog.openError
         (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
@@ -221,124 +285,58 @@ public class ValidateAction extends Action implements ISelectionChangedListener
          EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_message"),
          BasicDiagnostic.toIStatus(diagnostic));
 
-    try
+    if (Platform.getBundle("org.eclipse.core.resources") != null)
     {
-      file.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
-    }
-    catch (CoreException exception)
-    {
-      EMFEditUIPlugin.INSTANCE.log(exception);
-    }
-  
-    if (result == Dialog.OK)
-    {
-      if (!diagnostic.getChildren().isEmpty())
-      {
-        List data = ((Diagnostic)diagnostic.getChildren().get(0)).getData();
-        if (!data.isEmpty() && data.get(0) instanceof EObject)
-        {
-          Object part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
-          if (part instanceof ISetSelectionTarget)
-          {
-            ((ISetSelectionTarget)part).selectReveal(new StructuredSelection(data.get(0)));
-          }
-          else if (part instanceof IViewerProvider)
-          {
-            Viewer viewer = ((IViewerProvider)part).getViewer();
-            if (viewer != null)
-            {
-              viewer.setSelection(new StructuredSelection(data.get(0)), true);
-            }
-          }
-        }
-      }
-  
-      for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
-      {
-        Diagnostic childDiagnostic = (Diagnostic)i.next();
-        createMarkers(file, childDiagnostic);
-      }
+	    final IFile file = getFile();
+	
+	    try
+	    {
+	      file.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
+	    }
+	    catch (CoreException exception)
+	    {
+	      EMFEditUIPlugin.INSTANCE.log(exception);
+	    }
+	  
+	    if (result == Dialog.OK)
+	    {
+	      if (!diagnostic.getChildren().isEmpty())
+	      {
+	        List data = ((Diagnostic)diagnostic.getChildren().get(0)).getData();
+	        if (!data.isEmpty() && data.get(0) instanceof EObject)
+	        {
+	          Object part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
+	          if (part instanceof ISetSelectionTarget)
+	          {
+	            ((ISetSelectionTarget)part).selectReveal(new StructuredSelection(data.get(0)));
+	          }
+	          else if (part instanceof IViewerProvider)
+	          {
+	            Viewer viewer = ((IViewerProvider)part).getViewer();
+	            if (viewer != null)
+	            {
+	              viewer.setSelection(new StructuredSelection(data.get(0)), true);
+	            }
+	          }
+	        }
+	      }
+	  
+	      for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
+	      {
+	        Diagnostic childDiagnostic = (Diagnostic)i.next();
+	        createMarkers(file, childDiagnostic);
+	      }
+	    }
     }
   }
-
-  protected static final IWorkspaceRoot WORKSPACE_ROOT = ResourcesPlugin.getWorkspace().getRoot();
-
+  
   protected void createMarkers(IFile file, Diagnostic diagnostic)
   {
-    EObject eObject = null;
-    List data = diagnostic.getData();
-    if (!data.isEmpty())
+    if(markerUtil == null)
     {
-      Object target = data.get(0);
-      if (target instanceof EObject)
-      {
-        eObject = (EObject)target;
-      }
+      markerUtil = new MarkerUtil();
     }
-
-    if (diagnostic.getChildren().isEmpty())
-    {
-      try
-      {
-        IMarker marker = file.createMarker(EValidator.MARKER);
-        int severity = diagnostic.getSeverity();
-        if (severity < Diagnostic.WARNING)
-        {
-          marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
-        }
-        else if (severity < Diagnostic.ERROR)
-        {
-          marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-        }
-        else
-        {
-          marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-        }
-        marker.setAttribute(IMarker.MESSAGE, diagnostic.getMessage());
-        if (eObject != null)
-        {
-          marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
-        }
-      }
-      catch (CoreException exception)
-      {
-        EMFEditUIPlugin.INSTANCE.log(exception);
-      }
-    }
-    else
-    {
-      String parentMessage = diagnostic.getMessage() + ". ";
-      for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
-      {
-        Diagnostic childDiagnostic = (Diagnostic)i.next();
-        try
-        {
-          IMarker marker = file.createMarker(EValidator.MARKER);
-          int severity = childDiagnostic.getSeverity();
-          if (severity < Diagnostic.WARNING)
-          {
-            marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
-          }
-          else if (severity < Diagnostic.ERROR)
-          {
-            marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-          }
-          else
-          {
-            marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-          }
-          marker.setAttribute(IMarker.MESSAGE, parentMessage + childDiagnostic.getMessage());
-          if (eObject != null)
-          {
-            marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
-          }
-        }
-        catch (CoreException exception)
-        {
-          EMFEditUIPlugin.INSTANCE.log(exception);
-        }
-      }
-    }
+    markerUtil.createMarkers(file, diagnostic);
   }
 
   protected IFile getFile()
@@ -357,7 +355,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           platformResourcePath.append('/');
           platformResourcePath.append(uri.segment(j));
         }
-        return WORKSPACE_ROOT.getFile(new Path(platformResourcePath.toString()));
+        return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourcePath.toString()));
       }
     }
     return null;

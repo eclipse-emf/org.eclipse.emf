@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LoadResourceAction.java,v 1.3 2004/05/12 22:31:45 emerks Exp $
+ * $Id: LoadResourceAction.java,v 1.4 2004/06/09 19:40:19 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -20,10 +20,14 @@ package org.eclipse.emf.edit.ui.action;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Platform;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -107,6 +111,13 @@ public class LoadResourceAction extends Action
   {
     protected EditingDomain domain;
     protected Text resourceURIField;
+    protected String resourceURIs;
+
+    public LoadResourceDialog
+    (Shell parent)
+  {
+    this(parent, null);
+  }
 
     public LoadResourceDialog
       (Shell parent, EditingDomain domain)
@@ -129,14 +140,13 @@ public class LoadResourceAction extends Action
         GridLayout layout = new GridLayout();
         layout.numColumns = 2;
         layout.verticalSpacing = 12;
+        layout.horizontalSpacing = 20;
         composite.setLayout(layout);
 
         GridData data = new GridData();
         data.verticalAlignment = GridData.FILL;
         data.grabExcessVerticalSpace = true;
         data.horizontalAlignment = GridData.FILL;
-        data.heightHint = 80;
-        data.widthHint = 400;
         composite.setLayoutData(data);
       }
 
@@ -158,9 +168,10 @@ public class LoadResourceAction extends Action
         RowLayout layout = new RowLayout();
         layout.justify = true;
         layout.pack = true;
-        layout.spacing = 15;
+        layout.spacing = 5;
         buttonComposite.setLayout(layout);
       }
+      
       Button resourceURIBrowseFileSystemButton = new Button(buttonComposite, SWT.PUSH);
       resourceURIBrowseFileSystemButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_BrowseFileSystem_label"));
 
@@ -179,38 +190,41 @@ public class LoadResourceAction extends Action
            }
          });
       
-      Button resourceURIBrowseWorkspaceButton = new Button(buttonComposite, SWT.PUSH);
-      resourceURIBrowseWorkspaceButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_BrowseWorkspace_label"));
-      resourceURIBrowseWorkspaceButton.addSelectionListener
-        (new SelectionAdapter()
-         {
-           public void widgetSelected(SelectionEvent event)
-           {
-             Collection resources = new ArrayList();
-             ResourceSelectionDialog resourceSelectionDialog =
-               new ResourceSelectionDialog
-                 (getShell(),
-                  ResourcesPlugin.getWorkspace().getRoot(),
-                  EMFEditUIPlugin.INSTANCE.getString("_UI_SelectTheResource_label"));
-
-             resourceSelectionDialog.open();
-             Object [] result = resourceSelectionDialog.getResult();
-             if (result != null)
-             {
-               StringBuffer text = new StringBuffer();
-               for (int i = 0; i < result.length; ++i)
-               {
-                 IResource resource = (IResource)result[i];
-                 if (resource.getType() == IResource.FILE)
-                 {
-                   text.append(URI.createPlatformResourceURI(resource.getFullPath().toString()));
-                   text.append("  ");
-                 }
-               }
-               resourceURIField.setText((resourceURIField.getText() + "  " + text.toString()).trim());
-             }
-           }
-         });
+      if(Platform.getBundle("org.eclipse.core.resources") != null)
+      {
+	      Button resourceURIBrowseWorkspaceButton = new Button(buttonComposite, SWT.PUSH);
+	      resourceURIBrowseWorkspaceButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_BrowseWorkspace_label"));
+	      resourceURIBrowseWorkspaceButton.addSelectionListener
+	        (new SelectionAdapter()
+	         {
+	           public void widgetSelected(SelectionEvent event)
+	           {
+	             Collection resources = new ArrayList();
+	             ResourceSelectionDialog resourceSelectionDialog =
+	               new ResourceSelectionDialog
+	                 (getShell(),
+	                  ResourcesPlugin.getWorkspace().getRoot(),
+	                  EMFEditUIPlugin.INSTANCE.getString("_UI_SelectTheResource_label"));
+	
+	             resourceSelectionDialog.open();
+	             Object [] result = resourceSelectionDialog.getResult();
+	             if (result != null)
+	             {
+	               StringBuffer text = new StringBuffer();
+	               for (int i = 0; i < result.length; ++i)
+	               {
+	                 IResource resource = (IResource)result[i];
+	                 if (resource.getType() == IResource.FILE)
+	                 {
+	                   text.append(URI.createPlatformResourceURI(resource.getFullPath().toString()));
+	                   text.append("  ");
+	                 }
+	               }
+	               resourceURIField.setText((resourceURIField.getText() + "  " + text.toString()).trim());
+	             }
+	           }
+	         });
+      }
 
       resourceURIField = new Text(composite, SWT.BORDER);
       {
@@ -235,17 +249,19 @@ public class LoadResourceAction extends Action
 
     protected void okPressed()
     {
-      String resourceURIs = resourceURIField.getText();
-      for (StringTokenizer stringTokenizer = new StringTokenizer(resourceURIs); stringTokenizer.hasMoreTokens(); )
+      resourceURIs = getResourceURIs();
+      if(domain != null)
       {
-        String resourceURI = stringTokenizer.nextToken();
-        try
+        for (Iterator i = getURIs().iterator(); i.hasNext();)
         {
-          domain.getResourceSet().getResource(URI.createURI(resourceURI), true);
-        }
-        catch (RuntimeException exception)
-        {
-          EMFEditUIPlugin.INSTANCE.log(exception);
+	        try
+	        {
+	          domain.getResourceSet().getResource((URI)i.next(), true);
+	        }
+	        catch (RuntimeException exception)
+	        {
+	          EMFEditUIPlugin.INSTANCE.log(exception);
+	        }
         }
       }
       super.okPressed();
@@ -254,6 +270,23 @@ public class LoadResourceAction extends Action
     public boolean close()
     {
       return super.close();
+    }
+    
+    public String getResourceURIs()
+    {
+      return resourceURIField != null && !resourceURIField.isDisposed() ? resourceURIField.getText() : resourceURIs; 
+    }
+    
+    public List getURIs()
+    {
+      List uris = new ArrayList();
+      for (StringTokenizer stringTokenizer = new StringTokenizer(getResourceURIs()); stringTokenizer.hasMoreTokens(); )
+      {
+        String resourceURI = stringTokenizer.nextToken();
+        uris.add(URI.createURI(resourceURI));
+      }
+      
+      return uris;
     }
   }
 }
