@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaModelWizard.java,v 1.2 2004/06/08 17:55:49 emerks Exp $
+ * $Id: JavaModelWizard.java,v 1.3 2004/06/17 11:03:24 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -349,9 +349,9 @@ public class JavaModelWizard extends Wizard implements INewWizard
   public class JavaModelWizardInitialObjectCreationPage extends WizardPage
   {
     /**
-     * @generated
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @generated
      */
     protected String initialObjectName;
 
