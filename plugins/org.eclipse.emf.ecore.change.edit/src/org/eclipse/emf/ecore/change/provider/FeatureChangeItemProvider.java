@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: FeatureChangeItemProvider.java,v 1.2 2004/04/07 22:04:10 davidms Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -33,6 +33,8 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
  * This is the item provider adpater for a {@link org.eclipse.emf.ecore.change.FeatureChange} object.
@@ -133,21 +135,21 @@ public class FeatureChangeItemProvider
   }
 
   /**
-   * This specifies how to implement {@link #getChildren} 
-   * and {@link org.eclipse.emf.edit.command.AddCommand} and {@link org.eclipse.emf.edit.command.RemoveCommand} 
-   * support in {@link #createCommand}.
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenReferences(Object object)
+  public Collection getChildrenFeatures(Object object)
   {
-    if (childrenReferences == null)
+    if (childrenFeatures == null)
     {
-      super.getChildrenReferences(object);
-      childrenReferences.add(ChangePackage.eINSTANCE.getFeatureChange_ListChanges());
+      super.getChildrenFeatures(object);
+      childrenFeatures.add(ChangePackage.eINSTANCE.getFeatureChange_ListChanges());
     }
-    return childrenReferences;
+    return childrenFeatures;
   }
 
 
@@ -177,22 +179,25 @@ public class FeatureChangeItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public void notifyChanged(Notification notification)
   {
+    updateChildren(notification);
+
     switch (notification.getFeatureID(FeatureChange.class))
     {
       case ChangePackage.FEATURE_CHANGE__SET:
       case ChangePackage.FEATURE_CHANGE__VALUE:
-      case ChangePackage.FEATURE_CHANGE__LIST_CHANGES:
-      {
-        fireNotifyChanged(notification);
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
-      }
+      case ChangePackage.FEATURE_CHANGE__LIST_CHANGES:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+        return;
     }
     super.notifyChanged(notification);
   }
