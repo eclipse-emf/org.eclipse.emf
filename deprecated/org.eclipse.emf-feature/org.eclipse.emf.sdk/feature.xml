@@ -15,14 +15,14 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.6 2004/09/01 22:05:07 nickb Exp $
+ * $Id: feature.xml,v 1.7 2004/09/24 20:25:28 davidms Exp $
  */
 -->
 
 <feature
     id="org.eclipse.emf.sdk"
     label="%featureName"
-    version="2.0.1"
+    version="2.1.0"
     image= "eclipse_update_120.jpg"
     provider-name="%providerName">
 
@@ -42,12 +42,12 @@
 
     <includes
         id="org.eclipse.emf"
-        version="2.0.1"
+        version="2.1.0"
         match="compatible"/> 
         
     <includes
         id="org.eclipse.emf.source"
-        version="2.0.1"
+        version="2.1.0"
         match="compatible"/> 
 
     <includes
