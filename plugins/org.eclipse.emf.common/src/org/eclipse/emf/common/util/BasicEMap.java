@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEMap.java,v 1.4 2004/07/29 13:32:37 marcelop Exp $
+ * $Id: BasicEMap.java,v 1.5 2004/10/01 19:56:54 emerks Exp $
  */
 package  org.eclipse.emf.common.util;
 
@@ -638,6 +638,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       int hash = entry.getHash();
       int index = indexOf(hash);
       removeEntry(index, entryIndexForKey(index, hash, key));
+      didRemove(entry);
     }
   }
 
