@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.13 2005/02/18 07:04:31 marcelop Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.14 2005/02/18 18:19:48 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -36,7 +36,7 @@ extends Plugin
           if (derbyClass != null)
           {
             System.out.println("*** Derby is in the classpath.");
-            
+                        
             Thread thread = new Thread()
             {
               public void run()
@@ -55,9 +55,29 @@ extends Plugin
             };
             thread.start();
             
+            Class driverClass = null;
+            try
+            {
+              driverClass = Class.forName("com.ibm.db2.jcc.DB2Driver");
+            }
+            catch (Throwable t)
+            {
+              
+            }
+            
+            if (driverClass != null)
+            {
+              System.out.println("*** DB2Driver is in the classpath.");
+              System.setProperty("eclipse.perf.dbloc", "net://localhost");
+            }
+            else
+            {
+              System.out.println("*** DB2Driver is NOT in the classpath.");
+              System.setProperty("eclipse.perf.dbloc", "/home/www-data/derby/derbyroot;dbuser=app;dbpasswd=app");
+            }
+            
             System.setProperty("test.target", "performance");
-            System.setProperty("eclipse.perf.dbloc", "/home/www-data/derby/derbyroot;dbuser=app;dbpasswd=app");
-            System.setProperty("eclipse.perf.config" ,"build=fromJava");            
+            System.setProperty("eclipse.perf.config" ,"build=" + hashCode());            
           }
         }
         catch (Exception e)
