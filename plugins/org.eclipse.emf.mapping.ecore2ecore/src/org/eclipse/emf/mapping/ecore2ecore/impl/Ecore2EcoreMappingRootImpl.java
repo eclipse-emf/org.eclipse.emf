@@ -8,12 +8,13 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreMappingRootImpl.java,v 1.1 2004/04/28 18:58:51 davidms Exp $
+ * $Id: Ecore2EcoreMappingRootImpl.java,v 1.2 2004/07/23 20:49:48 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -299,5 +300,34 @@ public class Ecore2EcoreMappingRootImpl extends MappingRootImpl implements Ecore
   public EPackage getOutputEPackage()
   {
     return getOutputs().isEmpty() ? null : (EPackage)getOutputs().get(0);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.eclipse.emf.mapping.MappingRoot#canCreateMapping(java.util.Collection, java.util.Collection, org.eclipse.emf.mapping.Mapping)
+   */
+  public boolean canCreateMapping(Collection inputs, Collection outputs, Mapping mapping)
+  {
+    if (mapping == this)
+    {
+      for (Iterator i = inputs.iterator(); i.hasNext();)
+      {
+        if (!(i.next() instanceof EPackage))
+        {
+          return false;
+        }
+      }
+      for (Iterator i = outputs.iterator(); i.hasNext();)
+      {
+        if (!(i.next() instanceof EPackage))
+        {
+          return false;
+        }
+      }
+      return true;
+    }
+    else
+    {
+      return super.canCreateMapping(inputs, outputs, mapping);
+    }
   }
 } //Ecore2EcoreMappingRootImpl
