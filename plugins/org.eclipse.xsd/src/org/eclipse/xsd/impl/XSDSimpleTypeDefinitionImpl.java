@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.3 2004/06/13 11:52:17 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.4 2004/09/29 14:44:27 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2059,7 +2059,8 @@ public class XSDSimpleTypeDefinitionImpl
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_Contents())
+    if (eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_Contents() ||
+          eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_FacetContents())
     {
       traverseToRootForPatching();
     }
@@ -2076,7 +2077,8 @@ public class XSDSimpleTypeDefinitionImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_Contents())
+    if (eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_Contents() || 
+          eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_FacetContents())
     {
       traverseToRootForPatching();
     }
