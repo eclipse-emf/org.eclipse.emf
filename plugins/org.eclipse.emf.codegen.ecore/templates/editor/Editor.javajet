@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.12 2004/06/17 10:36:15 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.13 2004/06/17 10:55:52 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -1562,7 +1562,7 @@ public class <%=genPackage.getEditorClassName()%>
 	public void setSelection(ISelection selection)
 	{
 		editorSelection = selection;
-		
+
 		for (Iterator listeners = selectionChangedListeners.iterator(); listeners.hasNext(); )
 		{
 			ISelectionChangedListener listener = (ISelectionChangedListener)listeners.next();
