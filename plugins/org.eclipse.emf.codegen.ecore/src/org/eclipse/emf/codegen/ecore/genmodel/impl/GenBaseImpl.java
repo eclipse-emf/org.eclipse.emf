@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.4 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.5 2004/05/13 11:00:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -224,11 +224,15 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         }
 
         boolean changed = false;
-        String emitterResult = 
-          unicodeEscapeEncode(jetEmitter.generate(new SubProgressMonitor(progressMonitor, 1), new Object [] { this }));
+        boolean isUnicodeEscapeEncoded = outputFilePath.endsWith(".properties");
+        String emitterResult = jetEmitter.generate(new SubProgressMonitor(progressMonitor, 1), new Object [] { this });
+        if (isUnicodeEscapeEncoded)
+        {
+          emitterResult = unicodeEscapeEncode(emitterResult);
+        }
 
         progressMonitor.worked(1);
-        InputStream contents = new ByteArrayInputStream(emitterResult.toString().getBytes("ISO-8859-1"));
+        InputStream contents = new ByteArrayInputStream(emitterResult.toString().getBytes(isUnicodeEscapeEncoded ? "ISO-8859-1" : "UTF-8"));
         if (targetFile.exists())
         {
           // Don't overwrite exising file
@@ -255,7 +259,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
               mergedResult = propertyMerger.getTargetProperties();
             }
 
-            contents = new ByteArrayInputStream(mergedResult.getBytes("ISO-8859-1"));
+            contents = new ByteArrayInputStream(mergedResult.getBytes(isUnicodeEscapeEncoded ? "ISO-8859-1" : "UTF-8"));
           }
         }
         else
