@@ -1,0 +1,499 @@
+/**
+ * <copyright> 
+ *
+ * Copyright (c) 2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: DelegatingWrapperItemProvider.java,v 1.1 2004/03/31 19:50:24 davidms Exp $
+ */
+package org.eclipse.emf.edit.provider;
+
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
+
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CommandWrapper;
+import org.eclipse.emf.common.command.UnexecutableCommand;
+import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationWrapper;
+import org.eclipse.emf.edit.command.CommandActionDelegate;
+import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.command.DragAndDropCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
+
+
+/**
+ * A wrapper for model objects and other wrappers.  This handles most of the item provider methods by delegating to the
+ * item provider returned by adapting on the value, but it returns the {@link IWrapperItemProvider#getOwner owner} as
+ * the parent, and it has to decorate the children, property descriptors, and commands that it returns.
+ */
+public class DelegatingWrapperItemProvider extends WrapperItemProvider
+  implements
+    IStructuredItemContentProvider,
+    ITreeItemContentProvider,
+    IItemLabelProvider,
+    IItemPropertySource,
+    IEditingDomainItemProvider,
+    IChangeNotifier,
+    INotifyChangedListener
+{
+  /**
+   * The wrapped value's item provider, to which most methods are delegated.
+   */
+  protected Object delegateItemProvider;
+
+  /**
+   * The wrapped children are cached here, keyed by the children returned by the delegate item provider.
+   */
+  protected Map childrenMap;
+
+  /**
+   * The collection of children last returned by the delegate item provider is cached here.
+   */
+  protected Collection delegateChildren;
+
+  /**
+   * The decorated property descriptors are cached here.
+   */
+  protected List propertyDescriptors;
+
+  /**
+   * Records any listeners for this wrapper and fires notifications to them.
+   */
+  protected IChangeNotifier changeNotifier;
+
+  /**
+   * Creates an instance for the given value. A decorator for the object's item provider is created, and
+   * set up to repeat notifications, decorating them, so that they will update this wrapper, rather than the model
+   * object they originate from.
+   * @exception IllegalArgumentException If the specified value is null.
+   */
+  public DelegatingWrapperItemProvider(Object value, Object owner, AdapterFactory adapterFactory)
+  {
+    super(value, owner, adapterFactory);
+
+    if (value == null)
+    {
+      throw new IllegalArgumentException("value=null");
+    }
+
+    Object delegateValue = getDelegateValue();
+    if (delegateValue != null)
+    {
+      delegateItemProvider = getRootAdapterFactory().adapt(delegateValue, IStructuredItemContentProvider.class);
+      if (delegateItemProvider instanceof IChangeNotifier)
+      {
+        ((IChangeNotifier)delegateItemProvider).addListener(this);
+      }
+    }
+  }
+
+  /**
+   * Deactivates notification repeating and disposes any wrappers it is maintaining for its children.
+   */
+  public void dispose()
+  {
+    if (delegateItemProvider instanceof IChangeNotifier)
+    {
+      ((IChangeNotifier)delegateItemProvider).removeListener(this);
+    }
+
+    if (childrenMap != null)
+    {
+      for (Iterator i = childrenMap.values().iterator(); i.hasNext();)
+      {
+        ((IDisposable)i.next()).dispose();
+      }
+    }
+  }
+
+  /**
+   * Returns the value from which to obtain and which to pass to a delegate item provider. If this returns null,
+   * no delegate item provider should ever be obtained. This implementation simply returns the value of the wrapper,
+   * though subclasses may override it to return something else.
+   */
+  protected Object getDelegateValue()
+  {
+    return value;
+  }
+
+  /**
+   * Uses the delegate item provider to return the delegate value's elements.
+   */
+  public Collection getElements(Object object)
+  {
+    return delegateItemProvider instanceof IStructuredItemContentProvider ?
+      ((IStructuredItemContentProvider)delegateItemProvider).getElements(getDelegateValue()) :
+      Collections.EMPTY_LIST;
+  }
+
+  /**
+   * Uses the delgate item provider to return the delegate value's children, with appropriate wrappers to ensure that
+   * this wrapper is considered their parent. Each child is replaced by the corresponding wrapper from {@link
+   * #childrenMap}, after updating it by calling {@link #updateChildren updateChildren}.
+   */
+  public Collection getChildren(Object object)
+  {
+    updateChildren();
+
+    Collection result = new ArrayList(delegateChildren.size());
+    for (Iterator i = delegateChildren.iterator(); i.hasNext(); )
+    {
+      result.add(childrenMap.get(i.next()));
+    }
+    return result;
+  }
+
+  /**
+   * Uses the delegate item provider to get the delegate value's children, assigning the collection to {@link
+   * #delegateChildren}, and to update the {@link #childrenMap}. New chidren are wrapped by calling {@link
+   * #createWrapper createWrapper} and added to the map; Wrappers for children that have been removed are disposed. 
+   */
+  protected void updateChildren()
+  {
+    if (delegateItemProvider instanceof ITreeItemContentProvider)
+    {
+      Set oldDelegateChildren = delegateChildren != null ? new HashSet(delegateChildren) : Collections.EMPTY_SET;
+      delegateChildren = ((ITreeItemContentProvider)delegateItemProvider).getChildren(getDelegateValue());
+
+      if (childrenMap == null && !delegateChildren.isEmpty())
+      {
+        childrenMap = new HashMap();
+      }
+      
+      // Wrap any new children and add them to the map. Remove each current child from the set of old children.
+      //
+      for (Iterator i = delegateChildren.iterator(); i.hasNext(); )
+      {
+        Object child = i.next();
+        
+        if (!childrenMap.containsKey(child))
+        {
+          IWrapperItemProvider wrapper = createWrapper(child, this, adapterFactory);
+          childrenMap.put(child, wrapper);
+        }
+        oldDelegateChildren.remove(child);
+      }
+
+      // Remove and dispose any wrappers for remaining old children.
+      //
+      for (Iterator i = oldDelegateChildren.iterator(); i.hasNext(); )
+      {
+        Object child = i.next();
+
+        IWrapperItemProvider wrapper = (IWrapperItemProvider)childrenMap.remove(child);
+        if (wrapper != null)
+        {
+          wrapper.dispose();
+        }
+      }
+    }
+    else
+    {
+      delegateChildren = Collections.EMPTY_LIST;
+    }
+  }
+
+  /**
+   * Creates a new instance of this wrapper for the given value, owner, and adapter factory.
+   */
+  protected IWrapperItemProvider createWrapper(Object value, Object owner, AdapterFactory adapterFactory)
+  {
+    return new DelegatingWrapperItemProvider(value, owner, adapterFactory);
+  }
+  
+  /**
+   * Uses the delegate item provider to test whether the delegate vlaue has children.
+   */
+  public boolean hasChildren(Object object)
+  {
+    return delegateItemProvider instanceof ITreeItemContentProvider ?
+      ((ITreeItemContentProvider)delegateItemProvider).hasChildren(getDelegateValue()) :
+      false;
+  }
+
+  /**
+   * Uses the delegate item provider to return the delegate value's text.
+   */
+  public String getText(Object object)
+  {
+    return delegateItemProvider instanceof IItemLabelProvider ?
+      ((IItemLabelProvider)delegateItemProvider).getText(getDelegateValue()) :
+      null;
+  }
+
+  /**
+   * Uses the delegate item provider to return the delegate value's image.
+   */
+  public Object getImage(Object object)
+  {
+    return delegateItemProvider instanceof IItemLabelProvider ?
+      ((IItemLabelProvider)delegateItemProvider).getImage(getDelegateValue()) :
+      null;
+  }
+
+  /**
+   * Wraps the property descriptors returned by the delegate item provider, caching and returning them.
+   */
+  public List getPropertyDescriptors(Object object)
+  {
+    if (propertyDescriptors == null)
+    {
+      if (delegateItemProvider instanceof IItemPropertySource)
+      {
+        List l = ((IItemPropertySource)delegateItemProvider).getPropertyDescriptors(getDelegateValue());
+        propertyDescriptors = new ArrayList(l.size());
+
+        for (Iterator i = l.iterator(); i.hasNext(); )
+        {
+          IItemPropertyDescriptor desc = (IItemPropertyDescriptor)i.next();
+          propertyDescriptors.add(new ItemPropertyDescriptorDecorator(getDelegateValue(), desc));
+        }
+      }
+      else
+      {
+        propertyDescriptors = Collections.EMPTY_LIST;
+      }
+    }
+    return propertyDescriptors;
+  }
+
+  /**
+   * Uses the delegate item provider to return an editable value.
+   */
+  public Object getEditableValue(Object object)
+  {
+    return delegateItemProvider instanceof IItemPropertySource ?
+      ((IItemPropertySource)delegateItemProvider).getEditableValue(getDelegateValue()) :
+      null;
+  }
+  
+  /**
+   * Uses the delegate item provider to return the delegate value's new child descriptors.
+   */
+  public Collection getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  {
+    return delegateItemProvider instanceof IEditingDomainItemProvider ?
+      ((IEditingDomainItemProvider)delegateItemProvider).getNewChildDescriptors(getDelegateValue(), editingDomain, sibling) :
+      Collections.EMPTY_LIST;
+  }
+
+  /**
+   * Uses the delegate item provider to create a command for the delegate value, and then calls {@link #wrapCommand
+   * wrapCommand} to return an appropriate wrapper-substituting command wrapper for it. Drag and drop commands are
+   * created directly by calling {@link WrapperItemProvider#createDragAndDropCommand createDragAndDropCommand}.
+   */
+  public Command createCommand(Object object, EditingDomain domain, Class commandClass, CommandParameter commandParameter)
+  {
+    if (commandClass == DragAndDropCommand.class)
+    {
+      DragAndDropCommand.Detail detail = (DragAndDropCommand.Detail)commandParameter.getFeature();
+      return createDragAndDropCommand(domain, commandParameter.getOwner(), detail.location, detail.operations, detail.operation, commandParameter.getCollection());
+    }
+    
+    if (delegateItemProvider instanceof IEditingDomainItemProvider)
+    {
+      commandParameter.setOwner(getDelegateValue());
+      Command result = ((IEditingDomainItemProvider)delegateItemProvider).createCommand(
+        getDelegateValue(), domain, commandClass, commandParameter);
+      return wrapCommand(result, commandClass);
+    }
+    return UnexecutableCommand.INSTANCE;
+  }
+
+  /**
+   * Wraps the given command in an appropriate command that will substitute the delegating wrapper for its value and
+   * child wrappers for their corresponding values, whenever they appear in the affected objects. This implementation
+   * returns an {@link AffectedObjectsWrappingCommand} or an {@link AffectedObjectsWrappingCommandActionDelegate},
+   * depending on whether the given command implements {@link CommandActionDelegate}.
+   */
+  protected Command wrapCommand(Command command, Class commandClass)
+  {
+    return command instanceof CommandActionDelegate ?
+      new AffectedObjectsWrappingCommandActionDelegate((CommandActionDelegate)command) :
+      new AffectedObjectsWrappingCommand(command);    
+  }
+
+  /**
+   * An <code>AffectedObjectsWrappingCommand</code> wraps another command to substitue this wrapper for its value
+   * and child wrappers for their corresonding child values, whenever they appear in the affected objects.
+   */
+  public class AffectedObjectsWrappingCommand extends CommandWrapper
+  {
+    public AffectedObjectsWrappingCommand(Command command)
+    {
+      super(command);
+    }
+
+    public Collection getAffectedObjects()
+    {
+      List result = new ArrayList(super.getAffectedObjects());
+      updateChildren();
+
+      for (ListIterator i = result.listIterator(); i.hasNext(); )
+      {
+        Object object = i.next();
+
+        if (object == getDelegateValue())
+        {
+          i.set(DelegatingWrapperItemProvider.this);
+        }
+        else if (childrenMap != null)
+        {
+          Object wrapper = childrenMap.get(object);
+          if (wrapper != null)
+          {
+            i.set(wrapper);
+          }
+        }
+      }
+      return result;
+    }
+  }
+
+  /**
+   * An <code>AffectedObjectsWrappingCommandActionDelegate</code> wraps another command that also implements
+   * <code>CommandActionDelegate</code>, to substitue this wrapper for its value and child wrappers for their
+   * corresonding child values, whenever they appear in the affected objects. Action delegate methods are delegated
+   * directly to the wrapped command.
+   */
+  public class AffectedObjectsWrappingCommandActionDelegate extends AffectedObjectsWrappingCommand
+    implements CommandActionDelegate
+  {
+    CommandActionDelegate commandActionDelegate;
+    
+    /**
+     * Returns a new <code>AffectedObjectsWrappingCommandActionDelegate</code> for the given command.
+     * @exception ClassCastException If the specified command does not implement {@link org.eclipse.emf.common.command.Command}.
+     */
+    public AffectedObjectsWrappingCommandActionDelegate(CommandActionDelegate command)
+    {
+      super((Command)command);
+      commandActionDelegate = command;
+    }
+
+    public boolean canExecute()
+    {
+      return commandActionDelegate.canExecute();
+    }
+
+    public Object getImage()
+    {
+      return commandActionDelegate.getImage();
+    }
+
+    public String getText()
+    {
+      return commandActionDelegate.getText();
+    }
+
+    public String getDescription()
+    {
+      return commandActionDelegate.getDescription();
+    }
+
+    public String getToolTipText()
+    {
+      return commandActionDelegate.getToolTipText();
+    }
+  }
+
+  /**
+   * Adds a listener to receive this wrapper's repeated notifications.
+   */
+  public void addListener(INotifyChangedListener listener)
+  {
+    if (changeNotifier == null)
+    {
+      changeNotifier = new ChangeNotifier();
+    }
+    changeNotifier.addListener(listener);
+  }
+
+  /**
+   * Removes a notification listener.
+   */
+  public void removeListener(INotifyChangedListener listener)
+  {
+    if (changeNotifier != null)
+    {
+      changeNotifier.removeListener(listener);
+    }
+  }
+
+  /**
+   * Fires a notification to the adapter factory and any registered listeners.
+   */
+  public void fireNotifyChanged(Notification notification)
+  {
+    if (adapterFactory instanceof IChangeNotifier)
+    {
+      IChangeNotifier adapterFactoryChangeNotifier = (IChangeNotifier)adapterFactory;
+      adapterFactoryChangeNotifier.fireNotifyChanged(notification);
+    }
+    if (changeNotifier != null)
+    {
+      changeNotifier.fireNotifyChanged(notification);
+    }
+  }
+
+  /**
+   * Called by {@link #delegateItemProvider} when it normally fires a notification to it's adapter factory; if the
+   * notification originated from the delegate value, this repeats the notification, using {@link #wrapNotification
+   * wrapNotification} to substitute this wrapper as the operative object.
+   */
+  public void notifyChanged(Notification notification)
+  {
+    if (getRefreshElement(notification) == getDelegateValue())
+    {
+      fireNotifyChanged(wrapNotification(notification));
+    }
+  }
+
+  /**
+   * Returns the operative object of this notification, from which the viewer would be refreshed. If the notification
+   * is an {@link IViewerNotification}, the {@link IViewerNotification#getElement element} is returned. Otherwise, the
+   * {@link org.eclipse.emf.common.notify.Notification#getNotifier notifier} is returned.
+   */
+  protected Object getRefreshElement(Notification notification)
+  {
+    if (notification instanceof IViewerNotification)
+    {
+      return ((IViewerNotification)notification).getElement();
+    }
+    return notification.getNotifier();
+  }
+
+  /**
+   * Wraps the given notification, substituting this wrapper as the operative object. If the notification is an {@link
+   * IViewerNotification}, it is wrapped in a {@link ViewerNotification}, in which this wrapper is the
+   * <code>element</code>. Otherwise, it is wrapped in a {@link org.eclipse.emf.common.notify.NotificationWrapper}, in
+   * which this wrapper is the <code>notifier</code>.
+   */
+  protected Notification wrapNotification(Notification notification)
+  {
+    if (notification instanceof IViewerNotification)
+    {
+      return new ViewerNotification((IViewerNotification)notification, this);
+    }
+    return new NotificationWrapper(this, notification);
+  }
+}
