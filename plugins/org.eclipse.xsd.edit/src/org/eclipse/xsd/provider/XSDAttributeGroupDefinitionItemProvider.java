@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionItemProvider.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDAttributeGroupDefinitionItemProvider.java,v 1.2 2004/04/07 22:12:58 davidms Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -23,7 +23,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -101,24 +101,24 @@ public class XSDAttributeGroupDefinitionItemProvider
   }
 
   /**
-   * This specifies how to implement {@link #getChildren} and 
-   * {@link org.eclipse.emf.edit.command.AddCommand} and 
-   * {@link org.eclipse.emf.edit.command.RemoveCommand} support in {@link #createCommand}.
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    */
-  public Collection getChildrenReferences(Object object)
+  public Collection getChildrenFeatures(Object object)
   {
-    if (childrenReferences == null)
+    if (childrenFeatures == null)
     {
-      super.getChildrenReferences(object);
+      super.getChildrenFeatures(object);
       XSDAttributeGroupDefinition xsdAttributeGroupDefinition = ((XSDAttributeGroupDefinition)object);
-      childrenReferences.add(xsdPackage.getXSDAttributeGroupDefinition_Annotation());
-      childrenReferences.add(xsdPackage.getXSDAttributeGroupDefinition_Contents());
-      childrenReferences.add(xsdPackage.getXSDAttributeGroupDefinition_AttributeWildcardContent());
+      childrenFeatures.add(xsdPackage.getXSDAttributeGroupDefinition_Annotation());
+      childrenFeatures.add(xsdPackage.getXSDAttributeGroupDefinition_Contents());
+      childrenFeatures.add(xsdPackage.getXSDAttributeGroupDefinition_AttributeWildcardContent());
     }
-    return childrenReferences;
+    return childrenFeatures;
   }
 
-  protected EReference getChildReference(Object object, Object child)
+  protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     XSDAttributeGroupDefinition xsdAttributeGroupDefinition = ((XSDAttributeGroupDefinition)object);
     EObject refObject = (EObject)child;
@@ -127,7 +127,7 @@ public class XSDAttributeGroupDefinitionItemProvider
       // TODO: check that this is what you want.
       return xsdPackage.getXSDAttributeGroupDefinition_Contents();
     }
-    return super.getChildReference(object, child);
+    return super.getChildFeature(object, child);
   }
 
   /**

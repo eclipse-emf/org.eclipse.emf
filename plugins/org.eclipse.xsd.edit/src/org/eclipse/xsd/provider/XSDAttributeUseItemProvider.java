@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseItemProvider.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDAttributeUseItemProvider.java,v 1.2 2004/04/07 22:12:58 davidms Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -156,18 +156,18 @@ public class XSDAttributeUseItemProvider
     return itemPropertyDescriptors;
   }
 
-  public Collection getChildrenReferences(Object object)
+  public Collection getChildrenFeatures(Object object)
   {
-    if (childrenReferences == null)
+    if (childrenFeatures == null)
     {
-      super.getChildrenReferences(object);
-      childrenReferences.clear();
+      super.getChildrenFeatures(object);
+      childrenFeatures.clear();
 /*
       XSDAttributeUse xsdAttributeUse = ((XSDAttributeUse)object);
-      childrenReferences.add(xsdPackage.getXSDAttributeUse_Content());
+      childrenFeatures.add(xsdPackage.getXSDAttributeUse_Content());
 */
     }
-    return childrenReferences;
+    return childrenFeatures;
   }
 
   public Collection getChildren(Object object)

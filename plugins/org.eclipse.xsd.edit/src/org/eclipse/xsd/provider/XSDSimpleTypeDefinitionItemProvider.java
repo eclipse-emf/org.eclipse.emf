@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionItemProvider.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDSimpleTypeDefinitionItemProvider.java,v 1.2 2004/04/07 22:12:58 davidms Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -324,22 +324,22 @@ public class XSDSimpleTypeDefinitionItemProvider
   }
 
   /**
-   * This specifies how to implement {@link #getChildren} and 
-   * {@link org.eclipse.emf.edit.command.AddCommand} and 
-   * {@link org.eclipse.emf.edit.command.RemoveCommand} support in {@link #createCommand}.
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    */
-  public Collection getChildrenReferences(Object object)
+  public Collection getChildrenFeatures(Object object)
   {
-    if (childrenReferences == null)
+    if (childrenFeatures == null)
     {
-      super.getChildrenReferences(object);
+      super.getChildrenFeatures(object);
       XSDSimpleTypeDefinition xsdSimpleTypeDefinition = ((XSDSimpleTypeDefinition)object);
-      childrenReferences.add(xsdPackage.getXSDTypeDefinition_Annotation());
-      childrenReferences.add(xsdPackage.getXSDTypeDefinition_DerivationAnnotation());
-      childrenReferences.add(xsdPackage.getXSDSimpleTypeDefinition_Contents());
-      childrenReferences.add(xsdPackage.getXSDSimpleTypeDefinition_FacetContents());
+      childrenFeatures.add(xsdPackage.getXSDTypeDefinition_Annotation());
+      childrenFeatures.add(xsdPackage.getXSDTypeDefinition_DerivationAnnotation());
+      childrenFeatures.add(xsdPackage.getXSDSimpleTypeDefinition_Contents());
+      childrenFeatures.add(xsdPackage.getXSDSimpleTypeDefinition_FacetContents());
     }
-    return childrenReferences;
+    return childrenFeatures;
   }
 
   /**
