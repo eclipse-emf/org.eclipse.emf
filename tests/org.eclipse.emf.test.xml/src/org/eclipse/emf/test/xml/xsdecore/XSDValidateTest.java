@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.1 2004/11/04 05:52:46 marcelop Exp $
+ * $Id: XSDValidateTest.java,v 1.2 2004/12/28 22:40:02 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -71,7 +71,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value 'a' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#decimal'",
       "XSD: The value 'bad' of attribute 'fixed' must be of type 'http://www.w3.org/2001/XMLSchema#boolean'",
       "XSD: The value '1' of attribute 'value' must be greater than '2' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetRestriction_._base'",
-      "XSD: The value '1' is not greater than or equal to the value '2' of the minExclusive facet of 'http://www.example.com/Bad#badMinExclusiveFacetRestriction_._base",
+      "XSD: The value '1' is not greater than or equal to the value '2' of the minExclusive facet of 'http://www.example.com/Bad#badMinExclusiveFacetRestriction_._base'",
       "XSD: The value '2' of attribute 'value' must be less than '2' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetRestrictionWithBaseMaxExclusive_._base'",
       "XSD: The value '2' is not less than the value '2' of the maxExclusive facet of 'http://www.example.com/Bad#badMinExclusiveFacetRestrictionWithBaseMaxExclusive_._base'",
       "XSD: The value '2' is not less than the value '2' of the maxExclusive facet",
@@ -131,7 +131,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value 'xqualified' of attribute 'form' must be one of qualified, unqualified as constrained by 'http://www.w3.org/2001/XMLSchema#formChoice'",
       "XSD: Attribute reference 'http://www.example.com/Bad#badAttributeReference' is unresolved",
       "XSD: An attribute reference may not have a name",
-      "XSD: The fixed value '2' must be equal to the fixed value '1' of the referenced attribute",
+      "XSD: The 'fixed' value '2' must be equal to the 'fixed' value '1' of the referenced attribute",
       "XSD: An attribute reference may not have a form",
       "XSD: An attribute reference may not have a type",
       "XSD: An attribute reference may not have a type",
@@ -218,7 +218,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The base type 'http://www.example.com/Bad#okayComplexTypeSimple' is final for restriction",
       "XSD: Attribute reference 'http://www.example.com/Other#A' is unresolved",
       "XSD: The type of attribute '#a' must derive from 'http://www.w3.org/2001/XMLSchema#string'",
-      "XSD: The attribute '#b' must be required as in the base ",
+      "XSD: The attribute '#b' must be 'required' as in the base ",
       "XSD: The attribute target namespace of '#B' must be allowed by the base type wildcard",
       "XSD: The attribute wildcard must be a subset of that of the base type",
       "XSD: The restricted content type many not be empty because the base isn't empty or emptiable",
@@ -231,13 +231,13 @@ public class XSDValidateTest extends TestCase
       "XSD: A type with mixed content may only restrict a base type with mixed content ",
       "XSD: The restricted content type must accept a subset of the content accepted by the base type",
       "XSD: The restricted content type must accept a subset of the content accepted by the base type",
-      "XSD: The element '#e1' must be nillable as in the base",
+      "XSD: The element '#e1' must be 'nillable' as in the base",
       "XSD: The restricted content type must accept a subset of the content accepted by the base type",
-      "XSD: The fixed value 'xy' of element '#e' must be the same as in the base",
+      "XSD: The 'fixed' value 'xy' of element '#e' must be the same as in the base",
       "XSD: The restricted content type must accept a subset of the content accepted by the base type",
       "XSD: The type of element '#e' must derive from 'http://www.w3.org/2001/XMLSchema#token'",
       "XSD: The restricted content type must accept a subset of the content accepted by the base type",
-      "XSD: The disallowed substitutions of '#e' must be a superset of those in the base",
+      "XSD: The 'disallowed substitutions' of '#e' must be a superset of those in the base",
       "XSD: The type of element '#e' must derive from 'http://www.example.com/Bad#e_._type'",
       "XSD: The restricted content type must accept a subset of the content accepted by the base type",
       "XSD: The type 'http://www.w3.org/2001/XMLSchema#anySimpleType' is not a valid base type",
@@ -245,8 +245,8 @@ public class XSDValidateTest extends TestCase
       "XSD: The type may not have duplicate name and target namespace 'http://www.example.com/Bad#badComplexExtension'",
       "XSD: The type may not have duplicate name and target namespace 'http://www.example.com/Bad#badSimpleBaseForRestrictionSimpleContent'",
       "XSD: The location 'Other.xsd' has not been resolved",
-      "XSD: The attribute 'maxOccurs' is not permitted",
       "XSD: The attribute 'minOccurs' is not permitted",
+      "XSD: The attribute 'maxOccurs' is not permitted",
       "XSD: The value 'id:id' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#sequence' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#all'; expecting annotation | element | nothing",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#annotation' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#explicitGroup'; expecting choice | sequence | element | any | group | nothing",
