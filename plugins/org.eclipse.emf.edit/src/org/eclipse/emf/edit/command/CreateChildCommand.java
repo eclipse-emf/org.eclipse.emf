@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateChildCommand.java,v 1.3 2004/03/31 19:40:44 davidms Exp $
+ * $Id: CreateChildCommand.java,v 1.4 2004/07/16 16:21:03 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -201,7 +201,7 @@ public class CreateChildCommand extends CommandWrapper
     this.selection = selection == null ? Collections.EMPTY_LIST : selection;
     this.helper = helper == null ? defaultHelper : helper;
 
-    String text = helper.getCreateChildText(owner, feature, child, selection);
+    String text = this.helper.getCreateChildText(owner, feature, child, selection);
     setLabel(EMFEditPlugin.INSTANCE.getString(
       "_UI_CreateChildCommand_label", new Object[] { text }));
     setDescription(EMFEditPlugin.INSTANCE.getString(
