@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<link rel="stylesheet" href="http://dev.eclipse.org/default_style.css" type="text/css"/>
 <link rel="stylesheet" href="images/../../../css/book.css" type="text/css"/>
 <link rel="stylesheet" href="images/../../../css/emf-book.css" type="text/css"/>
 <title>The Eclipse Modeling Framework (EMF) Overview</title>
@@ -11,7 +10,7 @@
 <body lang="EN-US" xml:lang="EN-US">
 <h1>The Eclipse Modeling Framework (EMF) Overview</h1>
 <p>
-Last updated: May 31, 2004
+Last updated: June 1, 2004
 </p>
 <p>
 This paper presents a basic overview of EMF and its code generator patterns. For 
@@ -166,9 +165,9 @@ metadata and merge the generated code with the rest of the implementation.
 We could have defined our Book model class in Java like this:
 </p>
 <pre class="code">
-/**
- * @model
- */
+  /**
+   * @model
+   */
   public interface Book
   {
     /**
@@ -469,7 +468,7 @@ msgs.dispatch(), as shown in the setAuthor() method, above.
 <h3>Multiplicity-many references</h3>
 <p>
 You may have noticed in our example that the books association (from Writer to 
-Book) is multiplicity many (e.g., 0..*). In other words, one writer may 
+Book) is multiplicity many (that is, 0..*). In other words, one writer may 
 have written many books. Multiplicity-many references (that is, any 
 reference where the upper bound is greater than 1) in EMF are manipulated 
 using a collection API, so only a get method is generated in the 
@@ -733,7 +732,7 @@ For situations where only the literal name (String) or value (int) is available,
 convenience get() methods, which can be used to retrieve the corresponding
 literal object, are also generated in the enumeration class.
 </p>
-<h3>Factories and Packages</h3>
+<h3>Factories and packages</h3>
 <p>
 In addition to the model interfaces and implementation classes, EMF generates 
 at least two more interfaces (and implementation classes): a factory and a
@@ -962,7 +961,7 @@ code.
 </p>
 <p>
 This may be done by removing the @generated tag from the generated
-implementation, as described above, and adding the code write there.
+implementation, as described above, and adding the code right there.
 Alternatively, the Java code can be included right in the model. In Rose, you
 can enter it in the text box on the Semantics tab of an Operation Specification
 dialog.  The code will then be stored in the EMF model as an annotation on the
@@ -1281,6 +1280,13 @@ In that case, the generated get method will be optimally
 efficient<sup><a class="footnote" href="#fn21">[21]</a><a name="ref21">&nbsp;</a></sup>.
 </p>
 </li>
+<li><p><b>Unique</b> (default is true)</p>
+<p>
+Unique only applies to multiplicity-many attributes, indicating that such an
+attribute may not contain multiple equal objects. References are always treated
+as unique.
+</p>
+</li>
 <li><p><b>Changeable</b> (default is true)</p>
 <p>
 A feature that is not changeable will not include a generated set method, and
@@ -1292,29 +1298,32 @@ references or attributes to be not changeable usually implies that the feature
 will be set or changed by some other (user-written) code.
 </p>
 </li>
-<li><p><b>Transient</b> (default is false)</p>
-<p>
-Transient features are used to declare (modeled) data whose lifetime never spans 
-application invocations and therefore doesn't need to be persisted. The (default 
-XMI) serializer will not save features that are declared to be transient. The
-generated code is unaffected by the value of the transient flag, except for
-the package implementation class, which initializes the metadata for the model.
-</p>
-</li>
 <li><p><b>Volatile</b> (default is false)</p>
 <p>
 A feature that is declared volatile is generated without storage fields and with
 empty implementation method bodies, which you are required to fill in. Volatile
-is most commonly used for a feature whose value is derived from some other
-features. Features that are volatile are usually also transient and not
-changeable.
+is commonly used for a feature whose value is derived from some other feature,
+or for a feature that is to be implemented by hand using a different storage
+and implementation pattern.
 </p>
 </li>
-<li><p><b>Unique</b> (default is true)</p>
+<li><p><b>Derived</b> (default is false)</p>
 <p>
-Unique only applies to multiplicity-many attributes, indicating that such an
-attribute may not contain multiple equal objects. References are always treated
-as unique.
+The value of a derived feature is computed from other features, so it doesn't
+represent any additional object state. Framework classes, such as
+EcoreUtil.Copier, that copy model objects will not attempt to copy such
+features. The generated code is unaffected by the value of the derived flag,
+except for the package implementation class, which initializes the metadata for
+the model. Derived features are typically also marked volatile and transient.
+</p>
+</li>
+<li><p><b>Transient</b> (default is false)</p>
+<p>
+Transient features are used to declare (modeled) data whose lifetime never spans 
+application invocations and therefore doesn't need to be persisted. The (default 
+XMI) serializer will not save features that are declared to be transient. Like
+derived, transient's only effect on the generated code is the metadata
+initialization in the package implementation class.
 </p>
 </li>
 </ul>
