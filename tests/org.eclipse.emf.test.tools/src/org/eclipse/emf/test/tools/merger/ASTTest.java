@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.7 2005/01/05 20:42:52 marcelop Exp $
+ * $Id: ASTTest.java,v 1.8 2005/02/11 04:41:21 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -83,7 +83,7 @@ public class ASTTest extends TestCase
  
  public void testRead()
  {
-   String content = TestUtil.readFile(CLASS_FILE);
+   String content = TestUtil.readFile(CLASS_FILE, false);
    
    ASTParser astParser = ASTParser.newParser(AST.JLS3);
    astParser.setSource(content.toCharArray());

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.3 2005/01/05 20:42:52 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.4 2005/02/11 04:41:21 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -72,7 +72,7 @@ public class JMergerTest extends TestCase
     jMerger.setControlModel(controlModel);
 
     // set source
-    jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(TestUtil.readFile(MERGE_SOURCE)));
+    jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(TestUtil.readFile(MERGE_SOURCE, false)));
     
     // set target
     jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(new FileInputStream(MERGE_TARGET)));
@@ -93,7 +93,7 @@ public class JMergerTest extends TestCase
       }
     }
     
-    String expectedMerge = TestUtil.readFile(MERGE_EXPECTED);
+    String expectedMerge = TestUtil.readFile(MERGE_EXPECTED, false);
     assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\r'", expectedMerge, mergeResult.toString());
   }  
 }

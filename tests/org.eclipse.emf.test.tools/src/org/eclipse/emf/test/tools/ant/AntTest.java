@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.2 2005/02/11 03:41:53 marcelop Exp $
+ * $Id: AntTest.java,v 1.3 2005/02/11 04:41:21 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -185,7 +185,7 @@ public class AntTest extends TestCase
     assertTrue("File: " + expectedFile, expectedFile.isFile());
     assertTrue("File: " + generatedFile, generatedFile.isFile());
     
-    String expectedContent = TestUtil.readFile(expectedFile);
+    String expectedContent = TestUtil.readFile(expectedFile, true);
     if (testTokenReplacements != null)
     {
       for (int i=testTokenReplacements.length-1; i >= 0; i--)
@@ -194,7 +194,7 @@ public class AntTest extends TestCase
         expectedContent = expectedContent.replaceAll(TEST_TOKEN+i, replacement.replaceAll("\\\\", "\\\\\\\\"));
       }
     }
-    String generatedContent = TestUtil.readFile(generatedFile);
+    String generatedContent = TestUtil.readFile(generatedFile, true);
     
     //Remove CVS tags
     expectedContent = expectedContent.replaceAll("\\$Id.*\\$", "");
