@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtilStaticMethodsTest.java,v 1.4.2.1 2005/01/14 22:56:18 nickb Exp $
+ * $Id: EcoreUtilStaticMethodsTest.java,v 1.4.2.2 2005/01/14 23:37:29 nickb Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -47,7 +47,7 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testGenerateUUID"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testIndexOf"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testSetEList"));
-    testSuite.addTest(new EcoreUtilStaticMethodsTest("testCopyUnsettableSetEmptyList"));
+    //testSuite.addTest(new EcoreUtilStaticMethodsTest("testCopyUnsettableSetEmptyList")); // not supported in 2.0.2 (yet)
     return testSuite;
   }
   

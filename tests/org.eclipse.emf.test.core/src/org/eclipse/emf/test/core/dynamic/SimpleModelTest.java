@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.7.2.1 2005/01/14 22:56:18 nickb Exp $
+ * $Id: SimpleModelTest.java,v 1.7.2.2 2005/01/14 23:37:29 nickb Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -86,7 +86,7 @@ public class SimpleModelTest extends TestCase
     ts.addTest(new SimpleModelTest("testSaveAndLoad"));
     ts.addTest(new SimpleModelTest("testSaveAndLoadZip"));
     ts.addTest(new SimpleModelTest("testProxy"));
-    ts.addTest(new SimpleModelTest("testTrackingModificaiton"));
+    //ts.addTest(new SimpleModelTest("testTrackingModificaiton")); // not supported in 2.0.2 (yet)
     return ts;
   }
 

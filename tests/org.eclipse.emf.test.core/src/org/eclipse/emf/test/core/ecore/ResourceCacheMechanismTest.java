@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceCacheMechanismTest.java,v 1.3.2.1 2005/01/14 22:56:18 nickb Exp $
+ * $Id: ResourceCacheMechanismTest.java,v 1.3.2.2 2005/01/14 23:37:29 nickb Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -57,10 +57,10 @@ public class ResourceCacheMechanismTest extends TestCase
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite("ResourceCacheMechanismTest");
-    testSuite.addTest(new ResourceCacheMechanismTest("testResourceImplIntrinsicIDCache"));
+    //testSuite.addTest(new ResourceCacheMechanismTest("testResourceImplIntrinsicIDCache")); // not supported in 2.0.2 (yet)
     testSuite.addTest(new ResourceCacheMechanismTest("testXMLResourceIDCache"));
-    testSuite.addTest(new ResourceCacheMechanismTest("testXMLResourceImplIDCache"));
-    testSuite.addTest(new ResourceCacheMechanismTest("testAllIDCaches"));
+    //testSuite.addTest(new ResourceCacheMechanismTest("testXMLResourceImplIDCache")); // not supported in 2.0.2 (yet)
+    //testSuite.addTest(new ResourceCacheMechanismTest("testAllIDCaches")); // not supported in 2.0.2 (yet)
     testSuite.addTest(new ResourceCacheMechanismTest("testResourceSetURICache"));
     testSuite.addTest(new ResourceCacheMechanismTest("testXMLResourceIDCacheWithContainment"));
     return testSuite;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MultivalueAttributeTest.java,v 1.2.2.1 2005/01/14 22:56:18 nickb Exp $
+ * $Id: MultivalueAttributeTest.java,v 1.2.2.2 2005/01/14 23:37:29 nickb Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -62,8 +62,8 @@ public class MultivalueAttributeTest extends TestCase
   {
     TestSuite ts = new TestSuite("MultivalueAttributeTest");
     ts.addTest(new MultivalueAttributeTest("testMultiValueAttributeChange"));
-    ts.addTest(new MultivalueAttributeTest("testApplyAndReverse"));
-    ts.addTest(new MultivalueAttributeTest("testSerialization"));
+    //ts.addTest(new MultivalueAttributeTest("testApplyAndReverse")); // not supported in 2.0.2 (yet)
+    //ts.addTest(new MultivalueAttributeTest("testSerialization")); // not supported in 2.0.2 (yet)
     return ts;
   }
    

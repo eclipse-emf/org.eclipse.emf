@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.1.2.1 2005/01/14 22:56:18 nickb Exp $
+ * $Id: SpecialCasesTest.java,v 1.1.2.2 2005/01/14 23:37:29 nickb Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -69,11 +69,11 @@ public class SpecialCasesTest  extends TestCase
     ts.addTest(new SpecialCasesTest("testOneToManyContainment"));
     ts.addTest(new SpecialCasesTest("testOneToOneContainment"));
     ts.addTest(new SpecialCasesTest("testBiDirectional"));
-    ts.addTest(new SpecialCasesTest("testMultipleResources"));
+    //ts.addTest(new SpecialCasesTest("testMultipleResources")); // not supported in 2.0.2 (yet)
     ts.addTest(new SpecialCasesTest("testCopyChangeDescription"));
     ts.addTest(new SpecialCasesTest("testCopyChangeDescriptionAndObject"));
     ts.addTest(new SpecialCasesTest("testChangeDescriptionWhenResumming1"));
-    ts.addTest(new SpecialCasesTest("testChangeDescriptionWhenResumming2"));
+    //ts.addTest(new SpecialCasesTest("testChangeDescriptionWhenResumming2")); // not supported in 2.0.2 (yet)
     return ts;
   }
 

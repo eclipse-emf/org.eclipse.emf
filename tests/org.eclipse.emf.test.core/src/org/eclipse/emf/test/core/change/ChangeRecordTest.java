@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.5.2.1 2005/01/14 22:56:18 nickb Exp $
+ * $Id: ChangeRecordTest.java,v 1.5.2.2 2005/01/14 23:37:29 nickb Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -94,8 +94,8 @@ extends TestCase
     ts.addTest(new ChangeRecordTest("testMoveElementAndApply", callSummarize));
     ts.addTest(new ChangeRecordTest("testApply", callSummarize));
     ts.addTest(new ChangeRecordTest("testApplyAndReverse", callSummarize));
-    ts.addTest(new ChangeRecordTest("testResumeRecording", callSummarize));
-    ts.addTest(new ChangeRecordTest("testResumeSerializedRecording", callSummarize));
+    //ts.addTest(new ChangeRecordTest("testResumeRecording", callSummarize)); // not supported in 2.0.2 (yet)
+    //ts.addTest(new ChangeRecordTest("testResumeSerializedRecording", callSummarize)); // // not supported in 2.0.2 (yet)
     return ts;
   }
   

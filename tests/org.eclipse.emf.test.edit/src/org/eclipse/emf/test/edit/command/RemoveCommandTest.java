@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RemoveCommandTest.java,v 1.1.2.1 2005/01/14 22:56:19 nickb Exp $
+ * $Id: RemoveCommandTest.java,v 1.1.2.2 2005/01/14 23:37:30 nickb Exp $
  */
 package org.eclipse.emf.test.edit.command;
 
@@ -50,8 +50,8 @@ public class RemoveCommandTest extends TestCase
   public static Test suite()
   {
     TestSuite suite = new TestSuite("RemoveCommandTest");
-    suite.addTest(new RemoveCommandTest("testRemoveSameValue"));
-    suite.addTest(new RemoveCommandTest("testRemoveSameValues"));
+    //suite.addTest(new RemoveCommandTest("testRemoveSameValue")); // not supported in 2.0.2 (yet)
+    //suite.addTest(new RemoveCommandTest("testRemoveSameValues")); // not supported in 2.0.2 (yet)
     suite.addTest(new RemoveCommandTest("testRemoveEqualValues"));
     return suite;
   }

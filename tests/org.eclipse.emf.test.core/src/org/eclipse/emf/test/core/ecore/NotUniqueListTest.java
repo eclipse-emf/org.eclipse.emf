@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotUniqueListTest.java,v 1.2.2.1 2005/01/14 22:56:18 nickb Exp $
+ * $Id: NotUniqueListTest.java,v 1.2.2.2 2005/01/14 23:37:29 nickb Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -47,8 +47,8 @@ public class NotUniqueListTest extends TestCase
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite("ListTest");
-    testSuite.addTest(new NotUniqueListTest("testRemoveAll"));
-    testSuite.addTest(new NotUniqueListTest("testDynamicModel"));
+    //testSuite.addTest(new NotUniqueListTest("testRemoveAll")); // not supported in 2.0.2 (yet)
+    //testSuite.addTest(new NotUniqueListTest("testDynamicModel")); // not supported in 2.0.2 (yet)
     return testSuite;
   }
   

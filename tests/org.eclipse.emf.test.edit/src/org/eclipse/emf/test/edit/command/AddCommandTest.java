@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddCommandTest.java,v 1.1.2.1 2005/01/14 22:56:19 nickb Exp $
+ * $Id: AddCommandTest.java,v 1.1.2.2 2005/01/14 23:37:30 nickb Exp $
  */
 package org.eclipse.emf.test.edit.command;
 
@@ -48,9 +48,9 @@ public class AddCommandTest extends TestCase
   public static Test suite()
   {
     TestSuite suite = new TestSuite("AddCommandTest");
-    suite.addTest(new AddCommandTest("testAddDuplicatesToUnique"));
-    suite.addTest(new AddCommandTest("testAddSameDuplicate"));
-    suite.addTest(new AddCommandTest("testAddEqualDuplicate"));
+    //suite.addTest(new AddCommandTest("testAddDuplicatesToUnique")); // not supported in 2.0.2 (yet)
+    //suite.addTest(new AddCommandTest("testAddSameDuplicate")); // not supported in 2.0.2 (yet)
+    //suite.addTest(new AddCommandTest("testAddEqualDuplicate")); // not supported in 2.0.2 (yet)
     return suite;
   }
 

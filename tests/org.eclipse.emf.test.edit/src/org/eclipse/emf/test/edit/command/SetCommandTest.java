@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommandTest.java,v 1.1.2.1 2005/01/14 22:56:19 nickb Exp $
+ * $Id: SetCommandTest.java,v 1.1.2.2 2005/01/14 23:37:30 nickb Exp $
  */
 package org.eclipse.emf.test.edit.command;
 
@@ -54,8 +54,8 @@ public class SetCommandTest extends TestCase
   public static Test suite()
   {
     TestSuite suite = new TestSuite("SetCommandTest");
-    suite.addTest(new SetCommandTest("testDuplicate"));
-    suite.addTest(new SetCommandTest("testDuplicateInUniqueAttribute"));
+    //suite.addTest(new SetCommandTest("testDuplicate")); // not supported in 2.0.2 (yet)
+    //suite.addTest(new SetCommandTest("testDuplicateInUniqueAttribute")); // not supported in 2.0.2 (yet)
     suite.addTest(new SetCommandTest("testDuplicateInAttribute"));
     suite.addTest(new SetCommandTest("testManyToManySimple"));
     suite.addTest(new SetCommandTest("testManyToMany"));
@@ -68,7 +68,7 @@ public class SetCommandTest extends TestCase
     suite.addTest(new SetCommandTest("testManyToOne"));
     suite.addTest(new SetCommandTest("testOneToOneSimple"));
     suite.addTest(new SetCommandTest("testOneToOne"));
-    suite.addTest(new SetCommandTest("testManyStayEmpty"));
+    //suite.addTest(new SetCommandTest("testManyStayEmpty")); // not supported in 2.0.2 (yet)
     return suite;
   }
 
