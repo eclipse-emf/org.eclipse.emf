@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.8 2004/09/29 19:19:17 nickb Exp $
+ * $Id: feature.xml,v 1.9 2004/10/07 16:30:36 marcelop Exp $
  */
 -->
 
@@ -42,19 +42,17 @@
 
    <!-- Required Eclipse plugins -->
    
-   <!-- the plugin is actually numbered _0.0.0, but for some hackish reason, the folder, when created at test-time, gets named _2.1.0 -->
-   <!-- so to fix the "org.eclipse.test_0.0.0 not found." error, I've changed the version="" value to 2.1.0 instead of 0.0.0 -->
    <plugin
          id="org.eclipse.test"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="3.1.0"/>
 
    <plugin
          id="org.eclipse.ant.optional.junit"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.1.0"
          fragment="true"/>
 
    <!-- End of required Eclipse plugins -->
