@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.10 2004/12/08 17:37:40 marcelop Exp $
+ * $Id: plugin.xml,v 1.11 2004/12/15 00:29:14 davidms Exp $
  */
 -->
 
@@ -39,50 +39,10 @@
     </library>
   </runtime>
 
-  <extension-point name="%_UI_PackageRegistry_extensionpoint" id="generated_package"/>
-<!--
-    An EMF generated package can be registered with the EPackage.Registry.INSTANCE as follows:
-
-      <extension point="org.eclipse.emf.ecore.generated_package" >
-         <package uri="http://www.eclipse.org/xsd/2002/XSD" class="org.eclipse.xsd.XSDPackage"/> 
-      </extension>
--->
-
-  <extension-point name="%_UI_URIExtensionParserRegistry_extensionpoint" id="extension_parser"/>
-
-<!-- 
-    An EMF Resource.Factory can be registered with the Resource.Factory.Registry.INSTANCE as an extension parser as follows:
-
-      <extension point="org.eclipse.emf.ecore.extension_parser">
-         <parser type="xsd" class="org.eclipse.xsd.util.XSDResourceFactoryImpl"/>
-      </extension>
--->
-
-  <extension-point name="%_UI_URIProtocolParserRegistry_extensionpoint" id="protocol_parser"/>
-<!--
-    An EMF Resource.Factory can be registered with the Resource.Factory.Registry.INSTANCE as a protocol parser as follows:
-
-      <extension point="org.eclipse.emf.ecore.protocol_parser" >
-         <parser protocolName="java" class="org.eclipse.java.JavaDocumentParser"/>
-      </extension>
--->
-
-  <extension-point name="%_UI_URIMappingRegistry_extensionpoint" id="uri_mapping"/>
-<!--
-    A URI mapping can be registered with the URIConverter.URI_MAP as follows:
-
-      <extension point="org.eclipse.emf.ecore.uri_mapping" >
-         <mapping source="//special/" target="special/"/>
-      </extension>
-  
-    If the target is relative, it is resolved against the plugin's installed location,
-    returning in a URI of the form:
-
-      platform:/plugin/plugin-name_1.2.3/...
-
-    A folder to folder mapping, i.e., where both source and target end in /,
-    will remap entire subtrees, not just instances that match exactly.
--->
+  <extension-point id="generated_package" name="%_UI_PackageRegistry_extensionpoint" schema="schema/generated_package.exsd"/>
+  <extension-point id="extension_parser" name="%_UI_URIExtensionParserRegistry_extensionpoint" schema="schema/extension_parser.exsd"/>
+  <extension-point id="protocol_parser" name="%_UI_URIProtocolParserRegistry_extensionpoint" schema="schema/protocol_parser.exsd"/>
+  <extension-point id="uri_mapping" name="%_UI_URIMappingRegistry_extensionpoint" schema="schema/uri_mapping.exsd" />
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package
