@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.19 2004/08/03 16:22:33 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.20 2004/08/04 19:26:22 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1732,6 +1732,7 @@ public class XSDEcoreBuilder extends MapBuilder
     ResourceSet result = new ResourceSetImpl();
     result.getLoadOptions().put(XSDResourceImpl.XSD_TRACK_LOCATION, Boolean.TRUE);
     result.getResourceFactoryRegistry().getExtensionToFactoryMap().put("wsdl", new XSDResourceFactoryImpl());
+    result.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xsd", new XSDResourceFactoryImpl());
     return result;
   }
 
