@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LoadResourceAction.java,v 1.2 2004/04/22 15:56:37 marcelop Exp $
+ * $Id: LoadResourceAction.java,v 1.3 2004/05/12 22:31:45 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -239,7 +239,14 @@ public class LoadResourceAction extends Action
       for (StringTokenizer stringTokenizer = new StringTokenizer(resourceURIs); stringTokenizer.hasMoreTokens(); )
       {
         String resourceURI = stringTokenizer.nextToken();
-        domain.getResourceSet().getResource(URI.createURI(resourceURI), true);
+        try
+        {
+          domain.getResourceSet().getResource(URI.createURI(resourceURI), true);
+        }
+        catch (RuntimeException exception)
+        {
+          EMFEditUIPlugin.INSTANCE.log(exception);
+        }
       }
       super.okPressed();
     }
