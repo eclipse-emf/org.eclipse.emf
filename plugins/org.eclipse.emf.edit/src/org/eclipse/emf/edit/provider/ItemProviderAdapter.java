@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.5 2004/05/22 19:07:05 marcelop Exp $
+ * $Id: ItemProviderAdapter.java,v 1.6 2004/05/28 12:18:25 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1169,6 +1169,33 @@ public class ItemProviderAdapter
       // 
       else if (childFeature.isMany())
       {
+        // Correct the index, if necessary.
+        //
+        if (index != CommandParameter.NO_INDEX)
+        {
+          for (Iterator childrenFeatures = getAnyChildrenFeatures(eObject).iterator(); childrenFeatures.hasNext(); )
+          {
+            EStructuralFeature feature = (EStructuralFeature)childrenFeatures.next();
+            if (feature == childFeature)
+            {
+              break;
+            } 
+
+            if (feature.isMany())
+            {
+              index -= ((List)(eObject).eGet(feature)).size();
+            }
+            else if (eObject.eGet(feature) != null)
+            {
+              index -= 1;
+            }
+          }
+          if (index < 0)
+          {
+            break;
+          }
+        }
+
         // These will be the children belonging to this feature.
         //
         Collection childrenOfThisFeature = new ArrayList();
