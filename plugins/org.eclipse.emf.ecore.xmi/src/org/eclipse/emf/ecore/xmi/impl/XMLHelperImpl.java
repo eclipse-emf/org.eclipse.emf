@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.23 2005/03/03 00:05:51 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.24 2005/04/06 15:08:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -593,9 +593,28 @@ public class XMLHelperImpl implements XMLHelper
     return resource == null ? null : resource.getID(obj);
   }
 
+  protected String getURIFragmentQuery(Resource containingResource, EObject object)
+  {
+    return null;
+  }
+
+  protected String getURIFragment(Resource containingResource, EObject object)
+  {
+    String result = containingResource.getURIFragment(object);
+    if (result.charAt(0) != '/')
+    {
+      String query = getURIFragmentQuery(containingResource, object);
+      if (query != null)
+      {
+        result += "?" + query + "?";
+      }
+    }
+    return result;
+  }
+
   public String getIDREF(EObject obj)
   {
-    return resource == null ? null : resource.getURIFragment(obj);
+    return resource == null ? null : getURIFragment(resource, obj);
   }
 
   protected URI handleDanglingHREF(EObject object)
@@ -646,7 +665,7 @@ public class XMLHelperImpl implements XMLHelper
 
   protected URI getHREF(Resource otherResource, EObject obj)
   {
-    return otherResource.getURI().appendFragment(otherResource.getURIFragment(obj));
+    return otherResource.getURI().appendFragment(getURIFragment(otherResource, obj));
   }
 
   public URI deresolve(URI uri)
