@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.11 2004/06/12 12:06:00 emerks Exp $
+ * $Id: XMLHandler.java,v 1.12 2004/06/15 21:52:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -684,12 +684,20 @@ public abstract class XMLHandler
     EFactory eFactory = getFactoryForPrefix(prefix);
     if (eFactory == null && prefix.equals("") && helper.getURI(prefix) == null)
     {
-      error
-        (new PackageNotFoundException
-           (null,
-            getLocation(),
-            getLineNumber(),
-            getColumnNumber()));
+      EPackage ePackage = handleMissingPackage(null);
+      if (ePackage == null)
+      {
+        error
+          (new PackageNotFoundException
+             (null,
+              getLocation(),
+              getLineNumber(),
+              getColumnNumber()));
+      }
+      else
+      {
+        eFactory = ePackage.getEFactoryInstance();
+      }
     }
 
     if (extendedMetaData != null && eFactory != null)
@@ -1228,12 +1236,22 @@ public abstract class XMLHandler
 
     if (eFactory == null && prefix.equals("") && helper.getURI(prefix) == null)
     {
-      error
-        (new PackageNotFoundException
-           (null,
-            getLocation(),
-            getLineNumber(),
-            getColumnNumber()));
+      contextFeature = feature;
+      EPackage ePackage = handleMissingPackage(null);
+      contextFeature = null;
+      if (ePackage == null)
+      {
+        error
+          (new PackageNotFoundException
+             (null,
+              getLocation(),
+              getLineNumber(),
+              getColumnNumber()));
+      }
+      else
+      {
+        eFactory = ePackage.getEFactoryInstance();
+      }
     }
 
     EObject obj = createObjectFromFactory(eFactory, typeName);
@@ -1345,7 +1363,50 @@ public abstract class XMLHandler
 
   protected EObject validateCreateObjectFromFactory(EFactory factory, String typeName, EObject newObject, EStructuralFeature feature)
   {
-    if (newObject == null && feature != null && factory != null && extendedMetaData != null)
+    if (newObject != null)
+    {
+      if (extendedMetaData != null)
+      {
+        Collection demandedPackages = extendedMetaData.demandedPackages();
+        if (!demandedPackages.isEmpty() && demandedPackages.contains(newObject.eClass().getEPackage()))
+        {
+          if (recordUnknownFeature)
+          {
+            EObject peekObject = (EObject)objects.peek();
+            if (!(peekObject instanceof AnyType))
+            {
+              AnyType anyType = getExtension((EObject)objects.peek());
+              EStructuralFeature entryFeature = 
+                extendedMetaData.demandFeature(extendedMetaData.getNamespace(feature), extendedMetaData.getName(feature), true);
+              anyType.getAny().add(entryFeature, newObject);
+              contextFeature = entryFeature;
+            }
+            return newObject;
+          }
+          else
+          {
+            String namespace = extendedMetaData.getNamespace(feature);
+            String name = extendedMetaData.getName(feature);
+            EStructuralFeature wildcardFeature = 
+              extendedMetaData.getElementWildcardAffiliation(((EObject)objects.peek()).eClass(), namespace, name);
+            if (wildcardFeature != null)
+            {
+              switch (extendedMetaData.getProcessingKind(wildcardFeature))
+              {
+                case ExtendedMetaData.LAX_PROCESSING:
+                case ExtendedMetaData.SKIP_PROCESSING:
+                {
+                  return newObject;
+                }
+              }
+            }
+          }
+
+          newObject = null;
+        }
+      }
+    }
+    else if (feature != null && factory != null && extendedMetaData != null)
     {
       if (recordUnknownFeature)
       {
@@ -1353,11 +1414,15 @@ public abstract class XMLHandler
           extendedMetaData.demandType
             (extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
         EObject result = createObjectFromFactory(factory, typeName);
-        AnyType anyType = getExtension((EObject)objects.peek());
-        EStructuralFeature entryFeature = 
-          extendedMetaData.demandFeature(extendedMetaData.getNamespace(feature), extendedMetaData.getName(feature), true);
-        anyType.getAny().add(entryFeature, result);
-        contextFeature = entryFeature;
+        EObject peekObject = (EObject)objects.peek();
+        if (!(peekObject instanceof AnyType))
+        {
+          AnyType anyType = getExtension((EObject)objects.peek());
+          EStructuralFeature entryFeature = 
+            extendedMetaData.demandFeature(extendedMetaData.getNamespace(feature), extendedMetaData.getName(feature), true);
+          anyType.getAny().add(entryFeature, result);
+          contextFeature = entryFeature;
+        }
         return result;
       }
       else
@@ -1551,36 +1616,11 @@ public abstract class XMLHandler
 
     if (ePackage == null)
     {
-      if (XMLResource.XML_SCHEMA_URI.equals(uriString))
-      {
-        return xmlSchemaTypePackage;
-      }
-      else if (extendedMetaData != null)
-      {
-        if (recordUnknownFeature)
-        {
-          return extendedMetaData.demandPackage(uriString);
-        }
-        else
-        {
-          String namespace = extendedMetaData.getNamespace(contextFeature);
-          String name = extendedMetaData.getName(contextFeature);
-          EStructuralFeature wildcardFeature = 
-            extendedMetaData.getElementWildcardAffiliation(((EObject)objects.peek()).eClass(), namespace, name);
-          if (wildcardFeature != null)
-          {
-            switch (extendedMetaData.getProcessingKind(wildcardFeature))
-            {
-              case ExtendedMetaData.LAX_PROCESSING:
-              case ExtendedMetaData.SKIP_PROCESSING:
-              {
-                return extendedMetaData.demandPackage(uriString);
-              }
-            }
-          }
-        }
-      }
+      ePackage = handleMissingPackage(uriString);
+    }
 
+    if (ePackage == null)
+    {
       error
         (new PackageNotFoundException
            (uriString,
@@ -1590,6 +1630,41 @@ public abstract class XMLHandler
     }
 
     return ePackage;
+  }
+
+  protected EPackage handleMissingPackage(String uriString)
+  {
+    if (XMLResource.XML_SCHEMA_URI.equals(uriString))
+    {
+      return xmlSchemaTypePackage;
+    }
+    else if (extendedMetaData != null)
+    {
+      if (recordUnknownFeature)
+      {
+        return extendedMetaData.demandPackage(uriString);
+      }
+      else if (contextFeature != null)
+      {
+        String namespace = extendedMetaData.getNamespace(contextFeature);
+        String name = extendedMetaData.getName(contextFeature);
+        EStructuralFeature wildcardFeature = 
+          extendedMetaData.getElementWildcardAffiliation(((EObject)objects.peek()).eClass(), namespace, name);
+        if (wildcardFeature != null)
+        {
+          switch (extendedMetaData.getProcessingKind(wildcardFeature))
+          {
+            case ExtendedMetaData.LAX_PROCESSING:
+            case ExtendedMetaData.SKIP_PROCESSING:
+            {
+              return extendedMetaData.demandPackage(uriString);
+            }
+          }
+        }
+      }
+    }
+
+    return null;
   }
 
   protected URIConverter getURIConverter()
