@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.7 2004/06/15 12:25:28 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.8 2004/06/17 10:56:16 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -812,6 +812,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		{
 			return initialObjectCreationPage.getFileURI();
 		}
+
 <%} else {%>
 	/**
 	 * Get the file from the page.
@@ -823,6 +824,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 	{
 		return newFileCreationPage.getModelFile();
 	}
+
 <%}%>
 }
 <%genModel.emitSortedImports();%>

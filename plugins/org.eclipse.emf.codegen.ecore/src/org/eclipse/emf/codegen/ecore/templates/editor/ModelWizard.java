@@ -162,8 +162,8 @@ public class ModelWizard
   protected final String TEXT_155 = NL + "\t\tinitialObjectCreationPage.setDescription(";
   protected final String TEXT_156 = ".INSTANCE.getString(\"_UI_Wizard_initial_object_description\"));";
   protected final String TEXT_157 = NL + "\t\taddPage(initialObjectCreationPage);" + NL + "\t}" + NL;
-  protected final String TEXT_158 = NL + "\t\t/**" + NL + "\t\t * Get the URI from the page." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @generated" + NL + "\t\t*/" + NL + "\t\tpublic URI getModelURI()" + NL + "\t\t{" + NL + "\t\t\treturn initialObjectCreationPage.getFileURI();" + NL + "\t\t}";
-  protected final String TEXT_159 = NL + "\t/**" + NL + "\t * Get the file from the page." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic IFile getModelFile()" + NL + "\t{" + NL + "\t\treturn newFileCreationPage.getModelFile();" + NL + "\t}";
+  protected final String TEXT_158 = NL + "\t\t/**" + NL + "\t\t * Get the URI from the page." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @generated" + NL + "\t\t*/" + NL + "\t\tpublic URI getModelURI()" + NL + "\t\t{" + NL + "\t\t\treturn initialObjectCreationPage.getFileURI();" + NL + "\t\t}" + NL;
+  protected final String TEXT_159 = NL + "\t/**" + NL + "\t * Get the file from the page." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic IFile getModelFile()" + NL + "\t{" + NL + "\t\treturn newFileCreationPage.getModelFile();" + NL + "\t}" + NL;
   protected final String TEXT_160 = NL + "}";
   protected final String TEXT_161 = NL;
 
