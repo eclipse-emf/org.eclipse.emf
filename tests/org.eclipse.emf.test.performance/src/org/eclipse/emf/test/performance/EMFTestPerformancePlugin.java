@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.16 2005/02/18 19:56:04 marcelop Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.17 2005/02/18 19:59:23 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -29,6 +29,8 @@ public class EMFTestPerformancePlugin extends Plugin
     private String home;
     private String user;
     private String pass;
+    private String performanceConfiguration;
+    
     private Class networkServerControlClass;
     private Object networkServerControl;
 
@@ -95,6 +97,11 @@ public class EMFTestPerformancePlugin extends Plugin
       this.pass = pass;
     }
 
+    public void setPerformanceConfiguration(String performanceConfiguration)
+    {
+      this.performanceConfiguration = performanceConfiguration;
+    }
+    
     //Returns true if the server is running
     public void startIfDown()
     {
@@ -124,7 +131,7 @@ public class EMFTestPerformancePlugin extends Plugin
     {
       System.setProperty("derby.system.home", home);
       System.setProperty("test.target", "performance");
-      System.setProperty("eclipse.perf.config", "build=" + hashCode());
+      System.setProperty("eclipse.perf.config", performanceConfiguration);
 
       Class driverClass = null;
       try
@@ -168,6 +175,7 @@ public class EMFTestPerformancePlugin extends Plugin
       derbyHelper.setHome("/home/www-data/derby/derbyroot");
       derbyHelper.setUser("app");
       derbyHelper.setPass("app");
+      derbyHelper.setPerformanceConfiguration("build=" + hashCode());
       
       derbyHelper.startIfDown();
       derbyHelper.writeSystemProperties();
