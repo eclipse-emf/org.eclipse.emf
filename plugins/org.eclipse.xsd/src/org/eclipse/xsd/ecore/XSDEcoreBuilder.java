@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.15 2004/06/02 16:36:49 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.16 2004/06/08 12:04:18 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -48,6 +48,7 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
@@ -418,16 +419,29 @@ public class XSDEcoreBuilder extends MapBuilder
             }
             else
             {
+              String instanceClassName = null;
               List memberTypes = new ArrayList();
               for (Iterator i = xsdSimpleTypeDefinition.getMemberTypeDefinitions().iterator(); i.hasNext(); )
               {
                 XSDSimpleTypeDefinition memberTypeDefinition = (XSDSimpleTypeDefinition)i.next();
                 EDataType memberEDataType = getEDataType(memberTypeDefinition);
                 memberTypes.add(memberEDataType);
+                String memberInstanceClassName = memberEDataType.getInstanceClassName();
+                if (memberInstanceClassName == null && memberEDataType instanceof EEnum)
+                {
+                  memberInstanceClassName = "org.eclipse.emf.common.util.AbstractEnumerator";
+                }
+                if (instanceClassName == null)
+                {
+                  instanceClassName = memberInstanceClassName;
+                }
+                else if (instanceClassName != memberInstanceClassName)
+                {
+                  instanceClassName = "java.lang.Object";
+                }
               }
               extendedMetaData.setMemberTypes(eDataType, memberTypes);
-              // EATM We should use common member type
-              eDataType.setInstanceClassName("java.lang.Object");
+              eDataType.setInstanceClassName(instanceClassName);
             }
           }
           else
@@ -1411,10 +1425,7 @@ public class XSDEcoreBuilder extends MapBuilder
           extendedMetaData.setNamespace(eAttribute, xsdAttributeDeclaration.getTargetNamespace());
 
           eAttribute.setDefaultValueLiteral(xsdAttributeUse.getLexicalValue());
-          if (XSDConstants.isOrIsDerivedFromID(xsdAttributeDeclaration.getTypeDefinition()))
-          {
-            eAttribute.setID(true);
-          }
+          initialize(eAttribute, xsdAttributeDeclaration.getTypeDefinition());
         }
         else if (xsdComponent instanceof XSDAttributeDeclaration)
         {
@@ -1424,10 +1435,7 @@ public class XSDEcoreBuilder extends MapBuilder
           extendedMetaData.setNamespace(eAttribute, xsdAttributeDeclaration.getTargetNamespace());
 
           eAttribute.setDefaultValueLiteral(xsdAttributeDeclaration.getLexicalValue());
-          if (XSDConstants.isOrIsDerivedFromID(xsdAttributeDeclaration.getTypeDefinition()))
-          {
-            eAttribute.setID(true);
-          }
+          initialize(eAttribute, xsdAttributeDeclaration.getTypeDefinition());
         }
         else if (xsdComponent instanceof XSDParticle)
         {
@@ -1441,10 +1449,9 @@ public class XSDEcoreBuilder extends MapBuilder
             extendedMetaData.setNamespace(eAttribute, xsdElementDeclaration.getTargetNamespace());
 
             eAttribute.setDefaultValueLiteral(xsdElementDeclaration.getLexicalValue());
-            if (xsdElementDeclaration.getTypeDefinition() instanceof XSDSimpleTypeDefinition &&
-                  XSDConstants.isOrIsDerivedFromID((XSDSimpleTypeDefinition)xsdElementDeclaration.getTypeDefinition()))
+            if (xsdElementDeclaration.getTypeDefinition() instanceof XSDSimpleTypeDefinition)
             {
-              eAttribute.setID(true);
+              initialize(eAttribute, (XSDSimpleTypeDefinition)xsdElementDeclaration.getTypeDefinition());
             }
 
             if (xsdElementDeclaration.isNillable())
@@ -1493,10 +1500,9 @@ public class XSDEcoreBuilder extends MapBuilder
           extendedMetaData.setNamespace(eAttribute, xsdElementDeclaration.getTargetNamespace());
 
           eAttribute.setDefaultValueLiteral(xsdElementDeclaration.getLexicalValue());
-          if (xsdElementDeclaration.getTypeDefinition() instanceof XSDSimpleTypeDefinition &&
-                  XSDConstants.isOrIsDerivedFromID((XSDSimpleTypeDefinition)xsdElementDeclaration.getTypeDefinition()))
+          if (xsdElementDeclaration.getTypeDefinition() instanceof XSDSimpleTypeDefinition)
           {
-            eAttribute.setID(true);
+            initialize(eAttribute, (XSDSimpleTypeDefinition)xsdElementDeclaration.getTypeDefinition());
           }
 
           XSDElementDeclaration substitutionGroupAffiliation = xsdElementDeclaration.getSubstitutionGroupAffiliation();
@@ -1528,6 +1534,30 @@ public class XSDEcoreBuilder extends MapBuilder
       }
 
       return eAttribute;
+    }
+  }
+
+  protected void initialize(EAttribute eAttribute, XSDSimpleTypeDefinition xsdSimpleTypeDefinition)
+  {
+    if (XSDConstants.isOrIsDerivedFromID(xsdSimpleTypeDefinition))
+    {
+      eAttribute.setID(true);
+    }
+
+    // If there is no default value but the type has enumeration facets and the value is a primitive...
+    //
+    if (eAttribute.getDefaultValueLiteral() == null && 
+          xsdSimpleTypeDefinition.getEffectiveEnumerationFacet() != null &&
+          eAttribute.getEType().getDefaultValue() != null)
+    {
+      // Set the default to the first enumeration's value.
+      //
+      eAttribute.setDefaultValueLiteral
+        (((XSDEnumerationFacet)xsdSimpleTypeDefinition.
+           getEffectiveEnumerationFacet().
+           getSimpleTypeDefinition().
+           getEnumerationFacets().
+           get(0)).getLexicalValue());
     }
   }
 
@@ -1798,12 +1828,12 @@ public class XSDEcoreBuilder extends MapBuilder
         eStructuralFeature.setDerived(true);
         eStructuralFeature.setTransient(true);
         eStructuralFeature.setVolatile(true);
-      }
 
-      // Mark the bound as unspecified so that it won't be considered many 
-      // but can nevertheless be recognized as being unspecified and perhaps still be treat as many.
-      //
-      eStructuralFeature.setUpperBound(-2);
+        // Mark the bound as unspecified so that it won't be considered many 
+        // but can nevertheless be recognized as being unspecified and perhaps still be treat as many.
+        //
+        eStructuralFeature.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
+      }
     }
 
     return eStructuralFeature;
