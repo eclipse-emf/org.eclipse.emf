@@ -344,7 +344,7 @@ public class PackageClass
     stringBuffer.append(TEXT_30);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EPackage"));
     stringBuffer.append(TEXT_31);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EPackage"));
+    stringBuffer.append(genPackage.getPackageClassName());
     stringBuffer.append(TEXT_32);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EPackage"));
     stringBuffer.append(TEXT_33);
