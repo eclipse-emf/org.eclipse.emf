@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.9 2005/03/22 15:42:26 emerks Exp $
+ * $Id: JETEmitter.java,v 1.10 2005/04/05 21:58:48 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -20,12 +20,10 @@ package org.eclipse.emf.codegen.jet;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -57,17 +55,14 @@ import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
 
+import org.eclipse.emf.codegen.CodeGen;
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 
-import org.eclipse.osgi.util.ManifestElement;
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleException;
-import org.osgi.framework.Constants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -529,107 +524,61 @@ public class JETEmitter
    */
   public void addVariable(String variableName, String pluginID) throws JETException
   {
-    try
+    Bundle bundle = Platform.getBundle(pluginID);
+    URL classpathURL = Platform.inDevelopmentMode() ? bundle.getEntry(".classpath") : null;
+    if (classpathURL != null)
     {
-      Bundle bundle = Platform.getBundle(pluginID);
-      String requires = (String)bundle.getHeaders().get(Constants.BUNDLE_CLASSPATH);
-      ManifestElement[] elements = ManifestElement.parseHeader(Constants.BUNDLE_CLASSPATH, requires);
-      for (int i = 0; i < elements.length; ++i)
+      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+      documentBuilderFactory.setNamespaceAware(true);
+      documentBuilderFactory.setValidating(false);
+      try
       {
-        ManifestElement element = elements[i];
-        try
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        Document document = documentBuilder.parse(new InputSource(classpathURL.toString()));
+        for (Node child = document.getDocumentElement().getFirstChild(); child != null; child = child.getNextSibling())
         {
-          IPath path = null;
-          URL url = Platform.inDevelopmentMode() ? null : bundle.getEntry(element.getValue());
-          if (url == null)
+          if (child.getNodeType() == Node.ELEMENT_NODE)
           {
-            URL classpathURL = bundle.getEntry(".classpath");
-            if (classpathURL == null)
+            Element classpathEntryElement = (Element)child;
+            if ("classpathentry".equals(classpathEntryElement.getNodeName()) &&
+                "output".equals(classpathEntryElement.getAttribute("kind")))
             {
-              url = bundle.getEntry(element.getValue());
-              path = new Path(Platform.asLocalURL(url).getFile()); 
-            }
-            else
-            {
-              DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-              documentBuilderFactory.setNamespaceAware(true);
-              documentBuilderFactory.setValidating(false);
-              try
+              URI uri = URI.createURI(classpathEntryElement.getAttribute("path")).resolve(URI.createURI(classpathURL.toString()));
+              IWorkspace workspace = ResourcesPlugin.getWorkspace();
+              IProject project = workspace.getRoot().getProject(getProjectName());
+              if (!project.exists())
               {
-                DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-                Document document = documentBuilder.parse(new InputSource(classpathURL.toString()));
-                for (Node child = document.getDocumentElement().getFirstChild(); child != null; child = child.getNextSibling())
-                {
-                  if (child.getNodeType() == Node.ELEMENT_NODE)
-                  {
-                    Element classpathEntryElement = (Element)child;
-                    if ("classpathentry".equals(classpathEntryElement.getNodeName()) &&
-                        "output".equals(classpathEntryElement.getAttribute("kind")))
-                    {
-                      URI uri = URI.createURI(classpathEntryElement.getAttribute("path")).resolve(URI.createURI(classpathURL.toString()));
-                      IWorkspace workspace = ResourcesPlugin.getWorkspace();
-                      IProject project = workspace.getRoot().getProject(getProjectName());
-                      if (!project.exists())
-                      {
-                        project.create(new NullProgressMonitor());
-                      }
-                      if (!project.isOpen())
-                      {
-                        project.open(new NullProgressMonitor());
-                      }
-                      IFolder folder = project.getFolder("." + pluginID);
-                      if (!folder.exists())
-                      {
-                        folder.createLink
-                          (new Path(CommonPlugin.asLocalURI(uri).toFileString()).removeTrailingSeparator(),
-                           IResource.ALLOW_MISSING_LOCAL, 
-                           new NullProgressMonitor());
-                      }
-                      folder.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-                      path = folder.getFullPath();
-                      
-                      break;
-                    }
-                  }
-                }
+                project.create(new NullProgressMonitor());
               }
-              catch (Exception exception)
+              if (!project.isOpen())
               {
-                CodeGenPlugin.INSTANCE.log(exception);
+                project.open(new NullProgressMonitor());
               }
+              IFolder folder = project.getFolder("." + pluginID);
+              if (!folder.exists())
+              {
+                folder.createLink
+                  (new Path(CommonPlugin.asLocalURI(uri).toFileString()).removeTrailingSeparator(),
+                   IResource.ALLOW_MISSING_LOCAL, 
+                   new NullProgressMonitor());
+              }
+              folder.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+              IPath path = folder.getFullPath();
+              getClasspathEntries().add(JavaCore.newLibraryEntry(path, null, null));
+              break;
             }
           }
-          else
-          {
-            path = new Path(Platform.asLocalURL(url).getFile());
-          } 
-          if (path != null && !path.equals(JavaCore.getClasspathVariable(variableName)))
-          {
-            JavaCore.setClasspathVariable(variableName, path, null);
-          }
         }
-        catch (MalformedURLException exception)
-        {
-          throw new JETException(exception);
-        }
-        catch (JavaModelException exception)
-        {
-          throw new JETException(exception);
-        } 
-        catch (IOException exception)
-        {
-          throw new JETException(exception);
-        }
-        break;
+      }
+      catch (Exception exception)
+      {
+        CodeGenPlugin.INSTANCE.log(exception);
       }
     }
-    catch (BundleException exception)
+    else
     {
-      throw new JETException(exception);
+      CodeGen.addClasspathEntries(getClasspathEntries(), variableName, pluginID);
     }
-
-    IClasspathEntry entry = JavaCore.newVariableEntry(new Path(variableName), null, null);
-    getClasspathEntries().add(entry);
   }
 
   /**
