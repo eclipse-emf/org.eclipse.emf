@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: PropertyMerger.java,v 1.2 2004/03/18 20:07:21 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -171,6 +171,10 @@ public class PropertyMerger implements IPlatformRunnable
         if (propertyName.indexOf("#") == -1)
         {
           result.put(propertyName, property);
+        }
+        else if (propertyName.startsWith("#"))
+        {
+          result.put(propertyName.substring(1), property);
         }
       }
 
