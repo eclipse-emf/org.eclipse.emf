@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicSequenceTest.java,v 1.1 2005/03/04 21:51:04 bportier Exp $
+ * $Id: DynamicSequenceTest.java,v 1.2 2005/03/17 16:10:54 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -27,7 +27,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.test.performance.EMFPerformanceTestCase;
 
 import com.example.sdo.epo.EPOFactory;
-import com.example.sdo.epo.PurchaseOrder;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
@@ -74,10 +73,6 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
 
   protected List derivedValue;
 
-  // used in add tests
-
-  protected DataObject newOrder;
-
   public DynamicSequenceTest(String name)
   {
     super(name);
@@ -87,13 +82,6 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
   {
 
     TestSuite testSuite = new TestSuite();
-
-    //    testSuite.addTest(new DynamicSequenceTest("getSequenceWithEGet").setWarmUp(1000).setRepetitions(REPETITIONS));
-    //    testSuite.addTest(new DynamicSequenceTest("getDerivedWithEGet").setWarmUp(1000).setRepetitions(REPETITIONS));
-    //
-    //    testSuite.addTest(new DynamicSequenceTest("getSequence").setWarmUp(1000).setRepetitions(REPETITIONS));
-    //    testSuite.addTest(new DynamicSequenceTest("getDerived").setWarmUp(1000).setRepetitions(REPETITIONS));
-
     return testSuite;
   }
 
@@ -107,13 +95,7 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
 
   protected void supplierSetup()
   {
-    // TODO
-  }
-
-  protected void initNewData()
-  {
-    PurchaseOrder newOrder = epoFactoryInstance.createPurchaseOrder();
-    newOrder.setComment("The new order.");
+    // dynamic is not tested currently.
   }
 
   public void getSequenceWithEGet()

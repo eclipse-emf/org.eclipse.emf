@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSequenceTest.java,v 1.2 2005/03/16 22:39:00 bportier Exp $
+ * $Id: StaticSequenceTest.java,v 1.3 2005/03/17 16:10:54 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -66,12 +66,7 @@ public class StaticSequenceTest extends DynamicSequenceTest
   protected void supplierSetup()
   {
     initSupplier();
-
-    // serialize DG so that it can be deserialized by DynamicAccessorTest
-    //serializeDataGraph();
-
     initModel();
-    initNewData();
   }
 
   protected void initSupplier()
