@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.29 2005/02/23 18:31:37 marcelop Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.30 2005/03/11 18:09:55 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1803,7 +1803,7 @@ public class XSDEcoreBuilder extends MapBuilder
           {
             EStructuralFeature eStructuralFeature = (EStructuralFeature)k.next();
             resolveNameConflict(eFeatureMap, eStructuralFeature, "");
-            eFeatureMap.put(eStructuralFeature.getName(), eStructuralFeature);
+            eFeatureMap.put(eStructuralFeature.getName().toLowerCase(), eStructuralFeature);
           }
         }
       }
@@ -1817,11 +1817,10 @@ public class XSDEcoreBuilder extends MapBuilder
     {
       name += suffix;
     }
-    boolean isCaseSensitive = !(eNamedElement instanceof EClassifier);
-    if (map.containsKey(isCaseSensitive ? name : name.toLowerCase()))
+    if (map.containsKey(name.toLowerCase()))
     {
       int index = 0;
-      while (map.containsKey((isCaseSensitive ? name : name.toLowerCase()) + ++index))
+      while (map.containsKey(name.toLowerCase() + ++index))
       {
       }
       eNamedElement.setName(name + index);
