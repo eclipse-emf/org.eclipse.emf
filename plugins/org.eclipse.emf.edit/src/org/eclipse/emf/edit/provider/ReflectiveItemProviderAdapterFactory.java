@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProviderAdapterFactory.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ReflectiveItemProviderAdapterFactory.java,v 1.2 2004/10/19 21:24:01 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -29,7 +29,9 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * This is the factory that is used to provide the interfaces needed to support Viewers reflectively.
  */
-public class ReflectiveItemProviderAdapterFactory extends AdapterFactoryImpl implements ComposeableAdapterFactory, IChangeNotifier
+public class ReflectiveItemProviderAdapterFactory 
+  extends AdapterFactoryImpl 
+  implements ComposeableAdapterFactory, IChangeNotifier, IDisposable
 {
   /**
    * This keeps track of the root adapter factory that delegates to this adapter factory.
@@ -146,6 +148,14 @@ public class ReflectiveItemProviderAdapterFactory extends AdapterFactoryImpl imp
     if (parentAdapterFactory != null)
     {
       parentAdapterFactory.fireNotifyChanged(notification);
+    }
+  }
+
+  public void dispose()
+  {
+    if (reflectiveItemProviderAdapter != null)
+    {
+      reflectiveItemProviderAdapter.dispose();
     }
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceItemProviderAdapterFactory.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ResourceItemProviderAdapterFactory.java,v 1.2 2004/10/19 21:24:09 emerks Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -30,7 +30,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.Disposable;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
+import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -47,7 +49,9 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
  * Note that most of the adapters are shared among multiple instances.
  * @generated
  */
-public class ResourceItemProviderAdapterFactory extends AdapterFactoryImpl implements ComposeableAdapterFactory, IChangeNotifier
+public class ResourceItemProviderAdapterFactory 
+  extends AdapterFactoryImpl 
+  implements ComposeableAdapterFactory, IChangeNotifier, IDisposable
 {
   protected static Package resourcePackage = Resource.class.getPackage();
 
@@ -68,6 +72,11 @@ public class ResourceItemProviderAdapterFactory extends AdapterFactoryImpl imple
    * @generated
    */
   protected Collection supportedTypes = new ArrayList();
+
+  /**
+   * This is used to implement {@link org.eclipse.emf.edit.provider.IDisposable}.
+   */
+  protected Disposable disposable = new Disposable();
 
   /**
    * This constructs an instance.
@@ -209,4 +218,17 @@ public class ResourceItemProviderAdapterFactory extends AdapterFactoryImpl imple
     }
   }
 
+  protected void associate(Adapter adapter, Notifier target)
+  {
+    super.associate(adapter, target);
+    if (adapter != null)
+    {
+      disposable.add(adapter);
+    }
+  }
+  
+  public void dispose()
+  {
+    disposable.dispose();
+  }
 }
