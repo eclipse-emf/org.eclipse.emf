@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.3 2004/03/20 20:54:31 marcelop Exp $
+ * $Id: plugin.xml,v 1.4 2004/05/16 17:05:37 emerks Exp $
  */
 -->
 
@@ -28,7 +28,9 @@
     class = "org.eclipse.emf.ecore.presentation.EcoreEditorPlugin$Implementation">
 
   <requires>
-    <import plugin="org.eclipse.core.runtime.compatibility"/>
+    <import plugin="org.eclipse.core.runtime"/>
+    <import plugin="org.eclipse.core.resources"/>
+    <import plugin="org.eclipse.ui.ide" export="true"/>
     <import plugin="org.eclipse.emf.ecore.xmi"/>
     <import plugin="org.eclipse.emf.ecore.edit" export="true"/>
     <import plugin="org.eclipse.emf.edit.ui" export="true"/>
