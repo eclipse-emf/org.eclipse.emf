@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.17 2004/12/16 16:19:44 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.18 2005/02/15 20:26:33 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -74,6 +74,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
@@ -130,10 +131,6 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return GenModelPackage.eINSTANCE.getGenBase();
   }
 
-  protected static HashSet javaReservedWords;
-  
-  protected static HashSet javaLangTypes;
-  
   public GenModel getGenModel()
   {
     if (this instanceof GenModel)
@@ -193,7 +190,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   public String safeName(String name)
   {
-    if (getJavaReservedWords().contains(name)) return name + "_";
+    if (GenModelUtil.isJavaReservedWord(name)) return name + "_";
     return name;
   }
 
@@ -1198,160 +1195,19 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   /**
    * Returns a hash of all Java's keywords and textual literals, as of Java
    * 1.4.
+   * @deprecated
    */
-  protected static HashSet getJavaReservedWords()
+  protected static Set getJavaReservedWords()
   {
-    if (javaReservedWords == null)
-    {
-      javaReservedWords = new HashSet(100);
-      javaReservedWords.add("abstract");
-      javaReservedWords.add("assert");
-      javaReservedWords.add("boolean");
-      javaReservedWords.add("break");
-      javaReservedWords.add("byte");
-      javaReservedWords.add("case");
-      javaReservedWords.add("catch");
-      javaReservedWords.add("char");
-      javaReservedWords.add("class");
-      javaReservedWords.add("const");
-      javaReservedWords.add("continue");
-      javaReservedWords.add("default");
-      javaReservedWords.add("do");
-      javaReservedWords.add("double");
-      javaReservedWords.add("else");
-      javaReservedWords.add("extends");
-      javaReservedWords.add("false");
-      javaReservedWords.add("final");
-      javaReservedWords.add("finally");
-      javaReservedWords.add("float");
-      javaReservedWords.add("for");
-      javaReservedWords.add("goto");
-      javaReservedWords.add("if");
-      javaReservedWords.add("implements");
-      javaReservedWords.add("import");
-      javaReservedWords.add("instanceof");
-      javaReservedWords.add("int");
-      javaReservedWords.add("interface");
-      javaReservedWords.add("long");
-      javaReservedWords.add("native");
-      javaReservedWords.add("new");
-      javaReservedWords.add("null");
-      javaReservedWords.add("package");
-      javaReservedWords.add("private");
-      javaReservedWords.add("protected");
-      javaReservedWords.add("public");
-      javaReservedWords.add("return");
-      javaReservedWords.add("short");
-      javaReservedWords.add("static");
-      javaReservedWords.add("strictfp");
-      javaReservedWords.add("super");
-      javaReservedWords.add("switch");
-      javaReservedWords.add("synchronized");
-      javaReservedWords.add("this");
-      javaReservedWords.add("throw");
-      javaReservedWords.add("throws");
-      javaReservedWords.add("transient");
-      javaReservedWords.add("true");
-      javaReservedWords.add("try");
-      javaReservedWords.add("void");
-      javaReservedWords.add("volatile");
-      javaReservedWords.add("while");
-    }
-    return javaReservedWords;
+    return GenModelUtil.getJavaReservedWords();
   }
 
-  protected static HashSet getJavaLangTypes()
+  /**
+   * @deprecated
+   */
+  protected static Set getJavaLangTypes()
   {
-    if (javaLangTypes == null)
-    {
-      javaLangTypes = new HashSet(100);
-      javaLangTypes.add("AbstractMethodError");
-      javaLangTypes.add("ArithmeticException");
-      javaLangTypes.add("ArrayIndexOutOfBoundsException");
-      javaLangTypes.add("ArrayStoreException");
-      javaLangTypes.add("Boolean");
-      javaLangTypes.add("Byte");
-      javaLangTypes.add("Character");
-      javaLangTypes.add("Class");
-      javaLangTypes.add("ClassCastException");
-      javaLangTypes.add("ClassCircularityError");
-      javaLangTypes.add("ClassFormatError");
-      javaLangTypes.add("ClassLoader");
-      javaLangTypes.add("ClassNotFoundException");
-      javaLangTypes.add("CloneNotSupportedException");
-      javaLangTypes.add("Cloneable");
-      javaLangTypes.add("Comparable");
-      javaLangTypes.add("Compiler");
-      javaLangTypes.add("Double");
-      javaLangTypes.add("Error");
-      javaLangTypes.add("Exception");
-      javaLangTypes.add("ExceptionInInitializerError");
-      javaLangTypes.add("Float");
-      javaLangTypes.add("FloatingDecimal");
-      javaLangTypes.add("IllegalAccessError");
-      javaLangTypes.add("IllegalAccessException");
-      javaLangTypes.add("IllegalArgumentException");
-      javaLangTypes.add("IllegalMonitorStateException");
-      javaLangTypes.add("IllegalStateException");
-      javaLangTypes.add("IllegalThreadStateException");
-      javaLangTypes.add("IncompatibleClassChangeError");
-      javaLangTypes.add("IndexOutOfBoundsException");
-      javaLangTypes.add("InheritableThreadLocal");
-      javaLangTypes.add("InstantiationError");
-      javaLangTypes.add("InstantiationException");
-      javaLangTypes.add("Integer");
-      javaLangTypes.add("InternalError");
-      javaLangTypes.add("InterruptedException");
-      javaLangTypes.add("LinkageError");
-      javaLangTypes.add("Long");
-      javaLangTypes.add("Math");
-      javaLangTypes.add("NegativeArraySizeException");
-      javaLangTypes.add("NoClassDefFoundError");
-      javaLangTypes.add("NoSuchFieldError");
-      javaLangTypes.add("NoSuchFieldException");
-      javaLangTypes.add("NoSuchMethodError");
-      javaLangTypes.add("NoSuchMethodException");
-      javaLangTypes.add("NullPointerException");
-      javaLangTypes.add("Number");
-      javaLangTypes.add("NumberFormatException");
-      javaLangTypes.add("Object");
-      javaLangTypes.add("OutOfMemoryError");
-      javaLangTypes.add("Package");
-      javaLangTypes.add("Process");
-      javaLangTypes.add("Runnable");
-      javaLangTypes.add("Runtime");
-      javaLangTypes.add("RuntimeException");
-      javaLangTypes.add("RuntimePermission");
-      javaLangTypes.add("SecurityException");
-      javaLangTypes.add("SecurityManager");
-      javaLangTypes.add("Short");
-      javaLangTypes.add("StackOverflowError");
-      javaLangTypes.add("String");
-      javaLangTypes.add("StringBuffer");
-      javaLangTypes.add("StringIndexOutOfBoundsException");
-      javaLangTypes.add("System");
-      javaLangTypes.add("Thread");
-      javaLangTypes.add("ThreadDeath");
-      javaLangTypes.add("ThreadGroup");
-      javaLangTypes.add("ThreadLocal");
-      javaLangTypes.add("Throwable");
-      javaLangTypes.add("UnknownError");
-      javaLangTypes.add("UnsatisfiedLinkError");
-      javaLangTypes.add("UnsupportedClassVersionError");
-      javaLangTypes.add("UnsupportedOperationException");
-      javaLangTypes.add("VerifyError");
-      javaLangTypes.add("VirtualMachineError");
-      javaLangTypes.add("Void");
-      javaLangTypes.add("boolean");
-      javaLangTypes.add("byte");
-      javaLangTypes.add("char");
-      javaLangTypes.add("double");
-      javaLangTypes.add("float");
-      javaLangTypes.add("int");
-      javaLangTypes.add("long");
-      javaLangTypes.add("short");
-    }
-    return javaLangTypes;
+    return GenModelUtil.getJavaDefaultTypes();
   }
 
   protected static class ImportManager
@@ -1517,7 +1373,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         importedPackages.add(packageName);
         imports.add(qualifiedName);
       }
-      else if (!shortNameToImportMap.containsKey(shortName) && (!getJavaLangTypes().contains(shortName)))
+      else if (!shortNameToImportMap.containsKey(shortName) && (!GenModelUtil.isJavaDefaultType(shortName)))
       {
         shortNameToImportMap.put(shortName, qualifiedName);
 
