@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.1 2005/02/10 22:11:11 marcelop Exp $
+ * $Id: AntTest.java,v 1.2 2005/02/11 03:41:53 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -110,7 +110,7 @@ public class AntTest extends TestCase
     
     String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
-    testTokenReplacements[1] = EXAMPLES_COPY_DIR.getAbsolutePath();
+    testTokenReplacements[1] = new File(EXAMPLES_COPY_DIR, "library.rose/model/library.mdl").getAbsolutePath();
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
   }
@@ -169,7 +169,10 @@ public class AntTest extends TestCase
       }
       else if (children[i].isDirectory())
       {
-        assertGeneratedFiles(rootDir, rootExpectedDir, children[i], testTokenReplacements);
+        if (!"CVS".equals(children[i].getName()))
+        {
+          assertGeneratedFiles(rootDir, rootExpectedDir, children[i], testTokenReplacements);
+        }
       }
     }    
   }
@@ -192,6 +195,10 @@ public class AntTest extends TestCase
       }
     }
     String generatedContent = TestUtil.readFile(generatedFile);
+    
+    //Remove CVS tags
+    expectedContent = expectedContent.replaceAll("\\$Id.*\\$", "");
+    generatedContent = generatedContent.replaceAll("\\$Id.*\\$", "");
     
     assertEquals("File: " + file, expectedContent, generatedContent);
   }  

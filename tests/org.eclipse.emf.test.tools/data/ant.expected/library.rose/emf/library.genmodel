@@ -7,7 +7,7 @@
       editorDirectory="@TEST_TOKEN@0/library.rose.editor/./src/."
       modelPluginID="library.model" runtimeJar="true" modelName="Library" editPluginClass="library.model.provider.LibraryEditPlugin"
       editorPluginClass="library.model.presentation.LibraryEditorPlugin" runtimeCompatibility="false">
-    <foreignModel>@TEST_TOKEN@1\library.rose\model\library.mdl</foreignModel>
+    <foreignModel>@TEST_TOKEN@1</foreignModel>
     <genPackages prefix="Library" basePackage="org.examples" disposableProviderFactory="true"
         ecorePackage="library.ecore#/">
       <genEnums ecoreEnum="library.ecore#//BookCategory">
@@ -33,6 +33,6 @@
     </genPackages>
   </genmodel:GenModel>
   <genmodel:GenModel runtimeJar="true" runtimeCompatibility="false">
-    <foreignModel>@TEST_TOKEN@1\library.rose\model\library.mdl</foreignModel>
+    <foreignModel>@TEST_TOKEN@1</foreignModel>
   </genmodel:GenModel>
 </xmi:XMI>
