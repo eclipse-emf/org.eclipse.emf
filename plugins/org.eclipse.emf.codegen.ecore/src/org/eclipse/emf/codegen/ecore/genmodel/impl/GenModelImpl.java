@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.13 2004/07/05 03:16:50 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.14 2004/07/08 08:19:37 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3942,6 +3942,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public boolean reconcile()
   {
     for (Iterator i = getGenPackages().iterator(); i.hasNext(); )
+    {
+      GenPackage genPackage = (GenPackage)i.next();
+      if (!genPackage.reconcile())
+      {
+        i.remove();
+      }
+    }
+    for (Iterator i = getUsedGenPackages().iterator(); i.hasNext(); )
     {
       GenPackage genPackage = (GenPackage)i.next();
       if (!genPackage.reconcile())
