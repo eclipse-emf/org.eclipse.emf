@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.6 2004/10/20 23:12:21 davidms Exp $
+ * $Id: SetCommand.java,v 1.7 2005/03/19 15:02:39 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
@@ -123,6 +124,53 @@ public class SetCommand extends AbstractOverrideableCommand
 
           if (!oldValues.isEmpty())
           {
+            if (!values.isEmpty())
+            {
+              List removedValues = new BasicEList.FastCompare(oldValues);
+              removedValues.removeAll(values);
+              
+              // If we aren't simply removing all the old values...
+              //
+              if (!removedValues.equals(oldValues))
+              {
+                // If there are values to remove, append a command for them.
+                //
+                if (!removedValues.isEmpty())
+                {
+                  compound.append(RemoveCommand.create(domain, owner, feature, new BasicEList(removedValues)));
+                }
+                
+                // Determine the values that will remain and move them into the right order, if necessary.
+                //
+                List remainingValues = new BasicEList.FastCompare(oldValues);
+                remainingValues.removeAll(removedValues);
+                int count = -1;
+                for (Iterator i = values.iterator(); i.hasNext(); )
+                {
+                  Object object = i.next();
+                  int position = remainingValues.indexOf(object);
+                  if (position != -1 && position != ++count)
+                  {
+                    compound.append(MoveCommand.create(domain, owner, feature, object, count));
+                  }
+                }
+                
+                // Determine the values to be added and add them at the right position.
+                //
+                List addedValues = new BasicEList.FastCompare(values);
+                addedValues.removeAll(remainingValues);
+                for (ListIterator i = values.listIterator(); i.hasNext(); )
+                {
+                  Object object = i.next();
+                  if (addedValues.contains(object))
+                  {
+                    compound.append(AddCommand.create(domain, owner, feature, object, i.previousIndex()));
+                  }
+                }
+                return compound;
+              }
+            }
+
             compound.append(RemoveCommand.create(domain, owner, feature, new BasicEList(oldValues)));
           }
           if (!values.isEmpty())
