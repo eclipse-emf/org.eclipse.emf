@@ -1,0 +1,205 @@
+  /*<![CDATA[*/
+
+body{font-family:Verdana,Arial,Helvetica;font-size:8pt}
+.normal{font-family:Verdana;font-size:8pt}
+p{font-family:Verdana;font-size:8pt}
+a.category{text-decoration:none;font-size:8pt;font-family:Verdana,Arial,Helvetica;font-weight:bold}
+a:hover.category {text-decoration:underline}
+.whatsnew {border-left:solid #8ABDBF 1px; border-right:solid #8ABDBF 1px;border-bottom:solid #8ABDBF 1px;}
+a.subcategory{text-decoration:none;font-size:8pt;font-family:Verdana,Arial,Helvetica}
+a:hover.subcategory {text-decoration:underline}
+
+  /* Font Definitions */
+  @font-face
+        {font-family:"Arial Black";
+        panose-1:2 11 10 4 2 1 2 2 2 4;}
+
+  /* Style Definitions */
+  p.MsoNormal, li.MsoNormal, div.MsoNormal
+        {margin:0in;
+        margin-bottom:.0001pt;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:10.0pt;
+        font-family:"Times New Roman";}
+  h1
+        {margin-top:14.0pt;
+        margin-right:0in;
+        margin-bottom:0in;
+        margin-left:0in;
+        margin-bottom:.0001pt;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:14.0pt;
+        font-family:"Arial Black";
+        font-weight:normal;}
+  h2
+        {margin-top:6.0pt;
+        margin-right:0in;
+        margin-bottom:0in;
+        margin-left:0in;
+        margin-bottom:.0001pt;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:Arial;}
+  h3
+        {margin-top:6.0pt;
+        margin-right:0in;
+        margin-bottom:0in;
+        margin-left:0in;
+        margin-bottom:.0001pt;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";}
+  p.MsoTitle, li.MsoTitle, div.MsoTitle
+        {margin-top:0in;
+        margin-right:0in;
+        margin-bottom:12.0pt;
+        margin-left:0in;
+        text-align:center;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:24.0pt;
+        font-family:"Arial Black";}
+  p.Endnote, li.Endnote, div.Endnote
+        {margin:0in;
+        margin-bottom:.0001pt;
+        text-indent:0in;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";}
+  p.Jav, li.Jav, div.Jav
+        {margin-top:0in;
+        margin-right:0in;
+        margin-bottom:0in;
+        margin-left:.15in;
+        margin-bottom:.0001pt;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:9.0pt;
+        font-family:"Courier New";}
+  p.Footnote, li.Footnote, div.Footnote
+        {margin:0in;
+        margin-bottom:.0001pt;
+        text-indent:0in;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";}
+  p.XML, li.XML, div.XML
+        {margin-top:0in;
+        margin-right:0in;
+        margin-bottom:0in;
+        margin-left:.15in;
+        margin-bottom:.0001pt;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:9.0pt;
+        font-family:"Courier New";}
+  p.Note, li.Note, div.Note
+        {margin:0in;
+        margin-bottom:.0001pt;
+        text-indent:0in;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";
+        font-style:italic;}
+  p.OutlineNotIndented, li.OutlineNotIndented, div.OutlineNotIndented
+        {margin:0in;
+        margin-bottom:.0001pt;
+        text-indent:0in;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";}
+  p.OutlineIndented, li.OutlineIndented, div.OutlineIndented
+        {margin:0in;
+        margin-bottom:.0001pt;
+        text-indent:0in;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";}
+  p.TableText, li.TableText, div.TableText
+        {margin:0in;
+        margin-bottom:.0001pt;
+        text-align:right;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";}
+  p.NumberList, li.NumberList, div.NumberList
+        {margin:0in;
+        margin-bottom:.0001pt;
+        text-indent:0in;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";}
+  p.FirstLineIndent, li.FirstLineIndent, div.FirstLineIndent
+        {margin:0in;
+        margin-bottom:.0001pt;
+        text-indent:.5in;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";}
+  p.Bullet2, li.Bullet2, div.Bullet2
+        {margin:0in;
+        margin-bottom:.0001pt;
+        text-indent:0in;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";}
+  p.Bullet1, li.Bullet1, div.Bullet1
+        {margin:0in;
+        margin-bottom:.0001pt;
+        text-indent:0in;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";}
+  p.BodySingle, li.BodySingle, div.BodySingle
+        {margin:0in;
+        margin-bottom:.0001pt;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";}
+  p.DefaultText, li.DefaultText, div.DefaultText
+        {margin:0in;
+        margin-bottom:.0001pt;
+        punctuation-wrap:simple;
+        text-autospace:none;
+        font-size:12.0pt;
+        font-family:"Times New Roman";}
+  @page Section1
+        {size:8.5in 11.0in;
+        margin:1.0in 1.0in 1.0in 1.0in;}
+  div.Section1
+        {page:Section1;}
+  /* List Definitions */
+  ol
+        {margin-bottom:0in;}
+  ul
+        {margin-bottom:0in;}
+
+  span.c12 {font-size:10.0pt}
+  hr.c11 {text-align: left}
+  span.c10 {font-size:12.0pt;font-family: "Times New Roman"}
+  h2.c9 {margin-top:0in}
+  h3.c8 {margin-top:0in}
+  span.c7 {font-size:12.0pt;font-family:"Times New Roman"}
+  br.c6 {page-break-before:always}
+  p.c5 {margin-left:.5in;text-indent:-.25in}
+  span.c4 {font-family:Symbol}
+  span.c3 {font:7.0pt "Times New Roman"}
+  p.c2 {text-align: center}
+  h1.c1 {text-align: center}
+
+  /*]]>*/
