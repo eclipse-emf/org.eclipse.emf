@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: TreeNodeItemProvider.java,v 1.2 2004/04/05 23:18:16 davidms Exp $
  */
 package org.eclipse.emf.edit.tree.provider;
 
@@ -39,6 +39,7 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptorDecorator;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.edit.tree.TreeNode;
 import org.eclipse.emf.edit.tree.TreePackage;
 
@@ -109,20 +110,20 @@ public class TreeNodeItemProvider
   }
 
   /**
-   * This specifies how to implement {@link #getChildren} and 
-   * {@link org.eclipse.emf.edit.command.AddCommand} and 
-   * {@link org.eclipse.emf.edit.command.RemoveCommand} support in 
-   * {@link #createCommand}.
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    */
-  public Collection getChildrenReferences(Object object)
+  public Collection getChildrenFeatures(Object object)
   {
-    if (childrenReferences == null)
+    if (childrenFeatures == null)
     {
-      super.getChildrenReferences(object);
-      TreeNode treeNode = ((TreeNode)object);
-      childrenReferences.add(TreePackage.eINSTANCE.getTreeNode_Children());
+      super.getChildrenFeatures(object);
+      childrenFeatures.add(TreePackage.eINSTANCE.getTreeNode_Children());
     }
-    return childrenReferences;
+    return childrenFeatures;
   }
 
   /**
@@ -147,41 +148,13 @@ public class TreeNodeItemProvider
 
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
-   * This will also be called by the {@link #delegateItemProvider} when it normally fires a notification to it's adapter factory;
-   * the listener method is hooked up in {@link #setTarget setTarget}.
+   * This will also be called by the {@link #delegateItemProvider} when it normally fires a notification to its adapter factory;
+   * the listener method is hooked up in {@link #setTarget setTarget}. Notifications are wrapped to look like they originate from
+   * the target.
    */
   public void notifyChanged(final Notification notification)
   {
-    fireNotifyChanged
-      (new NotificationImpl
-        (notification.getEventType(), 
-         notification.getOldValue(), 
-         notification.getNewValue(), 
-         notification.getPosition())
-       {
-         public Object getNotifier()
-         {
-           return target;
-         }
-         public Object getFeature()
-         {
-           return notification.getFeature();
-         }
-       });
-/*
-    Object feature = notification.getFeature();
-    TreePackage treePackage = ((TreeNode)notification.getNotifier()).ePackageTree();
-    if ( 
-         feature == treePackage.getTreeNode_Children() || 
-         feature == treePackage.getTreeNode_Parent() || 
-         feature == treePackage.getTreeNode_Data()
-       )
-    {
-      fireNotifyChanged(notification);
-      return;
-    }
-    super.notifyChanged(notification);
-*/
+    fireNotifyChanged(ViewerNotification.wrapNotification(notification, target));
   }
 
   /**
@@ -193,12 +166,6 @@ public class TreeNodeItemProvider
   {
 /*
     super.collectNewChildDescriptors(newChildDescriptors, object);
-    TreeNode treeNode = (TreeNode)object;
-
-    newChildDescriptors.add
-      (createChildParameter
-        (treeNode.ePackageTree().getTreeNode_Children(),
-         treeNode.ePackageTree().getTreeFactory().createTreeNode()));
 */
   }
 

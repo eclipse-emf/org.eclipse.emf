@@ -9,9 +9,9 @@
   <foreignModel>../../..</foreignModel>
   <genPackages prefix="Tree" basePackage="org.eclipse.emf.edit" ecorePackage="Tree.ecore#/">
     <genClasses ecoreClass="Tree.ecore#//TreeNode">
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Tree.ecore#//TreeNode/parent"/>
-      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference Tree.ecore#//TreeNode/children"/>
-      <genFeatures ecoreFeature="ecore:EReference Tree.ecore#//TreeNode/data"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Tree.ecore#//TreeNode/parent"/>
+      <genFeatures property="None" children="true" createChild="false" ecoreFeature="ecore:EReference Tree.ecore#//TreeNode/children"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference Tree.ecore#//TreeNode/data"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
