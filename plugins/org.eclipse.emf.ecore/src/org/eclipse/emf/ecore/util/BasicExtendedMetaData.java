@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.3 2004/04/05 20:11:25 elena Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.4 2004/04/18 23:19:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -583,7 +583,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
   public EStructuralFeature getAttribute(EClass eClass, String namespace, String name)
   {
     EStructuralFeature result = getLocalAttribute(eClass, namespace, name);
-    return result == null ? getAttribute(namespace, name) : result;
+    if (result == null)
+    {
+      result = getAttribute(namespace, name);
+      if (result != null && getAffiliation(eClass, result) == null)
+      {
+        return null;
+      }
+    }
+    return result;
   }
 
   protected EStructuralFeature getLocalElement(EClass eClass, String namespace, String name)
@@ -603,9 +611,16 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   public EStructuralFeature getElement(EClass eClass, String namespace, String name)
   {
-
     EStructuralFeature result = getLocalElement(eClass, namespace, name);
-    return result == null ? getElement(namespace, name) : result;
+    if (result == null)
+    {
+      result = getElement(namespace, name);
+      if (result != null && getAffiliation(eClass, result) == null)
+      {
+        return null;
+      }
+    }
+    return result;
   }
 
   public List /*EStructuralFeature*/ getAllAttributes(EClass eClass)
