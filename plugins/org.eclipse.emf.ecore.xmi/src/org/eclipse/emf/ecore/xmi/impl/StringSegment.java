@@ -12,10 +12,15 @@
  *
  * </copyright>
  *
- * $Id: StringSegment.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: StringSegment.java,v 1.2 2004/09/01 20:12:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -31,6 +36,8 @@ public class StringSegment extends BasicEList
   protected int segmentCapacity;
   protected Element cursor;
   protected String lineSeparator = System.getProperty("line.separator");
+  protected String temporaryFileName;
+  protected Writer temporaryFile;
 
   public StringSegment() 
   {
@@ -52,14 +59,59 @@ public class StringSegment extends BasicEList
     add(cursor = new Element(this.segmentCapacity = segmentCapacity));
   }
 
+  public StringSegment(String temporaryFileName)
+  {
+    super(1000);
+    this.segmentCapacity = 1000;
+    add(cursor = new Element(1000));
+    if (temporaryFileName != null)
+    {
+      this.temporaryFileName = temporaryFileName;
+      buffer = new char [8192];
+    }
+  }
+
+  public String getTemporaryFileName()
+  {
+    return temporaryFileName;
+  }
+
   protected Object[] newData(int capacity) 
   {
     return new Element[capacity];
   }
 
+  protected char [] buffer;
+  protected int bufferPosition;
+
   public void add(String newString) 
   {
     // System.err.println("add = ["+newString+"]");
+
+    // If there is a temporary file...
+    //
+    if (temporaryFile != null)
+    {
+      int length = newString.length();
+      if (length + bufferPosition >= buffer.length)
+      {
+        try
+        {
+          temporaryFile.write(buffer, 0, bufferPosition);
+        }
+        catch (IOException exception)
+        {
+        }
+        bufferPosition = 0;
+        if (length > buffer.length) 
+        {
+          buffer = new char[length];
+        }
+      }
+      newString.getChars(0, length, buffer, bufferPosition);
+      bufferPosition += length;
+      return;
+    }
 
     // This is the cheapest and most common case.
     //
@@ -111,11 +163,36 @@ public class StringSegment extends BasicEList
     }
     cursor = new Element(segmentCapacity);
     super.add(cursor);
+
+    if (temporaryFileName != null && temporaryFile == null)
+    {
+      try
+      {
+        temporaryFile = new OutputStreamWriter(new FileOutputStream(temporaryFileName), "UTF8");
+      }
+      catch (IOException exception)
+      {
+      }
+    }
+
     return result;
   }
 
   public void resetToMark(Object mark)
   {
+    if (temporaryFile != null)
+    {
+      cursor.add("");
+      try
+      {
+        temporaryFile.write(buffer, 0, bufferPosition);
+        temporaryFile.close();
+      }
+      catch (IOException exception)
+      {
+      }
+      temporaryFile = null;
+    }
     cursor = (Element)mark;
   }
 
