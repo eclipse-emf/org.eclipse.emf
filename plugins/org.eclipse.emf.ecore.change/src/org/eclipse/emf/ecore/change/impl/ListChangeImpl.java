@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ListChangeImpl.java,v 1.2 2004/03/08 19:54:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -385,7 +385,14 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
     switch (getKind().getValue())
     {
       case ChangeKind.ADD:
-        originalList.addAll(index, getValues());
+        if (index == -1)
+        {
+          originalList.addAll(getValues());
+        }
+        else
+        {
+          originalList.addAll(index, getValues());
+        }
         break;
       case ChangeKind.REMOVE:
         int removeCount = getValues().isEmpty() ? 1 : getValues().size();
@@ -410,7 +417,15 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
     switch (getKind().getValue())
     {
       case ChangeKind.ADD:
-        originalList.addAll(index, getValues());
+        if (index == -1)
+        {
+          index = originalList.size();
+          originalList.addAll(getValues());
+        }
+        else
+        {
+          originalList.addAll(index, getValues());
+        }
         if (getValues().size() == 1)
         {
           getValues().clear();
