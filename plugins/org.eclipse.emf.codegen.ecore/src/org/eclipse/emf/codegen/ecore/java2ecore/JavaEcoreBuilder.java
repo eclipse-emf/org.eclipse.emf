@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.8 2004/05/16 17:27:55 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.9 2004/05/19 13:37:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -352,6 +352,7 @@ public class JavaEcoreBuilder
               superEClass.setInstanceClassName(eClassifier.getInstanceClassName());
               superEClass.setName(eClassifier.getName());
               superEClass.setAbstract(true);
+              superEClass.setInterface(true);
               ePackage.getEClassifiers().add(superEClass);
               eClassifier = superEClass;
             }
