@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.9 2004/05/11 15:46:18 elena Exp $
+ * $Id: XMLHandler.java,v 1.10 2004/06/08 19:58:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -71,6 +71,7 @@ public abstract class XMLHandler
 {
   protected static final String ERROR_TYPE = "error";
   protected static final String OBJECT_TYPE = "object";
+  protected static final String UNKNOWN_FEATURE_TYPE = "unknownFeature";
   protected static final String DOCUMENT_ROOT_TYPE = "documentRoot";
 
   protected final static String TYPE_ATTRIB = XMLResource.XSI_NS + ":" + XMLResource.TYPE;
@@ -248,6 +249,7 @@ public abstract class XMLHandler
   protected int capacity;
   protected Set notFeatures;
   protected String idAttribute;
+  protected String hrefAttribute;
   protected XMLResource.XMLMap xmlMap;
   protected ExtendedMetaData extendedMetaData;
   protected EClass anyType;
@@ -1114,7 +1116,7 @@ public abstract class XMLHandler
       AnyType anyType = getExtension(peekObject);
       objects.push(anyType);
       mixedTargets.push(anyType.getAny());
-      types.push(XMLTypePackage.eINSTANCE.getAnyType_Any());
+      types.push(UNKNOWN_FEATURE_TYPE);
 
       handleFeature(prefix, name);
 
