@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.4 2004/05/16 17:32:20 emerks Exp $
+ * $Id: JMerger.java,v 1.5 2004/06/01 22:23:59 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -753,7 +753,10 @@ public class JMerger implements IPlatformRunnable
               }
               value = stringValue;
             }
-            if (value != null || targetPutMethod.getName().equals("setInitializer")) 
+            if (value != null || 
+                  targetPutMethod.getName().equals("setInitializer") ||
+                  targetPutMethod.getName().equals("setSuperClass") ||
+                  targetPutMethod.getName().equals("setExceptions"))
             {
               if (sourceGetMethod.getName().equals("getFlags") && 
                     sourceNode instanceof IDOMType &&
