@@ -1,252 +1,282 @@
-<table BORDER=0 CELLPADDING=2 WIDTH="100%" >
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content="HTML Tidy, see www.w3.org" />
+<title></title>
+</head>
+<body>
+<table summary="" border="0" cellpadding="2" width="100%">
 <tr>
-
-  <td ALIGN=LEFT VALIGN=TOP BGCOLOR="#0070A0">
-    <b><font face="Arial,Helvetica" color="#FFFFFF">
-      <b><a name="emf_101">What's new in EMF 1.0.1?</a>
-    </font></b>
-  </td>
+<td align="LEFT" valign="TOP" bgcolor="#0070A0"><b><a id="emf_101"
+name="emf_101">What's new in EMF 1.0.1?</a></b></td>
 </tr>
 
 <tr>
 <td>
-
 <ol>
+<li style="list-style: none"><br />
+&nbsp;</li>
 
- <br>&nbsp;
- <li>
- <b><a name="emf_101b">Build 20021023_1900TL additions</a></b>
- <br>&nbsp;
+<li><b><a id="emf_101b" name="emf_101b">Build 20021023_1900TL
+additions</a></b><br />
+&nbsp; 
 
 <ol type="I">
- <li><b><a name="emf_101b_1">1.0.0 Incompatibility</a></b>
-  <p>
-  EMF 1.0.1 uses classpath variables in the java projects it creates. The generator also updates the
-  classpath during generation (although this feature can be turned off via a genmodel property).
-  The gist of this is that there can be conflicts with the bare jar classpath entries used in 1.0.0 projects
-  and therefore, you need to delete old 1.0.0 classpath entries and then regenerate to create them correctly.
-  Also, although plugin.property's merge correctly now (see below), plugin.xml's do not. Because of this,
-  you should delete old 1.0.0 plugin.xml's and regenerate them for 1.0.1. We also recommend deleting 1.0.0
-  genmodels, and recreating them in 1.0.1, because they now support proper reload with persistent genmodel settings,
-  while the 1.0.0 versions do not.
- <br>&nbsp;
- </li>
-<li><b><a name="emf_101b_2">Documentation Plugin</a></b>
-  <p>
+<li><b><a id="emf_101b_1" name="emf_101b_1">1.0.0
+Incompatibility</a></b> 
 
-  There is now a documentation plugin, org.eclipse.emf.doc, included in the download.
-  All the EMF documentation is now available from the desktop Help menu.
-  We've put the documentation plugin into the Runtime zip file, so its
-  download size has increased by more than 2M. We're thinking about moving it into
-  the Source zip, or maybe into its own zip file, in the future.
-  If you have an opinion, please feel free to post it to the emf newsgroup.
- <br>&nbsp;
- </li>
+<p>EMF 1.0.1 uses classpath variables in the java projects it
+creates. The generator also updates the classpath during generation
+(although this feature can be turned off via a genmodel property).
+The gist of this is that there can be conflicts with the bare jar
+classpath entries used in 1.0.0 projects and therefore, you need to
+delete old 1.0.0 classpath entries and then regenerate to create
+them correctly. Also, although plugin.property's merge correctly
+now (see below), plugin.xml's do not. Because of this, you should
+delete old 1.0.0 plugin.xml's and regenerate them for 1.0.1. We
+also recommend deleting 1.0.0 genmodels, and recreating them in
+1.0.1, because they now support proper reload with persistent
+genmodel settings, while the 1.0.0 versions do not.<br />
+&nbsp;</p>
+</li>
 
-<li><b><a name="emf_101b_3">Bug Fixes</a></b>
- <br>&nbsp;
- <ul>
-  <li>
+<li><b><a id="emf_101b_2" name="emf_101b_2">Documentation
+Plugin</a></b> 
 
-   Importing a Rose model with nested packages, where the parent package(s) have no classes in them, caused
-   the generator to ignore (not generate) all of the classes in the nested package(s).
-  </li>
-  <li>
-   If you imported annotated Java classes that were in the default Java package (i.e., no explicit package),
-   the importer crashed and produced an empty editor window. Now it produces an error message instead.
-  </li>
-  <li>
-   Java @model annotations no longer need to be on a line by themselves in the comment. The importer will
-   recognize @model followed by 0 or more name=value pairs, anywhere in the comment. This fixes a problem
-   several people were having with the tutorial, whereby the import from annotation wasn't finding any classes
-   because of the formatting of the comments.
-  </li>
-  <li>
-   Other minor bug fixes. Details available upon request.
- <br>&nbsp;
+<p>There is now a documentation plugin, org.eclipse.emf.doc,
+included in the download. All the EMF documentation is now
+available from the desktop Help menu. We've put the documentation
+plugin into the Runtime zip file, so its download size has
+increased by more than 2M. We're thinking about moving it into the
+Source zip, or maybe into its own zip file, in the future. If you
+have an opinion, please feel free to post it to the emf
+newsgroup.<br />
+&nbsp;</p>
+</li>
 
-  </li>
- </ul>
- </li>
-<li><b><a name="emf_101b_4">Generator Enhancements</a></b>
- <br>&nbsp;
- <ul>
-  <li>
+<li><b><a id="emf_101b_3" name="emf_101b_3">Bug Fixes</a></b><br />
+&nbsp; 
 
-   The Ecore Model Project wizard now lets you create a genmodel from an Ecore XMI file. 
-   In 1.0.0 it was only possible to create a genmodel from a Rose model or annotated Java files. 
-  </li>
-  <li>
-   You can now reload a genmodel from any source, not just from Rose. 
-   The "Reload from Rose" menu item is now just "Reload...".
-  </li>
-  <li>
-   Added the ability to control whether you want the edit and editor code to be generated into their own plugin/project
-   or not. In 1.0.0, you had no choice but to generate the edit and editor components into separate plugins.
-  </li>
-  <li>
-   Added more flexibility in the EMF.Edit generation. You can now choose (by setting properties in the genmodel editor)
-   which classes to generate item providers for. In 1.0.0, you were forced to have one for every class. Also, which features
-   should be properties and which should generate notification, is now user controllable.
-  </li>
+<ul>
+<li>Importing a Rose model with nested packages, where the parent
+package(s) have no classes in them, caused the generator to ignore
+(not generate) all of the classes in the nested package(s).</li>
 
-  <li>
-   The generator now merges plugin.properties as well as Java files.
-   In 1.0.0, if you regenerated an edit or editor plugin, it would not
-   change or overwrite an existing plugin.properties file. If the model had new properties, you needed to manually
-   add them, or delete the old plugin.properties file before regenerating. Plugin.xml's still need to be deleted 
-   if you want to regenerate them.
+<li>If you imported annotated Java classes that were in the default
+Java package (i.e., no explicit package), the importer crashed and
+produced an empty editor window. Now it produces an error message
+instead.</li>
 
- <br>&nbsp;
-  </li>
- </ul>
- </li>
-<li><b><a name="emf_101b_5">Added a basic EMF-generated Ecore model editor</a></b>
-  <p>  
-   You can use it, instead of the text editor, to view or edit
-   ".ecore" model files. Of course, once we have nice graphical Ecore editors, this won't be nearly as interesting.
- </li>
+<li>Java @model annotations no longer need to be on a line by
+themselves in the comment. The importer will recognize @model
+followed by 0 or more name=value pairs, anywhere in the comment.
+This fixes a problem several people were having with the tutorial,
+whereby the import from annotation wasn't finding any classes
+because of the formatting of the comments.</li>
 
- <br>&nbsp;
-<li><b><a name="emf_101b_6">Technology Preview - Import model from XML Schema</a></b>
-  <p>
-   In EMF 1.0.1 you can import your ecore model from an XML Schema, in addition to Rose or annotated Java.
-   To enable this support, you need to download and install the <a href="http://www.eclipse.org/xsd">XML Schema Project</a> plugins first.
-   Here is <a href="docs/clibmod/library.xsd">library.xsd</a>, the Library model expressed in XML Schema. To use it, run the Ecore Model Project wizard
-   and choose "Load from XML Schema" when prompted. This is essentially a third option for step 1 (i.e., 1c) in the
-   <a href="docs/clibmod/clibmod_main.html">tutorial</a>. Give it a try.
-  <p>
+<li>Other minor bug fixes. Details available upon request.<br />
+&nbsp;</li>
+</ul>
+</li>
 
-   One very important difference (advantage) to using XML Schema to define the model is that, in addition to the 
-   default XMI, instances of the model will (not currently, but in the coming weeks) be serializable according
-   to the Schema.
-  <p>
-   Another interesting observation is that the "Book.author" and "Writer.books" reference types, and the fact that
-   they are opposite ends of a bidirectional association, are not expressed in the XML Schema. Consequently, 
-   the generator will simply treat them as two independent one-way references of type EObject. We're looking into ways of
-   annotating the schema (similar to the Java annotation approach) with the missing information. If you have any
-   ideas or suggestions, please feel free to post them to the emf newsgroup.
-  <p>
-   Note: This support is very preliminary and highly subject to change. It is meant to demonstrate the concepts and
-   works well only with simple schemas.
- </li>
- <br>&nbsp;
-<li><b><a name="emf_101b_7">Proposal to add annotations to Ecore model objects</a></b>
-  <p>
+<li><b><a id="emf_101b_4" name="emf_101b_4">Generator
+Enhancements</a></b><br />
+&nbsp; 
 
-   Class EAnnotation has been added to the Ecore model as a proposed design for supporting annotations which
-   follows closely the design of the XML Schema model's XSDAnnotation. The current design uses a
-   <<0..*>> details : String, which we recognize is unacceptably limiting and plan to change it, probably to
-   a Map, once we've worked out the details of serialization support for a Map.
-   We would like to solicit feedback on the EAnnotation design. It will definitely change before the design is 
-   committed to a Release Build. For example, adding a black diamond relation from EAnnotation to EObject would make
-   it essentially identical in function to XSDAnnotation; it would mean that no one would ever have to extend
-   EAnnotation in order to add annotations and it would ensure that the arbitrary EObjects are well separated 
-   and have a well managed lifetime relative to that which they annotate.
- </li>
+<ul>
+<li>The Ecore Model Project wizard now lets you create a genmodel
+from an Ecore XMI file. In 1.0.0 it was only possible to create a
+genmodel from a Rose model or annotated Java files.</li>
 
+<li>You can now reload a genmodel from any source, not just from
+Rose. The "Reload from Rose" menu item is now just
+"Reload...".</li>
+
+<li>Added the ability to control whether you want the edit and
+editor code to be generated into their own plugin/project or not.
+In 1.0.0, you had no choice but to generate the edit and editor
+components into separate plugins.</li>
+
+<li>Added more flexibility in the EMF.Edit generation. You can now
+choose (by setting properties in the genmodel editor) which classes
+to generate item providers for. In 1.0.0, you were forced to have
+one for every class. Also, which features should be properties and
+which should generate notification, is now user controllable.</li>
+
+<li>The generator now merges plugin.properties as well as Java
+files. In 1.0.0, if you regenerated an edit or editor plugin, it
+would not change or overwrite an existing plugin.properties file.
+If the model had new properties, you needed to manually add them,
+or delete the old plugin.properties file before regenerating.
+Plugin.xml's still need to be deleted if you want to regenerate
+them.<br />
+&nbsp;</li>
+</ul>
+</li>
+
+<li><b><a id="emf_101b_5" name="emf_101b_5">Added a basic
+EMF-generated Ecore model editor</a></b> 
+
+<p>You can use it, instead of the text editor, to view or edit
+".ecore" model files. Of course, once we have nice graphical Ecore
+editors, this won't be nearly as interesting.</p>
+</li>
+
+<li style="list-style: none"><br />
+&nbsp;</li>
+
+<li><b><a id="emf_101b_6" name="emf_101b_6">Technology Preview -
+Import model from XML Schema</a></b> 
+
+<p>In EMF 1.0.1 you can import your ecore model from an XML Schema,
+in addition to Rose or annotated Java. To enable this support, you
+need to download and install the <a
+href="http://www.eclipse.org/xsd">XML Schema Project</a> plugins
+first. Here is <a href="docs/clibmod/library.xsd">library.xsd</a>,
+the Library model expressed in XML Schema. To use it, run the Ecore
+Model Project wizard and choose "Load from XML Schema" when
+prompted. This is essentially a third option for step 1 (i.e., 1c)
+in the <a href="docs/clibmod/clibmod_main.html">tutorial</a>. Give
+it a try.</p>
+
+<p>One very important difference (advantage) to using XML Schema to
+define the model is that, in addition to the default XMI, instances
+of the model will (not currently, but in the coming weeks) be
+serializable according to the Schema.</p>
+
+<p>Another interesting observation is that the "Book.author" and
+"Writer.books" reference types, and the fact that they are opposite
+ends of a bidirectional association, are not expressed in the XML
+Schema. Consequently, the generator will simply treat them as two
+independent one-way references of type EObject. We're looking into
+ways of annotating the schema (similar to the Java annotation
+approach) with the missing information. If you have any ideas or
+suggestions, please feel free to post them to the emf
+newsgroup.</p>
+
+<p>Note: This support is very preliminary and highly subject to
+change. It is meant to demonstrate the concepts and works well only
+with simple schemas.</p>
+</li>
+
+<li style="list-style: none"><br />
+&nbsp;</li>
+
+<li><b><a id="emf_101b_7" name="emf_101b_7">Proposal to add
+annotations to Ecore model objects</a></b> 
+
+<p>Class EAnnotation has been added to the Ecore model as a
+proposed design for supporting annotations which follows closely
+the design of the XML Schema model's XSDAnnotation. The current
+design uses a &lt;&lt;0..*&gt;&gt; details : String, which we
+recognize is unacceptably limiting and plan to change it, probably
+to a Map, once we've worked out the details of serialization
+support for a Map. We would like to solicit feedback on the
+EAnnotation design. It will definitely change before the design is
+committed to a Release Build. For example, adding a black diamond
+relation from EAnnotation to EObject would make it essentially
+identical in function to XSDAnnotation; it would mean that no one
+would ever have to extend EAnnotation in order to add annotations
+and it would ensure that the arbitrary EObjects are well separated
+and have a well managed lifetime relative to that which they
+annotate.</p>
+</li>
 </ol>
 
- <ul>
-  <li>
-   Generated code is now formatted according to the project (Java Code Formatter) preferences.
-  </li>
-  <li>
-   EMF.Edit (e.g., item providers) can now be used in stand-alone applications (see FAQ for details).
-  </li>
-  <li>
-   More XML Schema Technology preview. Along with the Java classes, an XML Schema can now 
-   be generated for an Ecore model. This is the opposite of the import from Schema support (described above).
-  </li>
+<ul>
+<li>Generated code is now formatted according to the project (Java
+Code Formatter) preferences.</li>
 
-  <li>
-   EAnnotation design (described above) has been completed.
-  </li>
-  <li>
-   Added support for map (i.e., EMap) type attributes. See EAnnotation (attribute "details") for an example.
-  </li>
-  <li>
-   Some XMI and XML Resource implementation restructuring.
-  </li>
-  <li>
+<li>EMF.Edit (e.g., item providers) can now be used in stand-alone
+applications (see FAQ for details).</li>
 
-   Added simple logging support. There is now a log() method callable on generated Plugin classes.
-  </li>
-  <li>
-   More minor bug fixes and cleanup...
-  </li>
- </ul>
- </li>
+<li>More XML Schema Technology preview. Along with the Java
+classes, an XML Schema can now be generated for an Ecore model.
+This is the opposite of the import from Schema support (described
+above).</li>
 
- <br>&nbsp;
- <li>
- <b><a name="emf_101c">Build 20021127_0721VL additions</a></b>
- <br>&nbsp;
- <ul>
-  <li>
-   Code is now compiled with debug information (-g).
-  </li>
-  <li>
-   Source plugin is now properly structured for Eclipse development.
-  </li>
+<li>EAnnotation design (described above) has been completed.</li>
 
-  <li>
-   Support Empty EMF project creation.
-  </li>
-  <li>
-   New reflective item provider and editor.
-  </li>
-  <li>
-   Second tutorial added to documentation plugin.
-  </li>
-  <li>
+<li>Added support for map (i.e., EMap) type attributes. See
+EAnnotation (attribute "details") for an example.</li>
 
-   Added reconcile() method on GenModel.
-  </li>
-  <li>
-   More minor bug fixes...
-  </li>
- </ul>
- </li>
- <br>&nbsp;
- <li>
- <b><a name="emf_101d">Build 20021219_1544VL additions</a></b>
- <br>&nbsp;
- <ul>
-  <li>
-   Generated editors now include property editing for multi-valued features.
-  </li>
-  <li>
-   More bug fixes...
-  </li>
+<li>Some XMI and XML Resource implementation restructuring.</li>
 
- </ul>
- </li>
+<li>Added simple logging support. There is now a log() method
+callable on generated Plugin classes.</li>
 
- <br>&nbsp;
- <li>
- <b><a name="emf_101e">Build 20030225_1207VL additions</a></b>
- <br>&nbsp;
+<li>More minor bug fixes and cleanup...</li>
+</ul>
+</li>
 
- <ul>
-  <li>
-   Unsettable reference support. The unsettable feature has been moved from EAttribute to EStructuralFeature.
-  </li>
-  <li>
-   More bug fixes...
-  </li>
-  <li>
-   This is the candiate 1.0.1 "release" build. If no problems are encountered we will publish this
-   build as the "Latest Release" and then start dropping 1.0.2 builds (which will be based on Eclipse 2.1).
-  </li>
+<li style="list-style: none"><br />
+&nbsp;</li>
 
-  <li>
-   The online JavaDoc (and Ecore class diagram) has been updated to reflect this build (i.e., the latest release).
-  </li>
- </ul>
- </li>
+<li><b><a id="emf_101c" name="emf_101c">Build 20021127_0721VL
+additions</a></b><br />
+&nbsp; 
 
+<ul>
+<li>Code is now compiled with debug information (-g).</li>
+
+<li>Source plugin is now properly structured for Eclipse
+development.</li>
+
+<li>Support Empty EMF project creation.</li>
+
+<li>New reflective item provider and editor.</li>
+
+<li>Second tutorial added to documentation plugin.</li>
+
+<li>Added reconcile() method on GenModel.</li>
+
+<li>More minor bug fixes...</li>
+</ul>
+</li>
+
+<li style="list-style: none"><br />
+&nbsp;</li>
+
+<li><b><a id="emf_101d" name="emf_101d">Build 20021219_1544VL
+additions</a></b><br />
+&nbsp; 
+
+<ul>
+<li>Generated editors now include property editing for multi-valued
+features.</li>
+
+<li>More bug fixes...</li>
+</ul>
+</li>
+
+<li style="list-style: none"><br />
+&nbsp;</li>
+
+<li><b><a id="emf_101e" name="emf_101e">Build 20030225_1207VL
+additions</a></b><br />
+&nbsp; 
+
+<ul>
+<li>Unsettable reference support. The unsettable feature has been
+moved from EAttribute to EStructuralFeature.</li>
+
+<li>More bug fixes...</li>
+
+<li>This is the candiate 1.0.1 "release" build. If no problems are
+encountered we will publish this build as the "Latest Release" and
+then start dropping 1.0.2 builds (which will be based on Eclipse
+2.1).</li>
+
+<li>The online JavaDoc (and Ecore class diagram) has been updated
+to reflect this build (i.e., the latest release).</li>
+</ul>
+</li>
 </ol>
-
 </td>
-</tr></table>
+</tr>
+</table>
+</body>
+</html>
+

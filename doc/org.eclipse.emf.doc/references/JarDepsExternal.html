@@ -1,351 +1,306 @@
+<?xml version="1.0"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta name="generator" content=
-  "HTML Tidy for Windows (vers 1st February 2004), see www.w3.org" />
-	<link href="../css/JarDepsExternal.css" rel="stylesheet" type="text/css"/>
-  <title>EMF Jar Dependencies</title>
+<meta http-equiv="Content-Type"
+content="text/html; charset=utf-8" />
+<meta name="generator"
+content="HTML Tidy for Windows (vers 1st February 2004), see www.w3.org" />
+<link href="../css/JarDepsExternal.css" rel="stylesheet"
+type="text/css" />
+<title>EMF Jar Dependencies</title>
 </head>
-
 <body lang="EN-US" xml:lang="EN-US">
-  <div class="Section1">
-    <p class="MsoTitle">EMF Jar Dependencies for Running Standalone
-    as a Java Application Outside Eclipse</p>
-
-    <p class="MsoNormal c1">&nbsp;</p>
-
-    <table class="MsoNormalTable c19" border="1" cellspacing="0"
-    cellpadding="0">
-      <tr>
-        <td width="226" valign="top" class='c4'>
-          <p class="MsoNormal c3"><span class='c2'>EMF Plugin
-          Name</span></p>
-        </td>
-
-        <td width="242" valign="top" class='c6'>
-          <p class="MsoNormal c3"><span class='c2'>Plugin
-          Jars<a href="#_ftn1" name="_ftnref1" title="" id=
-          "_ftnref1"><span class=
-          "MsoFootnoteReference"><span class="MsoFootnoteReference">
-          <span class='c5'>[1]</span></span></span></a></span></p>
-        </td>
-
-        <td width="261" valign="top" class='c7'>
-          <p class="MsoNormal c3"><span class='c2'>Function
-          Provided by the Plugin</span></p>
-        </td>
-
-        <td width="254" valign="top" class='c8'>
-          <p class="MsoNormal c3"><span class='c2'>Directly
-          Dependent Plugins/Jars<a href="#_ftn2" name="_ftnref2"
-          title="" id="_ftnref2"><span class=
-          "MsoFootnoteReference"><span class=
-          "MsoFootnoteReference"><span class=
-          'c5'>[2]</span></span></span></a></span></p>
-
-          <p class="MsoNormal c3">&nbsp;</p>
-        </td>
-      </tr>
-
-      <tr>
-        <td width="226" valign="top" class='c11'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>org.eclipse.emf.common</span></p>
-        </td>
-
-        <td width="242" valign="top" class='c12'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>common.jar</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>common.resources.jar</span></p>
-        </td>
-
-        <td width="261" valign="top" class='c14'>
-          <p class="MsoNormal c10"><span class='c13'>A collection
-          of subpackages to support the EMF
-          infrastructure.</span></p>
-        </td>
-
-        <td width="254" valign="top" class='c15'>
-          <p class="MsoNormal c10"><span class=
-          'c13'>None.</span></p>
-        </td>
-      </tr>
-
-      <tr>
-        <td width="226" valign="top" class='c11'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>org.eclipse.emf.ecore</span></p>
-        </td>
-
-        <td width="242" valign="top" class='c12'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>ecore.jar</span></p>
-        </td>
-
-        <td width="261" valign="top" class='c14'>
-          <p class="MsoNormal c10"><span class='c9'>The EMF
-          Framework.</span></p>
-        </td>
-
-        <td width="254" valign="top" class='c15'>
-          <p class="MsoNormal c17"><span class=
-          'c16'>org.eclipse.emf.common</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-common.jar</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-common.resources.jar</span></p>
-        </td>
-      </tr>
-
-      <tr>
-        <td width="226" valign="top" class='c11'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>org.eclipse.xsd</span></p>
-        </td>
-
-        <td width="242" valign="top" class='c12'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>xsd.jar</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>xsd.resources.jar</span></p>
-        </td>
-
-        <td width="261" valign="top" class='c14'>
-          <p class="MsoNormal c10"><span class='c9'>Schema
-          support.</span></p>
-        </td>
-
-        <td width="254" valign="top" class='c15'>
-          <p class="MsoNormal c17"><span class=
-          'c16'>org.eclipse.emf.ecore</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-ecore.jar</span></p>
-
-          <p class="MsoNormal c17"><span class=
-          'c16'>org.apache.xerces</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-xercesImpl.jar</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-xmlParserAPIs.jar</span></p>
-        </td>
-      </tr>
-
-      <tr>
-        <td width="226" valign="top" class='c11'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>org.eclipse.emf.ecore.xmi</span></p>
-        </td>
-
-        <td width="242" valign="top" class='c12'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>ecore.xmi.jar</span></p>
-        </td>
-
-        <td width="261" valign="top" class='c14'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>Serialization/Deserialization using XMI.</span></p>
-        </td>
-
-        <td width="254" valign="top" class='c15'>
-          <p class="MsoNormal c17"><span class=
-          'c16'>org.eclipse.emf.ecore</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-ecore.jar</span></p>
-
-          <p class="MsoNormal c17"><span class=
-          'c16'>org.apache.xerces</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-xercesImpl.jar</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-xmlParserAPIs.jar</span></p>
-        </td>
-      </tr>
-
-      <tr>
-        <td width="226" valign="top" class='c11'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>org.eclipse.emf.edit</span></p>
-        </td>
-
-        <td width="242" valign="top" class='c12'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>edit.jar</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>edit.resources.jar</span></p>
-        </td>
-
-        <td width="261" valign="top" class='c14'>
-          <p class="MsoNormal c10"><span class='c9'>Generic edit
-          support for EMF objects.</span></p>
-        </td>
-
-        <td width="254" valign="top" class='c15'>
-          <p class="MsoNormal c17"><span class=
-          'c16'>org.eclipse.emf.common</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-common.jar</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-common.resources.jar</span></p>
-
-          <p class="MsoNormal c17"><span class=
-          'c16'>org.eclipse.emf.ecore</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-ecore.jar</span></p>
-        </td>
-      </tr>
-
-      <tr>
-        <td width="226" valign="top" class='c11'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>org.eclipse.emf.ecore.edit</span></p>
-        </td>
-
-        <td width="242" valign="top" class='c12'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>ecore.edit.jar</span></p>
-        </td>
-
-        <td width="261" valign="top" class='c14'>
-          <p class="MsoNormal c10"><span class='c9'>Reusable edit
-          support for viewing Ecore models.</span></p>
-        </td>
-
-        <td width="254" valign="top" class='c15'>
-          <p class="MsoNormal c17"><span class=
-          'c18'>org.eclipse.emf.edit</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c13'>-edit.jar</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c13'>-edit.resources.jar</span></p>
-        </td>
-      </tr>
-
-      <tr>
-        <td width="226" valign="top" class='c11'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>org.eclipse.xsd.edit</span></p>
-        </td>
-
-        <td width="242" valign="top" class='c12'>
-          <p class="MsoNormal c10"><span class=
-          'c9'>xsd.edit.jar</span></p>
-        </td>
-
-        <td width="261" valign="top" class='c14'>
-          <p class="MsoNormal c10"><span class='c9'>Reusable edit
-          support for viewing schemas.</span></p>
-        </td>
-
-        <td width="254" valign="top" class='c15'>
-          <p class="MsoNormal c17"><span class=
-          'c18'>org.eclipse.emf.edit</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c13'>-edit.jar</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c13'>-edit.resources.jar</span></p>
-
-          <p class="MsoNormal c17"><span class=
-          'c16'>org.eclipse.xsd</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-xsd.jar</span></p>
-
-          <p class="MsoNormal c10"><span class=
-          'c9'>-xsd.resources.jar</span></p>
-        </td>
-      </tr>
-    </table>
-
-    <p class="MsoNormal">&nbsp;</p>
-  </div>
-
-  <div>
-    <br clear="all" />
-    <hr class="c20" size="1" width="33%" />
-
-    <div id="ftn1">
-      <p class="MsoFootnoteText"><a href="#_ftnref1" name="_ftn1"
-      title="" id="_ftn1"><span class=
-      "MsoFootnoteReference"><span class=
-      "MsoFootnoteReference"><span class=
-      'c21'>[1]</span></span></span></a> All EMF 1.0.0 jars belong
-      to Eclipse plugins that are named using the following
-      convention:&nbsp;</p>
-
-      <p class="MsoFootnoteText">&nbsp;</p>
-
-      <p class="MsoFootnoteText c23"><span class=
-      'c22'>org.eclipse.emf.&lt;jar name&gt;</span></p>
-
-      <p class="MsoFootnoteText"><span class=
-      'c24'>&nbsp;</span></p>
-
-      <p class="MsoFootnoteText">For example, the jar <span class=
-      'c22'>codegen.ecore.ui.jar</span> is contained in the Eclipse
-      plugin named <span class=
-      'c25'>org.eclipse.emf.codegen.ecore.ui</span>.&nbsp; Every
-      EMF jar is located in the runtime directory that is
-      immediately beneath the corresponding plugin directory.</p>
-
-      <p class="MsoFootnoteText">&nbsp;</p>
-
-      <p class="MsoFootnoteText">All EMF 1.0.1 jars belong to
-      Eclipse plugins that are named using the following
-      convention:</p>
-
-      <p class="MsoFootnoteText">&nbsp;</p>
-
-      <p class="MsoFootnoteText">&nbsp;</p>
-
-      <p class="MsoFootnoteText c23"><span class=
-      'c22'>org.eclipse.emf.&lt;jar name&gt;_1.0.1</span></p>
-
-      <p class="MsoFootnoteText"><span class=
-      'c24'>&nbsp;</span></p>
-
-      <p class="MsoFootnoteText">For example, the jar <span class=
-      'c22'>codegen.ecore.ui.jar</span> is contained in the Eclipse
-      plugin named <span class=
-      'c25'>org.eclipse.emf.codegen.ecore.ui_1.0.1</span>.&nbsp;
-      Every EMF jar is located in the runtime directory that is
-      immediately beneath the corresponding plugin directory.</p>
-
-      <p class="MsoFootnoteText">&nbsp;</p>
-
-      <p class="MsoFootnoteText">&nbsp;</p>
-    </div>
-
-    <div id="ftn2">
-      <p class="MsoFootnoteText"><a href="#_ftnref2" name="_ftn2"
-      title="" id="_ftn2"><span class=
-      "MsoFootnoteReference"><span class=
-      "MsoFootnoteReference"><span class=
-      'c21'>[2]</span></span></span></a> The directly dependent
-      jars may also have their own dependencies.&nbsp; These
-      indirect dependencies can be determined from the
-      corresponding entries in the table.</p>
-    </div>
-  </div>
+<div class="Section1">
+<p class="MsoTitle">EMF Jar Dependencies for Running Standalone as
+a Java Application Outside Eclipse</p>
+
+<p class="MsoNormal c1">&nbsp;</p>
+
+<table summary="" class="MsoNormalTable c19" border="1"
+cellspacing="0" cellpadding="0">
+<tr>
+<td width="226" valign="top" class='c4'>
+<p class="MsoNormal c3"><span class='c2'>EMF Plugin Name</span></p>
+</td>
+<td width="242" valign="top" class='c6'>
+<p class="MsoNormal c3"><span class='c2'>Plugin Jars<a
+href="#_ftn1" name="_ftnref1" title="" id="_ftnref1"><span
+class="MsoFootnoteReference"><span
+class="MsoFootnoteReference"><span
+class='c5'>[1]</span></span></span></a></span></p>
+</td>
+<td width="261" valign="top" class='c7'>
+<p class="MsoNormal c3"><span class='c2'>Function Provided by the
+Plugin</span></p>
+</td>
+<td width="254" valign="top" class='c8'>
+<p class="MsoNormal c3"><span class='c2'>Directly Dependent
+Plugins/Jars<a href="#_ftn2" name="_ftnref2" title=""
+id="_ftnref2"><span class="MsoFootnoteReference"><span
+class="MsoFootnoteReference"><span
+class='c5'>[2]</span></span></span></a></span></p>
+
+<p class="MsoNormal c3">&nbsp;</p>
+</td>
+</tr>
+
+<tr>
+<td width="226" valign="top" class='c11'>
+<p class="MsoNormal c10"><span
+class='c9'>org.eclipse.emf.common</span></p>
+</td>
+<td width="242" valign="top" class='c12'>
+<p class="MsoNormal c10"><span class='c9'>common.jar</span></p>
+
+<p class="MsoNormal c10"><span
+class='c9'>common.resources.jar</span></p>
+</td>
+<td width="261" valign="top" class='c14'>
+<p class="MsoNormal c10"><span class='c13'>A collection of
+subpackages to support the EMF infrastructure.</span></p>
+</td>
+<td width="254" valign="top" class='c15'>
+<p class="MsoNormal c10"><span class='c13'>None.</span></p>
+</td>
+</tr>
+
+<tr>
+<td width="226" valign="top" class='c11'>
+<p class="MsoNormal c10"><span
+class='c9'>org.eclipse.emf.ecore</span></p>
+</td>
+<td width="242" valign="top" class='c12'>
+<p class="MsoNormal c10"><span class='c9'>ecore.jar</span></p>
+</td>
+<td width="261" valign="top" class='c14'>
+<p class="MsoNormal c10"><span class='c9'>The EMF
+Framework.</span></p>
+</td>
+<td width="254" valign="top" class='c15'>
+<p class="MsoNormal c17"><span
+class='c16'>org.eclipse.emf.common</span></p>
+
+<p class="MsoNormal c10"><span class='c9'>-common.jar</span></p>
+
+<p class="MsoNormal c10"><span
+class='c9'>-common.resources.jar</span></p>
+</td>
+</tr>
+
+<tr>
+<td width="226" valign="top" class='c11'>
+<p class="MsoNormal c10"><span
+class='c9'>org.eclipse.xsd</span></p>
+</td>
+<td width="242" valign="top" class='c12'>
+<p class="MsoNormal c10"><span class='c9'>xsd.jar</span></p>
+
+<p class="MsoNormal c10"><span
+class='c9'>xsd.resources.jar</span></p>
+</td>
+<td width="261" valign="top" class='c14'>
+<p class="MsoNormal c10"><span class='c9'>Schema
+support.</span></p>
+</td>
+<td width="254" valign="top" class='c15'>
+<p class="MsoNormal c17"><span
+class='c16'>org.eclipse.emf.ecore</span></p>
+
+<p class="MsoNormal c10"><span class='c9'>-ecore.jar</span></p>
+
+<p class="MsoNormal c17"><span
+class='c16'>org.apache.xerces</span></p>
+
+<p class="MsoNormal c10"><span
+class='c9'>-xercesImpl.jar</span></p>
+
+<p class="MsoNormal c10"><span
+class='c9'>-xmlParserAPIs.jar</span></p>
+</td>
+</tr>
+
+<tr>
+<td width="226" valign="top" class='c11'>
+<p class="MsoNormal c10"><span
+class='c9'>org.eclipse.emf.ecore.xmi</span></p>
+</td>
+<td width="242" valign="top" class='c12'>
+<p class="MsoNormal c10"><span class='c9'>ecore.xmi.jar</span></p>
+</td>
+<td width="261" valign="top" class='c14'>
+<p class="MsoNormal c10"><span
+class='c9'>Serialization/Deserialization using XMI.</span></p>
+</td>
+<td width="254" valign="top" class='c15'>
+<p class="MsoNormal c17"><span
+class='c16'>org.eclipse.emf.ecore</span></p>
+
+<p class="MsoNormal c10"><span class='c9'>-ecore.jar</span></p>
+
+<p class="MsoNormal c17"><span
+class='c16'>org.apache.xerces</span></p>
+
+<p class="MsoNormal c10"><span
+class='c9'>-xercesImpl.jar</span></p>
+
+<p class="MsoNormal c10"><span
+class='c9'>-xmlParserAPIs.jar</span></p>
+</td>
+</tr>
+
+<tr>
+<td width="226" valign="top" class='c11'>
+<p class="MsoNormal c10"><span
+class='c9'>org.eclipse.emf.edit</span></p>
+</td>
+<td width="242" valign="top" class='c12'>
+<p class="MsoNormal c10"><span class='c9'>edit.jar</span></p>
+
+<p class="MsoNormal c10"><span
+class='c9'>edit.resources.jar</span></p>
+</td>
+<td width="261" valign="top" class='c14'>
+<p class="MsoNormal c10"><span class='c9'>Generic edit support for
+EMF objects.</span></p>
+</td>
+<td width="254" valign="top" class='c15'>
+<p class="MsoNormal c17"><span
+class='c16'>org.eclipse.emf.common</span></p>
+
+<p class="MsoNormal c10"><span class='c9'>-common.jar</span></p>
+
+<p class="MsoNormal c10"><span
+class='c9'>-common.resources.jar</span></p>
+
+<p class="MsoNormal c17"><span
+class='c16'>org.eclipse.emf.ecore</span></p>
+
+<p class="MsoNormal c10"><span class='c9'>-ecore.jar</span></p>
+</td>
+</tr>
+
+<tr>
+<td width="226" valign="top" class='c11'>
+<p class="MsoNormal c10"><span
+class='c9'>org.eclipse.emf.ecore.edit</span></p>
+</td>
+<td width="242" valign="top" class='c12'>
+<p class="MsoNormal c10"><span class='c9'>ecore.edit.jar</span></p>
+</td>
+<td width="261" valign="top" class='c14'>
+<p class="MsoNormal c10"><span class='c9'>Reusable edit support for
+viewing Ecore models.</span></p>
+</td>
+<td width="254" valign="top" class='c15'>
+<p class="MsoNormal c17"><span
+class='c18'>org.eclipse.emf.edit</span></p>
+
+<p class="MsoNormal c10"><span class='c13'>-edit.jar</span></p>
+
+<p class="MsoNormal c10"><span
+class='c13'>-edit.resources.jar</span></p>
+</td>
+</tr>
+
+<tr>
+<td width="226" valign="top" class='c11'>
+<p class="MsoNormal c10"><span
+class='c9'>org.eclipse.xsd.edit</span></p>
+</td>
+<td width="242" valign="top" class='c12'>
+<p class="MsoNormal c10"><span class='c9'>xsd.edit.jar</span></p>
+</td>
+<td width="261" valign="top" class='c14'>
+<p class="MsoNormal c10"><span class='c9'>Reusable edit support for
+viewing schemas.</span></p>
+</td>
+<td width="254" valign="top" class='c15'>
+<p class="MsoNormal c17"><span
+class='c18'>org.eclipse.emf.edit</span></p>
+
+<p class="MsoNormal c10"><span class='c13'>-edit.jar</span></p>
+
+<p class="MsoNormal c10"><span
+class='c13'>-edit.resources.jar</span></p>
+
+<p class="MsoNormal c17"><span
+class='c16'>org.eclipse.xsd</span></p>
+
+<p class="MsoNormal c10"><span class='c9'>-xsd.jar</span></p>
+
+<p class="MsoNormal c10"><span
+class='c9'>-xsd.resources.jar</span></p>
+</td>
+</tr>
+</table>
+
+<p class="MsoNormal">&nbsp;</p>
+</div>
+
+<div><br clear="all" />
+ 
+
+<hr class="c20" size="1" width="33%" />
+<div id="ftn1">
+<p class="MsoFootnoteText"><a href="#_ftnref1" name="_ftn1"
+title="" id="_ftn1"><span class="MsoFootnoteReference"><span
+class="MsoFootnoteReference"><span
+class='c21'>[1]</span></span></span></a> All EMF 1.0.0 jars belong
+to Eclipse plugins that are named using the following
+convention:&nbsp;</p>
+
+<p class="MsoFootnoteText">&nbsp;</p>
+
+<p class="MsoFootnoteText c23"><span
+class='c22'>org.eclipse.emf.&lt;jar name&gt;</span></p>
+
+<p class="MsoFootnoteText"><span class='c24'>&nbsp;</span></p>
+
+<p class="MsoFootnoteText">For example, the jar <span
+class='c22'>codegen.ecore.ui.jar</span> is contained in the Eclipse
+plugin named <span
+class='c25'>org.eclipse.emf.codegen.ecore.ui</span>.&nbsp; Every
+EMF jar is located in the runtime directory that is immediately
+beneath the corresponding plugin directory.</p>
+
+<p class="MsoFootnoteText">&nbsp;</p>
+
+<p class="MsoFootnoteText">All EMF 1.0.1 jars belong to Eclipse
+plugins that are named using the following convention:</p>
+
+<p class="MsoFootnoteText">&nbsp;</p>
+
+<p class="MsoFootnoteText">&nbsp;</p>
+
+<p class="MsoFootnoteText c23"><span
+class='c22'>org.eclipse.emf.&lt;jar name&gt;_1.0.1</span></p>
+
+<p class="MsoFootnoteText"><span class='c24'>&nbsp;</span></p>
+
+<p class="MsoFootnoteText">For example, the jar <span
+class='c22'>codegen.ecore.ui.jar</span> is contained in the Eclipse
+plugin named <span
+class='c25'>org.eclipse.emf.codegen.ecore.ui_1.0.1</span>.&nbsp;
+Every EMF jar is located in the runtime directory that is
+immediately beneath the corresponding plugin directory.</p>
+
+<p class="MsoFootnoteText">&nbsp;</p>
+
+<p class="MsoFootnoteText">&nbsp;</p>
+</div>
+
+<div id="ftn2">
+<p class="MsoFootnoteText"><a href="#_ftnref2" name="_ftn2"
+title="" id="_ftn2"><span class="MsoFootnoteReference"><span
+class="MsoFootnoteReference"><span
+class='c21'>[2]</span></span></span></a> The directly dependent
+jars may also have their own dependencies.&nbsp; These indirect
+dependencies can be determined from the corresponding entries in
+the table.</p>
+</div>
+</div>
 </body>
 </html>
+
