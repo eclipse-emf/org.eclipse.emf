@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.20 2004/08/03 21:31:56 marcelop Exp $
+ * $Id: BuildTests.java,v 1.21 2004/08/03 22:20:51 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -651,6 +651,7 @@ public class BuildTests extends TestCase
         assertTrue(eCoreJar.exists());
         assertTrue(eCoreJar.isFile());
         
+        int manifestCount = 0;
         JarFile jarFile = new JarFile(eCoreJar);
         for (Enumeration entries=jarFile.entries(); entries.hasMoreElements();)
         {
@@ -658,9 +659,17 @@ public class BuildTests extends TestCase
           if (!entry.isDirectory())
           {
             String name = entry.getName();
-            assertTrue(name, entry.getName().endsWith(".class"));
+            if(name.endsWith("MANIFEST.MF"))
+            {
+              manifestCount++;
+            }
+            else
+            {
+              assertTrue(name, entry.getName().endsWith(".class"));
+            }
           }
         }
+        assertEquals(1, manifestCount);
         break;
       }
     }
