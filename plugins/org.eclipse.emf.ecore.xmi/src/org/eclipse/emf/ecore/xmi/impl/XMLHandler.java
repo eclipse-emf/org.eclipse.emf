@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.12 2004/06/15 21:52:21 emerks Exp $
+ * $Id: XMLHandler.java,v 1.13 2004/06/19 20:49:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -61,6 +61,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 
 /**
@@ -751,7 +752,14 @@ public abstract class XMLHandler
           for (Iterator i = featureMap.iterator(); i.hasNext(); )
           {
             FeatureMap.Entry entry = (FeatureMap.Entry)i.next();
-            otherFeatureMap.add(entry.getEStructuralFeature(), entry.getValue());
+
+            // Ignore a whitespace only text entry at the beginning.
+            //
+            if (entry.getEStructuralFeature() !=  XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text() ||
+                  !"".equals(XMLTypeUtil.normalize(entry.getValue().toString(), true)))
+            {
+              otherFeatureMap.add(entry.getEStructuralFeature(), entry.getValue());
+            }
           }
         }
         text = null;
