@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2005/01/05 20:05:41 marcelop Exp $
+ * $Id: plugin.xml,v 1.2 2005/01/31 22:26:09 marcelop Exp $
  */
 -->
 
@@ -35,6 +35,7 @@
       <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="org.eclipse.xsd"/>
       <import plugin="org.junit"/>
+      <import plugin="org.eclipse.test.performance"/>
    </requires>
 
    <runtime>

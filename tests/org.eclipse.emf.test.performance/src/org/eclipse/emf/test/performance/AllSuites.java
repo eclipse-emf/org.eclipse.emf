@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.1 2005/01/05 20:05:41 marcelop Exp $
+ * $Id: AllSuites.java,v 1.2 2005/01/31 22:26:09 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -24,6 +24,7 @@ import junit.framework.TestSuite;
 public class AllSuites extends TestSuite
 {
   private static Test[] suites = new Test []{ 
+    org.eclipse.emf.test.performance.serialization.AttributeTest.suite()
   };
 
   public static Test suite()
