@@ -15,32 +15,34 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.2 2004/07/14 15:44:28 marcelop Exp $
+ * $Id: feature.xml,v 1.3 2004/09/01 16:44:31 nickb Exp $
  */
 -->
 
 <feature
-	id="org.eclipse.emf.doc"
+    id="org.eclipse.emf.doc"
     label="%featureName"
     version="2.0.1"
     image= "eclipse_update_120.jpg"
     provider-name="%providerName">
 
-	<description>
-    	%description
-	</description>
+    <description>
+        %description
+    </description>
 
     <license url="%licenseURL">
-		%license
-	</license>
+        %license
+    </license>
 
-	<url>
-		<update url="http://update.eclipse.org/updates" label="%updateSiteName"/>
-	</url>
+    <url>
+      <update label="%updateSiteName" url="http://update.eclipse.org/updates/3.0"/>
+      <update label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
+      <discovery label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
+    </url>
 
-	<plugin
-		id="org.eclipse.emf.doc"
+    <plugin
+        id="org.eclipse.emf.doc"
         download-size="0"
-        install-size="0"   		
-		version="2.0.1"/>
+        install-size="0"        
+        version="2.0.1"/>
 </feature>
