@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.16 2004/10/21 16:20:26 marcelop Exp $
+ * $Id: XMLResource.java,v 1.13.2.1 2005/01/26 16:31:45 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -40,6 +40,11 @@ public interface XMLResource extends Resource
    * @see org.eclipse.emf.ecore.xmi.XMLParserPool
    */
   String OPTION_USE_PARSER_POOL = "USE_PARSER_POOL";
+  
+  /**
+   * Specify a place holder {@link List} for caching information during the subsequent saving of XML documents
+   */
+  String OPTION_USE_CACHED_LOOKUP_TABLE = "USE_CACHED_LOOKUP_TABLE";
   
   /**
    * Specify a map {@link Map} to be used during the subsequent loading of XML documents.
@@ -136,13 +141,6 @@ public interface XMLResource extends Resource
    * Faster for large computer-generated files
    */
   String OPTION_SKIP_ESCAPE  = "SKIP_ESCAPE";
-  
-  /**
-   * Skip escaping special characters, such as '&' char, in URIs during XML serialization.
-   * The default is <code>Boolean.TRUE</code>. To enforce escaping special characters, set this 
-   * option to <code>Boolean.FALSE</code>/.
-   */
-  String OPTION_SKIP_ESCAPE_URI = "SKIP_ESCAPE_URI";
 
   /**
    * This can be one of "THROW", "DISCARD", "RECORD", where "THROW" is the default.
@@ -261,32 +259,23 @@ public interface XMLResource extends Resource
 
   /**
    * Returns the Map with IDs as keys and EObjects as values.
-   * @deprecated since 2.1.0 This map should not be manipulated directly.  
-   * Use {@link #setID(EObject, String)} and {@link #getID(EObject)} or 
-   * {@link Resource#getEObject(String)} instead.  This method may be removed from
-   * this interface.
    */
   Map getIDToEObjectMap();
 
   /**
    * Returns the Map of EObjects as keys and IDs as values.
-   * @deprecated since 2.1.0 This map should not be manipulated directly.  
-   * Use {@link #setID(EObject, String)} and {@link #getID(EObject)} or 
-   * {@link Resource#getEObject(String)} instead.  This method may be removed from
-   * this interface.
    */
   Map getEObjectToIDMap();
 
   /**
-   * Returns the ID that was assigned with {@link #setID(EObject, String)}; if there is
+   * Returns the ID if there is one for the given object; if there is
    * no ID, it returns null.
    */
   String getID(EObject eObject);
-  
+
   /**
    * Sets the ID for the given object. If you are storing the ID
-   * with the object itself, you should override this method.  You can remove the
-   * ID of a given eObject by using <code>null</code> as the id value.
+   * with the object itself, you should override this method.
    */
   void setID(EObject eObject, String id);
 
