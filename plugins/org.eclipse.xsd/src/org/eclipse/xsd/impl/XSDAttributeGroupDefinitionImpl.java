@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.2 2004/06/13 11:52:18 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.3 2004/08/11 15:08:54 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -200,7 +200,7 @@ public class XSDAttributeGroupDefinitionImpl
    */
   public Boolean getAttributeGroupDefinitionReference() 
   {
-    return new Boolean(isAttributeGroupDefinitionReference());
+    return isAttributeGroupDefinitionReference() ? Boolean.TRUE : Boolean.FALSE;
   }
 
   public Element createElement()

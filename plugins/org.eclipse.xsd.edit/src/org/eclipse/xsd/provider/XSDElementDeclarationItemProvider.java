@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationItemProvider.java,v 1.2 2004/04/07 22:12:58 davidms Exp $
+ * $Id: XSDElementDeclarationItemProvider.java,v 1.3 2004/08/11 15:08:59 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -392,8 +392,8 @@ public class XSDElementDeclarationItemProvider
            return 
              Arrays.asList
                (new Object [] 
-                { new Boolean(false), 
-                  new Boolean(true), 
+                { Boolean.FALSE, 
+                  Boolean.TRUE, 
                   XSDEditPlugin.getString("_UI_DefaultValue_label", new Object [] { "false" }) 
                 });
          }
@@ -469,8 +469,8 @@ public class XSDElementDeclarationItemProvider
            return 
              Arrays.asList
                (new Object [] 
-                { new Boolean(false), 
-                  new Boolean(true), 
+                { Boolean.FALSE, 
+                  Boolean.TRUE, 
                   XSDEditPlugin.getString("_UI_DefaultValue_label", new Object [] { "false" }) 
                 });
          }

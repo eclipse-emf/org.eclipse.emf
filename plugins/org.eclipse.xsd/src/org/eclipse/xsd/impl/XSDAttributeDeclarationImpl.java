@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationImpl.java,v 1.3 2004/06/13 11:52:17 emerks Exp $
+ * $Id: XSDAttributeDeclarationImpl.java,v 1.4 2004/08/11 15:08:55 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -158,7 +158,7 @@ public class XSDAttributeDeclarationImpl
    */
   public Boolean getAttributeDeclarationReference() 
   {
-    return new Boolean(isAttributeDeclarationReference());
+    return isAttributeDeclarationReference() ? Boolean.TRUE : Boolean.FALSE;
   }
 
   public Element createElement()

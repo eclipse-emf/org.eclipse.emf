@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMinFacetImpl.java,v 1.2 2004/06/13 11:52:17 emerks Exp $
+ * $Id: XSDMinFacetImpl.java,v 1.3 2004/08/11 15:08:55 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -148,7 +148,7 @@ public abstract class XSDMinFacetImpl
    */
   public Boolean getInclusive() 
   {
-    return new Boolean(isInclusive());
+    return isInclusive() ? Boolean.TRUE : Boolean.FALSE;
   }
 
   public boolean isInclusive()
@@ -163,7 +163,7 @@ public abstract class XSDMinFacetImpl
    */
   public Boolean getExclusive() 
   {
-    return new Boolean(isExclusive());
+    return isExclusive() ? Boolean.TRUE : Boolean.FALSE;
   }
 
   public boolean isExclusive()

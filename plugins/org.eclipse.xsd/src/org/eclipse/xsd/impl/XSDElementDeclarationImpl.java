@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.4 2004/06/13 11:52:17 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.5 2004/08/11 15:08:54 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -518,7 +518,7 @@ public class XSDElementDeclarationImpl
    */
   public Boolean getElementDeclarationReference() 
   {
-    return new Boolean(isElementDeclarationReference());
+    return isElementDeclarationReference() ? Boolean.TRUE : Boolean.FALSE;
   }
 
   public Element createElement()
@@ -1474,7 +1474,7 @@ public class XSDElementDeclarationImpl
    */
   public Boolean getCircular() 
   {
-    return new Boolean(isCircular());
+    return isCircular() ? Boolean.TRUE : Boolean.FALSE;
   }
 
   public String getQName()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFeatureImpl.java,v 1.2 2004/06/13 11:52:17 emerks Exp $
+ * $Id: XSDFeatureImpl.java,v 1.3 2004/08/11 15:08:54 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -356,7 +356,7 @@ public abstract class XSDFeatureImpl
    */
   public Boolean getGlobal() 
   {
-    return new Boolean(isGlobal());
+    return isGlobal() ? Boolean.TRUE : Boolean.FALSE;
   }
 
   protected boolean analyze()
@@ -569,7 +569,7 @@ public abstract class XSDFeatureImpl
    */
   public Boolean getFeatureReference() 
   {
-    return new Boolean(isFeatureReference());
+    return isFeatureReference() ? Boolean.TRUE : Boolean.FALSE;
   }
 
   public XSDTypeDefinition getType()

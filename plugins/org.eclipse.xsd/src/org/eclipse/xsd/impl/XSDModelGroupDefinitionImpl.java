@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.3 2004/06/13 11:52:18 emerks Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.4 2004/08/11 15:08:55 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -144,7 +144,7 @@ public class XSDModelGroupDefinitionImpl
    */
   public Boolean getModelGroupDefinitionReference() 
   {
-    return new Boolean(isModelGroupDefinitionReference());
+    return isModelGroupDefinitionReference() ? Boolean.TRUE : Boolean.FALSE;
   }
 
   protected boolean isUpdatingDOM()
