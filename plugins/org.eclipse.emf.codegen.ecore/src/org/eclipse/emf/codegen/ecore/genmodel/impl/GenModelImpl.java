@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.21 2005/03/07 21:26:07 khussey Exp $
+ * $Id: GenModelImpl.java,v 1.22 2005/03/09 16:50:17 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3699,7 +3699,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public boolean sameModelTestsProject()
   {
-    return getModelProjectDirectory().equals(getTestsProjectDirectory());
+    // Different than the Edit and Editor projects, this method is invoked while 
+    // generating the model plugin xml.
+    return getTestsDirectory() == null ? false : getModelProjectDirectory().equals(getTestsProjectDirectory());
   }
 
   public String getEditIconsDirectory()
