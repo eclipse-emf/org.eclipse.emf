@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.13 2005/02/21 15:34:07 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.14 2005/02/22 16:15:12 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -276,7 +276,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     {
       if (eContainer() instanceof EObjectToChangesMapEntryImpl)
       {
-        feature = ((EObject)((Map.Entry)eContainer()).getKey()).eClass().getEStructuralFeature((String)featureName);
+        feature = ((EObject)((Map.Entry)eContainer()).getKey()).eClass().getEStructuralFeature(featureName);
       }
     }
     else if ((eFlags & EPROXY_FEATURECHANGE) !=0)

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.7 2005/02/08 21:07:46 marcelop Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.8 2005/02/22 16:15:12 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -417,7 +417,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
                 ListChange listChange = (ListChange)k.next();
                 listChange.applyAndReverse(applyToList);
               }
-              ((FeatureChangeImpl)featureChange).setValue(applyToList); // cache the list value.
+              featureChange.setValue(applyToList); // cache the list value.
             }
             else
             {
