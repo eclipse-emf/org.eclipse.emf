@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.12 2004/10/04 21:53:10 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.13 2004/10/19 21:15:23 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1396,14 +1396,20 @@ public class ItemProviderAdapter
    */
   public void dispose()
   {
-    if (target != null)
+    Notifier oldTarget = target;
+    target = null;
+
+    List oldTargets = targets;
+    targets = null;
+
+    if (oldTarget != null)
     {
-      target.eAdapters().remove(this);
+      oldTarget.eAdapters().remove(this);
     }
 
-    if (targets != null)
+    if (oldTargets != null)
     {
-      for (Iterator i = targets.iterator(); i.hasNext(); )
+      for (Iterator i = oldTargets.iterator(); i.hasNext(); )
       {
         Notifier otherTarget = (Notifier)i.next();
         otherTarget.eAdapters().remove(this);
