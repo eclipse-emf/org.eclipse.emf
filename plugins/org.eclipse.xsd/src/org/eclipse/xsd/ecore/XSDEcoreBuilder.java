@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.8 2004/05/10 15:19:17 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.9 2004/05/11 14:56:38 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -106,6 +106,7 @@ public class XSDEcoreBuilder extends MapBuilder
   protected List xsdSchemas = new UniqueEList();
   protected Map targetNamespaceToEPackageMap = new HashMap();
   protected ExtendedMetaData extendedMetaData;
+  protected Map eReferenceToOppositeNameMap = new HashMap();
 
   public XSDEcoreBuilder()
   {
@@ -1289,6 +1290,12 @@ public class XSDEcoreBuilder extends MapBuilder
             {
               eReference.setChangeable(false);
             }
+
+            String opposite = getEcoreAttribute(xsdParticle, "opposite");
+            if (opposite != null)
+            {
+              eReferenceToOppositeNameMap.put(eReference, opposite);
+            }
           }
           else if (xsdTerm instanceof XSDWildcard)
           {
@@ -1904,6 +1911,37 @@ public class XSDEcoreBuilder extends MapBuilder
         }
       }
     }
+
+    for (Iterator i = eReferenceToOppositeNameMap.entrySet().iterator(); i.hasNext(); )
+    {
+      Map.Entry entry = (Map.Entry)i.next();
+      EReference eReference = (EReference)entry.getKey();
+      String opposite = (String)entry.getValue();
+      EClass oppositeEClass = eReference.getEReferenceType();
+      if (eReference.isContainment())
+      {
+        EReference eOpposite = EcoreFactory.eINSTANCE.createEReference();
+        eOpposite.setName(opposite);
+        eOpposite.setEType(eReference.getEContainingClass());
+        eOpposite.setLowerBound(0);
+        eOpposite.setEOpposite(eReference);
+        eReference.setEOpposite(eOpposite);
+        eOpposite.setTransient(true);
+        oppositeEClass.getEStructuralFeatures().add(eOpposite);
+      }
+      else if (eReference.getEOpposite() == null)
+      {
+        EStructuralFeature eOppositeFeature =  oppositeEClass.getEStructuralFeature(opposite);
+        if (eOppositeFeature instanceof EReference)
+        {
+          EReference eOpposite = (EReference)eOppositeFeature;
+          eOpposite.setEOpposite(eReference);
+          eReference.setEOpposite(eOpposite);
+        }
+      }
+    }
+
+    eReferenceToOppositeNameMap.clear();
   }
 
   protected String validName(String name, boolean isUpperCase)
