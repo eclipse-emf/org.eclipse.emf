@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.5 2004/05/27 20:16:30 emerks Exp $
+ * $Id: GenModelItemProvider.java,v 1.6 2004/10/19 01:59:53 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -650,7 +650,7 @@ public class GenModelItemProvider
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_richClientPlatform_feature"),
-         getString("_UI_GenModel_runtimeCompatibility_description"),
+         getString("_UI_GenModel_richClientPlatform_description"),
          GenModelPackage.eINSTANCE.getGenModel_RichClientPlatform(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
