@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.4 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenClass.java,v 1.5 2004/06/19 17:44:43 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -321,4 +321,6 @@ public interface GenClass extends GenClassifier{
   boolean reconcile(GenClass oldGenClassVersion);
 
   GenOperation getInvariantOperation(String constraint);
+
+  boolean isDocumentRoot();
 }
