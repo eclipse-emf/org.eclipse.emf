@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: XMLCalendar.java,v 1.3 2005/03/09 14:23:43 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -141,6 +141,11 @@ public final class XMLCalendar
 
   public XMLCalendar(String value, short datatype)
   {
+    if (value == null || value.length() == 0)
+    {
+      throw new InvalidDatatypeValueException("Incomplete value");
+    }
+
     this.dataType = datatype;
     switch (dataType)
     {
