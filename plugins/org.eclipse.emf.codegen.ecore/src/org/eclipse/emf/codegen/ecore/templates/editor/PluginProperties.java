@@ -27,21 +27,23 @@ public class PluginProperties
   protected final String TEXT_19 = "FilenameDefaultBase = My" + NL + "_UI_";
   protected final String TEXT_20 = "FilenameExtension = ";
   protected final String TEXT_21 = NL;
-  protected final String TEXT_22 = NL + "_UI_Wizard_label = New" + NL + "" + NL + "_WARN_FilenameExtension = The filename must end in \".{0}\"" + NL + "" + NL + "_UI_ModelObject = Model Object" + NL + "_UI_XMLEncoding = XML Encoding" + NL + "_UI_XMLEncodingChoices = ";
-  protected final String TEXT_23 = NL + "_UI_Wizard_initial_object_description = Select a model object to create" + NL + "" + NL + "_UI_FileConflict_label = File Conflict" + NL + "_WARN_FileConflict = There are unsaved changes that conflict with changes made outside the editor.  Do you wish to discard this editor's changes?" + NL;
-  protected final String TEXT_24 = NL + "_UI_";
-  protected final String TEXT_25 = "_ActionSet_label = ";
-  protected final String TEXT_26 = " Action Set" + NL + "_UI_Perspective_label = ";
-  protected final String TEXT_27 = NL + NL + "_UI_Browse_label = &Browse..." + NL + "_UI_File_label = &File" + NL + "_UI_Question_title = Question" + NL + "_WARN_FileConflict = The file \"{0}\" already exists.  Do you want to replace the existing file?" + NL + "_UI_Error_title = Error" + NL + "_WARN_No_Editor = There is no editor registered for the file \"{0}\"." + NL + "" + NL + "_UI_Application_title = ";
-  protected final String TEXT_28 = " Application" + NL + "_UI_Menu_File_label = &File" + NL + "_UI_Menu_New_label = &New" + NL + "_UI_Menu_Open_label = &Open..." + NL + "_UI_Menu_OpenURI_label = &Open URI..." + NL + "_UI_Menu_Edit_label = &Edit" + NL + "_UI_Menu_Window_label = &Window" + NL + "_UI_Menu_Help_label = &Help" + NL + "_UI_Menu_About_label = ";
-  protected final String TEXT_29 = " &About..." + NL + "_UI_About_title = ";
-  protected final String TEXT_30 = " Application" + NL + "_UI_About_text = ";
-  protected final String TEXT_31 = " Application about box goes here." + NL;
-  protected final String TEXT_32 = NL + "_UI_";
-  protected final String TEXT_33 = "_ActionSet_label = ";
-  protected final String TEXT_34 = " Model Action Set";
-  protected final String TEXT_35 = NL;
-  protected final String TEXT_36 = NL;
+  protected final String TEXT_22 = NL + "_UI_Wizard_label = New" + NL + "" + NL + "_WARN_FilenameExtension = The file name must end in \".{0}\"" + NL + "" + NL + "_UI_ModelObject = Model Object" + NL + "_UI_XMLEncoding = XML Encoding" + NL + "_UI_XMLEncodingChoices = ";
+  protected final String TEXT_23 = NL + "_UI_Wizard_initial_object_description = Specify a file name and select a model object to create";
+  protected final String TEXT_24 = NL + "_UI_Wizard_initial_object_description = Select a model object to create";
+  protected final String TEXT_25 = NL + NL + "_UI_FileConflict_label = File Conflict" + NL + "_WARN_FileConflict = There are unsaved changes that conflict with changes made outside the editor.  Do you wish to discard this editor's changes?" + NL;
+  protected final String TEXT_26 = NL + "_UI_";
+  protected final String TEXT_27 = "_ActionSet_label = ";
+  protected final String TEXT_28 = " Action Set" + NL + "_UI_Perspective_label = ";
+  protected final String TEXT_29 = NL + NL + "_UI_Browse_label = &Browse..." + NL + "_UI_File_label = &File" + NL + "_UI_Question_title = Question" + NL + "_WARN_FileConflict = The file \"{0}\" already exists.  Do you want to replace the existing file?" + NL + "_UI_Error_title = Error" + NL + "_WARN_No_Editor = There is no editor registered for the file \"{0}\"." + NL + "" + NL + "_UI_Application_title = ";
+  protected final String TEXT_30 = " Application" + NL + "_UI_Menu_File_label = &File" + NL + "_UI_Menu_New_label = &New" + NL + "_UI_Menu_Open_label = &Open..." + NL + "_UI_Menu_OpenURI_label = &Open URI..." + NL + "_UI_Menu_Edit_label = &Edit" + NL + "_UI_Menu_Window_label = &Window" + NL + "_UI_Menu_Help_label = &Help" + NL + "_UI_Menu_About_label = ";
+  protected final String TEXT_31 = " &About..." + NL + "_UI_About_title = ";
+  protected final String TEXT_32 = " Application" + NL + "_UI_About_text = ";
+  protected final String TEXT_33 = " Application about box goes here." + NL;
+  protected final String TEXT_34 = NL + "_UI_";
+  protected final String TEXT_35 = "_ActionSet_label = ";
+  protected final String TEXT_36 = " Model Action Set";
+  protected final String TEXT_37 = NL;
+  protected final String TEXT_38 = NL;
 
   public String generate(Object argument)
   {
@@ -50,7 +52,7 @@ public class PluginProperties
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -106,14 +108,15 @@ public class PluginProperties
     }
     stringBuffer.append(TEXT_22);
     stringBuffer.append(genModel.getXMLEncodingChoices());
-    stringBuffer.append(TEXT_23);
     if (genModel.isRichClientPlatform()) {
+    stringBuffer.append(TEXT_23);
+    } else {
     stringBuffer.append(TEXT_24);
-    stringBuffer.append(genModel.getEditorAdvisorClassName());
+    }
     stringBuffer.append(TEXT_25);
-    stringBuffer.append(genModel.getModelName());
+    if (genModel.isRichClientPlatform()) {
     stringBuffer.append(TEXT_26);
-    stringBuffer.append(genModel.getModelName());
+    stringBuffer.append(genModel.getEditorAdvisorClassName());
     stringBuffer.append(TEXT_27);
     stringBuffer.append(genModel.getModelName());
     stringBuffer.append(TEXT_28);
@@ -123,16 +126,20 @@ public class PluginProperties
     stringBuffer.append(TEXT_30);
     stringBuffer.append(genModel.getModelName());
     stringBuffer.append(TEXT_31);
-    for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next();
+    stringBuffer.append(genModel.getModelName());
     stringBuffer.append(TEXT_32);
-    stringBuffer.append(genPackage.getModelWizardClassName());
+    stringBuffer.append(genModel.getModelName());
     stringBuffer.append(TEXT_33);
-    stringBuffer.append(genPackage.getPrefix());
+    for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next();
     stringBuffer.append(TEXT_34);
-    }
+    stringBuffer.append(genPackage.getModelWizardClassName());
     stringBuffer.append(TEXT_35);
-    }
+    stringBuffer.append(genPackage.getPrefix());
     stringBuffer.append(TEXT_36);
+    }
+    stringBuffer.append(TEXT_37);
+    }
+    stringBuffer.append(TEXT_38);
     return stringBuffer.toString();
   }
 }
