@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.6 2004/08/24 21:21:50 marcelop Exp $
+ * $Id: SimpleModelTest.java,v 1.7 2004/09/16 15:12:25 marcelop Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -43,6 +43,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.test.core.EMFTestCorePlugin;
 
@@ -78,6 +79,7 @@ public class SimpleModelTest extends TestCase
     ts.addTest(new SimpleModelTest("testReference"));
     ts.addTest(new SimpleModelTest("testMetaData"));
     ts.addTest(new SimpleModelTest("testSaveAndLoad"));
+    ts.addTest(new SimpleModelTest("testSaveAndLoadZip"));
     ts.addTest(new SimpleModelTest("testProxy"));
     return ts;
   }
@@ -259,6 +261,70 @@ public class SimpleModelTest extends TestCase
     assertEquals(department2, employee1.eContainer());
     assertEquals(department1Employees.size(), department1.eContents().size());
     assertEquals(department2Employees.size(), department2.eContents().size());
+  }
+  
+  public void testSaveAndLoadZip() throws Exception
+  {
+    //Instanciating the model
+    EFactory companyFactory = companyPackage.getEFactoryInstance();
+
+    EObject employee1 = companyFactory.create(employeeClass);
+    employee1.eSet(employeeName, "John");
+    EObject employee2 = companyFactory.create(employeeClass);
+    employee2.eSet(employeeName, "Jane");
+
+    EObject department = companyFactory.create(departmentClass);
+    department.eSet(departmentName, "ACME1");
+    List employeesList = (List)department.eGet(departmentEmployees);
+    employeesList.add(employee1);
+    employeesList.add(employee2);
+
+    URI departmentsURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/departments.dept");
+    XMLResource departmentsResource = (XMLResource)new XMIResourceFactoryImpl().createResource(departmentsURI);
+    departmentsResource.setUseZip(true);
+    departmentsResource.getContents().add(department);
+
+    //Saving
+    departmentsResource.save(Collections.EMPTY_MAP);
+    assertTrue(new File(departmentsURI.toFileString()).exists());
+
+    //Loading department in ResourceSet
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("dept", new XMIResourceFactoryImpl()
+        {
+          /* (non-Javadoc)
+           * @see org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl#createResource(org.eclipse.emf.common.util.URI)
+           */
+          public Resource createResource(URI uri)
+          {
+            XMLResource result = (XMLResource)super.createResource(uri);
+            result.setUseZip(true);
+            return result;
+          }
+        });
+
+    Resource loadedResource = resourceSet.getResource(departmentsURI, true);
+    assertEquals(1, resourceSet.getResources().size());
+    assertEquals(1, loadedResource.getContents().size());
+    assertTrue(loadedResource.getContents().get(0) instanceof EObject);
+
+    EObject loadedDepartment = (EObject)loadedResource.getContents().get(0);
+    assertEquals(department.eClass(), loadedDepartment.eClass());
+    assertEquals(department.eGet(departmentName), loadedDepartment.eGet(departmentName));
+
+    //Get Employess
+    List loadedEmployees = (List)department.eGet(departmentEmployees);
+    assertEquals(2, loadedEmployees.size());
+    EObject loadedEmployee = (EObject)loadedEmployees.get(0);
+    assertEquals(employee1.eClass(), loadedEmployee.eClass());
+    assertEquals(employee1.eGet(employeeName), loadedEmployee.eGet(employeeName));
+    loadedEmployee = (EObject)loadedEmployees.get(1);
+    assertEquals(employee2.eClass(), loadedEmployee.eClass());
+    assertEquals(employee2.eGet(employeeName), loadedEmployee.eGet(employeeName));
+
+    //Deleting created files
+    new File(departmentsURI.toFileString()).delete();
+    assertFalse(new File(departmentsURI.toFileString()).exists());
   }
 
   public void testSaveAndLoad() throws Exception
