@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.30 2005/03/11 18:09:55 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.31 2005/03/11 21:21:02 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1756,6 +1756,61 @@ public class XSDEcoreBuilder extends MapBuilder
     }
   }
 
+  protected void fixXMLName(EClassifier eClassifier)
+  {
+    EDataType objectType = (EDataType)typeToTypeObjectMap.get(eClassifier);
+    if (objectType != null)
+    {
+      extendedMetaData.setName(objectType, extendedMetaData.getName(eClassifier) + ":Object");
+      extendedMetaData.setBaseType(objectType, (EDataType)eClassifier); 
+    }
+
+    if (eClassifier instanceof EDataType)
+    { 
+      EDataType eDataType = (EDataType)eClassifier;
+      EDataType baseType = extendedMetaData.getBaseType(eDataType);
+      if (baseType != null && extendedMetaData.getName(baseType).endsWith("_._base"))
+      {
+        extendedMetaData.setName(baseType, extendedMetaData.getName(eClassifier) + "_._base");
+        extendedMetaData.setBaseType(eDataType, baseType);
+        fixXMLName(baseType);
+      }
+      
+      EDataType itemType = extendedMetaData.getItemType(eDataType);
+      if (itemType != null && extendedMetaData.getName(itemType).endsWith("_._item"))
+      {
+        extendedMetaData.setName(itemType, extendedMetaData.getName(eClassifier) + "_._item");
+        extendedMetaData.setItemType(eDataType, itemType);
+        fixXMLName(itemType);
+      }
+      
+      List memberTypes = extendedMetaData.getMemberTypes(eDataType);
+      if (!memberTypes.isEmpty())
+      {
+        for (ListIterator i = memberTypes.listIterator(); i.hasNext(); )
+        {
+          EDataType memberType = (EDataType)i.next();
+          if (extendedMetaData.getName(memberType).endsWith("_._member_._" + i.previousIndex()))
+          {
+            extendedMetaData.setName(memberType, extendedMetaData.getName(eClassifier) + "_._member_._" + i.previousIndex());
+            fixXMLName(memberType);
+          }
+        }
+        extendedMetaData.setMemberTypes(eDataType, memberTypes);
+      }
+    }
+    else
+    {
+      EStructuralFeature simpleFeature = extendedMetaData.getSimpleFeature((EClass)eClassifier);
+      if (simpleFeature != null && extendedMetaData.getName(simpleFeature.getEType()).endsWith("_._base"))
+      {
+        EDataType baseType = (EDataType)simpleFeature.getEType();
+        extendedMetaData.setName(baseType, extendedMetaData.getName(eClassifier) + "_._base");
+        fixXMLName(baseType);
+      }
+    }
+  }
+
   protected void resolveNameConflicts()
   {
     for (Iterator i = targetNamespaceToEPackageMap.values().iterator(); i.hasNext(); )
@@ -1786,13 +1841,7 @@ public class XSDEcoreBuilder extends MapBuilder
               ++index;
             }
             extendedMetaData.setName(eClassifier, baseName + "_._" + index + "_._type");
-
-            EDataType objectType = (EDataType)typeToTypeObjectMap.get(eClassifier);
-            if (objectType != null)
-            {
-              extendedMetaData.setName(objectType, baseName + "_._" + index + "_._type:Object");
-              extendedMetaData.setBaseType(objectType, (EDataType)eClassifier); 
-            }
+            fixXMLName(eClassifier);
           }
         }
 
