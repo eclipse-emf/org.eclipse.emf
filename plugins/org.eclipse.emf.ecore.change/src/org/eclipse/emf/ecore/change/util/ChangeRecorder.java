@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.4 2004/05/22 19:07:25 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.5 2004/06/08 22:15:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -208,8 +208,21 @@ public class ChangeRecorder implements Adapter
       {
         if (change == null)
         {
-          Object oldValue = notification.getOldValue();
-          change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
+          if (feature.isMany())
+          {
+            List oldValue = new BasicEList((Collection)eObject.eGet(feature));
+            int index = notification.getPosition();
+            if (index != Notification.NO_INDEX)
+            {
+              oldValue.set(index, notification.getOldValue());
+            }
+            change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
+          }
+          else
+          {
+            Object oldValue = notification.getOldValue();
+            change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
+          }
           changes.add(change);
         }
         if (containment != null)
