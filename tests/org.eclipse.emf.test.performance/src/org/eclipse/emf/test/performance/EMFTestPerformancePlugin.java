@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.15 2005/02/18 19:53:45 marcelop Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.16 2005/02/18 19:56:04 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -101,21 +101,21 @@ public class EMFTestPerformancePlugin extends Plugin
       if (!isRunning() && networkServerControl != null)
       {
         Thread thread = new Thread()
+        {
+          public void run()
           {
-            public void run()
+            try
             {
-              try
-              {
-                Method startMethod = networkServerControlClass.getDeclaredMethod("start", new Class []{ PrintWriter.class });
-                startMethod.invoke(networkServerControl, new Object [1]);
-              }
-              catch (Exception e)
-              {
-                System.err.println("*** Unable to start Derby");
-                e.printStackTrace();
-              }
+              Method startMethod = networkServerControlClass.getDeclaredMethod("start", new Class []{ PrintWriter.class });
+              startMethod.invoke(networkServerControl, new Object [1]);
             }
-          };
+            catch (Exception e)
+            {
+              System.err.println("*** Unable to start Derby");
+              e.printStackTrace();
+            }
+          }
+        };
         thread.start();
       }
     }
