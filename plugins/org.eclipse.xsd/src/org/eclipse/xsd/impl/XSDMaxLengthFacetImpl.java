@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMaxLengthFacetImpl.java,v 1.2 2004/06/13 11:52:18 emerks Exp $
+ * $Id: XSDMaxLengthFacetImpl.java,v 1.3 2004/07/28 14:25:04 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -40,6 +40,7 @@ import org.eclipse.xsd.XSDFixedFacet;
 import org.eclipse.xsd.XSDMaxLengthFacet;
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.util.XSDConstants;
+import org.eclipse.xsd.util.XSDUtil;
 
 
 /**
@@ -364,9 +365,9 @@ public class XSDMaxLengthFacetImpl
     {
       return ((String)value).length() <= getValue();
     }
-    else if (value instanceof byte[])
+    else if (value instanceof XSDUtil.ByteSequence)
     {
-      return ((byte [])value).length <= getValue();
+      return ((XSDUtil.ByteSequence)value).getBytes().length <= getValue();
     }
     else
     {

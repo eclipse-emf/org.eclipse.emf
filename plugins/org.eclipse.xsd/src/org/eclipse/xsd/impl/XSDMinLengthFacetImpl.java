@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMinLengthFacetImpl.java,v 1.2 2004/06/13 11:52:17 emerks Exp $
+ * $Id: XSDMinLengthFacetImpl.java,v 1.3 2004/07/28 14:25:04 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -42,6 +42,7 @@ import org.eclipse.xsd.XSDMinLengthFacet;
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.util.XSDConstants;
+import org.eclipse.xsd.util.XSDUtil;
 
 
 /**
@@ -384,9 +385,9 @@ public class XSDMinLengthFacetImpl
     {
       return ((String)value).length() >= getValue();
     }
-    else if (value instanceof byte[])
+    else if (value instanceof XSDUtil.ByteSequence)
     {
-      return ((byte [])value).length >= getValue();
+      return ((XSDUtil.ByteSequence)value).getBytes().length >= getValue();
     }
     else
     {
