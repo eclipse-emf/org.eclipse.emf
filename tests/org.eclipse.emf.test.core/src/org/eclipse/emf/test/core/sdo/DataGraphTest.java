@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.2 2004/07/22 05:41:13 marcelop Exp $
+ * $Id: DataGraphTest.java,v 1.3 2004/08/09 18:00:07 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo;
 
@@ -28,17 +28,15 @@ import junit.framework.TestSuite;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.sdo.EChangeSummary;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
+import org.eclipse.emf.ecore.sdo.impl.DynamicEDataObjectImpl;
 import org.eclipse.emf.ecore.sdo.util.DataGraphResourceFactoryImpl;
 import org.eclipse.emf.ecore.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
@@ -88,15 +86,7 @@ public class DataGraphTest extends TestCase
     EPackage.Registry.INSTANCE.put("testPackage", ePackage);
     
     // Set the factory impl to one that creates data objects.
-    ePackage.setEFactoryInstance(new EFactoryImpl()
-      {
-        public EObject basicCreate(EClass cls)
-        {
-          EObjectImpl result = (EObjectImpl)SDOFactory.eINSTANCE.createEDataObject();
-          result.eSetClass(cls);
-          return result;
-        }
-      });
+    ePackage.setEFactoryInstance(new DynamicEDataObjectImpl.FactoryImpl());
 
     // Create a test class that has a name and contains children
     EClass eClass = EcoreFactory.eINSTANCE.createEClass();
