@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSwitch.java,v 1.2 2004/03/10 00:16:19 emerks Exp $
+ * $Id: EcoreSwitch.java,v 1.3 2004/03/10 00:25:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -20,6 +20,8 @@ package org.eclipse.emf.ecore.util;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 
 
 /**

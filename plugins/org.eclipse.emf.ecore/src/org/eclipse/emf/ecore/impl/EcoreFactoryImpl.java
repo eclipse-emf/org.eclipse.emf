@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.2 2004/03/10 00:16:19 emerks Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.3 2004/03/10 00:25:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -27,6 +27,8 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.FeatureMap;
 
 /**

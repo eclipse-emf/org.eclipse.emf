@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreAdapterFactory.java,v 1.2 2004/03/10 00:16:19 emerks Exp $
+ * $Id: EcoreAdapterFactory.java,v 1.3 2004/03/10 00:25:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -23,6 +23,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.EObject;
 
 
 /**
