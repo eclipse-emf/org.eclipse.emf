@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.3 2005/02/11 04:41:21 marcelop Exp $
+ * $Id: TestUtil.java,v 1.4 2005/02/11 05:18:32 marcelop Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -98,9 +98,10 @@ public class TestUtil
       
       try
       {
+        String nl = useSystemLineSeparator ? System.getProperties().getProperty("line.separator") : "\n";
         while ((str = in.readLine()) != null)
         {
-          stringBuffer.append(str).append(useSystemLineSeparator?System.getProperties().getProperty("line.separator"):"\n");
+          stringBuffer.append(str).append(nl);
         }
       }
       finally

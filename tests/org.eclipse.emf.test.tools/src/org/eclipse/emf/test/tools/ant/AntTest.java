@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.3 2005/02/11 04:41:21 marcelop Exp $
+ * $Id: AntTest.java,v 1.4 2005/02/11 05:18:32 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -199,6 +199,10 @@ public class AntTest extends TestCase
     //Remove CVS tags
     expectedContent = expectedContent.replaceAll("\\$Id.*\\$", "");
     generatedContent = generatedContent.replaceAll("\\$Id.*\\$", "");
+    
+    //Remove CRLF
+    expectedContent = expectedContent.replaceAll("\\r", "").replaceAll("\\n", "");
+    generatedContent = generatedContent.replaceAll("\\r", "").replaceAll("\\n", "");
     
     assertEquals("File: " + file, expectedContent, generatedContent);
   }  
