@@ -12,43 +12,46 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.21 2004/11/03 19:41:29 marcelop Exp $
+ * $Id: AllSuites.java,v 1.1 2004/11/03 19:41:32 marcelop Exp $
  */
-package org.eclipse.emf.test.core;
+package org.eclipse.emf.test.build;
 
 
 import junit.framework.Test;
+import junit.framework.TestSuite;
 
 
-public class AllSuites extends StandAloneSuites
+public class AllSuites extends TestSuite
 {
   private static Test[] suites = new Test []{ 
-    org.eclipse.emf.test.core.jet.JETTest.suite()
+    org.eclipse.emf.test.build.BuildTests.suite()
   };
 
   public static Test suite()
   {
-    return new AllSuites("EMF Core JUnit Test Suite");
+    return new AllSuites("EMF Build JUnit Test Suite");
   }
 
   public AllSuites()
   {
     super();
+    populateSuite();
   }
 
   public AllSuites(Class theClass)
   {
     super(theClass);
+    populateSuite();
   }
 
   public AllSuites(String name)
   {
     super(name);
+    populateSuite();
   }
 
   protected void populateSuite()
   {
-    super.populateSuite();
     for (int i = 0; i < suites.length; i++)
     {
       addTest(suites[i]);

@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.24 2004/10/07 19:25:34 marcelop Exp $
+ * $Id: BuildTests.java,v 1.1 2004/11/03 19:41:32 marcelop Exp $
  */
-package org.eclipse.emf.test.core.build;
+package org.eclipse.emf.test.build;
 
 
 import java.io.BufferedReader;
@@ -48,8 +48,6 @@ import junit.framework.TestSuite;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.environment.Constants;
-
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
 
 
 public class BuildTests extends TestCase
@@ -866,7 +864,7 @@ public class BuildTests extends TestCase
         file += "_other.txt";
     }
 
-    file = EMFTestCorePlugin.getPluginDirectory() + file;
+    file = EMFTestBuildPlugin.getPluginDirectory() + file;
     if (new File(file).isFile())
     {
       return " -X " + file;

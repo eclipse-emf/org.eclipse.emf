@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: FileTool.java,v 1.3 2004/07/29 13:32:30 marcelop Exp $
+ * $Id: FileTool.java,v 1.1 2004/11/03 19:41:32 marcelop Exp $
  */
-package org.eclipse.emf.test.core.build;
+package org.eclipse.emf.test.build;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
