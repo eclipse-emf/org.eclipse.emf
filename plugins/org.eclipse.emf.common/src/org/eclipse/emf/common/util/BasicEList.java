@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: BasicEList.java,v 1.2 2004/06/24 10:51:56 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -788,9 +788,6 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
 
   /**
    * Removes each object of the collection from the list and returns whether any object was actually contained by the list.
-   * This implementation uses {@link #indexOf indexOf} to find the object
-   * and delegates to {@link #remove(int) remove(int)} 
-   * in the case that it finds the object.
    * @param collection the collection of objects to be removed.
    * @return whether any object was actually contained by the list.
    */
