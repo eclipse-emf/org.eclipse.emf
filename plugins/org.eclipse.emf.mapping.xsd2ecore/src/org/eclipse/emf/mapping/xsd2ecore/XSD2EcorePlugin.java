@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePlugin.java,v 1.3 2004/05/16 16:49:45 emerks Exp $
+ * $Id: XSD2EcorePlugin.java,v 1.4 2004/06/08 18:20:21 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore;
 
@@ -99,7 +99,6 @@ public final class XSD2EcorePlugin extends EMFPlugin
      * Creates an instance.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param descriptor the description of the plugin.
      * @generated
      */
     public Implementation()
