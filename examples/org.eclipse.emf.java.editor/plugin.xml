@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.8 2004/11/29 19:53:50 emerks Exp $
+ * $Id: plugin.xml,v 1.9 2004/12/08 17:37:31 marcelop Exp $
  */
 -->
 
@@ -64,7 +64,7 @@
   <extension point = "org.eclipse.ui.editors">
     <editor
         id = "org.eclipse.emf.java.presentation.JavaEditorID"
-        name = "Java Model Editor"
+        name = "%_UI_JavaEditor_label"
         icon = "icons/full/obj16/JavaModelFile.gif"
         extensions = "java"
         class = "org.eclipse.emf.java.presentation.JavaEditor" 

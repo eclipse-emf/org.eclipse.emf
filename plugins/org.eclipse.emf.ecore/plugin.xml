@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.9 2004/10/29 19:21:13 marcelop Exp $
+ * $Id: plugin.xml,v 1.10 2004/12/08 17:37:40 marcelop Exp $
  */
 -->
 
@@ -39,7 +39,7 @@
     </library>
   </runtime>
 
-  <extension-point name="EMF Generated Package Registry" id="generated_package"/>
+  <extension-point name="%_UI_PackageRegistry_extensionpoint" id="generated_package"/>
 <!--
     An EMF generated package can be registered with the EPackage.Registry.INSTANCE as follows:
 
@@ -48,7 +48,7 @@
       </extension>
 -->
 
-  <extension-point name="EMF URI Extension Parser Registry" id="extension_parser"/>
+  <extension-point name="%_UI_URIExtensionParserRegistry_extensionpoint" id="extension_parser"/>
 
 <!-- 
     An EMF Resource.Factory can be registered with the Resource.Factory.Registry.INSTANCE as an extension parser as follows:
@@ -58,7 +58,7 @@
       </extension>
 -->
 
-  <extension-point name="EMF URI Protocol Parser Registry" id="protocol_parser"/>
+  <extension-point name="%_UI_URIProtocolParserRegistry_extensionpoint" id="protocol_parser"/>
 <!--
     An EMF Resource.Factory can be registered with the Resource.Factory.Registry.INSTANCE as a protocol parser as follows:
 
@@ -67,7 +67,7 @@
       </extension>
 -->
 
-  <extension-point name="EMF URI Mapping Registry" id="uri_mapping"/>
+  <extension-point name="%_UI_URIMappingRegistry_extensionpoint" id="uri_mapping"/>
 <!--
     A URI mapping can be registered with the URIConverter.URI_MAP as follows:
 

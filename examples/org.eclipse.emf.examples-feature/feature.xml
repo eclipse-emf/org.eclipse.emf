@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.emf.examples"
-      label="Examples for Eclipse Modeling Framework"
+      label="%featureName"
       version="2.1.0"
-      provider-name="Eclipse.org"
+      provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
    <description>
@@ -61,5 +61,5 @@ http://www.eclipse.org/legal/cpl-v10.html
          id="org.eclipse.emf.activities"
          download-size="0"
          install-size="0"
-         version="2.0.0"/>
+         version="2.1.0"/>
 </feature>

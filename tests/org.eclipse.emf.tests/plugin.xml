@@ -16,17 +16,13 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/09/24 20:26:27 davidms Exp $
+ * $Id: plugin.xml,v 1.6 2004/12/08 17:37:31 marcelop Exp $
  */
 -->
 
 <plugin
-  name="Tests for Eclipse Modeling Framework (EMF)"
+  name="%pluginName"
   id="org.eclipse.emf.tests"
   version="2.1.0"
-  provider-name="Eclipse.org">
-
-  <requires>
-    <import plugin="org.eclipse.core.runtime.compatibility"/>
-  </requires>
+  provider-name="%providerName">
 </plugin>

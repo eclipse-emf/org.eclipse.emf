@@ -16,15 +16,15 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.4 2004/11/12 21:17:12 marcelop Exp $
+ * $Id: plugin.xml,v 1.5 2004/12/08 17:37:37 marcelop Exp $
  */
 -->
 
 <plugin
    id="org.eclipse.emf.test.tools"
-   name="Test for the EMF Tools plugins"
+   name="%pluginName"
    version="2.1.0"
-   provider-name="Eclipse.org"
+   provider-name="%providerName"
    class="org.eclipse.emf.test.tools.EMFTestToolsPlugin">
 
    <requires>

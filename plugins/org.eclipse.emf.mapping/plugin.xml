@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.6 2004/10/29 19:20:52 marcelop Exp $
+ * $Id: plugin.xml,v 1.7 2004/12/08 17:37:32 marcelop Exp $
  */
 -->
 
@@ -38,7 +38,7 @@
       </library>
    </runtime>
 
-   <extension-point name="Mapping Domain Configuration" id="configuration" />
+   <extension-point name="%_UI_MappingDomainConfiguration_extensionpoint" id="configuration" />
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package

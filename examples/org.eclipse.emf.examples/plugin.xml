@@ -19,12 +19,8 @@
 -->
 
 <plugin
-  name="Examples for Eclipse Modeling Framework (EMF)"
+  name="%pluginName"
   id="org.eclipse.emf.examples"
   version="2.1.0"
-  provider-name="Eclipse.org">
-  
-  <requires>
-    <import plugin="org.eclipse.core.runtime.compatibility"/>
-  </requires>  
+  provider-name="%providerName">
 </plugin>
