@@ -15,19 +15,32 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.15 2004/11/04 06:17:43 marcelop Exp $
+ * $Id: feature.xml,v 1.16 2004/12/08 17:36:15 marcelop Exp $
  */
 -->
 
 <feature
       id="org.eclipse.emf.tests"
-      label="Tests for Eclipse Modeling Framework"
+      label="%featureName"
       version="2.1.0"
       image= "eclipse_update_120.jpg"
-      provider-name="Eclipse.org">
+      provider-name="%providerName">
+
+   <description>
+      %description
+   </description>
+
+   <copyright>
+      Copyright (c) 2004 IBM Corporation and others.
+All rights reserved.   This program and the accompanying materials
+are made available under the terms of the Common Public License
+v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/cpl-v10.html
+   </copyright>
 
    <license url="%licenseURL">
-
+      %license
    </license>
 
    <url>
