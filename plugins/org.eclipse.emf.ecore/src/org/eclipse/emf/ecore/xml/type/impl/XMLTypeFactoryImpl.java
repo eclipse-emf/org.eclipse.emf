@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.8 2004/06/08 15:35:43 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.9 2004/08/20 23:49:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -402,7 +402,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
       }
       catch (URI.MalformedURIException e)
       {
-        throw new InvalidDatatypeValueException("Invalid anyURI value: '"+initialValue+"' :"+e.getCause().toString());
+        throw new InvalidDatatypeValueException("Invalid anyURI value: '"+initialValue+"' :"+e.toString());
       }
     }
     return initialValue;

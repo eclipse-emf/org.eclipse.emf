@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.10 2004/06/18 09:53:13 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.11 2004/08/20 23:49:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1257,7 +1257,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         List result = new ArrayList();
         for (StringTokenizer stringTokenizer = new StringTokenizer(enumerationLiteral, " "); stringTokenizer.hasMoreTokens(); )
         {
-          String enumeration = stringTokenizer.nextToken().replaceAll("%20", " ").replaceAll("%25", "%");
+          String enumeration = replace(replace(stringTokenizer.nextToken(), "%20", " "), "%25", "%");
           result.add(enumeration);
         }
         return result;
@@ -1282,7 +1282,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       StringBuffer result = new StringBuffer();
       for (Iterator i = literals.iterator(); i.hasNext(); )
       {
-        result.append(((String)i.next()).replaceAll("%","%25").replaceAll(" ", "%20"));
+        result.append(replace(replace(((String)i.next()), "%","%25"), " ", "%20"));
         result.append(' ');
       }
       eAnnotation.getDetails().put("enumeration", result.substring(0, result.length() - 1));
@@ -1306,7 +1306,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         List result = new ArrayList();
         for (StringTokenizer stringTokenizer = new StringTokenizer(patternLiteral, " "); stringTokenizer.hasMoreTokens(); )
         {
-          String pattern = stringTokenizer.nextToken().replaceAll("%20", " ").replaceAll("%25", "%");
+          String pattern = replace(replace(stringTokenizer.nextToken(), "%20", " "), "%25", "%");
           result.add(pattern);
         }
         return result;
@@ -1331,7 +1331,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       StringBuffer result = new StringBuffer();
       for (Iterator i = pattern.iterator(); i.hasNext(); )
       {
-        result.append(((String)i.next()).replaceAll("%","%25").replaceAll(" ", "%20"));
+        result.append(replace(replace(((String)i.next()), "%","%25"), " ", "%20"));
         result.append(' ');
       }
       eAnnotation.getDetails().put("pattern", result.substring(0, result.length() - 1));
@@ -2576,4 +2576,83 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     return new EStructuralFeatureExtendedMetaDataImpl(eStructuralFeature);
   }
 
+  private static String replace(String in, String oldString, String newString)
+  {
+    if((in == null) || (oldString == null))
+    {
+      return in;
+    }
+      
+    int oldStringLength = oldString.length();
+    if(oldStringLength == 0)
+    {
+      return in;
+    }
+    
+    if(newString == null)
+      newString = "";
+    int newStringLength = newString.length();
+      
+    int index = 0-newStringLength;
+    StringBuffer sbIn = new StringBuffer(in);
+    while((index=indexOf(sbIn, oldString, index+newStringLength)) >= 0)
+    {
+      sbIn.replace(index, index+oldStringLength, newString);
+    }
+    
+    return sbIn.toString();
+  }
+  
+  private static int indexOf(StringBuffer in, String str, int fromIndex)
+  {
+    if(in == null)
+    {
+      return -1;
+    }
+    
+    if(str == null)
+    {
+      str = "";
+    }
+      
+    int lengthIn = in.length();
+    int lengthStr = str.length();
+
+    if(lengthIn < lengthStr)
+    {
+      return -1;
+    }
+
+    if(fromIndex > lengthIn)
+    {
+      if (lengthIn == 0 && fromIndex == 0 && lengthStr == 0)
+      {
+        return 0;
+      }
+      return -1;
+    }
+    
+    if(fromIndex < 0)
+      fromIndex = 0;
+      
+    if(lengthStr == 0)
+    {
+      return fromIndex;
+    }
+      
+    int strPos = 0;
+    for(int i=fromIndex; i<lengthIn; i++)
+    {
+      if(in.charAt(i) == str.charAt(strPos))
+      {
+        strPos++;
+        if(strPos == lengthStr)
+          return i-lengthStr+1;
+      }
+      else
+        strPos = 0; 
+    }
+    
+    return -1;
+  }  
 }

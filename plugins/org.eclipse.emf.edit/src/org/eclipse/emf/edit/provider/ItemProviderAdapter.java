@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.7 2004/07/29 17:56:15 marcelop Exp $
+ * $Id: ItemProviderAdapter.java,v 1.8 2004/08/20 23:49:32 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.RandomAccess;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
@@ -1917,7 +1916,7 @@ public class ItemProviderAdapter
    * the size of the list may not be changed.
    */
   protected static class ModifiableSingletonEList extends AbstractList
-    implements EList, RandomAccess
+  implements EList
   {
     private Object singleElement;
 

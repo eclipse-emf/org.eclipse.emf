@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.4 2004/06/08 12:13:06 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.5 2004/08/20 23:49:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -366,7 +366,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     {
       formatException = e;
     }
-    throw new IllegalArgumentException(formatException.getCause().toString());
+    throw new IllegalArgumentException(formatException.toString());
   }
 
   /**
