@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IPOSDOAccessorTest.java,v 1.1 2005/02/16 23:02:12 bportier Exp $
+ * $Id: IPOSDOAccessorTest.java,v 1.2 2005/02/17 21:45:28 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -249,17 +249,13 @@ public class IPOSDOAccessorTest
       shipToValue = po.getDataObject("shipTo");
       billToValue = po.getDataObject("billTo");
       commentValue = po.getString("comment");
-      itemValue = po.getDataObject("items").getList("item");
-      for (int j = 0; j < itemValue.size(); j++)
-      {
-        itemElementValue = (DataObject)itemValue.get(j);
-        productNameValue = itemElementValue.getString("productName");
-        quantityValue = itemElementValue.getBigInteger("quantity");
-        usPriceValue = itemElementValue.getBigDecimal("uSPrice");
-        itemCommentValue = itemElementValue.getString("comment");
-        shipDateValue = itemElementValue.get("shipDate");
-        partNumValue = itemElementValue.getString("partNum");
-      }
+      
+      productNameValue = po.getString("items/item[1]/productName");
+      quantityValue = po.getBigInteger("items/item[1]/quantity");
+      usPriceValue = po.getBigDecimal("items/item[1]/uSPrice");
+      itemCommentValue = po.getString("items/item[1]/comment");
+      shipDateValue = po.get("items/item[1]/shipDate");
+      partNumValue = po.getString("items/item[1]/partNum");
 
       orderDateValue = po.get("orderDate");
     }
