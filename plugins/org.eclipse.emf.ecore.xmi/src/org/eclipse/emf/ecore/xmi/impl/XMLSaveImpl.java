@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.12 2004/06/09 18:19:10 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.13 2004/06/12 12:07:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -73,6 +73,7 @@ public class XMLSaveImpl implements XMLSave
   protected EClass anySimpleType;
   protected EClass anyType;
   protected Map eObjectToExtensionMap;
+  protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
 
   protected static final int SKIP = 0;
   protected static final int SAME_DOC = 1;
@@ -474,6 +475,10 @@ public class XMLSaveImpl implements XMLSave
       if (ePackage != noNamespacePackage && ePackage != XMLNamespacePackage.eINSTANCE)
       {
         String nsURI = extendedMetaData == null ? ePackage.getNsURI() : extendedMetaData.getNamespace(ePackage);
+        if (ePackage == xmlSchemaTypePackage)
+        {
+          nsURI = XMLResource.XML_SCHEMA_URI;
+        }
         if (nsURI != null && !isDuplicateURI(nsURI))
         {
           List nsPrefixes = helper.getPrefixes(ePackage);
