@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.4 2004/04/14 15:24:36 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.5 2004/04/16 10:40:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -60,6 +60,7 @@ import org.eclipse.jdt.core.jdom.IDOMPackage;
 import org.eclipse.jdt.core.jdom.IDOMType;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
+import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -500,8 +501,8 @@ public class JavaEcoreBuilder
         ((GenPackage)genModel.getGenPackages().get(0)).getInterfacePackageName();
 
       genModel.setModelPluginID(targetFragmentRoot.segment(0));
-      genModel.setEditPluginClass(qualifier + ".provider." + genModel.getModelName() + "EditPlugin");
-      genModel.setEditorPluginClass(qualifier + ".presentation." + genModel.getModelName() + "EditorPlugin");
+      genModel.setEditPluginClass(qualifier + ".provider." + Generator.validName(genModel.getModelName()) + "EditPlugin");
+      genModel.setEditorPluginClass(qualifier + ".presentation." + Generator.validName(genModel.getModelName()) + "EditorPlugin");
       genModel.setModelDirectory(targetFragmentRoot.toString());
       genModel.setEditDirectory("/" + targetFragmentRoot.segment(0) + ".edit/" + targetFragmentRoot.removeFirstSegments(1));
       genModel.setEditorDirectory("/" + targetFragmentRoot.segment(0) + ".editor/" + targetFragmentRoot.removeFirstSegments(1));
