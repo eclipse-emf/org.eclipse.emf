@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.6 2004/10/07 12:15:37 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.7 2004/12/11 12:01:19 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1221,7 +1221,7 @@ public class XSDComplexTypeDefinitionImpl
               }
               List remainingParticles = new ArrayList(extensionGroup.getParticles());
               remainingParticles.removeAll(newParticles);
-              if (remainingParticles.isEmpty())
+              if (!remainingParticles.isEmpty())
               {
                 extensionGroup.getParticles().removeAll(remainingParticles);
               }
