@@ -3,6 +3,12 @@
 	<name>org.eclipse.emf.test.build</name>
 	<comment></comment>
 	<projects>
+		<project>[dev] org.eclipse.emf</project>
+		<project>org.eclipse.emf.test.core</project>
+		<project>org.eclipse.emf.test.edit</project>
+		<project>org.eclipse.emf.test.sdo</project>
+		<project>org.eclipse.emf.test.tools</project>
+		<project>org.eclipse.emf.test.xml</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
