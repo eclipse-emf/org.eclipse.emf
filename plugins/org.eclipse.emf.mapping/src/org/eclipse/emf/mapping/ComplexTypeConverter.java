@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComplexTypeConverter.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ComplexTypeConverter.java,v 1.2 2004/12/16 21:55:07 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -32,10 +32,11 @@ package org.eclipse.emf.mapping;
  * </p>
  *
  * @see org.eclipse.emf.mapping.MappingPackage#getComplexTypeConverter()
- * @model 
+ * @model
  * @generated
  */
-public interface ComplexTypeConverter extends TypeConverter {
+public interface ComplexTypeConverter extends TypeConverter
+{
   /**
    * Returns the value of the '<em><b>In2out</b></em>' reference.
    * <!-- begin-user-doc -->
@@ -47,7 +48,7 @@ public interface ComplexTypeConverter extends TypeConverter {
    * @return the value of the '<em>In2out</em>' reference.
    * @see #setIn2out(Mapping)
    * @see org.eclipse.emf.mapping.MappingPackage#getComplexTypeConverter_In2out()
-   * @model 
+   * @model
    * @generated
    */
   Mapping getIn2out();
@@ -73,7 +74,7 @@ public interface ComplexTypeConverter extends TypeConverter {
    * @return the value of the '<em>Out2in</em>' reference.
    * @see #setOut2in(Mapping)
    * @see org.eclipse.emf.mapping.MappingPackage#getComplexTypeConverter_Out2in()
-   * @model 
+   * @model
    * @generated
    */
   Mapping getOut2in();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackage.java,v 1.2 2004/12/13 20:22:40 marcelop Exp $
+ * $Id: ChangePackage.java,v 1.3 2004/12/16 21:51:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -38,7 +38,8 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.emf.ecore.change.ChangeFactory
  * @generated
  */
-public interface ChangePackage extends EPackage{
+public interface ChangePackage extends EPackage
+{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -453,7 +454,8 @@ public interface ChangePackage extends EPackage{
    * <!-- end-user-doc -->
    * @return the meta object for class '<em>EObject To Changes Map Entry</em>'.
    * @see java.util.Map.Entry
-   * @model keyType="org.eclipse.emf.ecore.EObject" keyRequired="true" valueType="org.eclipse.emf.ecore.change.FeatureChange" valueContainment="true" valueMany="true"
+   * @model keyType="org.eclipse.emf.ecore.EObject" keyRequired="true"
+   *        valueType="org.eclipse.emf.ecore.change.FeatureChange" valueContainment="true" valueMany="true"
    * @generated
    */
   EClass getEObjectToChangesMapEntry();

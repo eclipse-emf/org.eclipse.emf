@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChange.java,v 1.2 2004/12/13 20:22:40 marcelop Exp $
+ * $Id: FeatureChange.java,v 1.3 2004/12/16 21:51:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -41,10 +41,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * </p>
  *
  * @see org.eclipse.emf.ecore.change.ChangePackage#getFeatureChange()
- * @model 
+ * @model
  * @generated
  */
-public interface FeatureChange extends EObject{
+public interface FeatureChange extends EObject
+{
   /**
    * Returns the value of the '<em><b>Feature Name</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -260,7 +261,7 @@ public interface FeatureChange extends EObject{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   void apply(EObject originalObject);
@@ -268,7 +269,7 @@ public interface FeatureChange extends EObject{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   void applyAndReverse(EObject originalObject);

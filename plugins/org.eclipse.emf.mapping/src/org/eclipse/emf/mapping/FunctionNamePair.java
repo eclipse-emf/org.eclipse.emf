@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FunctionNamePair.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: FunctionNamePair.java,v 1.2 2004/12/16 21:55:07 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -32,10 +32,11 @@ package org.eclipse.emf.mapping;
  * </p>
  *
  * @see org.eclipse.emf.mapping.MappingPackage#getFunctionNamePair()
- * @model 
+ * @model
  * @generated
  */
-public interface FunctionNamePair extends TypeConverter {
+public interface FunctionNamePair extends TypeConverter
+{
   /**
    * Returns the value of the '<em><b>In2out</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -47,7 +48,7 @@ public interface FunctionNamePair extends TypeConverter {
    * @return the value of the '<em>In2out</em>' attribute.
    * @see #setIn2out(String)
    * @see org.eclipse.emf.mapping.MappingPackage#getFunctionNamePair_In2out()
-   * @model 
+   * @model
    * @generated
    */
   String getIn2out();
@@ -73,7 +74,7 @@ public interface FunctionNamePair extends TypeConverter {
    * @return the value of the '<em>Out2in</em>' attribute.
    * @see #setOut2in(String)
    * @see org.eclipse.emf.mapping.MappingPackage#getFunctionNamePair_Out2in()
-   * @model 
+   * @model
    * @generated
    */
   String getOut2in();

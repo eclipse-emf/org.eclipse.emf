@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingStrategyImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: MappingStrategyImpl.java,v 1.2 2004/12/16 21:55:06 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -128,14 +128,14 @@ public class MappingStrategyImpl extends MappingHelperImpl implements MappingStr
       switch (eContainerFeatureID)
       {
         case MappingPackage.MAPPING_STRATEGY__MAPPER:
-          return ((InternalEObject)eContainer).eInverseRemove(this, MappingPackage.MAPPING__HELPER, Mapping.class, msgs);
+          return eContainer.eInverseRemove(this, MappingPackage.MAPPING__HELPER, Mapping.class, msgs);
         case MappingPackage.MAPPING_STRATEGY__NESTED_IN:
-          return ((InternalEObject)eContainer).eInverseRemove(this, MappingPackage.MAPPING_HELPER__NESTED, MappingHelper.class, msgs);
+          return eContainer.eInverseRemove(this, MappingPackage.MAPPING_HELPER__NESTED, MappingHelper.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

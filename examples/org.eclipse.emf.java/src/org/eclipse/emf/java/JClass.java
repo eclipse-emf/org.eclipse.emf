@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClass.java,v 1.1 2004/04/13 02:50:32 marcelop Exp $
+ * $Id: JClass.java,v 1.2 2004/12/16 21:54:04 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -50,10 +50,11 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJClass()
- * @model 
+ * @model
  * @generated
  */
-public interface JClass extends JMember{
+public interface JClass extends JMember
+{
   /**
    * Returns the value of the '<em><b>Abstract</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -65,7 +66,7 @@ public interface JClass extends JMember{
    * @return the value of the '<em>Abstract</em>' attribute.
    * @see #setAbstract(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJClass_Abstract()
-   * @model 
+   * @model
    * @generated
    */
   boolean isAbstract();
@@ -91,7 +92,7 @@ public interface JClass extends JMember{
    * @return the value of the '<em>Final</em>' attribute.
    * @see #setFinal(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJClass_Final()
-   * @model 
+   * @model
    * @generated
    */
   boolean isFinal();
@@ -117,7 +118,7 @@ public interface JClass extends JMember{
    * @return the value of the '<em>Interface</em>' attribute.
    * @see #setInterface(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJClass_Interface()
-   * @model 
+   * @model
    * @generated
    */
   boolean isInterface();
@@ -143,7 +144,7 @@ public interface JClass extends JMember{
    * @return the value of the '<em>Throwable</em>' attribute.
    * @see #setThrowable(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJClass_Throwable()
-   * @model 
+   * @model
    * @generated
    */
   boolean isThrowable();

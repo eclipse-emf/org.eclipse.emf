@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelper.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
+ * $Id: MappingHelper.java,v 1.3 2004/12/16 21:55:07 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -37,10 +37,11 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.mapping.MappingPackage#getMappingHelper()
- * @model 
+ * @model
  * @generated
  */
-public interface MappingHelper extends EObject{
+public interface MappingHelper extends EObject
+{
   /**
    * Returns the value of the '<em><b>Mapper</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.mapping.Mapping#getHelper <em>Helper</em>}'.
@@ -80,7 +81,7 @@ public interface MappingHelper extends EObject{
    * @return the value of the '<em>Helped Object</em>' reference.
    * @see #setHelpedObject(EObject)
    * @see org.eclipse.emf.mapping.MappingPackage#getMappingHelper_HelpedObject()
-   * @model 
+   * @model
    * @generated
    */
   EObject getHelpedObject();

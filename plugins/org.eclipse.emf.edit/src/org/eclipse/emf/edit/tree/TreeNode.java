@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNode.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: TreeNode.java,v 1.2 2004/12/16 21:53:46 emerks Exp $
  */
 package org.eclipse.emf.edit.tree;
 
@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.edit.tree.TreePackage#getTreeNode()
- * @model 
+ * @model
  * @generated
  */
 public interface TreeNode extends EObject

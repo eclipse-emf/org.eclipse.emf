@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JFieldImpl.java,v 1.1 2004/04/13 02:50:33 marcelop Exp $
+ * $Id: JFieldImpl.java,v 1.2 2004/12/16 21:54:04 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -400,12 +400,12 @@ public class JFieldImpl extends JMemberImpl implements JField
       switch (eContainerFeatureID)
       {
         case JavaPackage.JFIELD__CONTAINING_TYPE:
-          return ((InternalEObject)eContainer).eInverseRemove(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);
+          return eContainer.eInverseRemove(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChange.java,v 1.2 2004/12/13 20:22:40 marcelop Exp $
+ * $Id: ListChange.java,v 1.3 2004/12/16 21:51:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -41,10 +41,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * </p>
  *
  * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange()
- * @model 
+ * @model
  * @generated
  */
-public interface ListChange extends EObject{
+public interface ListChange extends EObject
+{
   /**
    * Returns the value of the '<em><b>Kind</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.ecore.change.ChangeKind}.
@@ -58,7 +59,7 @@ public interface ListChange extends EObject{
    * @see org.eclipse.emf.ecore.change.ChangeKind
    * @see #setKind(ChangeKind)
    * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_Kind()
-   * @model 
+   * @model
    * @generated
    */
   ChangeKind getKind();
@@ -128,7 +129,7 @@ public interface ListChange extends EObject{
    * @return the value of the '<em>Move To Index</em>' attribute.
    * @see #setMoveToIndex(int)
    * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_MoveToIndex()
-   * @model 
+   * @model
    * @generated
    */
   int getMoveToIndex();
@@ -170,7 +171,7 @@ public interface ListChange extends EObject{
    * @return the value of the '<em>Feature</em>' reference.
    * @see #setFeature(EStructuralFeature)
    * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_Feature()
-   * @model 
+   * @model
    * @generated
    */
   EStructuralFeature getFeature();
@@ -200,7 +201,7 @@ public interface ListChange extends EObject{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   void apply(EList originalList);
@@ -208,7 +209,7 @@ public interface ListChange extends EObject{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   void applyAndReverse(EList originalList);

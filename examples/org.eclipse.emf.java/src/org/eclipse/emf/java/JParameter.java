@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JParameter.java,v 1.1 2004/04/13 02:50:32 marcelop Exp $
+ * $Id: JParameter.java,v 1.2 2004/12/16 21:54:04 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -33,10 +33,11 @@ package org.eclipse.emf.java;
  * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJParameter()
- * @model 
+ * @model
  * @generated
  */
-public interface JParameter extends JModelElement{
+public interface JParameter extends JModelElement
+{
   /**
    * Returns the value of the '<em><b>Final</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -48,7 +49,7 @@ public interface JParameter extends JModelElement{
    * @return the value of the '<em>Final</em>' attribute.
    * @see #setFinal(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJParameter_Final()
-   * @model 
+   * @model
    * @generated
    */
   boolean isFinal();
@@ -102,7 +103,7 @@ public interface JParameter extends JModelElement{
    * @return the value of the '<em>Type</em>' reference.
    * @see #setType(JClass)
    * @see org.eclipse.emf.java.JavaPackage#getJParameter_Type()
-   * @model 
+   * @model
    * @generated
    */
   JClass getType();

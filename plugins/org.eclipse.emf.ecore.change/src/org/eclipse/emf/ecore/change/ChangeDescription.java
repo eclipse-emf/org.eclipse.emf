@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescription.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ChangeDescription.java,v 1.2 2004/12/16 21:51:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.ecore.change.ChangePackage#getChangeDescription()
- * @model 
+ * @model
  * @generated
  */
 public interface ChangeDescription extends EObject
@@ -111,7 +111,7 @@ public interface ChangeDescription extends EObject
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   void apply();
@@ -119,7 +119,7 @@ public interface ChangeDescription extends EObject
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   void applyAndReverse();

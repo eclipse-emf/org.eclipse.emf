@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Mapping.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: Mapping.java,v 1.2 2004/12/16 21:55:07 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -42,10 +42,11 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.mapping.MappingPackage#getMapping()
- * @model 
+ * @model
  * @generated
  */
-public interface Mapping extends EObject{
+public interface Mapping extends EObject
+{
   /**
    * Returns the value of the '<em><b>Helper</b></em>' containment reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.mapping.MappingHelper#getMapper <em>Mapper</em>}'.
@@ -163,7 +164,7 @@ public interface Mapping extends EObject{
    * @return the value of the '<em>Type Mapping</em>' reference.
    * @see #setTypeMapping(Mapping)
    * @see org.eclipse.emf.mapping.MappingPackage#getMapping_TypeMapping()
-   * @model 
+   * @model
    * @generated
    */
   Mapping getTypeMapping();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaModelWizard.java,v 1.4 2004/07/19 19:23:38 marcelop Exp $
+ * $Id: JavaModelWizard.java,v 1.5 2004/12/16 21:54:46 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -616,7 +616,6 @@ public class JavaModelWizard extends Wizard implements INewWizard
         {
           // Set this for the container.
           //
-          String currentDirectory = selectedResource.getLocation().toOSString();
           newFileCreationPage.setContainerFullPath(selectedResource.getFullPath());
 
           // Make up a unique new name here.

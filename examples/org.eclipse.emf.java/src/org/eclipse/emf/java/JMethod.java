@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethod.java,v 1.1 2004/04/13 02:50:32 marcelop Exp $
+ * $Id: JMethod.java,v 1.2 2004/12/16 21:54:04 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -46,10 +46,11 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJMethod()
- * @model 
+ * @model
  * @generated
  */
-public interface JMethod extends JMember{
+public interface JMethod extends JMember
+{
   /**
    * Returns the value of the '<em><b>Abstract</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -61,7 +62,7 @@ public interface JMethod extends JMember{
    * @return the value of the '<em>Abstract</em>' attribute.
    * @see #setAbstract(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_Abstract()
-   * @model 
+   * @model
    * @generated
    */
   boolean isAbstract();
@@ -87,7 +88,7 @@ public interface JMethod extends JMember{
    * @return the value of the '<em>Final</em>' attribute.
    * @see #setFinal(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_Final()
-   * @model 
+   * @model
    * @generated
    */
   boolean isFinal();
@@ -113,7 +114,7 @@ public interface JMethod extends JMember{
    * @return the value of the '<em>Native</em>' attribute.
    * @see #setNative(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_Native()
-   * @model 
+   * @model
    * @generated
    */
   boolean isNative();
@@ -139,7 +140,7 @@ public interface JMethod extends JMember{
    * @return the value of the '<em>Synchronized</em>' attribute.
    * @see #setSynchronized(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_Synchronized()
-   * @model 
+   * @model
    * @generated
    */
   boolean isSynchronized();
@@ -191,7 +192,7 @@ public interface JMethod extends JMember{
    * @return the value of the '<em>Constructor</em>' attribute.
    * @see #setConstructor(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_Constructor()
-   * @model 
+   * @model
    * @generated
    */
   boolean isConstructor();
@@ -243,7 +244,7 @@ public interface JMethod extends JMember{
    * @return the value of the '<em>Body</em>' attribute.
    * @see #setBody(String)
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_Body()
-   * @model 
+   * @model
    * @generated
    */
   String getBody();
@@ -303,7 +304,7 @@ public interface JMethod extends JMember{
    * @return the value of the '<em>Return Type</em>' reference.
    * @see #setReturnType(JClass)
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_ReturnType()
-   * @model 
+   * @model
    * @generated
    */
   JClass getReturnType();

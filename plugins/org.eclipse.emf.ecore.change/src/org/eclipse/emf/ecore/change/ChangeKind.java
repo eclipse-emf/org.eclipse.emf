@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeKind.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ChangeKind.java,v 1.2 2004/12/16 21:51:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -40,7 +40,7 @@ public final class ChangeKind extends AbstractEnumerator
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #ADD_LITERAL
-   * @model 
+   * @model
    * @generated
    * @ordered
    */
@@ -51,7 +51,7 @@ public final class ChangeKind extends AbstractEnumerator
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #REMOVE_LITERAL
-   * @model 
+   * @model
    * @generated
    * @ordered
    */
@@ -62,7 +62,7 @@ public final class ChangeKind extends AbstractEnumerator
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #MOVE_LITERAL
-   * @model 
+   * @model
    * @generated
    * @ordered
    */

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JInitializer.java,v 1.1 2004/04/13 02:50:25 marcelop Exp $
+ * $Id: JInitializer.java,v 1.2 2004/12/16 21:54:04 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -31,10 +31,11 @@ package org.eclipse.emf.java;
  * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJInitializer()
- * @model 
+ * @model
  * @generated
  */
-public interface JInitializer extends JMember{
+public interface JInitializer extends JMember
+{
   /**
    * Returns the value of the '<em><b>Body</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -46,7 +47,7 @@ public interface JInitializer extends JMember{
    * @return the value of the '<em>Body</em>' attribute.
    * @see #setBody(String)
    * @see org.eclipse.emf.java.JavaPackage#getJInitializer_Body()
-   * @model 
+   * @model
    * @generated
    */
   String getBody();

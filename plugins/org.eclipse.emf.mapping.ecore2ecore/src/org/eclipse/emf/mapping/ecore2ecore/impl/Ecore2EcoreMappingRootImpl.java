@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreMappingRootImpl.java,v 1.2 2004/07/23 20:49:48 marcelop Exp $
+ * $Id: Ecore2EcoreMappingRootImpl.java,v 1.3 2004/12/16 21:54:39 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
@@ -132,12 +132,12 @@ public class Ecore2EcoreMappingRootImpl extends MappingRootImpl implements Ecore
       switch (eContainerFeatureID)
       {
         case Ecore2EcorePackage.ECORE2_ECORE_MAPPING_ROOT__NESTED_IN:
-          return ((InternalEObject)eContainer).eInverseRemove(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
+          return eContainer.eInverseRemove(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

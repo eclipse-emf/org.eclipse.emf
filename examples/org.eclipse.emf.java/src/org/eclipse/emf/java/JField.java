@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JField.java,v 1.1 2004/04/13 02:50:32 marcelop Exp $
+ * $Id: JField.java,v 1.2 2004/12/16 21:54:04 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -38,10 +38,11 @@ import java.lang.reflect.Field;
  * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJField()
- * @model 
+ * @model
  * @generated
  */
-public interface JField extends JMember{
+public interface JField extends JMember
+{
   /**
    * Returns the value of the '<em><b>Final</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -53,7 +54,7 @@ public interface JField extends JMember{
    * @return the value of the '<em>Final</em>' attribute.
    * @see #setFinal(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJField_Final()
-   * @model 
+   * @model
    * @generated
    */
   boolean isFinal();
@@ -79,7 +80,7 @@ public interface JField extends JMember{
    * @return the value of the '<em>Transient</em>' attribute.
    * @see #setTransient(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJField_Transient()
-   * @model 
+   * @model
    * @generated
    */
   boolean isTransient();
@@ -105,7 +106,7 @@ public interface JField extends JMember{
    * @return the value of the '<em>Volatile</em>' attribute.
    * @see #setVolatile(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJField_Volatile()
-   * @model 
+   * @model
    * @generated
    */
   boolean isVolatile();
@@ -157,7 +158,7 @@ public interface JField extends JMember{
    * @return the value of the '<em>Initializer</em>' attribute.
    * @see #setInitializer(String)
    * @see org.eclipse.emf.java.JavaPackage#getJField_Initializer()
-   * @model 
+   * @model
    * @generated
    */
   String getInitializer();
@@ -183,7 +184,7 @@ public interface JField extends JMember{
    * @return the value of the '<em>Type</em>' reference.
    * @see #setType(JClass)
    * @see org.eclipse.emf.java.JavaPackage#getJField_Type()
-   * @model 
+   * @model
    * @generated
    */
   JClass getType();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.12 2004/07/16 16:25:59 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.13 2004/12/16 21:52:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -382,7 +382,6 @@ public class EcoreEditor
     {
       public void resourceChanged(IResourceChangeEvent event)
       {
-        ResourceSet resourceSet = editingDomain.getResourceSet();
         // Only listening to these.
         // if (event.getType() == IResourceDelta.POST_CHANGE)
         {
@@ -814,9 +813,7 @@ public class EcoreEditor
     {
       // Load the resource through the editing domain.
       //
-      Resource resource =
-        editingDomain.loadResource
-          (URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
+      editingDomain.loadResource(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
     }
     catch (Exception exception)
     {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPackage.java,v 1.1 2004/04/13 02:50:32 marcelop Exp $
+ * $Id: JPackage.java,v 1.2 2004/12/16 21:54:04 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -34,10 +34,11 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJPackage()
- * @model 
+ * @model
  * @generated
  */
-public interface JPackage extends JModelElement{
+public interface JPackage extends JModelElement
+{
   /**
    * Returns the value of the '<em><b>Java Package</b></em>' attribute.
    * <!-- begin-user-doc -->

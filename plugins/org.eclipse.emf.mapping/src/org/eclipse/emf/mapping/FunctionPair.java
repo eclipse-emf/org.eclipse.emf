@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FunctionPair.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: FunctionPair.java,v 1.2 2004/12/16 21:55:07 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -34,10 +34,11 @@ import org.eclipse.emf.ecore.EOperation;
  * </p>
  *
  * @see org.eclipse.emf.mapping.MappingPackage#getFunctionPair()
- * @model 
+ * @model
  * @generated
  */
-public interface FunctionPair extends TypeConverter {
+public interface FunctionPair extends TypeConverter
+{
   /**
    * Returns the value of the '<em><b>In2out</b></em>' reference.
    * <!-- begin-user-doc -->
@@ -49,7 +50,7 @@ public interface FunctionPair extends TypeConverter {
    * @return the value of the '<em>In2out</em>' reference.
    * @see #setIn2out(EOperation)
    * @see org.eclipse.emf.mapping.MappingPackage#getFunctionPair_In2out()
-   * @model 
+   * @model
    * @generated
    */
   EOperation getIn2out();
@@ -75,7 +76,7 @@ public interface FunctionPair extends TypeConverter {
    * @return the value of the '<em>Out2in</em>' reference.
    * @see #setOut2in(EOperation)
    * @see org.eclipse.emf.mapping.MappingPackage#getFunctionPair_Out2in()
-   * @model 
+   * @model
    * @generated
    */
   EOperation getOut2in();

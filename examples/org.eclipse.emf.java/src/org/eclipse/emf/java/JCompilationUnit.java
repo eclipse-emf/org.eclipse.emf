@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnit.java,v 1.1 2004/04/13 02:50:32 marcelop Exp $
+ * $Id: JCompilationUnit.java,v 1.2 2004/12/16 21:54:04 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -38,10 +38,11 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.java.JavaPackage#getJCompilationUnit()
- * @model 
+ * @model
  * @generated
  */
-public interface JCompilationUnit extends JModelElement{
+public interface JCompilationUnit extends JModelElement
+{
   /**
    * Returns the value of the '<em><b>Package</b></em>' reference.
    * <!-- begin-user-doc -->
@@ -53,7 +54,7 @@ public interface JCompilationUnit extends JModelElement{
    * @return the value of the '<em>Package</em>' reference.
    * @see #setPackage(JPackage)
    * @see org.eclipse.emf.java.JavaPackage#getJCompilationUnit_Package()
-   * @model 
+   * @model
    * @generated
    */
   JPackage getPackage();
@@ -95,7 +96,7 @@ public interface JCompilationUnit extends JModelElement{
    * @return the value of the '<em>Comment</em>' attribute.
    * @see #setComment(String)
    * @see org.eclipse.emf.java.JavaPackage#getJCompilationUnit_Comment()
-   * @model 
+   * @model
    * @generated
    */
   String getComment();

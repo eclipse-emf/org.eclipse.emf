@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreModelWizard.java,v 1.5 2004/07/19 19:23:41 marcelop Exp $
+ * $Id: Ecore2EcoreModelWizard.java,v 1.6 2004/12/16 21:54:47 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -644,7 +644,6 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
         {
           // Set this for the container.
           //
-          String currentDirectory = selectedResource.getLocation().toOSString();
           newFileCreationPage.setContainerFullPath(selectedResource.getFullPath());
 
           // Make up a unique new name here.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelperImpl.java,v 1.3 2004/03/21 17:56:41 emerks Exp $
+ * $Id: MappingHelperImpl.java,v 1.4 2004/12/16 21:55:07 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -285,14 +285,14 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
       switch (eContainerFeatureID)
       {
         case MappingPackage.MAPPING_HELPER__MAPPER:
-          return ((InternalEObject)eContainer).eInverseRemove(this, MappingPackage.MAPPING__HELPER, Mapping.class, msgs);
+          return eContainer.eInverseRemove(this, MappingPackage.MAPPING__HELPER, Mapping.class, msgs);
         case MappingPackage.MAPPING_HELPER__NESTED_IN:
-          return ((InternalEObject)eContainer).eInverseRemove(this, MappingPackage.MAPPING_HELPER__NESTED, MappingHelper.class, msgs);
+          return eContainer.eInverseRemove(this, MappingPackage.MAPPING_HELPER__NESTED, MappingHelper.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRoot.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: MappingRoot.java,v 1.2 2004/12/16 21:55:07 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -37,10 +37,11 @@ import org.eclipse.emf.mapping.domain.MappingDomain;
  * </p>
  *
  * @see org.eclipse.emf.mapping.MappingPackage#getMappingRoot()
- * @model 
+ * @model
  * @generated
  */
-public interface MappingRoot extends Mapping {
+public interface MappingRoot extends Mapping
+{
   /**
    * Returns the value of the '<em><b>Output Read Only</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -52,7 +53,7 @@ public interface MappingRoot extends Mapping {
    * @return the value of the '<em>Output Read Only</em>' attribute.
    * @see #setOutputReadOnly(boolean)
    * @see org.eclipse.emf.mapping.MappingPackage#getMappingRoot_OutputReadOnly()
-   * @model 
+   * @model
    * @generated
    */
   boolean isOutputReadOnly();
@@ -78,7 +79,7 @@ public interface MappingRoot extends Mapping {
    * @return the value of the '<em>Top To Bottom</em>' attribute.
    * @see #setTopToBottom(boolean)
    * @see org.eclipse.emf.mapping.MappingPackage#getMappingRoot_TopToBottom()
-   * @model 
+   * @model
    * @generated
    */
   boolean isTopToBottom();
@@ -104,7 +105,7 @@ public interface MappingRoot extends Mapping {
    * @return the value of the '<em>Command Stack</em>' attribute.
    * @see #setCommandStack(String)
    * @see org.eclipse.emf.mapping.MappingPackage#getMappingRoot_CommandStack()
-   * @model 
+   * @model
    * @generated
    */
   String getCommandStack();

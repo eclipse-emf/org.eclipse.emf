@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMember.java,v 1.1 2004/04/13 02:50:32 marcelop Exp $
+ * $Id: JMember.java,v 1.2 2004/12/16 21:54:04 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -37,7 +37,8 @@ package org.eclipse.emf.java;
  * @model abstract="true"
  * @generated
  */
-public interface JMember extends JModelElement{
+public interface JMember extends JModelElement
+{
   /**
    * Returns the value of the '<em><b>Static</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -49,7 +50,7 @@ public interface JMember extends JModelElement{
    * @return the value of the '<em>Static</em>' attribute.
    * @see #setStatic(boolean)
    * @see org.eclipse.emf.java.JavaPackage#getJMember_Static()
-   * @model 
+   * @model
    * @generated
    */
   boolean isStatic();
@@ -77,7 +78,7 @@ public interface JMember extends JModelElement{
    * @see org.eclipse.emf.java.JVisibility
    * @see #setVisibility(JVisibility)
    * @see org.eclipse.emf.java.JavaPackage#getJMember_Visibility()
-   * @model 
+   * @model
    * @generated
    */
   JVisibility getVisibility();
@@ -104,7 +105,7 @@ public interface JMember extends JModelElement{
    * @return the value of the '<em>Comment</em>' attribute.
    * @see #setComment(String)
    * @see org.eclipse.emf.java.JavaPackage#getJMember_Comment()
-   * @model 
+   * @model
    * @generated
    */
   String getComment();

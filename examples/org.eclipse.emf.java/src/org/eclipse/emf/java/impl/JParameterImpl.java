@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JParameterImpl.java,v 1.1 2004/04/13 02:50:33 marcelop Exp $
+ * $Id: JParameterImpl.java,v 1.2 2004/12/16 21:54:04 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -253,12 +253,12 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
       switch (eContainerFeatureID)
       {
         case JavaPackage.JPARAMETER__METHOD:
-          return ((InternalEObject)eContainer).eInverseRemove(this, JavaPackage.JMETHOD__PARAMETERS, JMethod.class, msgs);
+          return eContainer.eInverseRemove(this, JavaPackage.JMETHOD__PARAMETERS, JMethod.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

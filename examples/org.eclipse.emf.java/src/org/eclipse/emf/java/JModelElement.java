@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JModelElement.java,v 1.1 2004/04/13 02:50:32 marcelop Exp $
+ * $Id: JModelElement.java,v 1.2 2004/12/16 21:54:04 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -37,7 +37,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface JModelElement extends EObject{
+public interface JModelElement extends EObject
+{
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -49,7 +50,7 @@ public interface JModelElement extends EObject{
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
    * @see org.eclipse.emf.java.JavaPackage#getJModelElement_Name()
-   * @model 
+   * @model
    * @generated
    */
   String getName();

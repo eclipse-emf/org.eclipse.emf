@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.3 2004/10/20 15:18:58 marcelop Exp $
+ * $Id: JClassImpl.java,v 1.4 2004/12/16 21:54:04 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -793,16 +793,16 @@ public class JClassImpl extends JMemberImpl implements JClass
       switch (eContainerFeatureID)
       {
         case JavaPackage.JCLASS__CONTAINING_TYPE:
-          return ((InternalEObject)eContainer).eInverseRemove(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);
+          return eContainer.eInverseRemove(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);
         case JavaPackage.JCLASS__COMPONENT_TYPE:
-          return ((InternalEObject)eContainer).eInverseRemove(this, JavaPackage.JCLASS__ARRAY_TYPE, JClass.class, msgs);
+          return eContainer.eInverseRemove(this, JavaPackage.JCLASS__ARRAY_TYPE, JClass.class, msgs);
         case JavaPackage.JCLASS__UNIT:
-          return ((InternalEObject)eContainer).eInverseRemove(this, JavaPackage.JCOMPILATION_UNIT__TYPES, JCompilationUnit.class, msgs);
+          return eContainer.eInverseRemove(this, JavaPackage.JCOMPILATION_UNIT__TYPES, JCompilationUnit.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootImpl.java,v 1.3 2004/07/29 13:32:53 marcelop Exp $
+ * $Id: MappingRootImpl.java,v 1.4 2004/12/16 21:55:06 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -305,12 +305,12 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
       switch (eContainerFeatureID)
       {
         case MappingPackage.MAPPING_ROOT__NESTED_IN:
-          return ((InternalEObject)eContainer).eInverseRemove(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
+          return eContainer.eInverseRemove(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

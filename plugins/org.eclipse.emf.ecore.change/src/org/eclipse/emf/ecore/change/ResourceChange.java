@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceChange.java,v 1.2 2004/12/13 20:22:40 marcelop Exp $
+ * $Id: ResourceChange.java,v 1.3 2004/12/16 21:51:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -26,10 +26,11 @@ import org.eclipse.emf.ecore.resource.Resource;
  * </p>
  *
  * @see org.eclipse.emf.ecore.change.ChangePackage#getResourceChange()
- * @model 
+ * @model
  * @generated
  */
-public interface ResourceChange extends EObject{
+public interface ResourceChange extends EObject
+{
   /**
    * Returns the value of the '<em><b>Resource URI</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -41,7 +42,7 @@ public interface ResourceChange extends EObject{
    * @return the value of the '<em>Resource URI</em>' attribute.
    * @see #setResourceURI(String)
    * @see org.eclipse.emf.ecore.change.ChangePackage#getResourceChange_ResourceURI()
-   * @model 
+   * @model
    * @generated
    */
   String getResourceURI();
@@ -116,7 +117,7 @@ public interface ResourceChange extends EObject{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   void apply();
@@ -124,7 +125,7 @@ public interface ResourceChange extends EObject{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   void applyAndReverse();

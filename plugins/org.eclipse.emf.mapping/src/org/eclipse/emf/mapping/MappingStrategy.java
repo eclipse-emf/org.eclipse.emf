@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingStrategy.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: MappingStrategy.java,v 1.2 2004/12/16 21:55:07 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -25,7 +25,7 @@ package org.eclipse.emf.mapping;
  *
  *
  * @see org.eclipse.emf.mapping.MappingPackage#getMappingStrategy()
- * @model 
+ * @model
  * @generated
  */
 public interface MappingStrategy extends MappingHelper

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.7 2004/11/29 19:53:28 emerks Exp $
+ * $Id: JavaEditor.java,v 1.8 2004/12/16 21:54:46 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -373,7 +373,6 @@ public class JavaEditor
     {
       public void resourceChanged(IResourceChangeEvent event)
       {
-        ResourceSet resourceSet = editingDomain.getResourceSet();
         // Only listening to these.
         // if (event.getType() == IResourceDelta.POST_CHANGE)
         {
@@ -806,9 +805,7 @@ public class JavaEditor
     {
       // Load the resource through the editing domain.
       //
-      Resource resource =
-        editingDomain.loadResource
-          (URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
+      editingDomain.loadResource(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
     }
     catch (Exception exception)
     {

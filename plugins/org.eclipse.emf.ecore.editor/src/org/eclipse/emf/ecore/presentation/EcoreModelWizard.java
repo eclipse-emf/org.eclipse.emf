@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.6 2004/07/19 19:23:35 marcelop Exp $
+ * $Id: EcoreModelWizard.java,v 1.7 2004/12/16 21:52:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -606,7 +606,6 @@ public class EcoreModelWizard extends Wizard implements INewWizard
         {
           // Set this for the container.
           //
-          String currentDirectory = selectedResource.getLocation().toOSString();
           newFileCreationPage.setContainerFullPath(selectedResource.getFullPath());
 
           // Make up a unique new name here.

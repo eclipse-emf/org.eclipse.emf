@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: TreeNodeImpl.java,v 1.2 2004/12/16 21:53:46 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -243,12 +243,12 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
       switch (eContainerFeatureID)
       {
         case TreePackage.TREE_NODE__PARENT:
-          return ((InternalEObject)eContainer).eInverseRemove(this, TreePackage.TREE_NODE__CHILDREN, TreeNode.class, msgs);
+          return eContainer.eInverseRemove(this, TreePackage.TREE_NODE__CHILDREN, TreeNode.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
