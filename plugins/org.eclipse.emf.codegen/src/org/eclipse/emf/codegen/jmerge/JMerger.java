@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.3 2004/04/02 17:43:40 emerks Exp $
+ * $Id: JMerger.java,v 1.4 2004/05/16 17:32:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -35,7 +35,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.boot.IPlatformRunnable;
+import org.eclipse.core.runtime.IPlatformRunnable;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.jdom.DOMFactory;
 import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
@@ -109,7 +109,12 @@ public class JMerger implements IPlatformRunnable
   {
     this.jControlModel = jControlModel;
   }
-
+  
+  public String getSourceCompilationUnitContents()
+  {
+    return sourceCompilationUnit.getContents();
+  }
+  
   public IDOMCompilationUnit getSourceCompilationUnit()
   {
     return sourceCompilationUnit;
@@ -121,6 +126,11 @@ public class JMerger implements IPlatformRunnable
     sourcePatternDictionary = new JPatternDictionary(sourceCompilationUnit, jControlModel);
     // System.out.println("-- source --");
     // sourcePatternDictionary.dumpMarkup();
+  }
+  
+  public String getTargetCompilationUnitContents()
+  {
+    return targetCompilationUnit.getContents();
   }
 
   public IDOMCompilationUnit getTargetCompilationUnit()

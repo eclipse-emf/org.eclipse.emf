@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseUtil.java,v 1.3 2004/05/06 18:41:06 emerks Exp $
+ * $Id: RoseUtil.java,v 1.4 2004/05/16 17:27:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -60,7 +60,7 @@ public class RoseUtil
 
   MultiStatus status = 
     new MultiStatus
-      (CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(), 
+      (CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(), 
        0, 
        CodeGenEcorePlugin.INSTANCE.getString("_UI_ProblemsWereEncounteredLoadingTheRoseModel_message"),
        null);
@@ -90,7 +90,7 @@ public class RoseUtil
       {
         status = 
           new MultiStatus
-            (CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(), 
+            (CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(), 
              1, 
              CodeGenEcorePlugin.INSTANCE.getString("_UI_ProblemsWereEncounteredConvertingTheRoseModel_message"),
              null);
@@ -175,7 +175,7 @@ public class RoseUtil
         getStatus().add
           (new Status
             (IStatus.ERROR,
-             CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+             CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(),
              0, 
              CodeGenEcorePlugin.INSTANCE.getString
                ("_UI_TheUnitResolvesTo_message", new Object [] { Util.trimQuotes(fileNameNodeValue), fileName }), 

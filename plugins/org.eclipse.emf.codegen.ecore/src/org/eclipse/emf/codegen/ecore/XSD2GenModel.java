@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2GenModel.java,v 1.2 2004/04/17 17:19:15 emerks Exp $
+ * $Id: XSD2GenModel.java,v 1.3 2004/05/16 17:31:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -35,7 +35,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -129,7 +128,7 @@ public class XSD2GenModel extends Generator
               throw 
                 new CoreException
                   (new Status
-                    (IStatus.ERROR, CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(), 0, "Error", exception));
+                    (IStatus.ERROR, CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(), 0, "Error", exception));
             }
             finally
             {
@@ -151,8 +150,7 @@ public class XSD2GenModel extends Generator
 
   public void execute(IProgressMonitor progressMonitor, String [] arguments) throws Exception
   {
-    Plugin xsdPlugin = Platform.getPlugin("org.eclipse.xsd");
-    Class theGeneratorClass = xsdPlugin.getClass().getClassLoader().loadClass("org.eclipse.xsd.ecore.XSDEcoreBuilder");
+    Class theGeneratorClass = Platform.getBundle("org.eclipse.xsd").loadClass("org.eclipse.xsd.ecore.XSDEcoreBuilder");
     xsdEcoreBuilder = theGeneratorClass.newInstance();
 
     packageInformationMap = new HashMap();
@@ -268,7 +266,7 @@ public class XSD2GenModel extends Generator
           new CoreException
             (new Status
               (IStatus.ERROR, 
-               CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(), 
+               CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(), 
                0, 
                "Unrecognized argument: '" + arguments[index] + "'", 
                null));

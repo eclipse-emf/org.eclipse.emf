@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.6 2004/05/06 18:41:06 emerks Exp $
+ * $Id: EcoreBuilder.java,v 1.7 2004/05/16 17:27:42 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -1908,7 +1908,7 @@ public class EcoreBuilder implements RoseVisitor
     roseUtil.getStatus().add
      (new Status
        (IStatus.WARNING,
-        CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+        CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(),
         0,
         message,
         null));
@@ -1920,7 +1920,7 @@ public class EcoreBuilder implements RoseVisitor
     roseUtil.getStatus().add
      (new Status
        (IStatus.ERROR,
-        CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+        CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(),
         0,
         message,
         null));

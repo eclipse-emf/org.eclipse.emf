@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.2 2004/03/18 20:07:21 emerks Exp $
+ * $Id: PropertyMerger.java,v 1.3 2004/05/16 17:32:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.boot.IPlatformRunnable;
+import org.eclipse.core.runtime.IPlatformRunnable;
 
 
 /**

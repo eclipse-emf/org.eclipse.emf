@@ -12,12 +12,12 @@
  *
  * </copyright>
  *
- * $Id: Rose2Ecore.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: Rose2Ecore.java,v 1.2 2004/05/16 17:27:14 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
 
-import org.eclipse.core.boot.IPlatformRunnable;
+import org.eclipse.core.runtime.IPlatformRunnable;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.ecore.resource.ResourceSet;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGen.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: CodeGen.java,v 1.2 2004/05/16 17:33:46 emerks Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-import org.eclipse.core.boot.IPlatformRunnable;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -35,6 +34,7 @@ import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IPlatformRunnable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -223,7 +223,7 @@ public class CodeGen implements IPlatformRunnable
                   jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForURI(targetPath.toString()));
                   jMerger.merge();
   
-                  InputStream mergedContents = new ByteArrayInputStream(jMerger.getTargetCompilationUnit().getContents().getBytes());
+                  InputStream mergedContents = new ByteArrayInputStream(jMerger.getTargetCompilationUnitContents().getBytes());
                   targetFile.setContents(mergedContents, true, true, new SubProgressMonitor(progressMonitor, 1));
                 }
                 else

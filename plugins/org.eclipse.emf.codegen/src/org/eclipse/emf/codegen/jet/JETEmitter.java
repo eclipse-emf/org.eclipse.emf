@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETEmitter.java,v 1.2 2004/05/16 17:33:10 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -43,9 +43,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.ILibrary;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
@@ -59,6 +57,11 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
+
+import org.eclipse.osgi.util.ManifestElement;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleException;
+import org.osgi.framework.Constants;
 
 
 /**
@@ -286,8 +289,7 @@ public class JETEmitter
       {
         // This is kind of nasty to come here.
         //
-        URL jreURL = 
-          new URL(Platform.getPlugin("org.eclipse.emf.codegen").getDescriptor().getInstallURL(), "plugin.xml");
+        URL jreURL = Platform.getBundle("org.eclipse.emf.codegen").getEntry("plugin.xml");
         IPath jrePath = new Path(Platform.asLocalURL(jreURL).getFile());
         jrePath = jrePath.removeLastSegments(1).append(new Path("../../jre/lib/rt.jar"));
         if (!jrePath.equals(JavaCore.getClasspathVariable(JavaRuntime.JRELIB_VARIABLE)))
@@ -518,15 +520,17 @@ public class JETEmitter
    */
   public void addVariable(String variableName, String pluginID) throws JETException
   {
-    IPluginDescriptor descriptor = Platform.getPlugin(pluginID).getDescriptor();
-    ILibrary[] libraries = descriptor.getRuntimeLibraries();
-    for (int i = 0; i < libraries.length; ++i)
+    try
     {
-      if (libraries[i].getType().equals(ILibrary.CODE))
+      Bundle bundle = Platform.getBundle(pluginID);
+      String requires = (String)bundle.getHeaders().get(Constants.BUNDLE_CLASSPATH);
+      ManifestElement[] elements = ManifestElement.parseHeader(Constants.BUNDLE_CLASSPATH, requires);
+      for (int i = 0; i < elements.length; ++i)
       {
+        ManifestElement element = elements[i];
         try
         {
-          URL url = new URL(descriptor.getInstallURL(), libraries[i].getPath().toString());
+          URL url = bundle.getEntry(element.getValue());
           IPath path = new Path(Platform.asLocalURL(url).getFile());
           if (!path.equals(JavaCore.getClasspathVariable(variableName)))
           {
@@ -547,6 +551,10 @@ public class JETEmitter
         }
         break;
       }
+    }
+    catch (BundleException exception)
+    {
+      throw new JETException(exception);
     }
 
     IClasspathEntry entry = JavaCore.newVariableEntry(new Path(variableName), null, null);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.7 2004/05/11 22:56:03 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.8 2004/05/16 17:27:55 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -199,7 +199,7 @@ public class JavaEcoreBuilder
 
     status =
       new MultiStatus
-        (CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+        (CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(),
          0,
          CodeGenEcorePlugin.INSTANCE.getString("_UI_ErrorsWereDetectedJava_message"),
          null);
@@ -1766,7 +1766,7 @@ public class JavaEcoreBuilder
     status.add
      (new Status
        (IStatus.ERROR,
-        CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+        CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(),
         0,
         message,
         null));

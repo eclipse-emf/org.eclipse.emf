@@ -12,12 +12,15 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.3 2004/04/17 17:19:15 emerks Exp $
+ * $Id: Generator.java,v 1.4 2004/05/16 17:31:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,9 +35,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.ILibrary;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -45,18 +46,24 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.osgi.util.ManifestElement;
 
 import org.eclipse.emf.codegen.CodeGen;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleException;
+import org.osgi.framework.Constants;
 
 
 /**
@@ -214,7 +221,7 @@ public class Generator extends CodeGen
                     throw new CoreException(
                       new Status(
                         IStatus.ERROR,
-                        CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+                        CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(),
                         0,
                         "Unrecognized argument: '" + arguments[index] + "'",
                         null));
@@ -313,7 +320,7 @@ public class Generator extends CodeGen
               throw 
                 new CoreException
                   (new Status
-                    (IStatus.ERROR, CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(), 0, "EMF Error", exception));
+                    (IStatus.ERROR, CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(), 0, "EMF Error", exception));
             }
             finally
             {
@@ -419,7 +426,7 @@ public class Generator extends CodeGen
     {
       List classpathEntries = new UniqueEList();
 
-      progressMonitor.beginTask("", 10); // TODO
+      progressMonitor.beginTask("", 10);
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_CreatingEMFProject_message", new Object [] { projectName }));
       IWorkspace workspace = ResourcesPlugin.getWorkspace();
       project = workspace.getRoot().getProject(projectName);
@@ -650,6 +657,7 @@ public class Generator extends CodeGen
 
   public static void addClasspathEntries(Collection classpathEntries, String variableName, String pluginID) throws Exception
   {
+    /*
     IPluginDescriptor descriptor = Platform.getPlugin(pluginID).getDescriptor();
     ILibrary [] libraries = descriptor.getRuntimeLibraries();
     for (int i = 0, count = 0; i < libraries.length; ++i)
@@ -690,6 +698,74 @@ public class Generator extends CodeGen
         }
         ++count;
       }
+    }
+    */
+    try
+    {
+      Bundle bundle = Platform.getBundle(pluginID);
+      String requires = (String)bundle.getHeaders().get(Constants.BUNDLE_CLASSPATH);
+      ManifestElement[] elements = ManifestElement.parseHeader(Constants.BUNDLE_CLASSPATH, requires);
+      for (int i = 0, count = 0; i < elements.length; ++i)
+      {
+        ManifestElement element = elements[i];
+        try
+        {
+          URL url = bundle.getEntry(element.getValue());
+          IPath path = new Path(Platform.asLocalURL(url).getFile());
+          if (!"nl1.jar".equals(path.lastSegment()))
+          {
+            String shortName = path.removeFileExtension().lastSegment();
+
+            if (variableName == null)
+            {
+              classpathEntries.add(JavaCore.newLibraryEntry(path, null, null));
+            }
+            else
+            {
+              // Xerces has two jars.
+              //
+              if (count == 0 && pluginID.equals("org.apache.xerces"))
+              {
+                String mangledName = variableName + "_API";
+                if (!path.equals(JavaCore.getClasspathVariable(mangledName)))
+                {
+                  JavaCore.setClasspathVariable(mangledName, path, null);
+                }
+                classpathEntries.add(JavaCore.newVariableEntry(new Path(mangledName), null, null));
+              }
+              // A jar whose name ends in "-pi" contains internal code.
+              //
+              else if ((count != 1 || !pluginID.equals("org.eclipse.ui.ide")) &&
+                         shortName != null && !shortName.endsWith("-pi"))
+              {
+                if (!path.equals(JavaCore.getClasspathVariable(variableName)))
+                {
+                  JavaCore.setClasspathVariable(variableName, path, null);
+                }
+                classpathEntries.add(JavaCore.newVariableEntry(new Path(variableName), null, null));
+              }
+            }
+            ++count;
+          }
+        }
+        catch (MalformedURLException exception)
+        {
+          throw new JETException(exception);
+        }
+        catch (JavaModelException exception)
+        {
+          throw new JETException(exception);
+        } 
+        catch (IOException exception)
+        {
+          throw new JETException(exception);
+        }
+        break;
+      }
+    }
+    catch (BundleException exception)
+    {
+      throw new JETException(exception);
     }
   }
 

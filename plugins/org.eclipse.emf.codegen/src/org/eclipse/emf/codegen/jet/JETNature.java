@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETNature.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETNature.java,v 1.2 2004/05/16 17:33:10 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -157,7 +157,7 @@ public class JETNature implements IJETNature
 
     // Add JETBuilder
     //
-    addToFrontOfBuildSpec(CodeGenPlugin.getPlugin().getDescriptor().getUniqueIdentifier() + "." + BUILDER);
+    addToFrontOfBuildSpec(CodeGenPlugin.INSTANCE.getSymbolicName() + "." + BUILDER);
   }
   
   /**

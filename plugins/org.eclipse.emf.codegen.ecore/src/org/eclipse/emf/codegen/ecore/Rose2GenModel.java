@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Rose2GenModel.java,v 1.4 2004/05/06 18:41:06 emerks Exp $
+ * $Id: Rose2GenModel.java,v 1.5 2004/05/16 17:31:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -253,7 +253,7 @@ public class Rose2GenModel extends Generator
                       new CoreException
                         (new Status
                           (IStatus.ERROR, 
-                           CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(), 
+                           CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(), 
                            0, 
                            "Unrecognized argument: '" + arguments[index] + "'", 
                            null));
@@ -392,7 +392,7 @@ public class Rose2GenModel extends Generator
               throw 
                 new CoreException
                   (new Status
-                    (IStatus.ERROR, CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(), 0, "Error", exception));
+                    (IStatus.ERROR, CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(), 0, "Error", exception));
             }
             finally
             {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETException.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETException.java,v 1.2 2004/05/16 17:33:10 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -33,7 +33,7 @@ public class JETException extends CoreException
 {
   public JETException(String reason) 
   {
-    super(new Status(IStatus.ERROR, CodeGenPlugin.getPlugin().getDescriptor().getUniqueIdentifier(), 0, reason, null));
+    super(new Status(IStatus.ERROR, CodeGenPlugin.INSTANCE.getSymbolicName(), 0, reason, null));
   }
 
   /**
@@ -41,7 +41,7 @@ public class JETException extends CoreException
    */
   public JETException (String reason, Throwable exception) 
   {
-    super(new Status(IStatus.ERROR, CodeGenPlugin.getPlugin().getDescriptor().getUniqueIdentifier(), 0, reason, exception));
+    super(new Status(IStatus.ERROR, CodeGenPlugin.INSTANCE.getSymbolicName(), 0, reason, exception));
   }
 
   /**
@@ -51,7 +51,7 @@ public class JETException extends CoreException
   {
     super
       (new Status
-        (IStatus.ERROR, CodeGenPlugin.getPlugin().getDescriptor().getUniqueIdentifier(), 0, getMessage(exception), exception));
+        (IStatus.ERROR, CodeGenPlugin.INSTANCE.getSymbolicName(), 0, getMessage(exception), exception));
   }
 
   protected static String getMessage(Throwable exception)
