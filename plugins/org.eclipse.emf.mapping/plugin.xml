@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.2 2004/03/20 20:54:29 marcelop Exp $
+ * $Id: plugin.xml,v 1.3 2004/05/16 16:55:03 emerks Exp $
  */
 -->
 
@@ -28,9 +28,8 @@
    class="org.eclipse.emf.mapping.MappingPlugin$Implementation">
 
    <requires>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
+      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.emf.edit" export="true"/>
-      <import plugin="org.eclipse.core.resources" export="true"/>
    </requires>
 
    <runtime>
