@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.7 2004/11/16 19:09:35 emerks Exp $
+ * $Id: BasicEList.java,v 1.8 2004/11/16 19:12:26 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -1014,16 +1014,25 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
     }
   }
 
-  private synchronized void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException 
+  private synchronized void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
   {
     objectInputStream.defaultReadObject();
-
     int arrayLength = objectInputStream.readInt();
-    data = newData(arrayLength); 
-
-    for (int i = 0; i < size; ++i)
+    if (arrayLength > 0)
     {
-      didAdd(i, assign(i, objectInputStream.readObject()));
+      try
+      {
+        data = newData(arrayLength);
+      }
+      catch (Throwable exception)
+      {
+        data = new Object[arrayLength];
+      }
+
+      for (int i = 0; i < size; ++i)
+      {
+        didAdd(i, assign(i, objectInputStream.readObject()));
+      }
     }
   }
 
