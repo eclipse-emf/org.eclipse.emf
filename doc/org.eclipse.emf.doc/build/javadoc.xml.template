@@ -80,5 +80,18 @@
 @packagesets@
 				
 		</javadoc>
+		
+		<!-- make sure the doc-files are copied -->
+		<macrodef name="copyDocFiles">
+			<attribute name="pluginDir"/>
+			<sequential>
+				<copy todir="${destDir}" failonerror="false">
+				        <fileset dir="@{pluginDir}/src" includes="**/doc-files/**"/>
+				</copy>		
+			</sequential>
+		</macrodef>
+
+@copydocfiles@
+
 	</target>
 </project>
