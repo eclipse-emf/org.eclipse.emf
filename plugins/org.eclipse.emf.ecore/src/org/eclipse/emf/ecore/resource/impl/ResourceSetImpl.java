@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetImpl.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: ResourceSetImpl.java,v 1.3 2004/08/25 21:17:59 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -99,6 +99,12 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * @see #getPackageRegistry
    */
   protected EPackage.Registry packageRegistry;
+  
+  /**
+   * A map to cache the resource associated with a specific URI.
+   * @see #setURIResourceMap(Map)
+   */
+  protected Map uriResourceMap;
 
   /**
    * Creates an empty instance.
@@ -106,7 +112,26 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
   public ResourceSetImpl()
   {
   }
+  
+  public Map getURIResourceMap()
+  {
+    return uriResourceMap;
+  }
 
+
+  /**
+   * Sets the map used to cache the resource associated with a specific URI.
+   * This cache is only activated if the map is not null.  The map will be lazily 
+   * loaded by the {@link #getResource(URI, boolean) getResource} method.
+   * It is up to the client to clear the cache when it becomes invalid, e.g., 
+   * when the URI of a previously mapped resource is changed.
+   * @param uriResourceMap the new map or null.
+   */
+  public void setURIResourceMap(Map uriResourceMap)
+  {
+    this.uriResourceMap = uriResourceMap;
+  }
+  
   /*
    * Javadoc copied from interface.
    */
@@ -214,6 +239,26 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
   {
     resource.load(getLoadOptions());
   }
+  
+  /**
+   * Helper version of {@link #demandLoad(Resource)} that only throws runtime exceptions. 
+   * @param resource
+   */
+  protected void demandLoadHelper(Resource resource)
+  {
+    try
+    {
+      demandLoad(resource);
+    }
+    catch (Resource.IOWrappedException exception)
+    {
+      throw new WrappedException(exception.getWrappedException());
+    }
+    catch (IOException exception)
+    {
+      throw new WrappedException(exception);
+    }    
+  }
 
   /**
    * Returns a resolved resource available outside of the resource set.
@@ -236,6 +281,19 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    */
   public Resource getResource(URI uri, boolean loadOnDemand)
   {
+    if (getURIResourceMap() != null)
+    {
+      Resource resource = (Resource)getURIResourceMap().get(uri);
+      if (resource != null)
+      {
+        if (loadOnDemand && !resource.isLoaded())
+        {
+          demandLoadHelper(resource);
+        }        
+        return resource;
+      }
+    }
+    
     URIConverter theURIConverter = getURIConverter();
     URI normalizedURI = theURIConverter.normalize(uri);
     for (Iterator i = getResources().iterator(); i.hasNext(); )
@@ -245,27 +303,24 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
       {
         if (loadOnDemand && !resource.isLoaded())
         {
-          try
-          {
-            demandLoad(resource);
-          }
-          catch (Resource.IOWrappedException exception)
-          {
-            throw new WrappedException(exception.getWrappedException());
-          }
-          catch (IOException exception)
-          {
-            throw new WrappedException(exception);
-          }
+          demandLoadHelper(resource);
         }
-
+        
+        if (getURIResourceMap() != null)
+        {
+          getURIResourceMap().put(uri, resource);
+        } 
         return resource;
       }
     }
-
+    
     Resource delegatedResource = delegatedGetResource(uri, loadOnDemand);
     if (delegatedResource != null)
     {
+      if (getURIResourceMap() != null)
+      {
+        getURIResourceMap().put(uri, delegatedResource);
+      }
       return delegatedResource;
     }
 
@@ -276,18 +331,13 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
       {
         throw new RuntimeException("Cannot create a resource for '" + uri + "'; a registered resource factory is needed");
       }
-      try
+
+      demandLoadHelper(resource);
+
+      if (getURIResourceMap() != null)
       {
-        demandLoad(resource);
-      }
-      catch (Resource.IOWrappedException exception)
-      {
-        throw new WrappedException(exception.getWrappedException());
-      }
-      catch (IOException exception)
-      {
-        throw new WrappedException(exception);
-      }
+        getURIResourceMap().put(uri, resource);
+      }      
       return resource;
     }
 
@@ -429,6 +479,16 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
     protected NotificationChain inverseRemove(Object object, NotificationChain notifications)
     {
       Resource.Internal resource = (Resource.Internal)object;
+      if (getURIResourceMap() != null)
+      {
+        for (Iterator i = getURIResourceMap().values().iterator(); i.hasNext();)
+        {
+          if (resource == i.next())
+          {
+            i.remove();
+          }
+        }
+      }
       return resource.basicSetResourceSet(null, notifications);
     }
 
