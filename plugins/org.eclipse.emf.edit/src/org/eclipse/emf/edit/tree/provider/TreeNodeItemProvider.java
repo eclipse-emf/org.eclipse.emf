@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeItemProvider.java,v 1.2 2004/04/05 23:18:16 davidms Exp $
+ * $Id: TreeNodeItemProvider.java,v 1.3 2004/04/05 23:22:22 davidms Exp $
  */
 package org.eclipse.emf.edit.tree.provider;
 
@@ -25,7 +25,6 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
