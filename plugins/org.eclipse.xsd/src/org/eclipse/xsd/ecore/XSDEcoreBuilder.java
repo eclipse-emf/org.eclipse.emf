@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.11 2004/05/22 19:07:19 marcelop Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.12 2004/05/25 19:50:33 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -902,6 +902,19 @@ public class XSDEcoreBuilder extends MapBuilder
               if (group != null)
               {
                 extendedMetaData.setGroup(eStructuralFeature, group);
+                eStructuralFeature.setDerived(true);
+                eStructuralFeature.setTransient(true);
+                eStructuralFeature.setVolatile(true);
+              }
+              else if (isMixed)
+              {
+                eStructuralFeature.setDerived(true);
+                eStructuralFeature.setTransient(true);
+                eStructuralFeature.setVolatile(true);
+              }
+              else if (globalGroup != null)
+              {
+                extendedMetaData.setGroup(eStructuralFeature, globalGroup);
                 eStructuralFeature.setDerived(true);
                 eStructuralFeature.setTransient(true);
                 eStructuralFeature.setVolatile(true);
