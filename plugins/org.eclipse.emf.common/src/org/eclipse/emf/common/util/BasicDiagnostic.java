@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicDiagnostic.java,v 1.1 2004/04/02 21:43:06 emerks Exp $
+ * $Id: BasicDiagnostic.java,v 1.2 2004/07/27 13:41:27 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -279,6 +279,11 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     {
       return diagnostic.toString();
     }
+
+    public static IStatus create(Diagnostic diagnostic)
+    {
+      return new Wrapper(diagnostic);
+    }
   }
 
   /**
@@ -286,7 +291,7 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
    */
   public static IStatus toIStatus(Diagnostic diagnostic)
   {
-    return new Wrapper(diagnostic);
+    return Wrapper.create(diagnostic);
   }
 
   public String toString()
