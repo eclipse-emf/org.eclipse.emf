@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsPackageImpl.java,v 1.1 2005/02/10 22:11:11 marcelop Exp $
+ * $Id: ElementsPackageImpl.java,v 1.2 2005/02/23 04:25:24 marcelop Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -126,7 +126,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     XMLTypePackageImpl.init();
 
     // Obtain or create and register interdependencies
-    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackageImpl.eINSTANCE);
+    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackage.eINSTANCE);
 
     // Create package meta-data objects
     theElementsPackage.createPackageContents();
