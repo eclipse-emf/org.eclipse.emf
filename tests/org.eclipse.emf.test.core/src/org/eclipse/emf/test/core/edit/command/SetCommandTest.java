@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommandTest.java,v 1.1 2004/08/22 23:37:18 davidms Exp $
+ * $Id: SetCommandTest.java,v 1.2 2004/09/24 14:10:29 davidms Exp $
  */
 package org.eclipse.emf.test.core.edit.command;
 
@@ -20,6 +20,7 @@ import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -63,6 +64,7 @@ public class SetCommandTest extends TestCase
     suite.addTest(new SetCommandTest("testManyToOne"));
     suite.addTest(new SetCommandTest("testOneToOneSimple"));
     suite.addTest(new SetCommandTest("testOneToOne"));
+    suite.addTest(new SetCommandTest("testManyStayEmpty"));
     return suite;
   }
 
@@ -517,6 +519,31 @@ public class SetCommandTest extends TestCase
     assertEquals(a0, b1.getA());
     assertNull(a1.getB());
     assertNull(b0.getA());
+  }
+
+  public void testManyStayEmpty()
+  {
+    B b = refFactory.createB();
+
+    Command set = SetCommand.create(editingDomain, b, refPackage.getB_D(), new BasicEList());
+
+    assertTrue(b.getD().isEmpty());
+    assertTrue(set.canExecute());
+
+    CommandStack stack = editingDomain.getCommandStack();
+    stack.execute(set);
+
+    assertTrue(b.getD().isEmpty());
+    assertTrue(stack.canUndo());
+
+    stack.undo();
+
+    assertTrue(b.getD().isEmpty());
+    assertTrue(stack.canRedo());
+
+    stack.redo();
+
+    assertTrue(b.getD().isEmpty());
   }
 
   /**
