@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.13 2004/05/27 11:27:08 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.14 2004/05/28 19:22:51 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -986,6 +986,7 @@ public class XSDEcoreBuilder extends MapBuilder
                 if (needsHolder)
                 {
                   ((EReference)eStructuralFeature).setUnsettable(false);
+                  ((EReference)eStructuralFeature).setResolveProxies(false);
                 }
               }
               else
@@ -1259,6 +1260,7 @@ public class XSDEcoreBuilder extends MapBuilder
         eReference.setLowerBound(0);
         eReference.setUpperBound(-1);
         eReference.setContainment(true);
+        eReference.setResolveProxies(false);
         eReference.setTransient(true);
         eClass.getEStructuralFeatures().add(eReference);
         extendedMetaData.setFeatureKind(eReference, ExtendedMetaData.ATTRIBUTE_FEATURE);
@@ -1287,6 +1289,7 @@ public class XSDEcoreBuilder extends MapBuilder
         if (xsdComponent instanceof XSDParticle)
         {
           eReference.setContainment(true);
+          eReference.setResolveProxies(false);
 
           XSDParticle xsdParticle = (XSDParticle)xsdComponent;
 
@@ -1340,6 +1343,7 @@ public class XSDEcoreBuilder extends MapBuilder
         {
           XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)xsdComponent;
           eReference.setContainment(true);
+          eReference.setResolveProxies(false);
           extendedMetaData.setFeatureKind(eReference, ExtendedMetaData.ELEMENT_FEATURE);
           extendedMetaData.setName(eReference, xsdElementDeclaration.getName());
           extendedMetaData.setNamespace(eReference, xsdElementDeclaration.getTargetNamespace());
