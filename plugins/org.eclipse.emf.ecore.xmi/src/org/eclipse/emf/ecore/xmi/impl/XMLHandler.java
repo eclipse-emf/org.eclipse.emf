@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.13 2004/06/19 20:49:27 emerks Exp $
+ * $Id: XMLHandler.java,v 1.14 2004/08/06 20:07:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.ecore.xmi.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -1566,7 +1567,20 @@ public abstract class XMLHandler
       String fragment = uri.fragment();
       Resource resource = null;
 
-      if (resourceSet != null)
+      if ("java".equalsIgnoreCase(uri.scheme()))
+      {
+        try
+        {
+          String className = uri.authority();
+          Class javaClass = Class.forName(className);
+          Field field = javaClass.getField("eINSTANCE");
+          resource = ((EPackage)field.get(null)).eResource();
+        }
+        catch (Exception exception)
+        {
+        }
+      }
+      else if (resourceSet != null)
       {
         URI trimmedURI = uri.trimFragment();
         resource = resourceSet.getResource(trimmedURI, false);
