@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.4 2004/05/28 19:32:38 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.5 2004/05/29 16:24:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -742,8 +742,13 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
     }
     if (isGenerated)
     {
-      ((EClassifierImpl)o).setGeneratedInstanceClass(true);
+      setGeneratedClassName(o);
     }
+  }
+
+  protected void setGeneratedClassName(EClassifier eClassifier)
+  {
+    // EATM  Disable to run tests ((EClassifierImpl)eClassifier).setGeneratedInstanceClass(true);
   }
 
   protected static final boolean IS_DERIVED = true;
@@ -1206,7 +1211,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
           if (baseType instanceof EEnum)
           {
             eClassifier.setInstanceClass(baseType.getInstanceClass());
-            ((EClassifierImpl)eClassifier).setGeneratedInstanceClass(true);
+            setGeneratedClassName(eClassifier);
           }
         }
       }
@@ -1221,7 +1226,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
       int i = className.lastIndexOf('.', className.lastIndexOf('.') - 1);
       className = i == -1 ? eClassifier.getName() : className.substring(0, i + 1) + eClassifier.getName();
       eClassifier.setInstanceClassName(className);
-      ((EClassifierImpl)eClassifier).setGeneratedInstanceClass(true);
+      setGeneratedClassName(eClassifier);
     }
   }
 
