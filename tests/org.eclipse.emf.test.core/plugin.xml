@@ -16,14 +16,14 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.9 2004/08/22 23:35:30 davidms Exp $
+ * $Id: plugin.xml,v 1.10 2004/09/24 20:26:25 davidms Exp $
  */
 -->
 
 <plugin
    id="org.eclipse.emf.test.core"
    name="Test for EMF Core functions"
-   version="2.0.1"
+   version="2.1.0"
    provider-name="Eclipse.org"
    class="org.eclipse.emf.test.core.EMFTestCorePlugin">
 
