@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.5 2004/06/09 19:40:19 marcelop Exp $
+ * $Id: ValidateAction.java,v 1.6 2004/06/14 23:50:19 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +35,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -43,7 +45,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -68,9 +70,14 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 /**
  */
 public class ValidateAction extends Action implements ISelectionChangedListener 
-{
-  public static class MarkerUtil
+{  
+  public static class EclipseResourcesUtil
   {
+    public IRunnableWithProgress getWorkspaceModifyOperation(IRunnableWithProgress runnableWithProgress)
+    {
+      return new WorkspaceModifyDelegatingOperation(runnableWithProgress);
+    }
+    
     public void createMarkers(IFile file, Diagnostic diagnostic)
     {
       EObject eObject = null;
@@ -153,7 +160,9 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   protected ISelectionProvider selectionProvider;
   protected List selectedObjects;
   protected EditingDomain domain;
-  protected MarkerUtil markerUtil;
+  protected EclipseResourcesUtil eclipseResourcesUtil = 
+    Platform.getBundle("org.eclipse.core.resources") != null? 
+      new EclipseResourcesUtil() : null;
 
   /**
    * This contructs an instance.
@@ -167,53 +176,54 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   public void run()
   {
     final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-
-    WorkspaceModifyOperation operation =
-      new WorkspaceModifyOperation()
+    IRunnableWithProgress runnableWithProgress = new IRunnableWithProgress()
+    {
+      public void run(final IProgressMonitor progressMonitor) throws InvocationTargetException, InterruptedException
       {
-        // This is the method that gets invoked when the operation runs.
-        //
-        protected void execute(final IProgressMonitor progressMonitor) throws CoreException
+        try
         {
-          try
-          {
-            final Diagnostic diagnostic = validate(progressMonitor);
-            shell.getDisplay().asyncExec 
-              (new Runnable()
+          final Diagnostic diagnostic = validate(progressMonitor);
+          shell.getDisplay().asyncExec 
+            (new Runnable()
+             {
+               public void run()
                {
-                 public void run()
+                 if (progressMonitor.isCanceled())
                  {
-                   if (progressMonitor.isCanceled())
-                   {
-                     handleDiagnostic(Diagnostic.OK_INSTANCE);
-                   }
-                   else
-                   {
-                     handleDiagnostic(diagnostic);
-                   }
+                   handleDiagnostic(Diagnostic.OK_INSTANCE);
                  }
-               });
-          }
-          finally
-          {
-            progressMonitor.done();
-          }
+                 else
+                 {
+                   handleDiagnostic(diagnostic);
+                 }
+               }
+             });
         }
-      };
+        finally
+        {
+          progressMonitor.done();
+        }    
+      }
+    };
+    
+    if(eclipseResourcesUtil != null)
+    {
+      runnableWithProgress = eclipseResourcesUtil.getWorkspaceModifyOperation(runnableWithProgress);
+    }
 
     try
     {
       // This runs the operation, and shows progress.
       // (It appears to be a bad thing to fork this onto another thread.)
       //
-      new ProgressMonitorDialog(shell).run(true, true, operation);
+      new ProgressMonitorDialog(shell).run(true, true, runnableWithProgress);
     }
     catch (Exception exception)
     {
       EMFEditUIPlugin.INSTANCE.log(exception);
     }
   }
-
+  
   /**
    * This simply execute the command.
    */
@@ -332,11 +342,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   
   protected void createMarkers(IFile file, Diagnostic diagnostic)
   {
-    if(markerUtil == null)
-    {
-      markerUtil = new MarkerUtil();
-    }
-    markerUtil.createMarkers(file, diagnostic);
+    eclipseResourcesUtil.createMarkers(file, diagnostic);
   }
 
   protected IFile getFile()
