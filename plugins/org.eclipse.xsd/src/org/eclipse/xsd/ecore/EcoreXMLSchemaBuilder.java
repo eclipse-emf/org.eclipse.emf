@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreXMLSchemaBuilder.java,v 1.3 2004/10/29 19:31:10 marcelop Exp $
+ * $Id: EcoreXMLSchemaBuilder.java,v 1.4 2005/01/17 22:40:18 elena Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -384,10 +384,13 @@ public class EcoreXMLSchemaBuilder extends MapBuilder
       List allSupers = ((EClass)superClasses.get(0)).getEAllSuperTypes();
       Set allSuperClasses = new HashSet();
       allSuperClasses.addAll(allSupers);
+      allSuperClasses.add(superClasses.get(0));
 
       for (int i = 1; i < superClasses.size(); i++)
       {
-        features.addAll(getAllFeatures((EClass)superClasses.get(i), allSuperClasses));
+        EClass superClass = (EClass)superClasses.get(i);
+        if (!allSuperClasses.contains(superClass))
+          features.addAll(getAllFeatures(superClass, allSuperClasses));
       }
     }
 
