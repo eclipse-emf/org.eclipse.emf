@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.5 2004/11/03 16:07:41 marcelop Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.6 2004/12/09 06:49:45 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -283,7 +283,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         if (reverse || featureChange.isSet())
         {
           EStructuralFeature feature = featureChange.getFeature();
-          if (feature.isMany() &&
+          if (feature != null && feature.isMany() &&
               feature instanceof EReference &&
               (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
           {
