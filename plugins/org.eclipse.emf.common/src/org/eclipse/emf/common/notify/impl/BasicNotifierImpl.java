@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicNotifierImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: BasicNotifierImpl.java,v 1.2 2004/10/04 21:51:28 davidms Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -86,7 +86,11 @@ public class BasicNotifierImpl implements Notifier
           };
         adapter.notifyChanged(notification);
       }
-      if (adapter.getTarget() == notifier) 
+      if (adapter instanceof Adapter.Internal)
+      {
+        ((Adapter.Internal)adapter).unsetTarget(notifier);
+      }
+      else if (adapter.getTarget() == notifier) 
       {
         adapter.setTarget(null);
       }
