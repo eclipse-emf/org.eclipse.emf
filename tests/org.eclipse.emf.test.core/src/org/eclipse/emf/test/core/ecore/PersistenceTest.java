@@ -12,11 +12,14 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.2 2005/01/05 20:42:49 marcelop Exp $
+ * $Id: PersistenceTest.java,v 1.3 2005/01/27 19:58:34 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.Test;
@@ -26,6 +29,7 @@ import junit.framework.TestSuite;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -37,6 +41,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.test.core.TestUtil;
 
 public class PersistenceTest extends TestCase
@@ -64,6 +69,7 @@ public class PersistenceTest extends TestCase
     ts.addTest(new PersistenceTest("testOneTextAndOneZipFiles"));
     ts.addTest(new PersistenceTest("testTwoZipFiles"));
     ts.addTest(new PersistenceTest("testTwoTextFiles"));
+    ts.addTest(new PersistenceTest("testEDataType"));
     return ts;
   }
   
@@ -273,5 +279,54 @@ public class PersistenceTest extends TestCase
     assertEquals(mary.eGet(name), person.eGet(name));
     assertEquals(john.eGet(name), ((EObject)person.eGet(father)).eGet(name));
     assertTrue(((List)person.eGet(cars)).isEmpty());
-  }  
+  }
+  
+  public void testEDataType() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("localpack");
+    pack.setNsPrefix("localpack");
+    pack.setNsURI("http://mylocalpack");
+    EPackage.Registry.INSTANCE.put(pack.getNsURI(), pack);
+        
+    EDataType date = EcoreFactory.eINSTANCE.createEDataType();
+    pack.getEClassifiers().add(date);
+    date.setName("Date");
+    date.setInstanceClass(Date.class);
+    date.setSerializable(true);
+
+    EDataType foo = EcoreFactory.eINSTANCE.createEDataType();
+    pack.getEClassifiers().add(foo);
+    foo.setName("Foo");
+    foo.setInstanceClassName("org.Foo");
+    foo.setSerializable(true);
+    
+    EClass person  = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(person);
+    person.setName("Person");
+    
+    EAttribute birthday = EcoreFactory.eINSTANCE.createEAttribute();
+    person.getEStructuralFeatures().add(birthday);
+    birthday.setName("birthday");
+    birthday.setEType(date);
+
+    long dateValue = System.currentTimeMillis();
+    EObject john = pack.getEFactoryInstance().create(person);
+    john.eSet(birthday, new Date(dateValue));
+    
+    XMIResource xmiResource = new XMIResourceImpl();
+    xmiResource.setURI(URI.createFileURI("foo.xmi"));
+    xmiResource.getContents().add(john);
+    
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    xmiResource.save(baos, null);
+    
+    XMIResource loadedXMIResource = new XMIResourceImpl();
+    loadedXMIResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
+    assertEquals(1, loadedXMIResource.getContents().size());
+    
+    EObject loadedJohn = (EObject)loadedXMIResource.getContents().get(0);
+    assertTrue(loadedJohn.eGet(birthday) instanceof Date);
+    assertEquals(dateValue, ((Date)loadedJohn.eGet(birthday)).getTime());
+  }
 }
