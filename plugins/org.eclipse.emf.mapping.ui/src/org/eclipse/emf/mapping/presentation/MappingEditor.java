@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingEditor.java,v 1.2 2004/03/08 20:14:06 emerks Exp $
+ * $Id: MappingEditor.java,v 1.3 2004/05/16 16:52:12 emerks Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -1950,7 +1950,7 @@ public abstract class MappingEditor
         mappingRoot.eResource().setURI(URI.createURI(getURIFromFile(file)));
         modelFile = new FileEditorInput(file);
         setInput(modelFile);
-        setTitle(file.getName());
+        setPartName(file.getName());
         doSaveHelper(file);
       }
     }
@@ -1970,7 +1970,7 @@ public abstract class MappingEditor
 
       site.getPage().addPartListener(partListener);
 
-      setTitle(((IFileEditorInput)editorInput).getFile().getName());
+      setPartName(((IFileEditorInput)editorInput).getFile().getName());
 
       // Create the mapping domain with a special command stack.
       // 
