@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CompoundCommand.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: CompoundCommand.java,v 1.2 2004/03/31 16:59:04 davidms Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -207,7 +207,28 @@ public class CompoundCommand extends AbstractCommand
   {
     return commandList.isEmpty(); 
   }
-  
+
+  /**
+   * Returns an unmodifiable view of the commands in the list.
+   * @return an unmodifiable view of the commands in the list.
+   */
+  public List getCommandList()
+  {
+    return Collections.unmodifiableList(commandList);
+  }
+
+  /**
+   * Returns the index of the command whose result and affected objects are forwarded.
+   * Negative values have special meaning, as defined by the static constants.
+   * @return the index of the command whose result and affected objects are forwarded.
+   * @see #LAST_COMMAND_ALL
+   * @see #MERGE_COMMAND_ALL
+   */
+  public int getResultIndex()
+  {
+    return resultIndex;
+  }
+
   /**
    * Returns whether all the commands can execute so that {@link #isExecutable} can be cached.
    * An empty command list causes <code>false</code> to be returned.
