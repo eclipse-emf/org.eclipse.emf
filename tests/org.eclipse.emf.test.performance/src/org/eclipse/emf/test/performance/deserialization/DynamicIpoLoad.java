@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpoLoad.java,v 1.4 2005/02/17 16:26:22 bportier Exp $
+ * $Id: DynamicIpoLoad.java,v 1.5 2005/02/17 16:44:48 bportier Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -56,6 +56,8 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
 
   final static int WARMUP = 3000;
 
+  static URI XML_INSTANCE_URI;
+
   XSDEcoreBuilder xsdEcoreBuilder;
 
   Resource resource;
@@ -88,6 +90,7 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
     super.setUp();
 
     HashMap warmupOptions = new HashMap();
+    XML_INSTANCE_URI = URI.createURI(BASE_XSD_URI + "ipo.xml");
 
     rs = new ResourceSetImpl();
     ExtendedMetaData metaData = registerModel(rs);
@@ -119,11 +122,6 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
     }
 
     return new BasicExtendedMetaData(packageRegistry);
-  }
-
-  protected URI getXMLInstanceURI()
-  {
-    return URI.createURI(BASE_XSD_URI + "ipo.xml");
   }
 
   protected URI getXSDURI()
@@ -183,7 +181,7 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
     for (int i = 0; i < iter; i++)
     {
       rs.getResources().clear();
-      resource = rs.createResource(getXMLInstanceURI());
+      resource = rs.createResource(XML_INSTANCE_URI);
       resource.load(loadOptions);
     }
   }
