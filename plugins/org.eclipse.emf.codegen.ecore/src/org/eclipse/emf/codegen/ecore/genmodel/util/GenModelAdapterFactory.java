@@ -12,23 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenModelAdapterFactory.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenModelAdapterFactory.java,v 1.2 2004/03/18 18:11:59 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
 
-import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
-import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
-import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
-import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
-import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
-import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
-import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
-import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
-import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
+import org.eclipse.emf.codegen.ecore.genmodel.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
