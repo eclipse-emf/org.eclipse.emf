@@ -6,13 +6,13 @@
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.23 2005/04/01 01:54:46 nickb Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.24 2005/04/01 17:59:25 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -46,23 +46,33 @@ import commonj.sdo.Property;
 
 public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 {
-  protected static final int REPETITIONS_5 = 500;
+  protected static int REPETITIONS_2 = 2;
 
-  protected static final int REPETITIONS_10 = 1000;
+  //protected static final int REPETITIONS_5 = 5; // no longer used
 
-  protected static final int ITERATIONS_300 = 300;
+  protected static final int REPETITIONS_10 = 10;
+  protected static final int REPETITIONS_10K = 10000;
 
-  protected static final int ITERATIONS_2_5K = 2500;
+  protected static final int ITERATIONS_300 =     240; //300;
 
-  protected static final int ITERATIONS_5K = 5000;
+  protected static final int ITERATIONS_2_5K =   2000; //2500;
 
-  protected static final int ITERATIONS_10K = 10000;
+  protected static final int ITERATIONS_5K =     4000; //5000;
 
-  protected static final int ITERATIONS_50K = 50000;
+  protected static final int ITERATIONS_10K =    8000; //10000;
 
-  protected static final int ITERATIONS_100K = 100000;
+  protected static final int ITERATIONS_50K =   25000; //50000;
 
-  protected static final int ITERATIONS_200K = 200000;
+  protected static final int ITERATIONS_100K =  40000; //100000;
+
+  protected static final int ITERATIONS_200K = 115000; //200000;
+
+  protected static final int ITERATIONS_1_2M = 960000;
+  protected static final int ITERATIONS_500K = 400000;
+  protected static final int ITERATIONS_400K = 320000;
+  protected static final int ITERATIONS_300K = 240000;
+  protected static final int ITERATIONS_120K =  96000;
+  protected static final int ITERATIONS_80K  =  64000;
 
   protected static final String DATA = TestUtil.getPluginDirectory() + "/data/";
 
@@ -156,35 +166,50 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
     TestSuite testSuite = new TestSuite();
 
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectWithESet").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+//    testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectWithESet").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+//
+//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectByProperty").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+//    testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
+//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
+//    testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+//
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
 
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectByProperty").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
 
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3000).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(2000).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(2000).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByName").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
 
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(2000).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(2000).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(2000).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10K));
 
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByName").setWarmUp(1000).setRepetitions(REPETITIONS_10));
+	//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3000).setRepetitions(REPETITIONS_5));
+	//    testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
+	//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+	//    testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
+	//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(2000).setRepetitions(REPETITIONS_10));
+	//
+	//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
+	//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(2000).setRepetitions(REPETITIONS_5));
+	//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(2000).setRepetitions(REPETITIONS_10));
+	//
+	//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByName").setWarmUp(1000).setRepetitions(REPETITIONS_10));
 
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(3000).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(3500).setRepetitions(REPETITIONS_10));
+	//	  testSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+	//    testSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(3000).setRepetitions(REPETITIONS_10));
 
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(500).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByPath").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByPath").setWarmUp(1000).setRepetitions(REPETITIONS_10));
+//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
+//    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
+//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
+//    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+//    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByPath").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+//    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByPath").setWarmUp(1000).setRepetitions(REPETITIONS_10));
 
     return testSuite;
   }
@@ -240,7 +265,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   protected void initNewValues()
   {
     // create new addresses used in set methods.
-    // because ipo only has uni-directional references, the DO values to set to can be static DOs. (no difference with dynamic DOs since uni-directional). 
+    // because ipo only has uni-directional references, the DO values to set to can be static DOs. (no difference with dynamic DOs since uni-directional).
 
     USAddress address1 = ipoFactoryInstance.createUSAddress();
     address1.setCity("Toronto");
@@ -287,7 +312,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     EStructuralFeature usPriceFeat = model.getUsPriceFeat();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < ITERATIONS_1_2M; i++)
     {
       // to use objectValue inside the loop.
       if (objectValue != this)
@@ -310,7 +335,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     EStructuralFeature usPriceFeat = model.getUsPriceFeat();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_50K; i++)
+    for (int i = 0; i < ITERATIONS_500K; i++)
     {
       itemElement.eSet(quantityFeat, quantity0);
       // to alternate the feature to set.
@@ -330,7 +355,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property usPriceProp = model.getUsPriceProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < ITERATIONS_300K; i++)
     {
       // to use objectValue inside the loop.
       if (objectValue != this)
@@ -353,7 +378,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property usPriceProp = model.getUsPriceProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_50K; i++)
+    for (int i = 0; i < ITERATIONS_300K; i++)
     {
       itemElement.set(quantityProp, quantity0);
       // to alternate the feature to set.
@@ -371,7 +396,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Object objectValue = this.objectValue;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < ITERATIONS_200K; i++)
     {
       // to use objectValue inside the loop.
       if (objectValue != this)
@@ -391,7 +416,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigDecimal usPrice1 = this.usPrice1;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_50K; i++)
+    for (int i = 0; i < ITERATIONS_200K; i++)
     {
       itemElement.set(1, quantity0);
       // to alternate the feature to set.
@@ -411,12 +436,12 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property quantityProp = model.getQuantityProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < ITERATIONS_400K; i++)
     {
       // to use quantityValue inside the loop.
       if (quantityValue != quantity0)
       {
-        // TODO ideally, we'd want to call getBigInteger for different features. 
+        // TODO ideally, we'd want to call getBigInteger for different features.
         quantityValue = itemElement.getBigInteger(quantityProp);
       }
     }
@@ -431,7 +456,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property quantityProp = model.getQuantityProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < ITERATIONS_120K; i++)
     {
       itemElement.setBigInteger(quantityProp, quantity0);
       // TODO ideally, we'd want to alternate the feature to set.
@@ -466,7 +491,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigInteger quantity1 = this.quantity1;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < ITERATIONS_120K; i++)
     {
       itemElement.setBigInteger(1, quantity0);
       // TODO ideally, we'd want to alternate the feature to set.
@@ -482,7 +507,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigInteger quantity0 = this.quantity0;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_2_5K; i++)
+    for (int i = 0; i < ITERATIONS_5K; i++)
     {
       // to use quantityValue inside the loop.
       if (bigIntegerValue != quantity0)
@@ -507,7 +532,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
       // to use usPriceValue inside the loop.
       if (usPriceValue != usPrice0)
       {
-        // TODO ideally, we'd want to call getBigDecimal for different features. 
+        // TODO ideally, we'd want to call getBigDecimal for different features.
         usPriceValue = itemElement.getBigDecimal(usPriceProp);
       }
     }
@@ -540,7 +565,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigDecimal usPrice0 = this.usPrice0;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_5K; i++)
+    for (int i = 0; i < ITERATIONS_10K; i++)
     {
       // to use usPriceValue inside the loop.
       if (usPriceValue != usPrice0)
@@ -559,7 +584,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     String partNum0 = this.partNum0;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_50K; i++)
+    for (int i = 0; i < ITERATIONS_80K; i++)
     {
       // to use stringValue inside the loop.
       if (stringValue != partNum0)
@@ -602,7 +627,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property billToProp = model.getBillToProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_5K; i++)
+    for (int i = 0; i < ITERATIONS_10K; i++)
     {
       po.setDataObject(shipToProp, newShipToAddress0);
       // to alternate the feature to set.
