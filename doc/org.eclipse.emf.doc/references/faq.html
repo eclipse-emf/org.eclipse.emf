@@ -33,12 +33,15 @@ width="100%" style="border-collapse: collapse"
 bordercolor="#111111">
 <tbody>
 <tr>
-<td align="Left" valign="Top" colspan="2" bgcolor="#0070A0"><b>EMF
+<td align="Left" valign="Top" colspan="2" bgcolor="#0070A0"><b style="color:white">EMF
 Developer FAQ</b></td>
 </tr>
 
 <tr>
-<td>Last Modified: September 24<sup>th</sup>, 2002</td>
+<td>Last Modified - Download & Installation section: May 17<sup>th</sup>, 2004</td>
+</tr>
+<tr>
+<td>Last Modified - (all other content): September 24<sup>th</sup>, 2002</td>
 </tr>
 </tbody>
 </table>
@@ -51,7 +54,7 @@ Developer FAQ</b></td>
 width="100%" bgcolor="#cccccc">
 <tbody>
 <tr>
-<td bgcolor="#777777"><b><a id="toc" name="toc">Table of
+<td bgcolor="#777777"><b style="color:white"><a id="toc" name="toc">Table of
 contents:</a></b> </td>
 </tr>
 </tbody>
@@ -71,6 +74,10 @@ trying to show?</a></li>
 
 <li><a href="#general_realmodels">Are there any "real" example EMF
 models in Eclipse?</a></li>
+
+<li><a href="#general_library_xsd">My XSD file reports no errors, but I can't finish the New EMF Project wizard!</a></li>
+<li><a href="#general_library_xsd">What does "Specify a valid XML Schema and try loading again" mean?</a></li>
+
 </ol>
 
 <br />
@@ -79,10 +86,16 @@ models in Eclipse?</a></li>
 <li><b><a href="#install">Download &amp; Installation:</a></b> 
 
 <ol>
-<li><a href="#install_howto">How do I Install EMF?</a></li>
+<li><a href="#install_howto2x">How do I Install EMF 2.x (for Eclipse 3.0M7 or newer)?</a></li>
+<li><a href="#install_howto1x">How do I Install EMF 2.x (for Eclipse 3.0M6 or earlier)?</a></li>
+<li><a href="#install_howto1x">How do I Install EMF 1.x (for Eclipse 2.x)?</a></li>
 
-<li><a href="#install_um">Does EMF have a site that I can use with
-the Eclipse Update Manager?</a></li>
+<li><a href="#install_xerces">I plan to use XML Schema (XSD) with EMF. Are there any bugs with that?</a></li>
+<li><a href="#install_xerces">I get a NullPointerException when loading an XSD Model! Is there a fix or workaround?</a></li>
+<li><a href="#install_xerces">Is there a bug in the Crimson DOM implementation of the SUN JDK 1.4?</a></li>
+<li><a href="#install_xerces">I just downloaded "library.xsd" and I get the error message "Specify a valid XML Schema and try loading again"!</a></li>
+
+<li><a href="#install_um">Does EMF have a site that I can use with the Eclipse Update Manager?</a></li>
 </ol>
 
 <br />
@@ -118,6 +131,12 @@ JMI&trade;?</a></li>
 <li><b><a href="#developer">Developer:</a></b> 
 
 <ol>
+
+<li><a href="#dev_xerces">I plan to use XML Schema (XSD) with EMF. Are there any bugs with that?</a></li>
+<li><a href="#dev_xerces">I get a NullPointerException when loading an XSD Model! Is there a fix or workaround?</a></li>
+<li><a href="#dev_xerces">Is there a bug in the Crimson DOM implementation of the SUN JDK 1.4?</a></li>
+<li><a href="#dev_xerces">I just downloaded "library.xsd" and I get the error message "Specify a valid XML Schema and try loading again"!</a></li>
+
 <li><a href="#dev_generate">Does it matter what node in the
 genmodel tree I invoke Generate from?</a></li>
 
@@ -143,7 +162,7 @@ style="border-collapse: collapse" bordercolor="#111111"
 width="100%">
 <tr>
 <td bgcolor="#777777"><b><a id="general"
-name="general">General</a></b></td>
+name="general" style="color:white">General</a></b></td>
 <td bgcolor="#777777"><a href="#toc"><img
 src="http://www.eclipse.org/eclipse/faq/up_nav.gif" width="16"
 height="16" alt="Goto Top" border="0" />top</a> </td>
@@ -241,12 +260,54 @@ editor built on it.<br />
 <br />
 </p>
 </li>
+
+<li><b><a id="general_library_xsd" name="general_library_xsd"></a>My XSD file reports no errors, but I can't finish the New EMF Project wizard. Instead, I get "Specify a valid XML Schema and try loading again". Any idea why EMF refuses to accept my schema file?</b> 
+
+
+<p>Yes! The following problem has been reported many times in the org.eclipse.emf newsgroup:<br><br>
+
+<b><a style="background-color:yellow;color:black" target="_xml" href="http://download.eclipse.org/tools/emf/scripts/downloads-xerces.php">Click here if you load or import model(s) from XML Schema.</a></b> 
+				<br>The Crimson DOM implementation in (some versions of) the Sun JDK has a bug in the implementation of 
+				<tt>hasAttributeNS</tt>. To resolve this, <a target="_xml" href="http://download.eclipse.org/tools/emf/scripts/downloads-xerces.php">click here for details</a>.<br>
+				This bug can be seen, <i>when importing a model from XML Schema</i>, as either:
+					<ul>
+					<li>a null pointer exception, or
+					<li>the error message "Specify a valid XML Schema and try loading again".
+					</ul>
+<br />
+</p>
+
+		<blockquote><tt>
+		I was trying to generate an EMF model from an XML Schema (.xsd) file
+		and I was essentially following the tutorial with the promising name
+		"Generating an EMF Model using XML Schema" (see
+		<a target="_new" href="http://download.eclipse.org/tools/emf/scripts/docs.php?doc=tutorials/xlibmod/xlibmod.html">http://download.eclipse.org/tools/emf/scripts/docs.php?doc=tutorials/xlibmod/xlibmod.html</a>).
+		<br><br>
+		But alas I am already stuck in step 1:
+		File => New => Other => Eclipse Modeling Framework => EMF Project =>
+		(entered a name and directory) => Next => (*) Load from XML Schema =>
+		Next => [Browse File System] & picked the schema file =>[OK]
+		at which point "New Project" dialogue gets a red X and an error
+		message at the top telling me "Specify a valid XML Schema and try
+		loading again".
+		<br><br>
+		The Next and Finish buttons are grayed out at this point.
+		<br><br>
+		I have validated that schema file using misc. schema validators, all
+		of which reported "no errors", so I would say, that the schema file
+		should be OK and contains a valid schema.
+		<br><br>
+		Why does EMF refuse to accept my schema file?
+		</tt></blockquote>
+</li>
+
+
 </ol>
 </td>
 </tr>
 
 <tr>
-<td bgcolor="#777777"><b><a id="install" name="install">Download
+<td bgcolor="#777777"><b><a style="color:white" id="install" name="install">Download
 and Install</a></b></td>
 <td bgcolor="#777777"><a href="#toc"><img
 src="http://www.eclipse.org/eclipse/faq/up_nav.gif" width="16"
@@ -256,14 +317,44 @@ height="16" alt="Goto Top" border="0" />top</a> </td>
 <tr>
 <td colspan="2">
 <ol>
-<li><b><a id="install_howto" name="install_howto">How do I Install
-EMF?</a></b> 
+<li><b><a id="install_howto2x" name="install_howto2x">How do I Install EMF 2.x (for Eclipse 3.0M7 or newer)?</a></b> 
 
 <p><a
-href="http://dev.eclipse.org/viewcvs/index.cgi/~checkout~/emf-home/downloads/dl.html?cvsroot=Tools_Project">
+href="http://download.eclipse.org/tools/emf/scripts/downloads.php">
+Download</a> the version of EMF that <b>matches</b> your
+installation of Eclipse.&nbsp; Exit Eclipse, and Unzip into the
+eclipse directory.<br>See also <a href="http://download.eclipse.org/tools/emf/scripts/docs.php?doc=docs/cvsdoc/emfcvsug.html">Getting EMF, XSD and SDO from CVS</a>.<br />
+<br />
+</p>
+</li>
+
+<li><b><a id="install_howto1x" name="install_howto1x">How do I Install EMF 1.x for Eclipse 2.x, or EMF 2.x for Eclipse 3.0M6 or earlier?</a></b> 
+
+<p><a
+href="http://dev.eclipse.org/viewcvs/indextools.cgi/~checkout~/emf-home/downloads/dl.html">
 Download</a> the version of EMF that <b>matches</b> your
 installation of Eclipse.&nbsp; Exit Eclipse, and Unzip into the
 eclipse directory.<br />
+<br />
+</p>
+</li>
+
+<li>
+	<b><a id="install_xerces" name="install_xerces">I plan to use XML Schema (XSD) with EMF. Are there any bugs with that?</a></b><br>
+	<b>I get a NullPointerException when loading an XSD Model! Is there a fix or workaround?</b></br>
+	<b>Is there a bug in the Crimson DOM implementation of the SUN JDK 1.4?</b></br>
+	<b>I just downloaded "library.xsd" and I get the error message "Specify a valid XML Schema and try loading again"!</b></br>
+
+<p>Yes! The following problem has been reported many times in the org.eclipse.emf newsgroup:<br><br>
+
+<b><a style="background-color:yellow;color:black" target="_xml" href="http://download.eclipse.org/tools/emf/scripts/downloads-xerces.php">Click here if you load or import model(s) from XML Schema.</a></b> 
+				<br>The Crimson DOM implementation in (some versions of) the Sun JDK has a bug in the implementation of 
+				<tt>hasAttributeNS</tt>. To resolve this, <a target="_xml" href="http://download.eclipse.org/tools/emf/scripts/downloads-xerces.php">click here for details</a>.<br>
+				This bug can be seen, <i>when importing a model from XML Schema</i>, as either:
+					<ul>
+					<li>a null pointer exception, or
+					<li>the error message "Specify a valid XML Schema and try loading again".
+					</ul>
 <br />
 </p>
 </li>
@@ -272,7 +363,11 @@ eclipse directory.<br />
 that I can use with the Eclipse Update Manager?</a></b> 
 
 <p>No, EMF does not have a site that you can use with the Eclipse
-Update Manager yet.<br />
+Update Manager yet. There are two reasons for this:
+<ol>
+	<li>You cannot upgrade from EMF 1.x to EMF 2.x, since you must also upgrade versions of Eclipse (2.x -> 3.0).</li>
+	<li>If you install a stable, integration build of EMF, such as 2.0.0.200405131028, when EMF 2.0.0 Final is launched, UM will consider this to be an OLDER version, rather than a newer version. So, if you wanted to use UM to stay abreast of changes between Eclipse 3.0 Milestones, when 3.0 Final was launched, you'd have to download EMF manually and remove your 2.0.0.yyyymmddhhmm version manually anyway. The same problem exists with updating Eclipse itself via UM to 3.0.0.yyyymmddhhmm - once 3.0.0 is launched, you won't be able to use UM to upgrade the the Final version, since 3.0.0 &lt; 3.0.0.yyyymmddhhmm.
+</ol>
 <br />
 </p>
 </li>
@@ -282,7 +377,7 @@ Update Manager yet.<br />
 
 <tr>
 <td bgcolor="#777777"><b><a id="standards"
-name="standards">Modeling Standards</a></b></td>
+name="standards" style="color:white">Modeling Standards</a></b></td>
 <td bgcolor="#777777"><a href="#toc"><img
 src="http://www.eclipse.org/eclipse/faq/up_nav.gif" width="16"
 height="16" alt="Goto Top" border="0" />top</a> </td>
@@ -432,7 +527,7 @@ respectively.<br />
 
 <tr>
 <td bgcolor="#777777"><b><a id="developer"
-name="developer">Developer</a></b></td>
+name="developer" style="color:white">Developer</a></b></td>
 <td bgcolor="#777777"><a href="#toc"><img
 src="http://www.eclipse.org/eclipse/faq/up_nav.gif" width="16"
 height="16" alt="Goto Top" border="0" />top</a> </td>
@@ -441,6 +536,27 @@ height="16" alt="Goto Top" border="0" />top</a> </td>
 <tr>
 <td colspan="2">
 <ol>
+
+<li>
+	<b><a id="dev_xerces" name="dev_xerces">I plan to use XML Schema (XSD) with EMF. Are there any bugs with that?</a></b><br>
+	<b>I get a NullPointerException when loading an XSD Model! Is there a fix or workaround?</b></br>
+	<b>Is there a bug in the Crimson DOM implementation of the SUN JDK 1.4?</b></br>
+	<b>I just downloaded the "library.xsd" file that is listed as example at the begin of the tutorial to see whether things work with this schema and I get the error message "Specify a valid XML Schema and try loading again". What gives?</b></br>
+
+<p>Yes! The following problem has been reported many times in the org.eclipse.emf newsgroup:<br><br>
+
+<b><a style="background-color:yellow;color:black" target="_xml" href="http://download.eclipse.org/tools/emf/scripts/downloads-xerces.php">Click here if you load or import model(s) from XML Schema.</a></b> 
+				<br>The Crimson DOM implementation in (some versions of) the Sun JDK has a bug in the implementation of 
+				<tt>hasAttributeNS</tt>. To resolve this, <a target="_xml" href="http://download.eclipse.org/tools/emf/scripts/downloads-xerces.php">click here for details</a>.<br>
+				This bug can be seen, <i>when importing a model from XML Schema</i>, as either:
+					<ul>
+					<li>a null pointer exception, or
+					<li>the error message "Specify a valid XML Schema and try loading again".
+					</ul>
+<br />
+</p>
+</li>
+
 <li><b><a id="dev_generate" name="dev_generate">Does it matter what
 node in the genmodel tree I invoke Generate from?</a></b> 
 
