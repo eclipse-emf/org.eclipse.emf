@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EValidator.java,v 1.1 2004/05/05 19:51:42 emerks Exp $
+ * $Id: EValidator.java,v 1.2 2004/06/08 12:13:47 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -56,7 +56,7 @@ public interface EValidator
   }
 
   /**
-   * An interface used to provide labels used within message substitutions.
+   * An interface for providing labels used within message substitutions.
    */
   interface SubstitutionLabelProvider
   {
@@ -74,6 +74,17 @@ public interface EValidator
      * Returns the label to identify a value of some data type.
      */
     String getValueLabel(EDataType eDataType, Object value);
+  }
+
+  /**
+   * An common interface for pattern-based constraints.
+   */
+  interface PatternMatcher
+  {
+    /**
+     * Returns whether the string value matches the pattern.
+     */
+    boolean matches(String value);
   }
 
   /**
