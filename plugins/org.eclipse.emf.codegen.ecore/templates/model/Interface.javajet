@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" version="$Id: Interface.javajet,v 1.4 2004/11/15 14:54:43 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" version="$Id: Interface.javajet,v 1.5 2004/11/15 21:37:30 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -125,8 +125,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	<%=genFeature.getImportedType()%> <%=genFeature.getGetAccessor()%>();
 
 <%}%>
-<%if (genFeature.isChangeable()) {%>
-<%if (!genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
+<%if (genFeature.isChangeable() && !genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
 	/**
 	 * Sets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
 	 * <!-- begin-user-doc -->
@@ -150,7 +149,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 
 <%}%>
 <%if (genFeature.isUnsettable()) {%>
-<%if (!genFeature.isSuppressedUnsetVisibility()) {%>
+<%if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {%>
 	/**
 	 * Unsets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
 	 * <!-- begin-user-doc -->
@@ -173,20 +172,17 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return whether the value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%> is set.
-  <%if (!genFeature.isSuppressedUnsetVisibility()) {%>
+  <%if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {%>
 	 * @see #unset<%=genFeature.getAccessorName()%>()
   <%}%>
-  <%if (!genFeature.isSuppressedGetVisibility()) {%>
 	 * @see #<%=genFeature.getGetAccessor()%>()
-  <%}%>
-<%if (!genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
+<%if (!genFeature.isListType() && genFeature.isChangeable() && !genFeature.isSuppressedSetVisibility()) {%>
 	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
 <%}%>
 	 * @generated
 	 */
 	boolean isSet<%=genFeature.getAccessorName()%>();
 
-<%}%>
 <%}%>
 <%}%>
 <%}//for%>

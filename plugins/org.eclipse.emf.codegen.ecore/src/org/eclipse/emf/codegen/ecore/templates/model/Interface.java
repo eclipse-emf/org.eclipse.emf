@@ -336,8 +336,7 @@ public class Interface
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_77);
     }
-    if (genFeature.isChangeable()) {
-    if (!genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {
+    if (genFeature.isChangeable() && !genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {
     stringBuffer.append(TEXT_78);
     stringBuffer.append(genClass.getQualifiedInterfaceName());
     stringBuffer.append(TEXT_79);
@@ -376,7 +375,7 @@ public class Interface
     stringBuffer.append(TEXT_93);
     }
     if (genFeature.isUnsettable()) {
-    if (!genFeature.isSuppressedUnsetVisibility()) {
+    if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {
     stringBuffer.append(TEXT_94);
     stringBuffer.append(genClass.getQualifiedInterfaceName());
     stringBuffer.append(TEXT_95);
@@ -419,17 +418,15 @@ public class Interface
     stringBuffer.append(TEXT_113);
     stringBuffer.append(genFeature.getFeatureKind());
     stringBuffer.append(TEXT_114);
-    if (!genFeature.isSuppressedUnsetVisibility()) {
+    if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {
     stringBuffer.append(TEXT_115);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_116);
     }
-    if (!genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_117);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_118);
-    }
-    if (!genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {
+    if (!genFeature.isListType() && genFeature.isChangeable() && !genFeature.isSuppressedSetVisibility()) {
     stringBuffer.append(TEXT_119);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_120);
@@ -439,7 +436,6 @@ public class Interface
     stringBuffer.append(TEXT_122);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_123);
-    }
     }
     }
     }//for
