@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.7 2004/08/10 14:00:48 emerks Exp $
+ * $Id: JMerger.java,v 1.8 2004/12/29 22:20:22 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -36,6 +36,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IPlatformRunnable;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.jdom.DOMFactory;
 import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
 import org.eclipse.jdt.core.jdom.IDOMField;
@@ -1191,34 +1193,10 @@ public class JMerger implements IPlatformRunnable
     {
       // Three arguments are expected: the .xml jControlModel URI, the source java URI, and the target java URI.
       //
-      String[] arguments = (String[])object;
-
-      // Create the options model.
-      //
-      jControlModel = new JControlModel(arguments[0]);
-
-      // Create the source and target JDOMs.
-      //
-      sourceCompilationUnit = createCompilationUnitForURI(arguments[1]);
-      targetCompilationUnit = createCompilationUnitForURI(arguments[2]);
-
-      // Create a pattern dictionary for each.
-      //
-      sourcePatternDictionary = new JPatternDictionary(sourceCompilationUnit, jControlModel);
-      targetPatternDictionary = new JPatternDictionary(targetCompilationUnit, jControlModel);
-
-      // Pull changes from the source and then push unmapped source into the target.
-      //
-      pullTargetCompilationUnit();
-      if (!isBlocked)
-      {
-        pushSourceCompilationUnit();
-        sweepTargetCompilationUnit();
-        sortTargetCompilationUnit();
-      }
+      String contents = execute(new NullProgressMonitor(), (String[])object);
 
       System.out.println("**********************************************");
-      System.out.println(targetCompilationUnit.getContents());
+      System.out.println(contents);
 
       return new Integer(0);
     }
@@ -1227,5 +1205,39 @@ public class JMerger implements IPlatformRunnable
       // exception.printStackTrace();
       return new Integer(1);
     }
+  }
+  
+  /**
+   * Utilitiy for headless operations.
+   * 
+   * @param mergeXML
+   * @param sourceURI
+   * @param targetURI
+   * @return the merged content
+   * @since 2.1.0
+   */
+  public String execute(IProgressMonitor progressMonitor, String[] arguments)
+  {
+    String mergeXML = arguments[0];
+    String sourceURI = arguments[1];
+    String targetURI = arguments[2];
+    
+    // Create the options model.
+    //
+    jControlModel = new JControlModel(mergeXML);
+
+    // Create the source and target JDOMs.
+    //
+    sourceCompilationUnit = createCompilationUnitForURI(sourceURI);
+    targetCompilationUnit = createCompilationUnitForURI(targetURI);
+
+    // Create a pattern dictionary for each.
+    //
+    sourcePatternDictionary = new JPatternDictionary(sourceCompilationUnit, jControlModel);
+    targetPatternDictionary = new JPatternDictionary(targetCompilationUnit, jControlModel);
+    
+    merge();
+    
+    return targetCompilationUnit.getContents();
   }
 }
