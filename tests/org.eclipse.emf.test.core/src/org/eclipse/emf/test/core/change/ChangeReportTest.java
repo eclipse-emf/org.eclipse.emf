@@ -1,7 +1,24 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: ChangeReportTest.java,v 1.4 2004/06/23 15:25:43 marcelop Exp $
+ */
 package org.eclipse.emf.test.core.change;
 
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -44,6 +61,7 @@ extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite();
+    ts.addTest(new ChangeReportTest("testReuse"));
     ts.addTest(new ChangeReportTest("testSetElement"));
     ts.addTest(new ChangeReportTest("testRemoveElementAndApply"));
     ts.addTest(new ChangeReportTest("testAddElementAndApply"));
@@ -293,5 +311,28 @@ extends TestCase
     
     //Tests if the list was rolled back
     assertTrue(Arrays.equals(beforeChange.toArray(), eAnnotation.getContents().toArray()));    
-  }  
+  }
+  
+  /*
+   * bugzilla 68310
+   */
+  public void testReuse()
+  {
+    ChangeRecorder changeRecorder = new ChangeRecorder();
+    changeRecorder.beginRecording(Collections.singleton(resourceSet));
+    eClass0.setName("Test0");
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    assertEquals(1, changeDescription.getObjectChanges().size());
+    
+    EClass eClass1 = EcoreFactory.eINSTANCE.createEClass();
+    eClass1.setName("testEClass1");
+    eAnnotation.getContents().add(eClass1);
+    
+    changeRecorder.beginRecording(Collections.singleton(resourceSet));
+    eClass1.setName("test1");
+    changeDescription = changeRecorder.endRecording();
+    
+    assertEquals(1, changeDescription.getObjectChanges().size());
+  }
 }
