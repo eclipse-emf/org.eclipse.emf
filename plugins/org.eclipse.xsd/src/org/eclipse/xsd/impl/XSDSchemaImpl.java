@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.11 2004/12/11 12:13:54 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.12 2004/12/24 15:19:45 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2909,6 +2909,8 @@ public class XSDSchemaImpl
   {
     super.reset();
 
+    redefinitionMap.clear();
+
     reset(getAttributeDeclarations());
     reset(getAttributeGroupDefinitions());
     reset(getElementDeclarations());
@@ -3196,19 +3198,19 @@ public class XSDSchemaImpl
       }
     }
 
-    if (getPendingSchemaLocation() != null)
+    if (((XSDSchemaImpl)redefiningSchema).getPendingSchemaLocation() != null)
     {
-      if (((XSDSchemaImpl)redefiningSchema).getPendingSchemaLocation() != null)
-      {
-        ((XSDSchemaImpl)redefiningSchema).getSchemasToRedefine().addAll(getSchemasToRedefine());
-      }
+      ((XSDSchemaImpl)redefiningSchema).getSchemasToRedefine().addAll(getSchemasToRedefine());
     }
-    else
+
+    if (getPendingSchemaLocation() == null)
     {
       patch();
     }
 
     propogateComponents(redefiningSchema);
+
+    ((XSDSchemaImpl)redefiningSchema).getRedefinitionMap().putAll(getRedefinitionMap());
   }
 
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
