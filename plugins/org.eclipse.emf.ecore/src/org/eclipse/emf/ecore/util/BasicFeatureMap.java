@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.2 2004/03/15 16:54:41 marcelop Exp $
+ * $Id: BasicFeatureMap.java,v 1.3 2004/04/07 18:56:54 elena Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -28,12 +28,14 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
 
@@ -74,13 +76,18 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     int upperBound = feature.getUpperBound();
     if (upperBound == ETypedElement.UNSPECIFIED_MULTIPLICITY)
     {
-      if (owner.eClass().getEAllStructuralFeatures().contains(feature))
+      EClass eclass = owner.eClass();
+      if (eclass.getEAllStructuralFeatures().contains(feature))
       {
         return false;
       }
+      else if (feature.getEContainingClass().getEPackage() == XMLTypePackage.eINSTANCE)
+      {
+        return true;
+      }
       else
       {
-        EStructuralFeature affiliation = ExtendedMetaData.INSTANCE.getAffiliation(owner.eClass(), feature);
+        EStructuralFeature affiliation = ExtendedMetaData.INSTANCE.getAffiliation(eclass, feature);
         return affiliation == null || affiliation.isMany();
       }
     }
