@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.10 2005/02/08 20:09:16 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.11 2005/02/08 21:09:01 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -729,8 +729,7 @@ public class SpecialCasesTest  extends TestCase
     
     assertEquals(1, changeDescription.getObjectsToAttach().size());
     assertEquals(mary, changeDescription.getObjectsToAttach().get(0));
-    assertEquals(1, changeDescription.getObjectsToDetach().size());
-    assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
+    assertTrue(changeDescription.getObjectsToDetach().isEmpty());
     assertTrue(changeDescription.getObjectChanges().keySet().contains(mary));      
     
     // State 1
@@ -747,8 +746,7 @@ public class SpecialCasesTest  extends TestCase
     
     assertEquals(1, changeDescription.getObjectsToAttach().size());
     assertEquals(mary, changeDescription.getObjectsToAttach().get(0));
-    assertEquals(1, changeDescription.getObjectsToDetach().size());
-    assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
+    assertTrue(changeDescription.getObjectsToDetach().isEmpty());
     assertTrue(changeDescription.getObjectChanges().keySet().contains(mary));      
 
     // State 2
@@ -772,11 +770,10 @@ public class SpecialCasesTest  extends TestCase
   {
     URI[] changeDescriptionURIs = new URI[]
     {
-      URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithObjectsToDetach.xmi")
-      ,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithObjectsToDetach.xmi")
-      //,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithoutObjectsToDetach.xmi")
+       URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithObjectsToDetach.xmi")
+      ,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithoutObjectsToDetach.xmi")
       ,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/changeDescriptionWithObjectsToDetach.xmi")
-      //,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/changeDescriptionWithoutObjectsToDetach.xmi")
+      ,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/changeDescriptionWithoutObjectsToDetach.xmi")
     };
     URI familyURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/data/family.xmi");
     
@@ -839,7 +836,7 @@ public class SpecialCasesTest  extends TestCase
       johnsFamily.eSet(spouse2, mary);
       ((List)johnsFamily.eGet(children)).add(paul);
             
-      int changeDescriptionURIIndex = 2;
+      int changeDescriptionURIIndex = 3;
 
       Resource familyResource = new XMIResourceImpl(changeDescriptionURIIndex <= 1? changeDescriptionURIs[changeDescriptionURIIndex] :  familyURI);
       familyResource.getContents().add(johnsFamily);

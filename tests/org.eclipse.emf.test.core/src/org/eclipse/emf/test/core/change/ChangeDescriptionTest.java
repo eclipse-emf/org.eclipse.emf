@@ -12,14 +12,18 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionTest.java,v 1.6 2005/01/05 20:42:49 marcelop Exp $
+ * $Id: ChangeDescriptionTest.java,v 1.7 2005/02/08 21:09:01 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -27,11 +31,14 @@ import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -60,9 +67,226 @@ public class ChangeDescriptionTest extends TestCase
     ts.addTest(new ChangeDescriptionTest("testApplyAndReverse2"));
     ts.addTest(new ChangeDescriptionTest("testApplyAndReverse3"));
     ts.addTest(new ChangeDescriptionTest("testXMLResourceID"));
+    ts.addTest(new ChangeDescriptionTest("testObjectsToDetach1"));
+    ts.addTest(new ChangeDescriptionTest("testObjectsToDetach2"));
     return ts;
   }
 
+  /*
+   * Bugzilla 83872
+   */
+  public void testObjectsToDetach1() throws Exception
+  {
+    Resource resource = new XMIResourceImpl(URI.createFileURI("pack"));
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    resource.getContents().add(pack);
+    EClass class1 = EcoreFactory.eINSTANCE.createEClass();
+    class1.setName("Class1");
+    pack.getEClassifiers().add(class1);
+    EClass class2 = EcoreFactory.eINSTANCE.createEClass();
+    class2.setName("Class2");
+    pack.getEClassifiers().add(class2);
+    EClass class3 = EcoreFactory.eINSTANCE.createEClass();
+    class3.setName("Class3");
+    EClass class4 = EcoreFactory.eINSTANCE.createEClass();
+    class4.setName("Class4");
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(resource);
+    pack.getEClassifiers().add(class3);
+    pack.getEClassifiers().set(1, class4);
+    pack.getEClassifiers().remove(class1);
+    pack.getEClassifiers().add(class1);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    resource.getContents().add(changeDescription);
+    
+    assertEquals(2, changeDescription.getObjectsToDetach().size());
+    assertTrue(changeDescription.getObjectsToDetach().contains(class3));
+    assertTrue(changeDescription.getObjectsToDetach().contains(class4));
+    assertEquals(1, changeDescription.getObjectsToAttach().size());
+    assertTrue(changeDescription.getObjectsToAttach().contains(class2));
+    
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    resource.save(baos, null);
+    
+    Resource loadedResource = new XMIResourceImpl();
+    loadedResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
+    assertEquals(2, loadedResource.getContents().size());
+    assertTrue(loadedResource.getContents().get(0) instanceof EPackage);
+    EPackage loadedPack = (EPackage)loadedResource.getContents().get(0);
+    assertTrue(loadedResource.getContents().get(1) instanceof ChangeDescription);
+    ChangeDescription loadedChangeDescription = (ChangeDescription)loadedResource.getContents().get(1);
+
+    assertEquals(2, loadedChangeDescription.getObjectsToDetach().size());
+    assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedPack.getEClassifier(class3.getName())));
+    assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedPack.getEClassifier(class4.getName())));
+    assertEquals(1, loadedChangeDescription.getObjectsToAttach().size());
+    assertTrue(loadedChangeDescription.getObjectsToAttach().get(0) instanceof EClass);
+    assertEquals(class2.getName(), ((EClass)loadedChangeDescription.getObjectsToAttach().get(0)).getName());
+    
+    EClass class5 = EcoreFactory.eINSTANCE.createEClass();
+    class5.setName("Class5");
+    
+    changeRecorder = new ChangeRecorder();
+    changeRecorder.beginRecording(loadedChangeDescription, Collections.singleton(loadedResource));
+    EClass loadedClass3 = (EClass)loadedPack.getEClassifiers().set(1, class5);
+    changeRecorder.endRecording();
+    
+    assertEquals(2, loadedChangeDescription.getObjectsToDetach().size());
+    assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedPack.getEClassifier(class4.getName())));
+    assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedPack.getEClassifier(class5.getName())));
+    assertEquals(2, loadedChangeDescription.getObjectsToAttach().size());
+    Set names = new HashSet();
+    names.add(((EClass)loadedChangeDescription.getObjectsToAttach().get(0)).getName());
+    names.add(((EClass)loadedChangeDescription.getObjectsToAttach().get(1)).getName());
+    assertTrue(names.contains(class2.getName()));
+    assertTrue(names.contains(class3.getName()));
+  }
+  
+  /*
+   * Bugzilla 83872
+   */
+  public void testObjectsToDetach2() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setNsURI("testObjectsToDetach2");
+    EPackage.Registry.INSTANCE.put(pack.getNsURI(), pack);
+    EClass anEClass = EcoreFactory.eINSTANCE.createEClass();
+    anEClass.setName("AnEClass");
+    pack.getEClassifiers().add(anEClass);
+    EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
+    name.setName("name");
+    name.setEType(EcorePackage.eINSTANCE.getEString());
+    anEClass.getEStructuralFeatures().add(name);
+    EReference ref1 = EcoreFactory.eINSTANCE.createEReference();
+    ref1.setName("Ref1");
+    ref1.setEType(anEClass);
+    ref1.setContainment(true);
+    anEClass.getEStructuralFeatures().add(ref1);
+    EReference ref2 = EcoreFactory.eINSTANCE.createEReference();
+    ref2.setName("Ref2");
+    ref2.setEType(anEClass);
+    ref2.setContainment(true);
+    anEClass.getEStructuralFeatures().add(ref2);
+    EReference ref3 = EcoreFactory.eINSTANCE.createEReference();
+    ref3.setName("Ref3");
+    ref3.setEType(anEClass);
+    ref3.setContainment(true);
+    anEClass.getEStructuralFeatures().add(ref3);
+    EReference ref4 = EcoreFactory.eINSTANCE.createEReference();
+    ref4.setName("Ref4");
+    ref4.setEType(anEClass);
+    ref4.setContainment(true);
+    anEClass.getEStructuralFeatures().add(ref4);
+       
+    EObject root1 = pack.getEFactoryInstance().create(anEClass);
+    root1.eSet(name, "root1");
+    EObject obj1 = pack.getEFactoryInstance().create(anEClass);
+    obj1.eSet(name, "obj1");
+    EObject obj2 = pack.getEFactoryInstance().create(anEClass);
+    obj2.eSet(name, "obj2");
+    EObject obj3 = pack.getEFactoryInstance().create(anEClass);
+    obj3.eSet(name, "obj3");
+    EObject obj4 = pack.getEFactoryInstance().create(anEClass);
+    obj4.eSet(name, "obj4");
+    EObject root2 = pack.getEFactoryInstance().create(anEClass);
+    root2.eSet(name, "root2");
+    
+    root1.eSet(ref1, obj1);
+    root1.eSet(ref2, obj2);
+    
+    // State 0
+    assertEquals(obj1, root1.eGet(ref1));
+    assertEquals(root1, obj1.eContainer());
+    assertEquals(obj2, root1.eGet(ref2));
+    assertEquals(root1, obj2.eContainer());
+    assertNull(root1.eGet(ref3));
+    assertNull(root1.eGet(ref4));
+    assertNull(obj3.eContainer());
+    assertNull(obj4.eContainer());
+    assertNull(root2.eResource());
+    
+    Resource resource = new XMIResourceImpl();
+    resource.getContents().add(root1);
+    ChangeRecorder changeRecorder = new ChangeRecorder(resource);
+
+    root1.eSet(ref1, obj3); //obj3 replaces obj1 in ref1
+    root1.eSet(ref2, obj1); //obj1 replaces obj2 in ref2
+    root1.eSet(ref3, obj4); //obj4 is set in ref3
+    
+    resource.getContents().add(root2); //root2 is added as a root object
+    
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    resource.getContents().add(changeDescription);
+    
+    // State 1
+    assertEquals(obj3, root1.eGet(ref1));
+    assertEquals(root1, obj3.eContainer());
+    assertEquals(obj1, root1.eGet(ref2));
+    assertEquals(root1, obj1.eContainer());
+    assertEquals(obj4, root1.eGet(ref3));
+    assertEquals(root1, obj4.eContainer());
+    assertNull(root1.eGet(ref4));
+    assertEquals(changeDescription, obj2.eContainer());
+    assertEquals(resource, root2.eResource());
+
+    // getObjectsToDetach() & getObjectsToAttach() check
+    assertEquals(3, changeDescription.getObjectsToDetach().size());
+    assertTrue(changeDescription.getObjectsToDetach().contains(obj3));
+    assertTrue(changeDescription.getObjectsToDetach().contains(obj4));
+    assertTrue(changeDescription.getObjectsToDetach().contains(root2));
+    assertEquals(1, changeDescription.getObjectsToAttach().size());
+    assertTrue(changeDescription.getObjectsToAttach().contains(obj2));
+    
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    resource.save(baos, null);
+    
+    Resource loadedResource = new XMIResourceImpl();
+    
+    loadedResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
+    assertEquals(3, loadedResource.getContents().size());
+    assertTrue(loadedResource.getContents().get(0) instanceof EObject);
+    EObject loadedRoot1 = (EObject)loadedResource.getContents().get(0);
+    assertEquals(root1.eGet(name), loadedRoot1.eGet(name));
+    assertTrue(loadedResource.getContents().get(1) instanceof EObject);
+    EObject loadedRoot2 = (EObject)loadedResource.getContents().get(1);
+    assertEquals(root2.eGet(name), loadedRoot2.eGet(name));
+    assertTrue(loadedResource.getContents().get(2) instanceof ChangeDescription);
+    ChangeDescription loadedChangeDescription = (ChangeDescription)loadedResource.getContents().get(2);
+   
+    // getObjectsToDetach() & getObjectsToAttach() check
+    assertEquals(3, loadedChangeDescription.getObjectsToDetach().size());
+    assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedRoot1.eGet(ref1)));
+    assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedRoot1.eGet(ref3)));
+    assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedRoot2));
+    assertEquals(1, loadedChangeDescription.getObjectsToAttach().size());
+    
+    // State 1
+    assertEquals(obj3.eGet(name), ((EObject)loadedRoot1.eGet(ref1)).eGet(name));
+    assertEquals(obj1.eGet(name), ((EObject)loadedRoot1.eGet(ref2)).eGet(name));
+    assertEquals(obj4.eGet(name), ((EObject)loadedRoot1.eGet(ref3)).eGet(name));
+    assertNull(loadedRoot1.eGet(ref4));
+    assertEquals(loadedResource, loadedRoot2.eResource());
+    
+    loadedChangeDescription.applyAndReverse();
+    
+    // State 0
+    assertEquals(obj1.eGet(name), ((EObject)loadedRoot1.eGet(ref1)).eGet(name));
+    assertEquals(obj2.eGet(name), ((EObject)loadedRoot1.eGet(ref2)).eGet(name));
+    assertNull(loadedRoot1.eGet(ref3));
+    assertNull(loadedRoot1.eGet(ref4));
+    //assertEquals(loadedChangeDescription, loadedRoot2.eContainer());    
+
+    loadedChangeDescription.apply();
+    
+    // State 1
+    assertEquals(obj3.eGet(name), ((EObject)loadedRoot1.eGet(ref1)).eGet(name));
+    assertEquals(obj1.eGet(name), ((EObject)loadedRoot1.eGet(ref2)).eGet(name));
+    assertEquals(obj4.eGet(name), ((EObject)loadedRoot1.eGet(ref3)).eGet(name));
+    assertNull(loadedRoot1.eGet(ref4));
+    assertEquals(loadedResource, loadedRoot2.eResource());
+  }
+  
+  
   /*
    * Bugzilla 76971
    */

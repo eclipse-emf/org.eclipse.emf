@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.5 2005/01/05 20:42:49 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.6 2005/02/08 21:09:01 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -717,10 +717,8 @@ extends TestCase
     assertEquals("Jane", jane.eGet(name));
     assertEquals(1, ((List)john.eGet(friendsReference)).size());
     assertEquals(jane, ((List)john.eGet(friendsReference)).get(0));
-    assertEquals(3, changeDescription.getObjectsToDetach().size());
-    assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
-    assertEquals(joe, changeDescription.getObjectsToDetach().get(1));
-    assertEquals(jane, changeDescription.getObjectsToDetach().get(2));
+    assertEquals(1, changeDescription.getObjectsToDetach().size());
+    assertEquals(jane, changeDescription.getObjectsToDetach().get(0));
     
     changeDescription.applyAndReverse();
     
