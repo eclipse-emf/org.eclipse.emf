@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.3 2004/03/31 16:19:31 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.4 2004/04/02 17:44:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -481,8 +481,38 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
   }
 
+  public boolean needsRootExtendsInterfaceExtendsTag()
+  {
+    String rootExtendsInterface = getGenModel().getRootExtendsInterface();
+    if (rootExtendsInterface == null)
+    {
+      rootExtendsInterface = "";
+    }
+    if (isBlank(rootExtendsInterface) || getBaseGenClasses().isEmpty() && getGenPackage().isEcorePackage())
+    {
+      return false;
+    }
+
+    for (Iterator iter = getAllBaseGenClasses().iterator(); iter.hasNext(); )
+    {
+      GenClass genClass = (GenClass)iter.next();
+      if (genClass.getEcoreClass().getInstanceClassName() == null &&
+            rootExtendsInterface.equals(genClass.getGenModel().getRootExtendsInterface()))
+      {
+        return false;
+      }
+    }
+
+    return !rootExtendsInterface.equals("org.eclipse.emf.ecore.EObject");
+  }
+
   public String getInterfaceExtends()
   {
+    String rootExtendsInterface = getGenModel().getRootExtendsInterface();
+    if (rootExtendsInterface == null)
+    {
+      rootExtendsInterface = "";
+    }
     if (getBaseGenClasses().isEmpty())
     {
       if (getGenPackage().isEcorePackage()) 
@@ -491,7 +521,6 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
       else 
       {
-        String rootExtendsInterface = getGenModel().getRootExtendsInterface();
         if (!isBlank(rootExtendsInterface))
         {
           return " extends " + getGenModel().getImportedName(rootExtendsInterface);
@@ -503,21 +532,21 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
     }
 
-    boolean needsEObject = true;
+    boolean needsRootExtendsInterface = true;
     for (Iterator iter = getAllBaseGenClasses().iterator(); iter.hasNext(); )
     {
       GenClass genClass = (GenClass)iter.next();
-      if (genClass.getEcoreClass().getInstanceClassName() == null)
+      if (genClass.getEcoreClass().getInstanceClassName() == null &&
+            rootExtendsInterface.equals(genClass.getGenModel().getRootExtendsInterface()))
       {
-        needsEObject = false;
+        needsRootExtendsInterface = false;
         break;
       }
     }
 
     StringBuffer result = new StringBuffer(" extends ");
-    if (needsEObject)
+    if (needsRootExtendsInterface)
     {
-      String rootExtendsInterface = getGenModel().getRootExtendsInterface();
       if (!isBlank(rootExtendsInterface))
       {
         result.append(getGenModel().getImportedName(rootExtendsInterface));
