@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLDuration.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: XMLDuration.java,v 1.3 2004/08/18 15:10:28 elena Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -103,10 +103,13 @@ public final class XMLDuration {
     private int hashCode = 0;
     
     final int[] dateValue;
+    
+    final String valueString;
 
     public XMLDuration(String value)
     {
       this.dateValue = parse(value);
+      valueString = value;
     }
     
     public boolean equals(Object obj)
@@ -386,28 +389,6 @@ public final class XMLDuration {
     }
 
     public String toString() {
-        StringBuffer message = new StringBuffer(30);
-        int negate = 1;
-        if ( dateValue[XMLCalendar.CY]<0 ) {
-            message.append('-');
-            negate=-1;
-        }
-        message.append('P');
-        message.append(negate * dateValue[XMLCalendar.CY]);
-        message.append('Y');
-        message.append(negate * dateValue[XMLCalendar.M]);
-        message.append('M');
-        message.append(negate * dateValue[XMLCalendar.D]);
-        message.append('D');
-        message.append('T');
-        message.append(negate * dateValue[XMLCalendar.h]);
-        message.append('H');
-        message.append(negate * dateValue[XMLCalendar.m]);
-        message.append('M');
-        message.append(negate * dateValue[XMLCalendar.s]);
-        message.append('.');
-        message.append(negate * dateValue[XMLCalendar.ms]);
-        message.append('S');
-        return message.toString();
+      return valueString;
     }
 }
