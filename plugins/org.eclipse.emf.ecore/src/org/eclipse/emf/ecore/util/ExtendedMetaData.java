@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedMetaData.java,v 1.2 2004/05/05 19:38:01 emerks Exp $
+ * $Id: ExtendedMetaData.java,v 1.3 2004/06/18 09:50:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -54,8 +53,11 @@ public interface ExtendedMetaData
   String getNamespace(EStructuralFeature eStructuralFeature);
   void setNamespace(EStructuralFeature eStructuralFeature, String namespace);
 
-  String getName(ENamedElement eNamedElement);
-  void setName(ENamedElement eNamedElement, String name);
+  String getName(EClassifier eClassifier);
+  void setName(EClassifier eClassifier, String name);
+
+  String getName(EStructuralFeature eStructuralFeature);
+  void setName(EStructuralFeature eStructuralFeature, String name);
 
   EClassifier getType(String namespace, String name);
   EStructuralFeature getAttribute(String namespace, String name);
