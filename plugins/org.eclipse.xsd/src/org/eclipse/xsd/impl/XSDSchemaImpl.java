@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.4 2004/04/30 12:45:05 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.5 2004/08/17 14:21:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2060,7 +2060,8 @@ public class XSDSchemaImpl
     {
       XSDSchema resolvedSchema = (XSDSchema)resolvedSchemas.next();
       XSDNamedComponent xsdNamedComponent = 
-        XSDNamedComponentImpl.findInSortedList((List)resolvedSchema.eGet(namedComponentsRefReference), namespace, localName);
+        XSDNamedComponentImpl.findInSortedList
+          ((List)resolvedSchema.eGet(namedComponentsRefReference), resolvedSchema.getTargetNamespace(), localName);
       if (xsdNamedComponent != null)
       {
         return xsdNamedComponent;
@@ -2899,6 +2900,12 @@ public class XSDSchemaImpl
 
       XSDSchemaImpl redefinedSchema = (XSDSchemaImpl)cloneConcreteComponent(true, true);
 
+      if (redefinedSchema.getTargetNamespace() == null && redefiningSchema.getTargetNamespace() != null)
+      {
+        redefinedSchema.setTargetNamespace(redefiningSchema.getTargetNamespace());
+        redefinedSchema.patch();
+      }
+
       // Change includes to redefines so that clones are created.
       //
       for (ListIterator i = redefinedSchema.getContents().listIterator(); i.hasNext(); )
@@ -2950,6 +2957,8 @@ public class XSDSchemaImpl
           }
         }
         XSDSchemaImpl includedSchema = (XSDSchemaImpl)cloneConcreteComponent(true, true);
+        includedSchema.setTargetNamespace(includingSchema.getTargetNamespace());
+        includedSchema.patch();
         getIncorporatedVersions().add(includedSchema);
         includedSchema.incorporate(xsdInclude);
         return includedSchema;
