@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" version="$Id: Interface.javajet,v 1.5 2004/11/15 21:37:30 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" version="$Id: Interface.javajet,v 1.6 2004/12/16 16:24:07 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -46,7 +46,13 @@ package <%=genPackage.getInterfacePackageName()%>;
 <%}%>
  *
  * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genClass.getClassifierAccessorName()%>()
- * @model <%=genClass.getModelInfo()%>
+<%{boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genClass.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+ * @model <%=modelInfo%>
+<%} else {%>
+ *        <%=modelInfo%>
+<%}} if (first) {%>
+ * @model
+<%}}%>
 <%if (genClass.needsRootExtendsInterfaceExtendsTag()) {%>
  * @extends <%=genModel.getImportedName(genModel.getRootExtendsInterface())%>
 <%}%>
@@ -119,7 +125,13 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	 * @see <%=reverseGenFeature.getGenClass().getQualifiedInterfaceName()%>#<%=reverseGenFeature.getGetAccessor()%>
   <%}%>
 <%}%>
-	 * @model <%=genFeature.getModelInfo()%>
+<%{boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genFeature.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+	 * @model <%=modelInfo%>
+<%} else {%>
+	 *        <%=modelInfo%>
+<%}} if (first) {%>
+	 * @model
+<%}}%>
 	 * @generated
 	 */
 	<%=genFeature.getImportedType()%> <%=genFeature.getGetAccessor()%>();
@@ -195,7 +207,13 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	 * <%=genOperation.getDocumentation(genModel.getIndentation(stringBuffer))%>
 	 * <!-- end-model-doc -->
 <%}%>
-	 * @model <%=genOperation.getModelInfo()%>
+<%{boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genOperation.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+	 * @model <%=modelInfo%>
+<%} else {%>
+	 *        <%=modelInfo%>
+<%}} if (first) {%>
+	 * @model
+<%}}%>
 	 * @generated
 	 */
 	<%=genOperation.getImportedReturnType()%> <%=genOperation.getName()%>(<%=genOperation.getParameters()%>)<%=genOperation.getThrows()%>;

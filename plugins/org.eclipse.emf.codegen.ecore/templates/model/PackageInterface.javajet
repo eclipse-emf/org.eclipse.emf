@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PackageInterface" version="$Id: PackageInterface.javajet,v 1.3 2004/11/15 14:54:43 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PackageInterface" version="$Id: PackageInterface.javajet,v 1.4 2004/12/16 16:24:07 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -147,9 +147,13 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em><%=genClass.getFormattedName()%></em>'.
 	 * @see <%=genClass.getQualifiedInterfaceName()%>
-    <%if (genClass.isExternalInterface()) {%>
-	 * @model <%=genClass.getModelInfo()%>
-    <%}%>
+    <%if (genClass.isExternalInterface()) { boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genClass.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+	 * @model <%=modelInfo%>
+      <%} else {%>
+	 *        <%=modelInfo%>
+      <%}} if (first) {%>
+	 * @model
+    <%}}%>
   <%} else if (genClassifier instanceof GenEnum) { GenEnum genEnum = (GenEnum)genClassifier;%>
 	 * Returns the meta object for enum '{@link <%=genEnum.getQualifiedName()%> <em><%=genEnum.getFormattedName()%></em>}'.
 	 * <!-- begin-user-doc -->
@@ -168,7 +172,13 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
     <%if (!genDataType.isPrimitiveType() && !genDataType.isArrayType()) {%>
 	 * @see <%=genDataType.getQualifiedInstanceClassName()%>
     <%}%>
-	 * @model <%=genDataType.getModelInfo()%>
+    <%{boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genDataType.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+	 * @model <%=modelInfo%>
+    <%} else {%>
+	 *        <%=modelInfo%>
+    <%}} if (first) {%>
+	 * @model
+    <%}}%>
   <%}%>
 	 * @generated
 	 */

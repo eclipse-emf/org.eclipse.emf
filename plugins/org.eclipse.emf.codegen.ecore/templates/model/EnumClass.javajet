@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.3 2004/11/09 17:24:18 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.4 2004/12/16 16:24:07 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -67,7 +67,13 @@ public final class <%=genEnum.getName()%> extends AbstractEnumerator
 	 * <!-- end-model-doc -->
 <%}%>
 	 * @see #<%=genEnumLiteral.getEnumLiteralID()%>_LITERAL
-	 * @model <%=genEnumLiteral.getModelInfo()%>
+<%{boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genEnumLiteral.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+	 * @model <%=modelInfo%>
+<%} else {%>
+	 *        <%=modelInfo%>
+<%}} if (first) {%>
+	 * @model
+<%}}%>
 	 * @generated
 	 * @ordered
 	 */
