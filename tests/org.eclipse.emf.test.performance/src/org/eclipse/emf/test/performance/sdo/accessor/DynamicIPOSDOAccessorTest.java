@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.7 2005/02/24 19:03:23 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.8 2005/03/03 19:25:56 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -63,13 +63,15 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   // less iterations for slower tests.
   protected static final int ITERATIONS_300 = 300;
 
+  protected static final int ITERATIONS_2_5K = 2500;
+
   protected static final int ITERATIONS_5K = 5000;
 
   protected static final int ITERATIONS_10K = 10000;
 
-  protected static final int ITERATIONS_20K = 20000;
+  protected static final int ITERATIONS_50K = 50000;
 
-  protected static final int ITERATIONS_40K = 40000;
+  protected static final int ITERATIONS_100K = 100000;
 
   protected static final int ITERATIONS_200K = 200000;
 
@@ -98,6 +100,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   protected Property productNameProp;
 
   protected EStructuralFeature quantityFeat;
+
+  protected EStructuralFeature usPriceFeat;
 
   protected Property quantityProp;
 
@@ -148,7 +152,11 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected BigInteger quantityValue;
 
-  protected Object quantityObjectValue;
+  protected Object objectValue;
+
+  protected DataObject dataObjectValue;
+
+  protected BigInteger bigIntegerValue;
 
   protected BigDecimal usPriceValue;
 
@@ -184,6 +192,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected BigDecimal usPrice0 = new BigDecimal(4480);
 
+  protected BigDecimal usPrice1 = new BigDecimal(4481);
+
   protected String itemComment0 = "A comment0 on the item";
 
   protected Object shipDate0 = new XSDDateType().getValue("2006-03-10");
@@ -193,7 +203,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public DynamicIPOSDOAccessorTest(String name)
   {
     super(name);
-
   }
 
   public static Test suite()
@@ -225,7 +234,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
-
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getByPath").setWarmUp(1000).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setByPath").setWarmUp(1000).setRepetitions(REPETITIONS_10));
@@ -290,7 +298,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
         productNameProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(0));
         quantityFeat = (EStructuralFeature)features.get(1);
         quantityProp = SDOUtil.adaptProperty(quantityFeat);
-        usPriceProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(2));
+        usPriceFeat = (EStructuralFeature)features.get(2);
+        usPriceProp = SDOUtil.adaptProperty(usPriceFeat);
         itemCommentProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(3));
         shipDateProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(4));
         partNumProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(5));
@@ -376,16 +385,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void getObjectWithEGet()
   {
     EObject itemElement = (EObject)this.itemElement;
+    Object objectValue = this.objectValue;
+    EStructuralFeature quantityFeat = this.quantityFeat;
+    EStructuralFeature usPriceFeat = this.usPriceFeat;
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < ITERATIONS_100K; i++)
     {
-      if (i % 2 == 0)
-      { // like set
-        quantityObjectValue = itemElement.eGet(quantityFeat);
-      }
-      else
+      // to use objectValue inside the loop.
+      if (objectValue != this)
       {
-        quantityObjectValue = itemElement.eGet(quantityFeat);
+        objectValue = itemElement.eGet(quantityFeat);
+        objectValue = itemElement.eGet(usPriceFeat);
       }
     }
     stopMeasuring();
@@ -394,16 +405,26 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void setObjectWithESet()
   {
     EObject itemElement = (EObject)this.itemElement;
+    BigInteger quantity0 = this.quantity0;
+    BigInteger quantity1 = this.quantity1;
+    BigDecimal usPrice0 = this.usPrice0;
+    BigDecimal usPrice1 = this.usPrice1;
+    Object objectValue = this.objectValue;
+    EStructuralFeature quantityFeat = this.quantityFeat;
+    EStructuralFeature usPriceFeat = this.usPriceFeat;
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < ITERATIONS_50K; i++)
     {
-      if (i % 2 == 0)
-      { // to set to a new value each time.
-        itemElement.eSet(quantityFeat, quantity0);
-      }
-      else
+      // like get
+      if (objectValue != this)
       {
+        itemElement.eSet(quantityFeat, quantity0);
+        // to alternate the feature to set.
+        itemElement.eSet(usPriceFeat, usPrice0);
+        // to set to a new value each time.
         itemElement.eSet(quantityFeat, quantity1);
+        itemElement.eSet(usPriceFeat, usPrice1);
       }
     }
     stopMeasuring();
@@ -411,16 +432,19 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void getObjectByProperty()
   {
+    DataObject itemElement = this.itemElement;
+    Object objectValue = this.objectValue;
+    Property quantityProp = this.quantityProp;
+    Property usPriceProp = this.usPriceProp;
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < ITERATIONS_100K; i++)
     {
-      if (i % 2 == 0)
-      { // like set
-        quantityObjectValue = itemElement.get(quantityProp);
-      }
-      else
+      // to use objectValue inside the loop.
+      if (objectValue != this)
       {
-        quantityObjectValue = itemElement.get(quantityProp);
+        objectValue = itemElement.get(quantityProp);
+        objectValue = itemElement.get(usPriceProp);
       }
     }
     stopMeasuring();
@@ -428,16 +452,27 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void setObjectByProperty()
   {
+    DataObject itemElement = this.itemElement;
+    BigInteger quantity0 = this.quantity0;
+    BigInteger quantity1 = this.quantity1;
+    BigDecimal usPrice0 = this.usPrice0;
+    BigDecimal usPrice1 = this.usPrice1;
+    Object objectValue = this.objectValue;
+    Property quantityProp = this.quantityProp;
+    Property usPriceProp = this.usPriceProp;
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < ITERATIONS_50K; i++)
     {
-      if (i % 2 == 0)
-      { // to set to a new value each time.
-        itemElement.set(quantityProp, quantity0);
-      }
-      else
+      //    like get
+      if (objectValue != this)
       {
+        itemElement.set(quantityProp, quantity0);
+        // to alternate the feature to set.
+        itemElement.set(usPriceProp, usPrice0);
+        // to set to a new value each time.
         itemElement.set(quantityProp, quantity1);
+        itemElement.set(usPriceProp, usPrice1);
       }
     }
     stopMeasuring();
@@ -445,16 +480,17 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void getObjectByIndex()
   {
+    DataObject itemElement = this.itemElement;
+    Object objectValue = this.objectValue;
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < ITERATIONS_100K; i++)
     {
-      if (i % 2 == 0)
-      { // like set
-        quantityObjectValue = itemElement.get(1);
-      }
-      else
+      // to use objectValue inside the loop.
+      if (objectValue != this)
       {
-        quantityObjectValue = itemElement.get(1);
+        objectValue = itemElement.get(1);
+        objectValue = itemElement.get(2);
       }
     }
     stopMeasuring();
@@ -462,16 +498,24 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void setObjectByIndex()
   {
+    BigInteger quantity0 = this.quantity0;
+    BigInteger quantity1 = this.quantity1;
+    BigDecimal usPrice0 = this.usPrice0;
+    BigDecimal usPrice1 = this.usPrice1;
+    Object objectValue = this.objectValue;
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < ITERATIONS_50K; i++)
     {
-      if (i % 2 == 0)
-      { // to set to a new value each time.
-        itemElement.set(1, quantity0);
-      }
-      else
+      // like get
+      if (objectValue != this)
       {
+        itemElement.set(1, quantity0);
+        // to alternate the feature to set.
+        itemElement.set(2, usPrice0);
+        // to set to a new value each time.
         itemElement.set(1, quantity1);
+        itemElement.set(2, usPrice1);
       }
     }
     stopMeasuring();
@@ -479,15 +523,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void getBigIntegerByProperty()
   {
+    DataObject itemElement = this.itemElement;
+    BigInteger quantityValue = this.quantityValue;
+    BigInteger quantity0 = this.quantity0;
+    Property quantityProp = this.quantityProp;
+
     startMeasuring();
     for (int i = 0; i < ITERATIONS_200K; i++)
     {
-      if (i % 2 == 0)
-      { // like set
-        quantityValue = itemElement.getBigInteger(quantityProp);
-      }
-      else
+      // to use quantityValue inside the loop.
+      if (quantityValue != quantity0)
       {
+        // TODO ideally, we'd want to call getBigInteger for different features. 
         quantityValue = itemElement.getBigInteger(quantityProp);
       }
     }
@@ -496,15 +543,20 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void setBigIntegerByProperty()
   {
+    DataObject itemElement = this.itemElement;
+    BigInteger quantity0 = this.quantity0;
+    BigInteger quantity1 = this.quantity1;
+    BigInteger quantityValue = this.quantityValue;
+    Property quantityProp = this.quantityProp;
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < ITERATIONS_100K; i++)
     {
-      if (i % 2 == 0)
-      { // to set to a new value each time.
-        itemElement.setBigInteger(quantityProp, quantity0);
-      }
-      else
+      // like get
+      if (quantityValue != quantity0)
       {
+        itemElement.setBigInteger(quantityProp, quantity0);
+        // TODO ideally, we'd want to alternate the feature to set.
         itemElement.setBigInteger(quantityProp, quantity1);
       }
     }
@@ -513,15 +565,17 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void getBigIntegerByIndex()
   {
+    DataObject itemElement = this.itemElement;
+    BigInteger quantityValue = this.quantityValue;
+    BigInteger quantity0 = this.quantity0;
+
     startMeasuring();
     for (int i = 0; i < ITERATIONS_200K; i++)
     {
-      if (i % 2 == 0)
-      { // like set
-        quantityValue = itemElement.getBigInteger(1);
-      }
-      else
+      // to use quantityValue inside the loop.
+      if (quantityValue != quantity0)
       {
+        // TODO ideally, we'd want to call getBigInteger for different features.
         quantityValue = itemElement.getBigInteger(1);
       }
     }
@@ -530,15 +584,19 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void setBigIntegerByIndex()
   {
+    DataObject itemElement = this.itemElement;
+    BigInteger quantityValue = this.quantityValue;
+    BigInteger quantity0 = this.quantity0;
+    BigInteger quantity1 = this.quantity1;
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < ITERATIONS_100K; i++)
     {
-      if (i % 2 == 0)
-      { // to set to a new value each time.
-        itemElement.setBigInteger(1, quantity0);
-      }
-      else
+      // like get
+      if (quantityValue != quantity0)
       {
+        itemElement.setBigInteger(1, quantity0);
+        // TODO ideally, we'd want to alternate the feature to set.
         itemElement.setBigInteger(1, quantity1);
       }
     }
@@ -547,16 +605,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void getBigIntegerByPath()
   {
+    DataObject po = this.po;
+    BigInteger bigIntegerValue = this.bigIntegerValue;
+    BigInteger quantity0 = this.quantity0;
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_5K; i++)
+    for (int i = 0; i < ITERATIONS_2_5K; i++)
     {
-      if (i % 2 == 0)
-      { // like others.
-        quantityValue = po.getBigInteger("items/item[1]/quantity");
-      }
-      else
+      // to use quantityValue inside the loop.
+      if (bigIntegerValue != quantity0)
       {
-        quantityValue = po.getBigInteger("items/item[1]/quantity");
+        bigIntegerValue = po.getBigInteger("items/item[1]/quantity");
+        bigIntegerValue = po.getBigInteger("billTo/zip");
       }
     }
     stopMeasuring();
@@ -564,15 +624,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void getBigDecimalByProperty()
   {
+    DataObject itemElement = this.itemElement;
+    BigDecimal usPriceValue = this.usPriceValue;
+    BigDecimal usPrice0 = this.usPrice0;
+    Property usPriceProp = this.usPriceProp;
+
     startMeasuring();
     for (int i = 0; i < ITERATIONS_200K; i++)
     {
-      if (i % 2 == 0)
-      { // like others.
-        usPriceValue = itemElement.getBigDecimal(usPriceProp);
-      }
-      else
+      // to use usPriceValue inside the loop.
+      if (usPriceValue != usPrice0)
       {
+        // TODO ideally, we'd want to call getBigDecimal for different features. 
         usPriceValue = itemElement.getBigDecimal(usPriceProp);
       }
     }
@@ -581,15 +644,17 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void getBigDecimalByIndex()
   {
+    DataObject itemElement = this.itemElement;
+    BigDecimal usPriceValue = this.usPriceValue;
+    BigDecimal usPrice0 = this.usPrice0;
+
     startMeasuring();
     for (int i = 0; i < ITERATIONS_200K; i++)
     {
-      if (i % 2 == 0)
-      { // like others.
-        usPriceValue = itemElement.getBigDecimal(2);
-      }
-      else
+      // to use usPriceValue inside the loop.
+      if (usPriceValue != usPrice0)
       {
+        // TODO ideally, we'd want to call getBigDecimal for different features.
         usPriceValue = itemElement.getBigDecimal(2);
       }
     }
@@ -598,16 +663,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void getBigDecimalByPath()
   {
+    DataObject po = this.po;
+    BigDecimal usPriceValue = this.usPriceValue;
+    BigDecimal usPrice0 = this.usPrice0;
+
     startMeasuring();
     for (int i = 0; i < ITERATIONS_5K; i++)
     {
-      if (i % 2 == 0)
-      { // like others.
-        quantityValue = po.getBigInteger("items/item[1]/uSPrice");
-      }
-      else
+      // to use usPriceValue inside the loop.
+      if (usPriceValue != usPrice0)
       {
-        quantityValue = po.getBigInteger("items/item[1]/uSPrice");
+        // TODO ideally, we'd want to call getBigDecimal for different features.
+        usPriceValue = po.getBigDecimal("items/item[1]/uSPrice");
       }
     }
     stopMeasuring();
@@ -615,16 +682,19 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void getDataObjectByProperty()
   {
+    DataObject po = this.po;
+    DataObject dataObjectValue = this.dataObjectValue;
+    Property shipToProp = this.shipToProp;
+    Property billToProp = this.billToProp;
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < ITERATIONS_100K; i++)
     {
-      if (i % 2 == 0)
-      { // like set.
-        shipToValue = po.getDataObject(shipToProp);
-      }
-      else
+      // to use dataObjectValue inside the loop.
+      if (dataObjectValue != this)
       {
-        shipToValue = po.getDataObject(shipToProp);
+        dataObjectValue = po.getDataObject(shipToProp);
+        dataObjectValue = po.getDataObject(billToProp);
       }
     }
     stopMeasuring();
@@ -632,16 +702,27 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void setDataObjectByProperty()
   {
+    DataObject po = this.po;
+    DataObject newShipToAddress0 = this.newShipToAddress0;
+    DataObject newShipToAddress1 = this.newShipToAddress1;
+    DataObject newBillToAddress0 = this.newBillToAddress0;
+    DataObject newBillToAddress1 = this.newBillToAddress1;
+    DataObject shipToValue = this.shipToValue;
+    Property shipToProp = this.shipToProp;
+    Property billToProp = this.billToProp;
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_20K; i++)
+    for (int i = 0; i < ITERATIONS_5K; i++)
     {
-      if (i % 2 == 0)
-      { // to set to a new value each time.
-        po.setDataObject(shipToProp, newShipToAddress0);
-      }
-      else
+      // like get
+      if (shipToValue != this)
       {
+        po.setDataObject(shipToProp, newShipToAddress0);
+        // to alternate the feature to set.
+        po.setDataObject(billToProp, newBillToAddress0);
+        // to set to a new value each time.
         po.setDataObject(shipToProp, newShipToAddress1);
+        po.setDataObject(billToProp, newBillToAddress1);
       }
     }
     stopMeasuring();

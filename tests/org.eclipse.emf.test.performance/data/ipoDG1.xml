@@ -2,7 +2,7 @@
 <sdo:datagraph xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ipo="http://www.example.com/IPO"
     xmlns:sdo="commonj.sdo">
   <changeSummary/>
-  <ipo:purchaseOrder orderDate="2005-02-10">
+  <ipo:purchaseOrder orderDate="2006-02-10">
     <shipTo xsi:type="ipo:USAddress">
       <name>The Address</name>
       <street>24 Lakeshore Dr.</street>
@@ -20,9 +20,10 @@
     <items>
       <item partNum="part num 010">
         <productName>The 0 name</productName>
+        <quantity>133</quantity>
         <USPrice>100</USPrice>
         <ipo:comment>comment 0</ipo:comment>
-        <shipDate>2005-02-20</shipDate>
+        <shipDate>2006-03-10</shipDate>
       </item>
     </items>
   </ipo:purchaseOrder>

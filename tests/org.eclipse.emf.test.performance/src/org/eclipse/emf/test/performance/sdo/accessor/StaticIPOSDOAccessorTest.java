@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.8 2005/03/01 21:16:21 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.9 2005/03/03 19:25:56 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -54,6 +54,11 @@ import commonj.sdo.Property;
 
 public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 {
+
+  protected static final int ITERATIONS_40K = 40000;
+
+  protected static final int ITERATIONS_400K = 400000;
+
   protected static final int ITERATIONS_800K = 800000;
 
   // values for get with generated code.
@@ -64,8 +69,6 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   protected ItemType itemTypeElementValue;
 
   protected HashMap hashMap = new HashMap();
-
-  protected Object mapValue;
 
   public StaticIPOSDOAccessorTest(String name)
   {
@@ -196,6 +199,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     quantityProp = (Property)itemProperties.get(1);
     quantityFeat = ((EProperty)quantityProp).getEStructuralFeature();
     usPriceProp = (Property)itemProperties.get(2);
+    usPriceFeat = ((EProperty)usPriceProp).getEStructuralFeature();
     itemCommentProp = (Property)itemProperties.get(3);
     shipDateProp = (Property)itemProperties.get(4);
     partNumProp = (Property)itemProperties.get(5);
@@ -269,17 +273,21 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
    */
   public void getFromMap()
   {
+    HashMap hashMap = this.hashMap;
+    Object objectValue = this.objectValue;
+    Property quantityProp = this.quantityProp;
+    Property usPriceProp = this.usPriceProp;
+
     initMap();
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < ITERATIONS_100K; i++)
     {
-      if (i % 2 == 0)
-      { // like set
-        mapValue = hashMap.get(quantityProp);
-      }
-      else
-      {
-        mapValue = hashMap.get(quantityProp);
+      // to use objectValue inside the loop.
+      if (objectValue != this)
+      { // to get a different value each time.
+        objectValue = hashMap.get(quantityProp);
+        objectValue = hashMap.get(usPriceProp);
       }
     }
     stopMeasuring();
@@ -290,17 +298,25 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
    */
   public void putInMap()
   {
+    HashMap hashMap = this.hashMap;
+    Object objectValue = this.objectValue;
+    Property itemCommentProp = this.itemCommentProp;
+    Property partNumProp = this.partNumProp;
+
     initMap();
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < ITERATIONS_50K; i++)
     {
-      if (i % 2 == 0)
-      { // to set to a new value each time.
-        hashMap.put(itemCommentProp, "comment x");
-      }
-      else
+      // like get
+      if (objectValue != this)
       {
+        hashMap.put(itemCommentProp, "comment x");
+        // to alternate the feature to set.
+        hashMap.put(partNumProp, "part num x");
+        // to set to a new value each time.
         hashMap.put(itemCommentProp, "comment y");
+        hashMap.put(partNumProp, "part num y");
       }
     }
     stopMeasuring();
@@ -309,34 +325,37 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   public void getBigIntegerByGenerated()
   {
     ItemType itemElement = (ItemType)this.itemElement;
+    BigInteger quantityValue = this.quantityValue;
+    BigInteger quantity0 = this.quantity0;
+
     startMeasuring();
     for (int i = 0; i < ITERATIONS_800K; i++)
     {
-      if (i % 2 == 0)
-      { // like set.
-        quantityValue = itemElement.getQuantity();
-      }
-      else
+      // to use quantityValue inside the loop.
+      if (quantityValue != quantity0)
       {
+        // TODO ideally, we'd want to call different methods (which return BigInteger).
         quantityValue = itemElement.getQuantity();
       }
     }
     stopMeasuring();
   }
 
-  // alternating to set to a different value each time.
   public void setBigIntegerByGenerated()
   {
     ItemType itemElement = (ItemType)this.itemElement;
+    BigInteger quantityValue = this.quantityValue;
+    BigInteger quantity0 = this.quantity0;
+    BigInteger quantity1 = this.quantity1;
+
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_800K; i++)
+    for (int i = 0; i < ITERATIONS_400K; i++)
     {
-      if (i % 2 == 0)
-      { // to set to a new value each time.
-        itemElement.setQuantity(quantity0);
-      }
-      else
+      // like get
+      if (quantityValue != quantity0)
       {
+        itemElement.setQuantity(quantity0);
+        // TODO ideally, we'd want to alternate the feature to set.
         itemElement.setQuantity(quantity1);
       }
     }
