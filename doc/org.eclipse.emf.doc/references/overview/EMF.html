@@ -1002,7 +1002,7 @@ Running this program would produce output something like this:
 <pre class="code">
   Shakespeare books:
     title: King Lear</pre>
-<h3>Loading and saving resources</h3>
+<h3>Saving and loading resources</h3>
 <p>
 To create a document named mylibrary.xmi containing the above model, all we need
 to do is create an EMF resource at the beginning of the program, put the book
@@ -1011,6 +1011,10 @@ and writer into the resource, and call save() at the end:
 <pre class="code">
   // Create a resource set.
   ResourceSet resourceSet = new ResourceSetImpl();
+
+  // Register the default resource factory -- only needed for stand-alone!
+  resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
+    Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
 
   // Get the URI of the model file.
   URI fileURI = URI.createFileURI(new File(&quot;mylibrary.xmi&quot;).getAbsolutePath());
@@ -1033,9 +1037,11 @@ Notice that a resource set (interface ResourceSet) is used to create the EMF
 resource. A resource set is used by the EMF framework to manage resources that
 may have cross document references. Using a registry (interface
 Resource.Factory.Registry), it creates the right type of resource for a given 
-URI based on its scheme, file extension, or other possible
-criteria<sup><a class="footnote" href="#fn18">[18]</a><a name="ref18">&nbsp;</a></sup>.
-During load, it also manages the demand-loading of cross document references.
+URI based on its scheme, file extension, or other possible criteria. Here,
+we register the XMI resource implementation as the default for this resource
+set<sup><a class="footnote" href="#fn18">[18]</a><a name="ref18">&nbsp;</a></sup>.
+During load, the resource set also manages the demand-loading of cross document
+references.
 </p>
 <p>
 Running this program will produce the file mylibrary.xmi with contents something 
@@ -1048,13 +1054,55 @@ like this:
     &lt;library:Writer name=&quot;William Shakespeare&quot; books=&quot;/0&quot;/&gt;
   &lt;/xmi:XMI&gt;</pre>
 <p>
-If instead, we wanted to serialize the books and writers into different 
-documents, all we would have needed to do is open a second document:
+<p>
+To load the document mylibrary.xmi, as saved above, we set up a resource set,
+and then simply demand-load the resource into it, as follows:
+</p>
+<pre class="code">
+   // Create a resource set.
+   ResourceSet resourceSet = new ResourceSetImpl();
+
+  // Register the default resource factory -- only needed for stand-alone!
+  resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
+    Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
+
+  // Register the package -- only needed for stand-alone!
+  LibraryPackage libraryPackage = LibraryPackage.eINSTANCE;
+
+   // Get the URI of the model file.
+   URI fileURI = URI.createFileURI(new File("mylibrary.xmi").getAbsolutePath());
+
+   // Demand load the resource for this file.
+   Resource resource = resourceSet.getResource(fileURI, true);
+
+   // Print the contents of the resource to System.out.
+   try
+   {
+     resource.save(System.out, Collections.EMPTY_MAP);
+   }
+   catch (IOException e) {}</pre>
+
+<p>
+Again, we create a resource set and, for the stand-alone case, register a
+default resource implementation. Also, we need to ensure that our package is
+registered in the package registry, which the resource uses to obtain the
+appropriate metadata and factory for the model it is loading. Simply
+accessing the eINSTANCE field of a generated package interface is sufficient
+to ensure that it is registered.
+</p>
+<p>
+This example uses the second form of save(), which takes an OutputStream, to
+print the serialization to the console.
+</p>
+<p>
+Splitting a model into multiple documents, with cross references between them,
+is simple. If we wanted to serialize the books and writers, in the save example
+above, into separate documents, all we need to do is create a second resource:
 </p>
 <pre class="code">
   Resource anotherResource = resourceSet.createResource(anotherFileURI);</pre>
 <p>
-and add the writer to it, instead of the first resource:
+and add the writer to it, instead of the first:
 </p>
 <pre class="code">
   <strike>resource.getContents().add(writer);</strike>
@@ -1535,18 +1583,10 @@ directly using Ecore.
 </p>
 <p>
 <sup><a class="footnote" href="#ref18">[18]</a><a name="fn18">&nbsp;</a></sup>The
-above code will fail if run stand-alone (that is, directly invoked in a JVM,
-with the required EMF JAR files on the class path) because it does not
-initialize the resource factory registry with a default resource factory. The
-following line should be inserted, immediately after creating the resource set:
-</p>
-<pre class="code">
-  resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-    Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());</pre>
-<p>
-Then, the resource set will use the default XMI resource implementation for
-serialization. The same registration is automatically made in the global
-resource factory registry when EMF is run within Eclipse.
+second line of the above code is only required when run stand-alone (that is,
+directly invoked in a JVM, with the required EMF JAR files on the class path).
+The same registration is automatically made in the global resource factory
+registry when EMF is run within Eclipse.
 </p>
 <p>
 <sup><a class="footnote" href="#ref19">[19]</a><a name="fn19">&nbsp;</a></sup>Implementations
