@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.6 2005/02/16 22:06:11 davidms Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.7 2005/02/16 22:19:07 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
