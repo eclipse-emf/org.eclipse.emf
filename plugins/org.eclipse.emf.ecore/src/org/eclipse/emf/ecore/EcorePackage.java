@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.2 2004/05/05 19:50:33 emerks Exp $
+ * $Id: EcorePackage.java,v 1.3 2004/08/12 15:01:10 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -3398,5 +3398,7 @@ public interface EcorePackage extends EPackage{
    * @generated
    */
   EcoreFactory getEcoreFactory();
+
+  boolean _INTERNAL_BOOTSTRAP = org.eclipse.emf.ecore.impl.EcorePackageImpl.internalBootstrap();
 
 } //EcorePackage
