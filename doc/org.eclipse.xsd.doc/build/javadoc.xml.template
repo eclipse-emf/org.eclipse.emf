@@ -9,6 +9,7 @@
 			destdir="${destDir}" 
 			classpath="${classpath}"
 			overview="${overview}"
+			verbose="false"
 
 			windowtitle="XSD Javadoc"
 			footer="Copyright 2001-2004 IBM Corporation and others.&lt;br&gt; All Rights Reserved."
