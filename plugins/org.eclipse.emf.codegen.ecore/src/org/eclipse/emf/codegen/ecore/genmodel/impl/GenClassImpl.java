@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.12 2004/06/19 17:44:54 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.13 2004/07/08 13:54:26 fbudinsky Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1853,7 +1853,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     for (Iterator i = getAllGenConstraints().iterator(); i.hasNext(); )
     {
       String genConstraint = (String)i.next();
-      if (getConstraintDelegate(genConstraint) != null)
+      if (getConstraintImplementor(genConstraint) != null)
       {
         return false;
       }
