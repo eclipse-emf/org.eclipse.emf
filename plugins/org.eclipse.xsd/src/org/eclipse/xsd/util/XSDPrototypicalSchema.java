@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPrototypicalSchema.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDPrototypicalSchema.java,v 1.2 2004/04/15 05:52:40 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -119,7 +119,7 @@ public class XSDPrototypicalSchema
 
   /**
    * Return the one static instance.
-   * @returns the one static instance.
+   * @return the one static instance.
    */
   public static XSDPrototypicalSchema getInstance()
   {
@@ -155,7 +155,7 @@ public class XSDPrototypicalSchema
 
   /**
    * Returns the {@link #initializePrototypeSchema Prototype Schema} instance.
-   * @returns the Prototype Schema instance.
+   * @return the Prototype Schema instance.
    */
   public static XSDSchema getPrototypicalSchema()
   {
@@ -164,7 +164,7 @@ public class XSDPrototypicalSchema
 
   /**
    * Returns the {@link #initializePurchaseOrderSchema Purchase Order Schema} instance.
-   * @returns the Purchase Order Schema instance.
+   * @return the Purchase Order Schema instance.
    */
   public static XSDSchema getPurchaseOrderSchema()
   {

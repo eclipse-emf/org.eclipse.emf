@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDParser.java,v 1.2 2004/04/15 05:52:40 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -71,7 +71,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
   /**
    * Returns the user data associated with the node.
    * If the node has no user data, a new empty map is created.
-   * @param to the node to query.
+   * @param node the node to query.
    * @return the user data associated with the node.
    */
   public static Map getUserData(Node node)
@@ -87,7 +87,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
 
   /**
    * Returns the line at which the given node starts.
-   * @param to the node to query.
+   * @param node the node to query.
    * @return the line at which the given node starts.
    */
   public static int getStartLine(Node node)
@@ -98,7 +98,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
 
   /**
    * Returns the column at which the given node starts.
-   * @param to the node to query.
+   * @param node the node to query.
    * @return the column at which the given node starts.
    */
   public static int getStartColumn(Node node)
@@ -109,7 +109,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
 
   /**
    * Returns the line at which the given node ends.
-   * @param to the node to query.
+   * @param node the node to query.
    * @return the line at which the given node ends.
    */
   public static int getEndLine(Node node)
@@ -120,7 +120,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
 
   /**
    * Returns the column at which the given node ends.
-   * @param to the node to query.
+   * @param node the node to query.
    * @return the column at which the given node ends.
    */
   public static int getEndColumn(Node node)

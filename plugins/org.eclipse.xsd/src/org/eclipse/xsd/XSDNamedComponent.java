@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNamedComponent.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDNamedComponent.java,v 1.2 2004/04/15 05:52:40 marcelop Exp $
  */
 package org.eclipse.xsd;
 
@@ -236,7 +236,7 @@ public interface XSDNamedComponent extends XSDComponent {
    * @see #getName()
    * @see #getTargetNamespace()
    */
-  boolean hasSameNameAndTargetNamespace(XSDNamedComponent xsdNamedComponet);
+  boolean hasSameNameAndTargetNamespace(XSDNamedComponent xsdNamedComponent);
 
   /**
    * Returns whether this named component has the given name and target namespace.
@@ -254,7 +254,7 @@ public interface XSDNamedComponent extends XSDComponent {
    * </p>
    * <!-- end-user-doc -->
    * @param name the name.
-   * @param target namespace the target namespace.
+   * @param targetNamespace namespace the target namespace.
    * @return whether this named component has the given name and target namespace.
    * @see #hasSameNameAndTargetNamespace
    * @see #hasURI

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinition.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDComplexTypeDefinition.java,v 1.2 2004/04/15 05:52:40 marcelop Exp $
  */
 package org.eclipse.xsd;
 
@@ -321,7 +321,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * Sets the String value of the '{@link org.eclipse.xsd.XSDComplexTypeDefinition#getLexicalFinal <em>Lexical Final</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Lexical Final</em>' attribute.
+   * @param lexicalFinal the new value of the '<em>Lexical Final</em>' attribute.
    * @see #getLexicalFinal()
    * @see #getStringLexicalFinal()
    */
@@ -384,7 +384,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * Sets the String value of the '{@link org.eclipse.xsd.XSDComplexTypeDefinition#getBlock <em>Block</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Block</em>' attribute.
+   * @param block the new value of the '<em>Block</em>' attribute.
    * @see #getBlock()
    * @see #getStringBlock()
    */

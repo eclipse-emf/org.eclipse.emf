@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinition.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDSimpleTypeDefinition.java,v 1.2 2004/04/15 05:52:40 marcelop Exp $
  */
 package org.eclipse.xsd;
 
@@ -237,7 +237,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * Sets the String value of the '{@link org.eclipse.xsd.XSDSimpleTypeDefinition#getLexicalFinal <em>Lexical Final</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Lexical Final</em>' attribute.
+   * @param lexicalFinal the new value of the '<em>Lexical Final</em>' attribute.
    * @see #getLexicalFinal()
    * @see #getStringLexicalFinal()
    */
@@ -1131,8 +1131,8 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
 
   /**
    * Returns whether the {@link #getValue value}s are equal.
-   * @param literal1 a literal.
-   * @param literal2 another literal.
+   * @param value1 a literal.
+   * @param value2 another literal.
    * @return whether the {@link #getValue value}s are equal.
    */
   boolean equalValues(Object value1, Object value2);
