@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryItemProvider.java,v 1.4 2004/06/08 18:29:32 emerks Exp $
+ * $Id: EStringToStringMapEntryItemProvider.java,v 1.5 2005/02/16 22:10:21 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -21,10 +21,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -91,7 +96,7 @@ public class EStringToStringMapEntryItemProvider
          getString("_UI_EStringToStringMapEntry_key_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStringToStringMapEntry_key_feature", "_UI_EStringToStringMapEntry_type"),
          EcorePackage.eINSTANCE.getEStringToStringMapEntry_Key(),
-         false,
+         true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
   }
 
@@ -168,6 +173,50 @@ public class EStringToStringMapEntryItemProvider
   protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
+  }
+
+  /**
+   * When setting the key attribute, use a command wrapper that reindexes the attribute's details map.
+   */
+  protected Command createSetCommand(EditingDomain domain, final EObject owner, EStructuralFeature feature, Object value, int index) 
+  {
+    Command result = super.createSetCommand(domain, owner, feature, value, index);
+    if (feature == EcorePackage.eINSTANCE.getEStringToStringMapEntry_Key())
+    {
+      result = new
+        CommandWrapper(result)
+        {
+          public void execute() 
+          {
+            super.execute();
+            reindex();
+          }
+  
+          public void undo() 
+          {
+            super.undo();
+            reindex();
+          }
+  
+          public void redo() 
+          {
+            super.redo();
+            reindex();
+          }
+  
+          private void reindex()
+          {
+            EObject parent = owner.eContainer();
+            if (parent != null)
+            {
+              EStructuralFeature feature = owner.eContainmentFeature();
+              List list = (List)parent.eGet(feature);
+              list.set(list.indexOf(owner), owner);
+            }
+          }
+        };
+    }
+    return result;
   }
 
   /**
