@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.6 2004/06/08 15:35:29 emerks Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.7 2004/06/17 10:55:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -538,7 +538,15 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     theXMLTypePackage.initializePackageContents();
 
     // Register package validator
-    EValidator.Registry.INSTANCE.put(theXMLTypePackage, XMLTypeValidator.INSTANCE);
+    EValidator.Registry.INSTANCE.put
+      (theXMLTypePackage, 
+       new  EValidator.Descriptor()
+       {
+         public EValidator getEValidator()
+         {
+           return XMLTypeValidator.INSTANCE;
+         }
+       });
 
     return theXMLTypePackage;
   }
