@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicCommandStack.java,v 1.3 2004/05/29 16:07:38 emerks Exp $
+ * $Id: BasicCommandStack.java,v 1.4 2004/06/04 15:29:17 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -293,6 +293,11 @@ public class BasicCommandStack implements CommandStack
     // Only if we are at the remembered index do we NOT need to save.
     //
     //return top != saveIndex;
+
+    if (saveIndex < -1)
+    {
+      return true;
+    }
 
     for (int i = top; i > saveIndex; --i)
     {
