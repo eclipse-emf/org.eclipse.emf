@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
+import org.eclipse.emf.ecore.sdo.SDOFactory;
 import org.eclipse.emf.ecore.sdo.impl.DynamicEDataObjectImpl;
 import org.eclipse.emf.ecore.sdo.impl.EDataGraphImpl;
 
@@ -43,7 +44,35 @@ public class ChangeSummaryTest extends TestCase
   {
     TestSuite testSuite = new TestSuite("ChangeSummaryTest");
     //testSuite.addTest(new ChangeSummaryTest("testEndLoggingAfterSerialization")); // not supported in 2.0.2 (yet)
+    testSuite.addTest(new ChangeSummaryTest("testIsDeleted"));
     return testSuite;
+  }
+  
+  /*
+   * Bugzilla 83314
+   */
+  public void testIsDeleted() throws Exception
+  {
+    DataGraph dataGraph = SDOFactory.eINSTANCE.createEDataGraph();
+    DataObject phoneBook = createPhoneBookDataObject(dataGraph);
+    DataObject homeNumber = phoneBook.createDataObject("home");
+    homeNumber.setString("number", "111-111-1111");
+    DataObject workNumber = phoneBook.createDataObject("work");
+    workNumber.setString("number", "111-111-1112");
+    
+    ChangeSummary log = dataGraph.getChangeSummary();
+    log.beginLogging();
+    workNumber.delete();
+    log.endLogging();
+    
+    assertTrue(log.isDeleted(workNumber));
+    assertFalse(log.isDeleted(homeNumber));
+    
+    log.beginLogging();
+    homeNumber.delete();
+    log.endLogging();
+
+    assertTrue(log.isDeleted(homeNumber));
   }
 
   public void testEndLoggingAfterSerialization() throws Exception
@@ -170,9 +199,16 @@ public class ChangeSummaryTest extends TestCase
     work.setLowerBound(1);
     work.setUpperBound(1);
     work.setEType(detailClass);
-
     phoneClass.getEStructuralFeatures().add(work);
 
+    EReference home = fac.createEReference();
+    home.setName("home");
+    home.setContainment(true);
+    home.setLowerBound(1);
+    home.setUpperBound(1);
+    home.setEType(detailClass);
+    phoneClass.getEStructuralFeatures().add(home);
+    
     EPackage pkg = fac.createEPackage();
     pkg.setName("Phone");
     pkg.setNsURI("Phone.ecore");
