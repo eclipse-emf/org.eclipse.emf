@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETTest.java,v 1.1 2004/06/22 03:05:34 marcelop Exp $
+ * $Id: JETTest.java,v 1.2 2004/06/22 04:54:56 marcelop Exp $
  */
 package org.eclipse.emf.test.core.jet;
 
@@ -62,18 +62,16 @@ public class JETTest extends TestCase
   
   public void testEmmiter() throws Exception
   {
-    String text = createTemplateText("\r\n");
-    saveFile(TEMPLATE_FILE, templateHeader("\r\n").append(text).toString());
+    String nonOSLineSeparator = "\r\n".equals(System.getProperties().getProperty("line.separator")) ? "\n" : "\r\n";
+    String text = createTemplateText(nonOSLineSeparator);
+    saveFile(TEMPLATE_FILE, templateHeader(nonOSLineSeparator).append(text).toString());
     
     JETEmitter emitter = new JETEmitter(TEMPLATE_FILE.getAbsolutePath());
     String generatedText = emitter.generate(new NullProgressMonitor(), new Object[]{""});
     
-    String lineSeparator = System.getProperties().getProperty("line.separator");
-    if(!"\r\n".equals(lineSeparator))
-    {
-      generatedText.replaceAll(lineSeparator, "\r\n");
-    }
-    assertEquals(text, generatedText);        
+    text = text.replaceAll(nonOSLineSeparator, System.getProperties().getProperty("line.separator"));
+    assertEquals(text, generatedText);
+    TEMPLATE_FILE.delete();
   }
   
   public void testCRLF() throws Exception
@@ -124,18 +122,15 @@ public class JETTest extends TestCase
       expectedText.deleteCharAt(i);
     }
     text = "\"" + expectedText.toString().replaceAll(lineSeparator, "\" + NL + \"").replaceAll("\t", "\\\\t") + "\"";
- 
-    if(generatedGen.indexOf(text) < 0)
-      System.out.println("text:\n%%" + text + "%%\n\n\ngeneratedGen:\n%%" + generatedGen + "%%");
-      
-      
+
     assertTrue(generatedGen.indexOf(text) >= 0);
+    TEMPLATE_FILE.delete();
   }
   
   protected StringBuffer templateHeader(String lineSeparator)
   {
     StringBuffer text = new StringBuffer();
-    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.1 2004/06/22 03:05:34 marcelop Exp $\"%>").append(lineSeparator);
+    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.2 2004/06/22 04:54:56 marcelop Exp $\"%>").append(lineSeparator);
     
     text.append("<%").append(lineSeparator);
     text.append("/**").append(lineSeparator);
