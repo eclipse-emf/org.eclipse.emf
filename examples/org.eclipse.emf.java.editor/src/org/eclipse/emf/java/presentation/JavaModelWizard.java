@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaModelWizard.java,v 1.3 2004/06/17 11:03:24 emerks Exp $
+ * $Id: JavaModelWizard.java,v 1.4 2004/07/19 19:23:38 marcelop Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IContainer;
@@ -69,6 +70,9 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.java.JavaFactory;
 import org.eclipse.emf.java.JavaPackage;
+
+
+import org.eclipse.emf.java.provider.JavaEditPlugin;
 
 
 /**
@@ -434,7 +438,7 @@ public class JavaModelWizard extends Wizard implements INewWizard
           EClass eClass = (EClass)eClassifier;
           if (!eClass.isAbstract())
           {
-            objectNames.add(eClass.getName());
+            objectNames.add(getLabel(eClass));
           }
         }
       }
@@ -518,10 +522,27 @@ public class JavaModelWizard extends Wizard implements INewWizard
      */
     public String getInitialObjectName()
     {
-      return
-        initialObjectName == null ?
-          initialObjectField.getText() :
-          initialObjectName;
+      if (initialObjectName != null)
+      {
+        return initialObjectName;
+      }
+      else
+      {
+        String label = initialObjectField.getText();
+        for (Iterator classifier = javaPackage.getEClassifiers().iterator(); classifier.hasNext(); )
+        {
+          EClassifier eClassifier = (EClassifier)classifier.next();
+          if (eClassifier instanceof EClass)
+          {
+            EClass eClass = (EClass)eClassifier;
+            if (!eClass.isAbstract() && getLabel(eClass).equals(label))
+            {
+              return eClass.getName();
+            }
+          }
+        }
+        return label;
+      }
     }
 
     /**
@@ -535,6 +556,24 @@ public class JavaModelWizard extends Wizard implements INewWizard
         encoding == null ?
           encodingField.getText() :
           encoding;
+    }
+    /**
+     * Returns the label of the specified element.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected String getLabel(EClass eClass)
+    {
+      String name = eClass.getName();
+      try
+      {
+        return JavaEditPlugin.INSTANCE.getString("_UI_" + name + "_type");
+      }
+      catch(MissingResourceException mre)
+      {
+      }
+      return name;
     }
   }
 

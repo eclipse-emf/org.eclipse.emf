@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.5 2004/06/17 11:15:22 emerks Exp $
+ * $Id: EcoreModelWizard.java,v 1.6 2004/07/19 19:23:35 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IContainer;
@@ -54,6 +55,9 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
+
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -424,7 +428,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
           EClass eClass = (EClass)eClassifier;
           if (!eClass.isAbstract())
           {
-            objectNames.add(eClass.getName());
+            objectNames.add(getLabel(eClass));
           }
         }
       }
@@ -508,10 +512,27 @@ public class EcoreModelWizard extends Wizard implements INewWizard
      */
     public String getInitialObjectName()
     {
-      return
-        initialObjectName == null ?
-          initialObjectField.getText() :
-          initialObjectName;
+      if (initialObjectName != null)
+      {
+        return initialObjectName;
+      }
+      else
+      {
+        String label = initialObjectField.getText();
+        for (Iterator classifier = ecorePackage.getEClassifiers().iterator(); classifier.hasNext(); )
+        {
+          EClassifier eClassifier = (EClassifier)classifier.next();
+          if (eClassifier instanceof EClass)
+          {
+            EClass eClass = (EClass)eClassifier;
+            if (!eClass.isAbstract() && getLabel(eClass).equals(label))
+            {
+              return eClass.getName();
+            }
+          }
+        }
+        return label;
+      }
     }
 
     /**
@@ -525,6 +546,24 @@ public class EcoreModelWizard extends Wizard implements INewWizard
         encoding == null ?
           encodingField.getText() :
           encoding;
+    }
+    /**
+     * Returns the label of the specified element.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected String getLabel(EClass eClass)
+    {
+      String name = eClass.getName();
+      try
+      {
+        return EcoreEditPlugin.INSTANCE.getString("_UI_" + name + "_type");
+      }
+      catch(MissingResourceException mre)
+      {
+      }
+      return name;
     }
   }
 
