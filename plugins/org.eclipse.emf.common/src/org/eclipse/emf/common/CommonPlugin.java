@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.5 2004/07/29 13:32:37 marcelop Exp $
+ * $Id: CommonPlugin.java,v 1.6 2004/11/09 19:45:01 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -145,7 +145,7 @@ public final class CommonPlugin extends EMFPlugin
     {
       URI result = 
         "file".equalsIgnoreCase(url.getProtocol()) ?
-          URI.createFileURI(url.getFile()) :
+          URI.createFileURI(URI.decode(url.getFile())) :
           URI.createURI(url.toString());
       if (fragment != null)
       {
