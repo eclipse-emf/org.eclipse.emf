@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: MergerSource.java,v 1.1 2004/11/25 19:41:51 marcelop Exp $
+ * $Id: MergerSource.java,v 1.2 2004/11/26 01:52:53 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -125,5 +125,39 @@ public class MergerExample
   protected Object sourceRequired()
   {
     System.out.println("Source code 4");
+  }
+  
+  /**
+   * Source javadoc 20
+   * <!-- begin-user-doc -->
+   * Source user javadoc 21
+   * <!-- end-user-doc -->
+   * Source javadoc 22
+   * @generated
+   */
+  private void methodWithTargetWithoutUserSections()
+  {
+    // begin-user-code
+    System.out.println("Source user code 5");
+    // end-user-code        
+    System.out.println("Source code 6");
+  }
+  
+  /**
+   * Source javadoc 23
+   * @generated
+   */
+  private void methodWithSourceWithoutUserSections()
+  {
+    System.out.println("Source code 7");
+  }
+  
+  /**
+   * Source javadoc 24
+   * @generated
+   */
+  private void methodWithoutUserSections()
+  {
+    System.out.println("Source code 8");
   }
 }

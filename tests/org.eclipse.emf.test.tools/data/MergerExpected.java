@@ -136,4 +136,38 @@ public class MergerExample {
   {
     System.out.println("Source code 4");
   }
+  
+  /**
+   * Target javadoc 26
+   * @generated
+   */
+  private void methodWithTargetWithoutUserSections()
+  {
+    System.out.println("Target code 6");
+  }
+  
+  /**
+   * Target javadoc 27
+   * <!-- begin-user-doc -->
+   * Target user javadoc 28
+   * <!-- end-user-doc -->
+   * Target javadoc 29
+   * @generated
+   */
+  private void methodWithSourceWithoutUserSections()
+  {
+    // begin-user-code
+    System.out.println("Target user code 7");
+    // end-user-code        
+    System.out.println("Target code 8");
+  }
+  
+  /**
+   * Target javadoc 30
+   * @generated
+   */
+  private void methodWithoutUserSections()
+  {
+    System.out.println("Target code 9");
+  }
 }
