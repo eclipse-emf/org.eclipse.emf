@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.21 2004/09/29 14:47:19 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.22 2004/11/08 13:37:43 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1693,7 +1693,16 @@ public class XSDEcoreBuilder extends MapBuilder
             {
               ++index;
             }
+
+            EClassifier objectType = extendedMetaData.getType(eClassifier.getEPackage(), extendedMetaData.getName(eClassifier) + ":Object");
+            
             extendedMetaData.setName(eClassifier, baseName + "_._" + index + "_._type");
+
+            if (objectType != null)
+            {
+              extendedMetaData.setName(objectType, baseName + "_._" + index + "_._type:Object");
+              extendedMetaData.setBaseType((EDataType)objectType, (EDataType)eClassifier); 
+            }
           }
         }
 
