@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerNotification.java,v 1.2 2004/04/03 20:04:23 davidms Exp $
+ * $Id: ViewerNotification.java,v 1.3 2004/04/05 23:10:58 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -27,6 +27,21 @@ import org.eclipse.emf.common.notify.NotificationWrapper;
  */
 public class ViewerNotification extends NotificationWrapper implements IViewerNotification
 {
+  /**
+   * Wraps the given notification to make the given element be operated on by the viewer that receives it. If the 
+   * notification is an {@link IViewerNotification}, it is {@link #ViewerNotification(IViewerNotification, Object)
+   * wrapped} in a <code>ViewerNotification</code>, with that element. Otherwise, it is wrapped in a {@link
+   * org.eclipse.emf.common.notify.NotificationWrapper} that returns the element as its <code>notifier</code>.
+   */
+  public static Notification wrapNotification(Notification notification, Object element)
+  {
+    if (notification instanceof IViewerNotification)
+    {
+      return new ViewerNotification((IViewerNotification)notification, element);
+    }
+    return new NotificationWrapper(element, notification);
+  }
+
   /**
    * The element to update or from which to refresh.  The whole viewer is indicated by the null value.
    * @see #getElement
@@ -73,13 +88,13 @@ public class ViewerNotification extends NotificationWrapper implements IViewerNo
   }
 
   /**
-   * Decorates an existing viewer notification to specify a different element.
+   * Wraps an existing viewer notification to specify a different element.
    */
   public ViewerNotification(IViewerNotification viewerNotification, Object element)
   {
     this(viewerNotification, element, viewerNotification.isContentRefresh(), viewerNotification.isLabelUpdate());
   }
-
+  
   /**
    * Returns the element to update or from which to refresh.
    */

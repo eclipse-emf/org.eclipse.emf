@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingWrapperItemProvider.java,v 1.1 2004/03/31 19:50:24 davidms Exp $
+ * $Id: DelegatingWrapperItemProvider.java,v 1.2 2004/04/05 23:10:58 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -33,7 +33,6 @@ import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationWrapper;
 import org.eclipse.emf.edit.command.CommandActionDelegate;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.DragAndDropCommand;
@@ -483,17 +482,11 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   }
 
   /**
-   * Wraps the given notification, substituting this wrapper as the operative object. If the notification is an {@link
-   * IViewerNotification}, it is wrapped in a {@link ViewerNotification}, in which this wrapper is the
-   * <code>element</code>. Otherwise, it is wrapped in a {@link org.eclipse.emf.common.notify.NotificationWrapper}, in
-   * which this wrapper is the <code>notifier</code>.
+   * Wraps the given notification, substituting this wrapper as the operative object, by calling {@link
+   * ViewerNotification#wrapNotification ViewerNotification.wrapNotification}.
    */
   protected Notification wrapNotification(Notification notification)
   {
-    if (notification instanceof IViewerNotification)
-    {
-      return new ViewerNotification((IViewerNotification)notification, this);
-    }
-    return new NotificationWrapper(this, notification);
+    return ViewerNotification.wrapNotification(notification, this);
   }
 }
