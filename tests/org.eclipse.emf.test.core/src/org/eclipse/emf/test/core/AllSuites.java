@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.14 2004/06/30 21:11:29 marcelop Exp $
+ * $Id: AllSuites.java,v 1.15 2004/07/08 17:30:19 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -28,7 +28,7 @@ public class AllSuites extends TestSuite
   private static Test[] suites = new Test []{ 
     org.eclipse.emf.test.core.common.util.URITest.suite() 
     ,org.eclipse.emf.test.core.dynamic.SimpleModelTest.suite()
-    //,org.eclipse.emf.test.core.build.BuildTests.suite()
+    ,org.eclipse.emf.test.core.build.BuildTests.suite()
     ,org.eclipse.emf.test.core.sdo.types.SDOUtilGetTest.suite()
     ,org.eclipse.emf.test.core.sdo.types.SDOUtilSetTest.suite()
     ,org.eclipse.emf.test.core.sdo.types.SDOUtilProtectedGetTest.suite()
@@ -37,8 +37,8 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.core.xmi.NamespaceTest.suite()
     ,org.eclipse.emf.test.core.xmi.OrderTest.suite()
     ,org.eclipse.emf.test.core.xmi.QNameTest.suite()
-    //,org.eclipse.emf.test.core.xsdecore.XSD2EcoreTest.suite()
-    //,org.eclipse.emf.test.core.xsdecore.XSDValidateTest.suite()
+    ,org.eclipse.emf.test.core.xsdecore.XSD2EcoreTest.suite()
+    ,org.eclipse.emf.test.core.xsdecore.XSDValidateTest.suite()
     ,org.eclipse.emf.test.core.jet.JETTest.suite()
     ,com.example.simple.TestSDO.suite()
   };
