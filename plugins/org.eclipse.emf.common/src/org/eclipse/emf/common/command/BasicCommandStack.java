@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicCommandStack.java,v 1.6 2004/07/16 17:41:42 emerks Exp $
+ * $Id: BasicCommandStack.java,v 1.7 2005/02/04 12:17:27 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -95,9 +95,7 @@ public class BasicCommandStack implements CommandStack
       }
       catch (RuntimeException exception)
       {
-        CommonPlugin.INSTANCE.log
-          (new WrappedException
-            (CommonPlugin.INSTANCE.getString("_UI_IgnoreException_exception"), exception).fillInStackTrace());
+        handleError(exception);
 
         mostRecentCommand = null;
         command.dispose();
@@ -145,9 +143,7 @@ public class BasicCommandStack implements CommandStack
       }
       catch (RuntimeException exception)
       {
-        CommonPlugin.INSTANCE.log
-          (new WrappedException
-            (CommonPlugin.INSTANCE.getString("_UI_IgnoreException_exception"), exception).fillInStackTrace());
+        handleError(exception);
 
         mostRecentCommand = null;
         flush();
@@ -180,9 +176,7 @@ public class BasicCommandStack implements CommandStack
       }
       catch (RuntimeException exception)
       {
-        CommonPlugin.INSTANCE.log
-          (new WrappedException
-            (CommonPlugin.INSTANCE.getString("_UI_IgnoreException_exception"), exception).fillInStackTrace());
+        handleError(exception);
 
         mostRecentCommand = null;
 
@@ -274,6 +268,16 @@ public class BasicCommandStack implements CommandStack
       ((CommandStackListener)i.next()).commandStackChanged(new EventObject(this));
     }
   } 
+
+  /**
+   * Handles an exception thrown during command execution by loging it with the plugin.
+   */
+  protected void handleError(Exception exception) 
+  {
+    CommonPlugin.INSTANCE.log
+      (new WrappedException
+         (CommonPlugin.INSTANCE.getString("_UI_IgnoreException_exception"), exception).fillInStackTrace());
+  }
 
   /**
    * Called after a save has been successfully performed.
