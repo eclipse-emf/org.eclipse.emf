@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.7 2004/05/31 17:00:23 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.8 2004/06/15 10:57:36 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -318,7 +318,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       boolean isSettable,
       String category)
   {
-    this(adapterFactory, null, displayName, description, feature, isSettable, category, null, null);
+    this(adapterFactory, null, displayName, description, feature, isSettable, null, category, null);
   }
 
   /**
@@ -335,7 +335,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       boolean isSettable,
       String category)
   {
-    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, category, null, null);
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, null, category, null);
   }
 
   /**
