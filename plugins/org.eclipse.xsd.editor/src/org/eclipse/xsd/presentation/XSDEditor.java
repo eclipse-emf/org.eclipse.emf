@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.11 2004/06/13 12:21:01 emerks Exp $
+ * $Id: XSDEditor.java,v 1.12 2004/07/16 16:27:03 marcelop Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -2170,11 +2170,8 @@ public class XSDEditor
    */
   public void setStatusLineManager(ISelection selection)
   {
-    IStatusLineManager statusLineManager = getActionBars().getStatusLineManager();
-    if (currentViewer == contentOutlineViewer)
-    {
-      statusLineManager = contentOutlineStatusLineManager;
-    }
+    IStatusLineManager statusLineManager = currentViewer != null && currentViewer == contentOutlineViewer ?
+      contentOutlineStatusLineManager : getActionBars().getStatusLineManager();
 
     if (statusLineManager != null)
     {
