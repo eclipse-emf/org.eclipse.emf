@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.5 2004/12/03 15:39:25 marcelop Exp $
+ * $Id: ResourceImpl.java,v 1.6 2004/12/06 13:40:38 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -1148,15 +1148,10 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         modificationTrackingAdapter = createModificationTrackingAdapter();
         
-        for (Iterator i = getContents().iterator(); i.hasNext(); )
+        for (Iterator i = getAllContents(); i.hasNext(); )
         {
           EObject eObject = (EObject)i.next();
           eObject.eAdapters().add(modificationTrackingAdapter);
-          for (Iterator tree = eObject.eAllContents(); tree.hasNext(); )
-          {
-            EObject child = (EObject)tree.next();
-            child.eAdapters().add(modificationTrackingAdapter);
-          }
         }
       }
       else
@@ -1164,15 +1159,10 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         Adapter oldModificationTrackingAdapter = modificationTrackingAdapter;
         modificationTrackingAdapter = null;
         
-        for (Iterator i = getContents().iterator(); i.hasNext(); )
+        for (Iterator i = getAllContents(); i.hasNext(); )
         {
           EObject eObject = (EObject)i.next();
           eObject.eAdapters().remove(oldModificationTrackingAdapter);
-          for (Iterator tree = eObject.eAllContents(); tree.hasNext(); )
-          {
-            EObject child = (EObject)tree.next();
-            child.eAdapters().remove(oldModificationTrackingAdapter);
-          }
         }
       }
     }
