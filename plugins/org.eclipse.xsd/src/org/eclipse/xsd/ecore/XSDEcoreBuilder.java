@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.9 2004/05/11 14:56:38 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.10 2004/05/13 13:40:09 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -740,8 +740,14 @@ public class XSDEcoreBuilder extends MapBuilder
       {
         EStructuralFeature globalGroup = null;
         boolean isMixed = xsdComplexTypeDefinition.getContentTypeCategory() == XSDContentTypeCategory.MIXED_LITERAL;
-        extendedMetaData.setContentKind(eClass, isMixed ? ExtendedMetaData.MIXED_CONTENT : ExtendedMetaData.ELEMENT_ONLY_CONTENT);
         String featureMapName = getEcoreAttribute(xsdComplexTypeDefinition, "featureMap");
+        if (eClass.getESuperTypes().isEmpty() ?
+              "true".equals(getEcoreAttribute(xsdComplexTypeDefinition, "mixed")) :
+              extendedMetaData.getMixedFeature((EClass)eClass.getESuperTypes().get(0)) != null)
+        {
+          isMixed = true;
+        }
+        extendedMetaData.setContentKind(eClass, isMixed ? ExtendedMetaData.MIXED_CONTENT : ExtendedMetaData.ELEMENT_ONLY_CONTENT);
         if (isMixed)
         {
           EStructuralFeature mixedFeature = extendedMetaData.getMixedFeature(eClass);
