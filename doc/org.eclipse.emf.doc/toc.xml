@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<!-- ====================================================================== -->
-<!-- Define the top level topics                                            -->
-<!-- ====================================================================== -->
-
 <toc label="EMF Programmer&apos;s Guide">
-	<topic label="EMF Framework Overview" href="references/overview/EMF.html"/>
-	<topic label="EMF.Edit Framework Overview" href="references/overview/EMF.Edit.html"/>
-	<topic label="EMF FAQ" href="references/faq.html"/>
-	<topic label="EMF v1.0 User&apos;s Guide" href="references/UG/EMF_v1.0_Users_Guide.html"/>
+	<topic label="EMF Framework Overview" href="references/overview/EMF.html" />
+	<topic label="EMF.Edit Framework Overview" href="references/overview/EMF.Edit.html" />
+	<topic label="EMF FAQ" href="references/faq.html" />
+	<topic label="EMF v1.0 User&apos;s Guide" href="references/UG/EMF_v1.0_Users_Guide.html" />
 
 	<topic label="Tutorials">
-		<link toc="tutorials_toc.xml" />
+		<topic label="Generating an EMF Model" href="tutorials/clibmod/clibmod.html" />
+		<topic label="Generating an Extended EMF Model" href="tutorials/slibmod/slibmod.html" />
+		<topic label="Creating an EMF Model using a Graphical Editor" href="tutorials/glibmod/glibmod.html" />
+		<topic label="Generating an EMF Model using XML Schema" href="tutorials/xlibmod/xlibmod.html" />
+		<topic label="Specifying Package Information in Rose" href="tutorials/rosepkg/rosepkg.html" />
 	</topic>
 
 	<topic label="Release Notes">
-		<link toc="relnotes_toc.xml" />
+		<topic label="What's New in v2.0.0" href="references/news/release-notes2.0.0.html" />
+		<topic label="What's New in v1.1.1" href="references/news/release-notes1.1.1.html" />
+		<topic label="What's New in v1.1.0" href="references/news/release-notes1.1.0.html" />
+		<topic label="What's New in v1.0.2" href="references/news/release-notes1.0.2.html" />
+		<topic label="What's New in v1.0.1" href="references/news/release-notes1.0.1.html" />
 	</topic>
 
 	<topic label="Javadoc" href="references/javadoc/index.html"/>
