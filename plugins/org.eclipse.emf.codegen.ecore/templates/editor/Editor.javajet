@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.7 2004/05/12 22:31:14 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.8 2004/05/16 17:25:19 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -15,7 +15,10 @@
  * </copyright>
  */
 %>
-<%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
+<%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel(); 
+String importedOperationClassName = genModel.getImportedName(genModel.isRichClientPlatform() ? "org.eclipse.jface.operation.IRunnableWithProgress" : "org.eclipse.ui.actions.WorkspaceModifyOperation");
+String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute";
+%>
 <%@ include file="../Header.jetinc"%>
 package <%=genPackage.getPresentationPackageName()%>;
 
@@ -54,11 +57,15 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 
+<%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 
+<%}%>
 import org.eclipse.emf.ecore.resource.Resource;
+<%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.emf.ecore.resource.ResourceSet;
+<%}%>
 
 import java.io.IOException;
 
@@ -69,6 +76,7 @@ import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
 
+<%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -78,8 +86,11 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 
+<%}%>
+<%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+<%}%>
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import org.eclipse.jface.action.IMenuListener;
@@ -91,7 +102,6 @@ import org.eclipse.jface.action.Separator;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-
 
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelection;
@@ -132,18 +142,20 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
+<%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.ui.IFileEditorInput;
+<%}%>
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
-
+<%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.ui.dialogs.SaveAsDialog;
 
 import org.eclipse.ui.ide.IGotoMarker;
 
 import org.eclipse.ui.part.FileEditorInput;
+<%}%>
 import org.eclipse.ui.part.MultiPageEditorPart;
 
 import org.eclipse.ui.views.contentoutline.ContentOutline;
@@ -168,7 +180,7 @@ import <%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>;
  */
 public class <%=genPackage.getEditorClassName()%>
 	extends MultiPageEditorPart
-	implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker
+	implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider<%if (!genModel.isRichClientPlatform()) {%>, IGotoMarker<%}%>
 {
 <%if (genModel.getCopyrightText() != null) {%>
 	/**
@@ -384,6 +396,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	Collection savedResources = new ArrayList();
 
+<%if (!genModel.isRichClientPlatform()) {%>
 	/**
 	 * This listens for workspace changes.
 	 * <!-- begin-user-doc -->
@@ -471,7 +484,7 @@ public class <%=genPackage.getEditorClassName()%>
 			}
 		};
 
-
+<%}%>
 	/**
 	 * Handles activation of the editor or it's associated views.
 	 * @generated
@@ -811,13 +824,30 @@ public class <%=genPackage.getEditorClassName()%>
 	}
 
 	/**
-	 * This is the method used by the framework to install your own controls.
+	 * This is the method called to load a resource into the editing domain's resource set based on the editor's input.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void createPages()
+	public void createModel()
 	{
+<%if (genModel.isRichClientPlatform()) {%>
+		try
+		{
+			// Load the resource through the editing domain.
+			//
+			// TODO: Extract a URI from the editor input.
+			// Ensure that you remove @generated or mark it @generated NOT
+			//
+			Resource resource = 
+				editingDomain.loadResource
+					(URI.createURI(getEditorInput().getName()).toString());
+		}
+		catch (Exception exception)
+		{
+			<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
+		}
+<%} else {%>
 		// I assume that the input is a file object.
 		//
 		IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
@@ -834,6 +864,20 @@ public class <%=genPackage.getEditorClassName()%>
 		{
 			<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
 		}
+<%}%>
+	}
+
+	/**
+	 * This is the method used by the framework to install your own controls.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void createPages()
+	{
+		// Creates the model from the editor input
+		//
+		createModel();
 
 		// Create a page for the selection tree view.
 		//
@@ -1119,10 +1163,12 @@ public class <%=genPackage.getEditorClassName()%>
 		{
 			return getPropertySheetPage();
 		}
+<%if (!genModel.isRichClientPlatform()) {%>
 		else if (key.equals(IGotoMarker.class))
 		{
 			return this;
 		}
+<%}%>
 		else
 		{
 			return super.getAdapter(key);
@@ -1298,12 +1344,12 @@ public class <%=genPackage.getEditorClassName()%>
 	{
 		// Do the work within an operation because this is a long running activity that modifies the workbench.
 		//
-		WorkspaceModifyOperation operation =
-			new WorkspaceModifyOperation()
+		<%=importedOperationClassName%> operation =
+			new <%=importedOperationClassName%>()
 			{
 				// This is the method that gets invoked when the operation runs.
 				//
-				protected void execute(IProgressMonitor monitor) throws CoreException
+				public void <%=operationMethodName%>(IProgressMonitor monitor)
 				{
 					try
 					{
@@ -1348,7 +1394,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public boolean isSaveAsAllowed()
 	{
-		return true;
+		return <%=Boolean.toString(!genModel.isRichClientPlatform())%>;
 	}
 
 	/**
@@ -1359,6 +1405,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public void doSaveAs()
 	{
+<%if (!genModel.isRichClientPlatform()) {%>
 		SaveAsDialog saveAsDialog= new SaveAsDialog(getSite().getShell());
 		saveAsDialog.open();
 		IPath path= saveAsDialog.getResult();
@@ -1371,12 +1418,14 @@ public class <%=genPackage.getEditorClassName()%>
 					(URI.createPlatformResourceURI(file.getFullPath().toString()));
 				IFileEditorInput modelFile = new FileEditorInput(file);
 				setInput(modelFile);
-				setTitle(file.getName());
+				setPartName(file.getName());
 				doSave(getActionBars().getStatusLineManager().getProgressMonitor());
 			}
 		}
+<%}%>
 	}
 
+<%if (!genModel.isRichClientPlatform()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1406,6 +1455,7 @@ public class <%=genPackage.getEditorClassName()%>
 		}
 	}
 
+<%}%>
 	/**
 	 * This is called during startup.
 	 * <!-- begin-user-doc -->
@@ -1414,19 +1464,14 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException
 	{
-		if (editorInput instanceof IFileEditorInput)
-		{
-			setSite(site);
-			setInput(editorInput);
-			setTitle(((IFileEditorInput)editorInput).getFile().getName());
-			site.setSelectionProvider(this);
-			site.getPage().addPartListener(partListener);
-			ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
-		}
-		else
-		{
-			throw new PartInitException("Invalid Input: Must be IFileEditorInput.");<%=genModel.getNonNLS()%>
-		}
+		setSite(site);
+		setInput(editorInput);
+		setPartName(editorInput.getName());
+		site.setSelectionProvider(this);
+		site.getPage().addPartListener(partListener);
+<%if (!genModel.isRichClientPlatform()) {%>
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
+<%}%>
 	}
 
 	/**
@@ -1602,8 +1647,10 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public void dispose()
 	{
+<%if (!genModel.isRichClientPlatform()) {%>
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
 
+<%}%>
 		getSite().getPage().removePartListener(partListener);
 
 		adapterFactory.dispose();
@@ -1625,5 +1672,6 @@ public class <%=genPackage.getEditorClassName()%>
 
 		super.dispose();
 	}
+
 }
 <%genModel.emitSortedImports();%>
