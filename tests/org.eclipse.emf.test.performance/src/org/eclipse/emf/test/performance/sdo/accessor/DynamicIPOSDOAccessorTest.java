@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.10 2005/03/04 17:16:08 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.11 2005/03/08 20:41:51 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -73,6 +73,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   protected static final int ITERATIONS_100K = 100000;
 
   protected static final int ITERATIONS_200K = 200000;
+
+  protected static int ITERATIONS_SETDO = 2500;
 
   protected static final String DATA = TestUtil.getPluginDirectory() + "/data/";
 
@@ -228,7 +230,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(2000).setRepetitions(REPETITIONS_10));
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(3000).setRepetitions(REPETITIONS_5));
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
@@ -687,7 +689,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property billToProp = this.billToProp;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_5K; i++)
+    for (int i = 0; i < ITERATIONS_SETDO; i++)
     {
       po.setDataObject(shipToProp, newShipToAddress0);
       // to alternate the feature to set.
