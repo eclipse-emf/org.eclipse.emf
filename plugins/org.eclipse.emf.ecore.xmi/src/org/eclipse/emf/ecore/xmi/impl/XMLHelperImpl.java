@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.4 2004/04/05 20:09:56 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.5 2004/05/09 16:34:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -672,6 +672,11 @@ public class XMLHelperImpl implements XMLHelper
       EStructuralFeature targetFeature = extendedMetaData.getAffiliation(object.eClass(), feature);
       if (targetFeature != null && targetFeature != feature)
       {
+        EStructuralFeature group = extendedMetaData.getGroup(targetFeature);
+        if (group != null)
+        {
+          targetFeature = group;
+        }
         if (targetFeature.getEType() == EcorePackage.eINSTANCE.getEFeatureMapEntry())
         {
           FeatureMap featureMap = (FeatureMap)object.eGet(targetFeature);
