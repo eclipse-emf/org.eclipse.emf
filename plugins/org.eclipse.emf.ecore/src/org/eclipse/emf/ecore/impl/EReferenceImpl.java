@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EReferenceImpl.java,v 1.2 2004/06/11 22:14:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -68,6 +68,16 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * @ordered
    */
   protected boolean containment = CONTAINMENT_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isContainer() <em>Container</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isContainer()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean CONTAINER_EDEFAULT = false;
 
   /**
    * The default value of the '{@link #isResolveProxies() <em>Resolve Proxies</em>}' attribute.
@@ -203,9 +213,9 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       case EcorePackage.EREFERENCE__UPPER_BOUND:
         return upperBound != UPPER_BOUND_EDEFAULT;
       case EcorePackage.EREFERENCE__MANY:
-        return isMany() != false;
+        return isMany() != MANY_EDEFAULT;
       case EcorePackage.EREFERENCE__REQUIRED:
-        return isRequired() != false;
+        return isRequired() != REQUIRED_EDEFAULT;
       case EcorePackage.EREFERENCE__ETYPE:
         return eType != null;
       case EcorePackage.EREFERENCE__CHANGEABLE:
@@ -217,7 +227,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       case EcorePackage.EREFERENCE__DEFAULT_VALUE_LITERAL:
         return DEFAULT_VALUE_LITERAL_EDEFAULT == null ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
       case EcorePackage.EREFERENCE__DEFAULT_VALUE:
-        return getDefaultValue() != null;
+        return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
       case EcorePackage.EREFERENCE__UNSETTABLE:
         return unsettable != UNSETTABLE_EDEFAULT;
       case EcorePackage.EREFERENCE__DERIVED:
@@ -227,7 +237,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       case EcorePackage.EREFERENCE__CONTAINMENT:
         return containment != CONTAINMENT_EDEFAULT;
       case EcorePackage.EREFERENCE__CONTAINER:
-        return isContainer() != false;
+        return isContainer() != CONTAINER_EDEFAULT;
       case EcorePackage.EREFERENCE__RESOLVE_PROXIES:
         return resolveProxies != RESOLVE_PROXIES_EDEFAULT;
       case EcorePackage.EREFERENCE__EOPPOSITE:

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.3 2004/03/20 21:49:08 emerks Exp $
+ * $Id: EClassImpl.java,v 1.4 2004/06/11 22:14:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -826,9 +826,9 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       case EcorePackage.ECLASS__INSTANCE_CLASS_NAME:
         return INSTANCE_CLASS_NAME_EDEFAULT == null ? instanceClassName != null : !INSTANCE_CLASS_NAME_EDEFAULT.equals(instanceClassName);
       case EcorePackage.ECLASS__INSTANCE_CLASS:
-        return getInstanceClass() != null;
+        return INSTANCE_CLASS_EDEFAULT == null ? getInstanceClass() != null : !INSTANCE_CLASS_EDEFAULT.equals(getInstanceClass());
       case EcorePackage.ECLASS__DEFAULT_VALUE:
-        return getDefaultValue() != null;
+        return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
       case EcorePackage.ECLASS__EPACKAGE:
         return getEPackage() != null;
       case EcorePackage.ECLASS__ABSTRACT:

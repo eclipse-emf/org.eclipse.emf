@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.3 2004/05/12 19:12:23 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.4 2004/06/11 22:14:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -293,6 +293,16 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   protected String defaultValueLiteral = DEFAULT_VALUE_LITERAL_EDEFAULT;
 
   /**
+   * The default value of the '{@link #getDefaultValue() <em>Default Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDefaultValue()
+   * @generated
+   * @ordered
+   */
+  protected static final Object DEFAULT_VALUE_EDEFAULT = null;
+
+  /**
    * The default value of the '{@link #isUnsettable() <em>Unsettable</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -402,9 +412,9 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       case EcorePackage.ESTRUCTURAL_FEATURE__UPPER_BOUND:
         return upperBound != UPPER_BOUND_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__MANY:
-        return isMany() != false;
+        return isMany() != MANY_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__REQUIRED:
-        return isRequired() != false;
+        return isRequired() != REQUIRED_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
         return eType != null;
       case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
@@ -416,7 +426,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL:
         return DEFAULT_VALUE_LITERAL_EDEFAULT == null ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
       case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE:
-        return getDefaultValue() != null;
+        return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
       case EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE:
         return unsettable != UNSETTABLE_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__DERIVED:

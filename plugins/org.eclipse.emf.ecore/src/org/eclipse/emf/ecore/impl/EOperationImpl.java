@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EOperationImpl.java,v 1.2 2004/06/11 22:14:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -255,9 +255,9 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
       case EcorePackage.EOPERATION__UPPER_BOUND:
         return upperBound != UPPER_BOUND_EDEFAULT;
       case EcorePackage.EOPERATION__MANY:
-        return isMany() != false;
+        return isMany() != MANY_EDEFAULT;
       case EcorePackage.EOPERATION__REQUIRED:
-        return isRequired() != false;
+        return isRequired() != REQUIRED_EDEFAULT;
       case EcorePackage.EOPERATION__ETYPE:
         return eType != null;
       case EcorePackage.EOPERATION__ECONTAINING_CLASS:

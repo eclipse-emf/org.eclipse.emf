@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeImpl.java,v 1.2 2004/05/06 18:37:13 emerks Exp $
+ * $Id: EAttributeImpl.java,v 1.3 2004/06/11 22:14:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -322,9 +322,9 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
       case EcorePackage.EATTRIBUTE__UPPER_BOUND:
         return upperBound != UPPER_BOUND_EDEFAULT;
       case EcorePackage.EATTRIBUTE__MANY:
-        return isMany() != false;
+        return isMany() != MANY_EDEFAULT;
       case EcorePackage.EATTRIBUTE__REQUIRED:
-        return isRequired() != false;
+        return isRequired() != REQUIRED_EDEFAULT;
       case EcorePackage.EATTRIBUTE__ETYPE:
         return eType != null;
       case EcorePackage.EATTRIBUTE__CHANGEABLE:
@@ -336,7 +336,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
       case EcorePackage.EATTRIBUTE__DEFAULT_VALUE_LITERAL:
         return DEFAULT_VALUE_LITERAL_EDEFAULT == null ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
       case EcorePackage.EATTRIBUTE__DEFAULT_VALUE:
-        return getDefaultValue() != null;
+        return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
       case EcorePackage.EATTRIBUTE__UNSETTABLE:
         return unsettable != UNSETTABLE_EDEFAULT;
       case EcorePackage.EATTRIBUTE__DERIVED:

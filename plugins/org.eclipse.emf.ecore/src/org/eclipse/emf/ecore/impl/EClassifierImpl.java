@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.3 2004/05/28 19:32:38 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.4 2004/06/11 22:14:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -238,9 +238,9 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
       case EcorePackage.ECLASSIFIER__INSTANCE_CLASS_NAME:
         return INSTANCE_CLASS_NAME_EDEFAULT == null ? instanceClassName != null : !INSTANCE_CLASS_NAME_EDEFAULT.equals(instanceClassName);
       case EcorePackage.ECLASSIFIER__INSTANCE_CLASS:
-        return getInstanceClass() != null;
+        return INSTANCE_CLASS_EDEFAULT == null ? getInstanceClass() != null : !INSTANCE_CLASS_EDEFAULT.equals(getInstanceClass());
       case EcorePackage.ECLASSIFIER__DEFAULT_VALUE:
-        return getDefaultValue() != null;
+        return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
       case EcorePackage.ECLASSIFIER__EPACKAGE:
         return getEPackage() != null;
     }
@@ -378,6 +378,16 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * @see #getInstanceClass()
    */
   protected static final Class INSTANCE_CLASS_EDEFAULT = null;
+
+  /**
+   * The default value of the '{@link #getDefaultValue() <em>Default Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDefaultValue()
+   * @generated
+   * @ordered
+   */
+  protected static final Object DEFAULT_VALUE_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getInstanceClass() <em>Instance Class</em>}' attribute.

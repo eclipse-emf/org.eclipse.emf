@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: ETypedElementImpl.java,v 1.2 2004/06/11 22:14:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -130,6 +130,26 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * @ordered
    */
   protected int upperBound = UPPER_BOUND_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isMany() <em>Many</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isMany()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean MANY_EDEFAULT = false;
+
+  /**
+   * The default value of the '{@link #isRequired() <em>Required</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isRequired()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean REQUIRED_EDEFAULT = false;
 
   /**
    * The cached value of the '{@link #getEType() <em>EType</em>}' reference.
@@ -404,9 +424,9 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
       case EcorePackage.ETYPED_ELEMENT__UPPER_BOUND:
         return upperBound != UPPER_BOUND_EDEFAULT;
       case EcorePackage.ETYPED_ELEMENT__MANY:
-        return isMany() != false;
+        return isMany() != MANY_EDEFAULT;
       case EcorePackage.ETYPED_ELEMENT__REQUIRED:
-        return isRequired() != false;
+        return isRequired() != REQUIRED_EDEFAULT;
       case EcorePackage.ETYPED_ELEMENT__ETYPE:
         return eType != null;
     }
