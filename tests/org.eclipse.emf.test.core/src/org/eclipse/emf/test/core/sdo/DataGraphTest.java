@@ -12,9 +12,10 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.5 2004/08/18 14:45:44 marcelop Exp $
+ * $Id: DataGraphTest.java,v 1.6 2004/08/24 18:29:27 bportier Exp $
  */
 package org.eclipse.emf.test.core.sdo;
+
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -44,12 +45,19 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataObject;
 
+
 public class DataGraphTest extends TestCase
 {
   private EDataGraph eDataGraph;
+
   private Map xmlOptions;
+
   private String expectedXML;
-  
+
+  private String modifiedXML;
+
+  private String finalXML;
+
   /**
    * @param name
    */
@@ -67,25 +75,33 @@ public class DataGraphTest extends TestCase
     ts.addTest(new DataGraphTest("testMultivalueXPathAccess"));
     return ts;
   }
-  
+
   protected void setUp() throws Exception
   {
     xmlOptions = new HashMap();
     xmlOptions.put(XMLResource.OPTION_DECLARE_XML, Boolean.FALSE);
     xmlOptions.put(XMLResource.OPTION_LINE_WIDTH, new Integer(Integer.MAX_VALUE));
     xmlOptions.put(XMLResource.OPTION_FORMATTED, Boolean.FALSE);
-    
-    expectedXML = 
-    "<sdo:datagraph xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\"><testClass name=\"Root\"><child name=\"Parent\"><child name=\"Child\"/></child></testClass></sdo:datagraph>" + System.getProperties().getProperty("line.separator");
 
-    Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new DataGraphResourceFactoryImpl());    
-    
+    expectedXML = "<sdo:datagraph xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\"><testClass name=\"Root\"><child name=\"Parent\"><child name=\"Child\"/></child></testClass></sdo:datagraph>"
+      + System.getProperties().getProperty("line.separator");
+
+    modifiedXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\"><changeSummary><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges></changeSummary><testClass name=\"Root2\"><child name=\"Parent\"><child name=\"Child\"/></child></testClass></sdo:datagraph>"
+      + System.getProperties().getProperty("line.separator");
+
+    finalXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\"><changeSummary><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges><objectChanges key=\"#//@eRootObject/@child.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\"><listChanges index=\"0\" referenceValues=\"#//@eChangeSummary/@objectsToAttach.0\"/></value></objectChanges><objectChanges key=\"#//@eChangeSummary/@objectsToAttach.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Child\"/><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\" set=\"false\"/></objectChanges><objectsToAttach xsi:type=\"testClass\"/></changeSummary><testClass name=\"Root2\"><child name=\"Parent\"/></testClass></sdo:datagraph>"
+      + System.getProperties().getProperty("line.separator");
+
+    Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
+      Resource.Factory.Registry.DEFAULT_EXTENSION,
+      new DataGraphResourceFactoryImpl());
+
     // Create a dynamic package
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
     ePackage.setName("testPackage");
     ePackage.setNsURI("testPackage");
     EPackage.Registry.INSTANCE.put("testPackage", ePackage);
-    
+
     // Set the factory impl to one that creates data objects.
     ePackage.setEFactoryInstance(new DynamicEDataObjectImpl.FactoryImpl());
 
@@ -115,30 +131,50 @@ public class DataGraphTest extends TestCase
     DataObject parentObject = rootObject.createDataObject("child", "testPackage", "testClass");
     parentObject.set("name", "Parent");
     DataObject childObject = parentObject.createDataObject("child", "testPackage", "testClass");
-    childObject.set("name", "Child");    
+    childObject.set("name", "Child");
   }
-  
+
   public void testSave() throws Exception
   {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    DataObject rootObject = eDataGraph.getRootObject();
+    DataObject childObject = rootObject.getDataObject("child.0").getDataObject("child.0");
+    ChangeSummary changeSummary = eDataGraph.getChangeSummary();
+
+    changeSummary.beginLogging();
+
+    // first change
+    rootObject.setString("name", "Root2");
+
+    // call save between beginLogging() and endLogging()
     eDataGraph.getDataGraphResource().save(outputStream, xmlOptions);
-    assertEquals(expectedXML, new String(outputStream.toByteArray()));
-  } 
-  
+    assertEquals(modifiedXML, new String(outputStream.toByteArray()));
+
+    // second change
+    childObject.delete();
+
+    changeSummary.endLogging();
+
+    // make sure previous call to save didn't damage data graph
+    outputStream = new ByteArrayOutputStream();
+    eDataGraph.getDataGraphResource().save(outputStream, xmlOptions);
+    assertEquals(finalXML, new String(outputStream.toByteArray()));
+  }
+
   public void testLoad() throws Exception
   {
     EDataGraph loadedDataGraph = SDOUtil.loadDataGraph(new ByteArrayInputStream(expectedXML.getBytes()), xmlOptions);
-    
+
     assertNotNull(loadedDataGraph.getERootObject());
     assertTrue(loadedDataGraph.getERootObject() instanceof DataObject);
-    
+
     DataObject expectedObject = (DataObject)eDataGraph.getERootObject();
     DataObject loadedObject = (DataObject)loadedDataGraph.getERootObject();
     assertEquals(expectedObject.get("name"), loadedObject.get("name"));
     assertTrue(loadedObject.get("child") instanceof List);
     assertEquals(1, ((List)loadedObject.get("child")).size());
     assertTrue(((List)loadedObject.get("child")).get(0) instanceof DataObject);
-    
+
     expectedObject = expectedObject.getDataObject("child.0");
     loadedObject = loadedObject.getDataObject("child.0");
     assertEquals(expectedObject.get("name"), loadedObject.get("name"));
@@ -152,7 +188,7 @@ public class DataGraphTest extends TestCase
     assertTrue(loadedObject.get("child") instanceof List);
     assertEquals(0, ((List)loadedObject.get("child")).size());
   }
-  
+
   // bugzilla 70560,70561,70562 
   public void testOldContainer()
   {
@@ -160,7 +196,7 @@ public class DataGraphTest extends TestCase
     assertEquals("Root", rootObject.getString("name"));
     DataObject childObject = rootObject.getDataObject("child.0").getDataObject("child.0");
     assertEquals("Child", childObject.getString("name"));
-    
+
     ChangeSummary changeSummary = eDataGraph.getChangeSummary();
     changeSummary.beginLogging();
     rootObject.setString("name", "Root2");
@@ -173,17 +209,17 @@ public class DataGraphTest extends TestCase
     assertEquals(changeSummary, childObject.getContainer());
     assertEquals(rootObject.getDataObject("child.0"), ((EChangeSummary)changeSummary).getOldContainer(childObject));
   }
-  
+
   // bugzilla 70563
   public void testMultivalueXPathAccess()
   {
     DataObject rootObject = eDataGraph.getRootObject();
     assertNotNull(rootObject);
-   
+
     DataObject parentObject = rootObject.getDataObject("child[name=Parent]");
     assertNotNull(parentObject);
     assertEquals("Parent", parentObject.getString("name"));
-    
+
     assertNull(rootObject.getDataObject("child[name=Unknown]"));
   }
 }
