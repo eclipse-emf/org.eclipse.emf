@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.6 2004/05/11 15:46:18 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.7 2004/05/13 14:09:02 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -878,28 +878,29 @@ public class XMLHelperImpl implements XMLHelper
     if (!"xml".equals(prefix) && !"xmlns".equals(prefix))
     {
       uri = (uri.length() == 0) ? null : uri;
-      
-      // HACK: for handling QNames during the save, we must make sure that during the load
-      // if we saw xmlns="" declaration it is never overwriten, to make sure to handle the following XML doc:
-      // <root xmlns="http://a">
-      //  <product xmlns="">qnameValue</product>
-      //  <order xmlns="http://b"/>
-      // </root>
-      Object previousURI = (prefix.length() == 0 && seenEmptyStringMapping) ? uri : prefixesToURIs.put(prefix, uri);
-      if (prefix.length() == 0 && uri == null)
-      {
-        seenEmptyStringMapping = true;
-      }
       namespaceSupport.declarePrefix(prefix, uri);
-      if (previousURI != null)
+      
+      Object originalURI = null;
+      if (prefix.length() == 0 && seenEmptyStringMapping)
       {
-        int index = 1;
-        while (prefixesToURIs.containsKey(prefix + "_" + index))
-        {
-          ++index;
-        }
-        prefixesToURIs.put(prefix + "_" + index, previousURI);
+        // HACK: for handling QNames during the save, we must make sure that during the load
+        // if we saw xmlns="" declaration it is never overwriten, to make sure to handle the following XML doc:
+        // <root xmlns="http://a">
+        //  <product xmlns="">qnameValue</product>
+        //  <order xmlns="http://b"/>
+        // </root>
+        originalURI = uri;
       }
+      else
+      {
+        originalURI = prefixesToURIs.put(prefix, uri);
+        if (originalURI != null)
+        {
+          prefixesToURIs.put(prefix, originalURI);
+          originalURI = uri;
+        }
+      } 
+      addNSDeclaration(prefix, (String)originalURI);
     }
   }
 
@@ -1081,10 +1082,21 @@ public class XMLHelperImpl implements XMLHelper
     if (value instanceof QName)
     {
        QName qname = (QName) value;
-       qname.setNamespaceURI(getURI(qname.getPrefix()));
+       String namespace = getURI(qname.getPrefix());
+       qname.setNamespaceURI(namespace);      
        if (qname.getPrefix().length() >0 && qname.getNamespaceURI().length() == 0)
        {          
          throw new IllegalArgumentException("The prefix '" + qname.getPrefix() + "' is not declared for the QName '"+qname.toString()+"'");
+       }
+       if (namespace == null)
+       {
+         seenEmptyStringMapping = true;
+         String uri = (String)prefixesToURIs.get("");
+         if (uri != null)
+         {
+           prefixesToURIs.put("", namespace);
+           addNSDeclaration("", uri);          
+         }
        }
     }
   }
@@ -1124,5 +1136,18 @@ public class XMLHelperImpl implements XMLHelper
     }
 
     return (!list) ? factory.convertToString(dataType, value) : null;
+  }
+  
+  protected void addNSDeclaration(String prefix, String uri)
+  {
+    if (uri != null)
+    {
+      int index = 1;
+      while (prefixesToURIs.containsKey(prefix + "_" + index))
+      {
+        ++index;
+      }
+      prefixesToURIs.put(prefix + "_" + index, uri);
+    }
   }
 }
