@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.8 2004/05/20 12:10:55 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.9 2004/05/23 04:09:30 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3593,7 +3593,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     for (Iterator i = getGenPackages().iterator(); i.hasNext(); )
     {
       GenPackage genPackage = (GenPackage)i.next();
-      if (genPackage.getResource() != GenResourceKind.NONE_LITERAL)
+      if (genPackage.getResource() != GenResourceKind.NONE_LITERAL || genPackage.isLoadingInitialization())
       {
         result.add("org.eclipse.emf.ecore.xmi");
         break;
