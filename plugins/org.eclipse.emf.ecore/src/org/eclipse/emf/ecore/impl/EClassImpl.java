@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EClassImpl.java,v 1.2 2004/03/11 11:15:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -370,7 +370,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             // Skip derived features.
             //
             EStructuralFeature eStructuralFeature = (EStructuralFeature)data[i];
-            if (!(eStructuralFeature.isTransient() && eStructuralFeature.isVolatile()))
+            if (!eStructuralFeature.isDerived())
             {
               if (eStructuralFeature instanceof EReference)
               {
