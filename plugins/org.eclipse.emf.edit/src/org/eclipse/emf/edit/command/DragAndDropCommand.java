@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DragAndDropCommand.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: DragAndDropCommand.java,v 1.2 2004/05/28 22:20:06 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -29,6 +29,7 @@ import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.command.IdentityCommand;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.edit.EMFEditPlugin;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 
@@ -477,6 +478,11 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
 
       dropCommand = compoundCommand;
     }
+    else if (isCrossDomain())
+    {
+      dragCommand = IdentityCommand.INSTANCE;
+      dropCommand = UnexecutableCommand.INSTANCE;
+    }
     else
     {
       // Just remove the objects and add them.
@@ -487,7 +493,20 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
 
     boolean result = dragCommand.canExecute() && dropCommand.canExecute();
     return result;
-  } 
+  }
+
+  protected boolean isCrossDomain()
+  {
+    for (Iterator i = collection.iterator(); i.hasNext(); )
+    {
+      EditingDomain itemDomain = AdapterFactoryEditingDomain.getEditingDomainFor(i.next());
+      if (itemDomain != null && itemDomain != domain)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
 
   /**
    * This attempts to prepare a drop copy insert operation.
@@ -614,8 +633,16 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
    */
   protected boolean prepareDropMoveOn()
   {
-    dragCommand = RemoveCommand.create(domain, collection);
-    dropCommand = AddCommand.create(domain, owner, null, collection);
+    if (isCrossDomain())
+    {
+      dragCommand = IdentityCommand.INSTANCE;
+      dropCommand = UnexecutableCommand.INSTANCE;
+    }
+    else
+    {
+      dragCommand = RemoveCommand.create(domain, collection);
+      dropCommand = AddCommand.create(domain, owner, null, collection);
+    }
 
     boolean result = dragCommand.canExecute() && dropCommand.canExecute();
     return result;
