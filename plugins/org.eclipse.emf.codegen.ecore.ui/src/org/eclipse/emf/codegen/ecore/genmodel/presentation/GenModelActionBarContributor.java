@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.7 2004/07/05 03:16:28 marcelop Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.8 2004/07/05 15:06:21 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -38,7 +38,6 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
-
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
@@ -46,15 +45,9 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
-import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
-
-//import org.eclipse.emf.edit.ui.action.LoadResourceAction;
-//import org.eclipse.emf.edit.ui.action.ValidateAction;
-
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 
 // import java.util.LinkedList;
 // import org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind;
