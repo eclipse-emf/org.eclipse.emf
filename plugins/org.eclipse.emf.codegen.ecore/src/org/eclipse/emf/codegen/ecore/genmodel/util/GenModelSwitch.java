@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenModelSwitch.java,v 1.4 2004/04/29 14:36:45 davidms Exp $
+ * $Id: GenModelSwitch.java,v 1.5 2004/05/16 17:28:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
+
+import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.*;
 import org.eclipse.emf.ecore.EClass;
@@ -35,8 +37,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
  * @generated
  */
-public class GenModelSwitch 
-{
+public class GenModelSwitch {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -68,91 +69,121 @@ public class GenModelSwitch
    */
   public Object doSwitch(EObject theEObject)
   {
-    EClass theEClass = theEObject.eClass();
+    return doSwitch(theEObject.eClass(), theEObject);
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  {
     if (theEClass.eContainer() == modelPackage)
     {
-      switch (theEClass.getClassifierID())
-      {
-        case GenModelPackage.GEN_MODEL:
-        {
-          GenModel genModel = (GenModel)theEObject;
-          Object result = caseGenModel(genModel);
-          if (result == null) result = caseGenBase(genModel);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case GenModelPackage.GEN_PACKAGE:
-        {
-          GenPackage genPackage = (GenPackage)theEObject;
-          Object result = caseGenPackage(genPackage);
-          if (result == null) result = caseGenBase(genPackage);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case GenModelPackage.GEN_CLASS:
-        {
-          GenClass genClass = (GenClass)theEObject;
-          Object result = caseGenClass(genClass);
-          if (result == null) result = caseGenClassifier(genClass);
-          if (result == null) result = caseGenBase(genClass);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case GenModelPackage.GEN_FEATURE:
-        {
-          GenFeature genFeature = (GenFeature)theEObject;
-          Object result = caseGenFeature(genFeature);
-          if (result == null) result = caseGenBase(genFeature);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case GenModelPackage.GEN_ENUM:
-        {
-          GenEnum genEnum = (GenEnum)theEObject;
-          Object result = caseGenEnum(genEnum);
-          if (result == null) result = caseGenDataType(genEnum);
-          if (result == null) result = caseGenClassifier(genEnum);
-          if (result == null) result = caseGenBase(genEnum);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case GenModelPackage.GEN_ENUM_LITERAL:
-        {
-          GenEnumLiteral genEnumLiteral = (GenEnumLiteral)theEObject;
-          Object result = caseGenEnumLiteral(genEnumLiteral);
-          if (result == null) result = caseGenBase(genEnumLiteral);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case GenModelPackage.GEN_DATA_TYPE:
-        {
-          GenDataType genDataType = (GenDataType)theEObject;
-          Object result = caseGenDataType(genDataType);
-          if (result == null) result = caseGenClassifier(genDataType);
-          if (result == null) result = caseGenBase(genDataType);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case GenModelPackage.GEN_OPERATION:
-        {
-          GenOperation genOperation = (GenOperation)theEObject;
-          Object result = caseGenOperation(genOperation);
-          if (result == null) result = caseGenBase(genOperation);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case GenModelPackage.GEN_PARAMETER:
-        {
-          GenParameter genParameter = (GenParameter)theEObject;
-          Object result = caseGenParameter(genParameter);
-          if (result == null) result = caseGenBase(genParameter);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        default: return defaultCase(theEObject);
-      }
+      return doSwitch(theEClass.getClassifierID(), theEObject);
     }
-    return defaultCase(theEObject);
+    else
+    {
+      List eSuperTypes = theEClass.getESuperTypes();
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+    }
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(int classifierID, EObject theEObject)
+  {
+    switch (classifierID)
+    {
+      case GenModelPackage.GEN_MODEL:
+      {
+        GenModel genModel = (GenModel)theEObject;
+        Object result = caseGenModel(genModel);
+        if (result == null) result = caseGenBase(genModel);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case GenModelPackage.GEN_PACKAGE:
+      {
+        GenPackage genPackage = (GenPackage)theEObject;
+        Object result = caseGenPackage(genPackage);
+        if (result == null) result = caseGenBase(genPackage);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case GenModelPackage.GEN_CLASS:
+      {
+        GenClass genClass = (GenClass)theEObject;
+        Object result = caseGenClass(genClass);
+        if (result == null) result = caseGenClassifier(genClass);
+        if (result == null) result = caseGenBase(genClass);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case GenModelPackage.GEN_FEATURE:
+      {
+        GenFeature genFeature = (GenFeature)theEObject;
+        Object result = caseGenFeature(genFeature);
+        if (result == null) result = caseGenBase(genFeature);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case GenModelPackage.GEN_ENUM:
+      {
+        GenEnum genEnum = (GenEnum)theEObject;
+        Object result = caseGenEnum(genEnum);
+        if (result == null) result = caseGenDataType(genEnum);
+        if (result == null) result = caseGenClassifier(genEnum);
+        if (result == null) result = caseGenBase(genEnum);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case GenModelPackage.GEN_ENUM_LITERAL:
+      {
+        GenEnumLiteral genEnumLiteral = (GenEnumLiteral)theEObject;
+        Object result = caseGenEnumLiteral(genEnumLiteral);
+        if (result == null) result = caseGenBase(genEnumLiteral);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case GenModelPackage.GEN_DATA_TYPE:
+      {
+        GenDataType genDataType = (GenDataType)theEObject;
+        Object result = caseGenDataType(genDataType);
+        if (result == null) result = caseGenClassifier(genDataType);
+        if (result == null) result = caseGenBase(genDataType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case GenModelPackage.GEN_OPERATION:
+      {
+        GenOperation genOperation = (GenOperation)theEObject;
+        Object result = caseGenOperation(genOperation);
+        if (result == null) result = caseGenBase(genOperation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case GenModelPackage.GEN_PARAMETER:
+      {
+        GenParameter genParameter = (GenParameter)theEObject;
+        Object result = caseGenParameter(genParameter);
+        if (result == null) result = caseGenBase(genParameter);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      default: return defaultCase(theEObject);
+    }
   }
 
   /**
