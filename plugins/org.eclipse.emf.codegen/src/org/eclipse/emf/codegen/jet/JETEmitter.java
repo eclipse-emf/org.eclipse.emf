@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.5 2004/12/21 12:24:33 emerks Exp $
+ * $Id: JETEmitter.java,v 1.6 2005/02/22 11:59:00 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -546,51 +546,58 @@ public class JETEmitter
           if (url == null)
           {
             URL classpathURL = bundle.getEntry(".classpath");
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            documentBuilderFactory.setNamespaceAware(true);
-            documentBuilderFactory.setValidating(false);
-            try
+            if (classpathURL == null)
             {
-              DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-              Document document = documentBuilder.parse(new InputSource(classpathURL.toString()));
-              for (Node child = document.getDocumentElement().getFirstChild(); child != null; child = child.getNextSibling())
+              url = bundle.getEntry(element.getValue());
+            }
+            else
+            {
+              DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+              documentBuilderFactory.setNamespaceAware(true);
+              documentBuilderFactory.setValidating(false);
+              try
               {
-                if (child.getNodeType() == Node.ELEMENT_NODE)
+                DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                Document document = documentBuilder.parse(new InputSource(classpathURL.toString()));
+                for (Node child = document.getDocumentElement().getFirstChild(); child != null; child = child.getNextSibling())
                 {
-                  Element classpathEntryElement = (Element)child;
-                  if ("classpathentry".equals(classpathEntryElement.getNodeName()) &&
-                      "output".equals(classpathEntryElement.getAttribute("kind")))
+                  if (child.getNodeType() == Node.ELEMENT_NODE)
                   {
-                    URI uri = URI.createURI(classpathEntryElement.getAttribute("path")).resolve(URI.createURI(classpathURL.toString()));
-                    IWorkspace workspace = ResourcesPlugin.getWorkspace();
-                    IProject project = workspace.getRoot().getProject(getProjectName());
-                    if (!project.exists())
+                    Element classpathEntryElement = (Element)child;
+                    if ("classpathentry".equals(classpathEntryElement.getNodeName()) &&
+                        "output".equals(classpathEntryElement.getAttribute("kind")))
                     {
-                      project.create(new NullProgressMonitor());
+                      URI uri = URI.createURI(classpathEntryElement.getAttribute("path")).resolve(URI.createURI(classpathURL.toString()));
+                      IWorkspace workspace = ResourcesPlugin.getWorkspace();
+                      IProject project = workspace.getRoot().getProject(getProjectName());
+                      if (!project.exists())
+                      {
+                        project.create(new NullProgressMonitor());
+                      }
+                      if (!project.isOpen())
+                      {
+                        project.open(new NullProgressMonitor());
+                      }
+                      IFolder folder = project.getFolder("." + pluginID);
+                      if (!folder.exists())
+                      {
+                        folder.createLink
+                          (new Path(CommonPlugin.asLocalURI(uri).toFileString()).removeTrailingSeparator(),
+                           IResource.ALLOW_MISSING_LOCAL, 
+                           new NullProgressMonitor());
+                      }
+                      folder.refreshLocal(IProject.DEPTH_INFINITE, new NullProgressMonitor());
+                      path = folder.getFullPath();
+                      
+                      break;
                     }
-                    if (!project.isOpen())
-                    {
-                      project.open(new NullProgressMonitor());
-                    }
-                    IFolder folder = project.getFolder("." + pluginID);
-                    if (!folder.exists())
-                    {
-                      folder.createLink
-                        (new Path(CommonPlugin.asLocalURI(uri).toFileString()).removeTrailingSeparator(),
-                         IResource.ALLOW_MISSING_LOCAL, 
-                         new NullProgressMonitor());
-                    }
-                    folder.refreshLocal(IProject.DEPTH_INFINITE, new NullProgressMonitor());
-                    path = folder.getFullPath();
-                    
-                    break;
                   }
                 }
               }
-            }
-            catch (Exception exception)
-            {
-              CodeGenPlugin.INSTANCE.log(exception);
+              catch (Exception exception)
+              {
+                CodeGenPlugin.INSTANCE.log(exception);
+              }
             }
           }
           else
