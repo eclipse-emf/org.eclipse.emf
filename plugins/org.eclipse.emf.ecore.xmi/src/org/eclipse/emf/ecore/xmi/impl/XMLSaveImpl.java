@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.26 2005/01/26 18:42:06 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.27 2005/01/27 12:00:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1002,15 +1002,7 @@ public class XMLSaveImpl implements XMLSave
     {
       int kind = featureKinds[i];
       EStructuralFeature f = features[i];
-      boolean isSet = o.eIsSet(f);
-      if (keepDefaults && !isSet)
-      {
-        if (f.getDefaultValueLiteral() != null)
-        {
-          isSet = true;
-        }
-      }
-      if (kind != TRANSIENT && isSet)
+      if (kind != TRANSIENT && (o.eIsSet(f) || keepDefaults && f.getDefaultValueLiteral() != null))
       {
         switch (kind)
         {
