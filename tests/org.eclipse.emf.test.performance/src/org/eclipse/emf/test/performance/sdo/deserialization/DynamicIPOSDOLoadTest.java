@@ -12,19 +12,18 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOLoadTest.java,v 1.1 2005/02/16 23:02:12 bportier Exp $
+ * $Id: DynamicIPOSDOLoadTest.java,v 1.2 2005/02/17 16:14:07 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.deserialization;
 
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -54,22 +53,21 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
 
   final static int WARMUP = 3000;
 
-  private HashMap options = new HashMap();
+  private HashMap options;
 
   protected ResourceSet resourceSet;
 
   private DataGraph dataGraph;
 
-  private ArrayList cache = new ArrayList();
+  private XMLParserPool parserPool;
 
-  private XMLParserPool parserPool = new XMLParserPoolImpl();
+  private ByteArrayInputStream dgByteInputStream;
 
   public DynamicIPOSDOLoadTest(String name)
   {
     super(name);
     XML_SCHEMA_URI = "file:///" + DATA + "ipo.xsd";
     XML_INSTANCE = DATA + "ipoDG.xml";
-    EPackage.Registry.INSTANCE.clear();
   }
 
   public static Test suite()
@@ -87,10 +85,17 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
     tagAsSummary("Performance Results for " + getClass().getPackage().getName(), TIME_DIMENSIONS);
 
     HashMap warmupOptions = new HashMap();
+    options = new HashMap();
+    parserPool = new XMLParserPoolImpl();
 
     resourceSet = SDOUtil.createResourceSet();
     ExtendedMetaData metaData = registerModel();
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, metaData);
+
+    FileInputStream fileInputStream = new FileInputStream(XML_INSTANCE);
+    byte[] dataGraphBytes = new byte [fileInputStream.available()];
+    fileInputStream.read(dataGraphBytes);
+    dgByteInputStream = new ByteArrayInputStream(dataGraphBytes);
 
     warmupOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, metaData);
     warmupOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
@@ -98,7 +103,7 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
 
     load(warmupOptions, WARMUP);
   }
-  
+
   protected ExtendedMetaData registerModel()
   {
     return SDOPerfUtil.registerModel(resourceSet, XML_SCHEMA_URI);
@@ -164,9 +169,9 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
     for (int i = 0; i < iterations; i++)
     {
       resourceSet.getResources().clear();
-      FileInputStream inputStream = new FileInputStream(XML_INSTANCE);
-      dataGraph = SDOUtil.loadDataGraph(inputStream, loadOptions);
-      inputStream.close();
+      dataGraph = SDOUtil.loadDataGraph(dgByteInputStream, loadOptions);
+      dgByteInputStream.close();
+      dgByteInputStream.reset();
     }
   }
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpoLoad.java,v 1.2 2005/02/16 23:02:12 bportier Exp $
+ * $Id: DynamicIpoLoad.java,v 1.3 2005/02/17 16:14:07 bportier Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -69,7 +69,6 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
   public DynamicIpoLoad(String name)
   {
     super(name);
-    EPackage.Registry.INSTANCE.clear();
   }
 
   public static Test suite()

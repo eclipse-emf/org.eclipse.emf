@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpo.java,v 1.3 2005/02/16 23:02:13 bportier Exp $
+ * $Id: DynamicIpo.java,v 1.4 2005/02/17 16:14:07 bportier Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -69,7 +69,6 @@ public class DynamicIpo extends EMFPerformanceTestCase
   public DynamicIpo(String name)
   {
     super(name);
-    EPackage.Registry.INSTANCE.clear();
   }
 
   public static Test suite()

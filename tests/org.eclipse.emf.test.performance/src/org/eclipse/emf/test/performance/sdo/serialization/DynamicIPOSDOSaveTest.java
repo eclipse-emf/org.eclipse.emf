@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOSaveTest.java,v 1.1 2005/02/16 23:02:12 bportier Exp $
+ * $Id: DynamicIPOSDOSaveTest.java,v 1.2 2005/02/17 16:14:07 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.serialization;
 
@@ -25,7 +25,6 @@ import java.util.HashMap;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
@@ -55,13 +54,13 @@ public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
 
   final static int WARMUP = 3000;
 
-  private HashMap options = new HashMap();
+  private HashMap options;
 
   protected ResourceSet resourceSet;
 
   private Resource resource;
 
-  private ArrayList cache = new ArrayList();
+  private ArrayList cache;
 
   private ByteArrayOutputStream outputstream = new ByteArrayOutputStream(2064);
 
@@ -70,7 +69,6 @@ public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
     super(name);
     XML_SCHEMA_URI = "file:///" + DATA + "ipo.xsd";
     XML_INSTANCE = DATA + "ipoDG.xml";
-    EPackage.Registry.INSTANCE.clear();
   }
 
   public static Test suite()
@@ -87,6 +85,8 @@ public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
     tagAsSummary("Performance Results for " + getClass().getPackage().getName(), TIME_DIMENSIONS);
 
     resourceSet = SDOUtil.createResourceSet();
+    options = new HashMap();
+    cache = new ArrayList();
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, registerModel());
 
     FileInputStream inputStream = new FileInputStream(XML_INSTANCE);
