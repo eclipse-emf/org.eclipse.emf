@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.6 2004/05/05 19:46:13 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.7 2004/05/11 22:56:03 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -1302,14 +1302,21 @@ public class JavaEcoreBuilder
       EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
       eModelElementToIDOMNodeMap.put(eEnumLiteral, field);
       eEnumLiteral.setName(literalName);
-      try
+      if (field.getInitializer() != null)
       {
-        int value = Integer.parseInt(field.getInitializer().trim());
-        eEnumLiteral.setValue(value);
+        try
+        {
+          int value = Integer.parseInt(field.getInitializer().trim());
+          eEnumLiteral.setValue(value);
+        }
+        catch (NumberFormatException exception)
+        {
+          CodeGenEcorePlugin.INSTANCE.log(exception);
+        }
       }
-      catch (NumberFormatException exception)
+      else
       {
-        CodeGenEcorePlugin.INSTANCE.log(exception);
+        eEnumLiteral.setValue(eEnum.getELiterals().size());
       }
       eEnum.getELiterals().add(eEnumLiteral);
     }
