@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.2 2004/05/05 19:31:00 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.3 2004/05/23 04:15:31 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1117,5 +1118,105 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
       theDetails.put(details[i - 1], details[i]);
     }
     eNamedElement.getEAnnotations().add(eAnnotation);
+  }
+
+  protected void initializeFromLoadedEPackage(EPackage target, EPackage source)
+  {
+    target.setName(source.getName());
+    target.setNsPrefix(source.getNsPrefix());
+    target.setNsURI(source.getNsURI());
+
+    target.getEClassifiers().addAll(source.getEClassifiers());
+    target.getEAnnotations().addAll(source.getEAnnotations());
+
+    for (Iterator i = source.getESubpackages().iterator(); i.hasNext(); )
+    {
+      EPackage sourceSubpackage = (EPackage)i.next();
+      EPackage targetSubpackage = EPackage.Registry.INSTANCE.getEPackage(sourceSubpackage.getNsURI());
+      initializeFromLoadedEPackage(targetSubpackage, sourceSubpackage);
+      target.getESubpackages().add(targetSubpackage);
+    }
+  }
+  
+  protected void fixEClassifiers()
+  {
+    int id = 0;
+    
+    for (Iterator i = getEClassifiers().iterator(); i.hasNext(); )
+    {
+      EClassifierImpl eClassifier = (EClassifierImpl)i.next();
+      if (eClassifier instanceof EClass)
+      {
+        eClassifier.setClassifierID(id++);
+        fixInstanceClass(eClassifier);
+        fixEStructuralFeatures((EClass)eClassifier);
+      }
+    }
+    
+    for (Iterator i = getEClassifiers().iterator(); i.hasNext(); )
+    {
+      EClassifierImpl eClassifier = (EClassifierImpl)i.next();
+      if (eClassifier.getClassifierID() == -1 && eClassifier instanceof EEnum)
+      {
+        eClassifier.setClassifierID(id++);
+        fixInstanceClass(eClassifier);
+        fixEEnumLiterals((EEnum)eClassifier);
+      }
+    }
+
+    for (Iterator i = getEClassifiers().iterator(); i.hasNext(); )
+    {
+      EClassifierImpl eClassifier = (EClassifierImpl)i.next();
+      if (eClassifier.getClassifierID() == -1 && eClassifier instanceof EDataType)
+      {
+        eClassifier.setClassifierID(id++);
+      }
+    }
+  }
+
+  protected void fixInstanceClass(EClassifier eClassifier)
+  {
+    if (eClassifier.getInstanceClassName() == null)
+    {
+      String className = getClass().getName();
+      int i = className.lastIndexOf('.', className.lastIndexOf('.') - 1);
+      className = i == -1 ? eClassifier.getName() : className.substring(0, i + 1) + eClassifier.getName();
+      eClassifier.setInstanceClassName(className);
+    }
+  }
+
+  protected void fixEStructuralFeatures(EClass eClass)
+  {
+    List features = eClass.getEStructuralFeatures();
+    if (!features.isEmpty())
+    {
+      int id = eClass.getEAllStructuralFeatures().indexOf(features.get(0));
+      
+      for (Iterator i = features.iterator(); i.hasNext(); )
+      {
+        ((EStructuralFeatureImpl)i.next()).setFeatureID(id++);
+      }
+    }
+  }
+
+  protected void fixEEnumLiterals(EEnum eEnum)
+  {
+    Class enumClass = eEnum.getInstanceClass();
+    
+    try
+    {
+      Method getter = enumClass.getMethod("get", new Class[] { Integer.TYPE });
+
+      for (Iterator i = eEnum.getELiterals().iterator(); i.hasNext(); )
+      {
+        EEnumLiteral eEnumLiteral = (EEnumLiteral)i.next();
+        Enumerator instance = (Enumerator)getter.invoke(null, new Object[] { new Integer(eEnumLiteral.getValue()) });
+        eEnumLiteral.setInstance(instance);
+      }
+    }
+    catch (Exception e)
+    {
+      // Do nothing
+    }
   }
 }

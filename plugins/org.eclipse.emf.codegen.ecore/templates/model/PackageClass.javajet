@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.5 2004/05/16 17:24:09 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.6 2004/05/23 04:11:30 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -38,6 +38,15 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 	 * @generated
 	 */
 	public static final <%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
+
+<%}%>
+<%if (genPackage.isLoadingInitialization()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected String packageFilename = "<%=genPackage.getSerializedPackageFilename()%>";<%=genModel.getNonNLS()%>
 
 <%}%>
 <%for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();%>
@@ -102,7 +111,7 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 	{
 		if (isInited) return (<%=genPackage.getImportedPackageInterfaceName()%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.get(<%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI);
 
-		// Obtain or create and register package.
+		// Obtain or create and register package
 		<%=genPackage.getPackageClassName()%> the<%=genPackage.getPackageInterfaceName()%> = (<%=genPackage.getPackageClassName()%>)(<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.get(eNS_URI) instanceof <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%> ? <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.get(eNS_URI) : new <%=genPackage.getPackageClassName()%>());
 
 		isInited = true;
@@ -114,24 +123,55 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
   <%}%>
 
 <%}%>
+<%if (!genPackage.getPackageInterDependencies().isEmpty()) {%>
 		// Obtain or create and register interdependencies
-<%for (Iterator p=genPackage.getPackageInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
+  <%for (Iterator p=genPackage.getPackageInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
 		<%=interdep.getImportedPackageClassName()%> <%=genPackage.getPackageInstanceVariable(interdep)%> = (<%=interdep.getImportedPackageClassName()%>)(<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.get(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI) instanceof <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%> ? <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.get(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI) : <%=interdep.getImportedPackageClassName()%>.eINSTANCE);
-<%}%>
+  <%}%>
 
-		// Step 1: create meta-model objects
+<%}%>
+<%if (genPackage.isLoadedInitialization() || !genPackage.getPackageLoadInterDependencies().isEmpty()) {%>
+		// Load packages
+  <%if (genPackage.isLoadingInitialization()) {%>
+		the<%=genPackage.getPackageInterfaceName()%>.loadPackage();
+  <%}%>
+  <%for (Iterator p=genPackage.getPackageLoadInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
+    <%if (interdep.isLoadingInitialization()) {%>
+		<%=genPackage.getPackageInstanceVariable(interdep)%>.loadPackage();
+    <%}%>
+  <%}%>
+
+<%}%>
+<%if (!genPackage.isLoadedInitialization() || !genPackage.getPackageBuildInterDependencies().isEmpty()) {%>
+		// Create package meta-data objects
+  <%if (!genPackage.isLoadedInitialization()) {%>
 		the<%=genPackage.getPackageInterfaceName()%>.createPackageContents();
-<%for (Iterator p=genPackage.getPackageInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
+  <%}%>
+  <%for (Iterator p=genPackage.getPackageBuildInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
 		<%=genPackage.getPackageInstanceVariable(interdep)%>.createPackageContents();
-<%}%>
+  <%}%>
 
-		// Step 2: complete initialization
+		// Initialize created meta-data
+  <%if (!genPackage.isLoadedInitialization()) {%>
 		the<%=genPackage.getPackageInterfaceName()%>.initializePackageContents();
-<%for (Iterator p=genPackage.getPackageInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
+  <%}%>
+  <%for (Iterator p=genPackage.getPackageBuildInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
 		<%=genPackage.getPackageInstanceVariable(interdep)%>.initializePackageContents();
-<%}%>
+  <%}%>
 
+<%}%>
+<%if (genPackage.isLoadedInitialization() || !genPackage.getPackageLoadInterDependencies().isEmpty()) {%>
+		// Fix loaded packages
+  <%if (genPackage.isLoadedInitialization()) {%>
+		the<%=genPackage.getPackageInterfaceName()%>.fixPackageContents();
+  <%}%>
+  <%for (Iterator p=genPackage.getPackageLoadInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
+		<%=genPackage.getPackageInstanceVariable(interdep)%>.fixPackageContents();
+  <%}%>
+
+<%}%>
 <%if (genPackage.hasConstraints()) {%>
+		// Register package validator
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%>.Registry.INSTANCE.put(the<%=genPackage.getPackageInterfaceName()%>, <%=genPackage.getImportedValidatorClassName()%>.INSTANCE);
 
 <%}%>
@@ -146,6 +186,12 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 	 */
 	public <%=genClassifier.getImportedMetaType()%> get<%=genClassifier.getClassifierAccessorName()%>()
 	{
+  <%if (genPackage.isLoadedInitialization()) {%>
+		if (<%=genClassifier.getClassifierInstanceName()%> == null)
+		{
+			<%=genClassifier.getClassifierInstanceName()%> = (<%=genClassifier.getImportedMetaType()%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI).getEClassifiers().get(<%=genPackage.getLocalClassifierIndex(genClassifier)%>);
+		}
+  <%}%>
 		return <%=genClassifier.getClassifierInstanceName()%>;
 	}
 
@@ -158,7 +204,11 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 	 */
 	public <%=genFeature.getImportedMetaType()%> get<%=genFeature.getFeatureAccessorName()%>()
 	{
+      <%if (!genPackage.isLoadedInitialization()) {%>
 		return (<%=genFeature.getImportedMetaType()%>)<%=genClass.getClassifierInstanceName()%>.getEStructuralFeatures().get(<%=genClass.getLocalFeatureIndex(genFeature)%>);
+      <%} else {%>
+        return (<%=genFeature.getImportedMetaType()%>)get<%=genClassifier.getClassifierAccessorName()%>().getEStructuralFeatures().get(<%=genClass.getLocalFeatureIndex(genFeature)%>);
+      <%}%>
 	}
 
     <%}%>
@@ -174,6 +224,7 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 		return (<%=genPackage.getImportedFactoryInterfaceName()%>)getEFactoryInstance();
 	}
 
+<%if (!genPackage.isLoadedInitialization()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -357,6 +408,67 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
   <%}%>
 	}
 
+<%}%>
+<%} else {%>
+  <%if (genPackage.isLoadingInitialization()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private boolean isLoaded = false;
+
+	/**
+	 * Laods the package and any sub-packages from their serialized form.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void loadPackage()
+	{
+		if (isLoaded) return;
+		isLoaded = true;
+
+		<%=genModel.getImportedName("java.net.URL")%> url = getClass().getResource(packageFilename);
+		if (url == null)
+		{
+			throw new RuntimeException("Missing serialized package: " + packageFilename);<%=genModel.getNonNLS()%>
+		}
+		<%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%> uri = <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>.createURI(url.toString());
+		<%=genModel.getImportedName("org.eclipse.emf.ecore.resource.Resource")%> resource = new <%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl")%>().createResource(<%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>.createURI(url.toString()));
+		try
+		{
+			resource.load(null);
+		}
+		catch (<%=genModel.getImportedName("java.io.IOException")%> exception)
+		{
+			throw new <%=genModel.getImportedName("org.eclipse.emf.common.util.WrappedException")%>(exception);
+		}
+		initializeFromLoadedEPackage(this, (<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>)resource.getContents().get(0));
+		createResource(eNS_URI);
+	}
+
+  <%}%>
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private boolean isFixed = false;
+
+	/**
+	 * Fixes up the loaded package, to make it appear as if it had been programmatically built.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void fixPackageContents()
+	{
+		if (isFixed) return;
+		isFixed = true;
+		fixEClassifiers();
+	}
 <%}%>
 } //<%=genPackage.getPackageClassName()%>
 <%genModel.emitSortedImports();%>
