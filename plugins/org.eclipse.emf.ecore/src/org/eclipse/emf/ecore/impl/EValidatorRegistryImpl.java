@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EValidatorRegistryImpl.java,v 1.2 2004/06/17 10:38:17 emerks Exp $
+ * $Id: EValidatorRegistryImpl.java,v 1.3 2004/08/30 15:33:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -73,7 +73,7 @@ public class EValidatorRegistryImpl extends HashMap implements EValidator.Regist
       return delegateRegistry.get(key);
     }
 
-    return EObjectValidator.INSTANCE;
+    return key == null ? EObjectValidator.INSTANCE : null;
   }
 
   public boolean containsKey(Object key)
