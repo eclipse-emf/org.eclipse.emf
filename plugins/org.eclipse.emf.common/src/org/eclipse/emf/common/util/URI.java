@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.12 2005/03/23 19:01:46 emerks Exp $
+ * $Id: URI.java,v 1.13 2005/03/23 23:24:50 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -598,7 +598,7 @@ public final class URI
     boolean archiveScheme = isArchiveScheme(scheme);
     if (archiveScheme)
     {
-      j = uri.lastIndexOf(ARCHIVE_SEPARATOR, i);
+      j = uri.lastIndexOf(ARCHIVE_SEPARATOR);
       if (j == -1)
       {
         throw new IllegalArgumentException("no archive separator");
