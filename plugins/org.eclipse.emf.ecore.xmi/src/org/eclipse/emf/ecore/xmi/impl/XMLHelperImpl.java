@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.10 2004/06/18 09:51:35 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.11 2004/06/18 15:22:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -388,8 +388,15 @@ public class XMLHelperImpl implements XMLHelper
         extendedMetaData.getPackage(uri);
     if (ePackage == null)
     {
-      // EATM this would be wrong.
-      return name;
+      if (extendedMetaData != null)
+      {
+        return getQName(extendedMetaData.demandPackage(uri), name);
+      }
+      else
+      {
+        // EATM this would be wrong.
+        return name;
+      }
     }
     else
     {
