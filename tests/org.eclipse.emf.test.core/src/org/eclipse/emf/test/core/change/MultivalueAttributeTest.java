@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: MultivalueAttributeTest.java,v 1.4 2004/11/03 23:30:40 marcelop Exp $
+ * $Id: MultivalueAttributeTest.java,v 1.5 2004/11/17 15:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +28,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -38,12 +41,17 @@ import org.eclipse.emf.ecore.change.ChangeKind;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.test.core.EMFTestCorePlugin;
 
 public class MultivalueAttributeTest extends TestCase
 {
   private EObject thing;
   private EAttribute manyInt;
+  private EAttribute manyString;
   
   public MultivalueAttributeTest(String name)
   {
@@ -55,15 +63,20 @@ public class MultivalueAttributeTest extends TestCase
     TestSuite ts = new TestSuite("MultivalueAttributeTest");
     ts.addTest(new MultivalueAttributeTest("testMultiValueAttributeChange"));
     ts.addTest(new MultivalueAttributeTest("testApplyAndReverse"));
+    ts.addTest(new MultivalueAttributeTest("testSerialization"));
     return ts;
   }
- 
+   
   /* (non-Javadoc)
    * @see junit.framework.TestCase#setUp()
    */
   protected void setUp() throws Exception
   {
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    ePackage.setName("ThingPack");
+    ePackage.setNsURI("http://thing.com");
+    EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
+
     EClass thingEClass = EcoreFactory.eINSTANCE.createEClass();
     thingEClass.setName("Thing");
     ePackage.getEClassifiers().add(thingEClass);
@@ -73,16 +86,37 @@ public class MultivalueAttributeTest extends TestCase
     manyInt.setEType(EcorePackage.eINSTANCE.getEInt());
     manyInt.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     thingEClass.getEStructuralFeatures().add(manyInt);
+
+    manyString = EcoreFactory.eINSTANCE.createEAttribute();
+    manyString.setName("manyString");
+    manyString.setEType(EcorePackage.eINSTANCE.getEString());
+    manyString.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    thingEClass.getEStructuralFeatures().add(manyString);
     
     thing = ePackage.getEFactoryInstance().create(thingEClass);
   }
   
   private List getManyInt()
   {
-    return (List)thing.eGet(manyInt);
+    return getManyInt(thing);
   }
 
-  public void testMultiValueAttributeChange()
+  private List getManyInt(EObject eObject)
+  {
+    return (List)eObject.eGet(manyInt);
+  }
+  
+  private List getManyString()
+  {
+    return getManyString(thing);
+  }
+
+  private List getManyString(EObject eObject)
+  {
+    return (List)eObject.eGet(manyString);
+  }  
+   
+  public void testMultiValueAttributeChange() throws Exception
   {
     getManyInt().add(new Integer(1));
     
@@ -134,7 +168,7 @@ public class MultivalueAttributeTest extends TestCase
   /*
    * Bugzilla 76825
    */
-  public void testApplyAndReverse()
+  public void testApplyAndReverse() throws Exception
   {
     List beforeChange = new ArrayList(getManyInt());
     
@@ -158,5 +192,85 @@ public class MultivalueAttributeTest extends TestCase
     //current != before && current == after
     assertFalse(EMFTestCorePlugin.areEqual(beforeChange, getManyInt()));
     assertTrue(EMFTestCorePlugin.areEqual(afterChange, getManyInt()));
+  }  
+
+  /*
+   * Bugzilla 78840
+   */
+  public void testSerialization() throws Exception
+  {
+    getManyInt().add(new Integer(1));
+    getManyString().add("a");
+    List intBeforeChange = new ArrayList(getManyInt());
+    List stringBeforeChange = new ArrayList(getManyString());
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder((EObject)thing);
+    getManyInt().add(new Integer(2));
+    getManyInt().add(new Integer(3));
+    getManyString().add("b");
+    getManyString().add("c");
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    List intAfterChange = new ArrayList(getManyInt());
+    List stringAfterChange = new ArrayList(getManyString());
+    
+    //current != before && current == after
+    assertFalse(EMFTestCorePlugin.areEqual(intBeforeChange, getManyInt()));
+    assertTrue(EMFTestCorePlugin.areEqual(intAfterChange, getManyInt()));
+    assertFalse(EMFTestCorePlugin.areEqual(stringBeforeChange, getManyString()));
+    assertTrue(EMFTestCorePlugin.areEqual(stringAfterChange, getManyString()));
+
+    Resource thingResource = new XMIResourceImpl(URI.createFileURI("thing.xmi"));
+    thingResource.getContents().add(thing);
+    
+    Resource chandeDescriptionResource = new XMIResourceImpl(URI.createFileURI("chandeDescription.xmi"));
+    chandeDescriptionResource.getContents().add(changeDescription);
+    
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    chandeDescriptionResource.save(baos, null);    
+    Resource loadedChangeDescriptionResource = new XMIResourceImpl(URI.createFileURI("chandeDescription.xmi"));
+    loadedChangeDescriptionResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
+    assertEquals(1, loadedChangeDescriptionResource.getContents().size());
+    ChangeDescription loadedChangeDescription = (ChangeDescription)loadedChangeDescriptionResource.getContents().get(0);
+
+    baos = new ByteArrayOutputStream();
+    thingResource.save(baos, null);    
+    Resource loadedThingResource = new XMIResourceImpl(URI.createFileURI("thing.xmi"));
+    loadedThingResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
+    assertEquals(1, loadedThingResource.getContents().size());
+    EObject loadedThing = (EObject)loadedThingResource.getContents().get(0);
+    
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getResources().add(loadedChangeDescriptionResource);
+    resourceSet.getResources().add(loadedThingResource);
+    
+    //loadedThing: current != before && current == after
+    assertFalse(EMFTestCorePlugin.areEqual(intBeforeChange, getManyInt(loadedThing)));
+    assertTrue(EMFTestCorePlugin.areEqual(intAfterChange, getManyInt(loadedThing)));
+    assertFalse(EMFTestCorePlugin.areEqual(stringBeforeChange, getManyString(loadedThing)));
+    assertTrue(EMFTestCorePlugin.areEqual(stringAfterChange, getManyString(loadedThing)));
+    
+    loadedChangeDescription.apply();
+    
+    //loadedThing: current == before && current != after
+    assertTrue(EMFTestCorePlugin.areEqual(intBeforeChange, getManyInt(loadedThing)));
+    assertFalse(EMFTestCorePlugin.areEqual(intAfterChange, getManyInt(loadedThing)));    
+    assertTrue(EMFTestCorePlugin.areEqual(stringBeforeChange, getManyString(loadedThing)));
+    assertFalse(EMFTestCorePlugin.areEqual(stringAfterChange, getManyString(loadedThing)));
+    
+    
+    //thing: current != before && current == after <same as after the changes>
+    assertFalse(EMFTestCorePlugin.areEqual(intBeforeChange, getManyInt()));
+    assertTrue(EMFTestCorePlugin.areEqual(intAfterChange, getManyInt()));
+    assertFalse(EMFTestCorePlugin.areEqual(stringBeforeChange, getManyString()));
+    assertTrue(EMFTestCorePlugin.areEqual(stringAfterChange, getManyString()));
+
+    changeDescription.apply();
+
+    //thing: current == before && current != after
+    assertTrue(EMFTestCorePlugin.areEqual(intBeforeChange, getManyInt()));
+    assertFalse(EMFTestCorePlugin.areEqual(intAfterChange, getManyInt()));
+    assertTrue(EMFTestCorePlugin.areEqual(stringBeforeChange, getManyString()));
+    assertFalse(EMFTestCorePlugin.areEqual(stringAfterChange, getManyString()));
   }  
 }
