@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2004/04/13 02:50:32 marcelop Exp $
+ * $Id: plugin.xml,v 1.2 2004/06/07 19:36:10 marcelop Exp $
  */
 -->
 
@@ -28,7 +28,7 @@
     class="org.eclipse.emf.java.JavaPlugin$Implementation"> 
 
   <requires>
-  	<import plugin="org.eclipse.core.runtime.compatibility"/>
+  	<import plugin="org.eclipse.core.runtime"/>
     <import plugin="org.eclipse.emf.ecore" export="true" />
     <import plugin="org.eclipse.jdt.core" export="true" />
   </requires>

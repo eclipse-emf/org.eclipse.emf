@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: JavaEditPlugin.java,v 1.1 2004/04/13 02:50:25 marcelop Exp $
+ * $Id: JavaEditPlugin.java,v 1.2 2004/06/07 19:36:03 marcelop Exp $
  */
 package org.eclipse.emf.java.provider;
 
-
-import org.eclipse.core.runtime.IPluginDescriptor;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -97,12 +95,11 @@ public final class JavaEditPlugin extends EMFPlugin
      * Creates an instance.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param descriptor the description of the plugin.
      * @generated
      */
-    public Implementation(IPluginDescriptor descriptor)
+    public Implementation()
     {
-      super(descriptor);
+      super();
 
       // Remember the static instance.
       //

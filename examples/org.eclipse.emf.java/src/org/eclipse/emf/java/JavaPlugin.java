@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: JavaPlugin.java,v 1.1 2004/04/13 02:50:32 marcelop Exp $
+ * $Id: JavaPlugin.java,v 1.2 2004/06/07 19:36:10 marcelop Exp $
  */
 package org.eclipse.emf.java;
 
-
-import org.eclipse.core.runtime.IPluginDescriptor;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -94,12 +92,11 @@ public final class JavaPlugin extends EMFPlugin
      * Creates an instance.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param descriptor the description of the plugin.
      * @generated
      */
-    public Implementation(IPluginDescriptor descriptor)
+    public Implementation()
     {
-      super(descriptor);
+      super();
 
       // Remember the static instance.
       //
