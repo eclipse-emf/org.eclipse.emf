@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommandActionHandler.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: CommandActionHandler.java,v 1.2 2004/05/16 16:59:37 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.actions.SelectionListenerAction;
+import org.eclipse.ui.actions.BaseSelectionListenerAction;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.UnexecutableCommand;
@@ -33,7 +33,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * This base action class implements an action by creating a command and delegating to it;
  * it's main use is as a base class for action handlers.
  */
-public class CommandActionHandler extends SelectionListenerAction
+public class CommandActionHandler extends BaseSelectionListenerAction
 {
   /**
    * This keeps track of the editing domain of the action.
