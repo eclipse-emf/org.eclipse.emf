@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.6 2004/12/06 13:40:38 marcelop Exp $
+ * $Id: ResourceImpl.java,v 1.7 2005/02/15 16:11:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -965,28 +965,33 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         }
       }
 
-      if (defaultLoadOptions == null || defaultLoadOptions.isEmpty())
+      try
       {
-        doLoad(inputStream, options);
+        if (defaultLoadOptions == null || defaultLoadOptions.isEmpty())
+        {
+          doLoad(inputStream, options);
+        }
+        else if (options == null)
+        {
+          doLoad(inputStream, defaultLoadOptions);
+        }
+        else
+        {
+          Map mergedOptions = new HashMap(defaultLoadOptions);
+          mergedOptions.putAll(options);
+  
+          doLoad(inputStream, mergedOptions);
+        }
       }
-      else if (options == null)
+      finally
       {
-        doLoad(inputStream, defaultLoadOptions);
-      }
-      else
-      {
-        Map mergedOptions = new HashMap(defaultLoadOptions);
-        mergedOptions.putAll(options);
-
-        doLoad(inputStream, mergedOptions);
-      }
-
-      if (notification != null)
-      {
-        eNotify(notification);
-      }
-
-      setModified(false);
+        if (notification != null)
+        {
+          eNotify(notification);
+        }
+  
+        setModified(false);
+      } 
     }
   }
 
