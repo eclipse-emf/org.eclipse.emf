@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.2 2004/03/23 17:00:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -35,10 +35,17 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.Viewer;
+
 import org.eclipse.ui.IEditorPart;
+
+import org.eclipse.ui.PartInitException;
 
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+
+import org.eclipse.jface.action.Action;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
@@ -81,6 +88,56 @@ public class EcoreActionBarContributor
    * @generated
    */
   protected ISelectionProvider selectionProvider;
+
+  /**
+   * This action opens the Properties view.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected IAction showPropertiesViewAction = 
+    new Action(EcoreEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))
+    {
+      public void run()
+      {
+        try
+        {
+          getPage().showView("org.eclipse.ui.views.PropertySheet");
+        }
+        catch(PartInitException exception)
+        {
+          EcoreEditorPlugin.INSTANCE.log(exception);
+        }
+      }
+    };
+
+  /**
+   * This action refreshes the viewer of the current editor if the editor
+   * implements {@link IViewerProvider}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected IAction refreshViewerAction = 
+    new Action(EcoreEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item"))
+    {
+      public boolean isEnabled()
+      {
+        return activeEditorPart instanceof IViewerProvider;
+      }
+      
+      public void run()
+      {
+        if (activeEditorPart instanceof IViewerProvider)
+        {
+          Viewer viewer = ((IViewerProvider)activeEditorPart).getViewer();
+          if (viewer != null)
+          {
+            viewer.refresh();
+          }
+        }
+      }
+    };
 
   /**
    * This will contain one {@link CreateChildAction} corresponding to each descriptor
@@ -377,6 +434,8 @@ public class EcoreActionBarContributor
    */
   public void menuAboutToShow(IMenuManager menuManager)
   {
+    refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
+    
     super.menuAboutToShow(menuManager);
     MenuManager submenuManager = null;
 
@@ -387,5 +446,9 @@ public class EcoreActionBarContributor
     submenuManager = new MenuManager(EcoreEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
     populateManager(submenuManager, createSiblingActions, null);
     menuManager.insertBefore("additions", submenuManager);
+    
+    menuManager.insertAfter("additions-end", new Separator("ui-actions"));
+    menuManager.insertAfter("ui-actions", showPropertiesViewAction);
+    menuManager.insertAfter("ui-actions", refreshViewerAction);
   }
 }

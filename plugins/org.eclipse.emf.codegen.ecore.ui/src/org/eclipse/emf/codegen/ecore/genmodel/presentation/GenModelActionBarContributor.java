@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.3 2004/03/23 09:52:39 marcelop Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.4 2004/03/23 17:00:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -124,15 +124,15 @@ public class GenModelActionBarContributor
     {
       public boolean isEnabled()
       {
-        return getPage().getActivePart() instanceof IViewerProvider;
+        return activeEditorPart instanceof IViewerProvider;
       }
       
       public void run()
       {
-        if (getPage().getActivePart() instanceof IViewerProvider)
+        if (activeEditorPart instanceof IViewerProvider)
         {
-          Viewer viewer = ((IViewerProvider)getPage().getActivePart()).getViewer();
-          if(viewer != null)
+          Viewer viewer = ((IViewerProvider)activeEditorPart).getViewer();
+          if (viewer != null)
           {
             viewer.refresh();
           }

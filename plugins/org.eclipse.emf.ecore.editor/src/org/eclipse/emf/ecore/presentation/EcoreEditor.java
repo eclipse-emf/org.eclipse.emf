@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.3 2004/03/10 00:18:34 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.4 2004/03/23 17:00:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -99,6 +99,8 @@ import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.ViewerPane;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -127,7 +129,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
  */
 public class EcoreEditor
   extends MultiPageEditorPart
-  implements IEditingDomainProvider, ISelectionProvider, IMenuListener
+  implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider
 {
   public static class XML extends EcoreEditor
   {
@@ -742,6 +744,17 @@ public class EcoreEditor
       setSelection(currentViewer == null ? StructuredSelection.EMPTY : currentViewer.getSelection());
     }
   }
+  
+  /**
+   * This returns the viewer as required by the {@link IViewerProvider} interface.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Viewer getViewer()
+  {
+    return currentViewer;
+  }
 
   /**
    * This creates a context menu for the viewer and adds a listener as well registering the menu for extension.
@@ -889,7 +902,7 @@ public class EcoreEditor
 
     // This is a temporary workaround... EATM
     //
-    Control control = (Control) getControl(pageIndex);
+    Control control = getControl(pageIndex);
     if (control != null)
     {
       control.setVisible(true);
