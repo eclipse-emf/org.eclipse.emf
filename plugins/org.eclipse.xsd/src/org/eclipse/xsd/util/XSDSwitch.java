@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XSDSwitch.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
+ * $Id: XSDSwitch.java,v 1.3 2004/05/16 16:47:00 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
+
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -68,424 +70,454 @@ public class XSDSwitch {
    */
   public Object doSwitch(EObject theEObject)
   {
-    EClass theEClass = theEObject.eClass();
+    return doSwitch(theEObject.eClass(), theEObject);
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  {
     if (theEClass.eContainer() == modelPackage)
     {
-      switch (theEClass.getClassifierID())
-      {
-        case XSDPackage.XSD_ANNOTATION:
-        {
-          XSDAnnotation xsdAnnotation = (XSDAnnotation)theEObject;
-          Object result = caseXSDAnnotation(xsdAnnotation);
-          if (result == null) result = caseXSDComponent(xsdAnnotation);
-          if (result == null) result = caseXSDRedefineContent(xsdAnnotation);
-          if (result == null) result = caseXSDConcreteComponent(xsdAnnotation);
-          if (result == null) result = caseXSDSchemaContent(xsdAnnotation);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_ATTRIBUTE_DECLARATION:
-        {
-          XSDAttributeDeclaration xsdAttributeDeclaration = (XSDAttributeDeclaration)theEObject;
-          Object result = caseXSDAttributeDeclaration(xsdAttributeDeclaration);
-          if (result == null) result = caseXSDFeature(xsdAttributeDeclaration);
-          if (result == null) result = caseXSDSchemaContent(xsdAttributeDeclaration);
-          if (result == null) result = caseXSDNamedComponent(xsdAttributeDeclaration);
-          if (result == null) result = caseXSDConcreteComponent(xsdAttributeDeclaration);
-          if (result == null) result = caseXSDComponent(xsdAttributeDeclaration);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION:
-        {
-          XSDAttributeGroupDefinition xsdAttributeGroupDefinition = (XSDAttributeGroupDefinition)theEObject;
-          Object result = caseXSDAttributeGroupDefinition(xsdAttributeGroupDefinition);
-          if (result == null) result = caseXSDRedefinableComponent(xsdAttributeGroupDefinition);
-          if (result == null) result = caseXSDAttributeGroupContent(xsdAttributeGroupDefinition);
-          if (result == null) result = caseXSDRedefineContent(xsdAttributeGroupDefinition);
-          if (result == null) result = caseXSDNamedComponent(xsdAttributeGroupDefinition);
-          if (result == null) result = caseXSDConcreteComponent(xsdAttributeGroupDefinition);
-          if (result == null) result = caseXSDSchemaContent(xsdAttributeGroupDefinition);
-          if (result == null) result = caseXSDComponent(xsdAttributeGroupDefinition);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_ATTRIBUTE_USE:
-        {
-          XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)theEObject;
-          Object result = caseXSDAttributeUse(xsdAttributeUse);
-          if (result == null) result = caseXSDComponent(xsdAttributeUse);
-          if (result == null) result = caseXSDAttributeGroupContent(xsdAttributeUse);
-          if (result == null) result = caseXSDConcreteComponent(xsdAttributeUse);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_BOUNDED_FACET:
-        {
-          XSDBoundedFacet xsdBoundedFacet = (XSDBoundedFacet)theEObject;
-          Object result = caseXSDBoundedFacet(xsdBoundedFacet);
-          if (result == null) result = caseXSDFundamentalFacet(xsdBoundedFacet);
-          if (result == null) result = caseXSDFacet(xsdBoundedFacet);
-          if (result == null) result = caseXSDComponent(xsdBoundedFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdBoundedFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_CARDINALITY_FACET:
-        {
-          XSDCardinalityFacet xsdCardinalityFacet = (XSDCardinalityFacet)theEObject;
-          Object result = caseXSDCardinalityFacet(xsdCardinalityFacet);
-          if (result == null) result = caseXSDFundamentalFacet(xsdCardinalityFacet);
-          if (result == null) result = caseXSDFacet(xsdCardinalityFacet);
-          if (result == null) result = caseXSDComponent(xsdCardinalityFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdCardinalityFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION:
-        {
-          XSDComplexTypeDefinition xsdComplexTypeDefinition = (XSDComplexTypeDefinition)theEObject;
-          Object result = caseXSDComplexTypeDefinition(xsdComplexTypeDefinition);
-          if (result == null) result = caseXSDTypeDefinition(xsdComplexTypeDefinition);
-          if (result == null) result = caseXSDScope(xsdComplexTypeDefinition);
-          if (result == null) result = caseXSDRedefinableComponent(xsdComplexTypeDefinition);
-          if (result == null) result = caseXSDRedefineContent(xsdComplexTypeDefinition);
-          if (result == null) result = caseXSDComponent(xsdComplexTypeDefinition);
-          if (result == null) result = caseXSDNamedComponent(xsdComplexTypeDefinition);
-          if (result == null) result = caseXSDSchemaContent(xsdComplexTypeDefinition);
-          if (result == null) result = caseXSDConcreteComponent(xsdComplexTypeDefinition);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_DIAGNOSTIC:
-        {
-          XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)theEObject;
-          Object result = caseXSDDiagnostic(xsdDiagnostic);
-          if (result == null) result = caseXSDConcreteComponent(xsdDiagnostic);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_ELEMENT_DECLARATION:
-        {
-          XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)theEObject;
-          Object result = caseXSDElementDeclaration(xsdElementDeclaration);
-          if (result == null) result = caseXSDFeature(xsdElementDeclaration);
-          if (result == null) result = caseXSDSchemaContent(xsdElementDeclaration);
-          if (result == null) result = caseXSDTerm(xsdElementDeclaration);
-          if (result == null) result = caseXSDNamedComponent(xsdElementDeclaration);
-          if (result == null) result = caseXSDConcreteComponent(xsdElementDeclaration);
-          if (result == null) result = caseXSDComponent(xsdElementDeclaration);
-          if (result == null) result = caseXSDParticleContent(xsdElementDeclaration);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_ENUMERATION_FACET:
-        {
-          XSDEnumerationFacet xsdEnumerationFacet = (XSDEnumerationFacet)theEObject;
-          Object result = caseXSDEnumerationFacet(xsdEnumerationFacet);
-          if (result == null) result = caseXSDRepeatableFacet(xsdEnumerationFacet);
-          if (result == null) result = caseXSDConstrainingFacet(xsdEnumerationFacet);
-          if (result == null) result = caseXSDFacet(xsdEnumerationFacet);
-          if (result == null) result = caseXSDComponent(xsdEnumerationFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdEnumerationFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_FRACTION_DIGITS_FACET:
-        {
-          XSDFractionDigitsFacet xsdFractionDigitsFacet = (XSDFractionDigitsFacet)theEObject;
-          Object result = caseXSDFractionDigitsFacet(xsdFractionDigitsFacet);
-          if (result == null) result = caseXSDFixedFacet(xsdFractionDigitsFacet);
-          if (result == null) result = caseXSDConstrainingFacet(xsdFractionDigitsFacet);
-          if (result == null) result = caseXSDFacet(xsdFractionDigitsFacet);
-          if (result == null) result = caseXSDComponent(xsdFractionDigitsFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdFractionDigitsFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION:
-        {
-          XSDIdentityConstraintDefinition xsdIdentityConstraintDefinition = (XSDIdentityConstraintDefinition)theEObject;
-          Object result = caseXSDIdentityConstraintDefinition(xsdIdentityConstraintDefinition);
-          if (result == null) result = caseXSDNamedComponent(xsdIdentityConstraintDefinition);
-          if (result == null) result = caseXSDComponent(xsdIdentityConstraintDefinition);
-          if (result == null) result = caseXSDConcreteComponent(xsdIdentityConstraintDefinition);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_IMPORT:
-        {
-          XSDImport xsdImport = (XSDImport)theEObject;
-          Object result = caseXSDImport(xsdImport);
-          if (result == null) result = caseXSDSchemaDirective(xsdImport);
-          if (result == null) result = caseXSDSchemaContent(xsdImport);
-          if (result == null) result = caseXSDConcreteComponent(xsdImport);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_INCLUDE:
-        {
-          XSDInclude xsdInclude = (XSDInclude)theEObject;
-          Object result = caseXSDInclude(xsdInclude);
-          if (result == null) result = caseXSDSchemaCompositor(xsdInclude);
-          if (result == null) result = caseXSDSchemaDirective(xsdInclude);
-          if (result == null) result = caseXSDSchemaContent(xsdInclude);
-          if (result == null) result = caseXSDConcreteComponent(xsdInclude);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_LENGTH_FACET:
-        {
-          XSDLengthFacet xsdLengthFacet = (XSDLengthFacet)theEObject;
-          Object result = caseXSDLengthFacet(xsdLengthFacet);
-          if (result == null) result = caseXSDFixedFacet(xsdLengthFacet);
-          if (result == null) result = caseXSDConstrainingFacet(xsdLengthFacet);
-          if (result == null) result = caseXSDFacet(xsdLengthFacet);
-          if (result == null) result = caseXSDComponent(xsdLengthFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdLengthFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_MAX_EXCLUSIVE_FACET:
-        {
-          XSDMaxExclusiveFacet xsdMaxExclusiveFacet = (XSDMaxExclusiveFacet)theEObject;
-          Object result = caseXSDMaxExclusiveFacet(xsdMaxExclusiveFacet);
-          if (result == null) result = caseXSDMaxFacet(xsdMaxExclusiveFacet);
-          if (result == null) result = caseXSDFixedFacet(xsdMaxExclusiveFacet);
-          if (result == null) result = caseXSDConstrainingFacet(xsdMaxExclusiveFacet);
-          if (result == null) result = caseXSDFacet(xsdMaxExclusiveFacet);
-          if (result == null) result = caseXSDComponent(xsdMaxExclusiveFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdMaxExclusiveFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_MAX_INCLUSIVE_FACET:
-        {
-          XSDMaxInclusiveFacet xsdMaxInclusiveFacet = (XSDMaxInclusiveFacet)theEObject;
-          Object result = caseXSDMaxInclusiveFacet(xsdMaxInclusiveFacet);
-          if (result == null) result = caseXSDMaxFacet(xsdMaxInclusiveFacet);
-          if (result == null) result = caseXSDFixedFacet(xsdMaxInclusiveFacet);
-          if (result == null) result = caseXSDConstrainingFacet(xsdMaxInclusiveFacet);
-          if (result == null) result = caseXSDFacet(xsdMaxInclusiveFacet);
-          if (result == null) result = caseXSDComponent(xsdMaxInclusiveFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdMaxInclusiveFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_MAX_LENGTH_FACET:
-        {
-          XSDMaxLengthFacet xsdMaxLengthFacet = (XSDMaxLengthFacet)theEObject;
-          Object result = caseXSDMaxLengthFacet(xsdMaxLengthFacet);
-          if (result == null) result = caseXSDFixedFacet(xsdMaxLengthFacet);
-          if (result == null) result = caseXSDConstrainingFacet(xsdMaxLengthFacet);
-          if (result == null) result = caseXSDFacet(xsdMaxLengthFacet);
-          if (result == null) result = caseXSDComponent(xsdMaxLengthFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdMaxLengthFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_MIN_EXCLUSIVE_FACET:
-        {
-          XSDMinExclusiveFacet xsdMinExclusiveFacet = (XSDMinExclusiveFacet)theEObject;
-          Object result = caseXSDMinExclusiveFacet(xsdMinExclusiveFacet);
-          if (result == null) result = caseXSDMinFacet(xsdMinExclusiveFacet);
-          if (result == null) result = caseXSDFixedFacet(xsdMinExclusiveFacet);
-          if (result == null) result = caseXSDConstrainingFacet(xsdMinExclusiveFacet);
-          if (result == null) result = caseXSDFacet(xsdMinExclusiveFacet);
-          if (result == null) result = caseXSDComponent(xsdMinExclusiveFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdMinExclusiveFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_MIN_INCLUSIVE_FACET:
-        {
-          XSDMinInclusiveFacet xsdMinInclusiveFacet = (XSDMinInclusiveFacet)theEObject;
-          Object result = caseXSDMinInclusiveFacet(xsdMinInclusiveFacet);
-          if (result == null) result = caseXSDMinFacet(xsdMinInclusiveFacet);
-          if (result == null) result = caseXSDFixedFacet(xsdMinInclusiveFacet);
-          if (result == null) result = caseXSDConstrainingFacet(xsdMinInclusiveFacet);
-          if (result == null) result = caseXSDFacet(xsdMinInclusiveFacet);
-          if (result == null) result = caseXSDComponent(xsdMinInclusiveFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdMinInclusiveFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_MIN_LENGTH_FACET:
-        {
-          XSDMinLengthFacet xsdMinLengthFacet = (XSDMinLengthFacet)theEObject;
-          Object result = caseXSDMinLengthFacet(xsdMinLengthFacet);
-          if (result == null) result = caseXSDFixedFacet(xsdMinLengthFacet);
-          if (result == null) result = caseXSDConstrainingFacet(xsdMinLengthFacet);
-          if (result == null) result = caseXSDFacet(xsdMinLengthFacet);
-          if (result == null) result = caseXSDComponent(xsdMinLengthFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdMinLengthFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_MODEL_GROUP:
-        {
-          XSDModelGroup xsdModelGroup = (XSDModelGroup)theEObject;
-          Object result = caseXSDModelGroup(xsdModelGroup);
-          if (result == null) result = caseXSDTerm(xsdModelGroup);
-          if (result == null) result = caseXSDComponent(xsdModelGroup);
-          if (result == null) result = caseXSDParticleContent(xsdModelGroup);
-          if (result == null) result = caseXSDConcreteComponent(xsdModelGroup);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_MODEL_GROUP_DEFINITION:
-        {
-          XSDModelGroupDefinition xsdModelGroupDefinition = (XSDModelGroupDefinition)theEObject;
-          Object result = caseXSDModelGroupDefinition(xsdModelGroupDefinition);
-          if (result == null) result = caseXSDRedefinableComponent(xsdModelGroupDefinition);
-          if (result == null) result = caseXSDParticleContent(xsdModelGroupDefinition);
-          if (result == null) result = caseXSDRedefineContent(xsdModelGroupDefinition);
-          if (result == null) result = caseXSDNamedComponent(xsdModelGroupDefinition);
-          if (result == null) result = caseXSDConcreteComponent(xsdModelGroupDefinition);
-          if (result == null) result = caseXSDSchemaContent(xsdModelGroupDefinition);
-          if (result == null) result = caseXSDComponent(xsdModelGroupDefinition);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_NOTATION_DECLARATION:
-        {
-          XSDNotationDeclaration xsdNotationDeclaration = (XSDNotationDeclaration)theEObject;
-          Object result = caseXSDNotationDeclaration(xsdNotationDeclaration);
-          if (result == null) result = caseXSDNamedComponent(xsdNotationDeclaration);
-          if (result == null) result = caseXSDSchemaContent(xsdNotationDeclaration);
-          if (result == null) result = caseXSDComponent(xsdNotationDeclaration);
-          if (result == null) result = caseXSDConcreteComponent(xsdNotationDeclaration);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_NUMERIC_FACET:
-        {
-          XSDNumericFacet xsdNumericFacet = (XSDNumericFacet)theEObject;
-          Object result = caseXSDNumericFacet(xsdNumericFacet);
-          if (result == null) result = caseXSDFundamentalFacet(xsdNumericFacet);
-          if (result == null) result = caseXSDFacet(xsdNumericFacet);
-          if (result == null) result = caseXSDComponent(xsdNumericFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdNumericFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_ORDERED_FACET:
-        {
-          XSDOrderedFacet xsdOrderedFacet = (XSDOrderedFacet)theEObject;
-          Object result = caseXSDOrderedFacet(xsdOrderedFacet);
-          if (result == null) result = caseXSDFundamentalFacet(xsdOrderedFacet);
-          if (result == null) result = caseXSDFacet(xsdOrderedFacet);
-          if (result == null) result = caseXSDComponent(xsdOrderedFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdOrderedFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_PARTICLE:
-        {
-          XSDParticle xsdParticle = (XSDParticle)theEObject;
-          Object result = caseXSDParticle(xsdParticle);
-          if (result == null) result = caseXSDComplexTypeContent(xsdParticle);
-          if (result == null) result = caseXSDComponent(xsdParticle);
-          if (result == null) result = caseXSDConcreteComponent(xsdParticle);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_PATTERN_FACET:
-        {
-          XSDPatternFacet xsdPatternFacet = (XSDPatternFacet)theEObject;
-          Object result = caseXSDPatternFacet(xsdPatternFacet);
-          if (result == null) result = caseXSDRepeatableFacet(xsdPatternFacet);
-          if (result == null) result = caseXSDConstrainingFacet(xsdPatternFacet);
-          if (result == null) result = caseXSDFacet(xsdPatternFacet);
-          if (result == null) result = caseXSDComponent(xsdPatternFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdPatternFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_REDEFINE:
-        {
-          XSDRedefine xsdRedefine = (XSDRedefine)theEObject;
-          Object result = caseXSDRedefine(xsdRedefine);
-          if (result == null) result = caseXSDSchemaCompositor(xsdRedefine);
-          if (result == null) result = caseXSDSchemaDirective(xsdRedefine);
-          if (result == null) result = caseXSDSchemaContent(xsdRedefine);
-          if (result == null) result = caseXSDConcreteComponent(xsdRedefine);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_SCHEMA:
-        {
-          XSDSchema xsdSchema = (XSDSchema)theEObject;
-          Object result = caseXSDSchema(xsdSchema);
-          if (result == null) result = caseXSDScope(xsdSchema);
-          if (result == null) result = caseXSDComponent(xsdSchema);
-          if (result == null) result = caseXSDConcreteComponent(xsdSchema);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION:
-        {
-          XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)theEObject;
-          Object result = caseXSDSimpleTypeDefinition(xsdSimpleTypeDefinition);
-          if (result == null) result = caseXSDTypeDefinition(xsdSimpleTypeDefinition);
-          if (result == null) result = caseXSDComplexTypeContent(xsdSimpleTypeDefinition);
-          if (result == null) result = caseXSDRedefinableComponent(xsdSimpleTypeDefinition);
-          if (result == null) result = caseXSDRedefineContent(xsdSimpleTypeDefinition);
-          if (result == null) result = caseXSDComponent(xsdSimpleTypeDefinition);
-          if (result == null) result = caseXSDNamedComponent(xsdSimpleTypeDefinition);
-          if (result == null) result = caseXSDSchemaContent(xsdSimpleTypeDefinition);
-          if (result == null) result = caseXSDConcreteComponent(xsdSimpleTypeDefinition);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_TOTAL_DIGITS_FACET:
-        {
-          XSDTotalDigitsFacet xsdTotalDigitsFacet = (XSDTotalDigitsFacet)theEObject;
-          Object result = caseXSDTotalDigitsFacet(xsdTotalDigitsFacet);
-          if (result == null) result = caseXSDFixedFacet(xsdTotalDigitsFacet);
-          if (result == null) result = caseXSDConstrainingFacet(xsdTotalDigitsFacet);
-          if (result == null) result = caseXSDFacet(xsdTotalDigitsFacet);
-          if (result == null) result = caseXSDComponent(xsdTotalDigitsFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdTotalDigitsFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_WHITE_SPACE_FACET:
-        {
-          XSDWhiteSpaceFacet xsdWhiteSpaceFacet = (XSDWhiteSpaceFacet)theEObject;
-          Object result = caseXSDWhiteSpaceFacet(xsdWhiteSpaceFacet);
-          if (result == null) result = caseXSDFixedFacet(xsdWhiteSpaceFacet);
-          if (result == null) result = caseXSDConstrainingFacet(xsdWhiteSpaceFacet);
-          if (result == null) result = caseXSDFacet(xsdWhiteSpaceFacet);
-          if (result == null) result = caseXSDComponent(xsdWhiteSpaceFacet);
-          if (result == null) result = caseXSDConcreteComponent(xsdWhiteSpaceFacet);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_WILDCARD:
-        {
-          XSDWildcard xsdWildcard = (XSDWildcard)theEObject;
-          Object result = caseXSDWildcard(xsdWildcard);
-          if (result == null) result = caseXSDTerm(xsdWildcard);
-          if (result == null) result = caseXSDComponent(xsdWildcard);
-          if (result == null) result = caseXSDParticleContent(xsdWildcard);
-          if (result == null) result = caseXSDConcreteComponent(xsdWildcard);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case XSDPackage.XSD_XPATH_DEFINITION:
-        {
-          XSDXPathDefinition xsdxPathDefinition = (XSDXPathDefinition)theEObject;
-          Object result = caseXSDXPathDefinition(xsdxPathDefinition);
-          if (result == null) result = caseXSDComponent(xsdxPathDefinition);
-          if (result == null) result = caseXSDConcreteComponent(xsdxPathDefinition);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        default: return defaultCase(theEObject);
-      }
+      return doSwitch(theEClass.getClassifierID(), theEObject);
     }
-    return defaultCase(theEObject);
+    else
+    {
+      List eSuperTypes = theEClass.getESuperTypes();
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+    }
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(int classifierID, EObject theEObject)
+  {
+    switch (classifierID)
+    {
+      case XSDPackage.XSD_ANNOTATION:
+      {
+        XSDAnnotation xsdAnnotation = (XSDAnnotation)theEObject;
+        Object result = caseXSDAnnotation(xsdAnnotation);
+        if (result == null) result = caseXSDComponent(xsdAnnotation);
+        if (result == null) result = caseXSDRedefineContent(xsdAnnotation);
+        if (result == null) result = caseXSDConcreteComponent(xsdAnnotation);
+        if (result == null) result = caseXSDSchemaContent(xsdAnnotation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_ATTRIBUTE_DECLARATION:
+      {
+        XSDAttributeDeclaration xsdAttributeDeclaration = (XSDAttributeDeclaration)theEObject;
+        Object result = caseXSDAttributeDeclaration(xsdAttributeDeclaration);
+        if (result == null) result = caseXSDFeature(xsdAttributeDeclaration);
+        if (result == null) result = caseXSDSchemaContent(xsdAttributeDeclaration);
+        if (result == null) result = caseXSDNamedComponent(xsdAttributeDeclaration);
+        if (result == null) result = caseXSDConcreteComponent(xsdAttributeDeclaration);
+        if (result == null) result = caseXSDComponent(xsdAttributeDeclaration);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION:
+      {
+        XSDAttributeGroupDefinition xsdAttributeGroupDefinition = (XSDAttributeGroupDefinition)theEObject;
+        Object result = caseXSDAttributeGroupDefinition(xsdAttributeGroupDefinition);
+        if (result == null) result = caseXSDRedefinableComponent(xsdAttributeGroupDefinition);
+        if (result == null) result = caseXSDAttributeGroupContent(xsdAttributeGroupDefinition);
+        if (result == null) result = caseXSDRedefineContent(xsdAttributeGroupDefinition);
+        if (result == null) result = caseXSDNamedComponent(xsdAttributeGroupDefinition);
+        if (result == null) result = caseXSDConcreteComponent(xsdAttributeGroupDefinition);
+        if (result == null) result = caseXSDSchemaContent(xsdAttributeGroupDefinition);
+        if (result == null) result = caseXSDComponent(xsdAttributeGroupDefinition);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_ATTRIBUTE_USE:
+      {
+        XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)theEObject;
+        Object result = caseXSDAttributeUse(xsdAttributeUse);
+        if (result == null) result = caseXSDComponent(xsdAttributeUse);
+        if (result == null) result = caseXSDAttributeGroupContent(xsdAttributeUse);
+        if (result == null) result = caseXSDConcreteComponent(xsdAttributeUse);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_BOUNDED_FACET:
+      {
+        XSDBoundedFacet xsdBoundedFacet = (XSDBoundedFacet)theEObject;
+        Object result = caseXSDBoundedFacet(xsdBoundedFacet);
+        if (result == null) result = caseXSDFundamentalFacet(xsdBoundedFacet);
+        if (result == null) result = caseXSDFacet(xsdBoundedFacet);
+        if (result == null) result = caseXSDComponent(xsdBoundedFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdBoundedFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_CARDINALITY_FACET:
+      {
+        XSDCardinalityFacet xsdCardinalityFacet = (XSDCardinalityFacet)theEObject;
+        Object result = caseXSDCardinalityFacet(xsdCardinalityFacet);
+        if (result == null) result = caseXSDFundamentalFacet(xsdCardinalityFacet);
+        if (result == null) result = caseXSDFacet(xsdCardinalityFacet);
+        if (result == null) result = caseXSDComponent(xsdCardinalityFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdCardinalityFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION:
+      {
+        XSDComplexTypeDefinition xsdComplexTypeDefinition = (XSDComplexTypeDefinition)theEObject;
+        Object result = caseXSDComplexTypeDefinition(xsdComplexTypeDefinition);
+        if (result == null) result = caseXSDTypeDefinition(xsdComplexTypeDefinition);
+        if (result == null) result = caseXSDScope(xsdComplexTypeDefinition);
+        if (result == null) result = caseXSDRedefinableComponent(xsdComplexTypeDefinition);
+        if (result == null) result = caseXSDRedefineContent(xsdComplexTypeDefinition);
+        if (result == null) result = caseXSDComponent(xsdComplexTypeDefinition);
+        if (result == null) result = caseXSDNamedComponent(xsdComplexTypeDefinition);
+        if (result == null) result = caseXSDSchemaContent(xsdComplexTypeDefinition);
+        if (result == null) result = caseXSDConcreteComponent(xsdComplexTypeDefinition);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_DIAGNOSTIC:
+      {
+        XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)theEObject;
+        Object result = caseXSDDiagnostic(xsdDiagnostic);
+        if (result == null) result = caseXSDConcreteComponent(xsdDiagnostic);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_ELEMENT_DECLARATION:
+      {
+        XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)theEObject;
+        Object result = caseXSDElementDeclaration(xsdElementDeclaration);
+        if (result == null) result = caseXSDFeature(xsdElementDeclaration);
+        if (result == null) result = caseXSDSchemaContent(xsdElementDeclaration);
+        if (result == null) result = caseXSDTerm(xsdElementDeclaration);
+        if (result == null) result = caseXSDNamedComponent(xsdElementDeclaration);
+        if (result == null) result = caseXSDConcreteComponent(xsdElementDeclaration);
+        if (result == null) result = caseXSDComponent(xsdElementDeclaration);
+        if (result == null) result = caseXSDParticleContent(xsdElementDeclaration);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_ENUMERATION_FACET:
+      {
+        XSDEnumerationFacet xsdEnumerationFacet = (XSDEnumerationFacet)theEObject;
+        Object result = caseXSDEnumerationFacet(xsdEnumerationFacet);
+        if (result == null) result = caseXSDRepeatableFacet(xsdEnumerationFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdEnumerationFacet);
+        if (result == null) result = caseXSDFacet(xsdEnumerationFacet);
+        if (result == null) result = caseXSDComponent(xsdEnumerationFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdEnumerationFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_FRACTION_DIGITS_FACET:
+      {
+        XSDFractionDigitsFacet xsdFractionDigitsFacet = (XSDFractionDigitsFacet)theEObject;
+        Object result = caseXSDFractionDigitsFacet(xsdFractionDigitsFacet);
+        if (result == null) result = caseXSDFixedFacet(xsdFractionDigitsFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdFractionDigitsFacet);
+        if (result == null) result = caseXSDFacet(xsdFractionDigitsFacet);
+        if (result == null) result = caseXSDComponent(xsdFractionDigitsFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdFractionDigitsFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION:
+      {
+        XSDIdentityConstraintDefinition xsdIdentityConstraintDefinition = (XSDIdentityConstraintDefinition)theEObject;
+        Object result = caseXSDIdentityConstraintDefinition(xsdIdentityConstraintDefinition);
+        if (result == null) result = caseXSDNamedComponent(xsdIdentityConstraintDefinition);
+        if (result == null) result = caseXSDComponent(xsdIdentityConstraintDefinition);
+        if (result == null) result = caseXSDConcreteComponent(xsdIdentityConstraintDefinition);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_IMPORT:
+      {
+        XSDImport xsdImport = (XSDImport)theEObject;
+        Object result = caseXSDImport(xsdImport);
+        if (result == null) result = caseXSDSchemaDirective(xsdImport);
+        if (result == null) result = caseXSDSchemaContent(xsdImport);
+        if (result == null) result = caseXSDConcreteComponent(xsdImport);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_INCLUDE:
+      {
+        XSDInclude xsdInclude = (XSDInclude)theEObject;
+        Object result = caseXSDInclude(xsdInclude);
+        if (result == null) result = caseXSDSchemaCompositor(xsdInclude);
+        if (result == null) result = caseXSDSchemaDirective(xsdInclude);
+        if (result == null) result = caseXSDSchemaContent(xsdInclude);
+        if (result == null) result = caseXSDConcreteComponent(xsdInclude);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_LENGTH_FACET:
+      {
+        XSDLengthFacet xsdLengthFacet = (XSDLengthFacet)theEObject;
+        Object result = caseXSDLengthFacet(xsdLengthFacet);
+        if (result == null) result = caseXSDFixedFacet(xsdLengthFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdLengthFacet);
+        if (result == null) result = caseXSDFacet(xsdLengthFacet);
+        if (result == null) result = caseXSDComponent(xsdLengthFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdLengthFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_MAX_EXCLUSIVE_FACET:
+      {
+        XSDMaxExclusiveFacet xsdMaxExclusiveFacet = (XSDMaxExclusiveFacet)theEObject;
+        Object result = caseXSDMaxExclusiveFacet(xsdMaxExclusiveFacet);
+        if (result == null) result = caseXSDMaxFacet(xsdMaxExclusiveFacet);
+        if (result == null) result = caseXSDFixedFacet(xsdMaxExclusiveFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdMaxExclusiveFacet);
+        if (result == null) result = caseXSDFacet(xsdMaxExclusiveFacet);
+        if (result == null) result = caseXSDComponent(xsdMaxExclusiveFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdMaxExclusiveFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_MAX_INCLUSIVE_FACET:
+      {
+        XSDMaxInclusiveFacet xsdMaxInclusiveFacet = (XSDMaxInclusiveFacet)theEObject;
+        Object result = caseXSDMaxInclusiveFacet(xsdMaxInclusiveFacet);
+        if (result == null) result = caseXSDMaxFacet(xsdMaxInclusiveFacet);
+        if (result == null) result = caseXSDFixedFacet(xsdMaxInclusiveFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdMaxInclusiveFacet);
+        if (result == null) result = caseXSDFacet(xsdMaxInclusiveFacet);
+        if (result == null) result = caseXSDComponent(xsdMaxInclusiveFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdMaxInclusiveFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_MAX_LENGTH_FACET:
+      {
+        XSDMaxLengthFacet xsdMaxLengthFacet = (XSDMaxLengthFacet)theEObject;
+        Object result = caseXSDMaxLengthFacet(xsdMaxLengthFacet);
+        if (result == null) result = caseXSDFixedFacet(xsdMaxLengthFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdMaxLengthFacet);
+        if (result == null) result = caseXSDFacet(xsdMaxLengthFacet);
+        if (result == null) result = caseXSDComponent(xsdMaxLengthFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdMaxLengthFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_MIN_EXCLUSIVE_FACET:
+      {
+        XSDMinExclusiveFacet xsdMinExclusiveFacet = (XSDMinExclusiveFacet)theEObject;
+        Object result = caseXSDMinExclusiveFacet(xsdMinExclusiveFacet);
+        if (result == null) result = caseXSDMinFacet(xsdMinExclusiveFacet);
+        if (result == null) result = caseXSDFixedFacet(xsdMinExclusiveFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdMinExclusiveFacet);
+        if (result == null) result = caseXSDFacet(xsdMinExclusiveFacet);
+        if (result == null) result = caseXSDComponent(xsdMinExclusiveFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdMinExclusiveFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_MIN_INCLUSIVE_FACET:
+      {
+        XSDMinInclusiveFacet xsdMinInclusiveFacet = (XSDMinInclusiveFacet)theEObject;
+        Object result = caseXSDMinInclusiveFacet(xsdMinInclusiveFacet);
+        if (result == null) result = caseXSDMinFacet(xsdMinInclusiveFacet);
+        if (result == null) result = caseXSDFixedFacet(xsdMinInclusiveFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdMinInclusiveFacet);
+        if (result == null) result = caseXSDFacet(xsdMinInclusiveFacet);
+        if (result == null) result = caseXSDComponent(xsdMinInclusiveFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdMinInclusiveFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_MIN_LENGTH_FACET:
+      {
+        XSDMinLengthFacet xsdMinLengthFacet = (XSDMinLengthFacet)theEObject;
+        Object result = caseXSDMinLengthFacet(xsdMinLengthFacet);
+        if (result == null) result = caseXSDFixedFacet(xsdMinLengthFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdMinLengthFacet);
+        if (result == null) result = caseXSDFacet(xsdMinLengthFacet);
+        if (result == null) result = caseXSDComponent(xsdMinLengthFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdMinLengthFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_MODEL_GROUP:
+      {
+        XSDModelGroup xsdModelGroup = (XSDModelGroup)theEObject;
+        Object result = caseXSDModelGroup(xsdModelGroup);
+        if (result == null) result = caseXSDTerm(xsdModelGroup);
+        if (result == null) result = caseXSDComponent(xsdModelGroup);
+        if (result == null) result = caseXSDParticleContent(xsdModelGroup);
+        if (result == null) result = caseXSDConcreteComponent(xsdModelGroup);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_MODEL_GROUP_DEFINITION:
+      {
+        XSDModelGroupDefinition xsdModelGroupDefinition = (XSDModelGroupDefinition)theEObject;
+        Object result = caseXSDModelGroupDefinition(xsdModelGroupDefinition);
+        if (result == null) result = caseXSDRedefinableComponent(xsdModelGroupDefinition);
+        if (result == null) result = caseXSDParticleContent(xsdModelGroupDefinition);
+        if (result == null) result = caseXSDRedefineContent(xsdModelGroupDefinition);
+        if (result == null) result = caseXSDNamedComponent(xsdModelGroupDefinition);
+        if (result == null) result = caseXSDConcreteComponent(xsdModelGroupDefinition);
+        if (result == null) result = caseXSDSchemaContent(xsdModelGroupDefinition);
+        if (result == null) result = caseXSDComponent(xsdModelGroupDefinition);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_NOTATION_DECLARATION:
+      {
+        XSDNotationDeclaration xsdNotationDeclaration = (XSDNotationDeclaration)theEObject;
+        Object result = caseXSDNotationDeclaration(xsdNotationDeclaration);
+        if (result == null) result = caseXSDNamedComponent(xsdNotationDeclaration);
+        if (result == null) result = caseXSDSchemaContent(xsdNotationDeclaration);
+        if (result == null) result = caseXSDComponent(xsdNotationDeclaration);
+        if (result == null) result = caseXSDConcreteComponent(xsdNotationDeclaration);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_NUMERIC_FACET:
+      {
+        XSDNumericFacet xsdNumericFacet = (XSDNumericFacet)theEObject;
+        Object result = caseXSDNumericFacet(xsdNumericFacet);
+        if (result == null) result = caseXSDFundamentalFacet(xsdNumericFacet);
+        if (result == null) result = caseXSDFacet(xsdNumericFacet);
+        if (result == null) result = caseXSDComponent(xsdNumericFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdNumericFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_ORDERED_FACET:
+      {
+        XSDOrderedFacet xsdOrderedFacet = (XSDOrderedFacet)theEObject;
+        Object result = caseXSDOrderedFacet(xsdOrderedFacet);
+        if (result == null) result = caseXSDFundamentalFacet(xsdOrderedFacet);
+        if (result == null) result = caseXSDFacet(xsdOrderedFacet);
+        if (result == null) result = caseXSDComponent(xsdOrderedFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdOrderedFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_PARTICLE:
+      {
+        XSDParticle xsdParticle = (XSDParticle)theEObject;
+        Object result = caseXSDParticle(xsdParticle);
+        if (result == null) result = caseXSDComplexTypeContent(xsdParticle);
+        if (result == null) result = caseXSDComponent(xsdParticle);
+        if (result == null) result = caseXSDConcreteComponent(xsdParticle);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_PATTERN_FACET:
+      {
+        XSDPatternFacet xsdPatternFacet = (XSDPatternFacet)theEObject;
+        Object result = caseXSDPatternFacet(xsdPatternFacet);
+        if (result == null) result = caseXSDRepeatableFacet(xsdPatternFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdPatternFacet);
+        if (result == null) result = caseXSDFacet(xsdPatternFacet);
+        if (result == null) result = caseXSDComponent(xsdPatternFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdPatternFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_REDEFINE:
+      {
+        XSDRedefine xsdRedefine = (XSDRedefine)theEObject;
+        Object result = caseXSDRedefine(xsdRedefine);
+        if (result == null) result = caseXSDSchemaCompositor(xsdRedefine);
+        if (result == null) result = caseXSDSchemaDirective(xsdRedefine);
+        if (result == null) result = caseXSDSchemaContent(xsdRedefine);
+        if (result == null) result = caseXSDConcreteComponent(xsdRedefine);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_SCHEMA:
+      {
+        XSDSchema xsdSchema = (XSDSchema)theEObject;
+        Object result = caseXSDSchema(xsdSchema);
+        if (result == null) result = caseXSDScope(xsdSchema);
+        if (result == null) result = caseXSDComponent(xsdSchema);
+        if (result == null) result = caseXSDConcreteComponent(xsdSchema);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION:
+      {
+        XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)theEObject;
+        Object result = caseXSDSimpleTypeDefinition(xsdSimpleTypeDefinition);
+        if (result == null) result = caseXSDTypeDefinition(xsdSimpleTypeDefinition);
+        if (result == null) result = caseXSDComplexTypeContent(xsdSimpleTypeDefinition);
+        if (result == null) result = caseXSDRedefinableComponent(xsdSimpleTypeDefinition);
+        if (result == null) result = caseXSDRedefineContent(xsdSimpleTypeDefinition);
+        if (result == null) result = caseXSDComponent(xsdSimpleTypeDefinition);
+        if (result == null) result = caseXSDNamedComponent(xsdSimpleTypeDefinition);
+        if (result == null) result = caseXSDSchemaContent(xsdSimpleTypeDefinition);
+        if (result == null) result = caseXSDConcreteComponent(xsdSimpleTypeDefinition);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_TOTAL_DIGITS_FACET:
+      {
+        XSDTotalDigitsFacet xsdTotalDigitsFacet = (XSDTotalDigitsFacet)theEObject;
+        Object result = caseXSDTotalDigitsFacet(xsdTotalDigitsFacet);
+        if (result == null) result = caseXSDFixedFacet(xsdTotalDigitsFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdTotalDigitsFacet);
+        if (result == null) result = caseXSDFacet(xsdTotalDigitsFacet);
+        if (result == null) result = caseXSDComponent(xsdTotalDigitsFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdTotalDigitsFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_WHITE_SPACE_FACET:
+      {
+        XSDWhiteSpaceFacet xsdWhiteSpaceFacet = (XSDWhiteSpaceFacet)theEObject;
+        Object result = caseXSDWhiteSpaceFacet(xsdWhiteSpaceFacet);
+        if (result == null) result = caseXSDFixedFacet(xsdWhiteSpaceFacet);
+        if (result == null) result = caseXSDConstrainingFacet(xsdWhiteSpaceFacet);
+        if (result == null) result = caseXSDFacet(xsdWhiteSpaceFacet);
+        if (result == null) result = caseXSDComponent(xsdWhiteSpaceFacet);
+        if (result == null) result = caseXSDConcreteComponent(xsdWhiteSpaceFacet);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_WILDCARD:
+      {
+        XSDWildcard xsdWildcard = (XSDWildcard)theEObject;
+        Object result = caseXSDWildcard(xsdWildcard);
+        if (result == null) result = caseXSDTerm(xsdWildcard);
+        if (result == null) result = caseXSDComponent(xsdWildcard);
+        if (result == null) result = caseXSDParticleContent(xsdWildcard);
+        if (result == null) result = caseXSDConcreteComponent(xsdWildcard);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case XSDPackage.XSD_XPATH_DEFINITION:
+      {
+        XSDXPathDefinition xsdxPathDefinition = (XSDXPathDefinition)theEObject;
+        Object result = caseXSDXPathDefinition(xsdxPathDefinition);
+        if (result == null) result = caseXSDComponent(xsdxPathDefinition);
+        if (result == null) result = caseXSDConcreteComponent(xsdxPathDefinition);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      default: return defaultCase(theEObject);
+    }
   }
 
   /**
