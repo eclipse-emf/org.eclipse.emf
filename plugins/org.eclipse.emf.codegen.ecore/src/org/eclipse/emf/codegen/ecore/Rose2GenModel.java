@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Rose2GenModel.java,v 1.6 2004/08/11 15:09:00 marcelop Exp $
+ * $Id: Rose2GenModel.java,v 1.7 2004/12/29 22:19:15 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -132,259 +132,7 @@ public class Rose2GenModel extends Generator
               }
               else
               {
-                roseUtil = new RoseUtil();
-                packageInformationMap = new HashMap();
-                ePackageList = new ArrayList();
-                generatedEPackageList = new ArrayList();
-                referencedEPackageList = new ArrayList();
-  
-                int index = 0;
-                IPath roseModelPath = new Path(new File(arguments[index++]).getAbsolutePath());
-                IPath genModelPath = 
-                  arguments.length > index && !arguments[index].startsWith("-") ?
-                    new Path(new File(arguments[index++]).getAbsolutePath()) :
-                    roseModelPath.removeFileExtension().addFileExtension("genmodel");
-
-                IPath modelProjectLocationPath = null;
-                IPath modelFragmentPath = null;
-                IPath editProjectLocationPath = null;
-                IPath editFragmentPath = null;
-                IPath editorProjectLocationPath = null;
-                IPath editorFragmentPath = null;
-                String templatePath = null;
-                String copyright = null;
-                boolean sdo = false;
-
-                for (; index < arguments.length; ++index)
-                {
-                  if (arguments[index].equalsIgnoreCase("-noQualify"))
-                  {
-                    noQualify = true;
-                  }
-                  else if (arguments[index].equalsIgnoreCase("-unsettablePrimitive"))
-                  {
-                    unsettablePrimitive = true;
-                  }
-                  else if (arguments[index].equalsIgnoreCase("-modelProject"))
-                  {
-                    modelProjectLocationPath = new Path(new File(arguments[++index]).getAbsolutePath());
-                    modelFragmentPath = new Path(arguments[++index]);
-                  }
-                  else if (arguments[index].equalsIgnoreCase("-editProject"))
-                  {
-                    editProjectLocationPath = new Path(new File(arguments[++index]).getAbsolutePath());
-                    editFragmentPath = new Path(arguments[++index]);
-                  }
-                  else if (arguments[index].equalsIgnoreCase("-editorProject"))
-                  {
-                    editorProjectLocationPath = new Path(new File(arguments[++index]).getAbsolutePath());
-                    editorFragmentPath = new Path(arguments[++index]);
-                  }
-                  else if (arguments[index].equalsIgnoreCase("-pathmap"))
-                  {
-                    do
-                    {
-                      String variable = arguments[++index];
-                      String directory = arguments[++index];
-                      roseUtil.getVariableToDirectoryMap().put(variable, directory);
-                    }
-                    while (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"));
-                  }
-                  else if (arguments[index].equalsIgnoreCase("-package") || arguments[index].equalsIgnoreCase("-refpackage"))
-                  {
-                    int start = index;
-                    List packageInformation = new ArrayList(5);
-                    packageInformation.add(arguments[index].equalsIgnoreCase("-package") ? Boolean.TRUE : Boolean.FALSE);
-                    if (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"))
-                    {
-                      String name = arguments[++index];
-                      if (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"))
-                      {
-                        packageInformation.add(arguments[++index]);
-                        if (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"))
-                        {
-                          packageInformation.add(arguments[++index]);
-                          if (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"))
-                          {
-                            packageInformation.add(arguments[++index]);
-                            if (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"))
-                            {
-                              packageInformation.add(arguments[++index]);
-                            }
-                          }
-                        }
-                      }
-                      if (packageInformation.size() != 1 && packageInformation.size() != 5)
-                      {
-                        System.err.println("Error: Expecting either 1 or 5 arguments for " + arguments[start]);
-                        throw new RuntimeException();
-                      }
-                      else
-                      {
-                        packageInformationMap.put(name, packageInformation);
-                        packageInformationMap.put(name.toLowerCase(), packageInformation);
-                      }
-                    }
-                    else
-                    {
-                      System.err.println("Error: No package name was specified for " + arguments[start]);
-                      throw new RuntimeException();
-                    }
-                  }
-                  else if (arguments[index].equalsIgnoreCase("-copyright"))
-                  {
-                    copyright = arguments[++index];
-                  }
-                  else if (arguments[index].equalsIgnoreCase("-sdo"))
-                  {
-                    sdo = true;
-                  }
-                  else if (arguments[index].equalsIgnoreCase("-templatePath"))
-                  {
-                    do
-                    {
-                      templatePath = URI.createFileURI(new File(arguments[++index]).getAbsolutePath()).toString();
-                    }
-                    while (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"));
-                  }
-                  else
-                  {
-                    throw 
-                      new CoreException
-                        (new Status
-                          (IStatus.ERROR, 
-                           CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(), 
-                           0, 
-                           "Unrecognized argument: '" + arguments[index] + "'", 
-                           null));
-                  }
-                }
-
-                if (modelProjectLocationPath == null)
-                {
-                  modelProjectLocationPath = new Path(new File(".").getAbsolutePath());
-                }
-
-                if (modelFragmentPath == null)
-                {
-                  modelFragmentPath = new Path(".");
-                }
-
-                UnitTreeNode unitTree = roseUtil.createRoseUnitTreeAndTable(roseModelPath.toOSString(), null);
-                roseUtil.createExtent4RoseUnitTree(unitTree);
-                // roseUtil.showRoseUnitTree(unitTree);
-                roseUtil.processUnitTree(unitTree);
-
-                traverseUnitTree(unitTree);
-
-                traverseEPackages(ePackageList);
-
-                ResourceSet resourceSet = new ResourceSetImpl();
-                for (Iterator i = ePackageList.iterator(); i.hasNext(); )
-                {
-                  EPackage ePackage = (EPackage)i.next();
-                  List packageInformation = (List)packageInformationMap.get(ePackage.getName());
-                  String ecoreFileName = 
-                    packageInformation == null ||
-                      ECORE >= packageInformation.size() ? ePackage.getName() + ".ecore" : (String)packageInformation.get(ECORE);
-                  URI ecoreURI = URI.createFileURI(ecoreFileName);
-                  Resource resource = resourceSet.getResource(ecoreURI, false);
-                  if (resource == null)
-                  {
-                    ecoreURI = URI.createFileURI(genModelPath.removeLastSegments(1).append(ecoreFileName).toString());
-                    resource = 
-                      Resource.Factory.Registry.INSTANCE.getFactory(ecoreURI).createResource(ecoreURI);
-                    resourceSet.getResources().add(resource);
-                  }
-                  resource.getContents().add(ePackage);
-                }
-
-                URI genModelURI = URI.createFileURI(genModelPath.toOSString());
-                Resource genModelResource = 
-                  Resource.Factory.Registry.INSTANCE.getFactory(genModelURI).createResource(genModelURI);
-                GenModelFactory genModelFactory = GenModelFactory.eINSTANCE;
-
-                GenModel generatedGenModel = genModelFactory.createGenModel();
-                String modelName = genModelURI.trimFileExtension().lastSegment();
-                modelName = Character.toUpperCase(modelName.charAt(0)) + modelName.substring(1);
-                generatedGenModel.setModelName(modelName);
-                genModelResource.getContents().add(generatedGenModel);
-
-                GenModel referencedGenModel = genModelFactory.createGenModel();
-                genModelResource.getContents().add(referencedGenModel);
-
-                resourceSet.getResources().add(genModelResource);
-  
-                // Initialize the GenModel with all the computed data.
-                //
-                generatedGenModel.initialize(generatedEPackageList);
-                referencedGenModel.initialize(referencedEPackageList);
-                generatedGenModel.getUsedGenPackages().addAll(referencedGenModel.getGenPackages());
-
-                // generatedGenModel.setModelPluginID(modelProjectLocationPath.lastSegment());
-                generatedGenModel.setModelPluginID
-                  (((GenPackage)generatedGenModel.getGenPackages().get(0)).getInterfacePackageName());
-                generatedGenModel.setEditPluginClass
-                  (generatedGenModel.getModelPluginID() + ".provider." + 
-                     Generator.validName(generatedGenModel.getModelName()) + "EditPlugin");
-                generatedGenModel.setEditorPluginClass
-                  (generatedGenModel.getModelPluginID() + ".presentation." + 
-                     Generator.validName(generatedGenModel.getModelName()) + "EditorPlugin");
-                generatedGenModel.setModelDirectory(modelProjectLocationPath + "/./" + modelFragmentPath + "/.");
-                if (editProjectLocationPath != null)
-                {
-                  generatedGenModel.setEditDirectory(editProjectLocationPath + "/./" + editFragmentPath + "/.");
-                }
-                if (editorProjectLocationPath != null)
-                {
-                  generatedGenModel.setEditorDirectory(editorProjectLocationPath + "/./" + editorFragmentPath + "/.");
-                }
-
-                if (templatePath != null)
-                {
-                  generatedGenModel.setTemplateDirectory(templatePath);
-                  generatedGenModel.setDynamicTemplates(true);
-                }
-
-                if (copyright != null)
-                {
-                  generatedGenModel.setCopyrightText(copyright);
-                }
-
-                generatedGenModel.getForeignModel().add(roseModelPath.toOSString());
-                for (Iterator i = roseUtil.getVariableToDirectoryMap().entrySet().iterator(); i.hasNext(); )
-                {
-                  Map.Entry entry = (Map.Entry)i.next();
-                  if (entry.getKey() != null && entry.getValue() != null)
-                  {
-                    generatedGenModel.getForeignModel().add(entry.getKey());
-                    generatedGenModel.getForeignModel().add(entry.getValue());
-                  }
-                }
-                referencedGenModel.getForeignModel().addAll(generatedGenModel.getForeignModel());
-  
-                // This walks the tree to set base packages and prefixes.
-                //
-                setGenPackageDetails(generatedGenModel.getGenPackages());
-                setGenPackageDetails(referencedGenModel.getGenPackages());
-
-                List missingPackages = generatedGenModel.getMissingPackages();
-                for (Iterator i = missingPackages.iterator(); i.hasNext(); )
-                {
-                  EPackage ePackage = (EPackage)i.next();
-                  System.err.println("The EPackage '" + ePackage.getName() + "' is used, but there's no GenPackage for it.");
-                }
-
-                if (sdo)
-                {
-                  setSDODefaults(generatedGenModel);
-                }
-
-                for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext(); )
-                {
-                  Resource resource = (Resource)resources.next();
-                  resource.save(null);
-                }
+                execute(progressMonitor, arguments);
               }
             }
             catch (Exception exception)
@@ -412,6 +160,269 @@ public class Rose2GenModel extends Generator
     }
   }
 
+  /**
+   * Creates the genmodel.
+   * @param progressMonitor
+   * @param arguments
+   * @throws Exception
+   * @since 2.1.0
+   */
+  public void execute(IProgressMonitor progressMonitor, String [] arguments) throws Exception
+  {
+    roseUtil = new RoseUtil();
+    packageInformationMap = new HashMap();
+    ePackageList = new ArrayList();
+    generatedEPackageList = new ArrayList();
+    referencedEPackageList = new ArrayList();
+
+    int index = 0;
+    IPath roseModelPath = new Path(new File(arguments[index++]).getAbsolutePath());
+    IPath genModelPath = 
+      arguments.length > index && !arguments[index].startsWith("-") ?
+        new Path(new File(arguments[index++]).getAbsolutePath()) :
+        roseModelPath.removeFileExtension().addFileExtension("genmodel");
+
+    IPath modelProjectLocationPath = null;
+    IPath modelFragmentPath = null;
+    IPath editProjectLocationPath = null;
+    IPath editFragmentPath = null;
+    IPath editorProjectLocationPath = null;
+    IPath editorFragmentPath = null;
+    String templatePath = null;
+    String copyright = null;
+    boolean sdo = false;
+
+    for (; index < arguments.length; ++index)
+    {
+      if (arguments[index].equalsIgnoreCase("-noQualify"))
+      {
+        noQualify = true;
+      }
+      else if (arguments[index].equalsIgnoreCase("-unsettablePrimitive"))
+      {
+        unsettablePrimitive = true;
+      }
+      else if (arguments[index].equalsIgnoreCase("-modelProject"))
+      {
+        modelProjectLocationPath = new Path(new File(arguments[++index]).getAbsolutePath());
+        modelFragmentPath = new Path(arguments[++index]);
+      }
+      else if (arguments[index].equalsIgnoreCase("-editProject"))
+      {
+        editProjectLocationPath = new Path(new File(arguments[++index]).getAbsolutePath());
+        editFragmentPath = new Path(arguments[++index]);
+      }
+      else if (arguments[index].equalsIgnoreCase("-editorProject"))
+      {
+        editorProjectLocationPath = new Path(new File(arguments[++index]).getAbsolutePath());
+        editorFragmentPath = new Path(arguments[++index]);
+      }
+      else if (arguments[index].equalsIgnoreCase("-pathmap"))
+      {
+        do
+        {
+          String variable = arguments[++index];
+          String directory = arguments[++index];
+          roseUtil.getVariableToDirectoryMap().put(variable, directory);
+        }
+        while (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"));
+      }
+      else if (arguments[index].equalsIgnoreCase("-package") || arguments[index].equalsIgnoreCase("-refpackage"))
+      {
+        int start = index;
+        List packageInformation = new ArrayList(5);
+        packageInformation.add(arguments[index].equalsIgnoreCase("-package") ? Boolean.TRUE : Boolean.FALSE);
+        if (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"))
+        {
+          String name = arguments[++index];
+          if (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"))
+          {
+            packageInformation.add(arguments[++index]);
+            if (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"))
+            {
+              packageInformation.add(arguments[++index]);
+              if (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"))
+              {
+                packageInformation.add(arguments[++index]);
+                if (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"))
+                {
+                  packageInformation.add(arguments[++index]);
+                }
+              }
+            }
+          }
+          if (packageInformation.size() != 1 && packageInformation.size() != 5)
+          {
+            System.err.println("Error: Expecting either 1 or 5 arguments for " + arguments[start]);
+            throw new RuntimeException();
+          }
+          else
+          {
+            packageInformationMap.put(name, packageInformation);
+            packageInformationMap.put(name.toLowerCase(), packageInformation);
+          }
+        }
+        else
+        {
+          System.err.println("Error: No package name was specified for " + arguments[start]);
+          throw new RuntimeException();
+        }
+      }
+      else if (arguments[index].equalsIgnoreCase("-copyright"))
+      {
+        copyright = arguments[++index];
+      }
+      else if (arguments[index].equalsIgnoreCase("-sdo"))
+      {
+        sdo = true;
+      }
+      else if (arguments[index].equalsIgnoreCase("-templatePath"))
+      {
+        do
+        {
+          templatePath = URI.createFileURI(new File(arguments[++index]).getAbsolutePath()).toString();
+        }
+        while (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"));
+      }
+      else
+      {
+        throw 
+          new CoreException
+            (new Status
+              (IStatus.ERROR, 
+               CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(), 
+               0, 
+               "Unrecognized argument: '" + arguments[index] + "'", 
+               null));
+      }
+    }
+
+    if (modelProjectLocationPath == null)
+    {
+      modelProjectLocationPath = new Path(new File(".").getAbsolutePath());
+    }
+
+    if (modelFragmentPath == null)
+    {
+      modelFragmentPath = new Path(".");
+    }
+
+    UnitTreeNode unitTree = roseUtil.createRoseUnitTreeAndTable(roseModelPath.toOSString(), null);
+    roseUtil.createExtent4RoseUnitTree(unitTree);
+    // roseUtil.showRoseUnitTree(unitTree);
+    roseUtil.processUnitTree(unitTree);
+
+    traverseUnitTree(unitTree);
+
+    traverseEPackages(ePackageList);
+
+    ResourceSet resourceSet = new ResourceSetImpl();
+    for (Iterator i = ePackageList.iterator(); i.hasNext(); )
+    {
+      EPackage ePackage = (EPackage)i.next();
+      List packageInformation = (List)packageInformationMap.get(ePackage.getName());
+      String ecoreFileName = 
+        packageInformation == null ||
+          ECORE >= packageInformation.size() ? ePackage.getName() + ".ecore" : (String)packageInformation.get(ECORE);
+      URI ecoreURI = URI.createFileURI(ecoreFileName);
+      Resource resource = resourceSet.getResource(ecoreURI, false);
+      if (resource == null)
+      {
+        ecoreURI = URI.createFileURI(genModelPath.removeLastSegments(1).append(ecoreFileName).toString());
+        resource = 
+          Resource.Factory.Registry.INSTANCE.getFactory(ecoreURI).createResource(ecoreURI);
+        resourceSet.getResources().add(resource);
+      }
+      resource.getContents().add(ePackage);
+    }
+
+    URI genModelURI = URI.createFileURI(genModelPath.toOSString());
+    Resource genModelResource = 
+      Resource.Factory.Registry.INSTANCE.getFactory(genModelURI).createResource(genModelURI);
+    GenModelFactory genModelFactory = GenModelFactory.eINSTANCE;
+
+    GenModel generatedGenModel = genModelFactory.createGenModel();
+    String modelName = genModelURI.trimFileExtension().lastSegment();
+    modelName = Character.toUpperCase(modelName.charAt(0)) + modelName.substring(1);
+    generatedGenModel.setModelName(modelName);
+    genModelResource.getContents().add(generatedGenModel);
+
+    GenModel referencedGenModel = genModelFactory.createGenModel();
+    genModelResource.getContents().add(referencedGenModel);
+
+    resourceSet.getResources().add(genModelResource);
+
+    // Initialize the GenModel with all the computed data.
+    //
+    generatedGenModel.initialize(generatedEPackageList);
+    referencedGenModel.initialize(referencedEPackageList);
+    generatedGenModel.getUsedGenPackages().addAll(referencedGenModel.getGenPackages());
+
+    // generatedGenModel.setModelPluginID(modelProjectLocationPath.lastSegment());
+    generatedGenModel.setModelPluginID
+      (((GenPackage)generatedGenModel.getGenPackages().get(0)).getInterfacePackageName());
+    generatedGenModel.setEditPluginClass
+      (generatedGenModel.getModelPluginID() + ".provider." + 
+         Generator.validName(generatedGenModel.getModelName()) + "EditPlugin");
+    generatedGenModel.setEditorPluginClass
+      (generatedGenModel.getModelPluginID() + ".presentation." + 
+         Generator.validName(generatedGenModel.getModelName()) + "EditorPlugin");
+    generatedGenModel.setModelDirectory(modelProjectLocationPath + "/./" + modelFragmentPath + "/.");
+    if (editProjectLocationPath != null)
+    {
+      generatedGenModel.setEditDirectory(editProjectLocationPath + "/./" + editFragmentPath + "/.");
+    }
+    if (editorProjectLocationPath != null)
+    {
+      generatedGenModel.setEditorDirectory(editorProjectLocationPath + "/./" + editorFragmentPath + "/.");
+    }
+
+    if (templatePath != null)
+    {
+      generatedGenModel.setTemplateDirectory(templatePath);
+      generatedGenModel.setDynamicTemplates(true);
+    }
+
+    if (copyright != null)
+    {
+      generatedGenModel.setCopyrightText(copyright);
+    }
+
+    generatedGenModel.getForeignModel().add(roseModelPath.toOSString());
+    for (Iterator i = roseUtil.getVariableToDirectoryMap().entrySet().iterator(); i.hasNext(); )
+    {
+      Map.Entry entry = (Map.Entry)i.next();
+      if (entry.getKey() != null && entry.getValue() != null)
+      {
+        generatedGenModel.getForeignModel().add(entry.getKey());
+        generatedGenModel.getForeignModel().add(entry.getValue());
+      }
+    }
+    referencedGenModel.getForeignModel().addAll(generatedGenModel.getForeignModel());
+
+    // This walks the tree to set base packages and prefixes.
+    //
+    setGenPackageDetails(generatedGenModel.getGenPackages());
+    setGenPackageDetails(referencedGenModel.getGenPackages());
+
+    List missingPackages = generatedGenModel.getMissingPackages();
+    for (Iterator i = missingPackages.iterator(); i.hasNext(); )
+    {
+      EPackage ePackage = (EPackage)i.next();
+      System.err.println("The EPackage '" + ePackage.getName() + "' is used, but there's no GenPackage for it.");
+    }
+
+    if (sdo)
+    {
+      setSDODefaults(generatedGenModel);
+    }
+
+    for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext(); )
+    {
+      Resource resource = (Resource)resources.next();
+      resource.save(null);
+    }
+  }
 
   protected void traverseUnitTree(UnitTreeNode unitTreeNode)
   {
