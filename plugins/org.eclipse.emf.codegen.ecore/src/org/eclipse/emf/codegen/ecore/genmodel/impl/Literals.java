@@ -12,13 +12,16 @@
  *
  * </copyright>
  *
- * $Id: Literals.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
+ * $Id: Literals.java,v 1.3 2004/10/06 20:52:01 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
+
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 
 
 /**
@@ -34,60 +37,81 @@ public class Literals
    * Convenience dispatch method.  If the argument is an instance of
    * <code>Boolean</code>, <code>Byte</code>, <code>Short</code>,
    * <code>Integer</code>, <code>Long</code>, <code>Float</code>,
-   * <code>Double</code>, <code>Character</code>, <code>String</code>, or
-   * <code>Class</code>, the appropriate conversion method is called, with
-   * the unwrapped primitive, or the <code>String</code> or
-   * <code>Class</code> itself, as an argument.
+   * <code>Double</code>, <code>Character</code>, <code>String</code>, 
+   * <code>BigDecimal</code>, <code>BigInteger</code>, <code>Date</code>,
+   * or <code>Class</code>, the appropriate conversion method is called,
+   * with the unwrapped primitive, or the typed object as an argument.
+   * Class names are never imported; the qualified name is used.
    */
   public static String toLiteral(Object o)
   {
+    return toLiteral(o, null);
+  }
+
+  /**
+   * Convenience dispatch method.  If the argument is an instance of
+   * <code>Boolean</code>, <code>Byte</code>, <code>Short</code>,
+   * <code>Integer</code>, <code>Long</code>, <code>Float</code>,
+   * <code>Double</code>, <code>Character</code>, <code>String</code>, 
+   * <code>BigDecimal</code>, <code>BigInteger</code>, <code>Date</code>,
+   * or <code>Class</code>, the appropriate conversion method is called,
+   * with the unwrapped primitive, or the typed object as an argument.
+   * The specified {@link org.eclipse.emf.codegen.ecore.genmodel.GenModel},
+   * if non-null, is used when necessary to import class names. 
+   */
+  public static String toLiteral(Object o, GenModel genModel)
+  {
     if (o instanceof Boolean)
     {
-      return toBooleanLiteral(((Boolean)o).booleanValue());
+      return toBooleanLiteral(((Boolean)o).booleanValue(), genModel);
     }
     if (o instanceof Byte)
     {
-      return toByteLiteral(((Byte)o).byteValue());
+      return toByteLiteral(((Byte)o).byteValue(), genModel);
     }
     if (o instanceof Short)
     {
-      return toShortLiteral(((Short)o).shortValue());
+      return toShortLiteral(((Short)o).shortValue(), genModel);
     }
     if (o instanceof Integer)
     {
-      return toIntLiteral(((Integer)o).intValue());
+      return toIntLiteral(((Integer)o).intValue(), genModel);
     }
     if (o instanceof Long)
     {
-      return toLongLiteral(((Long)o).longValue());
+      return toLongLiteral(((Long)o).longValue(), genModel);
     }
     if (o instanceof Float)
     {
-      return toFloatLiteral(((Float)o).floatValue());
+      return toFloatLiteral(((Float)o).floatValue(), genModel);
     }
     if (o instanceof Double)
     {
-      return toDoubleLiteral(((Double)o).doubleValue());
+      return toDoubleLiteral(((Double)o).doubleValue(), genModel);
     }
     if (o instanceof Character)
     {
-      return toCharLiteral(((Character)o).charValue());
+      return toCharLiteral(((Character)o).charValue(), genModel);
     }
     if (o instanceof String)
     {
-      return toStringLiteral((String)o);
+      return toStringLiteral((String)o, genModel);
     }
     if (o instanceof BigDecimal)
     {
-      return toBigDecimalLiteral((BigDecimal)o);
+      return toBigDecimalLiteral((BigDecimal)o, genModel);
     }
     if (o instanceof BigInteger)
     {
-      return toBigIntegerLiteral((BigInteger)o);
+      return toBigIntegerLiteral((BigInteger)o, genModel);
+    }
+    if (o instanceof Date)
+    {
+      return toDateLiteral((Date)o, genModel);
     }
     if (o instanceof Class)
     {
-      return toClassLiteral((Class)o);
+      return toClassLiteral((Class)o, genModel);
     }
     return null;
   }
@@ -95,7 +119,7 @@ public class Literals
   /**
    * Returns the literal expression for the given <code>boolean</code> value.
    */
-  public static String toBooleanLiteral(boolean b)
+  public static String toBooleanLiteral(boolean b, GenModel genModel)
   {
     return b ? "true" : "false";
   }
@@ -104,7 +128,7 @@ public class Literals
    * Returns the decimal literal expression for the given <code>byte</code>
    * value.
    */
-  public static String toByteLiteral(byte b)
+  public static String toByteLiteral(byte b, GenModel genModel)
   {
     return Byte.toString(b);
   }
@@ -113,7 +137,7 @@ public class Literals
    * Returns the decimal literal expression for the given <code>short</code>
    * value.
    */
-  public static String toShortLiteral(short s)
+  public static String toShortLiteral(short s, GenModel genModel)
   {
     return Short.toString(s);
   }
@@ -122,7 +146,7 @@ public class Literals
    * Returns the decimal literal expression for the given <code>int</code>
    * value.
    */
-  public static String toIntLiteral(int i)
+  public static String toIntLiteral(int i, GenModel genModel)
   {
     return Integer.toString(i);
   }
@@ -131,7 +155,7 @@ public class Literals
    * Returns the decimal literal expression for the given <code>long</code>
    * value.
    */
-  public static String toLongLiteral(long l)
+  public static String toLongLiteral(long l, GenModel genModel)
   {
     return Long.toString(l) + "L";
   }
@@ -143,12 +167,12 @@ public class Literals
    * <code>java.lang.Float.POSITIVE_INFINITY</code>, or
    * <code>java.lang.Float.NEGATIVE_INFINITY</code>.
    */
-  public static String toFloatLiteral(float f)
+  public static String toFloatLiteral(float f, GenModel genModel)
   {
-    if (Float.isNaN(f)) return "java.lang.Float.NaN";
+    if (Float.isNaN(f)) return importName("java.lang.Float", genModel) + ".NaN";
     if (Float.isInfinite(f)) return f > 0 ?
-      "java.lang.Float.POSITIVE_INFINITY" :
-      "java.lang.Float.NEGATIVE_INFINITY";
+      importName("java.lang.Float", genModel) + ".POSITIVE_INFINITY" :
+      importName("java.lang.Float", genModel) + ".NEGATIVE_INFINITY";
     return Float.toString(f) + "F";
   }
 
@@ -159,15 +183,20 @@ public class Literals
    * <code>java.lang.Double.POSITIVE_INFINITY</code>, or
    * <code>java.lang.Double.NEGATIVE_INFINITY</code>.
    */
-  public static String toDoubleLiteral(double d)
+  public static String toDoubleLiteral(double d, GenModel genModel)
   {
-    if (Double.isNaN(d)) return "java.lang.Double.NaN";
+    if (Double.isNaN(d)) return importName("java.lang.Double", genModel) + ".NaN";
     if (Double.isInfinite(d)) return d > 0 ?
-      "java.lang.Double.POSITIVE_INFINITY" :
-      "java.lang.Double.NEGATIVE_INFINITY";
+      importName("java.lang.Double", genModel) + ".POSITIVE_INFINITY" :
+      importName("java.lang.Double", genModel) + ".NEGATIVE_INFINITY";
     return Double.toString(d);
   }
-  
+
+  private static String importName(String name, GenModel genModel)
+  {
+    return genModel != null ? genModel.getImportedName(name) : name;
+  }
+
   /**
    * Returns a literal expression for the given <code>char</code> value.
    * This literal will be in its escaped form if it is backspace,
@@ -177,7 +206,7 @@ public class Literals
    * character literal.  Otherwise, it will be in the escaped Unicode
    * encoding form.
    */
-  public static String toCharLiteral(char c)
+  public static String toCharLiteral(char c, GenModel genModel)
   {
     StringBuffer result = new StringBuffer(8);
     result.append('\'');
@@ -191,7 +220,7 @@ public class Literals
    * of its characters will appear in the same form as if it was the
    * argument to {@link #toCharLiteral}.
    */
-  public static String toStringLiteral(String s)
+  public static String toStringLiteral(String s, GenModel genModel)
   {
     if (s == null) return "null";
     int len = s.length();
@@ -228,27 +257,39 @@ public class Literals
   }
 
   /**
-   * Returns a literal expression for the given <code>BigDecimal</code>.  
+   * Returns a literal expression for the given <code>BigDecimal</code> value.  
    */
-  public static String toBigDecimalLiteral(BigDecimal bigDecimal)
+  public static String toBigDecimalLiteral(BigDecimal bigDecimal, GenModel genModel)
   {
     if (bigDecimal == null) return "null";
-    return "new java.math.BigDecimal(\"" + bigDecimal.toString() + "\")";
+    return "new " + importName("java.math.BigDecimal", genModel) + "(\"" + bigDecimal.toString() + "\")";
   }
 
-  public static String toBigIntegerLiteral(BigInteger bigInteger)
+  /**
+   * Returns a literal expression for the given <code>BigInteger</code> value.  
+   */
+  public static String toBigIntegerLiteral(BigInteger bigInteger, GenModel genModel)
   {
     if (bigInteger == null) return "null";
-    return "new java.math.BigInteger(\"" + bigInteger.toString() + "\")";
+    return "new " + importName("java.math.BigInteger", genModel) + "(\"" + bigInteger.toString() + "\")";
+  }
+
+  /**
+   * Returns a literal expression for the given <code>Date</code> value.
+   */
+  public static String toDateLiteral(Date date, GenModel genModel)
+  {
+    String timeLiteral = toLongLiteral(date.getTime(), genModel);
+    return "new " + importName("java.util.Date", genModel) + "(" + timeLiteral + ")";
   }
 
   /**
    * Returns a literal expression for the given <code>Class</code> value.
    */
-  public static String toClassLiteral(Class c)
+  public static String toClassLiteral(Class c, GenModel genModel)
   {
     if (c == null) return "null";
-    String name = c.getName();
+    String name = c.getName(); 
 
     // See java.lang.Class.getName() javadoc for explanation of array encoding.
     int arrayDepth = 0;
@@ -264,10 +305,14 @@ public class Literals
       else if (name.charAt(arrayDepth) == 'J') name = "long";
       else if (name.charAt(arrayDepth) == 'S') name = "short";
       else if (name.charAt(arrayDepth) == 'Z') name = "boolean";
-      else if (name.charAt(arrayDepth) == 'L') name = name.substring(arrayDepth + 1, name.length() - 1);
+      else if (name.charAt(arrayDepth) == 'L') name = importName(name.substring(arrayDepth + 1, name.length() - 1), genModel);
       else throw new IllegalArgumentException("Invalid class name: " + name);
     }
-
+    else if (!c.isPrimitive())
+    {
+      name = importName(name, genModel);
+    }
+    
     StringBuffer result = new StringBuffer(name.length() + 2 * arrayDepth + 8);
     result.append(name);
     for (int i = 0; i < arrayDepth; i++)
