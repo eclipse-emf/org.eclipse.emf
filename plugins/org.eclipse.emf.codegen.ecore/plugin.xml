@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/09/24 20:25:24 davidms Exp $
+ * $Id: plugin.xml,v 1.6 2004/10/14 16:46:56 marcelop Exp $
  */
 -->
 
@@ -76,6 +76,10 @@
 
   <extension point = "org.eclipse.emf.ecore.extension_parser">
     <parser type="genmodel" class="org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl"/>
+  </extension>
+
+  <extension point="org.eclipse.team.core.fileTypes">
+    <fileTypes extension="genmodel" type="text"/>    
   </extension>
 
 </plugin>

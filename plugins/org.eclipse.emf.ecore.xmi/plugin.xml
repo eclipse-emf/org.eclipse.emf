@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.6 2004/10/07 18:09:05 marcelop Exp $
+ * $Id: plugin.xml,v 1.7 2004/10/14 16:47:02 marcelop Exp $
  */
 -->
 
@@ -49,6 +49,11 @@
 
   <extension point = "org.eclipse.emf.ecore.extension_parser">
     <parser type="emof" class="org.eclipse.emf.ecore.xmi.impl.EMOFResourceFactoryImpl"/>
+  </extension>
+
+  <extension point="org.eclipse.team.core.fileTypes">
+    <fileTypes extension="ecore" type="text"/>    
+    <fileTypes extension="emof" type="text"/>    
   </extension>
 
 </plugin>

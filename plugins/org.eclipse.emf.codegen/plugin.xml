@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/10/07 18:09:04 marcelop Exp $
+ * $Id: plugin.xml,v 1.6 2004/10/14 16:46:58 marcelop Exp $
  */
 -->
 
@@ -73,6 +73,18 @@
     <builder>
         <run class="org.eclipse.emf.codegen.jet.JETBuilder"/>
     </builder>
+  </extension>
+
+  <!--
+    Registering the appropriate type of files of the common jet
+    file extensions.  This is usefull when these files are stored
+    in repositories.
+  -->
+  <extension point="org.eclipse.team.core.fileTypes">
+    <fileTypes extension="javajet" type="text"/>
+    <fileTypes extension="jetinc" type="text"/>
+    <fileTypes extension="propertiesjet" type="text"/>
+    <fileTypes extension="xmljet" type="text"/>    
   </extension>
 
 </plugin>

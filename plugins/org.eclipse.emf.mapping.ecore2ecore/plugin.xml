@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.3 2004/07/20 17:17:31 marcelop Exp $
+ * $Id: plugin.xml,v 1.4 2004/10/14 16:46:50 marcelop Exp $
  */
 -->
 
@@ -52,6 +52,10 @@
             type="ecore2ecore"
             class="org.eclipse.emf.mapping.ecore2ecore.util.Ecore2EcoreResourceFactoryImpl" />
    </extension>
+
+  <extension point="org.eclipse.team.core.fileTypes">
+    <fileTypes extension="ecore2ecore" type="text"/>    
+  </extension>
 
 </plugin>
 
