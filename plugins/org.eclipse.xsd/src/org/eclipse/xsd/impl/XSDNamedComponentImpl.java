@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNamedComponentImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDNamedComponentImpl.java,v 1.2 2004/06/08 22:31:29 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -435,7 +435,11 @@ public abstract class XSDNamedComponentImpl
             }
             case XSDVariety.UNION:
             {
-              result = baseName + (XSDConstants.isURType(xsdSimpleTypeDefinition.getBaseTypeDefinition()) ? "_._member" : "_._base");
+              result = 
+                baseName + 
+                  (XSDConstants.isURType(xsdSimpleTypeDefinition.getBaseTypeDefinition()) ? 
+                     "_._member"  + "_._" + xsdSimpleTypeDefinition.getMemberTypeDefinitions().indexOf(this) :
+                     "_._base");
               break;
             }
           }
