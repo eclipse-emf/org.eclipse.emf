@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.9 2004/06/08 12:08:52 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.10 2004/06/09 18:21:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -1350,6 +1351,34 @@ public final class FeatureMapUtil
         validatorMap.put(containingClass, result = new BasicValidator(containingClass, eStructuralFeature));
       }
       return result;
+    }
+  }
+
+  public static boolean isMany(EObject owner, EStructuralFeature feature)
+  {
+    int upperBound = feature.getUpperBound();
+    if (upperBound == ETypedElement.UNSPECIFIED_MULTIPLICITY)
+    {
+      EClass eclass = owner.eClass();
+      if (eclass.getEAllStructuralFeatures().contains(feature))
+      {
+        return false;
+      }
+      else if (feature.getEContainingClass().getEPackage() == XMLTypePackage.eINSTANCE)
+      {
+        return true;
+      }
+      else
+      {
+        EStructuralFeature affiliation = ExtendedMetaData.INSTANCE.getAffiliation(eclass, feature);
+        return
+          affiliation == null ||
+            affiliation.isMany() && ExtendedMetaData.INSTANCE.getFeatureKind(affiliation) != ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE;
+      }
+    }
+    else
+    {
+      return upperBound == ETypedElement.UNBOUNDED_MULTIPLICITY || upperBound > 1 || FeatureMapUtil.isFeatureMap(feature);
     }
   }
 }
