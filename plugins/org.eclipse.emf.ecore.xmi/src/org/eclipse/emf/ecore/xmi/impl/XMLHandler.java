@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.4 2004/03/30 00:00:20 elena Exp $
+ * $Id: XMLHandler.java,v 1.5 2004/04/05 20:09:56 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -248,6 +248,8 @@ public abstract class XMLHandler
   protected String idAttribute;
   protected XMLResource.XMLMap xmlMap;
   protected ExtendedMetaData extendedMetaData;
+  protected EClass anyType;
+  protected EClass anySimpleType;
 
   /**
    */
@@ -312,6 +314,18 @@ public abstract class XMLHandler
       mixedTargets.push(anyType.getMixed());
       text = new StringBuffer();
     }
+    
+    // HACK for SDO implementation
+    anyType = (EClass)options.get(XMLResource.OPTION_ANY_TYPE);
+    anySimpleType = (EClass)options.get(XMLResource.OPTION_ANY_SIMPLE_TYPE);
+    if (anyType == null)
+    {
+      anyType = XMLTypePackage.eINSTANCE.getAnyType();
+      anySimpleType = XMLTypePackage.eINSTANCE.getSimpleAnyType();
+    }
+    
+    helper.setAnySimpleType(anySimpleType);
+    
   }
 
   /**
@@ -1157,8 +1171,8 @@ public abstract class XMLHandler
             eType == EcorePackage.eINSTANCE.getEObject() &&
             extendedMetaData.getFeatureKind(feature) != ExtendedMetaData.UNSPECIFIED_FEATURE)
       {
-        typeName = "anyType";
-        factory = XMLTypeFactory.eINSTANCE;
+        typeName = anyType.getName();
+        factory = anyType.getEPackage().getEFactoryInstance();
       }
       else
       {

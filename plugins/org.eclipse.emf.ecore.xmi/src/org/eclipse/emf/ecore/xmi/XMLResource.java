@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.3 2004/03/30 00:00:20 elena Exp $
+ * $Id: XMLResource.java,v 1.4 2004/04/05 20:09:56 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -62,6 +62,18 @@ public interface XMLResource extends Resource
    * You should provide an ExtendedMetaData as the value of this option.
    */
   String OPTION_EXTENDED_META_DATA = "EXTENDED_META_DATA";
+  
+  /** This option allows to specify EClass implementation for anyType
+   * @see XMLResource#OPTION_ANY_SIMPLE_TYPE
+   * @see org.eclipse.emf.ecore.sdo.SDOPackage.eINSTANCE.getEDataObjectAnyType()
+   */
+  String OPTION_ANY_TYPE = "ANY_TYPE";
+  
+  /** This option allows to specify EClass implementation for anySimpleType
+   * @see XMLResource#OPTION_ANY_TYPE
+   * @see org.eclipse.emf.ecore.sdo.SDOPackage.eINSTANCE.getEDataObjectSimpleAnyType()
+   */
+  String OPTION_ANY_SIMPLE_TYPE ="ANY_SIMPLE_TYPE";
 
   /**
    * This save option allows you to tailor the XML serialization of

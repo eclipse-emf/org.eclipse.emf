@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.4 2004/03/30 00:00:20 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.5 2004/04/05 20:09:56 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -70,6 +70,8 @@ public class XMLSaveImpl implements XMLSave
   protected boolean declareSchemaLocation;
   protected XMLResource.XMLMap map;
   protected ExtendedMetaData extendedMetaData;
+  protected EClass anySimpleType;
+  protected EClass anyType;
 
   protected static final int SKIP = 0;
   protected static final int SAME_DOC = 1;
@@ -193,6 +195,15 @@ public class XMLSaveImpl implements XMLSave
     declareXML = !Boolean.FALSE.equals(options.get(XMLResource.OPTION_DECLARE_XML));
     declareSchemaLocation = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SCHEMA_LOCATION));
     Integer lineWidth = (Integer)options.get(XMLResource.OPTION_LINE_WIDTH);
+    
+    anyType = (EClass)options.get(XMLResource.OPTION_ANY_TYPE);
+    anySimpleType = (EClass)options.get(XMLResource.OPTION_ANY_SIMPLE_TYPE);
+    if (anyType == null)
+    {
+      anyType = XMLTypePackage.eINSTANCE.getAnyType();
+      anySimpleType = XMLTypePackage.eINSTANCE.getSimpleAnyType();
+    }
+    
     if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_SAVE_DOCTYPE)))
     {
       if (resource != null)
@@ -579,9 +590,9 @@ public class XMLSaveImpl implements XMLSave
     String featureName = helper.getQName(f);
     doc.startElement(featureName);
 
-    if (eClass != eType && eClass != XMLTypePackage.eINSTANCE.getAnyType())
+    if (eClass != eType && eClass != anyType)
     {
-      if (eClass == XMLTypePackage.eINSTANCE.getSimpleAnyType())
+      if (eClass == anySimpleType)
       {
         saveTypeAttribute(((SimpleAnyType)o).getInstanceType());
       }

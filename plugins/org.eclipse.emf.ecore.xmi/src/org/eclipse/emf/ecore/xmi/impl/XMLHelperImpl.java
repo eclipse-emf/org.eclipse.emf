@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.3 2004/03/29 21:29:56 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.4 2004/04/05 20:09:56 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -43,6 +43,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -51,7 +52,6 @@ import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 
 /**
@@ -78,6 +78,7 @@ public class XMLHelperImpl implements XMLHelper
   protected DanglingHREFException danglingHREFException;
   protected EMap prefixesToURIs;
   protected NamespaceSupport namespaceSupport;
+  protected EClass anySimpleType;
 
   public static String saveString(Map options, List contents, String encoding, XMLHelper helper) throws Exception
   {
@@ -523,7 +524,7 @@ public class XMLHelperImpl implements XMLHelper
       }
       else
       {
-        SimpleAnyType result = XMLTypeFactory.eINSTANCE.createSimpleAnyType();
+        SimpleAnyType result = (SimpleAnyType)EcoreUtil.create(anySimpleType);
         result.setInstanceType((EDataType)eClassifier);
         return result;
       }
@@ -1000,5 +1001,10 @@ public class XMLHelperImpl implements XMLHelper
       // prefix not found
       return null;
     } 
+  }
+
+  public void setAnySimpleType(EClass type)
+  {
+    anySimpleType = type;
   }
 }

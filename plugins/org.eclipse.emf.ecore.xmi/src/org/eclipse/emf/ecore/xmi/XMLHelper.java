@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelper.java,v 1.2 2004/03/29 21:29:56 elena Exp $
+ * $Id: XMLHelper.java,v 1.3 2004/04/05 20:09:56 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -49,6 +49,12 @@ public interface XMLHelper
    * XML file.
    */
   public EPackage getNoNamespacePackage();
+  
+  /**
+   * Sets the any simple type class.
+   * @see XMLResource#OPTION_ANY_SIMPLE_TYPE
+   */
+  public void setAnySimpleType(EClass type);
 
   /**
    * Sets the XMLMap to use when serializing an XML file.
