@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.7 2004/05/13 14:09:02 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.8 2004/05/22 19:04:36 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -51,8 +51,8 @@ import org.eclipse.emf.ecore.xmi.DanglingHREFException;
 import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xml.type.QName;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
+import org.eclipse.emf.ecore.xml.type.internal.QName;
 
 
 /**
@@ -523,7 +523,7 @@ public class XMLHelperImpl implements XMLHelper
       }
       else if (eClassifier instanceof EClass)
       {
-        return (EObject) eFactory.create((EClass)eClassifier);
+        return eFactory.create((EClass)eClassifier);
       }
       else
       {
@@ -542,7 +542,7 @@ public class XMLHelperImpl implements XMLHelper
   
       if (eClass != null)
       {
-        return (EObject) eFactory.create(eClass);
+        return eFactory.create(eClass);
       }
       else
       {
@@ -601,7 +601,7 @@ public class XMLHelperImpl implements XMLHelper
 
   protected EStructuralFeature getFeatureWithoutMap(EClass eClass, String name)
   {
-    EStructuralFeature feature = (EStructuralFeature) eClass.getEStructuralFeature(name);
+    EStructuralFeature feature = eClass.getEStructuralFeature(name);
 
     if (feature != null)
       computeFeatureKind(feature);
@@ -1058,7 +1058,7 @@ public class XMLHelperImpl implements XMLHelper
   
   protected Object createFromString(EFactory eFactory, EDataType eDataType, String value)
   {
-    Object obj = eFactory.createFromString(eDataType, (String) value);          
+    Object obj = eFactory.createFromString(eDataType, value);          
     if (extendedMetaData != null)
     {          
       if (obj instanceof List)
