@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.19 2004/08/19 13:19:06 emerks Exp $
+ * $Id: XMLHandler.java,v 1.20 2004/09/30 13:34:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1540,6 +1540,11 @@ public abstract class XMLHandler
       extendedMetaData == null ?
         packageRegistry.getEPackage(uriString) :
         extendedMetaData.getPackage(uriString);
+
+    if (ePackage.eIsProxy())
+    {
+      ePackage = null;
+    }
 
     if (ePackage == null)
     {
