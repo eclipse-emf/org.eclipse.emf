@@ -1,7 +1,11 @@
-li p               { margin-top: 10px; margin-bottom: 10px }
+li p               { margin-top: 10px; margin-bottom: 10px; }
 
-a.footnote:link    { text-decoration: none }
-a.footnote:visited { text-decoration: none }
-a.footnote:hover   { text-decoration: underline }
+a.footnote:link    { text-decoration: none; }
+a.footnote:visited { text-decoration: none; }
+a.footnote:hover   { text-decoration: underline; }
 
-pre.code           { color: #4444CC }
+pre				    {  color: #4444CC; }
+tt.code				 { color: #4444CC; }
+pre.code           { color: #4444CC; }
+
+.highlight			 {  background-color: #FFFFCC; }
