@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.10 2004/06/08 19:58:44 emerks Exp $
+ * $Id: XMLHandler.java,v 1.11 2004/06/12 12:06:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -44,6 +44,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -256,6 +257,8 @@ public abstract class XMLHandler
   protected EClass anySimpleType;
   protected boolean recordUnknownFeature;
   protected Map eObjectToExtensionMap;
+  protected EStructuralFeature contextFeature;
+  protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
 
   /**
    */
@@ -337,6 +340,10 @@ public abstract class XMLHandler
           resourceSet == null ?
             ExtendedMetaData.INSTANCE :
             new BasicExtendedMetaData(resourceSet.getPackageRegistry());
+        if (xmlResource != null)
+        {
+          xmlResource.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
+        }
       }
       else
       {
@@ -1215,7 +1222,9 @@ public abstract class XMLHandler
       typeName = typeQName;
     }
 
+    contextFeature = feature;
     EFactory eFactory = getFactoryForPrefix(prefix);
+    contextFeature = null;
 
     if (eFactory == null && prefix.equals("") && helper.getURI(prefix) == null)
     {
@@ -1232,7 +1241,14 @@ public abstract class XMLHandler
 
     if (obj != null)
     {
-      setFeatureValue(peekObject, feature, obj);
+      if (contextFeature == null)
+      {
+        setFeatureValue(peekObject, feature, obj);
+      }
+      else
+      {
+        contextFeature = null;
+      }
     }
 
     processObject(obj);
@@ -1329,24 +1345,40 @@ public abstract class XMLHandler
 
   protected EObject validateCreateObjectFromFactory(EFactory factory, String typeName, EObject newObject, EStructuralFeature feature)
   {
-    if (newObject == null && feature != null && factory != null && extendedMetaData != null && factory.getEPackage().eResource() == null)
+    if (newObject == null && feature != null && factory != null && extendedMetaData != null)
     {
-      String namespace = extendedMetaData.getNamespace(feature);
-      String name = extendedMetaData.getName(feature);
-      EStructuralFeature wildcardFeature = 
-        extendedMetaData.getElementWildcardAffiliation(((EObject)objects.peek()).eClass(), namespace, name);
-      if (wildcardFeature != null)
+      if (recordUnknownFeature)
       {
-        switch (extendedMetaData.getProcessingKind(wildcardFeature))
+        factory = 
+          extendedMetaData.demandType
+            (extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
+        EObject result = createObjectFromFactory(factory, typeName);
+        AnyType anyType = getExtension((EObject)objects.peek());
+        EStructuralFeature entryFeature = 
+          extendedMetaData.demandFeature(extendedMetaData.getNamespace(feature), extendedMetaData.getName(feature), true);
+        anyType.getAny().add(entryFeature, result);
+        contextFeature = entryFeature;
+        return result;
+      }
+      else
+      {
+        String namespace = extendedMetaData.getNamespace(feature);
+        String name = extendedMetaData.getName(feature);
+        EStructuralFeature wildcardFeature = 
+          extendedMetaData.getElementWildcardAffiliation(((EObject)objects.peek()).eClass(), namespace, name);
+        if (wildcardFeature != null)
         {
-          case ExtendedMetaData.LAX_PROCESSING:
-          case ExtendedMetaData.SKIP_PROCESSING:
+          switch (extendedMetaData.getProcessingKind(wildcardFeature))
           {
-            // EATM Demand create metadata; needs to depend on processing mode...
-            factory = 
-              extendedMetaData.demandType
-                (extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
-            return createObjectFromFactory(factory, typeName);
+            case ExtendedMetaData.LAX_PROCESSING:
+            case ExtendedMetaData.SKIP_PROCESSING:
+            {
+              // EATM Demand create metadata; needs to depend on processing mode...
+              factory = 
+                extendedMetaData.demandType
+                  (extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
+              return createObjectFromFactory(factory, typeName);
+            }
           }
         }
       }
@@ -1465,11 +1497,11 @@ public abstract class XMLHandler
       {
         URI trimmedURI = uri.trimFragment();
         resource = resourceSet.getResource(trimmedURI, false);
-        if (resource == null)
+        if (resource == null && !XMLResource.XML_SCHEMA_URI.equals(uriString))
         {
           try
           {
-            InputStream inputStream = resourceSet.getURIConverter().createInputStream(trimmedURI);
+            InputStream inputStream = getURIConverter().createInputStream(trimmedURI);
             resource = resourceSet.createResource(trimmedURI);
             if (resource == null)
             {
@@ -1519,6 +1551,36 @@ public abstract class XMLHandler
 
     if (ePackage == null)
     {
+      if (XMLResource.XML_SCHEMA_URI.equals(uriString))
+      {
+        return xmlSchemaTypePackage;
+      }
+      else if (extendedMetaData != null)
+      {
+        if (recordUnknownFeature)
+        {
+          return extendedMetaData.demandPackage(uriString);
+        }
+        else
+        {
+          String namespace = extendedMetaData.getNamespace(contextFeature);
+          String name = extendedMetaData.getName(contextFeature);
+          EStructuralFeature wildcardFeature = 
+            extendedMetaData.getElementWildcardAffiliation(((EObject)objects.peek()).eClass(), namespace, name);
+          if (wildcardFeature != null)
+          {
+            switch (extendedMetaData.getProcessingKind(wildcardFeature))
+            {
+              case ExtendedMetaData.LAX_PROCESSING:
+              case ExtendedMetaData.SKIP_PROCESSING:
+              {
+                return extendedMetaData.demandPackage(uriString);
+              }
+            }
+          }
+        }
+      }
+
       error
         (new PackageNotFoundException
            (uriString,
@@ -1528,6 +1590,11 @@ public abstract class XMLHandler
     }
 
     return ePackage;
+  }
+
+  protected URIConverter getURIConverter()
+  {
+    return resourceSet.getURIConverter();
   }
 
   protected void setFeatureValue(EObject object, EStructuralFeature feature, Object value)
