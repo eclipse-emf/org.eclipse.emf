@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.14 2004/11/01 21:14:42 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.15 2004/12/08 14:32:15 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -42,6 +42,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourceAttributes;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -292,7 +293,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           {
             if (getGenModel().isForceOverwrite())
             {
-              targetFile.setReadOnly(false);
+              ResourceAttributes resourceAttributes = targetFile.getResourceAttributes();
+              if (resourceAttributes != null)
+              {
+                resourceAttributes.setReadOnly(false);
+                targetFile.setResourceAttributes(resourceAttributes);
+              }
             }
             else
             {
@@ -483,7 +489,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           {
             if (getGenModel().isForceOverwrite())
             {
-              targetFile.setReadOnly(false);
+              ResourceAttributes resourceAttributes = targetFile.getResourceAttributes();
+              if (resourceAttributes != null)
+              {
+                resourceAttributes.setReadOnly(false);
+                targetFile.setResourceAttributes(resourceAttributes);
+              }
             }
             else
             {
