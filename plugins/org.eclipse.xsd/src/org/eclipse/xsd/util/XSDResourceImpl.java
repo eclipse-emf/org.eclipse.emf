@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDResourceImpl.java,v 1.2 2004/03/10 14:33:34 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -139,6 +139,14 @@ public class XSDResourceImpl extends ResourceImpl
 
       transformer.setOutputProperty(OutputKeys.INDENT, "yes");
       transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+
+      // Unless a width is set, there will be only line breaks but no indentation.
+      // The IBM JDK and the Sun JDK don't agree on the property name,
+      // so we set them both.
+      //
+      transformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", "2");
+      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
       if (encoding != null)
       {
         transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
