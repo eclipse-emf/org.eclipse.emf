@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.26 2005/01/19 15:15:47 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.27 2005/01/25 20:31:49 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -112,12 +112,27 @@ public class XSDEcoreBuilder extends MapBuilder
 
   public XSDEcoreBuilder()
   {
-    extendedMetaData = new BasicExtendedMetaData(new EPackageRegistryImpl());
+    this(new BasicExtendedMetaData(new EPackageRegistryImpl()));
   }
 
   public XSDEcoreBuilder(ExtendedMetaData extendedMetaData)
   {
     this.extendedMetaData = extendedMetaData;
+    populateTypeToTypeObjectMap(XMLTypePackage.eINSTANCE);
+    populateTypeToTypeObjectMap(XMLNamespacePackage.eINSTANCE);
+  }
+
+  protected void populateTypeToTypeObjectMap(EPackage ePackage)
+  {
+    for (Iterator j = ePackage.getEClassifiers().iterator(); j.hasNext(); )
+    {
+      EClassifier eClassifier = (EClassifier)j.next();
+      String xmlName = extendedMetaData.getName(eClassifier);
+      if (xmlName != null && xmlName.endsWith(":Object"))
+      {
+        typeToTypeObjectMap.put(extendedMetaData.getType(ePackage, xmlName.substring(0, xmlName.length() - 7)), eClassifier);
+      }
+    }
   }
 
   public XSDSchema getSchema()
