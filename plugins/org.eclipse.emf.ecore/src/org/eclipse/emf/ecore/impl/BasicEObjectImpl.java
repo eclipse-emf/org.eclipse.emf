@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: BasicEObjectImpl.java,v 1.2 2004/06/21 21:33:18 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.util.ECrossReferenceEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -489,6 +490,10 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     EStructuralFeature openFeature = ExtendedMetaData.INSTANCE.getAffiliation(eClass(), eFeature);
     if (openFeature != null)
     {
+      if (!FeatureMapUtil.isFeatureMap(openFeature))
+      {
+        openFeature = ExtendedMetaData.INSTANCE.getGroup(openFeature);
+      }
       FeatureMap featureMap = (FeatureMap)eGet(openFeature);
       return ((FeatureMap.Internal)featureMap).get(eFeature, resolve);
     }
@@ -525,6 +530,10 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     EStructuralFeature openFeature = ExtendedMetaData.INSTANCE.getAffiliation(eClass(), eFeature);
     if (openFeature != null)
     {
+      if (!FeatureMapUtil.isFeatureMap(openFeature))
+      {
+        openFeature = ExtendedMetaData.INSTANCE.getGroup(openFeature);
+      }
       FeatureMap featureMap = (FeatureMap)eGet(openFeature);
       ((FeatureMap.Internal)featureMap).set(eFeature, newValue);
     }
@@ -561,6 +570,10 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     EStructuralFeature openFeature = ExtendedMetaData.INSTANCE.getAffiliation(eClass(), eFeature);
     if (openFeature != null)
     {
+      if (!FeatureMapUtil.isFeatureMap(openFeature))
+      {
+        openFeature = ExtendedMetaData.INSTANCE.getGroup(openFeature);
+      }
       FeatureMap featureMap = (FeatureMap)eGet(openFeature);
       ((FeatureMap.Internal)featureMap).unset(eFeature);
     }
@@ -589,6 +602,10 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     EStructuralFeature openFeature = ExtendedMetaData.INSTANCE.getAffiliation(eClass(), eFeature);
     if (openFeature != null)
     {
+      if (!FeatureMapUtil.isFeatureMap(openFeature))
+      {
+        openFeature = ExtendedMetaData.INSTANCE.getGroup(openFeature);
+      }
       FeatureMap featureMap = (FeatureMap)eGet(openFeature);
       return ((FeatureMap.Internal)featureMap).isSet(eFeature);
     }
