@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.1 2004/11/12 21:17:12 marcelop Exp $
+ * $Id: ASTTest.java,v 1.2 2004/11/15 22:26:41 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ArrayCreation;
 import org.eclipse.jdt.core.dom.ArrayType;
@@ -34,12 +35,17 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.Javadoc;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.NumberLiteral;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SimpleType;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.StringLiteral;
+import org.eclipse.jdt.core.dom.SuperConstructorInvocation;
 import org.eclipse.jdt.core.dom.TagElement;
 import org.eclipse.jdt.core.dom.TextElement;
 import org.eclipse.jdt.core.dom.Type;
@@ -69,7 +75,7 @@ public class ASTTest extends TestCase
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite("JETTest");
+    TestSuite ts = new TestSuite("ASTTest");
     ts.addTest(new ASTTest("testRead"));
     return ts;
   }
@@ -304,5 +310,60 @@ public class ASTTest extends TestCase
     }
     
     //** Methods
+    MethodDeclaration[] methodDeclarations = exampleClass.getMethods();
+    //methodDeclarations[0]: public Example()
+    {
+      Javadoc javadoc = methodDeclarations[0].getJavadoc();
+      assertEquals(1, javadoc.tags().size());
+      assertEquals(1, ((TagElement)javadoc.tags().get(0)).fragments().size());
+      assertEquals("This is a contructor", ((TextElement)((TagElement)javadoc.tags().get(0)).fragments().get(0)).getText());
+      //
+      assertTrue(methodDeclarations[0].isConstructor());
+      //
+      assertEquals(Modifier.PUBLIC, methodDeclarations[0].getModifiers());
+      //
+      assertNull(methodDeclarations[0].getReturnType2());
+      //
+      assertEquals("Example", methodDeclarations[0].getName().getFullyQualifiedName());
+      //
+      assertTrue(methodDeclarations[0].parameters().isEmpty());
+      //
+      assertNotNull(methodDeclarations[0].getBody());
+      assertEquals(1, methodDeclarations[0].getBody().statements().size());
+      Statement statement = (Statement)methodDeclarations[0].getBody().statements().get(0);
+      assertEquals(ASTNode.SUPER_CONSTRUCTOR_INVOCATION, statement.getNodeType());
+      assertTrue(((SuperConstructorInvocation)statement).arguments().isEmpty());
+    }
+    //methodDeclarations[1]: public void setBooleanInstance(Boolean b)
+    {
+      Javadoc javadoc = methodDeclarations[1].getJavadoc();
+      assertEquals(3, javadoc.tags().size());
+      assertNull(((TagElement)javadoc.tags().get(0)).getTagName());
+      assertEquals(1, ((TagElement)javadoc.tags().get(0)).fragments().size());
+      assertEquals("Sets the boolean instance.", ((TextElement)((TagElement)javadoc.tags().get(0)).fragments().get(0)).getText());
+      assertEquals("@param", ((TagElement)javadoc.tags().get(1)).getTagName());
+      assertEquals(1, ((TagElement)javadoc.tags().get(0)).fragments().size());
+      assertEquals("b", ((SimpleName)((TagElement)javadoc.tags().get(1)).fragments().get(0)).getFullyQualifiedName());
+      assertEquals("@generated", ((TagElement)javadoc.tags().get(2)).getTagName());
+      assertTrue(((TagElement)javadoc.tags().get(2)).fragments().isEmpty());
+      //
+      assertFalse(methodDeclarations[1].isConstructor());
+      //
+      assertEquals(Modifier.PUBLIC, methodDeclarations[1].getModifiers());
+      //
+      assertNotNull(methodDeclarations[1].getReturnType2());
+      assertTrue(methodDeclarations[1].getReturnType2().isPrimitiveType());
+      assertEquals(PrimitiveType.VOID, ((PrimitiveType)methodDeclarations[1].getReturnType2()).getPrimitiveTypeCode());
+      //
+      assertEquals("setBooleanInstance", methodDeclarations[1].getName().getFullyQualifiedName());
+      //
+      assertEquals(1, methodDeclarations[1].parameters().size());
+      assertTrue(((SingleVariableDeclaration)methodDeclarations[1].parameters().get(0)).getType().isSimpleType());
+      assertEquals("Boolean", ((SimpleType)((SingleVariableDeclaration)methodDeclarations[1].parameters().get(0)).getType()).getName().getFullyQualifiedName());
+      assertEquals("b", ((SingleVariableDeclaration)methodDeclarations[1].parameters().get(0)).getName().getFullyQualifiedName());  
+      //
+      assertNotNull(methodDeclarations[1].getBody());
+      assertEquals(1, methodDeclarations[1].getBody().statements().size());
+    }
   }  
 }

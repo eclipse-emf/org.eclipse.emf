@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Example.java,v 1.1 2004/11/12 21:17:12 marcelop Exp $
+ * $Id: Example.java,v 1.2 2004/11/15 22:26:41 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -88,7 +88,14 @@ public class Example extends EObjectImpl
    */
   public void setBooleanInstance(Boolean b)
   {
-    booleanInstance = b;
+    if (b != null)
+    {
+      booleanInstance = b;
+    }
+    else
+    {
+      booleanInstance = Boolean.FALSE;
+    }
   }
   
   /**
@@ -99,7 +106,7 @@ public class Example extends EObjectImpl
    */
   public Boolean getBooleanInstance()
   {
-    return booleanInstance;
+    return booleanInstance == null ? Boolean.FALSE : booleanInstance;
   }
   
   /*
