@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LoadResourceAction.java,v 1.6 2004/06/15 20:12:16 marcelop Exp $
+ * $Id: LoadResourceAction.java,v 1.7 2004/07/08 08:14:10 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -27,29 +27,30 @@ import java.util.StringTokenizer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
-
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ResourceSelectionDialog;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
 
 /**
@@ -109,6 +110,7 @@ public class LoadResourceAction extends Action
 
   public static class LoadResourceDialog extends Dialog
   {
+    public static int CONTROL_OFFSET = 10;
     protected EditingDomain domain;
     protected Text resourceURIField;
     protected String resourceURIs;
@@ -135,52 +137,56 @@ public class LoadResourceAction extends Action
 
     protected Control createDialogArea(Composite parent) 
     {
+      boolean resourcesBundleIsAvailable = (Platform.getBundle("org.eclipse.core.resources") != null);
+      
       Composite composite = (Composite)super.createDialogArea(parent);
       {
-        GridLayout layout = new GridLayout();
-        layout.numColumns = 2;
-        layout.verticalSpacing = 12;
-        layout.horizontalSpacing = 20;
-        composite.setLayout(layout);
+          FormLayout layout = new FormLayout();
+          composite.setLayout(layout);
+          
+          GridData data = new GridData();
+          data.verticalAlignment = GridData.FILL;
+          data.grabExcessVerticalSpace = true;
+          data.horizontalAlignment = GridData.FILL;
+          data.grabExcessHorizontalSpace = true;
+          if(!resourcesBundleIsAvailable)
+          {
+            data.widthHint = 330;
+          }                  
+          composite.setLayoutData(data);        
+      }
 
-        GridData data = new GridData();
-        data.verticalAlignment = GridData.FILL;
-        data.grabExcessVerticalSpace = true;
-        data.horizontalAlignment = GridData.FILL;
-        data.grabExcessHorizontalSpace = true;
-        if(Platform.getBundle("org.eclipse.core.resources") == null)
-        {
-          data.widthHint = 330;
-        }        
-        
-        composite.setLayoutData(data);        
+      Composite buttonComposite = new Composite(composite, SWT.NONE);
+      {        
+        FormData data = new FormData();
+        data.top = new FormAttachment(0, CONTROL_OFFSET);
+        data.left = new FormAttachment(30, 0);
+        data.right = new FormAttachment(100, -CONTROL_OFFSET);
+        buttonComposite.setLayoutData(data);        
+
+        buttonComposite.setLayout(new FormLayout());
       }
 
       Label resourceURILabel = new Label(composite, SWT.LEFT);
       {
         resourceURILabel.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_ResourceURI_label"));
-
-        GridData data = new GridData();
-        data.horizontalAlignment = GridData.FILL;
-        resourceURILabel.setLayoutData(data);
+        FormData data = new FormData();
+        data.top = new FormAttachment(buttonComposite, CONTROL_OFFSET, SWT.CENTER);
+        data.left = new FormAttachment(0, CONTROL_OFFSET);
+        resourceURILabel.setLayoutData(data);        
       }
 
-      Composite buttonComposite = new Composite(composite, SWT.NONE);
+      resourceURIField = new Text(composite, SWT.BORDER);
       {
-        GridData data = new GridData();
-        data.horizontalAlignment = GridData.END;
-        buttonComposite.setLayoutData(data);
-      
-        RowLayout layout = new RowLayout();
-        layout.justify = true;
-        layout.pack = true;
-        layout.spacing = 5;
-        buttonComposite.setLayout(layout);
+        FormData data = new FormData();
+        data.top = new FormAttachment(buttonComposite, CONTROL_OFFSET);
+        data.left = new FormAttachment(0, CONTROL_OFFSET);
+        data.right = new FormAttachment(100, -CONTROL_OFFSET);
+        resourceURIField.setLayoutData(data);
       }
       
       Button resourceURIBrowseFileSystemButton = new Button(buttonComposite, SWT.PUSH);
       resourceURIBrowseFileSystemButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_BrowseFileSystem_label"));
-
       resourceURIBrowseFileSystemButton.addSelectionListener
         (new SelectionAdapter()
          {
@@ -196,9 +202,19 @@ public class LoadResourceAction extends Action
            }
          });
       
-      if(Platform.getBundle("org.eclipse.core.resources") != null)
+      if(resourcesBundleIsAvailable)
       {
 	      Button resourceURIBrowseWorkspaceButton = new Button(buttonComposite, SWT.PUSH);
+        {
+          FormData data = new FormData();
+          data.right = new FormAttachment(100);
+          resourceURIBrowseWorkspaceButton.setLayoutData(data);
+        }
+        {
+          FormData data = new FormData();
+          data.right = new FormAttachment(resourceURIBrowseWorkspaceButton, -CONTROL_OFFSET);
+          resourceURIBrowseFileSystemButton.setLayoutData(data);
+        }
 	      resourceURIBrowseWorkspaceButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_BrowseWorkspace_label"));
 	      resourceURIBrowseWorkspaceButton.addSelectionListener
 	        (new SelectionAdapter()
@@ -231,25 +247,23 @@ public class LoadResourceAction extends Action
 	           }
 	         });
       }
-
-      resourceURIField = new Text(composite, SWT.BORDER);
+      else
       {
-        GridData data = new GridData();
-        data.horizontalAlignment = GridData.FILL;
-        data.grabExcessHorizontalSpace = true;
-        data.horizontalSpan = 2;
-        resourceURIField.setLayoutData(data);
+        FormData data = new FormData();
+        data.right = new FormAttachment(100);
+        resourceURIBrowseFileSystemButton.setLayoutData(data);
       }
       
       Label separatorLabel = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
       {
-        GridData data = new GridData();
-        data.horizontalAlignment = GridData.FILL;
-        data.grabExcessHorizontalSpace = true;
-        data.horizontalSpan = 2;
+        FormData data = new FormData();
+        data.top = new FormAttachment(resourceURIField, (int)(1.5*CONTROL_OFFSET));
+        data.left = new FormAttachment(0, -CONTROL_OFFSET);
+        data.right = new FormAttachment(100, CONTROL_OFFSET);
         separatorLabel.setLayoutData(data);
       }      
             
+      composite.setTabList(new Control[]{resourceURIField, buttonComposite});
       return composite;
     }
 
