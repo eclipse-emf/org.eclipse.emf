@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.2 2004/03/30 00:00:20 elena Exp $
+ * $Id: XMLResourceImpl.java,v 1.3 2004/04/18 23:15:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -57,6 +57,8 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
    * sets the ID of an object.
    */
   protected Map eObjectToIDMap;
+
+  protected Map eObjectToExtensionMap;
 
   protected String encoding;
   protected boolean useZip;
@@ -217,6 +219,15 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
 
     return eObjectToIDMap;
+  }
+
+  public Map getEObjectToExtensionMap()
+  {
+    if (eObjectToExtensionMap == null)
+    {
+      eObjectToExtensionMap = new HashMap();
+    }
+    return eObjectToExtensionMap;
   }
 
   /*
@@ -384,6 +395,11 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     if (eObjectToIDMap != null)
     {
       eObjectToIDMap.clear();
+    }
+
+    if (eObjectToExtensionMap != null)
+    {
+      eObjectToExtensionMap.clear();
     }
   }
 
