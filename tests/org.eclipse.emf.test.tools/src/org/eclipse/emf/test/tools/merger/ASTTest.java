@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.7.2.1 2005/01/14 22:56:19 nickb Exp $
+ * $Id: ASTTest.java,v 1.7.2.2 2005/01/15 04:32:27 nickb Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -72,7 +72,7 @@ public class ASTTest extends TestCase
  public static Test suite()
  {
    TestSuite ts = new TestSuite("ASTTest");
-   ts.addTest(new ASTTest("testRead"));
+   //ts.addTest(new ASTTest("testRead")); // not supported in 2.0.2 (yet)
    return ts;
  }
  
