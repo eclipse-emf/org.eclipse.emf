@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.examples"
       label="Examples for Eclipse Modeling Framework"
-      version="2.0.1"
+      version="2.1.0"
       provider-name="Eclipse.org"
       image="eclipse_update_120.jpg">
 
