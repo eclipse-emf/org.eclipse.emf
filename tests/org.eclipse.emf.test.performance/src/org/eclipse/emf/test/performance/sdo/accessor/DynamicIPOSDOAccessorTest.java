@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.2 2005/02/18 22:26:40 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.3 2005/02/18 22:35:07 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -183,31 +183,29 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
     // the warmup number is the optimal one for consistency of results and best peformance.
     // result: 22
-    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3000).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3000).setRepetitions(REPETITIONS));
     // result: 30
-    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(1000).setRepetitions(REPETITIONS));
-      //TODO find optimal warmup number.
-    // result: 
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(1000).setRepetitions(REPETITIONS));
+    // result: 28
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(1000).setRepetitions(REPETITIONS));
-    //TODO find optimal warmup number.
-    // result:
+    // result: 30
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(2000).setRepetitions(REPETITIONS));
     
     
-    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    //testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    //testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
     
     
     // TODO find optimal warmup number.
     // result: 518
-    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
     // TODO find optimal warmup number.
     // result:
-    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
-    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
-    //testSuite.addTest(new DynamicIPOSDOAccessorTest("setByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
 
     return testSuite;
   }
