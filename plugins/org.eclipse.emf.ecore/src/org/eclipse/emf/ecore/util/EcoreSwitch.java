@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EcoreSwitch.java,v 1.3 2004/03/10 00:25:09 emerks Exp $
+ * $Id: EcoreSwitch.java,v 1.4 2004/05/05 19:39:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
 
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.*;
@@ -70,129 +71,159 @@ public class EcoreSwitch
    */
   public Object doSwitch(EObject theEObject)
   {
-    EClass theEClass = theEObject.eClass();
+    return doSwitch(theEObject.eClass(), theEObject);
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  {
     if (theEClass.eContainer() == modelPackage)
     {
-      switch (theEClass.getClassifierID())
-      {
-        case EcorePackage.EATTRIBUTE:
-        {
-          EAttribute eAttribute = (EAttribute)theEObject;
-          Object result = caseEAttribute(eAttribute);
-          if (result == null) result = caseEStructuralFeature(eAttribute);
-          if (result == null) result = caseETypedElement(eAttribute);
-          if (result == null) result = caseENamedElement(eAttribute);
-          if (result == null) result = caseEModelElement(eAttribute);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case EcorePackage.EANNOTATION:
-        {
-          EAnnotation eAnnotation = (EAnnotation)theEObject;
-          Object result = caseEAnnotation(eAnnotation);
-          if (result == null) result = caseEModelElement(eAnnotation);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case EcorePackage.ECLASS:
-        {
-          EClass eClass = (EClass)theEObject;
-          Object result = caseEClass(eClass);
-          if (result == null) result = caseEClassifier(eClass);
-          if (result == null) result = caseENamedElement(eClass);
-          if (result == null) result = caseEModelElement(eClass);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case EcorePackage.EDATA_TYPE:
-        {
-          EDataType eDataType = (EDataType)theEObject;
-          Object result = caseEDataType(eDataType);
-          if (result == null) result = caseEClassifier(eDataType);
-          if (result == null) result = caseENamedElement(eDataType);
-          if (result == null) result = caseEModelElement(eDataType);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case EcorePackage.EENUM:
-        {
-          EEnum eEnum = (EEnum)theEObject;
-          Object result = caseEEnum(eEnum);
-          if (result == null) result = caseEDataType(eEnum);
-          if (result == null) result = caseEClassifier(eEnum);
-          if (result == null) result = caseENamedElement(eEnum);
-          if (result == null) result = caseEModelElement(eEnum);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case EcorePackage.EENUM_LITERAL:
-        {
-          EEnumLiteral eEnumLiteral = (EEnumLiteral)theEObject;
-          Object result = caseEEnumLiteral(eEnumLiteral);
-          if (result == null) result = caseENamedElement(eEnumLiteral);
-          if (result == null) result = caseEModelElement(eEnumLiteral);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case EcorePackage.EFACTORY:
-        {
-          EFactory eFactory = (EFactory)theEObject;
-          Object result = caseEFactory(eFactory);
-          if (result == null) result = caseEModelElement(eFactory);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case EcorePackage.EOPERATION:
-        {
-          EOperation eOperation = (EOperation)theEObject;
-          Object result = caseEOperation(eOperation);
-          if (result == null) result = caseETypedElement(eOperation);
-          if (result == null) result = caseENamedElement(eOperation);
-          if (result == null) result = caseEModelElement(eOperation);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case EcorePackage.EPACKAGE:
-        {
-          EPackage ePackage = (EPackage)theEObject;
-          Object result = caseEPackage(ePackage);
-          if (result == null) result = caseENamedElement(ePackage);
-          if (result == null) result = caseEModelElement(ePackage);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case EcorePackage.EPARAMETER:
-        {
-          EParameter eParameter = (EParameter)theEObject;
-          Object result = caseEParameter(eParameter);
-          if (result == null) result = caseETypedElement(eParameter);
-          if (result == null) result = caseENamedElement(eParameter);
-          if (result == null) result = caseEModelElement(eParameter);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case EcorePackage.EREFERENCE:
-        {
-          EReference eReference = (EReference)theEObject;
-          Object result = caseEReference(eReference);
-          if (result == null) result = caseEStructuralFeature(eReference);
-          if (result == null) result = caseETypedElement(eReference);
-          if (result == null) result = caseENamedElement(eReference);
-          if (result == null) result = caseEModelElement(eReference);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY:
-        {
-          Map.Entry eStringToStringMapEntry = (Map.Entry)theEObject;
-          Object result = caseEStringToStringMapEntry(eStringToStringMapEntry);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        default: return defaultCase(theEObject);
-      }
+      return doSwitch(theEClass.getClassifierID(), theEObject);
     }
-    return defaultCase(theEObject);
+    else
+    {
+      List eSuperTypes = theEClass.getESuperTypes();
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+    }
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(int classifierID, EObject theEObject)
+  {
+    switch (classifierID)
+    {
+      case EcorePackage.EATTRIBUTE:
+      {
+        EAttribute eAttribute = (EAttribute)theEObject;
+        Object result = caseEAttribute(eAttribute);
+        if (result == null) result = caseEStructuralFeature(eAttribute);
+        if (result == null) result = caseETypedElement(eAttribute);
+        if (result == null) result = caseENamedElement(eAttribute);
+        if (result == null) result = caseEModelElement(eAttribute);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.EANNOTATION:
+      {
+        EAnnotation eAnnotation = (EAnnotation)theEObject;
+        Object result = caseEAnnotation(eAnnotation);
+        if (result == null) result = caseEModelElement(eAnnotation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.ECLASS:
+      {
+        EClass eClass = (EClass)theEObject;
+        Object result = caseEClass(eClass);
+        if (result == null) result = caseEClassifier(eClass);
+        if (result == null) result = caseENamedElement(eClass);
+        if (result == null) result = caseEModelElement(eClass);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.EDATA_TYPE:
+      {
+        EDataType eDataType = (EDataType)theEObject;
+        Object result = caseEDataType(eDataType);
+        if (result == null) result = caseEClassifier(eDataType);
+        if (result == null) result = caseENamedElement(eDataType);
+        if (result == null) result = caseEModelElement(eDataType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.EENUM:
+      {
+        EEnum eEnum = (EEnum)theEObject;
+        Object result = caseEEnum(eEnum);
+        if (result == null) result = caseEDataType(eEnum);
+        if (result == null) result = caseEClassifier(eEnum);
+        if (result == null) result = caseENamedElement(eEnum);
+        if (result == null) result = caseEModelElement(eEnum);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.EENUM_LITERAL:
+      {
+        EEnumLiteral eEnumLiteral = (EEnumLiteral)theEObject;
+        Object result = caseEEnumLiteral(eEnumLiteral);
+        if (result == null) result = caseENamedElement(eEnumLiteral);
+        if (result == null) result = caseEModelElement(eEnumLiteral);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.EFACTORY:
+      {
+        EFactory eFactory = (EFactory)theEObject;
+        Object result = caseEFactory(eFactory);
+        if (result == null) result = caseEModelElement(eFactory);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.EOPERATION:
+      {
+        EOperation eOperation = (EOperation)theEObject;
+        Object result = caseEOperation(eOperation);
+        if (result == null) result = caseETypedElement(eOperation);
+        if (result == null) result = caseENamedElement(eOperation);
+        if (result == null) result = caseEModelElement(eOperation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.EPACKAGE:
+      {
+        EPackage ePackage = (EPackage)theEObject;
+        Object result = caseEPackage(ePackage);
+        if (result == null) result = caseENamedElement(ePackage);
+        if (result == null) result = caseEModelElement(ePackage);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.EPARAMETER:
+      {
+        EParameter eParameter = (EParameter)theEObject;
+        Object result = caseEParameter(eParameter);
+        if (result == null) result = caseETypedElement(eParameter);
+        if (result == null) result = caseENamedElement(eParameter);
+        if (result == null) result = caseEModelElement(eParameter);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.EREFERENCE:
+      {
+        EReference eReference = (EReference)theEObject;
+        Object result = caseEReference(eReference);
+        if (result == null) result = caseEStructuralFeature(eReference);
+        if (result == null) result = caseETypedElement(eReference);
+        if (result == null) result = caseENamedElement(eReference);
+        if (result == null) result = caseEModelElement(eReference);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY:
+      {
+        Map.Entry eStringToStringMapEntry = (Map.Entry)theEObject;
+        Object result = caseEStringToStringMapEntry(eStringToStringMapEntry);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      default: return defaultCase(theEObject);
+    }
   }
 
   /**
