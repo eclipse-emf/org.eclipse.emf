@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.6 2004/08/24 18:55:40 emerks Exp $
+ * $Id: XSDResourceImpl.java,v 1.7 2004/08/31 13:23:41 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -530,7 +530,7 @@ public class XSDResourceImpl extends ResourceImpl
       {
         attachedSchemas.add(eObject);
       }
-      else
+      else if (!(eObject instanceof XSDSchemaImpl) || ((XSDSchemaImpl)eObject).getPendingSchemaLocation() == null)
       {
         ((XSDSchema)eObject).setSchemaLocation(getURI().toString());
       }
