@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseNode.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: RoseNode.java,v 1.2 2004/05/05 19:47:14 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore.parser;
 
@@ -466,6 +466,12 @@ public class RoseNode
   public String getClassifierName()
   {
     String attributeValue = getAttributeValue("Ecore", "classifierName");
+    return attributeValue;
+  }
+
+  public String getEcoreConstraints()
+  {
+    String attributeValue = getAttributeValue("Ecore", "constraints");
     return attributeValue;
   }
 
