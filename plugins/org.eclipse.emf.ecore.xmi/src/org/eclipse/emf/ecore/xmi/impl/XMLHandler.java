@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.15 2004/08/17 12:13:19 emerks Exp $
+ * $Id: XMLHandler.java,v 1.16 2004/08/17 14:58:18 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1572,7 +1572,7 @@ public abstract class XMLHandler
         try
         {
           String className = uri.authority();
-          Class javaClass = Class.forName(className);
+          Class javaClass = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
           Field field = javaClass.getField("eINSTANCE");
           resource = ((EPackage)field.get(null)).eResource();
         }
