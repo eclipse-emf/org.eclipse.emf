@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.5 2004/04/10 20:29:50 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.6 2004/05/05 19:27:01 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -91,9 +91,11 @@ import org.eclipse.xsd.XSDTerm;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.XSDVariety;
 import org.eclipse.xsd.XSDWildcard;
+import org.eclipse.xsd.*;
 import org.eclipse.xsd.util.XSDConstants;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.eclipse.xsd.util.XSDResourceImpl;
+import org.eclipse.xsd.util.XSDSwitch;
 
 
 public class XSDEcoreBuilder extends MapBuilder
@@ -374,6 +376,8 @@ public class XSDEcoreBuilder extends MapBuilder
 
       checkForPrimitive(eDataType);
 
+      handleFacets(xsdSimpleTypeDefinition, eDataType);
+
       return eDataType;
     }
     else
@@ -437,6 +441,7 @@ public class XSDEcoreBuilder extends MapBuilder
           }
 
           checkForPrimitive(eDataType);
+          handleFacets(xsdSimpleTypeDefinition, eDataType);
 
           return eDataType;
         }
@@ -496,6 +501,95 @@ public class XSDEcoreBuilder extends MapBuilder
       addToSortedList(eDataType.getEPackage().getEClassifiers(), eDataTypeObject);
       extendedMetaData.setBaseType(eDataTypeObject, eDataType);
     }
+  }
+
+  protected void handleFacets(final XSDSimpleTypeDefinition xsdSimpleTypeDefinition, final EDataType eDataType)
+  {
+    final List enumeration = new ArrayList();
+    final List pattern = new ArrayList();
+    for (Iterator i = xsdSimpleTypeDefinition.getFacetContents().iterator(); i.hasNext(); )
+    {
+      final XSDFacet xsdFacet = (XSDFacet)i.next();
+      String ignore = getEcoreAttribute(xsdFacet, "ignore");
+      if (!"true".equalsIgnoreCase(ignore))
+      {
+        new XSDSwitch ()
+        {
+          public Object caseXSDEnumerationFacet(XSDEnumerationFacet xsdEnumerationFacet)
+          {
+            enumeration.add(xsdEnumerationFacet.getLexicalValue());
+            return this;
+          }
+
+          public Object caseXSDFractionDigitsFacet(XSDFractionDigitsFacet xsdFractionDigitsFacet)
+          {
+            extendedMetaData.setFractionDigitsFacet(eDataType, xsdFractionDigitsFacet.getValue());
+            return this;
+          }
+
+          public Object caseXSDLengthFacet(XSDLengthFacet xsdLengthFacet)
+          {
+            extendedMetaData.setLengthFacet(eDataType, xsdLengthFacet.getValue());
+            return this;
+          }
+          public Object caseXSDMaxExclusiveFacet(XSDMaxExclusiveFacet xsdMaxExclusiveFacet)
+          {
+            extendedMetaData.setMaxExclusiveFacet(eDataType, xsdMaxExclusiveFacet.getLexicalValue());
+            return this;
+          }
+
+          public Object caseXSDMaxInclusiveFacet(XSDMaxInclusiveFacet xsdMaxInclusiveFacet)
+          {
+            extendedMetaData.setMaxInclusiveFacet(eDataType, xsdMaxInclusiveFacet.getLexicalValue());
+            return this;
+          }
+
+          public Object caseXSDMaxLengthFacet(XSDMaxLengthFacet xsdMaxLengthFacet)
+          {
+            extendedMetaData.setMaxLengthFacet(eDataType, xsdMaxLengthFacet.getValue());
+            return this;
+          }
+
+          public Object caseXSDMinExclusiveFacet(XSDMinExclusiveFacet xsdMinExclusiveFacet)
+          {
+            extendedMetaData.setMinExclusiveFacet(eDataType, xsdMinExclusiveFacet.getLexicalValue());
+            return this;
+          }
+
+          public Object caseXSDMinInclusiveFacet(XSDMinInclusiveFacet xsdMinInclusiveFacet)
+          {
+            extendedMetaData.setMinInclusiveFacet(eDataType, xsdMinInclusiveFacet.getLexicalValue());
+            return this;
+          }
+
+          public Object caseXSDMinLengthFacet(XSDMinLengthFacet xsdMinLengthFacet)
+          {
+            extendedMetaData.setMinLengthFacet(eDataType, xsdMinLengthFacet.getValue());
+            return this;
+          }
+
+          public Object caseXSDPatternFacet(XSDPatternFacet xsdPatternFacet)
+          {
+            pattern.add(xsdPatternFacet.getLexicalValue());
+            return this;
+          }
+
+          public Object caseXSDTotalDigitsFacet(XSDTotalDigitsFacet xsdTotalDigitsFacet)
+          {
+            extendedMetaData.setTotalDigitsFacet(eDataType, xsdTotalDigitsFacet.getValue());
+            return this;
+          }
+
+          public Object caseXSDWhiteSpaceFacet(XSDWhiteSpaceFacet xsdWhiteSpaceFacet)
+          {
+            extendedMetaData.setWhiteSpaceFacet(eDataType, xsdWhiteSpaceFacet.getValue().getValue() + 1);
+            return this;
+          }
+        }.doSwitch(xsdFacet);
+      }
+    }
+    extendedMetaData.setEnumerationFacet(eDataType, enumeration);
+    extendedMetaData.setPatternFacet(eDataType, pattern);
   }
 
   protected EEnum computeEEnum(XSDSimpleTypeDefinition xsdSimpleTypeDefinition)
@@ -2057,7 +2151,7 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
 
-    if (simpleDiagnostics != null || diagnostics == null)
+    if (simpleDiagnostics != null || diagnostics != null)
     {
       xsdSchema.validate();
       if (!xsdSchema.getAllDiagnostics().isEmpty())
