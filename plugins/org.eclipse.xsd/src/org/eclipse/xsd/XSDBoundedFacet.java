@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDBoundedFacet.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDBoundedFacet.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -32,10 +32,11 @@ package org.eclipse.xsd;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDBoundedFacet()
- * @model 
+ * @model
  * @generated
  */
-public interface XSDBoundedFacet extends XSDFundamentalFacet {
+public interface XSDBoundedFacet extends XSDFundamentalFacet
+{
   /**
    * Returns the value of the '<em><b>Value</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -49,7 +50,7 @@ public interface XSDBoundedFacet extends XSDFundamentalFacet {
    * @return the value of the '<em>Value</em>' attribute.
    * @see #setValue(boolean)
    * @see org.eclipse.xsd.XSDPackage#getXSDBoundedFacet_Value()
-   * @model 
+   * @model
    * @generated
    */
   boolean isValue();

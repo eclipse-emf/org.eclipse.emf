@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUse.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDAttributeUse.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -39,10 +39,11 @@ package org.eclipse.xsd;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDAttributeUse()
- * @model 
+ * @model
  * @generated
  */
-public interface XSDAttributeUse extends XSDComponent, XSDAttributeGroupContent {
+public interface XSDAttributeUse extends XSDComponent, XSDAttributeGroupContent
+{
   /**
    * Returns the value of the '<em><b>Required</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -55,7 +56,7 @@ public interface XSDAttributeUse extends XSDComponent, XSDAttributeGroupContent 
    * @return the value of the '<em>Required</em>' attribute.
    * @see #setRequired(boolean)
    * @see org.eclipse.xsd.XSDPackage#getXSDAttributeUse_Required()
-   * @model 
+   * @model
    * @generated
    */
   boolean isRequired();
@@ -223,7 +224,7 @@ public interface XSDAttributeUse extends XSDComponent, XSDAttributeGroupContent 
    * @return the value of the '<em>Lexical Value</em>' attribute.
    * @see #setLexicalValue(String)
    * @see org.eclipse.xsd.XSDPackage#getXSDAttributeUse_LexicalValue()
-   * @model 
+   * @model
    * @generated
    */
   String getLexicalValue();

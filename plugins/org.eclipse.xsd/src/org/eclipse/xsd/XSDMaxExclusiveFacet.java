@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMaxExclusiveFacet.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
+ * $Id: XSDMaxExclusiveFacet.java,v 1.3 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -27,8 +27,9 @@ package org.eclipse.xsd;
  *
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDMaxExclusiveFacet()
- * @model 
+ * @model
  * @generated
  */
-public interface XSDMaxExclusiveFacet extends XSDMaxFacet{
+public interface XSDMaxExclusiveFacet extends XSDMaxFacet
+{
 } 

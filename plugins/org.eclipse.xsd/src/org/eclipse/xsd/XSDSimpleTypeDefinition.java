@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinition.java,v 1.3 2004/07/28 14:24:37 emerks Exp $
+ * $Id: XSDSimpleTypeDefinition.java,v 1.4 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -84,7 +84,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDSimpleTypeDefinition()
- * @model 
+ * @model
  * @generated
  */
 public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTypeContent

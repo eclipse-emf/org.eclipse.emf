@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNotationDeclaration.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDNotationDeclaration.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -35,10 +35,11 @@ package org.eclipse.xsd;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDNotationDeclaration()
- * @model 
+ * @model
  * @generated
  */
-public interface XSDNotationDeclaration extends XSDNamedComponent, XSDSchemaContent {
+public interface XSDNotationDeclaration extends XSDNamedComponent, XSDSchemaContent
+{
   /**
    * Returns the value of the '<em><b>System Identifier</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -51,7 +52,7 @@ public interface XSDNotationDeclaration extends XSDNamedComponent, XSDSchemaCont
    * @return the value of the '<em>System Identifier</em>' attribute.
    * @see #setSystemIdentifier(String)
    * @see org.eclipse.xsd.XSDPackage#getXSDNotationDeclaration_SystemIdentifier()
-   * @model 
+   * @model
    * @generated
    */
   String getSystemIdentifier();
@@ -78,7 +79,7 @@ public interface XSDNotationDeclaration extends XSDNamedComponent, XSDSchemaCont
    * @return the value of the '<em>Public Identifier</em>' attribute.
    * @see #setPublicIdentifier(String)
    * @see org.eclipse.xsd.XSDPackage#getXSDNotationDeclaration_PublicIdentifier()
-   * @model 
+   * @model
    * @generated
    */
   String getPublicIdentifier();

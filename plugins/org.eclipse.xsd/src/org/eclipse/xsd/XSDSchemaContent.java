@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaContent.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
+ * $Id: XSDSchemaContent.java,v 1.3 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -31,5 +31,6 @@ package org.eclipse.xsd;
  * @model abstract="true"
  * @generated
  */
-public interface XSDSchemaContent extends XSDConcreteComponent{
+public interface XSDSchemaContent extends XSDConcreteComponent
+{
 } 

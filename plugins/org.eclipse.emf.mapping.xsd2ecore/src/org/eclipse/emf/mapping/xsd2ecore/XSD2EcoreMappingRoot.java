@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreMappingRoot.java,v 1.2 2004/03/12 23:36:34 emerks Exp $
+ * $Id: XSD2EcoreMappingRoot.java,v 1.3 2004/12/16 21:54:40 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore;
 
@@ -25,8 +25,9 @@ import org.eclipse.emf.mapping.MappingRoot;
  *
  *
  * @see org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePackage#getXSD2EcoreMappingRoot()
- * @model 
+ * @model
  * @generated
  */
-public interface XSD2EcoreMappingRoot extends MappingRoot{
+public interface XSD2EcoreMappingRoot extends MappingRoot
+{
 } // XSD2EcoreMappingRoot

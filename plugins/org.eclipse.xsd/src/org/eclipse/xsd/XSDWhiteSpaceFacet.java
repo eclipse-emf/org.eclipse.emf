@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWhiteSpaceFacet.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDWhiteSpaceFacet.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -33,10 +33,11 @@ package org.eclipse.xsd;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDWhiteSpaceFacet()
- * @model 
+ * @model
  * @generated
  */
-public interface XSDWhiteSpaceFacet extends XSDFixedFacet {
+public interface XSDWhiteSpaceFacet extends XSDFixedFacet
+{
   /**
    * Returns the value of the '<em><b>Value</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.xsd.XSDWhiteSpace}.
@@ -52,7 +53,7 @@ public interface XSDWhiteSpaceFacet extends XSDFixedFacet {
    * @see org.eclipse.xsd.XSDWhiteSpace
    * @see #setValue(XSDWhiteSpace)
    * @see org.eclipse.xsd.XSDPackage#getXSDWhiteSpaceFacet_Value()
-   * @model 
+   * @model
    * @generated
    */
   XSDWhiteSpace getValue();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinition.java,v 1.2 2004/04/15 05:52:40 marcelop Exp $
+ * $Id: XSDComplexTypeDefinition.java,v 1.3 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -52,7 +52,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDComplexTypeDefinition()
- * @model 
+ * @model
  * @generated
  */
 public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
@@ -216,7 +216,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * @see org.eclipse.xsd.XSDContentTypeCategory
    * @see #setContentTypeCategory(XSDContentTypeCategory)
    * @see org.eclipse.xsd.XSDPackage#getXSDComplexTypeDefinition_ContentTypeCategory()
-   * @model 
+   * @model
    * @generated
    */
   XSDContentTypeCategory getContentTypeCategory();

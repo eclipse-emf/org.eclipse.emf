@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImport.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDImport.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -34,10 +34,11 @@ package org.eclipse.xsd;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDImport()
- * @model 
+ * @model
  * @generated
  */
-public interface XSDImport extends XSDSchemaDirective {
+public interface XSDImport extends XSDSchemaDirective
+{
   /**
    * Returns the value of the '<em><b>Namespace</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -49,7 +50,7 @@ public interface XSDImport extends XSDSchemaDirective {
    * @return the value of the '<em>Namespace</em>' attribute.
    * @see #setNamespace(String)
    * @see org.eclipse.xsd.XSDPackage#getXSDImport_Namespace()
-   * @model 
+   * @model
    * @generated
    */
   String getNamespace();

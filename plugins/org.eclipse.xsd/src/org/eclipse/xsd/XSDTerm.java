@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTerm.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
+ * $Id: XSDTerm.java,v 1.3 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -31,5 +31,6 @@ package org.eclipse.xsd;
  * @model abstract="true"
  * @generated
  */
-public interface XSDTerm extends XSDComponent, XSDParticleContent{
+public interface XSDTerm extends XSDComponent, XSDParticleContent
+{
 } 

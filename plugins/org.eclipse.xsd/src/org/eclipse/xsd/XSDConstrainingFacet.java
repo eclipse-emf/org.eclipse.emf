@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConstrainingFacet.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
+ * $Id: XSDConstrainingFacet.java,v 1.3 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -30,7 +30,8 @@ package org.eclipse.xsd;
  * @model abstract="true"
  * @generated
  */
-public interface XSDConstrainingFacet extends XSDFacet{
+public interface XSDConstrainingFacet extends XSDFacet
+{
   /**
    * Returns whether the given value satisfies the constraint of this facet.
    * @param value an arbitrary value.

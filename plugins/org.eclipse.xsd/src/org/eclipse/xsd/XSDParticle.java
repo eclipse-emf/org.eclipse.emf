@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticle.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDParticle.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -37,10 +37,11 @@ import java.util.List;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDParticle()
- * @model 
+ * @model
  * @generated
  */
-public interface XSDParticle extends XSDComplexTypeContent {
+public interface XSDParticle extends XSDComplexTypeContent
+{
   /**
    * Returns the value of the '<em><b>Min Occurs</b></em>' attribute.
    * The default value is <code>"1"</code>.

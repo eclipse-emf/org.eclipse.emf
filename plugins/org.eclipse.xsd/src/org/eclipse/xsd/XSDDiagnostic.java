@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnostic.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDDiagnostic.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -45,7 +45,7 @@ import org.eclipse.emf.ecore.resource.Resource;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDDiagnostic()
- * @model 
+ * @model
  * @generated
  */
 public interface XSDDiagnostic extends XSDConcreteComponent, Resource.Diagnostic
@@ -71,7 +71,7 @@ public interface XSDDiagnostic extends XSDConcreteComponent, Resource.Diagnostic
    * @see org.eclipse.xsd.XSDDiagnosticSeverity
    * @see #setSeverity(XSDDiagnosticSeverity)
    * @see org.eclipse.xsd.XSDPackage#getXSDDiagnostic_Severity()
-   * @model 
+   * @model
    * @generated
    */
   XSDDiagnosticSeverity getSeverity();
@@ -97,7 +97,7 @@ public interface XSDDiagnostic extends XSDConcreteComponent, Resource.Diagnostic
    * @return the value of the '<em>Message</em>' attribute.
    * @see #setMessage(String)
    * @see org.eclipse.xsd.XSDPackage#getXSDDiagnostic_Message()
-   * @model 
+   * @model
    * @generated
    */
   String getMessage();
@@ -122,7 +122,7 @@ public interface XSDDiagnostic extends XSDConcreteComponent, Resource.Diagnostic
    * @return the value of the '<em>Location URI</em>' attribute.
    * @see #setLocationURI(String)
    * @see org.eclipse.xsd.XSDPackage#getXSDDiagnostic_LocationURI()
-   * @model 
+   * @model
    * @generated
    */
   String getLocationURI();
@@ -224,7 +224,7 @@ public interface XSDDiagnostic extends XSDConcreteComponent, Resource.Diagnostic
    * @return the value of the '<em>Annotation URI</em>' attribute.
    * @see #setAnnotationURI(String)
    * @see org.eclipse.xsd.XSDPackage#getXSDDiagnostic_AnnotationURI()
-   * @model 
+   * @model
    * @generated
    */
   String getAnnotationURI();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFacet.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDFacet.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -39,7 +39,8 @@ package org.eclipse.xsd;
  * @model abstract="true"
  * @generated
  */
-public interface XSDFacet extends XSDComponent {
+public interface XSDFacet extends XSDComponent
+{
   /**
    * Returns the value of the '<em><b>Lexical Value</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -50,7 +51,7 @@ public interface XSDFacet extends XSDComponent {
    * @return the value of the '<em>Lexical Value</em>' attribute.
    * @see #setLexicalValue(String)
    * @see org.eclipse.xsd.XSDPackage#getXSDFacet_LexicalValue()
-   * @model 
+   * @model
    * @generated
    */
   String getLexicalValue();

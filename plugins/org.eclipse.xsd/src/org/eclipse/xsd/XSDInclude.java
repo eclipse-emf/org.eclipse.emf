@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDInclude.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDInclude.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -33,10 +33,11 @@ package org.eclipse.xsd;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDInclude()
- * @model 
+ * @model
  * @generated
  */
-public interface XSDInclude extends XSDSchemaCompositor {
+public interface XSDInclude extends XSDSchemaCompositor
+{
   /**
    * Returns the value of the '<em><b>Annotation</b></em>' containment reference.
    * <!-- begin-user-doc -->

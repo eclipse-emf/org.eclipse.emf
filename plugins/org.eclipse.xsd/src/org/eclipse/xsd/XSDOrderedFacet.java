@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDOrderedFacet.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDOrderedFacet.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -33,10 +33,11 @@ package org.eclipse.xsd;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDOrderedFacet()
- * @model 
+ * @model
  * @generated
  */
-public interface XSDOrderedFacet extends XSDFundamentalFacet {
+public interface XSDOrderedFacet extends XSDFundamentalFacet
+{
   /**
    * Returns the value of the '<em><b>Value</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.xsd.XSDOrdered}.
@@ -52,7 +53,7 @@ public interface XSDOrderedFacet extends XSDFundamentalFacet {
    * @see org.eclipse.xsd.XSDOrdered
    * @see #setValue(XSDOrdered)
    * @see org.eclipse.xsd.XSDPackage#getXSDOrderedFacet_Value()
-   * @model 
+   * @model
    * @generated
    */
   XSDOrdered getValue();

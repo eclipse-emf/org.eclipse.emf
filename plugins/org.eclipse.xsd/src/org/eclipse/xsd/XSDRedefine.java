@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefine.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDRedefine.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -35,7 +35,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDRedefine()
- * @model 
+ * @model
  * @generated
  */
 public interface XSDRedefine extends XSDSchemaCompositor

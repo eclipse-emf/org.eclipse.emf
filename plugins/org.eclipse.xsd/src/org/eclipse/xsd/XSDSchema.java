@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchema.java,v 1.3 2004/10/07 12:14:17 emerks Exp $
+ * $Id: XSDSchema.java,v 1.4 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -61,7 +61,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDSchema()
- * @model 
+ * @model
  * @generated
  */
 public interface XSDSchema extends XSDScope
@@ -107,7 +107,7 @@ public interface XSDSchema extends XSDScope
    * @return the value of the '<em>Schema Location</em>' attribute.
    * @see #setSchemaLocation(String)
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_SchemaLocation()
-   * @model 
+   * @model
    * @generated
    */
   String getSchemaLocation();
@@ -133,7 +133,7 @@ public interface XSDSchema extends XSDScope
    * @return the value of the '<em>Target Namespace</em>' attribute.
    * @see #setTargetNamespace(String)
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_TargetNamespace()
-   * @model 
+   * @model
    * @generated
    */
   String getTargetNamespace();
@@ -376,7 +376,7 @@ public interface XSDSchema extends XSDScope
    * @return the value of the '<em>Version</em>' attribute.
    * @see #setVersion(String)
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_Version()
-   * @model 
+   * @model
    * @generated
    */
   String getVersion();

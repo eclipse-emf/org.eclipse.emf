@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroup.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDModelGroup.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -37,7 +37,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDModelGroup()
- * @model 
+ * @model
  * @generated
  */
 public interface XSDModelGroup extends XSDTerm
@@ -56,7 +56,7 @@ public interface XSDModelGroup extends XSDTerm
    * @see org.eclipse.xsd.XSDCompositor
    * @see #setCompositor(XSDCompositor)
    * @see org.eclipse.xsd.XSDPackage#getXSDModelGroup_Compositor()
-   * @model 
+   * @model
    * @generated
    */
   XSDCompositor getCompositor();

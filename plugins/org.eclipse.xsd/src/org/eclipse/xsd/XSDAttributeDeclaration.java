@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclaration.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDAttributeDeclaration.java,v 1.2 2004/12/16 21:56:07 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -37,10 +37,11 @@ package org.eclipse.xsd;
  * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDAttributeDeclaration()
- * @model 
+ * @model
  * @generated
  */
-public interface XSDAttributeDeclaration extends XSDFeature, XSDSchemaContent {
+public interface XSDAttributeDeclaration extends XSDFeature, XSDSchemaContent
+{
   /**
    * Returns the value of the '<em><b>Attribute Declaration Reference</b></em>' attribute.
    * <!-- begin-user-doc -->

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreMappingRootImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSD2EcoreMappingRootImpl.java,v 1.2 2004/12/16 21:54:40 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
@@ -129,12 +129,12 @@ public class XSD2EcoreMappingRootImpl extends MappingRootImpl implements XSD2Eco
       switch (eContainerFeatureID)
       {
         case XSD2EcorePackage.XSD2_ECORE_MAPPING_ROOT__NESTED_IN:
-          return ((InternalEObject)eContainer).eInverseRemove(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
+          return eContainer.eInverseRemove(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
