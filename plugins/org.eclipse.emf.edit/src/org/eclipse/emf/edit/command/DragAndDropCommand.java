@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DragAndDropCommand.java,v 1.2 2004/05/28 22:20:06 emerks Exp $
+ * $Id: DragAndDropCommand.java,v 1.3 2004/05/31 16:57:16 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -25,9 +25,12 @@ import java.util.ListIterator;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.command.IdentityCommand;
 import org.eclipse.emf.common.command.UnexecutableCommand;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -183,7 +186,40 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     // EATM Leave this disabled for now.
     //
     this.optimize = false;
-  } 
+  }
+  
+  protected boolean analyzeForNonContainment(Command command)
+  {
+    if (command instanceof AddCommand)
+    {
+      return isNonContainment(((AddCommand)command).getFeature());
+    }
+    else if (command instanceof SetCommand)
+    {
+      return isNonContainment(((SetCommand)command).getFeature());
+    }
+    else if (command instanceof CommandWrapper) 
+    {
+      return analyzeForNonContainment(((CommandWrapper)command).getCommand());
+    }
+    else if (command instanceof CompoundCommand) 
+    {
+      for (Iterator i = ((CompoundCommand)command).getCommandList().iterator(); i.hasNext(); )
+      {
+        if (analyzeForNonContainment((Command)i.next()))
+        {
+          return true;          
+        }
+      }
+    }
+  
+    return false;
+  }
+  
+  protected boolean isNonContainment(EStructuralFeature feature)
+  {
+    return feature instanceof EReference && !((EReference)feature).isContainment();
+  }
 
   public Object getOwner()
   {
@@ -487,8 +523,17 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     {
       // Just remove the objects and add them.
       //
-      dragCommand = RemoveCommand.create(domain, collection);
       dropCommand = AddCommand.create(domain, parent, null, collection, index);
+      if (analyzeForNonContainment(dropCommand))
+      {
+        dropCommand.dispose();
+        dropCommand = UnexecutableCommand.INSTANCE;
+        dragCommand = IdentityCommand.INSTANCE;
+      }
+      else
+      {
+        dragCommand = RemoveCommand.create(domain, collection);
+      }
     }
 
     boolean result = dragCommand.canExecute() && dropCommand.canExecute();
@@ -513,7 +558,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
    */
   protected boolean prepareDropCopyInsert(final Object parent, Collection children, final int index)
   {
-    boolean result ;
+    boolean result;
     
     // We don't want to copy insert an object before or after itself...
     //
@@ -532,7 +577,10 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
       if (optimize) 
       {
         result = optimizedCanExecute();
-        optimizedDropCommandOwner = parent;
+        if (result)
+        {
+          optimizedDropCommandOwner = parent;
+        }
       }
       else 
       {
@@ -544,6 +592,16 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
           // And add the copy.
           //
           dropCommand = AddCommand.create(domain, parent, null, dragCommand.getResult(), index);
+          if (analyzeForNonContainment(dropCommand))
+          {
+            dropCommand.dispose();
+            dropCommand = UnexecutableCommand.INSTANCE;;
+
+            dragCommand.undo();
+            dragCommand.dispose();
+            isDragCommandExecuted = false;
+            dragCommand = IdentityCommand.INSTANCE;
+          }
           result = dropCommand.canExecute();
         }
         else
@@ -562,9 +620,32 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
    */
   protected boolean prepareDropLinkInsert(Object parent, Collection children, int index)
   {
-    // We don't do this by default.
+    boolean result;
+    
+    // We don't want to insert an object before or after itself...
     //
-    return false;
+    if (collection.contains(owner))
+    {
+      dragCommand = IdentityCommand.INSTANCE;
+      dropCommand = UnexecutableCommand.INSTANCE;
+      result = false;
+    }
+    else
+    {
+      dragCommand = IdentityCommand.INSTANCE;
+
+      // Add the collection
+      //
+      dropCommand = AddCommand.create(domain, parent, null, collection, index);
+      if (!analyzeForNonContainment(dropCommand))
+      {
+        dropCommand.dispose();
+        dropCommand = UnexecutableCommand.INSTANCE;;
+      }
+      result = dropCommand.canExecute();
+    }
+
+    return result;
   }
 
   /**
@@ -640,8 +721,17 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     }
     else
     {
-      dragCommand = RemoveCommand.create(domain, collection);
       dropCommand = AddCommand.create(domain, owner, null, collection);
+      if (analyzeForNonContainment(dropCommand))
+      {
+        dropCommand.dispose();
+        dropCommand = UnexecutableCommand.INSTANCE;
+        dragCommand = IdentityCommand.INSTANCE;
+      }
+      else
+      {
+        dragCommand = RemoveCommand.create(domain, collection);
+      }
     }
 
     boolean result = dragCommand.canExecute() && dropCommand.canExecute();
@@ -660,7 +750,10 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     if (optimize) 
     {
       result = optimizedCanExecute();
-      optimizedDropCommandOwner = owner;
+      if (result)
+      {
+        optimizedDropCommandOwner = owner;
+      }
     }
     else 
     {
@@ -669,6 +762,16 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
         dragCommand.execute();
         isDragCommandExecuted = true; 
         dropCommand = AddCommand.create(domain, owner, null, dragCommand.getResult());
+        if (analyzeForNonContainment(dropCommand))
+        {
+          dropCommand.dispose();
+          dropCommand = UnexecutableCommand.INSTANCE;;
+
+          dragCommand.undo();
+          dragCommand.dispose();
+          isDragCommandExecuted = false;
+          dragCommand = IdentityCommand.INSTANCE;
+        }
       }
       else
       {
@@ -692,7 +795,14 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     //
     if (!dropCommand.canExecute() && collection.size() == 1)
     {
+      dropCommand.dispose();
       dropCommand = SetCommand.create(domain, owner, null, collection.iterator().next());
+    }
+
+    if (!dropCommand.canExecute() || analyzeForNonContainment(dropCommand))
+    {
+      dropCommand.dispose();
+      dropCommand = AddCommand.create(domain, owner, null, collection);
     }
 
     boolean result = dropCommand.canExecute();
@@ -705,7 +815,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     // is the same test as adding the clipboard contents itself.
     //
     Command addCommand = AddCommand.create(domain, owner, null, collection);
-    boolean result = addCommand.canExecute();
+    boolean result = addCommand.canExecute() && !analyzeForNonContainment(addCommand);
     addCommand.dispose();
     return result;
   }
