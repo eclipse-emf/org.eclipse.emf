@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XSDUtil.java,v 1.2 2004/07/28 14:24:07 emerks Exp $
+ * $Id: XSDUtil.java,v 1.3 2004/12/24 17:46:16 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
@@ -29,6 +30,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.impl.XSDNamedComponentImpl;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
 
 
@@ -351,5 +353,19 @@ public final class XSDUtil extends XSDConstants
   public static interface ByteSequence
   {
     byte[] getBytes();
+  }
+
+  /**
+   * Returns the matching named component in the sorted list of named components, 
+   * or <code>null</null> if there isn't one.
+   * This list is expected to be one of a {@link XSDSchema schema's} list of named components.
+   * @param xsdNamedComponents a sorted lists of named components.
+   * @param namespace the namespace to search
+   * @param name the name to search
+   * @return the matching component, if any.
+   */
+  public XSDNamedComponent findInSortedList(List xsdNamedComponents, String namespace, String name)
+  {
+    return XSDNamedComponentImpl.findInSortedList(xsdNamedComponents, namespace, name);
   }
 }
