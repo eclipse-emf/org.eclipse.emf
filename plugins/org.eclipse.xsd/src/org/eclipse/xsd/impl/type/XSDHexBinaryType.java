@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDHexBinaryType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
+ * $Id: XSDHexBinaryType.java,v 1.3 2004/07/28 14:23:24 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -25,9 +25,9 @@ public class XSDHexBinaryType extends XSDAnySimpleType
     byte[] bytes = HexBin.decode(literal);
     if (bytes != null)
     {
-    	return new HexSequence(this, bytes);
+      return new HexSequence(this, bytes);
     }
-  	return null;
+    return null;
   }
 
 }

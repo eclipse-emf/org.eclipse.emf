@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFloatType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
+ * $Id: XSDFloatType.java,v 1.3 2004/07/28 14:23:24 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -22,13 +22,13 @@ public class XSDFloatType extends XSDAnySimpleType
   public Object getValue(String literal)
   {
     try 
-	{
-    	return new Float(literal);
-	}
+    {
+      return new Float(literal);
+    }
     catch (NumberFormatException e)
-	{
-    	return null;
-	}
+    {
+      return null;
+    }
   }
 
   public int compareValues(Object value1, Object value2)

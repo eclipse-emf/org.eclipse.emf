@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDoubleType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
+ * $Id: XSDDoubleType.java,v 1.3 2004/07/28 14:23:24 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -21,14 +21,14 @@ public class XSDDoubleType extends XSDAnySimpleType
 
   public Object getValue(String literal)
   {
-  	try 
-	{
-    	return new Double(literal);
-	}
-  	catch (NumberFormatException e)
-	{
-  		return null;
-	}
+    try 
+    {
+      return new Double(literal);
+    }
+    catch (NumberFormatException e)
+    {
+      return null;
+    }
   }
 
   public int compareValues(Object value1, Object value2)

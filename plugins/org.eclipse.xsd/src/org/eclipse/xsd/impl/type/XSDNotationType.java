@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNotationType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
+ * $Id: XSDNotationType.java,v 1.3 2004/07/28 14:23:24 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -22,13 +22,13 @@ public class XSDNotationType extends XSDAnySimpleType
 {
   public Object getValue (String literal)
   {
-  	try
-	{
-  		return new QName(literal);
-	}
-  	catch (RuntimeException e)
-	{
-  		return null;
-	}
+    try
+    {
+      return new QName(literal);
+    }
+    catch (RuntimeException exception)
+    {
+      return null;
+    }
   }
 }
