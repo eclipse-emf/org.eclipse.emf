@@ -12,12 +12,17 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.2 2004/05/16 17:17:16 emerks Exp $
+ * $Id: CommonPlugin.java,v 1.3 2004/05/29 16:06:14 emerks Exp $
  */
 package org.eclipse.emf.common;
 
 
+import java.io.IOException;
+import java.net.URL;
+
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.URI;
 
 
 /**
@@ -70,6 +75,14 @@ public final class CommonPlugin extends EMFPlugin
   }
 
   /**
+   * Use the platform, if available, to convert to a local URI.
+   */
+  public static URI asLocalURI(URI uri)
+  {
+    return plugin == null ? uri : Implementation.asLocalURI(uri);
+  }
+
+  /**
    * The actual implementation of the Eclipse <b>Plugin</b>.
    */
   public static class Implementation extends EclipsePlugin 
@@ -85,6 +98,31 @@ public final class CommonPlugin extends EMFPlugin
       // Remember the static instance.
       //
       plugin = this;
+    }
+
+    /**
+     * Use the platform to convert to a local URI.
+     */
+    protected static URI asLocalURI(URI uri)
+    {
+      try
+      {
+        String fragment = uri.fragment();
+        URL url = Platform.asLocalURL(new URL(uri.trimFragment().toString()));
+        URI result = 
+          "file".equalsIgnoreCase(url.getProtocol()) ?
+            URI.createFileURI(url.getFile()) :
+            URI.createURI(url.toString());
+        if (fragment != null)
+        {
+          result = result.appendFragment(fragment);
+        }
+        return result;
+      }
+      catch (IOException exception)
+      {
+      }
+      return uri;
     }
   }
 }
