@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryImpl.java,v 1.6 2004/08/12 13:50:19 emerks Exp $
+ * $Id: EObjectToChangesMapEntryImpl.java,v 1.7 2004/12/09 06:50:06 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -128,7 +128,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
     {
       EObject oldKey = key;
       EObject newKey = getTypedKeyGen();
-      if (newKey != oldKey)
+      if (!newKey.eIsProxy())
       {
         eFlags &= ~EPROXY_KEY;
       }
@@ -167,7 +167,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
   public void setTypedKey(EObject newKey)
   {
     setTypedKeyGen(newKey);
-    if (key != null && key.eIsProxy())
+    if (key != null)
     {
       eFlags |= EPROXY_KEY;
     }
