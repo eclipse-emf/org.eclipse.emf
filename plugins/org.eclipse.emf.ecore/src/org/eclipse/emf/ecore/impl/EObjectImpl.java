@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EObjectImpl.java,v 1.2 2004/06/08 18:30:57 emerks Exp $
+ * $Id: EObjectImpl.java,v 1.3 2004/07/21 19:56:51 elena Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -40,11 +41,16 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
    * The bit of {@link #eFlags} that is used to represent {@link #eDeliver}.
    */
   protected static final int EDELIVER = 0x0001;
+  
+  /**
+   * The bit of {@link #eFlags} that is used to represent {@link #eProxy}.
+   */
+  protected static final int EPROXY = 0x0010;
 
   /**
    * The last bit used by this class; derived classes may use bit values higher than this
    */
-  protected static final int ELAST_NOTIFIER_FLAG = EDELIVER;
+  protected static final int ELAST_NOTIFIER_FLAG = EPROXY;
 
   /**
    * This is unused, but we can reserve bits with eFlags.
@@ -127,6 +133,30 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
     }
   }
 
+  /* 
+   * @see org.eclipse.emf.ecore.EObject#eIsProxy()
+   */
+  public boolean eIsProxy()
+  {
+    return (eFlags & EPROXY) != 0;
+  }
+  
+  /* 
+   * @see org.eclipse.emf.ecore.InternalEObject#eSetProxyURI(org.eclipse.emf.common.util.URI)
+   */
+  public void eSetProxyURI(URI uri)
+  {
+    super.eSetProxyURI(uri);
+    if (uri != null)
+    {
+      this.eFlags |= EPROXY;
+    }
+    else
+    {
+      this.eFlags &= ~EPROXY;
+    }
+  }
+  
   protected EPropertiesHolder eProperties()
   {
     if (eProperties == null)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.14 2004/06/30 20:38:40 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.15 2004/07/21 19:56:48 elena Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -156,11 +156,11 @@ public class ChangeRecorder implements Adapter
       if (feature instanceof EReference)
       {
         EReference eReference = (EReference)feature;
-        handleFeature(eReference, eReference.isContainment() ? eReference : null, notification);
+        handleFeature(eReference, eReference.isContainment() ? eReference : null, notification, (EObject)notifier);
       }
       else
       {
-        handleFeature((EStructuralFeature)feature, null, notification);
+        handleFeature((EStructuralFeature)feature, null, notification, (EObject) notifier);
       }
     }
     else if (notifier instanceof Resource)
@@ -197,12 +197,11 @@ public class ChangeRecorder implements Adapter
     }
   }
 
-  protected void handleFeature(EStructuralFeature feature, EReference containment, Notification notification)
+  protected void handleFeature(EStructuralFeature feature, EReference containment, Notification notification, EObject eObject)
   {
     if (!feature.isChangeable())
       return;
 
-    EObject eObject = (EObject)notification.getNotifier();
     List changes = getFeatureChanges(eObject);
     FeatureChange change = getFeatureChange(changes, feature);
 
