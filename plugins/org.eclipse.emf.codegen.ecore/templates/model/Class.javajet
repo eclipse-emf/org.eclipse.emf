@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.7 2004/06/11 16:10:34 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.8 2004/06/11 22:13:28 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -98,7 +98,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 */
 	protected <%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = <%=genFeature.getUpperName()%>_EDEFAULT;
 
-          <%if (!genFeature.isListType() && genFeature.isUnsettable() && genFeature.isChangeable()) {%>
+        <%}%>
+      <%}%>
+      <%if (!genFeature.isListType() && genFeature.isUnsettable() && genFeature.isChangeable()) {%>
 	/**
 	 * This is true if the <%=genFeature.getFormattedName()%> <%=genFeature.getFeatureKind()%> has been set.
 	 * <!-- begin-user-doc -->
@@ -108,8 +110,6 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 */
 	protected boolean <%=genFeature.getUncapName()%>ESet = false;
 
-          <%}%>
-        <%}%>
       <%}%>
     <%}%>
   <%}%>

@@ -898,6 +898,8 @@ public class Class
     stringBuffer.append(TEXT_48);
     stringBuffer.append(genFeature.getUpperName());
     stringBuffer.append(TEXT_49);
+    }
+    }
     if (!genFeature.isListType() && genFeature.isUnsettable() && genFeature.isChangeable()) {
     stringBuffer.append(TEXT_50);
     stringBuffer.append(genFeature.getFormattedName());
@@ -906,8 +908,6 @@ public class Class
     stringBuffer.append(TEXT_52);
     stringBuffer.append(genFeature.getUncapName());
     stringBuffer.append(TEXT_53);
-    }
-    }
     }
     }
     }
