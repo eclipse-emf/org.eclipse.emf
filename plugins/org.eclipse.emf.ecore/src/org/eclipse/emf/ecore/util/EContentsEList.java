@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentsEList.java,v 1.3 2004/05/22 19:08:06 marcelop Exp $
+ * $Id: EContentsEList.java,v 1.4 2004/06/04 13:11:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -541,7 +541,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       {
         while (values.hasPrevious())
         {
-          FeatureMap.Entry entry = (FeatureMap.Entry)values.next();
+          FeatureMap.Entry entry = (FeatureMap.Entry)values.previous();
           EStructuralFeature entryFeature = entry.getEStructuralFeature();
           if (isIncludedEntry(entryFeature) && entry.getValue() != null)
           {
