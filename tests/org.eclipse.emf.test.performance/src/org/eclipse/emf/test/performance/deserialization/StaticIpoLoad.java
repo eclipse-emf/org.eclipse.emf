@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: StaticIpo.java,v 1.2 2005/02/04 22:11:08 elena Exp $
+ * $Id: StaticIpoLoad.java,v 1.1 2005/02/04 22:11:08 elena Exp $
  */
-package org.eclipse.emf.test.performance.serialization;
+package org.eclipse.emf.test.performance.deserialization;
 
 
 import junit.framework.Test;
@@ -32,10 +32,10 @@ import com.example.ipo.util.IpoResourceFactoryImpl;
 /**
  * Test serialization of ipo.xml using static model.
  */
-public class StaticIpo extends DynamicIpo
+public class StaticIpoLoad extends DynamicIpoLoad
 {
 
-  public StaticIpo(String name)
+  public StaticIpoLoad(String name)
   {
     super(name);
     EPackage.Registry.INSTANCE.clear();
@@ -43,9 +43,10 @@ public class StaticIpo extends DynamicIpo
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite("StaticIpo");
-    ts.addTest(new StaticIpo("testSer").setRepetitions(REPETITIONS));
-    ts.addTest(new StaticIpo("testSerCaching").setRepetitions(REPETITIONS));
+    TestSuite ts = new TestSuite("StaticIpoLoad");
+    ts.addTest(new StaticIpoLoad("testLoad").setRepetitions(REPETITIONS));
+    ts.addTest(new StaticIpoLoad("testLoadParserCache").setRepetitions(REPETITIONS));
+    ts.addTest(new StaticIpoLoad("testLoadParserAndFeatureMapCache").setRepetitions(REPETITIONS));
     return ts;
   }
 

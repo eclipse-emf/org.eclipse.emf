@@ -12,13 +12,11 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpo.java,v 1.2 2005/02/04 22:11:08 elena Exp $
+ * $Id: DynamicIpoLoad.java,v 1.1 2005/02/04 22:11:08 elena Exp $
  */
-package org.eclipse.emf.test.performance.serialization;
+package org.eclipse.emf.test.performance.deserialization;
 
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,8 +32,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xmi.XMLParserPool;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.test.performance.EMFPerformanceTestCase;
 import org.eclipse.emf.test.performance.TestUtil;
@@ -44,15 +44,15 @@ import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
 
 /**
- * Test serialization of ipo.xml using dynamic model
+ * Test deserialization of ipo.xml using dynamic model
  */
-public class DynamicIpo extends EMFPerformanceTestCase
+public class DynamicIpoLoad extends EMFPerformanceTestCase
 {
   final static String BASE_XSD_URI = "file:///" + TestUtil.getPluginDirectory() + "/data/";
-  
+
   final static int REPETITIONS = 10;
 
-  final static int ITERATIONS = 1500;
+  final static int ITERATIONS = 1000;
 
   final static int WARMUP = 3000;
 
@@ -62,11 +62,11 @@ public class DynamicIpo extends EMFPerformanceTestCase
 
   HashMap options = new HashMap();
 
-  ArrayList cache = new ArrayList();
+  ResourceSet rs;
 
-  ByteArrayOutputStream outputstream = new ByteArrayOutputStream(2064);
+  XMLParserPool parserPool = new XMLParserPoolImpl();
 
-  public DynamicIpo(String name)
+  public DynamicIpoLoad(String name)
   {
     super(name);
     EPackage.Registry.INSTANCE.clear();
@@ -74,9 +74,10 @@ public class DynamicIpo extends EMFPerformanceTestCase
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite("DynamicIpo");
-    ts.addTest(new DynamicIpo("testSer").setRepetitions(REPETITIONS));
-    ts.addTest(new DynamicIpo("testSerCaching").setRepetitions(REPETITIONS));
+    TestSuite ts = new TestSuite("DynamicIpoLoad");
+    ts.addTest(new DynamicIpoLoad("testLoad").setRepetitions(REPETITIONS));
+    ts.addTest(new DynamicIpoLoad("testLoadParserCache").setRepetitions(REPETITIONS));
+    ts.addTest(new DynamicIpoLoad("testLoadParserAndFeatureMapCache").setRepetitions(REPETITIONS));
     return ts;
   }
 
@@ -85,20 +86,22 @@ public class DynamicIpo extends EMFPerformanceTestCase
    */
   protected void setUp() throws Exception
   {
-    super.setUp();   
-    ResourceSet rs = new ResourceSetImpl();  
-    options.put(XMLResource.OPTION_EXTENDED_META_DATA, registerModel(rs));
+    super.setUp();
 
-    // SET INSTANCE DOCUMENT URI
-    resource = rs.createResource(getXMLInstanceURI());
-    
-    // LOAD INSTANCE DOCUMENT
-    resource.load(options);
-     
+    HashMap warmupOptions = new HashMap();
+
+    rs = new ResourceSetImpl();
+    ExtendedMetaData metaData = registerModel(rs);
+
+    options.put(XMLResource.OPTION_EXTENDED_META_DATA, metaData);
+
+    warmupOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, metaData);
+    warmupOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+    warmupOptions.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap());
     // WARMUP
-    serialize(WARMUP, options);
+    load(WARMUP, warmupOptions);
   }
-  
+
   protected ExtendedMetaData registerModel(ResourceSet rs)
   {
     Registry packageRegistry = rs.getPackageRegistry();
@@ -108,7 +111,7 @@ public class DynamicIpo extends EMFPerformanceTestCase
     rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMLResourceFactoryImpl());
 
     Collection packageList = xsdEcoreBuilder.generate(getXSDURI());
-   
+
     for (Iterator packageIterator = packageList.iterator(); packageIterator.hasNext();)
     {
       EPackage epackage = (EPackage)packageIterator.next();
@@ -118,12 +121,12 @@ public class DynamicIpo extends EMFPerformanceTestCase
 
     return new BasicExtendedMetaData(packageRegistry);
   }
-  
+
   protected URI getXMLInstanceURI()
   {
     return URI.createURI(BASE_XSD_URI + "ipo.xml");
   }
-  
+
   protected URI getXSDURI()
   {
     return URI.createURI(BASE_XSD_URI + "ipo.xsd");
@@ -133,13 +136,13 @@ public class DynamicIpo extends EMFPerformanceTestCase
    * <p>
    * Test details:
    * </p>
-   * Tests serialization of data/ipo.xml. No special options set up.
+   * Tests load of data/ipo.xml. No special options set up.
    * @throws Exception
    */
-  public void testSer() throws Exception
+  public void testLoad() throws Exception
   {
     startMeasuring();
-    serialize(ITERATIONS, options);
+    load(ITERATIONS, options);
     stopMeasuring();
   }
 
@@ -147,24 +150,42 @@ public class DynamicIpo extends EMFPerformanceTestCase
    * <p>
    * Test details:
    * </p>
-   * Tests serialization of data/ipo.xml. The XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE is specified.
+   * Tests loading of data/ipo.xml. The XMLResource.OPTION_USE_PARSER_POOL is set.
    * @throws Exception
    */
-  public void testSerCaching() throws Exception
+  public void testLoadParserCache() throws Exception
   {
-    options.put(XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE, cache);
+    options.put(XMLResource.OPTION_USE_PARSER_POOL, parserPool);
     startMeasuring();
-    serialize(ITERATIONS, options);
+    load(ITERATIONS, options);
     stopMeasuring();
   }
 
-  protected void serialize(int iter, HashMap saveOptions) throws Exception
+  /**
+   * <p>
+   * Test details:
+   * </p>
+   * Tests loading of data/ipo.xml. 
+   * The XMLResource.OPTION_USE_PARSER_POOL is set.
+   * The XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP is set.
+   * @throws Exception
+   */
+  public void testLoadParserAndFeatureMapCache() throws Exception
+  {
+    options.put(XMLResource.OPTION_USE_PARSER_POOL, parserPool);
+    options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap());
+    startMeasuring();
+    load(ITERATIONS, options);
+    stopMeasuring();
+  }
+
+  protected void load(int iter, HashMap loadOptions) throws Exception
   {
     for (int i = 0; i < iter; i++)
     {
-      resource.save(outputstream, saveOptions);
-      outputstream.close();
-      outputstream.reset();
+      rs.getResources().clear();
+      Resource resource = rs.createResource(getXMLInstanceURI());
+      resource.load(loadOptions);
     }
   }
 
