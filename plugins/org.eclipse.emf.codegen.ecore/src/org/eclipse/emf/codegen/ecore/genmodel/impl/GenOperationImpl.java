@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.6 2005/03/07 21:26:07 khussey Exp $
+ * $Id: GenOperationImpl.java,v 1.7 2005/04/04 19:23:46 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -474,9 +474,9 @@ public class GenOperationImpl extends GenBaseImpl implements GenOperation
         }
       }
 
-      GenParameter genParameter = ePackageGenModel().getGenModelFactory().createGenParameter();
-      genParameter.initialize(parameter);
+      GenParameter genParameter = getGenModel().createGenParameter();
       getGenParameters().add(genParameter);
+      genParameter.initialize(parameter);
     }
   }
 

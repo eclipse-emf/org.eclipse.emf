@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.17 2005/03/07 21:26:07 khussey Exp $
+ * $Id: GenPackageImpl.java,v 1.18 2005/04/04 19:23:14 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1698,24 +1698,24 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       if (eClassifier instanceof EClass)
       {
         EClass eClass = (EClass)eClassifier;
-        GenClass genClass = ePackageGenModel().getGenModelFactory().createGenClass();
-        genClass.initialize(eClass);
+        GenClass genClass = getGenModel().createGenClass();
         getGenClasses().add(genClass);
+        genClass.initialize(eClass);
 
       }
       else if (eClassifier instanceof EEnum)
       {
         EEnum eEnum = (EEnum)eClassifier;
-        GenEnum genEnum = ePackageGenModel().getGenModelFactory().createGenEnum();
-        genEnum.initialize(eEnum);
+        GenEnum genEnum = getGenModel().createGenEnum();
         getGenEnums().add(genEnum);
+        genEnum.initialize(eEnum);
       }
       else if (eClassifier instanceof EDataType)
       {
         EDataType eDataType = (EDataType)eClassifier;
-        GenDataType genDataType = ePackageGenModel().getGenModelFactory().createGenDataType();
-        genDataType.initialize(eDataType);
+        GenDataType genDataType = getGenModel().createGenDataType();
         getGenDataTypes().add(genDataType);
+        genDataType.initialize(eDataType);
       }
     }
 
@@ -1734,9 +1734,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         }
       }
 
-      GenPackage genPackage = ePackageGenModel().getGenModelFactory().createGenPackage();
-      genPackage.initialize(nestedEPackage);
+      GenPackage genPackage = getGenModel().createGenPackage();
       getNestedGenPackages().add(genPackage);
+      genPackage.initialize(nestedEPackage);
     }
 
     if (isDifferentPackage)

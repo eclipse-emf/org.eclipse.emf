@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.23 2005/03/16 20:52:49 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.24 2005/04/04 19:23:46 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1073,9 +1073,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           }
         }
 
-        GenFeature genFeature = ePackageGenModel().getGenModelFactory().createGenFeature();
-        genFeature.initialize(attribute);
+        GenFeature genFeature = getGenModel().createGenFeature();
         getGenFeatures().add(localFeatureIndex++, genFeature);
+        genFeature.initialize(attribute);
       }
       else
       {
@@ -1092,9 +1092,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           }
         }
 
-        GenFeature genFeature = ePackageGenModel().getGenModelFactory().createGenFeature();
-        genFeature.initialize(reference);
+        GenFeature genFeature = getGenModel().createGenFeature();
         getGenFeatures().add(localFeatureIndex++, genFeature);
+        genFeature.initialize(reference);
       }
     }
     
@@ -1113,9 +1113,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         }
       }
 
-      GenOperation genOperation = ePackageGenModel().getGenModelFactory().createGenOperation();
-      genOperation.initialize(operation);
+      GenOperation genOperation = getGenModel().createGenOperation();
       getGenOperations().add(genOperation);
+      genOperation.initialize(operation);
     }
   }
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.3 2004/08/04 11:43:04 emerks Exp $
+ * $Id: GenEnumImpl.java,v 1.4 2005/04/04 19:23:46 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -387,9 +387,9 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
         }
       }
 
-      GenEnumLiteral genEnumLiteral = ePackageGenModel().getGenModelFactory().createGenEnumLiteral();
-      genEnumLiteral.initialize(eEnumLiteral);
+      GenEnumLiteral genEnumLiteral = getGenModel().createGenEnumLiteral();
       getGenEnumLiterals().add(genEnumLiteral);
+      genEnumLiteral.initialize(eEnumLiteral);
     }
   }
 
