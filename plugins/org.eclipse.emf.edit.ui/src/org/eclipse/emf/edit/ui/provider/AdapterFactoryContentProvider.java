@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryContentProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: AdapterFactoryContentProvider.java,v 1.2 2004/03/31 20:11:59 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -20,9 +20,11 @@ package org.eclipse.emf.edit.ui.provider;
 import java.util.Collections;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
+import org.eclipse.swt.widgets.Display;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
@@ -32,6 +34,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.IViewerNotification;
 
 
 /**
@@ -234,16 +237,83 @@ public class AdapterFactoryContentProvider
 
   public void notifyChanged(Notification notification)
   {
-    if (viewer != null)
+    if (viewer != null && viewer.getControl() != null && !viewer.getControl().isDisposed())
     {
-      NotifyChangedToViewerRefresh.handleNotifyChanged
-        (viewer, 
-         notification.getNotifier(), 
-         notification.getEventType(), 
-         notification.getFeature(), 
-         notification.getOldValue(), 
-         notification.getNewValue(), 
-         notification.getPosition());
+      // If the notification is an IViewerNotification, it specifies how ViewerRefresh should behave.  Otherwise fall
+      // back to NotifyChangedToViewerRefresh, which determines how to refresh the viewer directly from the model
+      // notification.
+      //
+      if (notification instanceof IViewerNotification)
+      {
+        ViewerRefresh viewerRefresh = new ViewerRefresh(viewer, (IViewerNotification)notification);
+
+        Display d = viewer.getControl().getDisplay();
+        if (d != Display.getCurrent())
+        {
+          d.asyncExec(viewerRefresh);
+        }
+        else
+        {
+          viewerRefresh.run();
+        }
+      }
+      else
+      {
+        NotifyChangedToViewerRefresh.handleNotifyChanged(
+          viewer,
+          notification.getNotifier(),
+          notification.getEventType(),
+          notification.getFeature(),
+          notification.getOldValue(),
+          notification.getNewValue(),
+          notification.getPosition());
+      }
+    }
+  }
+
+  /**
+   * A runnable class that efficiently updates a {@link org.eclipse.jface.viewers.Viewer} via standard APIs, based on
+   * an {@link org.eclipse.emf.edit.provider.IViewerNotification} from the model's item providers.
+   */
+  public static class ViewerRefresh implements Runnable
+  {
+    Viewer viewer;
+    IViewerNotification notification;
+
+    public ViewerRefresh(Viewer viewer, IViewerNotification notification)
+    {
+      this.viewer = viewer;
+      this.notification = notification;
+    }
+
+    public void run()
+    {
+      Object element = notification.getElement();
+
+      if (viewer instanceof StructuredViewer)
+      {
+        StructuredViewer structuredViewer = (StructuredViewer)viewer;
+
+        if (element != null)
+        {
+          if (notification.isContentRefresh())
+          {
+            structuredViewer.refresh(element, notification.isLabelUpdate());
+          }
+          else if (notification.isLabelUpdate())
+          {
+            structuredViewer.update(element, null);
+          }
+        }
+        else
+        {
+          structuredViewer.refresh(notification.isLabelUpdate());
+        }
+      }
+      else
+      {
+        viewer.refresh();
+      }
     }
   }
 }
