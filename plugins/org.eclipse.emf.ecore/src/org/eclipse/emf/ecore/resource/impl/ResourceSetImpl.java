@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetImpl.java,v 1.4 2004/08/26 12:08:46 emerks Exp $
+ * $Id: ResourceSetImpl.java,v 1.5 2004/10/14 19:02:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -155,7 +155,9 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    */
   public TreeIterator getAllContents()
   {
-    return EcoreUtil.getAllContents(Collections.singleton(this));
+    TreeIterator result = EcoreUtil.getAllContents(Collections.singleton(this));
+    result.next();
+    return result;
   }
 
   /*
