@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.6 2004/05/23 04:19:35 davidms Exp $
+ * $Id: EcoreUtil.java,v 1.7 2004/06/16 15:50:28 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -59,10 +59,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  */
 public class EcoreUtil
 {
-//   // Suppress default constructor for noninstantiability.
-//   private EcoreUtil()
-//   {
-//   }
+  //   // Suppress default constructor for noninstantiability.
+  //   private EcoreUtil()
+  //   {
+  //   }
 
   /**
    * Returns the specified notifier's exisiting adapter of the specified type.
@@ -156,7 +156,7 @@ public class EcoreUtil
    */
   public static AdapterFactory getAdapterFactory(List adapterFactories, Object type)
   {
-    for (Iterator iter = adapterFactories.iterator(); iter.hasNext(); )
+    for (Iterator iter = adapterFactories.iterator(); iter.hasNext();)
     {
       AdapterFactory factory = (AdapterFactory)iter.next();
       if (factory.isFactoryForType(type))
@@ -194,7 +194,7 @@ public class EcoreUtil
           EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(proxyURI.trimFragment().toString());
           if (ePackage != null)
           {
-            Resource resource =  ePackage.eResource();
+            Resource resource = ePackage.eResource();
             if (resource != null)
             {
               resolvedObject = resource.getEObject(proxyURI.fragment().toString());
@@ -253,7 +253,7 @@ public class EcoreUtil
    */
   public static Object getObjectByType(Collection objects, EClassifier type)
   {
-    for (Iterator i = objects.iterator(); i.hasNext(); )
+    for (Iterator i = objects.iterator(); i.hasNext();)
     {
       Object object = i.next();
       if (type.isInstance(object))
@@ -273,7 +273,7 @@ public class EcoreUtil
   public static Collection getObjectsByType(Collection objects, EClassifier type)
   {
     Collection result = new ArrayList();
-    for (Iterator i = objects.iterator(); i.hasNext(); )
+    for (Iterator i = objects.iterator(); i.hasNext();)
     {
       Object object = i.next();
       if (type.isInstance(object))
@@ -341,7 +341,7 @@ public class EcoreUtil
     public Collection copyAll(Collection eObjects)
     {
       Collection result = new ArrayList(eObjects.size());
-      for (Iterator i = eObjects.iterator(); i.hasNext(); )
+      for (Iterator i = eObjects.iterator(); i.hasNext();)
       {
         result.add(copy((EObject)i.next()));
       }
@@ -357,7 +357,7 @@ public class EcoreUtil
     {
       EObject copyEObject = createCopy(eObject);
       put(eObject, copyEObject);
-      for (Iterator i = eObject.eClass().getEAllStructuralFeatures().iterator(); i.hasNext(); )
+      for (Iterator i = eObject.eClass().getEAllStructuralFeatures().iterator(); i.hasNext();)
       {
         EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
         if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived())
@@ -429,7 +429,7 @@ public class EcoreUtil
         {
           ((List)copyEObject.eGet(getTarget(eReference))).addAll(copyAll((List)eObject.eGet(eReference)));
         }
-        else 
+        else
         {
           EObject childEObject = (EObject)eObject.eGet(eReference);
           copyEObject.eSet(getTarget(eReference), childEObject == null ? null : copy(childEObject));
@@ -451,7 +451,7 @@ public class EcoreUtil
         if (FeatureMapUtil.isFeatureMap(eAttribute))
         {
           FeatureMap featureMap = (FeatureMap)eObject.eGet(eAttribute);
-          for (Iterator i = featureMap.iterator(); i.hasNext(); )
+          for (Iterator i = featureMap.iterator(); i.hasNext();)
           {
             FeatureMap.Entry entry = (FeatureMap.Entry)i.next();
             EStructuralFeature feature = entry.getEStructuralFeature();
@@ -469,7 +469,7 @@ public class EcoreUtil
         {
           ((List)copyEObject.eGet(getTarget(eAttribute))).addAll((List)eObject.eGet(eAttribute));
         }
-        else 
+        else
         {
           copyEObject.eSet(getTarget(eAttribute), eObject.eGet(eAttribute));
         }
@@ -481,16 +481,16 @@ public class EcoreUtil
      */
     public void copyReferences()
     {
-      for (Iterator i = entrySet().iterator(); i.hasNext(); )
+      for (Iterator i = entrySet().iterator(); i.hasNext();)
       {
         Map.Entry entry = (Map.Entry)i.next();
         EObject eObject = (EObject)entry.getKey();
         EObject copyEObject = (EObject)entry.getValue();
         EClass eClass = eObject.eClass();
-        for (Iterator j = eClass.getEAllStructuralFeatures().iterator(); j.hasNext(); )
+        for (Iterator j = eClass.getEAllStructuralFeatures().iterator(); j.hasNext();)
         {
           EStructuralFeature eStructuralFeature = (EStructuralFeature)j.next();
-          if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived()) 
+          if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived())
           {
             if (eStructuralFeature instanceof EReference)
             {
@@ -504,7 +504,7 @@ public class EcoreUtil
             {
               FeatureMap featureMap = (FeatureMap)eObject.eGet(eStructuralFeature);
               FeatureMap copyFeatureMap = (FeatureMap)copyEObject.eGet(getTarget(eStructuralFeature));
-              for (Iterator k = featureMap.iterator(); k.hasNext(); )
+              for (Iterator k = featureMap.iterator(); k.hasNext();)
               {
                 FeatureMap.Entry featureMapEntry = (FeatureMap.Entry)k.next();
                 EStructuralFeature feature = featureMapEntry.getEStructuralFeature();
@@ -540,7 +540,7 @@ public class EcoreUtil
       {
         InternalEList value = (InternalEList)copyEObject.eGet(getTarget(eReference));
         int index = 0;
-        for (Iterator k = ((List)eObject.eGet(eReference)).iterator(); k.hasNext(); )
+        for (Iterator k = ((List)eObject.eGet(eReference)).iterator(); k.hasNext();)
         {
           Object referencedEObject = k.next();
           Object copyReferencedEObject = get(referencedEObject);
@@ -552,7 +552,7 @@ public class EcoreUtil
               ++index;
             }
           }
-          else 
+          else
           {
             if (isBidirectional)
             {
@@ -832,10 +832,10 @@ public class EcoreUtil
     protected Iterator getResourceSetChildren(ResourceSet resourceSet)
     {
       final List resources = resourceSet.getResources();
-      return 
-        new Iterator()
+      return new Iterator()
         {
           int index = 0;
+
           public boolean hasNext()
           {
             return index < resources.size();
@@ -987,7 +987,7 @@ public class EcoreUtil
      */
     protected void crossReference()
     {
-      for (TreeIterator contents = newContentsIterator(); contents.hasNext(); )
+      for (TreeIterator contents = newContentsIterator(); contents.hasNext();)
       {
         Object content = contents.next();
         if (content instanceof EObject)
@@ -1008,12 +1008,8 @@ public class EcoreUtil
     protected void handleCrossReference(EObject eObject)
     {
       InternalEObject internalEObject = (InternalEObject)eObject;
-      for (EContentsEList.FeatureIterator crossReferences = 
-            (EContentsEList.FeatureIterator)
-              (resolve() ? 
-                 internalEObject.eCrossReferences().iterator() : 
-                 ((InternalEList)internalEObject.eCrossReferences()).basicIterator());
-           crossReferences.hasNext(); )
+      for (EContentsEList.FeatureIterator crossReferences = (EContentsEList.FeatureIterator)(resolve()
+        ? internalEObject.eCrossReferences().iterator() : ((InternalEList)internalEObject.eCrossReferences()).basicIterator()); crossReferences.hasNext();)
       {
         EObject crossReferencedEObject = (EObject)crossReferences.next();
         EReference eReference = (EReference)crossReferences.feature();
@@ -1053,14 +1049,14 @@ public class EcoreUtil
     {
       StringBuffer result = new StringBuffer("{"); // }
 
-      for (Iterator i = entrySet().iterator(); i.hasNext(); )
+      for (Iterator i = entrySet().iterator(); i.hasNext();)
       {
         Map.Entry entry = (Map.Entry)i.next();
         EObject eObject = (EObject)entry.getKey();
         result.append(getIdentification(eObject));
         result.append("=[");
         Collection collection = (Collection)entry.getValue();
-        for (Iterator j = collection.iterator(); j.hasNext(); )
+        for (Iterator j = collection.iterator(); j.hasNext();)
         {
           EStructuralFeature.Setting setting = (EStructuralFeature.Setting)j.next();
           EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
@@ -1089,12 +1085,12 @@ public class EcoreUtil
     {
       out.println('{'); // }
 
-      for (Iterator i = crossReferenceMap.entrySet().iterator(); i.hasNext(); )
+      for (Iterator i = crossReferenceMap.entrySet().iterator(); i.hasNext();)
       {
         Map.Entry entry = (Map.Entry)i.next();
         EObject eObject = (EObject)entry.getKey();
         out.print(" ");
-        out.print(getIdentification(eObject)); 
+        out.print(getIdentification(eObject));
         Collection collection = (Collection)entry.getValue();
         if (collection.isEmpty())
         {
@@ -1103,7 +1099,7 @@ public class EcoreUtil
         else
         {
           out.println(" =[");
-          for (Iterator j = collection.iterator(); j.hasNext(); )
+          for (Iterator j = collection.iterator(); j.hasNext();)
           {
             EStructuralFeature.Setting setting = (EStructuralFeature.Setting)j.next();
             EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
@@ -1139,7 +1135,7 @@ public class EcoreUtil
       else
       {
         out.println("[");
-        for (Iterator j = settings.iterator(); j.hasNext(); )
+        for (Iterator j = settings.iterator(); j.hasNext();)
         {
           EStructuralFeature.Setting setting = (EStructuralFeature.Setting)j.next();
           EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
@@ -1160,7 +1156,7 @@ public class EcoreUtil
   /**
    * A cross referencer that finds all references that are not contained within the content trees.
    */
-  public static class ExternalCrossReferencer extends CrossReferencer 
+  public static class ExternalCrossReferencer extends CrossReferencer
   {
     /**
      * Creates an instance for the given collection of objects.
@@ -1266,7 +1262,7 @@ public class EcoreUtil
   /**
    * A cross referencer that finds each usage of an EObject or collection of EObjects.
    */
-  public static class UsageCrossReferencer extends CrossReferencer 
+  public static class UsageCrossReferencer extends CrossReferencer
   {
     /**
      * The collection of usage target objects.
@@ -1393,7 +1389,7 @@ public class EcoreUtil
     {
       return new UsageCrossReferencer(emfObjectsToSearch).findUsage(eObjectOfInterest);
     }
-  
+
     /**
      * Returns a map of usage references from the specified content tree.
      * @param eObjectsOfInterest a collection of usage targets.
@@ -1442,7 +1438,7 @@ public class EcoreUtil
   /**
    * A cross referencer that finds proxies; the cross referencer will not cause proxies to be resolved.
    */
-  public static class ProxyCrossReferencer extends CrossReferencer 
+  public static class ProxyCrossReferencer extends CrossReferencer
   {
     /**
      * Creates an instance for the given object.
@@ -1557,7 +1553,7 @@ public class EcoreUtil
   /**
    * A cross referencer that finds proxies that cannot be resolved.
    */
-  public static class UnresolvedProxyCrossReferencer extends CrossReferencer 
+  public static class UnresolvedProxyCrossReferencer extends CrossReferencer
   {
     /**
      * Creates an instance for the given object.
@@ -1734,7 +1730,7 @@ public class EcoreUtil
         int size = uriFragmentPath.size();
         if (size > 0)
         {
-          for (int i = size - 1; ; --i)
+          for (int i = size - 1;; --i)
           {
             result.append((String)uriFragmentPath.get(i));
             if (i == 0)
@@ -1751,6 +1747,43 @@ public class EcoreUtil
         return URI.createURI(result.toString());
       }
     }
+  }
+
+  /**
+   * Searches for the first occurence of the given argument in list starting from
+   * a specified index.  The equality is tested using the operator <tt>==<tt> and
+   * the <tt>equals</tt> method. 
+   * @param list
+   * @param o an object (can be null)
+   * @param fromIndex 
+   * @return the index of the first occurrence of the argument in this
+   *         list (where index>=fromIndex); returns <tt>-1</tt> if the 
+   * 				 object is not found.
+   */
+  public static int indexOf(List list, Object o, int fromIndex)
+  {
+    if (fromIndex < 0)
+    {
+      fromIndex = 0;
+    }
+
+    int size = list.size();
+    for (int i = fromIndex; i < size; i++)
+    {
+      Object element = list.get(i);
+      if (o == null)
+      {
+        if (element == null)
+        {
+          return i;
+        }
+      }
+      else if (o == element || o.equals(element))
+      {
+        return i;
+      }
+    }
+    return -1;
   }
 
   /** 
@@ -1790,35 +1823,34 @@ public class EcoreUtil
       else
       {
         boolean done;
-        do {
+        do
+        {
           done = true;
           Object targetObject = eList.get(index);
           if (targetObject == null ? prototypeObject != null : !targetObject.equals(prototypeObject))
           {
-            int position = eList.indexOf(prototypeObject);
+            int position = indexOf(eList, prototypeObject, index);
             if (position != -1)
             {
-              if (position != index)
+              int targetIndex = indexOf(prototypeList, targetObject, index);
+              if (targetIndex == -1)
               {
-                int targetIndex = prototypeList.indexOf(targetObject);
-                if (targetIndex == -1)
+                eList.remove(index);
+                done = false;
+              }
+              else if (targetIndex > position)
+              {
+                if (eList.size() <= targetIndex)
                 {
-                  eList.remove(index);
-                  done = false;
+                  targetIndex = eList.size() - 1;
                 }
-                else if (targetIndex > position)
-                {
-                  if (eList.size() <= targetIndex)
-                  {
-                    targetIndex = eList.size() - 1;
-                  }
-                  eList.move(targetIndex, index);
-                  done = false;
-                }
-                else
-                {
-                  eList.move(index, position);
-                }
+                eList.move(targetIndex, index);
+                
+                done = false;
+              }
+              else
+              {
+                eList.move(index, position);
               }
             }
             else
@@ -1826,10 +1858,11 @@ public class EcoreUtil
               eList.add(index, prototypeObject);
             }
           }
-        } while (!done);
+        }
+        while (!done);
       }
     }
-    for (int i = eList.size(); i > index; )
+    for (int i = eList.size(); i > index;)
     {
       eList.remove(--i);
     }
@@ -2020,10 +2053,9 @@ public class EcoreUtil
   {
     EClass eClass = eObject.eClass();
     EAttribute eIDAttribute = eClass.getEIDAttribute();
-    return
-      eIDAttribute == null || !eObject.eIsSet(eIDAttribute) ?
-        null :
-        convertToString(eIDAttribute.getEAttributeType(), eObject.eGet(eIDAttribute));
+    return eIDAttribute == null || !eObject.eIsSet(eIDAttribute) ? null : convertToString(
+      eIDAttribute.getEAttributeType(),
+      eObject.eGet(eIDAttribute));
   }
 
   /**
@@ -2049,7 +2081,7 @@ public class EcoreUtil
     {
       eObject.eUnset(eIDAttribute);
     }
-    else 
+    else
     {
       eObject.eSet(eIDAttribute, createFromString(eIDAttribute.getEAttributeType(), id));
     }
@@ -2095,7 +2127,8 @@ public class EcoreUtil
       {
         return Byte.class;
       }
-      else // if (javaClass == Character.TYPE)
+      else
+      // if (javaClass == Character.TYPE)
       {
         return Character.class;
       }
@@ -2111,10 +2144,7 @@ public class EcoreUtil
   public static String getDocumentation(EModelElement eModelElement)
   {
     EAnnotation eAnnotation = eModelElement.getEAnnotation(GEN_MODEL_PACKAGE_NS_URI);
-    return
-      eAnnotation == null ?
-        null :
-        (String)eAnnotation.getDetails().get("documentation");
+    return eAnnotation == null ? null : (String)eAnnotation.getDetails().get("documentation");
   }
 
   public static void setDocumentation(EModelElement eModelElement, String documentation)
@@ -2139,8 +2169,7 @@ public class EcoreUtil
     else
     {
       List result = new ArrayList();
-      for (StringTokenizer stringTokenizer = new StringTokenizer((String)eAnnotation.getDetails().get("constraints")); 
-           stringTokenizer.hasMoreTokens(); )
+      for (StringTokenizer stringTokenizer = new StringTokenizer((String)eAnnotation.getDetails().get("constraints")); stringTokenizer.hasMoreTokens();)
       {
         String constraint = stringTokenizer.nextToken();
         result.add(constraint);
@@ -2168,7 +2197,7 @@ public class EcoreUtil
         eModelElement.getEAnnotations().add(eAnnotation);
       }
       StringBuffer value = new StringBuffer();
-      for (Iterator i = constraints.iterator(); i.hasNext(); )
+      for (Iterator i = constraints.iterator(); i.hasNext();)
       {
         value.append(i.next());
         if (i.hasNext())
@@ -2213,15 +2242,15 @@ public class EcoreUtil
     return UUID.generate();
   }
 
-  private static final class UUID 
+  private static final class UUID
   {
-    public synchronized static String generate() 
+    public synchronized static String generate()
     {
       updateCurrentTime();
 
       // Do a base 64 conversion by turning every 3 bytes into 4 base 64 characters
       //
-      for (int i = 0; i < 5; ++i) 
+      for (int i = 0; i < 5; ++i)
       {
         buffer[4 * i + 1] = BASE64_DIGITS[(uuid[i * 3] >> 2) & 0x3F];
         buffer[4 * i + 2] = BASE64_DIGITS[((uuid[i * 3] << 4) & 0x30) | ((uuid[i * 3 + 1] >> 4) & 0xF)];
@@ -2241,80 +2270,78 @@ public class EcoreUtil
     {
     }
 
-    private static final char [] BASE64_DIGITS =
-      {
-        'A',
-        'B',
-        'C',
-        'D',
-        'E',
-        'F',
-        'G',
-        'H',
-        'I',
-        'J',
-        'K',
-        'L',
-        'M',
-        'N',
-        'O',
-        'P',
-        'Q',
-        'R',
-        'S',
-        'T',
-        'U',
-        'V',
-        'W',
-        'X',
-        'Y',
-        'Z',
-        'a',
-        'b',
-        'c',
-        'd',
-        'e',
-        'f',
-        'g',
-        'h',
-        'i',
-        'j',
-        'k',
-        'l',
-        'm',
-        'n',
-        'o',
-        'p',
-        'q',
-        'r',
-        's',
-        't',
-        'u',
-        'v',
-        'w',
-        'x',
-        'y',
-        'z',
-        '0',
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '-',
-        '_' 
-      };
+    private static final char[] BASE64_DIGITS = {
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+      'G',
+      'H',
+      'I',
+      'J',
+      'K',
+      'L',
+      'M',
+      'N',
+      'O',
+      'P',
+      'Q',
+      'R',
+      'S',
+      'T',
+      'U',
+      'V',
+      'W',
+      'X',
+      'Y',
+      'Z',
+      'a',
+      'b',
+      'c',
+      'd',
+      'e',
+      'f',
+      'g',
+      'h',
+      'i',
+      'j',
+      'k',
+      'l',
+      'm',
+      'n',
+      'o',
+      'p',
+      'q',
+      'r',
+      's',
+      't',
+      'u',
+      'v',
+      'w',
+      'x',
+      'y',
+      'z',
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '-',
+      '_' };
 
     /**
      * An adjustment to convert the Java epoch of Jan 1, 1970 00:00:00 to
      * the epoch required by the IETF specification, Oct 15, 1582 00:00:00.
      */
-    private static final long EPOCH_ADJUSTMENT =
-      new GregorianCalendar(1970, 0, 1, 0, 0, 0).getTime().getTime() - new GregorianCalendar(1582, 9, 15, 0, 0, 0).getTime().getTime();
+    private static final long EPOCH_ADJUSTMENT = new GregorianCalendar(1970, 0, 1, 0, 0, 0).getTime().getTime()
+      - new GregorianCalendar(1582, 9, 15, 0, 0, 0).getTime().getTime();
 
     private static long lastTime = System.currentTimeMillis() + EPOCH_ADJUSTMENT;
 
@@ -2326,32 +2353,32 @@ public class EcoreUtil
      * A cached array of bytes representing the UUID. The second 8 bytes
      * will be kept the same unless the clock sequence has changed.
      */
-    private static final byte [] uuid = new byte[16];
+    private static final byte[] uuid = new byte [16];
 
-    private static final char [] buffer = new char[23];
+    private static final char[] buffer = new char [23];
 
-    static 
+    static
     {
       SecureRandom random = new SecureRandom();
 
-      clockSequence = (short) random.nextInt(16384);
+      clockSequence = (short)random.nextInt(16384);
       updateClockSequence();
 
       // Generate a 48 bit node identifier; 
       // This is an alternative to the IEEE 802 host address, which is not available in Java.
       //
-      byte[] nodeAddress = new byte[6];
+      byte[] nodeAddress = new byte [6];
 
       random.nextBytes(nodeAddress);
 
       // Set the most significant bit of the first octet to 1 so as to distinguish it from IEEE node addresses
       //
-      nodeAddress[0] |= (byte) 0x80;
+      nodeAddress[0] |= (byte)0x80;
 
       // The node identifier is already in network byte order, 
       // so there is no need to do any byte order reversing.
       //
-      for (int i = 0; i < 6; ++i) 
+      for (int i = 0; i < 6; ++i)
       {
         uuid[i + 10] = nodeAddress[i];
       }
@@ -2365,12 +2392,12 @@ public class EcoreUtil
      * comes before the low order byte. The variant is multiplexed into the
      * high order octet of clockseq_hi.
      */
-    private static void updateClockSequence() 
+    private static void updateClockSequence()
     {
       // clockseq_hi
-      uuid[8] = (byte) (((clockSequence >> 8) & 0x3F) | 0x80);
+      uuid[8] = (byte)(((clockSequence >> 8) & 0x3F) | 0x80);
       // clockseq_low
-      uuid[9] = (byte) (clockSequence & 0xFF); 
+      uuid[9] = (byte)(clockSequence & 0xFF);
     }
 
     /**
@@ -2379,54 +2406,54 @@ public class EcoreUtil
      * will have its first eight bytes populated with the time in the
      * correct sequence of bytes, as per the specification.
      */
-    private static void updateCurrentTime() 
+    private static void updateCurrentTime()
     {
       // Get the current time in milliseconds since the epoch 
       // and adjust it to match the epoch required by the specification.
       //
       long currentTime = System.currentTimeMillis() + EPOCH_ADJUSTMENT;
 
-      if (lastTime > currentTime) 
+      if (lastTime > currentTime)
       {
         // The system clock has been rewound so the clock sequence must be incremented 
         // to ensure that a duplicate UUID is not generated.
         //
         ++clockSequence;
 
-        if (16384 == clockSequence) 
+        if (16384 == clockSequence)
         {
           clockSequence = 0;
         }
 
         updateClockSequence();
-      } 
-      else if (lastTime == currentTime) 
+      }
+      else if (lastTime == currentTime)
       {
         // The system time hasn't changed so add some increment of 100s of nanoseconds to guarantee uniqueness.
         //
         ++timeAdjustment;
 
-        if (timeAdjustment > 9999) 
+        if (timeAdjustment > 9999)
         {
           // Wait so that the clock can catch up and the time adjustment won't overflow.
-          try 
+          try
           {
             Thread.sleep(1);
-          } 
-          catch (InterruptedException exception) 
+          }
+          catch (InterruptedException exception)
           {
           }
 
           timeAdjustment = 0;
           currentTime = System.currentTimeMillis() + EPOCH_ADJUSTMENT;
 
-          if (lastTime == currentTime) 
+          if (lastTime == currentTime)
           {
             throw new Error("Clock failure in generating a UUID.");
           }
         }
-      } 
-      else 
+      }
+      else
       {
         timeAdjustment = 0;
       }
@@ -2443,146 +2470,146 @@ public class EcoreUtil
 
       // Place the time into the byte array in network byte order.
       //
-      for (int i = 0; i < 4; ++i) 
+      for (int i = 0; i < 4; ++i)
       {
         // time_low
         //
-        uuid[i] = (byte) ((currentTime >> 8 * (3 - i)) & 0xFFL);
+        uuid[i] = (byte)((currentTime >> 8 * (3 - i)) & 0xFFL);
       }
 
-      for (int i = 0; i < 2; ++i) 
+      for (int i = 0; i < 2; ++i)
       {
         // time_mid
         //
-        uuid[i + 4] = (byte) ((currentTime >> 8 * (1 - i) + 32) & 0xFFL);
+        uuid[i + 4] = (byte)((currentTime >> 8 * (1 - i) + 32) & 0xFFL);
       }
 
-      for (int i = 0; i < 2; ++i) 
+      for (int i = 0; i < 2; ++i)
       {
         // time_hi
         //
-        uuid[i + 6] = (byte) ((currentTime >> 8 * (1 - i) + 48) & 0xFFL);
+        uuid[i + 6] = (byte)((currentTime >> 8 * (1 - i) + 48) & 0xFFL);
       }
     }
   }
 
-/*
-  static 
-  {
-    System.err.println("UUID");
-    for (int loop = 0; loop < 5; ++loop)
-    {
-      long before = System.currentTimeMillis(); 
-      long count = 500000;
-      for (int i = 0; i < count; ++i)
-      {
-        generateUUID();
-      }
-      long after = System.currentTimeMillis();
-      System.err.println("Elapsed " + (after - before));
-      System.err.println("Time " + 1000 * ((float)(after - before))/((float)count));
-    }
+  /*
+   static 
+   {
+   System.err.println("UUID");
+   for (int loop = 0; loop < 5; ++loop)
+   {
+   long before = System.currentTimeMillis(); 
+   long count = 500000;
+   for (int i = 0; i < count; ++i)
+   {
+   generateUUID();
+   }
+   long after = System.currentTimeMillis();
+   System.err.println("Elapsed " + (after - before));
+   System.err.println("Time " + 1000 * ((float)(after - before))/((float)count));
+   }
 
-    final EPackage ecorePackage = EPackage.Registry.INSTANCE.getEPackage("ecore.xmi");
-    final Resource ecorePackageResource = ecorePackage.eResource();
-    final EPackage genModelPackage = EPackage.Registry.INSTANCE.getEPackage("genmodel.xmi");
-    final Resource genModelPackageResource = genModelPackage.eResource();
+   final EPackage ecorePackage = EPackage.Registry.INSTANCE.getEPackage("ecore.xmi");
+   final Resource ecorePackageResource = ecorePackage.eResource();
+   final EPackage genModelPackage = EPackage.Registry.INSTANCE.getEPackage("genmodel.xmi");
+   final Resource genModelPackageResource = genModelPackage.eResource();
 
-    // Proxy finder.
-    //
-    {
-      // Create a proxy and stuff it into the eSuperTypes.
-      // This is a really very nasty thing to do.
-      //
-      EClass eClass = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEClass();
-      ((InternalEObject)eClass).eSetProxyURI(URI.createURI("Yes!"));
-      ((EClass)genModelPackage.getEClassifier("GenClass")).getESuperTypes().add(eClass);
+   // Proxy finder.
+   //
+   {
+   // Create a proxy and stuff it into the eSuperTypes.
+   // This is a really very nasty thing to do.
+   //
+   EClass eClass = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEClass();
+   ((InternalEObject)eClass).eSetProxyURI(URI.createURI("Yes!"));
+   ((EClass)genModelPackage.getEClassifier("GenClass")).getESuperTypes().add(eClass);
 
-      System.err.println("=========================================");
-      System.err.println("All proxy references in the GenModel EPackage");
-      Map proxyCrossReferences = ProxyCrossReferencer.find(genModelPackage);
-      CrossReferencer.print(System.err, proxyCrossReferences);
+   System.err.println("=========================================");
+   System.err.println("All proxy references in the GenModel EPackage");
+   Map proxyCrossReferences = ProxyCrossReferencer.find(genModelPackage);
+   CrossReferencer.print(System.err, proxyCrossReferences);
 
-      // Clean up the prox.
-      //
-      ((EClass)genModelPackage.getEClassifier("GenClass")).getESuperTypes().remove(eClass);
-    }
+   // Clean up the prox.
+   //
+   ((EClass)genModelPackage.getEClassifier("GenClass")).getESuperTypes().remove(eClass);
+   }
 
-    // External cross reference finder.
-    //
-    {
-      System.err.println("=========================================");
-      System.err.println("All cross document references in the GenModel EPackage");
-      Map externalCrossReferences = ExternalCrossReferencer.find(genModelPackage);
-      CrossReferencer.print(System.err, externalCrossReferences);
-    }
+   // External cross reference finder.
+   //
+   {
+   System.err.println("=========================================");
+   System.err.println("All cross document references in the GenModel EPackage");
+   Map externalCrossReferences = ExternalCrossReferencer.find(genModelPackage);
+   CrossReferencer.print(System.err, externalCrossReferences);
+   }
 
-    {
-      // Find uses for object of interest.
-      //
-      EObject objectOfInterest = ecorePackage.getEClassifier("EDataType");
-      System.err.println("=========================================");
-      System.err.println("Uses of: " + getIdentification(objectOfInterest));
+   {
+   // Find uses for object of interest.
+   //
+   EObject objectOfInterest = ecorePackage.getEClassifier("EDataType");
+   System.err.println("=========================================");
+   System.err.println("Uses of: " + getIdentification(objectOfInterest));
 
-      // Put the models in a resource set temporarily.
-      //
-      ResourceSet resourceSet = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();
-      resourceSet.getResources().add(ecorePackageResource);
-      resourceSet.getResources().add(genModelPackageResource);
+   // Put the models in a resource set temporarily.
+   //
+   ResourceSet resourceSet = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();
+   resourceSet.getResources().add(ecorePackageResource);
+   resourceSet.getResources().add(genModelPackageResource);
 
-      // Search the whole resource set.
-      //
-      Collection result = new UsageCrossReferencer(resourceSet).findUsage(objectOfInterest);
-      for (Iterator i = result.iterator(); i.hasNext(); )
-      {
-        // Show the settings that reference the objectOfInterest.
-        //
-        EStructuralFeature.Setting setting = (EStructuralFeature.Setting)i.next();
-        EObject eObject = setting.getEObject();
-        EStructuralFeature eStructuralFeature = (EStructuralFeature)setting.getEStructuralFeature();
-        System.err.println
-          (">   " + eStructuralFeature.getEContainingClass().getName() + "." + eStructuralFeature.getName() + 
-           " <- " + getIdentification(eObject));
-      }
+   // Search the whole resource set.
+   //
+   Collection result = new UsageCrossReferencer(resourceSet).findUsage(objectOfInterest);
+   for (Iterator i = result.iterator(); i.hasNext(); )
+   {
+   // Show the settings that reference the objectOfInterest.
+   //
+   EStructuralFeature.Setting setting = (EStructuralFeature.Setting)i.next();
+   EObject eObject = setting.getEObject();
+   EStructuralFeature eStructuralFeature = (EStructuralFeature)setting.getEStructuralFeature();
+   System.err.println
+   (">   " + eStructuralFeature.getEContainingClass().getName() + "." + eStructuralFeature.getName() + 
+   " <- " + getIdentification(eObject));
+   }
 
-      // Cleanup.
-      //
-      resourceSet.getResources().clear();
-    }
+   // Cleanup.
+   //
+   resourceSet.getResources().clear();
+   }
 
-    List list = org.eclipse.emf.ecore.EcorePackage.eINSTANCE.getEReference().getEAllStructuralFeatures();
+   List list = org.eclipse.emf.ecore.EcorePackage.eINSTANCE.getEReference().getEAllStructuralFeatures();
 
-    {
-      Object object = org.eclipse.emf.ecore.EcorePackage.eINSTANCE.getEReference_EReferenceType();
-  
-      for (int i = 0; i < 100; ++i)
-      {
-        list.indexOf(object);
-      }
-      long before = System.currentTimeMillis(); 
-      for (int i = 0; i < 500000; ++i)
-      {
-        list.indexOf(object);
-      }
-      long after = System.currentTimeMillis();
-      System.err.println("Elapsed " + (after - before));
-    }
+   {
+   Object object = org.eclipse.emf.ecore.EcorePackage.eINSTANCE.getEReference_EReferenceType();
+   
+   for (int i = 0; i < 100; ++i)
+   {
+   list.indexOf(object);
+   }
+   long before = System.currentTimeMillis(); 
+   for (int i = 0; i < 500000; ++i)
+   {
+   list.indexOf(object);
+   }
+   long after = System.currentTimeMillis();
+   System.err.println("Elapsed " + (after - before));
+   }
 
-    {
-      Object object = org.eclipse.emf.ecore.EcorePackage.eINSTANCE.getENamedElement_Name();
-  
-      for (int i = 0; i < 100; ++i)
-      {
-        list.indexOf(object);
-      }
-      long before = System.currentTimeMillis(); 
-      for (int i = 0; i < 500000; ++i)
-      {
-        list.indexOf(object);
-      }
-      long after = System.currentTimeMillis();
-      System.err.println("Elapsed " + (after - before));
-    }
-  }
-*/
+   {
+   Object object = org.eclipse.emf.ecore.EcorePackage.eINSTANCE.getENamedElement_Name();
+   
+   for (int i = 0; i < 100; ++i)
+   {
+   list.indexOf(object);
+   }
+   long before = System.currentTimeMillis(); 
+   for (int i = 0; i < 500000; ++i)
+   {
+   list.indexOf(object);
+   }
+   long after = System.currentTimeMillis();
+   System.err.println("Elapsed " + (after - before));
+   }
+   }
+   */
 }
