@@ -12,11 +12,10 @@
  *
  * </copyright>
  *
- * $Id: EMOFResourceFactoryImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EMOFResourceFactoryImpl.java,v 1.2 2004/05/06 18:41:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
-import java.util.Locale;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -28,8 +27,6 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 
 public class EMOFResourceFactoryImpl extends ResourceFactoryImpl
 {
-  protected static final boolean USE_ASCII = Locale.getDefault().getLanguage().equals("en");
-
   protected EMOFExtendedMetaData extendedMetaData;
 
   public EMOFResourceFactoryImpl()
@@ -99,10 +96,8 @@ public class EMOFResourceFactoryImpl extends ResourceFactoryImpl
   public Resource createResource(URI uri)
   {
     EMOFResourceImpl result = new EMOFResourceImpl(uri);
-    if (!USE_ASCII)
-    {
-      result.setEncoding("UTF-8");
-    }
+
+    result.setEncoding("UTF-8");
 
     result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);

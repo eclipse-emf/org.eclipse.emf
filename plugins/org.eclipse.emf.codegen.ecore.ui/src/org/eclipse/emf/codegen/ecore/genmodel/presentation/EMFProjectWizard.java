@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.4 2004/04/12 19:08:12 emerks Exp $
+ * $Id: EMFProjectWizard.java,v 1.5 2004/05/06 18:40:59 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -532,11 +532,6 @@ public class EMFProjectWizard extends Wizard implements INewWizard
                 // Determine the packages that have been generated and save them.
                 //
                 List ePackages = new ArrayList(resourceSet.getResources().size());
-                Map options = new HashMap();
-                if (whichModel == XSD || whichModel == ROSE && packagePage.getRoseUtil().needsUTF8())
-                {
-                  options.put("ENCODING", "UTF-8");
-                }
                 for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext(); )
                 {
                   Resource resource = (Resource)resources.next();
@@ -545,7 +540,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
                     EPackage ePackage = (EPackage)resource.getContents().get(0);
                     if (packagePage.getCheckedEPackageList().contains(ePackage))
                     {
-                      resource.save(options);
+                      resource.save(null);
                       ePackages.add(resource.getContents().get(0));
                     }
                   }

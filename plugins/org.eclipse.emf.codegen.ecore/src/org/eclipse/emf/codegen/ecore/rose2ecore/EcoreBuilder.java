@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.5 2004/05/05 19:47:02 emerks Exp $
+ * $Id: EcoreBuilder.java,v 1.6 2004/05/06 18:41:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -636,14 +636,6 @@ public class EcoreBuilder implements RoseVisitor
     String documentation = roseNode.getDocumentation();
     if (documentation != null)
     {
-      for (int i = 0, size = documentation.length(); i < size; ++i)
-      {
-        if (documentation.charAt(i) > 0x7F)
-        {
-          roseUtil.setNeedsUTF8(true);
-        }
-      }
-
       EcoreUtil.setDocumentation(eModelElement, documentation);
     }
 

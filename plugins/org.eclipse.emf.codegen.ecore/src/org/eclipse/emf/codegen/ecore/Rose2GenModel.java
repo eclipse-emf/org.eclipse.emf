@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Rose2GenModel.java,v 1.3 2004/04/17 17:19:15 emerks Exp $
+ * $Id: Rose2GenModel.java,v 1.4 2004/05/06 18:41:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -44,7 +44,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.XMLResource;
 
 
 /**
@@ -381,15 +380,10 @@ public class Rose2GenModel extends Generator
                   setSDODefaults(generatedGenModel);
                 }
 
-                Map options = new HashMap();
-                if (roseUtil.needsUTF8())
-                {
-                  options.put(XMLResource.OPTION_ENCODING, "UTF-8");
-                }
                 for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext(); )
                 {
                   Resource resource = (Resource)resources.next();
-                  resource.save(options);
+                  resource.save(null);
                 }
               }
             }

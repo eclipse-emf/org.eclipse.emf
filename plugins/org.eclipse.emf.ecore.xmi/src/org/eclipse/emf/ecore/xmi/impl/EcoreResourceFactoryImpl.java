@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: EcoreResourceFactoryImpl.java,v 1.2 2004/03/15 15:00:52 marcelop Exp $
+ * $Id: EcoreResourceFactoryImpl.java,v 1.3 2004/05/06 18:41:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
-
-import java.util.Locale;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -27,8 +25,6 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 
 public class EcoreResourceFactoryImpl extends ResourceFactoryImpl
 {
-  protected static final boolean USE_ASCII = Locale.getDefault().getLanguage().equals("en");
-
   /**
    * Constructor for EcoreResourceFactoryImpl.
    */
@@ -40,10 +36,7 @@ public class EcoreResourceFactoryImpl extends ResourceFactoryImpl
   public Resource createResource(URI uri)
   {
     XMLResourceImpl result = new XMIResourceImpl(uri);
-    if (!USE_ASCII)
-    {
-      result.setEncoding("UTF-8");
-    }
+    result.setEncoding("UTF-8");
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, new Integer(80));
