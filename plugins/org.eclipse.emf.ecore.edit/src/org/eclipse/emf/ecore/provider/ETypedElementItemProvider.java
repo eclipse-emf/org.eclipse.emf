@@ -12,19 +12,24 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.2 2004/03/16 14:03:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -201,7 +206,37 @@ public class ETypedElementItemProvider
          getString("_UI_ETypedElement_eType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_eType_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_EType(),
-         true));
+         true)
+       {
+         public Collection getChoiceOfValues(Object object)
+         {
+           // Filter out types that aren't permitted.
+           //
+           Collection result = super.getChoiceOfValues(object);
+           if (object instanceof EAttribute)
+           {
+             for (Iterator i = result.iterator(); i.hasNext(); )
+             {
+               if (i.next() instanceof EClass)
+               {
+                 i.remove();
+               }
+             }
+           }
+           else if (object instanceof EReference)
+           {
+             for (Iterator i = result.iterator(); i.hasNext(); )
+             {
+               if (i.next() instanceof EDataType)
+               {
+                 i.remove();
+               }
+             }
+           }
+
+           return result;
+         }
+       });
   }
 
 
