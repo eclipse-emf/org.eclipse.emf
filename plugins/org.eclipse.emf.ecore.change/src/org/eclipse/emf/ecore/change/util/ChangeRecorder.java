@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.18 2004/08/11 21:18:49 elena Exp $
+ * $Id: ChangeRecorder.java,v 1.19 2004/09/01 13:13:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -42,6 +42,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -261,6 +262,14 @@ public class ChangeRecorder implements Adapter
 
   protected void handleFeature(EStructuralFeature feature, EReference containment, Notification notification, EObject eObject)
   {
+    // EATM This is a hack. 
+    // Since we can't record these changes properly, it's best not to record them at all.
+    //
+    if (FeatureMapUtil.isFeatureMap(feature))
+    {
+      return;
+    }
+    
     List changes = getFeatureChanges(eObject);
     FeatureChange change = getFeatureChange(changes, feature);
 
