@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.2 2004/03/12 20:15:35 emerks Exp $
+ * $Id: JPatternDictionary.java,v 1.3 2004/05/28 12:28:13 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -100,7 +100,7 @@ public class JPatternDictionary
 
   protected void analyzePackage(IDOMPackage jPackage)
   {
-    this. jPackage = jPackage;
+    this.jPackage = jPackage;
     match(jPackage);
   }
 
@@ -178,7 +178,7 @@ public class JPatternDictionary
       }
       case IDOMNode.TYPE: 
       {
-        return jPackage.getName() + "." + jdomNode.getName();
+        return jPackage != null ? jPackage.getName() + "." + jdomNode.getName() : jdomNode.getName();
       }
       case IDOMNode.FIELD:
       {
