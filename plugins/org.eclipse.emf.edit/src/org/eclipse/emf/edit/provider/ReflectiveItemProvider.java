@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.9 2004/10/03 23:58:29 davidms Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.10 2004/10/19 15:16:51 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -115,13 +115,38 @@ public class ReflectiveItemProvider
           {
             allEClasses.add(eObject);
           }
-          for (Iterator j = eObject.eCrossReferences().iterator(); j.hasNext(); )
+          for (Iterator j = eObject.eClass().getEAllReferences().iterator(); j.hasNext(); )
           {
-            EObject crossReference = (EObject)j.next();
-            EObject otherRoot = EcoreUtil.getRootContainer(crossReference);
-            if (!allRoots.contains(otherRoot))
+            EReference eReference = (EReference)j.next();
+            if (!eReference.isDerived() && !eReference.isContainer() && !eReference.isContainment())
             {
-              roots.add(otherRoot);
+              if (eReference.isMany())
+              {
+                for (Iterator k = ((List)eObject.eGet(eReference)).iterator(); k.hasNext(); )
+                {
+                  EObject crossReference = (EObject)k.next();
+                  if (crossReference != null)
+                  {
+                    EObject otherRoot = EcoreUtil.getRootContainer(crossReference);
+                    if (!allRoots.contains(otherRoot))
+                    {
+                      roots.add(otherRoot);
+                    }
+                  } 
+                }
+              }
+              else
+              {
+                EObject crossReference = (EObject)eObject.eGet(eReference);
+                if (crossReference != null)
+                {
+                  EObject otherRoot = EcoreUtil.getRootContainer(crossReference);
+                  if (!allRoots.contains(otherRoot))
+                  {
+                    roots.add(otherRoot);
+                  }
+                }
+              }
             }
           }
         }
