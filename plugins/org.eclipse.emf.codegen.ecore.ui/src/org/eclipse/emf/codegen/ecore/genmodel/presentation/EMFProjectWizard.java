@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.9 2004/11/01 22:36:23 davidms Exp $
+ * $Id: EMFProjectWizard.java,v 1.10 2005/02/23 21:31:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1453,7 +1453,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
                        ("xsd".equals(resource.getFullPath().getFileExtension()) || 
                         "wsdl".equals(resource.getFullPath().getFileExtension())))
                  {
-                   text.append(URI.createPlatformResourceURI(resource.getFullPath().toString()));
+                   text.append(URI.createURI(URI.createPlatformResourceURI(resource.getFullPath().toString()).toString(), true));
                    text.append("  ");
                  }
                }
@@ -1909,7 +1909,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
                        ("ecore".equals(resource.getFullPath().getFileExtension()) ||
                           "emof".equals(resource.getFullPath().getFileExtension())))
                  {
-                   text.append(URI.createPlatformResourceURI(resource.getFullPath().toString()));
+                   text.append(URI.createURI(URI.createPlatformResourceURI(resource.getFullPath().toString()).toString(), true));
                    text.append("  ");
                  }
                }
