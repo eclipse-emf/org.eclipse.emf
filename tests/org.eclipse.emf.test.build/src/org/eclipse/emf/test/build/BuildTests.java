@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.7 2004/11/04 17:32:08 nickb Exp $
+ * $Id: BuildTests.java,v 1.8 2004/11/04 18:17:08 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -52,6 +52,9 @@ import org.eclipse.osgi.service.environment.Constants;
 
 public class BuildTests extends TestCase
 {
+  
+  public boolean debug = true;
+  
   private List copyrightExcludeDirectories;
 
   private List cvsExcludeDirectories;
@@ -134,12 +137,12 @@ public class BuildTests extends TestCase
     }
     catch (FileNotFoundException e)
     {
-      System.out.println("**WARNING** Could not open log file: " + string);
+      System.out.println("** WARNING ** :: Could not open log file: " + string);
       result = false; // if no file, no errors!
     }
     catch (IOException e)
     {
-      System.out.println("Error reading log file: " + string);
+      System.out.println("** ERROR ** :: Error reading log file: " + string);
       result = true;
     }
     finally
@@ -609,10 +612,12 @@ public class BuildTests extends TestCase
 
   public void testChkpii()
   {
+    if (debug) { System.out.println("locateBuildGeneratedZipFiles() ... "); }
+    
     String[] zipFiles = locateBuildGeneratedZipFiles();
     String sniffFolder = Platform.getInstanceLocation().getURL().getFile();
     
-    System.out.println("sniffFolder = "+sniffFolder);
+    if (debug) { System.out.println("sniffFolder = "+sniffFolder); }
     
     FileTool.IZipFilter zipFilter = getTrueFilter();
 
@@ -620,7 +625,7 @@ public class BuildTests extends TestCase
     {
       try
       {
-            System.out.println("Unzipping: "+zipFiles[i]);
+            if (debug) { System.out.println("Unzipping: "+zipFiles[i]); }
             FileTool.unzip(zipFilter, new ZipFile(zipFiles[i]), new File(sniffFolder));
       }
       catch (IOException e)
@@ -821,10 +826,13 @@ public class BuildTests extends TestCase
 
     // String to use when running in Eclipse
     // String installDir = BootLoader.getInstallURL().getPath() + "..";
+    
+    if (debug) { System.out.println("installDir = "+installDir); } 
 
     try
     {
       installDir = adjustPath(new File(installDir).getCanonicalPath().toString());
+      if (debug) { System.out.println("installDir (adjusted) = "+installDir); } 
     }
     catch (IOException e)
     {
@@ -837,6 +845,8 @@ public class BuildTests extends TestCase
     {
       File file = files[i];
       String fileName = file.getName();
+      if (debug) { System.out.println("zip filename = "+fileName); } 
+
 
       if (fileName.endsWith(".zip"))
       {
