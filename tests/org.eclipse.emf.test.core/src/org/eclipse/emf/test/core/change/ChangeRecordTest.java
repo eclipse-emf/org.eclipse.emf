@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.2 2004/12/14 22:32:50 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.3 2004/12/14 23:39:50 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -915,5 +916,12 @@ extends TestCase
     assertEquals("Joe", joe.eGet(name));
     assertEquals(1, ((List)loadedJohn.eGet(friendsReference)).size());
     assertEquals(joe, ((List)loadedJohn.eGet(friendsReference)).get(0));
+    
+    File file = new File(johnURI.toFileString());
+    file.delete();
+    assertFalse(file.exists());
+    file = new File(changeDescriptionURI.toFileString());
+    file.delete();
+    assertFalse(file.exists());    
   }
 }
