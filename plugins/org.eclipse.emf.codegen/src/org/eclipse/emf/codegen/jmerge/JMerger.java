@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.2 2004/03/12 20:15:35 emerks Exp $
+ * $Id: JMerger.java,v 1.3 2004/04/02 17:43:40 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -796,7 +796,7 @@ public class JMerger implements IPlatformRunnable
               {
                 String comment = ((IDOMMember)targetNode).getComment();
                 Matcher matcher = sourceTransfer.matcher(comment);
-                if (matcher.find() && matcher.groupCount() >= 1)
+                while (matcher.find() && matcher.groupCount() >= 1)
                 {
                   String clientStrings =
                     comment.substring(matcher.start(matcher.groupCount()), matcher.end(matcher.groupCount()));
@@ -804,7 +804,11 @@ public class JMerger implements IPlatformRunnable
                   for (StringTokenizer stringTokenizer = new StringTokenizer(clientStrings, ", \t\n\r\f"); 
                        stringTokenizer.hasMoreTokens(); )
                   {
-                    additionalStrings.add(stringTokenizer.nextToken());
+                    String token = stringTokenizer.nextToken();
+                    if (!additionalStrings.contains(token))
+                    {
+                      additionalStrings.add(token);
+                    }
                   }
                 }
               }
