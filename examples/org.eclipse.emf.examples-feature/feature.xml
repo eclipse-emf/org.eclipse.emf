@@ -24,12 +24,6 @@
          version="2.0.0"/>
 
    <plugin
-         id="org.eclipse.emf.codegen.example"
-         download-size="0"
-         install-size="0"
-         version="2.0.0"/>
-
-   <plugin
          id="org.eclipse.emf.java"
          download-size="0"
          install-size="0"
