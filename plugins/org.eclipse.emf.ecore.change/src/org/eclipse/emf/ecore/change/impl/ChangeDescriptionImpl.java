@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.2 2004/04/14 15:26:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.ChangePackage;
 import org.eclipse.emf.ecore.change.FeatureChange;
+import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.ResourceChange;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -182,7 +183,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    */
   public void apply()
   {
-    preApply();
+    preApply(false);
 
     // Apply the change.
     //
@@ -218,7 +219,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    */
   public void applyAndReverse()
   {
-    preApply();
+    preApply(true);
 
     // Flatten and remember the objects to attach list.
     //
@@ -261,7 +262,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
     getObjectsToDetach().addAll(oldObjectsToAttach);
   }
 
-  protected void preApply()
+  protected void preApply(boolean reverse)
   {
     // Make sure the changed values of bi-directional reference lists are cached before we
     //  start to apply the change.
@@ -280,7 +281,22 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
               feature instanceof EReference &&
               ((EReference)feature).getEOpposite() != null)
           {
-            featureChange.getValue(); // cache the list value.
+            if (reverse)
+            {
+              // This case will be handled special during apply
+              //
+              EList applyToList = new BasicEList((EList)objectToChange.eGet(feature));
+              for (Iterator k = featureChange.getListChanges().iterator(); k.hasNext(); )
+              {
+                ListChange listChange = (ListChange)k.next();
+                listChange.applyAndReverse(applyToList);
+              }
+              ((FeatureChangeImpl)featureChange).setValue(applyToList); // cache the list value.
+            }
+            else
+            {
+              featureChange.getValue(); // cache the list value.
+            }
           }
         }
       }
