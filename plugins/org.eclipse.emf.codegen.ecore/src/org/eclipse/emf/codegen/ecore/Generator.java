@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.2 2004/03/21 16:10:42 emerks Exp $
+ * $Id: Generator.java,v 1.3 2004/04/17 17:19:15 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -150,6 +150,11 @@ public class Generator extends CodeGen
                 genPackage.setBasePackage(basePackage);
 
                 progressMonitor.worked(1);
+
+                if (arguments.length > 4 && "-sdo".equals(arguments[4]))
+                {
+                  setSDODefaults(genModel);
+                }
 
                 genModelResource.save(Collections.EMPTY_MAP);
               }
@@ -708,7 +713,7 @@ public class Generator extends CodeGen
     }
     else if (JavaConventions.validateIdentifier(name).isOK())
     {
-     return name;
+      return name;
     }
 
     StringBuffer result = new StringBuffer();
@@ -733,5 +738,21 @@ public class Generator extends CodeGen
     }
 
     return result.length() == 0 ? "_" : result.toString();
+  }
+
+  public static void setSDODefaults(GenModel genModel)
+  {
+    genModel.setRootExtendsInterface("");
+    genModel.setRootImplementsInterface("org.eclipse.emf.ecore.sdo.InternalEDataObject");
+    genModel.setRootExtendsClass("org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl");
+    genModel.setFeatureMapWrapperInterface("commonj.sdo.Sequence");
+    genModel.setFeatureMapWrapperInternalInterface("org.eclipse.emf.ecore.sdo.util.ESequence");
+    genModel.setFeatureMapWrapperClass("org.eclipse.emf.ecore.sdo.util.BasicESequence");
+    genModel.setSuppressEMFTypes(true);
+
+    genModel.getModelPluginVariables().add("EMF_COMMONJ_SDO=org.eclipse.emf.commonj.sdo");
+    genModel.getModelPluginVariables().add("EMF_ECORE_SDO=org.eclipse.emf.ecore.sdo");
+
+    genModel.getStaticPackages().add("http://www.eclipse.org/emf/2003/SDO");
   }
 }

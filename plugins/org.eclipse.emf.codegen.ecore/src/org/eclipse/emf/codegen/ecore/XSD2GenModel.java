@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2GenModel.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: XSD2GenModel.java,v 1.2 2004/04/17 17:19:15 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -73,7 +73,7 @@ public class XSD2GenModel extends Generator
   {
     System.out.println("Usage: { <model.xsd> | <model.wsdl> }+ [ <model.genmodel> ] <OPTION>");
     System.out.println("<OPTION>         ::= [ <PROJECT-OPTION> ]  [ <PACKAGE-MAP> ] [ <PACKAGES> ]");
-    System.out.println("                     [ <TEMPLATE-PATH> ] [ <COPYRIGHT> ]");
+    System.out.println("                     [ <TEMPLATE-PATH> ] [ <COPYRIGHT> ] [ <SDO> ]");
     System.out.println("<PROJECT-OPTION> ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ]");
     System.out.println("<MODEL-PROJECT>  ::= -modelProject <model-directory> <fragment-path>");
     System.out.println("<EDIT-PROJECT>   ::= -editProject <edit-directory> <fragment-path>");
@@ -82,6 +82,7 @@ public class XSD2GenModel extends Generator
     System.out.println("<PACKAGES>       ::= -packages { <nsURI> }+");
     System.out.println("<TEMPLATE-PATH>  ::= -templatePath <template-directory>");
     System.out.println("<COPYRIGHT>      ::= -copyright <copyright-string>");
+    System.out.println("<SDO>            ::= -sdo");
     System.out.println("");
     System.out.println("Specifying no -packages is the same as specifying them all");
     System.out.println("Use ##local to represent the null nsURI");
@@ -199,6 +200,7 @@ public class XSD2GenModel extends Generator
     IPath editorFragmentPath = null;
     String templatePath = null;
     String copyright = null;
+    boolean sdo = false;
 
     for (; index < arguments.length; ++index)
     {
@@ -247,6 +249,10 @@ public class XSD2GenModel extends Generator
       else if (arguments[index].equalsIgnoreCase("-copyright"))
       {
         copyright = arguments[++index];
+      }
+      else if (arguments[index].equalsIgnoreCase("-sdo"))
+      {
+        sdo = true;
       }
       else if (arguments[index].equalsIgnoreCase("-templatePath"))
       {
@@ -399,6 +405,11 @@ public class XSD2GenModel extends Generator
     {
       EPackage ePackage = (EPackage)i.next();
       System.err.println("The EPackage '" + ePackage.getName() + "' is used, but there's no GenPackage for it.");
+    }
+
+    if (sdo)
+    {
+      setSDODefaults(generatedGenModel);
     }
 
     for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext(); )

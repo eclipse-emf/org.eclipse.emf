@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Rose2GenModel.java,v 1.2 2004/04/12 19:08:16 emerks Exp $
+ * $Id: Rose2GenModel.java,v 1.3 2004/04/17 17:19:15 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -86,7 +86,7 @@ public class Rose2GenModel extends Generator
     System.out.println("Usage: <model.mdl> [ <model.genmodel> ] <OPTION>");
     System.out.println("<OPTION>         ::= [ <PROJECT-OPTION> ]  [ <PATHMAP> ]");
     System.out.println("                     { <PACKAGE> }+  { <REF-PACKAGE> }*");
-    System.out.println("                     [ <TEMPLATE-PATH> ] [ <COPYRIGHT> ]");
+    System.out.println("                     [ <TEMPLATE-PATH> ] [ <COPYRIGHT> ] [ <SDO> ]");
     System.out.println("<PROJECT-OPTION> ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ]");
     System.out.println("<MODEL-PROJECT>  ::= -modelProject <mode-directory> <fragment-path>");
     System.out.println("<EDIT-PROJECT>   ::= -editProject <edit-directory> <fragment-path>");
@@ -96,6 +96,7 @@ public class Rose2GenModel extends Generator
     System.out.println("<REF-PACKAGE>    ::= -refPackage <name> [ <nsPrefix> <nsURI> <base> <prefix> ]");
     System.out.println("<TEMPLATE-PATH>  ::= -templatePath <template-directory>");
     System.out.println("<COPYRIGHT>      ::= -copyright <copyright-string>");
+    System.out.println("<SDO>            ::= -sdo");
     System.out.println("");
     System.out.println("For example:");
     System.out.println("");
@@ -153,6 +154,7 @@ public class Rose2GenModel extends Generator
                 IPath editorFragmentPath = null;
                 String templatePath = null;
                 String copyright = null;
+                boolean sdo = false;
 
                 for (; index < arguments.length; ++index)
                 {
@@ -233,6 +235,10 @@ public class Rose2GenModel extends Generator
                   else if (arguments[index].equalsIgnoreCase("-copyright"))
                   {
                     copyright = arguments[++index];
+                  }
+                  else if (arguments[index].equalsIgnoreCase("-sdo"))
+                  {
+                    sdo = true;
                   }
                   else if (arguments[index].equalsIgnoreCase("-templatePath"))
                   {
@@ -370,6 +376,10 @@ public class Rose2GenModel extends Generator
                   System.err.println("The EPackage '" + ePackage.getName() + "' is used, but there's no GenPackage for it.");
                 }
 
+                if (sdo)
+                {
+                  setSDODefaults(generatedGenModel);
+                }
 
                 Map options = new HashMap();
                 if (roseUtil.needsUTF8())
