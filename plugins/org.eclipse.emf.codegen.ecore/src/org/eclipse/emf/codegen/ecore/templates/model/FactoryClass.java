@@ -33,10 +33,10 @@ public class FactoryClass
   protected final String TEXT_25 = NL + "\t\t\tcase ";
   protected final String TEXT_26 = ".";
   protected final String TEXT_27 = ":";
-  protected final String TEXT_28 = NL + "\t\t\t\t";
+  protected final String TEXT_28 = NL + "\t\t\t{" + NL + "\t\t\t\t";
   protected final String TEXT_29 = " result = ";
   protected final String TEXT_30 = ".get(initialValue);" + NL + "\t\t\t\tif (result == null) throw new IllegalArgumentException(\"The value '\" + initialValue + \"' is not a valid enumerator of '\" + eDataType.getName() + \"'\");";
-  protected final String TEXT_31 = NL + "\t\t\t\treturn result;";
+  protected final String TEXT_31 = NL + "\t\t\t\treturn result;" + NL + "\t\t\t}";
   protected final String TEXT_32 = NL + "\t\t\t\treturn create";
   protected final String TEXT_33 = "FromString(eDataType, initialValue);";
   protected final String TEXT_34 = NL + "\t\t\tdefault:" + NL + "\t\t\t\tthrow new IllegalArgumentException(\"The datatype '\" + eDataType.getName() + \"' is not a valid classifier\");";

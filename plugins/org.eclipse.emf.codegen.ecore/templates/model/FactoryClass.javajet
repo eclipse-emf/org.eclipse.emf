@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.4 2004/04/22 21:12:31 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.5 2004/04/29 17:06:46 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -85,9 +85,11 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
   <%if (genDataType.isSerializable()) {%>
 			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genDataType.getClassifierID()%>:
     <%if (genDataType instanceof GenEnum) {%>
+			{
 				<%=((GenEnum)genDataType).getImportedName()%> result = <%=((GenEnum)genDataType).getImportedName()%>.get(initialValue);
 				if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%>
 				return result;
+			}
     <%} else {%>
 				return create<%=genDataType.getName()%>FromString(eDataType, initialValue);
     <%}%>
