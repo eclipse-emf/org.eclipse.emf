@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc>
+<news date="March 25, 2004" showOn="whatsnew">
+	Stable <a href="#xsd_200">Version 2.0.0</a> build
+	(<a href="#xsd_200f">I200403250631</a>) is available 
+	for <a href="downloads-xsd.php">download</a> (new location!).
+</news>
+<news date="March 16, 2004" showOn="docs,whatsnew">
+	Updated the <a href="docs.php#references">Getting XSD Source Files from CVS</a> document.
+</news>
+<news date="March 9, 2004" showOn="whatsnew">
+	Stable <a href="#xsd_200">Version 2.0.0</a> build
+	(<a href="#xsd_200e">I200403081633</a>) is available 
+	for <a href="downloads/dl.html#stable_builds">download</a>.
+</news>
+<news date="February 25, 2004">
+	Stable <a href="#xsd_200">Version 2.0.0</a> build
+	(<a href="#xsd_200d">20040225_1234SL</a>) is available 
+	for <a href="downloads/dl.html#stable_builds">download</a>.
+</news>
+<news date="January 28, 2004">
+	Stable <a href="#xsd_200">Version 2.0.0</a> build 
+	(<a href="#xsd_200c">20040127_1738SL</a>) is available 
+	for <a href="downloads/dl.html#stable_builds">download</a>.
+</news>
+<news date="December 19, 2003">
+	Stable <a href="#xsd_200">Version 2.0.0</a> build 
+	(<a href="#xsd_200b">20031219_0637VL</a>) is available 
+	for <a href="downloads/dl.html#stable_builds">download</a>.
+</news>
+<news date="December 12, 2003">
+	Stable <a href="#xsd_200">Version 2.0.0</a> build 
+	(<a href="#xsd_200a">20031210_1532XL</a>) is available 
+	for <a href="downloads/dl.html#stable_builds">download</a>.
+</news>
+<news date="December 12, 2003">
+	Release <a href="#xsd_111">Version 1.1.1.1</a> build 
+	(<a href="#xsd_111d">20031120_1149WL</a>) is available 
+	for <a href="downloads/dl.html">download</a>.
+</news>
+<news date="November 6, 2003">
+	Release <a href="#xsd_111">Version 1.1.1</a> build 
+	(<a href="#xsd_111c">20031020_1612WL</a>) is available 
+	for <a href="downloads/dl.html">download</a>.
+</news>
+<news date="July 15, 2003" showOn="docs,whatsnew">
+	<a href="docs.php#documents">Getting XSD Source Files from CVS</a> is available.
+</news>
+</doc>

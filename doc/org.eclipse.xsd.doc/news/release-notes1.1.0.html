@@ -1,0 +1,205 @@
+<br>
+<table border="0" cellspacing="0" cellpadding="2" style="border-collapse: collapse;" bordercolor="#111111" width="100%">
+<tbody>
+  <tr>
+    <td bgcolor="#0070a0">
+      <font color="#ffffff"><b>
+        <a name="xsd_110">What's new in XSD 1.1.0?</a>
+      </b></font>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <ol>
+
+        <li>
+	<b><a name="xsd_110a">Build 20030501_0612VL: Bug Fixes and Improvements</a></b>
+
+         <ol type="I">
+			<li><b><a name="xsd_110a_1">New Plugins</a></b>
+          <p>
+           The xsd2ecore plugins (org.eclipse.emf.mapping.xsd2ecore and org.eclipse.emf.mapping.xsd2ecore.editor) have been added.  They illustrate how to use the mapping framework, and the editor can be used to view the mapping produced during XSD to Ecore conversion.  Documentation will be forthcoming soon.
+           <br>&nbsp;
+        </li>
+
+			<br>
+			<li><b><a name="xsd_110a_2">Bugzilla Fixes</a></b>
+
+          There are numerous bug fixes and improvements included with this build, some of which are described below.  Where the description applies to a fix for a bug reported through Bugzilla, the Bugzilla number is included after the description.        
+          <ul>
+            <li>                
+             XSD_ENCODING is now supported as an option for specifying the encoding for XSD resources.
+            </li>
+            <li>
+             The visibility of the isTypeDerivedFrom method in the XSDSchemaQueryTools class has been changed from protected to public.  
+             (Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=36062">36062</a>)
+            </li>
+            <li>
+             The XSD to Ecore conversion utilities have been moved to org.eclipse.xsd.ecore in the org.eclipse.xsd plugin for more flexible reuse.
+            </li>
+          </ul>
+
+			 </ol>
+
+<br>
+        <li>
+	<b><a name="xsd_110b">Build 20030513_0618VL: Bug Fixes and Improvements</a></b>
+        </li>
+         <p>
+          There are bug fixes and improvements included with this build, some of which are described below.  
+          <ul>
+            <li>                
+             In order to have value objects that implement equals() correctly, values of simple types based on int[] and byte[] in Xerces need to be wrapped.  Therefore, the types:
+              <ul>	
+               <li>
+                 org.eclipse.xsd.types.XSDAnySimpleType.IntSequence and
+               </li>
+               <li>
+                 org.eclipse.xsd.types.XSDAnySimpleType.ByteSequence 
+               </li>
+              </ul>
+              will be used in place of int[] and byte[], respectively.  (Later versions of Xerces have their own wrapper type which we will use when we switch to a newer version.)
+            </li>
+            <li>
+            We have refreshed the cached version of XMLSchema.xsd to the latest version on the web in order to pick up the errata changes to that version.
+            </li>            
+          </ul>
+           &nbsp;<br>
+        <li>
+	<b><a name="xsd_110c">Build 20030519_0521VL: Bug Fixes and Improvements</a></b>
+        </li>
+         <p>
+          There are bug fixes and improvements included with this build, some of which are described below. Where the description applies to a fix for a bug reported through Bugzilla, the Bugzilla number is included after the description. You can link directly to the Bugzilla bug using this number.  
+          <ul>
+            <li>
+             The XSD editor now detects the encoding of your XSD file and sets the encoding of the editor to match. (Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=37630">37630</a>).
+            <li>
+             The getBadTypeDerivation() method in XSDComplexTypeDefinitionImpl.java  now handles a null base type.
+            </li>
+            <li>
+             XSD now populates the XSDFacet.annotation. (Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=37673">37673</a>).
+            </li>
+            <li>
+             XSDParser has been upgraded to support a LexicalHandler for creating Comment nodes.
+            </li>
+            <li>
+             XSDMainTest has been upgraded to support -validate for validating a schema from the command line.
+            </li>                        
+          </ul>
+          &nbsp;<br>
+
+        <li>
+	<b><a name="xsd_110d">Build 20030527_0913VL: Bug Fixes and Improvements</a></b>
+        </li>
+         <p>
+          Minor bug fixes and improvements.  
+          &nbsp;<br>
+          <br>
+
+        <li>
+	<b><a name="xsd_110e">Build 20030602_1759VL: Bug Fixes and Improvements</a></b>
+        </li>
+         <p>
+          This build is a refresh of XSD being delivered with the corresponding build of EMF.  
+          &nbsp;<br>
+          <br>
+
+        <li>
+	<b><a name="xsd_110f">Build 20030605_1020SL: Bug Fixes and Improvements</a></b>
+        </li>
+         <p>
+          This build is a refresh of XSD being delivered with the corresponding build of EMF.  
+          &nbsp;<br>
+          <br>
+
+        <li>
+	<b><a name="xsd_110g">Build 20030611_1435VL: Bug Fixes and Improvements</a></b>
+        </li>
+         <p>
+          There are bug fixes and improvements included with this build, some of which are described below. Where the description applies to a fix for a bug reported through Bugzilla, the Bugzilla number is included after the description. You can link directly to the Bugzilla bug using this number.  
+          <ul>
+            <li>
+             The following static methods in the org.eclipse.xsd.impl.XSDSchemaImpl.java class have been made synchronized:  
+             <ul>
+              <li>createMetaSchema(Node node)</li>
+              <li>getGlobalResourceSet()</li>
+              <li>getMagicSchemaForSchema(String namespace)</li>
+              <li>getSchemaForSchema(String namespace)</li>
+              <li>getSchemaInstance(String namespace)</li>
+             </ul>
+            </li>
+
+            <li>
+             Complex type serialization now avoids the potential for introducing a redundant QName prefix.
+            </li>
+
+            <li>
+             The xsd2ecore mapping has been changed to map an XSD ID-type attribute as an ID EAttribute. 
+            </li>
+
+            <li>
+             The xsd2ecore mapping has been updated to handle abstract elements and substitution groups.
+            </li>
+
+            <li>
+             XSD has been updated to recognize schema constraints referenced via include. 
+             (Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=38779">38779</a>)
+            </li>
+
+            <li>
+             The xsd2ecore editor has been updated to use translated strings for the name and description. 
+             (Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=38174">38174</a>)
+            </li>                       
+          </ul>
+          &nbsp;<br>
+
+        <li>
+	<b><a name="xsd_110h">Build 20030616_1530VL: Bug Fixes and Improvements</a></b>
+        </li>
+         <p>
+          There are bug fixes and improvements included with this build, some of which are described below. Where the description applies to a fix for a bug reported through Bugzilla, the Bugzilla number is included after the description. You can link directly to the Bugzilla bug using this number.  
+          <ul>
+            <li>
+            The getEClassifier(XSDTypeDefinition xsdTypeDefinition, boolean supportNull) method in the org.eclipse.xsd.ecore.XSDEcoreBuilder.java class has been updated to ensure that an XSD abstract complex type becomes an abstract EClass.
+            </li>
+
+            <li>
+            The doSave(OutputStream os, Map options) method in the org.eclipse.xsd.util.XSDResourceImpl.java class has been updated so that if the schema element is null, the updateElement() method is called on the schema.
+            </li>
+
+            <li>
+            &lt;package prefix=...&gt; elements have been addded to the plugin.xml files for all the EMF and XSD plugins.
+            (Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=38225">38225</a>)
+            </li>
+
+            <li>
+            The getBadTypeDerivation(XSDTypeDefinition xsdTypeDefinition, boolean extension, boolean restriction) method in the org.eclipse.xsd.impl.XSDSimpleTypeDefintionImpl.java class has been updated because a simple type needs to be considered to be derived from complex anyType.
+            </li>
+
+            <li>
+            The javadoc in the org.eclipse.xsd.XSDComplexTypeDefinition.java file has been updated for the XSDParticle getSyntheticParticle() method.
+            </li>
+    
+          </ul>
+          &nbsp;<br>
+
+        <li>
+	<b><a name="xsd_110i">Build 20030620_1105VL: Bug Fixes and Improvements</a></b>
+        </li>
+         <p>
+          There are bug fixes and improvements included with this build, some of which are described below.
+          <ul>
+            <li>
+            National Language Support is now available for standalone clients.
+            </li>
+
+          </ul>
+          &nbsp;<br>
+
+      </ol>
+
+    </td>
+  </tr>
+
+</tbody>            
+</table>

@@ -1,0 +1,179 @@
+<br>
+<table border="0" cellspacing="0" cellpadding="2" style="border-collapse: collapse;" bordercolor="#111111" width="100%">
+<tbody>
+  <tr>
+    <td bgcolor="#0070a0">
+      <font color="#ffffff"><b>
+        <a name="xsd_200">What's new in XSD 2.0.0?</a>
+      </b></font>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ol>        
+        <li>
+	<b><a name="xsd_200a">Build 20031210_1532XL: Bug Fixes and Improvements</a></b>
+        </li>
+         <p>
+          There are numerous bug fixes and improvements included with this build, the most significant of which is described below.
+          <ul>
+            <li>                
+            All dependencies on Xerces have been eliminated so XSD can be used with any JAXP implementation.
+            Use -D<a href="http://java.sun.com/j2se/1.4.2/docs/guide/standards/index.html">java.endorsed.dirs</a> 
+            to choose a JAXP implementation.
+            E.g., this command will run Eclipse with the implementation used historically:
+<pre>
+  eclipse.exe -vmargs -Djava.endorsed.dirs=plugins/org.apache.xerces_4.0.13
+</pre>
+            </li>
+            <li>                
+            A large &lt;all> model group's UPA contstraint is validated as if it were &lt;choice maxOccurs="unbounded">
+            Similarly, large maxOccurs are reduced in value
+            to allow UPA constraint validation for overly large content models,
+            i.e., Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=47488">47488</a> is fixed.
+            </li>
+            <li>                
+            XSDResourceImpl has been generalized so that it can handle a document with multiple embedded schemas, 
+            i.e., .wsdl files are directly supported.
+            </li>
+            <li>
+            XSDSchemaLocator is provided to allow clients to specialize how schemas are located;
+            it's used internally to ensure that imports between schemas embedded in a document, i.e., a .wsdl file, 
+            can will be resolved to the appropriate schema within that document.
+            </li>
+            <li>
+            XSDSchemaLocationResolver is provided to allow clients to specialize how schemas locations are resolved,
+            i.e., bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=46188">46188</a> is fixed. 
+            This fix is is also available in the 1.1.1.1 maintenance release.
+            </li>
+            <li>                
+            The XML namespace schema can now be imported without an explicit schema location and it will load the cached local version.
+            </li>
+          </ul>
+         </p>
+        </li>
+<br>
+        <li>
+	<b><a name="xsd_200b">Build 20031219_0637VL: Bug Fixes and Improvements</a></b>
+        </li>
+         <p>
+          There are few minor bug fixes and improvements included with this build.
+          <ul>
+            <li>                
+            Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=48894">48894</a> 
+            provides support for processing instructions in the XSDParser.
+            </li>
+            <li>                
+            Named components with equal name and namespace are sorted by hashCode.
+            </li>
+          </ul>
+         </p>
+<br>
+        <li>
+	<b><a name="xsd_200c">Build 20040127_1738SL: Bug Fixes and Improvements</a></b>
+        </li>
+         <p>
+          There are no code changes in this build.
+         </p>
+
+        <li>
+	<b><a name="xsd_200d">Build 20040225_1234SL: Bug Fixes and Improvements</a></b>
+        
+         <p>
+          There are few minor bug fixes and improvements included with this build.
+          <ul>
+            <li>                
+            Changed XSD2GenModel to initialize GenModel.modelName to avoid exception when viewing .genmodel file in the IDE.
+            (Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=49692">49692</a>)
+            </li>
+            <li>                
+            The getPropertyDescriptors() method of some of the XSD facet item providers was using the wrong "Value" property.
+            (Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=50222">50222</a>)
+            </li>
+          </ul>
+         </p>
+<br>         
+        <li>
+	<b><a name="xsd_200e">Build I200403081633: Bug Fixes and Improvements</a></b>
+          <p>
+          There are no code changes in this build.
+         </p>
+         
+<br>
+
+<!-- anchor link. used to be emf_200a ... emf_200d, now just use R200402251234 -->
+<!-- build num/date & description of this build, eg., "20040225_1234SL: Bug Fixes and Improvements" -->
+<li>
+	<b><a name="xsd_200f">Build I200403250631: Bug Fixes and Improvements</a></b>
+ 
+<p>  
+<!-- summary details, overall comments, intro, etc. -->
+</p>
+
+	<!-- begin bugzillas -->
+	<ul>
+		<!-- start a bugzilla -->
+		<li>
+		<!-- bugzilla [rn] comments (flush next few lines left) --> 
+Problems not removed after fixing
+(Bugzilla <a target="bugz" 
+href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=53421"
+>53421</a>)
+
+		</li>
+		<!-- end a bugzilla, next bugzilla -->
+		<!-- start a bugzilla -->
+		<li>
+		<!-- bugzilla [rn] comments (flush next few lines left) --> 
+Cannot generate XSD for model
+(Bugzilla <a target="bugz" 
+href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=53776"
+>53776</a>)
+
+		</li>
+		<!-- end a bugzilla, next bugzilla -->
+		<!-- start a bugzilla -->
+		<li>
+		<!-- bugzilla [rn] comments (flush next few lines left) --> 
+Change EMF templates to be able to use JETNature for build
+(Bugzilla <a target="bugz" 
+href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=54201"
+>54201</a>)
+
+		</li>
+		<!-- end a bugzilla, next bugzilla -->
+		<!-- start a bugzilla -->
+		<li>
+		<!-- bugzilla [rn] comments (flush next few lines left) --> 
+Types and elements are not visible when an include is added
+(Bugzilla <a target="bugz" 
+href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=54203"
+>54203</a>)
+
+		</li>
+		<!-- end a bugzilla, next bugzilla -->
+		<!-- start a bugzilla -->
+		<li>
+		<!-- bugzilla [rn] comments (flush next few lines left) --> 
+Bad performance for validating XSD with lots of &lt;all&gt;
+(Bugzilla <a target="bugz" 
+href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=54289"
+>54289</a>)
+
+		</li>
+		<!-- end a bugzilla, next bugzilla -->
+	</ul>
+	<!-- end bugzillas -->
+
+</li><br />
+<!-- END release version section content here -->
+<!-- ##APPEND_HERE1## -->
+
+      </ol>
+    <br>
+    </td>
+  </tr>
+
+</tbody>            
+</table>

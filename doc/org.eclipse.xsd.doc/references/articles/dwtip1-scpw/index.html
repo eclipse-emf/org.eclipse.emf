@@ -1,0 +1,471 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:fo = "http://www.w3.org/1999/XSL/Format">
+<HEAD><TITLE>Analyzing XML schemas with the Schema Infoset Model</TITLE>
+<META 
+content="As the use of schemas grows, the need for tools to manipulate schemas grows.  The new Schema Infoset Model provides a complete modeling of schemas themselves, including the concrete representations as well as the abstract relationships within a schema or a set of schemas.  This article will show some of the power of this library to easily query the model of a schema for detailed information about it; we could also update the schema to fix any problems found and write the schema back out. " 
+name=ABSTRACT>
+<META 
+content="As the use of schemas grows, the need for tools to manipulate schemas grows.  The new Schema Infoset Model provides a complete modeling of schemas themselves, including the concrete representations as well as the abstract relationships within a schema or a set of schemas.  This article will show some of the power of this library to easily query the model of a schema for detailed information about it; we could also update the schema to fix any problems found and write the schema back out. " 
+name=DESCRIPTION>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="Analyzing XML schemas with the Schema Infoset Model" name=TITLE>
+<META content=Public name=SECURITY>
+<META content=text/xhtml name=FORMAT>
+<META content="Copyright (c) 2002 by IBM Corporation" name=COPYRIGHT>
+<META content=us name=IBM.COUNTRY>
+<META content=us name=DOCUMENTCOUNTRYCODE>
+<META content=en name=DOCUMENTLANGUAGECODE>
+<META 
+content="[shane, curcuru, xml, schemas, analyze, analyzing, infoset, model, java, ibm, developerworks, eclipse]" 
+name=keywords>
+<META http-equiv=Expires content=0>
+<META content="MSHTML 5.50.4616.200" name=GENERATOR>
+<LINK href="images/../dwtip1/dw-style-r1.css" type="text/css" rel="stylesheet">
+</HEAD>
+
+<BODY bgColor=#ffffff leftMargin=2 topMargin=2 marginwidth="2" marginheight="2">
+<A name=main></A>
+<P><SPAN class=title>Analyzing XML schemas with the Schema Infoset Model</SPAN></P>
+      <TABLE cellSpacing=0 cellPadding=0 width=168 align=right border=0>
+        <TBODY>
+        <TR>
+          <TD width=8><IMG height=21 alt="" src="images/../dwtip1/c.gif" 
+            width=5></TD>
+          <TD width=160>
+            <TABLE cellSpacing=0 cellPadding=0 width=160 border=0>
+              <TBODY>
+              <TR>
+                <TD width=160 bgColor=#000000 height=1><IMG height=1 alt="" 
+                  src="images/../dwtip1/c.gif" width=160></TD></TR>
+              <TR>
+                <TD align=middle background=images/../dwtip1/bg-gold.gif 
+                height=5><B>Contents:</B></TD></TR>
+              <TR>
+                <TD width=160 bgColor=#666666 height=1><IMG height=1 alt="" 
+                  src="images/../dwtip1/c.gif" width=160></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 width=160 border=0>
+                    <TBODY>
+                    <TR>
+                      <TD><A 
+                        href="#h1">Example: 
+                        Analyzing schemas</A></TD></TR>
+                    <TR>
+                      <TD height=1><IMG height=5 alt="" 
+                        src="images/../dwtip1/c.gif" width=160></TD></TR>
+                    <TR>
+                      <TD><A 
+                        href="#h2">Loading 
+                        schemas</A></TD></TR>
+                    <TR>
+                      <TD height=1><IMG height=5 alt="" 
+                        src="images/../dwtip1/c.gif" width=160></TD></TR>
+                    <TR>
+                      <TD><A 
+                        href="#h3">Convenient 
+                        schema querying</A></TD></TR>
+                    <TR>
+                      <TD height=1><IMG height=5 alt="" 
+                        src="images/../dwtip1/c.gif" width=160></TD></TR>
+                    <TR>
+                      <TD><A 
+                        href="#h4">Schema 
+                        components model</A></TD></TR>
+                    <TR>
+                      <TD height=1><IMG height=5 alt="" 
+                        src="images/../dwtip1/c.gif" width=160></TD></TR>
+                    <TR>
+                      <TD><A 
+                        href="#h5">Your 
+                        report: Types missing max/min facets</A></TD></TR>
+                    <TR>
+                      <TD height=1><IMG height=5 alt="" 
+                        src="images/../dwtip1/c.gif" width=160></TD></TR>
+                    <TR>
+                      <TD><A 
+                        href="#conclusion">Conclusion</A></TD></TR>
+                    <TR>
+                      <TD height=1><IMG height=5 alt="" 
+                        src="images/../dwtip1/c.gif" width=160></TD></TR>
+                    <TR>
+                      <TD><A 
+                        href="#samplecode">Sample 
+                        code</A></TD></TR>
+                    <TR>
+                      <TD height=1><IMG height=5 alt="" 
+                        src="images/../dwtip1/c.gif" width=160></TD></TR><!--Standard links for every article-->
+                    <TR>
+                      <TD><A 
+                        href="#resources">Resources</A></TD></TR>
+                    <TR>
+                      <TD height=1><IMG height=5 alt="" 
+                        src="images/../dwtip1/c.gif" width=160></TD></TR>
+                    <TR>
+                      <TD><A 
+                        href="#author1">About 
+                        the author</A></TD></TR>
+                    <TR>
+                      <TD height=1><IMG height=5 alt="" 
+                        src="images/../dwtip1/c.gif" width=160></TD></TR>
+                    <TR>
+                      <TD><IMG height=10 alt="" src="images/../dwtip1/c.gif" 
+                        width=160></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+            
+            <TABLE cellSpacing=0 cellPadding=0 width=160 border=0>
+              <TBODY>
+              <TR>
+                <TD width=150 bgColor=#000000 colSpan=2 height=2><IMG height=2 
+                  alt="" src="images/../dwtip1/c.gif" width=160></TD></TR>
+              <TR>
+                <TD width=150 bgColor=#ffffff colSpan=2 height=2><IMG height=2 
+                  alt="" src="images/../dwtip1/c.gif" 
+            width=160></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+            
+            
+<P><SPAN class=atitle2>Easily perform complex queries on your schemas with this model</SPAN></P>
+      <TABLE cellSpacing=0 cellPadding=0 border=0>
+        <TBODY>
+        <TR vAlign=top align=left>
+          <TD>
+            <P>Level: Intermediate</P></TD></TR></TBODY></TABLE>
+      <P><A 
+      href="#author1">Shane 
+      Curcuru</A> (<A 
+      href="mailto:shane_curcuru@us.ibm.com">shane_curcuru@us.ibm.com</A>)<BR>Advisory 
+      Software Engineer, IBM<BR>July 2002</P>
+      <BLOCKQUOTE>As the use of schemas grows, the need for tools to 
+        manipulate schemas grows. The new Schema Infoset Model provides a 
+        complete modeling of schemas themselves, including the concrete 
+        representations as well as the abstract relationships within a schema or 
+        a set of schemas. This article will show some of the power of this 
+        library to easily query the model of a schema for detailed information 
+        about it; we could also update the schema to fix any problems found and 
+        write the schema back out. </BLOCKQUOTE>
+      <P><I><B>Note:</B> This tip assumes you have a basic knowledge of schema 
+      documents; there are a number of links to schema documentation and a 
+      tutorial in <A 
+      href="#resources">Resources</A>.</I> 
+      </P>
+      <P>Although there are a number of parsers and tools that use schemas to 
+      validate or analyze XML documents, tools that allow querying and advanced 
+      manipulation of schema documents themselves are still being built. The 
+      Schema Infoset Model (AKA org.eclipse.xsd.*, or 
+      just "the library") provides a rich API library that models schemas -- 
+      both their concrete representations (perhaps in a schema.xsd file) and the 
+      abstract concepts in a schema as defined by the specification. As anyone 
+      who has read the schema specs knows, they're quite detailed, and this 
+      model strives to expose all the details within any schema. This will then 
+      allow you to efficiently manage your schema collection, and empower higher 
+      level schema tools -- perhaps schema-aware parsers and transformers.</P>
+      <TABLE cellSpacing=0 cellPadding=5 width="50%" align=right border=1>
+        <TBODY>
+        <TR>
+          <TD background="images/../dwtip1/bg-gold.gif"><A 
+            name=sidebar><B>Schema Infoset Model UML diagrams</B></A><BR>
+            <P>The library includes various UML diagrams for the actual library 
+            classes, which gives a quick overview of the relationships and 
+            attributes of common schema components.</P>
+            <P><B>Abstract Schema Component relationships</B> <BR><A  
+            href="images/../dwtip1/Relations.gif">This 
+            diagram</A> shows the relations between Schema Infoset Components -- 
+            the abstract relationships between schema objects as modeled in the 
+            library. Black diamonds show strong composition or aggregation; open 
+            diamonds show weak aggregation.</P>
+            <P><B>Abstract Schema Component attributes</B> <BR><A  
+            href="images/../dwtip1/Attributes.gif">This 
+            diagram</A> shows some of the attributes of the abstract schema 
+            components as modeled in the library, as well as part of the class 
+            hierarchy.</P>
+            <P><B>Schema Library class listing</B> <BR><A 
+            href="../../../references/articles/dwtip1-scpw/sidebar-listing.html">This 
+            listing</A> shows the core classes included in org.eclipse.xsd.</P>
+            <P>These diagrams are included in the library's documentation, 
+            including several other UML diagrams for both the abstract and 
+            concrete class trees.</P></TD></TR></TBODY></TABLE>
+      <P>For an interface listing of the library showing all the schema objects 
+      modeled, please see <A 
+      href="#sidebar">Schema 
+      Infoset Model UML diagrams</A>. The library also includes the UML diagrams 
+      used in building the library interfaces themselves; these diagrams show 
+      the relationships between the library objects, which very closely mimic 
+      the concepts in the schema specifications.</P>
+      <P><A name=h1><SPAN class=atitle2>Example: Analyzing your 
+      schemas</SPAN></A><BR>In this example, you'll want to check your schema 
+      for possibly failing to specify restrictions on integer-derived types. 
+      This could be useful for ensuring that all order quantities in purchase 
+      orders have been bounded. Here, the schemas must be very specific, so you 
+      want to require that all simple types that derive from integers include 
+      both min/maxInclusive or min/maxExclusive facets. However, if the 
+      min/maxInclusive or min/maxExclusive facets are inherited from a type 
+      which this type derives from, that is still sufficient.</P>
+      <P>While you can use XSLT or XPath to query a schema's concrete 
+      representation in an <CODE>.xsd</CODE> file or inside some other 
+      <CODE>.xml</CODE> content, it is much more difficult to discover the type 
+      derivations and interrelationships that schema components actually have. 
+      Since the Schema Infoset Model library models both the concrete 
+      representation and the abstract concept of the schema, it can easily be 
+      used to collect details about its components, even when the schema may 
+      have deep type hierarchies or be defined in multiple schema files.</P>
+      <P>In this simple schema, you will find some types that meet the criteria 
+      of having max/min facets, and some that do not. (You can find the full 
+      schema in FindTypesMissingFacets.xsd included in the <A 
+      href="images/../dwtip1/xsdqcode.zip">zip 
+      file</A>.)</P><A name=code1><B>Listing 1. Sample schema</B></A>
+      <TABLE cellSpacing=0 cellPadding=5 width="100%" bgColor=#cccccc 
+        border=1><TBODY>
+        <TR>
+          <TD><PRE><CODE>
+&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://www.research.ibm.com/XML/NS/xsd"
+xmlns="http://www.research.ibm.com/XML/NS/xsd"&gt;
+
+&lt;!-- SimpleType missing both max/min facets --&gt;
+&lt;xsd:simpleType name="integer-noFacets"&gt;
+    &lt;xsd:restriction base="xsd:integer"/&gt;
+&lt;/xsd:simpleType&gt;
+
+&lt;!-- Derived type has inherited min facet but missing max facet --&gt;
+&lt;xsd:simpleType name="<SPAN class=boldcode>positiveInteger-inheritedMinFacet</SPAN>"&gt;
+    &lt;xsd:restriction base="xsd:positiveInteger"/&gt;
+&lt;/xsd:simpleType&gt;
+
+&lt;!-- Derived type with both effective max/min facets --&gt;
+&lt;xsd:simpleType name="positiveInteger-bothFacets"&gt;
+    &lt;xsd:restriction base="<SPAN class=boldcode>positiveInteger-inheritedMinFacet</SPAN>"&gt;
+        &lt;xsd:maxExclusive value="100"/&gt;
+    &lt;/xsd:restriction&gt;
+&lt;/xsd:simpleType&gt;
+&lt;!-- etc... --&gt;
+&lt;/xsd:schema&gt;
+</CODE></PRE></TD></TR></TBODY></TABLE>
+      <P><A name=h2><SPAN class=atitle2>Loading schemas into the 
+      library</SPAN></A><BR>The library can read and write schema objects from a 
+      variety of sources. I'll show it using the org.eclipse.emf ResourceSet 
+      framework to easily load sets of schemas; you can also build and emit 
+      schemas directly from or to a DOM object that you manage yourself. The 
+      library provides a custom <CODE>XSDResourceSet</CODE> implementation that 
+      can intelligently and automatically load sets of schemas related by 
+      includes, imports, and redefines. The abstract relationship between 
+      related schemas is also modeled in the library.</P><A 
+      name=code2><B>Listing 2. Loading a schema</B></A>
+      <TABLE cellSpacing=0 cellPadding=5 width="100%" bgColor=#cccccc 
+        border=1><TBODY>
+        <TR>
+          <TD><PRE><CODE>
+// String variable schemaURL is "FindTypesMissingFacets.xsd" or the URL to your schema
+// Create a resource set and load the main schema file into it.
+ResourceSet resourceSet = new ResourceSetImpl();
+XSDResourceImpl xsdSchemaResource = (XSDResourceImpl)resourceSet.getResource(
+		URI.createDeviceURI(schemaURL), true);
+
+// getResources() returns an iterator over all the resources, therefore, the main resource
+// and those that have been included, imported, or redefined.
+for (Iterator resources = resourceSet.getResources().iterator(); 
+    resources.hasNext(); /* no-op */)
+{
+    // Return the first schema object found, which is the main schema 
+    //   loaded from the provided schemaURL
+    Resource resource = (Resource)resources.next();
+    if (resource instanceof XSDResourceImpl)
+    {
+        XSDResourceImpl xsdResource = (XSDResourceImpl)resource;
+        // This returns a org.eclipse.xsd.XSDSchema object
+        return xsdResource.getSchema();
+    }
+}
+</CODE></PRE></TD></TR></TBODY></TABLE>
+      <P><A name=h3><SPAN class=atitle2>Convenient schema 
+      querying</SPAN></A><BR>Now that you have an <CODE>XSDSchema</CODE> object, 
+      you need to query it to find any types that are missing max/min facets. 
+      First, you'll use some convenient library methods to quickly find all of 
+      its <CODE>simpleTypeDefinition</CODE>s that derive from the built-in 
+      integer type. Since the library provides a complete model of the abstract 
+      meaning of a schema, this turns out to be very straightforward. You can 
+      query the <CODE>XSDSchema</CODE> for its <CODE>getTypeDefinitions()</CODE> 
+      listing, and then filter for <CODE>XSDSimpleTypeDefinition</CODE>s that 
+      actually inherit from the base integer type.</P><A name=code3><B>Listing 
+      3. Getting a list of specific types</B></A>
+      <TABLE cellSpacing=0 cellPadding=5 width="100%" bgColor=#cccccc 
+        border=1><TBODY>
+        <TR>
+          <TD><PRE><CODE>
+// A handy convenience method quickly gets all 
+//   typeDefinitions within the schema
+List allTypes = schema.getTypeDefinitions();
+ArrayList allIntegerTypes = new ArrayList();
+
+for (Iterator iter = allTypes.iterator(); 
+        iter.hasNext(); /* no-op */)
+{
+    XSDTypeDefinition typedef = (XSDTypeDefinition)iter.next();
+    // Filter out for only simpleTypes...
+    if ((typedef instanceof XSDSimpleTypeDefinition) 
+        // ... and filter for built-in integer types
+        // Use a worker method in the very handy sample 
+        //  program org.eclipse.xsd.util. XSDSchemaQueryTools
+        &amp;&amp; XSDSchemaQueryTools.isTypeDerivedFrom(typedef, 
+                schema.getSchemaForSchemaNamespace(), "integer"))
+    {
+        // The filter found one; save it and continue.
+        allIntegerTypes.add(typedef);
+    }
+}
+</CODE></PRE></TD></TR></TBODY></TABLE>
+      <P><A name=h4><SPAN class=atitle2>The schema components 
+      model</SPAN></A><BR>Every component defined in the W3C schema 
+      specifications is modeled in detail in the library. Now that you have a 
+      list of all <CODE>XSDSimpleTypeDefinition</CODE>s that derive from an 
+      integer, you can query this list for ones that are missing either their 
+      max or min facets, and produce a report. Note that the library can 
+      conveniently group the effective max/minExclusive or max/minInclusive 
+      facets together for quick searching; it also provides detailed access to 
+      each type, including the actual lexical values if needed.</P><A 
+      name=code4><B>Listing 4. Querying XSDSimpleType components</B></A>
+      <TABLE cellSpacing=0 cellPadding=5 width="100%" bgColor=#cccccc 
+        border=1><TBODY>
+        <TR>
+          <TD><PRE><CODE>
+for (Iterator iter = allIntegerTypes.iterator(); 
+        iter.hasNext(); /* no-op */)
+{
+    XSDSimpleTypeDefinition simpleType = (XSDSimpleTypeDefinition)iter.next();
+    // First, exclude any UNION or LIST types, since 
+    //  the schema spec says they can't have min/max facets:
+    //  Part 2: Datatypes in:
+    //  <A href="http://www.w3.org/TR/xmlschema-2/#defn-coss">'4.1.5 Constraints on Simple Type Definition Schema Components'</A>
+    if ((XSDVariety.LIST_LITERAL == simpleType.getVariety())
+        || (XSDVariety.UNION_LITERAL == simpleType.getVariety()))
+    {
+        // Unions and lists cannot have min/max facets at all,
+        //  so there's no need to report them
+        continue;
+    }
+
+    // Get the effective max/min facets for each type - 
+    //  this includes ones declared in this type or 
+    //  ones that are inherited, and so forth
+    XSDMaxFacet maxFacet = simpleType.getEffectiveMaxFacet();
+    XSDMinFacet minFacet = simpleType.getEffectiveMinFacet();
+
+    // If you don't have the proper ones, report the error.
+    if ((null == maxFacet) || (null == minFacet))
+    {
+        if (null != simpleType.getName())
+        {
+            // A component's URI in the library is effectively 
+            //  its &lt;target namespace&gt;#&lt;name&gt;
+            System.out.println("Schema named component: " + simpleType.getURI() );
+        }
+        else
+        {
+            // It's an anonymous type, so ask the library 
+            //  to construct a default 'alias' for it
+            System.out.println("Schema anonymous component: " + simpleType.getAliasURI() );
+        }
+        System.out.print(" is missing these required facets: ");
+        if (null == maxFacet)
+        {
+            System.out.print(" XSDMaxFacet (either inclusive or exclusive) ");
+        }
+        if (null == minFacet)
+        {
+            System.out.print(" XSDMinFacet (either inclusive or exclusive) ");
+        }
+        // You could also report on the facets this type does have like:
+        // if (minFacet.isExclusive) {
+        // System.out.println("minFacet.getValue=" + minFacet.getValue());
+        // }
+    }
+}
+</CODE></PRE></TD></TR></TBODY></TABLE>
+      <P><A name=h5><SPAN class=atitle2>Your report: Types missing max/min 
+      facets</SPAN></A><BR>With just a little bit of code, you've discovered 
+      some fairly detailed information about the schema. If you download the 
+      sample code and run it against the provided schema file, you should see a 
+      listing like this:</P><A name=code5><B>Listing 5. The output 
+report</B></A>
+      <TABLE cellSpacing=0 cellPadding=5 width="100%" bgColor=#cccccc 
+        border=1><TBODY>
+        <TR>
+          <TD><PRE><CODE>
+Schema missing max/min facet report on: FindTypesMissingFacets.xsd
+Schema named component: http://www.research.ibm.com/XML/NS/xsd#integer-minFacet
+  is missing these required facets:  XSDMaxFacet (either inclusive or exclusive)
+
+Schema named component: http://www.research.ibm.com/XML/NS/xsd#integer-noFacets
+  is missing these required facets:  XSDMaxFacet (either inclusive or exclusive)
+  XSDMinFacet (either inclusive or exclusive)
+
+Schema named component: http://www.research.ibm.com/XML/NS/xsd#positiveInteger-inheritedMinFacet
+  is missing these required facets:  XSDMaxFacet (either inclusive or exclusive)
+</CODE></PRE></TD></TR></TBODY></TABLE>
+      <P><A name=conclusion><SPAN 
+      class=atitle2>Conclusion</SPAN></A><BR>Although this is a contrived 
+      example, it does show how the library's detailed representation of a 
+      schema makes it easy to find exactly the parts of a schema you need. The 
+      library provides setter methods for the properties of schema components, 
+      so it is easy to update your sample to automatically fix any found types 
+      by adding any missing facets. And since the library models the concrete 
+      representation of the schema as well, you can write your updated schema 
+      back out to an <CODE>.xsd</CODE> file.</P>
+      <P><A name=samplecode><SPAN class=atitle2>Sample code</SPAN></A><BR>A 
+      sample program, <CODE>XSDFindTypesMissingFacets.java</CODE>, shows the 
+      example in this article. It uses a schema document 
+      <CODE>FindTypesMissingFacets.xsd</CODE> which has a number of types with 
+      and without max/min facets.</P>
+      <P>You can download the sample program and the following sample .java 
+      files in a <A 
+      href="images/../dwtip1/xsdqcode.zip">zip 
+      file.</A></P>
+      <P>Copies of several other sample .java files normally shipped with the 
+      Schema Infoset Model are also attached. These include:</P>
+      <UL>
+        <LI><CODE>XSDSchemaQueryTools.java</CODE> showcases a number of other 
+        ways to perform advanced queries on schema objects. 
+        <LI><CODE>XSDSchemaBuildingTools.java</CODE> with convenience methods 
+        for building schemas programmatically. 
+        <LI><CODE>XSDPrototypicalSchema.java</CODE> uses the library to build 
+        the ever-popular schema <A 
+        href="http://www.w3.org/TR/xmlschema-0/#po.xsd">primer PurchaseOrder 
+        sample</A>. </LI></UL>
+      <P><A name=resources><SPAN class=atitle2>Resources</SPAN></A> 
+      <UL>
+        <LI><A 
+        href="images/../dwtip1/xsdqcode.zip"><IMG src="images/../dwtip1/icon-zip.gif" alt="zip" border="0"/></A>
+        Download a zip file with the <A 
+        href="images/../dwtip1/xsdqcode.zip">sample 
+        codes</A> for this article, including the sample program, schema 
+        document, and other .java files. <BR><BR>
+        <LI>See a full <A 
+        href="../../../references/articles/dwtip1-scpw/sidebar-listing.html">schema 
+        library class listing</A>. <BR><BR>
+        <LI>Read some of IBM's thoughts about <A 
+        href="http://www-106.ibm.com/developerworks/cgi-bin/click.cgi?url=http://www.research.ibm.com/XML/schema/WD-XML-Schema-Infoset-API-Req.htm&amp;origin=x">what 
+        makes a good schema API</A>. <BR><BR>
+        <LI>Start with an <A 
+        href="http://www.xml.com/pub/a/2000/11/29/schemas/part1.html">Introduction 
+        to XML Schemas</A> by Eric van der Vlist. <BR><BR>
+        <LI>See W3C's <A href="http://www.w3.org/XML/Schema">schema 
+        specifications</A> (primer, datatypes, and structures). <BR><BR>
+        <LI>Download Apache's <A 
+        href="http://xml.apache.org/xerces2-j/">Xerces-J parser</A>, which 
+        includes basic schema validation tools. <BR><BR>
+        <LI>View or discuss a previous version of this article <A 
+        href="http://www-106.ibm.com/developerworks/library/x-schemimj/index.html?loc=x">at IBM's developerWorks</A>. <BR><BR>
+</LI></UL>
+      <P></P>
+	  <P>This content was adapted from an article on IBM developerWorks at <A HREF="http://www.ibm.com/developerWorks/">http://www.ibm.com/developerWorks/</A>.</P>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><A name=author1><SPAN class=atitle2>About the 
+            author</SPAN></A><BR>Shane Curcuru has been a developer and quality 
+            engineer at Lotus and IBM for 12 years and is a member of the Apache 
+            Software Foundation. He has worked on such diverse projects as Lotus 
+            1-2-3, Lotus eSuite, Apache's Xalan-J XSLT processor, and a variety 
+            of XML Schema tools. Questions about this article or about automated 
+            testing can be sent to him at shane_curcuru@us.ibm.com. 
+          </TD></TR></TBODY></TABLE><BR clear=all><IMG height=10 alt="" 
+      src="images/../dwtip1/c.gif" width=100 border=0><BR>
+</BODY></HTML>

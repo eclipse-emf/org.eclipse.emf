@@ -6,8 +6,15 @@
 <!-- ====================================================================== -->
 
 <toc label="XSD Documentation">
-	<topic label="XML Schema Infoset Model FAQ" href="doc/faq/FAQ.html"/>
-	<topic label="Article: Analyzing XML schemas with the Schema Infoset Model" href="doc/articles/dwtip1-scpw/index.html"/>
-	<topic label="Diagrams and Animations" href="doc/diagrams/diagrams.html"/>
+	<topic label="XML Schema Infoset Model FAQ" href="references/faq.html"/>
+	<topic label="Article: Analyzing XML schemas with the Schema Infoset Model" href="references/articles/dwtip1-scpw/index.html"/>
+	<topic label="Diagrams and Animations" href="references/diagrams/diagrams.html"/>
 	<topic label="Javadoc" href="references/javadoc/index.html"/>
+
+	<topic label="Release Notes">
+		<topic label="What's New in v2.0.0" href="news/release-notes2.0.0.html" />
+		<topic label="What's New in v1.1.1" href="news/release-notes1.1.1.html" />
+		<topic label="What's New in v1.1.0" href="news/release-notes1.1.0.html" />
+		<topic label="What's New in v1.0" href="news/release-notes1.0.html" />
+	</topic>
 </toc>
