@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.5 2004/06/09 15:45:41 emerks Exp $
+ * $Id: XSDParser.java,v 1.6 2004/08/24 18:55:40 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -144,11 +144,8 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
 
   public XSDParser()
   {
-    ClassLoader previousClassLoader = Thread.currentThread().getContextClassLoader();
     try 
     {
-      Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
-
       SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
       saxParserFactory.setNamespaceAware(true);
       saxParserFactory.setValidating(false);
@@ -168,10 +165,6 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     catch (ParserConfigurationException exception) 
     {
       fatalError(exception);
-    }
-    finally 
-    {
-      Thread.currentThread().setContextClassLoader(previousClassLoader);
     }
   }
 

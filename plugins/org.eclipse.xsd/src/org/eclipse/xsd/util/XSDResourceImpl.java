@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.5 2004/08/16 14:33:18 emerks Exp $
+ * $Id: XSDResourceImpl.java,v 1.6 2004/08/24 18:55:40 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -220,11 +220,8 @@ public class XSDResourceImpl extends ResourceImpl
    */
   protected static Document getDocument(InputStream inputStream, ErrorHandler errorHandler)  throws IOException
   {
-    ClassLoader previousClassLoader = Thread.currentThread().getContextClassLoader();
     try
     {
-      Thread.currentThread().setContextClassLoader(XSDResourceFactoryImpl.class.getClassLoader());
-
       DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
       documentBuilderFactory.setNamespaceAware(true);
       documentBuilderFactory.setValidating(false);
@@ -248,10 +245,6 @@ public class XSDResourceImpl extends ResourceImpl
     catch (SAXException exception)
     {
       throw new IOWrappedException(exception);
-    }
-    finally
-    {
-      Thread.currentThread().setContextClassLoader(previousClassLoader);
     }
   }
 
