@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETParser.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETParser.java,v 1.2 2004/06/17 18:44:17 emerks Exp $
  *
  * The Apache Software License, Version 1.1
  *
@@ -462,7 +462,7 @@ public class JETParser
         {
           if ("include".equals(match))
           {
-            while (reader.peekChar() == ' ')
+            while (reader.hasMoreInput() && reader.peekChar() == ' ')
             {
               reader.nextChar();
               leadingCharacters.append(' ');
