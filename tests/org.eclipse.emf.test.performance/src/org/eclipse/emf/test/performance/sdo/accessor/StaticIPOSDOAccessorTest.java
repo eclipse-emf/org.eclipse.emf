@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.21 2005/03/30 23:13:07 nickb Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.22 2005/03/31 17:09:44 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -54,6 +54,9 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   protected static final int ITERATIONS_400K = 320000000; //400000;
 
   protected static final int ITERATIONS_800K = 640000000; //800000;
+
+  protected static final int ITERATIONS_1_6M =  1280000000; // should be 12.8 billion but that's too big for an int, so do 10 reps of this
+  protected static final int ITERATIONS_600K = 480000000;
 
   // values for get with generated code.
   protected Address addressBillToValue;
@@ -310,14 +313,17 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     BigInteger quantity0 = this.quantity0;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_800K; i++)
+    for (int j = 0; j < REPETITIONS_10; j++)
     {
-      // to use quantityValue inside the loop.
-      if (quantityValue != quantity0)
-      {
-        // TODO ideally, we'd want to call different methods (which return BigInteger).
-        quantityValue = itemElement.getQuantity();
-      }
+	    for (int i = 0; i < ITERATIONS_1_6M; i++)
+	    {
+	      // to use quantityValue inside the loop.
+	      if (quantityValue != quantity0)
+	      {
+	        // TODO ideally, we'd want to call different methods (which return BigInteger).
+	        quantityValue = itemElement.getQuantity();
+	      }
+	    }
     }
     stopMeasuring();
   }
@@ -329,7 +335,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     BigInteger quantity1 = this.quantity1;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_400K; i++)
+    for (int i = 0; i < ITERATIONS_600K; i++)
     {
       itemElement.setQuantity(quantity0);
       // TODO ideally, we'd want to alternate the feature to set.
