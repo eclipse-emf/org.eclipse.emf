@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticBidirectionalTest.java,v 1.4 2005/03/18 16:20:37 nickb Exp $
+ * $Id: StaticBidirectionalTest.java,v 1.5 2005/04/04 13:56:57 emerks Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -33,7 +33,11 @@ import commonj.sdo.Property;
 
 public class StaticBidirectionalTest extends DynamicBidirectionalTest
 {
-
+  protected DataObject book0;
+  protected DataObject book1;
+  protected DataObject writer0;
+  protected DataObject writer1;
+  
   public StaticBidirectionalTest(String name)
   {
     super(name);
