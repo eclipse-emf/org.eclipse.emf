@@ -11,7 +11,7 @@
 			overview="${overview}"
 
 			windowtitle="EMF Javadoc"
-			footer="Copyright 2001-2003 IBM Corporation and others.&lt;br&gt; All Rights Reserved."
+			footer="Copyright 2001-2004 IBM Corporation and others.&lt;br&gt; All Rights Reserved."
 
 			docencoding="UTF-8"
 			charset="UTF-8"
