@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.2 2004/03/10 13:00:24 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.3 2004/03/23 09:51:06 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1421,33 +1421,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       {
         if (getGenModel().isGenerateSchema())
         {
-          switch (getResource().getValue())
-          {
-            case GenResourceKind.XML:
-            {
-              boolean hasXSD2EcoreAnnotation = false;
-              for (Iterator i = getEcorePackage().getEAnnotations().iterator(); i.hasNext(); )
-              {
-                EAnnotation eAnnotation = (EAnnotation)i.next();
-                if (XSD2ECORE_URI.equals(eAnnotation.getSource()))
-                {
-                  hasXSD2EcoreAnnotation = true;
-                  break;
-                }
-              }
-              if( !hasXSD2EcoreAnnotation)
-              {
-                generateXSD("XML");
-              }
-              break;
-            }
-            case GenResourceKind.NONE:
-            case GenResourceKind.XMI:
-            {
-              generateXSD("XMI");
-              break;
-            }
-          }
+          generateSchema();
         }
 
         progressMonitor.subTask
@@ -1567,6 +1541,37 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       progressMonitor.done();
     }
+  }
+  
+  public void generateSchema()
+  {
+    switch (getResource().getValue())
+    {
+      case GenResourceKind.XML:
+      {
+        boolean hasXSD2EcoreAnnotation = false;
+        for (Iterator i = getEcorePackage().getEAnnotations().iterator(); i.hasNext(); )
+        {
+          EAnnotation eAnnotation = (EAnnotation)i.next();
+          if (XSD2ECORE_URI.equals(eAnnotation.getSource()))
+          {
+            hasXSD2EcoreAnnotation = true;
+            break;
+          }
+        }
+        if( !hasXSD2EcoreAnnotation)
+        {
+          generateXSD("XML");
+        }
+        break;
+      }
+      case GenResourceKind.NONE:
+      case GenResourceKind.XMI:
+      {
+        generateXSD("XMI");
+        break;
+      }
+    }    
   }
 
   protected void generateXSD(String type)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenPackage.java,v 1.2 2004/03/23 09:51:06 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -369,6 +369,8 @@ public interface GenPackage extends GenBase{
 
   void initialize(EPackage ePackage);
 
+  void generateSchema();
+  
   //
   // EMFEdit generation
   //
