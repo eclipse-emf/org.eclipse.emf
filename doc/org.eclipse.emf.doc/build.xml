@@ -57,6 +57,7 @@
 			<zipfileset dir="references" prefix="references"/>
 			<zipfileset dir="images" prefix="images"/>
 			<zipfileset dir="tutorials" prefix="tutorials"/>
+			<zipfileset dir="css" prefix="css"/>
 		</zip>
 	</target>
 
