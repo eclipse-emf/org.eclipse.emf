@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.11 2004/06/22 22:42:59 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.12 2004/06/22 23:13:06 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -581,7 +581,7 @@ public class ChangeRecorder implements Adapter
               }
               else
               {
-                createMoveListChange(oldList, changesList, newObject, index, targetIndex);
+                createMoveListChange(oldList, changesList, newObject, position, index);
               }
             }
             else
@@ -627,11 +627,11 @@ public class ChangeRecorder implements Adapter
    * for the scenario in which an element was moved in the monitored list.
    * @see #createListChanges(EList, EList, EList) 
    */
-  protected void createMoveListChange(EList oldList, EList changesList, Object newObject, int index, int targetIndex)
+  protected void createMoveListChange(EList oldList, EList changesList, Object newObject, int index, int toIndex)
   {
     ListChange listChange = createListChange(changesList, ChangeKind.MOVE_LITERAL, index);
-    listChange.setMoveToIndex(targetIndex);
-    oldList.move(targetIndex, index);
+    listChange.setMoveToIndex(toIndex);
+    oldList.move(toIndex, index);
    }  
 
   protected ListChange createListChange(EList changesList, ChangeKind kind, int index)
