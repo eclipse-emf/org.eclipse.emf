@@ -32,6 +32,8 @@ import commonj.sdo.DataObject;
 
 public class TestSDO extends TestCase
 {
+  private static final boolean SYSOUT = false;
+  
   private ResourceSet resourceSet;
   private EPackage ePackage;
   private EFactory eFactory;
@@ -57,7 +59,7 @@ public class TestSDO extends TestCase
     eDataGraph = SDOFactory.eINSTANCE.createEDataGraph();
     resourceSet = eDataGraph.getResourceSet();
     Resource model = resourceSet.getResource(URI.createURI(TestSDO.class.getResource("com.example.simple.ecore").toString()), true);
-    model.save(System.out, null);
+    if (SYSOUT) model.save(System.out, null);
 
     ePackage = (EPackage)model.getContents().get(0);
     ePackage.setEFactoryInstance
@@ -88,7 +90,7 @@ public class TestSDO extends TestCase
     DataObject grandChild = child.createDataObject("quotes");
     root.getList("quotes").add(child);
     eDataGraph.setERootObject(root);
-    eDataGraph.getDataGraphResource().save(System.out, null);
+    if (SYSOUT) eDataGraph.getDataGraphResource().save(System.out, null);
 
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
@@ -97,7 +99,7 @@ public class TestSDO extends TestCase
     InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
     ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
     EDataGraph otherEDataGraph = (EDataGraph)objectInputStream.readObject();
-    otherEDataGraph.getDataGraphResource().save(System.out, null);
+    if (SYSOUT) otherEDataGraph.getDataGraphResource().save(System.out, null);
   }
 
   protected void modelTest(ResourceSet resourceSet, DataObject quote) throws Exception
@@ -116,7 +118,7 @@ public class TestSDO extends TestCase
     
     Map options = new HashMap();
     options.put(XMLResource.OPTION_LINE_WIDTH, new Integer(10));
-    quoteResource.save(System.out, options);
+    if (SYSOUT) quoteResource.save(System.out, options);
 
     assertEquals("fbnt", quote.getString("symbol"));
   }
