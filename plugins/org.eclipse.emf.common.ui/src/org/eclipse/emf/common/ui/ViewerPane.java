@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerPane.java,v 1.2 2004/08/05 15:42:14 marcelop Exp $
+ * $Id: ViewerPane.java,v 1.3 2004/12/29 18:30:27 emerks Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -33,6 +33,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.events.DisposeEvent;
@@ -400,16 +401,24 @@ public abstract class ViewerPane implements IPropertyListener, Listener
   protected void doMaximize()
   {
     Control child = control;
-    for (Control parent = control.getParent(); parent instanceof SashForm; parent = parent.getParent())
+    for (Control parent = control.getParent(); parent instanceof SashForm || parent instanceof CTabFolder; parent = parent.getParent())
     {
-      SashForm sashForm = (SashForm)parent;
-      if (sashForm.getMaximizedControl() == null)
+      if (parent instanceof CTabFolder)
       {
-        sashForm.setMaximizedControl(child);
+        CTabFolder cTabFolder = (CTabFolder)parent;
+        cTabFolder.setMaximized(!cTabFolder.getMaximized());
       }
-      else
+      else if (parent instanceof SashForm)
       {
-        sashForm.setMaximizedControl(null);
+        SashForm sashForm = (SashForm)parent;
+        if (sashForm.getMaximizedControl() == null)
+        {
+          sashForm.setMaximizedControl(child);
+        }
+        else
+        {
+          sashForm.setMaximizedControl(null);
+        }
       }
       child = parent;
     }
@@ -582,8 +591,10 @@ public abstract class ViewerPane implements IPropertyListener, Listener
     Menu menu = new Menu(titleLabel);
     MenuItem item;
 
-    SashForm sashForm = (SashForm)control.getParent();
-    boolean isMaximized = sashForm.getMaximizedControl() != null;
+    boolean isMaximized = 
+        control.getParent() instanceof SashForm ? 
+          ((SashForm)control.getParent()).getMaximizedControl() != null :
+          control.getParent() instanceof CTabFolder && ((CTabFolder)control.getParent()).getMaximized();
 
     MenuItem restoreItem = new MenuItem(menu, SWT.NONE);
     restoreItem.setText(CommonUIPlugin.INSTANCE.getString("_UI_Restore_menu_item"));
