@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDWildcardImpl.java,v 1.2 2005/04/05 16:32:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1281,6 +1281,11 @@ public class XSDWildcardImpl
       {
         clonedWildcard.getLexicalNamespaceConstraint().clear();
       }
+    }
+
+    if (isSetProcessContents())
+    {  
+      clonedWildcard.setProcessContents(getProcessContents());
     }
 
     if (deep)
