@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.8 2004/12/29 22:20:22 marcelop Exp $
+ * $Id: JMerger.java,v 1.9 2005/02/04 12:30:09 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -737,15 +737,27 @@ public class JMerger implements IPlatformRunnable
                 String oldStringValue = (String)sourceGetMethod.invoke(targetNode, noArguments);
                 Matcher sourceMatcher = sourceTransfer.matcher(stringValue);
                 Matcher targetMatcher = sourceTransfer.matcher(oldStringValue);
-                if (sourceMatcher.find() &&
-                      targetMatcher.find() &&
-                      sourceMatcher.groupCount() >= 1 &&
-                      targetMatcher.groupCount() >= 1)
+                if (sourceMatcher.groupCount() >= 1 && targetMatcher.groupCount() >= 1)
                 {
-                  stringValue =
-                    stringValue.substring(0, sourceMatcher.start(1)) + 
-                      targetMatcher.group(1) +
-                      stringValue.substring(sourceMatcher.end(1));
+                  StringBuffer result = new StringBuffer();
+                  int index = 0;
+                  while (sourceMatcher.find() && targetMatcher.find())
+                  {
+                    result.append(stringValue.substring(index, sourceMatcher.start(1)));
+                    result.append(targetMatcher.group(1));
+                    index =  sourceMatcher.end(1);
+                  }
+                  // There must be at least one match.
+                  //
+                  if (result.length() == 0)
+                  {
+                    stringValue = null;
+                  }
+                  else
+                  {
+                    result.append(stringValue.substring(index));
+                    stringValue = result.toString();
+                  }
                 }
                 else
                 {
