@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.8 2005/03/06 00:00:50 emerks Exp $
+ * $Id: JETEmitter.java,v 1.9 2005/03/22 15:42:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -465,8 +465,6 @@ public class JETEmitter
 
       if (!errors)
       {
-        IContainer targetContainer = workspace.getRoot().getFolder(javaProject.getOutputLocation());
-
         subProgressMonitor.subTask
           (CodeGenPlugin.getPlugin().getString
              ("_UI_JETLoadingClass_message", new Object [] { jetCompiler.getSkeleton().getClassName() + ".class" }));
