@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.3 2004/11/04 00:01:08 marcelop Exp $
+ * $Id: BuildTests.java,v 1.4 2004/11/04 06:52:54 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -755,12 +755,6 @@ public class BuildTests extends TestCase
 
   private boolean testChkpii(int type)
   {
-    File outputFileDir = new File(getOutputFile(type)).getParentFile();
-    if (!outputFileDir.isDirectory())
-    {
-      outputFileDir.mkdirs();
-    }
-    
     Runtime aRuntime = Runtime.getRuntime();
     String chkpiiString = getChkpiiString(type);
     System.out.println(chkpiiString);
@@ -775,13 +769,9 @@ public class BuildTests extends TestCase
       aProcess.waitFor();
       Thread.sleep(1000);
     }
-    catch (IOException e)
+    catch (Exception e)
     {
       e.printStackTrace();
-      return false;
-    }
-    catch (InterruptedException e)
-    {
       return false;
     }
     return !hasErrors(getOutputFile(type));
