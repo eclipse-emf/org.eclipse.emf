@@ -12,19 +12,20 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.2 2004/03/23 17:00:38 emerks Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.3 2004/05/11 13:05:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IContributionManager;
+import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
@@ -49,6 +50,8 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+import org.eclipse.emf.edit.ui.action.LoadResourceAction;
+import org.eclipse.emf.edit.ui.action.ValidateAction;
 
 
 /**
@@ -95,7 +98,7 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected IAction showPropertiesViewAction = 
+  protected IAction showPropertiesViewAction =
     new Action(EcoreEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))
     {
       public void run()
@@ -104,7 +107,7 @@ public class EcoreActionBarContributor
         {
           getPage().showView("org.eclipse.ui.views.PropertySheet");
         }
-        catch(PartInitException exception)
+        catch (PartInitException exception)
         {
           EcoreEditorPlugin.INSTANCE.log(exception);
         }
@@ -113,19 +116,19 @@ public class EcoreActionBarContributor
 
   /**
    * This action refreshes the viewer of the current editor if the editor
-   * implements {@link IViewerProvider}.
+   * implements {@link org.eclipse.emf.common.ui.viewer.IViewerProvider}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected IAction refreshViewerAction = 
+  protected IAction refreshViewerAction =
     new Action(EcoreEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item"))
     {
       public boolean isEnabled()
       {
         return activeEditorPart instanceof IViewerProvider;
       }
-      
+
       public void run()
       {
         if (activeEditorPart instanceof IViewerProvider)
@@ -140,7 +143,7 @@ public class EcoreActionBarContributor
     };
 
   /**
-   * This will contain one {@link CreateChildAction} corresponding to each descriptor
+   * This will contain one {@link org.eclipse.emf.edit.ui.action.CreateChildAction} corresponding to each descriptor
    * generated for the current selection by the item provider.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -157,7 +160,7 @@ public class EcoreActionBarContributor
   protected IMenuManager createChildMenuManager;
 
   /**
-   * This will contain one {@link CreateSiblingAction} corresponding to each descriptor
+   * This will contain one {@link org.eclipse.emf.edit.ui.action.CreateSiblingAction} corresponding to each descriptor
    * generated for the current selection by the item provider.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -181,6 +184,8 @@ public class EcoreActionBarContributor
    */
   public EcoreActionBarContributor()
   {
+    loadResourceAction = new LoadResourceAction();
+    validateAction = new ValidateAction();
   }
 
   /**
@@ -223,6 +228,19 @@ public class EcoreActionBarContributor
     //
     createSiblingMenuManager = new MenuManager(EcoreEditorPlugin.getPlugin().getString("_UI_CreateSibling_menu_item"));
     submenuManager.insertBefore("additions", createSiblingMenuManager);
+    
+    // Force an update because Eclipse hides empty menus now.
+    //
+    submenuManager.addMenuListener
+      (new IMenuListener()
+       {
+         public void menuAboutToShow(IMenuManager menuManager)
+         {
+           menuManager.updateAll(true);
+         }
+       });
+
+    addGlobalActions(submenuManager);
   }
 
   protected IMenuManager createSubmenuManager()
@@ -231,9 +249,7 @@ public class EcoreActionBarContributor
   }
 
   /**
-   * When the active editor changes,
-   * this remembers the change,
-   * and registers with it as a selection provider.
+   * When the active editor changes, this remembers the change and registers with it as a selection provider.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -268,8 +284,8 @@ public class EcoreActionBarContributor
   }
 
   /**
-   * This implements {@link ISelectionChangedListener},
-   * handling {@link SelectionChangedEvents} by querying for the children and siblings
+   * This implements {@link org.eclipse.jface.viewers.ISelectionChangedListener},
+   * handling {@link org.eclipse.jface.viewers.SelectionChangedEvents} by querying for the children and siblings
    * that can be added to the selected object and updating the menus accordingly.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -298,8 +314,7 @@ public class EcoreActionBarContributor
     {
       Object object = ((IStructuredSelection)selection).getFirstElement();
 
-      EditingDomain domain =
-        ((IEditingDomainProvider) activeEditorPart).getEditingDomain();
+      EditingDomain domain = ((IEditingDomainProvider)activeEditorPart).getEditingDomain();
 
       newChildDescriptors = domain.getNewChildDescriptors(object, null);
       newSiblingDescriptors = domain.getNewChildDescriptors(null, object);
@@ -323,7 +338,7 @@ public class EcoreActionBarContributor
   }
 
   /**
-   * This generates a {@link CreateChildAction} for each object in <code>descriptors</code>,
+   * This generates a {@link org.eclipse.emf.edit.ui.action.CreateChildAction} for each object in <code>descriptors</code>,
    * and returns the collection of these actions.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -331,7 +346,7 @@ public class EcoreActionBarContributor
    */
   protected Collection generateCreateChildActions(Collection descriptors, ISelection selection)
   {
-    Collection actions = new LinkedList();
+    Collection actions = new ArrayList();
     if (descriptors != null)
     {
       for (Iterator i = descriptors.iterator(); i.hasNext(); )
@@ -343,7 +358,7 @@ public class EcoreActionBarContributor
   }
 
   /**
-   * This generates a {@link CreateSiblingAction} for each object in <code>descriptors</code>,
+   * This generates a {@link org.eclipse.emf.edit.ui.action.CreateSiblingAction} for each object in <code>descriptors</code>,
    * and returns the collection of these actions.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -351,7 +366,7 @@ public class EcoreActionBarContributor
    */
   protected Collection generateCreateSiblingActions(Collection descriptors, ISelection selection)
   {
-    Collection actions = new LinkedList();
+    Collection actions = new ArrayList();
     if (descriptors != null)
     {
       for (Iterator i = descriptors.iterator(); i.hasNext(); )
@@ -363,8 +378,8 @@ public class EcoreActionBarContributor
   }
 
   /**
-   * This populates the specified <code>manager</code> with {@link ActionContributionItem}s
-   * based on the {@link IAction}s contained in the <code>actions</code> collection,
+   * This populates the specified <code>manager</code> with {@link org.eclipse.jface.action.ActionContributionItem}s
+   * based on the {@link org.eclipse.jface.action.IAction}s contained in the <code>actions</code> collection,
    * by inserting them before the specified contribution item <code>contributionID</code>.
    * If <code>ID</code> is <code>null</code>, they are simply added.
    * <!-- begin-user-doc -->
@@ -377,7 +392,7 @@ public class EcoreActionBarContributor
     {
       for (Iterator i = actions.iterator(); i.hasNext(); )
       {
-        IAction action = (IAction) i.next();
+        IAction action = (IAction)i.next();
         if (contributionID != null)
         {
           manager.insertBefore(contributionID, action);
@@ -391,8 +406,8 @@ public class EcoreActionBarContributor
   }
     
   /**
-   * This removes from the specified <code>manager</code> all {@link ActionContributionItem}s
-   * based on the {@link IAction}s contained in the <code>actions</code> collection.
+   * This removes from the specified <code>manager</code> all {@link org.eclipse.jface.action.ActionContributionItem}s
+   * based on the {@link org.eclipse.jface.action.IAction}s contained in the <code>actions</code> collection.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -416,7 +431,7 @@ public class EcoreActionBarContributor
         //
         if (contributionItem instanceof ActionContributionItem)
         {
-          IAction action = ((ActionContributionItem) contributionItem).getAction();
+          IAction action = ((ActionContributionItem)contributionItem).getAction();
           if (actions.contains(action))
           {
             manager.remove(contributionItem);
@@ -434,8 +449,6 @@ public class EcoreActionBarContributor
    */
   public void menuAboutToShow(IMenuManager menuManager)
   {
-    refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
-    
     super.menuAboutToShow(menuManager);
     MenuManager submenuManager = null;
 
@@ -446,9 +459,22 @@ public class EcoreActionBarContributor
     submenuManager = new MenuManager(EcoreEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
     populateManager(submenuManager, createSiblingActions, null);
     menuManager.insertBefore("additions", submenuManager);
-    
+  }
+
+  /**
+   * This inserts global actions before the "additions-end" separator.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addGlobalActions(IMenuManager menuManager)
+  {
     menuManager.insertAfter("additions-end", new Separator("ui-actions"));
     menuManager.insertAfter("ui-actions", showPropertiesViewAction);
+
+    refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());		
     menuManager.insertAfter("ui-actions", refreshViewerAction);
+
+    super.addGlobalActions(menuManager);
   }
 }
