@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.8 2004/12/16 21:32:41 emerks Exp $
+ * $Id: GenPackage.java,v 1.9 2005/03/07 21:26:07 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -353,6 +353,7 @@ public interface GenPackage extends GenBase
   String getInterfacePackageName();
   String getClassPackageName();
   String getUtilitiesPackageName();
+  String getTestsPackageName();
 
   // String getPackageID();
   String getNSName();
@@ -383,6 +384,9 @@ public interface GenPackage extends GenBase
   String getSwitchClassName();
   String getValidatorClassName();
   String getImportedValidatorClassName();
+  String getTestSuiteClassName();
+  String getQualifiedTestSuiteClassName();
+  String getImportedTestSuiteClassName();
 
   List getAllGenDataTypes();
 

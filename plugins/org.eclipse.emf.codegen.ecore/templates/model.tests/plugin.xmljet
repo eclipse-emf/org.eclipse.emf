@@ -1,0 +1,49 @@
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model.tests" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" %>
+<%
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2005 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ */
+%>
+<%GenModel genModel = (GenModel)argument;%>
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+<%@ include file="../Header.jetinc"%>
+-->
+
+<plugin
+    name = "%pluginName"
+    id = "<%=genModel.getTestsPluginID()%>"
+    version = "1.0.0"
+    provider-name = "%providerName">
+
+  <requires>
+<%for (Iterator j=genModel.getTestsRequiredPlugins().iterator(); j.hasNext();) { String pluginID = (String)j.next();%>
+    <import plugin="<%=pluginID%>" <%if (!pluginID.startsWith("org.eclipse.core.runtime")) {%>export="true"<%}%>/>
+<%}%>
+  </requires>
+
+  <runtime>
+<%if (genModel.isRuntimeJar()) {%>
+    <library name="runtime/<%=genModel.getTestsPluginID()%>.jar">
+<%} else {%>
+    <library name="runtime/">
+<%}%>
+      <export name="*"/>
+    </library>
+  </runtime>
+
+</plugin>
+

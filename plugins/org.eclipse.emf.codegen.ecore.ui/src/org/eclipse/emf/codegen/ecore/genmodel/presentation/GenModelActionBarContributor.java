@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.9 2004/07/16 16:28:11 marcelop Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.10 2005/03/07 21:25:52 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -202,7 +202,20 @@ public class GenModelActionBarContributor
       genObject.generateEditor(progressMonitor);
     }  
   };
-
+  
+  protected IAction generateTestsAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateTests_menu_item"))
+  {
+    protected boolean canGenerate(GenBase genObject)
+    {
+      return genObject.canGenerateTests();
+    }
+    
+    protected void generate(GenBase genObject, IProgressMonitor progressMonitor)
+    {
+      genObject.generateTests(progressMonitor);
+    }
+  };
+  
   protected IAction generateSchemaAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateSchema_menu_item"))
   {
     protected boolean canGenerate(GenBase genObject)
@@ -227,10 +240,11 @@ public class GenModelActionBarContributor
 
     protected void generate(GenBase genObject, IProgressMonitor progressMonitor)
     {
-      progressMonitor.beginTask("", 3);
+      progressMonitor.beginTask("", 4);
       genObject.generate(new SubProgressMonitor(progressMonitor, 1));
       genObject.generateEdit(new SubProgressMonitor(progressMonitor, 1));
       genObject.generateEditor(new SubProgressMonitor(progressMonitor, 1));
+      genObject.generateTests(new SubProgressMonitor(progressMonitor, 1));
     }  
   };
 
@@ -334,6 +348,7 @@ public class GenModelActionBarContributor
     generateMenuManager.add(generateAction);
     generateMenuManager.add(generateEditAction);
     generateMenuManager.add(generateEditorAction);
+    generateMenuManager.add(generateTestsAction);
     generateMenuManager.add(generateAllAction);
 
     generateMenuManager.add(new Separator("schema-actions"));
@@ -401,6 +416,7 @@ public class GenModelActionBarContributor
   {
     generateAllAction.setEnabled(generateAllAction.isEnabled());
     generateSchemaAction.setEnabled(generateSchemaAction.isEnabled());
+    generateTestsAction.setEnabled(generateTestsAction.isEnabled());
     generateEditorAction.setEnabled(generateEditorAction.isEnabled());
     generateEditAction.setEnabled(generateEditAction.isEnabled());
     generateAction.setEnabled(generateAction.isEnabled());
@@ -409,6 +425,7 @@ public class GenModelActionBarContributor
     super.menuAboutToShow(menuManager);
     menuManager.insertBefore("additions", new Separator("generate-actions"));
     menuManager.insertAfter("generate-actions", generateAllAction);
+    menuManager.insertAfter("generate-actions", generateTestsAction);
     menuManager.insertAfter("generate-actions", generateEditorAction);
     menuManager.insertAfter("generate-actions", generateEditAction);
     menuManager.insertAfter("generate-actions", generateAction);

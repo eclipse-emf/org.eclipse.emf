@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2GenModel.java,v 1.6 2005/02/11 06:02:07 davidms Exp $
+ * $Id: XSD2GenModel.java,v 1.7 2005/03/07 21:26:07 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -197,6 +197,8 @@ public class XSD2GenModel extends Generator
     IPath editFragmentPath = null;
     IPath editorProjectLocationPath = null;
     IPath editorFragmentPath = null;
+    IPath testsProjectLocationPath = null;
+    IPath testsFragmentPath = null;
     String templatePath = null;
     String copyright = null;
     boolean sdo = false;
@@ -218,6 +220,11 @@ public class XSD2GenModel extends Generator
       {
         editorProjectLocationPath = new Path(new File(arguments[++index]).getAbsolutePath());
         editorFragmentPath = new Path(arguments[++index]);
+      }
+      else if (arguments[index].equalsIgnoreCase("-testsProject"))
+      {
+        testsProjectLocationPath = new Path(new File(arguments[++index]).getAbsolutePath());
+        testsFragmentPath = new Path(arguments[++index]);
       }
       else if (arguments[index].equalsIgnoreCase("-packagemap"))
       {
@@ -374,12 +381,12 @@ public class XSD2GenModel extends Generator
       generatedGenModel.setModelPluginID(modelPluginID);
     }
     
-    generatedGenModel.setEditPluginClass
-      (generatedGenModel.getModelPluginID() + ".provider." + 
-         Generator.validName(generatedGenModel.getModelName()) + "EditPlugin");
-    generatedGenModel.setEditorPluginClass
-      (generatedGenModel.getModelPluginID() + ".presentation." + 
-         Generator.validName(generatedGenModel.getModelName()) + "EditorPlugin");
+    generatedGenModel.setEditPluginClass(generatedGenModel.getModelPluginID() + ".provider."
+      + Generator.validName(generatedGenModel.getModelName()) + "EditPlugin");
+    generatedGenModel.setEditorPluginClass(generatedGenModel.getModelPluginID() + ".presentation."
+      + Generator.validName(generatedGenModel.getModelName()) + "EditorPlugin");
+    generatedGenModel.setTestSuiteClass(generatedGenModel.getModelPluginID() + ".tests."
+      + Generator.validName(generatedGenModel.getModelName()) + "AllTests");
     generatedGenModel.setModelDirectory(modelProjectLocationPath + "/./" + modelFragmentPath + "/.");
     if (editProjectLocationPath != null)
     {
@@ -388,6 +395,10 @@ public class XSD2GenModel extends Generator
     if (editorProjectLocationPath != null)
     {
       generatedGenModel.setEditorDirectory(editorProjectLocationPath + "/./" + editorFragmentPath + "/.");
+    }
+    if (testsProjectLocationPath != null)
+    {
+      generatedGenModel.setTestsDirectory(testsProjectLocationPath + "/./" + testsFragmentPath + "/.");
     }
 
     if (templatePath != null)

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.5 2004/12/16 16:21:45 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.6 2005/03/07 21:26:07 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -422,6 +422,21 @@ public class GenOperationImpl extends GenBaseImpl implements GenOperation
       if (iter.hasNext()) result.append(", ");
     }
     return result.toString();
+  }
+
+  public String getParameterTypes(String separator)
+  {
+    StringBuffer parameterTypes = new StringBuffer();
+    for (Iterator genParameters = getGenParameters().iterator(); genParameters.hasNext();)
+    {
+      GenParameter genParameter = (GenParameter)genParameters.next();
+      parameterTypes.append(genParameter.getImportedType());
+      if (genParameters.hasNext())
+      {
+        parameterTypes.append(separator);
+      }
+    }
+    return parameterTypes.toString();
   }
 
   public String getImportedMetaType()

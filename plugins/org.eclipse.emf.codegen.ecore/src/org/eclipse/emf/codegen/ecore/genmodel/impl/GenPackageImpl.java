@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.16 2005/02/16 21:25:49 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.17 2005/03/07 21:26:07 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -937,6 +937,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return getInterfacePackageName() + ".util";
   }
 
+  public String getTestsPackageName()
+  {
+    return getInterfacePackageName() + ".tests";
+  }
+
   public String getPackageID()
   {
     return getEcorePackage().getNsPrefix();
@@ -1045,6 +1050,21 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   public String getSwitchClassName()
   {
     return getPrefixedName("Switch");
+  }
+
+  public String getTestSuiteClassName()
+  {
+    return getPrefixedName("Tests");
+  }
+
+  public String getQualifiedTestSuiteClassName()
+  {
+    return getInterfacePackageName() + ".tests." + getPrefixedName("Tests");
+  }
+
+  public String getImportedTestSuiteClassName()
+  {
+    return getGenModel().getImportedName(getQualifiedTestSuiteClassName());
   }
 
   protected static final boolean NO_CONSTRAINTS = "true".equals(System.getProperty("EMF_NO_CONSTRAINTS")); 
@@ -2519,6 +2539,52 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       {
         GenPackage nestedGenPackage = (GenPackage)nestedGenPackages.next();
         nestedGenPackage.generateEditor(new SubProgressMonitor(progressMonitor, 1));
+      }
+    }
+    finally
+    {
+      progressMonitor.done();
+    }
+  }
+
+  public boolean canGenerateTests()
+  {
+    return getGenModel().canGenerateTests() && hasClassifiers();
+  }
+
+  public void generateTests(IProgressMonitor progressMonitor)
+  {
+    try
+    {
+      if (!canGenerateTests())
+        return;
+
+      progressMonitor.beginTask("", getGenClasses().size() + getNestedGenPackages().size());
+
+      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString(
+        "_UI_GeneratingJavaClass_message",
+        new Object []{ getQualifiedTestSuiteClassName() }));
+      generate(
+        new SubProgressMonitor(progressMonitor, 1),
+        Generator.EMF_TESTS_PROJECT_STYLE,
+        getGenModel().getEffectiveModelPluginVariables(),
+        getGenModel().getTestsDirectory(),
+        getTestsPackageName(),
+        getTestSuiteClassName(),
+        getGenModel().getPackageTestSuiteEmitter());
+
+      for (Iterator genClasses = getGenClasses().iterator(); genClasses.hasNext();)
+      {
+        GenClass genClass = (GenClass)genClasses.next();
+        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString(
+          "_UI_Generating_message",
+          new Object []{ genClass.getFormattedName() }));
+        genClass.generateTests(new SubProgressMonitor(progressMonitor, 1));
+      }
+
+      for (Iterator nestedGenPackages = getNestedGenPackages().iterator(); nestedGenPackages.hasNext();)
+      {
+        ((GenPackage)nestedGenPackages.next()).generateTests(new SubProgressMonitor(progressMonitor, 1));
       }
     }
     finally

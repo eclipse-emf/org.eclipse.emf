@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.21 2005/02/23 19:31:21 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.22 2005/03/07 21:28:42 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1726,6 +1726,21 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getGenPackage().getItemProviderAdapterFactoryClassName();
   }
 
+  public String getTestCaseClassName()
+  {
+    return getName() + "Test";
+  }
+
+  public String getQualifiedTestCaseClassName()
+  {
+    return getGenPackage().getTestsPackageName() + "." + getTestCaseClassName();
+  }
+
+  public String getImportedTestCaseClassName()
+  {
+    return getGenModel().getImportedName(getQualifiedTestCaseClassName());
+  }
+
   public boolean canGenerateEdit()
   {
     return super.canGenerateEdit() && !isInterface();
@@ -1796,6 +1811,40 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           }
         }
       }
+    }
+    finally
+    {
+      progressMonitor.done();
+    }
+  }
+
+  public boolean canGenerateTests()
+  {
+    return getGenModel().canGenerateTests() && !isExternalInterface();
+  }
+
+  public void generateTests(IProgressMonitor progressMonitor)
+  {
+    try
+    {
+      if (!canGenerateTests())
+        return;
+
+      progressMonitor.beginTask("", 1);
+      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_Generating_message", new Object []{ getFormattedName()
+        + " Test Case" }));
+
+      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString(
+        "_UI_GeneratingJavaClass_message",
+        new Object []{ getGenPackage().getInterfacePackageName() + ".tests." + getInterfaceName() + "Test" }));
+      generate(
+        new SubProgressMonitor(progressMonitor, 1),
+        Generator.EMF_TESTS_PROJECT_STYLE,
+        Collections.EMPTY_LIST,
+        getGenModel().getTestsDirectory(),
+        getGenPackage().getInterfacePackageName() + ".tests",
+        getInterfaceName() + "Test",
+        getGenModel().getTestCaseEmitter());
     }
     finally
     {

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.7 2004/11/01 21:10:20 davidms Exp $
+ * $Id: GenModelItemProvider.java,v 1.8 2005/03/07 21:25:52 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -103,6 +103,8 @@ public class GenModelItemProvider
       addRichClientPlatformPropertyDescriptor(object);
       addReflectiveDelegationPropertyDescriptor(object);
       addCodeFormattingPropertyDescriptor(object);
+      addTestsDirectoryPropertyDescriptor(object);
+      addTestSuiteClassPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -698,6 +700,46 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Tests Directory feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addTestsDirectoryPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_testsDirectory_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_GenModel_testsDirectory_feature", "_UI_GenModel_type"),
+         GenModelPackage.eINSTANCE.getGenModel_TestsDirectory(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_TestsPropertyCategory")));
+  }
+
+  /**
+   * This adds a property descriptor for the Test Suite Class feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addTestSuiteClassPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_testSuiteClass_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_GenModel_testSuiteClass_feature", "_UI_GenModel_type"),
+         GenModelPackage.eINSTANCE.getGenModel_TestSuiteClass(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_TestsPropertyCategory")));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -771,7 +813,6 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__REDIRECTION:
       case GenModelPackage.GEN_MODEL__FORCE_OVERWRITE:
       case GenModelPackage.GEN_MODEL__NON_EXTERNALIZED_STRING_TAG:
-      case GenModelPackage.GEN_MODEL__TEST_DIRECTORY:
       case GenModelPackage.GEN_MODEL__MODEL_NAME:
       case GenModelPackage.GEN_MODEL__MODEL_PLUGIN_CLASS:
       case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_CLASS:
@@ -792,6 +833,8 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
       case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
+      case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
+      case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:

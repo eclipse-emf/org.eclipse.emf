@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.11 2004/11/01 21:10:25 davidms Exp $
+ * $Id: GenModelPackageImpl.java,v 1.12 2005/03/07 21:26:07 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -367,7 +367,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_TestDirectory()
+  public EAttribute getGenModel_ModelName()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(13);
   }
@@ -377,7 +377,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_ModelName()
+  public EAttribute getGenModel_ModelPluginClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(14);
   }
@@ -387,7 +387,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_ModelPluginClass()
+  public EAttribute getGenModel_EditPluginClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(15);
   }
@@ -397,7 +397,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_EditPluginClass()
+  public EAttribute getGenModel_EditorPluginClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(16);
   }
@@ -407,7 +407,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_EditorPluginClass()
+  public EAttribute getGenModel_UpdateClasspath()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(17);
   }
@@ -417,7 +417,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_UpdateClasspath()
+  public EAttribute getGenModel_GenerateSchema()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(18);
   }
@@ -427,7 +427,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_GenerateSchema()
+  public EAttribute getGenModel_NonNLSMarkers()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(19);
   }
@@ -437,7 +437,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_NonNLSMarkers()
+  public EAttribute getGenModel_StaticPackages()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(20);
   }
@@ -447,7 +447,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_StaticPackages()
+  public EAttribute getGenModel_ModelPluginVariables()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(21);
   }
@@ -457,7 +457,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_ModelPluginVariables()
+  public EAttribute getGenModel_RootExtendsInterface()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(22);
   }
@@ -467,7 +467,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_RootExtendsInterface()
+  public EAttribute getGenModel_RootExtendsClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(23);
   }
@@ -477,7 +477,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_RootExtendsClass()
+  public EAttribute getGenModel_RootImplementsInterface()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(24);
   }
@@ -487,7 +487,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_RootImplementsInterface()
+  public EAttribute getGenModel_SuppressEMFTypes()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(25);
   }
@@ -497,7 +497,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_SuppressEMFTypes()
+  public EAttribute getGenModel_FeatureMapWrapperInterface()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(26);
   }
@@ -507,7 +507,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_FeatureMapWrapperInterface()
+  public EAttribute getGenModel_FeatureMapWrapperInternalInterface()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(27);
   }
@@ -517,7 +517,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_FeatureMapWrapperInternalInterface()
+  public EAttribute getGenModel_FeatureMapWrapperClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(28);
   }
@@ -527,7 +527,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_FeatureMapWrapperClass()
+  public EAttribute getGenModel_RuntimeCompatibility()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(29);
   }
@@ -537,7 +537,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_RuntimeCompatibility()
+  public EAttribute getGenModel_RichClientPlatform()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(30);
   }
@@ -547,7 +547,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_RichClientPlatform()
+  public EAttribute getGenModel_ReflectiveDelegation()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(31);
   }
@@ -557,7 +557,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_ReflectiveDelegation()
+  public EAttribute getGenModel_CodeFormatting()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(32);
   }
@@ -567,7 +567,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_CodeFormatting()
+  public EAttribute getGenModel_TestsDirectory()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(33);
   }
@@ -577,9 +577,19 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getGenModel_TestSuiteClass()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(34);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getGenModel_GenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(34);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(35);
   }
 
   /**
@@ -589,7 +599,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    */
   public EReference getGenModel_UsedGenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(35);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(36);
   }
 
   /**
@@ -1126,7 +1136,6 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__REDIRECTION);
     createEAttribute(genModelEClass, GEN_MODEL__FORCE_OVERWRITE);
     createEAttribute(genModelEClass, GEN_MODEL__NON_EXTERNALIZED_STRING_TAG);
-    createEAttribute(genModelEClass, GEN_MODEL__TEST_DIRECTORY);
     createEAttribute(genModelEClass, GEN_MODEL__MODEL_NAME);
     createEAttribute(genModelEClass, GEN_MODEL__MODEL_PLUGIN_CLASS);
     createEAttribute(genModelEClass, GEN_MODEL__EDIT_PLUGIN_CLASS);
@@ -1147,6 +1156,8 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__RICH_CLIENT_PLATFORM);
     createEAttribute(genModelEClass, GEN_MODEL__REFLECTIVE_DELEGATION);
     createEAttribute(genModelEClass, GEN_MODEL__CODE_FORMATTING);
+    createEAttribute(genModelEClass, GEN_MODEL__TESTS_DIRECTORY);
+    createEAttribute(genModelEClass, GEN_MODEL__TEST_SUITE_CLASS);
     createEReference(genModelEClass, GEN_MODEL__GEN_PACKAGES);
     createEReference(genModelEClass, GEN_MODEL__USED_GEN_PACKAGES);
 
@@ -1266,7 +1277,6 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_Redirection(), ecorePackage.getEString(), "redirection", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_ForceOverwrite(), ecorePackage.getEBoolean(), "forceOverwrite", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_NonExternalizedStringTag(), ecorePackage.getEString(), "nonExternalizedStringTag", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getGenModel_TestDirectory(), ecorePackage.getEString(), "testDirectory", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_ModelName(), ecorePackage.getEString(), "modelName", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_ModelPluginClass(), ecorePackage.getEString(), "modelPluginClass", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_EditPluginClass(), ecorePackage.getEString(), "editPluginClass", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1287,6 +1297,8 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_RichClientPlatform(), ecorePackage.getEBoolean(), "richClientPlatform", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_ReflectiveDelegation(), ecorePackage.getEBoolean(), "reflectiveDelegation", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_CodeFormatting(), ecorePackage.getEBoolean(), "codeFormatting", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_TestsDirectory(), ecorePackage.getEString(), "testsDirectory", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_TestSuiteClass(), ecorePackage.getEString(), "testSuiteClass", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenModel_GenPackages(), this.getGenPackage(), this.getGenPackage_GenModel(), "genPackages", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenModel_UsedGenPackages(), this.getGenPackage(), null, "usedGenPackages", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

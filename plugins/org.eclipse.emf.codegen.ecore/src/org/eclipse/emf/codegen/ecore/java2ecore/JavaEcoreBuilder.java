@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.20 2005/03/01 18:13:51 marcelop Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.21 2005/03/07 21:30:03 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -509,9 +509,11 @@ public class JavaEcoreBuilder
       genModel.setModelPluginID(targetFragmentRoot.segment(0));
       genModel.setEditPluginClass(qualifier + ".provider." + Generator.validName(genModel.getModelName()) + "EditPlugin");
       genModel.setEditorPluginClass(qualifier + ".presentation." + Generator.validName(genModel.getModelName()) + "EditorPlugin");
+      genModel.setTestSuiteClass(qualifier + ".tests." + Generator.validName(genModel.getModelName()) + "AllTests");
       genModel.setModelDirectory(targetFragmentRoot.toString());
       genModel.setEditDirectory("/" + targetFragmentRoot.segment(0) + ".edit/" + targetFragmentRoot.removeFirstSegments(1));
       genModel.setEditorDirectory("/" + targetFragmentRoot.segment(0) + ".editor/" + targetFragmentRoot.removeFirstSegments(1));
+      genModel.setTestsDirectory("/" + targetFragmentRoot.segment(0) + ".tests/" + targetFragmentRoot.removeFirstSegments(1));
 
       genModel.getUsedGenPackages().addAll(usedGenPackages);
 
@@ -1335,13 +1337,13 @@ public class JavaEcoreBuilder
 
     if (eTypedElement != null)
     {
-      // Set the name, and remember method for import resolution later.
-      //
-      eTypedElement.setName(featureName);
-  
-      // Process the annotations.
-      //
-      eTypedElement.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
+    // Set the name, and remember method for import resolution later.
+    //
+    eTypedElement.setName(featureName);
+
+    // Process the annotations.
+    //
+    eTypedElement.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
     }
 
     return eTypedElement;

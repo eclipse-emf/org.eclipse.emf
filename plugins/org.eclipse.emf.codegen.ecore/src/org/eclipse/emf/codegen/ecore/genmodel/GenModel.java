@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.11 2004/12/16 21:32:41 emerks Exp $
+ * $Id: GenModel.java,v 1.12 2005/03/07 21:26:07 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -51,7 +51,6 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRedirection <em>Redirection</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isForceOverwrite <em>Force Overwrite</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getNonExternalizedStringTag <em>Non Externalized String Tag</em>}</li>
- *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestDirectory <em>Test Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelName <em>Model Name</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelPluginClass <em>Model Plugin Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditPluginClass <em>Edit Plugin Class</em>}</li>
@@ -72,6 +71,8 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichClientPlatform <em>Rich Client Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isReflectiveDelegation <em>Reflective Delegation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCodeFormatting <em>Code Formatting</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsDirectory <em>Tests Directory</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestSuiteClass <em>Test Suite Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -81,8 +82,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  * @model
  * @generated
  */
-public interface GenModel extends GenBase
-{
+public interface GenModel extends GenBase{
   /**
    * Returns the value of the '<em><b>Copyright Text</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -400,32 +400,6 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setNonExternalizedStringTag(String value);
-
-  /**
-   * Returns the value of the '<em><b>Test Directory</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Test Directory</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Test Directory</em>' attribute.
-   * @see #setTestDirectory(String)
-   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TestDirectory()
-   * @model
-   * @generated
-   */
-  String getTestDirectory();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestDirectory <em>Test Directory</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Test Directory</em>' attribute.
-   * @see #getTestDirectory()
-   * @generated
-   */
-  void setTestDirectory(String value);
 
   /**
    * Returns the value of the '<em><b>Model Name</b></em>' attribute.
@@ -935,6 +909,58 @@ public interface GenModel extends GenBase
   void setCodeFormatting(boolean value);
 
   /**
+   * Returns the value of the '<em><b>Tests Directory</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Tests Directory</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Tests Directory</em>' attribute.
+   * @see #setTestsDirectory(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TestsDirectory()
+   * @model
+   * @generated
+   */
+  String getTestsDirectory();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsDirectory <em>Tests Directory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Tests Directory</em>' attribute.
+   * @see #getTestsDirectory()
+   * @generated
+   */
+  void setTestsDirectory(String value);
+
+  /**
+   * Returns the value of the '<em><b>Test Suite Class</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Test Suite Class</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Test Suite Class</em>' attribute.
+   * @see #setTestSuiteClass(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TestSuiteClass()
+   * @model
+   * @generated
+   */
+  String getTestSuiteClass();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestSuiteClass <em>Test Suite Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Test Suite Class</em>' attribute.
+   * @see #getTestSuiteClass()
+   * @generated
+   */
+  void setTestSuiteClass(String value);
+
+  /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
@@ -1033,16 +1059,30 @@ public interface GenModel extends GenBase
   JETEmitter getEditorPluginPropertiesEmitter();
   JETEmitter getEditorBuildPropertiesEmitter();
 
+  //
+  // Tests generation
+  //
+  boolean hasTestSupport();
+
+  JETEmitter getTestCaseEmitter();
+  JETEmitter getModelTestSuiteEmitter();
+  JETEmitter getPackageTestSuiteEmitter();
+  JETEmitter getTestsPluginXMLEmitter();
+  JETEmitter getTestsPluginPropertiesEmitter();
+  JETEmitter getTestsBuildPropertiesEmitter();
+  
   // boolean isGenerateEditPlugin();
   // boolean isGenerateEditorPlugin();
 
   String getModelProjectDirectory();
   String getEditProjectDirectory();
   String getEditorProjectDirectory();
-
+  String getTestsProjectDirectory();
+  
   boolean sameModelEditProject();
   boolean sameEditEditorProject();
   boolean sameModelEditorProject();
+  boolean sameModelTestsProject();
 
   String getEditIconsDirectory();
   String getEditorIconsDirectory();
@@ -1073,12 +1113,18 @@ public interface GenModel extends GenBase
   String getQualifiedEditorPluginClassName();
   String getQualifiedEditorAdvisorClassName();
 
+  String getTestSuiteClassName();
+  String getTestSuitePackageName();
+  String getQualifiedTestSuiteClassName();
+  
   String getEditPluginID();
   String getEditorPluginID();
+  String getTestsPluginID();
 
   List getModelRequiredPlugins();
   List getEditRequiredPlugins();
   List getEditorRequiredPlugins();
+  List getTestsRequiredPlugins();
 
   List getEditResourceDelegateImportedPluginClassNames();
 

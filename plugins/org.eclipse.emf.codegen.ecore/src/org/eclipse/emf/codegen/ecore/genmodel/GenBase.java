@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBase.java,v 1.2 2004/07/05 03:16:50 marcelop Exp $
+ * $Id: GenBase.java,v 1.3 2005/03/07 21:26:07 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -57,7 +57,10 @@ public interface GenBase extends EObject{
 
   boolean canGenerateSchema();
   void generateSchema(IProgressMonitor progressMonitor);
-  
+
+  boolean canGenerateTests();
+  void generateTests(IProgressMonitor progressMonitor);
+
   boolean reconcile();
 
   boolean hasDocumentation();

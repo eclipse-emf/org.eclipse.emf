@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.8 2005/02/23 19:31:21 davidms Exp $
+ * $Id: GenClass.java,v 1.9 2005/03/07 21:26:07 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -320,6 +320,11 @@ public interface GenClass extends GenClassifier
   List/*of GenClass*/ getCrossPackageChildrenClasses(GenFeature genFeature);
 
   String getItemProviderAdapterFactoryClassName();
+
+  String getTestCaseClassName();
+  String getQualifiedTestCaseClassName();
+  String getImportedTestCaseClassName();
+  
   String getModelInfo();
 
   boolean reconcile(GenClass oldGenClassVersion);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.10 2005/02/23 21:31:10 khussey Exp $
+ * $Id: EMFProjectWizard.java,v 1.11 2005/03/07 21:25:52 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -580,9 +580,11 @@ public class EMFProjectWizard extends Wizard implements INewWizard
                 genModel.setModelPluginID(projectName);
                 genModel.setEditPluginClass(qualifier + ".provider." + Generator.validName(genModel.getModelName()) + "EditPlugin");
                 genModel.setEditorPluginClass(qualifier + ".presentation." + Generator.validName(genModel.getModelName()) + "EditorPlugin");
+                genModel.setTestSuiteClass(qualifier + ".tests." + Generator.validName(genModel.getModelName()) + "AllTests");
                 genModel.setModelDirectory("/" + projectName + "/src");
                 genModel.setEditDirectory("/" + projectName + ".edit/src");
                 genModel.setEditorDirectory("/" + projectName + ".editor/src");
+                genModel.setTestsDirectory("/" + projectName + ".tests/src");
 
                 // IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 

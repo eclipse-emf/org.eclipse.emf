@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.9 2005/02/11 17:58:12 marcelop Exp $
+ * $Id: Generator.java,v 1.10 2005/03/07 21:26:07 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -186,6 +186,7 @@ public class Generator extends CodeGen
                 boolean model = false;
                 boolean edit = false;
                 boolean editor = false;
+                boolean tests = false;
                 
                 int index = 0;
                 for (; index < arguments.length && arguments[index].startsWith("-"); ++index)
@@ -235,6 +236,10 @@ public class Generator extends CodeGen
                   {
                     editor = true;
                   }
+                  else if (arguments[index].equalsIgnoreCase("-tests"))
+                  {
+                    tests = true;
+                  }
                   else
                   {
                     throw new CoreException(
@@ -247,7 +252,7 @@ public class Generator extends CodeGen
                   }
                 }
 
-                if (!model && !edit && !editor)
+                if (!model && !edit && !editor && !tests)
                 {
                   model = true;
                 }
@@ -307,6 +312,12 @@ public class Generator extends CodeGen
                     {
                       genModel.setEditorDirectory(findOrCreateContainerHelper(rootLocation, editorDirectory, progressMonitor));
                     }
+
+                    String testsDirectory = genModel.getTestsDirectory();
+                    if (tests && testsDirectory != null)
+                    {
+                      genModel.setTestsDirectory(findOrCreateContainerHelper(rootLocation, testsDirectory, progressMonitor));
+                    }
                   }
   
                   genModel.setCanGenerate(true);
@@ -343,6 +354,10 @@ public class Generator extends CodeGen
                   if (editor)
                   {
                     genModel.generateEditor(new SubProgressMonitor(progressMonitor, 1));
+                  }
+                  if (tests)
+                  {
+                    genModel.generateTests(new SubProgressMonitor(progressMonitor, 1));
                   }
                 }
               }
@@ -437,6 +452,7 @@ public class Generator extends CodeGen
   public static int EMF_XML_PROJECT_STYLE    = 0x0008;
   public static int EMF_PLUGIN_PROJECT_STYLE = 0x0010;
   public static int EMF_EMPTY_PROJECT_STYLE  = 0x0020;
+  public static int EMF_TESTS_PROJECT_STYLE  = 0x0040;
 
   public static IProject createEMFProject
     (IPath javaSource,
@@ -677,6 +693,11 @@ public class Generator extends CodeGen
                   addClasspathEntries(classpathEntries, "EMF_ECORE_XMI", "org.eclipse.emf.ecore.xmi");
                 }
               }
+            }
+
+            if ((style & EMF_TESTS_PROJECT_STYLE) != 0)
+            {
+              addClasspathEntries(classpathEntries, "JUNIT", "org.junit");
             }
 
             if (pluginVariables != null)

@@ -90,10 +90,6 @@
 		    quid       	"3D2310B702D5"
 		    type       	"String"
 		    exportControl 	"Public")
-		(object ClassAttribute "testDirectory"
-		    quid       	"3D5926E40080"
-		    type       	"String"
-		    exportControl 	"Public")
 		(object ClassAttribute "modelName"
 		    quid       	"3D91982A0359"
 		    type       	"String"
@@ -180,6 +176,14 @@
 		(object ClassAttribute "codeFormatting"
 		    quid       	"4183EA7E005D"
 		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "testsDirectory"
+		    quid       	"421A52F30038"
+		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "testSuiteClass"
+		    quid       	"421B9FC90347"
+		    type       	"String"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -2572,10 +2576,10 @@
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
 		    ShowOperationSignature 	TRUE
-		    location   	(2016, 1584)
+		    location   	(2016, 1648)
 		    label      	(object ItemLabel
 			Parent_View 	@151
-			location   	(1377, 678)
+			location   	(1377, 667)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	1278
@@ -2587,11 +2591,11 @@
 		    quidu      	"3C175881028E"
 		    compartment 	(object Compartment
 			Parent_View 	@151
-			location   	(1377, 738)
+			location   	(1377, 727)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	35
+			nlines     	38
 			max_width  	1275
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
@@ -2619,7 +2623,7 @@
 			    "+ featureMapWrapperInternalInterface : String"
 			    "+ featureMapWrapperClass : String"))
 		    width      	1296
-		    height     	1836
+		    height     	1986
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenPackage" @152
@@ -2672,8 +2676,8 @@
 		    client     	@151
 		    supplier   	@134
 		    line_style 	3
-		    origin_attachment 	(1722, 666)
-		    terminal_attachment 	(1722, 314)
+		    origin_attachment 	(1728, 655)
+		    terminal_attachment 	(1728, 314)
 		    drawSupplier 	@143)
 		(object InheritView "" @155
 		    stereotype 	TRUE

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.7 2004/11/01 21:10:25 davidms Exp $
+ * $Id: GenModelPackage.java,v 1.8 2005/03/07 21:26:07 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -222,22 +222,13 @@ public interface GenModelPackage extends EPackage{
   int GEN_MODEL__NON_EXTERNALIZED_STRING_TAG = GEN_BASE_FEATURE_COUNT + 12;
 
   /**
-   * The feature id for the '<em><b>Test Directory</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int GEN_MODEL__TEST_DIRECTORY = GEN_BASE_FEATURE_COUNT + 13;
-
-  /**
    * The feature id for the '<em><b>Model Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__MODEL_NAME = GEN_BASE_FEATURE_COUNT + 14;
+  int GEN_MODEL__MODEL_NAME = GEN_BASE_FEATURE_COUNT + 13;
 
   /**
    * The feature id for the '<em><b>Model Plugin Class</b></em>' attribute.
@@ -246,7 +237,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__MODEL_PLUGIN_CLASS = GEN_BASE_FEATURE_COUNT + 15;
+  int GEN_MODEL__MODEL_PLUGIN_CLASS = GEN_BASE_FEATURE_COUNT + 14;
 
   /**
    * The feature id for the '<em><b>Edit Plugin Class</b></em>' attribute.
@@ -255,7 +246,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__EDIT_PLUGIN_CLASS = GEN_BASE_FEATURE_COUNT + 16;
+  int GEN_MODEL__EDIT_PLUGIN_CLASS = GEN_BASE_FEATURE_COUNT + 15;
 
   /**
    * The feature id for the '<em><b>Editor Plugin Class</b></em>' attribute.
@@ -264,7 +255,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__EDITOR_PLUGIN_CLASS = GEN_BASE_FEATURE_COUNT + 17;
+  int GEN_MODEL__EDITOR_PLUGIN_CLASS = GEN_BASE_FEATURE_COUNT + 16;
 
   /**
    * The feature id for the '<em><b>Update Classpath</b></em>' attribute.
@@ -273,7 +264,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__UPDATE_CLASSPATH = GEN_BASE_FEATURE_COUNT + 18;
+  int GEN_MODEL__UPDATE_CLASSPATH = GEN_BASE_FEATURE_COUNT + 17;
 
   /**
    * The feature id for the '<em><b>Generate Schema</b></em>' attribute.
@@ -282,7 +273,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GENERATE_SCHEMA = GEN_BASE_FEATURE_COUNT + 19;
+  int GEN_MODEL__GENERATE_SCHEMA = GEN_BASE_FEATURE_COUNT + 18;
 
   /**
    * The feature id for the '<em><b>Non NLS Markers</b></em>' attribute.
@@ -291,7 +282,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__NON_NLS_MARKERS = GEN_BASE_FEATURE_COUNT + 20;
+  int GEN_MODEL__NON_NLS_MARKERS = GEN_BASE_FEATURE_COUNT + 19;
 
   /**
    * The feature id for the '<em><b>Static Packages</b></em>' attribute list.
@@ -300,7 +291,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__STATIC_PACKAGES = GEN_BASE_FEATURE_COUNT + 21;
+  int GEN_MODEL__STATIC_PACKAGES = GEN_BASE_FEATURE_COUNT + 20;
 
   /**
    * The feature id for the '<em><b>Model Plugin Variables</b></em>' attribute list.
@@ -309,7 +300,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__MODEL_PLUGIN_VARIABLES = GEN_BASE_FEATURE_COUNT + 22;
+  int GEN_MODEL__MODEL_PLUGIN_VARIABLES = GEN_BASE_FEATURE_COUNT + 21;
 
   /**
    * The feature id for the '<em><b>Root Extends Interface</b></em>' attribute.
@@ -318,7 +309,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__ROOT_EXTENDS_INTERFACE = GEN_BASE_FEATURE_COUNT + 23;
+  int GEN_MODEL__ROOT_EXTENDS_INTERFACE = GEN_BASE_FEATURE_COUNT + 22;
 
   /**
    * The feature id for the '<em><b>Root Extends Class</b></em>' attribute.
@@ -327,7 +318,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__ROOT_EXTENDS_CLASS = GEN_BASE_FEATURE_COUNT + 24;
+  int GEN_MODEL__ROOT_EXTENDS_CLASS = GEN_BASE_FEATURE_COUNT + 23;
 
   /**
    * The feature id for the '<em><b>Root Implements Interface</b></em>' attribute.
@@ -336,7 +327,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__ROOT_IMPLEMENTS_INTERFACE = GEN_BASE_FEATURE_COUNT + 25;
+  int GEN_MODEL__ROOT_IMPLEMENTS_INTERFACE = GEN_BASE_FEATURE_COUNT + 24;
 
   /**
    * The feature id for the '<em><b>Suppress EMF Types</b></em>' attribute.
@@ -345,7 +336,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__SUPPRESS_EMF_TYPES = GEN_BASE_FEATURE_COUNT + 26;
+  int GEN_MODEL__SUPPRESS_EMF_TYPES = GEN_BASE_FEATURE_COUNT + 25;
 
   /**
    * The feature id for the '<em><b>Feature Map Wrapper Interface</b></em>' attribute.
@@ -354,7 +345,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE = GEN_BASE_FEATURE_COUNT + 27;
+  int GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE = GEN_BASE_FEATURE_COUNT + 26;
 
   /**
    * The feature id for the '<em><b>Feature Map Wrapper Internal Interface</b></em>' attribute.
@@ -363,7 +354,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE = GEN_BASE_FEATURE_COUNT + 28;
+  int GEN_MODEL__FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE = GEN_BASE_FEATURE_COUNT + 27;
 
   /**
    * The feature id for the '<em><b>Feature Map Wrapper Class</b></em>' attribute.
@@ -372,7 +363,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS = GEN_BASE_FEATURE_COUNT + 29;
+  int GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS = GEN_BASE_FEATURE_COUNT + 28;
 
   /**
    * The feature id for the '<em><b>Runtime Compatibility</b></em>' attribute.
@@ -381,7 +372,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__RUNTIME_COMPATIBILITY = GEN_BASE_FEATURE_COUNT + 30;
+  int GEN_MODEL__RUNTIME_COMPATIBILITY = GEN_BASE_FEATURE_COUNT + 29;
 
   /**
    * The feature id for the '<em><b>Rich Client Platform</b></em>' attribute.
@@ -390,7 +381,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__RICH_CLIENT_PLATFORM = GEN_BASE_FEATURE_COUNT + 31;
+  int GEN_MODEL__RICH_CLIENT_PLATFORM = GEN_BASE_FEATURE_COUNT + 30;
 
   /**
    * The feature id for the '<em><b>Reflective Delegation</b></em>' attribute.
@@ -399,7 +390,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__REFLECTIVE_DELEGATION = GEN_BASE_FEATURE_COUNT + 32;
+  int GEN_MODEL__REFLECTIVE_DELEGATION = GEN_BASE_FEATURE_COUNT + 31;
 
   /**
    * The feature id for the '<em><b>Code Formatting</b></em>' attribute.
@@ -408,7 +399,25 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__CODE_FORMATTING = GEN_BASE_FEATURE_COUNT + 33;
+  int GEN_MODEL__CODE_FORMATTING = GEN_BASE_FEATURE_COUNT + 32;
+
+  /**
+   * The feature id for the '<em><b>Tests Directory</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__TESTS_DIRECTORY = GEN_BASE_FEATURE_COUNT + 33;
+
+  /**
+   * The feature id for the '<em><b>Test Suite Class</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__TEST_SUITE_CLASS = GEN_BASE_FEATURE_COUNT + 34;
 
   /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
@@ -417,7 +426,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 34;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 35;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -426,7 +435,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 35;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 36;
 
   /**
    * The number of structural features of the the '<em>GenModel</em>' class.
@@ -435,7 +444,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 36;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 37;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -1155,17 +1164,6 @@ public interface GenModelPackage extends EPackage{
   EAttribute getGenModel_NonExternalizedStringTag();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestDirectory <em>Test Directory</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Test Directory</em>'.
-   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestDirectory()
-   * @see #getGenModel()
-   * @generated
-   */
-  EAttribute getGenModel_TestDirectory();
-
-  /**
    * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelName <em>Model Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1384,6 +1382,28 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   EAttribute getGenModel_CodeFormatting();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsDirectory <em>Tests Directory</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Tests Directory</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsDirectory()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_TestsDirectory();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestSuiteClass <em>Test Suite Class</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Test Suite Class</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestSuiteClass()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_TestSuiteClass();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.19 2005/02/16 21:25:48 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.20 2005/03/07 21:26:07 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -592,7 +592,25 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
           IProject modelProject = workspace.getRoot().getProject(getGenModel().getModelProjectDirectory());
           IPath javaSource = new Path(getGenModel().getModelDirectory());
-          if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 && getGenModel().hasEditSupport())
+
+          if ((style & Generator.EMF_TESTS_PROJECT_STYLE) != 0)
+          {
+            IProject testsProject = workspace.getRoot().getProject(getGenModel().getTestsProjectDirectory());
+
+            if (!getGenModel().sameModelTestsProject()) {
+              IPath modelDirectory = javaSource;
+              javaSource = new Path(getGenModel().getTestsDirectory());
+
+              if (testsProject.exists())
+              {
+                projectLocation = testsProject.getDescription().getLocation();
+              }
+
+              referencedProjects.add(modelProject);
+              referencedProjects.addAll(Arrays.asList(modelProject.getDescription().getReferencedProjects()));
+            }
+          }
+          else if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 && getGenModel().hasEditSupport())
           {
             IProject editProject = workspace.getRoot().getProject(getGenModel().getEditProjectDirectory());
 
@@ -1873,6 +1891,15 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   }
 
   public void generateSchema(IProgressMonitor progressMonitor)
+  {
+  }
+
+  public boolean canGenerateTests()
+  {
+    return false;
+  }
+
+  public void generateTests(IProgressMonitor progressMonitor)
   {
   }
 

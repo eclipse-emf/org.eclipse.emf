@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.3 2004/12/16 21:32:41 emerks Exp $
+ * $Id: GenOperation.java,v 1.4 2005/03/07 21:26:06 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -126,6 +126,7 @@ public interface GenOperation extends GenBase
   GenPackage getReturnTypeGenPackage();
 
   String getParameters();
+  String getParameterTypes(String separator);
 
   String getImportedMetaType();
 

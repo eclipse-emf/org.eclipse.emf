@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.20 2005/02/11 06:02:07 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.21 2005/03/07 21:26:07 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -92,7 +92,6 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getRedirection <em>Redirection</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isForceOverwrite <em>Force Overwrite</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getNonExternalizedStringTag <em>Non Externalized String Tag</em>}</li>
- *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestDirectory <em>Test Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getModelName <em>Model Name</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getModelPluginClass <em>Model Plugin Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEditPluginClass <em>Edit Plugin Class</em>}</li>
@@ -113,6 +112,8 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRichClientPlatform <em>Rich Client Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isReflectiveDelegation <em>Reflective Delegation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCodeFormatting <em>Code Formatting</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestsDirectory <em>Tests Directory</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestSuiteClass <em>Test Suite Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -371,26 +372,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected String nonExternalizedStringTag = NON_EXTERNALIZED_STRING_TAG_EDEFAULT;
-
-  /**
-   * The default value of the '{@link #getTestDirectory() <em>Test Directory</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getTestDirectory()
-   * @generated
-   * @ordered
-   */
-  protected static final String TEST_DIRECTORY_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getTestDirectory() <em>Test Directory</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getTestDirectory()
-   * @generated
-   * @ordered
-   */
-  protected String testDirectory = TEST_DIRECTORY_EDEFAULT;
 
   /**
    * The default value of the '{@link #getModelName() <em>Model Name</em>}' attribute.
@@ -771,6 +752,46 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean codeFormatting = CODE_FORMATTING_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getTestsDirectory() <em>Tests Directory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTestsDirectory()
+   * @generated
+   * @ordered
+   */
+  protected static final String TESTS_DIRECTORY_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getTestsDirectory() <em>Tests Directory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTestsDirectory()
+   * @generated
+   * @ordered
+   */
+  protected String testsDirectory = TESTS_DIRECTORY_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getTestSuiteClass() <em>Test Suite Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTestSuiteClass()
+   * @generated
+   * @ordered
+   */
+  protected static final String TEST_SUITE_CLASS_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getTestSuiteClass() <em>Test Suite Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTestSuiteClass()
+   * @generated
+   * @ordered
+   */
+  protected String testSuiteClass = TEST_SUITE_CLASS_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -1759,7 +1780,93 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
   
+  public boolean hasTestSupport()
+  {
+    return hasModelSupport() && !isBlank(getTestsDirectory());
+  }
 
+  public boolean canGenerateTests()
+  {
+    return canGenerate && hasTestSupport();
+  }
+
+  public void generateTests(IProgressMonitor progressMonitor)
+  {
+    try
+    {
+      if (!canGenerateTests())
+        return;
+
+      progressMonitor.beginTask("", getGenPackages().size() + 4);
+
+      if (isUpdateClasspath())
+      {
+        findOrCreateContainer(
+          new SubProgressMonitor(progressMonitor, 1),
+          Generator.EMF_TESTS_PROJECT_STYLE,
+          getEffectiveModelPluginVariables(),
+          new Path(getTestsDirectory()),
+          true);
+      }
+
+      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPackages_message"));
+      for (Iterator genPackages = getGenPackages().iterator(); genPackages.hasNext();)
+      {
+        GenPackage genPackage = (GenPackage)genPackages.next();
+        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString(
+          "_UI_GeneratingJavaPackage_message",
+          new Object []{ genPackage.getTestsPackageName() }));
+        genPackage.generateTests(new SubProgressMonitor(progressMonitor, 1));
+      }
+
+      if (!isBlank(getTestSuiteClass()))
+      {
+        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString(
+          "_UI_GeneratingJavaClass_message",
+          new Object []{ getQualifiedTestSuiteClassName() }));
+        generate(
+          new SubProgressMonitor(progressMonitor, 1),
+          Generator.EMF_TESTS_PROJECT_STYLE,
+          getEffectiveModelPluginVariables(),
+          getTestsDirectory(),
+          getTestSuitePackageName(),
+          getTestSuiteClassName(),
+          getModelTestSuiteEmitter());
+      }
+
+      if (!sameModelTestsProject())
+      {
+        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPluginXML_message"));
+        generate(
+          new SubProgressMonitor(progressMonitor, 1),
+          Generator.EMF_TESTS_PROJECT_STYLE,
+          getEffectiveModelPluginVariables(),
+          getTestsProjectDirectory() + "/plugin.xml",
+          getTestsPluginXMLEmitter());
+
+        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPluginProperties_message"));
+        generate(
+          new SubProgressMonitor(progressMonitor, 1),
+          Generator.EMF_TESTS_PROJECT_STYLE,
+          getEffectiveModelPluginVariables(),
+          getTestsProjectDirectory() + "/plugin.properties",
+          getTestsPluginPropertiesEmitter());
+
+        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsBuildProperties_message"));
+        generate(
+          new SubProgressMonitor(progressMonitor, 1),
+          Generator.EMF_TESTS_PROJECT_STYLE,
+          getEffectiveModelPluginVariables(),
+          getTestsProjectDirectory() + "/build.properties",
+          getTestsBuildPropertiesEmitter());
+      }
+    }
+    finally
+    {
+      progressMonitor.done();
+    }
+  }
+  
   //
   // EMFEdit generation
   //
@@ -1989,6 +2096,90 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(editorBuildPropertiesEmitter, "org.eclipse.emf.codegen.ecore.templates.editor.BuildProperties");
     }
     return editorBuildPropertiesEmitter;
+  }
+
+  //
+  // Tests generation
+  //
+  
+  protected String testCaseTemplateName = "tests/TestCase.javajet";
+  protected String modelTestSuiteTemplateName = "tests/ModelTestSuite.javajet";
+  protected String packageTestSuiteTemplateName = "tests/PackageTestSuite.javajet";
+  protected String testsPluginXMLTemplateName = "tests/plugin.xmljet";
+  protected String testsPluginPropertiesTemplateName = "tests/plugin.propertiesjet";
+  protected String testsBuildPropertiesTemplateName = "tests/build.propertiesjet";
+
+  protected JETEmitter testCaseEmitter = null;
+  protected JETEmitter modelTestSuiteEmitter = null;
+  protected JETEmitter packageTestSuiteEmitter = null;
+  protected JETEmitter testsPluginXMLEmitter = null;
+  protected JETEmitter testsPluginPropertiesEmitter = null;
+  protected JETEmitter testsBuildPropertiesEmitter = null;
+
+  public JETEmitter getTestCaseEmitter()
+  {
+    if (testCaseEmitter == null)
+    {
+      testCaseEmitter = createJETEmitter(testCaseTemplateName);
+      setMethod(testCaseEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.TestCase");
+    }
+
+    return testCaseEmitter;
+  }
+
+  public JETEmitter getModelTestSuiteEmitter()
+  {
+    if (modelTestSuiteEmitter == null)
+    {
+      modelTestSuiteEmitter = createJETEmitter(modelTestSuiteTemplateName);
+      setMethod(modelTestSuiteEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.ModelTestSuite");
+    }
+
+    return modelTestSuiteEmitter;
+  }
+
+  public JETEmitter getPackageTestSuiteEmitter()
+  {
+    if (packageTestSuiteEmitter == null)
+    {
+      packageTestSuiteEmitter = createJETEmitter(packageTestSuiteTemplateName);
+      setMethod(packageTestSuiteEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.PackageTestSuite");
+    }
+
+    return packageTestSuiteEmitter;
+  }
+
+  public JETEmitter getTestsPluginXMLEmitter()
+  {
+    if (testsPluginXMLEmitter == null)
+    {
+      testsPluginXMLEmitter = createJETEmitter(testsPluginXMLTemplateName);
+      setMethod(testsPluginXMLEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.PluginXML");
+    }
+
+    return testsPluginXMLEmitter;
+  }
+
+  public JETEmitter getTestsPluginPropertiesEmitter()
+  {
+    if (testsPluginPropertiesEmitter == null)
+    {
+      testsPluginPropertiesEmitter = createJETEmitter(testsPluginPropertiesTemplateName);
+      setMethod(testsPluginPropertiesEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.PluginProperties");
+    }
+
+    return testsPluginPropertiesEmitter;
+  }
+
+  public JETEmitter getTestsBuildPropertiesEmitter()
+  {
+    if (testsBuildPropertiesEmitter == null)
+    {
+      testsBuildPropertiesEmitter = createJETEmitter(testsBuildPropertiesTemplateName);
+      setMethod(testsBuildPropertiesEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.BuildProperties");
+    }
+
+    return testsBuildPropertiesEmitter;
   }
 
   /*
@@ -2252,29 +2443,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     setNonNLSMarkersGen(newNonExternalizedStringTag != null);
     setNonExternalizedStringTagGen(null);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String getTestDirectory()
-  {
-    return testDirectory;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setTestDirectory(String newTestDirectory)
-  {
-    String oldTestDirectory = testDirectory;
-    testDirectory = newTestDirectory;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__TEST_DIRECTORY, oldTestDirectory, testDirectory));
   }
 
   public String getName()
@@ -2827,6 +2995,52 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getTestsDirectory()
+  {
+    return testsDirectory;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setTestsDirectory(String newTestsDirectory)
+  {
+    String oldTestsDirectory = testsDirectory;
+    testsDirectory = newTestsDirectory;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__TESTS_DIRECTORY, oldTestsDirectory, testsDirectory));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getTestSuiteClass()
+  {
+    return testSuiteClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setTestSuiteClass(String newTestSuiteClass)
+  {
+    String oldTestSuiteClass = testSuiteClass;
+    testSuiteClass = newTestSuiteClass;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS, oldTestSuiteClass, testSuiteClass));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getGenPackages()
   {
     if (genPackages == null)
@@ -2958,8 +3172,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isForceOverwrite() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__NON_EXTERNALIZED_STRING_TAG:
         return getNonExternalizedStringTag();
-      case GenModelPackage.GEN_MODEL__TEST_DIRECTORY:
-        return getTestDirectory();
       case GenModelPackage.GEN_MODEL__MODEL_NAME:
         return getModelName();
       case GenModelPackage.GEN_MODEL__MODEL_PLUGIN_CLASS:
@@ -3000,6 +3212,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isReflectiveDelegation() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
         return isCodeFormatting() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
+        return getTestsDirectory();
+      case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
+        return getTestSuiteClass();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3043,8 +3259,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return forceOverwrite != FORCE_OVERWRITE_EDEFAULT;
       case GenModelPackage.GEN_MODEL__NON_EXTERNALIZED_STRING_TAG:
         return NON_EXTERNALIZED_STRING_TAG_EDEFAULT == null ? nonExternalizedStringTag != null : !NON_EXTERNALIZED_STRING_TAG_EDEFAULT.equals(nonExternalizedStringTag);
-      case GenModelPackage.GEN_MODEL__TEST_DIRECTORY:
-        return TEST_DIRECTORY_EDEFAULT == null ? testDirectory != null : !TEST_DIRECTORY_EDEFAULT.equals(testDirectory);
       case GenModelPackage.GEN_MODEL__MODEL_NAME:
         return MODEL_NAME_EDEFAULT == null ? modelName != null : !MODEL_NAME_EDEFAULT.equals(modelName);
       case GenModelPackage.GEN_MODEL__MODEL_PLUGIN_CLASS:
@@ -3085,6 +3299,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return reflectiveDelegation != REFLECTIVE_DELEGATION_EDEFAULT;
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
         return codeFormatting != CODE_FORMATTING_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
+        return TESTS_DIRECTORY_EDEFAULT == null ? testsDirectory != null : !TESTS_DIRECTORY_EDEFAULT.equals(testsDirectory);
+      case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
+        return TEST_SUITE_CLASS_EDEFAULT == null ? testSuiteClass != null : !TEST_SUITE_CLASS_EDEFAULT.equals(testSuiteClass);
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3141,9 +3359,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__NON_EXTERNALIZED_STRING_TAG:
         setNonExternalizedStringTag((String)newValue);
-        return;
-      case GenModelPackage.GEN_MODEL__TEST_DIRECTORY:
-        setTestDirectory((String)newValue);
         return;
       case GenModelPackage.GEN_MODEL__MODEL_NAME:
         setModelName((String)newValue);
@@ -3207,6 +3422,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
         setCodeFormatting(((Boolean)newValue).booleanValue());
         return;
+      case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
+        setTestsDirectory((String)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
+        setTestSuiteClass((String)newValue);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         getGenPackages().addAll((Collection)newValue);
@@ -3266,9 +3487,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__NON_EXTERNALIZED_STRING_TAG:
         setNonExternalizedStringTag(NON_EXTERNALIZED_STRING_TAG_EDEFAULT);
-        return;
-      case GenModelPackage.GEN_MODEL__TEST_DIRECTORY:
-        setTestDirectory(TEST_DIRECTORY_EDEFAULT);
         return;
       case GenModelPackage.GEN_MODEL__MODEL_NAME:
         setModelName(MODEL_NAME_EDEFAULT);
@@ -3330,6 +3548,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
         setCodeFormatting(CODE_FORMATTING_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
+        setTestsDirectory(TESTS_DIRECTORY_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
+        setTestSuiteClass(TEST_SUITE_CLASS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -3376,8 +3600,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(forceOverwrite);
     result.append(", nonExternalizedStringTag: ");
     result.append(nonExternalizedStringTag);
-    result.append(", testDirectory: ");
-    result.append(testDirectory);
     result.append(", modelName: ");
     result.append(modelName);
     result.append(", modelPluginClass: ");
@@ -3418,6 +3640,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(reflectiveDelegation);
     result.append(", codeFormatting: ");
     result.append(codeFormatting);
+    result.append(", testsDirectory: ");
+    result.append(testsDirectory);
+    result.append(", testSuiteClass: ");
+    result.append(testSuiteClass);
     result.append(')');
     return result.toString();
   }
@@ -3451,6 +3677,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return getProjectPath(getEditorDirectory());
   }
 
+  public String getTestsProjectDirectory()
+  {
+    return getProjectPath(getTestsDirectory());
+  }
+
   public boolean sameModelEditProject()
   {
     return getModelProjectDirectory().equals(getEditProjectDirectory());
@@ -3464,6 +3695,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public boolean sameModelEditorProject()
   {
     return getModelProjectDirectory().equals(getEditorProjectDirectory());
+  }
+
+  public boolean sameModelTestsProject()
+  {
+    return getModelProjectDirectory().equals(getTestsProjectDirectory());
   }
 
   public String getEditIconsDirectory()
@@ -3497,6 +3733,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     else
     {
       return getModelPluginID() + ".editor";
+    }
+  }
+
+  public String getTestsPluginID()
+  {
+    if (sameModelTestsProject())
+    {
+      return getModelPluginID();
+    }
+    else
+    {
+      return getModelPluginID() + ".tests";
     }
   }
 
@@ -3778,6 +4026,47 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return getModelName() + "EditorAdvisor";
   }
 
+  public String getTestSuitePackageName()
+  {
+    String result = getTestSuiteClass();
+    if (isBlank(result))
+    {
+      result = getTestsPluginID();
+    }
+    else
+    {
+      int index = result.lastIndexOf(".");
+      if (index != -1)
+      {
+        result = result.substring(0, index);
+      }
+    }
+    return result;
+  }
+
+  public String getTestSuiteClassName()
+  {
+    String result = getTestSuiteClass();
+    if (isBlank(result))
+    {
+      result = getModelName() + "AllTests";  
+    }
+    else
+    {
+      int index = result.lastIndexOf(".");
+      if (index != -1)
+      {
+        result = result.substring(index + 1);
+      }
+    }
+    return result;
+  }
+
+  public String getQualifiedTestSuiteClassName()
+  {
+    return getTestSuitePackageName() + "." + getTestSuiteClassName();
+  }
+
   protected void getAllGenPackagesWithClassifiersHelper(List result, List genPackages)
   {
     for (Iterator i = genPackages.iterator(); i.hasNext(); )
@@ -3842,6 +4131,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       GenPackage genPackage = (GenPackage)i.next();
       result.add(genPackage.getGenModel().getModelPluginID());
     }
+
+    if (sameModelTestsProject())
+    {
+      result.add("org.junit");
+    }
+
     return result;
   }
 
@@ -3921,6 +4216,24 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return result;
   }
 
+  public List getTestsRequiredPlugins()
+  {
+    List result = new UniqueEList();
+    result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
+
+    result.add(getModelPluginID());
+    for (Iterator i = getUsedGenPackages().iterator(); i.hasNext();)
+    {
+      GenPackage genPackage = (GenPackage)i.next();
+      GenModel genModel = genPackage.getGenModel();
+      result.add(genModel.getModelPluginID());
+    }
+
+    result.add("org.junit");
+
+    return result;
+  }
+
   public List getEditResourceDelegateImportedPluginClassNames()
   {
     List result = new UniqueEList();
@@ -3979,7 +4292,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setRedirection(oldGenModelVersion.getRedirection());
     setForceOverwrite(oldGenModelVersion.isForceOverwrite());
     setNonExternalizedStringTag(oldGenModelVersion.getNonExternalizedStringTag());
-    setTestDirectory(oldGenModelVersion.getTestDirectory());
 
     setModelName(oldGenModelVersion.getModelName());
 
@@ -4002,6 +4314,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setRuntimeCompatibility(oldGenModelVersion.isRuntimeCompatibility());
     setRichClientPlatform(oldGenModelVersion.isRichClientPlatform());
     setCodeFormatting(oldGenModelVersion.isCodeFormatting());
+    
+    setTestsDirectory(oldGenModelVersion.getTestsDirectory());
+    setTestSuiteClass(oldGenModelVersion.getTestSuiteClass());
   }
 
   public boolean reconcile()
