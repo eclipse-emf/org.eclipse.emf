@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGen.java,v 1.2 2004/05/16 17:33:46 emerks Exp $
+ * $Id: CodeGen.java,v 1.3 2005/04/05 21:58:03 emerks Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -20,8 +20,14 @@ package org.eclipse.emf.codegen;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.ListIterator;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -38,11 +44,19 @@ import org.eclipse.core.runtime.IPlatformRunnable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.jet.JETCompiler;
+import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.codegen.jmerge.JControlModel;
 import org.eclipse.emf.codegen.jmerge.JMerger;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.osgi.util.ManifestElement;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleException;
+import org.osgi.framework.Constants;
 
 
 /**
@@ -155,6 +169,95 @@ public class CodeGen implements IPlatformRunnable
     }
   }
 
+  public static List getClasspathPaths(String pluginID) throws JETException
+  {
+    List result = new ArrayList();
+    try
+    {
+      Bundle bundle = Platform.getBundle(pluginID);
+      String requires = (String)bundle.getHeaders().get(Constants.BUNDLE_CLASSPATH);
+      if (requires == null)
+      {
+        requires = ".";
+      }
+      ManifestElement[] elements = ManifestElement.parseHeader(Constants.BUNDLE_CLASSPATH, requires);
+      if (elements != null)
+      {
+        for (int i = 0, count = 0; i < elements.length; ++i)
+        {
+          ManifestElement element = elements[i];
+          String value = element.getValue();
+          if (".".equals(value))
+          {
+            value = "/";
+          }
+          try
+          {
+            URL url = bundle.getEntry(value);
+            if (url != null)
+            {
+              URL resolvedURL = Platform.resolve(url);
+              String resolvedURLString = resolvedURL.toString();
+              if (resolvedURLString.endsWith("!/"))
+              {
+                resolvedURLString = resolvedURL.getFile();
+                resolvedURLString = resolvedURLString.substring(0,resolvedURLString.length() - "!/".length());
+              }
+              if (resolvedURLString.startsWith("file:"))
+              {
+                result.add(resolvedURLString.substring("file:".length()));
+              }
+              else
+              {
+                result.add(Platform.asLocalURL(url).getFile());
+              }
+            }
+          }
+          catch (IOException exception)
+          {
+            throw new JETException(exception);
+          }
+          break;
+        }
+      }
+    }
+    catch (BundleException exception)
+    {
+      throw new JETException(exception);
+    }
+    return result;
+  }
+  
+  public static void addClasspathEntries(Collection classpathEntries, String variableName, String pluginID) throws JETException
+  {
+    for (ListIterator i = getClasspathPaths(pluginID).listIterator(); i.hasNext(); )
+    {
+      IPath path = new Path((String)i.next());
+      if (variableName == null)
+      {
+        classpathEntries.add(JavaCore.newLibraryEntry(path, null, null));
+      }
+      else
+      {
+        String mangledName = variableName + (i.previousIndex() == 0 ? "" : "_" + i.previousIndex());
+        try
+        {
+          JavaCore.setClasspathVariable(mangledName, path, null);
+        }
+        catch (JavaModelException exception)
+        {
+          throw new JETException(exception);
+        } 
+        classpathEntries.add(JavaCore.newVariableEntry(new Path(mangledName), null, null));
+      }
+    }
+  }
+
+  public static void addClasspathEntries(Collection classpathEntries, String pluginID) throws Exception
+  {
+    addClasspathEntries(classpathEntries, null, pluginID);
+  }
+  
   /**
    * This creates an instance.
    */
