@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSave.java,v 1.3 2004/12/23 19:32:59 elena Exp $
+ * $Id: XMLSave.java,v 1.4 2005/03/15 16:25:10 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.w3c.dom.Document;
 
 
@@ -29,6 +32,41 @@ import org.w3c.dom.Document;
  */
 public interface XMLSave 
 {
+
+  /**
+   * This defines the methods for the interface used to determine
+   * whether type information should be saved when the
+   * XMLResource.OPTION_SAVE_TYPE_INFORMATION save option is enabled.
+   */
+  interface XMLTypeInfo
+  {
+
+    /**
+     * Determines whether type information should be saved for an object of the
+     * specified type in a feature of the specified type.
+     * 
+     * @param objectType The object's type.
+     * @param featureType The feature's type.
+     * @param feature The feature in which the object is stored.
+     * @return <code>true</code> if the type should be saved; <code>false</code>
+     *         otherwise.
+     */
+    boolean shouldSaveType(EClass objectType, EClassifier featureType, EStructuralFeature feature);
+
+    /**
+     * Determines whether type information should be saved for an object of the
+     * specified type in a feature of the specified type.
+     * 
+     * @param objectType The object's type.
+     * @param featureType The feature's type.
+     * @param feature The feature in which the object is stored.
+     * @return <code>true</code> if the type should be saved; <code>false</code>
+     *         otherwise.
+     */
+    boolean shouldSaveType(EClass objectType, EClass featureType, EStructuralFeature feature);
+
+  }
+
   void save(XMLResource resource, OutputStream outputStream, Map options) throws IOException;
 
   /**

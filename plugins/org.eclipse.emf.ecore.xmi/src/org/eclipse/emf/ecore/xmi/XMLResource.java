@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.22 2005/03/03 00:05:51 elena Exp $
+ * $Id: XMLResource.java,v 1.23 2005/03/15 16:25:11 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -62,8 +62,8 @@ public interface XMLResource extends Resource
   String OPTION_CONFIGURATION_CACHE = "CONFIGURATION_CACHE";
   
   /**
-   * Force type information (xsi:type/xmi:type) to be serialized for references 
-   * in cases where the object type is different from the feature type
+   * Use XMLTypeInfo to determine whether type information (xsi:type/xmi:type) is
+   * to be serialized for references.
    */
   String OPTION_SAVE_TYPE_INFORMATION = "SAVE_TYPE_INFORMATION";
   

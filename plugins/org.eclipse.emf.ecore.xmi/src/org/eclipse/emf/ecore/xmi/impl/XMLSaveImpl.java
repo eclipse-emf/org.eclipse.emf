@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.29 2005/02/23 18:31:41 marcelop Exp $
+ * $Id: XMLSaveImpl.java,v 1.30 2005/03/15 16:25:10 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -79,6 +79,7 @@ public class XMLSaveImpl implements XMLSave
   protected boolean useEncodedAttributeStyle;
   protected boolean declareXML;
   protected boolean saveTypeInfo;
+  protected XMLTypeInfo xmlTypeInfo;
   protected boolean keepDefaults;
   protected Escape escape;
   protected Escape escapeURI;
@@ -273,8 +274,23 @@ public class XMLSaveImpl implements XMLSave
     useEncodedAttributeStyle = Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE));
     declareSchemaLocationImplementation = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SCHEMA_LOCATION_IMPLEMENTATION));
     declareSchemaLocation = declareSchemaLocationImplementation || Boolean.TRUE.equals(options.get(XMLResource.OPTION_SCHEMA_LOCATION));
-    saveTypeInfo = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SAVE_TYPE_INFORMATION));
-        
+
+    Object saveTypeInfoOption = options.get(XMLResource.OPTION_SAVE_TYPE_INFORMATION);
+    if (saveTypeInfoOption instanceof Boolean)
+    {
+      if (saveTypeInfo = saveTypeInfoOption.equals(Boolean.TRUE))
+      {
+        xmlTypeInfo = new XMLTypeInfoImpl();
+      }
+    }
+    else
+    {
+      if (saveTypeInfo = saveTypeInfoOption != null)
+      {
+        xmlTypeInfo = (XMLTypeInfo)saveTypeInfoOption;
+      }
+    }
+
     anyType = (EClass)options.get(XMLResource.OPTION_ANY_TYPE);
     anySimpleType = (EClass)options.get(XMLResource.OPTION_ANY_SIMPLE_TYPE);
     if (anyType == null)
@@ -839,7 +855,7 @@ public class XMLSaveImpl implements XMLSave
       }
     }
     
-    if (eClass != eType && eClass != anyType)
+    if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, eType, f) : eClass != eType && eClass != anyType)
     {
       if (eClass == anySimpleType)
       {
@@ -1480,7 +1496,7 @@ public class XMLSaveImpl implements XMLSave
         {
           EClass eClass = value.eClass();
           EClass expectedType = (EClass)f.getEType();
-          if (eClass != expectedType && (saveTypeInfo || expectedType.isAbstract()))
+          if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && expectedType.isAbstract())
           {
             buffer.append(helper.getQName(eClass));
             buffer.append(" ");
@@ -1527,7 +1543,7 @@ public class XMLSaveImpl implements XMLSave
           {
             EClass eClass = value.eClass();
             EClass expectedType = (EClass)f.getEType();
-            if (eClass != expectedType && (saveTypeInfo || expectedType.isAbstract()))
+            if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && expectedType.isAbstract())
             {
               buffer.append(helper.getQName(eClass));
               buffer.append(" ");
@@ -1647,7 +1663,7 @@ public class XMLSaveImpl implements XMLSave
       }
       EClass eClass = remote.eClass();
       EClass expectedType = (EClass)f.getEType();
-      if (eClass != expectedType && (saveTypeInfo || expectedType.isAbstract()))
+      if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && expectedType.isAbstract())
       {
         saveTypeAttribute(eClass);
       }
@@ -1855,7 +1871,7 @@ public class XMLSaveImpl implements XMLSave
       }
       EClass eClass = remote.eClass();
       EClass expectedType = (EClass) f.getEType();
-      if (eClass != expectedType && (saveTypeInfo || expectedType.isAbstract()))
+      if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && expectedType.isAbstract())
       {
         saveTypeAttribute(eClass);
       }
@@ -2661,6 +2677,24 @@ public class XMLSaveImpl implements XMLSave
         System.arraycopy(value, 0, newValue, 0, vlen);
         value = newValue;
       }
+    }
+  }
+
+  /**
+   * Forces type information (xsi:type/xmi:type) to be serialized for references 
+   * in cases where the object's type is different from the feature's type.
+   */
+  protected class XMLTypeInfoImpl implements XMLTypeInfo
+  {
+
+    public boolean shouldSaveType(EClass objectType, EClassifier featureType, EStructuralFeature feature)
+    {
+      return objectType != featureType || objectType != anyType;
+    }
+
+    public boolean shouldSaveType(EClass objectType, EClass featureType, EStructuralFeature feature)
+    {
+      return objectType != featureType;
     }
   }
 }
