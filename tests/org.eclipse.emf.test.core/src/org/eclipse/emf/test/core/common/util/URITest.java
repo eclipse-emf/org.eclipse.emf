@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URITest.java,v 1.6 2004/08/26 20:13:05 davidms Exp $
+ * $Id: URITest.java,v 1.7 2004/10/19 21:17:48 nickb Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -520,7 +520,7 @@ public class URITest extends TestCase
    */
   public void testFragmentAppendAndTrim()
   {
-    String base = "http://download.eclipse.org/tools/emf/scripts/home.php";
+    String base = "http://download1.eclipse.org/tools/emf/scripts/home.php";
     String fragment1 = "top";
     String fragment2 = "quicknav";
     String fragment3 = "over2";

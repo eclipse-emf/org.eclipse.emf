@@ -18,11 +18,11 @@
 
 	<topic label="Online Docs">
 		<topic label="Release Notes">
-			<topic label="What's New in v2.0.0" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=2.0.0" />
-			<topic label="What's New in v1.1.1" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.1.1" />
-			<topic label="What's New in v1.1.0" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.1.0" />
-			<topic label="What's New in v1.0.2" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.2" />
-			<topic label="What's New in v1.0.1" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.1" />
+			<topic label="What's New in v2.0.0" href="http://download1.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=2.0.0" />
+			<topic label="What's New in v1.1.1" href="http://download1.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.1.1" />
+			<topic label="What's New in v1.1.0" href="http://download1.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.1.0" />
+			<topic label="What's New in v1.0.2" href="http://download1.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.2" />
+			<topic label="What's New in v1.0.1" href="http://download1.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.1" />
 		</topic>
 
 		<topic label="EMF FAQ" href="http://dev.eclipse.org/viewcvs/indextools.cgi/~checkout~/emf-home/faq/index.html" />

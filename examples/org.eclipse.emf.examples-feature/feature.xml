@@ -25,8 +25,8 @@ http://www.eclipse.org/legal/cpl-v10.html
 
    <url>
 <!--      <update label="%updateSiteName" url="http://update.eclipse.org/updates/3.0"/> -->
-      <update label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
-      <discovery label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
+      <update label="%secondaryUpdateSiteName" url="http://download1.eclipse.org/tools/emf/updates/"/>
+      <discovery label="%secondaryUpdateSiteName" url="http://download1.eclipse.org/tools/emf/updates/"/>
    </url>
 
    <requires>
