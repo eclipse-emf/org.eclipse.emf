@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.5 2004/09/27 14:21:01 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.6 2005/03/14 15:43:02 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -81,12 +81,16 @@ public class EObjectValidator implements EValidator
 
   protected EValidator getRootEValidator(Map context)
   {
-    EValidator result = (EValidator)context.get(EValidator.class);
-    if (result == null)
+    if (context != null)
     {
-      result = Diagnostician.INSTANCE;
+      EValidator result = (EValidator)context.get(EValidator.class);
+      if (result != null)
+      {
+        return result;
+      }
     }
-   return result;
+    
+    return Diagnostician.INSTANCE;
   }
 
   protected String getObjectLabel(EObject eObject, Map context)
