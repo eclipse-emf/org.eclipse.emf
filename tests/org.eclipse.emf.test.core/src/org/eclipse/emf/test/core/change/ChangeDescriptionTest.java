@@ -98,23 +98,26 @@ extends TestCase
     assertEquals(EcorePackage.eINSTANCE.getEAnnotation_Contents(), featureChange.getFeature());
     assertEquals(2, featureChange.getListChanges().size());
     
+    int checker = 0;
     for (Iterator i = featureChange.getListChanges().iterator(); i.hasNext();)
     {
       ListChange listChange = (ListChange)i.next();
-
       switch (listChange.getKind().getValue())
       {
         case ChangeKind.ADD:
           assertEquals(0, listChange.getIndex());
         	assertEquals(1, listChange.getValues().size());
         	//assertEquals(eClass1, listChange.getValues().get(0));
+        	checker += 1;
           break;
         
         case ChangeKind.REMOVE:
         	assertEquals(1, listChange.getIndex());
         	assertEquals(0, listChange.getReferenceValues().size());
+          checker += 4;
           break;
       }
     }
+    assertEquals(5, checker);
   }
 }
