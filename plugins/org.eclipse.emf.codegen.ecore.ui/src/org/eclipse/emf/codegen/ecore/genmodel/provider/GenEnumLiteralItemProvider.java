@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralItemProvider.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenEnumLiteralItemProvider.java,v 1.2 2004/03/18 18:21:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -30,6 +30,8 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+
+// import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
 
 /**

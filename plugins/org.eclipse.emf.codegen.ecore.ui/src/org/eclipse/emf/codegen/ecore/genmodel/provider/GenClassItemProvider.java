@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassItemProvider.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenClassItemProvider.java,v 1.2 2004/03/18 18:21:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -35,6 +35,9 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+
+// import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
+
 
 /**
  * This is the item provider adpater for a {@link org.eclipse.emf.codegen.ecore.genmodel.GenClass} object.

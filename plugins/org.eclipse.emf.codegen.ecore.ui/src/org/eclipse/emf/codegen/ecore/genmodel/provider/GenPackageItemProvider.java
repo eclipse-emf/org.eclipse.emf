@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenPackageItemProvider.java,v 1.2 2004/03/18 18:21:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -199,7 +199,7 @@ public class GenPackageItemProvider
   protected EReference getChildReference(Object object, Object child)
   {
     // Check the type of the specified child object and return the proper feature to use for
-    // adding (see {@link org.eclipse.emf.edit.command.AddCommand}) it as a child.
+    // adding (see {@link AddCommand}) it as a child.
 
     return super.getChildReference(object, child);
   }
