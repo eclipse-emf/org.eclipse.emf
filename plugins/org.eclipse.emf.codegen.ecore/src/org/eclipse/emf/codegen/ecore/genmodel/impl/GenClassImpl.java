@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.20 2004/12/16 16:20:24 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.21 2005/02/23 19:31:21 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -576,6 +576,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public String getQualifiedFeatureID(GenFeature genFeature)
   {
     return getGenPackage().getImportedPackageInterfaceName() + "." + getFeatureID(genFeature);
+  }
+
+  public String getOperationID(GenOperation genOperation)
+  {
+    return getClassifierID() + "__" + format(genOperation.getName(), '_', null, false).toUpperCase();
   }
 
   public String getFeatureValue(GenFeature genFeature)

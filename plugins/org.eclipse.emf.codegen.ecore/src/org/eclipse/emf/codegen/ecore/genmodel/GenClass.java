@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.7 2004/12/16 21:32:41 emerks Exp $
+ * $Id: GenClass.java,v 1.8 2005/02/23 19:31:21 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -245,6 +245,7 @@ public interface GenClass extends GenClassifier
 
   String getFeatureID(GenFeature genFeature);
   String getQualifiedFeatureID(GenFeature genFeature);
+  String getOperationID(GenOperation genOperation);
   String getFeatureValue(GenFeature genFeature);
   String getLocalFeatureIndex(GenFeature genFeature);
 
