@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.5 2005/02/22 05:17:43 marcelop Exp $
+ * $Id: TestUtil.java,v 1.6 2005/04/01 17:59:04 marcelop Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -157,7 +157,7 @@ public class TestUtil
     }
   }
   
-  public static void copyFiles(File fromDir, File toDir)
+  public static void copyFiles(File fromDir, File toDir, boolean overwrite)
   {
     Copy antCopyTask = new Copy();
     antCopyTask.setProject(new Project());
@@ -165,6 +165,7 @@ public class TestUtil
     FileSet fromDirFS = new FileSet();
     fromDirFS.setDir(fromDir);
     antCopyTask.addFileset(fromDirFS);
+    antCopyTask.setOverwrite(overwrite);
     antCopyTask.execute();    
   }
   

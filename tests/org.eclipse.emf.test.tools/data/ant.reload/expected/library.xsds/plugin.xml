@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * $Id$
+ */
+-->
+
+<plugin
+    name = "%pluginName"
+    id = "library.model"
+    version = "1.0.0"
+    provider-name = "%providerName">
+
+  <requires>
+    <import plugin="org.eclipse.core.runtime" />
+    <import plugin="org.eclipse.emf.ecore" export="true"/>
+    <import plugin="org.eclipse.emf.ecore.xmi" export="true"/>
+  </requires>
+
+  <runtime>
+    <library name="runtime/library.model.jar">
+      <export name="*"/>
+    </library>
+  </runtime>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://www.example.eclipse.org/Library1" 
+       class = "org.examples.library.elements.ElementsPackage" />
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.extension_parser">
+    <parser 
+       type="elements" 
+       class="org.examples.library.elements.util.ElementsResourceFactoryImpl" />
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://www.example.eclipse.org/Library2" 
+       class = "org.examples.library.LibraryPackage" />
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.extension_parser">
+    <parser 
+       type="library" 
+       class="org.examples.library.util.LibraryResourceFactoryImpl" />
+  </extension>
+
+</plugin>
+

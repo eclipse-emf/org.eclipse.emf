@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.example.eclipse.org/Library3"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:hr="http://www.example.eclipse.org/Library3"
+    xmlns:lib="http://www.example.eclipse.org/Library2"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    
+    <xsd:import namespace="http://www.example.eclipse.org/Library2" 
+                schemaLocation="libraryPart2.xsd"/>
+    
+  <xsd:complexType name="Person">
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string"/>
+      <xsd:element name="library" type="xsd:anyURI" ecore:reference="lib:Library" ecore:opposite="employees"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

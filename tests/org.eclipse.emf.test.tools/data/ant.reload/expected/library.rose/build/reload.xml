@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="..">
+  <dirname property="antfile.dir" file="${ant.file}"/>
+    
+    <!-- Global properties -->
+	<property name="main.directory" location="${antfile.dir}/.."/>
+	<property name="genModel" location="${main.directory}/emf/library.genmodel"/>
+	
+	<target name="rose">
+		<emf.Rose2Java
+			model="${main.directory}/model/library.mdl"
+			genModel="${genModel}"
+			reconcileGenModel="reload">
+			<arg line="-package library library library.xmi org.examples Library"/>
+			<arg line="-package hr hr hr.xmi org.examples HR"/>
+		</emf.Rose2Java>
+	</target>
+</project>

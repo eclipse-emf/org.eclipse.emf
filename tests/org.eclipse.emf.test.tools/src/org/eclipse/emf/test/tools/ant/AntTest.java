@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.5 2005/02/11 06:25:36 marcelop Exp $
+ * $Id: AntTest.java,v 1.6 2005/04/01 17:59:04 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -34,6 +34,7 @@ public class AntTest extends TestCase
   private static final File EMF_ANT_PLUGIN_DIR = new File(TestUtil.getPluginDirectory("org.eclipse.emf.ant"));
   private static final File EXAMPLES_COPY_DIR = new File(TestUtil.getPluginDirectory() + "/ant.example.tmp");
   private static final File EXPECTED_DIR = new File(TestUtil.getPluginDirectory() + "/data/ant.expected");
+  private static final File RELOAD_EXPECTED_DIR = new File(TestUtil.getPluginDirectory() + "/data/ant.reload/expected");
   
   
   /**
@@ -51,8 +52,11 @@ public class AntTest extends TestCase
     ts.addTest(new AntTest("testJET"));
     ts.addTest(new AntTest("testJMerger"));
     ts.addTest(new AntTest("testRose"));
+    ts.addTest(new AntTest("testRoseReload"));
     ts.addTest(new AntTest("testXSD"));
+    ts.addTest(new AntTest("testXSDReload"));
     ts.addTest(new AntTest("testXSDs"));
+    ts.addTest(new AntTest("testXSDsReload"));
     ts.addTest(new AntTest("suiteTearDown"));
     return ts;
   }
@@ -69,11 +73,11 @@ public class AntTest extends TestCase
     assertFalse(EXAMPLES_COPY_DIR.exists());
     assertTrue(EXAMPLES_COPY_DIR.mkdir());
     
-    TestUtil.copyFiles(examplesDir, EXAMPLES_COPY_DIR);
+    TestUtil.copyFiles(examplesDir, EXAMPLES_COPY_DIR, true);
 
     File libraryDir = new File(EXAMPLES_COPY_DIR, "library");
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.xsd"));
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.xsds"));
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.xsd"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.xsds"), true);
     assertTrue(libraryDir.renameTo(new File(EXAMPLES_COPY_DIR, "library.rose")));
   }
   
@@ -115,6 +119,22 @@ public class AntTest extends TestCase
     runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
   }
 
+  public void testRoseReload() throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "library.rose");
+    File rootExpectedDir = new File(RELOAD_EXPECTED_DIR, "library.rose");
+    File antScript = new File(rootDir, "build/reload.xml");
+    
+    TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
+    TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+   
+    String[] testTokenReplacements = new String[2];
+    testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
+    testTokenReplacements[1] = new File(EXAMPLES_COPY_DIR, "library.rose/model/library.mdl").getAbsolutePath();
+           
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "rose", testTokenReplacements);
+  }
+  
   public void testXSD() throws Exception
   {
     File rootDir = new File(EXAMPLES_COPY_DIR, "library.xsd");
@@ -127,6 +147,22 @@ public class AntTest extends TestCase
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
   }
+  
+  public void testXSDReload() throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "library.xsd");
+    File rootExpectedDir = new File(RELOAD_EXPECTED_DIR, "library.xsd");
+    File antScript = new File(rootDir, "build/reload.xml");
+    
+    TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
+    TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+   
+    String[] testTokenReplacements = new String[2];
+    testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
+    testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
+           
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "xsd", testTokenReplacements);
+  }  
 
   public void testXSDs() throws Exception
   {
@@ -141,6 +177,22 @@ public class AntTest extends TestCase
     runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
   }
   
+  public void testXSDsReload() throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "library.xsds");
+    File rootExpectedDir = new File(RELOAD_EXPECTED_DIR, "library.xsds");
+    File antScript = new File(rootDir, "build/reload.xml");
+    
+    TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
+    TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+   
+    String[] testTokenReplacements = new String[2];
+    testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
+    testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
+           
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "xsds", testTokenReplacements);
+  }  
+
   private void runAntAndTest(File rootDir, File rootExpectedDir, File antScript, String antScriptArguments, String[] testTokenReplacements) throws CoreException
   {
     assertTrue(rootDir.getAbsolutePath() + " doesn't exist", rootDir.isDirectory());
