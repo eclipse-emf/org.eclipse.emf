@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.24 2004/12/24 17:27:38 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.25 2005/01/25 18:45:01 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -60,6 +60,7 @@ import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.XMLChar;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -71,7 +72,6 @@ import org.w3c.dom.Node;
  */
 public class XMLSaveImpl implements XMLSave
 {
-  final static boolean DEBUG_DOM = true;
   final StringBuffer buffer = new StringBuffer();
   protected XMLHelper helper;
   protected XMLString doc;
@@ -79,6 +79,7 @@ public class XMLSaveImpl implements XMLSave
   protected boolean useEncodedAttributeStyle;
   protected boolean declareXML;
   protected boolean saveTypeInfo;
+  protected boolean keepDefaults;
   protected Escape escape;
   protected Escape escapeURI;
   protected Lookup featureTable;
@@ -257,6 +258,7 @@ public class XMLSaveImpl implements XMLSave
   {
     nameInfo = new NameInfoImpl();
     declareXSI = false;
+    keepDefaults = Boolean.TRUE.equals(options.get(XMLResource.OPTION_KEEP_DEFAULT_CONTENT));
     useEncodedAttributeStyle = Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE));
     declareSchemaLocationImplementation = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SCHEMA_LOCATION_IMPLEMENTATION));
     declareSchemaLocation = declareSchemaLocationImplementation || Boolean.TRUE.equals(options.get(XMLResource.OPTION_SCHEMA_LOCATION));
@@ -483,6 +485,7 @@ public class XMLSaveImpl implements XMLSave
         helper.populateNameInfo(nameInfo, eClass);
         currentNode = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
         document.appendChild(currentNode);
+        handler.recordValues(currentNode, null, null, top);
         saveElementID(top);
         return null;
       }
@@ -853,11 +856,7 @@ public class XMLSaveImpl implements XMLSave
         else
         {
           currentNode = currentNode.appendChild(document.createElementNS(helper.getNamespaceURI(prefix), elementName));
-          if (DEBUG_DOM)
-          {
-            System.out.println("-->"+currentNode.getNodeName()+"; eObject: "+o.eClass().getName()+"; container: "+o.eContainer().eClass().getName()+"; "+f.getName());
-          }
-          handler.recordEObject(currentNode, o, o.eContainer(), f);
+          handler.recordValues(currentNode, o.eContainer(), f, o);
         }
         saveElementID(o);
         return;
@@ -881,12 +880,12 @@ public class XMLSaveImpl implements XMLSave
           {
             currentNode = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
             document.appendChild(currentNode);
-            handler.recordEObject(currentNode, o,o.eContainer(), f);
+            handler.recordValues(currentNode, o.eContainer(), f, o);
           }
           else
           {
             currentNode = currentNode.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
-            handler.recordEObject(currentNode, o, o.eContainer(), f);
+            handler.recordValues(currentNode, o.eContainer(), f, o);
           }
         }
         saveElementID(o);
@@ -920,22 +919,12 @@ public class XMLSaveImpl implements XMLSave
         // this is a root element
         currentNode = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
         document.appendChild(currentNode);
-        if (DEBUG_DOM)
-        {
-          System.out.println("-->"+currentNode.getNodeName()+"; eObject: "+o.eClass().getName()+"; container: "+o.eContainer().eClass().getName()+"; "+f.getName());
-
-        }
-        handler.recordEObject(currentNode, o, o.eContainer(), f);
+        handler.recordValues(currentNode, o.eContainer(), f, o);
       }
       else
       {
         currentNode = currentNode.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
-        if (DEBUG_DOM)
-        {
-          System.out.println("-->"+currentNode.getNodeName()+"; eObject: "+o.eClass().getName()+"; container: "+o.eContainer().eClass().getName()+"; "+f.getName());
-
-        }
-        handler.recordEObject(currentNode, o, o.eContainer(), f);
+        handler.recordValues(currentNode, o.eContainer(), f, o);
       }
     }
     
@@ -1013,7 +1002,15 @@ public class XMLSaveImpl implements XMLSave
     {
       int kind = featureKinds[i];
       EStructuralFeature f = features[i];
-      if (kind != TRANSIENT && o.eIsSet(f))
+      boolean isSet = o.eIsSet(f);
+      if (keepDefaults && !isSet)
+      {
+        if (f.getDefaultValueLiteral() != null)
+        {
+          isSet = true;
+        }
+      }
+      if (kind != TRANSIENT && isSet)
       {
         switch (kind)
         {
@@ -1100,7 +1097,7 @@ public class XMLSaveImpl implements XMLSave
           {
             if (isEmpty(o, f))
             {
-              saveManyEmpty(f);
+              saveManyEmpty(o, f);
               continue LOOP;
             }
             // It's intental to keep going.
@@ -1176,7 +1173,7 @@ public class XMLSaveImpl implements XMLSave
           {
             if (isEmpty(o, f))
             {
-              saveManyEmpty(f);
+              saveManyEmpty(o, f);
               continue LOOP;
             }
             break;
@@ -1372,15 +1369,6 @@ public class XMLSaveImpl implements XMLSave
           {
             doc.endContentElement(content);
           }
-          else
-          {            
-            Node text = document.createTextNode(content);
-            if (DEBUG_DOM)
-            {
-              System.out.println(currentNode.getLocalName()+": "+text);
-            }
-            currentNode.appendChild(text);                   
-          }
           break;
         }
         default:
@@ -1434,8 +1422,9 @@ public class XMLSaveImpl implements XMLSave
   }
 
   protected void saveDataTypeSingle(EObject o, EStructuralFeature f)
-  {
-    String svalue = getDatatypeValue(helper.getValue(o, f), f); 
+  {  
+    Object value = helper.getValue(o, f);
+    String svalue = getDatatypeValue(value, f); 
     if (svalue != null)
     {
       if (!toDOM)
@@ -1445,7 +1434,10 @@ public class XMLSaveImpl implements XMLSave
       else
       {
         helper.populateNameInfo(nameInfo, f);
-        ((Element)currentNode).setAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName(), svalue);
+        Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+        attr.setNodeValue(svalue);      
+        ((Element)currentNode).setAttributeNodeNS(attr);
+        handler.recordValues(attr, o, f, value);
       }
     }
   }
@@ -1462,47 +1454,48 @@ public class XMLSaveImpl implements XMLSave
 
   protected void saveNil(EObject o, EStructuralFeature f)
   {
-    saveNil(f);
-    if (toDOM)
+    if (!toDOM)
     {
-      handler.recordEObject(currentNode.getLastChild(), null, o, f);
-      if (DEBUG_DOM)
-      {
-        System.out.println("-->nil: " + currentNode.getLastChild().getNodeName() + "; container:" + o.eClass().getName()+ ";feature: " + f.getName());
-      }
+      saveNil(f);
+    }
+    else
+    {
+      declareXSI = true;
+      helper.populateNameInfo(nameInfo, f);
+      Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+      elem.setAttributeNS(ExtendedMetaData.XSI_URI, XSI_NIL, "true");
+      currentNode.appendChild(elem);
+      handler.recordValues(currentNode.getLastChild(), o, f, null);
     }
   }
   
   protected void saveNil(EStructuralFeature f)
   {
     declareXSI = true;
+    String name = helper.getQName(f);
+    doc.startElement(name);
+    doc.addAttribute(XSI_NIL, "true");
+    doc.endEmptyElement();
+  }
+  
+  protected void saveManyEmpty(EObject o, EStructuralFeature f)
+  {
     if (!toDOM)
     {
-      String name = helper.getQName(f);
-      doc.startElement(name);
-      doc.addAttribute(XSI_NIL, "true");
-      doc.endEmptyElement();      
+      saveManyEmpty(f);
     }
     else
     {
       helper.populateNameInfo(nameInfo, f);
-      Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
-      elem.setAttributeNS(ExtendedMetaData.XSI_URI, XSI_NIL, "true");
-      currentNode.appendChild(elem);
+      Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+      ((Element)currentNode).setAttributeNodeNS(attr);
+      handler.recordValues(attr, o, f, null);
     }
   }
   
   protected void saveManyEmpty(EStructuralFeature f)
   {
-    if (!toDOM)
-    {
       doc.addAttribute(helper.getQName(f), "");
-    } 
-    else
-    {
-      helper.populateNameInfo(nameInfo, f);
-      ((Element)currentNode).setAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName(), "");
-    }
   }
 
   protected void saveDataTypeMany(EObject o, EStructuralFeature f)
@@ -1552,13 +1545,9 @@ public class XMLSaveImpl implements XMLSave
           if (value == null)
           {
             Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
-            elem.setAttributeNS(XMLResource.XSI_URI, XSI_NIL, "true");
-            if (DEBUG_DOM)
-            {
-              System.out.println("-->many(nil): " + elem.getNodeName() + "; container: " + o.eClass().getName() + "; feature: " + f.getName());
-            }
-            handler.recordEObject(elem, null, o, f);
+            elem.setAttributeNS(XMLResource.XSI_URI, XSI_NIL, "true");           
             currentNode.appendChild(elem);
+            handler.recordValues(elem, o, f, null);
             declareXSI = true;
           }
           else
@@ -1566,13 +1555,9 @@ public class XMLSaveImpl implements XMLSave
             Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
             Node text = document.createTextNode(helper.convertToString(fac, d, value));
             elem.appendChild(text);
-            if (DEBUG_DOM)
-            {
-              System.out.println("-->many: " + elem.getNodeName() + "; container: " + o.eClass().getName() + "; feature: " + f.getName());
-              System.out.println("-->" + text);
-            }
-            handler.recordEObject(elem, null, o, f);
             currentNode.appendChild(elem);
+            handler.recordValues(elem, o, f,  value);
+            handler.recordValues(text, o, f,  value);           
           }
         }
       }
@@ -1613,7 +1598,10 @@ public class XMLSaveImpl implements XMLSave
         else
         {
           helper.populateNameInfo(nameInfo, f);
-          ((Element)currentNode).setAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName(), buffer.toString());
+          Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+          attr.setNodeValue(buffer.toString());      
+          ((Element)currentNode).setAttributeNodeNS(attr);
+          handler.recordValues(attr, o, f, value);
         }
       }
     }
@@ -1668,7 +1656,10 @@ public class XMLSaveImpl implements XMLSave
       else
       {
         helper.populateNameInfo(nameInfo, f);
-        ((Element)currentNode).setAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName(), buffer.toString());
+        Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+        attr.setNodeValue(buffer.toString());      
+        ((Element)currentNode).setAttributeNodeNS(attr);
+        handler.recordValues(attr, o, f, values);
       }
     }
   }
@@ -1686,8 +1677,11 @@ public class XMLSaveImpl implements XMLSave
       }
       else
       {
-        helper.populateNameInfo(nameInfo, f);        
-        ((Element)currentNode).setAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName(),id);
+        helper.populateNameInfo(nameInfo, f);  
+        Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+        attr.setNodeValue(id);      
+        ((Element)currentNode).setAttributeNodeNS(attr);
+        handler.recordValues(attr, o, f, value);
       }    
     }
   }
@@ -1721,7 +1715,10 @@ public class XMLSaveImpl implements XMLSave
       else
       {
         helper.populateNameInfo(nameInfo, f);
-        ((Element)currentNode).setAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName(), ids.toString());
+        Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+        attr.setNodeValue(ids.toString());      
+        ((Element)currentNode).setAttributeNodeNS(attr);
+        handler.recordValues(attr, o, f, values);
       }
     }
   }
@@ -1742,11 +1739,12 @@ public class XMLSaveImpl implements XMLSave
       else
       {
         helper.populateNameInfo(nameInfo, f);
-        Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());       
-        handler.recordEObject(elem, remote, remote.eContainer(), f);
-        System.out.println("-->remote: "+elem.getNodeName()+": "+remote.eClass().getName()+"; "+f.getName());
-        elem.appendChild(document.createTextNode(href));
+        Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()); 
+        Node text = document.createTextNode(href);
+        elem.appendChild(text);
         currentNode = currentNode.appendChild(elem);
+        handler.recordValues(elem, remote.eContainer(), f, remote);
+        handler.recordValues(text, remote.eContainer(), f, remote);
       }
       EClass eClass = remote.eClass();
       EClass expectedType = (EClass)f.getEType();
@@ -1787,12 +1785,18 @@ public class XMLSaveImpl implements XMLSave
   protected String getElementReferenceSingleSimple(EObject o, EStructuralFeature f)
   {
     EObject value = (EObject)helper.getValue(o, f);
-    String href = helper.getHREF(value);
-    if (escapeURI != null && href != null)
+    String svalue = helper.getHREF(value);   
+    if (escapeURI != null && svalue != null)
     {
-      href = escapeURI.convert(href);
+      svalue = escapeURI.convert(svalue);
     }
-    return href;
+    if (toDOM)
+    {            
+      Node text = document.createTextNode(svalue);
+      currentNode.appendChild(text);
+      handler.recordValues(text, o, f, value);
+    }
+    return svalue;
   }
 
   protected String getElementReferenceManySimple(EObject o, EStructuralFeature f)
@@ -1812,12 +1816,42 @@ public class XMLSaveImpl implements XMLSave
       result.append(href);
       result.append(' ');
     }
-    return result.substring(0, result.length() - 1);
+    String svalue = result.substring(0, result.length() - 1);
+    if (toDOM)
+    {            
+      Node text = document.createTextNode(svalue);
+      currentNode.appendChild(text);
+      handler.recordValues(text, o, f, values);
+    }
+    return svalue;
+  }
+  
+  protected void saveElementIDRef(EObject o, EObject target, EStructuralFeature f)
+  {
+    if (!toDOM)
+    {
+      saveElementIDRef(target, f);
+    }
+    else
+    {
+      String name = helper.getQName(f);
+      String id = helper.getIDREF(target);
+      helper.populateNameInfo(nameInfo, f);
+      Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+      Node text = document.createTextNode(id);
+      elem.appendChild(text);
+      currentNode.appendChild(elem);
+      handler.recordValues(elem, o, f, target);
+      handler.recordValues(text, o, f, target);
+    }
   }
 
   protected void saveElementIDRef(EObject target, EStructuralFeature f)
   {
-    saveElement(target, helper.getIDREF(target), f);
+    String name = helper.getQName(f);
+    String id = helper.getIDREF(target);
+    doc.startElement(name);
+    doc.endContentElement(id);
   }
 
   protected void saveElementIDRefSingle(EObject o, EStructuralFeature f)
@@ -1825,7 +1859,7 @@ public class XMLSaveImpl implements XMLSave
     EObject value = (EObject)helper.getValue(o, f);
     if (value != null)
     {
-      saveElementIDRef(value, f);
+      saveElementIDRef(o, value, f);
     }
   }
 
@@ -1835,14 +1869,21 @@ public class XMLSaveImpl implements XMLSave
     int size = values.size();
     for (int i = 0; i < size; i++)
     {
-      saveElementIDRef((EObject)values.basicGet(i), f);
+      saveElementIDRef(o, (EObject)values.basicGet(i), f);
     }
   }
 
   protected String getElementIDRefSingleSimple(EObject o, EStructuralFeature f)
   {
     EObject value = (EObject)helper.getValue(o, f);
-    return helper.getIDREF(value);
+    String svalue = helper.getIDREF(value);
+    if (toDOM)
+    {            
+      Node text = document.createTextNode(svalue);
+      currentNode.appendChild(text);
+      handler.recordValues(text, o, f, value);
+    }
+    return svalue;
   }
 
   protected String getElementIDRefManySimple(EObject o, EStructuralFeature f)
@@ -1855,7 +1896,14 @@ public class XMLSaveImpl implements XMLSave
       result.append(helper.getIDREF((EObject)values.basicGet(i)));
       result.append(' ');
     }
-    return result.substring(0, result.length() - 1);
+    String svalue = result.substring(0, result.length() - 1);
+    if (toDOM)
+    {
+      Node text = document.createTextNode(svalue);
+      currentNode.appendChild(text);
+      handler.recordValues(text, o, f, values);
+    }
+    return svalue;
   }
 
 /*
@@ -1903,13 +1951,9 @@ public class XMLSaveImpl implements XMLSave
       else
       {
         helper.populateNameInfo(nameInfo, f);
-        Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
-        if (DEBUG_DOM)
-        {
-          System.out.println("-->href: "+elem.getNodeName()+"; eObject: "+remote.eClass().getName()+"; container:"+remote.eContainer()+"; "+f.getName());
-        }
-        handler.recordEObject(elem, remote, remote.eContainer(), f);
+        Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());       
         currentNode = currentNode.appendChild(elem);
+        handler.recordValues(elem, remote.eContainer(), f, remote);
       }
       EClass eClass = remote.eClass();
       EClass expectedType = (EClass) f.getEType();
@@ -2000,7 +2044,7 @@ public class XMLSaveImpl implements XMLSave
           }
           else
           {
-            saveElementIDRef((EObject)value, entryFeature);
+            saveElementIDRef(o, (EObject)value, entryFeature);
           }
         }
       }
@@ -2019,11 +2063,9 @@ public class XMLSaveImpl implements XMLSave
           }
           else
           {
-            currentNode.appendChild(document.createTextNode(svalue));
-            if (DEBUG_DOM)
-            {
-              System.out.println("-->"+currentNode.getLastChild()+"; feature: "+f.getName());
-            }
+            Node text = document.createTextNode(svalue);
+            currentNode.appendChild(text);
+            handler.recordValues(text, o, f, entry);
           }
         }
         else if (entryFeature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA())
@@ -2039,7 +2081,9 @@ public class XMLSaveImpl implements XMLSave
           }
           else
           {
-            currentNode.appendChild(document.createCDATASection(stringValue));
+            Node cdata = document.createCDATASection(stringValue);
+            currentNode.appendChild(cdata);
+            handler.recordValues(cdata, o, f, entry);            
           }
         }
         else if (entryFeature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment())
@@ -2055,7 +2099,7 @@ public class XMLSaveImpl implements XMLSave
           }
           else
           {
-            // TODO comments are not recorded
+            // TODO comments are not sent to recordValues
             currentNode.appendChild(document.createComment(stringValue));
           }
         }
@@ -2125,7 +2169,10 @@ public class XMLSaveImpl implements XMLSave
         else
         {
           helper.populateNameInfo(nameInfo, entryFeature);
-          ((Element)currentNode).setAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName(), svalue);
+          Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+          attr.setNodeValue(svalue);      
+          ((Element)currentNode).setAttributeNodeNS(attr);
+          handler.recordValues(attr, o, f, value);
         }
       }
     }
@@ -2177,10 +2224,19 @@ public class XMLSaveImpl implements XMLSave
 
     for (int i = 0; i < features.length; i++)
     {
-      XMLResource.XMLInfo info = map.getInfo(features[i]);
+      EStructuralFeature feature = features[i];
+      XMLResource.XMLInfo info = map.getInfo(feature);
       if (info != null && info.getXMLRepresentation() == XMLResource.XMLInfo.CONTENT)
       {
-        return getDatatypeValue(helper.getValue(o, features[i]), features[i]);
+        Object value = helper.getValue(o, feature);
+        String svalue = getDatatypeValue(value, feature);
+        if (toDOM)
+        {            
+          Node text = document.createTextNode(svalue);
+          currentNode.appendChild(text);
+          handler.recordValues(text, o, feature, value);
+        }
+        return svalue;
       }
     }
     return null;
@@ -2193,7 +2249,15 @@ public class XMLSaveImpl implements XMLSave
 
   protected String getDataTypeElementSingleSimple(EObject o, EStructuralFeature f)
   {
-    return getDatatypeValue(helper.getValue(o, f), f);
+    Object value = helper.getValue(o, f);
+    String svalue = getDatatypeValue(value, f);
+    if (toDOM)
+    {            
+      Node text = document.createTextNode(svalue);
+      currentNode.appendChild(text);
+      handler.recordValues(text, o, f, value);
+    }
+    return svalue;
   }
 
   protected void saveElementID(EObject o)
@@ -2201,7 +2265,17 @@ public class XMLSaveImpl implements XMLSave
     String id = helper.getID(o);
     if (id != null)
     {
-      doc.addAttribute(idAttributeName, id);
+      if (!toDOM)
+      {
+        doc.addAttribute(idAttributeName, id);
+      }
+      else
+      {
+        Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+        attr.setNodeValue(id);      
+        ((Element)currentNode).setAttributeNodeNS(attr);
+        handler.recordValues(attr, o, null, o);
+      }
     }
     saveFeatures(o);
   }
@@ -2487,30 +2561,22 @@ public class XMLSaveImpl implements XMLSave
     }
     else
     {
-      saveElement(o, getDatatypeValue(value, f), f);
-    }
-  }
-  
-  private void saveElement(EObject o, String svalue, EStructuralFeature f)
-  {
-    if (!toDOM)
-    {
-      doc.startElement(helper.getQName(f));
-      doc.endContentElement(svalue);
-    }
-    else
-    {
-      helper.populateNameInfo(nameInfo, f);
-      Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
-      Node text = document.createTextNode(svalue);
-      elem.appendChild(text);
-      if (DEBUG_DOM)
+      String svalue =  getDatatypeValue(value, f);
+      if (!toDOM)
       {
-        System.out.println("-->textElem: " + elem.getNodeName() + "; container: " + o.eClass().getName() + "; feature: " + f.getName());
-        System.out.println("-->" + text);
+        doc.startElement(helper.getQName(f));
+        doc.endContentElement(svalue);
       }
-      handler.recordEObject(elem, null, o, f);
-      currentNode.appendChild(elem);
+      else
+      {
+        helper.populateNameInfo(nameInfo, f);
+        Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+        Node text = document.createTextNode(svalue);
+        elem.appendChild(text);
+        currentNode.appendChild(elem);
+        handler.recordValues(elem, o, f, value);
+        handler.recordValues(text, o, f, value);
+      }
     }
   }
 

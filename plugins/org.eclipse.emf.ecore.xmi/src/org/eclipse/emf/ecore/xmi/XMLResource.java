@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.19 2004/12/23 19:32:59 elena Exp $
+ * $Id: XMLResource.java,v 1.20 2005/01/25 18:45:01 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -129,6 +129,13 @@ public interface XMLResource extends Resource
    */
   String OPTION_DECLARE_XML = "DECLARE_XML";
   
+  /**
+   * Keep default content ( e.g. default attributes). This applies to saving and converting contents to DOM.
+   * By default the default content is discarded.
+   * To save the default content, set this option to <code>Boolean.TRUE</code>.
+   */
+  String OPTION_KEEP_DEFAULT_CONTENT = "KEEP_DEFAULT_CONTENT";
+  
   /** 
    * Save a doctype declaration using systemId and publicId values specified on the resource
    * @see #getSystemId() 
@@ -147,7 +154,7 @@ public interface XMLResource extends Resource
   /**
    * Skip escaping special characters, such as '&' char, in URIs during XML serialization.
    * The default is <code>Boolean.TRUE</code>. To enforce escaping special characters, set this 
-   * option to <code>Boolean.FALSE</code>/.
+   * option to <code>Boolean.FALSE</code>.
    */
   String OPTION_SKIP_ESCAPE_URI = "SKIP_ESCAPE_URI";
 
@@ -321,9 +328,9 @@ public interface XMLResource extends Resource
   Document toDOM(Map options, Document document, DOMHandler handler);
     
   /**
-   * Returns the {@link DOMHandler} that was used in {@link XMLResource#toDOM(Map, Document, DOMHandler)} operation
+   * Returns the {@link DOMHelper} 
    */
-  DOMHandler getDOMHandler();
+  DOMHelper getDOMHelper();
 
   /**
    * This interface represents a mapping from Ecore constructs to the

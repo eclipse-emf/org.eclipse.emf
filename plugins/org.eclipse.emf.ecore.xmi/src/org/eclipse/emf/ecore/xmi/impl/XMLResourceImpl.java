@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.5 2004/12/23 19:32:59 elena Exp $
+ * $Id: XMLResourceImpl.java,v 1.6 2005/01/25 18:45:01 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.DOMHandler;
+import org.eclipse.emf.ecore.xmi.DOMHelper;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.XMLResource;
@@ -208,9 +209,9 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
   }
 
-  public DOMHandler getDOMHandler()
+  public DOMHelper getDOMHelper()
   {
-    return domHandler;
+    return domHandler.getDOMHelper();
   }
 
   public boolean useZip()

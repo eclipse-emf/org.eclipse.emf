@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.18 2005/01/07 19:05:25 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.19 2005/01/25 18:45:01 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -346,6 +346,7 @@ public class XMLHelperImpl implements XMLHelper
     else
     {
       String name = getName(feature);
+      nameInfo.setNamespaceURI(null);
       nameInfo.setLocalPart(name);
       if (xmlMap != null)
       {

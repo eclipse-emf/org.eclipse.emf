@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMISaveImpl.java,v 1.5 2004/12/23 19:32:59 elena Exp $
+ * $Id: XMISaveImpl.java,v 1.6 2005/01/25 18:45:01 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -89,7 +89,7 @@ public class XMISaveImpl extends XMLSaveImpl
         EClass eClass = top.eClass();
         helper.populateNameInfo(nameInfo, eClass);
         currentNode = currentNode.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
-        handler.recordEObject(currentNode, top, null, null);
+        handler.recordValues(currentNode, null, null, top);
         saveElementID(top);
       }
       return null;
