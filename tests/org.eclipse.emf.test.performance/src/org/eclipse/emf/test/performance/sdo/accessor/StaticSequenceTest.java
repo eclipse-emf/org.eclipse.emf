@@ -12,24 +12,20 @@
  *
  * </copyright>
  *
- * $Id: StaticSequenceTest.java,v 1.4 2005/03/17 23:28:31 nickb Exp $
+ * $Id: StaticSequenceTest.java,v 1.5 2005/03/18 04:04:56 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
 
-import java.net.URL;
 import java.util.List;
 import java.util.Properties;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.EProperty;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
-import org.osgi.framework.Bundle;
 
 import com.example.sdo.epo.PurchaseOrder;
 import com.example.sdo.epo.Supplier;
@@ -53,23 +49,14 @@ public class StaticSequenceTest extends DynamicSequenceTest
   public StaticSequenceTest(String name)
   {
     super(name);
-	int it = Integer.parseInt("0"+props.getProperty(StaticIPOSDOAccessorTest.class.getName()+"."+name));
-	iterations = it > 0 ? it : 1;
+	iterations = getIterations(StaticSequenceTest.class.getName()+"."+name);
   }
 
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite();
 
-	try {
-		Bundle bundle = Platform.getBundle("org.eclipse.emf.test.performance");
-		URL url = Platform.find(bundle, new Path("iterations.properties"));
-		props.load(url.openStream());
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	//props.list(System.out);
-	testSuite.addTest(new DynamicIPOSDOAccessorTest("testGetIterationsCount"));
+	testSuite.addTest(new StaticSequenceTest("testGetIterationsCount"));
 
     // TODO tune warmup.
 
@@ -161,7 +148,7 @@ public class StaticSequenceTest extends DynamicSequenceTest
 
   public void testGetIterationsCount()
   {
-	  System.out.println("testGetIterationsCount: "+iterations);
+	  System.out.println("StaticSequenceTest.testGetIterationsCount: "+iterations);
   }
 
 }

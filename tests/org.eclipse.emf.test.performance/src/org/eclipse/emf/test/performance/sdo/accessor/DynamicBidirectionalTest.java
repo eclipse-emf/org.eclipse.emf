@@ -12,23 +12,19 @@
  *
  * </copyright>
  *
- * $Id: DynamicBidirectionalTest.java,v 1.2 2005/03/17 23:28:31 nickb Exp $
+ * $Id: DynamicBidirectionalTest.java,v 1.3 2005/03/18 04:04:56 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
 
-import java.net.URL;
 import java.util.Properties;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.test.performance.EMFPerformanceTestCase;
-import org.osgi.framework.Bundle;
 
 import com.example.sdo.library.LibraryFactory;
 import com.example.sdo.library.util.DoNothingAdapter;
@@ -74,8 +70,7 @@ public class DynamicBidirectionalTest extends EMFPerformanceTestCase
   public DynamicBidirectionalTest(String name)
   {
     super(name);
-	int it = Integer.parseInt("0"+props.getProperty(StaticIPOSDOAccessorTest.class.getName()+"."+name));
-	iterations = it > 0 ? it : 1;
+	iterations = getIterations(DynamicBidirectionalTest.class.getName()+"."+name);
   }
 
   public static Test suite()
@@ -83,15 +78,7 @@ public class DynamicBidirectionalTest extends EMFPerformanceTestCase
 
     TestSuite testSuite = new TestSuite();
 
-	try {
-		Bundle bundle = Platform.getBundle("org.eclipse.emf.test.performance");
-		URL url = Platform.find(bundle, new Path("iterations.properties"));
-		props.load(url.openStream());
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	//props.list(System.out);
-	testSuite.addTest(new DynamicIPOSDOAccessorTest("testGetIterationsCount"));
+	testSuite.addTest(new DynamicBidirectionalTest("testGetIterationsCount"));
 
 	return testSuite;
   }
@@ -130,7 +117,7 @@ public class DynamicBidirectionalTest extends EMFPerformanceTestCase
 
   public void testGetIterationsCount()
   {
-	  System.out.println("testGetIterationsCount: "+iterations);
+	  System.out.println("DynamicBidirectionalTest.testGetIterationsCount: "+iterations);
   }
 
 }

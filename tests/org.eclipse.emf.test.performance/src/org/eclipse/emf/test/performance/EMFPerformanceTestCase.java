@@ -6,18 +6,24 @@
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.10 2005/02/28 22:48:21 bportier Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.11 2005/03/18 04:04:56 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
+import java.net.URL;
+import java.util.Properties;
+
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.test.performance.Dimension;
 import org.eclipse.test.performance.PerformanceTestCase;
+import org.osgi.framework.Bundle;
 
 /**
  * <p>
@@ -27,12 +33,12 @@ import org.eclipse.test.performance.PerformanceTestCase;
  * don't affect the measurements.</li>
  * <li>Invoking <tt><b>super.</b>setUp</tt> and <tt><b>super.</b>tearDown</tt> is
  * mandatory if these methods are being overwritten by subclasses</li>
- * <li>The <tt>repetitions</tt> attribute defines how many times a test will be invoked.  
- * If the <tt>startMeasuring</tt> and <tt>stopMeasuring</tt> are invoked in the test, each 
- * iteration is measured and the final result is an average of all repetitions.  The default 
+ * <li>The <tt>repetitions</tt> attribute defines how many times a test will be invoked.
+ * If the <tt>startMeasuring</tt> and <tt>stopMeasuring</tt> are invoked in the test, each
+ * iteration is measured and the final result is an average of all repetitions.  The default
  * number of repetitions is 1.</li>
  * <li>The <tt>warmUp</tt> attribute defines how many times a test will be invoked
- * <b>before</b> the measurements take place.  The <tt>startMeasuring</tt> and 
+ * <b>before</b> the measurements take place.  The <tt>startMeasuring</tt> and
  * <tt>stopMeasuring</tt> methods won't do anything while the test is being warmed up.</li>
  * </ul>
  * </p>
@@ -62,48 +68,54 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     ,Dimension.WORKING_SET
     ,Dimension.WORKING_SET_PEAK
   };
-  
+
   private int repetitions = 1;
   private int warmUp = 0;
   private boolean warmingUp = false;
-  
+
+  private Properties props = new Properties();
+
+  private int iterations;
+
   public EMFPerformanceTestCase(String name)
   {
     super(name);
+	setIterations();
   }
-  
+
   public EMFPerformanceTestCase()
   {
     super();
+	setIterations();
   }
-  
+
   public EMFPerformanceTestCase setRepetitions(int repeat)
   {
     this.repetitions = repeat;
     return this;
   }
-  
+
   public int getRepetitions()
   {
     return repetitions;
   }
-  
+
   public EMFPerformanceTestCase setWarmUp(int warmUp)
   {
     this.warmUp = warmUp;
     return this;
   }
-  
+
   public int getWarmUp()
   {
     return warmUp;
   }
-  
+
   protected boolean isWarmingUp()
   {
     return warmingUp;
   }
-  
+
   protected void startMeasuring()
   {
     if (TestUtil.isRunningUnderEclipse() && !isWarmingUp())
@@ -111,7 +123,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
       super.startMeasuring();
     }
   }
-  
+
   protected void stopMeasuring()
   {
     if (TestUtil.isRunningUnderEclipse() && !isWarmingUp())
@@ -119,7 +131,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
       super.stopMeasuring();
     }
   }
-  
+
   protected void setUp() throws Exception
   {
     if (TestUtil.isRunningUnderEclipse())
@@ -130,8 +142,8 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
 
   protected void runTest() throws Throwable
   {
-    assertTrue("Iterations must be greater than 0", getRepetitions() > 0); 
-    
+    assertTrue("Iterations must be greater than 0", getRepetitions() > 0);
+
     warmUp();
 
     if (!TestUtil.isRunningUnderEclipse())
@@ -145,7 +157,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
       super.runTest();
     }
   }
-  
+
   protected void warmUp() throws Throwable
   {
     warmingUp = true;
@@ -159,19 +171,43 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     finally
     {
       warmingUp = false;
-    }    
+    }
   }
-  
+
   protected void tearDown() throws Exception
   {
     if (TestUtil.isRunningUnderEclipse())
     {
       commitMeasurements();
-      assertPerformance();    
+      assertPerformance();
       super.tearDown();
     }
-  }  
-  
+  }
+
+  public void setIterations() {
+	  if (props == null || props.size() < 1) {
+		try {
+			Bundle bundle = Platform.getBundle("org.eclipse.emf.test.performance");
+			URL url = Platform.find(bundle, new Path("iterations.properties"));
+			props.load(url.openStream());
+			//props.list(System.out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	  }
+  }
+
+  public int getIterations(String property) {
+	try {
+		String it = props.getProperty(property);
+	  	//System.out.println("getIterations: "+property+" = "+it);
+	  	return Integer.parseInt(it);
+	} catch (Exception e) {
+		System.out.println(e.getClass()+": "+e.getMessage());
+		return 1;
+	}
+  }
+
   public void tagAsGlobalSummary(String shortName, Dimension dimension)
   {
     if (TestUtil.isRunningUnderEclipse())
@@ -179,7 +215,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
       super.tagAsGlobalSummary(shortName, dimension);
     }
   }
-  
+
   public void tagAsGlobalSummary(String shortName, Dimension[] dimensions)
   {
     if (TestUtil.isRunningUnderEclipse())
@@ -187,7 +223,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
       super.tagAsGlobalSummary(shortName, dimensions);
     }
   }
-  
+
   public void tagAsSummary(String shortName, Dimension dimension)
   {
     if (TestUtil.isRunningUnderEclipse())
@@ -195,7 +231,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
       super.tagAsSummary(shortName, dimension);
     }
   }
-  
+
   public void tagAsSummary(String shortName, Dimension[] dimensions)
   {
     if (TestUtil.isRunningUnderEclipse())

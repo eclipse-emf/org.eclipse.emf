@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.15 2005/03/17 23:28:31 nickb Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.16 2005/03/18 04:04:56 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -21,7 +21,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -29,8 +28,6 @@ import java.util.Properties;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
@@ -41,7 +38,6 @@ import org.eclipse.emf.test.performance.TestUtil;
 import org.eclipse.emf.test.performance.sdo.DynamicIPOModel;
 import org.eclipse.emf.test.performance.sdo.IPOModel;
 import org.eclipse.xsd.impl.type.XSDDateType;
-import org.osgi.framework.Bundle;
 
 import com.example.sdo.ipo.IpoFactory;
 import com.example.sdo.ipo.USAddress;
@@ -151,8 +147,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public DynamicIPOSDOAccessorTest(String name)
   {
     super(name);
-	int it = Integer.parseInt("0"+props.getProperty(StaticIPOSDOAccessorTest.class.getName()+"."+name));
-	iterations = it > 0 ? it : 1;
+	iterations = getIterations(DynamicIPOSDOAccessorTest.class.getName()+"."+name);
   }
 
   public static Test suite()
@@ -160,14 +155,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
     TestSuite testSuite = new TestSuite();
 
-	try {
-		Bundle bundle = Platform.getBundle("org.eclipse.emf.test.performance");
-		URL url = Platform.find(bundle, new Path("iterations.properties"));
-		props.load(url.openStream());
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	//props.list(System.out);
 	testSuite.addTest(new DynamicIPOSDOAccessorTest("testGetIterationsCount"));
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(1000).setRepetitions(REPETITIONS_5));
@@ -900,7 +887,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public void testGetIterationsCount()
   {
-	  System.out.println("testGetIterationsCount: "+iterations);
+	  System.out.println("DynamicIPOSDOAccessorTest.testGetIterationsCount: "+iterations);
   }
 
 }
