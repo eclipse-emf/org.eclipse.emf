@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestCorePlugin.java,v 1.4 2004/03/25 06:31:00 marcelop Exp $
+ * $Id: EMFTestCorePlugin.java,v 1.5 2004/03/25 06:42:49 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -67,6 +67,6 @@ extends Plugin
       catch (IOException e)
       {
       }
-      return null;
+      return "";
     }
 }
