@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.12 2004/09/25 02:02:32 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.13 2004/10/03 23:58:34 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1081,7 +1081,9 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * non-abstract subclasses, beginning with those from the specified
    * firstGenPackage followed by the others in genPackages, and ordered down
    * the inheritance chains within each package.  Stops searching after
-   * max GenClasses are found; -1 for no limit.  
+   * max GenClasses are found; -1 for no limit.  If eType corresponds to an
+   * anonymous complex type, only that class itself is returned; otherwise,
+   * no such anonymous classes are included.
    */
   protected List getTypeGenClasses(EClassifier eType, GenPackage firstGenPackage, List genPackages, int max)
   {
@@ -1090,6 +1092,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     boolean hasMax = max > -1;
     List result = new ArrayList();
     EClass baseClass = (EClass)eType;
+
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    if (extendedMetaData.isAnonymous(baseClass))
+    {
+      result.add(findGenClass(baseClass));
+      return result;
+    }
 
     // order genPackages by putting firstGenPackage (if non-null) first
     List orderedGenPackages = genPackages;
@@ -1111,7 +1120,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         for (Iterator cIter = ((GenPackage)pIter.next()).getOrderedGenClasses().iterator(); cIter.hasNext(); )
         {
           GenClass genClass = (GenClass)cIter.next();
-          if (!genClass.isAbstract())
+          if (!genClass.isAbstract() && !extendedMetaData.isAnonymous(genClass.getEcoreClass()))
           {
             result.add(genClass);
             if (hasMax && result.size() >= max) return result;
@@ -1123,7 +1132,9 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         for (Iterator cIter = ((GenPackage)pIter.next()).getOrderedGenClasses().iterator(); cIter.hasNext(); )
         {
           GenClass genClass = (GenClass)cIter.next();
-          if (!genClass.isAbstract() && baseClass.isSuperTypeOf(genClass.getEcoreClass()))
+          if (!genClass.isAbstract() && 
+                baseClass.isSuperTypeOf(genClass.getEcoreClass()) && 
+                !extendedMetaData.isAnonymous(genClass.getEcoreClass()))
           {
             result.add(genClass);
             if (hasMax && result.size() >= max) return result;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.8 2004/09/24 04:15:38 davidms Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.9 2004/10/03 23:58:29 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -156,12 +156,16 @@ public class ReflectiveItemProvider
         }
       }
     }
+    else if (ExtendedMetaData.INSTANCE.isAnonymous(eClass))
+    {
+      result.add(eClass);
+    }
     else
     {
       for (Iterator i = getAllEClasses(eClass).iterator(); i.hasNext(); )
       {
         EClass otherEClass = (EClass)i.next();
-        if (!otherEClass.isAbstract() && eClass.isSuperTypeOf(otherEClass))
+        if (!otherEClass.isAbstract() && eClass.isSuperTypeOf(otherEClass) && !ExtendedMetaData.INSTANCE.isAnonymous(otherEClass))
         {
           result.add(otherEClass);
         }
