@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.2 2004/06/04 09:49:09 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -162,6 +162,7 @@ public class XSDModelGroupDefinitionImpl
 
   protected void patch()
   {
+    analysisState = UNANALYZED;
     super.patch();
     XSDModelGroupDefinition theResolvedModelGroupDefinition = getResolvedModelGroupDefinition();
 
