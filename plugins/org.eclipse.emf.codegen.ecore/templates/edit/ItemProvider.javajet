@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.3 2004/03/31 16:53:42 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.4 2004/04/03 20:04:25 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -209,7 +209,7 @@ public class <%=genClass.getProviderClassName()%>
     <%for (Iterator i=genClass.getLabelNotifyFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
 			case <%=genClass.getQualifiedFeatureID(genFeature)%>:
     <%}%>
-				fireNotifyChanged(new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.ViewerNotification")%>(notification, notification.getNotifier()));
+				fireNotifyChanged(new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.ViewerNotification")%>(notification, notification.getNotifier(), false, true));
 				return;
   <%}%>
   <%if (!genClass.getContentNotifyFeatures().isEmpty()) {%>

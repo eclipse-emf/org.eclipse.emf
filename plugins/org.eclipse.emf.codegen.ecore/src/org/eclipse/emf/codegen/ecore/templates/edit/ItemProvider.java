@@ -90,7 +90,7 @@ public class ItemProvider
   protected final String TEXT_82 = NL + "\t\t\tcase ";
   protected final String TEXT_83 = ":";
   protected final String TEXT_84 = NL + "\t\t\t\tfireNotifyChanged(new ";
-  protected final String TEXT_85 = "(notification, notification.getNotifier()));" + NL + "\t\t\t\treturn;";
+  protected final String TEXT_85 = "(notification, notification.getNotifier(), false, true));" + NL + "\t\t\t\treturn;";
   protected final String TEXT_86 = NL + "\t\t\tcase ";
   protected final String TEXT_87 = ":";
   protected final String TEXT_88 = NL + "\t\t\t\tfireNotifyChanged(new ";

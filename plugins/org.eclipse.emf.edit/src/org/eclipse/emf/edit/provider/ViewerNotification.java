@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerNotification.java,v 1.1 2004/03/31 19:48:18 davidms Exp $
+ * $Id: ViewerNotification.java,v 1.2 2004/04/03 20:04:23 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -54,15 +54,15 @@ public class ViewerNotification extends NotificationWrapper implements IViewerNo
   }
 
   /**
-   * Creates a notification to update the label for the given element.
+   * Creates a notification to refresh the content under and update the label for the given element.
    */
   public ViewerNotification(Notification decoratedNotification, Object element)
   {
-    this(decoratedNotification, element, false, true);
+    this(decoratedNotification, element, true, true);
   }
 
   /**
-   * Creates a notification to optionally refresh the content and update the label for and under the given element.
+   * Creates a notification to optionally refresh the content under and update the label for the given element.
    */
   public ViewerNotification(Notification decoratedNotification, Object element, boolean contentRefresh, boolean labelUpdate)
   {
