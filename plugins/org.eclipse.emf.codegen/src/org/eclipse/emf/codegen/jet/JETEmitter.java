@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.4 2004/07/29 13:32:47 marcelop Exp $
+ * $Id: JETEmitter.java,v 1.5 2004/12/21 12:24:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -32,6 +32,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -45,6 +48,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
@@ -57,11 +61,17 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.osgi.util.ManifestElement;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 
 
 /**
@@ -338,49 +348,51 @@ public class JETEmitter
         description.setLocation(null);
         project.open(new SubProgressMonitor(progressMonitor, 1));
         project.setDescription(description, new SubProgressMonitor(progressMonitor, 1));
-
-        javaProject = JavaCore.create(project);
-
-        progressMonitor.subTask
-          (CodeGenPlugin.getPlugin().getString("_UI_JETInitializingProject_message", new Object [] { project.getName() }));
-        IClasspathEntry classpathEntry = 
-          JavaCore.newSourceEntry(new Path("/" + project.getName() + "/src"));
-
-        IClasspathEntry jreClasspathEntry = 
-          JavaCore.newVariableEntry
-            (new Path(JavaRuntime.JRELIB_VARIABLE), 
-             new Path(JavaRuntime.JRESRC_VARIABLE), 
-             new Path(JavaRuntime.JRESRCROOT_VARIABLE));
-
-        List classpath = new ArrayList();
-        classpath.add(classpathEntry);
-        classpath.add(jreClasspathEntry);
-        classpath.addAll(classpathEntries);
-
-        IFolder sourceFolder = project.getFolder(new Path("src"));
-        if (!sourceFolder.exists())
-        {
-          sourceFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
-        }
-        IFolder runtimeFolder = project.getFolder(new Path("runtime"));
-        if (!runtimeFolder.exists())
-        {
-          runtimeFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
-        }
-
-        IClasspathEntry [] classpathEntryArray = (IClasspathEntry[])classpath.toArray(new IClasspathEntry [classpath.size()]);
-
-        javaProject.setRawClasspath(classpathEntryArray, new SubProgressMonitor(progressMonitor, 1));
-
-        javaProject.setOutputLocation(new Path("/" + project.getName() + "/runtime"), new SubProgressMonitor(progressMonitor, 1));
-
-        javaProject.close();
       }
       else
       {
         project.open(new SubProgressMonitor(progressMonitor, 5));
-        javaProject = JavaCore.create(project);
+        IProjectDescription description = project.getDescription();
+        description.setNatureIds(new String [] { JavaCore.NATURE_ID });
+        project.setDescription(description, new SubProgressMonitor(progressMonitor, 1));
       }
+
+      javaProject = JavaCore.create(project);
+
+      progressMonitor.subTask
+        (CodeGenPlugin.getPlugin().getString("_UI_JETInitializingProject_message", new Object [] { project.getName() }));
+      IClasspathEntry classpathEntry = 
+        JavaCore.newSourceEntry(new Path("/" + project.getName() + "/src"));
+
+      IClasspathEntry jreClasspathEntry = 
+        JavaCore.newVariableEntry
+          (new Path(JavaRuntime.JRELIB_VARIABLE), 
+           new Path(JavaRuntime.JRESRC_VARIABLE), 
+           new Path(JavaRuntime.JRESRCROOT_VARIABLE));
+
+      List classpath = new ArrayList();
+      classpath.add(classpathEntry);
+      classpath.add(jreClasspathEntry);
+      classpath.addAll(classpathEntries);
+
+      IFolder sourceFolder = project.getFolder(new Path("src"));
+      if (!sourceFolder.exists())
+      {
+        sourceFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
+      }
+      IFolder runtimeFolder = project.getFolder(new Path("runtime"));
+      if (!runtimeFolder.exists())
+      {
+        runtimeFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
+      }
+
+      IClasspathEntry [] classpathEntryArray = (IClasspathEntry[])classpath.toArray(new IClasspathEntry [classpath.size()]);
+
+      javaProject.setRawClasspath(classpathEntryArray, new SubProgressMonitor(progressMonitor, 1));
+
+      javaProject.setOutputLocation(new Path("/" + project.getName() + "/runtime"), new SubProgressMonitor(progressMonitor, 1));
+
+      javaProject.close();
 
       progressMonitor.subTask
         (CodeGenPlugin.getPlugin().getString("_UI_JETOpeningJavaProject_message", new Object [] { project.getName() }));
@@ -529,13 +541,67 @@ public class JETEmitter
         ManifestElement element = elements[i];
         try
         {
-          URL url = bundle.getEntry(element.getValue());
-          IPath path = new Path(Platform.asLocalURL(url).getFile());
-          if (!path.equals(JavaCore.getClasspathVariable(variableName)))
+          IPath path = null;
+          URL url = Platform.inDevelopmentMode() ? null : bundle.getEntry(element.getValue());
+          if (url == null)
+          {
+            URL classpathURL = bundle.getEntry(".classpath");
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            documentBuilderFactory.setNamespaceAware(true);
+            documentBuilderFactory.setValidating(false);
+            try
+            {
+              DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+              Document document = documentBuilder.parse(new InputSource(classpathURL.toString()));
+              for (Node child = document.getDocumentElement().getFirstChild(); child != null; child = child.getNextSibling())
+              {
+                if (child.getNodeType() == Node.ELEMENT_NODE)
+                {
+                  Element classpathEntryElement = (Element)child;
+                  if ("classpathentry".equals(classpathEntryElement.getNodeName()) &&
+                      "output".equals(classpathEntryElement.getAttribute("kind")))
+                  {
+                    URI uri = URI.createURI(classpathEntryElement.getAttribute("path")).resolve(URI.createURI(classpathURL.toString()));
+                    IWorkspace workspace = ResourcesPlugin.getWorkspace();
+                    IProject project = workspace.getRoot().getProject(getProjectName());
+                    if (!project.exists())
+                    {
+                      project.create(new NullProgressMonitor());
+                    }
+                    if (!project.isOpen())
+                    {
+                      project.open(new NullProgressMonitor());
+                    }
+                    IFolder folder = project.getFolder("." + pluginID);
+                    if (!folder.exists())
+                    {
+                      folder.createLink
+                        (new Path(CommonPlugin.asLocalURI(uri).toFileString()).removeTrailingSeparator(),
+                         IResource.ALLOW_MISSING_LOCAL, 
+                         new NullProgressMonitor());
+                    }
+                    folder.refreshLocal(IProject.DEPTH_INFINITE, new NullProgressMonitor());
+                    path = folder.getFullPath();
+                    
+                    break;
+                  }
+                }
+              }
+            }
+            catch (Exception exception)
+            {
+              CodeGenPlugin.INSTANCE.log(exception);
+            }
+          }
+          else
+          {
+            path = new Path(Platform.asLocalURL(url).getFile());
+          } 
+          if (path != null && !path.equals(JavaCore.getClasspathVariable(variableName)))
           {
             JavaCore.setClasspathVariable(variableName, path, null);
           }
-        } 
+        }
         catch (MalformedURLException exception)
         {
           throw new JETException(exception);
