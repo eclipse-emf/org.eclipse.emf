@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.9 2004/05/25 19:48:31 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.10 2004/06/04 13:20:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1748,7 +1748,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         ++count;
       }
 
-      return null;
+      return feature.getDefaultValue();
     }
   }
 
@@ -1809,7 +1809,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         ++count;
       }
 
-      return null;
+      return feature.getDefaultValue();
     }
   }
 

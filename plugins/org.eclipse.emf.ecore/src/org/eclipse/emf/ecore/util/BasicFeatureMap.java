@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.8 2004/05/25 19:48:31 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.9 2004/06/04 13:20:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1739,7 +1739,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         ++count;
       }
 
-      return null;
+      return feature.getDefaultValue();
     }
   }
 
@@ -1801,7 +1801,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         ++count;
       }
 
-      return null;
+      return feature.getDefaultValue();
     }
   }
 
