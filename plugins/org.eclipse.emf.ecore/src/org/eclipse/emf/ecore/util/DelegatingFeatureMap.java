@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.2 2004/03/15 16:54:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -114,7 +115,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
   protected boolean isMany(EStructuralFeature feature)
   {
     int upperBound = feature.getUpperBound();
-    if (upperBound == EStructuralFeature.UNSPECIFIED_MULTIPLICITY)
+    if (upperBound == ETypedElement.UNSPECIFIED_MULTIPLICITY)
     {
       if (owner.eClass().getEAllStructuralFeatures().contains(feature))
       {
@@ -128,7 +129,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     }
     else
     {
-      return upperBound == EStructuralFeature.UNBOUNDED_MULTIPLICITY || upperBound > 1 || FeatureMapUtil.isFeatureMap(feature);
+      return upperBound == ETypedElement.UNBOUNDED_MULTIPLICITY || upperBound > 1 || FeatureMapUtil.isFeatureMap(feature);
     }
   }
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: FeatureMapUtil.java,v 1.2 2004/03/15 16:54:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -1211,7 +1212,7 @@ public class FeatureMapUtil
         return true;
       }
 
-      if (wildcards != null && feature.getUpperBound() == EStructuralFeature.UNSPECIFIED_MULTIPLICITY)
+      if (wildcards != null && feature.getUpperBound() == ETypedElement.UNSPECIFIED_MULTIPLICITY)
       {
         if (ExtendedMetaData.INSTANCE.matches(wildcards, ExtendedMetaData.INSTANCE.getNamespace(feature)))
         {
