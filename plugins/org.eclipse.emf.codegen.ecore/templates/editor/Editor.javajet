@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.13 2004/06/17 10:55:52 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.14 2004/06/17 11:14:56 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -15,7 +15,7 @@
  * </copyright>
  */
 %>
-<%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel(); 
+<%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();
 String importedOperationClassName = genModel.getImportedName(genModel.isRichClientPlatform() ? "org.eclipse.jface.operation.IRunnableWithProgress" : "org.eclipse.ui.actions.WorkspaceModifyOperation");
 String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute";
 %>
@@ -846,7 +846,7 @@ public class <%=genPackage.getEditorClassName()%>
 		try
 		{
 			// Load the resource through the editing domain.
-			Resource resource = 
+			Resource resource =
 				editingDomain.loadResource
 					(URI.createURI(getEditorInput().getName()).toString());
 		}
@@ -863,7 +863,7 @@ public class <%=genPackage.getEditorClassName()%>
 		{
 			// Load the resource through the editing domain.
 			//
-			Resource resource = 
+			Resource resource =
 				editingDomain.loadResource
 					(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
 		}
@@ -1424,9 +1424,8 @@ public class <%=genPackage.getEditorClassName()%>
 				file = file + "." + fileExtension;<%=genModel.getNonNLS()%>
 			}
 			URI uri = URI.createFileURI(file);
-			doSaveAs(uri, 
-				new <%=genModel.getImportedName("org.eclipse.emf.common.ui.URIEditorInput")%>(uri));
-		} 
+			doSaveAs(uri, new <%=genModel.getImportedName("org.eclipse.emf.common.ui.URIEditorInput")%>(uri));
+		}
 <%} else {%>
 		SaveAsDialog saveAsDialog= new SaveAsDialog(getSite().getShell());
 		saveAsDialog.open();
@@ -1436,8 +1435,7 @@ public class <%=genPackage.getEditorClassName()%>
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 			if (file != null)
 			{
-				doSaveAs(URI.createPlatformResourceURI(file.getFullPath().toString()), 
-					new FileEditorInput(file));
+				doSaveAs(URI.createPlatformResourceURI(file.getFullPath().toString()), new FileEditorInput(file));
 			}
 		}
 <%}%>
@@ -1453,10 +1451,10 @@ public class <%=genPackage.getEditorClassName()%>
 		((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
 		setInput(editorInput);
 		setPartName(editorInput.getName());
-		IProgressMonitor progressMonitor = 
+		IProgressMonitor progressMonitor =
 			getActionBars().getStatusLineManager() != null ?
-			getActionBars().getStatusLineManager().getProgressMonitor() :
-			new <%=genModel.getImportedName("org.eclipse.core.runtime.NullProgressMonitor")%>();		
+				getActionBars().getStatusLineManager().getProgressMonitor() :
+				new <%=genModel.getImportedName("org.eclipse.core.runtime.NullProgressMonitor")%>();
 		doSave(progressMonitor);
 	}
 
