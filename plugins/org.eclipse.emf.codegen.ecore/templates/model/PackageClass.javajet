@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.13 2004/07/20 16:15:28 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.14 2004/08/12 14:57:33 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -103,8 +103,10 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #eNS_URI
+<%if (!genPackage.isLoadedInitialization()) {%>
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
+<%}%>
 	 * @generated
 	 */
 	public static <%=genPackage.getImportedPackageInterfaceName()%> init()
@@ -126,7 +128,7 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 <%if (!genPackage.getPackageInterDependencies().isEmpty()) {%>
 		// Obtain or create and register interdependencies
   <%for (Iterator p=genPackage.getPackageInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
-		<%=interdep.getImportedPackageClassName()%> <%=genPackage.getPackageInstanceVariable(interdep)%> = (<%=interdep.getImportedPackageClassName()%>)(<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI) instanceof <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%> ? <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI) : <%=interdep.getImportedPackageClassName()%>.eINSTANCE);
+		<%=interdep.getImportedPackageClassName()%> <%=genPackage.getPackageInstanceVariable(interdep)%> = (<%=interdep.getImportedPackageClassName()%>)(<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI) instanceof <%=interdep.getImportedPackageClassName()%> ? <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI) : <%=interdep.getImportedPackageClassName()%>.eINSTANCE);
   <%}%>
 
 <%}%>
@@ -181,6 +183,11 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 					 return <%=genPackage.getImportedValidatorClassName()%>.INSTANCE;
 				 }
 			 });
+
+<%}%>
+<%if (!genPackage.isEcorePackage()) {%>
+		// Mark meta-data to indicate it can't be changed
+		the<%=genPackage.getPackageInterfaceName()%>.freeze();
 
 <%}%>
 		return the<%=genPackage.getPackageInterfaceName()%>;
