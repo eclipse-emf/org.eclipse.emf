@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.2 2004/04/30 14:34:09 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -101,19 +101,27 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     Resource resource = object.eResource();
     if (resource != null)
     {
-      ResourceSet resourceSet = resource.getResourceSet();
-      if (resourceSet instanceof IEditingDomainProvider)
+      IEditingDomainProvider editingDomainProvider =
+        (IEditingDomainProvider)EcoreUtil.getExistingAdapter(resource, IEditingDomainProvider.class);
+      if (editingDomainProvider != null)
       {
-        EditingDomain editingDomain = ((IEditingDomainProvider)resourceSet).getEditingDomain();
-        return editingDomain;
+        return editingDomainProvider.getEditingDomain();
       }
       else
       {
-        IEditingDomainProvider editingDomainProvider = 
-          (IEditingDomainProvider)EcoreUtil.getExistingAdapter(resourceSet, IEditingDomainProvider.class);
-        if (editingDomainProvider != null)
+        ResourceSet resourceSet = resource.getResourceSet();
+        if (resourceSet instanceof IEditingDomainProvider)
         {
-          return editingDomainProvider.getEditingDomain();
+          EditingDomain editingDomain = ((IEditingDomainProvider)resourceSet).getEditingDomain();
+          return editingDomain;
+        }
+        else
+        {
+          editingDomainProvider = (IEditingDomainProvider)EcoreUtil.getExistingAdapter(resourceSet, IEditingDomainProvider.class);
+          if (editingDomainProvider != null)
+          {
+            return editingDomainProvider.getEditingDomain();
+          }
         }
       }
     }
