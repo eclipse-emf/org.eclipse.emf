@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.11 2004/09/24 04:14:11 davidms Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.12 2004/10/29 19:31:06 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -723,9 +723,9 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
         }
         else if (feature.getEType() instanceof EEnum)
         {
-          EEnum enum = (EEnum)feature.getEType();
+          EEnum eEnum = (EEnum)feature.getEType();
           List enumerators = new ArrayList();
-          for (Iterator iter = enum.getELiterals().iterator(); iter.hasNext(); )
+          for (Iterator iter = eEnum.getELiterals().iterator(); iter.hasNext(); )
           {
             enumerators.add(((EEnumLiteral)iter.next()).getInstance());
           }

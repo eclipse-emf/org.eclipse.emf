@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.8 2004/05/22 19:07:34 marcelop Exp $
+ * $Id: EcoreBuilder.java,v 1.9 2004/10/29 19:31:16 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -746,11 +746,11 @@ public class EcoreBuilder implements RoseVisitor
     }
   }
 
-  protected void populateEEnumFromDocumentation(EEnum enum, String documentation)
+  protected void populateEEnumFromDocumentation(EEnum eEnum, String documentation)
   {
     // process documentation info and create eEnumLiteral for each line
     //
-    List eLiterals = enum.getELiterals();
+    List eLiterals = eEnum.getELiterals();
     for (StringTokenizer stringTokenizer = new StringTokenizer(documentation, ", \n\r\t"); stringTokenizer.hasMoreTokens();)
     {
       String literalV = stringTokenizer.nextToken();
@@ -774,7 +774,7 @@ public class EcoreBuilder implements RoseVisitor
 
       if (!name.equals(""))
       {
-        EEnumLiteral lit = enum.getEEnumLiteral(name);
+        EEnumLiteral lit = eEnum.getEEnumLiteral(name);
         if (lit == null)
         {
           lit = ecoreFactory.createEEnumLiteral();
