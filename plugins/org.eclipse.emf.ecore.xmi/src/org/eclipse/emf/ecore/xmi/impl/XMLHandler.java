@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.22 2004/11/07 18:02:03 elena Exp $
+ * $Id: XMLHandler.java,v 1.23 2004/11/09 17:50:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -795,22 +795,25 @@ public abstract class XMLHandler
         objects.pop();
         mixedTargets.pop();
       }
-      else if (mixedTargets.peek() != null)
-      {
-        objects.pop();
-        handleMixedText();
-        mixedTargets.pop();
-      }
-      else
+      else 
       {
         Object object = objects.pop();
-        if (text.length() != 0)
+        if (mixedTargets.peek() != null && 
+              (((EObject)object).eContainer() != null || recordUnknownFeature && eObjectToExtensionMap.containsValue(object))) 
         {
-          handleProxy((InternalEObject)object, text.toString().trim());
+          handleMixedText();
+          mixedTargets.pop();
         }
-        mixedTargets.pop();
-        text = null;
-      }
+        else
+        {
+          if (text.length() != 0)
+          {
+            handleProxy((InternalEObject)object, text.toString().trim());
+          }
+          mixedTargets.pop();
+          text = null;
+        }
+      } 
     }
     else if (isIDREF)
     {
