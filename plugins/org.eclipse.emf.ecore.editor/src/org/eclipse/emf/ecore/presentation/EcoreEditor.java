@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.5 2004/03/24 18:00:34 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.6 2004/05/11 13:02:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -84,6 +84,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.ide.IGotoMarker;
+
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
@@ -120,6 +122,9 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EValidator;
+
 
 /**
  * This is an example of a Ecore model editor.
@@ -129,7 +134,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
  */
 public class EcoreEditor
   extends MultiPageEditorPart
-  implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider
+  implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker
 {
   public static class XML extends EcoreEditor
   {
@@ -928,6 +933,10 @@ public class EcoreEditor
     {
       return getPropertySheetPage();
     }
+    else if (key.equals(IGotoMarker.class))
+    {
+      return this;
+    }
     else
     {
       return super.getAdapter(key);
@@ -1210,6 +1219,26 @@ public class EcoreEditor
    */
   public void gotoMarker(IMarker marker)
   {
+    try
+    {
+      if (marker.getType().equals(EValidator.MARKER))
+      {
+        String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
+        if (uriAttribute != null)
+        {
+          URI uri = URI.createURI(uriAttribute);
+          EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
+          if (eObject != null)
+          {
+            setSelectionToViewer(Collections.singleton(eObject));
+          }
+        }
+      }
+    }
+    catch (CoreException exception)
+    {
+      EcoreEditorPlugin.INSTANCE.log(exception);
+    }
   }
 
   /**
