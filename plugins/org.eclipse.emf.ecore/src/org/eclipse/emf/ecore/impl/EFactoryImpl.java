@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.7 2004/10/25 17:08:08 elena Exp $
+ * $Id: EFactoryImpl.java,v 1.8 2004/12/03 12:03:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
+import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -473,13 +474,31 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     return XMLTypeUtil.normalize(value, true);
   }
 
+  private static class SafeSimpleDateFormat extends SimpleDateFormat
+  {
+    public SafeSimpleDateFormat(String pattern)
+    {
+      super(pattern);
+    }
+    
+    public synchronized Date parse(String source) throws ParseException
+    {
+      return super.parse(source);
+    }
+    
+    public synchronized StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition)
+    {
+      return super.format(date, toAppendTo, fieldPosition);
+    }
+  }
+  
   protected static final DateFormat [] EDATE_FORMATS = 
   {
-    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSSZ"),
-    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS"),
-    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
-    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"),
-    new SimpleDateFormat("yyyy-MM-dd")
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSSZ"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm"),
+    new SafeSimpleDateFormat("yyyy-MM-dd")
   };
 
   /**
