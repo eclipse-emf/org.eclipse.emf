@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.14 2004/12/11 12:27:08 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.15 2004/12/21 20:55:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -654,15 +654,43 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     getExtendedMetaData(eDataType).setMemberTypes(memberTypes);
   }
 
+  protected boolean isFeatureKindSpecific()
+  {
+    return true;
+  }
+
   public EStructuralFeature getLocalAttribute(EClass eClass, String namespace, String name)
   {
-    for (Iterator i = getAllAttributes(eClass).iterator(); i.hasNext(); )
+    if (isFeatureKindSpecific())
     {
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
-      if (name.equals(getName(eStructuralFeature)) &&
-            (namespace == null ? getNamespace(eStructuralFeature) == null : namespace.equals(getNamespace(eStructuralFeature))))
+      for (Iterator i = getAllAttributes(eClass).iterator(); i.hasNext(); )
       {
-        return eStructuralFeature;
+        EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+        if (name.equals(getName(eStructuralFeature)) &&
+              (namespace == null ? getNamespace(eStructuralFeature) == null : namespace.equals(getNamespace(eStructuralFeature))))
+        {
+          return eStructuralFeature;
+        }
+      }
+    }
+    else
+    {
+      for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+      {
+        EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+        switch (getFeatureKind(eStructuralFeature))
+        {
+          case UNSPECIFIED_FEATURE:
+          case ATTRIBUTE_FEATURE:
+          {
+            if (name.equals(getName(eStructuralFeature)) &&
+                  (namespace == null ? getNamespace(eStructuralFeature) == null : namespace.equals(getNamespace(eStructuralFeature))))
+            {
+              return eStructuralFeature;
+            }
+            break;
+          }
+        }
       }
     }
 
@@ -685,13 +713,36 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   protected EStructuralFeature getLocalElement(EClass eClass, String namespace, String name)
   {
-    for (Iterator i = getAllElements(eClass).iterator(); i.hasNext(); )
+    if (isFeatureKindSpecific())
     {
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
-      if (name.equals(getName(eStructuralFeature)) &&
-            (namespace == null ? getNamespace(eStructuralFeature) == null : namespace.equals(getNamespace(eStructuralFeature))))
+      for (Iterator i = getAllElements(eClass).iterator(); i.hasNext(); )
       {
-        return eStructuralFeature;
+        EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+        if (name.equals(getName(eStructuralFeature)) &&
+              (namespace == null ? getNamespace(eStructuralFeature) == null : namespace.equals(getNamespace(eStructuralFeature))))
+        {
+          return eStructuralFeature;
+        }
+      }
+    }
+    else
+    {
+      for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+      {
+        EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+        switch (getFeatureKind(eStructuralFeature))
+        {
+          case UNSPECIFIED_FEATURE:
+          case ELEMENT_FEATURE:
+          {
+            if (name.equals(getName(eStructuralFeature)) &&
+                  (namespace == null ? getNamespace(eStructuralFeature) == null : namespace.equals(getNamespace(eStructuralFeature))))
+            {
+              return eStructuralFeature;
+            }
+            break;
+          }
+        }
       }
     }
 
