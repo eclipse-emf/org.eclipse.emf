@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.8 2004/04/22 14:29:13 emerks Exp $
+ * $Id: XMLHandler.java,v 1.9 2004/05/11 15:46:18 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -749,8 +749,7 @@ public abstract class XMLHandler
    * the content of XML elements.
    */
   public void endElement(String uri, String localName, String name)
-  {
-    helper.popContext();
+  {   
     elements.pop();
     Object type = types.pop();
     if (type == OBJECT_TYPE)
@@ -807,6 +806,7 @@ public abstract class XMLHandler
       mixedTargets.pop();
       isSimpleFeature = false;
     }
+    helper.popContext();
   }
 
   protected boolean isTextFeatureValue(Object type)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.9 2004/04/29 15:41:19 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.10 2004/05/11 15:46:18 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -38,7 +38,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -1042,7 +1041,7 @@ public class XMLSaveImpl implements XMLSave
     Object value = helper.getValue(o, f);
     if (value != null)
     {
-      String svalue = fac.convertToString(d, value);
+      String svalue = helper.convertToString(fac, d, value);
       if (escape != null)
       {
         svalue = escape.convert(svalue);
@@ -1099,7 +1098,7 @@ public class XMLSaveImpl implements XMLSave
         else
         {
           doc.startElement(name);
-          String svalue = fac.convertToString(d, value);
+          String svalue = helper.convertToString(fac, d, value);
           if (escape != null)
           {
             svalue = escape.convert(svalue);
@@ -1470,12 +1469,15 @@ public class XMLSaveImpl implements XMLSave
         else
         {
           doc.startElement(helper.getQName(entryFeature));
-          String stringValue = EcoreUtil.convertToString((EDataType)entryFeature.getEType(),value);
+          EDataType d = (EDataType)entryFeature.getEType();
+          EPackage ePackage = d.getEPackage();
+          EFactory fac = ePackage.getEFactoryInstance();
+          String svalue = helper.convertToString(fac, d, value);
           if (escape != null)
           {
-            stringValue = escape.convertText(stringValue);
+            svalue = escape.convertText(svalue);
           }
-          doc.endContentElement(stringValue);
+          doc.endContentElement(svalue);
         }
       }
     }
@@ -1498,12 +1500,15 @@ public class XMLSaveImpl implements XMLSave
       }
       else
       {
-        String stringValue = EcoreUtil.convertToString((EDataType)entryFeature.getEType(),value);
+        EDataType d = (EDataType)entryFeature.getEType();
+        EPackage ePackage = d.getEPackage();
+        EFactory fac = ePackage.getEFactoryInstance();
+        String svalue = helper.convertToString(fac, d, value);        
         if (escape != null)
         {
-          stringValue = escape.convertText(stringValue);
+          svalue = escape.convertText(svalue);
         }
-        doc.addAttribute(helper.getQName(entryFeature), stringValue);
+        doc.addAttribute(helper.getQName(entryFeature), svalue);
       }
     }
   }
@@ -1568,7 +1573,7 @@ public class XMLSaveImpl implements XMLSave
           EDataType d = (EDataType) features[i].getEType();
           EPackage ePackage = d.getEPackage();
           EFactory fac = ePackage.getEFactoryInstance();
-          String svalue = fac.convertToString(d, value);
+          String svalue = helper.convertToString(fac, d, value);         
           if (escape != null)
           {
             svalue = escape.convert(svalue);
@@ -1598,8 +1603,7 @@ public class XMLSaveImpl implements XMLSave
       EPackage ePackage = d.getEPackage();
       EFactory fac = ePackage.getEFactoryInstance();
       doc.startElement(name);
-      String svalue = fac.convertToString(d, value);
-
+      String svalue = helper.convertToString(fac, d, value);
       if (escape != null)
       {
         svalue = escape.convert(svalue);
@@ -1617,7 +1621,7 @@ public class XMLSaveImpl implements XMLSave
       EDataType d = (EDataType)f.getEType();
       EPackage ePackage = d.getEPackage();
       EFactory fac = ePackage.getEFactoryInstance();
-      String svalue = fac.convertToString(d, value);
+      String svalue = helper.convertToString(fac, d, value);
       if (escape != null)
       {
         svalue = escape.convert(svalue);

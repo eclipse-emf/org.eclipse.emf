@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.5 2004/05/09 16:34:19 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.6 2004/05/11 15:46:18 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -51,6 +51,7 @@ import org.eclipse.emf.ecore.xmi.DanglingHREFException;
 import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xml.type.QName;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
 
 
@@ -79,6 +80,8 @@ public class XMLHelperImpl implements XMLHelper
   protected EMap prefixesToURIs;
   protected NamespaceSupport namespaceSupport;
   protected EClass anySimpleType;
+  // true if seen xmlns="" declaration
+  protected boolean seenEmptyStringMapping;
 
   public static String saveString(Map options, List contents, String encoding, XMLHelper helper) throws Exception
   {
@@ -680,6 +683,13 @@ public class XMLHelperImpl implements XMLHelper
         if (targetFeature.getEType() == EcorePackage.eINSTANCE.getEFeatureMapEntry())
         {
           FeatureMap featureMap = (FeatureMap)object.eGet(targetFeature);
+          EClassifier eClassifier = feature.getEType();
+          if (eClassifier instanceof EDataType)
+          {
+            EDataType eDataType = (EDataType) eClassifier;
+            EFactory eFactory = eDataType.getEPackage().getEFactoryInstance();
+            value = createFromString(eFactory, eDataType, (String)value);
+          }
           featureMap.add(feature, value);
           return;
         }
@@ -708,7 +718,7 @@ public class XMLHelperImpl implements XMLHelper
             for (StringTokenizer stringTokenizer = new StringTokenizer((String)value, " "); stringTokenizer.hasMoreTokens(); )
             {
               String token = stringTokenizer.nextToken();
-              list.addUnique(eFactory.createFromString(eDataType, token));
+              list.addUnique(createFromString(eFactory, eDataType, token));
             }
 
             // Make sure that the list will appear to be set to be empty.
@@ -724,7 +734,7 @@ public class XMLHelperImpl implements XMLHelper
           }
           else
           {
-            list.addUnique(eFactory.createFromString(eDataType, (String) value));
+            list.addUnique(createFromString(eFactory, eDataType, (String)value));
           }
         }
         else if (value == null)
@@ -733,7 +743,7 @@ public class XMLHelperImpl implements XMLHelper
         }
         else
         {
-          object.eSet(feature, eFactory.createFromString(eDataType, (String) value));
+          object.eSet(feature, createFromString(eFactory, eDataType, (String) value));
         }
         break;
       }
@@ -868,7 +878,18 @@ public class XMLHelperImpl implements XMLHelper
     if (!"xml".equals(prefix) && !"xmlns".equals(prefix))
     {
       uri = (uri.length() == 0) ? null : uri;
-      Object previousURI = prefixesToURIs.put(prefix, uri);
+      
+      // HACK: for handling QNames during the save, we must make sure that during the load
+      // if we saw xmlns="" declaration it is never overwriten, to make sure to handle the following XML doc:
+      // <root xmlns="http://a">
+      //  <product xmlns="">qnameValue</product>
+      //  <order xmlns="http://b"/>
+      // </root>
+      Object previousURI = (prefix.length() == 0 && seenEmptyStringMapping) ? uri : prefixesToURIs.put(prefix, uri);
+      if (prefix.length() == 0 && uri == null)
+      {
+        seenEmptyStringMapping = true;
+      }
       namespaceSupport.declarePrefix(prefix, uri);
       if (previousURI != null)
       {
@@ -1011,5 +1032,97 @@ public class XMLHelperImpl implements XMLHelper
   public void setAnySimpleType(EClass type)
   {
     anySimpleType = type;
+  }
+  
+  public String convertToString(EFactory factory, EDataType dataType, Object value)
+  {
+    if (extendedMetaData != null)
+    {
+      if (value instanceof List)
+      {
+        List list = (List)value;
+        for (Iterator i = list.iterator(); i.hasNext(); )
+        {
+          updateQNamePrefix(factory, dataType, i.next(), true);
+        }
+        return factory.convertToString(dataType, value);
+      }
+      else
+      {
+        return updateQNamePrefix(factory, dataType, value, false);
+      }
+    }
+    return factory.convertToString(dataType, value);
+  }
+  
+  protected Object createFromString(EFactory eFactory, EDataType eDataType, String value)
+  {
+    Object obj = eFactory.createFromString(eDataType, (String) value);          
+    if (extendedMetaData != null)
+    {          
+      if (obj instanceof List)
+      {
+         List list = (List)obj;
+         for (int i=0;i<list.size();i++)
+         {
+           updateQNameURI(list.get(i));
+         }
+      }
+      else
+      {
+       updateQNameURI(obj);
+      }
+    }
+    return obj;
+  }
+  
+  protected void updateQNameURI(Object value)
+  {
+    if (value instanceof QName)
+    {
+       QName qname = (QName) value;
+       qname.setNamespaceURI(getURI(qname.getPrefix()));
+       if (qname.getPrefix().length() >0 && qname.getNamespaceURI().length() == 0)
+       {          
+         throw new IllegalArgumentException("The prefix '" + qname.getPrefix() + "' is not declared for the QName '"+qname.toString()+"'");
+       }
+    }
+  }
+  
+  /**
+   * @param factory
+   * @param dataType
+   * @param value a data value to be converted to string
+   * @param list if the value is part of the list of values
+   * @return if the value is not part of the list, return string corresponding to value,
+   *         otherwise return null
+   */
+  protected String updateQNamePrefix(EFactory factory, EDataType dataType, Object value, boolean list)
+  {
+    if (value instanceof QName)
+    {
+      QName qname = (QName)value;
+      String namespace = qname.getNamespaceURI();
+      if (namespace.length() == 0)
+      {       
+        qname.setPrefix("");
+        return qname.getLocalPart();
+      }
+      EPackage ePackage = extendedMetaData.getPackage(namespace);
+      if (ePackage == null)
+      {
+        ePackage = extendedMetaData.demandPackage(namespace);
+      }
+
+      String  prefix = getPrefix(ePackage, true);
+      if (!packages.containsKey(ePackage))
+      {
+        packages.put(ePackage, prefix);
+      }
+      qname.setPrefix(prefix);
+      return (!list) ? qname.toString() : null;
+    }
+
+    return (!list) ? factory.convertToString(dataType, value) : null;
   }
 }

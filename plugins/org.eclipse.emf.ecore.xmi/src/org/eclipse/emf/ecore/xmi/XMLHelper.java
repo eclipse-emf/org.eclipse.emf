@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelper.java,v 1.3 2004/04/05 20:09:56 elena Exp $
+ * $Id: XMLHelper.java,v 1.4 2004/05/11 15:46:18 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -250,6 +250,11 @@ public interface XMLHelper
    * </p>
    */
   public void popContext();
+  
+  /** 
+   * Converts the given valuevalue to string while saving an XML document. 
+   */
+  public String convertToString(EFactory factory, EDataType dataType, Object data);
 
   EMap getPrefixToNamespaceMap();
   void setPrefixToNamespaceMap(EMap prefixToNamespaceMap);
