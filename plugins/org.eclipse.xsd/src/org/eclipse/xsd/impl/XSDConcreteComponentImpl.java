@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.2 2004/04/01 11:30:13 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.3 2004/06/01 12:12:52 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1520,7 +1520,14 @@ public abstract class XSDConcreteComponentImpl
             {
               ++index;
             }
-            text.replaceData(index + 1, data.length() - index - 1, indent + "    ");
+            if (index + 1 == data.length())
+            {
+              text.appendData(indent + "    ");
+            }
+            else
+            {
+              text.replaceData(index + 1, data.length() - index - 1, indent + "    ");
+            }
 
             // setCorrectIndentation(indent, newText);
             if (referenceChild != null)
