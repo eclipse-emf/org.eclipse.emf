@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.7 2005/02/16 23:05:44 nickb Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.8 2005/02/17 18:09:08 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -37,24 +37,14 @@ extends Plugin
           {
             System.out.println("*** Derby is in the classpath.");
             System.setProperty("test.target", "performance");
-            System.setProperty("eclipse.perf.dbloc", "net://localhost:1527/");
+            System.setProperty("eclipse.perf.dbloc", "net://localhost:1527/;dbuser=adm;dbpasswd=adm");
             System.setProperty("eclipse.perf.config" ,"build=fromJava");
-            System.setProperty("derby.lib.folder", "/home/www-data/derby/org.apache.derby/");
-            System.setProperty("java.class.path", 
-              System.getProperty("java.class.path")+":"+
-                System.getProperty("derby.lib.folder")+"derby.jar"+":"+
-                System.getProperty("derby.lib.folder")+"derbynet.jar"+":"+
-                System.getProperty("derby.lib.folder")+"derbytools.jar"+":"+
-                System.getProperty("derby.lib.folder")+"db2jcc.jar"+":"+
-                System.getProperty("derby.lib.folder")+"db2jcc_license_c.jar"+":"+
-              "."
-            );
           }
         }
         catch (ClassNotFoundException e)
         {
         }
-        
+
         System.out.println("EMFTestPerformancePlugin() - debug start");
         Map properties = System.getProperties(); 
         for (Iterator i = properties.entrySet().iterator(); i.hasNext();)
@@ -62,7 +52,7 @@ extends Plugin
           Map.Entry entry = (Map.Entry)i.next();
           System.out.println("key:'" + entry.getKey() + "' - value:'" + entry.getValue() + "'");
         }
-        System.out.println("EMFTestPerformancePlugin() - debug end");        
+        System.out.println("EMFTestPerformancePlugin() - debug end");  
     }
 
     public static EMFTestPerformancePlugin getPlugin()
