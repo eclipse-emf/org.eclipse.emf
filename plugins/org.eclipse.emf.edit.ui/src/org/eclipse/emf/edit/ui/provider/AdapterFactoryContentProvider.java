@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryContentProvider.java,v 1.4 2004/07/29 17:56:22 marcelop Exp $
+ * $Id: AdapterFactoryContentProvider.java,v 1.5 2004/08/06 04:48:32 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -159,7 +159,7 @@ public class AdapterFactoryContentProvider
   }
 
   /**
-   * This implements {@link ITreeContentProvider}.hasChildren to forward the call to an object that implements 
+   * This implements {@link org.eclipse.jface.viewers.ITreeContentProvider}.hasChildren to forward the call to an object that implements 
    * {@link org.eclipse.emf.edit.provider.ITreeItemContentProvider#hasChildren ITreeItemContentProvider.hasChildren}.
    */
   public boolean hasChildren(Object object)
@@ -177,7 +177,7 @@ public class AdapterFactoryContentProvider
   }
 
   /**
-   * This implements {@link ITreeContentProvider}.getParent to forward the call to an object that implements 
+   * This implements {@link org.eclipse.jface.viewers.ITreeContentProvider}.getParent to forward the call to an object that implements 
    * {@link org.eclipse.emf.edit.provider.ITreeItemContentProvider#getParent ITreeItemContentProvider.getParent}.
    */
   public Object getParent(Object object)
@@ -208,7 +208,7 @@ public class AdapterFactoryContentProvider
   }
 
   /**
-   * This implements {@link IPropertySourceProvider}.getPropertySource to forward the call to an object that implements
+   * This implements {@link org.eclipse.ui.views.properties.IPropertySourceProvider}.getPropertySource to forward the call to an object that implements
    * {@link org.eclipse.emf.edit.provider.IItemPropertySource}.
    */
   public IPropertySource getPropertySource(Object object)

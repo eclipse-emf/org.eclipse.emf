@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryLabelProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: AdapterFactoryLabelProvider.java,v 1.2 2004/08/06 04:48:32 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -142,8 +142,8 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
   }
 
   /**
-   * This implements {@link ILabelProvider}.getImage by forwarding it to an object that implements 
-   * {@link IItemLabelProvider#getImage IItemLabelProvider.getImage}
+   * This implements {@link org.eclipse.jface.viewers.ILabelProvider}.getImage by forwarding it to an object that implements 
+   * {@link org.eclipse.emf.edit.provider.IItemLabelProvider#getImage IItemLabelProvider.getImage}
    */
   public Image getImage(Object object) 
   {
