@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.9 2004/08/05 21:16:31 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.10 2004/08/25 20:44:04 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -942,7 +942,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     try
     {
-      Class instanceClass = eType.getInstanceClass();
+      // J9 2.2 has problems assigning null to a Class variable.
+      // 
+      Object result = eType.getInstanceClass();
+      if (result == null)
+      {
+        return false;
+      }
+      Class instanceClass = (Class)result;
       return instanceClass.isPrimitive();
     }
     catch (Exception e)
