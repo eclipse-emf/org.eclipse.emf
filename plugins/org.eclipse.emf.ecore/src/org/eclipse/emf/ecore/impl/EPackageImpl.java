@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.5 2004/05/29 16:24:30 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.6 2004/06/02 15:43:32 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -748,7 +748,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
 
   protected void setGeneratedClassName(EClassifier eClassifier)
   {
-    // EATM  Disable to run tests ((EClassifierImpl)eClassifier).setGeneratedInstanceClass(true);
+    ((EClassifierImpl)eClassifier).setGeneratedInstanceClass(true);
   }
 
   protected static final boolean IS_DERIVED = true;
