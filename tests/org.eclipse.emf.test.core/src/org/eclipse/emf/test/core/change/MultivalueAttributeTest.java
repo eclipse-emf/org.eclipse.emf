@@ -12,11 +12,13 @@
  *
  * </copyright>
  *
- * $Id: MultivalueAttributeTest.java,v 1.2 2004/08/11 15:55:52 marcelop Exp $
+ * $Id: MultivalueAttributeTest.java,v 1.3 2004/10/22 16:37:01 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -30,6 +32,7 @@ import org.eclipse.emf.ecore.change.ChangeKind;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
+import org.eclipse.emf.test.core.EMFTestCorePlugin;
 import org.eclipse.emf.test.core.sdo.types.model.types.AThing;
 import org.eclipse.emf.test.core.sdo.types.model.types.TypesFactory;
 
@@ -46,6 +49,7 @@ public class MultivalueAttributeTest extends TestCase
   {
     TestSuite ts = new TestSuite("MultivalueAttributeTest");
     ts.addTest(new MultivalueAttributeTest("testMultiValueAttributeChange"));
+    ts.addTest(new MultivalueAttributeTest("testApplyAndReverse"));
     return ts;
   }
  
@@ -105,4 +109,33 @@ public class MultivalueAttributeTest extends TestCase
     assertEquals(1, thing.getManyInt().size());
     assertTrue(thing.getManyInt().contains(new Integer(1)));
   }
+  
+  /*
+   * Bugzilla 76825
+   */
+  public void testApplyAndReverse()
+  {
+    List beforeChange = new ArrayList(thing.getManyInt());
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder((EObject)thing);
+    thing.getManyInt().add(new Integer(2));
+    thing.getManyInt().add(new Integer(3));
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    List afterChange = new ArrayList(thing.getManyInt());
+    
+    //current != before && current == after
+    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, thing.getManyInt()));
+    assertTrue(EMFTestCorePlugin.areEqual(afterChange, thing.getManyInt()));
+    
+    changeDescription.applyAndReverse();    
+    //current == before && current != after
+    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, thing.getManyInt()));
+    assertFalse(EMFTestCorePlugin.areEqual(afterChange, thing.getManyInt()));    
+
+    changeDescription.apply();    
+    //current != before && current == after
+    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, thing.getManyInt()));
+    assertTrue(EMFTestCorePlugin.areEqual(afterChange, thing.getManyInt()));
+  }  
 }
