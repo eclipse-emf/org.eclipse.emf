@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.4 2005/02/11 04:41:21 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.5 2005/03/02 20:53:09 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -34,17 +34,6 @@ import org.eclipse.emf.test.tools.TestUtil;
  */
 public class JMergerTest extends TestCase
 {
-  private static final File MERGE_XML = 
-     new File(TestUtil.getPluginDirectory() + "/data/merge.xml").getAbsoluteFile();
-  private static final File MERGE_SOURCE = 
-    new File(TestUtil.getPluginDirectory() + "/data/MergerSource.java").getAbsoluteFile();
-  private static final File MERGE_TARGET = 
-    new File(TestUtil.getPluginDirectory() + "/data/MergerTarget.java").getAbsoluteFile();
-  private static final File MERGE_EXPECTED = 
-    new File(TestUtil.getPluginDirectory() + "/data/MergerExpected.java").getAbsoluteFile();
-  
-  private JMerger jMerger;
-  
   /**
    * @param name
    */
@@ -56,26 +45,36 @@ public class JMergerTest extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("JMergerTest");
-    ts.addTest(new JMergerTest("testMerge"));
+    ts.addTest(new JMergerTest("testMerge1"));
     return ts;
   }  
   
-  public void testMerge() throws Exception
+  public void testMerge1() throws Exception
   {
-    assertTrue("Merge xml file is not available - " + MERGE_XML.getAbsolutePath(), MERGE_XML.isFile());
-    assertTrue("Merge Source file is not available - " + MERGE_SOURCE.getAbsolutePath(), MERGE_SOURCE.isFile());
-    assertTrue("Merge Target file is not available - " + MERGE_TARGET.getAbsolutePath(), MERGE_TARGET.isFile());
-    assertTrue("Merge Result file is not available - " + MERGE_EXPECTED.getAbsolutePath(), MERGE_TARGET.isFile());
+    mergetTest(TestUtil.getPluginDirectory() + "/data/merge1");
+  }
+  
+  protected void mergetTest(String dir) throws Exception
+  {
+    File mergeXML = new File(dir + "/merge.xml").getAbsoluteFile();
+    File source = new File(dir + "/MergerSource.java").getAbsoluteFile();
+    File target = new File(dir + "/MergerTarget.java").getAbsoluteFile();
+    File expected = new File(dir + "/MergerExpected.java").getAbsoluteFile();
+
+    assertTrue("Merge xml file is not available - " + mergeXML.getAbsolutePath(), mergeXML.isFile());
+    assertTrue("Merge Source file is not available - " + source.getAbsolutePath(), source.isFile());
+    assertTrue("Merge Target file is not available - " + target.getAbsolutePath(), target.isFile());
+    assertTrue("Merge Result file is not available - " + expected.getAbsolutePath(), expected.isFile());
     
-    jMerger = new JMerger();
-    JControlModel controlModel = new JControlModel(MERGE_XML.getAbsolutePath());
+    JMerger jMerger = new JMerger();
+    JControlModel controlModel = new JControlModel(mergeXML.getAbsolutePath());
     jMerger.setControlModel(controlModel);
 
     // set source
-    jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(TestUtil.readFile(MERGE_SOURCE, false)));
+    jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(TestUtil.readFile(source, false)));
     
     // set target
-    jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(new FileInputStream(MERGE_TARGET)));
+    jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(new FileInputStream(target)));
     
     // merge source and target
     jMerger.merge();
@@ -93,7 +92,7 @@ public class JMergerTest extends TestCase
       }
     }
     
-    String expectedMerge = TestUtil.readFile(MERGE_EXPECTED, false);
+    String expectedMerge = TestUtil.readFile(expected, false);
     assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\r'", expectedMerge, mergeResult.toString());
   }  
 }

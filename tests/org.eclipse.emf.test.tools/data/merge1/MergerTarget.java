@@ -15,40 +15,34 @@
 package org.eclipse.emf.test.tools.merger;
 
 import source.ClassA;
-import source.ClassB;
-
+import target.foo;
 import target.ClassA;
 
 
 /**
- * Source javadoc 1
- * Source javadoc 2
+ * Target javadoc 1
+ * Target javadoc 2
  * <!-- begin-user-doc -->
  * Target user javadoc 3
  * Target user javadoc 4
  * <!-- end-user-doc -->
  * 
- * @author EMF Team (source)
+ * @author EMF Team (target)
  * @generated
  */
-public class MergerExample {
+public class MergerExample
+{
   /**
    * Target javadoc 5
    * @generated
    */
-  private int a1 = 1;
+  private int a1 = -1;
   
   /**
    * Target javadoc 6
    * @generated
    */
-  int a2 = 2;
-
-  /**
-   * Target javadoc 7
-   * @generated
-   */
-  protected int a3 = 3;
+  private int a2 = -2;
 
   /**
    * Target javadoc 8
@@ -57,46 +51,41 @@ public class MergerExample {
    * <!-- end-user-doc -->
    * @generated
    */
-  public int a4 = 4;
+  private int a4 = -4;
 
   /**
-   * Source javadoc 9
+   * Target javadoc 10
    * <!-- begin-user-doc -->
    * Target user javadoc 11
    * <!-- end-user-doc -->
    * @generated
    */
-  protected int a5 = 5;
-  
-  
-  
-  
-  
+  private int a5 = -5;
+
   /**
-   * Source javadoc 11
+   * Target javadoc 7
+   * @generated
+   */
+  private int a3 = -3;
+
+  /**
+   * Target javadoc 12
    * <!-- begin-user-doc -->
    * Target user javadoc 13
    * <!-- end-user-doc -->
+   * Target javadoc 14
    * @generated
    */
-  protected String id = "source";
+  protected String id = "target";
 
   /**
-   * Source javadoc 12
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected boolean newAttribute = true;  
-  
-  /**
-   * Source javadoc 13
+   * Target javadoc 15
    * <!-- begin-user-doc -->
    * Target user javadoc 16
    * Target user javadoc 17
    * <!-- end-user-doc -->
-   * Source javadoc 15
-   * @return source
+   * Target javadoc 18
+   * @return target
    * @generated
    */
   public boolean isID()
@@ -104,8 +93,8 @@ public class MergerExample {
     // begin-user-code
     System.out.println("Target user code 2");
     // end-user-code
-    System.out.println("Source code 2");
-    return id == "source";
+    System.out.println("Target code 3");
+    return id == "target";
   }
 
   /**
@@ -134,8 +123,8 @@ public class MergerExample {
    */  
   protected Object sourceRequired()
   {
-    System.out.println("Source code 4");
-  }
+    System.out.println("Target code 5");
+  }    
   
   /**
    * Target javadoc 26
@@ -166,8 +155,25 @@ public class MergerExample {
    * Target javadoc 30
    * @generated
    */
-  private void methodWithoutUserSections()
+  private void genMmethodWithoutSource()
   {
     System.out.println("Target code 9");
+  }  
+  /**
+   * Target javadoc 31
+   * @generated
+   */
+  private void methodWithoutUserSections()
+  {
+    System.out.println("Target code 10");
+  }
+  
+  /**
+   * Target javadoc 32
+   * @generated
+   */
+  private void aMethod()
+  {
+    System.out.println("Target code 11");
   }
 }

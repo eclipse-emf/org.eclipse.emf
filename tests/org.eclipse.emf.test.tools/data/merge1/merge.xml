@@ -11,6 +11,17 @@
       select="Member/getComment" 
       match="\s*@\s*(unmod)ifiable\s*\n"/>
 
+    <merge:dictionaryPattern
+      name="orderedMembers" 
+      select="Member/getComment" 
+      match="\s*@\s*(ordered)\s*\n"/>
+
+   <merge:sweep markup="^gen$" select="Member"/>
+   <merge:sweep markup="^source.ClassA$" select="Import"/>;
+   <merge:sweep markup="^target.foo$" select="Import"/>;
+
+   <merge:sort markup="^gen$" select="Member"/>
+
     <!-- if target is generated, transfer -->
     <!-- change to sourceMarkup if the source is the standard -->
     <merge:pull 
@@ -59,5 +70,6 @@
       sourceMarkup="^unmod$"
       sourceGet="Method/getBody"
       targetPut="Method/setBody"/>
+
 
 </merge:options>
