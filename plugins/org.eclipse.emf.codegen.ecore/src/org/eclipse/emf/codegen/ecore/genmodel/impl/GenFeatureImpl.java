@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.6 2004/06/19 17:45:19 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.7 2004/06/19 21:34:40 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1213,7 +1213,7 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
           setProperty(GenPropertyKind.NONE_LITERAL);
         }
         setChildren(eReference.isContainment() && !hasDelegateFeature());
-        setCreateChild(eReference.isContainment());
+        setCreateChild(eReference.isContainment() && isChangeable());
         setNotify(isChildren());
       }
       else if (isFeatureMapType())
