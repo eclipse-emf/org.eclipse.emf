@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.6 2004/05/22 19:07:05 marcelop Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.7 2004/05/31 17:00:23 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -23,10 +23,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.MissingResourceException;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -65,6 +68,11 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
    * For now we need to keep track of the adapter factory, because we need it to provide a correct label provider.
    */
   protected AdapterFactory adapterFactory;
+
+  /**
+   * This is used to locate resources for translated values like enumeration literals.
+   */
+  protected ResourceLocator resourceLocator;
 
   /**
    * This is a convenient wrapper of the {@link #adapterFactory}.
@@ -123,9 +131,17 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
    */
   protected class ItemDelegator extends AdapterFactoryItemDelegator
   {
+    protected ResourceLocator resourceLocator;
+
     public ItemDelegator(AdapterFactory adapterFactory)
     {
       super(adapterFactory);
+    }
+
+    public ItemDelegator(AdapterFactory adapterFactory, ResourceLocator resourceLocator)
+    {
+      super(adapterFactory);
+      this.resourceLocator = resourceLocator;
     }
 
     public String getText(Object object)
@@ -143,7 +159,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
               for (Iterator i = ((List)object).iterator(); i.hasNext(); )
               {
                 Object value = i.next();
-                result.append(EcoreUtil.convertToString(eDataType, value));
+                result.append(convert(eDataType, value));
                 if (i.hasNext())
                 {
                   result.append(", ");
@@ -154,12 +170,44 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
           }
           else if (eDataType.isInstance(object))
           {
-            return EcoreUtil.convertToString(eDataType, object);
+            return convert(eDataType, object);
           }
         }
       }
 
       return super.getText(object);
+    }
+
+    protected String convert(EDataType eDataType, Object value)
+    {
+      if (resourceLocator != null)
+      {
+        if (eDataType instanceof EEnum)
+        {
+          try
+          {
+            return 
+              resourceLocator.getString
+                ("_UI_" + eDataType.getName() + "_" + ((AbstractEnumerator)value).getName() + "_literal");
+          }
+          catch (MissingResourceException exception)
+          {
+          }
+        }
+        else if (value instanceof Boolean)
+        {
+          try
+          {
+            return 
+              resourceLocator.getString
+                (Boolean.TRUE.equals(value) ? "_UI_Boolean_true_literal" : "_UI_Boolean_false_literal");
+          }
+          catch (MissingResourceException exception)
+          {
+          }
+        } 
+      }
+      return EcoreUtil.convertToString(eDataType, value);
     }
 
     public Object getImage(Object object)
@@ -178,7 +226,21 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       String description,
       EStructuralFeature feature)
   {
-    this(adapterFactory, displayName, description, feature, true);
+    this(adapterFactory, null, displayName, description, feature, true);
+  }
+
+  /**
+   * This creates an instance where the category and filter flags are empty 
+   * and the cell editor is determined from the type of the structural feature.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EStructuralFeature feature)
+  {
+    this(adapterFactory, resourceLocator, displayName, description, feature, true);
   }
 
   /**
@@ -192,90 +254,22 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       EStructuralFeature feature, 
       boolean isSettable)
   {
-    this.adapterFactory = adapterFactory;
-    this.itemDelegator = new ItemDelegator(adapterFactory);
-    this.displayName = displayName;
-    this.description = description;
-    this.feature = feature;
-    this.isSettable = isSettable;
-  }
-
-  /**
-   * This creates an instance where the filter flags are empty, there is a
-   * a specifed category, and the cell editor is determined from the type of
-   * the structural feature.
-   */
-  public ItemPropertyDescriptor
-     (AdapterFactory adapterFactory,
-      String displayName,
-      String description,
-      EStructuralFeature feature, 
-      boolean isSettable,
-      String category)
-  {
-    this.adapterFactory = adapterFactory;
-    this.itemDelegator = new ItemDelegator(adapterFactory);
-    this.displayName = displayName;
-    this.description = description;
-    this.feature = feature;
-    this.isSettable = isSettable;
-    this.category = category;
-  }
-
-  /**
-   * This creates an instance where the filter flags are specified, there is a
-   * a specifed category, and the cell editor is determined from the type of
-   * the structural feature.
-   */
-  public ItemPropertyDescriptor
-     (AdapterFactory adapterFactory,
-      String displayName,
-      String description,
-      EStructuralFeature feature, 
-      boolean isSettable,
-      String category,
-      String [] filterFlags)
-  {
-    this.adapterFactory = adapterFactory;
-    this.itemDelegator = new ItemDelegator(adapterFactory);
-    this.displayName = displayName;
-    this.description = description;
-    this.feature = feature;
-    this.isSettable = isSettable;
-    this.category = category;
-    this.filterFlags = filterFlags;
+    this(adapterFactory, null, displayName, description, feature, isSettable, null);
   }
 
   /**
    * This creates an instance where the category and filter flags are empty 
-   * and the cell editor is determined for the references.
+   * and the cell editor is determined from the type of the structural feature.
    */
   public ItemPropertyDescriptor
      (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
       String displayName,
       String description,
-      EReference [] parentReferences)
-  {
-    this(adapterFactory, displayName, description, parentReferences, true);
-  }
-
-  /**
-   * This creates an instance where the category and filter flags are empty 
-   * and the cell editor is determined for the references.
-   */
-  public ItemPropertyDescriptor
-     (AdapterFactory adapterFactory,
-      String displayName,
-      String description,
-      EReference [] parentReferences,
+      EStructuralFeature feature, 
       boolean isSettable)
   {
-    this.adapterFactory = adapterFactory;
-    this.itemDelegator = new ItemDelegator(adapterFactory);
-    this.displayName = displayName;
-    this.description = description;
-    this.parentReferences = parentReferences;
-    this.isSettable = isSettable;
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, null);
   }
 
   /**
@@ -291,13 +285,57 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       boolean isSettable,
       Object staticImage)
   {
-    this.adapterFactory = adapterFactory;
-    this.itemDelegator = new ItemDelegator(adapterFactory);
-    this.displayName = displayName;
-    this.description = description;
-    this.feature = feature;
-    this.isSettable = isSettable;
-    this.staticImage = staticImage;
+    this(adapterFactory, null, displayName, description, feature, isSettable, staticImage, null);
+  }
+
+  /**
+   * This creates an instance where the category and filter flags are empty,
+   * there is a static image used, and the cell editor is determined from
+   * the type of the structural feature.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EStructuralFeature feature, 
+      boolean isSettable,
+      Object staticImage)
+  {
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, staticImage, null);
+  }
+
+  /**
+   * This creates an instance where the filter flags are empty, there is a
+   * a specifed category, and the cell editor is determined from the type of
+   * the structural feature.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      String displayName,
+      String description,
+      EStructuralFeature feature, 
+      boolean isSettable,
+      String category)
+  {
+    this(adapterFactory, null, displayName, description, feature, isSettable, category, null, null);
+  }
+
+  /**
+   * This creates an instance where the filter flags are empty, there is a
+   * a specifed category, and the cell editor is determined from the type of
+   * the structural feature.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EStructuralFeature feature, 
+      boolean isSettable,
+      String category)
+  {
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, category, null, null);
   }
 
   /**
@@ -314,14 +352,60 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       Object staticImage,
       String category)
   {
-    this.adapterFactory = adapterFactory;
-    this.itemDelegator = new ItemDelegator(adapterFactory);
-    this.displayName = displayName;
-    this.description = description;
-    this.feature = feature;
-    this.isSettable = isSettable;
-    this.staticImage = staticImage;
-    this.category = category;
+    this(adapterFactory, null, displayName, description, feature, isSettable, staticImage, category, null);
+  }
+
+  /**
+   * This creates an instance where the filter flags are empty, there is a
+   * static image used and a specifed category, and the cell editor is
+   * determined from the type of the structural feature.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EStructuralFeature feature, 
+      boolean isSettable,
+      Object staticImage,
+      String category)
+  {
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, staticImage, category, null);
+  }
+
+  /**
+   * This creates an instance where the filter flags are specified, there is a
+   * a specifed category, and the cell editor is determined from the type of
+   * the structural feature.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      String displayName,
+      String description,
+      EStructuralFeature feature, 
+      boolean isSettable,
+      String category,
+      String [] filterFlags)
+  {
+    this(adapterFactory, null, displayName, description, feature, isSettable, null, category, filterFlags);
+  }
+
+  /**
+   * This creates an instance where the filter flags are specified, there is a
+   * a specifed category, and the cell editor is determined from the type of
+   * the structural feature.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EStructuralFeature feature, 
+      boolean isSettable,
+      String category,
+      String [] filterFlags)
+  {
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, null, category, filterFlags);
   }
 
   /**
@@ -339,13 +423,161 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
       String category,
       String [] filterFlags)
   {
+    this(adapterFactory, null, displayName, description, feature, isSettable, staticImage, category, filterFlags);
+  }
+
+  /**
+   * This creates an instance where the filter flags are specified, there is a
+   * static image used and a specifed category, and the cell editor is
+   * determined from the type of the structural feature.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EStructuralFeature feature, 
+      boolean isSettable,
+      Object staticImage,
+      String category,
+      String [] filterFlags)
+  {
     this.adapterFactory = adapterFactory;
-    this.itemDelegator = new ItemDelegator(adapterFactory);
+    this.resourceLocator = resourceLocator;
+    this.itemDelegator = new ItemDelegator(adapterFactory, resourceLocator);
     this.displayName = displayName;
     this.description = description;
     this.feature = feature;
     this.isSettable = isSettable;
     this.staticImage = staticImage;
+    this.category = category;
+    this.filterFlags = filterFlags;
+  }
+
+  /**
+   * This creates an instance where the category and filter flags are empty 
+   * and the cell editor is determined for the references.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      String displayName,
+      String description,
+      EReference [] parentReferences)
+  {
+    this(adapterFactory, null, displayName, description, parentReferences, true);
+  }
+
+  /**
+   * This creates an instance where the category and filter flags are empty 
+   * and the cell editor is determined for the references.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EReference [] parentReferences)
+  {
+    this(adapterFactory, resourceLocator, displayName, description, parentReferences, true);
+  }
+
+  /**
+   * This creates an instance where the category and filter flags are empty 
+   * and the cell editor is determined for the references.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      String displayName,
+      String description,
+      EReference [] parentReferences,
+      boolean isSettable)
+  {
+    this(adapterFactory, null, displayName, description, parentReferences, isSettable, null, null);
+  }
+
+  /**
+   * This creates an instance where the category and filter flags are empty 
+   * and the cell editor is determined for the references.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EReference [] parentReferences,
+      boolean isSettable)
+  {
+    this(adapterFactory, resourceLocator, displayName, description, parentReferences, isSettable, null, null);
+  }
+
+  /**
+   * This creates an instance where the filter flags are specified, there is a specifed category,
+   * and the cell editor is determined for the references.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      String displayName,
+      String description,
+      EReference [] parentReferences,
+      boolean isSettable,
+      String category)
+  {
+    this(adapterFactory, null, displayName, description, parentReferences, isSettable, category, null);
+  }
+
+  /**
+   * This creates an instance where the filter flags are specified, there is a specifed category,
+   * and the cell editor is determined for the references.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EReference [] parentReferences,
+      boolean isSettable,
+      String category)
+  {
+    this(adapterFactory, resourceLocator, displayName, description, parentReferences, isSettable, category, null);
+  }
+
+  /**
+   * This creates an instance where the filter flags are specified, there is a specifed category,
+   * and the cell editor is determined for the references.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      String displayName,
+      String description,
+      EReference [] parentReferences,
+      boolean isSettable,
+      String category,
+      String [] filterFlags)
+  {
+    this(adapterFactory, null, displayName, description, parentReferences, isSettable, category, filterFlags);
+  }
+
+  /**
+   * This creates an instance where the filter flags are specified, there is a specifed category,
+   * and the cell editor is determined for the references.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EReference [] parentReferences,
+      boolean isSettable,
+      String category,
+      String [] filterFlags)
+  {
+    this.adapterFactory = adapterFactory;
+    this.resourceLocator = resourceLocator;
+    this.itemDelegator = new ItemDelegator(adapterFactory, resourceLocator);
+    this.displayName = displayName;
+    this.description = description;
+    this.parentReferences = parentReferences;
+    this.isSettable = isSettable;
     this.category = category;
     this.filterFlags = filterFlags;
   }

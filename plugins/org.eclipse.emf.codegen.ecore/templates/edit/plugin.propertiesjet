@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.2 2004/03/09 20:44:50 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.3 2004/05/31 17:00:26 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -62,3 +62,13 @@ _UI_<%=genClass.getName()%>_<%=genFeature.getName()%>_feature = <%=genFeature.ge
   <%}%>
 <%}%>
 _UI_Unknown_feature = Unspecified
+
+<%for (Iterator i=genModel.getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext();) { GenPackage genPackage = (GenPackage)i.next();%>
+  <%if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) {%>
+    <%for (Iterator j=genPackage.getGenEnums().iterator(); j.hasNext();) { GenEnum genEnum = (GenEnum)j.next();%>
+      <%for (Iterator k=genEnum.getGenEnumLiterals().iterator(); k.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)k.next();%>
+_UI_<%=genEnum.getName()%>_<%=genEnumLiteral.getName()%>_literal = <%=genEnumLiteral.getName()%>
+      <%}%>
+    <%}%>
+  <%}%>
+<%}%>

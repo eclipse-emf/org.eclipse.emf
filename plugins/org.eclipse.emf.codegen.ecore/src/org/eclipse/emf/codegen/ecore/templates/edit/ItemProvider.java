@@ -28,7 +28,7 @@ public class ItemProvider
   protected final String TEXT_20 = " feature." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected void add";
   protected final String TEXT_21 = "PropertyDescriptor(Object object)" + NL + "\t{" + NL + "\t\titemPropertyDescriptors.add" + NL + "\t\t\t(new ";
   protected final String TEXT_22 = NL + "\t\t\t\t(((";
-  protected final String TEXT_23 = ")adapterFactory).getRootAdapterFactory()," + NL + "\t\t\t\t getString(\"_UI_";
+  protected final String TEXT_23 = ")adapterFactory).getRootAdapterFactory()," + NL + "\t\t\t\t getResourceLocator()," + NL + "\t\t\t\t getString(\"_UI_";
   protected final String TEXT_24 = "_";
   protected final String TEXT_25 = "_feature\"),";
   protected final String TEXT_26 = NL + "\t\t\t\t getString(\"_UI_PropertyDescriptor_description\", \"_UI_";

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.6 2004/05/16 17:26:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.7 2004/05/31 17:00:26 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -97,6 +97,7 @@ public class <%=genClass.getProviderClassName()%>
 		itemPropertyDescriptors.add
 			(new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.ItemPropertyDescriptor")%>
 				(((<%=genModel.getImportedName("org.eclipse.emf.edit.provider.ComposeableAdapterFactory")%>)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
 				 getString("_UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_feature"),<%=genModel.getNonNLS()%>
 				 getString("_UI_PropertyDescriptor_description", "_UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_feature", "_UI_<%=genFeature.getGenClass().getName()%>_type"),<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%>
 				 <%=genFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genFeature.getFeatureAccessorName()%>(),

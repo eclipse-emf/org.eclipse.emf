@@ -19,8 +19,11 @@ public class PluginProperties
   protected final String TEXT_11 = NL + "_UI_";
   protected final String TEXT_12 = "_";
   protected final String TEXT_13 = "_feature = ";
-  protected final String TEXT_14 = NL + "_UI_Unknown_feature = Unspecified";
-  protected final String TEXT_15 = NL;
+  protected final String TEXT_14 = NL + "_UI_Unknown_feature = Unspecified" + NL;
+  protected final String TEXT_15 = NL + "_UI_";
+  protected final String TEXT_16 = "_";
+  protected final String TEXT_17 = "_literal = ";
+  protected final String TEXT_18 = NL;
 
   public String generate(Object argument)
   {
@@ -80,7 +83,21 @@ public class PluginProperties
     }
     }
     stringBuffer.append(TEXT_14);
+    for (Iterator i=genModel.getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext();) { GenPackage genPackage = (GenPackage)i.next();
+    if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) {
+    for (Iterator j=genPackage.getGenEnums().iterator(); j.hasNext();) { GenEnum genEnum = (GenEnum)j.next();
+    for (Iterator k=genEnum.getGenEnumLiterals().iterator(); k.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)k.next();
     stringBuffer.append(TEXT_15);
+    stringBuffer.append(genEnum.getName());
+    stringBuffer.append(TEXT_16);
+    stringBuffer.append(genEnumLiteral.getName());
+    stringBuffer.append(TEXT_17);
+    stringBuffer.append(genEnumLiteral.getName());
+    }
+    }
+    }
+    }
+    stringBuffer.append(TEXT_18);
     return stringBuffer.toString();
   }
 }
