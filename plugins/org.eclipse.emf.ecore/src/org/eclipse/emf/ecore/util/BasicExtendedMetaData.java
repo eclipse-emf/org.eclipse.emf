@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.8 2004/06/08 12:06:25 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.9 2004/06/15 21:51:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -97,10 +97,12 @@ public class BasicExtendedMetaData implements ExtendedMetaData
   public EPackage getPackage(String namespace)
   {
     EPackage ePackage = registry.getEPackage(namespace);
+/*
     if (ePackage == null)
     {
       ePackage = demandRegistry.getEPackage(namespace);
     }
+*/
     return ePackage;
   }
 
@@ -819,6 +821,10 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         else
         {
           value.append(wildcard);
+        }
+        if (i.hasNext())
+        {
+          value.append(' ');
         }
       }
       eAnnotation.getDetails().put("wildcards", value.toString());
