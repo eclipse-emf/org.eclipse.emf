@@ -279,12 +279,12 @@ public class Class
   protected final String TEXT_271 = ")get";
   protected final String TEXT_272 = "()).featureMap()).basicAdd(";
   protected final String TEXT_273 = "(), new";
-  protected final String TEXT_274 = ", null);";
+  protected final String TEXT_274 = ", msgs);";
   protected final String TEXT_275 = NL + "\t\treturn ((";
   protected final String TEXT_276 = ".Internal)get";
   protected final String TEXT_277 = "()).basicAdd(";
   protected final String TEXT_278 = "(), new";
-  protected final String TEXT_279 = ", null);";
+  protected final String TEXT_279 = ", msgs);";
   protected final String TEXT_280 = NL + "\t\t// TODO: implement this method to set the contained '";
   protected final String TEXT_281 = "' ";
   protected final String TEXT_282 = NL + "\t\t// -> this method is automatically invoked to keep the containment relationship in synch" + NL + "\t\t// -> do not modify other features" + NL + "\t\t// -> return msgs, after adding any generated Notification to it (if it is null, a NotificationChain object must be created first)" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tthrow new UnsupportedOperationException();";
@@ -898,7 +898,7 @@ public class Class
     stringBuffer.append(TEXT_49);
     }
     }
-    if (!genFeature.isListType() && genFeature.isUnsettable()) {
+    if (!genFeature.isListType() && genFeature.isUnsettable() && !genFeature.isVolatile()) {
     stringBuffer.append(TEXT_50);
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_51);

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.10 2004/11/15 21:36:44 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.11 2005/02/16 15:39:25 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -100,7 +100,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 
         <%}%>
       <%}%>
-      <%if (!genFeature.isListType() && genFeature.isUnsettable()) {%>
+      <%if (!genFeature.isListType() && genFeature.isUnsettable() && !genFeature.isVolatile()) {%>
 	/**
 	 * This is true if the <%=genFeature.getFormattedName()%> <%=genFeature.getFeatureKind()%> has been set.
 	 * <!-- begin-user-doc -->
@@ -296,9 +296,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 		return msgs;
 <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();%>
   <%if (delegateFeature.isFeatureMapWrapped()) {%>
-		return ((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)((<%=delegateFeature.getImportedEffectiveFeatureMapWrapperInternalInterface()%>)get<%=delegateFeature.getAccessorName()%>()).featureMap()).basicAdd(<%=genFeature.getQualifiedFeatureAccessorName()%>(), new<%=genFeature.getCapName()%>, null);
+		return ((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)((<%=delegateFeature.getImportedEffectiveFeatureMapWrapperInternalInterface()%>)get<%=delegateFeature.getAccessorName()%>()).featureMap()).basicAdd(<%=genFeature.getQualifiedFeatureAccessorName()%>(), new<%=genFeature.getCapName()%>, msgs);
   <%} else {%>
-		return ((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)get<%=delegateFeature.getAccessorName()%>()).basicAdd(<%=genFeature.getQualifiedFeatureAccessorName()%>(), new<%=genFeature.getCapName()%>, null);
+		return ((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)get<%=delegateFeature.getAccessorName()%>()).basicAdd(<%=genFeature.getQualifiedFeatureAccessorName()%>(), new<%=genFeature.getCapName()%>, msgs);
   <%}%>
 <%} else {%>
 		// TODO: implement this method to set the contained '<%=genFeature.getFormattedName()%>' <%=genFeature.getFeatureKind()%>
