@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.19 2004/12/11 12:23:27 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.20 2004/12/16 16:20:24 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1067,6 +1067,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       for (Iterator i = getGenFeatures().iterator(); i.hasNext(); )
       {
         GenFeature genFeature = (GenFeature)i.next();
+        appendLineBreak(body);
         body.append(genFeature.getQualifiedModelInfo());
         body.append(' ');
         names.append(genFeature.getEcoreFeature().getName());
@@ -1076,6 +1077,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       String features = names.toString().trim();
       if (!features.equals("key value"))
       {
+        appendLineBreak(result);
         appendModelSetting(result, "features", features);
       }
       result.append(body);
@@ -1104,6 +1106,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         {
           suppressedNames.append(genFeature.getName());
           suppressedNames.append(' ');
+          appendLineBreak(suppressedInfo);
           suppressedInfo.append(genFeature.getQualifiedModelInfo());
           suppressedInfo.append(' ');
         }
@@ -1111,10 +1114,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
       if (suppressedNames.length() > 0)
       {
+        appendLineBreak(result);
         appendModelSetting(result, "features", suppressedNames.toString().trim());
         result.append(suppressedInfo);
       }
     }
+
+    appendAnnotationInfo(result, getEcoreClass());
+
     return result.toString().trim();
   }
 
