@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.5 2004/04/05 20:09:56 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.6 2004/04/18 23:18:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLSave;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
+import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -72,6 +73,7 @@ public class XMLSaveImpl implements XMLSave
   protected ExtendedMetaData extendedMetaData;
   protected EClass anySimpleType;
   protected EClass anyType;
+  protected Map eObjectToExtensionMap;
 
   protected static final int SKIP = 0;
   protected static final int SAME_DOC = 1;
@@ -265,6 +267,22 @@ public class XMLSaveImpl implements XMLSave
     else
     {
       extendedMetaData = (ExtendedMetaData)options.get(XMLResource.OPTION_EXTENDED_META_DATA);
+    }
+
+    if (resource != null)
+    {
+      eObjectToExtensionMap = resource.getEObjectToExtensionMap();
+      if (eObjectToExtensionMap.isEmpty())
+      {
+        eObjectToExtensionMap = null;
+      }
+      else
+      {
+        extendedMetaData =
+          resource.getResourceSet() == null ?
+            ExtendedMetaData.INSTANCE :
+            new BasicExtendedMetaData(resource.getResourceSet().getPackageRegistry());
+      }
     }
 
     if (extendedMetaData != null)
@@ -820,6 +838,8 @@ public class XMLSaveImpl implements XMLSave
       }
     }
 
+    processAttributeExtensions(o);
+
     if (elementFeatures == null)
     {
       if (content == null)
@@ -952,22 +972,59 @@ public class XMLSaveImpl implements XMLSave
 
   protected void endSaveFeatures(EObject o, int elementType, String content)
   {
-    switch (elementType)
+    if (processElementExtensions(o))
     {
-      case EMPTY_ELEMENT:
+      doc.endElement();
+    }
+    else
+    {
+      switch (elementType)
       {
-        doc.endEmptyElement();
-        break;
+        case EMPTY_ELEMENT:
+        {
+          doc.endEmptyElement();
+          break;
+        }
+        case CONTENT_ELEMENT:
+        {
+          doc.endContentElement(content);
+          break;
+        }
+        default:
+        {
+          doc.endElement();
+          break;
+        }
       }
-      case CONTENT_ELEMENT:
+    }
+  }
+  
+  /**
+   *  Returns true if there were extensions for the specified object.
+   */
+  protected boolean processElementExtensions(EObject object)
+  {
+    if (eObjectToExtensionMap != null)
+    {
+      AnyType anyType = (AnyType)eObjectToExtensionMap.get(object);
+      return anyType != null && saveElementFeatureMap(anyType, XMLTypePackage.eINSTANCE.getAnyType_Mixed());
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  /**
+   */
+  protected void processAttributeExtensions(EObject object)
+  {
+    if (eObjectToExtensionMap != null)
+    {
+      AnyType anyType = (AnyType)eObjectToExtensionMap.get(object);
+      if (anyType != null)
       {
-        doc.endContentElement(content);
-        break;
-      }
-      default:
-      {
-        doc.endElement();
-        break;
+        saveAttributeFeatureMap(anyType, XMLTypePackage.eINSTANCE.getAnyType_AnyAttribute());
       }
     }
   }
@@ -1334,7 +1391,7 @@ public class XMLSaveImpl implements XMLSave
     }
   }
 
-  protected void saveElementFeatureMap(EObject o, EStructuralFeature f)
+  protected boolean saveElementFeatureMap(EObject o, EStructuralFeature f)
   {
     List values = (List)helper.getValue(o, f);
     int size = values.size();
@@ -1411,6 +1468,7 @@ public class XMLSaveImpl implements XMLSave
         }
       }
     }
+    return size > 0;
   }
 
   protected void saveAttributeFeatureMap(EObject o, EStructuralFeature f)
