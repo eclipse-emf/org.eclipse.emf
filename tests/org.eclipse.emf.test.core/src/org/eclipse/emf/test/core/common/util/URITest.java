@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URITest.java,v 1.4 2004/08/11 15:55:52 marcelop Exp $
+ * $Id: URITest.java,v 1.5 2004/08/13 13:51:37 davidms Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -41,6 +41,7 @@ public class URITest extends TestCase
     suite.addTest(new URITest("testAuthorityParse"));
     suite.addTest(new URITest("testJARParse"));
     suite.addTest(new URITest("testFragmentAppendAndTrim"));
+    suite.addTest(new URITest("testEncodeAndDecode"));
     return suite;
   }
 
@@ -273,6 +274,42 @@ public class URITest extends TestCase
     "jar:http://eclipse.org/jar-server?some-jar#foo!/schema?myquery"
   };
 
+  protected static final String[] UNENCODED_URIS = {
+    "http://eclipse.org/foo",
+    "http://server#1.eclipse.org/foo bar/baz#toc",
+    "myscheme:my name",
+    "file:/C:/My Documents/me/50%+1.txt",
+    "My Documents/me/50%50.txt"
+  };
+
+  protected static final String[] ENCODED_URIS = {
+    "http://eclipse.org/foo",
+    "http://server%231.eclipse.org/foo%20bar/baz#toc",
+    "myscheme:my%20name",
+    "file:/C:/My%20Documents/me/50%25+1.txt",
+    "My%20Documents/me/50%2550.txt"
+  };
+
+  protected static final String[] ENCODED_URIS_IGNORE_ESCAPED = {
+    "http://eclipse.org/foo",
+    "http://server%231.eclipse.org/foo%20bar/baz#toc",
+    "myscheme:my%20name",
+    "file:/C:/My%20Documents/me/50%25+1.txt",
+    "My%20Documents/me/50%50.txt"
+  };
+
+  protected static final String[] UNENCODED_PLATFORM_PATHS = {
+    "/project/myfile.txt",
+    "My Project #1/My File.txt",
+    "are you there?"
+  };
+
+  protected static final String[] ENCODED_PLATFORM_PATH_URIS = {
+    "platform:/resource/project/myfile.txt",
+    "platform:/resource/My%20Project%20%231/My%20File.txt",
+    "platform:/resource/are%20you%20there%3F"    
+  };
+  
   protected String[] getURNs()
   {
     return new String[] { URN + FRAGMENTS[0], URN + FRAGMENTS[1] };
@@ -506,5 +543,42 @@ public class URITest extends TestCase
 
     URI trimmedFragment3URI = fragment3URI.trimFragment();
     assertEquals("Bad replaced fragment trim: " + fragment3URI, base, trimmedFragment3URI.toString());
+  }
+
+  /**
+   * Performs automatic encoding of general URIs and platform resource URIs, and decodes the former back, comparing the
+   * result to known encoded versions.
+   */
+  public void testEncodeAndDecode()
+  {
+    String[] unencodedURIStrings = UNENCODED_URIS;
+    String[] encodedURIStrings = ENCODED_URIS;
+
+    for (int i = 0, len = unencodedURIStrings.length; i < len; i++)
+    {
+      String unencoded = unencodedURIStrings[i];
+      URI encodedURI = URI.createURI(unencoded, false);
+      assertEquals("Bad URI encode: " + unencoded, URI.createURI(encodedURIStrings[i]), encodedURI);
+      assertEquals("Bad URI decode: " + encodedURI, unencoded, URI.decode(encodedURI.toString()));
+    }
+
+    encodedURIStrings = ENCODED_URIS_IGNORE_ESCAPED;
+
+    for (int i = 0, len = unencodedURIStrings.length; i < len; i++)
+    {
+      String unencoded = unencodedURIStrings[i];
+      URI encodedURI = URI.createURI(unencoded, true);
+      assertEquals("Bad URI encode: " + unencoded, URI.createURI(encodedURIStrings[i]), encodedURI);
+    }
+
+    String[] paths = UNENCODED_PLATFORM_PATHS;
+    encodedURIStrings = ENCODED_PLATFORM_PATH_URIS;
+
+    for (int i = 0, len = paths.length; i < len; i++)
+    {
+      String path = paths[i];
+      URI uri = URI.createPlatformResourceURI(path);
+      assertEquals("Bad platform resource encode: " + path, encodedURIStrings[i], uri.toString());
+    }
   }
 }
