@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.10 2004/05/31 16:55:15 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.11 2004/06/16 18:00:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -21,9 +21,9 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1298,7 +1298,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     List childrenFeatures = getAllCreateChildFeatures();
     
     // build mapping from classes to list of features that use them
-    Map classToFeatureMap = new HashMap();
+    Map classToFeatureMap = new LinkedHashMap();
     List packages = getGenModel().getAllGenAndUsedGenPackagesWithClassifiers();
     for (Iterator iter = childrenFeatures.iterator(); iter.hasNext(); )
     {
