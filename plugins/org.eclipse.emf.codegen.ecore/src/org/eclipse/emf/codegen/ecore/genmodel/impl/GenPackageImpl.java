@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.13 2004/10/22 19:20:50 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.14 2005/01/24 13:49:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2714,6 +2714,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       else if (object instanceof EAnnotation)
       {
         result.add(object);
+        i.prune();
       }
     }
     return result;
