@@ -12,27 +12,39 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.3 2004/10/28 21:19:01 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.4 2004/12/09 06:48:06 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.test.core.EMFTestCorePlugin;
 import org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder;
 import org.eclipse.emf.test.core.featuremap.supplier.Supplier;
@@ -53,6 +65,7 @@ public class SpecialCasesTest  extends TestCase
     ts.addTest(new SpecialCasesTest("testOneToManyContainment"));
     ts.addTest(new SpecialCasesTest("testOneToOneContainment"));
     ts.addTest(new SpecialCasesTest("testBiDirectional"));
+    ts.addTest(new SpecialCasesTest("testMultipleResources"));
     return ts;
   }
 
@@ -322,5 +335,76 @@ public class SpecialCasesTest  extends TestCase
     assertEquals(acme, mary.eGet(worksForReference));
     assertEquals(john, acmeEmployess.get(1));
     assertEquals(acme, john.eGet(worksForReference));    
+  }
+  
+  /*
+   * Bugzilla 80502
+   */
+  public void testMultipleResources() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("http://www.eclipse.org/emf/pack");
+    
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    person.setName("Person");
+    pack.getEClassifiers().add(person);
+
+    EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
+    name.setName("name");
+    name.setEType(EcorePackage.eINSTANCE.getEString());
+    person.getEStructuralFeatures().add(name);
+    
+    EObject john = pack.getEFactoryInstance().create(person);
+    assertNull(john.eGet(name));
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(john);
+    john.eSet(name, "John");
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    assertEquals("John", john.eGet(name));
+    
+    
+    // save
+    
+    URI johnURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/john.xmi");
+    Resource johnResource = new XMIResourceImpl(johnURI);
+    johnResource.getContents().add(john);
+    
+    URI changeDescriptionURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/cd.xmi");
+    Resource changeDescriptionResource = new XMIResourceImpl(changeDescriptionURI);
+    changeDescriptionResource.getContents().add(changeDescription);
+    
+    Map options = new HashMap();
+    options.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+    changeDescriptionResource.save(options);
+    johnResource.save(null);
+    
+    // load
+    
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+    
+    Resource loadedChangeDescriptionResource = resourceSet.getResource(changeDescriptionURI, true);
+    assertNotNull(loadedChangeDescriptionResource);
+    assertEquals(1, loadedChangeDescriptionResource.getContents().size());    
+    ChangeDescription loadedChangeDescription = (ChangeDescription)loadedChangeDescriptionResource.getContents().get(0);
+    loadedChangeDescription.applyAndReverse();
+    
+    Resource loadedJohnResource = resourceSet.getResource(johnURI, true);
+    assertNotNull(loadedJohnResource);
+    assertEquals(1, loadedJohnResource.getContents().size());
+    EObject loadedJohn = (EObject)loadedJohnResource.getContents().get(0);
+    assertNull(loadedJohn.eGet(name));
+    
+    loadedChangeDescription.apply();
+    assertEquals("John", loadedJohn.eGet(name));
+    
+    File johnFile = new File(johnURI.toFileString());
+    johnFile.delete();
+    assertFalse(johnFile.exists());
+    File changeDescriptionFile = new File(changeDescriptionURI.toFileString());
+    changeDescriptionFile.delete();
+    assertFalse(changeDescriptionFile.exists());
   }
 }
