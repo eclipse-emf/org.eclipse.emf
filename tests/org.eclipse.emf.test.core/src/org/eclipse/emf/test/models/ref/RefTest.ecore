@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ref"
+    nsURI="http:///org/eclipse/emf/test/models/ref.ecore" nsPrefix="org.eclipse.emf.test.models.ref">
+  <eClassifiers xsi:type="ecore:EClass" name="A">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="b" lowerBound="1" eType="#//B"
+        eOpposite="#//B/a"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="c2" lowerBound="1" eType="#//C2"
+        transient="true" eOpposite="#//C2/a"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="c" lowerBound="1" eType="#//C"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="B">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="a" lowerBound="1" eType="#//A"
+        eOpposite="#//A/b"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="c2" lowerBound="1" eType="#//C2"
+        transient="true" eOpposite="#//C2/b"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="d" upperBound="-1" eType="#//D"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="C1">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="a" lowerBound="1" eType="#//A"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="b" upperBound="-1" eType="#//B"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="C2">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="b" upperBound="-1" eType="#//B"
+        containment="true" eOpposite="#//B/c2"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="a" lowerBound="1" eType="#//A"
+        containment="true" eOpposite="#//A/c2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="C">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="d" upperBound="-1" eType="#//D"
+        eOpposite="#//D/c"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="D">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="c" lowerBound="1" eType="#//C"
+        eOpposite="#//C/d"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="e" upperBound="-1" eType="#//E"
+        eOpposite="#//E/d"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="E">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="d" upperBound="-1" eType="#//D"
+        eOpposite="#//D/e"/>
+  </eClassifiers>
+</ecore:EPackage>
