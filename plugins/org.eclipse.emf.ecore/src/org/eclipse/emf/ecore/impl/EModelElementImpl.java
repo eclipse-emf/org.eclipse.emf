@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EModelElementImpl.java,v 1.2 2004/08/12 15:02:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -63,6 +63,34 @@ public abstract class EModelElementImpl extends EObjectImpl implements EModelEle
   protected EModelElementImpl()
   {
     super();
+  }
+
+  /**
+   * The bit of {@link #eFlags} that is used to represent being {@link #freeze() frozen}.
+   */
+  protected static final int EFROZEN = ELAST_EOBJECT_FLAG << 1;
+
+  /**
+   * The last bit used by this class; derived classes may use bit values higher than this.
+   */
+  protected static final int ELAST_EMODEL_ELEMENT_FLAG = EFROZEN;
+
+  protected void freeze()
+  {
+    eFlags |= EFROZEN;
+    for (Iterator i = eContents().iterator(); i.hasNext(); )
+    {
+      Object child = i.next();
+      if (child instanceof EModelElementImpl)
+      {
+        ((EModelElementImpl)child).freeze();
+      }
+    }
+  }
+
+  protected boolean isFrozen()
+  {
+    return (eFlags & EFROZEN) != 0;
   }
 
   /**
