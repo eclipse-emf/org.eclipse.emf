@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.8 2004/10/29 16:05:22 marcelop Exp $
+ * $Id: DataGraphTest.java,v 1.9 2004/10/29 18:18:03 bportier Exp $
  */
 package org.eclipse.emf.test.core.sdo;
 
@@ -190,7 +190,7 @@ public class DataGraphTest extends TestCase
     assertEquals(0, ((List)loadedObject.get("child")).size());
   }
 
-  //bugzilla 70560,70561,70562 
+  // bugzilla 70560,70561,70562 
   public void testChangeSummary()
   {
     DataObject rootObject = eDataGraph.getRootObject();
@@ -201,28 +201,28 @@ public class DataGraphTest extends TestCase
 
     ChangeSummary changeSummary = eDataGraph.getChangeSummary();
     changeSummary.beginLogging();
-    
+
     // modification
     rootObject.setString("name", "Root2");
-    
+
     // deletion
     childObject.delete();
     assertNull(childObject.getContainer());
-    
+
     // addition
     DataObject newChildObject = parentObject.createDataObject("child", "testPackage", "testClass");
     newChildObject.set("name", "NewChild");
-    
+
     changeSummary.endLogging();
 
     assertEquals("Root2", rootObject.getString("name"));
     assertNull(((EChangeSummary)changeSummary).getOldContainer(rootObject));
     assertEquals(changeSummary, childObject.getContainer());
     assertEquals(rootObject.getDataObject("child[1]"), ((EChangeSummary)changeSummary).getOldContainer(childObject));
-    
+
     assertTrue(changeSummary.isCreated(newChildObject));
     assertTrue(changeSummary.isDeleted(childObject));
-    
+
     assertTrue(changeSummary.getChangedDataObjects().contains(rootObject));
     assertFalse(changeSummary.isCreated(rootObject));
     assertFalse(changeSummary.isDeleted(rootObject));
