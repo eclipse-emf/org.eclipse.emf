@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.3 2004/03/20 20:56:25 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.4 2004/05/16 17:24:20 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -31,8 +31,8 @@
     class = "<%=genModel.getQualifiedEditorPluginClassName()%>$Implementation">
 
   <requires>
-<%for (Iterator j=genModel.getEditorRequiredPlugins().iterator(); j.hasNext();) {%>
-    <import plugin="<%=(String)j.next()%>" export="true"/>
+<%for (Iterator j=genModel.getEditorRequiredPlugins().iterator(); j.hasNext();) { String pluginID = (String)j.next();%>
+    <import plugin="<%=pluginID%>" <%if (!pluginID.startsWith("org.eclipse.core.runtime")) {%>export="true"<%}%>/>
 <%}%>
   </requires>
 
@@ -66,6 +66,7 @@
 <%}%>
 <%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); %>
 
+  <%if (!genModel.isRichClientPlatform()) {%>
   <extension
     point = "org.eclipse.ui.newWizards">
     <category
@@ -84,6 +85,7 @@
     </wizard>
   </extension>
 
+  <%}%>
   <extension point = "org.eclipse.ui.editors">
     <editor
         id = "<%=genPackage.getQualifiedEditorClassName()%>ID"
