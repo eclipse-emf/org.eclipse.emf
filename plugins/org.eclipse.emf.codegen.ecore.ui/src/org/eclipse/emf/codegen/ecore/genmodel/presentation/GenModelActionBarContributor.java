@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.5 2004/05/16 17:21:25 emerks Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.6 2004/06/17 10:37:59 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -318,7 +318,7 @@ public class GenModelActionBarContributor
       //
       try
       {
-        new ProgressMonitorDialog(activeEditorPart.getSite().getShell()).run(false, false, operation);
+        new ProgressMonitorDialog(activeEditorPart.getSite().getShell()).run(true, false, operation);
       }
       catch (Exception exception)
       {
