@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.23 2004/08/24 21:21:50 marcelop Exp $
+ * $Id: BuildTests.java,v 1.24 2004/10/07 19:25:34 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -701,7 +701,7 @@ public class BuildTests extends TestCase
     int expectedCount = 3;
     if(count != expectedCount)
     {
-      problems.append("\nThe number of doc plugin is different than " + expectedCount + ".");
+      problems.append("\nFound " + count + "doc plugins instead of " + expectedCount + ".");
     }
     
     if(problems.length() > 0)
