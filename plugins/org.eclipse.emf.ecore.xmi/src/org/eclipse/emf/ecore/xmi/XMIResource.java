@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XMIResource.java,v 1.2 2004/07/29 13:32:49 marcelop Exp $
+ * $Id: XMIResource.java,v 1.3 2004/12/23 19:32:59 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 
 
@@ -69,5 +70,5 @@ public interface XMIResource extends XMLResource
   String XMI_NS = "xmi";
   String XMI_ID = "id";
   String XMI_TAG_NAME = "XMI";
-  String XMI_URI = "http://www.omg.org/XMI";
+  String XMI_URI = ExtendedMetaData.XMI_URI;
 }

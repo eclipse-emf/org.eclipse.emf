@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.18 2004/11/16 22:40:31 elena Exp $
+ * $Id: XMLResource.java,v 1.19 2004/12/23 19:32:59 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -26,6 +26,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.w3c.dom.Document;
 
 /**
  * This interface represents an XML resource. You can use it to load
@@ -212,11 +214,10 @@ public interface XMLResource extends Resource
   String SCHEMA_LOCATION = "schemaLocation";
   String NO_NAMESPACE_SCHEMA_LOCATION = "noNamespaceSchemaLocation";
 
-  String XML_NS = "xmlns";
-
-  String XSI_NS = "xsi";
-  String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
-  String XML_SCHEMA_URI = "http://www.w3.org/2001/XMLSchema";
+  String XML_NS = ExtendedMetaData.XMLNS_PREFIX;
+  String XSI_NS = ExtendedMetaData.XSI_PREFIX;
+  String XSI_URI = ExtendedMetaData.XSI_URI;
+  String XML_SCHEMA_URI = ExtendedMetaData.XML_SCHEMA_URI;
 
   /**
    * Returns whether the contents will be zipped.
@@ -305,6 +306,24 @@ public interface XMLResource extends Resource
    * It's used to record unrecognized elements and attributes.
    */
   Map getEObjectToExtensionMap();
+   
+  /**
+   * Create a DOM tree representing contents of this resource.
+   * @param options the options
+   * @param document an empty {@link org.w3c.dom.Document} to use or null. If no document is specified, the 
+   * new {@link org.w3c.dom.Document} will be created using JAXP API.
+   * @param handler the {@link org.eclipse.emf.ecore.xmi.DOMHandler} to record mappings or null. 
+   * If no DOMHandler is passed, the default DOMHandler will be created.
+   * @return the {@link org.w3c.dom.Document}. In the case the document is specified as a paramenter, 
+   * the returned document is the same as the one specified, otherwise the newly created document is returned.
+   * @since 2.1.0
+   */
+  Document toDOM(Map options, Document document, DOMHandler handler);
+    
+  /**
+   * Returns the {@link DOMHandler} that was used in {@link XMLResource#toDOM(Map, Document, DOMHandler)} operation
+   */
+  DOMHandler getDOMHandler();
 
   /**
    * This interface represents a mapping from Ecore constructs to the

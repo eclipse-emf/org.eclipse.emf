@@ -12,13 +12,16 @@
  *
  * </copyright>
  *
- * $Id: XMLSave.java,v 1.2 2004/04/05 20:06:48 emerks Exp $
+ * $Id: XMLSave.java,v 1.3 2004/12/23 19:32:59 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
+
+import org.w3c.dom.Document;
+
 
 /**
  * This defines the methods for the interface that XMLResourceImpl
@@ -27,4 +30,14 @@ import java.util.Map;
 public interface XMLSave 
 {
   void save(XMLResource resource, OutputStream outputStream, Map options) throws IOException;
+
+  /**
+   * @param resource a resource 
+   * @param document a {@link org.w3c.dom.Document} (must not be null)
+   * @param handler a {@link DOMHandler} (must not be null)
+   * @param options options
+   * @return the document
+   * @since 2.1.0
+   */
+  Document toDOM(XMLResource resource, Document document, DOMHandler handler, Map options);
 }

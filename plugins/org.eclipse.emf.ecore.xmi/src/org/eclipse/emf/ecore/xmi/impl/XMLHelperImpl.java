@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.16 2004/11/07 18:02:03 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.17 2004/12/23 19:32:59 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -48,6 +48,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xmi.DanglingHREFException;
 import org.eclipse.emf.ecore.xmi.IllegalValueException;
+import org.eclipse.emf.ecore.xmi.NameInfo;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
@@ -208,6 +209,25 @@ public class XMLHelperImpl implements XMLHelper
     return getQName(c.getEPackage(), name);
   }
 
+  public void populateNameInfo(NameInfo nameInfo, EClass c)
+  {
+    String name = getName(c);
+    nameInfo.setLocalPart(name);
+    if (xmlMap != null)
+    {
+      XMLResource.XMLInfo clsInfo = xmlMap.getInfo(c);
+
+      if (clsInfo != null)
+      {
+        String targetNamespace = clsInfo.getTargetNamespace();
+        nameInfo.setNamespaceURI(targetNamespace);
+        nameInfo.setQualifiedName(getQName(targetNamespace, name));
+        return;
+      }
+    }
+    getQName(nameInfo, c.getEPackage(), name);
+  }
+
   public String getQName(EDataType c)
   {
     String name = getName(c);
@@ -223,6 +243,25 @@ public class XMLHelperImpl implements XMLHelper
     }
 
     return getQName(c.getEPackage(), name);
+  }
+
+  public void populateNameInfo(NameInfo nameInfo, EDataType eDataType)
+  {
+    String name = getName(eDataType);
+    nameInfo.setLocalPart(name);
+    if (xmlMap != null)
+    {
+      XMLResource.XMLInfo clsInfo = xmlMap.getInfo(eDataType);
+
+      if (clsInfo != null)
+      {
+        String targetNamespace = clsInfo.getTargetNamespace();
+        nameInfo.setNamespaceURI(targetNamespace);
+        nameInfo.setQualifiedName(getQName(targetNamespace, name));
+        return;
+      }
+    }
+    getQName(nameInfo, eDataType.getEPackage(), name);
   }
 
   public String getQName(EStructuralFeature feature)
@@ -271,6 +310,82 @@ public class XMLHelperImpl implements XMLHelper
     return name;
   }
 
+  public void populateNameInfo(NameInfo nameInfo, EStructuralFeature feature)
+  {
+    if (extendedMetaData != null)
+    {
+      String namespace = extendedMetaData.getNamespace(feature);
+      String name = extendedMetaData.getName(feature);
+      nameInfo.setNamespaceURI(namespace);
+      nameInfo.setLocalPart(name);
+      nameInfo.setQualifiedName(name);
+
+      // We need to be careful that we don't end up requiring the no namespace package 
+      // just because the feature is unqualified.
+      //
+      if (namespace != null)
+      {
+        // There really must be a package.
+        //
+        EPackage ePackage = extendedMetaData.getPackage(namespace);
+        if (ePackage == null)
+        {
+          ePackage = extendedMetaData.demandPackage(namespace);
+        }
+
+        String result = getQName(nameInfo, ePackage, name);
+
+        // We must have a qualifier for an attribute that needs qualified.
+        //
+        if (result.length() == name.length() && extendedMetaData.getFeatureKind(feature) == ExtendedMetaData.ATTRIBUTE_FEATURE)
+        {
+          getQName(nameInfo, ePackage, name, true);
+        }
+      }
+    }
+    else
+    {
+      String name = getName(feature);
+      nameInfo.setLocalPart(name);
+      if (xmlMap != null)
+      {
+        XMLResource.XMLInfo info = xmlMap.getInfo(feature);
+        if (info != null)
+        {
+          String targetNamespace = info.getTargetNamespace();
+          nameInfo.setNamespaceURI(targetNamespace);
+          nameInfo.setQualifiedName(getQName(targetNamespace, name));
+        }
+      }
+      nameInfo.setQualifiedName(name);
+    }
+  }
+  
+  protected String getQName(NameInfo nameInfo, EPackage ePackage, String name)
+  {
+    String qname = getQName(nameInfo, ePackage, name, false);
+    nameInfo.setQualifiedName(qname);
+    return qname;
+  }
+
+  protected String getQName(NameInfo nameInfo, EPackage ePackage, String name, boolean mustHavePrefix)
+  {
+    String nsPrefix = getPrefix(ePackage, mustHavePrefix);
+    nameInfo.setNamespaceURI(getNamespaceURI(nsPrefix));
+    if ("".equals(nsPrefix))
+    {
+      return name;
+    }
+    else if (name.length() == 0)
+    {
+      return nsPrefix;
+    }
+    else
+    {
+      return nsPrefix + ":" + name;
+    }
+  }
+
   protected String getQName(EPackage ePackage, String name)
   {
     return getQName(ePackage, name, false);
@@ -296,6 +411,11 @@ public class XMLHelperImpl implements XMLHelper
   public String getPrefix(EPackage ePackage)
   {
     return getPrefix(ePackage, false);
+  }
+  
+  public String getNamespaceURI(String prefix)
+  {
+    return (String)prefixesToURIs.get(prefix);
   }
 
   protected String getPrefix(EPackage ePackage, boolean mustHavePrefix)

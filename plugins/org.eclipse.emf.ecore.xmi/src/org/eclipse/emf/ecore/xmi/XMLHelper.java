@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelper.java,v 1.5 2004/11/07 18:02:03 elena Exp $
+ * $Id: XMLHelper.java,v 1.6 2004/12/23 19:32:59 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -105,6 +105,16 @@ public interface XMLHelper
   String getQName(EClass eClass);
 
   /**
+   * This method populates the given {@link NameInfo} with name information, resetting all the current
+   * values in the <tt>nameInfo</tt>
+   * @param nameInfo the name information to populate
+   * @param eClass the EClass for which name has to be computed
+   * @see XMLHelper#getQName(EClass)
+   * @since 2.1.0
+   */
+  void populateNameInfo(NameInfo nameInfo, EClass eClass);
+
+  /**
    * Returns the nsName:name
    *  c.ePackage().nsName() :
    *  c.eName()
@@ -115,6 +125,16 @@ public interface XMLHelper
    * used rather than the namespace from the EPackage.
    */
   String getQName(EDataType eDataType);
+  
+  /**
+   * This method populates the given {@link NameInfo} with name information, resetting all the current
+   * values in the <tt>nameInfo</tt>
+   * @param nameInfo the name information to fill in
+   * @param eDataType the EDataType for which name has to be computed
+   * @see XMLHelper#getQName(EDataType)
+   * @since 2.1.0
+   */
+  void populateNameInfo(NameInfo nameInfo, EDataType eDataType);
 
   /**
    * By default, this method returns the name of the feature.
@@ -124,9 +144,24 @@ public interface XMLHelper
   String getQName(EStructuralFeature feature);
 
   /**
+   * This method populates the given {@link NameInfo} with name information, resetting all the current
+   * values in the <tt>nameInfo</tt> 
+   * @param nameInfo the name information to fill in
+   * @param feature the EStructuralFeature for which name has to be computed
+   * @see #getQName(EStructuralFeature)
+   * @since 2.1.0
+   */
+  void populateNameInfo(NameInfo nameInfo, EStructuralFeature feature);
+
+  /**
    * Return the prefix used for this package.
    */
   String getPrefix(EPackage ePackage);
+
+  /**
+   * Returns the namespaceURI in scope for the prefix.
+   */
+  String getNamespaceURI(String prefix);
 
   /**
    * Return all the prefixes used for this package.

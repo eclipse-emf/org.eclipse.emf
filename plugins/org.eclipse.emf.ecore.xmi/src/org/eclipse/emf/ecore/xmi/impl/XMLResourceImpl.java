@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.4 2004/10/21 16:12:02 marcelop Exp $
+ * $Id: XMLResourceImpl.java,v 1.5 2004/12/23 19:32:59 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -27,14 +27,18 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.WeakHashMap;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.DOMHandler;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLSave;
+import org.w3c.dom.Document;
 
 
 /**
@@ -64,6 +68,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   protected boolean useZip;
   protected String publicId;
   protected String systemId;
+  protected DOMHandler domHandler;
 
   /**
    * The map from {@link EObject} to {@link #getID ID}. It is used to store
@@ -165,6 +170,47 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
 
     xmlSave.save(this, outputStream, options);
+  }
+
+  public Document toDOM(Map options, Document doc, DOMHandler handler)
+  {
+    XMLSave xmlSave = createXMLSave();
+    domHandler = handler;
+    if (domHandler == null)
+    {
+      domHandler = new DefaultDOMHandlerImpl();
+    }
+    Document document = doc;
+    if (document == null)
+    {
+      try
+      {
+        document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+      }
+      catch (Exception e)
+      {
+        throw new RuntimeException(e.getMessage());
+      }
+    }
+    if (defaultSaveOptions == null || defaultSaveOptions.isEmpty())
+    {
+      return xmlSave.toDOM(this, document, domHandler, options);
+    }
+    else if (options == null)
+    {
+      return xmlSave.toDOM(this, document, domHandler, defaultSaveOptions);
+    }
+    else
+    {
+      Map mergedOptions = new HashMap(defaultSaveOptions);
+      mergedOptions.putAll(options);
+      return xmlSave.toDOM(this, document, domHandler, mergedOptions);
+    }
+  }
+
+  public DOMHandler getDOMHandler()
+  {
+    return domHandler;
   }
 
   public boolean useZip()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedMetaData.java,v 1.5 2004/11/07 18:02:06 elena Exp $
+ * $Id: ExtendedMetaData.java,v 1.6 2004/12/23 19:33:00 elena Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -37,7 +37,12 @@ public interface ExtendedMetaData
   String ANNOTATION_URI = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
   String XMLNS_URI = "http://www.w3.org/2000/xmlns/";
   String XML_URI = "http://www.w3.org/XML/1998/namespace";
-
+  String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
+  String XML_SCHEMA_URI = "http://www.w3.org/2001/XMLSchema";
+  String XMI_URI = "http://www.omg.org/XMI";
+  String XMLNS_PREFIX = "xmlns";
+  String XSI_PREFIX = "xsi";
+  
   EPackage getPackage(String namespace);
   void putPackage(String namespace, EPackage ePackage);
 
