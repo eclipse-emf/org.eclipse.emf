@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.3 2004/05/16 17:24:44 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.4 2004/05/27 12:31:43 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -191,7 +191,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		EClass eClass = <%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getDocumentRoot(<%=genPackage.getUncapPackageInterfaceName()%>);
 		EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(initialObjectCreationPage.getInitialObjectName());
 		EObject rootObject = <%=genPackage.getUncapFactoryInterfaceName()%>.create(eClass);
-		rootObject.eSet(eStructuralFeature, <%=genPackage.getUncapFactoryInterfaceName()%>.create((EClass)eStructuralFeature.getEType()));
+		rootObject.eSet(eStructuralFeature, <%=genModel.getImportedName("org.eclipse.emf.ecore.util.EcoreUtil")%>.create((EClass)eStructuralFeature.getEType()));
 <%}%>
 		return rootObject;
 	}

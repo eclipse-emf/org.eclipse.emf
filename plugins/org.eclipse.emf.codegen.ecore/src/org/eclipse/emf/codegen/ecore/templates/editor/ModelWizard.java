@@ -188,7 +188,7 @@ public class ModelWizard
     stringBuffer.append(TEXT_34);
     stringBuffer.append(genPackage.getUncapFactoryInterfaceName());
     stringBuffer.append(TEXT_35);
-    stringBuffer.append(genPackage.getUncapFactoryInterfaceName());
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.EcoreUtil"));
     stringBuffer.append(TEXT_36);
     }
     stringBuffer.append(TEXT_37);
