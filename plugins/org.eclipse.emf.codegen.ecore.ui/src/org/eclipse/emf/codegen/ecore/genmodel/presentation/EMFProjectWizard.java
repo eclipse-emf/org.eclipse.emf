@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.6 2004/05/16 17:21:25 emerks Exp $
+ * $Id: EMFProjectWizard.java,v 1.7 2004/06/15 14:35:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1666,10 +1666,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
             }
             finally
             {
-              if (ecoreModels.isEmpty())
-              {
-                setErrorMessage(GenModelEditPlugin.INSTANCE.getString("_UI_SpecifyAValidXMLSchema_message"));
-              }
+              setErrorMessage(ecoreModels.isEmpty() ? GenModelEditPlugin.INSTANCE.getString("_UI_SpecifyAValidXMLSchema_message") : null);
               progressMonitor.done();
             }
           }
