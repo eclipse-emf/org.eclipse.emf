@@ -1,3077 +1,1418 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta name="generator" content="HTML Tidy, see www.w3.org" />
-<meta name="generator"
-content=" HTML Tidy for Windows (vers 1st February 2004), see www.w3.org" />
-<meta http-equiv="Content-Type"
-content="text/html; charset=utf-8" />
-<title>Eclipse Tools - EMF Documents - Eclipse Modeling Framework
-(EMF) Overview</title>
-<link rel="stylesheet"
-href="http://dev.eclipse.org/default_style.css" type="text/css" />
-<link rel="stylesheet" href="../../css/overview-EMF.css"
-type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="http://dev.eclipse.org/default_style.css" type="text/css" />
+<link rel="stylesheet" href="images/../../book.css" type="text/css" />
+<title>Eclipse Tools - EMF Documents - Eclipse Modeling Framework (EMF) Overview</title>
 </head>
 <body lang="EN-US" xml:lang="EN-US">
-<table summary="" border="0" cellpadding="2" width="100%">
-<tbody>
-<tr>
-<td align="left" width="60%"><span class="indextop">EMF
-Documents</span><br />
- <span class="indexsub">Eclipse Modeling Framework Documents</span>
-</td>
-</tr>
-</tbody>
-</table>
-
-<table summary="" border="0" cellpadding="2" width="100%">
-<tr>
-<td align="LEFT" valign="TOP" bgcolor="#0070A0"><b
-style="color:#FFFFFF">Overview</b><a id="top"
-name="top">&nbsp;</a></td>
-</tr>
-</table>
-
-<table summary="" border="0" cellpadding="2" width="100%">
-<tr>
-<td align="right" valign="TOP"><b><small><a
-href="#quicknav"></a></small></b></td>
-</tr>
-</table>
-
-<div class="Section1">
-<h1 class='c1'>The Eclipse Modeling Framework (EMF) Overview</h1>
-
-<p class="DefaultText c2">&nbsp;</p>
-
-<p class="DefaultText c2">Last updated: Sept. 8, 2002</p>
-
-<p class="DefaultText c2">&nbsp;</p>
-
-<p class="Note">This paper presents a basic overview of EMF and its
-code generator patterns. For a more complete description of all the
-features&nbsp; of EMF, refer to the EMF Users Guide or to the
-JavaDoc for the framework classes themselves.</p>
-
-<p class="Note">&nbsp;</p>
-
+<span class="normal">
+<h1>The Eclipse Modeling Framework (EMF) Overview</h1>
+<p>
+Last updated: Sept. 8, 2002
+</p>
+<p>
+This paper presents a basic overview of EMF and its code generator patterns. For 
+a more complete description of all the features  of EMF, refer to the EMF Users 
+Guide or to the JavaDoc for the framework classes themselves.
+</p>
+<p>
 <h2>Introduction</h2>
-
-<p class="XML">&nbsp;</p>
-
-<p class="DefaultText">EMF is a Java framework and code generation
-facility for building tools and other applications based on a
-structured model. For those of you that have bought into the idea
-of object-oriented modeling, EMF helps you rapidly turn your models
-into efficient, correct, and easily customizable Java code. For
-those of you that aren't necessarily sold on the value of formal
-models, EMF is intended to provide you with the same benefits and a
-very low cost of entry.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">So, what do we mean when we say
-<i>model</i>? When talking about modeling, we generally think about
-things like Class Diagrams, Collaboration Diagrams, State Diagrams,
-and so on. UML (Unified Modeling Language) defines a (the) standard
-notation for these kinds of diagrams. Using a combination of UML
-diagrams, a complete model of an application can be specified. This
-model may be used purely for documentation or, given appropriate
-tools, it can be used as the input from which to generate part of
-or, in simple cases, all of an application.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Given that this kind of modeling typically
-requires expensive OOA/D tools, you might be questioning our
-assertion, above, that EMF provides a&nbsp; low cost of entry. The
-reason we can say that is because an EMF model requires just a
-small subset of the kinds of things that you can model in UML,
-specifically simple definition of the classes and their attributes
-and relations, for which a full-scale graphical modeling tool is
-unnecessary.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">While EMF uses XMI (XML Metadata
-Interchange) as its canonical form of a model definition<a
-href="#_ftn1" name="_ftnref1" title="" id=" _ftnref1"><sup><span
-class=' c3'>[1]</span></sup></a>, you have several ways of getting
-your model into that form:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><span class=' c4'>Ÿ&nbsp;&nbsp;</span>
-Create the XMI document directly, using an XML or text editor</p>
-
-<p class="DefaultText"><span class=' c4'>Ÿ&nbsp;&nbsp;</span>
-Export the XMI document from a modeling tool such as Rational
-Rose</p>
-
-<p class="DefaultText"><span class=' c4'>Ÿ&nbsp;&nbsp;</span>
-Annotate Java interfaces with model properties</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">The first approach is the most direct, but
-generally only appeals to XML gurus. The second choice is the most
-desirable if you are already using full-scale modeling tools. The
-last approach provides pure Java programmers a low-cost way to get
-the benefits of EMF and its code generator using just a basic Java
-development environment (for example Eclipse).</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Once you specify an EMF model, the EMF
-generator can create a corresponding set of Java implementation
-classes. You can edit these generated classes to add methods and
-instance&nbsp;variables and still regenerate from the model as
-needed: your additions will be preserved during the regeneration.
-If the code you added depends on something that you changed in the
-model, you will still need to update the code to reflect those
-changes; otherwise, your code is completely unaffected by model
-changes and regeneration.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">In addition to simply increasing your
-productivity, building your application using EMF provides several
-other benefits like model change notification, persistence support
-including default XMI serialization, and a very efficient
-reflective API for manipulating EMF objects generically. Most
-important of all, EMF provides the foundation for interoperability
-with other EMF-based tools and applications.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">EMF consists of two fundamental frameworks:
-the core framework and EMF.Edit. The core framework provides basic
-generation and runtime support to create Java implementation
-classes for a model. EMF.Edit extends and builds on the core
-framework, adding support for generating adapter classes that
-enable viewing and command-based (undoable) editing of a model, and
-even a basic working model editor. The following sections describe
-the main features of the core EMF framework. EMF.Edit is described
-in a separate paper titled "The EMF.Edit Framework Overview". For
-instructions on how to run the EMF/EMF.Edit generator refer to
-"Tutorial: Creating an EMF Model".</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<h3 class='c5'>EMF Relation to OMG MOF</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">For those of you that are familiar with OMG
-(Object Management Group) MOF (Meta Object Facility), you may be
-wondering how EMF relates to it. Actually, EMF started out as an
-implementation of the MOF specification but evolved from there
-based on the experience we gained from implementing a large set of
-tools using it. EMF can be thought of as a highly efficient Java
-implementation of a core subset of the MOF API. However, to avoid
-any confusion, the MOF-like core meta model in EMF is called Ecore
-instead of MOF.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<span class='c3'><br clear=" all" class='c6' />
-<br />
-</span> 
-
-<h2 class='c8'><span class='c7'>Defining an EMF Model</span></h2>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">To help describe EMF, we'll start by
-assuming we have a trivial one class model like this:</p>
-
-<p class="DefaultText"><img width="106" height="92"
-src="images/EMF/image001.gif" />&nbsp;</p>
-
-<p class="DefaultText">The model shows a single class called Book
-with two attributes, title of type String and pages of type
-int.</p>
-
-<p class="DefaultText1">&nbsp;</p>
-
-<p class="DefaultText1">Our model definition, trivial as it is, can
-be provided to the EMF code generator in a number of ways.</p>
-
-<p class="DefaultText1">&nbsp;</p>
-
-<p class="DefaultText1 c9">A UML editor</p>
-
-<p class="DefaultText1">If you have a modeling tool that works with
-EMF<a href="#_ftn2" name="_ftnref2" title=""
-id=" _ftnref2"><sup><span class=' c10'>[2]</span></sup></a>, you
-can simply draw the class diagram as shown above.</p>
-
-<p class="DefaultText1">&nbsp;</p>
-
-<p class="DefaultText1 c9">An XML editor</p>
-
-<p class="DefaultText1">Alternatively, we could describe the model
-directly in an XMI document that would look something like
-this:</p>
-
-<p class="XML">&nbsp;</p>
-
-<p class="DefaultText c18"><span
-class=' c11'>&lt;ecore:EPackage</span> <span
-class=' c12'>xmi:version</span><span class='c13'>=</span><span
-class=' c14'>"2.0"</span> <span class=' c15'>xmlns:xmi</span><span
-class='c16'>=</span><span
-class=' c17'>"http://www.omg.org/XMI"</span></p>
-
-<p class="DefaultText c18"><span class='c19'>&nbsp;&nbsp;&nbsp;
-xmlns:xsi</span><span class='c13'>=</span><span
-class=' c14'>"http://www.w3.org/2001/XMLSchema-instance"</span></p>
-
-<p class="DefaultText c18"><span
-class=' c20'>&nbsp;&nbsp;&nbsp;</span> <span
-class=' c12'>xmlns:ecore</span><span class='c13'>=</span><span
-class=' c14'>"http://www.eclipse.org/emf/2002/Ecore"</span></p>
-
-<p class="DefaultText c18"><span
-class=' c20'>&nbsp;&nbsp;&nbsp;</span> <span
-class=' c12'>name</span><span class='c13'>=</span><span
-class=' c14'>"library"</span><span class=' c12'>nsURI</span><span
-class='c13'>=</span><span class=' c14'>"http:///library.xmi"</span>
-<span class=' c15'>nsPrefix</span><span class='c21'>=</span><span
-class=' c22'>"library"</span><span class='c23'>&gt;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <span
-class='c11'>&lt;eClassifiers</span> <span
-class=' c12'>xsi:type</span><span class='c13'>=</span><span
-class=' c14'>"ecore:<b>EClass</b>"</span> <span
-class=' c15'>name</span><span class='c21'>=</span><span
-class=' c22'>"<b>Book</b>"</span><span class='c25'>&gt;</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <span
-class=' c11'>&lt;<b>eAttributes</b></span> <span
-class=' c12'>name</span><span class='c13'>=</span><span
-class=' c14'>"<b>title</b>"</span></p>
-
-<p class="DefaultText c18"><span
-class=' c20'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span
-class=' c12'>eType</span><span class='c13'>=</span><span
-class=' c14'>"ecore:EDataType
-http://www.eclipse.org/emf/2002/Ecore#//<b>EString</b>"</span>
-<span class='c25'>/&gt;</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <span
-class=' c11'>&lt;<b>eAttributes</b></span> <span
-class=' c12'>name</span><span class='c13'>=</span><span
-class=' c14'>"<b>pages</b>"</span></p>
-
-<p class="DefaultText c18"><span
-class=' c20'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span
-class=' c12'>eType</span><span class='c13'>=</span><span
-class=' c14'>"ecore:EDataType
-http://www.eclipse.org/emf/2002/Ecore#//<b>EInt</b>"</span> <span
-class='c25'>/&gt;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <span
-class='c11'>&lt;/eClassifiers&gt;</span></p>
-
-<p class="DefaultText c18"><span
-class=' c11'>&lt;/ecore:EPackage&gt;</span></p>
-
-<p class="DefaultText c18"><span class='c26'>&nbsp;</span></p>
-
-<p class="DefaultText">The XMI document contains all the same
-information as the class diagram, but a little less compactly.
-Every class and attribute in a diagram has a corresponding class or
-attribute definition in the XMI document.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c9">A Java editor</p>
-
-<p class="DefaultText">For those of you that have neither a
-graphical modeling tool nor an interest in trying to enter all the
-XMI syntax by hand, a third option is available for describing your
-model. Since the EMF generator is a code-merging generator, by
-providing partial Java interfaces (annotated with model
-information) ahead of time, the generator can use the interfaces as
-its generation metadata and merge the generated code with the rest
-of the implementation.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">We could have defined our Book model class
-in Java like this:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<span class='c3'><br clear=" all" class='c6' />
-<br />
-</span> 
-
-<p class="DefaultText c18"><span class='c20'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c20'>/**</span></p>
-
-<p class="DefaultText c18"><span class='c20'>&nbsp;*
-@model</span></p>
-
-<p class="DefaultText c18"><span class=' c20'>&nbsp;*/</span></p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class=' c12'>interface</span></b> <span
-class='c13'>Book</span></p>
-
-<p class="DefaultText c18"><span class='c24'>{</span></p>
-
-<p class="DefaultText c18"><span class='c20'>&nbsp; /**</span></p>
-
-<p class="DefaultText c18"><span class=' c24'>&nbsp;&nbsp;</span>
-<span class='c20'>*</span> <span class='c14'>@model</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <span
-class='c20'>&nbsp;*/</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; String
-getTitle();</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c20'>&nbsp; /**</span></p>
-
-<p class="DefaultText c18"><span class=' c24'>&nbsp;&nbsp;</span>
-<span class='c20'>*</span> <span class='c14'>@model</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <span
-class='c20'>&nbsp;*/</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>int</span></b> <span
-class=' c13'>getPages();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>}</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">With this approach, we provide all the model
-information in the form of Java interfaces with standard get
-methods<a href="#_ftn3" name="_ftnref3" title=""
-id=" _ftnref3"><sup><span class=' c28'>[3]</span></sup></a> to
-identify the attributes and references. The @model tag is used to
-identify to the code generator which interfaces, and parts of those
-interfaces, correspond to model elements and therefore require code
-generation.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">For our simple example, all of our model
-information is actually available though Java introspection of this
-interface, so no additional model information is needed. In the
-general case, however, the @model tag may be followed by additional
-details about the model element. If for example, we wanted the
-pages attribute to be read-only (that is, no generation of a set
-method), we would need to add the following to the annotation:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><span class='c20'>&nbsp; /**</span></p>
-
-<p class="DefaultText c18"><span class=' c24'>&nbsp;&nbsp;</span>
-<span class='c20'>*</span> <span class='c14'>@model
-changeable="false</span><span class=' c29'>"</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <span
-class='c20'>&nbsp;*/</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>int</span></b> <span
-class=' c13'>getPages();</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Because only information that is different
-from the default needs to be specified, annotations can be kept
-simple and concise.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">We'll talk more about the XMI and Java ways
-of specifying a model later. For the next set of examples, we'll
-use UML diagrams. Regardless of how the information is provided,
-the code generated by EMF will be the same.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<span class='c3'><br clear=" all" class='c6' />
-<br />
-</span> 
-
-<h2 class='c8'>Generating Java implementation classes</h2>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">For each class in the model, a Java
-interface and corresponding implementation class will be generated.
-In our example, the generated interface for Book looks like
-this:</p>
-
-<p class="DefaultText"><span class='c30'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class=' c12'>interface</span></b> <span
-class='c13'>Book</span> <b><span class='c12'>extends</span></b>
-<span class=' c13'>EObject</span></p>
-
-<p class="DefaultText c18"><span class='c24'>{</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; String
-getTitle();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>void</span></b> <span class=' c13'>setTitle(String
-value);</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>int</span></b> <span
-class=' c13'>getPages();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>void</span></b> <span
-class=' c13'>setPages(</span><b><span class='c12'>int</span></b>
-<span class='c13'>value);</span></p>
-
-<p class="DefaultText c18"><span class='c24'>}</span></p>
-
-<p class="Jav c18"><span class='c31'>&nbsp;</span></p>
-
-<p class="DefaultText">Each generated interface contains getter and
-setter methods for each attribute and reference of the
-corresponding model class.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Interface Book extends the base interface
-EObject. EObject is the EMF equivalent of java.lang.Object, that
-is, it is the base of every EMF class. EObject and its
-corresponding implementation class EObjectImpl (which we will look
-at later) provide a relatively lightweight base class that lets
-Book participate in the EMF notification and persistence framework.
-Before we start looking at what exactly EObject brings into the
-mix, let's continue looking at how EMF generates Book.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Each generated implementation class includes
-implementations of the getters and setters defined in the
-corresponding interface plus some other methods required by the EMF
-framework.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Class BookImpl will include, among other
-things, implementations of the title and pages accessors. The pages
-attribute, for example, has the following generated
-implementation:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class='c12'>class</span></b> <span
-class='c13'>BookImpl</span> <b><span
-class=' c12'>extends</span></b> <span
-class='c13'>EObjectImpl</span> <b><span
-class='c12'>implements</span></b> <span
-class=' c13'>Book</span></p>
-
-<p class="DefaultText c18"><span class='c24'>{</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;
-<b>...</b></span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>protected</span></b> <b><span
-class=' c12'>static</span></b> <b><span
-class='c12'>final</span></b> <b><span class='c12'>int</span></b>
-<span class=' c13'>PAGES_EDEFAULT = 0;</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>protected</span></b> <b><span
-class=' c12'>int</span></b> <span class='c13'>pages =
-PAGES_EDEFAULT;</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>public</span></b> <b><span class=' c12'>int</span></b>
-<span class='c13'>getPages()</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; {</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c32'>return</span></b> <span class='c13'>pages;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; }</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>public</span></b> <b><span class=' c12'>void</span></b>
-<span class=' c13'>setPages(</span><b><span
-class='c12'>int</span></b> <span class='c13'>newPages)</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; {</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;&nbsp;
-&nbsp;</span><b><span class='c32'>int</span></b> <span
-class=' c13'>oldPages = pages;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;&nbsp;&nbsp;
-pages = newPages;</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c32'>if</span></b><span
-class=' c13'>(eNotificationRequired())</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eNotify(</span><b><span
-class='c12'>new</span></b><span
-class=' c13'>ENotificationImpl(</span><b><span
-class=' c33'>this</span></b><span class='c24'>, <b>...</b> ,
-oldPages, pages));</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; }</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;
-<b>...</b></span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>}</span></p>
-
-<p class="DefaultText"><span class='c34'>&nbsp;</span></p>
-
-<p class="DefaultText">The generated get method is optimally
-efficient. It simply returns an instance variable representing the
-attribute.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">The set method, although a little more
-complicated, is also quite efficient. In addition to setting the
-instance variable pages, the set method needs to send change
-notification to any observers that may be listening to the object
-by calling the eNotify() method. To optimize the case where there
-are no observers (for example, in a batch application),
-construction of the notification object (ENotificationImpl) and the
-call to eNotify() are guarded by a call to eNotificationRequired().
-The default implementation of eNotificationRequired() simply checks
-if there are any observers (adapters) attached to the object.
-Therefore, when EMF objects are used without observers, the call to
-eNotificationRequired() amounts to nothing more than an efficient
-null pointer check, which is inlined when using a JIT compiler.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="BodySingle">The generated accessor patterns for other
-types of attributes, like the String attribute title, have some
-minor differences but are fundamentally the same as those shown for
-pages<a href="#_ftn4" name="_ftnref4" title=""
-id=" _ftnref4"><sup><span class=' c28'>[4]</span></sup></a>.</p>
-
-<p class="BodySingle">&nbsp;</p>
-
-<p class="BodySingle">The generated accessors for references,
-especially two-way ones, are a little more complicated and start to
-show the real value of the EMF generator.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<h3 class='c5'>One-way references</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Let's expand our example model with another
-class Writer that has an association with class Book:</p>
-
-<p class="DefaultText"><img width="464" height="92"
-src="images/EMF/image002.gif" />&nbsp;</p>
-
-<p class="DefaultText1">The association between a book and its
-writer is, in this example, a single one-way reference. The
-reference (role) name used to access the Writer from a Book is
-author.</p>
-
-<p class="DefaultText1">&nbsp;</p>
-
-<p class="DefaultText1">Running this model through the EMF
-generator will, in addition to generating the new interface Writer
-and implementation class WriterImpl, generate additional get and
-set methods in interface Book:</p>
-
-<p class="DefaultText1">&nbsp;</p>
-
-<p class="DefaultText c18"><span class='c35'>&nbsp;</span> <span
-class='c24'>Writer getAuthor();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>void</span></b> <span class=' c13'>setAuthor(Writer
-value);</span></p>
-
-<p class="DefaultText"><span class='c34'>&nbsp;</span></p>
-
-<p class="DefaultText">Since the author reference is one-way, the
-implementation of the setAuthor() method looks much like a simple
-data setter, like the earlier one for setPages:</p>
-
-<p class="DefaultText"><span class='c34'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class='c19'>&nbsp;
-public</span></b> <b><span class='c12'>void</span></b> <span
-class='c13'>setAuthor(Writer newAuthor)</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; {</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;&nbsp;&nbsp;
-Writer oldAuthor = author;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;&nbsp;&nbsp;
-author = newAuthor;</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c32'>if</span></b><span
-class=' c13'>(eNotificationRequired())</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eNotify(</span><b><span
-class='c12'>new</span></b> <span
-class=' c13'>ENotificationImpl(</span><b><span
-class=' c12'>this</span></b><span class='c13'>, <b>...</b>
-));</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; }</span></p>
-
-<p class="DefaultText"><span class='c34'>&nbsp;</span></p>
-
-<p class="DefaultText">The only difference is that here we're
-setting an object pointer instead of just a simple data field.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Because we're dealing with an object
-reference, however, the getAuthor() method is a little more
-complicated. This is because the get method for some types of
-references, including the type of author, needs to deal with the
-possibility that the referenced object (in this case Writer) may
-persist in a different resource (document) from the source object
-(in this case Book). Because the EMF persistence framework uses a
-lazy loading scheme, an object pointer (in this case author) may at
-some point in time be a proxy for the object instead of the actual
-referenced object<a href="#_ftn5" name="_ftnref5" title=""
-id="_ftnref5"><sup><span class=' c28'>[5]</span></sup></a>. Because
-of this, the getAuthor() method looks like this:</p>
-
-<p class="DefaultText c37"><span class='c36'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class='c19'>&nbsp;
-public</span></b> <span class='c13'>Writer getAuthor()</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; {</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c32'>if</span></b> <span class='c13'>(author !=</span>
-<b><span class='c12'>null</span></b> <span class=' c13'>&amp;&amp;
-author.eIsProxy())</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;&nbsp;&nbsp;
-{</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Writer oldAuthor =
-author;</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; author =
-(Writer)EcoreUtil.resolve(author,</span> <b><span
-class=' c19'>this</span></b><span class='c13'>);</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c32'>if</span></b> <span class='c13'>(author !=
-oldAuthor)</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<b><span class='c32'>if</span></b><span
-class=' c13'>(eNotificationRequired())</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-eNotify(</span><b><span class='c12'>new</span></b><span
-class=' c13'>ENotificationImpl(</span><b><span
-class=' c33'>this</span></b><span class='c24'>,
-Notification.RESOLVE, ...));</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;&nbsp;&nbsp;
-}</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c32'>return</span></b> <span class='c13'>author;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; }</span></p>
-
-<p class="DefaultText c9"><span class='c38'>&nbsp;</span></p>
-
-<p class="DefaultText">Instead of simply returning the author
-instance variable, we first call the framework method eIsProxy()
-method to check if the reference is a proxy, and then call
-EcoreUtil<i>.</i>resolve() if it is. The resolve method will
-attempt to load the target object's document, and consequently the
-object, using the proxy's URI. If successful, it will return the
-resolved object. If, however, the document fails to load, it will
-just return the proxy again<a href=" #_ftn6" name="_ftnref6"
-title="" id=" _ftnref6"><sup><span
-class=' c3'>[6]</span></sup></a>.</p>
-
+</p>
+<p>
+EMF is a Java framework and code generation facility for building tools and 
+other applications based on a structured model. For those of you that have 
+bought into the idea of object-oriented modeling, EMF helps you rapidly turn 
+your models into efficient, correct, and easily customizable Java code. For 
+those of you that aren't necessarily sold on the value of formal models, EMF is 
+intended to provide you with the same benefits and a very low cost of entry.
+</p>
+<p>
+So, what do we mean when we say model? When talking about modeling, we generally 
+think about things like Class Diagrams, Collaboration Diagrams, State Diagrams, 
+and so on. UML (Unified Modeling Language) defines a (the) standard notation for 
+these kinds of diagrams. Using a combination of UML diagrams, a complete model 
+of an application can be specified. This model may be used purely for 
+documentation or, given appropriate tools, it can be used as the input from 
+which to generate part of or, in simple cases, all of an application.
+</p>
+<p>
+Given that this kind of modeling typically requires expensive OOA/D tools, you 
+might be questioning our assertion, above, that EMF provides a  low cost of 
+entry. The reason we can say that is because an EMF model requires just a small 
+subset of the kinds of things that you can model in UML, specifically simple 
+definition of the classes and their attributes and relations, for which a 
+full-scale graphical modeling tool is unnecessary.
+</p>
+<p>
+While EMF uses XMI (XML Metadata Interchange) as its canonical form of a model 
+definition<sup><a class="footnote" href="#fn1">[1]</a><a name="ref1">&nbsp;</a></sup>, you have several ways of getting your model into that form:
+</p>
+<ul><li>Create the XMI document directly, using an XML or text editor</li>
+    <li>Export the XMI document from a modeling tool such as Rational Rose</li>
+    <li>Annotate Java interfaces with model properties</li></ul>
+<p>
+The first approach is the most direct, but generally only appeals to XML gurus. 
+The second choice is the most desirable if you are already using full-scale 
+modeling tools. The last approach provides pure Java programmers a low-cost way 
+to get the benefits of EMF and its code generator using just a basic Java 
+development environment (for example Eclipse).
+</p>
+<p>
+Once you specify an EMF model, the EMF generator can create a corresponding set 
+of Java implementation classes. You can edit these generated classes to add 
+methods and instance variables and still regenerate from the model as needed: 
+your additions will be preserved during the regeneration. If the code you added 
+depends on something that you changed in the model, you will still need to 
+update the code to reflect those changes; otherwise, your code is completely 
+unaffected by model changes and regeneration.
+</p>
+<p>
+In addition to simply increasing your productivity, building your application 
+using EMF provides several other benefits like model change notification, 
+persistence support including default XMI serialization, and a very 
+efficient reflective API for manipulating EMF objects generically. Most 
+important of all, EMF provides the foundation for interoperability with 
+other EMF-based tools and applications.
+</p>
+<p>
+EMF consists of two fundamental frameworks: the core framework and EMF.Edit. The 
+core framework provides basic generation and runtime support to create Java 
+implementation classes for a model. EMF.Edit extends and builds on the core 
+framework, adding support for generating adapter classes that enable viewing 
+and command-based (undoable) editing of a model, and even a basic working 
+model editor. The following sections describe the main features of the core 
+EMF framework. EMF.Edit is described in a separate paper titled "The 
+EMF.Edit Framework Overview". For instructions on how to run the 
+EMF/EMF.Edit generator refer to "Tutorial: Creating an EMF Model".
+</p>
+<p>
+<h3>EMF Relation to OMG MOF</h3>
+</p>
+<p>
+For those of you that are familiar with OMG (Object Management Group) MOF (Meta 
+Object Facility), you may be wondering how EMF relates to it. Actually, EMF 
+started out as an implementation of the MOF specification but evolved from there 
+based on the experience we gained from implementing a large set of tools using 
+it. EMF can be thought of as a highly efficient Java implementation of a core 
+subset of the MOF API. However, to avoid any confusion, the MOF-like core meta 
+model in EMF is called Ecore instead of MOF.
+</p>
+<p>
+<h2>Defining an EMF Model</h2>
+</p>
+<p>
+To help describe EMF, we'll start by assuming we have a trivial one class model 
+like this:
+</p>
+<p>
+<img width="106" height="92" src="images/EMF/image001.gif" />
+</p>
+<p>
+The model shows a single class called Book with two attributes, title of type 
+String and pages of type int.
+</p>
+<p>
+Our model definition, trivial as it is, can be provided to the EMF code 
+generator in a number of ways.
+</p>
+<p>
+<h3>A UML editor</h3>
+</p>
+<p>
+If you have a modeling tool that works with EMF<sup><a class="footnote" href="#fn2">[2]</a><a name="ref2">&nbsp;</a></sup>, you can simply draw the 
+class diagram as shown above.
+</p>
+<p>
+<h3>An XML editor</h3>
+</p>
+<p>
+Alternatively, we could describe the model directly in an XMI document that 
+would look something like this:
+<pre style="color:#4444cc">
+&lt;ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    name="library"nsURI="http:///library.xmi" nsPrefix="library">
+  &lt;eClassifiers xsi:type="ecore:EClass" name="Book">
+    &lt;eAttributes name="title"
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+    &lt;eAttributes name="pages"
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" />
+  &lt;/eClassifiers>
+&lt;/ecore:EPackage></pre>
+The XMI document contains all the same information as the class diagram, but a 
+little less compactly. Every class and attribute in a diagram has a 
+corresponding class or attribute definition in the XMI document.
+</p>
+<p>
+<h3>A Java editor</h3>
+</p>
+<p>
+For those of you that have neither a graphical modeling tool nor an interest in 
+trying to enter all the XMI syntax by hand, a third option is available for 
+describing your model. Since the EMF generator is a code-merging generator, 
+by providing partial Java interfaces (annotated with model information) 
+ahead of time, the generator can use the interfaces as its generation 
+metadata and merge the generated code with the rest of the implementation.
+</p>
+<p>
+We could have defined our Book model class in Java like this:
+<pre style="color:#4444cc">
+/**
+ * @model
+ */
+public interface Book
+{
+  /**
+   * @model
+   */
+  String getTitle();
+ 
+  /**
+   * @model
+   */
+  int getPages();
+}</pre>
+With this approach, we provide all the model information in the form of Java 
+interfaces with standard get methods<sup><a class="footnote" href="#fn3">[3]</a><a name="ref3">&nbsp;</a></sup> to identify the attributes and 
+references. The @model tag is used to identify to the code generator which 
+interfaces, and parts of those interfaces, correspond to model elements and 
+therefore require code generation.
+</p>
+<p>
+For our simple example, all of our model information is actually available 
+though Java introspection of this interface, so no additional model information 
+is needed. In the general case, however, the @model tag may be followed by 
+additional details about the model element. If for example, we wanted the pages 
+attribute to be read-only (that is, no generation of a set method), we would 
+need to add the following to the annotation:
+<pre style="color:#4444cc">
+  /**
+   * @model changeable="false"
+   */
+  int getPages();</pre>
+Because only information that is different from the default needs to be 
+specified, annotations can be kept simple and concise.
+</p>
+<p>
+We'll talk more about the XMI and Java ways of specifying a model later. For the 
+next set of examples, we'll use UML diagrams. Regardless of how the information 
+is provided, the code generated by EMF will be the same.
+</p>
+<p>
+<h2>Generating Java implementation classes</h2>
+</p>
+<p>
+For each class in the model, a Java interface and corresponding implementation 
+class will be generated. In our example, the generated interface for Book 
+looks like this:
+<pre style="color:#4444cc">
+public interface Book extends EObject
+{
+  String getTitle();
+  void setTitle(String value);
+  
+  int getPages();
+  void setPages(int value);
+}</pre>
+Each generated interface contains getter and setter methods for each attribute 
+and reference of the corresponding model class.
+</p>
+<p>
+Interface Book extends the base interface EObject. EObject is the EMF equivalent 
+of java.lang.Object, that is, it is the base of every EMF class. EObject and its 
+corresponding implementation class EObjectImpl (which we will look at later) 
+provide a relatively lightweight base class that lets Book participate in the 
+EMF notification and persistence framework. Before we start looking at what 
+exactly EObject brings into the mix, let's continue looking at how EMF generates 
+Book.
+</p>
+<p>
+Each generated implementation class includes implementations of the getters and 
+setters defined in the corresponding interface plus some other methods required 
+by the EMF framework.
+</p>
+<p>
+Class BookImpl will include, among other things, implementations of the title 
+and pages accessors. The pages attribute, for example, has the following 
+generated implementation:
+<pre style="color:#4444cc">
+public class BookImpl extends EObjectImpl implements Book
+{
+  ...
+  protected static final int PAGES_EDEFAULT = 0;
+  protected int pages = PAGES_EDEFAULT;
+  public int getPages()
+  {
+    return pages;
+  }
+  public void setPages(int newPages)
+  {
+    int oldPages = pages;
+    pages = newPages;
+    if(eNotificationRequired())
+      eNotify(newENotificationImpl(this, ... , oldPages, pages));
+  }
+  ...
+}</pre>
+The generated get method is optimally efficient. It simply returns an instance 
+variable representing the attribute.
+</p>
+<p>
+The set method, although a little more complicated, is also quite efficient. In 
+addition to setting the instance variable pages, the set method needs to send 
+change notification to any observers that may be listening to the object by 
+calling the eNotify() method. To optimize the case where there are no observers 
+(for example, in a batch application), construction of the notification object 
+(ENotificationImpl) and the call to eNotify() are guarded by a call to 
+eNotificationRequired(). The default implementation of eNotificationRequired() 
+simply checks if there are any observers (adapters) attached to the object. 
+Therefore, when EMF objects are used without observers, the call to 
+eNotificationRequired() amounts to nothing more than an efficient null pointer 
+check, which is inlined when using a JIT compiler.
+</p>
+<p>
+The generated accessor patterns for other types of attributes, like the String 
+attribute title, have some minor differences but are fundamentally the same as 
+those shown for pages<sup><a class="footnote" href="#fn4">[4]</a><a name="ref4">&nbsp;</a></sup>.
+</p>
+<p>
+The generated accessors for references, especially two-way ones, are a little 
+more complicated and start to show the real value of the EMF generator.
+</p>
+<p>
+<h3>One-way references</h3>
+</p>
+<p>
+Let's expand our example model with another class Writer that has an association 
+with class Book:
+</p>
+<p>
+<img width="464" height="92" src="images/EMF/image002.gif" />
+</p>
+<p>
+The association between a book and its writer is, in this example, a single 
+one-way reference. The reference (role) name used to access the Writer from 
+a Book is author.
+</p>
+<p>
+Running this model through the EMF generator will, in addition to generating the 
+new interface Writer and implementation class WriterImpl, generate 
+additional get and set methods in interface Book:
+<pre style="color:#4444cc">
+  Writer getAuthor();
+  
+  void setAuthor(Writer value);</pre>
+Since the author reference is one-way, the implementation of the setAuthor() 
+method looks much like a simple data setter, like the earlier one for setPages:
+<pre style="color:#4444cc">
+  public void setAuthor(Writer newAuthor)
+  {
+    Writer oldAuthor = author;
+    author = newAuthor;
+    if(eNotificationRequired())
+      eNotify(new ENotificationImpl(this, ... ));
+  }</pre>
+The only difference is that here we're setting an object pointer instead of just 
+a simple data field.
+</p>
+<p>
+Because we're dealing with an object reference, however, the getAuthor() method 
+is a little more complicated. This is because the get method for some types of 
+references, including the type of author, needs to deal with the possibility 
+that the referenced object (in this case Writer) may persist in a different 
+resource (document) from the source object (in this case Book). Because the EMF 
+persistence framework uses a lazy loading scheme, an object pointer (in this 
+case author) may at some point in time be a proxy for the object instead of the 
+actual referenced object<sup><a class="footnote" href="#fn5">[5]</a><a name="ref5">&nbsp;</a></sup>. Because of this, the getAuthor() method looks like 
+this:
+<pre style="color:#4444cc">
+  public Writer getAuthor()
+  {
+    if (author != null &amp;&amp; author.eIsProxy())
+    {
+      Writer oldAuthor = author;
+      author = (Writer)EcoreUtil.resolve(author, this);
+      if (author != oldAuthor)
+      {
+        if(eNotificationRequired())
+          eNotify(newENotificationImpl(this, Notification.RESOLVE, ...));
+      }
+    }
+    return author;
+  }</pre>
+Instead of simply returning the author instance variable, we first call the 
+framework method eIsProxy() method to check if the reference is a proxy, 
+and then call EcoreUtil.resolve() if it is. The resolve method will 
+attempt to load the target object's document, and consequently the object, 
+using the proxy's URI. If successful, it will return the resolved object. 
+If, however, the document fails to load, it will just return the proxy 
+again<sup><a class="footnote" href="#fn6">[6]</a><a name="ref6">&nbsp;</a></sup>.
+</p>
+<p>
 <h3>Two-way references</h3>
-
-<p class="DefaultText"><span class='c34'>&nbsp;</span></p>
-
-<p class="DefaultText">Now that we understand how proxy resolution
-affects the get pattern for certain types of references, we can
-look at how the set pattern changes when an association is made
-two-way. Let's change our one-way author association to this:</p>
-
-<p class="DefaultText"><img width="462" height="91"
-src="images/EMF/image003.gif" />&nbsp;</p>
-
-<p class="DefaultText1">The association is now two-way, as
-indicated by the lack of an arrowhead on the Writer end of the
-association line. The role name used to access Books from a Writer
-is books.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">If we regenerate our model, the getAuthor()
-method will be unaffected, but setAuthor() will now look like
-this:</p>
-
-<p class="DefaultText c9"><span class='c38'>&nbsp;</span></p>
-
-<p class="DefaultText c9"><span class=' c38'>&nbsp;</span></p>
-
-<b><span class='c39'><br clear="all" class='c6' />
-</span></b> 
-
-<p class="DefaultText c9"><span class='c38'>&nbsp;</span></p>
-
-<p class="DefaultText"><b><span class='c33'>&nbsp;
-public</span></b> <b><span class='c19'>void</span></b> <span
-class='c13'>setAuthor(Writer newAuthor)</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>if</span></b> <span class='c24'>(newAuthor !=
-author)</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-{</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NotificationChain msgs
-=</span> <b><span class='c12'>null</span></b><span
-class=' c13'>;</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c40'>if</span></b> <span class='c41'>(author !=</span>
-<b><span class='c12'>null</span></b><span class=' c13'>)</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; msgs =
-((InternalEObject)author).eInverseRemove(</span><b><span
-class=' c12'>this</span></b><span class='c13'>, ...,
-msgs);</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c40'>if</span></b> <span class='c41'>(newAuthor !=</span>
-<b><span class='c12'>null</span></b><span class=' c13'>)</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; msgs =
-((InternalEObject)newAuthor).eInverseAdd(</span><b><span
-class=' c12'>this</span></b><span class='c13'>, ...,
-msgs);</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; msgs =
-basicSetAuthor(newAuthor, msgs);</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c40'>if</span></b> <span class='c41'>(msgs !=</span>
-<b><span class='c12'>null</span></b><span class='c13'>)
-msgs.dispatch();</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-}</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>else</span></b> <b><span
-class='c19'>if</span></b> <span
-class='c13'>(eNotificationRequired())</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eNotify(</span><b><span
-class='c19'>new</span></b><span
-class=' c13'>ENotificationImpl(</span><b><span
-class=' c33'>this</span></b><span class='c24'>, ...));</span> <span
-class='c23'>// send "touch" notification</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; }</span></p>
-
-<p class="DefaultText c9"><span class='c38'>&nbsp;</span></p>
-
-<p class="DefaultText">As you can see, when setting a two-way
-reference like author, the other end of the reference needs to be
-set as well (by calling eInverseAdd()). We also need to remove the
-inverse of any previous author (by calling eInverseRemove())
-because in our model the&nbsp; author reference is singular (that
-is, a book can only have one author)<a href="#_ftn7"
-name="_ftnref7" title="" id=" _ftnref7"><sup><span
-class=' c28'>[7]</span></sup></a> and therefore this book cannot be
-in more than one Writer's books reference. Finally, we set the
-author reference by calling another generated method
-(basicSetAuthor()) which looks like this:</p>
-
-<p class="DefaultText c9"><span class='c38'>&nbsp;</span></p>
-
-<p class="DefaultText"><b><span
-class=' c38'>&nbsp;</span></b><b><span
-class=' c19'>&nbsp;public</span></b> <span
-class=' c13'>NotificationChain basicSetAuthor(Writer newAuthor,
-NotificationChain msgs)</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp; Writer
-oldAuthor = author;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp; author
-= newAuthor;</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>if</span></b> <span
-class=' c24'>(eNotificationRequired())</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-{</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c40'>if</span></b> <span class='c41'>(msgs ==</span>
-<b><span class='c12'>null</span></b><span class='c13'>) msgs
-=</span> <b><span class='c12'>new</span></b><span
-class=' c13'>NotificationChainImpl(4);</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-msgs.add(</span><b><span class='c19'>new</span></b><span
-class=' c13'>ENotificationImpl(</span><b><span
-class=' c33'>this</span></b><span class='c24'>, Notification.SET,
-...));</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-}</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>return</span></b> <span
-class='c24'>msgs;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; }</span></p>
-
-<p class="DefaultText c9"><span class='c38'>&nbsp;</span></p>
-
-<p class="DefaultText">This method looks very similar to the
-one-way reference set method, except that the notification gets
-added to the msgs argument, instead of being fired directly<a
-href="#_ftn8" name="_ftnref8" title="" id=" _ftnref8"><sup><span
-class=' c3'>[8]</span></sup></a>. Because of all the
-forward/reverse adding/removing during a two-way reference set
-operation, as many as four (three in this particular example)
-different notifications may be generated. A NotificationChain is
-used to collect all these individual notifications so their firing
-can be deferred until after all the state changes have been made.
-The queued-up notifications are sent by calling
-msgs<i>.</i>dispatch(), as shown in the setAuthor() method,
-above.</p>
-
+</p>
+<p>
+Now that we understand how proxy resolution affects the get pattern for certain 
+types of references, we can look at how the set pattern changes when an 
+association is made two-way. Let's change our one-way author association to 
+this:
+</p>
+<p>
+<img width="462" height="91" src="images/EMF/image003.gif" />
+</p>
+<p>
+The association is now two-way, as indicated by the lack of an arrowhead on the 
+Writer end of the association line. The role name used to access Books from a 
+Writer is books.
+</p>
+<p>
+If we regenerate our model, the getAuthor() method will be unaffected, but 
+setAuthor() will now look like this:
+<pre style="color:#4444cc">
+  public void setAuthor(Writer newAuthor)
+  {
+    if (newAuthor != author)
+    {
+      NotificationChain msgs = null;
+      if (author != null)
+        msgs = ((InternalEObject)author).eInverseRemove(this, ..., msgs);
+      if (newAuthor != null)
+        msgs = ((InternalEObject)newAuthor).eInverseAdd(this, ..., msgs);
+      msgs = basicSetAuthor(newAuthor, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(newENotificationImpl(this, ...)); // send "touch" notification
+  }</pre>
+As you can see, when setting a two-way reference like author, the other end of 
+the reference needs to be set as well (by calling eInverseAdd()). We also need 
+to remove the inverse of any previous author (by calling eInverseRemove()) 
+because in our model the  author reference is singular (that is, a book can only 
+have one author)<sup><a class="footnote" href="#fn7">[7]</a><a name="ref7">&nbsp;</a></sup> and therefore this book cannot be in more than one Writer's 
+books reference. Finally, we set the author reference by calling another 
+generated method (basicSetAuthor()) which looks like this:
+<pre style="color:#4444cc">
+  public NotificationChain basicSetAuthor(Writer newAuthor, NotificationChain 
+  msgs)
+  {
+    Writer oldAuthor = author;
+    author = newAuthor;
+    if (eNotificationRequired())
+    {
+      if (msgs == null) msgs = newNotificationChainImpl(4);
+      msgs.add(newENotificationImpl(this, Notification.SET, ...));
+    }
+    return msgs;
+  }</pre>
+This method looks very similar to the one-way reference set method, except that 
+the notification gets added to the msgs argument, instead of being fired 
+directly<sup><a class="footnote" href="#fn8">[8]</a><a name="ref8">&nbsp;</a></sup>. Because of all the forward/reverse adding/removing during a two-way 
+reference set operation, as many as four (three in this particular example) 
+different notifications may be generated. A NotificationChain is used to collect 
+all these individual notifications so their firing can be deferred until after 
+all the state changes have been made. The queued-up notifications are sent by 
+calling msgs.dispatch(), as shown in the setAuthor() method, above.
+</p>
+<p>
 <h3>Multiplicity-many references</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">You may have noticed in our example that the
-books association (from Writer to Book) is multiplicity many (e.g.,
-0..*). In other words, one writer may have written many books.
-Multiplicity-many references (that is, any reference where the
-upper bound is greater than 1) in EMF are manipulated using a
-collection API, so only a get method is generated in the
-interface:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class=' c12'>interface</span></b> <span
-class='c13'>Writer</span> <b><span class='c12'>extends</span></b>
-<span class=' c13'>EObject</span></p>
-
-<p class="DefaultText c18"><span class='c24'>{</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;
-<b>...</b></span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; EList
-getBooks();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>}</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Notice that getBooks<i>()</i> returns an
-EList as opposed to a&nbsp; java.util.List. Actually, they are
-almost the same. EList is an EMF subclass of java.util.List which
-adds a move method to the API. Other than that, from a client
-perspective you can consider it a standard Java List. For example,
-to add a book to the books association, you can simply call:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><span
-class=' c27'>aWriter.getBooks().add(aBook);</span></p>
-
-<p class="DefaultText c18">&nbsp;</p>
-
-<p class="DefaultText">or to iterate over them you would do
-something like this:</p>
-
-<p class="DefaultText"><span class='c26'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class='c19'>for</span></b>
-<span class='c13'>(Iterator iter = aWriter.getBooks().iterator();
-iter.hasNext(); ) {</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; Book book =
-(Book)iter.next();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; ...</span></p>
-
-<p class="DefaultText c18"><span class='c24'>}</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">As you can see, from a client perspective
-the API for manipulating multiplicity-many references is nothing
-special. However, because the books reference is part of a two-way
-association (it's the inverse of Book.author),&nbsp; we still need
-to do all the fancy inverse handshaking that we showed for the
-setAuthor() method. Looking at the implementation of the getBooks()
-method in WriterImpl shows us how the multiplicity-many case gets
-handled:</p>
-
-<p class="DefaultText c9"><span class='c38'>&nbsp;</span></p>
-
-<p class="DefaultText"><b><span
-class=' c38'>&nbsp;</span></b><b><span
-class=' c19'>&nbsp;public</span></b> <span class='c13'>EList
-getBooks()</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>if</span></b> <span class='c24'>(books
-==</span> <b><span class='c12'>null</span></b><span
-class=' c13'>)</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-{</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; books =</span> <b><span
-class='c19'>new</span></b><span
-class=' c13'>EObjectWithInverseResolvingEList(Book.</span><b><span
-class='c19'>class</span></b><span class='c13'>,</span> <b><span
-class=' c12'>this</span></b><span class='c13'>,</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LibraryPackage.WRITER__BOOKS,
-LibraryPackage.BOOK__AUTHOR);</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-}</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>return</span></b> <span
-class='c24'>books;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; }</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">The&nbsp; getBooks() method returns a
-special implementation class, <span
-class=' c42'>EObjectWithInverseResolvingEList</span>, which is
-constructed with all the information it needs to do the reverse
-handshaking during add and remove calls. EMF actually provides
-eight different EList implementation classes<a href="#_ftn9"
-name="_ftnref9" title="" id="_ftnref9"><sup><span
-class=' c3'>[9]</span></sup></a>, which are used to efficiently
-implement all types of multiplicity-many features. For one-way
-associations (that is, no inverse) we use EObjectResolvingEList. If
-the reference doesn't need proxy resolution we'd use EObjectEList
-or EObjectWithInverseEList, and so on.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">So for our example, the list used to
-implement the books reference is created with the argument
-LibraryPackage.BOOK__AUTHOR (a generated static int constant
-representing the reverse feature). This will be used during the
-add() call to call eInverseAdd() on the Book, similar to the way
-eInverseAdd() was called on the Writer during setAuthor(). Here's
-what eInverseAdd() looks like in class BookImpl:</p>
-
-<p class="DefaultText c18"><b><span class='c19'>&nbsp;
-public</span></b> <b><span class=' c12'>void</span></b><span
-class=' c13'>eInverseAdd(InternalEObject otherEnd,</span> <b><span
-class='c19'>int</span></b> <span class=' c13'>featureID,
-<b>...</b>)</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; {</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c32'>if</span></b> <span class='c13'>(featureID &gt;=
-0)</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;&nbsp;&nbsp;
-{</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c32'>switch</span></b> <span
-class=' c13'>(eDerivedStructuralFeatureID(featureID,
-baseClass))</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<b><span class='c32'>case</span></b><span
-class=' c13'>LibraryPackage.BOOK__AUTHOR:</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<b><span class='c12'>if</span></b> <span class='c13'>(author
-!=</span> <b><span class='c12'>null</span></b><span
-class=' c13'>)</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-((InternalEObject)author).eInverseRemove(</span><b><span
-class=' c19'>this</span></b><span class='c13'>, <b>...</b>,
-msgs);</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-basicSetAuthor((Writer)otherEnd, msgs);</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<b><span class='c12'>return</span></b><span
-class=' c13'>;</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;&nbsp;&nbsp;
-}</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;&nbsp;&nbsp;
-<b>...</b></span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; }</span></p>
-
-<p class="DefaultText c18">&nbsp;</p>
-
-<p class="DefaultText">It first calls eInverseRemove() to remove
-any previous author (as we described previously when we looked at
-the setAuthor method) and then it calls basicSetAuthor to actually
-set the reference. Although our particular example only has one
-two-way reference, eInverseAdd uses a switch statement that
-includes a case for every two-way reference available on class
-Book<a href="#_ftn10" name=" _ftnref10" title=""
-id="_ftnref10"><sup><span class=' c3'>[10]</span></sup></a>.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<h3 class='c5'>Containment references</h3>
-
-<h3 class='c5'>&nbsp;</h3>
-
-<p class="DefaultText">Let's add a new class Library which will act
-as the container for Books.</p>
-
-<p class="DefaultText"><img width="427" height="96"
-src="images/EMF/image004.gif" />&nbsp;</p>
-
-<p class="DefaultText">The containment reference is indicated by
-the black diamond on the Library end of the association. In full,
-the association indicates that a Library aggregates, by value, 0 or
-more Books. By-value aggregation (containment) associations are
-particularly important because they identify the parent or owner of
-a target instance, which implies the physical location of the
-object when persisted.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Containment affects the generated code in
-several ways. First of all, because a contained object is
-guaranteed to be in the same resource as its container, proxy
-resolution isn't needed. Therefore, the generated get method will
-use a non-resolving EList implementation class:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><b><span class='c19'>&nbsp;
-public</span></b> <span class='c13'>EList getBooks()</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; {</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c32'>if</span></b> <span class='c13'>(books ==</span>
-<b><span class='c12'>null</span></b><span class=' c13'>)</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;&nbsp;&nbsp;
-{</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; books =</span> <b><span
-class='c12'>new</span></b><span
-class=' c13'>EObjectContainmentEList(Book.</span><b><span
-class=' c40'>class</span></b><span class='c41'>,</span> <b><span
-class='c32'>this</span></b><span class='c13'>,
-<b>...</b>);</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;&nbsp;&nbsp;
-}</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c32'>return</span></b> <span class='c13'>books;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; }</span></p>
-
-<span class='c43'><br clear="all" class=' c6' />
-</span> 
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">In addition to not needing to resolve
-proxies, an EObjectContainmentEList also implements the contains()
-operation very efficiently (that is, in a constant time vs. O(n) in
-the general case). This is particularly important because duplicate
-entries are not allowed in EMF reference lists, so contains() is
-called during add() operations as well.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Because an object can only have one
-container, adding an object to a containment association also means
-removing the object from any container it's currently in,
-regardless of the actual association. For example, adding a Book to
-a Library's books list may involve removing it from some other
-Library's books list. That's no different than any other two-way
-association where the inverse has multiplicity 1. Assuming,
-however, we have another containment association from Writer to
-Book called ownedBooks, then if a given book instance is in the
-ownedBooks list of some Writer when we add it to a Library's books
-reference, then we'd need to remove it from the Writer's ownedBooks
-association first.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">To implement this kind of thing efficiently,
-the base class EObjectImpl has an instance variable (eContainer) of
-type EObject that it uses to store the container generically. As a
-result, containment references are always implicitly two-way. To
-access the Library from a Book, you can write something like
-this:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; EObject
-container = book.eContainer();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>if</span></b> <span class=' c13'>(container</span>
-<b><span class=' c12'>instanceof</span></b> <span
-class=' c13'>Library)</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;&nbsp;&nbsp;
-<span class='c42'>library = (Library)container</span>;</span></p>
-
-<p class="DefaultText c18"><span class='c31'>&nbsp;</span></p>
-
-<p class="DefaultText">If you want to avoid the downcast, you can
-change the association to be explicitly two-way instead:</p>
-
-<p class="DefaultText"><img width="442" height="95"
-src="images/EMF/image005.gif" />&nbsp;</p>
-
-<p class="DefaultText">and let EMF generate a nice typesafe get
-method for you:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><b><span
-class=' c38'>&nbsp;</span></b><b><span
-class=' c19'>&nbsp;public</span></b> <span class='c13'>Library
-getLibrary()</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>if</span></b> <span
-class='c24'>(eContainerFeatureID !=
-LibraryPackage.BOOK__LIBRARY)</span> <b><span
-class=' c19'>return</span></b> <b><span
-class=' c12'>null</span></b><span class='c13'>;</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>return</span></b> <span
-class=' c24'>(Library)eContainer;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; }</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Notice that the explicit get method uses the
-eContainer variable from EObjectImpl instead of a generated
-instance variable as we saw previously for non-container references
-(like getAuthor(), above)<a href="#_ftn11" name=" _ftnref11"
-title="" id="_ftnref11"><sup><span
-class=' c10'>[11]</span></sup></a>.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<h3 class='c5'>Enumeration attributes</h3>
-
-<p class="DefaultText c44">&nbsp;</p>
-
-<i><span class='c3'><br clear="all" class='c6' />
-<br />
-</span></i> 
-
-<p class="DefaultText">So far, we've looked at how EMF handles
-simple attributes and various types of references. Another commonly
-used type of attribute is an enumeration. Enumeration-type
-attributes are implemented using the Java typesafe enum pattern<a
-href="#_ftn12" name="_ftnref12" title=" " id="_ftnref12"><sup><span
-class=' c3'>[12]</span></sup></a>.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">If we add an enumeration attribute,
-category, to class Book:</p>
-
-<p class="DefaultText"><img width="400" height="102"
-src="images/EMF/image006.gif" />&nbsp;</p>
-
-<p class="DefaultText">and regenerate the implementation classes,
-interface Book will now include a getter and setter for
-category:.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><span class='c35'>&nbsp;</span> <span
-class='c24'>BookCategory getCategory();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>void</span></b><span
-class=' c13'>setCategory(BookCategory value);</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">In the generated interface the category
-methods use a typesafe enumeration class BookCategory. This class
-defines static constants for the enumeration's values and other
-convenience methods like this:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class='c12'>final</span></b> <b><span
-class='c12'>class</span></b> <span class=' c13'>BookCategory</span>
-<b><span class=' c12'>extends</span></b><span
-class=' c13'>AbstractEnumerator</span></p>
-
-<p class="DefaultText c18"><span class='c24'>{</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>public</span></b> <b><span
-class=' c12'>static</span></b> <b><span
-class='c12'>final</span></b> <b><span class='c12'>int</span></b>
-<span class='c13'>MYSTERY = 0;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>public</span></b> <b><span
-class=' c12'>static</span></b> <b><span
-class='c12'>final</span></b> <b><span class='c12'>int</span></b>
-<span class=' c13'>SCIENCE_FICTION = 1;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>public</span></b> <b><span
-class=' c12'>static</span></b> <b><span
-class='c12'>final</span></b> <b><span class='c12'>int</span></b>
-<span class='c13'>BIOGRAPHY = 2;</span></p>
-
-<p class="DefaultText c18"><span class='c26'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class='c19'>&nbsp;
-public</span></b> <b><span class='c12'>static</span></b> <b><span
-class='c12'>final</span></b> <span class=' c13'>BookCategory
-MYSTERY_LITERAL =</span></p>
-
-<p class="DefaultText c18"><b><span class=' c19'>&nbsp;&nbsp;&nbsp;
-new</span></b><span class=' c13'>BookCategory(MYSTERY,</span> <span
-class=' c22'>"MYSTERY"</span><span class='c41'>);</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>public</span></b> <b><span
-class=' c12'>static</span></b> <b><span
-class='c12'>final</span></b> <span class='c13'>BookCategory
-SCIENCE_FICTION_LITERAL =</span></p>
-
-<p class="DefaultText c18"><b><span class=' c19'>&nbsp;&nbsp;&nbsp;
-new</span></b><span
-class=' c13'>BookCategory(SCIENCE_FICTION,</span> <span
-class=' c17'>"SCIENCE_FICTION"</span><span
-class='c13'>);</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>public</span></b> <b><span
-class=' c12'>static</span></b> <b><span
-class='c12'>final</span></b> <span class='c13'>BookCategory
-BIOGRAPHY_LITERAL =</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c32'>new</span></b><span
-class=' c13'>BookCategory(BIOGRAPHY,</span> <span
-class=' c22'>"BIOGRAPHY"</span><span class='c13'>);</span></p>
-
-<p class="DefaultText c18"><span class='c26'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class='c19'>&nbsp;
-public</span></b> <b><span class='c12'>static</span></b> <b><span
-class='c12'>final</span></b> <span class='c13'>List LITERALS =
-<b>...;</b></span></p>
-
-<p class="DefaultText c37"><span class='c19'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class='c19'>&nbsp;
-public</span></b> <b><span class='c12'>static</span></b> <span
-class='c13'>BookCategory get(String name)</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; {</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;&nbsp;&nbsp;
-<b>...</b></span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; }</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class=' c24'>&nbsp;</span><b><span
-class='c19'>&nbsp;public</span></b> <b><span
-class='c12'>static</span></b> <span class=' c13'>BookCategory
-get(</span><b><span class=' c12'>int</span></b> <span
-class='c13'>value)</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; {</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;&nbsp;&nbsp;
-<b>...</b></span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; }</span></p>
-
-<p class="DefaultText c18"><span class='c26'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class='c19'>&nbsp;
-private</span></b> <span class=' c13'>BookCategory(</span><b><span
-class='c12'>int</span></b> <span class='c13'>value, String
-name)</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; {</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c32'>super</span></b><span class='c13'>(value,
-name);</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; }</span></p>
-
-<p class="DefaultText c18"><span class='c27'>}</span></p>
-
-<p class="DefaultText"><span class='c26'>&nbsp;</span></p>
-
-<p class="DefaultText">As shown, the enumeration class provides
-static int constants for the enumerations's values as well as
-static constants for the enumeration's literal objects (singletons)
-themselves. The int<br clear="all" class='c6' />
- constants have the same names as the model's literal names<a
-href="#_ftn13" name="_ftnref13" title="" id=" _ftnref13"><sup><span
-class=' c28'>[13]</span></sup></a>. The literal constants have the
-same names with _LITERAL appended.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">The constants provide convenient access to
-the literals when, for example, setting the category of a book:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="Jav c18">
-book.setCategory(BookCategory.SCIENCE_FICTION_LITERAL);</p>
-
-<p class="Jav c18"><span class='c45'>&nbsp;</span></p>
-
-<p class="DefaultText">The BookCategory constructor is private and
-therefore the only instances of the enumeration class that will
-ever exist are the ones used for the statics MYSTERY_LITERAL,
-SCIENCE_FICTION_LITERAL, and BIOGRAPHY_LITERAL. As a result,
-equality comparisons (that is .equals() calls) are never needed.
-Literals can always be reliably compared using the simpler and more
-efficient = = operator like this:</p>
-
-<p class="DefaultText"><span class='c46'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>book.getCategory() ==
-BookCategory.MYSTERY_LITERAL</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">When comparing against many values, a switch
-statement using the int values is better yet:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><b><span
-class=' c19'>switch</span></b><span
-class=' c13'>(book.getCategory().value()) {</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>case</span></b><span
-class=' c13'>BookCategory.MYSTERY:</span></p>
-
-<p class="DefaultText c18"><span class='c11'>&nbsp;&nbsp;&nbsp; //
-do something ...</span></p>
-
-<p class="DefaultText c18"><b><span class=' c19'>&nbsp;&nbsp;&nbsp;
-break</span></b><span class=' c13'>;</span></p>
-
-<p class="DefaultText c18"><b><span class='c19'>&nbsp;
-case</span></b><span
-class=' c13'>BookCategory.SCIENCE_FICTION:</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;&nbsp;&nbsp;
-...</span></p>
-
-<p class="DefaultText c18"><span class='c24'>}</span></p>
-
-<p class="Jav">&nbsp;</p>
-
-<p class="DefaultText">For situations where only the literal name
-(String) or value (int) is provided, convenient get methods that
-can be used to retrieve the corresponding literal object are also
-generated in the enumeration class.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<h3 class='c5'>Factories and Packages</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">In addition to the model interfaces and
-implementation classes, EMF generates two more interfaces (and
-implementation classes): a Factory and a Package.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">The Factory, as its name implies, is used
-for creating instances of your model classes, while the Package
-provides some static constants (for example, the feature constants
-used by the generated methods) and convenience methods for
-accessing the metadata of your model<a href="#_ftn14"
-name="_ftnref14" title="" id=" _ftnref14"><sup><span
-class=' c10'>[14]</span></sup></a>.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Here is the factory interface for the book
-example:</p>
-
-<p class="DefaultText c9"><span class='c38'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class=' c12'>interface</span></b> <span
-class=' c13'>LibraryFactory</span> <b><span
-class=' c12'>extends</span></b> <span
-class='c13'>EFactory</span></p>
-
-<p class="DefaultText c18"><span class='c24'>{</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; LibraryFactory
-eINSTANCE =</span> <b><span class=' c12'>new</span></b><span
-class=' c13'>LibraryFactoryImpl();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; Book
-createBook();</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp; Writer
-createWriter();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; Library
-createLibrary();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; LibraryPackage
-getLibraryPackage();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>}</span></p>
-
-<p class="DefaultText"><span class='c30'>&nbsp;</span></p>
-
-<p class="DefaultText">As shown, the generated factory provides a
-factory method (create) for each class defined in the model, an
-accessor for your model's package, and a static constant reference
-(that is, eINSTANCE) to the factory singleton.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">The LibraryPackage interface provides
-convenient access to all the metadata of our model:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class=' c12'>interface</span></b> <span
-class=' c13'>LibraryPackage</span> <b><span
-class=' c12'>extends</span></b> <span
-class='c13'>EPackage</span></p>
-
-<p class="DefaultText c18"><span class='c24'>{</span></p>
-
-<p class="DefaultText c37"><span class='c27'>&nbsp; ...</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>static</span></b> <b><span
-class=' c12'>final</span></b> <b><span class='c12'>int</span></b>
-<span class='c13'>BOOK = 0;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>static</span></b> <b><span
-class=' c12'>final</span></b> <b><span class='c12'>int</span></b>
-<span class='c13'>BOOK__TITLE = 0;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>static</span></b> <b><span
-class=' c12'>final</span></b> <b><span class='c12'>int</span></b>
-<span class='c13'>BOOK__PAGES = 1;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>static</span></b> <b><span
-class=' c12'>final</span></b> <b><span class='c12'>int</span></b>
-<span class='c13'>BOOK__CATEGORY = 2;</span></p>
-
-<p class="DefaultText c18"><b><span class='c19'>&nbsp;
-static</span></b> <b><span class='c12'>final</span></b> <b><span
-class='c12'>int</span></b> <span class=' c13'>BOOK__AUTHOR =
-3;</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;
-<b>...</b></span></p>
-
-<p class="DefaultText c18"><b><span class='c19'>&nbsp;
-static</span></b> <b><span class='c12'>final</span></b> <b><span
-class='c12'>int</span></b> <span class='c13'>WRITER = 1;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>static</span></b> <b><span
-class=' c12'>final</span></b> <b><span class='c12'>int</span></b>
-<span class='c13'>WRITER__NAME = 0;</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;
-<b>...</b></span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; EClass
-getBook();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; EAttribute
-getBook_Title();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; EAttribute
-getBook_Pages();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; EAttribute
-getBook_Category();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; EReference
-getBook_Author();</span></p>
-
-<p class="DefaultText c37"><span class='c27'>&nbsp; ...</span></p>
-
-<p class="DefaultText c18"><span class='c24'>}</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">As you can see, the metadata is available in
-two forms: int constants and the Ecore meta objects themselves. The
-int constants provide the most efficient way to pass around meta
-information. You may have noticed that the generated methods use
-these constants in their implementations. Later, when we look at
-how EMF adapters can be implemented, you'll see that the constants
-also provide the most efficient way to determine what has changed
-when handling notifications.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<h3 class='c5'>Generating classes with super classes</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Let's say we want to create a subclass,
-SchoolBook, of our model class Book like this:</p>
-
-<p class="DefaultText"><img width="169" height="191"
-src="images/EMF/image007.gif" />&nbsp;</p>
-
-<p class="DefaultText">The EMF generator handles single inheritance
-as you'd expect: the generated interface extends the super
-interface:</p>
-
-<p class="Jav c18"><span class='c47'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class=' c12'>interface</span></b> <span
-class='c13'>SchoolBook</span> <b><span
-class='c12'>extends</span></b> <span class=' c13'>Book</span></p>
-
-<p class="DefaultText"><span class='c47'>&nbsp;</span></p>
-
-<p class="DefaultText">and the implementation class extends the
-super implementation class:</p>
-
-<p class="Jav c18"><span class='c47'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class='c12'>class</span></b> <span
-class='c13'>SchoolBookImpl</span> <b><span
-class=' c12'>extends</span></b> <span class='c13'>BookImpl</span>
-<b><span class='c12'>implements</span></b> <span
-class=' c13'>SchoolBook</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">As in Java itself, multiple interface
-inheritance is supported, but each EMF class can only extend one
-implementation base class. Therefore, when we have a model with
-multiple inheritance, we need to identify which of the multiple
-bases should be used as the implementation base class. The others
-will then be simply treated as mixin interfaces, with their
-implementations generated into the derived implementation
-class.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Consider the following example:</p>
-
-<p class="DefaultText"><img width="275" height="196"
-src="images/EMF/image008.gif" />&nbsp;</p>
-
-<p class="DefaultText">Here we've made SchoolBook derive from two
-classes: Book and Asset. We've identified Book as the
-implementation base (extended) class as shown<a href="#_ftn15"
-name="_ftnref15" title="" id="_ftnref15"><sup><span
-class=' c3'>[15]</span></sup></a>. If we regenerate the model,
-interface SchoolBook will now extend the two interfaces:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class=' c12'>interface</span></b> <span
-class='c13'>SchoolBook</span> <b><span
-class='c12'>extends</span></b> <span class='c13'>Book,
-Asset</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">The implementation class looks the same as
-before, only now it includes implementations of the mixed-in
-methods getValue() and setValue():</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class='c12'>class</span></b> <span
-class='c13'>SchoolBookImpl</span> <b><span
-class=' c12'>extends</span></b> <span class='c13'>BookImpl</span>
-<b><span class='c12'>implements</span></b> <span
-class=' c13'>SchoolBook</span></p>
-
-<p class="DefaultText c18"><span class='c24'>{</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>public</span></b> <b><span
-class=' c12'>float</span></b> <span class='c13'>getValue()</span>
-<span class='c29'>{</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;&nbsp;&nbsp;
-<b>...</b></span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp; }</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>public</span></b> <b><span class=' c12'>void</span></b>
-<span class=' c13'>setValue(</span><b><span
-class='c12'>float</span></b> <span class='c13'>newValue)
-{</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c48'>...</span></b></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<h3 class='c5'>Customizing the generated implementation
-classes</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">You can add behavior (methods and instance
-variables) to the generated Java classes without having to worry
-about losing your changes if you later decide to modify the model
-and then regenerate. For example, let's add a method,
-isRecommended(), to class Book. To do this you simply go ahead and
-add the new method signature to the Java interface Book:</p>
-
-<p class="DefaultText"><span class='c47'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class=' c12'>interface</span></b> <span
-class='c13'>Book</span> <b><span class='c29'>...</span></b></p>
-
-<p class="DefaultText c18"><span class='c24'>{</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>boolean</span></b> <span
-class=' c13'>isRecommended();</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;
-<b>...</b></span></p>
-
-<p class="DefaultText"><span class='c46'>&nbsp;</span></p>
-
-<p class="DefaultText">and its implementation in class
-BookImpl:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class='c12'>boolean</span></b> <span
-class='c13'>isRecommended() {</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>return</span></b><span
-class=' c13'>getAuthor().getName().equals(</span><span
-class=' c17'>"William Shakespeare"</span><span
-class=' c13'>);</span></p>
-
-<p class="DefaultText c18"><span class='c24'>}</span></p>
-
-<p class="Jav c18"><span class='c47'>&nbsp;</span></p>
-
-<p class="DefaultText">The EMF generator won't wipe out this change
-because it isn't a generated method to begin with.&nbsp; Every
-method generated by EMF includes a JavaDoc comment that contains an
-@generated tag like this:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><span class=' c49'>&nbsp;</span><span
-class='c17'>&nbsp;/**</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;</span> <span
-class='c22'>* <b>...</b></span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;</span> <span
-class='c22'>*</span> <span class=' c17'>@generated</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;</span> <span
-class='c22'>*/</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;</span> <b><span
-class='c33'>public</span></b> <span class='c24'>String
-getTitle()</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>return</span></b> <span
-class='c24'>title;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; }</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Any method in the file that doesn't contain
-this tag (like isRecommended()) will be left untouched whenever we
-regenerate. In fact, if we want to change the implementation of a
-generated method, we can do that by removing the @generated tag
-from it<a href="#_ftn16" name=" _ftnref16" title=""
-id="_ftnref16"><sup><span class=' c3'>[16]</span></sup></a>:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><span class='c49'>&nbsp;</span> <span
-class='c17'>/**</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;</span> <span
-class='c22'>* <b>...</b></span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;</span> <span
-class='c22'>*</span> <s><span
-class=' c17'>@generated</span></s></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;</span> <span
-class='c22'>*/</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;</span> <b><span
-class='c33'>public</span></b> <span class='c24'>String
-getTitle()</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<span class='c22'>// our custom implementation ...</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; }</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Now, because of the missing @generated tag,
-the getTitle() method is considered to be user code; if we
-regenerate the model, the generator will detect the collision and
-simply discard the generated version of the method.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Actually, before discarding a generated
-method, the generator first checks if there is another generated
-method in the file with the same name, but with Gen appended. If it
-finds one, then instead of discarding the newly generated version
-of the method it redirects the output to it. For example, if we
-want to extend the generated getTitle() implementation, instead of
-completely discarding it, then we can do that by simply renaming it
-like this:</p>
-
-<p class="DefaultText"><span class='c49'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class=' c49'>&nbsp;</span><span
-class='c17'>&nbsp;/**</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;</span> <span
-class='c22'>* <b>...</b></span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;</span> <span
-class='c22'>*</span> <span class=' c17'>@generated</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;</span> <span
-class='c22'>*/</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;</span> <b><span
-class='c33'>public</span></b> <span class='c24'>String
-getTitleGen()</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>return</span></b> <span
-class='c24'>title;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; }</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">and then adding our override as a user
-method that does whatever we want:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><b><span
-class=' c38'>&nbsp;</span></b><b><span
-class=' c19'>&nbsp;public</span></b> <span class='c13'>String
-getTitle()</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;&nbsp;&nbsp; String
-result = getTitleGen();</span></p>
-
-<p class="DefaultText c18"><span class=' c24'>&nbsp;</span><b><span
-class='c19'>if</span></b> <span class='c13'>(result ==
-null)</span></p>
-
-<p class="DefaultText"><span
-class=' c29'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; result =
-<b>...</b></span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>return</span></b> <span
-class='c24'>result;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; }</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">If we regenerate now, the generator will
-detect the collision with our user version of getTitle(), but
-because we also have the @generated getTitleGen() method in the
-class, it will redirect the newly generated implementation to it,
-instead of discarding it.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<h3 class='c5'>Operations in EMF models</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">In addition to attributes and references,
-you can add operations to your model classes. If you do, the EMF
-generator will generate their signature into the interface and an
-empty method skeleton into the implementation class. EMF does not
-support any way of specifying the operation behaviors in the model
-and therefore you must implement the methods by hand in the
-generated Java class.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Other than serving as a formal definition of
-the model's behavior and, of course, having the method skeleton
-generated automatically, there is no major advantage to adding
-operations to the model as opposed to simply adding the methods by
-hand (as user code) in the generated classes. In both cases, you'll
-need to write the methods implementations yourself anyway.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<span class='c3'><br clear=" all" class='c6' />
-</span> 
-
-<h2 class='c8'>Using the generated EMF classes</h2>
-
-<p class="DefaultText">&nbsp;</p>
-
-<h3 class='c5'>Creating and accessing instances</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Using the generated classes, a client
-program can create and initialize a Book with the following simple
-Java statements:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><span class='c46'>&nbsp;</span> <span
-class='c21'>&nbsp;&nbsp;LibraryFactory factory =
-LibraryFactory.eINSTANCE;</span></p>
-
-<p class="DefaultText"><span class='c50'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp; Book
-book = factory.createBook();</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp; Writer
-writer = factory.createWriter();</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-writer.setName(</span><span class='c20'>"William
-Shakespeare"</span><span class='c21'>);</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-book.setTitle(</span><span class='c20'>"King Lear"</span><span
-class='c13'>);</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-book.setAuthor(writer)</span></p>
-
-<p class="Jav"><span class='c47'>&nbsp;</span></p>
-
-<p class="DefaultText">Because the Book to Writer association
-(author) is two-way, the inverse reference (books) is automatically
-initialized. We can verify this by iterating over the books
-reference like this:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><span class='c46'>&nbsp;</span> <span
-class=' c21'>&nbsp;&nbsp;System.out.println(</span><span
-class=' c20'>"Shakespeare books:"</span><span
-class=' c13'>);</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>for</span></b> <span class='c24'>(Iterator
-iter = writer.getBooks().iterator(); iter.hasNext(); ) {</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Book shakespeareBook =
-(Book)iter.next();</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-System.out.println(</span><span class='c20'>"&nbsp; title: "</span>
-<span class='c13'>+ shakespeareBook.getTitle());</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-}</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Running this program would produce output
-something like this:</p>
-
-<p class="Jav">&nbsp;</p>
-
-<p class="Jav">&nbsp; Shakespeare books:</p>
-
-<p class="Jav">&nbsp;&nbsp;&nbsp; title: King Lear</p>
-
-<p class="Jav">&nbsp;</p>
-
-<h3 class='c5'>Loading and saving resources</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">To create a document named mylibrary.xmi
-with the above in it, all we need to do is create an EMF resource
-at the beginning of the program, put the book and writer into the
-resource, and call save() at the end:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><span class=' c46'>&nbsp;</span><span
-class='c21'>&nbsp;&nbsp;</span> <span class='c51'>// Create a
-resource set</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-ResourceSet resourceSet =</span> <b><span
-class=' c12'>new</span></b><span
-class=' c13'>ResourceSetImpl();</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<span class='c51'>// Get the URI of the model file.</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp; URI
-fileURI = URI.createFileURI(new
-File("mylibrary.xmi").getAbsolutePath());</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<span class='c51'>// Create a resource for this file.</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-Resource resource = resourceSet.createResource(fileURI);</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<span class='c51'>// Add the book and writer objects to the
-contents.</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-resource.getContents().add(book);</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-resource.getContents().add(writer);</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;</span> <span
-class='c51'>&nbsp;// Save the contents of the resource to the file
-system.</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;
-&nbsp;resource</span><span
-class=' c52'>.save(Collections.EMPTY_MAP);</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><span class='c42'>Notice that a resource set
-(interface ResourceSet) is used to create the EMF resource. A
-resource set is used by the EMF framework to manage resources with
-potential cross document references. Using a registry (interface
-Resource.Factory.Registry), it creates the right type of resource
-for a given URI based on its scheme, file extension, or other
-possible criteria. During load, it also manages the demand-loading
-of cross document references.</span></p>
-
-<p class="DefaultText"><span class='c42'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class='c42'>Running this program will
-produce the file mylibrary.xmi with contents something like
-this:</span></p>
-
-<p class="DefaultText c18"><span class='c53'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c53'>&lt;xmi:XMI</span>
-<span class='c54'>xmi:version</span><span
-class=' c55'>=</span><span class='c56'>"2.0" ...</span> <span
-class=' c57'>xmlns:library</span><span class=' c52'>=</span><span
-class='c58'>"http:///library.xmi"</span> <span
-class='c59'>&gt;</span></p>
-
-<p class="DefaultText c18"><span class='c35'>&nbsp;</span> <span
-class='c53'>&lt;library:Book</span> <span
-class=' c54'>title</span><span class='c55'>=</span><span
-class=' c56'>"King Lear"</span> <span
-class=' c57'>author</span><span class='c46'>=</span><span
-class=' c49'>"/1"</span><span class='c53'>/&gt;</span></p>
-
-<p class="DefaultText c18"><span class='c35'>&nbsp;</span> <span
-class='c53'>&lt;library:Writer</span> <span
-class=' c54'>name</span><span class='c55'>=</span><span
-class=' c56'>"William Shakespeare"</span> <span
-class=' c38'>books</span><span class='c35'>=</span><span
-class=' c60'>"/0"</span><span class='c59'>/&gt;</span></p>
-
-<p class="DefaultText c18"><span
-class=' c53'>&lt;/xmi:XMI&gt;</span></p>
-
-<h3 class='c5'>&nbsp;</h3>
-
-<p class="DefaultText">If instead, we wanted to serialize the books
-and writers into different documents, all we would have needed to
-do is open a second document:</p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-Resource anotherResource =
-resourceSet.createResource(anotherFileURI);</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;</span></p>
-
-<p class="DefaultText">and added the writer, for example, to its
-contents instead of the first resource:</p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-<s>resource.getContents().add(writer);</s></span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-anotherResource.getContents().add(writer);</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;</span></p>
-
-<p class="DefaultText">Now, if we save, we will have two resources,
-each containing one object with a cross document reference to the
-other.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">If you want to serialize your objects in a
-format other than XMI, that's easy to arrange as well. Create your
-own resource class (as a subclass of ResourceImpl) that implements
-your preferred serialization format, and then either register it
-locally with your resource set, or with the global factory registry
-if you want it to always be used with your model. You will also
-need to write the actual serialize and parse code.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<h3 class='c5'>Observing (adapting) EMF objects</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Previously, when we looked at set methods in
-generated EMF classes, we saw that notifications are always sent
-when an attribute or reference is changed. The Book.setPages()
-method included the following line:</p>
-
-<p class="DefaultText"><span class='c26'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>eNotify(</span><b><span
-class=' c32'>new</span></b><span
-class=' c13'>ENotificationImpl(</span><b><span
-class=' c33'>this</span></b><span class='c24'>, <b>...</b> ,
-oldPages, pages));</span></p>
-
-<p class="DefaultText"><span class='c26'>&nbsp;</span></p>
-
-<p class="DefaultText">Every EObject can contain a list of
-observers (also referred to as adapters) which will be notified
-whenever a state change occurs. The framework eNotify method
-iterates through this list and forwards the notification to the
-observers.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">An observer can be attached to any EObject
-(for example, Book) by adding to the eAdapters list like this:</p>
-
-<p class="DefaultText"><span class='c26'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>Adapter bookObserver =
-...</span></p>
-
-<p class="DefaultText c18"><span
-class=' c24'>book.eAdapters().add(bookObserver);</span></p>
-
-<p class="DefaultText"><span class='c26'>&nbsp;</span></p>
-
-<p class="DefaultText">More commonly, however, adapters are added
-to EObjects using an adapter factory. In addition to their observer
-status, adapters are more generally used as a way to extend the
-behavior of the object they're attached to. A client generally
-attaches such extended behavior by asking an<br clear="all"
-class='c6' />
- adapter factory to adapt an object with an extension of the
-required type. Typically it looks something like this:</p>
-
-<p class="DefaultText"><span class='c46'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;EObject
-someObject =</span> <b><span class=' c19'>...</span></b><span
-class='c13'>;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; AdapterFactory
-someAdapterFactory =</span> <b><span
-class=' c12'>...</span></b><span class='c13'>;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; Object requiredType
-= ...;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;</span> <b><span
-class='c33'>if</span></b><span
-class=' c24'>(someAdapterFactory.isFactoryForType(requiredType))</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp; Adapter
-theAdapter = someAdapterFactory.adapt(someObject,
-requiredType);</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;&nbsp;&nbsp;
-...</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; }</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Usually, the requiredType represents some
-interface supported by the adapter. For example, the argument might
-be the actual java.lang.Class for an interface of the chosen
-adapter. The returned adapter could then be downcast to the
-requested interface like this:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; MyAdapter
-theAdapter =</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-(MyAdapter)myAdapterFactory.adapt(someObject,
-mypackage.MyAdapter);</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Adapters are often used this way to extend
-the behavior of an object without subclassing.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">To handle notifications in an adapter we
-need to override the eNotifyChanged method, which is called on
-every registered adapter by eNotify. A typical adapter implements
-eNotifyChanged to perform some action for some or all of the
-notifications, based on the notification's type.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Sometimes adapters are designed to adapt a
-specific class (for example, Book). In this case, the notifyChanged
-method might look something like this:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><b><span class='c33'>&nbsp;
-public</span></b> <b><span class=' c19'>void</span></b><span
-class=' c13'>notifyChanged(Notification notification)</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp; Book
-book = (Book)notification.getNotifier();</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>switch</span></b> <span
-class=' c24'>(notification.getFeatureID(Book.</span><b><span
-class=' c12'>class</span></b><span class='c13'>))</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-{</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <b><span
-class=' c40'>case</span></b> <span
-class=' c41'>LibraryPackage.BOOK__TITLE:</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;<span
-class=' c42'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
-<span class='c11'>// book title changed</span></p>
-
-<p class="DefaultText"><span
-class=' c29'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;doSomething();</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<b><span class='c40'>break</span></b><span
-class=' c41'>;</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;<span
-class=' c42'>&nbsp;&nbsp;&nbsp;&nbsp;</span></span> <b><span
-class=' c19'>case</span></b><span
-class=' c13'>LibraryPackage.BOOK__CATEGORY:</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;<span
-class=' c42'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
-<span class='c11'>// book category changed</span></p>
-
-<p class="DefaultText"><span
-class=' c29'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;...</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;<span
-class=' c42'>&nbsp;&nbsp;&nbsp;&nbsp;</span></span> <b><span
-class=' c19'>case</span></b> <span class='c29'>...</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-}</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; }</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">The call to notification.getFeatureID is
-passed the argument Book.class to handle the possibility that the
-object being adapted is not an instance of class BookImpl but is
-instead an instance of a multiple-inheritance subclass where Book
-is not the primary (first) interface. In that case, the feature ID
-passed in the notification will be a number relative to the other
-class and therefore needs to be adjusted before we can switch using
-the BOOK__ constants. In single-inheritance situations, this
-argument is ignored.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Another common type of adapter is not bound
-to any specific class, but instead uses the reflective EMF API to
-perform its function. Instead of calling getFeatureID on the
-notification, it might call getFeature instead, which returns the
-actual Ecore feature (that is, an EStructuralFeature).</p>
-
-<p class="DefaultText">&nbsp;</p>
-
+</p>
+<p>
+You may have noticed in our example that the books association (from Writer to 
+Book) is multiplicity many (e.g., 0..*). In other words, one writer may 
+have written many books. Multiplicity-many references (that is, any 
+reference where the upper bound is greater than 1) in EMF are manipulated 
+using a collection API, so only a get method is generated in the 
+interface:
+<pre style="color:#4444cc">
+public interface Writer extends EObject
+{
+  ...
+  EList getBooks();
+}</pre>
+Notice that getBooks() returns an EList as opposed to a  java.util.List. 
+Actually, they are almost the same. EList is an EMF subclass of 
+java.util.List which adds a move method to the API. Other than that, from 
+a client perspective you can consider it a standard Java List. For 
+example, to add a book to the books association, you can simply call:
+<pre style="color:#4444cc">
+aWriter.getBooks().add(aBook);</pre>
+or to iterate over them you would do something like this:
+<pre style="color:#4444cc">
+for (Iterator iter = aWriter.getBooks().iterator(); iter.hasNext(); ) {
+  Book book = (Book)iter.next();
+  ...
+}</pre>
+As you can see, from a client perspective the API for manipulating 
+multiplicity-many references is nothing special. However, because the books 
+reference is part of a two-way association (it's the inverse of Book.author),  
+we still need to do all the fancy inverse handshaking that we showed for the 
+setAuthor() method. Looking at the implementation of the getBooks() method in 
+WriterImpl shows us how the multiplicity-many case gets handled:
+<pre style="color:#4444cc">
+  public EList getBooks()
+  {
+    if (books == null)
+    {
+      books = newEObjectWithInverseResolvingEList(Book.class, this,
+                     LibraryPackage.WRITER__BOOKS, LibraryPackage.BOOK__AUTHOR);
+    }
+    return books;
+  }</pre>
+The  getBooks() method returns a special implementation class, 
+EObjectWithInverseResolvingEList, which is constructed with all the information 
+it needs to do the reverse handshaking during add and remove calls. EMF actually 
+provides eight different EList implementation classes<sup><a class="footnote" href="#fn9">[9]</a><a name="ref9">&nbsp;</a></sup>, which are used to 
+efficiently implement all types of multiplicity-many features. For one-way 
+associations (that is, no inverse) we use EObjectResolvingEList. If the 
+reference doesn't need proxy resolution we'd use EObjectEList or 
+EObjectWithInverseEList, and so on.
+</p>
+<p>
+So for our example, the list used to implement the books reference is created 
+with the argument LibraryPackage.BOOK__AUTHOR (a generated static int constant 
+representing the reverse feature). This will be used during the add() call to 
+call eInverseAdd() on the Book, similar to the way eInverseAdd() was called on 
+the Writer during setAuthor(). Here's what eInverseAdd() looks like in class 
+BookImpl:
+<pre style="color:#4444cc">
+  public voideInverseAdd(InternalEObject otherEnd, int featureID, ...)
+  {
+    if (featureID >= 0)
+    {
+      switch (eDerivedStructuralFeatureID(featureID, baseClass))
+      {
+        caseLibraryPackage.BOOK__AUTHOR:
+          if (author != null)
+            ((InternalEObject)author).eInverseRemove(this, ..., msgs);
+          basicSetAuthor((Writer)otherEnd, msgs);
+          return;
+      }
+    }
+    ...
+ 
+  }</pre>
+It first calls eInverseRemove() to remove any previous author (as we described 
+previously when we looked at the setAuthor method) and then it calls 
+basicSetAuthor to actually set the reference. Although our particular example 
+only has one two-way reference, eInverseAdd uses a switch statement that 
+includes a case for every two-way reference available on class Book<sup><a class="footnote" href="#fn10">[10]</a><a name="ref10">&nbsp;</a></sup>.
+</p>
+<p>
+<h3>Containment references</h3>
+Let's add a new class Library which will act as the container for Books.
+</p>
+<p>
+<img width="427" height="96" src="images/EMF/image004.gif" />
+</p>
+<p>
+The containment reference is indicated by the black diamond on the Library end 
+of the association. In full, the association indicates that a Library 
+aggregates, by value, 0 or more Books. By-value aggregation (containment) 
+associations are particularly important because they identify the parent or 
+owner of a target instance, which implies the physical location of the object 
+when persisted.
+</p>
+<p>
+Containment affects the generated code in several ways. First of all, because a 
+contained object is guaranteed to be in the same resource as its container, 
+proxy resolution isn't needed. Therefore, the generated get method will use a 
+non-resolving EList implementation class:
+<pre style="color:#4444cc">
+  public EList getBooks()
+  {
+    if (books == null)
+    {
+      books = newEObjectContainmentEList(Book.class, this, ...);
+    }
+    return books;
+  }</pre>
+In addition to not needing to resolve proxies, an EObjectContainmentEList also 
+implements the contains() operation very efficiently (that is, in a constant 
+time vs. O(n) in the general case). This is particularly important because 
+duplicate entries are not allowed in EMF reference lists, so contains() is 
+called during add() operations as well.
+</p>
+<p>
+Because an object can only have one container, adding an object to a containment 
+association also means removing the object from any container it's currently in, 
+regardless of the actual association. For example, adding a Book to a Library's 
+books list may involve removing it from some other Library's books list. That's 
+no different than any other two-way association where the inverse has 
+multiplicity 1. Assuming, however, we have another containment association from 
+Writer to Book called ownedBooks, then if a given book instance is in the 
+ownedBooks list of some Writer when we add it to a Library's books reference, 
+then we'd need to remove it from the Writer's ownedBooks association first.
+</p>
+<p>
+To implement this kind of thing efficiently, the base class EObjectImpl has an 
+instance variable (eContainer) of type EObject that it uses to store the 
+container generically. As a result, containment references are always 
+implicitly two-way. To access the Library from a Book, you can write something 
+like this:
+<pre style="color:#4444cc">
+  EObject container = book.eContainer();
+  if (container instanceof Library)
+    library = (Library)container;</pre>
+</p>
+<p>
+If you want to avoid the downcast, you can change the association to be 
+explicitly two-way instead:
+</p>
+<p>
+<img width="442" height="95" src="images/EMF/image005.gif" />
+</p>
+<p>
+and let EMF generate a nice typesafe get method for you:
+<pre style="color:#4444cc">
+  public Library getLibrary()
+  {
+    if (eContainerFeatureID != LibraryPackage.BOOK__LIBRARY) return null;
+    return (Library)eContainer;
+  }</pre>
+Notice that the explicit get method uses the eContainer variable from 
+EObjectImpl instead of a generated instance variable as we saw previously 
+for non-container references (like getAuthor(), above)<sup><a class="footnote" href="#fn11">[11]</a><a name="ref11">&nbsp;</a></sup>.
+</p>
+<p>
+<h3>Enumeration attributes</h3>
+</p>
+<p>
+So far, we've looked at how EMF handles simple attributes and various types of 
+references. Another commonly used type of attribute is an enumeration. 
+Enumeration-type attributes are implemented using the Java typesafe enum 
+pattern<sup><a class="footnote" href="#fn12">[12]</a><a name="ref12">&nbsp;</a></sup>.
+</p>
+<p>
+If we add an enumeration attribute, category, to class Book:
+</p>
+<p>
+<img width="400" height="102" src="images/EMF/image006.gif" />
+</p>
+<p>
+and regenerate the implementation classes, interface Book will now include a 
+getter and setter for category:
+<pre style="color:#4444cc">
+  BookCategory getCategory();
+  void setCategory(BookCategory value);</pre>
+In the generated interface the category methods use a typesafe enumeration class 
+BookCategory. This class defines static constants for the enumeration's values 
+and other convenience methods like this:
+<pre style="color:#4444cc">
+  public final class BookCategory extends AbstractEnumerator
+  {
+    public static final int MYSTERY = 0;
+    public static final int SCIENCE_FICTION = 1;
+    public static final int BIOGRAPHY = 2;
+  
+    public static final BookCategory MYSTERY_LITERAL = 
+      new BookCategory(MYSTERY, "MYSTERY");
+    public static final BookCategory SCIENCE_FICTION_LITERAL = 
+      new BookCategory(SCIENCE_FICTION, "SCIENCE_FICTION");
+    public static final BookCategory BIOGRAPHY_LITERAL = 
+      new BookCategory(BIOGRAPHY, "BIOGRAPHY");
+  
+    public static final List LITERALS = ...; 
+  
+    public static BookCategory get(String name)
+    {
+      ...
+    }
+  
+    public static BookCategory get(int value)
+    {
+      ...
+    }
+  
+    private BookCategory(int value, String name)
+    {
+      super(value, name);
+    }
+  }</pre>
+As shown, the enumeration class provides static int constants for the 
+enumerations's values as well as static constants for the enumeration's literal 
+objects (singletons) themselves. The int
+constants have the same names as the model's literal names<sup><a class="footnote" href="#fn13">[13]</a><a name="ref13">&nbsp;</a></sup>. The literal 
+constants have the same names with _LITERAL appended.
+</p>
+<p>
+The constants provide convenient access to the literals when, for example, 
+setting the category of a book:
+<pre style="color:#4444cc">
+book.setCategory(BookCategory.SCIENCE_FICTION_LITERAL);</pre>
+The BookCategory constructor is private and therefore the only instances of the 
+enumeration class that will ever exist are the ones used for the statics 
+MYSTERY_LITERAL, SCIENCE_FICTION_LITERAL, and BIOGRAPHY_LITERAL. As a result, 
+equality comparisons (that is .equals() calls) are never needed. Literals can 
+always be reliably compared using the simpler and more efficient = = operator 
+like this:
+<pre style="color:#4444cc">
+  book.getCategory() == BookCategory.MYSTERY_LITERAL</pre>
+When comparing against many values, a switch statement using the int values is 
+better yet:
+<pre style="color:#4444cc">
+  switch (book.getCategory().value()) {
+    case BookCategory.MYSTERY:
+      // do something ...
+      break;
+    case BookCategory.SCIENCE_FICTION:
+      ...
+  }</pre>
+For situations where only the literal name (String) or value (int) is provided, 
+convenient get methods that can be used to retrieve the corresponding 
+literal object are also generated in the enumeration class.
+</p>
+<p>
+<h3>Factories and Packages</h3>
+</p>
+<p>
+In addition to the model interfaces and implementation classes, EMF generates 
+two more interfaces (and implementation classes): a Factory and a Package.
+</p>
+<p>
+The Factory, as its name implies, is used for creating instances of your model 
+classes, while the Package provides some static constants (for example, the 
+feature constants used by the generated methods) and convenience methods for 
+accessing the metadata of your model<sup><a class="footnote" href="#fn14">[14]</a><a name="ref14">&nbsp;</a></sup>.
+</p>
+<p>
+Here is the factory interface for the book example:
+<pre style="color:#4444cc">
+  public interface LibraryFactory extends EFactory
+  {
+    LibraryFactory eINSTANCE = new LibraryFactoryImpl();
+  
+    Book createBook();
+    Writer createWriter();
+    Library createLibrary();
+  
+    LibraryPackage getLibraryPackage(); 
+  }</pre>
+As shown, the generated factory provides a factory method (create) for each 
+class defined in the model, an accessor for your model's package, and a static 
+constant reference (that is, eINSTANCE) to the factory singleton.
+</p>
+<p>
+The LibraryPackage interface provides convenient access to all the metadata of 
+our model:
+<pre style="color:#4444cc">
+  public interface LibraryPackage extends EPackage
+  {
+    ...
+    static final int BOOK = 0;
+    static final int BOOK__TITLE = 0;
+    static final int BOOK__PAGES = 1;
+    static final int BOOK__CATEGORY = 2;
+    static final int BOOK__AUTHOR = 3;
+    ...
+    static final int WRITER = 1;
+    static final int WRITER__NAME = 0;
+    ...
+    EClass getBook();
+    EAttribute getBook_Title();
+    EAttribute getBook_Pages();
+    EAttribute getBook_Category();
+    EReference getBook_Author();
+    ...
+  }</pre>
+As you can see, the metadata is available in two forms: int constants and the 
+Ecore meta objects themselves. The int constants provide the most efficient way 
+to pass around meta information. You may have noticed that the generated methods 
+use these constants in their implementations. Later, when we look at how EMF 
+adapters can be implemented, you'll see that the constants also provide the most 
+efficient way to determine what has changed when handling notifications.
+</p>
+<p>
+<h3>Generating classes with super classes</h3>
+</p>
+<p>
+Let's say we want to create a subclass, SchoolBook, of our model class Book like 
+this:
+</p>
+<p>
+<img width="169" height="191" src="images/EMF/image007.gif" />
+</p>
+<p>
+The EMF generator handles single inheritance as you'd expect: the generated 
+interface extends the super interface:
+<pre style="color:#4444cc">
+  public interface SchoolBook extends Book</pre>
+and the implementation class extends the super implementation class:
+<pre style="color:#4444cc">
+public class SchoolBookImpl extends BookImpl implements SchoolBook</pre>
+As in Java itself, multiple interface inheritance is supported, but each EMF 
+class can only extend one implementation base class. Therefore, when we have a 
+model with multiple inheritance, we need to identify which of the multiple bases 
+should be used as the implementation base class. The others will then be simply 
+treated as mixin interfaces, with their implementations generated into the 
+derived implementation class.
+</p>
+<p>
+Consider the following example:
+</p>
+<p>
+<img width="275" height="196" src="images/EMF/image008.gif" />
+</p>
+<p>
+Here we've made SchoolBook derive from two classes: Book and Asset. We've 
+identified Book as the implementation base (extended) class as shown<sup><a class="footnote" href="#fn15">[15]</a><a name="ref15">&nbsp;</a></sup>. If we 
+regenerate the model, interface SchoolBook will now extend the two interfaces:
+<pre style="color:#4444cc">
+public interface SchoolBook extends Book, Asset</pre>
+The implementation class looks the same as before, only now it includes 
+implementations of the mixed-in methods getValue() and setValue():
+<pre style="color:#4444cc">
+public class SchoolBookImpl extends BookImpl implements SchoolBook
+{
+  public float getValue() {
+    ...
+  }
+ 
+  public void setValue(float newValue) {
+    ...</pre>
+<h3>Customizing the generated implementation classes</h3>
+</p>
+<p>
+You can add behavior (methods and instance variables) to the generated Java 
+classes without having to worry about losing your changes if you later decide to 
+modify the model and then regenerate. For example, let's add a method, 
+isRecommended(), to class Book. To do this you simply go ahead and add the new 
+method signature to the Java interface Book:
+<pre style="color:#4444cc">
+public interface Book ...
+{
+  boolean isRecommended();
+  ...</pre>
+and its implementation in class BookImpl:
+<pre style="color:#4444cc">
+public boolean isRecommended() {
+  return getAuthor().getName().equals("William Shakespeare");
+}</pre>
+The EMF generator won't wipe out this change because it isn't a generated method 
+to begin with.  Every method generated by EMF includes a JavaDoc comment that 
+contains an @generated tag like this:
+<pre style="color:#4444cc">
+  /**
+   * ...
+   * @generated
+   */
+  public String getTitle()
+  {
+    return title;
+  }</pre>
+Any method in the file that doesn't contain this tag (like isRecommended()) will 
+be left untouched whenever we regenerate. In fact, if we want to change the 
+implementation of a generated method, we can do that by removing the @generated 
+tag from it<sup><a class="footnote" href="#fn16">[16]</a><a name="ref16">&nbsp;</a></sup>:
+<pre style="color:#4444cc">
+  /**
+   * ...
+   * <strike>@generated</strike>
+   */
+  public String getTitle()
+  {
+    // our custom implementation ...
+  }</pre>
+Now, because of the missing @generated tag, the getTitle() method is considered 
+to be user code; if we regenerate the model, the generator will detect the 
+collision and simply discard the generated version of the method.
+</p>
+<p>
+Actually, before discarding a generated method, the generator first checks if 
+there is another generated method in the file with the same name, but with Gen 
+appended. If it finds one, then instead of discarding the newly generated 
+version of the method it redirects the output to it. For example, if we want to 
+extend the generated getTitle() implementation, instead of completely discarding 
+it, then we can do that by simply renaming it like this:
+<pre style="color:#4444cc">
+  /**
+   * ...
+   * @generated
+   */
+  public String getTitleGen()
+  {
+    return title;
+  }</pre>
+and then adding our override as a user method that does whatever we want:
+<pre style="color:#4444cc">
+  public String getTitle()
+  {
+    String result = getTitleGen();
+ if (result == null)
+       result = ...
+    return result;
+  }</pre>
+If we regenerate now, the generator will detect the collision with our user 
+version of getTitle(), but because we also have the @generated getTitleGen() 
+method in the class, it will redirect the newly generated implementation to it, 
+instead of discarding it.
+</p>
+<p>
+<h3>Operations in EMF models</h3>
+</p>
+<p>
+In addition to attributes and references, you can add operations to your model 
+classes. If you do, the EMF generator will generate their signature into the 
+interface and an empty method skeleton into the implementation class. EMF does 
+not support any way of specifying the operation behaviors in the model and 
+therefore you must implement the methods by hand in the generated Java class.
+</p>
+<p>
+Other than serving as a formal definition of the model's behavior and, of 
+course, having the method skeleton generated automatically, there is no major 
+advantage to adding operations to the model as opposed to simply adding the 
+methods by hand (as user code) in the generated classes. In both cases, you'll 
+need to write the methods implementations yourself anyway.
+</p>
+<p>
+<h2>Using the generated EMF classes</h2>
+</p>
+<p>
+<h3>Creating and accessing instances</h3>
+</p>
+<p>
+Using the generated classes, a client program can create and initialize a Book 
+with the following simple Java statements:
+<pre style="color:#4444cc">
+    LibraryFactory factory = LibraryFactory.eINSTANCE;
+ 
+    Book book = factory.createBook();
+ 
+    Writer writer = factory.createWriter();
+    writer.setName("William Shakespeare");
+ 
+    book.setTitle("King Lear");
+    book.setAuthor(writer)</pre>
+Because the Book to Writer association (author) is two-way, the inverse 
+reference (books) is automatically initialized. We can verify this by iterating 
+over the books reference like this:
+<pre style="color:#4444cc">
+    System.out.println("Shakespeare books:");
+    for (Iterator iter = writer.getBooks().iterator(); iter.hasNext(); ) {
+      Book shakespeareBook = (Book)iter.next();
+      System.out.println("  title: " + shakespeareBook.getTitle());
+    }</pre>
+Running this program would produce output something like this:
+<pre style="color:#4444cc">
+ 
+  Shakespeare books:
+    title: King Lear</pre>
+<h3>Loading and saving resources</h3>
+</p>
+<p>
+To create a document named mylibrary.xmi with the above in it, all we need to do 
+is create an EMF resource at the beginning of the program, put the book and 
+writer into the resource, and call save() at the end:
+<pre style="color:#4444cc">
+    // Create a resource set
+    ResourceSet resourceSet = newResourceSetImpl();
+ 
+    // Get the URI of the model file.
+    URI fileURI = URI.createFileURI(new 
+	 File("mylibrary.xmi").getAbsolutePath());
+ 
+    // Create a resource for this file.
+    Resource resource = resourceSet.createResource(fileURI);
+ 
+    // Add the book and writer objects to the contents.
+    resource.getContents().add(book);
+    resource.getContents().add(writer);
+ 
+    // Save the contents of the resource to the file system.
+    resource.save(Collections.EMPTY_MAP);</pre>
+Notice that a resource set (interface ResourceSet) is used to create the EMF 
+resource. A resource set is used by the EMF framework to manage resources with 
+potential cross document references. Using a registry (interface 
+Resource.Factory.Registry), it creates the right type of resource for a given 
+URI based on its scheme, file extension, or other possible criteria. During 
+load, it also manages the demand-loading of cross document references.
+</p>
+<p>
+
+Running this program will produce the file mylibrary.xmi with contents something 
+like this:
+<pre style="color:#4444cc">
+&lt;xmi:XMI xmi:version="2.0" ... xmlns:library="http:///library.xmi" >
+  &lt;library:Book title="King Lear" author="/1"/>
+  &lt;library:Writer name="William Shakespeare" books="/0"/>
+&lt;/xmi:XMI></pre>
+If instead, we wanted to serialize the books and writers into different 
+documents, all we would have needed to do is open a second document:
+<pre style="color:#4444cc">
+    Resource anotherResource = resourceSet.createResource(anotherFileURI);</pre>
+and added the writer, for example, to its contents instead of the first 
+resource:
+<pre style="color:#4444cc">
+    <strike>resource.getContents().add(writer);</strike>
+    anotherResource.getContents().add(writer);</pre>
+Now, if we save, we will have two resources, each containing one object with a 
+cross document reference to the other.
+</p>
+<p>
+If you want to serialize your objects in a format other than XMI, that's easy to 
+arrange as well. Create your own resource class (as a subclass of 
+ResourceImpl) that implements your preferred serialization format, and then 
+either register it locally with your resource set, or with the global 
+factory registry if you want it to always be used with your model. You will 
+also need to write the actual serialize and parse code.
+</p>
+<p>
+<h3>Observing (adapting) EMF objects</h3>
+</p>
+<p>
+Previously, when we looked at set methods in generated EMF classes, we saw that 
+notifications are always sent when an attribute or reference is changed. The 
+Book.setPages() method included the following line:
+<pre style="color:#4444cc">
+eNotify(newENotificationImpl(this, ... , oldPages, pages));</pre>
+Every EObject can contain a list of observers (also referred to as adapters) 
+which will be notified whenever a state change occurs. The framework eNotify 
+method iterates through this list and forwards the notification to the 
+observers.
+</p>
+<p>
+An observer can be attached to any EObject (for example, Book) by adding to the 
+eAdapters list like this:
+<pre style="color:#4444cc">
+Adapter bookObserver = ...
+book.eAdapters().add(bookObserver);</pre>
+More commonly, however, adapters are added to EObjects using an adapter factory. 
+In addition to their observer status, adapters are more generally used as a 
+way to extend the behavior of the object they're attached to. A client 
+generally attaches such extended behavior by asking an
+adapter factory to adapt an object with an extension of the required type. 
+Typically it looks something like this:
+<pre style="color:#4444cc">
+  EObject someObject = ...;
+  AdapterFactory someAdapterFactory = ...;
+  Object requiredType = ...;
+  if(someAdapterFactory.isFactoryForType(requiredType))
+  {
+    Adapter theAdapter = someAdapterFactory.adapt(someObject, requiredType);
+    ...
+  }</pre>
+Usually, the requiredType represents some interface supported by the adapter. 
+For example, the argument might be the actual java.lang.Class for an interface 
+of the chosen adapter. The returned adapter could then be downcast to the 
+requested interface like this:
+<pre style="color:#4444cc">
+  MyAdapter theAdapter =
+    (MyAdapter)myAdapterFactory.adapt(someObject, mypackage.MyAdapter);</pre>
+Adapters are often used this way to extend the behavior of an object without 
+subclassing.
+</p>
+<p>
+To handle notifications in an adapter we need to override the eNotifyChanged 
+method, which is called on every registered adapter by eNotify. A typical 
+adapter implements eNotifyChanged to perform some action for some or all of the 
+notifications, based on the notification's type.
+</p>
+<p>
+Sometimes adapters are designed to adapt a specific class (for example, Book). 
+In this case, the notifyChanged method might look something like this:
+<pre style="color:#4444cc">
+  public voidnotifyChanged(Notification notification)
+  {
+    Book book = (Book)notification.getNotifier();
+    switch (notification.getFeatureID(Book.class))
+    {
+      case LibraryPackage.BOOK__TITLE:
+        // book title changed
+        doSomething();
+        break;
+      caseLibraryPackage.BOOK__CATEGORY:
+        // book category changed
+        ...
+      case ...
+    }
+  }</pre>
+The call to notification.getFeatureID is passed the argument Book.class to 
+handle the possibility that the object being adapted is not an instance of 
+class BookImpl but is instead an instance of a multiple-inheritance subclass 
+where Book is not the primary (first) interface. In that case, the feature ID 
+passed in the notification will be a number relative to the other class and 
+therefore needs to be adjusted before we can switch using the BOOK__ constants. 
+In single-inheritance situations, this argument is ignored.
+</p>
+<p>
+Another common type of adapter is not bound to any specific class, but instead 
+uses the reflective EMF API to perform its function. Instead of calling 
+getFeatureID on the notification, it might call getFeature instead, which 
+returns the actual Ecore feature (that is, an EStructuralFeature).
+</p>
+<p>
 <h3>Using the reflective API</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Every generated model class can also be
-manipulated using the reflective API defined in interface
-EObject:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class=' c12'>interface</span></b> <span
-class='c13'>EObject</span></p>
-
-<p class="DefaultText c18"><span class='c24'>{</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; Object
-eGet(EStructuralFeature feature);</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>void</span></b><span
-class=' c13'>eSet(EStructuralFeature feature, Object
-newValue);</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>boolean</span></b><span
-class=' c13'>eIsSet(EStructuralFeature feature);</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>void</span></b><span
-class=' c13'>eUnset(EStructuralFeature feature);</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp; ...</span></p>
-
-<p class="DefaultText c18"><span class='c27'>}</span></p>
-
-<p class="DefaultText c18"><span class='c31'>&nbsp;</span></p>
-
-<p class="DefaultText">Using the reflective API, we could set the
-name of an author like this:</p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp;
-writer.eSet(LibraryPackage.eINSTANCE.getWriter_Name(),</span> <span
-class='c14'>"William Shakespeare"</span><span
-class=' c21'>);</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;</span></p>
-
-<p class="DefaultText">or get the name like this:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;&nbsp;&nbsp; String
-name =
-(String)writer.eGet(LibraryPackage.eINSTANCE.getWriter_Name());</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;</span></p>
-
-<p class="DefaultText">The reflective API is slightly less
-efficient then calling the generated getName and setName methods<a
-href="#_ftn17" name="_ftnref17" title="" id=" _ftnref17"><sup><span
-class=' c61'>[17]</span></sup></a>, but opens up the model for
-completely generic access. For example, the reflective methods are
-used by the EMF.Edit framework to implement a full set of generic
-commands (for example, AddCommand, RemoveCommand, SetCommand) that
-can be used with any model. See "The EMF.Edit Framework Overview"
-for more details.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">In addition to the get and set methods, the
-reflective API includes two more methods: eIsSet and eUnset. The
-eIsSet method can be used to find out if an attribute is set or
-not<a href="#_ftn18" name="_ftnref18" title=""
-id="_ftnref18"><sup><span class=' c61'>[18]</span></sup></a>, while
-eUnset can be used to unset (that is, reset) it. The generic XMI
-serializer, for example, uses eIsSet to determine which attributes
-need to be serialized during a resource save operation.</p>
-
-<b><span class=' c62'><br clear="all" class='c6' />
-<br />
-</span></b> 
+</p>
+<p>
+Every generated model class can also be manipulated using the reflective API 
+defined in interface EObject:
+<pre style="color:#4444cc">
+public interface EObject
+{
+  Object eGet(EStructuralFeature feature);
+  voideSet(EStructuralFeature feature, Object newValue);
+ 
+  booleaneIsSet(EStructuralFeature feature);
+  voideUnset(EStructuralFeature feature);
+ 
+  ...
+}</pre>
+Using the reflective API, we could set the name of an author like this:
+<pre style="color:#4444cc">
+ 
+    writer.eSet(LibraryPackage.eINSTANCE.getWriter_Name(), "William 
+	 Shakespeare");</pre>
+or get the name like this:
+<pre style="color:#4444cc">
+    String name = 
+	 (String)writer.eGet(LibraryPackage.eINSTANCE.getWriter_Name());</pre>
+The reflective API is slightly less efficient then calling the generated getName 
+and setName methods<sup><a class="footnote" href="#fn17">[17]</a><a name="ref17">&nbsp;</a></sup>, but opens up the model for completely generic access. 
+For example, the reflective methods are used by the EMF.Edit framework to 
+implement a full set of generic commands (for example, AddCommand, 
+RemoveCommand, SetCommand) that can be used with any model. See "The EMF.Edit 
+Framework Overview" for more details.
+</p>
+<p>
+In addition to the get and set methods, the reflective API includes two more 
+methods: eIsSet and eUnset. The eIsSet method can be used to find out if an 
+attribute is set or not<sup><a class="footnote" href="#fn18">[18]</a><a name="ref18">&nbsp;</a></sup>, while eUnset can be used to unset (that is, reset) 
+it. The generic XMI serializer, for example, uses eIsSet to determine which 
+attributes need to be serialized during a resource save operation.
+</p>
+<p>
 
 <h2>Advanced Topics</h2>
-
-<p class="DefaultText">&nbsp;</p>
-
+</p>
+<p>
 <h3>Generation control flags</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">There are several flags that can be set on a
-model feature to control the generated code pattern for that
-feature. Typically, the default settings of these flags will be
-fine, so you shouldn't need to change them very often.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="Bullet1 c64"><b><span class='c4'>Ÿ<span
-class=' c63'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></b>
-<span dir="ltr"><b>Unsettable</b> (default is
-<b>false</b>)</span></p>
-
-<p class="DefaultText c18">&nbsp;</p>
-
-<p class="DefaultText c18">Unsettable only applies to attributes.
-An attribute that is declared to be unsettable has a notion of an
-explicit unset or <i>no value</i> state. For example, a boolean
-attribute that is not unsettable can take on one of two values:
-true or false. If, instead, the attribute is declared to be
-unsettable then it can have any of three values: true, false, or
-unset.</p>
-
-<p class="DefaultText c18">&nbsp;</p>
-
-<p class="DefaultText c18">The get method on an attribute that is
-not set will return the default value for the attribute, but for an
-unsettable attribute there is a distinction between this and when
-the attribute has been explicitly set to the default value. Since
-the unset state is outside of the set of allowed values for the
-attribute, we need to generate additional methods to set an
-attribute to the unset state and to determine if it is in that
-state. For example, if the pages attribute in class Book is
-declared to be unsettable, then we'll get two more generated
-methods:</p>
-
-<p class="DefaultText c18">&nbsp;</p>
-
-<p class="DefaultText c65"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>boolean</span></b> <span
-class=' c13'>isSetPages();</span></p>
-
-<p class="DefaultText c65"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>void</span></b> <span
-class=' c13'>unsetPages();</span></p>
-
-<p class="DefaultText c65"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c27'>in addition to the
-original two:</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c65"><b><span class='c19'>&nbsp;
-int</span></b> <span class='c13'>getPages();</span></p>
-
-<p class="DefaultText c65"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>void</span></b> <span
-class=' c13'>setPages(</span><b><span class='c12'>int</span></b>
-<span class='c13'>value);</span></p>
-
-<p class="DefaultText c65"><span class='c24'>&nbsp;</span></p>
-
-<p class="DefaultText c18">The isSet method returns true if the
-feature has been explicitly set. The unset method can be used to
-change an attribute that has been set back to its unset state.</p>
-
-<p class="DefaultText c18">&nbsp;</p>
-
-<p class="DefaultText c18">When unsettable is false, we don't get
-the generated isSet or unset methods, but we will still get
-implementations of the reflective versions: eIsSet and eUnset
-(which every EObject must implement). For non-unsettable attributes
-eIsSet will return true if the current value is different from the
-default value and eUnset will set the feature to the default value
-(more like a reset).</p>
-
-<p class="DefaultText c18">&nbsp;</p>
-
-<p class="Bullet1 c64"><b><span class='c4'>Ÿ<span
-class=' c63'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></b>
-<span dir="ltr"><b>ResolveProxies</b> (default is
-<b>true</b>)</span></p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18">ResolveProxies only applies to
-non-containment type references. ResolveProxies implies that the
-reference may span documents, and therefore needs to include proxy
-checking and resolution in the get method as described earlier in
-this paper.</p>
-
-<p class="DefaultText c18">&nbsp;</p>
-
-<span class=' c3'><br clear="all" class='c6' />
-<br />
-</span> 
-
-<p class="DefaultText c18">You can optimize the generated get
-pattern for references that you know will never be used in a cross
-document scenario by setting resolveProxies to false. In that case,
-the generated get method will be optimally efficient<a
-href="#_ftn19" name="_ftnref19" title="" id=" _ftnref19"><sup><span
-class=' c3'>[19]</span></sup></a>.</p>
-
-<p class="DefaultText c18">&nbsp;</p>
-
-<p class="Bullet1 c64"><b><span class='c4'>Ÿ<span
-class=' c63'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></b>
-<span dir="ltr"><b>Changeable</b> (default is
-<b>true</b>)</span></p>
-
-<p class="Bullet1">&nbsp;</p>
-
-<p class="Bullet1">A feature that is not changeable will not
-include a generated set method and the reflective eSet method will
-throw an exception if you try to set it. Declaring one end of a
-bi-directional relationship to be not changeable is a good way to
-force clients to always set the reference from one end, but still
-provide convenient navigation methods from either end. Declaring
-one-way references or attributes to be not changeable usually
-implies that the feature will be set or changed by some other
-(user-written) code.</p>
-
-<p class="Bullet1">&nbsp;</p>
-
-<p class="Bullet1 c64"><b><span class='c4'>Ÿ<span
-class=' c63'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></b>
-<span dir="ltr"><b>Transient</b> (default is
-<b>false</b>)</span></p>
-
-<p class="DefaultText c18">&nbsp;</p>
-
-<p class="DefaultText c18">Transient features are used to declare
-(modeled) data whose lifetime never spans application invocations
-and therefore doesn't need to be persisted. The (default XMI)
-serializer will not save features that are declared to be
-transient. The generated code is unaffected by the value of the
-transient flag.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="Bullet1 c64"><b><span class='c4'>Ÿ<span
-class=' c63'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></b>
-<span dir="ltr"><b>Volatile</b> (default is
-<b>false</b>)</span></p>
-
-<p class="DefaultText c18">&nbsp;</p>
-
-<p class="DefaultText c18">A feature that is declared volatile is
-generated with empty implementation method bodies, which you are
-required to fill in. Volatile is most commonly used for a feature
-whose value is derived from some other features. Features that are
-volatile are usually also transient and not changeable.</p>
-
-<p class="DefaultText c18">&nbsp;</p>
-
+</p>
+<p>
+There are several flags that can be set on a model feature to control the 
+generated code pattern for that feature. Typically, the default settings of 
+these flags will be fine, so you shouldn't need to change them very often.
+</p>
+<p>
+<ul><li>Unsettable (default is false)
+</p>
+<p>
+Unsettable only applies to attributes. An attribute that is declared to be 
+unsettable has a notion of an explicit unset or no value state. For example, a 
+boolean attribute that is not unsettable can take on one of two values: true or 
+false. If, instead, the attribute is declared to be unsettable then it can have 
+any of three values: true, false, or unset.
+</p>
+<p>
+The get method on an attribute that is not set will return the default value for 
+the attribute, but for an unsettable attribute there is a distinction between 
+this and when the attribute has been explicitly set to the default value. Since 
+the unset state is outside of the set of allowed values for the attribute, we 
+need to generate additional methods to set an attribute to the unset state and 
+to determine if it is in that state. For example, if the pages attribute in 
+class Book is declared to be unsettable, then we'll get two more generated 
+methods:
+<pre style="color:#4444cc">
+  boolean isSetPages();
+  void unsetPages();</pre>
+in addition to the original two:
+<pre style="color:#4444cc">
+  int getPages();
+  void setPages(int value);</pre>
+The isSet method returns true if the feature has been explicitly set. The unset 
+method can be used to change an attribute that has been set back to its unset 
+state.
+</p>
+<p>
+When unsettable is false, we don't get the generated isSet or unset methods, but 
+we will still get implementations of the reflective versions: eIsSet and eUnset 
+(which every EObject must implement). For non-unsettable attributes eIsSet will 
+return true if the current value is different from the default value and eUnset 
+will set the feature to the default value (more like a reset).
+</p>
+<p>
+</li>
+<li>ResolveProxies (default is true)
+</p>
+<p>
+ResolveProxies only applies to non-containment type references. ResolveProxies 
+implies that the reference may span documents, and therefore needs to 
+include proxy checking and resolution in the get method as described earlier 
+in this paper.
+</p>
+<p>
+You can optimize the generated get pattern for references that you know will 
+never be used in a cross document scenario by setting resolveProxies to false. 
+In that case, the generated get method will be optimally efficient<sup><a class="footnote" href="#fn19">[19]</a><a name="ref19">&nbsp;</a></sup>.
+</p>
+<p>
+</li>
+<li>Changeable (default is true)
+</p>
+<p>
+A feature that is not changeable will not include a generated set method and the 
+reflective eSet method will throw an exception if you try to set it. 
+Declaring one end of a bi-directional relationship to be not changeable 
+is a good way to force clients to always set the reference from one end, 
+but still provide convenient navigation methods from either end. 
+Declaring one-way references or attributes to be not changeable usually 
+implies that the feature will be set or changed by some other 
+(user-written) code.
+</p>
+<p>
+</li>
+<li>Transient (default is false)
+</p>
+<p>
+Transient features are used to declare (modeled) data whose lifetime never spans 
+application invocations and therefore doesn't need to be persisted. The (default 
+XMI) serializer will not save features that are declared to be transient. The 
+generated code is unaffected by the value of the transient flag.
+</p>
+<p>
+</li>
+<li>Volatile (default is false)
+</p>
+<p>
+A feature that is declared volatile is generated with empty implementation 
+method bodies, which you are required to fill in. Volatile is most commonly used 
+for a feature whose value is derived from some other features. Features that are 
+volatile are usually also transient and not changeable.
+</p>
+<p>
+</li></ul>
 <h3>Data types</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">As mentioned previously, all the classes
-defined in a model (for example, Book, Writer) implicitly derive
-from the EMF base class EObject. However, all the classes that a
-model uses are not necessarily EObjects. For example, assume we
-want to add an attribute of type java.util.Date to our model.
-Before we can do so, we need to define an EMF DataType to represent
-the external type. In UML, we use a class with the datatype
-stereotype, for this purpose:</p>
-
-<p class="DefaultText"><img width="203" height="88"
-src="images/EMF/image009.gif" />&nbsp;</p>
-
-<p class="DefaultText">As shown, a data type is simply a named
-element in the model that acts as a proxy for some Java class. The
-actual Java class is provided as an attribute with the javaclass
-stereotype whose name<br clear="all" class='c6' />
-<br />
- is the fully qualified class being represented. With this data
-type defined, we can now declare attributes of type java.util.Date
-like this:</p>
-
-<p class="DefaultText"><img width="198" height="123"
-src="images/EMF/image010.gif" />&nbsp;</p>
-
-<p class="DefaultText">If we regenerate class Book, the
-publicationDate attribute will now appear in the generated
-class:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText c18"><b><span class=' c19'>import</span></b>
-<span class=' c13'>java.util.Date;</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><b><span class=' c19'>public</span></b>
-<b><span class=' c12'>interface</span></b> <span
-class='c13'>Book</span> <b><span class='c12'>extends</span></b>
-<span class=' c13'>EObject</span></p>
-
-<p class="DefaultText c18"><span class='c24'>{</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp; ...</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp; Date
-getPublicationDate();</span></p>
-
-<p class="DefaultText c18"><span class='c24'>&nbsp;</span> <b><span
-class='c19'>void</span></b><span
-class=' c13'>setPublicationDate(Date value);</span></p>
-
-<p class="DefaultText c18"><span class='c27'>}</span></p>
-
-<p class="DefaultText c18"><span class='c27'>&nbsp;</span></p>
-
-<p class="DefaultText">As you can see, the Date attribute is
-handled pretty much like any other attribute. In fact, all
-attributes, including ones of type String, int, and so on, are
-instances of a data type. The only thing special about the standard
-Java types is that their corresponding data types are predefined in
-the Ecore model, so they don't need to be redefined in every model
-that uses them.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">A data type definition has one other effect
-on the generated model. Since data types represent some arbitrary
-class, a generic serializer and parser (for example the default XMI
-serializer) has no way of knowing how to save the state of an
-attribute of that type. Should it call toString? That's a good
-default, but the EMF framework doesn't want to require that, so it
-generates two more methods in the factory implementation class for
-every data type defined in the model:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><b><span class='c33'>&nbsp;</span></b> <span
-class='c60'>/**</span></p>
-
-<p class="DefaultText"><span class='c46'>&nbsp;&nbsp;</span> <span
-class='c49'>*</span> <span class=' c58'>@generated</span></p>
-
-<p class="DefaultText"><span class='c46'>&nbsp;&nbsp;</span> <span
-class='c49'>*/</span></p>
-
-<p class="DefaultText"><b><span class='c33'>&nbsp;
-public</span></b> <span class='c24'>Date
-createJavaDateFromString(EDataType eDataType, String
-initialValue)</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>return</span></b> <span
-class=' c24'>(Date)</span><b><span
-class=' c32'>super</span></b><span
-class=' c13'>.createFromString(eDataType, initialValue);</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; }</span></p>
-
-<p class="DefaultText"><span class='c29'>&nbsp;</span></p>
-
-<p class="DefaultText"><span class='c49'>&nbsp; /**</span></p>
-
-<p class="DefaultText"><span class='c46'>&nbsp;&nbsp;</span> <span
-class='c49'>*</span> <span class=' c58'>@generated</span></p>
-
-<p class="DefaultText"><span class='c46'>&nbsp;&nbsp;</span> <span
-class='c49'>*/</span></p>
-
-<p class="DefaultText"><span
-class=' c21'>&nbsp;&nbsp;</span><b><span
-class='c33'>public</span></b> <span class='c24'>String
-convertJavaDateToString(EDataType eDataType, Object
-instanceValue)</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>return</span></b> <b><span
-class=' c19'>super</span></b><span
-class=' c13'>.convertToString(eDataType, instanceValue);</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; }</span></p>
-
-<p class="DefaultText"><span class='c26'>&nbsp;</span></p>
-
-<p class="DefaultText">The default implementation of these methods
-simply delegates to super which provides a default, but
-inefficient, implementation: convertToString() simply calls
-toString() on the instance but createFromString() tries, using Java
-reflection, to call a String constructor or, failing that, a static
-valueOf() method, if one exists. Typically you should take over
-these methods (by removing the @generated tag) and change them to
-an appropriate custom implementation:</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<span class='c3'><br clear=" all" class='c6' />
-<br />
-</span> 
-
-<p class="DefaultText"><span class='c49'>&nbsp; /**</span></p>
-
-<p class="DefaultText"><span class='c49'>&nbsp;&nbsp; *
-<s>@generated</s></span></p>
-
-<p class="DefaultText"><span class='c49'>&nbsp;&nbsp; */</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp;</span> <b><span
-class='c33'>public</span></b> <span class='c24'>String
-convertJavaDateToString(EDataType eDataType, Object
-instanceValue)</span></p>
-
-<p class="DefaultText"><span class='c21'>&nbsp; {</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;&nbsp;&nbsp;</span>
-<b><span class=' c33'>return</span></b> <span
-class=' c24'>instanceValue.toString();</span></p>
-
-<p class="DefaultText"><span class=' c21'>&nbsp;</span><span
-class='c46'>&nbsp;)</span></p>
-
-<p class="DefaultText"><span class='c46'>&nbsp;</span></p>
-
-<h3>Ecore Model</h3>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">Here is the complete interface hierarchy of
-the Ecore model (shaded boxes are abstract classes):</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText"><img width="610" height="456"
-src="images/EMF/image011.gif" />&nbsp;</p>
-
-<p class="DefaultText">As you can see, it introduces a small number
-of classes representing the EMF artifacts described in this paper:
-classes (and their attributes, references and operations) data
-types, enumerations, packages and factories.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="DefaultText">The Ecore model is itself generated using
-the EMF generator and as such has the same lightweight and
-efficient implementation as described in the previous sections of
-this paper.</p>
-
-<p class="DefaultText">&nbsp;</p>
-
-<p class="Note">Refer to the Ecore Users Guide for a more detailed
-look at the Ecore model.</p>
-</div>
-
-<div><br clear="all" />
+</p>
+<p>
+As mentioned previously, all the classes defined in a model (for example, Book, 
+Writer) implicitly derive from the EMF base class EObject. However, all the 
+classes that a model uses are not necessarily EObjects. For example, assume we 
+want to add an attribute of type java.util.Date to our model. Before we can do 
+so, we need to define an EMF DataType to represent the external type. In UML, we 
+use a class with the datatype stereotype, for this purpose:
+</p>
+<p>
+<img width="203" height="88" src="images/EMF/image009.gif" />
+</p>
+<p>
+As shown, a data type is simply a named element in the model that acts as a 
+proxy for some Java class. The actual Java class is provided as an attribute 
+with the javaclass stereotype whose name
+</p>
+<p>
+is the fully qualified class being represented. With this data type defined, we 
+can now declare attributes of type java.util.Date like this:
+</p>
+<p>
+<img width="198" height="123" src="images/EMF/image010.gif" />
+</p>
+<p>
+If we regenerate class Book, the publicationDate attribute will now appear in 
+the generated class:
+<pre style="color:#4444cc">
+import java.util.Date;
  
-
-<hr class="c66" size="1" width="33%" />
-<div id="ftn1">
-<p class="Footnote"><a href="#_ftnref1" name="_ftn1" title=""
-id="_ftn1"><sup><span class=' c3'>[1]</span></sup></a><span
-class='c45'>Actually, the EMF meta model is itself an EMF model,
-the default serialized form of which is XMI.</span></p>
-</div>
-
-<div id="ftn2">
-<p class="Footnote"><a href="#_ftnref2" name="_ftn2" title=""
-id="_ftn2"><sup><span class=' c3'>[2]</span></sup></a><span
-class='c45'>Currently, EMF supports import from Rational Rose, but
-the generator architecture can easily accommodate other modeling
-tools as well.</span></p>
-</div>
-
-<div id="ftn3">
-<p class="Footnote"><a href="#_ftnref3" name="_ftn3" title=""
-id="_ftn3"><sup><span class=' c3'>[3]</span></sup></a><span
-class='c45'>EMF uses a subset of the JavaBean simple property
-accessor naming patterns.</span></p>
-</div>
-
-<div id="ftn4">
-<p class="Footnote"><a href="#_ftnref4" name="_ftn4" title=""
-id="_ftn4"><sup><span class=' c3'>[4]</span></sup></a><span
-class='c45'>There are several user-specifiable options that can be
-used to change the generated patterns. We'll describe some of them
-later (see "Advanced Concepts", later in this document).</span></p>
-</div>
-
-<div id="ftn5">
-<p class="Footnote"><a href="#_ftnref5" name="_ftn5" title=""
-id="_ftn5"><sup><span class=' c3'>[5]</span></sup></a><span
-class='c45'>References that are of&nbsp; type "containment" cannot
-span documents. There is also a flag that users can set in a
-reference's meta data to indicate that <i>resolve</i> does not need
-to be called because the reference will never be used in a cross
-document scenario. In these cases, the generated "get" method
-simply returns the pointer.</span></p>
-</div>
-
-<div id="ftn6">
-<p class="Footnote"><a href="#_ftnref6" name="_ftn6" title=""
-id="_ftn6"><sup><span class=' c3'>[6]</span></sup></a><span
-class='c45'>Applications that need to deal with and handle broken
-links should call eIsProxy() on the object returned by a get method
-to see if it is resolved or not (for example,
-book.getAuthor().eIsProxy()).</span></p>
-</div>
-
-<div id="ftn7">
-<p class="Footnote"><a href="#_ftnref7" name="_ftn7" title=""
-id="_ftn7"><sup><span class=' c3'>[7]</span></sup></a><span
-class='c45'>This clearly fails to allow for multiple authors, but
-it keeps the example model simple.</span></p>
-</div>
-
-<div id="ftn8">
-<p class="Footnote"><a href="#_ftnref8" name="_ftn8" title=""
-id="_ftn8"><sup><span class=' c3'>[8]</span></sup></a><span
-class='c45'>The reason we bother to delegate to a basicSet() method
-at all is because it's also needed by the eInverseAdd() and
-eInverseRemove() methods, which we'll look at a little
-later.</span></p>
-</div>
-
-<div id="ftn9">
-<p class="Footnote"><a href="#_ftnref9" name="_ftn9" title=""
-id="_ftn9"><sup><span class=' c3'>[9]</span></sup></a><span
-class='c45'>Actually all the concrete EList implementation classes
-are simple subclasses of one very functional and efficient base
-implementation class, EcoreEList.</span></p>
-</div>
-
-<div id="ftn10">
-<p class="Footnote"><a href="#_ftnref10" name="_ftn10" title=" "
-id="_ftn10"><sup><span class='c3'>[10]</span></sup></a><span
-class='c45'>In eInverseAdd(), instead of simply switching on the
-supplied feature id, it first calls
-eDerivedStructuralFeatureID(featureID, baseClass). For simple
-single inheritance models, this method has a default implementation
-that ignores the second argument and returns the featureID passed
-in. For models that use multiple inheritance,
-eDerivedStructuralFeatureID() may have a generated override that
-adjusts a feature ID relative to a mixin class (that is, baseClass)
-to a feature ID relative to the concrete derived class of the
-instance.</span></p>
-</div>
-
-<div id="ftn11">
-<p class="Footnote"><a href="#_ftnref11" name="_ftn11" title=" "
-id="_ftn11"><sup><span class=' c3'>[11]</span></sup></a><span
-class='c45'>EObjectImpl also has an (int)
-<i>eContainerFeatureID</i> instance variable to keep track of which
-reference is currently used for the <i>eContainer</i>.</span></p>
-</div>
-
-<div id="ftn12">
-<p class="Footnote"><a href="#_ftnref12" name="_ftn12" title=" "
-id="_ftn12"><sup><span class=' c3'>[12]</span></sup></a><span
-class='c45'>See
-http://developer.java.sun.com/developer/JDCTechTips/2001/tt0807.html#tip2.</span></p>
-</div>
-
-<div id="ftn13">
-<p class="Footnote"><a href="#_ftnref13" name="_ftn13" title=" "
-id="_ftn13"><sup><span class=' c3'>[13]</span></sup></a><span
-class='c26'>To conform to proper Java programming style, the static
-constant names are converted to upper case if the modeled
-enumeration's literal names are not already upper case.</span></p>
-</div>
-
-<div id="ftn14">
-<p class="Footnote"><a href="#_ftnref14" name="_ftn14" title=" "
-id="_ftn14"><sup><span class=' c3'>[14]</span></sup></a> <span
-class='c45'>While your program isn't strictly required to use the
-Factory or Package interfaces, EMF does encourage clients to use
-the factory to create instances by generating&nbsp; protected
-constructors on the model classes, thereby preventing you from
-simply calling new to create your instances. You can, however,
-change the access to public in the generated classes manually, if
-that's what you really want. Your preferences will not be
-overwritten if you later decide to regenerate the
-classes.</span></p>
-</div>
-
-<div id="ftn15">
-<p class="Footnote"><a href="#_ftnref15" name="_ftn15" title=" "
-id="_ftn15"><sup><span class=' c3'>[15]</span></sup></a><span
-class='c45'>Actually, the first base class in the XMI model is the
-one used as the implementation base class. In the UML diagram, the
-&lt;&lt;extend&gt;&gt; stereotype is needed to indicate that Book
-should be first in the XMI representation.</span></p>
-</div>
-
-<div id="ftn16">
-<p class="Footnote"><a href="#_ftnref16" name="_ftn16" title=" "
-id="_ftn16"><sup><span class=' c3'>[16]</span></sup></a><span
-class='c45'>If you know ahead of time that you're going to want to
-provide your own custom implementation for some feature, then a
-better way of doing this is to model the attribute as
-<i>volatile</i>, which instructs the generator to only generate a
-skeleton method body in the first place, which you are then
-expected to implement.</span></p>
-</div>
-
-<div id="ftn17">
-<p class="Footnote"><a href="#_ftnref17" name="_ftn17" title=" "
-id="_ftn17"><sup><span class=' c3'>[17]</span></sup></a><span
-class=' c45'>Implementations of the reflective methods are also
-generated for each model class. Their implementation switches on
-the feature type, and simply calls the appropriate generated
-typesafe method.</span></p>
-</div>
-
-<div id="ftn18">
-<p class="Footnote"><a href="#_ftnref18" name="_ftn18" title=" "
-id="_ftn18"><sup><span class=' c3'>[18]</span></sup></a><span
-class='c45'>See "Advanced Topics ", the "Unsettable" generation
-control flag for what constitutes a set attribute.</span></p>
-</div>
-
-<div id="ftn19">
-<p class="Footnote"><a href="#_ftnref19" name="_ftn19" title=" "
-id="_ftn19"><sup><span class=' c3'>[19]</span></sup></a><span
-class='c45'>Think carefully before declaring a feature to not
-resolve proxies. Just because you don't need to use the reference
-in a cross document situation doesn't mean that someone else who
-wants to use your model may not. Declaring a feature to not resolve
-proxies is kind of like declaring a Java class to be
-final.</span></p>
-</div>
-</div>
+public interface Book extends EObject
+{
+  ...
+ 
+  Date getPublicationDate();
+  voidsetPublicationDate(Date value);
+}</pre>
+As you can see, the Date attribute is handled pretty much like any other 
+attribute. In fact, all attributes, including ones of type String, int, and 
+so on, are instances of a data type. The only thing special about the 
+standard Java types is that their corresponding data types are predefined in 
+the Ecore model, so they don't need to be redefined in every model that uses 
+them.
+</p>
+<p>
+A data type definition has one other effect on the generated model. Since data 
+types represent some arbitrary class, a generic serializer and parser (for 
+example the default XMI serializer) has no way of knowing how to save the state 
+of an attribute of that type. Should it call toString? That's a good default, 
+but the EMF framework doesn't want to require that, so it generates two more 
+methods in the factory implementation class for every data type defined in the 
+model:
+<pre style="color:#4444cc">
+  /**
+   * @generated
+   */
+  public Date createJavaDateFromString(EDataType eDataType, String initialValue)
+  {
+    return (Date)super.createFromString(eDataType, initialValue);
+  }
+ 
+  /**
+   * <strike>@generated</strike>
+   */
+  public String convertJavaDateToString(EDataType eDataType, Object 
+  instanceValue)
+  {
+    return super.convertToString(eDataType, instanceValue);
+  }</pre>
+The default implementation of these methods simply delegates to super which 
+provides a default, but inefficient, implementation: convertToString() simply 
+calls toString() on the instance but createFromString() tries, using Java 
+reflection, to call a String constructor or, failing that, a static valueOf() 
+method, if one exists. Typically you should take over these methods (by removing 
+the @generated tag) and change them to an appropriate custom implementation:
+<pre style="color:#4444cc">
+  /**
+   * @generated
+   */
+  public String convertJavaDateToString(EDataType eDataType, Object 
+  instanceValue)
+  {
+    return instanceValue.toString();
+  )</pre>
+<br />
+<h3>Ecore Model</h3>
+</p>
+<p>
+Here is the complete interface hierarchy of the Ecore model (shaded boxes are 
+abstract classes):
+</p>
+<p>
+<img width="610" height="456" src="images/EMF/image011.gif" />
+</p>
+<p>
+As you can see, it introduces a small number of classes representing the EMF 
+artifacts described in this paper: classes (and their attributes, references and 
+operations) data types, enumerations, packages and factories.
+</p>
+<p>
+The Ecore model is itself generated using the EMF generator and as such has the 
+same lightweight and efficient implementation as described in the previous 
+sections of this paper.
+</p>
+<p>
+Refer to the Ecore Users Guide for a more detailed look at the Ecore model.
+</p>
+<p>
+<hr noshade size="1" width="95%" />
+<br />
+<sup><a class="footnote" href="#ref1">[1]</a><a name="fn1">&nbsp;</a></sup>Actually, the 
+EMF meta model is itself an EMF model, the default serialized 
+form of which is XMI.
+</p>
+<p>
+<sup><a class="footnote" href="#ref2">[2]</a><a name="fn2">&nbsp;</a></sup>Currently, EMF 
+supports import from Rational Rose, but the generator 
+architecture can easily accommodate other modeling tools as well.
+</p>
+<p>
+<sup><a class="footnote" href="#ref3">[3]</a><a name="fn3">&nbsp;</a></sup>EMF uses a 
+subset of the JavaBean simple property accessor naming patterns.
+</p>
+<p>
+<sup><a class="footnote" href="#ref4">[4]</a><a name="fn4">&nbsp;</a></sup>There are 
+several user-specifiable options that can be used to change the 
+generated patterns. We'll describe some of them later (see "Advanced Concepts", 
+later in this document).
+</p>
+<p>
+<sup><a class="footnote" href="#ref5">[5]</a><a name="fn5">&nbsp;</a></sup>References that 
+are of  type "containment" cannot span documents. There is 
+also a flag that users can set in a reference's meta data to indicate that 
+resolve does not need to be called because the reference will never be used in a 
+cross document scenario. In these cases, the generated "get" method simply 
+returns the pointer.
+</p>
+<p>
+<sup><a class="footnote" href="#ref6">[6]</a><a name="fn6">&nbsp;</a></sup>Applications 
+that need to deal with and handle broken links should call 
+eIsProxy() on the object returned by a get method to see if it is resolved or 
+not (for example, book.getAuthor().eIsProxy()).
+</p>
+<p>
+<sup><a class="footnote" href="#ref7">[7]</a><a name="fn7">&nbsp;</a></sup>This clearly 
+fails to allow for multiple authors, but it keeps the example 
+model simple.
+</p>
+<p>
+<sup><a class="footnote" href="#ref8">[8]</a><a name="fn8">&nbsp;</a></sup>The reason we 
+bother to delegate to a basicSet() method at all is because 
+it's also needed by the eInverseAdd() and eInverseRemove() methods, which we'll 
+look at a little later.
+</p>
+<p>
+<sup><a class="footnote" href="#ref9">[9]</a><a name="fn9">&nbsp;</a></sup>Actually all the 
+concrete EList implementation classes are simple subclasses 
+of one very functional and efficient base implementation class, EcoreEList.
+</p>
+<p>
+<sup><a class="footnote" href="#ref10">[10]</a><a name="fn10">&nbsp;</a></sup>In 
+eInverseAdd(), instead of simply switching on the supplied feature id, it 
+first calls eDerivedStructuralFeatureID(featureID, baseClass). For simple single 
+inheritance models, this method has a default implementation that ignores the 
+second argument and returns the featureID passed in. For models that use 
+multiple inheritance, eDerivedStructuralFeatureID() may have a generated 
+override that adjusts a feature ID relative to a mixin class (that is, 
+baseClass) to a feature ID relative to the concrete derived class of the 
+instance.
+</p>
+<p>
+<sup><a class="footnote" href="#ref11">[11]</a><a name="fn11">&nbsp;</a></sup>EObjectImpl 
+also has an (int) eContainerFeatureID instance variable to keep 
+track of which reference is currently used for the eContainer.
+</p>
+<p>
+<sup><a class="footnote" href="#ref12">[12]</a><a name="fn12">&nbsp;</a></sup>See 
+<a href="http://developer.java.sun.com/developer/JDCTechTips/2001/tt0807.html#tip2">http://developer.java.sun.com/developer/JDCTechTips/2001/tt0807.html#tip2</a>.
+</p>
+<p>
+<sup><a class="footnote" href="#ref13">[13]</a><a name="fn13">&nbsp;</a></sup>To conform to 
+proper Java programming style, the static constant names are 
+converted to upper case if the modeled enumeration's literal names are not 
+already upper case.
+</p>
+<p>
+<sup><a class="footnote" href="#ref14">[14]</a><a name="fn14">&nbsp;</a></sup> While your 
+program isn't strictly required to use the Factory or Package 
+interfaces, EMF does encourage clients to use the factory to create instances by 
+generating  protected constructors on the model classes, thereby preventing you 
+from simply calling new to create your instances. You can, however, change the 
+access to public in the generated classes manually, if that's what you really 
+want. Your preferences will not be overwritten if you later decide to regenerate 
+the classes.
+</p>
+<p>
+<sup><a class="footnote" href="#ref15">[15]</a><a name="fn15">&nbsp;</a></sup>Actually, the 
+first base class in the XMI model is the one used as the 
+implementation base class. In the UML diagram, the &lt;&lt;extend>> stereotype is 
+needed to indicate that Book should be first in the XMI representation.
+</p>
+<p>
+<sup><a class="footnote" href="#ref16">[16]</a><a name="fn16">&nbsp;</a></sup>If you know 
+ahead of time that you're going to want to provide your own 
+custom implementation for some feature, then a better way of doing this is to 
+model the attribute as volatile, which instructs the generator to only generate 
+a skeleton method body in the first place, which you are then expected to 
+implement.
+</p>
+<p>
+<sup><a class="footnote" href="#ref17">[17]</a><a 
+name="fn17">&nbsp;</a></sup>Implementations of the reflective methods are also 
+generated for each model 
+class. Their implementation switches on the feature type, and simply calls the 
+appropriate generated typesafe method.
+</p>
+<p>
+<sup><a class="footnote" href="#ref18">[18]</a><a name="fn18">&nbsp;</a></sup>See "Advanced 
+Topics ", the "Unsettable" generation control flag for what 
+constitutes a set attribute.
+</p>
+<p>
+<sup><a class="footnote" href="#ref19">[19]</a><a name="fn19">&nbsp;</a></sup>Think 
+carefully before declaring a feature to not resolve proxies. Just 
+because you don't need to use the reference in a cross document situation 
+doesn't mean that someone else who wants to use your model may not. Declaring a 
+feature to not resolve proxies is kind of like declaring a Java class to be 
+final.
+</p>
+</span>
 </body>
 </html>
-
