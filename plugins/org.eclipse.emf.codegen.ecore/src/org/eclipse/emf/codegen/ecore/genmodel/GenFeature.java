@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.3 2004/05/05 19:32:29 emerks Exp $
+ * $Id: GenFeature.java,v 1.4 2004/06/19 17:45:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -296,6 +296,8 @@ public interface GenFeature extends GenBase
 
   String getLowerBound();
   String getUpperBound();
+
+  String getContainerClass();
 
   String getOrderedFlag();
   String getDerivedFlag();

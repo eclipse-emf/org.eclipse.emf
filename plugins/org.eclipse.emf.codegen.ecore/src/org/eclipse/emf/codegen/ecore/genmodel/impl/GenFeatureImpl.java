@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.5 2004/05/22 19:07:34 marcelop Exp $
+ * $Id: GenFeatureImpl.java,v 1.6 2004/06/19 17:45:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1058,6 +1058,11 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   public String getUpperBound()
   {
     return String.valueOf(getEcoreFeature().getUpperBound());
+  }
+
+  public String getContainerClass()
+  {
+    return getGenClass().isDocumentRoot() ? "null" : getGenClass().getImportedInterfaceName() + ".class";
   }
 
   public String getDerivedFlag()
