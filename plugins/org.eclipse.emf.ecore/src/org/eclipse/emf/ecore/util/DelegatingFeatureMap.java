@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.5 2004/05/09 16:35:49 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.6 2004/05/13 21:48:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -309,25 +309,12 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         {
           InternalEObject oldValue = (InternalEObject)internalEObject.eContainer();
           int containmentFeatureID = owner.eClass().getEAllStructuralFeatures().indexOf(eReference);
-          // EATM to handle open content.
-          if (containmentFeatureID == -1)
-          {
-            notifications =
-              internalEObject.eInverseAdd
-                (owner,
-                 InternalEObject.EOPPOSITE_FEATURE_BASE - getFeatureID(),
-                 null,
-                 notifications);
-          }
-          else
-          {
-            notifications =
-              internalEObject.eInverseAdd
-                (owner,
-                 InternalEObject.EOPPOSITE_FEATURE_BASE - containmentFeatureID,
-                 null,
-                 notifications);
-          }
+          notifications =
+            internalEObject.eInverseAdd
+              (owner,
+               InternalEObject.EOPPOSITE_FEATURE_BASE - (containmentFeatureID == -1 ? getFeatureID() : containmentFeatureID),
+               null,
+               notifications);
         }
       }
     }
@@ -397,11 +384,11 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         InternalEObject internalEObject = (InternalEObject)entry.getValue();
         if (internalEObject != null)
         {
+          int containmentFeatureID = owner.eClass().getEAllStructuralFeatures().indexOf(eReference);
           notifications =
             internalEObject.eInverseRemove
               (owner,
-               InternalEObject.EOPPOSITE_FEATURE_BASE - 
-                 owner.eClass().getEAllStructuralFeatures().indexOf(eReference),
+               InternalEObject.EOPPOSITE_FEATURE_BASE - (containmentFeatureID == -1 ? getFeatureID() : containmentFeatureID),
                null,
                notifications);
         }
