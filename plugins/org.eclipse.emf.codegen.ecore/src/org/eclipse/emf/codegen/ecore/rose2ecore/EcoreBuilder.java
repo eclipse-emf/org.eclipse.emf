@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.13 2004/12/16 16:23:19 emerks Exp $
+ * $Id: EcoreBuilder.java,v 1.14 2005/01/19 01:32:14 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -1834,7 +1834,7 @@ public class EcoreBuilder implements RoseVisitor
         }
       }
 
-      if (eType instanceof EClass && element instanceof EAttribute)
+      if (element instanceof EAttribute && eType instanceof EClass)
       {
         EAttribute eAttribute = (EAttribute)element;
         EReference eReference = ecoreFactory.createEReference();
@@ -1859,32 +1859,50 @@ public class EcoreBuilder implements RoseVisitor
 
         element = eReference;
       }
-      else if (eType instanceof EDataType && element instanceof EReference)
+      else if (element instanceof EReference)
       {
+        // Convert reference to attribute if its type is an EDataType... 
+        //
         EReference eReference = (EReference)element;
-        EAttribute eAttribute = ecoreFactory.createEAttribute();
+        boolean convert = eType instanceof EDataType;
 
-        eAttribute.setName(eReference.getName());
-        eAttribute.setTransient(eReference.isTransient());
-        eAttribute.setVolatile(eReference.isVolatile());
-        eAttribute.setDerived(eReference.isDerived());
-        eAttribute.setChangeable(eReference.isChangeable());
-        eAttribute.setLowerBound(eReference.getLowerBound());
-        eAttribute.setUpperBound(eReference.getUpperBound());
-        eAttribute.getEAnnotations().addAll(eReference.getEAnnotations());
-        eAttribute.setUnsettable(eReference.isUnsettable());
-
-        eStructuralFeatures.set(eStructuralFeatures.indexOf(eReference), eAttribute);
-
-        EClass containingClass = eReference.getEContainingClass();
-        if (containingClass != null)
+        // ...or if it's a wildcard or group feature.  Also, make it FeatureMap-typed.
+        //
+        int kind = ExtendedMetaData.INSTANCE.getFeatureKind(eReference);
+        if (kind == ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE ||
+            kind == ExtendedMetaData.ELEMENT_WILDCARD_FEATURE ||
+            kind == ExtendedMetaData.GROUP_FEATURE)
         {
-          containingClass.getEStructuralFeatures().add
-            (containingClass.getEStructuralFeatures().indexOf(eReference), eAttribute);
-          containingClass.getEStructuralFeatures().remove(eReference);
+          convert = true;
+          eType = ecorePackage.getEFeatureMapEntry();
         }
 
-        element = eAttribute;
+        if (convert)
+        {
+          EAttribute eAttribute = ecoreFactory.createEAttribute();
+
+          eAttribute.setName(eReference.getName());
+          eAttribute.setTransient(eReference.isTransient());
+          eAttribute.setVolatile(eReference.isVolatile());
+          eAttribute.setDerived(eReference.isDerived());
+          eAttribute.setChangeable(eReference.isChangeable());
+          eAttribute.setLowerBound(eReference.getLowerBound());
+          eAttribute.setUpperBound(eReference.getUpperBound());
+          eAttribute.getEAnnotations().addAll(eReference.getEAnnotations());
+          eAttribute.setUnsettable(eReference.isUnsettable());
+  
+          eStructuralFeatures.set(eStructuralFeatures.indexOf(eReference), eAttribute);
+  
+          EClass containingClass = eReference.getEContainingClass();
+          if (containingClass != null)
+          {
+            containingClass.getEStructuralFeatures().add
+              (containingClass.getEStructuralFeatures().indexOf(eReference), eAttribute);
+            containingClass.getEStructuralFeatures().remove(eReference);
+          }
+  
+          element = eAttribute;
+        }
       }
 
       if (element instanceof EDataType)
@@ -2011,6 +2029,10 @@ public class EcoreBuilder implements RoseVisitor
     else if (value.equalsIgnoreCase("eobject"))
     {
       return ecorePackage.getEObject();
+    }
+    else if (value.equalsIgnoreCase("efeaturemapentry"))
+    {
+      return ecorePackage.getEFeatureMapEntry();
     }
     else
     {
