@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ChangeReportTest.java,v 1.10 2004/10/14 17:38:35 marcelop Exp $
+ * $Id: ChangeReportTest.java,v 1.11 2004/10/25 20:53:26 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -45,6 +46,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.test.core.EMFTestCorePlugin;
 
 
@@ -85,6 +87,7 @@ extends TestCase
     ts.addTest(new ChangeReportTest("testMoveElementAndApply", callSummarize));
     ts.addTest(new ChangeReportTest("testApply", callSummarize));
     ts.addTest(new ChangeReportTest("testApplyAndReverse", callSummarize));
+    ts.addTest(new ChangeReportTest("testMultipleApplyAndReverse", callSummarize));
     return ts;
   }
   
@@ -562,5 +565,52 @@ extends TestCase
     
     //Tests if the list was rolled back
     assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));        
+  }
+  
+  /*
+   * Bugzilla 76971
+   */
+  public void testMultipleApplyAndReverse() throws Exception
+  {
+    eAnnotation.getContents().clear();
+    
+    List beforeChange = new ArrayList(eAnnotation.getContents());
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    eAnnotation.getContents().add(EcoreFactory.eINSTANCE.createEClass());
+    eAnnotation.getContents().add(EcoreFactory.eINSTANCE.createEClass());
+    eAnnotation.getContents().move(0, 1);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    Resource resource = new XMIResourceImpl();
+    resource.getContents().add(changeDescription);
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    String[] xmi = new String[2];
+    
+    List afterChange = new ArrayList(eAnnotation.getContents());
+    
+    for(int i=1; i<=20; i++)
+    {
+      baos.reset();
+      resource.save(baos, null);
+      switch(i)
+      {
+        case 1:
+          xmi[1] = new String(baos.toByteArray());
+          break;
+        case 2:
+          xmi[0] = new String(baos.toByteArray());
+          break;
+        default:
+          String newXMI = new String(baos.toByteArray());
+          assertEquals("Comparing iteration: " + i, xmi[i%2], newXMI);
+          xmi[i%2] = newXMI;
+      }
+      
+      assertEquals(i%2 == 0, EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
+      assertEquals(i%2 != 0, EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+
+      changeDescription.applyAndReverse();
+    }
   }
 }
