@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.6 2004/06/03 18:31:01 emerks Exp $
+ * $Id: JMerger.java,v 1.7 2004/08/10 14:00:48 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -36,7 +36,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IPlatformRunnable;
-import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.jdom.DOMFactory;
 import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
 import org.eclipse.jdt.core.jdom.IDOMField;
@@ -758,38 +757,29 @@ public class JMerger implements IPlatformRunnable
                   targetPutMethod.getName().equals("setSuperclass") ||
                   targetPutMethod.getName().equals("setExceptions"))
             {
-              if (sourceGetMethod.getName().equals("getFlags") && 
-                    sourceNode instanceof IDOMType &&
-                    Flags.isInterface(((Integer)value).intValue()))
+              // Ignore if there is not substantial change.
+              //
+              Object oldValue = sourceGetMethod.invoke(targetNode, noArguments);
+              if (value == null ? oldValue == null : value.equals(oldValue))
               {
-                // There's a JDOM bug that setFlags doesn't work for interfaces.
+                continue;
               }
-              else 
+              else if (targetPutMethod.getName().equals("setSuperclass"))
               {
-                // Ignore if there is not substantial change.
-                //
-                Object oldValue = sourceGetMethod.invoke(targetNode, noArguments);
-                if (value == null ? oldValue == null : value.equals(oldValue))
+                if (oldValue != null && value != null && ((String)oldValue).trim().equals(((String)value).trim()))
                 {
                   continue;
                 }
-                else if (targetPutMethod.getName().equals("setSuperclass"))
-                {
-                  if (oldValue != null && value != null && ((String)oldValue).trim().equals(((String)value).trim()))
-                  {
-                    continue;
-                  }
-                }
+              }
 
-                targetPutMethod.invoke(targetNode, new Object [] { value });
-                if (targetPutMethod.getName().equals("setBody") && sourceNode instanceof IDOMMethod)
-                {
-                  IDOMMethod sourceMethod = (IDOMMethod)sourceNode;
-                  IDOMMethod targetMethod = (IDOMMethod)targetNode;
-                  String [] sourceParameterNames = sourceMethod.getParameterNames();
-                  String [] targetParameterTypes = targetMethod.getParameterTypes();
-                  targetMethod.setParameters(targetParameterTypes, sourceParameterNames);
-                }
+              targetPutMethod.invoke(targetNode, new Object [] { value });
+              if (targetPutMethod.getName().equals("setBody") && sourceNode instanceof IDOMMethod)
+              {
+                IDOMMethod sourceMethod = (IDOMMethod)sourceNode;
+                IDOMMethod targetMethod = (IDOMMethod)targetNode;
+                String [] sourceParameterNames = sourceMethod.getParameterNames();
+                String [] targetParameterTypes = targetMethod.getParameterTypes();
+                targetMethod.setParameters(targetParameterTypes, sourceParameterNames);
               }
             }
           }
