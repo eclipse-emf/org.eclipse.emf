@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.2 2004/03/20 20:53:48 marcelop Exp $
+ * $Id: plugin.xml,v 1.3 2004/05/16 16:42:49 emerks Exp $
  */
 -->
 
@@ -27,7 +27,7 @@
     provider-name = "%providerName">
     
   <requires>
-    <import plugin="org.eclipse.core.runtime.compatibility"/>
+    <import plugin="org.eclipse.core.runtime"/>
     <import plugin="org.eclipse.xsd" export="true"/>
   </requires>
 
