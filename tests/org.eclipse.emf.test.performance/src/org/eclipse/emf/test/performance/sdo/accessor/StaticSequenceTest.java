@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSequenceTest.java,v 1.1 2005/03/04 21:51:04 bportier Exp $
+ * $Id: StaticSequenceTest.java,v 1.2 2005/03/16 22:39:00 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -46,12 +46,12 @@ public class StaticSequenceTest extends DynamicSequenceTest
     TestSuite testSuite = new TestSuite();
     // TODO tune warmup.
 
-    //    testSuite.addTest(new StaticSequenceTest("getSequenceByGenerated").setWarmUp(1000).setRepetitions(REPETITIONS));
-    //    testSuite.addTest(new StaticSequenceTest("getDerivedByGenerated").setWarmUp(1000).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticSequenceTest("getSequenceByGenerated").setWarmUp(1000).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticSequenceTest("getDerivedByGenerated").setWarmUp(1000).setRepetitions(REPETITIONS));
 
-    //testSuite.addTest(new StaticSequenceTest("getSequenceWithEGet").setWarmUp(1000).setRepetitions(REPETITIONS));
-    //    testSuite.addTest(new StaticSequenceTest("getDerivedWithEGet").setWarmUp(1000).setRepetitions(REPETITIONS));
-    //
+    testSuite.addTest(new StaticSequenceTest("getSequenceWithEGet").setWarmUp(1000).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticSequenceTest("getDerivedWithEGet").setWarmUp(1000).setRepetitions(REPETITIONS));
+
     testSuite.addTest(new StaticSequenceTest("getSequence").setWarmUp(1000).setRepetitions(REPETITIONS));
     testSuite.addTest(new StaticSequenceTest("getDerived").setWarmUp(1000).setRepetitions(REPETITIONS));
 
@@ -79,8 +79,6 @@ public class StaticSequenceTest extends DynamicSequenceTest
     SDOFactory sdoFactoryInstance = SDOFactory.eINSTANCE;
     EDataGraph dataGraph = sdoFactoryInstance.createEDataGraph();
 
-    // TODO DocumentRoot root = epoFactoryInstance.createDocumentRoot();
-
     Supplier supplier = epoFactoryInstance.createSupplier();
     this.supplier = (DataObject)supplier;
     supplier.setName("The Supplier");
@@ -92,10 +90,6 @@ public class StaticSequenceTest extends DynamicSequenceTest
     po = epoFactoryInstance.createPurchaseOrder();
     po.setComment("po2");
     supplier.getStandardOrders().add(po);
-
-    // TODO root.setPurchaseOrder(po);
-    //dataGraph.setERootObject((EObject)root);
-    //dataGraph.setEChangeSummary(sdoFactoryInstance.createEChangeSummary());
   }
 
   private void initModel()
