@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePackageImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSD2EcorePackageImpl.java,v 1.2 2004/05/16 16:49:34 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
@@ -195,4 +195,5 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
     // Create resource
     createResource(eNS_URI);
   }
+
 } //XSD2EcorePackageImpl

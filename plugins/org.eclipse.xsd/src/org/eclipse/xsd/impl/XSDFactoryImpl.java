@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFactoryImpl.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
+ * $Id: XSDFactoryImpl.java,v 1.3 2004/05/16 16:47:39 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -108,45 +108,125 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
     switch (eDataType.getClassifierID())
     {
       case XSDPackage.XSD_ATTRIBUTE_USE_CATEGORY:
-        return XSDAttributeUseCategory.get(initialValue);
+      {
+        XSDAttributeUseCategory result = XSDAttributeUseCategory.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_CARDINALITY:
-        return XSDCardinality.get(initialValue);
+      {
+        XSDCardinality result = XSDCardinality.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_COMPLEX_FINAL:
-        return XSDComplexFinal.get(initialValue);
+      {
+        XSDComplexFinal result = XSDComplexFinal.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_COMPOSITOR:
-        return XSDCompositor.get(initialValue);
+      {
+        XSDCompositor result = XSDCompositor.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_CONSTRAINT:
-        return XSDConstraint.get(initialValue);
+      {
+        XSDConstraint result = XSDConstraint.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_CONTENT_TYPE_CATEGORY:
-        return XSDContentTypeCategory.get(initialValue);
+      {
+        XSDContentTypeCategory result = XSDContentTypeCategory.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_DERIVATION_METHOD:
-        return XSDDerivationMethod.get(initialValue);
+      {
+        XSDDerivationMethod result = XSDDerivationMethod.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_DIAGNOSTIC_SEVERITY:
-        return XSDDiagnosticSeverity.get(initialValue);
+      {
+        XSDDiagnosticSeverity result = XSDDiagnosticSeverity.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_DISALLOWED_SUBSTITUTIONS:
-        return XSDDisallowedSubstitutions.get(initialValue);
+      {
+        XSDDisallowedSubstitutions result = XSDDisallowedSubstitutions.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_FORM:
-        return XSDForm.get(initialValue);
+      {
+        XSDForm result = XSDForm.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_CATEGORY:
-        return XSDIdentityConstraintCategory.get(initialValue);
+      {
+        XSDIdentityConstraintCategory result = XSDIdentityConstraintCategory.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_NAMESPACE_CONSTRAINT_CATEGORY:
-        return XSDNamespaceConstraintCategory.get(initialValue);
+      {
+        XSDNamespaceConstraintCategory result = XSDNamespaceConstraintCategory.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_ORDERED:
-        return XSDOrdered.get(initialValue);
+      {
+        XSDOrdered result = XSDOrdered.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_PROCESS_CONTENTS:
-        return XSDProcessContents.get(initialValue);
+      {
+        XSDProcessContents result = XSDProcessContents.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_PROHIBITED_SUBSTITUTIONS:
-        return XSDProhibitedSubstitutions.get(initialValue);
+      {
+        XSDProhibitedSubstitutions result = XSDProhibitedSubstitutions.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_SIMPLE_FINAL:
-        return XSDSimpleFinal.get(initialValue);
+      {
+        XSDSimpleFinal result = XSDSimpleFinal.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_SUBSTITUTION_GROUP_EXCLUSIONS:
-        return XSDSubstitutionGroupExclusions.get(initialValue);
+      {
+        XSDSubstitutionGroupExclusions result = XSDSubstitutionGroupExclusions.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_VARIETY:
-        return XSDVariety.get(initialValue);
+      {
+        XSDVariety result = XSDVariety.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_WHITE_SPACE:
-        return XSDWhiteSpace.get(initialValue);
+      {
+        XSDWhiteSpace result = XSDWhiteSpace.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.XSD_XPATH_VARIETY:
-        return XSDXPathVariety.get(initialValue);
+      {
+        XSDXPathVariety result = XSDXPathVariety.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case XSDPackage.DOM_ATTR:
         return createDOMAttrFromString(eDataType, initialValue);
       case XSDPackage.DOM_DOCUMENT:
@@ -731,4 +811,5 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
   {
     return XSDPackage.eINSTANCE;
   }
+
 } //XSDFactoryImpl

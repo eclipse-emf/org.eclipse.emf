@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreMappingRootItemProvider.java,v 1.2 2004/03/12 23:36:34 emerks Exp $
+ * $Id: XSD2EcoreMappingRootItemProvider.java,v 1.3 2004/05/16 16:49:21 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.provider;
 
@@ -70,7 +70,6 @@ public class XSD2EcoreMappingRootItemProvider
     return itemPropertyDescriptors;
   }
 
-
   /**
    * This returns the label text for the adapted class.
    * <!-- begin-user-doc -->
@@ -85,13 +84,15 @@ public class XSD2EcoreMappingRootItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public void notifyChanged(Notification notification)
   {
+    updateChildren(notification);
     super.notifyChanged(notification);
   }
 
@@ -105,4 +106,5 @@ public class XSD2EcoreMappingRootItemProvider
   {
     return XSD2EcorePlugin.INSTANCE;
   }
+
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreResourceImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSD2EcoreResourceImpl.java,v 1.2 2004/05/16 16:49:09 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.util;
 
@@ -41,4 +41,5 @@ public class XSD2EcoreResourceImpl extends XMIResourceImpl
   {
     super(uri);
   }
+
 } //XSD2EcoreResourceFactoryImpl

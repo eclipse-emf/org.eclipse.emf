@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackageImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDPackageImpl.java,v 1.2 2004/05/16 16:47:39 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -4246,339 +4246,339 @@ public class XSDPackageImpl
 
     // Initialize classes and features; add operations and parameters
     initEClass(xsdAnnotationEClass, XSDAnnotation.class, "XSDAnnotation", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDAnnotation_ApplicationInformation(), this.getDOMElement(), "applicationInformation", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDAnnotation_UserInformation(), this.getDOMElement(), "userInformation", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDAnnotation_Attributes(), this.getDOMAttr(), "attributes", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDAnnotation_ApplicationInformation(), this.getDOMElement(), "applicationInformation", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDAnnotation_UserInformation(), this.getDOMElement(), "userInformation", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDAnnotation_Attributes(), this.getDOMAttr(), "attributes", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdAttributeDeclarationEClass, XSDAttributeDeclaration.class, "XSDAttributeDeclaration", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDAttributeDeclaration_AttributeDeclarationReference(), ecorePackage.getEBoolean(), "attributeDeclarationReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeDeclaration_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeDeclaration_AnonymousTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "anonymousTypeDefinition", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeDeclaration_TypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "typeDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeDeclaration_ResolvedAttributeDeclaration(), this.getXSDAttributeDeclaration(), null, "resolvedAttributeDeclaration", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDAttributeDeclaration_AttributeDeclarationReference(), ecorePackage.getEBoolean(), "attributeDeclarationReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeDeclaration_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeDeclaration_AnonymousTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "anonymousTypeDefinition", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeDeclaration_TypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "typeDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeDeclaration_ResolvedAttributeDeclaration(), this.getXSDAttributeDeclaration(), null, "resolvedAttributeDeclaration", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdAttributeGroupContentEClass, XSDAttributeGroupContent.class, "XSDAttributeGroupContent", IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdAttributeGroupDefinitionEClass, XSDAttributeGroupDefinition.class, "XSDAttributeGroupDefinition", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDAttributeGroupDefinition_AttributeGroupDefinitionReference(), ecorePackage.getEBoolean(), "attributeGroupDefinitionReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeGroupDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeGroupDefinition_Contents(), this.getXSDAttributeGroupContent(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeGroupDefinition_AttributeUses(), this.getXSDAttributeUse(), null, "attributeUses", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeGroupDefinition_AttributeWildcardContent(), this.getXSDWildcard(), null, "attributeWildcardContent", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeGroupDefinition_AttributeWildcard(), this.getXSDWildcard(), null, "attributeWildcard", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeGroupDefinition_ResolvedAttributeGroupDefinition(), this.getXSDAttributeGroupDefinition(), null, "resolvedAttributeGroupDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeGroupDefinition_SyntheticWildcard(), this.getXSDWildcard(), null, "syntheticWildcard", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDAttributeGroupDefinition_AttributeGroupDefinitionReference(), ecorePackage.getEBoolean(), "attributeGroupDefinitionReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeGroupDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeGroupDefinition_Contents(), this.getXSDAttributeGroupContent(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeGroupDefinition_AttributeUses(), this.getXSDAttributeUse(), null, "attributeUses", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeGroupDefinition_AttributeWildcardContent(), this.getXSDWildcard(), null, "attributeWildcardContent", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeGroupDefinition_AttributeWildcard(), this.getXSDWildcard(), null, "attributeWildcard", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeGroupDefinition_ResolvedAttributeGroupDefinition(), this.getXSDAttributeGroupDefinition(), null, "resolvedAttributeGroupDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeGroupDefinition_SyntheticWildcard(), this.getXSDWildcard(), null, "syntheticWildcard", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdAttributeUseEClass, XSDAttributeUse.class, "XSDAttributeUse", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDAttributeUse_Required(), ecorePackage.getEBoolean(), "required", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDAttributeUse_Value(), this.getValue(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDAttributeUse_Constraint(), this.getXSDConstraint(), "constraint", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDAttributeUse_Use(), this.getXSDAttributeUseCategory(), "use", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDAttributeUse_LexicalValue(), ecorePackage.getEString(), "lexicalValue", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeUse_AttributeDeclaration(), this.getXSDAttributeDeclaration(), null, "attributeDeclaration", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDAttributeUse_Content(), this.getXSDAttributeDeclaration(), null, "content", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDAttributeUse_Required(), ecorePackage.getEBoolean(), "required", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDAttributeUse_Value(), this.getValue(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDAttributeUse_Constraint(), this.getXSDConstraint(), "constraint", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDAttributeUse_Use(), this.getXSDAttributeUseCategory(), "use", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDAttributeUse_LexicalValue(), ecorePackage.getEString(), "lexicalValue", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeUse_AttributeDeclaration(), this.getXSDAttributeDeclaration(), null, "attributeDeclaration", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeUse_Content(), this.getXSDAttributeDeclaration(), null, "content", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdBoundedFacetEClass, XSDBoundedFacet.class, "XSDBoundedFacet", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDBoundedFacet_Value(), ecorePackage.getEBoolean(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDBoundedFacet_Value(), ecorePackage.getEBoolean(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdCardinalityFacetEClass, XSDCardinalityFacet.class, "XSDCardinalityFacet", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDCardinalityFacet_Value(), this.getXSDCardinality(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDCardinalityFacet_Value(), this.getXSDCardinality(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdComplexTypeContentEClass, XSDComplexTypeContent.class, "XSDComplexTypeContent", IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdComplexTypeDefinitionEClass, XSDComplexTypeDefinition.class, "XSDComplexTypeDefinition", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDComplexTypeDefinition_DerivationMethod(), this.getXSDDerivationMethod(), "derivationMethod", "restriction", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDComplexTypeDefinition_Final(), this.getXSDComplexFinal(), "final", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDComplexTypeDefinition_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDComplexTypeDefinition_ContentTypeCategory(), this.getXSDContentTypeCategory(), "contentTypeCategory", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDComplexTypeDefinition_ProhibitedSubstitutions(), this.getXSDProhibitedSubstitutions(), "prohibitedSubstitutions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDComplexTypeDefinition_LexicalFinal(), this.getXSDComplexFinal(), "lexicalFinal", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDComplexTypeDefinition_Block(), this.getXSDProhibitedSubstitutions(), "block", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDComplexTypeDefinition_Mixed(), ecorePackage.getEBoolean(), "mixed", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDComplexTypeDefinition_ContentAnnotation(), this.getXSDAnnotation(), null, "contentAnnotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDComplexTypeDefinition_BaseTypeDefinition(), this.getXSDTypeDefinition(), null, "baseTypeDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDComplexTypeDefinition_Content(), this.getXSDComplexTypeContent(), null, "content", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDComplexTypeDefinition_ContentType(), this.getXSDComplexTypeContent(), null, "contentType", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDComplexTypeDefinition_AttributeUses(), this.getXSDAttributeUse(), null, "attributeUses", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDComplexTypeDefinition_AttributeContents(), this.getXSDAttributeGroupContent(), null, "attributeContents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDComplexTypeDefinition_AttributeWildcard(), this.getXSDWildcard(), null, "attributeWildcard", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDComplexTypeDefinition_AttributeWildcardContent(), this.getXSDWildcard(), null, "attributeWildcardContent", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDComplexTypeDefinition_RootTypeDefinition(), this.getXSDTypeDefinition(), null, "rootTypeDefinition", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDComplexTypeDefinition_SyntheticParticle(), this.getXSDParticle(), null, "syntheticParticle", null, 0, 1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDComplexTypeDefinition_SyntheticWildcard(), this.getXSDWildcard(), null, "syntheticWildcard", null, 0, 1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDComplexTypeDefinition_DerivationMethod(), this.getXSDDerivationMethod(), "derivationMethod", "restriction", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDComplexTypeDefinition_Final(), this.getXSDComplexFinal(), "final", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDComplexTypeDefinition_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDComplexTypeDefinition_ContentTypeCategory(), this.getXSDContentTypeCategory(), "contentTypeCategory", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDComplexTypeDefinition_ProhibitedSubstitutions(), this.getXSDProhibitedSubstitutions(), "prohibitedSubstitutions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDComplexTypeDefinition_LexicalFinal(), this.getXSDComplexFinal(), "lexicalFinal", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDComplexTypeDefinition_Block(), this.getXSDProhibitedSubstitutions(), "block", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDComplexTypeDefinition_Mixed(), ecorePackage.getEBoolean(), "mixed", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDComplexTypeDefinition_ContentAnnotation(), this.getXSDAnnotation(), null, "contentAnnotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDComplexTypeDefinition_BaseTypeDefinition(), this.getXSDTypeDefinition(), null, "baseTypeDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDComplexTypeDefinition_Content(), this.getXSDComplexTypeContent(), null, "content", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDComplexTypeDefinition_ContentType(), this.getXSDComplexTypeContent(), null, "contentType", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDComplexTypeDefinition_AttributeUses(), this.getXSDAttributeUse(), null, "attributeUses", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDComplexTypeDefinition_AttributeContents(), this.getXSDAttributeGroupContent(), null, "attributeContents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDComplexTypeDefinition_AttributeWildcard(), this.getXSDWildcard(), null, "attributeWildcard", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDComplexTypeDefinition_AttributeWildcardContent(), this.getXSDWildcard(), null, "attributeWildcardContent", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDComplexTypeDefinition_RootTypeDefinition(), this.getXSDTypeDefinition(), null, "rootTypeDefinition", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDComplexTypeDefinition_SyntheticParticle(), this.getXSDParticle(), null, "syntheticParticle", null, 0, 1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDComplexTypeDefinition_SyntheticWildcard(), this.getXSDWildcard(), null, "syntheticWildcard", null, 0, 1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdComponentEClass, XSDComponent.class, "XSDComponent", IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdConcreteComponentEClass, XSDConcreteComponent.class, "XSDConcreteComponent", IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDConcreteComponent_Element(), this.getDOMElement(), "element", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDConcreteComponent_Container(), this.getXSDConcreteComponent(), null, "container", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDConcreteComponent_RootContainer(), this.getXSDConcreteComponent(), null, "rootContainer", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDConcreteComponent_Schema(), this.getXSDSchema(), null, "schema", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDConcreteComponent_Diagnostics(), this.getXSDDiagnostic(), null, "diagnostics", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDConcreteComponent_Element(), this.getDOMElement(), "element", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDConcreteComponent_Container(), this.getXSDConcreteComponent(), null, "container", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDConcreteComponent_RootContainer(), this.getXSDConcreteComponent(), null, "rootContainer", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDConcreteComponent_Schema(), this.getXSDSchema(), null, "schema", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDConcreteComponent_Diagnostics(), this.getXSDDiagnostic(), null, "diagnostics", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdConstrainingFacetEClass, XSDConstrainingFacet.class, "XSDConstrainingFacet", IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdDiagnosticEClass, XSDDiagnostic.class, "XSDDiagnostic", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDDiagnostic_Severity(), this.getXSDDiagnosticSeverity(), "severity", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDDiagnostic_Message(), ecorePackage.getEString(), "message", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDDiagnostic_LocationURI(), ecorePackage.getEString(), "locationURI", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDDiagnostic_Line(), ecorePackage.getEInt(), "line", "1", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDDiagnostic_Column(), ecorePackage.getEInt(), "column", "1", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDDiagnostic_Node(), this.getDOMNode(), "node", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDDiagnostic_AnnotationURI(), ecorePackage.getEString(), "annotationURI", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDDiagnostic_Components(), this.getXSDConcreteComponent(), null, "components", null, 1, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDDiagnostic_PrimaryComponent(), this.getXSDConcreteComponent(), null, "primaryComponent", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDDiagnostic_Severity(), this.getXSDDiagnosticSeverity(), "severity", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDDiagnostic_Message(), ecorePackage.getEString(), "message", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDDiagnostic_LocationURI(), ecorePackage.getEString(), "locationURI", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDDiagnostic_Line(), ecorePackage.getEInt(), "line", "1", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDDiagnostic_Column(), ecorePackage.getEInt(), "column", "1", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDDiagnostic_Node(), this.getDOMNode(), "node", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDDiagnostic_AnnotationURI(), ecorePackage.getEString(), "annotationURI", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDDiagnostic_Components(), this.getXSDConcreteComponent(), null, "components", null, 1, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDDiagnostic_PrimaryComponent(), this.getXSDConcreteComponent(), null, "primaryComponent", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdElementDeclarationEClass, XSDElementDeclaration.class, "XSDElementDeclaration", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDElementDeclaration_Nillable(), ecorePackage.getEBoolean(), "nillable", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDElementDeclaration_DisallowedSubstitutions(), this.getXSDDisallowedSubstitutions(), "disallowedSubstitutions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDElementDeclaration_SubstitutionGroupExclusions(), this.getXSDSubstitutionGroupExclusions(), "substitutionGroupExclusions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDElementDeclaration_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDElementDeclaration_LexicalFinal(), this.getXSDProhibitedSubstitutions(), "lexicalFinal", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDElementDeclaration_Block(), this.getXSDDisallowedSubstitutions(), "block", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDElementDeclaration_ElementDeclarationReference(), ecorePackage.getEBoolean(), "elementDeclarationReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDElementDeclaration_Circular(), ecorePackage.getEBoolean(), "circular", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDElementDeclaration_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDElementDeclaration_AnonymousTypeDefinition(), this.getXSDTypeDefinition(), null, "anonymousTypeDefinition", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDElementDeclaration_TypeDefinition(), this.getXSDTypeDefinition(), null, "typeDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDElementDeclaration_IdentityConstraintDefinitions(), this.getXSDIdentityConstraintDefinition(), null, "identityConstraintDefinitions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDElementDeclaration_ResolvedElementDeclaration(), this.getXSDElementDeclaration(), null, "resolvedElementDeclaration", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDElementDeclaration_SubstitutionGroupAffiliation(), this.getXSDElementDeclaration(), null, "substitutionGroupAffiliation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDElementDeclaration_SubstitutionGroup(), this.getXSDElementDeclaration(), null, "substitutionGroup", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDElementDeclaration_Nillable(), ecorePackage.getEBoolean(), "nillable", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDElementDeclaration_DisallowedSubstitutions(), this.getXSDDisallowedSubstitutions(), "disallowedSubstitutions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDElementDeclaration_SubstitutionGroupExclusions(), this.getXSDSubstitutionGroupExclusions(), "substitutionGroupExclusions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDElementDeclaration_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDElementDeclaration_LexicalFinal(), this.getXSDProhibitedSubstitutions(), "lexicalFinal", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDElementDeclaration_Block(), this.getXSDDisallowedSubstitutions(), "block", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDElementDeclaration_ElementDeclarationReference(), ecorePackage.getEBoolean(), "elementDeclarationReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDElementDeclaration_Circular(), ecorePackage.getEBoolean(), "circular", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDElementDeclaration_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDElementDeclaration_AnonymousTypeDefinition(), this.getXSDTypeDefinition(), null, "anonymousTypeDefinition", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDElementDeclaration_TypeDefinition(), this.getXSDTypeDefinition(), null, "typeDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDElementDeclaration_IdentityConstraintDefinitions(), this.getXSDIdentityConstraintDefinition(), null, "identityConstraintDefinitions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDElementDeclaration_ResolvedElementDeclaration(), this.getXSDElementDeclaration(), null, "resolvedElementDeclaration", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDElementDeclaration_SubstitutionGroupAffiliation(), this.getXSDElementDeclaration(), null, "substitutionGroupAffiliation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDElementDeclaration_SubstitutionGroup(), this.getXSDElementDeclaration(), null, "substitutionGroup", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdEnumerationFacetEClass, XSDEnumerationFacet.class, "XSDEnumerationFacet", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDEnumerationFacet_Value(), this.getValue(), "value", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDEnumerationFacet_Value(), this.getValue(), "value", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdFacetEClass, XSDFacet.class, "XSDFacet", IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDFacet_LexicalValue(), ecorePackage.getEString(), "lexicalValue", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDFacet_FacetName(), ecorePackage.getEString(), "facetName", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDFacet_EffectiveValue(), this.getValue(), "effectiveValue", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDFacet_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDFacet_SimpleTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "simpleTypeDefinition", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDFacet_LexicalValue(), ecorePackage.getEString(), "lexicalValue", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDFacet_FacetName(), ecorePackage.getEString(), "facetName", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDFacet_EffectiveValue(), this.getValue(), "effectiveValue", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDFacet_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDFacet_SimpleTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "simpleTypeDefinition", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdFeatureEClass, XSDFeature.class, "XSDFeature", IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDFeature_Value(), this.getValue(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDFeature_Constraint(), this.getXSDConstraint(), "constraint", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDFeature_Form(), this.getXSDForm(), "form", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDFeature_LexicalValue(), ecorePackage.getEString(), "lexicalValue", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDFeature_Global(), ecorePackage.getEBoolean(), "global", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDFeature_FeatureReference(), ecorePackage.getEBoolean(), "featureReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDFeature_Scope(), this.getXSDScope(), null, "scope", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDFeature_ResolvedFeature(), this.getXSDFeature(), null, "resolvedFeature", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDFeature_Type(), this.getXSDTypeDefinition(), null, "type", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDFeature_Value(), this.getValue(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDFeature_Constraint(), this.getXSDConstraint(), "constraint", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDFeature_Form(), this.getXSDForm(), "form", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDFeature_LexicalValue(), ecorePackage.getEString(), "lexicalValue", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDFeature_Global(), ecorePackage.getEBoolean(), "global", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDFeature_FeatureReference(), ecorePackage.getEBoolean(), "featureReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDFeature_Scope(), this.getXSDScope(), null, "scope", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDFeature_ResolvedFeature(), this.getXSDFeature(), null, "resolvedFeature", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDFeature_Type(), this.getXSDTypeDefinition(), null, "type", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdFixedFacetEClass, XSDFixedFacet.class, "XSDFixedFacet", IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDFixedFacet_Fixed(), ecorePackage.getEBoolean(), "fixed", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDFixedFacet_Fixed(), ecorePackage.getEBoolean(), "fixed", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdFractionDigitsFacetEClass, XSDFractionDigitsFacet.class, "XSDFractionDigitsFacet", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDFractionDigitsFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDFractionDigitsFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdFundamentalFacetEClass, XSDFundamentalFacet.class, "XSDFundamentalFacet", IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdIdentityConstraintDefinitionEClass, XSDIdentityConstraintDefinition.class, "XSDIdentityConstraintDefinition", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDIdentityConstraintDefinition_IdentityConstraintCategory(), this.getXSDIdentityConstraintCategory(), "identityConstraintCategory", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDIdentityConstraintDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDIdentityConstraintDefinition_ReferencedKey(), this.getXSDIdentityConstraintDefinition(), null, "referencedKey", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDIdentityConstraintDefinition_Selector(), this.getXSDXPathDefinition(), null, "selector", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDIdentityConstraintDefinition_Fields(), this.getXSDXPathDefinition(), null, "fields", null, 1, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDIdentityConstraintDefinition_IdentityConstraintCategory(), this.getXSDIdentityConstraintCategory(), "identityConstraintCategory", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDIdentityConstraintDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDIdentityConstraintDefinition_ReferencedKey(), this.getXSDIdentityConstraintDefinition(), null, "referencedKey", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDIdentityConstraintDefinition_Selector(), this.getXSDXPathDefinition(), null, "selector", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDIdentityConstraintDefinition_Fields(), this.getXSDXPathDefinition(), null, "fields", null, 1, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdImportEClass, XSDImport.class, "XSDImport", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDImport_Namespace(), ecorePackage.getEString(), "namespace", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDImport_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDImport_Namespace(), ecorePackage.getEString(), "namespace", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDImport_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdIncludeEClass, XSDInclude.class, "XSDInclude", !IS_ABSTRACT, !IS_INTERFACE);
-    initEReference(getXSDInclude_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEReference(getXSDInclude_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdLengthFacetEClass, XSDLengthFacet.class, "XSDLengthFacet", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDLengthFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDLengthFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdMaxExclusiveFacetEClass, XSDMaxExclusiveFacet.class, "XSDMaxExclusiveFacet", !IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdMaxFacetEClass, XSDMaxFacet.class, "XSDMaxFacet", IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDMaxFacet_Value(), this.getValue(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDMaxFacet_Inclusive(), ecorePackage.getEBoolean(), "inclusive", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDMaxFacet_Exclusive(), ecorePackage.getEBoolean(), "exclusive", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDMaxFacet_Value(), this.getValue(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDMaxFacet_Inclusive(), ecorePackage.getEBoolean(), "inclusive", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDMaxFacet_Exclusive(), ecorePackage.getEBoolean(), "exclusive", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdMaxInclusiveFacetEClass, XSDMaxInclusiveFacet.class, "XSDMaxInclusiveFacet", !IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdMaxLengthFacetEClass, XSDMaxLengthFacet.class, "XSDMaxLengthFacet", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDMaxLengthFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDMaxLengthFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdMinExclusiveFacetEClass, XSDMinExclusiveFacet.class, "XSDMinExclusiveFacet", !IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdMinFacetEClass, XSDMinFacet.class, "XSDMinFacet", IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDMinFacet_Value(), this.getValue(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDMinFacet_Inclusive(), ecorePackage.getEBoolean(), "inclusive", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDMinFacet_Exclusive(), ecorePackage.getEBoolean(), "exclusive", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDMinFacet_Value(), this.getValue(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDMinFacet_Inclusive(), ecorePackage.getEBoolean(), "inclusive", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDMinFacet_Exclusive(), ecorePackage.getEBoolean(), "exclusive", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdMinInclusiveFacetEClass, XSDMinInclusiveFacet.class, "XSDMinInclusiveFacet", !IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdMinLengthFacetEClass, XSDMinLengthFacet.class, "XSDMinLengthFacet", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDMinLengthFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDMinLengthFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdModelGroupEClass, XSDModelGroup.class, "XSDModelGroup", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDModelGroup_Compositor(), this.getXSDCompositor(), "compositor", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDModelGroup_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDModelGroup_Contents(), this.getXSDParticle(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDModelGroup_Particles(), this.getXSDParticle(), null, "particles", null, 1, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDModelGroup_Compositor(), this.getXSDCompositor(), "compositor", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDModelGroup_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDModelGroup_Contents(), this.getXSDParticle(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDModelGroup_Particles(), this.getXSDParticle(), null, "particles", null, 1, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdModelGroupDefinitionEClass, XSDModelGroupDefinition.class, "XSDModelGroupDefinition", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDModelGroupDefinition_ModelGroupDefinitionReference(), ecorePackage.getEBoolean(), "modelGroupDefinitionReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDModelGroupDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDModelGroupDefinition_ModelGroup(), this.getXSDModelGroup(), null, "modelGroup", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDModelGroupDefinition_ResolvedModelGroupDefinition(), this.getXSDModelGroupDefinition(), null, "resolvedModelGroupDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDModelGroupDefinition_ModelGroupDefinitionReference(), ecorePackage.getEBoolean(), "modelGroupDefinitionReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDModelGroupDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDModelGroupDefinition_ModelGroup(), this.getXSDModelGroup(), null, "modelGroup", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDModelGroupDefinition_ResolvedModelGroupDefinition(), this.getXSDModelGroupDefinition(), null, "resolvedModelGroupDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdNamedComponentEClass, XSDNamedComponent.class, "XSDNamedComponent", IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDNamedComponent_Name(), ecorePackage.getEString(), "name", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDNamedComponent_TargetNamespace(), ecorePackage.getEString(), "targetNamespace", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDNamedComponent_AliasName(), ecorePackage.getEString(), "aliasName", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDNamedComponent_URI(), ecorePackage.getEString(), "uRI", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDNamedComponent_AliasURI(), ecorePackage.getEString(), "aliasURI", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDNamedComponent_QName(), ecorePackage.getEString(), "qName", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDNamedComponent_Name(), ecorePackage.getEString(), "name", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDNamedComponent_TargetNamespace(), ecorePackage.getEString(), "targetNamespace", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDNamedComponent_AliasName(), ecorePackage.getEString(), "aliasName", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDNamedComponent_URI(), ecorePackage.getEString(), "uRI", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDNamedComponent_AliasURI(), ecorePackage.getEString(), "aliasURI", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDNamedComponent_QName(), ecorePackage.getEString(), "qName", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdNotationDeclarationEClass, XSDNotationDeclaration.class, "XSDNotationDeclaration", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDNotationDeclaration_SystemIdentifier(), ecorePackage.getEString(), "systemIdentifier", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDNotationDeclaration_PublicIdentifier(), ecorePackage.getEString(), "publicIdentifier", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDNotationDeclaration_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDNotationDeclaration_SystemIdentifier(), ecorePackage.getEString(), "systemIdentifier", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDNotationDeclaration_PublicIdentifier(), ecorePackage.getEString(), "publicIdentifier", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDNotationDeclaration_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdNumericFacetEClass, XSDNumericFacet.class, "XSDNumericFacet", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDNumericFacet_Value(), ecorePackage.getEBoolean(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDNumericFacet_Value(), ecorePackage.getEBoolean(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdOrderedFacetEClass, XSDOrderedFacet.class, "XSDOrderedFacet", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDOrderedFacet_Value(), this.getXSDOrdered(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDOrderedFacet_Value(), this.getXSDOrdered(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdParticleEClass, XSDParticle.class, "XSDParticle", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDParticle_MinOccurs(), ecorePackage.getEInt(), "minOccurs", "1", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDParticle_MaxOccurs(), ecorePackage.getEInt(), "maxOccurs", "1", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDParticle_Content(), this.getXSDParticleContent(), null, "content", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDParticle_Term(), this.getXSDTerm(), null, "term", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDParticle_MinOccurs(), ecorePackage.getEInt(), "minOccurs", "1", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDParticle_MaxOccurs(), ecorePackage.getEInt(), "maxOccurs", "1", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDParticle_Content(), this.getXSDParticleContent(), null, "content", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDParticle_Term(), this.getXSDTerm(), null, "term", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdParticleContentEClass, XSDParticleContent.class, "XSDParticleContent", IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdPatternFacetEClass, XSDPatternFacet.class, "XSDPatternFacet", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDPatternFacet_Value(), ecorePackage.getEString(), "value", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDPatternFacet_Value(), ecorePackage.getEString(), "value", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdRedefinableComponentEClass, XSDRedefinableComponent.class, "XSDRedefinableComponent", IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDRedefinableComponent_Circular(), ecorePackage.getEBoolean(), "circular", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDRedefinableComponent_Circular(), ecorePackage.getEBoolean(), "circular", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdRedefineContentEClass, XSDRedefineContent.class, "XSDRedefineContent", IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdRedefineEClass, XSDRedefine.class, "XSDRedefine", !IS_ABSTRACT, !IS_INTERFACE);
-    initEReference(getXSDRedefine_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDRedefine_Contents(), this.getXSDRedefineContent(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEReference(getXSDRedefine_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDRedefine_Contents(), this.getXSDRedefineContent(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdRepeatableFacetEClass, XSDRepeatableFacet.class, "XSDRepeatableFacet", IS_ABSTRACT, !IS_INTERFACE);
-    initEReference(getXSDRepeatableFacet_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEReference(getXSDRepeatableFacet_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdSchemaEClass, XSDSchema.class, "XSDSchema", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDSchema_Document(), this.getDOMDocument(), "document", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDSchema_SchemaLocation(), ecorePackage.getEString(), "schemaLocation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDSchema_TargetNamespace(), ecorePackage.getEString(), "targetNamespace", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDSchema_AttributeFormDefault(), this.getXSDForm(), "attributeFormDefault", "unqualified", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDSchema_ElementFormDefault(), this.getXSDForm(), "elementFormDefault", "unqualified", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDSchema_FinalDefault(), this.getXSDProhibitedSubstitutions(), "finalDefault", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDSchema_BlockDefault(), this.getXSDDisallowedSubstitutions(), "blockDefault", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDSchema_Version(), ecorePackage.getEString(), "version", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_Contents(), this.getXSDSchemaContent(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_ElementDeclarations(), this.getXSDElementDeclaration(), null, "elementDeclarations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_AttributeDeclarations(), this.getXSDAttributeDeclaration(), null, "attributeDeclarations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_AttributeGroupDefinitions(), this.getXSDAttributeGroupDefinition(), null, "attributeGroupDefinitions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_TypeDefinitions(), this.getXSDTypeDefinition(), null, "typeDefinitions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_ModelGroupDefinitions(), this.getXSDModelGroupDefinition(), null, "modelGroupDefinitions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_IdentityConstraintDefinitions(), this.getXSDIdentityConstraintDefinition(), null, "identityConstraintDefinitions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_NotationDeclarations(), this.getXSDNotationDeclaration(), null, "notationDeclarations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_AllDiagnostics(), this.getXSDDiagnostic(), null, "allDiagnostics", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_ReferencingDirectives(), this.getXSDSchemaDirective(), null, "referencingDirectives", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_RootVersion(), this.getXSDSchema(), null, "rootVersion", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_OriginalVersion(), this.getXSDSchema(), null, "originalVersion", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_IncorporatedVersions(), this.getXSDSchema(), null, "incorporatedVersions", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchema_SchemaForSchema(), this.getXSDSchema(), null, "schemaForSchema", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDSchema_Document(), this.getDOMDocument(), "document", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDSchema_SchemaLocation(), ecorePackage.getEString(), "schemaLocation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDSchema_TargetNamespace(), ecorePackage.getEString(), "targetNamespace", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDSchema_AttributeFormDefault(), this.getXSDForm(), "attributeFormDefault", "unqualified", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDSchema_ElementFormDefault(), this.getXSDForm(), "elementFormDefault", "unqualified", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDSchema_FinalDefault(), this.getXSDProhibitedSubstitutions(), "finalDefault", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDSchema_BlockDefault(), this.getXSDDisallowedSubstitutions(), "blockDefault", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDSchema_Version(), ecorePackage.getEString(), "version", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_Contents(), this.getXSDSchemaContent(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_ElementDeclarations(), this.getXSDElementDeclaration(), null, "elementDeclarations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_AttributeDeclarations(), this.getXSDAttributeDeclaration(), null, "attributeDeclarations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_AttributeGroupDefinitions(), this.getXSDAttributeGroupDefinition(), null, "attributeGroupDefinitions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_TypeDefinitions(), this.getXSDTypeDefinition(), null, "typeDefinitions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_ModelGroupDefinitions(), this.getXSDModelGroupDefinition(), null, "modelGroupDefinitions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_IdentityConstraintDefinitions(), this.getXSDIdentityConstraintDefinition(), null, "identityConstraintDefinitions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_NotationDeclarations(), this.getXSDNotationDeclaration(), null, "notationDeclarations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_AllDiagnostics(), this.getXSDDiagnostic(), null, "allDiagnostics", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_ReferencingDirectives(), this.getXSDSchemaDirective(), null, "referencingDirectives", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_RootVersion(), this.getXSDSchema(), null, "rootVersion", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_OriginalVersion(), this.getXSDSchema(), null, "originalVersion", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_IncorporatedVersions(), this.getXSDSchema(), null, "incorporatedVersions", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchema_SchemaForSchema(), this.getXSDSchema(), null, "schemaForSchema", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdSchemaCompositorEClass, XSDSchemaCompositor.class, "XSDSchemaCompositor", IS_ABSTRACT, !IS_INTERFACE);
-    initEReference(getXSDSchemaCompositor_IncorporatedSchema(), this.getXSDSchema(), null, "incorporatedSchema", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEReference(getXSDSchemaCompositor_IncorporatedSchema(), this.getXSDSchema(), null, "incorporatedSchema", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdSchemaContentEClass, XSDSchemaContent.class, "XSDSchemaContent", IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdSchemaDirectiveEClass, XSDSchemaDirective.class, "XSDSchemaDirective", IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDSchemaDirective_SchemaLocation(), ecorePackage.getEString(), "schemaLocation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSchemaDirective_ResolvedSchema(), this.getXSDSchema(), null, "resolvedSchema", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDSchemaDirective_SchemaLocation(), ecorePackage.getEString(), "schemaLocation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSchemaDirective_ResolvedSchema(), this.getXSDSchema(), null, "resolvedSchema", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdScopeEClass, XSDScope.class, "XSDScope", IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdSimpleTypeDefinitionEClass, XSDSimpleTypeDefinition.class, "XSDSimpleTypeDefinition", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDSimpleTypeDefinition_Variety(), this.getXSDVariety(), "variety", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDSimpleTypeDefinition_Final(), this.getXSDSimpleFinal(), "final", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDSimpleTypeDefinition_LexicalFinal(), this.getXSDSimpleFinal(), "lexicalFinal", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDSimpleTypeDefinition_ValidFacets(), ecorePackage.getEString(), "validFacets", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_Contents(), this.getXSDSimpleTypeDefinition(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_FacetContents(), this.getXSDConstrainingFacet(), null, "facetContents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_Facets(), this.getXSDConstrainingFacet(), null, "facets", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_MemberTypeDefinitions(), this.getXSDSimpleTypeDefinition(), null, "memberTypeDefinitions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_FundamentalFacets(), this.getXSDFundamentalFacet(), null, "fundamentalFacets", null, 1, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_BaseTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "baseTypeDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_PrimitiveTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "primitiveTypeDefinition", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_ItemTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "itemTypeDefinition", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_RootTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "rootTypeDefinition", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_MinFacet(), this.getXSDMinFacet(), null, "minFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_MaxFacet(), this.getXSDMaxFacet(), null, "maxFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_MaxInclusiveFacet(), this.getXSDMaxInclusiveFacet(), null, "maxInclusiveFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_MinInclusiveFacet(), this.getXSDMinInclusiveFacet(), null, "minInclusiveFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_MinExclusiveFacet(), this.getXSDMinExclusiveFacet(), null, "minExclusiveFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_MaxExclusiveFacet(), this.getXSDMaxExclusiveFacet(), null, "maxExclusiveFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_LengthFacet(), this.getXSDLengthFacet(), null, "lengthFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_WhiteSpaceFacet(), this.getXSDWhiteSpaceFacet(), null, "whiteSpaceFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_EnumerationFacets(), this.getXSDEnumerationFacet(), null, "enumerationFacets", null, 0, -1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_PatternFacets(), this.getXSDPatternFacet(), null, "patternFacets", null, 0, -1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_CardinalityFacet(), this.getXSDCardinalityFacet(), null, "cardinalityFacet", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_NumericFacet(), this.getXSDNumericFacet(), null, "numericFacet", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_MaxLengthFacet(), this.getXSDMaxLengthFacet(), null, "maxLengthFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_MinLengthFacet(), this.getXSDMinLengthFacet(), null, "minLengthFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_TotalDigitsFacet(), this.getXSDTotalDigitsFacet(), null, "totalDigitsFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_FractionDigitsFacet(), this.getXSDFractionDigitsFacet(), null, "fractionDigitsFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_OrderedFacet(), this.getXSDOrderedFacet(), null, "orderedFacet", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_BoundedFacet(), this.getXSDBoundedFacet(), null, "boundedFacet", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_EffectiveMaxFacet(), this.getXSDMaxFacet(), null, "effectiveMaxFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_EffectiveWhiteSpaceFacet(), this.getXSDWhiteSpaceFacet(), null, "effectiveWhiteSpaceFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_EffectiveMaxLengthFacet(), this.getXSDMaxLengthFacet(), null, "effectiveMaxLengthFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_EffectiveFractionDigitsFacet(), this.getXSDFractionDigitsFacet(), null, "effectiveFractionDigitsFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_EffectivePatternFacet(), this.getXSDPatternFacet(), null, "effectivePatternFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_EffectiveEnumerationFacet(), this.getXSDEnumerationFacet(), null, "effectiveEnumerationFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_EffectiveTotalDigitsFacet(), this.getXSDTotalDigitsFacet(), null, "effectiveTotalDigitsFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_EffectiveMinLengthFacet(), this.getXSDMinLengthFacet(), null, "effectiveMinLengthFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_EffectiveLengthFacet(), this.getXSDLengthFacet(), null, "effectiveLengthFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_EffectiveMinFacet(), this.getXSDMinFacet(), null, "effectiveMinFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDSimpleTypeDefinition_SyntheticFacets(), this.getXSDFacet(), null, "syntheticFacets", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDSimpleTypeDefinition_Variety(), this.getXSDVariety(), "variety", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDSimpleTypeDefinition_Final(), this.getXSDSimpleFinal(), "final", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDSimpleTypeDefinition_LexicalFinal(), this.getXSDSimpleFinal(), "lexicalFinal", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDSimpleTypeDefinition_ValidFacets(), ecorePackage.getEString(), "validFacets", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_Contents(), this.getXSDSimpleTypeDefinition(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_FacetContents(), this.getXSDConstrainingFacet(), null, "facetContents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_Facets(), this.getXSDConstrainingFacet(), null, "facets", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_MemberTypeDefinitions(), this.getXSDSimpleTypeDefinition(), null, "memberTypeDefinitions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_FundamentalFacets(), this.getXSDFundamentalFacet(), null, "fundamentalFacets", null, 1, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_BaseTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "baseTypeDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_PrimitiveTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "primitiveTypeDefinition", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_ItemTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "itemTypeDefinition", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_RootTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "rootTypeDefinition", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_MinFacet(), this.getXSDMinFacet(), null, "minFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_MaxFacet(), this.getXSDMaxFacet(), null, "maxFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_MaxInclusiveFacet(), this.getXSDMaxInclusiveFacet(), null, "maxInclusiveFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_MinInclusiveFacet(), this.getXSDMinInclusiveFacet(), null, "minInclusiveFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_MinExclusiveFacet(), this.getXSDMinExclusiveFacet(), null, "minExclusiveFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_MaxExclusiveFacet(), this.getXSDMaxExclusiveFacet(), null, "maxExclusiveFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_LengthFacet(), this.getXSDLengthFacet(), null, "lengthFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_WhiteSpaceFacet(), this.getXSDWhiteSpaceFacet(), null, "whiteSpaceFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_EnumerationFacets(), this.getXSDEnumerationFacet(), null, "enumerationFacets", null, 0, -1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_PatternFacets(), this.getXSDPatternFacet(), null, "patternFacets", null, 0, -1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_CardinalityFacet(), this.getXSDCardinalityFacet(), null, "cardinalityFacet", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_NumericFacet(), this.getXSDNumericFacet(), null, "numericFacet", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_MaxLengthFacet(), this.getXSDMaxLengthFacet(), null, "maxLengthFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_MinLengthFacet(), this.getXSDMinLengthFacet(), null, "minLengthFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_TotalDigitsFacet(), this.getXSDTotalDigitsFacet(), null, "totalDigitsFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_FractionDigitsFacet(), this.getXSDFractionDigitsFacet(), null, "fractionDigitsFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_OrderedFacet(), this.getXSDOrderedFacet(), null, "orderedFacet", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_BoundedFacet(), this.getXSDBoundedFacet(), null, "boundedFacet", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_EffectiveMaxFacet(), this.getXSDMaxFacet(), null, "effectiveMaxFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_EffectiveWhiteSpaceFacet(), this.getXSDWhiteSpaceFacet(), null, "effectiveWhiteSpaceFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_EffectiveMaxLengthFacet(), this.getXSDMaxLengthFacet(), null, "effectiveMaxLengthFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_EffectiveFractionDigitsFacet(), this.getXSDFractionDigitsFacet(), null, "effectiveFractionDigitsFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_EffectivePatternFacet(), this.getXSDPatternFacet(), null, "effectivePatternFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_EffectiveEnumerationFacet(), this.getXSDEnumerationFacet(), null, "effectiveEnumerationFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_EffectiveTotalDigitsFacet(), this.getXSDTotalDigitsFacet(), null, "effectiveTotalDigitsFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_EffectiveMinLengthFacet(), this.getXSDMinLengthFacet(), null, "effectiveMinLengthFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_EffectiveLengthFacet(), this.getXSDLengthFacet(), null, "effectiveLengthFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_EffectiveMinFacet(), this.getXSDMinFacet(), null, "effectiveMinFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDSimpleTypeDefinition_SyntheticFacets(), this.getXSDFacet(), null, "syntheticFacets", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdTermEClass, XSDTerm.class, "XSDTerm", IS_ABSTRACT, !IS_INTERFACE);
 
     initEClass(xsdTotalDigitsFacetEClass, XSDTotalDigitsFacet.class, "XSDTotalDigitsFacet", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDTotalDigitsFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDTotalDigitsFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdTypeDefinitionEClass, XSDTypeDefinition.class, "XSDTypeDefinition", IS_ABSTRACT, !IS_INTERFACE);
-    initEReference(getXSDTypeDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDTypeDefinition_DerivationAnnotation(), this.getXSDAnnotation(), null, "derivationAnnotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDTypeDefinition_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDTypeDefinition_RootType(), this.getXSDTypeDefinition(), null, "rootType", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDTypeDefinition_BaseType(), this.getXSDTypeDefinition(), null, "baseType", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDTypeDefinition_SimpleType(), this.getXSDSimpleTypeDefinition(), null, "simpleType", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDTypeDefinition_ComplexType(), this.getXSDParticle(), null, "complexType", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEReference(getXSDTypeDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDTypeDefinition_DerivationAnnotation(), this.getXSDAnnotation(), null, "derivationAnnotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDTypeDefinition_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDTypeDefinition_RootType(), this.getXSDTypeDefinition(), null, "rootType", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDTypeDefinition_BaseType(), this.getXSDTypeDefinition(), null, "baseType", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDTypeDefinition_SimpleType(), this.getXSDSimpleTypeDefinition(), null, "simpleType", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDTypeDefinition_ComplexType(), this.getXSDParticle(), null, "complexType", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdWhiteSpaceFacetEClass, XSDWhiteSpaceFacet.class, "XSDWhiteSpaceFacet", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDWhiteSpaceFacet_Value(), this.getXSDWhiteSpace(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDWhiteSpaceFacet_Value(), this.getXSDWhiteSpace(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdWildcardEClass, XSDWildcard.class, "XSDWildcard", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDWildcard_NamespaceConstraintCategory(), this.getXSDNamespaceConstraintCategory(), "namespaceConstraintCategory", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDWildcard_NamespaceConstraint(), ecorePackage.getEString(), "namespaceConstraint", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDWildcard_ProcessContents(), this.getXSDProcessContents(), "processContents", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDWildcard_LexicalNamespaceConstraint(), ecorePackage.getEString(), "lexicalNamespaceConstraint", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDWildcard_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDWildcard_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDWildcard_NamespaceConstraintCategory(), this.getXSDNamespaceConstraintCategory(), "namespaceConstraintCategory", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDWildcard_NamespaceConstraint(), ecorePackage.getEString(), "namespaceConstraint", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDWildcard_ProcessContents(), this.getXSDProcessContents(), "processContents", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDWildcard_LexicalNamespaceConstraint(), ecorePackage.getEString(), "lexicalNamespaceConstraint", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDWildcard_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDWildcard_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdxPathDefinitionEClass, XSDXPathDefinition.class, "XSDXPathDefinition", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getXSDXPathDefinition_Variety(), this.getXSDXPathVariety(), "variety", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getXSDXPathDefinition_Value(), ecorePackage.getEString(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getXSDXPathDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getXSDXPathDefinition_Variety(), this.getXSDXPathVariety(), "variety", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDXPathDefinition_Value(), ecorePackage.getEString(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDXPathDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
     initEEnum(xsdAttributeUseCategoryEEnum, XSDAttributeUseCategory.class, "XSDAttributeUseCategory");
@@ -4689,6 +4689,7 @@ public class XSDPackageImpl
     // Create resource
     createResource(eNS_URI);
   }
+
   /**
    * Creates, registers, and initializes the <b>Package</b> for this
    * model, and for any others upon which it depends.  Simple

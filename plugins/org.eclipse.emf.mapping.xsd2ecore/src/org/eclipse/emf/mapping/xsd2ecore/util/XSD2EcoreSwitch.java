@@ -12,9 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreSwitch.java,v 1.2 2004/03/12 23:36:34 emerks Exp $
+ * $Id: XSD2EcoreSwitch.java,v 1.3 2004/05/16 16:49:09 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.util;
+
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -36,8 +38,7 @@ import org.eclipse.emf.mapping.xsd2ecore.*;
  * @see org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePackage
  * @generated
  */
-public class XSD2EcoreSwitch
-{
+public class XSD2EcoreSwitch {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -69,24 +70,54 @@ public class XSD2EcoreSwitch
    */
   public Object doSwitch(EObject theEObject)
   {
-    EClass theEClass = theEObject.eClass();
+    return doSwitch(theEObject.eClass(), theEObject);
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  {
     if (theEClass.eContainer() == modelPackage)
     {
-      switch (theEClass.getClassifierID())
-      {
-        case XSD2EcorePackage.XSD2_ECORE_MAPPING_ROOT:
-        {
-          XSD2EcoreMappingRoot xsD2EcoreMappingRoot = (XSD2EcoreMappingRoot)theEObject;
-          Object result = caseXSD2EcoreMappingRoot(xsD2EcoreMappingRoot);
-          if (result == null) result = caseMappingRoot(xsD2EcoreMappingRoot);
-          if (result == null) result = caseMapping(xsD2EcoreMappingRoot);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        default: return defaultCase(theEObject);
-      }
+      return doSwitch(theEClass.getClassifierID(), theEObject);
     }
-    return defaultCase(theEObject);
+    else
+    {
+      List eSuperTypes = theEClass.getESuperTypes();
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+    }
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(int classifierID, EObject theEObject)
+  {
+    switch (classifierID)
+    {
+      case XSD2EcorePackage.XSD2_ECORE_MAPPING_ROOT:
+      {
+        XSD2EcoreMappingRoot xsD2EcoreMappingRoot = (XSD2EcoreMappingRoot)theEObject;
+        Object result = caseXSD2EcoreMappingRoot(xsD2EcoreMappingRoot);
+        if (result == null) result = caseMappingRoot(xsD2EcoreMappingRoot);
+        if (result == null) result = caseMapping(xsD2EcoreMappingRoot);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      default: return defaultCase(theEObject);
+    }
   }
 
   /**

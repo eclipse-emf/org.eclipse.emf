@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreFactoryImpl.java,v 1.2 2004/03/12 23:36:34 emerks Exp $
+ * $Id: XSD2EcoreFactoryImpl.java,v 1.3 2004/05/16 16:49:34 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
@@ -88,4 +88,5 @@ public class XSD2EcoreFactoryImpl extends EFactoryImpl implements XSD2EcoreFacto
   {
     return XSD2EcorePackage.eINSTANCE;
   }
+
 } //XSD2EcoreFactoryImpl
