@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainActionBarContributor.java,v 1.5 2004/05/08 21:18:26 emerks Exp $
+ * $Id: EditingDomainActionBarContributor.java,v 1.6 2004/05/12 22:31:31 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -190,6 +190,11 @@ public class EditingDomainActionBarContributor
     actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), redoAction);
 
     actionBars.updateActionBars();
+  }
+
+  public IEditorPart getActiveEditor()
+  {
+    return activeEditor;
   }
 
   public void setActiveEditor(IEditorPart part) 
