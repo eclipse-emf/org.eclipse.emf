@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.24 2005/02/21 15:32:32 marcelop Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.25 2005/02/21 19:45:12 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -144,8 +144,8 @@ public class EMFTestPerformancePlugin extends Plugin
       if (performanceConfiguration != null)
         System.setProperty("eclipse.perf.config", performanceConfiguration);
 
-      String userAtt = user != null ? "" : (";dbuser=" + user);
-      String passAtt = pass != null ? "" : (";dbpasswd=" + pass);
+      String userAtt = user == null ? "" : (";dbuser=" + user);
+      String passAtt = pass == null ? "" : (";dbpasswd=" + pass);
 
       Class driverClass = null;
       try
