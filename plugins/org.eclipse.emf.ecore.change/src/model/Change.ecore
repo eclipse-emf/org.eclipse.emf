@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="ASCII"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0"
-  xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="change"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="change"
     nsURI="http://www.eclipse.org/emf/2003/Change" nsPrefix="change">
   <eClassifiers xsi:type="ecore:EClass" name="ChangeDescription">
     <eOperations name="apply"/>
@@ -36,7 +36,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="set" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../../org.eclipse.emf.ecore/src/model/Ecore.ecore#//EJavaObject"
-        changeable="false" volatile="true" transient="true"/>
+        changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"
         eType="ecore:EClass ../../../org.eclipse.emf.ecore/src/model/Ecore.ecore#//EStructuralFeature"
         volatile="true" unsettable="true"/>
@@ -60,7 +60,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="moveToIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" upperBound="-1"
         eType="ecore:EDataType ../../../org.eclipse.emf.ecore/src/model/Ecore.ecore#//EJavaObject"
-        volatile="true" transient="true"/>
+        volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="referenceValues" upperBound="-1"
         eType="ecore:EClass ../../../org.eclipse.emf.ecore/src/model/Ecore.ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass ../../../org.eclipse.emf.ecore/src/model/Ecore.ecore#//EStructuralFeature"/>
@@ -75,9 +75,9 @@
     <eOperations name="applyAndReverse"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType ../../../org.eclipse.emf.ecore/src/model/Ecore.ecore#//EResource"
-        transient="true"/>
+        transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../../org.eclipse.emf.ecore/src/model/Ecore.ecore#//EEList"
-        changeable="false" volatile="true" transient="true"/>
+        changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="listChanges" upperBound="-1"
         eType="#//ListChange" containment="true"/>
   </eClassifiers>

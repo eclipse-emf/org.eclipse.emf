@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceChange.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ResourceChange.java,v 1.2 2004/12/13 20:22:40 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -29,8 +29,7 @@ import org.eclipse.emf.ecore.resource.Resource;
  * @model 
  * @generated
  */
-public interface ResourceChange extends EObject
-{
+public interface ResourceChange extends EObject{
   /**
    * Returns the value of the '<em><b>Resource URI</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -68,7 +67,7 @@ public interface ResourceChange extends EObject
    * @return the value of the '<em>Resource</em>' attribute.
    * @see #setResource(Resource)
    * @see org.eclipse.emf.ecore.change.ChangePackage#getResourceChange_Resource()
-   * @model transient="true"
+   * @model transient="true" derived="true"
    * @generated
    */
   Resource getResource();
@@ -93,7 +92,7 @@ public interface ResourceChange extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' attribute.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getResourceChange_Value()
-   * @model many="false" transient="true" changeable="false" volatile="true"
+   * @model many="false" transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   EList getValue();

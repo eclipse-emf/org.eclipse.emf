@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChange.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ListChange.java,v 1.2 2004/12/13 20:22:40 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -44,8 +44,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @model 
  * @generated
  */
-public interface ListChange extends EObject
-{
+public interface ListChange extends EObject{
   /**
    * Returns the value of the '<em><b>Kind</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.ecore.change.ChangeKind}.
@@ -193,7 +192,7 @@ public interface ListChange extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Values</em>' attribute list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_Values()
-   * @model type="java.lang.Object" transient="true" volatile="true"
+   * @model type="java.lang.Object" transient="true" volatile="true" derived="true"
    * @generated
    */
   EList getValues();

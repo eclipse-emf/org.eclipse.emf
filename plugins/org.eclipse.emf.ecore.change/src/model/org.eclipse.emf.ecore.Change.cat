@@ -1,7 +1,7 @@
 
 (object Petal
     version    	42
-    _written   	"Rose 4.5.8054a"
+    _written   	"Rose 4.5.8163.3"
     charSet    	0)
 
 (object Class_Category "change"
@@ -106,7 +106,8 @@
 			    value      	FALSE))
 		    quid       	"3FDEF82800D5"
 		    type       	"EJavaObject"
-		    exportControl 	"Public")))
+		    exportControl 	"Public"
+		    derived    	TRUE)))
 	(object Class "ListChange"
 	    quid       	"4FC3AC580114"
 	    operations 	(list Operations
@@ -159,7 +160,8 @@
 		    quid       	"3FDF44C7002F"
 		    stereotype 	"0..*"
 		    type       	"EJavaObject"
-		    exportControl 	"Public")))
+		    exportControl 	"Public"
+		    derived    	TRUE)))
 	(object Class "ChangeKind"
 	    quid       	"4FC3B0190365"
 	    stereotype 	"enumeration"
@@ -199,7 +201,8 @@
 			    value      	TRUE))
 		    quid       	"4036404403BA"
 		    type       	"EResource"
-		    exportControl 	"Public")
+		    exportControl 	"Public"
+		    derived    	TRUE)
 		(object ClassAttribute "value"
 		    attributes 	(list Attribute_Set
 			(object Attribute
@@ -216,7 +219,8 @@
 			    value      	FALSE))
 		    quid       	"40353363034E"
 		    type       	"EEList"
-		    exportControl 	"Public")))
+		    exportControl 	"Public"
+		    derived    	TRUE)))
 	(object Association "$UNNAMED$0"
 	    quid       	"4FAD034903D3"
 	    roles      	(list role_list
@@ -610,7 +614,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	7
-			max_width  	828)
+			max_width  	819)
 		    width      	840
 		    height     	436
 		    annotation 	8
@@ -989,10 +993,10 @@
 		    location   	(496, 880)
 		    label      	(object ItemLabel
 			Parent_View 	@42
-			location   	(273, 699)
+			location   	(260, 699)
 			fill_color 	13434879
 			nlines     	1
-			max_width  	446
+			max_width  	472
 			justify    	0
 			label      	"ResourceChange")
 		    icon_style 	"Icon"
@@ -1001,13 +1005,13 @@
 		    quidu      	"40351FED0214"
 		    compartment 	(object Compartment
 			Parent_View 	@42
-			location   	(273, 759)
+			location   	(260, 759)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
 			nlines     	6
-			max_width  	453)
-		    width      	464
+			max_width  	469)
+		    width      	490
 		    height     	386
 		    annotation 	8
 		    autoResize 	TRUE)

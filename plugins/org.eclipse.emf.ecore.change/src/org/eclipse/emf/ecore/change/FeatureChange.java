@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChange.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: FeatureChange.java,v 1.2 2004/12/13 20:22:40 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -44,8 +44,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @model 
  * @generated
  */
-public interface FeatureChange extends EObject
-{
+public interface FeatureChange extends EObject{
   /**
    * Returns the value of the '<em><b>Feature Name</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -253,7 +252,7 @@ public interface FeatureChange extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' attribute.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getFeatureChange_Value()
-   * @model transient="true" changeable="false" volatile="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   Object getValue();
