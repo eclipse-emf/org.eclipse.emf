@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateChildCommand.java,v 1.2 2004/03/15 15:01:08 marcelop Exp $
+ * $Id: CreateChildCommand.java,v 1.3 2004/03/31 19:40:44 davidms Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -24,7 +24,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
@@ -68,6 +68,8 @@ public class CreateChildCommand extends CommandWrapper
   /**
    * This value is used to indicate that an optional positional index
    * indicator is unspecified.
+   * @deprecated As of EMF 2.0, use {@link CommandParameter#NO_INDEX}, whose
+   * value is equal to this, instead.
    */
   protected static final int NO_INDEX = CommandParameter.NO_INDEX;
 
@@ -84,12 +86,12 @@ public class CreateChildCommand extends CommandWrapper
   /**
    * This is the feature of the owner to which the child will be added.
    */
-  protected EReference feature;
+  protected EStructuralFeature feature;
 
   /**
    * This is the child object to be added.
    */
-  protected EObject child;
+  protected Object child;
 
   /**
    * This is the index for the new object's position under the feature.
@@ -130,11 +132,11 @@ public class CreateChildCommand extends CommandWrapper
    */
   public CreateChildCommand(EditingDomain domain,
                             EObject owner,
-                            EReference feature,
-                            EObject child,
+                            EStructuralFeature feature,
+                            Object child,
                             Collection selection)
   {
-    this(domain, owner, feature, child, NO_INDEX, selection, null);
+    this(domain, owner, feature, child, CommandParameter.NO_INDEX, selection, null);
   }
 
   /**
@@ -145,12 +147,12 @@ public class CreateChildCommand extends CommandWrapper
    */
   public CreateChildCommand(EditingDomain domain,
                             EObject owner,
-                            EReference feature,
-                            EObject child,
+                            EStructuralFeature feature,
+                            Object child,
                             Collection selection,
                             CreateChildCommand.Helper helper)
   {
-    this(domain, owner, feature, child, NO_INDEX, selection, helper);
+    this(domain, owner, feature, child, CommandParameter.NO_INDEX, selection, helper);
   }
 
   /**
@@ -163,13 +165,13 @@ public class CreateChildCommand extends CommandWrapper
    * org.eclipse.emf.common.command.AbstractCommand#canExecute} will return
    * <code>false</code>.  If non-null, <code>selection</code> is the
    * collection of selected objects.  The internal default helper is used by
-   * the command.  If <code>index</code> is {@link #NO_INDEX}, this behaves
-   * just like the first constructor form. 
+   * the command.  If <code>index</code> is {@link #CommandParameter.NO_INDEX},
+   * this behaves just like the first constructor form. 
    */
   public CreateChildCommand(EditingDomain domain,
                             EObject owner,
-                            EReference feature,
-                            EObject child,
+                            EStructuralFeature feature,
+                            Object child,
                             int index,
                             Collection selection)
   {
@@ -184,8 +186,8 @@ public class CreateChildCommand extends CommandWrapper
    */
   public CreateChildCommand(EditingDomain domain,
                             EObject owner,
-                            EReference feature,
-                            EObject child,
+                            EStructuralFeature feature,
+                            Object child,
                             int index,
                             Collection selection,
                             CreateChildCommand.Helper helper)
@@ -222,9 +224,7 @@ public class CreateChildCommand extends CommandWrapper
 
     if (feature.isMany())
     {
-      return index == NO_INDEX ?
-        AddCommand.create(domain, owner, feature, child) :
-        AddCommand.create(domain, owner, feature, child, index);
+      return AddCommand.create(domain, owner, feature, child, index);
     }
     else if (owner.eGet(feature) == null)
     {
