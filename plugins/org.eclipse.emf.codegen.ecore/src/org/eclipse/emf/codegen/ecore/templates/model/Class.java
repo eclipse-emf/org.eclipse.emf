@@ -898,7 +898,7 @@ public class Class
     stringBuffer.append(TEXT_49);
     }
     }
-    if (!genFeature.isListType() && genFeature.isUnsettable() && genFeature.isChangeable()) {
+    if (!genFeature.isListType() && genFeature.isUnsettable()) {
     stringBuffer.append(TEXT_50);
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_51);
