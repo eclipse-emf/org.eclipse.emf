@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.6 2004/05/11 13:02:02 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.7 2004/05/12 22:31:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -387,7 +387,7 @@ public class EcoreEditor
           {
             class ResourceDeltaVisitor implements IResourceDeltaVisitor
             {
-              protected ResourceSet resourceSet =	editingDomain.getResourceSet();
+              protected ResourceSet resourceSet = editingDomain.getResourceSet();
               protected Collection changedResources = new ArrayList();
               protected Collection removedResources = new ArrayList();
 
@@ -436,11 +436,11 @@ public class EcoreEditor
               getSite().getShell().getDisplay().asyncExec
                 (new Runnable()
                  {
-                 	public void run()
-                 	{
+                  public void run()
+                  {
                     getSite().getPage().closeEditor(EcoreEditor.this, false);
                     EcoreEditor.this.dispose();
-                 	}
+                  }
                  });
             }
 
@@ -632,7 +632,7 @@ public class EcoreEditor
 
   /**
    * This returns the editing domain as required by the {@link IEditingDomainProvider} interface.
-   * This is important for implementing the static methods of {@link AdapterFactoryEditingDomain}	
+   * This is important for implementing the static methods of {@link AdapterFactoryEditingDomain}
    * and for supporting {@link org.eclipse.emf.edit.ui.action.CommandAction}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -749,7 +749,7 @@ public class EcoreEditor
       setSelection(currentViewer == null ? StructuredSelection.EMPTY : currentViewer.getSelection());
     }
   }
-  
+
   /**
    * This returns the viewer as required by the {@link IViewerProvider} interface.
    * <!-- begin-user-doc -->
@@ -913,7 +913,7 @@ public class EcoreEditor
       control.setVisible(true);
       control.setFocus();
     }
-    
+
     handleContentOutlineSelection(contentOutlinePage.getSelection());
   }
 
@@ -1253,7 +1253,7 @@ public class EcoreEditor
     {
       setSite(site);
       setInput(editorInput);
-      setTitle(((IFileEditorInput)editorInput).getFile().getName());	
+      setTitle(((IFileEditorInput)editorInput).getFile().getName());
       site.setSelectionProvider(this);
       site.getPage().addPartListener(partListener);
       ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
@@ -1443,7 +1443,10 @@ public class EcoreEditor
 
     adapterFactory.dispose();
 
-    getActionBarContributor().setActiveEditor(null);
+    if (getActionBarContributor().getActiveEditor() == this)
+    {
+      getActionBarContributor().setActiveEditor(null);
+    }
 
     if (propertySheetPage != null)
     {

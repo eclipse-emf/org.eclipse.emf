@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.6 2004/05/08 21:18:10 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.7 2004/05/12 22:31:14 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -404,7 +404,7 @@ public class <%=genPackage.getEditorClassName()%>
 					{
 						class ResourceDeltaVisitor implements IResourceDeltaVisitor
 						{
-							protected ResourceSet resourceSet =	editingDomain.getResourceSet();
+							protected ResourceSet resourceSet = editingDomain.getResourceSet();
 							protected Collection changedResources = new ArrayList();
 							protected Collection removedResources = new ArrayList();
 
@@ -453,11 +453,11 @@ public class <%=genPackage.getEditorClassName()%>
 							getSite().getShell().getDisplay().asyncExec
 								(new Runnable()
 								 {
-								 	public void run()
-								 	{
+									public void run()
+									{
 										getSite().getPage().closeEditor(<%=genPackage.getEditorClassName()%>.this, false);
 										<%=genPackage.getEditorClassName()%>.this.dispose();
-								 	}
+									}
 								 });
 						}
 
@@ -659,7 +659,7 @@ public class <%=genPackage.getEditorClassName()%>
 
 	/**
 	 * This returns the editing domain as required by the {@link IEditingDomainProvider} interface.
-	 * This is important for implementing the static methods of {@link AdapterFactoryEditingDomain}	
+	 * This is important for implementing the static methods of {@link AdapterFactoryEditingDomain}
 	 * and for supporting {@link org.eclipse.emf.edit.ui.action.CommandAction}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -776,7 +776,7 @@ public class <%=genPackage.getEditorClassName()%>
 			setSelection(currentViewer == null ? StructuredSelection.EMPTY : currentViewer.getSelection());
 		}
 	}
-	
+
 	/**
 	 * This returns the viewer as required by the {@link IViewerProvider} interface.
 	 * <!-- begin-user-doc -->
@@ -1099,7 +1099,7 @@ public class <%=genPackage.getEditorClassName()%>
 			control.setVisible(true);
 			control.setFocus();
 		}
-		
+
 		handleContentOutlineSelection(contentOutlinePage.getSelection());
 	}
 
@@ -1418,7 +1418,7 @@ public class <%=genPackage.getEditorClassName()%>
 		{
 			setSite(site);
 			setInput(editorInput);
-			setTitle(((IFileEditorInput)editorInput).getFile().getName());	
+			setTitle(((IFileEditorInput)editorInput).getFile().getName());
 			site.setSelectionProvider(this);
 			site.getPage().addPartListener(partListener);
 			ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
@@ -1608,7 +1608,10 @@ public class <%=genPackage.getEditorClassName()%>
 
 		adapterFactory.dispose();
 
-		getActionBarContributor().setActiveEditor(null);
+		if (getActionBarContributor().getActiveEditor() == this)
+		{
+			getActionBarContributor().setActiveEditor(null);
+		}
 
 		if (propertySheetPage != null)
 		{
