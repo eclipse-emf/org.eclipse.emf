@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.6 2004/06/10 11:45:47 emerks Exp $
+ * $Id: Generator.java,v 1.7 2004/11/01 21:18:08 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -24,8 +24,10 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
@@ -65,6 +67,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
+import org.xml.sax.Attributes;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 
 /**
@@ -98,6 +104,7 @@ public class Generator extends CodeGen
     System.out.println("  [-projects ] <project-root-directory> ");
     System.out.println("  [-dynamicTemplates] [-forceOverwrite | -diff]");
     System.out.println("  [-generateSchema] [-nonNLSMarkers]");
+    System.out.println("  [-codeFormatting { default | <profile-file> } ]");
     System.out.println("  [-model] [-edit] [-editor]");
     System.out.println("  <genmodel-file>");
     System.out.println("  [ <target-root-directory> ]");
@@ -174,6 +181,8 @@ public class Generator extends CodeGen
                 boolean forceOverwrite = false;
                 boolean generateSchema = false;
                 boolean nonNLSMarkers = false;
+                boolean codeFormatting = false;
+                String profileFile = null;
                 boolean model = false;
                 boolean edit = false;
                 boolean editor = false;
@@ -204,6 +213,15 @@ public class Generator extends CodeGen
                   else if (arguments[index].equalsIgnoreCase("-nonNLSMarkers"))
                   {
                     nonNLSMarkers = true;
+                  }
+                  else if (arguments[index].equalsIgnoreCase("-codeFormatting"))
+                  {
+                    codeFormatting = true;
+                    profileFile = arguments[++index];
+                    if ("default".equals(profileFile))
+                    {
+                      profileFile = null;
+                    }
                   }
                   else if (arguments[index].equalsIgnoreCase("-model"))
                   {
@@ -296,6 +314,23 @@ public class Generator extends CodeGen
   
                   genModel.setGenerateSchema(generateSchema);
                   genModel.setNonNLSMarkers(nonNLSMarkers);
+                  genModel.setCodeFormatting(codeFormatting);
+
+                  if (profileFile != null)
+                  {
+                    Map options = CodeFormatterProfileParser.parse(profileFile);
+                    if (options == null)
+                    {
+                      throw new CoreException
+                        (new Status
+                          (IStatus.ERROR,
+                           CodeGenEcorePlugin.getPlugin().getBundle().getSymbolicName(),
+                           0,
+                           "Unable to read profile file: '" + profileFile + "'",
+                           null));
+                    }
+                    genModel.setCodeFormatterOptions(options);
+                  }
 
                   if (model)
                   {
@@ -879,5 +914,58 @@ public class Generator extends CodeGen
     genModel.getModelPluginVariables().add("EMF_ECORE_SDO=org.eclipse.emf.ecore.sdo");
 
     genModel.getStaticPackages().add("http://www.eclipse.org/emf/2003/SDO");
+  }
+  
+  /**
+   * This parses a code formatter profile file, recording the options it sepecifies in a map.
+   */
+  static class CodeFormatterProfileParser extends DefaultHandler
+  {
+    private Map options = null;
+
+    private String SETTING = "setting";
+    private String ID = "id";
+    private String VALUE = "value";
+    private String EMPTY = "";
+
+    public void startDocument()
+    {
+      options = new HashMap();
+    }
+
+    public void startElement(String namespaceURI, String localName, String qualifiedName, Attributes atts)
+    {
+      if (EMPTY.equals(namespaceURI) && SETTING.equals(localName))
+      {
+        String id = atts.getValue(EMPTY, ID); 
+        String value = atts.getValue(EMPTY, VALUE);
+
+        if (id != null && value != null)
+        {
+          options.put(id, value);
+        }
+      }
+    }
+
+   public Map getOptions()
+   {
+     return options;
+   }
+
+   public static Map parse(String systemID)
+   {
+     try
+     {
+       XMLReader parser = XMLReaderFactory.createXMLReader();
+       CodeFormatterProfileParser handler = new CodeFormatterProfileParser();
+       parser.setContentHandler(handler);
+       parser.parse(systemID);
+       return handler.getOptions();
+     }
+     catch (Exception e)
+     {
+     }
+     return null;
+   }
   }
 }
