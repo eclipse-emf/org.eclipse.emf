@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
 
 <!--
 /**
@@ -15,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.2 2004/03/08 21:32:43 emerks Exp $
+ * $Id: plugin.xml,v 1.3 2004/03/20 20:53:37 marcelop Exp $
  */
 -->
 
@@ -27,12 +28,13 @@
     class = "org.eclipse.xsd.presentation.XSDEditorPlugin$Implementation">
 
   <requires>
-    <import plugin="org.eclipse.ui.workbench.texteditor" export="true"/>
+    <import plugin="org.eclipse.core.runtime.compatibility"/>
     <import plugin="org.eclipse.jface.text" export="true"/>
+    <import plugin="org.eclipse.ui.workbench.texteditor" export="true"/>
     <import plugin="org.eclipse.ui.editors" export="true"/>
-    <import plugin="org.eclipse.xsd.edit" export="true"/>
     <import plugin="org.eclipse.emf.edit.ui" export="true"/>
     <import plugin="org.eclipse.emf.ecore.xmi"/>
+    <import plugin="org.eclipse.xsd.edit" export="true"/>
   </requires>
 
   <runtime>
