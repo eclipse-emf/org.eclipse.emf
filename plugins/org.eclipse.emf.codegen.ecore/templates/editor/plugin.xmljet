@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.5 2004/06/10 11:42:49 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.6 2004/06/14 23:51:17 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -64,27 +64,93 @@
     <%}%>
   <%}%>
 <%}%>
+<%if (genModel.isRichClientPlatform()) {%>
+
+  <extension
+    point="org.eclipse.core.runtime.applications"
+    id="<%=genModel.getQualifiedEditorAdvisorClassName()%>_Application">
+    <application>
+      <run
+        class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$Application">
+      </run>
+    </application>
+  </extension>
+
+   <extension
+    point="org.eclipse.ui.perspectives">
+    <perspective
+      name="%_UI_Perspective_label"
+      class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$Perspective"
+      id="<%=genModel.getQualifiedEditorAdvisorClassName()%>_Perspective">
+    </perspective>
+  </extension>
+
+  <extension
+    point="org.eclipse.ui.actionSets">
+    <actionSet
+      label="%_UI_<%=genModel.getEditorAdvisorClassName()%>_ActionSet_label"
+      visible="true"
+      id="<%=genModel.getQualifiedEditorAdvisorClassName()%>_ActionSet">
+      <action
+        label="%_UI_Menu_About_label"
+        class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$AboutAction"
+        menubarPath="help/additions"
+        id="<%=genModel.getQualifiedEditorAdvisorClassName()%>_AboutAction">
+      </action>
+      <action
+        label="%_UI_Menu_OpenURI_label"
+        accelerator="Ctrl+U"
+        class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$OpenURIAction"
+        menubarPath="file/additions"
+        id="<%=genModel.getQualifiedEditorAdvisorClassName()%>_OpenURIAction">
+      </action>
+      <action
+        label="%_UI_Menu_Open_label"
+        accelerator="Ctrl+O"
+        class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$OpenAction"
+        menubarPath="file/additions"
+        id="<%=genModel.getQualifiedEditorAdvisorClassName()%>_OpenAction">
+      </action>
+    </actionSet>
+  </extension>
+   
+<%}%>
 <%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); %>
 
-  <%if (!genModel.isRichClientPlatform()) {%>
+  <%if (genModel.isRichClientPlatform()) {%>
+  <extension
+    point="org.eclipse.ui.actionSets">
+    <actionSet
+      label="%_UI_<%=genPackage.getModelWizardClassName()%>_ActionSet_label"
+      visible="true"
+      id="<%=genPackage.getQualifiedActionBarContributorClassName()%>_ActionSet">
+      <action
+        label="%_UI_<%=genPackage.getModelWizardClassName()%>_label"
+        class="<%=genPackage.getQualifiedActionBarContributorClassName()%>$NewAction"
+        menubarPath="file/new/additions"
+        id="<%=genPackage.getPackageName()%>New">
+      </action>
+    </actionSet>
+  </extension>  
+  <%}else{%>
   <extension
     point = "org.eclipse.ui.newWizards">
     <category
-       id = "org.eclipse.emf.ecore.Wizard.category.ID"
-       name="%_UI_Wizard_category">
+      id = "org.eclipse.emf.ecore.Wizard.category.ID"
+      name="%_UI_Wizard_category">
     </category>
     <wizard
-        id = "<%=genPackage.getQualifiedModelWizardClassName()%>ID"
-        name = "%_UI_<%=genPackage.getModelWizardClassName()%>_label"
-        class = "<%=genPackage.getQualifiedModelWizardClassName()%>"
-        category = "org.eclipse.emf.ecore.Wizard.category.ID"
-        icon = "icons/full/obj16/<%=genPackage.getPrefix()%>ModelFile.gif">
+      id = "<%=genPackage.getQualifiedModelWizardClassName()%>ID"
+      name = "%_UI_<%=genPackage.getModelWizardClassName()%>_label"
+      class = "<%=genPackage.getQualifiedModelWizardClassName()%>"
+      category = "org.eclipse.emf.ecore.Wizard.category.ID"
+      icon = "icons/full/obj16/<%=genPackage.getPrefix()%>ModelFile.gif">
       <description>%_UI_<%=genPackage.getModelWizardClassName()%>_description</description>
       <selection class = "org.eclipse.core.resources.IResource" />
     </wizard>
   </extension>
-
   <%}%>
+
   <extension point = "org.eclipse.ui.editors">
     <editor
         id = "<%=genPackage.getQualifiedEditorClassName()%>ID"
@@ -94,6 +160,6 @@
         class = "<%=genPackage.getQualifiedEditorClassName()%>" 
         contributorClass="<%=genPackage.getQualifiedActionBarContributorClassName()%>" >
     </editor>
-  </extension>
+  </extension>    
 <%}%>
 </plugin>

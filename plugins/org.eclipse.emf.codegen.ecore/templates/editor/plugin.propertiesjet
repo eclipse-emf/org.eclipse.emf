@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.3 2004/03/23 09:49:43 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.4 2004/06/14 23:51:17 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -84,3 +84,30 @@ _UI_Wizard_initial_object_description = Select a model object to create
 _UI_FileConflict_label = File Conflict
 _WARN_FileConflict = There are unsaved changes that conflict with changes made outside the editor.  Do you wish to discard this editor's changes?
 
+<%if (genModel.isRichClientPlatform()) {%>
+_UI_<%=genModel.getEditorAdvisorClassName()%>_ActionSet_label = <%=genModel.getModelName()%> Action Set
+_UI_Perspective_label = <%=genModel.getModelName()%>
+
+_UI_Browse_label = &Browse...
+_UI_File_label = &File
+_UI_Question_title = Question
+_WARN_FileConflict = The file "{0}" already exists.  Do you want to replace the existing file?
+_UI_Error_title = Error
+_WARN_No_Editor = There is not editor registered for the file "{0}".
+
+_UI_Application_title = <%=genModel.getModelName()%> Application
+_UI_Menu_File_label = &File
+_UI_Menu_New_label = &New
+_UI_Menu_Open_label = &Open...
+_UI_Menu_OpenURI_label = &Open URI...
+_UI_Menu_Edit_label = &Edit
+_UI_Menu_Window_label = &Window
+_UI_Menu_Help_label = &Help
+_UI_Menu_About_label = <%=genModel.getModelName()%> &About...
+_UI_About_title = <%=genModel.getModelName()%> Application
+_UI_About_text = <%=genModel.getModelName()%> Application about box goes here.
+
+<%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next();%>
+_UI_<%=genPackage.getModelWizardClassName()%>_ActionSet_label = <%=genPackage.getPrefix()%> Model Action Set
+<%}%>
+<%}%>

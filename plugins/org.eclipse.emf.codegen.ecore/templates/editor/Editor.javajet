@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.10 2004/06/13 12:20:33 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.11 2004/06/14 23:51:17 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -846,10 +846,6 @@ public class <%=genPackage.getEditorClassName()%>
 		try
 		{
 			// Load the resource through the editing domain.
-			//
-			// TODO: Extract a URI from the editor input.
-			// Ensure that you remove @generated or mark it @generated NOT
-			//
 			Resource resource = 
 				editingDomain.loadResource
 					(URI.createURI(getEditorInput().getName()).toString());
@@ -1155,7 +1151,10 @@ public class <%=genPackage.getEditorClassName()%>
 			control.setFocus();
 		}
 
-		handleContentOutlineSelection(contentOutlinePage.getSelection());
+		if (contentOutlinePage != null)
+		{
+			handleContentOutlineSelection(contentOutlinePage.getSelection());
+		}
 	}
 
 	/**
@@ -1405,7 +1404,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public boolean isSaveAsAllowed()
 	{
-		return <%=Boolean.toString(!genModel.isRichClientPlatform())%>;
+		return true;
 	}
 
 	/**
@@ -1416,7 +1415,20 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public void doSaveAs()
 	{
-<%if (!genModel.isRichClientPlatform()) {%>
+<%if (genModel.isRichClientPlatform()) {%>
+		String fileExtension = getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtension");<%=genModel.getNonNLS()%>
+		String file = <%=genModel.getImportedName(genModel.getQualifiedEditorAdvisorClassName())%>.openFilePathDialog(getSite().getShell(), "*." + fileExtension, <%=genModel.getImportedName("org.eclipse.swt.SWT")%>.SAVE);<%=genModel.getNonNLS()%>
+		if (file != null)
+		{
+			if (!file.endsWith("." + fileExtension))<%=genModel.getNonNLS()%>
+			{
+				file = file + "." + fileExtension;<%=genModel.getNonNLS()%>
+			}
+			URI uri = URI.createFileURI(file);
+			doSaveAs(uri, 
+				new <%=genModel.getImportedName("org.eclipse.emf.common.ui.URIEditorInput")%>(uri));
+		} 
+<%} else {%>
 		SaveAsDialog saveAsDialog= new SaveAsDialog(getSite().getShell());
 		saveAsDialog.open();
 		IPath path= saveAsDialog.getResult();
@@ -1425,15 +1437,28 @@ public class <%=genPackage.getEditorClassName()%>
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 			if (file != null)
 			{
-				((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI
-					(URI.createPlatformResourceURI(file.getFullPath().toString()));
-				IFileEditorInput modelFile = new FileEditorInput(file);
-				setInput(modelFile);
-				setPartName(file.getName());
-				doSave(getActionBars().getStatusLineManager().getProgressMonitor());
+				doSaveAs(URI.createPlatformResourceURI(file.getFullPath().toString()), 
+					new FileEditorInput(file));
 			}
 		}
 <%}%>
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void doSaveAs(URI uri, IEditorInput editorInput)
+	{
+		((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
+		setInput(editorInput);
+		setPartName(editorInput.getName());
+		IProgressMonitor progressMonitor = 
+			getActionBars().getStatusLineManager() != null ?
+			getActionBars().getStatusLineManager().getProgressMonitor() :
+			new <%=genModel.getImportedName("org.eclipse.core.runtime.NullProgressMonitor")%>();		
+		doSave(progressMonitor);
 	}
 
 <%if (!genModel.isRichClientPlatform()) {%>
@@ -1538,6 +1563,7 @@ public class <%=genPackage.getEditorClassName()%>
 	public void setSelection(ISelection selection)
 	{
 		editorSelection = selection;
+		
 		for (Iterator listeners = selectionChangedListeners.iterator(); listeners.hasNext(); )
 		{
 			ISelectionChangedListener listener = (ISelectionChangedListener)listeners.next();
@@ -1554,37 +1580,40 @@ public class <%=genPackage.getEditorClassName()%>
 	public void setStatusLineManager(ISelection selection)
 	{
 		IStatusLineManager statusLineManager = getActionBars().getStatusLineManager();
-		if (currentViewer == contentOutlineViewer)
+		if (statusLineManager != null)
 		{
-			statusLineManager = contentOutlineStatusLineManager;
-		}
-
-		if (selection instanceof IStructuredSelection)
-		{
-			Collection collection = ((IStructuredSelection)selection).toList();
-			switch (collection.size())
+			if (currentViewer == contentOutlineViewer)
 			{
-				case 0:
+				statusLineManager = contentOutlineStatusLineManager;
+			}
+	
+			if (selection instanceof IStructuredSelection)
+			{
+				Collection collection = ((IStructuredSelection)selection).toList();
+				switch (collection.size())
 				{
-					statusLineManager.setMessage(getString("_UI_NoObjectSelected"));<%=genModel.getNonNLS()%>
-					break;
-				}
-				case 1:
-				{
-					String text = new AdapterFactoryItemDelegator(adapterFactory).getText(collection.iterator().next());
-					statusLineManager.setMessage(getString("_UI_SingleObjectSelected", text));<%=genModel.getNonNLS()%>
-					break;
-				}
-				default:
-				{
-					statusLineManager.setMessage(getString("_UI_MultiObjectSelected", Integer.toString(collection.size())));<%=genModel.getNonNLS()%>
-					break;
+					case 0:
+					{
+						statusLineManager.setMessage(getString("_UI_NoObjectSelected"));<%=genModel.getNonNLS()%>
+						break;
+					}
+					case 1:
+					{
+						String text = new AdapterFactoryItemDelegator(adapterFactory).getText(collection.iterator().next());
+						statusLineManager.setMessage(getString("_UI_SingleObjectSelected", text));<%=genModel.getNonNLS()%>
+						break;
+					}
+					default:
+					{
+						statusLineManager.setMessage(getString("_UI_MultiObjectSelected", Integer.toString(collection.size())));<%=genModel.getNonNLS()%>
+						break;
+					}
 				}
 			}
-		}
-		else
-		{
-			statusLineManager.setMessage("");<%=genModel.getNonNLS()%>
+			else
+			{
+				statusLineManager.setMessage("");<%=genModel.getNonNLS()%>
+			}
 		}
 	}
 

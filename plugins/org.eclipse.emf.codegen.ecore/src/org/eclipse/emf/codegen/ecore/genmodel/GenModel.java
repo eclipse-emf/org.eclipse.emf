@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.7 2004/05/27 20:16:52 emerks Exp $
+ * $Id: GenModel.java,v 1.8 2004/06/14 23:51:17 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -997,6 +997,7 @@ public interface GenModel extends GenBase{
   JETEmitter getEditorEmitter();
   JETEmitter getActionBarContributorEmitter();
   JETEmitter getModelWizardEmitter();
+  JETEmitter getEditorAdvisorEmitter();
   JETEmitter getEditorPluginClassEmitter();
   JETEmitter getEditorPluginXMLEmitter();
   JETEmitter getEditorPluginPropertiesEmitter();
@@ -1038,7 +1039,9 @@ public interface GenModel extends GenBase{
 
   String getEditorPluginClassName();
   String getEditorPluginPackageName();
+  String getEditorAdvisorClassName();
   String getQualifiedEditorPluginClassName();
+  String getQualifiedEditorAdvisorClassName();
 
   String getEditPluginID();
   String getEditorPluginID();

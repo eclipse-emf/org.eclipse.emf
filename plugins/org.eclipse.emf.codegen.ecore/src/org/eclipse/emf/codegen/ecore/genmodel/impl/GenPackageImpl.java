@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.7 2004/05/28 19:21:36 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.8 2004/06/14 23:51:17 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2342,21 +2342,18 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
            getEditorClassName(), 
            getGenModel().getEditorEmitter());
   
-        if (!getGenModel().isRichClientPlatform())
-        {
-          progressMonitor.subTask
-            (CodeGenEcorePlugin.INSTANCE.getString
-               ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedModelWizardClassName() }));
-          generate
-            (new SubProgressMonitor(progressMonitor, 1), 
-             Generator.EMF_EDITOR_PROJECT_STYLE,
-             getGenModel().getEffectiveModelPluginVariables(),
-             getGenModel().getEditorDirectory(),
-             getPresentationPackageName(), 
-             getModelWizardClassName(), 
-             getGenModel().getModelWizardEmitter());
-        }
-  
+        progressMonitor.subTask
+        (CodeGenEcorePlugin.INSTANCE.getString
+           ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedModelWizardClassName() }));
+      generate
+        (new SubProgressMonitor(progressMonitor, 1), 
+         Generator.EMF_EDITOR_PROJECT_STYLE,
+         getGenModel().getEffectiveModelPluginVariables(),
+         getGenModel().getEditorDirectory(),
+         getPresentationPackageName(), 
+         getModelWizardClassName(), 
+         getGenModel().getModelWizardEmitter());
+
         progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
              ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedActionBarContributorClassName() }));

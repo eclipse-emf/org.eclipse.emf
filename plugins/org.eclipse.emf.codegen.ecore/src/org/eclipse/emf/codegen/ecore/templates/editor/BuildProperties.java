@@ -10,11 +10,11 @@ public class BuildProperties
   protected final String TEXT_3 = "Id";
   protected final String TEXT_4 = NL + " */" + NL + "-->";
   protected final String TEXT_5 = NL + "bin.includes =\tplugin.xml,\\" + NL + "\t\t\t\t";
-  protected final String TEXT_6 = ",\\" + NL + "\t\t\t\tplugin.properties" + NL + "jars.compile.order = ";
+  protected final String TEXT_6 = ",\\" + NL + "\t\t\t\tplugin.properties,\\" + NL + "\t\t\t\ticons/" + NL + "jars.compile.order = ";
   protected final String TEXT_7 = NL + "source.";
   protected final String TEXT_8 = " = src/" + NL + "output.";
   protected final String TEXT_9 = " = bin/";
-  protected final String TEXT_10 = NL + "bin.includes =\tplugin.xml,\\" + NL + "\t\t\t\tplugin.properties";
+  protected final String TEXT_10 = NL + "bin.includes =\tplugin.xml,\\" + NL + "\t\t\t\tplugin.properties,\\" + NL + "\t\t\t\ticons/";
 
   public String generate(Object argument)
   {

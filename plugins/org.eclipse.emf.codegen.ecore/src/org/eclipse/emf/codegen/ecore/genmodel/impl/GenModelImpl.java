@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.11 2004/05/27 20:16:52 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.12 2004/06/14 23:51:17 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1695,6 +1695,21 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
          getEffectiveModelPluginVariables(),
          getEditorProjectDirectory() + "/build.properties",
          getEditorBuildPropertiesEmitter());
+      
+      if (getGenModel().isRichClientPlatform())
+      {
+        progressMonitor.subTask
+        (CodeGenEcorePlugin.INSTANCE.getString
+           ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedEditorAdvisorClassName() }));
+      generate
+        (new SubProgressMonitor(progressMonitor, 1),
+         Generator.EMF_EDITOR_PROJECT_STYLE,
+         getEffectiveModelPluginVariables(),
+         getEditorPluginDirectory(),
+         getEditorPluginPackageName(),
+         getEditorAdvisorClassName(),
+         getEditorAdvisorEmitter());
+      }      
     }
     finally
     {
@@ -1718,6 +1733,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String editorTemplateName = "editor/Editor.javajet";
   protected String actionBarContributorTemplateName = "editor/ActionBarContributor.javajet";
   protected String modelWizardTemplateName = "editor/ModelWizard.javajet";
+  protected String advisorTemplateName = "editor/Advisor.javajet";
   protected String editorPluginTemplateName = "editor/Plugin.javajet";
   protected String editorPluginXMLTemplateName = "editor/plugin.xmljet";
   protected String editorPluginPropertiesTemplateName = "editor/plugin.propertiesjet";
@@ -1738,6 +1754,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter editorEmitter = null;
   protected JETEmitter actionBarContributorEmitter = null;
   protected JETEmitter modelWizardEmitter = null;
+  protected JETEmitter advisorEmitter = null;
   protected JETEmitter editorPluginClassEmitter = null;
   protected JETEmitter editorPluginXMLEmitter = null;
   protected JETEmitter editorPluginPropertiesEmitter = null;
@@ -1879,6 +1896,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(modelWizardEmitter, "org.eclipse.emf.codegen.ecore.templates.editor.ModelWizard");
     }
     return modelWizardEmitter;
+  }
+
+  public JETEmitter getEditorAdvisorEmitter()
+  {
+    if (advisorEmitter == null)
+    {
+      advisorEmitter = createJETEmitter(advisorTemplateName);
+      setMethod(advisorEmitter, "org.eclipse.emf.codegen.ecore.templates.editor.Advisor");
+    }
+    return advisorEmitter;
   }
 
   public JETEmitter getEditorPluginClassEmitter()
@@ -3655,6 +3682,22 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
     }
     return result;
+  }
+
+  public String getQualifiedEditorAdvisorClassName()
+  {
+//    String packageName = getQualifiedEditorPluginClassName();
+//    int index = packageName.lastIndexOf('.');
+//    if (index >= 0)
+//    {
+//      packageName = packageName.substring(0, index);
+//    }
+    return getEditorPluginPackageName() + "." + getEditorAdvisorClassName();
+  }
+  
+  public String getEditorAdvisorClassName()
+  {
+    return getModelName() + "EditorAdvisor";
   }
 
   protected void getAllGenPackagesWithClassifiersHelper(List result, List genPackages)
