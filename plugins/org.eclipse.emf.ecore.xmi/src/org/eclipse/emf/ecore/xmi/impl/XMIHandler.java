@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XMIHandler.java,v 1.2 2004/03/15 15:00:52 marcelop Exp $
+ * $Id: XMIHandler.java,v 1.3 2004/04/18 23:15:59 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 
 import java.util.Map;
+
+import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
@@ -31,6 +33,7 @@ public abstract class XMIHandler extends XMLHandler
 {
   protected static final String XMI_ELEMENT_TYPE = "xmi";
   protected static final String XMI_UUID = "uuid";
+  protected static final String XMI_EXTENSION = "Extension";
 
   protected final static String XMI_TYPE_ATTRIB = XMIResource.XMI_NS + ":" + XMLResource.TYPE;
   protected final static String ID_ATTRIB = XMIResource.XMI_NS + ":" + XMIResource.XMI_ID;
@@ -65,5 +68,22 @@ public abstract class XMIHandler extends XMLHandler
   protected boolean isTextFeatureValue(Object type)
   {
     return super.isTextFeatureValue(type) && type != XMI_ELEMENT_TYPE;
+  }
+
+  protected void handleUnknownFeature(String prefix, String name, boolean isElement, EObject peekObject, String value)
+  {
+    if (XMI_EXTENSION.equals(name) && XMIResource.XMI_URI.equals(helper.getURI(prefix)))
+    {
+      if (extendedMetaData == null)
+      {
+        setExtendedMetaDataOption(Boolean.TRUE);
+      }
+
+      recordUnknownFeature(prefix, name, isElement, peekObject, value);
+    }
+    else
+    {
+      super.handleUnknownFeature(prefix, name, isElement, peekObject, value);
+    }
   }
 } // XMIHandler
