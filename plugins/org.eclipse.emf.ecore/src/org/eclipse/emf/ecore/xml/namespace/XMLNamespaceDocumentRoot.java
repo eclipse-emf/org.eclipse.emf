@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRoot.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLNamespaceDocumentRoot.java,v 1.2 2004/05/16 17:13:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -104,12 +104,12 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Base</em>' attribute.
-   * @see #setBase(Object)
+   * @see #setBase(String)
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Base()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnyURI"
    * @generated
    */
-  Object getBase();
+  String getBase();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getBase <em>Base</em>}' attribute.
@@ -119,7 +119,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @see #getBase()
    * @generated
    */
-  void setBase(Object value);
+  void setBase(String value);
 
   /**
    * Returns the value of the '<em><b>Lang</b></em>' attribute.
