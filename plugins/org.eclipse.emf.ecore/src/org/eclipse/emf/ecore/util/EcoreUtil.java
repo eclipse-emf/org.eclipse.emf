@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.18 2005/02/15 20:10:03 bportier Exp $
+ * $Id: EcoreUtil.java,v 1.19 2005/03/09 15:37:32 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -485,7 +485,7 @@ public class EcoreUtil
           }
           else
           {
-            target.addAll(copyAll(source));
+            target.addAll(source);
           }
         }
         else
