@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.6 2004/09/24 04:09:14 davidms Exp $
+ * $Id: GenPackage.java,v 1.7 2004/10/22 19:20:50 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getPrefix <em>Prefix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getBasePackage <em>Base Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getResource <em>Resource</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDisposableProviderFactory <em>Disposable Provider Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isAdapterFactory <em>Adapter Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isLoadInitialization <em>Load Initialization</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}</li>
@@ -132,6 +133,32 @@ public interface GenPackage extends GenBase{
    * @generated
    */
   void setResource(GenResourceKind value);
+
+  /**
+   * Returns the value of the '<em><b>Disposable Provider Factory</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Disposable Provider Factory</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Disposable Provider Factory</em>' attribute.
+   * @see #setDisposableProviderFactory(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_DisposableProviderFactory()
+   * @model 
+   * @generated
+   */
+  boolean isDisposableProviderFactory();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDisposableProviderFactory <em>Disposable Provider Factory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Disposable Provider Factory</em>' attribute.
+   * @see #isDisposableProviderFactory()
+   * @generated
+   */
+  void setDisposableProviderFactory(boolean value);
 
   /**
    * Returns the value of the '<em><b>Adapter Factory</b></em>' attribute.
@@ -462,6 +489,8 @@ public interface GenPackage extends GenBase{
 
   List/*GenPackage*/ getAdapterDelegatePackages();
   List/*GenClass*/ getAdapterDelegateSuperClasses();
+
+  boolean hasStatefulProvider();
 
   boolean reconcile(GenPackage oldGenPackageVersion);
 

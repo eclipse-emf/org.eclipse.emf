@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.12 2004/09/24 04:09:14 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.13 2004/10/22 19:20:50 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -96,6 +96,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getPrefix <em>Prefix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getBasePackage <em>Base Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getResource <em>Resource</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isDisposableProviderFactory <em>Disposable Provider Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isAdapterFactory <em>Adapter Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isLoadInitialization <em>Load Initialization</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getEcorePackage <em>Ecore Package</em>}</li>
@@ -173,6 +174,26 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected GenResourceKind resource = RESOURCE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isDisposableProviderFactory() <em>Disposable Provider Factory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isDisposableProviderFactory()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean DISPOSABLE_PROVIDER_FACTORY_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isDisposableProviderFactory() <em>Disposable Provider Factory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isDisposableProviderFactory()
+   * @generated
+   * @ordered
+   */
+  protected boolean disposableProviderFactory = DISPOSABLE_PROVIDER_FACTORY_EDEFAULT;
 
   /**
    * The default value of the '{@link #isAdapterFactory() <em>Adapter Factory</em>}' attribute.
@@ -373,6 +394,29 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     resource = newResource == null ? RESOURCE_EDEFAULT : newResource;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__RESOURCE, oldResource, resource));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isDisposableProviderFactory()
+  {
+    return disposableProviderFactory;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setDisposableProviderFactory(boolean newDisposableProviderFactory)
+  {
+    boolean oldDisposableProviderFactory = disposableProviderFactory;
+    disposableProviderFactory = newDisposableProviderFactory;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY, oldDisposableProviderFactory, disposableProviderFactory));
   }
 
   /**
@@ -648,12 +692,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       switch (eContainerFeatureID)
       {
         case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
-          return ((InternalEObject)eContainer).eInverseRemove(this, GenModelPackage.GEN_MODEL__GEN_PACKAGES, GenModel.class, msgs);
+          return eContainer.eInverseRemove(this, GenModelPackage.GEN_MODEL__GEN_PACKAGES, GenModel.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
@@ -671,6 +715,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return getBasePackage();
       case GenModelPackage.GEN_PACKAGE__RESOURCE:
         return getResource();
+      case GenModelPackage.GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY:
+        return isDisposableProviderFactory() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
         return isAdapterFactory() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
@@ -709,6 +755,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return BASE_PACKAGE_EDEFAULT == null ? basePackage != null : !BASE_PACKAGE_EDEFAULT.equals(basePackage);
       case GenModelPackage.GEN_PACKAGE__RESOURCE:
         return resource != RESOURCE_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY:
+        return disposableProviderFactory != DISPOSABLE_PROVIDER_FACTORY_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
         return adapterFactory != ADAPTER_FACTORY_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
@@ -748,6 +796,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return;
       case GenModelPackage.GEN_PACKAGE__RESOURCE:
         setResource((GenResourceKind)newValue);
+        return;
+      case GenModelPackage.GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY:
+        setDisposableProviderFactory(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
         setAdapterFactory(((Boolean)newValue).booleanValue());
@@ -799,6 +850,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__RESOURCE:
         setResource(RESOURCE_EDEFAULT);
         return;
+      case GenModelPackage.GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY:
+        setDisposableProviderFactory(DISPOSABLE_PROVIDER_FACTORY_EDEFAULT);
+        return;
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
         setAdapterFactory(ADAPTER_FACTORY_EDEFAULT);
         return;
@@ -843,6 +897,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(basePackage);
     result.append(", resource: ");
     result.append(resource);
+    result.append(", disposableProviderFactory: ");
+    result.append(disposableProviderFactory);
     result.append(", adapterFactory: ");
     result.append(adapterFactory);
     result.append(", loadInitialization: ");
@@ -1588,6 +1644,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       {
         setResource(GenResourceKind.XML_LITERAL);
       }
+      setDisposableProviderFactory(true);
     }
 
     CLASSIFIER_LOOP:
@@ -2323,6 +2380,19 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return result;
   }
 
+  public boolean hasStatefulProvider()
+  {
+    for (Iterator iter = getGenClasses().iterator(); iter.hasNext(); )
+    {
+      GenClass genClass = (GenClass)iter.next();
+      if (!genClass.isAbstract() && genClass.getProvider() == GenProviderKind.STATEFUL_LITERAL)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public void generateEdit(IProgressMonitor progressMonitor)
   {
     try
@@ -2540,6 +2610,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     setResource(oldGenPackageVersion.getResource());
     setAdapterFactory(oldGenPackageVersion.isAdapterFactory());
     setLoadInitialization(oldGenPackageVersion.isLoadInitialization());
+    setDisposableProviderFactory(oldGenPackageVersion.isDisposableProviderFactory());
   }
 
   public boolean reconcile()
