@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedImageRegistry.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ExtendedImageRegistry.java,v 1.2 2004/05/26 15:15:45 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -37,6 +37,8 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
+
+import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.provider.ComposedImage;
@@ -96,22 +98,21 @@ public class ExtendedImageRegistry
           ImageDescriptor imageDescriptor= (ImageDescriptor)object;
           result = imageDescriptor.createImage();
         }
-        else if (object instanceof URL)
+        else if (object instanceof URL || object instanceof URI)
         {
-          URL url = (URL)object;
-          String urlString = url.toString();
+          String urlString = object.toString(); 
           ImageDescriptor imageDescriptor = null;
           if (urlString.startsWith(resourceURLPrefix))
           {
             imageDescriptor = 
               PlatformUI.getWorkbench().getEditorRegistry().getImageDescriptor 
-                ("dummy." + url.toString().substring(resourceURLPrefix.length()));
+                ("dummy." + urlString.substring(resourceURLPrefix.length()));
           }
           else if (urlString.startsWith(itemURLPrefix))
           {
             try
             {
-              url = new URL(urlString.substring(0, itemURLPrefix.length()));
+              URL url = new URL(urlString.substring(0, itemURLPrefix.length()));
               String key1 = urlString.substring(itemURLPrefix.length());
               imageDescriptor = new URLImageDescriptor(url, key1, null);
             }
@@ -123,7 +124,7 @@ public class ExtendedImageRegistry
           {
             try
             {
-              url = new URL(urlString.substring(0, createChildURLPrefix.length()));
+              URL url = new URL(urlString.substring(0, createChildURLPrefix.length()));
               String key1 = urlString.substring(createChildURLPrefix.length() + 1);
               String key2 = null;
               int index = key1.indexOf("/");
@@ -140,7 +141,13 @@ public class ExtendedImageRegistry
           }
           else
           {
-            imageDescriptor = ImageDescriptor.createFromURL(url);
+            try
+            {
+              imageDescriptor = ImageDescriptor.createFromURL(new URL(urlString));
+            }
+            catch (IOException exception)
+            {
+            }
           }
           result = imageDescriptor.createImage();
         }

@@ -12,13 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.4 2004/05/22 19:07:05 marcelop Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.5 2004/05/26 15:15:44 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -28,6 +26,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -207,14 +206,7 @@ public class ReflectiveItemProvider
   {
     EObject eObject = (EObject)object;
     EClass eClass = eObject.eClass();
-    try
-    {
-      return new URL(getResourceLocator().getImage("full/obj16/Item").toString() + "#" + eClass.getName());
-    }
-    catch (MalformedURLException exception)
-    {
-      return getResourceLocator().getImage("full/obj16/Item");
-    }
+    return URI.createURI(getResourceLocator().getImage("full/obj16/Item").toString() + "#" + eClass.getName());
   }
 
   /**
@@ -294,16 +286,10 @@ public class ReflectiveItemProvider
       EReference reference = (EReference)feature;
       EClass parentClass = reference.getEContainingClass();
       EClass childClass = ((EObject)child).eClass();
-      try
-      {
-        return 
-          new URL
-            (getResourceLocator().getImage("full/ctool16/CreateChild").toString() + 
-               "#" + parentClass.getName() + "/" + childClass.getName());
-      }
-      catch (MalformedURLException exception)
-      {
-      }
+      return  
+        URI.createURI
+          (getResourceLocator().getImage("full/ctool16/CreateChild").toString() + 
+             "#" + parentClass.getName() + "/" + childClass.getName());
     }
 
     return getResourceLocator().getImage("full/ctool16/CreateChild");

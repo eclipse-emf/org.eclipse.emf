@@ -12,13 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ResourceItemProvider.java,v 1.2 2004/04/05 18:35:39 davidms Exp $
+ * $Id: ResourceItemProvider.java,v 1.3 2004/05/26 15:15:44 emerks Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +24,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -109,15 +108,7 @@ public class ResourceItemProvider
   public Object getImage(Object object)
   {
     Resource resource = (Resource)object;
-    // return PlatformUI.getWorkbench().getEditorRegistry().getImageDescriptor(IWorkbenchPlresource.getURI().toString());
-    try
-    {
-      return new URL(getResourceLocator().getImage("full/obj16/Resource").toString() + "#" + resource.getURI().fileExtension());
-    }
-    catch (MalformedURLException exception)
-    {
-      return getResourceLocator().getImage("full/obj16/Resource");
-    }
+    return URI.createURI(getResourceLocator().getImage("full/obj16/Resource").toString() + "#" + resource.getURI().fileExtension());
   }
 
   /**
