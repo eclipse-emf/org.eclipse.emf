@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.6 2004/06/14 23:51:17 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.7 2004/06/15 12:25:28 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -212,8 +212,8 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 			{
 				if (!MessageDialog.openQuestion(
 					getShell(),
-					<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_Question_title"), <%=genModel.getNonNLS()%>
-					<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_WARN_FileConflict", new String []{ fileURI.toFileString() }))) <%=genModel.getNonNLS()%>
+					<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_Question_title"),<%=genModel.getNonNLS()%>
+					<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_WARN_FileConflict", new String []{ fileURI.toFileString() })))<%=genModel.getNonNLS()%>
         		{
 					initialObjectCreationPage.selectFileField();
 					return false;
@@ -548,9 +548,9 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 					if (filePath != null)
 					{
 						
-						if (!filePath.endsWith("."+fileExtension)) <%=genModel.getNonNLS()%>
+						if (!filePath.endsWith("."+fileExtension))<%=genModel.getNonNLS()%>
 						{
-							filePath = filePath + "." + fileExtension; <%=genModel.getNonNLS()%>
+							filePath = filePath + "." + fileExtension;<%=genModel.getNonNLS()%>
 						}
 						fileField.setText(filePath);
 					}

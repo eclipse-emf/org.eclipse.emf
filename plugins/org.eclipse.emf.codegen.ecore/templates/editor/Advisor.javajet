@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.List java.util.Iterator org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.1 2004/06/14 23:51:17 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.List java.util.Iterator org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.2 2004/06/15 12:25:28 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -39,7 +39,6 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	public static final String copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
 
 <%}%>
-
 	/**
 	 * This looks up a string in the plugin's plugin.properties file.
 	 * <!-- begin-user-doc -->
@@ -70,12 +69,12 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 */
 	public static class Application implements <%=genModel.getImportedName("org.eclipse.core.runtime.IPlatformRunnable")%>
 	{
-	    /**
-	     * @see org.eclipse.core.runtime.IPlatformRunnable#run(java.lang.Object)
+		/**
+		 * @see org.eclipse.core.runtime.IPlatformRunnable#run(java.lang.Object)
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
-	     */
+		 */
 		public Object run(Object args)
 		{
 			WorkbenchAdvisor workbenchAdvisor = new <%=genModel.getEditorAdvisorClassName()%>();
@@ -115,12 +114,12 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		 */
 		public static final String ID_PERSPECTIVE = "<%=genModel.getQualifiedEditorAdvisorClassName()%>_Perspective";<%=genModel.getNonNLS()%>
 
-	    /**
-	     * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(org.eclipse.ui.IPageLayout)
+		/**
+		 * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(org.eclipse.ui.IPageLayout)
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
-	     */
+		 */
 		public void createInitialLayout(<%=genModel.getImportedName("org.eclipse.ui.IPageLayout")%> layout)
 		{
 			layout.setEditorAreaVisible(true);
@@ -214,25 +213,16 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	public static String openFilePathDialog(<%=genModel.getImportedName("org.eclipse.swt.widgets.Shell")%> shell, String fileExtensionFilter, int style)
 	{
 		<%=genModel.getImportedName("org.eclipse.swt.widgets.FileDialog")%> fileDialog = new <%=genModel.getImportedName("org.eclipse.swt.widgets.FileDialog")%>(shell, style);
-<%
-		List genPackages = genModel.getAllGenPackagesWithClassifiers();
-		if (!genPackages.isEmpty())
-		{%>
+<% List genPackages = genModel.getAllGenPackagesWithClassifiers(); if (!genPackages.isEmpty()) {%>
 		if (fileExtensionFilter == null)
 		{
 			fileExtensionFilter =
-				<%
-			for (Iterator i = genPackages.iterator(); i.hasNext(); )
-			{
-				GenPackage genPackage = (GenPackage)i.next();
-				%>"*." + getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtension")<%
-				if (i.hasNext())
-				{%><%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
-				+ ";" + <%} else {%>; <%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%}%>
-<%			}%>
+  <%for (Iterator i = genPackages.iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); %>
+  				"*." + getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtension")<%if (i.hasNext()) {%> + ";" +<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%><%} else {%>;<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%}%>
+  <%}%>
 		}
 		fileDialog.setFilterExtensions(new String[]{fileExtensionFilter});
-<%		}%>
+<%}%>
 
 		fileDialog.open();
 		if (fileDialog.getFileName() != null && fileDialog.getFileName().length() > 0)
@@ -288,7 +278,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
-     */
+	 */
 	public String getInitialWindowPerspectiveId()
 	{
 		return Perspective.ID_PERSPECTIVE;
@@ -299,7 +289,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
-     */
+	 */
 	public void initialize(<%=genModel.getImportedName("org.eclipse.ui.application.IWorkbenchConfigurer")%> configurer)
 	{
 		super.initialize(configurer);
@@ -311,7 +301,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
-     */
+	 */
 	public void preWindowOpen(<%=genModel.getImportedName("org.eclipse.ui.application.IWorkbenchWindowConfigurer")%> configurer)
 	{
 		super.preWindowOpen(configurer);
@@ -326,7 +316,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
-     */
+	 */
 	public void fillActionBars(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchWindow")%> window, <%=genModel.getImportedName("org.eclipse.ui.application.IActionBarConfigurer")%> configurer, int flags)
 	{
 		super.fillActionBars(window, configurer, flags);

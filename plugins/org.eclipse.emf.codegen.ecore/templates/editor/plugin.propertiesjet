@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.4 2004/06/14 23:51:17 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.5 2004/06/15 12:25:28 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -93,7 +93,7 @@ _UI_File_label = &File
 _UI_Question_title = Question
 _WARN_FileConflict = The file "{0}" already exists.  Do you want to replace the existing file?
 _UI_Error_title = Error
-_WARN_No_Editor = There is not editor registered for the file "{0}".
+_WARN_No_Editor = There is no editor registered for the file "{0}".
 
 _UI_Application_title = <%=genModel.getModelName()%> Application
 _UI_Menu_File_label = &File
@@ -110,4 +110,5 @@ _UI_About_text = <%=genModel.getModelName()%> Application about box goes here.
 <%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next();%>
 _UI_<%=genPackage.getModelWizardClassName()%>_ActionSet_label = <%=genPackage.getPrefix()%> Model Action Set
 <%}%>
+
 <%}%>

@@ -50,9 +50,9 @@ public class ModelWizard
   protected final String TEXT_43 = NL + "\t\treturn rootObject;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Do the work after everything is specified." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic boolean performFinish()" + NL + "\t{" + NL + "\t\ttry" + NL + "\t\t{";
   protected final String TEXT_44 = NL + "\t\t\t// Get the URI of the model file." + NL + "\t\t\t//" + NL + "\t\t\tfinal URI fileURI = getModelURI();" + NL + "\t\t\tif (new ";
   protected final String TEXT_45 = "(fileURI.toFileString()).exists())" + NL + "\t\t\t{" + NL + "\t\t\t\tif (!MessageDialog.openQuestion(" + NL + "\t\t\t\t\tgetShell()," + NL + "\t\t\t\t\t";
-  protected final String TEXT_46 = ".INSTANCE.getString(\"_UI_Question_title\"), ";
+  protected final String TEXT_46 = ".INSTANCE.getString(\"_UI_Question_title\"),";
   protected final String TEXT_47 = NL + "\t\t\t\t\t";
-  protected final String TEXT_48 = ".INSTANCE.getString(\"_WARN_FileConflict\", new String []{ fileURI.toFileString() }))) ";
+  protected final String TEXT_48 = ".INSTANCE.getString(\"_WARN_FileConflict\", new String []{ fileURI.toFileString() })))";
   protected final String TEXT_49 = NL + "        \t\t{" + NL + "\t\t\t\t\tinitialObjectCreationPage.selectFileField();" + NL + "\t\t\t\t\treturn false;" + NL + "\t\t\t\t}" + NL + "\t\t\t}" + NL + "\t\t\t" + NL + "\t\t\t// Do the work within an operation." + NL + "\t\t\t//" + NL + "\t\t\t";
   protected final String TEXT_50 = " operation = new ";
   protected final String TEXT_51 = "()" + NL + "\t\t\t{" + NL + "\t\t\t\tpublic void run(IProgressMonitor progressMonitor) throws ";
@@ -106,8 +106,8 @@ public class ModelWizard
   protected final String TEXT_99 = NL + "\t\t\t\t\tString filePath = ";
   protected final String TEXT_100 = ".openFilePathDialog(getShell(), \"*.\"+fileExtension, ";
   protected final String TEXT_101 = ".OPEN);";
-  protected final String TEXT_102 = NL + "\t\t\t\t\tif (filePath != null)" + NL + "\t\t\t\t\t{" + NL + "\t\t\t\t\t\t" + NL + "\t\t\t\t\t\tif (!filePath.endsWith(\".\"+fileExtension)) ";
-  protected final String TEXT_103 = NL + "\t\t\t\t\t\t{" + NL + "\t\t\t\t\t\t\tfilePath = filePath + \".\" + fileExtension; ";
+  protected final String TEXT_102 = NL + "\t\t\t\t\tif (filePath != null)" + NL + "\t\t\t\t\t{" + NL + "\t\t\t\t\t\t" + NL + "\t\t\t\t\t\tif (!filePath.endsWith(\".\"+fileExtension))";
+  protected final String TEXT_103 = NL + "\t\t\t\t\t\t{" + NL + "\t\t\t\t\t\t\tfilePath = filePath + \".\" + fileExtension;";
   protected final String TEXT_104 = NL + "\t\t\t\t\t\t}" + NL + "\t\t\t\t\t\tfileField.setText(filePath);" + NL + "\t\t\t\t\t}" + NL + "\t\t\t\t}" + NL + "\t\t\t});" + NL;
   protected final String TEXT_105 = NL + "\t\t\tLabel containerLabel = new Label(composite, SWT.LEFT);" + NL + "\t\t\t{" + NL + "\t\t\t\tcontainerLabel.setText(";
   protected final String TEXT_106 = ".INSTANCE.getString(\"_UI_ModelObject\"));";

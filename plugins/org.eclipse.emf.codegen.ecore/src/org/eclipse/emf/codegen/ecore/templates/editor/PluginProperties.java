@@ -32,7 +32,7 @@ public class PluginProperties
   protected final String TEXT_24 = NL + "_UI_";
   protected final String TEXT_25 = "_ActionSet_label = ";
   protected final String TEXT_26 = " Action Set" + NL + "_UI_Perspective_label = ";
-  protected final String TEXT_27 = NL + NL + "_UI_Browse_label = &Browse..." + NL + "_UI_File_label = &File" + NL + "_UI_Question_title = Question" + NL + "_WARN_FileConflict = The file \"{0}\" already exists.  Do you want to replace the existing file?" + NL + "_UI_Error_title = Error" + NL + "_WARN_No_Editor = There is not editor registered for the file \"{0}\"." + NL + "" + NL + "_UI_Application_title = ";
+  protected final String TEXT_27 = NL + NL + "_UI_Browse_label = &Browse..." + NL + "_UI_File_label = &File" + NL + "_UI_Question_title = Question" + NL + "_WARN_FileConflict = The file \"{0}\" already exists.  Do you want to replace the existing file?" + NL + "_UI_Error_title = Error" + NL + "_WARN_No_Editor = There is no editor registered for the file \"{0}\"." + NL + "" + NL + "_UI_Application_title = ";
   protected final String TEXT_28 = " Application" + NL + "_UI_Menu_File_label = &File" + NL + "_UI_Menu_New_label = &New" + NL + "_UI_Menu_Open_label = &Open..." + NL + "_UI_Menu_OpenURI_label = &Open URI..." + NL + "_UI_Menu_Edit_label = &Edit" + NL + "_UI_Menu_Window_label = &Window" + NL + "_UI_Menu_Help_label = &Help" + NL + "_UI_Menu_About_label = ";
   protected final String TEXT_29 = " &About..." + NL + "_UI_About_title = ";
   protected final String TEXT_30 = " Application" + NL + "_UI_About_text = ";
@@ -41,6 +41,7 @@ public class PluginProperties
   protected final String TEXT_33 = "_ActionSet_label = ";
   protected final String TEXT_34 = " Model Action Set";
   protected final String TEXT_35 = NL;
+  protected final String TEXT_36 = NL;
 
   public String generate(Object argument)
   {
@@ -129,8 +130,9 @@ public class PluginProperties
     stringBuffer.append(genPackage.getPrefix());
     stringBuffer.append(TEXT_34);
     }
-    }
     stringBuffer.append(TEXT_35);
+    }
+    stringBuffer.append(TEXT_36);
     return stringBuffer.toString();
   }
 }
