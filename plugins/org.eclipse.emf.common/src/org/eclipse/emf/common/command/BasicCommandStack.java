@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicCommandStack.java,v 1.4 2004/06/04 15:29:17 emerks Exp $
+ * $Id: BasicCommandStack.java,v 1.5 2004/06/22 21:16:46 fbudinsky Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -299,13 +299,27 @@ public class BasicCommandStack implements CommandStack
       return true;
     }
 
-    for (int i = top; i > saveIndex; --i)
+    if (top > saveIndex)
     {
-      if (!(commandList.get(i) instanceof AbstractCommand.NonDirtying))
+      for (int i = top; i > saveIndex; --i)
       {
-        return true;
+        if (!(commandList.get(i) instanceof AbstractCommand.NonDirtying))
+        {
+          return true;
+        }
       }
     }
+    else
+    {
+      for (int i = saveIndex; i > top; --i)
+      {
+        if (!(commandList.get(i) instanceof AbstractCommand.NonDirtying))
+        {
+          return true;
+        }
+      }
+    }
+
     return false;
   }
 }
