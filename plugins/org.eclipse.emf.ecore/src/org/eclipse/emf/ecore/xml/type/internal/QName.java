@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QName.java,v 1.1 2004/05/21 22:13:38 elena Exp $
+ * $Id: QName.java,v 1.2 2004/06/16 22:28:48 elena Exp $
  */
 
 package org.eclipse.emf.ecore.xml.type.internal;
@@ -58,10 +58,10 @@ public final class QName
     }
     // both prefix (if any) a localpart must be valid NCName
     if (prefix.length() > 0 && !XMLChar.isValidNCName(prefix))
-        throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName"+qname);
+        throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName: "+qname);
 
     if(!XMLChar.isValidNCName(localName))
-      throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName"+qname);
+      throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName: "+qname);
      
     setPrefix(prefix);
     setLocalPart(localName);
@@ -69,11 +69,16 @@ public final class QName
   }
 
   /** Constructs a QName with the specified values. */
-  public QName(String namespaceUri, String localPart, String prefix)
+  public QName(String namespaceURI, String localPart, String prefix)
   {
-    setNamespaceURI(namespaceUri);
+    setNamespaceURI(namespaceURI);
     setPrefix(prefix);
     setLocalPart(localPart);
+    if (this.prefix.length() > 0 && !XMLChar.isValidNCName(this.prefix))
+      throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName: "+prefix);
+
+    if(!XMLChar.isValidNCName(this.localPart))
+       throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName: "+localPart);
   }
 
   /** Returns true if the two objects are equal. */
