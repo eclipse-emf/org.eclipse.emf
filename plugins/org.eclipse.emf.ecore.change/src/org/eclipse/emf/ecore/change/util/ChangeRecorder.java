@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.21 2004/12/14 22:34:35 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.22 2004/12/15 20:07:24 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -205,11 +205,6 @@ public class ChangeRecorder implements Adapter
       {
         FeatureChange featureChange = (FeatureChange)j.next();
         featureChange.getValue();
-        for (Iterator k = featureChange.getListChanges().iterator(); k.hasNext();)
-        {
-          ListChange listChange = (ListChange)k.next();
-          listChange.getValues();
-        }
       }
     }
     
@@ -217,11 +212,6 @@ public class ChangeRecorder implements Adapter
     {
       ResourceChange resourceChange = (ResourceChange)i.next();
       resourceChange.getValue();
-      for (Iterator k = resourceChange.getListChanges().iterator(); k.hasNext();)
-      {
-        ListChange listChange = (ListChange)k.next();
-        listChange.getValues();
-      }
     }
     
     return changeDescription;
