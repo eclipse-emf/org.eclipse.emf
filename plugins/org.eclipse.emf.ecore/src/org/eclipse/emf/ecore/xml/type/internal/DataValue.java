@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataValue.java,v 1.1 2004/05/21 22:13:38 elena Exp $
+ * $Id: DataValue.java,v 1.2 2004/06/15 22:50:50 elena Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -190,7 +190,7 @@ public static final class  Base64 {
       int      fewerThan24bits   = lengthDataBits%TWENTYFOURBITGROUP;
       int      numberTriplets    = lengthDataBits/TWENTYFOURBITGROUP;
       int      numberQuartet     = fewerThan24bits != 0 ? numberTriplets+1 : numberTriplets;
-      int      numberLines       = (numberQuartet-1)/19+1;
+      int      numberLines       = (numberQuartet-1)/19;
       char     encodedData[]     = null;
 
       encodedData = new char[numberQuartet*4+numberLines];
@@ -1502,7 +1502,7 @@ public static class EncodingMap {
 * default port for a specific scheme). Rather, it only knows the
 * grammar and basic set of operations that can be applied to a URI.
 *
-* @version  $Id: DataValue.java,v 1.1 2004/05/21 22:13:38 elena Exp $
+* @version  $Id: DataValue.java,v 1.2 2004/06/15 22:50:50 elena Exp $
 *
 **********************************************************************/
  public static final class URI implements Serializable {
@@ -3540,7 +3540,7 @@ public static class EncodingMap {
   * @author Michael Glavassevich, IBM
   * @author Rahul Srivastava, Sun Microsystems Inc.
   *
-  * @version $Id: DataValue.java,v 1.1 2004/05/21 22:13:38 elena Exp $
+  * @version $Id: DataValue.java,v 1.2 2004/06/15 22:50:50 elena Exp $
   */
  public static final class XMLChar {
 
