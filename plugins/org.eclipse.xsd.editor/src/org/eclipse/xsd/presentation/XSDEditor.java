@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.14 2004/12/11 12:22:36 emerks Exp $
+ * $Id: XSDEditor.java,v 1.15 2005/02/23 18:31:36 marcelop Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -29,7 +29,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -70,7 +69,6 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
-import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -103,6 +101,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageSelectionProvider;
@@ -1400,7 +1399,7 @@ public class XSDEditor
     {
       node = ((Attr)node).getOwnerElement();
     }
-    if (node != null && /* !xsdDiagnostic.isSetLine() && */ XSDParser.getUserData(node) instanceof Map)
+    if (node != null && /* !xsdDiagnostic.isSetLine() && */ XSDParser.getUserData(node) != null)
     {
       int startLine = XSDParser.getStartLine(node) - 1;
       int startColumn = XSDParser.getStartColumn(node);

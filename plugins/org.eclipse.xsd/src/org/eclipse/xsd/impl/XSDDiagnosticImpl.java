@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDDiagnosticImpl.java,v 1.2 2005/02/23 18:31:37 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -341,7 +340,7 @@ public class XSDDiagnosticImpl
     {
       theNode = ((Attr)theNode).getOwnerElement();
     }
-    if (theNode != null && XSDParser.getUserData(theNode) instanceof Map)
+    if (theNode != null && XSDParser.getUserData(theNode) != null)
     {
       return XSDParser.getStartLine(theNode);
     }
@@ -379,7 +378,7 @@ public class XSDDiagnosticImpl
     {
       theNode = ((Attr)theNode).getOwnerElement();
     }
-    if (theNode != null && XSDParser.getUserData(theNode) instanceof Map)
+    if (theNode != null && XSDParser.getUserData(theNode) != null)
     {
       return  XSDParser.getStartColumn(theNode);
     }
