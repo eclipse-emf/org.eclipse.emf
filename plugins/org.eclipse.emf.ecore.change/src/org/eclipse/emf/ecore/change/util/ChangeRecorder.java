@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.20 2004/12/08 14:31:40 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.21 2004/12/14 22:34:35 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -121,7 +121,25 @@ public class ChangeRecorder implements Adapter
    */
   public void beginRecording(Collection rootObjects)
   {
-    changeDescription = createChangeDescription();
+    beginRecording(null, rootObjects);
+  }
+
+  /**
+   * Begins recording any changes made to the elements of the specifed collection,  
+   * adding the changes to and existing {@link ChangeDescription}. 
+   * This allows clients to resume a previous recording.
+   * <p>
+   * Unpredictable (and probably bad) results may happen if the change descrition is
+   * inconsistent with the current state of the application.
+   * </p>
+   * @param changeDescription A change description with changes made during a previous
+   * recording or <tt>null</tt> if a new change description should be instantiated.
+   * @param rootObjects A collecion of instances of (@link Notifier}
+   * @since 2.1.0
+   */
+  public void beginRecording(ChangeDescription changeDescription, Collection rootObjects)
+  {
+    this.changeDescription = changeDescription == null ? createChangeDescription() : adjustChangeDescription(changeDescription);  
 
     initialTargetObjects.clear();
     initialTargetObjects.addAll(targetObjects);
@@ -136,7 +154,7 @@ public class ChangeRecorder implements Adapter
 
     recording = true;
   }
-
+  
   /**
    * Summarizes the changes made to the analysed objects on the {@link org.eclipse.emf.ecore.change.ChangeDescription change description}
    * returned by the {@link #endRecording()} without ending the recording.
@@ -168,6 +186,45 @@ public class ChangeRecorder implements Adapter
       return changeDescription;
     }
     return null;
+  }
+  
+  /**
+   * Adjusts the change description so it can be used in the 
+   * recording resume scenarios.
+   * @param changeDescription
+   * @return the change description to be used as starting point of the
+   * changes 
+   * @see #beginRecording(ChangeDescription, Collection)
+   */
+  protected ChangeDescription adjustChangeDescription(ChangeDescription changeDescription)
+  {
+    // Make sure that all the old values are cached.
+    for (Iterator i = changeDescription.getObjectChanges().values().iterator(); i.hasNext(); )
+    {
+      for (Iterator j = ((List)i.next()).iterator(); j.hasNext(); )
+      {
+        FeatureChange featureChange = (FeatureChange)j.next();
+        featureChange.getValue();
+        for (Iterator k = featureChange.getListChanges().iterator(); k.hasNext();)
+        {
+          ListChange listChange = (ListChange)k.next();
+          listChange.getValues();
+        }
+      }
+    }
+    
+    for (Iterator i = changeDescription.getResourceChanges().iterator(); i.hasNext();)
+    {
+      ResourceChange resourceChange = (ResourceChange)i.next();
+      resourceChange.getValue();
+      for (Iterator k = resourceChange.getListChanges().iterator(); k.hasNext();)
+      {
+        ListChange listChange = (ListChange)k.next();
+        listChange.getValues();
+      }
+    }
+    
+    return changeDescription;
   }
   
   /**
