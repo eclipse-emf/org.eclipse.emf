@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFactoryImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDFactoryImpl.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -27,63 +27,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
-import org.eclipse.xsd.XSDAnnotation;
-import org.eclipse.xsd.XSDAttributeDeclaration;
-import org.eclipse.xsd.XSDAttributeGroupDefinition;
-import org.eclipse.xsd.XSDAttributeUse;
-import org.eclipse.xsd.XSDAttributeUseCategory;
-import org.eclipse.xsd.XSDBoundedFacet;
-import org.eclipse.xsd.XSDCardinality;
-import org.eclipse.xsd.XSDCardinalityFacet;
-import org.eclipse.xsd.XSDComplexFinal;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDCompositor;
-import org.eclipse.xsd.XSDConstraint;
-import org.eclipse.xsd.XSDContentTypeCategory;
-import org.eclipse.xsd.XSDDerivationMethod;
-import org.eclipse.xsd.XSDDiagnostic;
-import org.eclipse.xsd.XSDDiagnosticSeverity;
-import org.eclipse.xsd.XSDDisallowedSubstitutions;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDEnumerationFacet;
-import org.eclipse.xsd.XSDFactory;
-import org.eclipse.xsd.XSDForm;
-import org.eclipse.xsd.XSDFractionDigitsFacet;
-import org.eclipse.xsd.XSDIdentityConstraintCategory;
-import org.eclipse.xsd.XSDIdentityConstraintDefinition;
-import org.eclipse.xsd.XSDImport;
-import org.eclipse.xsd.XSDInclude;
-import org.eclipse.xsd.XSDLengthFacet;
-import org.eclipse.xsd.XSDMaxExclusiveFacet;
-import org.eclipse.xsd.XSDMaxInclusiveFacet;
-import org.eclipse.xsd.XSDMaxLengthFacet;
-import org.eclipse.xsd.XSDMinExclusiveFacet;
-import org.eclipse.xsd.XSDMinInclusiveFacet;
-import org.eclipse.xsd.XSDMinLengthFacet;
-import org.eclipse.xsd.XSDModelGroup;
-import org.eclipse.xsd.XSDModelGroupDefinition;
-import org.eclipse.xsd.XSDNamespaceConstraintCategory;
-import org.eclipse.xsd.XSDNotationDeclaration;
-import org.eclipse.xsd.XSDNumericFacet;
-import org.eclipse.xsd.XSDOrdered;
-import org.eclipse.xsd.XSDOrderedFacet;
-import org.eclipse.xsd.XSDPackage;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDPatternFacet;
-import org.eclipse.xsd.XSDProcessContents;
-import org.eclipse.xsd.XSDProhibitedSubstitutions;
-import org.eclipse.xsd.XSDRedefine;
-import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDSimpleFinal;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.XSDSubstitutionGroupExclusions;
-import org.eclipse.xsd.XSDTotalDigitsFacet;
-import org.eclipse.xsd.XSDVariety;
-import org.eclipse.xsd.XSDWhiteSpace;
-import org.eclipse.xsd.XSDWhiteSpaceFacet;
-import org.eclipse.xsd.XSDWildcard;
-import org.eclipse.xsd.XSDXPathDefinition;
-import org.eclipse.xsd.XSDXPathVariety;
+import org.eclipse.xsd.*;
 
 
 /**
@@ -780,11 +724,11 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @deprecated
    * @generated
    */
   public static XSDPackage getPackage()
   {
     return XSDPackage.eINSTANCE;
   }
-
 } //XSDFactoryImpl

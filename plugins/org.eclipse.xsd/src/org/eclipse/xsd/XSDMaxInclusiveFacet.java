@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMaxInclusiveFacet.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDMaxInclusiveFacet.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -25,12 +25,10 @@ package org.eclipse.xsd;
  * '<a href="http://www.w3.org/TR/xmlschema-2/#dc-maxInclusive"><em><b>Max Inclusive Facet</b></em></a>'.
  * <!-- end-user-doc -->
  *
- * <p>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDMaxInclusiveFacet()
  * @model 
  * @generated
  */
-public interface XSDMaxInclusiveFacet extends XSDMaxFacet {
+public interface XSDMaxInclusiveFacet extends XSDMaxFacet{
 }

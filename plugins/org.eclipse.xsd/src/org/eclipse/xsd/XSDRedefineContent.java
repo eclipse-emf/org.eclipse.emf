@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineContent.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDRedefineContent.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -26,12 +26,10 @@ package org.eclipse.xsd;
  * {@link XSDRedefine#getContents XSDRedefine.getContents()}.
  * <!-- end-user-doc -->
  *
- * <p>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDRedefineContent()
  * @model abstract="true"
  * @generated
  */
-public interface XSDRedefineContent extends XSDSchemaContent {
+public interface XSDRedefineContent extends XSDSchemaContent{
 } 

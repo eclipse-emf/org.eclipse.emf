@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleContent.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDParticleContent.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -26,12 +26,10 @@ package org.eclipse.xsd;
  * {@link XSDParticle#getContent()}.
  * <!-- end-user-doc -->
  *
- * <p>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDParticleContent()
  * @model abstract="true"
  * @generated
  */
-public interface XSDParticleContent extends XSDConcreteComponent {
+public interface XSDParticleContent extends XSDConcreteComponent{
 }

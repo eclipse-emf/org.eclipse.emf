@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMinInclusiveFacet.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDMinInclusiveFacet.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -25,12 +25,10 @@ package org.eclipse.xsd;
  * '<a href="http://www.w3.org/TR/xmlschema-2/#dc-minInclusive"><em><b>Min Inclusive Facet</b></em></a>'.
  * <!-- end-user-doc -->
  *
- * <p>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDMinInclusiveFacet()
  * @model 
  * @generated
  */
-public interface XSDMinInclusiveFacet extends XSDMinFacet {
+public interface XSDMinInclusiveFacet extends XSDMinFacet{
 } 

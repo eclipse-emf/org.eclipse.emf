@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupContent.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDAttributeGroupContent.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -27,12 +27,10 @@ package org.eclipse.xsd;
  * {@link XSDComplexTypeDefinition#getAttributeContents()}.
  * <!-- end-user-doc -->
  *
- * <p>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDAttributeGroupContent()
  * @model abstract="true"
  * @generated
  */
-public interface XSDAttributeGroupContent extends XSDConcreteComponent {
+public interface XSDAttributeGroupContent extends XSDConcreteComponent{
 } 

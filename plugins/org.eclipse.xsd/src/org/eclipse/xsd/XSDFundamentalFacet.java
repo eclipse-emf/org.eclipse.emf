@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFundamentalFacet.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDFundamentalFacet.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -24,12 +24,10 @@ package org.eclipse.xsd;
  * A representation of the model object '<a href="http://www.w3.org/TR/xmlschema-2/#rf-fund-facets"><em><b>Fundamental Facet</b></em></a>'.
  * <!-- end-user-doc -->
  *
- * <p>
- * </p>
  *
  * @see org.eclipse.xsd.XSDPackage#getXSDFundamentalFacet()
  * @model abstract="true"
  * @generated
  */
-public interface XSDFundamentalFacet extends XSDFacet {
+public interface XSDFundamentalFacet extends XSDFacet{
 }

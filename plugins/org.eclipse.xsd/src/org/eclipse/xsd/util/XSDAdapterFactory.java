@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAdapterFactory.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDAdapterFactory.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -22,64 +22,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
-import org.eclipse.xsd.XSDAnnotation;
-import org.eclipse.xsd.XSDAttributeDeclaration;
-import org.eclipse.xsd.XSDAttributeGroupContent;
-import org.eclipse.xsd.XSDAttributeGroupDefinition;
-import org.eclipse.xsd.XSDAttributeUse;
-import org.eclipse.xsd.XSDBoundedFacet;
-import org.eclipse.xsd.XSDCardinalityFacet;
-import org.eclipse.xsd.XSDComplexTypeContent;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDComponent;
-import org.eclipse.xsd.XSDConcreteComponent;
-import org.eclipse.xsd.XSDConstrainingFacet;
-import org.eclipse.xsd.XSDDiagnostic;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDEnumerationFacet;
-import org.eclipse.xsd.XSDFacet;
-import org.eclipse.xsd.XSDFeature;
-import org.eclipse.xsd.XSDFixedFacet;
-import org.eclipse.xsd.XSDFractionDigitsFacet;
-import org.eclipse.xsd.XSDFundamentalFacet;
-import org.eclipse.xsd.XSDIdentityConstraintDefinition;
-import org.eclipse.xsd.XSDImport;
-import org.eclipse.xsd.XSDInclude;
-import org.eclipse.xsd.XSDLengthFacet;
-import org.eclipse.xsd.XSDMaxExclusiveFacet;
-import org.eclipse.xsd.XSDMaxFacet;
-import org.eclipse.xsd.XSDMaxInclusiveFacet;
-import org.eclipse.xsd.XSDMaxLengthFacet;
-import org.eclipse.xsd.XSDMinExclusiveFacet;
-import org.eclipse.xsd.XSDMinFacet;
-import org.eclipse.xsd.XSDMinInclusiveFacet;
-import org.eclipse.xsd.XSDMinLengthFacet;
-import org.eclipse.xsd.XSDModelGroup;
-import org.eclipse.xsd.XSDModelGroupDefinition;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDNotationDeclaration;
-import org.eclipse.xsd.XSDNumericFacet;
-import org.eclipse.xsd.XSDOrderedFacet;
-import org.eclipse.xsd.XSDPackage;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDParticleContent;
-import org.eclipse.xsd.XSDPatternFacet;
-import org.eclipse.xsd.XSDRedefinableComponent;
-import org.eclipse.xsd.XSDRedefine;
-import org.eclipse.xsd.XSDRedefineContent;
-import org.eclipse.xsd.XSDRepeatableFacet;
-import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDSchemaCompositor;
-import org.eclipse.xsd.XSDSchemaContent;
-import org.eclipse.xsd.XSDSchemaDirective;
-import org.eclipse.xsd.XSDScope;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.XSDTerm;
-import org.eclipse.xsd.XSDTotalDigitsFacet;
-import org.eclipse.xsd.XSDTypeDefinition;
-import org.eclipse.xsd.XSDWhiteSpaceFacet;
-import org.eclipse.xsd.XSDWildcard;
-import org.eclipse.xsd.XSDXPathDefinition;
+import org.eclipse.xsd.*;
 
 
 /**

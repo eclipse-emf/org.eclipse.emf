@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSwitch.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDSwitch.java,v 1.2 2004/03/11 23:51:06 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -20,64 +20,7 @@ package org.eclipse.xsd.util;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import org.eclipse.xsd.XSDAnnotation;
-import org.eclipse.xsd.XSDAttributeDeclaration;
-import org.eclipse.xsd.XSDAttributeGroupContent;
-import org.eclipse.xsd.XSDAttributeGroupDefinition;
-import org.eclipse.xsd.XSDAttributeUse;
-import org.eclipse.xsd.XSDBoundedFacet;
-import org.eclipse.xsd.XSDCardinalityFacet;
-import org.eclipse.xsd.XSDComplexTypeContent;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDComponent;
-import org.eclipse.xsd.XSDConcreteComponent;
-import org.eclipse.xsd.XSDConstrainingFacet;
-import org.eclipse.xsd.XSDDiagnostic;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDEnumerationFacet;
-import org.eclipse.xsd.XSDFacet;
-import org.eclipse.xsd.XSDFeature;
-import org.eclipse.xsd.XSDFixedFacet;
-import org.eclipse.xsd.XSDFractionDigitsFacet;
-import org.eclipse.xsd.XSDFundamentalFacet;
-import org.eclipse.xsd.XSDIdentityConstraintDefinition;
-import org.eclipse.xsd.XSDImport;
-import org.eclipse.xsd.XSDInclude;
-import org.eclipse.xsd.XSDLengthFacet;
-import org.eclipse.xsd.XSDMaxExclusiveFacet;
-import org.eclipse.xsd.XSDMaxFacet;
-import org.eclipse.xsd.XSDMaxInclusiveFacet;
-import org.eclipse.xsd.XSDMaxLengthFacet;
-import org.eclipse.xsd.XSDMinExclusiveFacet;
-import org.eclipse.xsd.XSDMinFacet;
-import org.eclipse.xsd.XSDMinInclusiveFacet;
-import org.eclipse.xsd.XSDMinLengthFacet;
-import org.eclipse.xsd.XSDModelGroup;
-import org.eclipse.xsd.XSDModelGroupDefinition;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDNotationDeclaration;
-import org.eclipse.xsd.XSDNumericFacet;
-import org.eclipse.xsd.XSDOrderedFacet;
-import org.eclipse.xsd.XSDPackage;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDParticleContent;
-import org.eclipse.xsd.XSDPatternFacet;
-import org.eclipse.xsd.XSDRedefinableComponent;
-import org.eclipse.xsd.XSDRedefine;
-import org.eclipse.xsd.XSDRedefineContent;
-import org.eclipse.xsd.XSDRepeatableFacet;
-import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDSchemaCompositor;
-import org.eclipse.xsd.XSDSchemaContent;
-import org.eclipse.xsd.XSDSchemaDirective;
-import org.eclipse.xsd.XSDScope;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.XSDTerm;
-import org.eclipse.xsd.XSDTotalDigitsFacet;
-import org.eclipse.xsd.XSDTypeDefinition;
-import org.eclipse.xsd.XSDWhiteSpaceFacet;
-import org.eclipse.xsd.XSDWildcard;
-import org.eclipse.xsd.XSDXPathDefinition;
+import org.eclipse.xsd.*;
 
 
 /**
@@ -93,8 +36,7 @@ import org.eclipse.xsd.XSDXPathDefinition;
  * @see org.eclipse.xsd.XSDPackage
  * @generated
  */
-public class XSDSwitch 
-{
+public class XSDSwitch {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -109,7 +51,7 @@ public class XSDSwitch
    * <!-- end-user-doc -->
    * @generated
    */
-  public XSDSwitch() 
+  public XSDSwitch()
   {
     if (modelPackage == null)
     {
@@ -124,12 +66,12 @@ public class XSDSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject) 
+  public Object doSwitch(EObject theEObject)
   {
     EClass theEClass = theEObject.eClass();
-    if (theEClass.eContainer() == modelPackage) 
+    if (theEClass.eContainer() == modelPackage)
     {
-      switch (theEClass.getClassifierID()) 
+      switch (theEClass.getClassifierID())
       {
         case XSDPackage.XSD_ANNOTATION:
         {
@@ -557,7 +499,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDAnnotation(XSDAnnotation object) 
+  public Object caseXSDAnnotation(XSDAnnotation object)
   {
     return null;
   }
@@ -573,7 +515,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDAttributeDeclaration(XSDAttributeDeclaration object) 
+  public Object caseXSDAttributeDeclaration(XSDAttributeDeclaration object)
   {
     return null;
   }
@@ -589,7 +531,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDAttributeGroupContent(XSDAttributeGroupContent object) 
+  public Object caseXSDAttributeGroupContent(XSDAttributeGroupContent object)
   {
     return null;
   }
@@ -605,7 +547,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDAttributeGroupDefinition(XSDAttributeGroupDefinition object) 
+  public Object caseXSDAttributeGroupDefinition(XSDAttributeGroupDefinition object)
   {
     return null;
   }
@@ -621,7 +563,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDAttributeUse(XSDAttributeUse object) 
+  public Object caseXSDAttributeUse(XSDAttributeUse object)
   {
     return null;
   }
@@ -637,7 +579,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDBoundedFacet(XSDBoundedFacet object) 
+  public Object caseXSDBoundedFacet(XSDBoundedFacet object)
   {
     return null;
   }
@@ -653,7 +595,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDCardinalityFacet(XSDCardinalityFacet object) 
+  public Object caseXSDCardinalityFacet(XSDCardinalityFacet object)
   {
     return null;
   }
@@ -669,7 +611,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDComplexTypeContent(XSDComplexTypeContent object) 
+  public Object caseXSDComplexTypeContent(XSDComplexTypeContent object)
   {
     return null;
   }
@@ -685,7 +627,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDComplexTypeDefinition(XSDComplexTypeDefinition object) 
+  public Object caseXSDComplexTypeDefinition(XSDComplexTypeDefinition object)
   {
     return null;
   }
@@ -701,7 +643,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDComponent(XSDComponent object) 
+  public Object caseXSDComponent(XSDComponent object)
   {
     return null;
   }
@@ -717,7 +659,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDConcreteComponent(XSDConcreteComponent object) 
+  public Object caseXSDConcreteComponent(XSDConcreteComponent object)
   {
     return null;
   }
@@ -733,7 +675,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDConstrainingFacet(XSDConstrainingFacet object) 
+  public Object caseXSDConstrainingFacet(XSDConstrainingFacet object)
   {
     return null;
   }
@@ -749,7 +691,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDDiagnostic(XSDDiagnostic object) 
+  public Object caseXSDDiagnostic(XSDDiagnostic object)
   {
     return null;
   }
@@ -765,7 +707,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDElementDeclaration(XSDElementDeclaration object) 
+  public Object caseXSDElementDeclaration(XSDElementDeclaration object)
   {
     return null;
   }
@@ -781,7 +723,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDEnumerationFacet(XSDEnumerationFacet object) 
+  public Object caseXSDEnumerationFacet(XSDEnumerationFacet object)
   {
     return null;
   }
@@ -797,7 +739,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDFacet(XSDFacet object) 
+  public Object caseXSDFacet(XSDFacet object)
   {
     return null;
   }
@@ -813,7 +755,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDFeature(XSDFeature object) 
+  public Object caseXSDFeature(XSDFeature object)
   {
     return null;
   }
@@ -829,7 +771,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDFixedFacet(XSDFixedFacet object) 
+  public Object caseXSDFixedFacet(XSDFixedFacet object)
   {
     return null;
   }
@@ -845,7 +787,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDFractionDigitsFacet(XSDFractionDigitsFacet object) 
+  public Object caseXSDFractionDigitsFacet(XSDFractionDigitsFacet object)
   {
     return null;
   }
@@ -861,7 +803,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDFundamentalFacet(XSDFundamentalFacet object) 
+  public Object caseXSDFundamentalFacet(XSDFundamentalFacet object)
   {
     return null;
   }
@@ -877,7 +819,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDIdentityConstraintDefinition(XSDIdentityConstraintDefinition object) 
+  public Object caseXSDIdentityConstraintDefinition(XSDIdentityConstraintDefinition object)
   {
     return null;
   }
@@ -893,7 +835,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDImport(XSDImport object) 
+  public Object caseXSDImport(XSDImport object)
   {
     return null;
   }
@@ -909,7 +851,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDInclude(XSDInclude object) 
+  public Object caseXSDInclude(XSDInclude object)
   {
     return null;
   }
@@ -925,7 +867,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDLengthFacet(XSDLengthFacet object) 
+  public Object caseXSDLengthFacet(XSDLengthFacet object)
   {
     return null;
   }
@@ -941,7 +883,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMaxExclusiveFacet(XSDMaxExclusiveFacet object) 
+  public Object caseXSDMaxExclusiveFacet(XSDMaxExclusiveFacet object)
   {
     return null;
   }
@@ -957,7 +899,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMaxFacet(XSDMaxFacet object) 
+  public Object caseXSDMaxFacet(XSDMaxFacet object)
   {
     return null;
   }
@@ -973,7 +915,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMaxInclusiveFacet(XSDMaxInclusiveFacet object) 
+  public Object caseXSDMaxInclusiveFacet(XSDMaxInclusiveFacet object)
   {
     return null;
   }
@@ -989,7 +931,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMaxLengthFacet(XSDMaxLengthFacet object) 
+  public Object caseXSDMaxLengthFacet(XSDMaxLengthFacet object)
   {
     return null;
   }
@@ -1005,7 +947,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMinExclusiveFacet(XSDMinExclusiveFacet object) 
+  public Object caseXSDMinExclusiveFacet(XSDMinExclusiveFacet object)
   {
     return null;
   }
@@ -1021,7 +963,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMinFacet(XSDMinFacet object) 
+  public Object caseXSDMinFacet(XSDMinFacet object)
   {
     return null;
   }
@@ -1037,7 +979,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMinInclusiveFacet(XSDMinInclusiveFacet object) 
+  public Object caseXSDMinInclusiveFacet(XSDMinInclusiveFacet object)
   {
     return null;
   }
@@ -1053,7 +995,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMinLengthFacet(XSDMinLengthFacet object) 
+  public Object caseXSDMinLengthFacet(XSDMinLengthFacet object)
   {
     return null;
   }
@@ -1069,7 +1011,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDModelGroup(XSDModelGroup object) 
+  public Object caseXSDModelGroup(XSDModelGroup object)
   {
     return null;
   }
@@ -1085,7 +1027,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDModelGroupDefinition(XSDModelGroupDefinition object) 
+  public Object caseXSDModelGroupDefinition(XSDModelGroupDefinition object)
   {
     return null;
   }
@@ -1101,7 +1043,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDNamedComponent(XSDNamedComponent object) 
+  public Object caseXSDNamedComponent(XSDNamedComponent object)
   {
     return null;
   }
@@ -1117,7 +1059,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDNotationDeclaration(XSDNotationDeclaration object) 
+  public Object caseXSDNotationDeclaration(XSDNotationDeclaration object)
   {
     return null;
   }
@@ -1133,7 +1075,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDNumericFacet(XSDNumericFacet object) 
+  public Object caseXSDNumericFacet(XSDNumericFacet object)
   {
     return null;
   }
@@ -1149,7 +1091,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDOrderedFacet(XSDOrderedFacet object) 
+  public Object caseXSDOrderedFacet(XSDOrderedFacet object)
   {
     return null;
   }
@@ -1165,7 +1107,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDParticle(XSDParticle object) 
+  public Object caseXSDParticle(XSDParticle object)
   {
     return null;
   }
@@ -1181,7 +1123,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDParticleContent(XSDParticleContent object) 
+  public Object caseXSDParticleContent(XSDParticleContent object)
   {
     return null;
   }
@@ -1197,7 +1139,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDPatternFacet(XSDPatternFacet object) 
+  public Object caseXSDPatternFacet(XSDPatternFacet object)
   {
     return null;
   }
@@ -1213,7 +1155,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDRedefinableComponent(XSDRedefinableComponent object) 
+  public Object caseXSDRedefinableComponent(XSDRedefinableComponent object)
   {
     return null;
   }
@@ -1229,7 +1171,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDRedefineContent(XSDRedefineContent object) 
+  public Object caseXSDRedefineContent(XSDRedefineContent object)
   {
     return null;
   }
@@ -1245,7 +1187,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDRedefine(XSDRedefine object) 
+  public Object caseXSDRedefine(XSDRedefine object)
   {
     return null;
   }
@@ -1261,7 +1203,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDRepeatableFacet(XSDRepeatableFacet object) 
+  public Object caseXSDRepeatableFacet(XSDRepeatableFacet object)
   {
     return null;
   }
@@ -1277,7 +1219,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDSchema(XSDSchema object) 
+  public Object caseXSDSchema(XSDSchema object)
   {
     return null;
   }
@@ -1293,7 +1235,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDSchemaCompositor(XSDSchemaCompositor object) 
+  public Object caseXSDSchemaCompositor(XSDSchemaCompositor object)
   {
     return null;
   }
@@ -1309,7 +1251,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDSchemaContent(XSDSchemaContent object) 
+  public Object caseXSDSchemaContent(XSDSchemaContent object)
   {
     return null;
   }
@@ -1325,7 +1267,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDSchemaDirective(XSDSchemaDirective object) 
+  public Object caseXSDSchemaDirective(XSDSchemaDirective object)
   {
     return null;
   }
@@ -1341,7 +1283,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDScope(XSDScope object) 
+  public Object caseXSDScope(XSDScope object)
   {
     return null;
   }
@@ -1357,7 +1299,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDSimpleTypeDefinition(XSDSimpleTypeDefinition object) 
+  public Object caseXSDSimpleTypeDefinition(XSDSimpleTypeDefinition object)
   {
     return null;
   }
@@ -1373,7 +1315,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDTerm(XSDTerm object) 
+  public Object caseXSDTerm(XSDTerm object)
   {
     return null;
   }
@@ -1389,7 +1331,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDTotalDigitsFacet(XSDTotalDigitsFacet object) 
+  public Object caseXSDTotalDigitsFacet(XSDTotalDigitsFacet object)
   {
     return null;
   }
@@ -1405,7 +1347,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDTypeDefinition(XSDTypeDefinition object) 
+  public Object caseXSDTypeDefinition(XSDTypeDefinition object)
   {
     return null;
   }
@@ -1421,7 +1363,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDWhiteSpaceFacet(XSDWhiteSpaceFacet object) 
+  public Object caseXSDWhiteSpaceFacet(XSDWhiteSpaceFacet object)
   {
     return null;
   }
@@ -1437,7 +1379,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDWildcard(XSDWildcard object) 
+  public Object caseXSDWildcard(XSDWildcard object)
   {
     return null;
   }
@@ -1453,7 +1395,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDXPathDefinition(XSDXPathDefinition object) 
+  public Object caseXSDXPathDefinition(XSDXPathDefinition object)
   {
     return null;
   }
@@ -1469,7 +1411,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object) 
+  public Object defaultCase(EObject object)
   {
     return null;
   }
