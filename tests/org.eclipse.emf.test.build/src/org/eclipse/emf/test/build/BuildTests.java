@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.9 2004/11/04 18:53:15 nickb Exp $
+ * $Id: BuildTests.java,v 1.10 2004/11/04 19:30:18 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -852,6 +852,7 @@ public class BuildTests extends TestCase
         if (debug) { System.out.println("zip filename = "+fileName); } 
         for (int j = 0; j < BUILD_GENERATED_ZIP_FILES_PREFIX.length; j++)
         {
+          System.out.println("Prefix: BUILD_GENERATED_ZIP_FILES_PREFIX["+j+"] = "+BUILD_GENERATED_ZIP_FILES_PREFIX[j]);
           if (fileName.startsWith(BUILD_GENERATED_ZIP_FILES_PREFIX[j]))
           {
             if (debug) { System.out.println("adding zip: "+file.getAbsolutePath()); } 
