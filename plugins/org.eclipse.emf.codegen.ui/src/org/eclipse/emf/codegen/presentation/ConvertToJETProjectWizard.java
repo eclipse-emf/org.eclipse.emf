@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ConvertToJETProjectWizard.java,v 1.2 2004/03/08 21:32:28 emerks Exp $
+ * $Id: ConvertToJETProjectWizard.java,v 1.3 2004/05/31 21:25:14 marcelop Exp $
  */
 package org.eclipse.emf.codegen.presentation;
 
@@ -27,6 +27,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -194,7 +195,8 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
         GridData data = new GridData();
         data.verticalAlignment = GridData.FILL;
         data.grabExcessHorizontalSpace = true;
-        data.grabExcessVerticalSpace = true;
+        data.grabExcessVerticalSpace = false;
+        data.heightHint = 250;
         data.horizontalAlignment = GridData.FILL;
         data.horizontalSpan = 2;
         projectsTable.setLayoutData(data);
@@ -239,7 +241,16 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
       for (Iterator i = projects.iterator(); i.hasNext(); )
       {
         IProject project = (IProject)i.next();
-        if (!project.isOpen() || JETNature.getRuntime(project) != null)
+        boolean isJavaProject = false;
+        try
+        {
+          isJavaProject = project.getNature(JavaCore.NATURE_ID) != null;
+        }
+        catch (CoreException e)
+        {
+        }
+        
+        if (!project.isOpen() || JETNature.getRuntime(project) != null || !isJavaProject)
         {
           i.remove();
         }
