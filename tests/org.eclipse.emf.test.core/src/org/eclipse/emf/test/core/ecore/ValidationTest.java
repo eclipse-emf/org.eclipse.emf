@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidationTest.java,v 1.1 2005/03/14 22:15:58 marcelop Exp $
+ * $Id: ValidationTest.java,v 1.2 2005/03/16 04:30:13 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -27,9 +27,11 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.ecore.util.EObjectValidator;
 
 import com.example.ppo.Item;
 import com.example.ppo.PPOFactory;
+import com.example.ppo.PPOPackage;
 import com.example.ppo.PurchaseOrder;
 import com.example.ppo.util.PPOValidator;
 
@@ -59,15 +61,21 @@ public class ValidationTest extends TestCase
     Item item = PPOFactory.eINSTANCE.createItem();
     item.setProductName("Tires");
     item.setUSPrice(50);
-    item.setQuantity(-4);
     item.setPartNum("ABC-1234");
     item.setShipDate(new Date(System.currentTimeMillis()));
+    //Negative quantity
+    item.setQuantity(-4);
 
     purchaseOrder = PPOFactory.eINSTANCE.createPurchaseOrder();
+    //USAddress without state
     purchaseOrder.setBillTo(PPOFactory.eINSTANCE.createUSAddress());
+    //USAddress without state
     purchaseOrder.setShipTo(PPOFactory.eINSTANCE.createUSAddress());
+    
+    //The model specifies 2 or more items
     purchaseOrder.getItems().add(item);
     
+    //Order earlier than ship
     try
     {
       Thread.sleep(50);
@@ -107,25 +115,39 @@ public class ValidationTest extends TestCase
     assertEquals(1, diagnostic.getData().size());
     assertEquals(purchaseOrder, diagnostic.getData().get(0));
     
-    assertEquals(4, diagnostic.getChildren().size());
+    assertEquals(5, diagnostic.getChildren().size());
     for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext();)
     {
       Diagnostic childDiagnostic = (Diagnostic)i.next();
       assertEquals(Diagnostic.ERROR, childDiagnostic.getSeverity());
-      assertEquals(PPOValidator.DIAGNOSTIC_SOURCE, childDiagnostic.getSource());
-      assertEquals(1, childDiagnostic.getData().size());
       if (childDiagnostic.getData().get(0) == purchaseOrder.getBillTo())
       {
+        assertEquals(1, childDiagnostic.getData().size());
+        assertEquals(PPOValidator.DIAGNOSTIC_SOURCE, childDiagnostic.getSource());
         assertEquals(PPOValidator.US_ADDRESS__HAS_US_STATE, childDiagnostic.getCode());
+        assertTrue(childDiagnostic.getMessage().indexOf("hasUSState") >= 0);
       }
       else if (childDiagnostic.getData().get(0) == purchaseOrder.getShipTo())
       {
+        assertEquals(1, childDiagnostic.getData().size());
+        assertEquals(PPOValidator.DIAGNOSTIC_SOURCE, childDiagnostic.getSource());
         assertEquals(PPOValidator.US_ADDRESS__HAS_US_STATE, childDiagnostic.getCode());
+        assertTrue(childDiagnostic.getMessage().indexOf("hasUSState") >= 0);
       }
       else if (childDiagnostic.getData().get(0) == purchaseOrder.getItems().get(0))
       {
+        assertEquals(1, childDiagnostic.getData().size());
+        assertEquals(PPOValidator.DIAGNOSTIC_SOURCE, childDiagnostic.getSource());
         assertEquals(0, childDiagnostic.getCode());
         assertTrue(childDiagnostic.getMessage().indexOf("ValidShipDate") >= 0  || childDiagnostic.getMessage().indexOf("NonNegativeQuantity") >= 0 );
+      }
+      else if (childDiagnostic.getSource() == EObjectValidator.DIAGNOSTIC_SOURCE)
+      {
+        assertEquals(EObjectValidator.EOBJECT__EVERY_MULTIPCITY_CONFORMS, childDiagnostic.getCode());
+        assertEquals(2, childDiagnostic.getData().size());
+        assertTrue(childDiagnostic.getData().contains(purchaseOrder));
+        assertTrue(childDiagnostic.getData().contains(PPOPackage.eINSTANCE.getPurchaseOrder_Items()));
+        
       }
       else
       {
@@ -134,6 +156,8 @@ public class ValidationTest extends TestCase
     }    
   }
 
+  //validateObject5 is the recommended implementation to 
+  //invoke the contraints and invariants associated with an object
   public static boolean validateObject1(PurchaseOrder purchaseOrder)
   {
     if (!purchaseOrder.getBillTo().hasUSState(null, null) && !purchaseOrder.getShipTo().hasUSState(null, null))
@@ -154,6 +178,8 @@ public class ValidationTest extends TestCase
     return true;
   }
 
+  //validateObject5 is the recommended implementation to 
+  //invoke the contraints and invariants associated with an object
   public static boolean validateObject2(PurchaseOrder purchaseOrder)
   {
     PPOValidator validator = PPOValidator.INSTANCE;
@@ -182,6 +208,8 @@ public class ValidationTest extends TestCase
     return true;
   }
 
+  //validateObject5 is the recommended implementation to 
+  //invoke the contraints and invariants associated with an object
   public static boolean validateObject3(EObject eObject)
   {
     EValidator validator = EValidator.Registry.INSTANCE.getEValidator(eObject.eClass().getEPackage());
@@ -204,6 +232,8 @@ public class ValidationTest extends TestCase
     return true;
   }
 
+  //validateObject5 is the recommended implementation to 
+  //invoke the contraints and invariants associated with an object
   public static boolean validateObject4(EObject eObject)
   {
     Diagnostician diagnostician = new Diagnostician();
@@ -211,6 +241,8 @@ public class ValidationTest extends TestCase
     return diagnostic.getSeverity() == Diagnostic.OK;
   }
 
+  //This is the recommended implementation to 
+  //invoke the contraints and invariants associated with an object
   public static Diagnostic validateObject5(EObject eObject)
   {
     Diagnostician diagnostician = new Diagnostician();

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PurchaseOrder.java,v 1.1 2005/03/14 22:15:58 marcelop Exp $
+ * $Id: PurchaseOrder.java,v 1.2 2005/03/16 04:30:13 marcelop Exp $
  */
 package com.example.ppo;
 
@@ -32,8 +32,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface PurchaseOrder extends EObject
-{
+public interface PurchaseOrder extends EObject{
   /**
    * Returns the value of the '<em><b>Items</b></em>' containment reference list.
    * The list contents are of type {@link com.example.ppo.Item}.
@@ -45,7 +44,7 @@ public interface PurchaseOrder extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Items</em>' containment reference list.
    * @see com.example.ppo.PPOPackage#getPurchaseOrder_Items()
-   * @model type="com.example.ppo.Item" containment="true"
+   * @model type="com.example.ppo.Item" containment="true" lower="2"
    * @generated
    */
   EList getItems();

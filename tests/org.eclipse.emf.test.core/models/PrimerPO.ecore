@@ -30,7 +30,7 @@
   <eClassifiers xsi:type="ecore:EDataType" name="SKU" instanceClassName="java.lang.String"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Date" instanceClassName="java.util.Date"/>
   <eClassifiers xsi:type="ecore:EClass" name="PurchaseOrder">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="items" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="items" lowerBound="2" upperBound="-1"
         eType="#//Item" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="orderDate" eType="#//Date"/>

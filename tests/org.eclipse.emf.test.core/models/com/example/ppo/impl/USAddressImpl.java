@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: USAddressImpl.java,v 1.1 2005/03/14 22:15:58 marcelop Exp $
+ * $Id: USAddressImpl.java,v 1.2 2005/03/16 04:30:13 marcelop Exp $
  */
 package com.example.ppo.impl;
 
@@ -21,14 +21,11 @@ import org.eclipse.emf.common.util.DiagnosticChain;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EValidator;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -326,18 +323,12 @@ public class USAddressImpl extends EObjectImpl implements USAddress
     {
       if (diagnostics != null)
       {
-        EValidator.SubstitutionLabelProvider labelProvider = context == null ?
-          null :
-          (EValidator.SubstitutionLabelProvider)context.get(EValidator.SubstitutionLabelProvider.class);
-        String objectLabel = labelProvider == null ?
-          EcoreUtil.getIdentification(this) :
-          labelProvider.getObjectLabel(this);
         diagnostics.add
           (new BasicDiagnostic
             (Diagnostic.ERROR,
              PPOValidator.DIAGNOSTIC_SOURCE,
              PPOValidator.US_ADDRESS__HAS_US_STATE,
- 						 EcorePlugin.INSTANCE.getString("_UI_GenericInvariant_diagnostic", new Object[] { "hasUSState", objectLabel }),
+             EcorePlugin.INSTANCE.getString("_UI_GenericInvariant_diagnostic", new Object[] { "hasUSState", PPOValidator.INSTANCE.getObjectLabel(this, context) }),
              new Object [] { this }));
       }
       return false;
