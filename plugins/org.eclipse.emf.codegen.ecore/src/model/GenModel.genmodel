@@ -68,6 +68,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/basePackage"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/resource"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/adapterFactory"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/loadInitialization"/>
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/ecorePackage"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genModel"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genEnums"/>
