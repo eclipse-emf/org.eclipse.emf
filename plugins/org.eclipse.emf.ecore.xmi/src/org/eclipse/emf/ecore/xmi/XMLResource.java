@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.4 2004/04/05 20:09:56 elena Exp $
+ * $Id: XMLResource.java,v 1.5 2004/04/07 21:00:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -63,15 +63,17 @@ public interface XMLResource extends Resource
    */
   String OPTION_EXTENDED_META_DATA = "EXTENDED_META_DATA";
   
-  /** This option allows to specify EClass implementation for anyType
-   * @see XMLResource#OPTION_ANY_SIMPLE_TYPE
-   * @see org.eclipse.emf.ecore.sdo.SDOPackage.eINSTANCE.getEDataObjectAnyType()
+  /** 
+   * This option allows to specify an EClass for the implementation for anyType.
+   * @see #OPTION_ANY_SIMPLE_TYPE
+   * @see org.eclipse.emf.ecore.sdo.SDOPackage#getEDataObjectAnyType()
    */
   String OPTION_ANY_TYPE = "ANY_TYPE";
   
-  /** This option allows to specify EClass implementation for anySimpleType
-   * @see XMLResource#OPTION_ANY_TYPE
-   * @see org.eclipse.emf.ecore.sdo.SDOPackage.eINSTANCE.getEDataObjectSimpleAnyType()
+  /** 
+   * This option allows to specify an EClass for the implementation for anySimpleType.
+   * @see #OPTION_ANY_TYPE
+   * @see org.eclipse.emf.ecore.sdo.SDOPackage#getEDataObjectSimpleAnyType()
    */
   String OPTION_ANY_SIMPLE_TYPE ="ANY_SIMPLE_TYPE";
 
@@ -110,7 +112,7 @@ public interface XMLResource extends Resource
    * Save a doctype declaration using systemId and publicId values specified on the resource
    * @see #getSystemId() 
    * @see #getPublicId() 
-   * @see XMLResource#setDoctypeInfo(String,String)
+   * @see #setDoctypeInfo(String,String)
    *  
    */
   String OPTION_SAVE_DOCTYPE = "SAVE_DOCTYPE";
@@ -177,15 +179,18 @@ public interface XMLResource extends Resource
    * are used to to control load behavior.
    */
   Map getDefaultLoadOptions();
+
   /**
    * Returns <a href='http://www.w3.org/TR/2004/REC-xml-20040204/#NT-PubidLiteral'>public identifier</a> specified on the doctype.
    * @return
    */
   String getPublicId();
+
   /**
    * Returns <a href='http://www.w3.org/TR/2004/REC-xml-20040204/#NT-SystemLiteral'>system identifier</a> specified on the doctype. 
    */
   String getSystemId();
+
   /**
    * Sets the values of <a href='http://www.w3.org/TR/2004/REC-xml-20040204/#NT-SystemLiteral'>system</a> and 
    * <a href='http://www.w3.org/TR/2004/REC-xml-20040204/#NT-PubidLiteral'>public</a> identifiers on this resource.
