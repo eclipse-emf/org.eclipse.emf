@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.12 2004/06/14 23:51:17 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.13 2004/07/05 03:16:50 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1716,6 +1716,20 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       progressMonitor.done();
     }
   }
+  
+  public boolean canGenerateSchema()
+  {
+    return canGenerate();
+  }
+  
+  public void generateSchema(IProgressMonitor progressMonitor)
+  {
+    for (Iterator i = getGenPackages().iterator(); i.hasNext();)
+    {
+      ((GenPackage)i.next()).generateSchema(new SubProgressMonitor(progressMonitor, 1));
+    }
+  }
+  
 
   //
   // EMFEdit generation

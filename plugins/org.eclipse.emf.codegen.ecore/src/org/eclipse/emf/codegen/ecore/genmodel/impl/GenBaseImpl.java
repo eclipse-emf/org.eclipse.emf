@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.7 2004/05/26 15:23:01 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.8 2004/07/05 03:16:51 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1769,6 +1769,15 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   }
 
   public void generateEditor(IProgressMonitor progressMonitor)
+  {
+  }
+
+  public boolean canGenerateSchema()
+  {
+    return false;
+  }
+
+  public void generateSchema(IProgressMonitor progressMonitor)
   {
   }
 

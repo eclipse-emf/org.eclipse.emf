@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.6 2004/06/17 10:37:59 emerks Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.7 2004/07/05 03:16:28 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -212,23 +212,13 @@ public class GenModelActionBarContributor
   {
     protected boolean canGenerate(GenBase genObject)
     {
-      return genObject instanceof GenModel || (genObject instanceof GenPackage && ((GenPackage)genObject).hasClassifiers());
+      return genObject.canGenerateSchema();
     }
 
     protected void generate(GenBase genObject, IProgressMonitor progressMonitor)
     {
-      progressMonitor.beginTask("", 3);
-      if (genObject instanceof GenModel)
-      {
-        for (Iterator i = ((GenModel)genObject).getGenPackages().iterator(); i.hasNext();)
-        {
-          generate((GenPackage)i.next(), new SubProgressMonitor(progressMonitor, 1));
-        }
-      }
-      else if (genObject instanceof GenPackage)
-      {
-        ((GenPackage)genObject).generateSchema();
-      }
+      progressMonitor.beginTask("", 1);
+      genObject.generateSchema(new SubProgressMonitor(progressMonitor, 1));
     }
   };  
 

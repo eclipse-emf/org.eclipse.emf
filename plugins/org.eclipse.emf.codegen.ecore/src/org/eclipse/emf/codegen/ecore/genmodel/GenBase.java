@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBase.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenBase.java,v 1.2 2004/07/05 03:16:50 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -55,6 +55,9 @@ public interface GenBase extends EObject{
   boolean canGenerateEditor();
   void generateEditor(IProgressMonitor progressMonitor);
 
+  boolean canGenerateSchema();
+  void generateSchema(IProgressMonitor progressMonitor);
+  
   boolean reconcile();
 
   boolean hasDocumentation();

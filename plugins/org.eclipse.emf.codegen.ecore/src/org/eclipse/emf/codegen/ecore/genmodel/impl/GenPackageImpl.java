@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.8 2004/06/14 23:51:17 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.9 2004/07/05 03:16:51 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -30,8 +30,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.osgi.framework.Bundle;
+
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
@@ -81,7 +84,6 @@ import org.eclipse.emf.ecore.util.EcoreSwitch;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.osgi.framework.Bundle;
 
 
 /**
@@ -1704,7 +1706,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       {
         if (getGenModel().isGenerateSchema())
         {
-          generateSchema();
+          generateSchema(new SubProgressMonitor(progressMonitor, 1));
         }
 
         if (isLoadingInitialization())
@@ -1847,35 +1849,59 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
   }
   
+  /**
+   * @deprecated Use {@link GenBase#generateSchema(IProgressMonitor)} instead.  This
+   * method will be removed soon.
+   */  
   public void generateSchema()
   {
-    switch (getResource().getValue())
+    generateSchema(new NullProgressMonitor());
+  }
+  
+  public boolean canGenerateSchema()
+  {
+    return canGenerate();
+  }
+  
+  public void generateSchema(IProgressMonitor progressMonitor)
+  {
+    if (!canGenerateSchema()) return;
+      
+    if (hasClassifiers())
     {
-      case GenResourceKind.XML:
+      switch (getResource().getValue())
       {
-        boolean hasXSD2EcoreAnnotation = false;
-        for (Iterator i = getEcorePackage().getEAnnotations().iterator(); i.hasNext(); )
+        case GenResourceKind.XML:
         {
-          EAnnotation eAnnotation = (EAnnotation)i.next();
-          if (XSD2ECORE_URI.equals(eAnnotation.getSource()))
+          boolean hasXSD2EcoreAnnotation = false;
+          for (Iterator i = getEcorePackage().getEAnnotations().iterator(); i.hasNext(); )
           {
-            hasXSD2EcoreAnnotation = true;
-            break;
+            EAnnotation eAnnotation = (EAnnotation)i.next();
+            if (XSD2ECORE_URI.equals(eAnnotation.getSource()))
+            {
+              hasXSD2EcoreAnnotation = true;
+              break;
+            }
           }
+          if( !hasXSD2EcoreAnnotation)
+          {
+            generateXSD("XML");
+          }
+          break;
         }
-        if( !hasXSD2EcoreAnnotation)
+        case GenResourceKind.NONE:
+        case GenResourceKind.XMI:
         {
-          generateXSD("XML");
+          generateXSD("XMI");
+          break;
         }
-        break;
       }
-      case GenResourceKind.NONE:
-      case GenResourceKind.XMI:
-      {
-        generateXSD("XMI");
-        break;
-      }
-    }    
+    }
+    
+    for (Iterator i = getNestedGenPackages().iterator(); i.hasNext();)
+    {
+      ((GenPackage)i.next()).generateSchema(progressMonitor);
+    }
   }
 
   protected void generateXSD(String type)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.4 2004/05/23 04:06:25 davidms Exp $
+ * $Id: GenPackage.java,v 1.5 2004/07/05 03:16:50 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -420,6 +420,10 @@ public interface GenPackage extends GenBase{
 
   void initialize(EPackage ePackage);
 
+  /**
+   * @deprecated Use {@link GenBase#generateSchema(IProgressMonitor)} instead.  This
+   * method will be removed soon.
+   */
   void generateSchema();
   
   //
