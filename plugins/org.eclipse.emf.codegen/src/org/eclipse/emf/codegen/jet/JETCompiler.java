@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.3 2004/05/16 17:33:25 emerks Exp $
+ * $Id: JETCompiler.java,v 1.4 2004/06/20 15:36:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -466,7 +466,10 @@ public class JETCompiler implements JETParseEventListener
         {
           resolvedLocation = find(templateURIPath, resolvedLocation);
         }
-        result[1] = resolvedLocation;
+        if (resolvedLocation != null)
+        {
+          result[1] = resolvedLocation;
+        }
       }
     }
     catch (IOException exception)
