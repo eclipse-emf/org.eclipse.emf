@@ -1,0 +1,11 @@
+<%@ jet package="jetTest" imports="java.util.Random" class="SimpleGen" version="$Id: simple.javajet,v 1.1 2004/12/30 08:15:34 marcelop Exp $"%>
+public class Simple
+{
+	public void main(String[] args)
+	{
+<%for (int i=1; i <= 20; i++) {%>
+		System.out.println("One number lower than " + <%=i%> + ": " + <%=new Random().nextInt(i)%>);
+<%}%>
+	}
+}
+

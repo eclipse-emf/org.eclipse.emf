@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.emf.ant"
+   name="%pluginName"
+   version="2.1.0"
+   provider-name="%providerName"
+   class="org.eclipse.emf.ant.EMFAntPlugin">
+
+   <runtime>
+      <library name="runtime/emf.ant.jar">
+         <export name="*"/>
+      </library>
+      <library name="runtime/emf.ant.tasks.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+   
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.apache.ant"/>
+      <import plugin="org.eclipse.ant.core"/>
+      <import plugin="org.eclipse.emf.codegen.ecore"/>
+      <import plugin="org.eclipse.emf.codegen"/>
+   </requires>
+   
+   <extension point="org.eclipse.ant.core.extraClasspathEntries">
+      <extraClasspathEntry library="runtime/emf.ant.tasks.jar"/>
+   </extension>   
+
+   <extension point="org.eclipse.ant.core.antTasks">
+      <antTask
+            library="runtime/emf.ant.tasks.jar"
+            name="emf.Rose2Java"
+            headless="true"
+            class="org.eclipse.emf.ant.taskdefs.codegen.ecore.RoseGeneratorTask">
+      </antTask>
+      <antTask
+            library="runtime/emf.ant.tasks.jar"
+            name="emf.XSD2Java"
+            headless="true"
+            class="org.eclipse.emf.ant.taskdefs.codegen.ecore.XSDGeneratorTask">
+      </antTask>
+      <antTask
+            library="runtime/emf.ant.tasks.jar"
+            name="emf.JETEmitter"
+            headless="true"
+            class="org.eclipse.emf.ant.taskdefs.codegen.JETEmitterTask">
+      </antTask>
+      <antTask
+            library="runtime/emf.ant.tasks.jar"
+            name="emf.JMerger"
+            headless="true"
+            class="org.eclipse.emf.ant.taskdefs.codegen.JMergerTask">
+      </antTask>
+
+      <antTask
+            library="runtime/emf.ant.tasks.jar"
+            name="emf.RemoveVersion"
+            headless="true"
+            class="org.eclipse.emf.ant.taskdefs.RemoveVersionTaskTask">
+      </antTask>
+   </extension>   
+</plugin>

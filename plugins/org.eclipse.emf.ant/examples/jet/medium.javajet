@@ -1,0 +1,10 @@
+<%@ jet package="jetTest" imports="java.util.Random" class="MediumGen" version="$Id: medium.javajet,v 1.1 2004/12/30 08:15:34 marcelop Exp $"%>
+public class Medium
+{
+	public void main(String[] args)
+	{
+		System.out.println("The argument toString is '<%=argument%>'.");
+		System.out.println("It's class is '<%=argument.getClass().getName()%>'.");
+	}
+}
+
