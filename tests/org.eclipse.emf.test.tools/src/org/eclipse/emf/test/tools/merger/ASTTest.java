@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.3 2004/11/25 19:41:51 marcelop Exp $
+ * $Id: ASTTest.java,v 1.4 2004/11/26 11:32:31 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
 import java.io.File;
+import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.Test;
@@ -26,12 +27,16 @@ import junit.framework.TestSuite;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.ArrayCreation;
 import org.eclipse.jdt.core.dom.ArrayType;
+import org.eclipse.jdt.core.dom.BlockComment;
+import org.eclipse.jdt.core.dom.Comment;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.Javadoc;
+import org.eclipse.jdt.core.dom.LineComment;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.NumberLiteral;
@@ -72,6 +77,7 @@ public class ASTTest extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("ASTTest");
+    ts.addTest(new ASTTest("testVisitor"));
     ts.addTest(new ASTTest("testRead"));
     return ts;
   }
@@ -88,6 +94,12 @@ public class ASTTest extends TestCase
     ASTParser astParser = ASTParser.newParser(AST.JLS3);
     astParser.setSource(content.toCharArray());
     CompilationUnit compilationUnit = (CompilationUnit)astParser.createAST(null);
+    
+    for (Iterator i = compilationUnit.getCommentList().iterator(); i.hasNext();)
+    {
+      Comment comment = (Comment)i.next();
+      System.out.println(comment);
+    }
     
     //** Package
     PackageDeclaration packageDeclaration = compilationUnit.getPackage();
@@ -329,5 +341,36 @@ public class ASTTest extends TestCase
       assertNotNull(methodDeclarations[1].getBody());
       assertEquals(1, methodDeclarations[1].getBody().statements().size());
     }
-  }  
+  }
+  
+  public void testVisitor() throws Exception
+  {
+    String content = EMFTestToolsPlugin.readFile(CLASS_FILE);
+    
+    ASTParser astParser = ASTParser.newParser(AST.JLS3);
+    astParser.setSource(content.toCharArray());
+    CompilationUnit compilationUnit = (CompilationUnit)astParser.createAST(null);
+
+    ASTVisitor commentVisitor = new ASTVisitor(true)
+    {
+      public boolean visit(BlockComment node)
+      {
+        System.out.println(node);
+        return true;
+      }
+      public boolean visit(LineComment node)
+      {
+        System.out.println(node);
+        return true;
+      }
+      public boolean visit(TypeDeclaration node)
+      {
+        System.out.println(node);
+        return true;        
+      }
+    };
+    compilationUnit.accept(commentVisitor);
+    
+    System.out.println("Here!!!!");
+  }
 }
