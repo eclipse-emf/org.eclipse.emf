@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.4 2004/06/17 14:13:38 elena Exp $
+ * $Id: XMLTypeUtil.java,v 1.5 2004/06/17 14:23:43 elena Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -136,12 +136,13 @@ public final class XMLTypeUtil
     return new PatternMatcherImpl(pattern);
   }
   
+  
   /**
    * Creates a new QName object with the specified values
    * @param namespaceUri namespace uri value or null
    * @param localPart localPart (not null)
    * @param prefix prefix value or null
-   * @return
+   * @return The newly created QName object
    */
   public static Object createQName(String namespaceUri, String localPart, String prefix)
   {
