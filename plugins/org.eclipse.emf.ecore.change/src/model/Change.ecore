@@ -10,7 +10,7 @@
         eType="#//EObjectToChangesMapEntry" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="objectsToDetach" upperBound="-1"
         eType="ecore:EClass ../../../org.eclipse.emf.ecore/src/model/Ecore.ecore#//EObject"
-        resolveProxies="false"/>
+        transient="true" derived="true" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="objectsToAttach" upperBound="-1"
         eType="ecore:EClass ../../../org.eclipse.emf.ecore/src/model/Ecore.ecore#//EObject"
         containment="true" resolveProxies="false"/>

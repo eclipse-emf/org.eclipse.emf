@@ -250,13 +250,18 @@
 			(object Attribute
 			    tool       	"Ecore"
 			    name       	"isResolveProxies"
-			    value      	FALSE))
+			    value      	FALSE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isTransient"
+			    value      	TRUE))
 		    quid       	"4FAD03BE01C9"
 		    label      	"objectsToDetach"
 		    supplier   	"Logical View::ecore::EObject"
 		    quidu      	"3C4F1C860123"
 		    client_cardinality 	(value cardinality "0..n")
-		    is_navigable 	TRUE)))
+		    is_navigable 	TRUE))
+	    derived    	TRUE)
 	(object Association "$UNNAMED$3"
 	    quid       	"4FAD04280293"
 	    roles      	(list role_list
@@ -614,7 +619,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	7
-			max_width  	819)
+			max_width  	828)
 		    width      	840
 		    height     	436
 		    annotation 	8
@@ -1010,7 +1015,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	6
-			max_width  	469)
+			max_width  	478)
 		    width      	490
 		    height     	386
 		    annotation 	8
@@ -1096,7 +1101,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	8
-			max_width  	741)
+			max_width  	750)
 		    width      	762
 		    height     	486
 		    annotation 	8

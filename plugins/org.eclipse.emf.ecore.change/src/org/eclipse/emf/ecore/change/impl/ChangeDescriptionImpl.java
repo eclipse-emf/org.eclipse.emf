@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.6 2004/12/09 06:49:45 marcelop Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.7 2005/02/08 21:07:46 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -27,6 +27,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -38,10 +39,10 @@ import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.ResourceChange;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -76,13 +77,15 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
   /**
    * The cached value of the '{@link #getObjectsToDetach() <em>Objects To Detach</em>}' reference list.
    * <!-- begin-user-doc -->
+   * The Objects to Detach list is first calculated when the {@link #getObjectsToDetach()}
+   * method is invoked and reset when new changes are described.
    * <!-- end-user-doc -->
    * @see #getObjectsToDetach()
    * @generated
    * @ordered
    */
   protected EList objectsToDetach = null;
-
+  
   /**
    * The cached value of the '{@link #getObjectsToAttach() <em>Objects To Attach</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -142,13 +145,85 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getObjectsToDetach()
+  public EList getObjectsToDetachGen()
   {
     if (objectsToDetach == null)
     {
       objectsToDetach = new EObjectEList(EObject.class, this, ChangePackage.CHANGE_DESCRIPTION__OBJECTS_TO_DETACH);
     }
     return objectsToDetach;
+  }
+
+  public EList getObjectsToDetach()
+  {
+    List objectsBeforeChange = new UniqueEList.FastCompare();
+    List objectsAfterChange = new UniqueEList.FastCompare();
+
+    if (!getObjectChanges().isEmpty())
+    {
+      preApply(false);
+
+      for (Iterator i = getObjectChanges().iterator(); i.hasNext();)
+      {
+        EObjectToChangesMapEntryImpl entry = (EObjectToChangesMapEntryImpl)i.next();
+        EObject objectToChange = entry.getTypedKey(); 
+        for (Iterator j = entry.getTypedValue().iterator(); j.hasNext();)
+        {
+          FeatureChange featureChange = (FeatureChange)j.next();
+          EStructuralFeature feature = featureChange.getFeature();
+          if (feature instanceof EReference && ((EReference)feature).isContainment())
+          {
+            if (feature.isMany())
+            {
+              objectsBeforeChange.addAll((List)featureChange.getValue());
+              objectsAfterChange.addAll((List)objectToChange.eGet(feature));
+            }
+            else
+            {
+              Object value = featureChange.getValue();
+              if (value != null) objectsBeforeChange.add(value);
+              value = objectToChange.eGet(feature);
+              if (value != null) objectsAfterChange.add(value);
+            }
+          }
+        }
+      }
+    }
+    
+    if (!getResourceChanges().isEmpty())
+    {
+      for (Iterator i = getResourceChanges().iterator(); i.hasNext();)
+      {
+        ResourceChange resourceChange = (ResourceChange)i.next();
+        Resource resource = resourceChange.getResource();
+        if (resource == null)
+        {
+          resource = eResource();
+        }
+        
+        if (resource != null)
+        {
+          EList currentContentCopy = new BasicEList(resource.getContents());
+          for (Iterator j = resourceChange.getListChanges().iterator(); j.hasNext();)
+          {
+            ListChange listChange = (ListChange)j.next();
+            ((ListChangeImpl)listChange).apply(currentContentCopy);
+          }
+        
+          objectsBeforeChange.addAll(currentContentCopy);
+          objectsAfterChange.addAll(resource.getContents());
+        }
+      }
+    }
+    
+    // Isolating the new objects
+    objectsAfterChange.removeAll(objectsBeforeChange);
+    
+    // getObjectsToDetachGen() should be changed only if required
+    getObjectsToDetachGen().retainAll(objectsAfterChange);
+    getObjectsToDetachGen().addAll(objectsAfterChange);
+    
+    return getObjectsToDetachGen();
   }
 
   /**
@@ -209,7 +284,6 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
 
     // Delete the change information because it is invalid now that the objects have been changed.
     //
-    getObjectsToDetach().clear();
     getObjectsToAttach().clear();
     getObjectChanges().clear();
     getResourceChanges().clear();
@@ -224,15 +298,10 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
   public void applyAndReverse()
   {
     preApply(true);
-
-    // Flatten and remember the objects to attach list.
-    //
-    EList oldObjectsToAttach = new BasicEList();
-    for (Iterator iter = EcoreUtil.getAllContents(getObjectsToAttach()); iter.hasNext(); )
-    {
-      oldObjectsToAttach.add(iter.next());
-    }
-
+    
+    List objectsBeforeApply = new UniqueEList.FastCompare();
+    List objectsAfterApply = new UniqueEList.FastCompare();
+    
     // Apply the change and reverse the change information.
     //
     for (Iterator iter = getObjectChanges().iterator(); iter.hasNext(); )
@@ -242,19 +311,72 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       for (Iterator fIter = entry.getTypedValue().iterator(); fIter.hasNext(); )
       {
         FeatureChange featureChange = (FeatureChange)fIter.next();
+        EStructuralFeature feature  = featureChange.getFeature();
+
+        int featureKind = feature instanceof EReference && ((EReference)feature).isContainment() ? feature.isMany() ? 1 : 2 : 0;
+        switch (featureKind)
+        {
+          case 1:
+          {
+            objectsBeforeApply.addAll((List)objectToChange.eGet(feature));
+            break;
+          }
+          case 2:
+          {
+            Object value = objectToChange.eGet(feature);
+            if (value != null)
+            {
+              objectsBeforeApply.add(objectToChange.eGet(feature));
+            }
+            break;
+          }            
+        }
+               
         featureChange.applyAndReverse(objectToChange);
+        
+        switch (featureKind)
+        {
+          case 1:
+          {
+            objectsAfterApply.addAll((List)objectToChange.eGet(feature));
+            break;
+          }
+          case 2:
+          {
+            Object value = objectToChange.eGet(feature);
+            if (value != null)
+            {
+              objectsAfterApply.add(objectToChange.eGet(feature));
+            }
+            break;
+          }            
+        }
       }
     }
+
     for (Iterator iter = getResourceChanges().iterator(); iter.hasNext(); )
     {
       ResourceChange resourceChange = (ResourceChange)iter.next();
+      Resource resource = resourceChange.getResource();
+      if (resource != null)
+      {
+        objectsBeforeApply.addAll(resource.getContents());
+      }
       resourceChange.applyAndReverse();
+      if (resource != null)
+      {
+        objectsAfterApply.addAll(resource.getContents());
+      }
     }
-
+    
+    // The next line leaves objectsBeforeApply with all the objects that were
+    // added during the last recording.
+    objectsBeforeApply.removeAll(objectsAfterApply);
+    
     // Reverse the objects to attach and detach lists.
     //
     getObjectsToAttach().clear();
-    for (Iterator iter = getObjectsToDetach().iterator(); iter.hasNext(); )
+    for (Iterator iter = objectsBeforeApply.iterator(); iter.hasNext(); )
     {
       EObject eObject = (EObject)iter.next();
       if (eObject.eContainer() == null && eObject.eResource() == null)
@@ -262,8 +384,6 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         getObjectsToAttach().add(eObject);
       }
     }
-    getObjectsToDetach().clear();
-    getObjectsToDetach().addAll(oldObjectsToAttach);
     oldContainmentInformation = null;
   }
 

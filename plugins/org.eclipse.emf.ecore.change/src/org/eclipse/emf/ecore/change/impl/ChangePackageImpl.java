@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.7 2004/12/13 20:22:40 marcelop Exp $
+ * $Id: ChangePackageImpl.java,v 1.8 2005/02/08 21:07:46 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -560,7 +560,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     // Initialize classes and features; add operations and parameters
     initEClass(changeDescriptionEClass, ChangeDescription.class, "ChangeDescription", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getChangeDescription_ObjectChanges(), this.getEObjectToChangesMapEntry(), null, "objectChanges", null, 0, -1, ChangeDescription.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getChangeDescription_ObjectsToDetach(), theEcorePackage.getEObject(), null, "objectsToDetach", null, 0, -1, ChangeDescription.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getChangeDescription_ObjectsToDetach(), theEcorePackage.getEObject(), null, "objectsToDetach", null, 0, -1, ChangeDescription.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getChangeDescription_ObjectsToAttach(), theEcorePackage.getEObject(), null, "objectsToAttach", null, 0, -1, ChangeDescription.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getChangeDescription_ResourceChanges(), this.getResourceChange(), null, "resourceChanges", null, 0, -1, ChangeDescription.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

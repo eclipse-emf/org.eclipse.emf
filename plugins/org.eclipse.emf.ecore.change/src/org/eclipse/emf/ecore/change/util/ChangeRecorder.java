@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.23 2004/12/16 16:46:19 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.24 2005/02/08 21:07:46 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -58,8 +58,6 @@ public class ChangeRecorder implements Adapter
   protected ChangeDescription changeDescription;
 
   protected List targetObjects = new BasicEList.FastCompare();
-
-  protected List initialTargetObjects = new BasicEList.FastCompare();
 
   protected boolean loadingTargets;
 
@@ -111,7 +109,6 @@ public class ChangeRecorder implements Adapter
       notifier.eAdapters().remove(this);
     }
     targetObjects.clear();
-    initialTargetObjects.clear();
     changeDescription = null;
   }
 
@@ -142,9 +139,6 @@ public class ChangeRecorder implements Adapter
     this.changeDescription = changeDescription == null ? 
       createChangeDescription() 
       : changeDescription;  
-
-    initialTargetObjects.clear();
-    initialTargetObjects.addAll(targetObjects);
 
     loadingTargets = true;
     for (Iterator i = rootObjects.iterator(); i.hasNext();)
@@ -211,8 +205,6 @@ public class ChangeRecorder implements Adapter
     }
     loadingTargets = false;
 
-    initialTargetObjects.removeAll(changeDescription.getObjectsToDetach());
-    changeDescription.getObjectsToDetach().clear();
     changeDescription.getObjectsToAttach().clear();
     
     // Make sure that all the old values are cached.
@@ -250,10 +242,6 @@ public class ChangeRecorder implements Adapter
         }
       }
     }
-
-    List targetObjectsCopy = new BasicEList.FastCompare(targetObjects);
-    targetObjectsCopy.removeAll(initialTargetObjects);
-    changeDescription.getObjectsToDetach().addAll(targetObjectsCopy);
 
     for (Iterator iter = changeDescription.getObjectChanges().iterator(); iter.hasNext();)
     {
@@ -611,11 +599,6 @@ public class ChangeRecorder implements Adapter
       throw new IllegalStateException("The target should not be set more than once");
     }
 
-    if (loadingTargets)
-    {
-      initialTargetObjects.add(target);
-    }
-
     Collection contents = target instanceof EObject ? ((EObject)target).eContents() : target instanceof ResourceSet
       ? ((ResourceSet)target).getResources() : target instanceof Resource ? ((Resource)target).getContents() : null;
 
@@ -631,9 +614,12 @@ public class ChangeRecorder implements Adapter
 
   protected void addAdapter(Notifier notifier)
   {
-    EList eAdapters = notifier.eAdapters();
-    if (!eAdapters.contains(this))
-      eAdapters.add(this);
+    if (notifier != changeDescription)
+    {
+      EList eAdapters = notifier.eAdapters();
+      if (!eAdapters.contains(this))
+        eAdapters.add(this);
+    }
   }
 
   public Notifier getTarget()
