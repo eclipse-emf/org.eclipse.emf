@@ -12,9 +12,11 @@
  *
  * </copyright>
  *
- * $Id: MappingSwitch.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
+ * $Id: MappingSwitch.java,v 1.3 2004/05/16 16:55:41 emerks Exp $
  */
 package org.eclipse.emf.mapping.util;
+
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -67,80 +69,110 @@ public class MappingSwitch
    */
   public Object doSwitch(EObject theEObject)
   {
-    EClass theEClass = theEObject.eClass();
+    return doSwitch(theEObject.eClass(), theEObject);
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  {
     if (theEClass.eContainer() == modelPackage)
     {
-      switch (theEClass.getClassifierID())
-      {
-        case MappingPackage.MAPPING_HELPER:
-        {
-          MappingHelper mappingHelper = (MappingHelper)theEObject;
-          Object result = caseMappingHelper(mappingHelper);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case MappingPackage.MAPPING:
-        {
-          Mapping mapping = (Mapping)theEObject;
-          Object result = caseMapping(mapping);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case MappingPackage.TYPE_CONVERTER:
-        {
-          TypeConverter typeConverter = (TypeConverter)theEObject;
-          Object result = caseTypeConverter(typeConverter);
-          if (result == null) result = caseMappingHelper(typeConverter);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case MappingPackage.FUNCTION_PAIR:
-        {
-          FunctionPair functionPair = (FunctionPair)theEObject;
-          Object result = caseFunctionPair(functionPair);
-          if (result == null) result = caseTypeConverter(functionPair);
-          if (result == null) result = caseMappingHelper(functionPair);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case MappingPackage.FUNCTION_NAME_PAIR:
-        {
-          FunctionNamePair functionNamePair = (FunctionNamePair)theEObject;
-          Object result = caseFunctionNamePair(functionNamePair);
-          if (result == null) result = caseTypeConverter(functionNamePair);
-          if (result == null) result = caseMappingHelper(functionNamePair);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case MappingPackage.MAPPING_STRATEGY:
-        {
-          MappingStrategy mappingStrategy = (MappingStrategy)theEObject;
-          Object result = caseMappingStrategy(mappingStrategy);
-          if (result == null) result = caseMappingHelper(mappingStrategy);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case MappingPackage.MAPPING_ROOT:
-        {
-          MappingRoot mappingRoot = (MappingRoot)theEObject;
-          Object result = caseMappingRoot(mappingRoot);
-          if (result == null) result = caseMapping(mappingRoot);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case MappingPackage.COMPLEX_TYPE_CONVERTER:
-        {
-          ComplexTypeConverter complexTypeConverter = (ComplexTypeConverter)theEObject;
-          Object result = caseComplexTypeConverter(complexTypeConverter);
-          if (result == null) result = caseTypeConverter(complexTypeConverter);
-          if (result == null) result = caseMappingHelper(complexTypeConverter);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        default: return defaultCase(theEObject);
-      }
+      return doSwitch(theEClass.getClassifierID(), theEObject);
     }
-    return defaultCase(theEObject);
+    else
+    {
+      List eSuperTypes = theEClass.getESuperTypes();
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+    }
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(int classifierID, EObject theEObject)
+  {
+    switch (classifierID)
+    {
+      case MappingPackage.MAPPING_HELPER:
+      {
+        MappingHelper mappingHelper = (MappingHelper)theEObject;
+        Object result = caseMappingHelper(mappingHelper);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MappingPackage.MAPPING:
+      {
+        Mapping mapping = (Mapping)theEObject;
+        Object result = caseMapping(mapping);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MappingPackage.TYPE_CONVERTER:
+      {
+        TypeConverter typeConverter = (TypeConverter)theEObject;
+        Object result = caseTypeConverter(typeConverter);
+        if (result == null) result = caseMappingHelper(typeConverter);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MappingPackage.FUNCTION_PAIR:
+      {
+        FunctionPair functionPair = (FunctionPair)theEObject;
+        Object result = caseFunctionPair(functionPair);
+        if (result == null) result = caseTypeConverter(functionPair);
+        if (result == null) result = caseMappingHelper(functionPair);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MappingPackage.FUNCTION_NAME_PAIR:
+      {
+        FunctionNamePair functionNamePair = (FunctionNamePair)theEObject;
+        Object result = caseFunctionNamePair(functionNamePair);
+        if (result == null) result = caseTypeConverter(functionNamePair);
+        if (result == null) result = caseMappingHelper(functionNamePair);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MappingPackage.MAPPING_STRATEGY:
+      {
+        MappingStrategy mappingStrategy = (MappingStrategy)theEObject;
+        Object result = caseMappingStrategy(mappingStrategy);
+        if (result == null) result = caseMappingHelper(mappingStrategy);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MappingPackage.MAPPING_ROOT:
+      {
+        MappingRoot mappingRoot = (MappingRoot)theEObject;
+        Object result = caseMappingRoot(mappingRoot);
+        if (result == null) result = caseMapping(mappingRoot);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MappingPackage.COMPLEX_TYPE_CONVERTER:
+      {
+        ComplexTypeConverter complexTypeConverter = (ComplexTypeConverter)theEObject;
+        Object result = caseComplexTypeConverter(complexTypeConverter);
+        if (result == null) result = caseTypeConverter(complexTypeConverter);
+        if (result == null) result = caseMappingHelper(complexTypeConverter);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      default: return defaultCase(theEObject);
+    }
   }
 
   /**

@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreMappingRootItemProvider.java,v 1.1 2004/04/28 18:58:51 davidms Exp $
+ * $Id: Ecore2EcoreMappingRootItemProvider.java,v 1.2 2004/05/16 16:53:41 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.provider;
 
@@ -73,7 +73,6 @@ public class Ecore2EcoreMappingRootItemProvider extends MappingRootItemProvider
     return itemPropertyDescriptors;
   }
 
-
   /**
    * This returns Ecore2EcoreMappingRoot.gif.
    * <!-- begin-user-doc -->
@@ -119,4 +118,5 @@ public class Ecore2EcoreMappingRootItemProvider extends MappingRootItemProvider
   {
     return Ecore2EcorePlugin.INSTANCE;
   }
+
 }

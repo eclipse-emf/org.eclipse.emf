@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeFactoryImpl.java,v 1.2 2004/03/11 23:40:59 emerks Exp $
+ * $Id: TreeFactoryImpl.java,v 1.3 2004/05/16 17:00:41 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -88,4 +88,5 @@ public class TreeFactoryImpl extends EFactoryImpl implements TreeFactory
   {
     return TreePackage.eINSTANCE;
   }
+
 } //TreeFactoryImpl

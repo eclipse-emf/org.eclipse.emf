@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingFactoryImpl.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
+ * $Id: MappingFactoryImpl.java,v 1.3 2004/05/16 16:56:25 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -172,6 +172,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
   {
     return MappingPackage.eINSTANCE;
   }
+
 } //MappingFactoryImpl
 
 

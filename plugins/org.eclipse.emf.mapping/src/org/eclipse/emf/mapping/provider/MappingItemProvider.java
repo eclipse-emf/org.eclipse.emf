@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingItemProvider.java,v 1.4 2004/04/06 22:53:50 davidms Exp $
+ * $Id: MappingItemProvider.java,v 1.5 2004/05/16 16:56:10 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -51,6 +51,8 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+//import org.eclipse.emf.edit.provider.ViewerNotification;
+
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptorDecorator;
 import org.eclipse.emf.mapping.Mapping;
@@ -1132,4 +1134,5 @@ public class MappingItemProvider
   {
     return MappingPlugin.INSTANCE;
   }
+
 }

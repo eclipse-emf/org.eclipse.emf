@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TypeConverterItemProvider.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
+ * $Id: TypeConverterItemProvider.java,v 1.3 2004/05/16 16:56:10 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -96,4 +96,5 @@ public class TypeConverterItemProvider
   {
     return MappingPlugin.INSTANCE;
   }
+
 }

@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreActionBarContributor.java,v 1.1 2004/04/28 18:59:01 davidms Exp $
+ * $Id: Ecore2EcoreActionBarContributor.java,v 1.2 2004/05/16 16:52:49 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -16,6 +16,8 @@ package org.eclipse.emf.mapping.ecore2ecore.presentation;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
+
+import org.eclipse.emf.edit.ui.action.ValidateAction;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
@@ -120,6 +122,7 @@ public class Ecore2EcoreActionBarContributor extends EditingDomainActionBarContr
   public Ecore2EcoreActionBarContributor()
   {
     loadResourceAction = new LoadResourceAction();
+    validateAction = new ValidateAction();
   }
 
   /**
@@ -154,6 +157,8 @@ public class Ecore2EcoreActionBarContributor extends EditingDomainActionBarContr
 
     // Add your contributions.
     // Ensure that you remove @generated or mark it @generated NOT
+
+    addGlobalActions(submenuManager);
   }
 
   /**
@@ -214,11 +219,23 @@ public class Ecore2EcoreActionBarContributor extends EditingDomainActionBarContr
   public void menuAboutToShow(IMenuManager menuManager)
   {
     super.menuAboutToShow(menuManager);
+  }
 
+  /**
+   * This inserts global actions before the "additions-end" separator.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addGlobalActions(IMenuManager menuManager)
+  {
     menuManager.insertAfter("additions-end", new Separator("ui-actions")); //$NON-NLS-1$ //$NON-NLS-2$
     menuManager.insertAfter("ui-actions", showPropertiesViewAction); //$NON-NLS-1$
 
     refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());		
     menuManager.insertAfter("ui-actions", refreshViewerAction); //$NON-NLS-1$
+
+    super.addGlobalActions(menuManager);
   }
+
 }

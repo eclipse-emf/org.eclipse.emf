@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcorePackageImpl.java,v 1.1 2004/04/28 18:58:51 davidms Exp $
+ * $Id: Ecore2EcorePackageImpl.java,v 1.2 2004/05/16 16:53:58 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
@@ -195,4 +195,5 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
     // Create resource
     createResource(eNS_URI);
   }
+
 } //Ecore2EcorePackageImpl

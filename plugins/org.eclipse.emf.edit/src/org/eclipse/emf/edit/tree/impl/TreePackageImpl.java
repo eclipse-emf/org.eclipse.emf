@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreePackageImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: TreePackageImpl.java,v 1.2 2004/05/16 17:00:41 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -222,11 +222,12 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(treeNodeEClass, TreeNode.class, "TreeNode", !IS_ABSTRACT, !IS_INTERFACE);
-    initEReference(getTreeNode_Parent(), this.getTreeNode(), this.getTreeNode_Children(), "parent", null, 0, 1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getTreeNode_Children(), this.getTreeNode(), this.getTreeNode_Parent(), "children", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getTreeNode_Data(), theEcorePackage.getEObject(), null, "data", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEReference(getTreeNode_Parent(), this.getTreeNode(), this.getTreeNode_Children(), "parent", null, 0, 1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getTreeNode_Children(), this.getTreeNode(), this.getTreeNode_Parent(), "children", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getTreeNode_Data(), theEcorePackage.getEObject(), null, "data", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Create resource
     createResource(eNS_URI);
   }
+
 } //TreePackageImpl

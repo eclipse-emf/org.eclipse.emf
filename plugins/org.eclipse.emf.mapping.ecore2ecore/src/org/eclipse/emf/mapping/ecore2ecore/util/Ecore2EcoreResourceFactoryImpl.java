@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreResourceFactoryImpl.java,v 1.1 2004/04/28 18:58:51 davidms Exp $
+ * $Id: Ecore2EcoreResourceFactoryImpl.java,v 1.2 2004/05/16 16:53:28 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.util;
 
@@ -51,4 +51,5 @@ public class Ecore2EcoreResourceFactoryImpl extends ResourceFactoryImpl
     Resource result = new Ecore2EcoreResourceImpl(uri);
     return result;
   }
+
 } //Ecore2EcoreResourceFactoryImpl

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FunctionNamePairItemProvider.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
+ * $Id: FunctionNamePairItemProvider.java,v 1.3 2004/05/16 16:56:10 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -27,6 +27,8 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+//import org.eclipse.emf.edit.provider.ViewerNotification;
+
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.mapping.FunctionNamePair;
 import org.eclipse.emf.mapping.MappingPackage;
@@ -122,4 +124,5 @@ public class FunctionNamePairItemProvider
   {
     return MappingPlugin.INSTANCE;
   }
+
 }
