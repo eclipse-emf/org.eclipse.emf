@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.5 2005/02/15 20:19:27 bportier Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.6 2005/02/16 22:30:50 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -120,6 +120,22 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     }
   }
   
+  protected void setUp() throws Exception
+  {
+    super.setUp();    
+    
+    Dimension[] allDimensions = new Dimension[] {
+      Dimension.COMITTED
+      ,Dimension.CPU_TIME
+      ,Dimension.ELAPSED_PROCESS
+      ,Dimension.KERNEL_TIME
+      ,Dimension.USED_JAVA_HEAP
+      ,Dimension.WORKING_SET
+      ,Dimension.WORKING_SET_PEAK
+    };   
+    tagAsSummary("Perf Results", allDimensions);
+  }
+
   protected void runTest() throws Throwable
   {
     assertTrue("Iterations must be greater than 0", getRepetitions() > 0); 

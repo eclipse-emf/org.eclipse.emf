@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.5 2005/02/15 20:19:27 bportier Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.6 2005/02/16 22:30:52 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -46,7 +46,6 @@ extends Plugin
         }
         
         System.out.println("EMFTestPerformancePlugin() - debug start");
-        System.out.println("*** " + System.getProperty("blah") + " ***");
         Map properties = System.getProperties(); 
         for (Iterator i = properties.entrySet().iterator(); i.hasNext();)
         {
