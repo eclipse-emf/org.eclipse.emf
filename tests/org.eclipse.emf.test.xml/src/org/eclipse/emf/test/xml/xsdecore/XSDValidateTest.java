@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.3 2004/12/28 23:20:08 marcelop Exp $
+ * $Id: XSDValidateTest.java,v 1.4 2005/01/05 20:42:51 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
-import org.eclipse.emf.test.xml.EMFTestXMLPlugin;
+import org.eclipse.emf.test.xml.TestUtil;
 
 import org.eclipse.xsd.XSDDiagnostic;
 import org.eclipse.xsd.XSDSchema;
@@ -45,7 +45,7 @@ import org.eclipse.xsd.util.XSDResourceImpl;
 public class XSDValidateTest extends TestCase
 {
 
-  final static String BASE_URI = EMFTestXMLPlugin.getPluginDirectory() + "/data/xsd/invalid/";
+  final static String BASE_URI = TestUtil.getPluginDirectory() + "/data/xsd/invalid/";
   
   // prints to standard out detailed messages for failed test cases
   //

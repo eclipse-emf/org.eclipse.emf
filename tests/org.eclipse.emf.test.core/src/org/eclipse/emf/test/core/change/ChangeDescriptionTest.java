@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionTest.java,v 1.5 2004/11/08 21:38:14 marcelop Exp $
+ * $Id: ChangeDescriptionTest.java,v 1.6 2005/01/05 20:42:49 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -42,7 +42,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
+import org.eclipse.emf.test.core.TestUtil;
 
 
 public class ChangeDescriptionTest extends TestCase
@@ -109,8 +109,8 @@ public class ChangeDescriptionTest extends TestCase
           assertEquals("Comparing iteration: " + i, xmi[i % 2], newXMI);
       }
 
-      assertEquals(i % 2 == 0, EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
-      assertEquals(i % 2 != 0, EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+      assertEquals(i % 2 == 0, TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
+      assertEquals(i % 2 != 0, TestUtil.areEqual(afterChange, eAnnotation.getContents()));
 
       changeDescription.applyAndReverse();
     }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapTest.java,v 1.2 2004/08/24 21:21:50 marcelop Exp $
+ * $Id: FeatureMapTest.java,v 1.3 2005/01/05 20:42:49 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
+import org.eclipse.emf.test.core.TestUtil;
 import org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder;
 import org.eclipse.emf.test.core.featuremap.supplier.Supplier;
 import org.eclipse.emf.test.core.featuremap.supplier.SupplierFactory;
@@ -126,7 +126,7 @@ public class FeatureMapTest extends TestCase
     po2.setId("po2");
     supplier.getStandardOrders().add(po2);
 
-    URI supplierURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/supplier.xmi");
+    URI supplierURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/supplier.xmi");
     Resource resource = new XMIResourceFactoryImpl().createResource(supplierURI);
     resource.getContents().add(supplier);
     resource.save(Collections.EMPTY_MAP);

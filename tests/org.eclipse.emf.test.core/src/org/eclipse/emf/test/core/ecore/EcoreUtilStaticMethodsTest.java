@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtilStaticMethodsTest.java,v 1.6 2004/11/09 12:48:49 emerks Exp $
+ * $Id: EcoreUtilStaticMethodsTest.java,v 1.7 2005/01/05 20:42:49 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -30,7 +30,7 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
+import org.eclipse.emf.test.core.TestUtil;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDFactory;
 
@@ -158,28 +158,28 @@ public class EcoreUtilStaticMethodsTest extends TestCase
   {
     EList eList = new BasicEList();
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Empty list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
+    assertTrue("Empty list test", TestUtil.areEqual(prototypeList, eList));
     
     eList = new BasicEList();
     eList.add(0, "String");
     eList.add(Boolean.FALSE);
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Smaller list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
+    assertTrue("Smaller list test", TestUtil.areEqual(prototypeList, eList));
     
     eList = (EList)populateList(new BasicEList());
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Same list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
+    assertTrue("Same list test", TestUtil.areEqual(prototypeList, eList));
 
     eList.remove(2);
     eList.add(3, this);
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Equal size list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
+    assertTrue("Equal size list test", TestUtil.areEqual(prototypeList, eList));
 
     eList.add(0, "String");
     eList.add(2, Boolean.FALSE);
     eList.add(Boolean.FALSE);
     eList.add(this);
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Bigger list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
+    assertTrue("Bigger list test", TestUtil.areEqual(prototypeList, eList));
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNameTest.java,v 1.1 2004/11/04 05:52:46 marcelop Exp $
+ * $Id: QNameTest.java,v 1.2 2005/01/05 20:42:51 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -36,16 +36,16 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.test.models.qname.QnamePackage;
-import org.eclipse.emf.test.xml.EMFTestXMLPlugin;
+import org.eclipse.emf.test.xml.TestUtil;
 
 /**
  * XMI tests: loading qname.xml 
  */
 public class QNameTest extends TestCase
 {
-  final static String BASE_XML_URI = EMFTestXMLPlugin.getPluginDirectory() + "/data/xml/";
+  final static String BASE_XML_URI = TestUtil.getPluginDirectory() + "/data/xml/";
 
-  final static String BASE_XMI_URI = EMFTestXMLPlugin.getPluginDirectory() + "/data/xmi/";
+  final static String BASE_XMI_URI = TestUtil.getPluginDirectory() + "/data/xmi/";
 
   DocumentBuilder builder;
 

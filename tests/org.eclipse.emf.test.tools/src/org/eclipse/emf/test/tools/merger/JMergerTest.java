@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.2 2004/11/25 19:43:01 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.3 2005/01/05 20:42:52 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -25,7 +25,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.emf.codegen.jmerge.JControlModel;
 import org.eclipse.emf.codegen.jmerge.JMerger;
-import org.eclipse.emf.test.tools.EMFTestToolsPlugin;
+import org.eclipse.emf.test.tools.TestUtil;
 
 /**
  * This test case was based on the excellent article written by Adrian Powell 
@@ -35,13 +35,13 @@ import org.eclipse.emf.test.tools.EMFTestToolsPlugin;
 public class JMergerTest extends TestCase
 {
   private static final File MERGE_XML = 
-     new File(EMFTestToolsPlugin.getPluginDirectory() + "/data/merge.xml").getAbsoluteFile();
+     new File(TestUtil.getPluginDirectory() + "/data/merge.xml").getAbsoluteFile();
   private static final File MERGE_SOURCE = 
-    new File(EMFTestToolsPlugin.getPluginDirectory() + "/data/MergerSource.java").getAbsoluteFile();
+    new File(TestUtil.getPluginDirectory() + "/data/MergerSource.java").getAbsoluteFile();
   private static final File MERGE_TARGET = 
-    new File(EMFTestToolsPlugin.getPluginDirectory() + "/data/MergerTarget.java").getAbsoluteFile();
+    new File(TestUtil.getPluginDirectory() + "/data/MergerTarget.java").getAbsoluteFile();
   private static final File MERGE_EXPECTED = 
-    new File(EMFTestToolsPlugin.getPluginDirectory() + "/data/MergerExpected.java").getAbsoluteFile();
+    new File(TestUtil.getPluginDirectory() + "/data/MergerExpected.java").getAbsoluteFile();
   
   private JMerger jMerger;
   
@@ -72,7 +72,7 @@ public class JMergerTest extends TestCase
     jMerger.setControlModel(controlModel);
 
     // set source
-    jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(EMFTestToolsPlugin.readFile(MERGE_SOURCE)));
+    jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(TestUtil.readFile(MERGE_SOURCE)));
     
     // set target
     jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(new FileInputStream(MERGE_TARGET)));
@@ -93,7 +93,7 @@ public class JMergerTest extends TestCase
       }
     }
     
-    String expectedMerge = EMFTestToolsPlugin.readFile(MERGE_EXPECTED);
+    String expectedMerge = TestUtil.readFile(MERGE_EXPECTED);
     assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\r'", expectedMerge, mergeResult.toString());
   }  
 }

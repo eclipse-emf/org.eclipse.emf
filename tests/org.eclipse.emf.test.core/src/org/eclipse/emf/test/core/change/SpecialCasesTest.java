@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.7 2004/12/16 16:42:19 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.8 2005/01/05 20:42:49 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -49,7 +49,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
+import org.eclipse.emf.test.core.TestUtil;
 import org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder;
 import org.eclipse.emf.test.core.featuremap.supplier.Supplier;
 import org.eclipse.emf.test.core.featuremap.supplier.SupplierFactory;
@@ -110,9 +110,9 @@ public class SpecialCasesTest  extends TestCase
     
     ChangeDescription changeDescription = changeRecorder.endRecording();
     
-    assertFalse(EMFTestCorePlugin.areEqual(ordersBeforeChange, supplier.getOrders()));
-    assertFalse(EMFTestCorePlugin.areEqual(preferredOrdersBeforeChange, supplier.getPreferredOrders()));
-    assertFalse(EMFTestCorePlugin.areEqual(standardOrdersBeforeChange, supplier.getStandardOrders()));
+    assertFalse(TestUtil.areEqual(ordersBeforeChange, supplier.getOrders()));
+    assertFalse(TestUtil.areEqual(preferredOrdersBeforeChange, supplier.getPreferredOrders()));
+    assertFalse(TestUtil.areEqual(standardOrdersBeforeChange, supplier.getStandardOrders()));
     
     assertEquals(2, changeDescription.getObjectsToDetach().size());
     assertEquals(po3, changeDescription.getObjectsToDetach().get(0));
@@ -129,9 +129,9 @@ public class SpecialCasesTest  extends TestCase
     
     changeDescription.apply();
 
-    assertTrue(EMFTestCorePlugin.areEqual(ordersBeforeChange, supplier.getOrders()));
-    assertTrue(EMFTestCorePlugin.areEqual(preferredOrdersBeforeChange, supplier.getPreferredOrders()));
-    assertTrue(EMFTestCorePlugin.areEqual(standardOrdersBeforeChange, supplier.getStandardOrders()));
+    assertTrue(TestUtil.areEqual(ordersBeforeChange, supplier.getOrders()));
+    assertTrue(TestUtil.areEqual(preferredOrdersBeforeChange, supplier.getPreferredOrders()));
+    assertTrue(TestUtil.areEqual(standardOrdersBeforeChange, supplier.getStandardOrders()));
   }
   
   public void testOneToManyContainment()
@@ -374,11 +374,11 @@ public class SpecialCasesTest  extends TestCase
     
     // save
     
-    URI johnURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/john.xmi");
+    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/john.xmi");
     Resource johnResource = new XMIResourceImpl(johnURI);
     johnResource.getContents().add(john);
     
-    URI changeDescriptionURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/cd.xmi");
+    URI changeDescriptionURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/cd.xmi");
     Resource changeDescriptionResource = new XMIResourceImpl(changeDescriptionURI);
     changeDescriptionResource.getContents().add(changeDescription);
     

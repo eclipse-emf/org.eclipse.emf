@@ -12,24 +12,16 @@
  *
  * </copyright>
  *
- * $Id: EMFTestToolsPlugin.java,v 1.2 2004/11/25 19:41:51 marcelop Exp $
+ * $Id: EMFTestToolsPlugin.java,v 1.3 2005/01/05 20:42:52 marcelop Exp $
  */
 package org.eclipse.emf.test.tools;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
-
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 
 public class EMFTestToolsPlugin 
 extends Plugin
 {
     private static EMFTestToolsPlugin instance;
-    private static class Foo{};
     
     public EMFTestToolsPlugin()
     {
@@ -41,59 +33,4 @@ extends Plugin
     {
         return instance;
     }
-
-    public static String getPluginDirectory()
-    {
-      if (getPlugin() != null)
-      {
-        try
-        {
-            return new java.io.File(Platform.asLocalURL(getPlugin().getBundle().getEntry("/")).getFile()).toString();
-        }
-        catch (IOException e)
-        {
-        }
-      }
-      URL url = new Foo().getClass().getResource(".");
-      String path = url.getPath();
-      path = path.substring(0, path.indexOf("org.eclipse.emf.test.tools/") + "org.eclipse.emf.test.tools/".length());
-      return new File(path).getAbsolutePath();
-    }
-    
-    public static String readFile(File file)
-    {    
-      StringBuffer stringBuffer = new StringBuffer();
-
-      try
-      {
-        BufferedReader in = new BufferedReader(new FileReader(file));
-        String str = null;
-        
-        try
-        {
-          while ((str = in.readLine()) != null)
-          {
-            stringBuffer.append(str).append("\n");
-          }
-        }
-        finally
-        {
-          if (in != null)
-          {
-            in.close();
-          }
-        }
-      }
-      catch(IOException exception)
-      {
-        throw new RuntimeException(exception);
-      }
-      
-      int length = stringBuffer.length();
-      if(length > 0)
-      {
-        stringBuffer.deleteCharAt(length - 1);
-      }
-      return stringBuffer.toString();
-    }    
 }

@@ -60,7 +60,7 @@ public class TestSDO extends TestCase
 
     eDataGraph = SDOFactory.eINSTANCE.createEDataGraph();
     resourceSet = eDataGraph.getResourceSet();
-    Resource model = resourceSet.getResource(URI.createFileURI(EMFTestSDOPlugin.getPluginDirectory() + "/models/model/com.example.simple.ecore"), true);
+    Resource model = resourceSet.getResource(URI.createFileURI(TestUtil.getPluginDirectory() + "/models/model/com.example.simple.ecore"), true);
     if (SYSOUT) model.save(System.out, null);
 
     ePackage = (EPackage)model.getContents().get(0);

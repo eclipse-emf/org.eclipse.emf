@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.4 2004/12/16 16:42:19 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.5 2005/01/05 20:42:49 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -54,7 +54,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
+import org.eclipse.emf.test.core.TestUtil;
 
 
 public class ChangeRecordTest
@@ -430,26 +430,26 @@ extends TestCase
     List afterChange = new ArrayList(eAnnotation.getContents());
     
     //current != before && current == after
-    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
-    assertTrue(EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+    assertFalse(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
+    assertTrue(TestUtil.areEqual(afterChange, eAnnotation.getContents()));
 
     changeDescription.applyAndReverse();
     
     //current == before && current != after
-    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
-    assertFalse(EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+    assertTrue(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
+    assertFalse(TestUtil.areEqual(afterChange, eAnnotation.getContents()));
     
     changeDescription.applyAndReverse();
 
     //current != before && current == after
-    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
-    assertTrue(EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+    assertFalse(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
+    assertTrue(TestUtil.areEqual(afterChange, eAnnotation.getContents()));
     
     changeDescription.apply();
     
     //current == before && current != after
-    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
-    assertFalse(EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+    assertTrue(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
+    assertFalse(TestUtil.areEqual(afterChange, eAnnotation.getContents()));
   }
 
   /*
@@ -557,12 +557,12 @@ extends TestCase
     if (initialListAreDifferent)
     {
       //Tests if the lists are different
-      assertFalse(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
+      assertFalse(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
     }
     else
     {
       //Tests if the lists are equal
-      assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));      
+      assertTrue(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));      
     }
     
     changeDescription.apply(); 
@@ -572,11 +572,11 @@ extends TestCase
 //    assertEquals(0, changeDescription.getObjectsToAttach().size());
     
     //Tests if the list was rolled back
-    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
+    assertTrue(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
     
     // Another apply shouldn't change anything
     changeDescription.apply(); 
-    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
+    assertTrue(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
   }
   
   /*
@@ -816,8 +816,8 @@ extends TestCase
     EObject mary = pack.getEFactoryInstance().create(person);
     mary.eSet(name, "Mary");
 
-    URI johnURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/johnTRSR.xmi");
-    URI changeDescriptionURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/changeDescriptionTRSR.xmi");    
+    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/johnTRSR.xmi");
+    URI changeDescriptionURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/changeDescriptionTRSR.xmi");    
     
     XMLResource johnResource = new XMLResourceImpl(johnURI);
     johnResource.getContents().add(john);

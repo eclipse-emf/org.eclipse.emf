@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.6 2004/11/26 11:51:04 marcelop Exp $
+ * $Id: ASTTest.java,v 1.7 2005/01/05 20:42:52 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -49,7 +49,7 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
-import org.eclipse.emf.test.tools.EMFTestToolsPlugin;
+import org.eclipse.emf.test.tools.TestUtil;
 
 /*
  * MP:
@@ -59,7 +59,7 @@ import org.eclipse.emf.test.tools.EMFTestToolsPlugin;
 public class ASTTest extends TestCase
 {
   private static final File CLASS_FILE = 
-    new File(EMFTestToolsPlugin.getPluginDirectory() + "/data/Example.java").getAbsoluteFile();
+    new File(TestUtil.getPluginDirectory() + "/data/Example.java").getAbsoluteFile();
  
  /**
   * @param name
@@ -83,7 +83,7 @@ public class ASTTest extends TestCase
  
  public void testRead()
  {
-   String content = EMFTestToolsPlugin.readFile(CLASS_FILE);
+   String content = TestUtil.readFile(CLASS_FILE);
    
    ASTParser astParser = ASTParser.newParser(AST.JLS3);
    astParser.setSource(content.toCharArray());

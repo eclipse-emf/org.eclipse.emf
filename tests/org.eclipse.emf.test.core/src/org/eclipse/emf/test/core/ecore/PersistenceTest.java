@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.1 2004/10/28 21:18:34 marcelop Exp $
+ * $Id: PersistenceTest.java,v 1.2 2005/01/05 20:42:49 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -37,7 +37,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
+import org.eclipse.emf.test.core.TestUtil;
 
 public class PersistenceTest extends TestCase
 {  
@@ -183,7 +183,7 @@ public class PersistenceTest extends TestCase
   
   public void oneFileTest(Resource.Factory resourceFactory) throws Exception
   {
-    URI uri = uri = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/people.pep");
+    URI uri = uri = URI.createFileURI(TestUtil.getPluginDirectory() + "/people.pep");
     new File(uri.toFileString()).delete();
 
     Resource resource = resourceFactory.createResource(uri);
@@ -212,9 +212,9 @@ public class PersistenceTest extends TestCase
 
   public void twoFileTest(Resource.Factory johnResourceFactory, Resource.Factory maryResourceFactory) throws Exception
   {
-    URI johnURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/f1/people.john");
+    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/f1/people.john");
     new File(johnURI.toFileString()).delete();
-    URI maryURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/f1/f2/people.mary");
+    URI maryURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/f1/f2/people.mary");
     new File(maryURI.toFileString()).delete();
 
     Resource johnResource = johnResourceFactory.createResource(johnURI);

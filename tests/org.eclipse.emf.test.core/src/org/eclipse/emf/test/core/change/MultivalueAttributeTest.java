@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MultivalueAttributeTest.java,v 1.5 2004/11/17 15:43:26 marcelop Exp $
+ * $Id: MultivalueAttributeTest.java,v 1.6 2005/01/05 20:42:49 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -45,7 +45,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
+import org.eclipse.emf.test.core.TestUtil;
 
 public class MultivalueAttributeTest extends TestCase
 {
@@ -180,18 +180,18 @@ public class MultivalueAttributeTest extends TestCase
     List afterChange = new ArrayList(getManyInt());
     
     //current != before && current == after
-    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, getManyInt()));
-    assertTrue(EMFTestCorePlugin.areEqual(afterChange, getManyInt()));
+    assertFalse(TestUtil.areEqual(beforeChange, getManyInt()));
+    assertTrue(TestUtil.areEqual(afterChange, getManyInt()));
     
     changeDescription.applyAndReverse();    
     //current == before && current != after
-    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, getManyInt()));
-    assertFalse(EMFTestCorePlugin.areEqual(afterChange, getManyInt()));    
+    assertTrue(TestUtil.areEqual(beforeChange, getManyInt()));
+    assertFalse(TestUtil.areEqual(afterChange, getManyInt()));    
 
     changeDescription.apply();    
     //current != before && current == after
-    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, getManyInt()));
-    assertTrue(EMFTestCorePlugin.areEqual(afterChange, getManyInt()));
+    assertFalse(TestUtil.areEqual(beforeChange, getManyInt()));
+    assertTrue(TestUtil.areEqual(afterChange, getManyInt()));
   }  
 
   /*
@@ -215,10 +215,10 @@ public class MultivalueAttributeTest extends TestCase
     List stringAfterChange = new ArrayList(getManyString());
     
     //current != before && current == after
-    assertFalse(EMFTestCorePlugin.areEqual(intBeforeChange, getManyInt()));
-    assertTrue(EMFTestCorePlugin.areEqual(intAfterChange, getManyInt()));
-    assertFalse(EMFTestCorePlugin.areEqual(stringBeforeChange, getManyString()));
-    assertTrue(EMFTestCorePlugin.areEqual(stringAfterChange, getManyString()));
+    assertFalse(TestUtil.areEqual(intBeforeChange, getManyInt()));
+    assertTrue(TestUtil.areEqual(intAfterChange, getManyInt()));
+    assertFalse(TestUtil.areEqual(stringBeforeChange, getManyString()));
+    assertTrue(TestUtil.areEqual(stringAfterChange, getManyString()));
 
     Resource thingResource = new XMIResourceImpl(URI.createFileURI("thing.xmi"));
     thingResource.getContents().add(thing);
@@ -245,32 +245,32 @@ public class MultivalueAttributeTest extends TestCase
     resourceSet.getResources().add(loadedThingResource);
     
     //loadedThing: current != before && current == after
-    assertFalse(EMFTestCorePlugin.areEqual(intBeforeChange, getManyInt(loadedThing)));
-    assertTrue(EMFTestCorePlugin.areEqual(intAfterChange, getManyInt(loadedThing)));
-    assertFalse(EMFTestCorePlugin.areEqual(stringBeforeChange, getManyString(loadedThing)));
-    assertTrue(EMFTestCorePlugin.areEqual(stringAfterChange, getManyString(loadedThing)));
+    assertFalse(TestUtil.areEqual(intBeforeChange, getManyInt(loadedThing)));
+    assertTrue(TestUtil.areEqual(intAfterChange, getManyInt(loadedThing)));
+    assertFalse(TestUtil.areEqual(stringBeforeChange, getManyString(loadedThing)));
+    assertTrue(TestUtil.areEqual(stringAfterChange, getManyString(loadedThing)));
     
     loadedChangeDescription.apply();
     
     //loadedThing: current == before && current != after
-    assertTrue(EMFTestCorePlugin.areEqual(intBeforeChange, getManyInt(loadedThing)));
-    assertFalse(EMFTestCorePlugin.areEqual(intAfterChange, getManyInt(loadedThing)));    
-    assertTrue(EMFTestCorePlugin.areEqual(stringBeforeChange, getManyString(loadedThing)));
-    assertFalse(EMFTestCorePlugin.areEqual(stringAfterChange, getManyString(loadedThing)));
+    assertTrue(TestUtil.areEqual(intBeforeChange, getManyInt(loadedThing)));
+    assertFalse(TestUtil.areEqual(intAfterChange, getManyInt(loadedThing)));    
+    assertTrue(TestUtil.areEqual(stringBeforeChange, getManyString(loadedThing)));
+    assertFalse(TestUtil.areEqual(stringAfterChange, getManyString(loadedThing)));
     
     
     //thing: current != before && current == after <same as after the changes>
-    assertFalse(EMFTestCorePlugin.areEqual(intBeforeChange, getManyInt()));
-    assertTrue(EMFTestCorePlugin.areEqual(intAfterChange, getManyInt()));
-    assertFalse(EMFTestCorePlugin.areEqual(stringBeforeChange, getManyString()));
-    assertTrue(EMFTestCorePlugin.areEqual(stringAfterChange, getManyString()));
+    assertFalse(TestUtil.areEqual(intBeforeChange, getManyInt()));
+    assertTrue(TestUtil.areEqual(intAfterChange, getManyInt()));
+    assertFalse(TestUtil.areEqual(stringBeforeChange, getManyString()));
+    assertTrue(TestUtil.areEqual(stringAfterChange, getManyString()));
 
     changeDescription.apply();
 
     //thing: current == before && current != after
-    assertTrue(EMFTestCorePlugin.areEqual(intBeforeChange, getManyInt()));
-    assertFalse(EMFTestCorePlugin.areEqual(intAfterChange, getManyInt()));
-    assertTrue(EMFTestCorePlugin.areEqual(stringBeforeChange, getManyString()));
-    assertFalse(EMFTestCorePlugin.areEqual(stringAfterChange, getManyString()));
+    assertTrue(TestUtil.areEqual(intBeforeChange, getManyInt()));
+    assertFalse(TestUtil.areEqual(intAfterChange, getManyInt()));
+    assertTrue(TestUtil.areEqual(stringBeforeChange, getManyString()));
+    assertFalse(TestUtil.areEqual(stringAfterChange, getManyString()));
   }  
 }

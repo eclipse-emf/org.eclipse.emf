@@ -12,22 +12,16 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.1 2005/01/05 20:05:41 marcelop Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.2 2005/01/05 20:42:53 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 
 public class EMFTestPerformancePlugin 
 extends Plugin
 {
     private static EMFTestPerformancePlugin instance;
-    private static class Foo{};
     
     public EMFTestPerformancePlugin()
     {
@@ -38,23 +32,5 @@ extends Plugin
     public static EMFTestPerformancePlugin getPlugin()
     {
         return instance;
-    }
-
-    public static String getPluginDirectory()
-    {
-      if (getPlugin() != null)
-      {
-        try
-        {
-            return new java.io.File(Platform.asLocalURL(getPlugin().getBundle().getEntry("/")).getFile()).toString();
-        }
-        catch (IOException e)
-        {
-        }
-      }
-      URL url = new Foo().getClass().getResource(".");
-      String path = url.getPath();
-      path = path.substring(0, path.indexOf("org.eclipse.emf.test.performance/") + "org.eclipse.emf.test.performance/".length());
-      return new File(path).getAbsolutePath();
     }
 }

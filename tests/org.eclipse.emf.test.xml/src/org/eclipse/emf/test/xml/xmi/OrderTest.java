@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: OrderTest.java,v 1.1 2004/11/04 05:52:46 marcelop Exp $
+ * $Id: OrderTest.java,v 1.2 2005/01/05 20:42:51 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -33,14 +33,14 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.test.models.customer.CustomerPackage;
 import org.eclipse.emf.test.models.movie.db.DbPackage;
 import org.eclipse.emf.test.models.order.OrderPackage;
-import org.eclipse.emf.test.xml.EMFTestXMLPlugin;
+import org.eclipse.emf.test.xml.TestUtil;
 
 /**
  * Test for XMI package: loading data/order.xml 
  */
 public class OrderTest extends TestCase
 {
-  final static String BASE_XML_URI = EMFTestXMLPlugin.getPluginDirectory() + "/data/xml/";
+  final static String BASE_XML_URI = TestUtil.getPluginDirectory() + "/data/xml/";
 
   String inputXML;
 

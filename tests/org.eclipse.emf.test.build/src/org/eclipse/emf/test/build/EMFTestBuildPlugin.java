@@ -12,22 +12,16 @@
  *
  * </copyright>
  *
- * $Id: EMFTestBuildPlugin.java,v 1.1 2004/11/03 19:41:32 marcelop Exp $
+ * $Id: EMFTestBuildPlugin.java,v 1.2 2005/01/05 20:42:50 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 
 public class EMFTestBuildPlugin 
 extends Plugin
 {
     private static EMFTestBuildPlugin instance;
-    private static class Foo{};
     
     public EMFTestBuildPlugin()
     {
@@ -38,23 +32,5 @@ extends Plugin
     public static EMFTestBuildPlugin getPlugin()
     {
         return instance;
-    }
-
-    public static String getPluginDirectory()
-    {
-      if (getPlugin() != null)
-      {
-        try
-        {
-            return new java.io.File(Platform.asLocalURL(getPlugin().getBundle().getEntry("/")).getFile()).toString();
-        }
-        catch (IOException e)
-        {
-        }
-      }
-      URL url = new Foo().getClass().getResource(".");
-      String path = url.getPath();
-      path = path.substring(0, path.indexOf("org.eclipse.emf.test.build/") + "org.eclipse.emf.test.build/".length());
-      return new File(path).getAbsolutePath();
     }
 }
