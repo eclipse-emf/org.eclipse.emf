@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnnotationImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDAnnotationImpl.java,v 1.2 2005/03/15 19:22:06 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -545,6 +545,10 @@ public class XSDAnnotationImpl
       {
         clonedAnnotation.setElement(element);
       }
+
+      clonedAnnotation.getApplicationInformation().addAll(getApplicationInformation());
+      clonedAnnotation.getUserInformation().addAll(getUserInformation());
+      clonedAnnotation.getAttributes().addAll(getAttributes());
     }
 
     clonedAnnotation.isReconciling = shareDOM;
