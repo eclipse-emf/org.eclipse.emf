@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageRegistryImpl.java,v 1.2 2004/06/21 13:52:40 emerks Exp $
+ * $Id: EPackageRegistryImpl.java,v 1.3 2004/07/20 16:16:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -89,8 +89,11 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
     {
       EPackage.Descriptor ePackageDescriptor = (EPackage.Descriptor)ePackage;
       EPackage result = ePackageDescriptor.getEPackage();
-      put(nsURI, result);
-      initialize(result);
+      if (result != null)
+      {
+        put(nsURI, result);
+        initialize(result);
+      }
       return result;
     }
     else
@@ -180,16 +183,49 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
       return delegateRegistry().get(key);
     }
 
-    public Object put(Object key, Object value)
+    public Object put(Object key, Object value) 
     {
-      ClassLoader classLoader = value.getClass().getClassLoader();
-      if (classLoader == Delegator.class.getClassLoader())
+      Class valueClass = value.getClass();
+      if (valueClass == EPackageImpl.class) 
       {
         return delegateRegistry().put(key, value);
-      }
-      else
+      } 
+      else 
       {
-        return delegateRegistry(classLoader).put(key, value);
+        String valueClassName = valueClass.getName();
+
+        // Find the uppermost classloader in the hierarchy that can load the class.
+        //
+        ClassLoader result = Thread.currentThread().getContextClassLoader();
+        for (ClassLoader classLoader = result.getParent(); classLoader != null; classLoader = classLoader.getParent())
+        {
+          try 
+          {
+            Class loadedClass = classLoader.loadClass(valueClassName);
+            if (loadedClass == valueClass) 
+            {
+              result = classLoader;
+            } 
+            else 
+            {
+              // The class address was not equal, so we don't want this classloader,
+              // but instead want the last result that was able to load the class.
+              //
+              break;
+            }
+          } 
+          catch (ClassNotFoundException exception) 
+          {
+            // We can't find the class, so we don't want this classloader,
+            // but instead want the last result that was able to load the class.
+            //
+            break;
+          }
+        }
+
+        // Register with the upper most classloader that's able to load the class.
+        //
+        return delegateRegistry(result).put(key, value);
       }
     }
 
