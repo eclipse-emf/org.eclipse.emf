@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.1 2004/11/03 19:41:32 marcelop Exp $
+ * $Id: BuildTests.java,v 1.2 2004/11/03 22:53:07 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -625,11 +625,16 @@ public class BuildTests extends TestCase
       }
     }
 
-    boolean result1 = testChkpii(HTML);
-    boolean result2 = testChkpii(XML);
-    boolean result3 = testChkpii(PROPERTIES);
-    assertTrue("Translation errors in files.  See the chkpii logs linked from the test results page for details.",
-        (result1 && result2 && result3));
+    boolean htmlResult = testChkpii(HTML);
+    boolean xmlResult = testChkpii(XML);
+    boolean propertiesResult = testChkpii(PROPERTIES);
+    
+    String message = "HTML:" + (htmlResult?"passed":"failed") 
+        + " XML:"  + (xmlResult ?"passed":"failed")
+        + " PROP:" + (propertiesResult?"passed":"failed");
+    
+    assertTrue("Translation errors in files.  See the chkpii logs linked from the test results page for details. (" + message + ")", 
+        (htmlResult && xmlResult && propertiesResult));
   }
   
   /*
