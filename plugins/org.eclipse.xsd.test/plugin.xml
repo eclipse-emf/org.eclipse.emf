@@ -16,14 +16,14 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/10/29 19:20:53 marcelop Exp $
+ * $Id: plugin.xml,v 1.6 2004/12/22 21:24:10 marcelop Exp $
  */
 -->
 
 <plugin
     name = "%pluginName"
     id = "org.eclipse.xsd.test"
-    version = "2.0.1"
+    version = "2.1.0"
     provider-name = "%providerName">
     
   <requires>
