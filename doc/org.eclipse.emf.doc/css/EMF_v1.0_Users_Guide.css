@@ -1,0 +1,70 @@
+body{font-family:Verdana,Arial,Helvetica;font-size:8pt}
+.normal{font-family:Verdana;font-size:8pt}
+p{font-family:Verdana;font-size:8pt}
+a.category{text-decoration:none;font-size:8pt;font-family:Verdana,Arial,Helvetica;font-weight:bold}
+a:hover.category {text-decoration:underline}
+.whatsnew {border-left:solid #8ABDBF 1px; border-right:solid #8ABDBF 1px;border-bottom:solid #8ABDBF 1px;}
+a.subcategory{text-decoration:none;font-size:8pt;font-family:Verdana,Arial,Helvetica}
+a:hover.subcategory {text-decoration:underline}
+
+   .javaObj {
+     font-family: courier new, courier, default;
+     font-size: 13px;
+     color: #333366;
+     font-style: italic;
+   }
+   .figureImg{
+     font-family: courier new, courier, default;
+     font-size: 13px;
+     color: #336666;
+   }
+   .tableHeading{
+     font-family: courier new, courier, default;
+     font-size: 13px;
+     color: #666666;
+   }
+   .tableTitle{
+     font-family: courier new, courier, default;
+     font-size: 13px;
+     color: #336666;
+   }
+   .extLink {
+     font-family: courier new, courier, default;
+     font-size: 13px;
+     color: #336633;
+     text-decoration:none;
+   }
+   a.extLink:hover {
+     text-decoration: underline;
+   }
+   .metaLink {
+     font-size: 12px;
+     color: #3333ff;
+     text-decoration:none;
+   }
+   .footnote {
+     font-size: 10px;
+     color: #3333ff;
+     text-decoration:none;
+   }
+   a.metaLink:hover,a.footnote:hover {
+     text-decoration: underline;
+   }
+   body, table, td, li, ul, ol {
+     font-family: verdana, helvetica, helv, sans-serif, sans;
+     font-size: 12px;
+     color: #000000;
+   }
+	.section0 {
+     font-size: 23px;
+	}
+	.section1 {
+     font-size: 20px;
+	}
+	.section2 {
+     font-size: 17px;
+	}
+	.section3 {
+     font-size: 14px;
+	}
+
