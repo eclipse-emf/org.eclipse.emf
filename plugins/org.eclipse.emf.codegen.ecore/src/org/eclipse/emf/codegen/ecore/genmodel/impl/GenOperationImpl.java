@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.3 2004/05/22 19:07:34 marcelop Exp $
+ * $Id: GenOperationImpl.java,v 1.4 2004/10/22 17:27:53 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -260,12 +260,12 @@ public class GenOperationImpl extends GenBaseImpl implements GenOperation
       switch (eContainerFeatureID)
       {
         case GenModelPackage.GEN_OPERATION__GEN_CLASS:
-          return ((InternalEObject)eContainer).eInverseRemove(this, GenModelPackage.GEN_CLASS__GEN_OPERATIONS, GenClass.class, msgs);
+          return eContainer.eInverseRemove(this, GenModelPackage.GEN_CLASS__GEN_OPERATIONS, GenClass.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

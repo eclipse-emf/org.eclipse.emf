@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.2 2004/05/22 19:07:34 marcelop Exp $
+ * $Id: GenParameterImpl.java,v 1.3 2004/10/22 17:27:53 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -217,12 +217,12 @@ public class GenParameterImpl extends GenBaseImpl implements GenParameter
       switch (eContainerFeatureID)
       {
         case GenModelPackage.GEN_PARAMETER__GEN_OPERATION:
-          return ((InternalEObject)eContainer).eInverseRemove(this, GenModelPackage.GEN_OPERATION__GEN_PARAMETERS, GenOperation.class, msgs);
+          return eContainer.eInverseRemove(this, GenModelPackage.GEN_OPERATION__GEN_PARAMETERS, GenOperation.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

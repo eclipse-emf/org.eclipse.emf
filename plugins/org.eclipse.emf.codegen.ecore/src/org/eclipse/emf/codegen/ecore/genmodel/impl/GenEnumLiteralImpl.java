@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.2 2004/10/22 17:27:53 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -216,12 +216,12 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
       switch (eContainerFeatureID)
       {
         case GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM:
-          return ((InternalEObject)eContainer).eInverseRemove(this, GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS, GenEnum.class, msgs);
+          return eContainer.eInverseRemove(this, GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS, GenEnum.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
