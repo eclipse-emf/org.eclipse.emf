@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.10 2004/11/04 19:30:18 nickb Exp $
+ * $Id: BuildTests.java,v 1.11 2004/11/04 19:32:32 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -1043,7 +1043,7 @@ public class BuildTests extends TestCase
   }
 
   public static final String[] BUILD_GENERATED_ZIP_FILES_PREFIX = { "emf-runtime", "emf-source", "emf-doc", "xsd-runtime", "xsd-source",
-      "xsd-doc", "sdo-runtime", "sdo-source", "sdo-doc", "emf-xsd-sdo-SDK" };
+      "xsd-doc", "sdo-runtime", "sdo-source", "sdo-doc", "emf-sdo-xsd-SDK" }; // last one changed 041104 to fix absentee chkpii testing
 
   public static final String[] REQUIRED_FEATURE_FILES = { "cpl-v10.html", "feature.properties", "feature.xml", "license.html" };
 
