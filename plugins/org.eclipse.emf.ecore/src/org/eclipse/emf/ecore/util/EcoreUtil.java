@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.3 2004/04/22 21:00:50 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.4 2004/05/06 12:46:06 fbudinsky Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1775,8 +1775,23 @@ public class EcoreUtil
    * no change will be made.
    * @param eList the list to set.
    * @param prototype the collection representing the desired content and order.
+   * @deprecated replaced by {@link EcoreUtil#setEList(EList, List)}.
    */
-  public static void setEList(EList eList, Collection prototypeList)
+  public static void setEList(EList eList, Collection prototypeCollection)
+  {
+    setEList(eList, new ArrayList(prototypeCollection));
+  }
+
+  /** 
+   * Sets the <code>eList</code>'s contents and order to be exactly that of the <code>prototype</code> list.
+   * This implementation mimimizes the number of notifications the operation will produce.
+   * Objects already in the list will be moved, missing objects will be added, and extra objects will be removed.
+   * If <code>eList</code>'s contents and order are already exactly that of the <code>prototype</code> list,
+   * no change will be made.
+   * @param eList the list to set.
+   * @param prototype the list representing the desired content and order.
+   */
+  public static void setEList(EList eList, List prototypeList)
   {
     int index = 0;
     for (Iterator objects = prototypeList.iterator(); objects.hasNext(); ++index)
@@ -1788,29 +1803,44 @@ public class EcoreUtil
       }
       else
       {
-        Object targetObject = eList.get(index);
-        if (targetObject == null ? prototypeObject != null : !targetObject.equals(prototypeObject))
-        {
-          int position = eList.indexOf(prototypeObject);
-          if (position != -1)
+        boolean done;
+        do {
+          done = true;
+          Object targetObject = eList.get(index);
+          if (targetObject == null ? prototypeObject != null : !targetObject.equals(prototypeObject))
           {
-            if (position != index)
+            int position = eList.indexOf(prototypeObject);
+            if (position != -1)
             {
-              if (!prototypeList.contains(targetObject))
+              if (position != index)
               {
-                eList.remove(index);
-              }
-              else
-              {
-                eList.move(index, position);
+                int targetIndex = prototypeList.indexOf(targetObject);
+                if (targetIndex == -1)
+                {
+                  eList.remove(index);
+                  done = false;
+                }
+                else if (targetIndex > position)
+                {
+                  if (eList.size() <= targetIndex)
+                  {
+                    targetIndex = eList.size() - 1;
+                  }
+                  eList.move(targetIndex, index);
+                  done = false;
+                }
+                else
+                {
+                  eList.move(index, position);
+                }
               }
             }
+            else
+            {
+              eList.add(index, prototypeObject);
+            }
           }
-          else
-          {
-            eList.add(index, prototypeObject);
-          }
-        }
+        } while (!done);
       }
     }
     for (int i = eList.size(); i > index; )

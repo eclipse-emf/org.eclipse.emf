@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.2 2004/05/06 12:45:59 fbudinsky Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -551,34 +551,51 @@ public class ChangeRecorder implements Adapter
       }
       else
       {
-        Object targetObject = oldList.get(index);
-        if (targetObject == null ? newObject != null : !targetObject.equals(newObject))
-        {
-          int position = oldList.indexOf(newObject);
-          if (position != -1)
+        boolean done;
+        do {
+          done = true;
+          Object targetObject = oldList.get(index);
+          if (targetObject == null ? newObject != null : !targetObject.equals(newObject))
           {
-            if (position != index)
+            int position = oldList.indexOf(newObject);
+            if (position != -1)
             {
-              if (!newList.contains(targetObject))
+              if (position != index)
               {
-                ListChange listChange = createListChange(changesList, ChangeKind.REMOVE_LITERAL, index);
-                oldList.remove(index);
-              }
-              else
-              {
-                ListChange listChange = createListChange(changesList, ChangeKind.MOVE_LITERAL, position);
-                listChange.setMoveToIndex(index);
-                oldList.move(index, position);
+                int targetIndex = newList.indexOf(targetObject);
+                if (targetIndex == -1)
+                {
+                  ListChange listChange = createListChange(changesList, ChangeKind.REMOVE_LITERAL, index);
+                  oldList.remove(index);
+                  done = false;
+                }
+                else if (targetIndex > position)
+                {
+                  if (oldList.size() <= targetIndex)
+                  {
+                    targetIndex = oldList.size() - 1;
+                  }
+                  ListChange listChange = createListChange(changesList, ChangeKind.MOVE_LITERAL, index);
+                  listChange.setMoveToIndex(targetIndex);
+                  oldList.move(targetIndex, index);
+                  done = false;
+                }
+                else
+                {
+                  ListChange listChange = createListChange(changesList, ChangeKind.MOVE_LITERAL, position);
+                  listChange.setMoveToIndex(index);
+                  oldList.move(index, position);
+                }
               }
             }
+            else
+            {
+              ListChange listChange = createListChange(changesList, ChangeKind.ADD_LITERAL, index);
+              listChange.getValues().add(newObject);
+              oldList.add(index, newObject);
+            }
           }
-          else
-          {
-            ListChange listChange = createListChange(changesList, ChangeKind.ADD_LITERAL, index);
-            listChange.getValues().add(newObject);
-            oldList.add(index, newObject);
-          }
-        }
+        } while (!done);
       }
     }
     for (int i = oldList.size(); i > index; )
