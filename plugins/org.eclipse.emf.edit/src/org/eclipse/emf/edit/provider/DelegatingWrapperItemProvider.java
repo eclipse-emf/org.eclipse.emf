@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingWrapperItemProvider.java,v 1.4 2004/09/24 04:20:58 davidms Exp $
+ * $Id: DelegatingWrapperItemProvider.java,v 1.5 2004/10/07 18:57:39 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -33,7 +33,6 @@ import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.CommandActionDelegate;
 import org.eclipse.emf.edit.command.CommandParameter;
@@ -115,7 +114,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
    * 
    * @exception IllegalArgumentException If the specified value is null.
    * 
-   * @deprecated As of EMF 2.0.1, replaced by {@link #DelegatingWrapperItemProvider(Object, EObject, EStructuralFeature, int, AdapterFactory)
+   * @deprecated As of EMF 2.0.1, replaced by {@link #DelegatingWrapperItemProvider(Object, org.eclipse.emf.ecore.EObject, EStructuralFeature, int, AdapterFactory)
    * this form}. This constructor will be removed as public API, but remain available as a protected method.
    */
   public DelegatingWrapperItemProvider(Object value, Object owner, AdapterFactory adapterFactory)
