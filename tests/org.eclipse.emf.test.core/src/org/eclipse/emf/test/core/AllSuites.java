@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.15 2004/07/08 17:30:19 marcelop Exp $
+ * $Id: AllSuites.java,v 1.16 2004/07/21 14:25:49 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -29,10 +29,12 @@ public class AllSuites extends TestSuite
     org.eclipse.emf.test.core.common.util.URITest.suite() 
     ,org.eclipse.emf.test.core.dynamic.SimpleModelTest.suite()
     ,org.eclipse.emf.test.core.build.BuildTests.suite()
+    ,org.eclipse.emf.test.core.sdo.DataGraphTest.suite()
     ,org.eclipse.emf.test.core.sdo.types.SDOUtilGetTest.suite()
     ,org.eclipse.emf.test.core.sdo.types.SDOUtilSetTest.suite()
     ,org.eclipse.emf.test.core.sdo.types.SDOUtilProtectedGetTest.suite()
     ,org.eclipse.emf.test.core.change.ChangeReportTest.suite()
+    ,org.eclipse.emf.test.core.change.MultivalueAttributeTest.suite()
     ,org.eclipse.emf.test.core.ecore.EcoreUtilStaticMethodsTest.suite()
     ,org.eclipse.emf.test.core.xmi.NamespaceTest.suite()
     ,org.eclipse.emf.test.core.xmi.OrderTest.suite()
