@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.4 2004/10/07 12:15:37 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.5 2005/03/26 01:04:25 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1180,12 +1180,18 @@ public class XSDAttributeGroupDefinitionImpl
     {
       if (getAnnotation() != null)
       {
-        clonedAttributeGroupDefinition.setAnnotation((XSDAnnotation)getAnnotation().cloneConcreteComponent(deep, shareDOM));
+        clonedAttributeGroupDefinition.setAnnotation((XSDAnnotation)getAnnotation().cloneConcreteComponent(true, shareDOM));
       }
 
       if (!getContents().isEmpty())
       {
         clonedAttributeGroupDefinition.getContents().addAll(cloneConcreteComponents(getContents(), true, shareDOM));
+      }
+
+      if (getAttributeWildcardContent() != null)
+      {
+        clonedAttributeGroupDefinition.setAttributeWildcardContent
+          ((XSDWildcard)getAttributeWildcardContent().cloneConcreteComponent(true, shareDOM));
       }
     }
 
