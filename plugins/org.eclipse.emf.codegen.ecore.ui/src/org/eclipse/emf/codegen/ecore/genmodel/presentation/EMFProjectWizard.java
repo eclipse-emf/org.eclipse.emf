@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.7 2004/06/15 14:35:18 emerks Exp $
+ * $Id: EMFProjectWizard.java,v 1.8 2004/08/06 17:04:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -2214,6 +2214,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
         data.grabExcessVerticalSpace = true;
         data.horizontalAlignment = GridData.FILL;
         data.horizontalSpan = 2;
+        data.heightHint = 90;
         packagesTable.setLayoutData(data);
       }
 
@@ -2467,6 +2468,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
         data.grabExcessHorizontalSpace = true;
         data.horizontalAlignment = GridData.FILL;
         data.horizontalSpan = 2;
+        data.heightHint = 60;
         referencedGenModelsTree.setLayoutData(data);
       }
       GenModelItemProviderAdapterFactory genModelItemProviderAdapterFactory = 
