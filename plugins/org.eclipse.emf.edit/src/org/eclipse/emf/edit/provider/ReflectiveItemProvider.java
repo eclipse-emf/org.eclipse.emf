@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.2 2004/03/31 19:46:39 davidms Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.3 2004/05/06 18:25:35 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -191,7 +191,8 @@ public class ReflectiveItemProvider
       {
         EAttribute eAttribute = (EAttribute)i.next();
         if (ExtendedMetaData.INSTANCE.getGroup(eAttribute) == null && 
-              eAttribute.getEType().getInstanceClass() == FeatureMap.Entry.class)
+              eAttribute.getEType().getInstanceClass() == FeatureMap.Entry.class &&
+              !eAttribute.isDerived())
         {
           childrenFeatures.add(eAttribute);
         }
