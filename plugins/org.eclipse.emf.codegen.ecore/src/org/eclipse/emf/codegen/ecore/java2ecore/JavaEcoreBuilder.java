@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.21 2005/03/07 21:30:03 khussey Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.22 2005/03/24 22:47:10 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -526,7 +526,12 @@ public class JavaEcoreBuilder
       {
         EPackage ePackage = (EPackage)i.next();
         String uri = baseURI + "/" + ePackage.getName() + ".ecore";
-        Resource resource = resourceSet.createResource(URI.createURI(uri));
+        URI ecoreURI = URI.createURI(uri);
+        if (resourceSet.getResource(ecoreURI, false) != null)
+        {
+          ecoreURI = URI.createURI(baseURI + "/" + genModel.findGenPackage(ePackage).getInterfacePackageName() + ".ecore");
+        }
+        Resource resource = resourceSet.createResource(ecoreURI);
         resource.getContents().add(ePackage);
       }
 
@@ -1867,8 +1872,8 @@ public class JavaEcoreBuilder
           packageName = ePackage.getNsPrefix();
           typeName = packageName + '.' + typeName;
         }
-        eDataType.setInstanceClassName(typeName);
       }
+      eDataType.setInstanceClassName(typeName);
 
       // Even primitives should be represented by a data type with a conventional (i.e. capitalized) name.
       //
