@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.7 2004/12/11 12:01:19 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.8 2005/02/22 16:23:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1247,7 +1247,24 @@ public class XSDComplexTypeDefinitionImpl
       {
         if (isEmptyContent)
         {
-          newContentTypeCategory = XSDContentTypeCategory.EMPTY_LITERAL;
+          if (isMixed())
+          {
+            if (extensionParticle == null)
+            {
+              extensionParticle = getXSDFactory().createXSDParticle();
+              setSyntheticParticle(extensionParticle);
+              extensionParticle.setMinOccurs(1);
+              extensionParticle.setMaxOccurs(1);
+              XSDModelGroup xsdModelGroup = getXSDFactory().createXSDModelGroup();
+              xsdModelGroup.setCompositor(XSDCompositor.SEQUENCE_LITERAL);
+              extensionParticle.setContent(xsdModelGroup);
+            }
+            newContentType = extensionParticle;
+          }
+          else
+          {
+            newContentTypeCategory = XSDContentTypeCategory.EMPTY_LITERAL;
+          }
         }
       }
     }
