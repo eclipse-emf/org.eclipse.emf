@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDItemProviderAdapterFactory.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDItemProviderAdapterFactory.java,v 1.2 2004/08/05 16:11:54 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -61,12 +61,12 @@ public class XSDItemProviderAdapterFactory
   protected ComposedAdapterFactory parentAdapterFactory;
 
   /**
-   * This is used to implement {@link #org.eclipse.emf.edit.provider.IChangeNotifier}.
+   * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
    */
   protected IChangeNotifier changeNotifier = new ChangeNotifier();
 
   /**
-   * This is used to implement {@link #org.eclipse.emf.edit.provider.IDisposable}.
+   * This is used to implement {@link org.eclipse.emf.edit.provider.IDisposable}.
    */
   protected Disposable disposable = new Disposable();
 

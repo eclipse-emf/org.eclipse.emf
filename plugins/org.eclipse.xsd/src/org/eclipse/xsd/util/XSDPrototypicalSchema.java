@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPrototypicalSchema.java,v 1.3 2004/07/29 13:33:09 marcelop Exp $
+ * $Id: XSDPrototypicalSchema.java,v 1.4 2004/08/05 16:11:48 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -569,15 +569,15 @@ public class XSDPrototypicalSchema
    *  // Create an attribute group definition and set it's name to simpleAttributeGroupDefinition.
    *  //
    *  {@link XSDAttributeGroupDefinition} simpleAttributeGroupDefinition = xsdFactory.createXSDAttributeGroupDefinition();
-   *  simpleAttributeGroupDefinition.{@link XSDNamedComponent#getName setName}("simpleAttributeGroupDefinition");
+   *  simpleAttributeGroupDefinition.{@link org.eclipse.xsd.XSDNamedComponent#getName setName}("simpleAttributeGroupDefinition");
    *
    *  // Create an attribute, name it simpleAttributeDeclarationGroupMember, 
    *  // set it's type to someOtherTypeDefinition in some other schema.
    *  // set its constraints to be default, set the lexical value of the constraint to be "defaultValue".
    *  //
    *  {@link XSDAttributeDeclaration} simpleAttributeDeclarationGroupMember = xsdFactory.createXSDAttributeDeclaration();
-   *  simpleAttributeDeclarationGroupMember.{@link XSDNamedComponent#setName setName}("simpleAttributeDeclarationGroupMember");
-   *  simpleAttributeDeclarationGroupMember.{@link XSDAttributeDeclaration#setTypeDefinition setTypeDefinition}
+   *  simpleAttributeDeclarationGroupMember.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("simpleAttributeDeclarationGroupMember");
+   *  simpleAttributeDeclarationGroupMember.{@link org.eclipse.xsd.XSDAttributeDeclaration#setTypeDefinition setTypeDefinition}
    *    (prototypeSchema.{@link XSDConcreteComponent#resolveSimpleTypeDefinition(String, String) resolveSimpleTypeDefinition}({@link #someOtherSchemaURI}, "someOtherTypeDefinition"));
    *
    *  // Create an attribute use to contain the attribute and add it the attribute group.
@@ -647,7 +647,7 @@ public class XSDPrototypicalSchema
    *  // Create a model group definition and name it simpleRecursiveModelGroupDefinition.
    *  //
    *  {@link XSDModelGroupDefinition} simpleRecursiveModelGroupDefinition = xsdFactory.createXSDModelGroupDefinition();
-   *  simpleRecursiveModelGroupDefinition.{@link XSDNamedComponent#setName setName}("simpleRecursiveModelGroupDefinition");
+   *  simpleRecursiveModelGroupDefinition.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("simpleRecursiveModelGroupDefinition");
    *
    *  // Create an annotation placeholder and add it to the model group definition.
    *  //
@@ -792,7 +792,7 @@ public class XSDPrototypicalSchema
    *  // set it to be a restriction, and set it's content type to be mixed.
    *  //
    *  {@link XSDComplexTypeDefinition} simpleRecursiveComplexTypeDefinition = xsdFactory.createXSDComplexTypeDefinition();
-   *  simpleRecursiveComplexTypeDefinition.{@link XSDNamedComponent#getName setName}("SimpleRecursiveComplexTypeDefinition");
+   *  simpleRecursiveComplexTypeDefinition.{@link org.eclipse.xsd.XSDNamedComponent#getName setName}("SimpleRecursiveComplexTypeDefinition");
    *  simpleRecursiveComplexTypeDefinition.{@link XSDComplexTypeDefinition#setAbstract setAbstract}(false);
    *  simpleRecursiveComplexTypeDefinition.{@link XSDComplexTypeDefinition#getBlock getBlock}().add({@link XSDProhibitedSubstitutions}.ALL_LITERAL);
    *  simpleRecursiveComplexTypeDefinition.{@link XSDComplexTypeDefinition#getLexicalFinal getLexicalFinal}().add({@link XSDComplexFinal}.ALL_LITERAL);
@@ -986,7 +986,7 @@ public class XSDPrototypicalSchema
    *  // Create an element declaration and name it simpleRecursiveElementDeclaration.
    *  //
    *  {@link XSDElementDeclaration} simpleRecursiveElementDeclaration = xsdFactory.createXSDElementDeclaration();
-   *  simpleRecursiveElementDeclaration.{@link XSDNamedComponent#setName setName}("simpleRecursiveElementDeclaration");
+   *  simpleRecursiveElementDeclaration.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("simpleRecursiveElementDeclaration");
    *
    *  // Create an annotation placeholder and set it to the element.
    *  //
@@ -1166,7 +1166,7 @@ public class XSDPrototypicalSchema
    *  // and set the default constraint to "defaultValue".
    *  //
    *  {@link XSDAttributeDeclaration} simpleAttributeDeclaration = xsdFactory.createXSDAttributeDeclaration();
-   *  simpleAttributeDeclaration.{@link XSDNamedComponent#setName setName}("simpleAttributeDeclaration");
+   *  simpleAttributeDeclaration.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("simpleAttributeDeclaration");
    *  simpleAttributeDeclaration.{@link XSDAttributeDeclaration#setTypeDefinition setTypeDefinition}
    *    (prototypeSchema.resolveSimpleTypeDefinition({@link #someOtherSchemaURI}, "someOtherTypeDefinition"));
    *  simpleAttributeDeclaration.{@link XSDAttributeDeclaration#setConstraint setConstraint}({@link XSDConstraint}.DEFAULT_LITERAL);
@@ -1216,7 +1216,7 @@ public class XSDPrototypicalSchema
    *  // Create an element declaration and set it's name to simpleElementWithAnonymousType.
    *  //
    *  {@link XSDElementDeclaration} simpleElementDeclarationWithAnonymousType = xsdFactory.createXSDElementDeclaration();
-   *  simpleElementDeclarationWithAnonymousType.{@link XSDNamedComponent#setName setName}("simpleElementWithAnonymousType");
+   *  simpleElementDeclarationWithAnonymousType.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("simpleElementWithAnonymousType");
    *
    *  // Create an annotation placeholder and add it to the element.
    *  //
@@ -1323,7 +1323,7 @@ public class XSDPrototypicalSchema
    *  // Also set it's base type to be the built-in positiveInteger.
    *  //
    *  {@link XSDSimpleTypeDefinition} simpleTypeDefinition = xsdFactory.createXSDSimpleTypeDefinition();
-   *  simpleTypeDefinition.{@link XSDNamedComponent#setName setName}("SimpleTypeDefinition");
+   *  simpleTypeDefinition.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("SimpleTypeDefinition");
    *  simpleTypeDefinition.{@link XSDSimpleTypeDefinition#setBaseTypeDefinition setBaseTypeDefinition}
    *    (prototypeSchema.{@link XSDSchema#getSchemaForSchema getSchemaForSchema}().{@link XSDConcreteComponent#resolveSimpleTypeDefinition resolveSimpleTypeDefinition}("positiveInteger"));
    *
@@ -1399,7 +1399,7 @@ public class XSDPrototypicalSchema
    *  // Also set its item type to the built-in integer.
    *  //
    *  {@link XSDSimpleTypeDefinition} simpleListTypeDefinition = xsdFactory.createXSDSimpleTypeDefinition();
-   *  simpleListTypeDefinition.{@link XSDNamedComponent#setName setName}("SimpleListTypeDefinition");
+   *  simpleListTypeDefinition.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("SimpleListTypeDefinition");
    *  simpleListTypeDefinition.{@link XSDSimpleTypeDefinition#setItemTypeDefinition setItemTypeDefinition}
    *    (prototypeSchema.{@link XSDSchema#getSchemaForSchema getSchemaForSchema}().{@link XSDConcreteComponent#resolveSimpleTypeDefinition resolveSimpleTypeDefinition}("integer"));
    *
@@ -1459,7 +1459,7 @@ public class XSDPrototypicalSchema
    *  // Also set its item type to the built-in integer.
    *  //
    *  {@link XSDSimpleTypeDefinition} simpleUnionTypeDefinition = xsdFactory.createXSDSimpleTypeDefinition();
-   *  simpleUnionTypeDefinition.{@link XSDNamedComponent#setName setName}("SimpleUnionTypeDefinition");
+   *  simpleUnionTypeDefinition.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("SimpleUnionTypeDefinition");
    *  simpleUnionTypeDefinition.{@link XSDSimpleTypeDefinition#getMemberTypeDefinitions getMemberTypeDefinitions}().add
    *    (prototypeSchema.{@link XSDSchema#getSchemaForSchema getSchemaForSchema}().{@link XSDConcreteComponent#resolveSimpleTypeDefinition resolveSimpleTypeDefinition}("integer"));
    *
@@ -1518,7 +1518,7 @@ public class XSDPrototypicalSchema
    *  // Create a fancy list type definition and set it's name to FancyListTypeDefinition.
    *  //
    *  {@link XSDSimpleTypeDefinition} fancyListTypeDefinition = xsdFactory.createXSDSimpleTypeDefinition();
-   *  fancyListTypeDefinition.{@link XSDNamedComponent#setName setName}("FancyListTypeDefinition");
+   *  fancyListTypeDefinition.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("FancyListTypeDefinition");
    *
    *  // Create an anonymous list type definition for fancyListTypeDefinition to restrict.
    *  //
@@ -1538,7 +1538,7 @@ public class XSDPrototypicalSchema
    *  // Create an enumeration facet to specify the value "unknown" and add it to the member.
    *  //
    *  {@link XSDEnumerationFacet} xsdEnumerationFacet = xsdFactory.createXSDEnumerationFacet();
-   *  xsdEnumerationFacet.{@link XSDConstrainingFacet#setLexicalValue setLexicalValue}("unknown");
+   *  xsdEnumerationFacet.{@link org.eclipse.xsd.XSDConstrainingFacet#setLexicalValue setLexicalValue}("unknown");
    *  firstMemberTypeDefinition.{@link XSDSimpleTypeDefinition#getFacetContents getFacetContents}().add(xsdEnumerationFacet);
    *
    *  // Add the anonymous member to the contents <b>and</b> the member type definitions of unionTypeDefinition.
@@ -1721,7 +1721,7 @@ public class XSDPrototypicalSchema
    *  // Set it to be an extension
    *  //  
    *  {@link XSDComplexTypeDefinition} simpleContentComplexTypeDefinition = xsdFactory.createXSDComplexTypeDefinition();
-   *  simpleContentComplexTypeDefinition.{@link XSDNamedComponent#setName setName}("SimpleContentComplexTypeDefinition");
+   *  simpleContentComplexTypeDefinition.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("SimpleContentComplexTypeDefinition");
    *  simpleContentComplexTypeDefinition.{@link XSDComplexTypeDefinition#setDerivationMethod setDerivationMethod}({@link XSDDerivationMethod}.EXTENSION_LITERAL);
    *
    *  // Create an annotation placeholder and add it to the complex type.
@@ -1879,7 +1879,7 @@ public class XSDPrototypicalSchema
    *  // Add the purchaseOrder element to the schema.
    *  //
    *  {@link XSDElementDeclaration} purchaseOrder = xsdFactory.createXSDElementDeclaration();
-   *  purchaseOrder.{@link XSDNamedComponent#setName setName}("purchaseOrder");
+   *  purchaseOrder.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("purchaseOrder");
    *  purchaseOrder.{@link XSDElementDeclaration#setTypeDefinition setTypeDefinition}(xsdSchema.{@link XSDConcreteComponent#resolveComplexTypeDefinition(String) resolveComplexTypeDefinition}("PurchaseOrderType"));
    *  xsdSchema.getContents().add(purchaseOrder);
    *
@@ -1893,7 +1893,7 @@ public class XSDPrototypicalSchema
    *  // Create a complex type and name it PurchaseOrderType.
    *  //
    *  {@link XSDComplexTypeDefinition} purchaseOrderType = xsdFactory.createXSDComplexTypeDefinition();
-   *  purchaseOrderType.{@link XSDNamedComponent#setName setName}("PurchaseOrderType");
+   *  purchaseOrderType.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("PurchaseOrderType");
    *
    *  // Create a sequence model group, and a particle to contain it.
    *  //
@@ -1950,7 +1950,7 @@ public class XSDPrototypicalSchema
    *  // Also create an attribute use to contain the attribute and add it to PurchaseOrderType's attribute contents.
    *  //
    *  {@link XSDAttributeDeclaration} orderDate = xsdFactory.createXSDAttributeDeclaration();
-   *  orderDate.{@link XSDNamedComponent#setName setName}("orderDate");
+   *  orderDate.{@link org.eclipse.xsd.XSDNamedComponent#setName setName}("orderDate");
    *  orderDate.{@link XSDAttributeDeclaration#setTypeDefinition setTypeDefinition}(xsdSchema.getSchemaForSchema().resolveSimpleTypeDefinition("date"));
    *  {@link XSDAttributeUse} orderDateAttributeUse = xsdFactory.createXSDAttributeUse();
    *  orderDateAttributeUse.{@link XSDAttributeUse#setContent setContent}(orderDate);
@@ -2911,12 +2911,12 @@ public class XSDPrototypicalSchema
    *  {
    *    try
    *    {
-   *      // {@link OutputFormat} outputFormat = new OutputFormat(element.getOwnerDocument());
+   *      // OutputFormat outputFormat = new OutputFormat(element.getOwnerDocument());
    *      // outputFormat.setLineWidth(80);
    *      // outputFormat.setIndenting(true);
    *      // outputFormat.setIndent(4);
    *      // outputFormat.setPreserveSpace(false);
-   *      // {@link XMLSerializer} serializer = new XMLSerializer(outputStream, outputFormat);
+   *      // XMLSerializer serializer = new XMLSerializer(outputStream, outputFormat);
    *      // serializer.serialize(element);
    *
    *      TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -3068,7 +3068,7 @@ public class XSDPrototypicalSchema
    *
    *    // Create a derived URIConverter to track normalization.
    *    //
-   *    resourceSet.{@link ResourceSet#getURIConverter getURIConverter}().{@link URIConverter#getURIMap getURIMap}().put
+   *    resourceSet.{@link ResourceSet#getURIConverter getURIConverter}().{@link org.eclipse.emf.ecore.resource.URIConverter#getURIMap getURIMap}().put
    *      (URI.createURI("http://www.example.com/logical.xsd"), 
    *       URI.createURI("file://c:/physical.xsd"));
    *
@@ -3262,7 +3262,7 @@ public class XSDPrototypicalSchema
    *  // Test cross references for the meta schemas.
    *  //
    *  XSDSchema xsdSchemaForSchema = XSDUtil.{@link XSDUtil#getSchemaForSchema getSchemaForSchema}(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
-   *  ResourceSet resourceSet = xsdSchemaForSchema.{@link EObject#eResource eResource}().{@link Resource#getResourceSet getResourceSet}();
+   *  ResourceSet resourceSet = xsdSchemaForSchema.{@link org.eclipse.emf.ecore.EObject#eResource() eResource}().{@link Resource#getResourceSet getResourceSet}();
    *
    *  out.println("Show uses of the string datatype within the meta schemas themselves.");
    *  Collection usages = {@link XSDUtil.UsageCrossReferencer XSDUtil.UsageCrossReferencer}.find(xsdSchemaForSchema.resolveSimpleTypeDefinition("string"), resourceSet);
@@ -3278,7 +3278,7 @@ public class XSDPrototypicalSchema
    *  XSDUtil.XSDNamedComponentCrossReferencer.print(out, xsdNamedComponentUsage);
    *
    *  out.println("Test that the URI of evey object in the schema for schemas can be resolved.");
-   *  for (Iterator contents = xsdSchemaForSchema.{@link EObject#eAllContents eAllContents}(); contents.hasNext(); )
+   *  for (Iterator contents = xsdSchemaForSchema.{@link org.eclipse.emf.ecore.EObject#eAllContents() eAllContents}(); contents.hasNext(); )
    *  {
    *    XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)contents.next();
    *    URI uri = EcoreUtil.{@link EcoreUtil#getURI getURI}(xsdConcreteComponent);
