@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectWithInverseResolvingEList.java,v 1.2 2004/08/24 19:17:42 elena Exp $
+ * $Id: EObjectWithInverseResolvingEList.java,v 1.3 2004/08/27 14:06:30 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -50,7 +50,8 @@ public class EObjectWithInverseResolvingEList extends EObjectWithInverseEList
     
     protected Object resolve(int index, Object object)
     {
-      return resolve(index, (EObject)object);
+      // jdk 1.3 requires this explicity cast
+      return ((EcoreEList)this).resolve(index, (EObject)object);
     }
   }
 
@@ -80,6 +81,7 @@ public class EObjectWithInverseResolvingEList extends EObjectWithInverseEList
   
   protected Object resolve(int index, Object object)
   {
-    return resolve(index, (EObject)object);
+    // jdk 1.3 requires this explicity cast
+    return ((EcoreEList)this).resolve(index, (EObject)object);
   }
 }
