@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.10 2004/06/09 18:22:03 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.11 2005/02/08 13:51:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -883,6 +883,58 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return result;
   }
 
+  public ValueListIterator valueListIterator()
+  {
+    return new ValueListIteratorImpl();
+  }
+  
+  public ValueListIterator valueListIterator(int index)
+  {
+    return new ValueListIteratorImpl(index);
+  }
+  
+  protected class ValueListIteratorImpl extends EListIterator implements ValueListIterator
+  {
+    public ValueListIteratorImpl()
+    {
+      super();
+    }
+    
+    public ValueListIteratorImpl(int index)
+    {
+      super(index);
+    }
+    
+    public EStructuralFeature feature()
+    {
+      if (lastCursor == -1)
+      {
+        throw new IllegalStateException();
+      }
+      return getEStructuralFeature(lastCursor);
+    }
+    
+    public Object next()
+    {
+      return ((Entry)super.next()).getValue();
+    }
+    
+    public Object previous()
+    {
+      return ((Entry)super.next()).getValue();
+    }
+
+    public void add(Object value)
+    {
+      super.add(FeatureMapUtil.createEntry(feature(), value));
+    }
+    
+    public void add(EStructuralFeature eStructuralFeature, Object value)
+    {
+      super.add(FeatureMapUtil.createEntry(eStructuralFeature, value));
+    }
+  }
+  
 /*
   public List subList(EStructuralFeature feature, int from, int to)
   {

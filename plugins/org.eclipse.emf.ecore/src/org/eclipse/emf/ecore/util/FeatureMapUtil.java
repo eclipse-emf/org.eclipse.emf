@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.14 2005/02/03 21:16:51 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.15 2005/02/08 13:51:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -744,6 +744,16 @@ public final class FeatureMapUtil
     public FeatureFeatureMap(EStructuralFeature feature, FeatureMap.Internal featureMap)
     {
       super(feature, featureMap);
+    }
+    
+    public FeatureMap.ValueListIterator valueListIterator()
+    {
+      return featureMap.valueListIterator();
+    }
+    
+    public FeatureMap.ValueListIterator valueListIterator(int index)
+    {
+      return featureMap.valueListIterator(index);
     }
 
     public EList list(EStructuralFeature feature)

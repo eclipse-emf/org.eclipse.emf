@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMap.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: FeatureMap.java,v 1.2 2005/02/08 13:51:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -50,6 +50,14 @@ public interface FeatureMap extends EList
      */
     Object getValue();
   }
+  
+  public interface ValueListIterator extends EContentsEList.FeatureListIterator
+  {
+    void add(EStructuralFeature eStructuralFeature, Object value);
+  }
+  
+  ValueListIterator valueListIterator();
+  ValueListIterator valueListIterator(int index);
 
   EList list(EStructuralFeature feature);
 
