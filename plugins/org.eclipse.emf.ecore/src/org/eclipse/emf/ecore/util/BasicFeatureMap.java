@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.7 2004/05/20 12:51:05 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.8 2004/05/25 19:48:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -721,7 +721,18 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
   {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     Entry [] entries = (Entry[])data;
-    if (object != null)
+    if (FeatureMapUtil.isFeatureMap(feature))
+    {
+      for (int i = 0; i < size; ++i)
+      {
+        Entry entry = entries[i];
+        if (validator.isValid(entry.getEStructuralFeature()) && entry.equals(object))
+        {
+          return true;
+        }
+      }
+    }
+    else if (object != null)
     {
       for (int i = 0; i < size; ++i)
       {
@@ -765,7 +776,22 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     int result = 0;
     Entry [] entries = (Entry[])data;
-    if (object != null)
+    if (FeatureMapUtil.isFeatureMap(feature))
+    {
+      for (int i = 0; i < size; ++i)
+      {
+        Entry entry = entries[i];
+        if (validator.isValid(entry.getEStructuralFeature()))
+        {
+          if (entry.equals(object))
+          {
+            return result;
+          }
+          ++result;
+        }
+      }
+    }
+    else if (object != null)
     {
       for (int i = 0; i < size; ++i)
       {
@@ -802,42 +828,57 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
   public int lastIndexOf(EStructuralFeature feature, Object object)
   {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-    int result = size - 1;
+    int result = -1;
+    int count = 0;
     Entry [] entries = (Entry[])data;
-    if (object != null)
+    if (FeatureMapUtil.isFeatureMap(feature))
     {
-      for (int i = result; i >= 0; --i)
+      for (int i = 0; i < size; ++i)
+      {
+        Entry entry = entries[i];
+        if (validator.isValid(entry.getEStructuralFeature()))
+        {
+          if (entry.equals(object))
+          {
+            result = count;
+          }
+          ++count;
+        }
+      }
+    }
+    else if (object != null)
+    {
+      for (int i = 0; i < size; ++i)
       {
         Entry entry = entries[i];
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (object.equals(entry.getValue()))
           {
-            return result;
+            result = count;
           }
-          --result;
+          ++count;
         }
       }
     }
     else
     {
-      for (int i = result; i >= 0; --i)
+      for (int i = 0; i < size; ++i)
       {
         Entry entry = entries[i];
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (entry.getValue() == null)
           {
-            return result;
+            result = count;
           }
-          --result;
+          ++count;
         }
       }
     }
 
-    return -1;
+    return result;
   }
-
 
   public Iterator iterator(EStructuralFeature feature)
   {
@@ -921,12 +962,26 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     List result = new BasicEList();
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     Entry [] entries = (Entry[])data;
-    for (int i = 0; i < size; ++i)
+    if (FeatureMapUtil.isFeatureMap(feature))
     {
-      Entry entry = entries[i];
-      if (validator.isValid(entry.getEStructuralFeature()))
+      for (int i = 0; i < size; ++i)
       {
-        result.add(entry.getValue());
+        Entry entry = entries[i];
+        if (validator.isValid(entry.getEStructuralFeature()))
+        {
+          result.add(entry);
+        }
+      }
+    }
+    else
+    {
+      for (int i = 0; i < size; ++i)
+      {
+        Entry entry = entries[i];
+        if (validator.isValid(entry.getEStructuralFeature()))
+        {
+          result.add(entry.getValue());
+        }
       }
     }
     return result.toArray();
@@ -937,12 +992,26 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     List result = new BasicEList();
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     Entry [] entries = (Entry[])data;
-    for (int i = 0; i < size; ++i)
+    if (FeatureMapUtil.isFeatureMap(feature))
     {
-      Entry entry = entries[i];
-      if (validator.isValid(entry.getEStructuralFeature()))
+      for (int i = 0; i < size; ++i)
       {
-        result.add(entry.getValue());
+        Entry entry = entries[i];
+        if (validator.isValid(entry.getEStructuralFeature()))
+        {
+          result.add(entry);
+        }
+      }
+    }
+    else
+    {
+      for (int i = 0; i < size; ++i)
+      {
+        Entry entry = entries[i];
+        if (validator.isValid(entry.getEStructuralFeature()))
+        {
+          result.add(entry.getValue());
+        }
       }
     }
     return result.toArray(array);
@@ -966,17 +1035,18 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         Entry entry = entries[i];
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          doSet(i, createEntry(feature, object));
+          doSet(i, FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
           return;
         }
       }
   
-      doAdd(createEntry(feature, object));
+      doAdd(FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
     }
   }
 
   public void add(int index, EStructuralFeature feature, Object object)
   {
+    boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
     if (isMany(feature))
     {
       if (feature.isUnique() && contains(feature, object))
@@ -993,7 +1063,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         Entry entry = entries[i];
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          if (object == null ? entry.getValue() == null : object.equals(entry.getValue()))
+          if (isFeatureMap ? entry.equals(object) : object == null ? entry.getValue() == null : object.equals(entry.getValue()))
           {
             throw new IllegalArgumentException("The 'no duplicates' constraint is violated");
           }
@@ -1001,11 +1071,12 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       }
     }
 
-    doAdd(index, createEntry(feature, object));
+    doAdd(index, isFeatureMap ? (Entry)object : createEntry(feature, object));
   }
 
   public boolean add(EStructuralFeature feature, Object object)
   {
+    boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
     if (isMany(feature))
     {
       if (feature.isUnique() && contains(feature, object))
@@ -1022,24 +1093,25 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         Entry entry = entries[i];
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          if (object == null ? entry.getValue() == null : object.equals(entry.getValue()))
+          if (isFeatureMap ? entry.equals(object) : object == null ? entry.getValue() == null : object.equals(entry.getValue()))
           {
             return false;
           }
           else
           {
-            doSet(i, createEntry(feature, object));
+            doSet(i, isFeatureMap ? (Entry)object : createEntry(feature, object));
             return true;
           }
         }
       }
     }
 
-    return doAdd(createEntry(feature, object));
+    return doAdd(isFeatureMap ? (Entry)object : createEntry(feature, object));
   }
 
   public void add(EStructuralFeature feature, int index, Object object)
   {
+    boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
     if (isMany(feature))
     {
       if (feature.isUnique() && contains(feature, object))
@@ -1061,7 +1133,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       }
     }
 
-    doAdd(entryIndex(feature, index), createEntry(feature, object));
+    doAdd(entryIndex(feature, index), isFeatureMap ? (Entry)object : createEntry(feature, object));
   }
 
   public boolean addAll(int index, EStructuralFeature feature, Collection collection)
@@ -1070,7 +1142,8 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     {
       return false;
     }
-    Collection entryCollection = new BasicEList(collection.size());
+    boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
+    Collection entryCollection = isFeatureMap ? collection : new BasicEList(collection.size());
     if (isMany(feature))
     {
       if (feature.isUnique())
@@ -1088,7 +1161,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
           }
         }
       }
-      else
+      else if (!isFeatureMap)
       {
         for (Iterator i = collection.iterator(); i.hasNext(); )
         {
@@ -1104,25 +1177,35 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         throw new IllegalArgumentException("The multiplicity constraint is violated");
       }
 
-      FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-      Entry [] entries = (Entry[])data;
-      for (int i = 0; i < size; ++i)
+      if (isFeatureMap)
       {
-        Entry entry = entries[i];
-        if (validator.isValid(entry.getEStructuralFeature()))
+        if (contains(feature, collection.iterator().next()))
         {
-          if (collection.contains(entry.getValue()))
-          {
-            return false;
-          }
-          else
-          {
-            throw new IllegalArgumentException("The multiplicity constraint is violated");
-          }
+          return false;
         }
       }
-      Entry entry = createEntry(feature, collection.iterator().next());
-      entryCollection.add(entry);
+      else
+      {
+        FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
+        Entry [] entries = (Entry[])data;
+        for (int i = 0; i < size; ++i)
+        {
+          Entry entry = entries[i];
+          if (validator.isValid(entry.getEStructuralFeature()))
+          {
+            if (collection.contains(entry.getValue()))
+            {
+              return false;
+            }
+            else
+            {
+              throw new IllegalArgumentException("The multiplicity constraint is violated");
+            }
+          }
+        }
+        Entry entry = createEntry(feature, collection.iterator().next());
+        entryCollection.add(entry);
+      }
     }
 
     return doAddAll(index, entryCollection);
@@ -1134,7 +1217,8 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     {
       return false;
     }
-    Collection entryCollection = new BasicEList(collection.size());
+    boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
+    Collection entryCollection = isFeatureMap ? collection : new BasicEList(collection.size());
     if (isMany(feature))
     {
       if (feature.isUnique())
@@ -1152,7 +1236,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
           }
         }
       }
-      else
+      else if (!isFeatureMap)
       {
         for (Iterator i = collection.iterator(); i.hasNext(); )
         {
@@ -1175,7 +1259,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         Entry entry = entries[i];
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          if (collection.contains(entry.getValue()))
+          if (collection.contains(isFeatureMap ? entry : entry.getValue()))
           {
             return false;
           }
@@ -1183,14 +1267,17 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
           {
             for (Iterator j = collection.iterator(); j.hasNext(); )
             {
-              doSet(i, createEntry(feature, j.next()));
+              doSet(i, isFeatureMap ? j.next() : createEntry(feature, j.next()));
             }
             return true;
           }
         }
       }
-      Entry entry = createEntry(feature, collection.iterator().next());
-      entryCollection.add(entry);
+      if (!isFeatureMap)
+      {
+        Entry entry = createEntry(feature, collection.iterator().next());
+        entryCollection.add(entry);
+      }
     }
 
     return doAddAll(entryCollection);
@@ -1202,7 +1289,8 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     {
       return false;
     }
-    Collection entryCollection = new BasicEList(collection.size());
+    boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
+    Collection entryCollection = isFeatureMap ? collection : new BasicEList(collection.size());
     if (isMany(feature))
     {
       if (feature.isUnique())
@@ -1218,7 +1306,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
           entryCollection.add(entry);
         }
       }
-      else
+      else if (!isFeatureMap)
       {
         for (Iterator i = collection.iterator(); i.hasNext(); )
         {
@@ -1245,8 +1333,11 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         throw new IllegalArgumentException("The multiplicity constraint is violated");
       }
 
-      Entry entry = createEntry(feature, collection.iterator().next());
-      entryCollection.add(entry);
+      if (!isFeatureMap)
+      {
+        Entry entry = createEntry(feature, collection.iterator().next());
+        entryCollection.add(entry);
+      }
     }
 
     return doAddAll(entryIndex(feature, index), entryCollection);
@@ -1264,7 +1355,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 
   public NotificationChain basicAdd(EStructuralFeature feature, Object object, NotificationChain notifications)
   {
-    Entry entry = (createEntry(feature, object));
+    Entry entry = FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object);
 
     if (isNotificationRequired())
     {
@@ -1306,9 +1397,23 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
   public boolean remove(EStructuralFeature feature, Object object)
   {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-    int count = 0;
     Entry [] entries = (Entry[])data;
-    if (object != null)
+    if (FeatureMapUtil.isFeatureMap(feature))
+    {
+      for (int i = 0; i < size; ++i)
+      {
+        Entry entry = entries[i];
+        if (validator.isValid(entry.getEStructuralFeature()))
+        {
+          if (entry.equals(object))
+          {
+            remove(i);
+            return true;
+          }
+        }
+      }
+    }
+    else if (object != null)
     {
       for (int i = 0; i < size; ++i)
       {
@@ -1320,7 +1425,6 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
             remove(i);
             return true;
           }
-          ++count;
         }
       }
     }
@@ -1336,7 +1440,6 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
             remove(i);
             return true;
           }
-          ++count;
         }
       }
     }
@@ -1357,7 +1460,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         if (count == index)
         {
           remove(i);
-          return entry.getValue();
+          return FeatureMapUtil.isFeatureMap(feature) ? entry : entry.getValue();
         }
         ++count;
       }
@@ -1368,22 +1471,29 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 
   public boolean removeAll(EStructuralFeature feature, Collection collection)
   {
-    FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-    List entryCollection = new BasicEList(collection.size());
-    Entry [] entries = (Entry[])data;
-    for (int i = size; --i >= 0; )
+    if (FeatureMapUtil.isFeatureMap(feature))
     {
-      Entry entry = entries[i];
-      if (validator.isValid(entry.getEStructuralFeature()))
+      return removeAll(collection);
+    }
+    else
+    {
+      FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
+      List entryCollection = new BasicEList(collection.size());
+      Entry [] entries = (Entry[])data;
+      for (int i = size; --i >= 0; )
       {
-        if (collection.contains(entry.getValue()))
+        Entry entry = entries[i];
+        if (validator.isValid(entry.getEStructuralFeature()))
         {
-          entryCollection.add(entry);
+          if (collection.contains(entry.getValue()))
+          {
+            entryCollection.add(entry);
+          }
         }
       }
-    }
 
-    return removeAll(entryCollection);
+      return removeAll(entryCollection);
+    }
   }
 
   public NotificationChain basicRemove(EStructuralFeature feature, Object object, NotificationChain notifications)
@@ -1392,7 +1502,23 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     int count = 0;
     Entry [] entries = (Entry[])data;
     Entry match = null;
-    if (object != null)
+    if (FeatureMapUtil.isFeatureMap(feature))
+    {
+      for (int i = 0; i < size; ++i)
+      {
+        Entry entry = entries[i];
+        if (validator.isValid(entry.getEStructuralFeature()))
+        {
+          if (entry.equals(object))
+          {
+            match = entry;
+            break;
+          }
+          ++count;
+        }
+      }
+    }
+    else if (object != null)
     {
       for (int i = 0; i < size; ++i)
       {
@@ -1463,6 +1589,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 
   public boolean retainAll(EStructuralFeature feature, Collection collection)
   {
+    boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     List entryCollection = new BasicEList(collection.size());
     Entry [] entries = (Entry[])data;
@@ -1471,7 +1598,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       Entry entry = entries[i];
       if (validator.isValid(entry.getEStructuralFeature()))
       {
-        if (!collection.contains(entry.getValue()))
+        if (!collection.contains(isFeatureMap ? entry : entry.getValue()))
         {
           entryCollection.add(entry);
         }
@@ -1595,12 +1722,19 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         Entry entry = entries[i];
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          Object value = entry.getValue();
-          if (value != null && resolve && isResolveProxies(feature))
+          if (FeatureMapUtil.isFeatureMap(feature))
           {
-            value = resolveProxy(feature, i, count, value);
+            return entry;
           }
-          return value;
+          else
+          {
+            Object value = entry.getValue();
+            if (value != null && resolve && isResolveProxies(feature))
+            {
+              value = resolveProxy(feature, i, count, value);
+            }
+            return value;
+          }
         }
         ++count;
       }
@@ -1623,12 +1757,19 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         {
           if (count == index)
           {
-            Object value = entry.getValue();
-            if (value != null && resolve && isResolveProxies(feature))
+            if (FeatureMapUtil.isFeatureMap(feature))
             {
-              value = resolveProxy(feature, i, count, entry.getValue());
+              return entry;
             }
-            return value;
+            else
+            {
+              Object value = entry.getValue();
+              if (value != null && resolve && isResolveProxies(feature))
+              {
+                value = resolveProxy(feature, i, count, entry.getValue());
+              }
+              return value;
+            }
           }
           ++count;
         }
@@ -1643,12 +1784,19 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         Entry entry = entries[i];
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          Object value = entry.getValue();
-          if (value != null && resolve && isResolveProxies(feature))
+          if (FeatureMapUtil.isFeatureMap(feature))
           {
-            value = resolveProxy(feature, i, count, value);
+            return entry;
           }
-          return value;
+          else
+          {
+            Object value = entry.getValue();
+            if (value != null && resolve && isResolveProxies(feature))
+            {
+              value = resolveProxy(feature, i, count, value);
+            }
+            return value;
+          }
         }
         ++count;
       }
@@ -1680,7 +1828,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         {
           if (count == index)
           {
-            return doSet(i, createEntry(feature, object));
+            return doSet(i, FeatureMapUtil.isFeatureMap(feature) ? object : createEntry(feature, object));
           }
           ++count;
         }
@@ -1696,7 +1844,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         Entry entry = entries[i];
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          return entry.getValue();
+          return FeatureMapUtil.isFeatureMap(feature) ? entry : entry.getValue();
         }
       }
 
@@ -1718,7 +1866,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         {
           if (count == index)
           {
-            return setUnique(i, createEntry(feature, object));
+            return setUnique(i, FeatureMapUtil.isFeatureMap(feature) ? object : createEntry(feature, object));
           }
           ++count;
         }
@@ -1734,7 +1882,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         Entry entry = entries[i];
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          return setUnique(i, createEntry(feature, object));
+          return setUnique(i, FeatureMapUtil.isFeatureMap(feature) ? object : createEntry(feature, object));
         }
       }
 

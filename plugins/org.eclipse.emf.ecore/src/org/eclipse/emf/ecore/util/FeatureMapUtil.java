@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.7 2004/05/09 16:35:12 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.8 2004/05/25 19:48:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -728,17 +728,19 @@ public final class FeatureMapUtil
 
     public EStructuralFeature getEStructuralFeature(int index)
     {
-      return featureMap.getEStructuralFeature(index);
+      return ((Entry)featureMap.get(getEStructuralFeature(), index, false)).getEStructuralFeature();
     }
 
     public Object getValue(int index)
     {
-      return featureMap.getValue(index);
+      return ((Entry)featureMap.get(getEStructuralFeature(), index, false)).getValue();
     }
 
     public Object setValue(int index, Object value)
     {
-      return featureMap.setValue(index, value);
+      Entry entry = (Entry)featureMap.get(getEStructuralFeature(), index, false);
+      set(index, createEntry(entry.getEStructuralFeature(), value));
+      return entry.getValue();
     }
 
     public boolean add(EStructuralFeature feature, Object value)
@@ -748,7 +750,7 @@ public final class FeatureMapUtil
 
     public void add(int index, EStructuralFeature feature, Object value)
     {
-      featureMap.add(index, feature, value);
+      add(index, isFeatureMap(feature) ? value : createEntry(feature, value));
     }
 
     public void add(EStructuralFeature feature, int index, Object value)
@@ -763,7 +765,19 @@ public final class FeatureMapUtil
 
     public boolean addAll(int index, EStructuralFeature feature, Collection values)
     {
-      return featureMap.addAll(index, feature, values);
+      if (isFeatureMap(feature))
+      {
+        return addAll(index, values);
+      }
+      else
+      {
+        Collection entries = new ArrayList(values.size());
+        for (Iterator i = values.iterator(); i.hasNext(); )
+        {
+          entries.add(createEntry(feature, i.next()));
+        }
+        return addAll(index, entries);
+      }
     }
 
     public boolean addAll(EStructuralFeature feature, int index, Collection values)
@@ -1203,7 +1217,7 @@ public final class FeatureMapUtil
         isElement = true;
         groupMembers = new ArrayList();
         wildcards = new UniqueEList();
-        wildcards.add(XMLTypePackage.eNS_URI.toString());
+        wildcards.add(XMLTypePackage.eNS_URI);
         for (Iterator i = ExtendedMetaData.INSTANCE.getAllElements(containingClass).iterator(); i.hasNext(); )
         {
           EStructuralFeature feature = (EStructuralFeature)i.next();
