@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.10 2004/05/11 15:46:18 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.11 2004/06/08 21:33:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -365,7 +365,55 @@ public class XMLSaveImpl implements XMLSave
     String xsiNoNamespaceSchemaLocation = null;
     if (declareSchemaLocation)
     {
-      if (extendedMetaData == null)
+      boolean handledBySchemaLocationMap = false;
+
+      if (extendedMetaData != null)
+      {
+        Resource resource = helper.getResource();
+        if (resource != null && resource.getContents().size() >= 1)
+        {
+          EObject root = (EObject)resource.getContents().get(0);
+          EClass eClass = root.eClass();
+
+          EReference xsiSchemaLocationMapFeature = extendedMetaData.getXSISchemaLocationMapFeature(eClass);
+          if (xsiSchemaLocationMapFeature != null)
+          {
+            handledBySchemaLocationMap = true;
+
+            EMap xsiSchemaLocationMap = (EMap)root.eGet(xsiSchemaLocationMapFeature);
+            if (!xsiSchemaLocationMap.isEmpty())
+            {
+              declareXSI = true;
+              for (Iterator i = xsiSchemaLocationMap.entrySet().iterator(); i.hasNext(); )
+              {
+                Map.Entry entry = (Map.Entry)i.next();
+                String namespace = (String)entry.getKey();
+                URI location = URI.createURI(entry.getValue().toString());
+                if (namespace == null)
+                {
+                  xsiNoNamespaceSchemaLocation = helper.deresolve(location).toString();
+                }
+                else
+                {
+                  if (xsiSchemaLocation == null)
+                  {
+                    xsiSchemaLocation = new StringBuffer();
+                  }
+                  else
+                  {
+                    xsiSchemaLocation.append(' ');
+                  }
+                  xsiSchemaLocation.append(namespace);
+                  xsiSchemaLocation.append(' ');
+                  xsiSchemaLocation.append(helper.deresolve(location).toString());
+                }
+              }
+            }
+          }
+        }
+      }
+
+      if (!handledBySchemaLocationMap)
       {
         for (int i = 0; i < packages.length; i++)
         {
@@ -408,49 +456,6 @@ public class XMLSaveImpl implements XMLSave
                   location = location.substring(0, location.length() - 2);
                 }
                 xsiSchemaLocation.append(location);
-              }
-            }
-          }
-        }
-      }
-      else 
-      {
-        Resource resource = helper.getResource();
-        if (resource != null && resource.getContents().size() >= 1)
-        {
-          EObject root = (EObject)resource.getContents().get(0);
-          EClass eClass = root.eClass();
-  
-          EReference xsiSchemaLocationMapFeature = extendedMetaData.getXSISchemaLocationMapFeature(eClass);
-          if (xsiSchemaLocationMapFeature != null)
-          {
-            EMap xsiSchemaLocationMap = (EMap)root.eGet(xsiSchemaLocationMapFeature);
-            if (!xsiSchemaLocationMap.isEmpty())
-            {
-              declareXSI = true;
-              for (Iterator i = xsiSchemaLocationMap.entrySet().iterator(); i.hasNext(); )
-              {
-                Map.Entry entry = (Map.Entry)i.next();
-                String namespace = (String)entry.getKey();
-                URI location = URI.createURI(entry.getValue().toString());
-                if (namespace == null)
-                {
-                  xsiNoNamespaceSchemaLocation = helper.deresolve(location).toString();
-                }
-                else
-                {
-                  if (xsiSchemaLocation == null)
-                  {
-                    xsiSchemaLocation = new StringBuffer();
-                  }
-                  else
-                  {
-                    xsiSchemaLocation.append(' ');
-                  }
-                  xsiSchemaLocation.append(namespace);
-                  xsiSchemaLocation.append(' ');
-                  xsiSchemaLocation.append(helper.deresolve(location).toString());
-                }
               }
             }
           }
