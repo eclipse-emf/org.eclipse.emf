@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.11 2004/12/11 12:27:56 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.12 2004/12/16 16:21:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1446,6 +1446,21 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     return getModelInfo(true);
   }
 
+  AnnotationFilter DEFAULT_GEN_FEATURE_ANNOTATION_FILTER = 
+    new AnnotationFilterImpl()
+    {
+      public boolean accept(EModelElement eModelElement, String source, String key, String value)
+      {
+        return 
+          super.accept(eModelElement, source, key, value) &&
+            !(GenModelPackage.eNS_URI.equals(source) && 
+                ("suppressedSetVisibility".equals(key) ||
+                   "suppressedGetVisibility".equals(key) ||
+                   "suppressedIsSetVisibility".equals(key) ||
+                   "suppressedUnsetVisibility".equals(key)));
+      }
+    };
+
   public String getModelInfo(boolean qualified)
   {
     EStructuralFeature eStructuralFeature = getEcoreFeature();
@@ -1551,7 +1566,7 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
       }
       
       int upperBound = eStructuralFeature.getUpperBound();
-      if (upperBound > 1)
+      if (upperBound > 1 || upperBound < -1)
       {
         appendModelSetting(result, qualified, "upper", Integer.toString(eStructuralFeature.getUpperBound()));
       }
@@ -1610,6 +1625,8 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     {
       appendModelSetting(result, qualified, "suppressedUnsetVisibility", "true");
     }
+
+    appendAnnotationInfo(result, getEcoreFeature(), DEFAULT_GEN_FEATURE_ANNOTATION_FILTER);
 
     return result.toString().trim();
   }
