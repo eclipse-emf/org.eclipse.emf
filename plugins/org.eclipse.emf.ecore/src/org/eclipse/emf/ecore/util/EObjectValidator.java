@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.8 2005/03/19 05:35:17 marcelop Exp $
+ * $Id: EObjectValidator.java,v 1.9 2005/03/21 12:58:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -137,7 +137,7 @@ public class EObjectValidator implements EValidator
         return result;
       }
     }
-    
+
     return Diagnostician.INSTANCE;
   }
 
@@ -154,11 +154,11 @@ public class EObjectValidator implements EValidator
 
   public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map context)
   {
-    if (eClass.eContainer() == getEPackage()) 
+    if (eClass.eContainer() == getEPackage())
     {
       return validate(eClass.getClassifierID(), eObject, diagnostics, context);
     }
-    else 
+    else
     {
       List eSuperTypes = eClass.getESuperTypes();
       return
@@ -173,7 +173,7 @@ public class EObjectValidator implements EValidator
     return classifierID != EcorePackage.EOBJECT || validate_EveryDefaultConstraint((EObject)object, diagnostics, context);
   }
 
-  public boolean validate_EveryDefaultConstraint(EObject object, DiagnosticChain theDiagnostics, Map context) 
+  public boolean validate_EveryDefaultConstraint(EObject object, DiagnosticChain theDiagnostics, Map context)
   {
     boolean result = validate_EveryMultiplicityConforms(object, theDiagnostics, context);
     if (result || theDiagnostics != null)
@@ -226,13 +226,13 @@ public class EObjectValidator implements EValidator
                  DIAGNOSTIC_SOURCE,
                  EOBJECT__EVERY_MULTIPCITY_CONFORMS,
                  EcorePlugin.INSTANCE.getString
-                   ("_UI_FeatureHasTooFewValues_diagnostic", 
-                    new Object [] 
-                      { 
-                        getFeatureLabel(eStructuralFeature, context), 
-                        getObjectLabel(eObject, context), 
-                        new Integer(size), 
-                        new Integer(lowerBound) 
+                   ("_UI_FeatureHasTooFewValues_diagnostic",
+                    new Object []
+                      {
+                        getFeatureLabel(eStructuralFeature, context),
+                        getObjectLabel(eObject, context),
+                        new Integer(size),
+                        new Integer(lowerBound)
                       }),
                  new Object [] { eObject, eStructuralFeature }));
           }
@@ -249,13 +249,13 @@ public class EObjectValidator implements EValidator
                  DIAGNOSTIC_SOURCE,
                  EOBJECT__EVERY_MULTIPCITY_CONFORMS,
                  EcorePlugin.INSTANCE.getString
-                   ("_UI_FeatureHasTooManyValues_diagnostic", 
-                    new Object [] 
-                      { 
-                        getFeatureLabel(eStructuralFeature, context), 
-                        getObjectLabel(eObject, context), 
-                        new Integer(size), 
-                        new Integer(upperBound) 
+                   ("_UI_FeatureHasTooManyValues_diagnostic",
+                    new Object []
+                      {
+                        getFeatureLabel(eStructuralFeature, context),
+                        getObjectLabel(eObject, context),
+                        new Integer(size),
+                        new Integer(upperBound)
                       }),
                  new Object [] { eObject, eStructuralFeature }));
           }
@@ -278,13 +278,13 @@ public class EObjectValidator implements EValidator
                    DIAGNOSTIC_SOURCE,
                    EOBJECT__EVERY_MULTIPCITY_CONFORMS,
                    EcorePlugin.INSTANCE.getString
-                     ("_UI_FeatureHasTooManyValues_diagnostic", 
-                      new Object [] 
-                        { 
-                          getFeatureLabel(eStructuralFeature, context), 
-                          getObjectLabel(eObject, context), 
-                          new Integer(size), 
-                          new Integer(upperBound) 
+                     ("_UI_FeatureHasTooManyValues_diagnostic",
+                      new Object []
+                        {
+                          getFeatureLabel(eStructuralFeature, context),
+                          getObjectLabel(eObject, context),
+                          new Integer(size),
+                          new Integer(upperBound)
                         }),
                    new Object [] { eObject, eStructuralFeature }));
             }
@@ -305,7 +305,7 @@ public class EObjectValidator implements EValidator
                DIAGNOSTIC_SOURCE,
                EOBJECT__EVERY_MULTIPCITY_CONFORMS,
                EcorePlugin.INSTANCE.getString
-                 ("_UI_RequiredFeatureMustBeSet_diagnostic", 
+                 ("_UI_RequiredFeatureMustBeSet_diagnostic",
                   new Object [] { getFeatureLabel(eStructuralFeature, context), getObjectLabel(eObject, context) }),
                new Object [] { eObject, eStructuralFeature }));
         }
@@ -332,12 +332,12 @@ public class EObjectValidator implements EValidator
                DIAGNOSTIC_SOURCE,
                EOBJECT__EVERY_PROXY_RESOLVES,
                EcorePlugin.INSTANCE.getString
-                 ("_UI_UnresolvedProxy_diagnostic", 
-                  new Object [] 
-                    { 
-                      getFeatureLabel(i.feature(), context), 
-                      getObjectLabel(eObject, context), 
-                      getObjectLabel(eCrossReferenceObject, context) 
+                 ("_UI_UnresolvedProxy_diagnostic",
+                  new Object []
+                    {
+                      getFeatureLabel(i.feature(), context),
+                      getObjectLabel(eObject, context),
+                      getObjectLabel(eCrossReferenceObject, context)
                     }),
                new Object [] { eObject, i.feature(), eCrossReferenceObject }));
         }
@@ -367,12 +367,12 @@ public class EObjectValidator implements EValidator
                DIAGNOSTIC_SOURCE,
                EOBJECT__EVERY_REFERENCE_IS_CONTAINED,
                EcorePlugin.INSTANCE.getString
-                 ("_UI_DanglingReference_diagnostic", 
-                  new Object [] 
-                    { 
-                      getFeatureLabel(i.feature(), context), 
-                      getObjectLabel(eObject, context), 
-                      getObjectLabel(eCrossReferenceObject, context) 
+                 ("_UI_DanglingReference_diagnostic",
+                  new Object []
+                    {
+                      getFeatureLabel(i.feature(), context),
+                      getObjectLabel(eObject, context),
+                      getObjectLabel(eCrossReferenceObject, context)
                     }),
                new Object [] { eObject, i.feature(), eCrossReferenceObject }));
         }
@@ -478,7 +478,7 @@ public class EObjectValidator implements EValidator
   protected DiagnosticChain createBadDataValueDiagnostic
     (EObject eObject, EAttribute eAttribute, DiagnosticChain diagnostics, Map context)
   {
-    BasicDiagnostic diagnostic = 
+    BasicDiagnostic diagnostic =
       new BasicDiagnostic
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
@@ -525,18 +525,18 @@ public class EObjectValidator implements EValidator
 
   public class DynamicEDataTypeValidator
   {
-    protected List effectiveEnumeration; 
-    protected PatternMatcher [][] effectivePattern; 
-    protected int effectiveTotalDigits = -1; 
-    protected int effectiveFractionDigits = -1; 
-    protected int effectiveMinLength = -1; 
-    protected int effectiveMaxLength = -1; 
-    protected Object effectiveMin; 
+    protected List effectiveEnumeration;
+    protected PatternMatcher [][] effectivePattern;
+    protected int effectiveTotalDigits = -1;
+    protected int effectiveFractionDigits = -1;
+    protected int effectiveMinLength = -1;
+    protected int effectiveMaxLength = -1;
+    protected Object effectiveMin;
     protected boolean effectiveMinIsInclusive;
-    protected int effectiveTotalDigitsMin = -1; 
-    protected Object effectiveMax; 
+    protected int effectiveTotalDigitsMin = -1;
+    protected Object effectiveMax;
     protected boolean effectiveMaxIsInclusive;
-    protected int effectiveTotalDigitsMax = -1; 
+    protected int effectiveTotalDigitsMax = -1;
     protected EDataType itemType;
     protected List memberTypes;
 
@@ -678,7 +678,7 @@ public class EObjectValidator implements EValidator
         Object lowerBound = EcoreUtil.createFromString(eDataType, "-" + digits.toString());
 
         if (effectiveMin == null ||
-              (effectiveMinIsInclusive ? 
+              (effectiveMinIsInclusive ?
                  ((Comparable)effectiveMin).compareTo(lowerBound) <= 0:
                  ((Comparable)effectiveMin).compareTo(lowerBound) < 0))
         {
@@ -688,7 +688,7 @@ public class EObjectValidator implements EValidator
         }
 
         if (effectiveMax == null ||
-              (effectiveMaxIsInclusive ? 
+              (effectiveMaxIsInclusive ?
                  ((Comparable)effectiveMax).compareTo(upperBound) >= 0:
                  ((Comparable)effectiveMax).compareTo(upperBound) > 0))
         {
@@ -724,12 +724,12 @@ public class EObjectValidator implements EValidator
 
       if (effectiveMin != null)
       {
-        if (effectiveMinIsInclusive ? 
+        if (effectiveMinIsInclusive ?
               ((Comparable)effectiveMin).compareTo(value) > 0:
               ((Comparable)effectiveMin).compareTo(value) >= 0)
         {
-          if (diagnostics != null) 
-          { 
+          if (diagnostics != null)
+          {
             if (effectiveTotalDigitsMin != -1)
             {
               reportTotalDigitsViolation(eDataType, value, effectiveTotalDigitsMin, diagnostics, context);
@@ -745,11 +745,11 @@ public class EObjectValidator implements EValidator
 
       if (effectiveMax != null)
       {
-        if (effectiveMaxIsInclusive ? 
+        if (effectiveMaxIsInclusive ?
               ((Comparable)effectiveMax).compareTo(value) < 0:
               ((Comparable)effectiveMax).compareTo(value) <= 0)
         {
-          if (diagnostics != null) 
+          if (diagnostics != null)
           {
             if (effectiveTotalDigitsMax != -1)
             {
@@ -864,13 +864,13 @@ public class EObjectValidator implements EValidator
       }
     }
 
-    if (eDataType.eContainer() == getEPackage()) 
+    if (eDataType.eContainer() == getEPackage())
     {
       return validate(eDataType.getClassifierID(), value, diagnostics, context);
     }
-    else 
+    else
     {
-      return 
+      return
         new DynamicEDataTypeValidator(eDataType)
         {
         }.validate(eDataType, value, diagnostics, context);
@@ -996,13 +996,13 @@ public class EObjectValidator implements EValidator
     Iterator i = values.iterator();
     if (i.hasNext())
     {
-      valueLiterals = 
+      valueLiterals =
         EcorePlugin.INSTANCE.getString("_UI_ListHead_composition", new Object [] { getValueLabel(eDataType, i.next(), context) });
       while (i.hasNext())
       {
-        valueLiterals = 
+        valueLiterals =
           EcorePlugin.INSTANCE.getString
-            ("_UI_ListTail_composition", 
+            ("_UI_ListTail_composition",
              new Object [] { valueLiterals, getValueLabel(eDataType, i.next(), context) });
       }
     }
