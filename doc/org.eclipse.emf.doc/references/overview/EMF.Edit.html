@@ -2,20 +2,20 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="http://dev.eclipse.org/default_style.css" type="text/css" />
-<link rel="stylesheet" href="images/../../book.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" href="images/../../../css/book.css" type="text/css"/>
+<link rel="stylesheet" href="images/../../../css/emf-book.css" type="text/css"/>
 <title>The EMF.Edit Framework Overview</title>
 </head>
 <body lang="EN-US" xml:lang="EN-US">
-<span class="normal">
 <h1>The EMF.Edit Framework Overview</h1>
 
-<p>Last updated: Sept. 10, 2002</p>
+<p>Last updated: June 1, 2004</p>
 
 <p>This document assumes familiarity with basic EMF (Eclipse Modeling Framework)
-concepts. For more information on EMF, refer to <a href="EMF.html">The Eclipse
-Modeling Framework (EMF) Overview.</a></p>
+concepts. For more information on EMF, refer to
+<a href="../../references/overview/EMF.html">The Eclipse Modeling Framework
+(EMF) Overview</a>.</p>
 
 <h2>Introduction</h2>
 
@@ -33,7 +33,7 @@ convenience classes that allow EMF models to be displayed using standard desktop
 <li>A command framework, including a set of generic command implementation
 classes for building editors that support fully automatic undo and redo.</li>
 <li>A code generator capable of generating everything needed to build a complete
-editor/plugin for your EMF model. It produces a properly structured editor that
+editor plug-in for your EMF model. It produces a properly structured editor that
 conforms to the recommended style for Eclipse EMF model editors. You can then
 customize the code however you like, without losing your connection to the
 model.</li>
@@ -61,7 +61,7 @@ provider</i>.</p>
 interface. For example, a TreeViewer uses a content provider that implements the
 following interface:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public interface ITreeContentProvider ...
   {
     public Object[] getChildren(Object object);
@@ -72,7 +72,7 @@ following interface:</p>
 
 <p>The basic structure is shown in the following diagram:</p>
 
-<img src="images/EMF.Edit/image001.gif" border="0" width="481" height="207"/>
+<img src="images/EMF.Edit/image001.gif" border="0" width="481" height="207" alt="JFace content provider"/>
 
 <p>As far as the TreeViewer is concerned it is displaying a tree of objects (it
 calls them items) on the screen, all of which, except the input (root) object,
@@ -81,7 +81,7 @@ are provided to it by calling getChildren() on its content provider.</p>
 <p>Other kinds of viewers are handled similarly, although each viewer requires
 the content provider to implement its specific interface. Although all of the
 viewer interfaces are different, a content provider can often implement several
-of them at once allowing the same content provider class to be used for many
+of them at once, allowing the same content provider class to be used for many
 kinds of viewers.</p>
 
 <h3>Providing content for an EMF model</h3>
@@ -91,9 +91,9 @@ class that can be used to provide content for EMF models. Class
 AdapterFactoryContentProvider implements the content provider interfaces by
 delegating to EMF adapters that know how to navigate the model objects (items)
 for the viewers. For example, the EMF adapter class used to support a tree
-viewer would implement the following EMF.Edit interface:<p>
+viewer would implement the following EMF.Edit interface:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public interface ITreeItemProvider
   {
     public Collection getChildren(Object object);
@@ -107,11 +107,11 @@ ITreeContentProvider described above. The AdapterFactoryContentProvider
 implements the content provider interface by locating and then delegating to an
 adapter (implementing the item provider interface) for the required item. The
 shift in terminology from objects to items is deliberate: from the viewer's
-point of view, they are items, not objects.<p>
+point of view, they are items, not objects.</p>
 
 <p>The EMF picture looks like this:</p>
 
-<img src="images/EMF.Edit/image002.gif" border="0" width="607" height="231"/>
+<img src="images/EMF.Edit/image002.gif" border="0" width="607" height="231" alt="AdapterFactoryContentProvider delegation to item providers"/>
 
 <p class="Note">Note: you can automatically generate an
 ItemProviderAdapterFactory and ItemProvider classes for a given EMF model using
@@ -120,15 +120,15 @@ the generator provided with the EMF.Edit framework. More about this later.</p>
 <p>The AdapterFactoryContentProvider is constructed with an adapter factory
 which, like any other EMF adapter factory, serves to create and locate adapters
 of a specific type (ItemProviders in this case). The content provider services a
-request like getChildren by calling adapt(item) on the
+request like getChildren() by calling adapt(item) on the
 ItemProviderAdapterFactory, which will create or return the ItemProvider
 (adapter) for the specified item. It then simply delegates to the getChildren()
 method of the required interface (in this case, ITreeItemProvider).</p>
 
-<p>The getChildren method in AdapterFactoryContentProvider looks something like
-this:</p>
+<p>The getChildren() method in AdapterFactoryContentProvider looks something
+like this:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public Object[] getChildren(Object object)
   {
     ITreeItemContentProvider adapter =
@@ -143,16 +143,16 @@ previously, the AdapterFactoryContentProvider does nothing more than simply
 delegate content provider methods to the specific item provider (adapter) that
 knows how to service the request.</p>
 
-<p>In the getChildren method above, the object being passed to
+<p>In the getChildren() method above, the object being passed to
 adapterFactory.adapt() is a simple java.lang.Object (not an
 org.eclipse.emf.ecore.EObject). This is an important feature of the EMF.Edit
 framework. The framework has been carefully designed to accommodate views on EMF
 models that may be different from the model itself (that is, views that suppress
 objects or include additional, phantom, objects). To allow this mixture of EMF
-and non-EMF objects, the base implementation of adapt() works essentially like
-this:</p>
+and non-EMF objects, the framework base class for adapter factories provides an
+implementation of adapt() that works something like this:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public Object adapt(Object object, Object type)
   {
     if (object instanceof Notifier)
@@ -162,12 +162,13 @@ this:</p>
   }
 </pre>
 
-<p>If the specified object is not an EMF (Notifier) object, it returns the
-object itself. With this design, an item provider that wants to add non-EMF
-items to a view can simply return (for example in its getChildren method) any
-non-EMF object it wants. As long as the returned object implements the viewer's
-required item provider interface (for example, ITreeItemProvider) it will be
-treated like all the other EMF items.</p>
+<p>If the specified object is not an EMF
+Notifier<sup><a class="footnote" href="#fn1">[1]</a><a name="ref1">&nbsp;</a></sup>,
+it returns the object itself. With this design, an item provider that wants to
+add non-EMF items to a view can simply return (for example, from its
+getChildren() method) any non-EMF object it wants. As long as the returned
+object implements the viewer's required item provider interface (for example,
+ITreeItemProvider) it will be treated like all the other EMF items.</p>
 
 <p>This aspect of the design highlights why we prefer to call the
 provider/adapter classes item providers instead of adapters. In nontrivial
@@ -192,20 +193,20 @@ the labels of the items in the tree.</p>
 <p>The EMF.Edit framework uses the same mechanism for implementing label
 providers for EMF models as it uses for providing the content. A generic label
 provider implementation class, AdapterFactoryLabelProvider (working exactly like
-AdapterFactoryContentProvider), delegates the LabelProvider interface to the
+AdapterFactoryContentProvider), delegates the ILabelProvider interface to the
 item providers for the model (the same item providers that provide the content).
 The expanded picture looks like this:</p>
 
-<img src="images/EMF.Edit/image003.gif" border="0" width="608" height="326"/>
+<img src="images/EMF.Edit/image003.gif" border="0" width="608" height="326" alt="AdapterFactoryLabelProvider delegation to item providers"/>
 
 <p>The content and label provider can (and usually will) delegate to the same
-adapter factory and consequently the same item providers. Just as with the
+adapter factory and, consequently, the same item providers. Just as for the
 content provider, the item providers are where the work actually gets done.</p>
 
 <p>Using the EMF.Edit provider classes, a user might construct a TreeViewer for
 some EMF model as follows:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   myAdapterFactory = ...
 
   treeViewer = new TreeViewer();
@@ -250,7 +251,7 @@ the one-and-only object it's adapting.</p>
 
 <p>The picture looks like this:</p>
 
-<img src="images/EMF.Edit/image004.gif" border="0" width="615" height="257"/>
+<img src="images/EMF.Edit/image004.gif" border="0" width="615" height="257" alt="Stateful item provider adapters"/>
 
 <p>As shown, this pattern doubles the number of objects in the application, and
 therefore only makes sense in applications where the instances are needed to
@@ -262,7 +263,7 @@ carry additional state. That's why we call it the Stateful pattern.</p>
 pattern. With this pattern we use a single item provider adapter for all the
 items of the same type. It looks like this:</p>
 
-<img src="images/EMF.Edit/image005.gif" border="0" width="615" height="257"/>
+<img src="images/EMF.Edit/image005.gif" border="0" width="615" height="257" alt="Singleton item provider adapters"/>
 
 <p>In this picture, the objects have adapter pointers, as usual, but the item
 providers (which are shared) have no pointers back to the objects. If you
@@ -270,7 +271,7 @@ remember the tree item provider interface that we looked at previously in the
 content provider section, you may have noticed that all the methods took an
 extra argument (an object):</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public interface ITreeItemProvider
   {
     public Collection getChildren(Object object);
@@ -286,10 +287,10 @@ as the adapter's target.</p>
 <p>Another question you may be asking yourself, is why don't we support a
 &quot;true&quot; Singleton adapter pattern - that is, exactly one adapter for
 all the objects? The answer is simply that while it is another possible pattern
-(compatible with the EMF.Edit framework)
-<sup><a class="footnote" href="#ref1">[1]</a><a name="fn1"></a></sup>, we
-discourage it because a completely dynamic implementation, although simple, is
-difficult to customize (without lots of messy instanceof() checks). The
+(compatible with the EMF.Edit
+framework)<sup><a class="footnote" href="#fn2">[2]</a><a name="ref2">&nbsp;</a></sup>,
+we discourage it because a completely dynamic implementation, although simple,
+is difficult to customize (without lots of messy instanceof() checks). The
 alternative of having typed item provider classes, whose inheritance hierarchy
 mirrors the model's, provides a convenient dispatch point for implementing nice
 clean object-oriented view code for a model.</p>
@@ -308,10 +309,11 @@ EMF model. Another EMF.Edit implementation class, AdapterFactoryEditingDomain,
 works like the content and label providers by delegating its implementation to
 the item providers (through the ItemProviderAdapterFactory):</p>
 
-<img src="images/EMF.Edit/image006.gif" border="0" width="608" height="249"/>
+<img src="images/EMF.Edit/image006.gif" border="0" width="608" height="249" alt="Editing domain"/>
 
-<p>As shown, it also provides access to a command stack through which all modifications to the model
-will be made. The editing domain provides two fundamental services:</p>
+<p>As shown, it also provides access to a command stack through which all
+modifications to the model will be made. The editing domain provides two
+fundamental services:</p>
 
 <ul>
 <li>A factory for commands</li>
@@ -323,17 +325,17 @@ Add, Remove, Copy, and so on).</li>
 provider to the model, while the content and label providers are the viewing or
 read provider. Here's the big picture:</p>
 
-<img src="images/EMF.Edit/image007.gif" border="0" width="607" height="331"/>
+<img src="images/EMF.Edit/image007.gif" border="0" width="607" height="331" alt="Read and write providers"/>
 
 <h3>Modifying a model</h3>
 
 <p>Let's look at a simple example of modifying a model.</p>
 
-<p>Assume class Company has a one-to-many reference (departments) to class
+<p>Assume class Company has a one-to-many reference, named departments, to class
 Department. To remove a department from the company (to implement, for example,
 an editor delete action) we could simply write the following code:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   Department d = ...
   Company c = ...
   c.getDepartments().remove(d);
@@ -342,26 +344,26 @@ an editor delete action) we could simply write the following code:</p>
 <p>Although simple, this code does nothing more than simply make the
 modification.</p>
 
-<p>If instead we use the EMF.Edit remove command
+<p>If instead, we use the EMF.Edit remove command
 (org.eclipse.emf.edit.command.RemoveCommand) to remove the department, we would
 write the following:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   Department d = ...
   Company c = ...
   EditingDomain ed = ...
   RemoveCommand cmd = 
-  new RemoveCommand(ed, c, CompanyPackage.eINSTAANCE.getCompany_Departments(), d);
+    new RemoveCommand(ed, c, CompanyPackage.eINSTANCE.getCompany_Departments(), d);
   ed.getCommandStack().execute(cmd);
 </pre>
 
-<p>Deleting the department this way has several advantages:
+<p>Deleting the department this way has several advantages:</p>
 
 <ol>
-<li>The deletion can be undone by calling ed.getCommandStack().undo();</li>
+<li>The deletion can be undone by calling ed.getCommandStack().undo().</li>
 <li>We can find out if a model is dirty (to enable a save menu, for example) by
 checking if there are commands on the command stack, assuming all modifications
-are done using commands (which is what the EMF.Edit framework is advocating).
+are done using commands (which is what the EMF.Edit framework advocates).
 </li>
 <li>We could have checked if the command is valid (to enable a delete menu, for
 example) before executing it by calling cmd.canExecute();</li>
@@ -379,10 +381,10 @@ write, for example, a reusable delete action capable of deleting any kind of
 object, we can do that by using the EditingDomain to help with the job.</p>
 
 <p>The EditingDomain interface contains (among other things) a command factory
-method, createCommand(), that can be used to create commands instead of using
-new:</p>
+method, createCommand(), that can be used, instead of new, to create
+commands:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public interface EditingDomain
   {
     ...
@@ -393,15 +395,15 @@ new:</p>
 
 <p>To use this method to create a command you would first need to create a
 CommandParameter object, set command parameters into it, and then call the
-create method, passing it the command class (for example, RemoveCommand.class)
-and the parameters.</p>
+create method, passing it the desired command class (for example,
+RemoveCommand.class) and the parameters.</p>
 
 <p>Rather then making clients go through all that, we use a convention of
 providing static convenience create() methods in every command class. Using the
 static create() method, you can create and execute a RemoveCommand like this:
 </p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   Department d = ...
   EditingDomain ed = ...
   Command cmd = RemoveCommand.create(ed, d);
@@ -413,35 +415,38 @@ instead of new RemoveCommand). But there are fundamental differences. We only
 passed one argument (that is, the object being removed), aside from the editing
 domain, instead of the three arguments previously. Notice how this piece of code
 can now be used to remove any kind of object. By delegating the creation of the
-command to the editing domain, we're letting it fill in the missing arguments.
+command to the editing domain, we're letting it fill in the missing
+arguments.</p>
 
-<h3>How does an Editing Domain handle a createCommand request?</h3>
+<h3>How does an Editing Domain handle a createCommand() request?</h3>
 
 <p>To understand how it all works, let's follow through with the
 RemoveCommand.create() call. As stated previously, the static create() method is
 just a convenience method that delegates to the editing domain something like
 this:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public static Command create(EditingDomain domain, Object value) 
   {
-    return domain.createCommand(RemoveCommand.class, new CommandParameter(value));
+    return domain.createCommand(
+      RemoveCommand.class,
+      new CommandParameter(null, null, Collections.singleton(value)));
   }
 </pre>
 
 <p>The AdapterFactoryEditingDomain then takes the request and passes it along to
 an item provider using the standard delegation pattern (as
-AdapterFactorContentProvider delegated getChildren earlier):</p>
+AdapterFactorContentProvider delegated getChildren() earlier):</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public Command createCommand(Class commandClass, CommandParameter commandParameter)
   {
-    Object owner = ... // get the owner object for the command
+    Object owner = ...  // get the owner object for the command
     IEditingDomainItemProvider adapter = 
       (IEditingDomainItemProvider)
         adapterFactory.adapt(owner, IEditingDomainItemProvider.class);
     return adapter.createCommand(owner, this, commandClass, commandParameter);
-  }  
+  }
 </pre>
 
 <p class="Note">Note: if you look at the actual createCommand() method you will
@@ -450,24 +455,23 @@ designed to also handle, among other things, deleting collections of objects at
 once. This is, nevertheless, all it's doing conceptually.</p>
 
 <p>The createCommand() method uses an owner object to access the item provider
-to delegate to (that is, for the object used in the adapterFactory.adapt call).
+to delegate to (that is, the owner is used in the adapterFactory.adapt() call).
 The owner in our example will be the company object (that is, the parent of the
 department being removed). The editing domain determines the owner by calling
-the getParent() method on the item provider of the object (department) being
-deleted.</p>
+the getParent() method on the item provider of the object being deleted.</p>
 
 <p>The effect of all this is that the method createCommand() is finally called
 on the item provider of the parent of the object being removed (that is, the
-CompanyItemProvider for company &quot;c&quot; in the original code fragment).
-So, the CompanyItemProvider could implement createCommand() by doing something
-like this:</p>
+CompanyItemProvider for company c in the original code fragment). So, the
+CompanyItemProvider could implement createCommand() by doing something like
+this:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public class CompanyItemProvider ...
   {
     ...
 
-    public Command createCommand(final Object object, ... , Class commandClass, ...
+    public Command createCommand(final Object object, ..., Class commandClass, ...)
     {
       if (commandClass == RemoveCommand.class)
       {
@@ -480,32 +484,31 @@ like this:</p>
   }
 </pre>
 
-<p>This would get the job done, but there is a better way.
+<p>This would get the job done, but there is a better way.</p>
 
 <p>Every item provider class (that is also an EMF adapter) extends from an
 EMF.Edit convenience base class, ItemProviderAdapter, which provides a default
-implementation of, among other things,createCommand(). It implements
+implementation of, among other things, createCommand(). It implements
 createCommand() for all the standard commands provided by the EMF.Edit framework
 by calling out to a few simple methods (which are used for more than just this
-purpose) that are implemented in the item provider subclasses (see the
-&quot;Template Method&quot; design pattern).</p>
+purpose) that are implemented in the item provider subclasses. This is an
+example of the Template Method design pattern.</p>
 
-<p>To make our RemoveCommand example work, all we need to implement is
-DepartmentItemProvider.getParent(), which is needed for the content provider
-anyway, and the following method in class CompanyItemProvider:</p>
+<p>To make our RemoveCommand example work, CompanyItemProvider only needs
+to implement the following method:</p>
 
-<pre style="color:#4444cc">
-  public Collection getChildrenReferences(Object object)
+<pre class="code">
+  public Collection getChildrenFeatures(Object object)
   {
     return Collections.singleton(CompanyPackage.eINSTANCE.getCompany_Departments());
   }
 </pre>
 
-<p>As shown, this method returns the one or more reference types (in this case
-only the departments association) that are used for referencing children of the
-object. After calling this method, the default implementation of createCommand()
-will then figure out which reference to use (if more than one is returned) and
-will then create the RemoveCommand with the right one.</p>
+<p>As shown, this method returns the one or more features (in this case, only
+the deparments reference) that are used for referencing children of the object.
+After calling this method, the default implementation of createCommand() will
+then figure out which feature to use (if more than one is returned) and create
+the RemoveCommand with the right one.</p>
 
 <h3>Overriding commands</h3>
 
@@ -516,7 +519,7 @@ up. For example, assume that we want to do some extra cleanup whenever we remove
 a department from a company. The simplest way to achieve that might be to create
 a subclassof RemoveCommand  called RemoveDepartmentCommand like this:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public class RemoveDepartmentCommand extends RemoveCommand
   {
     public void execute()
@@ -529,17 +532,17 @@ a subclassof RemoveCommand  called RemoveDepartmentCommand like this:</p>
 
 <p>That part's easy enough.</p>
 
-<p>Now, if our editor uses the static RemoveCommand.create() method (calling
-editingDomain.createCommand()) instead of just using new RemoveCommand, then we
-can easily substitute our RemoveDepartmentCommand for the RemoveCommand by
+<p>Now, if our editor uses the static RemoveCommand.create() method (which calls
+editingDomain.createCommand()) instead of new RemoveCommand(), then we can
+easily substitute our RemoveDepartmentCommand for the standard RemoveCommand by
 overriding createCommand() in the item provider like this:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public class CompanyItemProvider ...
   {
     ...
 
-    public Command createCommand(final Object object, ...
+    public Command createCommand(final Object object, ...)
     {
       if (commandClass == RemoveCommand.class)
       {
@@ -551,13 +554,14 @@ overriding createCommand() in the item provider like this:</p>
 </pre>
 
 <p>Actually, if the command we want to specialize is one of the predefined ones
-(like RemoveCommand), substituting it is even easier because the default
+(like RemoveCommand), the substitution is even easier because the default
 implementation of createCommand() dispatches the creation of each command to
-command-specific convenience methods something like this:</p>
+command-specific convenience methods, something like this:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public Command createCommand(final Object object, ...
   {
+    ...
     if (commandClass == RemoveCommand.class)
       return createRemoveCommand(...); 
     else if (commandClass == AddCommand.class)
@@ -567,10 +571,10 @@ command-specific convenience methods something like this:</p>
 </pre>
 
 <p>So, we could have created our RemoveDepartmentCommand more simply by just
-overriding createRemoveCommand() instead of the createCommand() method itself:
+overriding createRemoveCommand(), instead of the createCommand() method itself:
 </p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   protected Command createRemoveCommand(...) 
   {
     return new RemoveDepartmentCommand(...);
@@ -601,45 +605,63 @@ that it can update its viewer when it receives a change notification.</p>
 changing a company name) will make its way, through the adapter factory, back to
 the viewers of the model.</p>
 
-<img src="images/EMF.Edit/image008.gif" border="0" width="607" height="251"/>
+<img src="images/EMF.Edit/image008.gif" border="0" width="607" height="251" alt="Model change notification"/>
 
 <p>Whenever an EMF object changes state, the method notifyChanged() is called on
-all the object's adapters, including the item providers (in this case
+all the object's adapters, including the item providers (in this case,
 CompanyItemProvider). The notifyChanged() method in the item provider is
-responsible for filtering the events and then passing the interesting ones on.
-The notifyChanged() method in class CompanyItemProvider looks something like
-this:<p>
+responsible for determining whether each event notification should be passed on
+to the viewer, and if so, what type of update it should result in.</p>
 
-<pre style="color:#4444cc">
-  public void notifyChanged(Notification notification) 
+<p>To do so, it wraps interesting notifications in a ViewerNotification, a
+simple implementation of interface IViewerNotification. This interface extends
+the basic Notification interface like this:</p>
+
+<pre class="code">
+  public interface IViewerNotification extends Notification
   {
+    Object getElement();
+    boolean isContentRefresh();
+    boolean isLabelUpdate();
+  }
+</pre>
+
+<p>These methods specify which item in the viewer to update, whether to refresh
+the content under that element, and whether to update the label of that element.
+Since the item provider determines the children and label for an object, it must
+also determine how to efficiently update the viewer.</p>
+
+<p>The notifyChanged() method in class CompanyItemProvider looks like this:</p>
+
+<pre class="code">
+  public void notifyChanged(Notification notification)
+  {
+    ...
     switch (notification.getFeatureID(Company.class))
     {
-      case CompanyPackage.COMPANY___NAME:
-      case CompanyPackage.COMPANY___DEPARTMENT:
-      case CompanyPackage.COMPANY___EMPLOYEE_OF_THE_MONTH:
-      {
-        fireNotifyChanged(notification);
+      case CompanyPackage.COMPANY__NAME:
+        fireNotifyChanged(new ViewerNotification(notification, ..., false, true));
         return;
-      }
+      case CompanyPackage.COMPANY__DEPARTMENT:
+        fireNotifyChanged(new ViewerNotification(notification, ..., true, false));
+        return;
     }
     super.notifyChanged(notification);
-  } 
+  }
 </pre>
+
+<p>In this implementation, a change to the name attribute results in a label
+update, and a change to the department reference causes a content refresh. Any
+other change notifications have no effect on the viewer.</p>
 
 <p>The fireNotifyChanged() method is a convenience method in class
 ItemProviderAdapter (the base class of all the item provider adapters) which
-simply forwards the notification to the adapter factory
-<sup><a class="footnote" href="#ref2">[2]</a><a name="fn2"></a></sup>. The
-adapter factory (change notifier) proceeds to dispatch the notification to all
-its listeners (in this example, just the tree viewer's content provider).
-Finally, the content provider converts the notification into an appropriate
-viewer-specific call. For example, a SET notification becomes a call to update()
-on the tree viewer, an ADD notification would become a call to add(), and so on.
-A convenience class
-org.eclipse.emf.edit.ui.provider.NotifyChangedToViewerRefresh is used (by
-AdapterFactoryContentProvider) to implement this mapping for all the standard
-JFace viewer classes.</p>
+simply forwards the notification to the adapter
+factory<sup><a class="footnote" href="#fn3">[3]</a><a name="ref3">&nbsp;</a></sup>.
+The adapter factory (change notifier) proceeds to dispatch the notification to
+all its listeners (in this example, just the tree viewer's content provider).
+Finally, the content provider updates the viewer, as directed by the
+notification.</p>
 
 <h3>Composed adapter factories</h3>
 
@@ -652,15 +674,15 @@ objects from the two (or more) models.</p>
 that you need is to glue them together. Another EMF.Edit convenience class,
 ComposedAdapterFactory, can be used for this purpose:</p>
 
-<img src="images/EMF.Edit/image009.gif" border="0" width="607" height="250"/>
+<img src="images/EMF.Edit/image009.gif" border="0" width="607" height="250" alt="Adapter factory composition"/>
 
 <p>A ComposedAdapterFactory is used to provide a common interface to other
-adapter factories to which it simply delegates its implementation.</p>
+adapter factories, to which it simply delegates its implementation.</p>
 
 <p>To set up a composed adapter factory, you would write something like this:
 </p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   model1AdapterFactory = ...
   model2AdapterFactory = ...
 
@@ -674,9 +696,9 @@ adapter factories to which it simply delegates its implementation.</p>
 
 <h2>Using the EMF.Edit Code Generator</h2>
 
-<p class="Note">Note: a step-by-step tutorial for generating an EMF model as
-well as an EMF.Edit editor can be found in
-<a href="../../tutorials/clibmod/clibmod.html">Tutorial: Creating an EMF
+<p class="Note">Note: a step-by-step tutorial for generating an EMF model, as
+well as an EMF.Edit editor, can be found in
+<a href="../../tutorials/clibmod/clibmod.html">Tutorial: Generating an EMF
 Model</a>.</p>
 
 <p>Given an EMF model definition, the EMF.Edit code generator can produce a
@@ -685,12 +707,12 @@ using several common viewers and to add, remove, cut, copy, and paste model
 objects, or modify the objects in a standard property sheet, all with full
 undo/redo support.</p>
 
-<p>The EMF.Edit generator produces complete working plugins that include the
+<p>The EMF.Edit generator produces complete working plug-ins that include the
 following:</p>
 
 <ol>
 <li>ItemProviderAdapterFactory</li>
-<li>ItemProvider classes (one per model class)</li>
+<li>ItemProviders (one per model class)</li>
 <li>Editor</li>
 <li>ModelWizard</li>
 <li>ActionBarContributor</li>
@@ -699,11 +721,11 @@ following:</p>
 <li>Icons</li>
 </ol>
 
-<p>Once generated, you should be able to run the editor. Although an editor for
-your model will come up, it may or may not be working as you expected (that is,
-the default choices that the generator made may have been inappropriate for your
-model). It should, however, be pretty easy to tweak the generated code in a few
-places to quickly get a basically working editor up and running.</p>
+<p>Once generated, the editor should run. It will come up, but it may or may not
+be working as you expected (that is, the default choices that the generator made
+may have been inappropriate for your model). It should, however, be pretty easy
+to tweak the generated code in a few places to quickly get a basic working
+editor up and running.</p>
 
 <p>The following takes a closer look at some of the more interesting generated
 classes.</p>
@@ -717,13 +739,13 @@ generated AdapterFactory class that you got when you generated your EMF model.
 <p class="Note">Note: the generated EMF adapter factory creates adapters by
 dispatching to a type-specific create() method that subclasses (like
 ItemProviderAdapterFactory) are required to override. The EMF adapter factory
-(for example, ABCAdapterFactory) uses another generated class, (for example
-ABCSwitch, formerly ABCDispatcher), to implement the dispatch efficiently.</p>
+(for example, ABCAdapterFactory) uses another generated class, (ABCSwitch), to
+implement the dispatch efficiently.</p>
 
-<p>When using the Stateful pattern, the adapter factory create methods will
-simply return a new object like this:</p>
+<p>When using the Stateful pattern, the adapter factory create methods simply
+return a new object like this:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   class ABCItemProviderAdapterFactory extends ABCAdapterFactoryImpl
   {
     ...
@@ -735,10 +757,10 @@ simply return a new object like this:</p>
   }
 </pre>
 
-<p>If instead the Singleton pattern is used, the adapter factory will also keep
-track of the singleton instance and return it for each call:<p>
+<p>If, instead, the Singleton pattern is used, the adapter factory also keeps
+track of the singleton instance and returns it for each call:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   protected DepartmentItemProvider departmentItemProvider;
 
   public Adapter createDepartmentAdapter()
@@ -757,7 +779,7 @@ track of the singleton instance and return it for each call:<p>
 generated. The generated item providers mix in all the interfaces needed to
 support the standard viewers, commands, and the property sheet:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public class DepartmentItemProvider extends ...
     implements 
       IEditingDomainItemProvider,
@@ -774,14 +796,14 @@ support the standard viewers, commands, and the property sheet:</p>
 generated item provider will extend from the EMF.Edit item provider base class,
 ItemProviderAdapter:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public class EmployeeItemProvider extends ItemProviderAdapter ...
 </pre>
 
-<p>If instead the model class inherits from a base class, then the generated
+<p>If, instead, the model class inherits from a base class, then the generated
 item provider will extend from the base item provider like this:</p>
 
-<pre style="color:#4444cc">
+<pre class="code">
   public class EmployeeItemProvider extends PersonItemProvider ...
 </pre>
 
@@ -811,15 +833,19 @@ ModelWizard completely.</p>
 
 <br/><hr noshade="noshade" size="1"/>
 
-<p><sup><a class="footnote" href="#fn1">[1]</a><a name="ref1">&nbsp;</a></sup>Actually,
+<p><sup><a class="footnote" href="#ref1">[1]</a><a name="fn1">&nbsp;</a></sup>Notifier
+is the base interface in EMF for objects that can register adapters and send
+notifications to them. It is extended by EObject, the base interface for all
+model objects.</p>
+
+<p><sup><a class="footnote" href="#ref2">[2]</a><a name="fn2">&nbsp;</a></sup>Actually,
 EMF adapter factories are inheritance driven, so you can choose to use a base
 adapter to handle subclasses at any level in your model, EObject being the
 extreme case.</p>
 
-<p><sup><a class="footnote" href="#fn2">[2]</a><a name="ref2">&nbsp;</a></sup>In
+<p><sup><a class="footnote" href="#ref3">[3]</a><a name="fn3">&nbsp;</a></sup>In
 addition to the adapter factory, which acts as the change notifier for viewers,
 an ItemProviderAdapter can also have other (direct) listeners which are also
 called in ItemProviderAdapter.fireNotifyChanged().</p>
-</span>
 </body>
 </html>
