@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.18 2004/10/01 20:08:26 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.19 2004/10/20 14:31:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -151,13 +151,11 @@ public class XMLSaveImpl implements XMLSave
     if (encoding.equals("US-ASCII") || encoding.equals("ASCII"))
     {
       writeAscii(outputStream);
-      outputStream.flush();
     }
     else
     {
       OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, helper.getJavaEncoding(encoding));
       write(outputStreamWriter);
-      outputStreamWriter.flush();
     }
 
     if (extendedMetaData != null && contents.size() >= 1)
@@ -618,8 +616,6 @@ public class XMLSaveImpl implements XMLSave
       reader.close();
       new File(temporaryFileName).delete();
     }
-
-    os.flush();
   }
 
   public void writeAscii(OutputStream os) throws IOException
@@ -681,8 +677,6 @@ public class XMLSaveImpl implements XMLSave
       inputStream.close();
       new File(temporaryFileName).delete();
     }
-
-    os.flush();
   }
 
   public char[] toChar()
