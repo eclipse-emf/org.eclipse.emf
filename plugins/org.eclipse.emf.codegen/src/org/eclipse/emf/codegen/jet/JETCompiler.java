@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.10 2005/02/11 06:02:11 davidms Exp $
+ * $Id: JETCompiler.java,v 1.11 2005/03/31 19:55:10 davidms Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -61,11 +62,51 @@ public class JETCompiler implements JETParseEventListener
 
   protected long constantCount = 0;
 
+  /**
+   * If true, the newline immediately preceding a scriptlet or directive (though not a successful include directive),
+   * along with any intervening spaces, will be stripped from the character data.
+   */
   protected boolean fNoNewLineForScriptlets = true;
 
   protected boolean fUseStaticFinalConstants = true;
 
+  /**
+   * If fNoNewLineForScriptlets is true, the trailing newline/space sequence is stripped from each character
+   * data segment, and stored in this field. Depending on what follows, it may then be discarded or handled as its
+   * own character data segment.
+   */
   protected char[] fSavedLine = null;
+
+  /**
+   * The depth of the current section, where 0 is outside of any sections. A section is delimited by start and
+   * end directives, and must be preceded by an include directive with fail="alternative".
+   */
+  protected int sectionDepth = 0;
+
+  /**
+   * Whether content is currently being skipped. This is set according to skipSections, as sections are started and ended. 
+   */
+  protected boolean skipping = false;
+
+  /**
+   * A stack of sections and whether to start skipping, one from each include with alternative encountered.
+   */
+  protected Stack skipSections = new Stack();
+
+  /**
+   * A skip section entry, records the depth of the section and whether to start skipping there. 
+   */
+  static class SkipSection
+  {
+    int depth;
+    boolean skip;
+
+    SkipSection(int depth, boolean skip)
+    {
+      this.depth = depth;
+      this.skip = skip;
+    }
+  }
 
   protected static final String CONSTANT_PREFIX = "TEXT_";
 
@@ -109,9 +150,6 @@ public class JETCompiler implements JETParseEventListener
 
   public void handleDirective(String directive, JETMark start, JETMark stop, Map attributes) throws JETException
   {
-    // This will drop the trailing newline.
-    //
-    fSavedLine = null;
     if (directive.equals("include"))
     {
       String fileURI = (String)attributes.get("file");
@@ -123,16 +161,39 @@ public class JETCompiler implements JETParseEventListener
         {
           BufferedInputStream bufferedInputStream = new BufferedInputStream(openStream(resolvedFileURI[1]));
           reader.stackStream(resolvedFileURI[0], bufferedInputStream, null);
+
+          // The include succeeded, so if there is an alternative and we're not skippping, we need to start.
+          //
+          if ("alternative".equals((String)attributes.get("fail")))
+          {
+            skipSections.push(new SkipSection(sectionDepth + 1, !skipping));
+          }
+
+          // If a newline from the previous character data remains, add a generator for it.
+          //
+          if (fSavedLine != null)
+          {
+            addCharDataGenerator(fSavedLine);
+          }
         }
         catch (JETException exception)
         {
-          throw 
-            new JETException
-              (CodeGenPlugin.getPlugin().getString
-                ("jet.error.file.cannot.read", 
-                 new Object [] { resolvedFileURI[1], start.format("jet.mark.file.line.column") }),
-               exception);
-
+          // The include failed, so if there is an alternative, we don't skip it.
+          //
+          String failType = (String)attributes.get("fail");
+          if ("alternative".equals(failType))
+          {
+            skipSections.push(new SkipSection(sectionDepth + 1, false));
+          }
+          else if (!"silent".equals(failType))
+          {
+            throw 
+              new JETException
+                (CodeGenPlugin.getPlugin().getString
+                  ("jet.error.file.cannot.read", 
+                   new Object [] { resolvedFileURI[1], start.format("jet.mark.file.line.column") }),
+                 exception);
+          }
         }
       }
       else
@@ -141,7 +202,45 @@ public class JETCompiler implements JETParseEventListener
           new JETException
             (CodeGenPlugin.getPlugin().getString
               ("jet.error.missing.attribute", 
-          new Object []{ "href", start.format("jet.mark.file.line.column") }));
+          new Object []{ "file", start.format("jet.mark.file.line.column") }));
+      }
+    }
+    else if (directive.equals("start"))
+    {
+      sectionDepth++;
+      
+      // A section is not allowed without a preceeding include with alternative.
+      //
+      SkipSection skipSection = skipSections.isEmpty() ? null : (SkipSection)skipSections.peek();
+      if (skipSection == null || skipSection.depth != sectionDepth)
+      {
+        throw new JETException
+          (CodeGenPlugin.getPlugin().getString
+            ("jet.error.section.noinclude",
+             new Object[] { start.format("jet.mark.file.line.column") }));
+      }
+      else if (skipSection.skip)
+      {
+        skipping = true;
+      }
+    }
+    else if (directive.equals("end"))
+    {
+      if (sectionDepth == 0)
+      {
+        throw
+          new JETException
+            (CodeGenPlugin.getPlugin().getString
+              ("jet.error.unmatched.directive",
+               new Object[] { "start", "end", start.format("jet.mark.file.line.column") }));
+      }
+      sectionDepth--;
+
+      // This pop is safe because a section couldn't have been started without an include that pushed.
+      //
+      if (((SkipSection)skipSections.pop()).skip)
+      {
+        skipping = false;
       }
     }
     else if (directive.equals("jet"))
@@ -251,6 +350,8 @@ public class JETCompiler implements JETParseEventListener
         handleNewSkeleton();
       }
     }
+
+    fSavedLine = null;
   }
 
   protected void handleNewSkeleton()
@@ -259,12 +360,16 @@ public class JETCompiler implements JETParseEventListener
 
   public void handleExpression(JETMark start, JETMark stop, Map attributes) throws JETException
   {
+    if (skipping) return;
+
     JETGenerator gen = new JETExpressionGenerator(reader.getChars(start, stop));
     addGenerator(gen);
   }
 
   public void handleScriptlet(JETMark start, JETMark stop, Map attributes) throws JETException
   {
+    if (skipping) return;
+
     fSavedLine = null;
     JETGenerator gen = new JETScriptletGenerator(reader.getChars(start, stop));
     addGenerator(gen);
@@ -272,6 +377,8 @@ public class JETCompiler implements JETParseEventListener
 
   public void handleCharData(char[] chars) throws JETException
   {
+    if (skipping) return;
+
     if (fNoNewLineForScriptlets)
     {
       char[] strippedChars = stripLastNewLineWithBlanks(chars);
@@ -288,6 +395,8 @@ public class JETCompiler implements JETParseEventListener
 
   public void addGenerator(JETGenerator gen) throws JETException
   {
+    // If a newline from the previous character data remains, add a generator for it.
+    //
     if (fSavedLine != null)
     {
       addCharDataGenerator(fSavedLine);
@@ -442,6 +551,15 @@ public class JETCompiler implements JETParseEventListener
 
   public void endPageProcessing() throws JETException
   {
+    if (sectionDepth > 0)
+    {
+      throw
+        new JETException
+          (CodeGenPlugin.getPlugin().getString
+            ("jet.error.unmatched.directive",
+             new Object[] { "end", "start", reader.mark().format("jet.mark.file.line.column") }));
+    }
+
     if (skeleton == null)
     {
       throw
@@ -451,7 +569,7 @@ public class JETCompiler implements JETParseEventListener
         new Object []{ reader.mark().format("jet.mark.file.line.column") }));
     }
 
-    // Add last line if saved
+    // If a newline from the previous character data remains, add a generator for it.
     //
     if (fSavedLine != null)
     {
@@ -482,6 +600,8 @@ public class JETCompiler implements JETParseEventListener
     JETParser.Directive directive = new JETParser.Directive();
     directive.getDirectives().add("jet");
     directive.getDirectives().add("include");
+    directive.getDirectives().add("start");
+    directive.getDirectives().add("end");
 
     JETCoreElement[] coreElements = 
       { 
