@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.4 2004/06/07 19:39:17 marcelop Exp $
+ * $Id: EcorePlugin.java,v 1.5 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -76,8 +76,8 @@ public class EcorePlugin
    * It is the logical equivalent of the map implied by an {@link IWorkspaceRoot}:
    * I.e., each entry in the map corresponds to
    * an {@link org.eclipse.core.resources.IProject} 
-   * that has a {@link org.eclipse.core.resources.IProject#getName name} 
-   * and a location {@link org.eclipse.core.resources.IProject#getLocation location};
+   * that has a {@link org.eclipse.core.resources.IResource#getName name} 
+   * and a location {@link org.eclipse.core.resources.IResource#getLocation location};
    * the name is the key 
    * and the location, interpretted as a {@link URI#createFileURI file URI}, is the value.
    * This map is used to {@link #resolvePlatformResourcePath resolve} a platform resource path,
@@ -218,7 +218,6 @@ public class EcorePlugin
   {
     /**
      * Creates the singleton instance.
-     * @param descriptor the initialization data for the plugin.
      */
     public Implementation()
     {

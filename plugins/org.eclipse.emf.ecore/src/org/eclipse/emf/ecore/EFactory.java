@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactory.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EFactory.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -80,7 +80,7 @@ public interface EFactory extends EModelElement
   /**
    * <!-- begin-user-doc -->
    * Creates an instance of the data type from the literal value.
-   * @param the literal value of the instance.
+   * @param literalValue literal value of the instance.
    * @return an instance of the data type.
    * @see #convertToString(EDataType, Object)
    * @ignore

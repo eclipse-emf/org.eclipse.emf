@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETParser.java,v 1.2 2004/06/17 18:44:17 emerks Exp $
+ * $Id: JETParser.java,v 1.3 2004/07/29 13:32:47 marcelop Exp $
  *
  * The Apache Software License, Version 1.1
  *
@@ -84,14 +84,14 @@ import org.eclipse.emf.codegen.CodeGenPlugin;
  * This class and all those in this package is work derived from contributions of multiple authors as listed below.
  * Credit for all that is good is shared, responsibility for any problems lies solely with the latest authors.
  *
- * @ author Anil K. Vijendran
- * @ author Anselm Baird-Smith
- * @ author David Charboneau
- * @ author Harish Prabandham
- * @ author Kevin Bauer 
- * @ author Mandar Raje
- * @ author Paul R. Hoffman
- * @ author Rajiv Mordani
+ * @author Anil K. Vijendran
+ * @author Anselm Baird-Smith
+ * @author David Charboneau
+ * @author Harish Prabandham
+ * @author Kevin Bauer 
+ * @author Mandar Raje
+ * @author Paul R. Hoffman
+ * @author Rajiv Mordani
  */
 public class JETParser 
 {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateChildCommand.java,v 1.4 2004/07/16 16:21:03 emerks Exp $
+ * $Id: CreateChildCommand.java,v 1.5 2004/07/29 13:33:00 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -165,7 +165,7 @@ public class CreateChildCommand extends CommandWrapper
    * org.eclipse.emf.common.command.AbstractCommand#canExecute} will return
    * <code>false</code>.  If non-null, <code>selection</code> is the
    * collection of selected objects.  The internal default helper is used by
-   * the command.  If <code>index</code> is {@link #CommandParameter.NO_INDEX},
+   * the command.  If <code>index</code> is {@link CommandParameter#NO_INDEX},
    * this behaves just like the first constructor form. 
    */
   public CreateChildCommand(EditingDomain domain,

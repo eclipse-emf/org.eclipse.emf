@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaUtil.java,v 1.1 2004/04/13 02:50:33 marcelop Exp $
+ * $Id: JavaUtil.java,v 1.2 2004/07/29 13:32:44 marcelop Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -214,7 +214,7 @@ public class JavaUtil
   {
     /**
      * Executes a stand-alone test.
-     * @param objects an array of Strings from the command line.
+     * @param arguments an array of Strings from the command line.
      * @see #run
      */
     public static void main(String arguments[])

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FileTool.java,v 1.2 2004/03/25 04:16:08 marcelop Exp $
+ * $Id: FileTool.java,v 1.3 2004/07/29 13:32:30 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -561,12 +561,8 @@ public class FileTool
    * recursively. Inner zip files are created for directories that end with
    * "_zip" or "_jar". If verbose is true, progress information is logged.
    * 
-   * @param dir
-   *            the directory to zip
-   * @param zipFile
-   *            the resulting zip file
-   * @param verbose
-   *            a boolean indicating whether progress information is logged
+   * @param dir the directory to zip
+   * @param zipFile the resulting zip file
    */
   public static void zip(File dir, File zipFile) throws IOException
   {

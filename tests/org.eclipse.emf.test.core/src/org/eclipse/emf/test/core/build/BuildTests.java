@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.18 2004/07/15 16:52:54 marcelop Exp $
+ * $Id: BuildTests.java,v 1.19 2004/07/29 13:32:30 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -183,7 +183,7 @@ public class BuildTests extends TestCase
   }
 
   /**
-   * @param rootDirectory
+   * @param aDirectory
    * @param aLog
    * @return boolean
    */
@@ -749,7 +749,7 @@ public class BuildTests extends TestCase
   /**
    * Method getChkpiiString.
    * 
-   * @param HTML
+   * @param type
    * @return String
    */
   private String getChkpiiString(int type)
@@ -834,7 +834,7 @@ public class BuildTests extends TestCase
   /**
    * Method getOutputFile.
    * 
-   * @param HTML
+   * @param type
    * @return String
    */
   private String getOutputFile(int type)
@@ -858,7 +858,7 @@ public class BuildTests extends TestCase
   /**
    * Method getFilesToTest.
    * 
-   * @param HTML
+   * @param type
    * @return String
    */
   private String getFilesToTest(int type)

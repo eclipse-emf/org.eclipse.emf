@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObject.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EObject.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -119,7 +119,7 @@ public interface EObject extends Notifier
    * @see #eResource
    * @see org.eclipse.emf.ecore.util.EcoreUtil#remove(EObject)
    * @see #eContainmentFeature
-   * @see InternalEObject#eContainingFeature
+   * @see #eContainingFeature
    * @see org.eclipse.emf.ecore.util.EcoreUtil#getRootContainer
    * @see #eContents
    * @ignore
@@ -159,11 +159,11 @@ public interface EObject extends Notifier
    * Because of support for wildcard content, 
    * this feature may not be a direct feature of the container's {@link #eClass class},
    * but rather a {@link org.eclipse.emf.ecore.util.FeatureMap.Entry#getEStructuralFeature feature} 
-   * of an entry in a feature map {@link InternalEObject#eContainingFeature feature} of the container's class.
+   * of an entry in a feature map {@link #eContainingFeature feature} of the container's class.
    * <p>
    * @return the feature that properly contains the object.
    * @see #eContainer
-   * @see InternalEObject#eContainingFeature
+   * @see #eContainingFeature
    * @see EReference#isContainment
    * @see EClass#getEAllContainments
    * @see org.eclipse.emf.ecore.util.FeatureMap.Entry#getEStructuralFeature
@@ -255,7 +255,6 @@ public interface EObject extends Notifier
    *  }
    *</pre>
    * </p>
-   * @return a list view of the cross referenced objects.
    * @see #eContents
    * @see EClass#getEAllReferences
    * @see EClass#getEAllContainments

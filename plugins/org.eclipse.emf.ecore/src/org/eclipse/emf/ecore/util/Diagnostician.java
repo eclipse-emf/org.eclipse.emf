@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostician.java,v 1.3 2004/06/08 12:12:26 emerks Exp $
+ * $Id: Diagnostician.java,v 1.4 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -90,8 +90,8 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
 
   /**
    * Validates the object in the given context, optionally producing diagnostics.
+   * @param eObject the object to validate.
    * @param diagnostics a place to accumulate diagnostics; if it's <code>null</code>, no diagnostics should be produced.
-   * @param context a place to cache information, if it's <code>null</code>, no cache is supported.
    * @return whether the object is valid.
    */
   public boolean validate(EObject eObject, DiagnosticChain diagnostics)

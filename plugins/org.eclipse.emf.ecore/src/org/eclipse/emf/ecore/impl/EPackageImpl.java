@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.8 2004/06/19 17:47:43 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.9 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -140,7 +140,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   /**
    * Creates a {@link org.eclipse.emf.ecore.EPackage.Registry#INSTANCE registered} instance with a factory.
    * @param packageURI the registered {@link #getNsURI namespace URI} of the new package.
-   * @param eFactory the factory of the new package.
+   * @param factory the factory of the new package.
    */
   protected EPackageImpl(String packageURI, EFactory factory)
   {

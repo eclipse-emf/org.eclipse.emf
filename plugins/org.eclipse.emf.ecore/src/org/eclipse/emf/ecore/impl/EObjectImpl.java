@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectImpl.java,v 1.3 2004/07/21 19:56:51 elena Exp $
+ * $Id: EObjectImpl.java,v 1.4 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -43,7 +43,7 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
   protected static final int EDELIVER = 0x0001;
   
   /**
-   * The bit of {@link #eFlags} that is used to represent {@link #eProxy}.
+   * The bit of {@link #eFlags} that is used to represent {@link #eIsProxy()}.
    */
   protected static final int EPROXY = 0x0010;
 

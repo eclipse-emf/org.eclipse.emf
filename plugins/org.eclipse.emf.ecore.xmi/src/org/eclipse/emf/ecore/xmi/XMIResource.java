@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIResource.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMIResource.java,v 1.2 2004/07/29 13:32:49 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -30,13 +30,13 @@ package org.eclipse.emf.ecore.xmi;
  * </p>
  * <p>
  * You may specify the XML encoding to be used when saving the resource
- * by using the {@link #setEncoding setEncoding} method.
+ * by using the {@link XMLResource#setEncoding setEncoding} method.
  * </p>
  * <p>
  * An XMIResource is capable of handling XMI files that contain IDs as
  * well as XMI files that use URI fragments rather than IDs. The IDs from
- * an XMI file are stored in the XMIResource in the {@link #getIDToEObjectMap
- * idToEObjectMap} and the {@link #getEObjectToIDMap eObjectToIDMap}.
+ * an XMI file are stored in the XMIResource in the {@link XMLResource#getIDToEObjectMap
+ * idToEObjectMap} and the {@link XMLResource#getEObjectToIDMap eObjectToIDMap}.
  * </p>
  * <p>
  * When saving an XMIResource, the ID of an object is saved if an object has

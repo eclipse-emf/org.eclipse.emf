@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InternalEObject.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: InternalEObject.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -33,10 +33,10 @@ public interface InternalEObject extends EObject
   static final int EOPPOSITE_FEATURE_BASE = -1;
 
   /**
-   * Returns whether {@link #eNotify eNotify} needs to be called.
+   * Returns whether {@link org.eclipse.emf.common.notify.Notifier#eNotify eNotify} needs to be called.
    * <p>
-   * This may return <code>true</code> even when {@link #eDeliver eDeliver} is <code>false</code>
-   * or when {@link #eAdapters eAdapters} is empty.
+   * This may return <code>true</code> even when {@link org.eclipse.emf.common.notify.Notifier#eDeliver eDeliver} is <code>false</code>
+   * or when {@link org.eclipse.emf.common.notify.Notifier#eAdapters eAdapters} is empty.
    * <p>
    * @return <code>true</code> if eNotify needs to be called.
    */
@@ -65,7 +65,7 @@ public interface InternalEObject extends EObject
    * Returns the object resolved by the fragment segment.
    * <p>
    * The fragment segment encoding will typically be of the form returned by {@link #eURIFragmentSegment eURIFragmentSegment}.
-   * @param uriFragment a fragment segment.
+   * @param uriFragmentSegment a fragment segment.
    * @return the fragment segment that resolves to the given object in this object's given feature.
    */
   EObject eObjectForURIFragmentSegment(String uriFragmentSegment);
@@ -160,7 +160,7 @@ public interface InternalEObject extends EObject
 
   /**
    * Set the proxy URI of this object.
-   * It will be used to {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve resolve} to the actual object.
+   * It will be used to {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve(EObject, EObject) resolve} to the actual object.
    * @param uri the URI.
    * @see org.eclipse.emf.ecore.util.EcoreUtil#resolve(EObject, org.eclipse.emf.ecore.resource.ResourceSet)
    * @see Resource#unload
@@ -168,7 +168,7 @@ public interface InternalEObject extends EObject
   void eSetProxyURI(URI uri);
 
   /**
-   * Resolves the {@link #eIsProxy proxy} object relative to this object.
+   * Resolves the {@link EObject#eIsProxy proxy} object relative to this object.
    * @see org.eclipse.emf.ecore.util.EcoreUtil#resolve(EObject,EObject)
    * @return the resolved object, or the original if the proxy can't be resolved.
    */
@@ -177,7 +177,7 @@ public interface InternalEObject extends EObject
   /**
    * Returns the containing internal resource, or <code>null</code>.
    * @return the containing internal resource.
-   * @see #eResource
+   * @see EObject#eResource
    */
   Resource.Internal eInternalResource();
 

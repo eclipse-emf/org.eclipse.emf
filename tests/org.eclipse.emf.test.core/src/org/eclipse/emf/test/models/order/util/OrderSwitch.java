@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: OrderSwitch.java,v 1.1 2004/06/16 18:01:17 elena Exp $
+ * $Id: OrderSwitch.java,v 1.2 2004/07/29 13:32:30 marcelop Exp $
  */
 package org.eclipse.emf.test.models.order.util;
 
@@ -16,7 +16,7 @@ import org.eclipse.emf.test.models.order.*;
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.
- * It supports the call {@link #doSwitch doSwitch(object)}
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)}
  * to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object
  * and proceeding up the inheritance hierarchy

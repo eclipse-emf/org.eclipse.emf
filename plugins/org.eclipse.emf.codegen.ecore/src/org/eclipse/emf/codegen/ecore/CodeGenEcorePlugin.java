@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGenEcorePlugin.java,v 1.2 2004/05/16 17:31:01 emerks Exp $
+ * $Id: CodeGenEcorePlugin.java,v 1.3 2004/07/29 13:32:42 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -68,7 +68,6 @@ public final class CodeGenEcorePlugin extends EMFPlugin
   {
     /**
      * Creates an instance.
-     * @param descriptor the description of the plugin.
      */
     public Implementation()
     {

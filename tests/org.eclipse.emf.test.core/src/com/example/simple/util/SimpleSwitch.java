@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SimpleSwitch.java,v 1.2 2004/07/19 19:23:53 marcelop Exp $
+ * $Id: SimpleSwitch.java,v 1.3 2004/07/29 13:32:30 marcelop Exp $
  */
 package com.example.simple.util;
 
@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.
- * It supports the call {@link #doSwitch doSwitch(object)}
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)}
  * to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object
  * and proceeding up the inheritance hierarchy

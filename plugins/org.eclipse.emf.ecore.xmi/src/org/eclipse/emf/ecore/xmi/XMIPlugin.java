@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIPlugin.java,v 1.2 2004/05/16 17:01:26 emerks Exp $
+ * $Id: XMIPlugin.java,v 1.3 2004/07/29 13:32:49 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -68,7 +68,6 @@ public final class XMIPlugin extends EMFPlugin
   {
     /**
      * Creates an instance.
-     * @param descriptor the description of the plugin.
      */
     public Implementation()
     {

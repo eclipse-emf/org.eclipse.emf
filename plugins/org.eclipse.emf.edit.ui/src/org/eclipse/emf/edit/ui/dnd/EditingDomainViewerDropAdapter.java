@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainViewerDropAdapter.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EditingDomainViewerDropAdapter.java,v 1.2 2004/07/29 13:32:45 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.dnd;
 
@@ -71,7 +71,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * The implementation also only handles an {@link IStructuredSelection},
  * but the method {@link #extractDragSource} can be overriden to change the behaviour.
  * <p>
- * SWT's {@link DND#FEEDBACK_SCROLL auto-scroll} and {@link DND.FEEDBACK_EXPAND auto-expand}
+ * SWT's {@link DND#FEEDBACK_SCROLL auto-scroll} and {@link DND#FEEDBACK_EXPAND auto-expand}
  * (hover) are enabled by default.  The method {@link #getAutoFeedback} can be overridden
  * to change this behaviour.
  */
@@ -335,7 +335,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
    * This returns the bitwise OR'ed flags for desired auto-feedback effects.
    * Drag under effect DND constants are always OR'ed with this to enable them.
    * This implementation enables {@link DND#FEEDBACK_SCROLL auto-scroll} and
-   * {@link DND.FEEDBACK_EXPAND auto-expand} (hover).
+   * {@link DND#FEEDBACK_EXPAND auto-expand} (hover).
    */
   protected int getAutoFeedback()
   {

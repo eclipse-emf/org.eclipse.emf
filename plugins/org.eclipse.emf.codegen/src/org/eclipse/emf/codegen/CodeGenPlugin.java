@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGenPlugin.java,v 1.2 2004/05/16 17:33:34 emerks Exp $
+ * $Id: CodeGenPlugin.java,v 1.3 2004/07/29 13:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -72,7 +72,6 @@ public final class CodeGenPlugin extends EMFPlugin
 
   /**
    * Returns the singleton instance of the Eclipse plugin.
-   * @return the singleton instance.
    */
   public static void write(Exception exception)
   {
@@ -86,7 +85,6 @@ public final class CodeGenPlugin extends EMFPlugin
   {
     /**
      * Creates an instance.
-     * @param descriptor the description of the plugin.
      */
     public Implementation()
     {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddCommand.java,v 1.2 2004/05/29 16:09:51 emerks Exp $
+ * $Id: AddCommand.java,v 1.3 2004/07/29 13:33:00 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -135,7 +135,7 @@ public class AddCommand extends AbstractOverrideableCommand
   protected int index;
 
   /**
-   * This is the value returned by {@link #getAffectedObjects}. 
+   * This is the value returned by {@link Command#getAffectedObjects}. 
    * The affected objects are different after an execute than after an undo, so we record it.
    */
   protected Collection affectedObjects;

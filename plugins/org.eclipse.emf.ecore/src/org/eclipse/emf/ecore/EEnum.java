@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnum.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EEnum.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -58,7 +58,7 @@ public interface EEnum extends EDataType
   /**
    * <!-- begin-user-doc -->
    * Returns the enum literal with the given name, or <code>null</code>.
-   * @param the name in question.
+   * @param name name in question.
    * @return the enum literal with the given name, or <code>null</code>.
    * <!-- end-user-doc -->
    * @model 
@@ -70,7 +70,7 @@ public interface EEnum extends EDataType
    * <!-- begin-user-doc -->
    * Returns the enum literal with the given value, or <code>null</code>.
    * The values may not be unique; it returns the first.
-   * @param the value in question.
+   * @param value value in question.
    * @return the enum literal with the given value, or <code>null</code>.
    * <!-- end-user-doc -->
    * @model 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.2 2004/06/24 10:51:56 emerks Exp $
+ * $Id: BasicEList.java,v 1.3 2004/07/29 13:32:37 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -258,7 +258,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
    * This implementation does nothing; 
    * clients can use this to monitor movement in the data storage.
    * @param index the position of the moved object.
-   * @param moveObject the moved object at the position.
+   * @param movedObject the moved object at the position.
    * @param oldIndex the position the object was at before the move.
    */
   protected void didMove(int index, Object movedObject, int oldIndex)
@@ -1183,7 +1183,6 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
      * it's an optional operation.
      * This implementation can also function in a list iterator 
      * to act upon on the object returned by calling <code>previous</code>.
-     * @param object the object to remove.
      * @exception IllegalStateException
      * if <code>next</code> has not yet been called,
      * or <code>remove</code> has already been called after the last call to <code>next</code>.
@@ -1679,7 +1678,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
     }
 
     /**
-     * Returns the {@link #basicIterator basic iterator}.
+     * Returns the {@link BasicEList#basicIterator basic iterator}.
      * @return the basic iterator.
      */
     public Iterator iterator() 

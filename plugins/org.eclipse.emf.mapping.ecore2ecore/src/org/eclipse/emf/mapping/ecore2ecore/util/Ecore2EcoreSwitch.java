@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreSwitch.java,v 1.2 2004/05/16 16:53:28 emerks Exp $
+ * $Id: Ecore2EcoreSwitch.java,v 1.3 2004/07/29 13:33:04 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.util;
 
@@ -27,7 +27,7 @@ import org.eclipse.emf.mapping.ecore2ecore.*;
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.
- * It supports the call {@link #doSwitch doSwitch(object)}
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)}
  * to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object
  * and proceeding up the inheritance hierarchy

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: URIConverter.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -34,7 +34,7 @@ import org.eclipse.emf.common.util.URI;
  * A resource set also uses this directly when it {@link ResourceSet#getResource looks up} a resource:
  * a resource is considered a match if {@link Resource#getURI it's URI}, 
  * and the URI being looked up, 
- * {@link #normalize normalize} to {@link URI#equals equal} URIs.
+ * {@link #normalize normalize} to {@link URI#equals(Object) equal} URIs.
  * </p>
  */
 public interface URIConverter

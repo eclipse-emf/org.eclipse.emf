@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingSwitch.java,v 1.3 2004/05/16 16:55:41 emerks Exp $
+ * $Id: MappingSwitch.java,v 1.4 2004/07/29 13:32:52 marcelop Exp $
  */
 package org.eclipse.emf.mapping.util;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.mapping.*;
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.
- * It supports the call {@link #doSwitch doSwitch(object)} 
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)} 
  * to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object 
  * and proceeding up the inheritance hierarchy

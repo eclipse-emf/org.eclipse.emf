@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ResourceSetImpl.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -191,7 +191,7 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * when a URI that doesn't exist as a resource is demand loaded.
    * This implementation simply calls {@link #createResource(URI) createResource(URI)}.
    * Clients may extend this as appropriate.
-   * @param URI the URI of the resource to create.
+   * @param uri the URI of the resource to create.
    * @return a new resource.
    * @see #getResource(URI, boolean)
    */

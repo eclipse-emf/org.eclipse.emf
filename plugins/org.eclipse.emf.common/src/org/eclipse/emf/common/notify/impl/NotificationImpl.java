@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: NotificationImpl.java,v 1.2 2004/07/29 13:32:37 marcelop Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -247,8 +247,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldBooleanValue the old value before the change.
+   * @param newBooleanValue the new value after the change.
    * @param isSetChange the indication of whether the state has changed.
    */
   public NotificationImpl(int eventType, boolean oldBooleanValue, boolean newBooleanValue, boolean isSetChange)
@@ -263,8 +263,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldBooleanValue the old value before the change.
+   * @param newBooleanValue the new value after the change.
    */
   public NotificationImpl(int eventType, boolean oldBooleanValue, boolean newBooleanValue)
   {
@@ -278,8 +278,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldByteValue the old value before the change.
+   * @param newByteValue the new value after the change.
    * @param isSetChange the indication of whether the state has changed.
    */
   public NotificationImpl(int eventType, byte oldByteValue, byte newByteValue, boolean isSetChange)
@@ -294,8 +294,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldByteValue the old value before the change.
+   * @param newByteValue the new value after the change.
    */
   public NotificationImpl(int eventType, byte oldByteValue, byte newByteValue)
   {
@@ -309,8 +309,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldCharValue the old value before the change.
+   * @param newCharValue the new value after the change.
    * @param isSetChange the indication of whether the state has changed.
    */
   public NotificationImpl(int eventType, char oldCharValue, char newCharValue, boolean isSetChange)
@@ -325,8 +325,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldCharValue the old value before the change.
+   * @param newCharValue the new value after the change.
    */
   public NotificationImpl(int eventType, char oldCharValue, char newCharValue)
   {
@@ -340,8 +340,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldDoubleValue the old value before the change.
+   * @param newDoubleValue the new value after the change.
    * @param isSetChange the indication of whether the state has changed.
    */
   public NotificationImpl(int eventType, double oldDoubleValue, double newDoubleValue, boolean isSetChange)
@@ -356,8 +356,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldDoubleValue the old value before the change.
+   * @param newDoubleValue the new value after the change.
    */
   public NotificationImpl(int eventType, double oldDoubleValue, double newDoubleValue)
   {
@@ -371,8 +371,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldFloatValue the old value before the change.
+   * @param newFloatValue the new value after the change.
    * @param isSetChange the indication of whether the state has changed.
    */
   public NotificationImpl(int eventType, float oldFloatValue, float newFloatValue, boolean isSetChange)
@@ -387,8 +387,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldFloatValue the old value before the change.
+   * @param newFloatValue the new value after the change.
    */
   public NotificationImpl(int eventType, float oldFloatValue, float newFloatValue)
   {
@@ -402,8 +402,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldIntValue the old value before the change.
+   * @param newIntValue the new value after the change.
    * @param isSetChange the indication of whether the state has changed.
    */
   public NotificationImpl(int eventType, int oldIntValue, int newIntValue, boolean isSetChange)
@@ -418,8 +418,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldIntValue the old value before the change.
+   * @param newIntValue the new value after the change.
    */
   public NotificationImpl(int eventType, int oldIntValue, int newIntValue)
   {
@@ -433,8 +433,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldLongValue the old value before the change.
+   * @param newLongValue the new value after the change.
    * @param isSetChange the indication of whether the state has changed.
    */
   public NotificationImpl(int eventType, long oldLongValue, long newLongValue, boolean isSetChange)
@@ -449,8 +449,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldLongValue the old value before the change.
+   * @param newLongValue the new value after the change.
    */
   public NotificationImpl(int eventType, long oldLongValue, long newLongValue)
   {
@@ -464,8 +464,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldShortValue the old value before the change.
+   * @param newShortValue the new value after the change.
    * @param isSetChange the indication of whether the state has changed.
    */
   public NotificationImpl(int eventType, short oldShortValue, short newShortValue, boolean isSetChange)
@@ -480,8 +480,8 @@ public class NotificationImpl implements Notification, NotificationChain
   /**
    * Creates an instance.
    * @param eventType the type of the change.
-   * @param oldValue the old value before the change.
-   * @param newValue the new value after the change.
+   * @param oldShortValue the old value before the change.
+   * @param newShortValue the new value after the change.
    */
   public NotificationImpl(int eventType, short oldShortValue, short newShortValue)
   {

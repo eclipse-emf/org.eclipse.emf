@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelSwitch.java,v 1.5 2004/05/16 17:28:18 emerks Exp $
+ * $Id: GenModelSwitch.java,v 1.6 2004/07/29 13:32:42 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.
- * It supports the call {@link #doSwitch doSwitch(object)} 
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)} 
  * to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object 
  * and proceeding up the inheritance hierarchy

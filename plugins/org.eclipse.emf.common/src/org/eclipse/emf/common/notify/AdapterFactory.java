@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactory.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: AdapterFactory.java,v 1.2 2004/07/29 13:32:37 marcelop Exp $
  */
 package org.eclipse.emf.common.notify;
 
@@ -37,7 +37,7 @@ public interface AdapterFactory
    * depending on whether the object is a notifier that supports an adapter of the given type.
    * This is essentially just a convenience method 
    * that allows a factory to act as a filter for converting objects to adapters.
-   * @param an arbitrary object to adapt.
+   * @param object arbitrary object to adapt.
    * @param type the key indicating the type of adapter required.
    * @return either an associated adapter or the object itself.
    */
@@ -72,7 +72,7 @@ public interface AdapterFactory
   /**
    * Creates a new associated adapter of each type of adapter supported by this factory, as necessary.
    * This is typically used to adapt newly created objects.
-   * @param the notifier to adapt.
+   * @param notifier notifier to adapt.
    * @see #adaptNew
    */
   void adaptAllNew(Notifier notifier);

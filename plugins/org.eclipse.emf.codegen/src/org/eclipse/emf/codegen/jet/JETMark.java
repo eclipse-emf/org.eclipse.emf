@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETMark.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETMark.java,v 1.2 2004/07/29 13:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -107,9 +107,9 @@ public final class JETMark
 
   /**
    * Creates a new mark
-   * @param inReader JETReader this mark belongs to
+   * @param reader JETReader this mark belongs to
    * @param inStream current stream for this mark
-   * @param inFileid id of requested jet file
+   * @param fileid id of requested jet file
    * @param inEncoding encoding of current file
    * @param inBaseDir base directory of requested jet file
    */

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: AdapterFactoryImpl.java,v 1.2 2004/07/29 13:32:37 marcelop Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -51,7 +51,7 @@ public class AdapterFactoryImpl implements AdapterFactory
    * the result of calling {@link #adapt(Notifier,Object) adapt(Notifier, Object)} 
    * or the result of calling {@link #resolve resolve(Object, Object)},
    * depending on whether the target is a notifier.
-   * @param an arbitrary object to adapt.
+   * @param target arbitrary object to adapt.
    * @param type the key indicating the type of adapter required.
    * @return either an associated adapter or the object itself.
    * @see #adapt(Notifier,Object)
@@ -72,7 +72,7 @@ public class AdapterFactoryImpl implements AdapterFactory
   /**
    * Returns the object itself.
    * This is called by {@link #adapt(Object,Object) adapt(Object, Object)} for objects that aren't notifiers.
-   * @param an arbitrary object to adapt.
+   * @param object arbitrary object to adapt.
    * @param type the key indicating the type of adapter required.
    * @return the object itself.
    * @see #adapt(Object,Object)
@@ -117,7 +117,7 @@ public class AdapterFactoryImpl implements AdapterFactory
   /**
    * Creates an adapter by calling {@link #createAdapter(Notifier) createAdapter(Notifier)}
    * and associates it by calling {@link #associate(Adapter, Notifier) associate}.
-   * @param the notifier to adapt.
+   * @param target notifier to adapt.
    * @see #createAdapter(Notifier)
    */
   public void adaptAllNew(Notifier target)
@@ -152,7 +152,7 @@ public class AdapterFactoryImpl implements AdapterFactory
   /** 
    * Associates an adapter with a notifier by adding it to the target's {@link Notifier#eAdapters adapters}.
    * @param adapter the new adapter to associate.
-   * @param notifier the notifier being adapted.
+   * @param target the notifier being adapted.
    */
   protected void associate(Adapter adapter, Notifier target)
   {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFEditPlugin.java,v 1.2 2004/05/16 17:00:51 emerks Exp $
+ * $Id: EMFEditPlugin.java,v 1.3 2004/07/29 13:33:00 marcelop Exp $
  */
 package org.eclipse.emf.edit;
 
@@ -77,7 +77,6 @@ public final class EMFEditPlugin extends EMFPlugin
   {
     /**
      * Creates an instance.
-     * @param descriptor the description of the plugin.
      */
     public Implementation()
     {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: Resource.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -262,7 +262,7 @@ public interface Resource extends Notifier
    * @see #save(Map)
    * @see #load(InputStream, Map)
    */
-  void save(OutputStream outputstream, Map options) throws IOException;
+  void save(OutputStream outputStream, Map options) throws IOException;
 
   /**
    * Loads the resource from the input stream using the specified options.

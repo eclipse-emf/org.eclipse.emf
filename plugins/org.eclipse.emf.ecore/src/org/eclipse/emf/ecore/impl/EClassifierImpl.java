@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.5 2004/06/18 09:52:06 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.6 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -419,7 +419,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
 
   /**
    * Returns the <code>Class</code> object associated with the class or interface with the given name, as from a {@link
-   * java.lang.Class#forName} call; however, if this classifier belongs to a package, that package's class loader is
+   * java.lang.Class#forName(String)} call; however, if this classifier belongs to a package, that package's class loader is
    * used. Since the package may be model-specific code in another plug-in, its class loader may be able to see classes
    * that Ecore's can't.
    */

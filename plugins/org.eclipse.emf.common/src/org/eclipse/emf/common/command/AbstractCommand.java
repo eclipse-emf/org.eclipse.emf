@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractCommand.java,v 1.2 2004/05/29 16:07:06 emerks Exp $
+ * $Id: AbstractCommand.java,v 1.3 2004/07/29 13:32:37 marcelop Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -25,7 +25,7 @@ import org.eclipse.emf.common.CommonPlugin;
 
 /**
  * An abstract implementation of a basic command.
- * Each derived class <bold>must</bold> implement {@link #execute} and {@link #redo}, 
+ * Each derived class <bold>must</bold> implement {@link Command#execute} and {@link Command#redo}, 
  * <bold>must</bold> either implement {@link #undo} or implement {@link #canUndo} to return false,
  * and <bold>must</bold> either override {@link #prepare} (this is the preferred approach) or can override {@link #canExecute} directly.
  *

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.7 2004/07/26 15:41:30 davidms Exp $
+ * $Id: URI.java,v 1.8 2004/07/29 13:32:37 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -1408,7 +1408,7 @@ public final class URI
    * references point to a path above the root: the offending segments can
    * be preserved or discarded.  This method can do either.
    *
-   * @param preserveRootParent <code>true</code> if segments refering to the
+   * @param preserveRootParents <code>true</code> if segments refering to the
    * parent of the root path are to be preserved; <code>false</code> if they
    * are to be discarded.
    *

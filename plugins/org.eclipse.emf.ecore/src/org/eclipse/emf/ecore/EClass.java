@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClass.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EClass.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -298,7 +298,7 @@ public interface EClass extends EClassifier
   /**
    * <!-- begin-user-doc -->
    * Returns whether this class is the same as, or a super type of, some other class.
-   * @param somClass some other class.
+   * @param someClass some other class.
    * @return whether this class is the same as, or a super type of, some other class.
    * @see Class#isAssignableFrom
    * @ignore

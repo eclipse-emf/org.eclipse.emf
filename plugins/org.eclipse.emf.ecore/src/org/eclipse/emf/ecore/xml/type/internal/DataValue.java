@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataValue.java,v 1.4 2004/06/16 18:05:52 emerks Exp $
+ * $Id: DataValue.java,v 1.5 2004/07/29 13:33:22 marcelop Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -269,7 +269,7 @@ public static final class  Base64 {
   /**
    * Decodes Base64 data into octects
    *
-   * @param binaryData Byte array containing Base64 data
+   * @param encoded
    * @return Array containind decoded data.
    */
   public static byte[] decode(String encoded) {
@@ -441,7 +441,7 @@ public static final class  HexBin {
   /**
    * Decode hex string to a byte array
    *
-   * @param binaryData  encoded string
+   * @param encoded  encoded string
    * @return return     array of byte to encode
    */
   static public byte[] decode(String encoded) {
@@ -1468,7 +1468,7 @@ public static class EncodingMap {
 * default port for a specific scheme). Rather, it only knows the
 * grammar and basic set of operations that can be applied to a URI.
 *
-* @version  $Id: DataValue.java,v 1.4 2004/06/16 18:05:52 emerks Exp $
+* @version  $Id: DataValue.java,v 1.5 2004/07/29 13:33:22 marcelop Exp $
 *
 **********************************************************************/
  public static final class URI implements Serializable {
@@ -3506,7 +3506,7 @@ public static class EncodingMap {
   * @author Michael Glavassevich, IBM
   * @author Rahul Srivastava, Sun Microsystems Inc.
   *
-  * @version $Id: DataValue.java,v 1.4 2004/06/16 18:05:52 emerks Exp $
+  * @version $Id: DataValue.java,v 1.5 2004/07/29 13:33:22 marcelop Exp $
   */
  public static final class XMLChar {
 

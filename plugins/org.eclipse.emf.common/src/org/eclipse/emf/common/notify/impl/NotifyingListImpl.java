@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: NotifyingListImpl.java,v 1.2 2004/07/29 13:32:37 marcelop Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -170,7 +170,8 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
   /**
    * Does nothing and returns the <code>notifications</code>.
    * Clients can override this to update the inverse of a bidirectional relation.
-   * @param object the object that's been added to the list.
+   * @param oldObject the object that's been removed from the list.
+   * @param newObject the object that's been added to the list.
    * @param notifications the chain of accumulating notifications.
    * @return the <code>notifications</code>.
    */
@@ -214,8 +215,8 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
   /**
    * Creates a notification.
    * @param eventType the type of change that has occurred.
-   * @param oldValue the value of the notifier's feature before the change occurred.
-   * @param newValue the value of the notifier's feature after the change occurred.
+   * @param oldObject the value of the notifier's feature before the change occurred.
+   * @param newObject the value of the notifier's feature after the change occurred.
    * @param index the position at which the change occurred.
    * @return a new notification.
    */

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ItemProvider.java,v 1.2 2004/07/29 13:33:00 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -254,22 +254,22 @@ public class ItemProvider
     IUpdateableItemParent
 {
   /**
-   * This is the text returned by {@link #getText getText(Object)}.
+   * This is the text returned by {@link IItemLabelProvider#getText getText(Object)}.
    */
   protected String text;
 
   /**
-   * This is the image returned by {@link #getImage getImage(Object)}.
+   * This is the image returned by {@link IItemLabelProvider#getImage getImage(Object)}.
    */
   protected Object image;
 
   /**
-   * This is the parent returned by {@link #getParent getParent(Object)}.
+   * This is the parent returned by {@link ITreeItemContentProvider#getParent getParent(Object)}.
    */
   protected Object parent;
 
   /**
-   * This is the children returned by {@link #getChildren getChildren(Object)}.
+   * This is the children returned by {@link ITreeItemContentProvider#getChildren getChildren(Object)}.
    */
   protected ItemProviderNotifyingArrayList children;
 

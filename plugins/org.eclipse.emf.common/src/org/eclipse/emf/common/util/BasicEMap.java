@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEMap.java,v 1.3 2004/05/03 11:53:50 emerks Exp $
+ * $Id: BasicEMap.java,v 1.4 2004/07/29 13:32:37 marcelop Exp $
  */
 package  org.eclipse.emf.common.util;
 
@@ -383,7 +383,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * Called to indicate that the map has been cleared.
    * This implementation does calls {@link #didRemove didRemove} for each entry;
    * clients can use this to monitor clearing of the map.
-   * @param entry the removed entry.
+   * @param oldEntryData the removed entries.
    */
   protected void didClear(BasicEList [] oldEntryData)
   {
@@ -644,7 +644,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * Removes the fully indexed entry from the map and returns it's value.
    * @param index the index in the entry data
-   * @param entry the index in the list of entries.
+   * @param entryIndex the index in the list of entries.
    * @return the value of the entry.
    */
   protected Object removeEntry(int index, int entryIndex)

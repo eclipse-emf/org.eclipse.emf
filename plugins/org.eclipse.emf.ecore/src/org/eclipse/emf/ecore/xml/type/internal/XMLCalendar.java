@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.1 2004/05/21 22:13:38 elena Exp $
+ * $Id: XMLCalendar.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -402,7 +402,7 @@ public final class XMLCalendar
    *
    * @param start
    * @param end
-   * @param data
+   * @param date
    */
   protected static int getDate(String buffer, int start, int end, int[] date)
   {
@@ -423,7 +423,7 @@ public final class XMLCalendar
    *
    * @param start
    * @param end
-   * @param data
+   * @param date
    */
   protected static int getYearMonth(String buffer, int start, int end, int[] date)
   {
@@ -652,7 +652,7 @@ public final class XMLCalendar
   /**
    * Given start and end position, parses string value
    *
-   * @param value  string to parse
+   * @param buffer  string to parse
    * @param start  Start position
    * @param end    end position
    * @return  return integer representation of characters

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.2 2004/04/01 02:15:39 davidms Exp $
+ * $Id: WrapperItemProvider.java,v 1.3 2004/07/29 13:33:00 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -369,7 +369,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
     }
 
     /**
-     * Calls {@link #copy} to do the copying, {@link IWrapperItemProvider#dispose disposes} the copy, and sets it to 
+     * Calls {@link #copy} to do the copying, {@link IDisposable#dispose disposes} the copy, and sets it to 
      * be the result of the command. Since the copy has not been created within the viewed model, it should never do
      * any kind of notification, which is why it is immediately disposed.
      */
@@ -443,7 +443,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
 
     /**
      * Executes the adaptable-value-copying command, then calls {@link #copy copy} to copy the rest of the value and
-     * the wrapper, {@link IWrapperItemProvider#dispose disposes} the copy, and sets it to be the result of the
+     * the wrapper, {@link IDisposable#dispose disposes} the copy, and sets it to be the result of the
      * command. Since the copy has not been created within the viewed model, it should never do any kind of
      * notification, which is why it is immediately disposed.
      */

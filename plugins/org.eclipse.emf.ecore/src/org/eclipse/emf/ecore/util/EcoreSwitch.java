@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSwitch.java,v 1.4 2004/05/05 19:39:09 emerks Exp $
+ * $Id: EcoreSwitch.java,v 1.5 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.
- * It supports the call {@link #doSwitch doSwitch(object)} 
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)} 
  * to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object 
  * and proceeding up the inheritance hierarchy

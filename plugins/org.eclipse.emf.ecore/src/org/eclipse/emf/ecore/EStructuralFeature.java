@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.2 2004/03/20 21:45:41 emerks Exp $
+ * $Id: EStructuralFeature.java,v 1.3 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -178,8 +178,8 @@ public interface EStructuralFeature extends ETypedElement
    * <!-- begin-user-doc -->
    * <p>
    * An unsettable feature explicitly models the state of being set verses being unset
-   * and so provides a direct implementation for the reflective {@link #eIsSet eIsSet}.
-   * It is only applicable {@link #isMany single-valued} features.
+   * and so provides a direct implementation for the reflective {@link EObject#eIsSet eIsSet}.
+   * It is only applicable {@link ETypedElement#isMany single-valued} features.
    * One effect of this setting is that,
    * in addition to generating the methods <code>getXyz</code>
    * and <code>setXyz</code> (if the feature is {@link #isChangeable changeable}),

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryMappingDomain.java,v 1.2 2004/05/22 19:07:46 marcelop Exp $
+ * $Id: AdapterFactoryMappingDomain.java,v 1.3 2004/07/29 13:32:53 marcelop Exp $
  */
 package org.eclipse.emf.mapping.domain;
 
@@ -388,7 +388,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
   } 
 
   /**
-   * This default implementation returns null or the {@link ETypeClassifier} if the object is an {@link ETypedElement}.
+   * This default implementation returns null or the {@link ETypedElement} if the object is an {@link ETypedElement}.
    */
   public Object getTypeClassifier(Object mappedObject)
   {
@@ -400,7 +400,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
   }
 
   /**
-   * This default implementation sets the {@link ETypeClassifier} if the object is an {@link ETypedElement}.
+   * This default implementation sets the {@link ETypedElement} if the object is an {@link ETypedElement}.
    */
   public void setTypeClassifier(Object mappedObject, Object typeClassifier)
   {

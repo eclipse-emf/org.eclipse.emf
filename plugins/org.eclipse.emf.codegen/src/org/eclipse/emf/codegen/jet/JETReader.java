@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETReader.java,v 1.2 2004/04/13 11:15:58 emerks Exp $
+ * $Id: JETReader.java,v 1.3 2004/07/29 13:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -56,7 +56,7 @@ public class JETReader
 
   /**
    * Stack a stream for parsing
-   * @param inputStream Stream ready to parse
+   * @param iStream Stream ready to parse
    * @param encoding Optional encoding to read the file.
    */
   public void stackStream(String locationURI, InputStream iStream, String encoding) throws JETException
@@ -304,7 +304,7 @@ public class JETReader
   /**
    * Skip until the given string is matched in the stream.
    * When returned, the context is positioned past the end of the match.
-   * @param s The String to match.
+   * @param limit The String to match.
    * @return A non-null <code>JETMark</code> instance if found,
    * <strong>null</strong> otherwise.
    */

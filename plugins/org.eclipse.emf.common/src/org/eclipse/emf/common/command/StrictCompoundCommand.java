@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StrictCompoundCommand.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: StrictCompoundCommand.java,v 1.2 2004/07/29 13:32:37 marcelop Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -27,7 +27,7 @@ import org.eclipse.emf.common.util.WrappedException;
 /**
  * A composite command which assumes that later commands in the list 
  * may depend on the results and side-effects of earlier commands in the list.
- * Because of this, it must implement {@link #canExecute} more carefully,
+ * Because of this, it must implement {@link Command#canExecute} more carefully,
  * i.e., in order to determine canExecute for the composite, it doesn't simply test each command.
  * It tests the first command to see if it can execute;
  * then, if there is another command in the list, it checks if the first command can undo and then goes ahead and executes it!
@@ -64,7 +64,7 @@ import org.eclipse.emf.common.util.WrappedException;
 public class StrictCompoundCommand extends CompoundCommand 
 {
   /**
-   * The result for {@link #canUndo}.
+   * The result for {@link Command#canUndo}.
    */
   protected boolean isUndoable;
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingItemProvider.java,v 1.6 2004/05/22 19:07:46 marcelop Exp $
+ * $Id: MappingItemProvider.java,v 1.7 2004/07/29 13:32:53 marcelop Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -1068,7 +1068,7 @@ public class MappingItemProvider
   }
 
   /**
-   * This creates a primitive {@link com.ibm.etools.emf.edit.command.MoveCommand}.
+   * This creates a primitive {@link org.eclipse.emf.edit.command.MoveCommand}.
    */
   protected Command createMoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, EObject value, int index)
   {
@@ -1097,7 +1097,7 @@ public class MappingItemProvider
   }
 
   /**
-   * This creates a primitive {@link com.ibm.etools.emf.edit.command.SetCommand}.
+   * This creates a primitive {@link SetCommand}.
    */
   protected Command createSetCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value)
   {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestCorePlugin.java,v 1.6 2004/05/14 19:28:14 marcelop Exp $
+ * $Id: EMFTestCorePlugin.java,v 1.7 2004/07/29 13:32:30 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -26,9 +26,6 @@ extends Plugin
 {
     private static EMFTestCorePlugin instance;
     
-    /**
-     * @param descriptor
-     */
     public EMFTestCorePlugin()
     {
         super();

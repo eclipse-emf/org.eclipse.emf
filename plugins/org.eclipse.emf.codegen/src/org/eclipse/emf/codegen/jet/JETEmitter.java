@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.3 2004/05/22 19:07:41 marcelop Exp $
+ * $Id: JETEmitter.java,v 1.4 2004/07/29 13:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -167,7 +167,6 @@ public class JETEmitter
    * This method must be called <b>before</b>
    * {@link #initialize initialize} or {@link #generate generate}
    * are called.
-   * @param entry the entry to add to the classpath.
    * @return a list of classpath entries.
    */
   public List getClasspathEntries()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootImpl.java,v 1.2 2004/05/26 21:00:59 emerks Exp $
+ * $Id: MappingRootImpl.java,v 1.3 2004/07/29 13:32:53 marcelop Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -1133,7 +1133,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
   }
 
   /**
-   * By default, this creates an adapter factory that delegates {@link AdapterFactoryImpl#createAdapter createAdapter}
+   * By default, this creates an adapter factory that delegates {@link AdapterFactoryImpl#createAdapter(Notifier) createAdapter}
    * to {@link #createMappedObjectStateAdapter createMappedObjectStateAdapter}.
    */
   protected AdapterFactory createMappedObjectStateAdapterFactory()

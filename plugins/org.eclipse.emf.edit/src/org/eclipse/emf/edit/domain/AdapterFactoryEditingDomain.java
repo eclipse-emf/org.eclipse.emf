@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.9 2004/06/19 20:49:48 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.10 2004/07/29 13:33:00 marcelop Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -67,7 +67,7 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 public class AdapterFactoryEditingDomain implements EditingDomain
 {
   /**
-   * This class is an adapter than implements {@link org.eclipse.emf.edit.provider.IEditingDomainProvider}.
+   * This class is an adapter than implements {@link IEditingDomainProvider}.
    */
   public static class EditingDomainProvider extends AdapterImpl implements IEditingDomainProvider
   {

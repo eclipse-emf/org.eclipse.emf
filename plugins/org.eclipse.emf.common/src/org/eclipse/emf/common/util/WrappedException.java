@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrappedException.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: WrappedException.java,v 1.2 2004/07/29 13:32:37 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -72,7 +72,7 @@ public class WrappedException extends RuntimeException
 
   /**
    * Prints both wrapped exception's stack and this one's.
-   * @param printWriter the print target.
+   * @param printStream the print target.
    */
   public void printStackTrace(PrintStream printStream) 
   {

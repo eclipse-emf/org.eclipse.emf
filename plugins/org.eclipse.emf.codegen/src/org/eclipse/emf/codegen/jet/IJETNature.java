@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IJETNature.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: IJETNature.java,v 1.2 2004/07/29 13:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -38,7 +38,7 @@ public interface IJETNature extends IProjectNature
 
   /**
    * Sets the containers where the templates are located.
-   * @param templateContainer the new locations.
+   * @param templateContainers the new locations.
    */
   public void setTemplateContainers(List templateContainers);
   

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonUIPlugin.java,v 1.2 2004/05/16 17:16:47 emerks Exp $
+ * $Id: CommonUIPlugin.java,v 1.3 2004/07/29 13:32:43 marcelop Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -77,7 +77,6 @@ public final class CommonUIPlugin extends EMFPlugin
   {
     /**
      * Creates an instance.
-     * @param descriptor the description of the plugin.
      */
     public Implementation()
     {

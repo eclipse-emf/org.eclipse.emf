@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ResourceImpl.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -921,7 +921,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   }
 
   /**
-   * Sets the load state as indicated, and returns a notification, if {@link #eNotificationRequired required}.
+   * Sets the load state as indicated, and returns a notification, if {@link org.eclipse.emf.common.notify.impl.BasicNotifierImpl#eNotificationRequired required}.
    * Clients are <b>not</b> expected to call this directly; it is managed by the implementation.
    * @param isLoaded whether the resource is loaded.
    * @return a notification.

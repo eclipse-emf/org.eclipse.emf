@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLDuration.java,v 1.1 2004/05/21 22:13:38 elena Exp $
+ * $Id: XMLDuration.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -141,7 +141,6 @@ public final class XMLDuration {
      * Parses, validates and computes normalized version of duration object
      *
      * @param str    The lexical representation of duration object PnYn MnDTnH nMnS
-     * @param date   uninitialized date object
      * @return normalized date representation
      * @exception InvalidDatatypeValueException Invalid lexical representation
      */

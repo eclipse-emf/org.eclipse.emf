@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaSwitch.java,v 1.3 2004/06/08 18:26:51 emerks Exp $
+ * $Id: JavaSwitch.java,v 1.4 2004/07/29 13:32:44 marcelop Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -27,7 +27,7 @@ import org.eclipse.emf.java.*;
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.
- * It supports the call {@link #doSwitch doSwitch(object)} 
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)} 
  * to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object 
  * and proceeding up the inheritance hierarchy

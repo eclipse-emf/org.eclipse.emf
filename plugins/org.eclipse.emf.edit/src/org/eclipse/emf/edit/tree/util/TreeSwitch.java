@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeSwitch.java,v 1.3 2004/05/16 17:00:25 emerks Exp $
+ * $Id: TreeSwitch.java,v 1.4 2004/07/29 13:33:00 marcelop Exp $
  */
 package org.eclipse.emf.edit.tree.util;
 
@@ -27,7 +27,7 @@ import org.eclipse.emf.edit.tree.*;
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.
- * It supports the call {@link #doSwitch doSwitch(object)} 
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)} 
  * to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object 
  * and proceeding up the inheritance hierarchy

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.7 2004/06/16 15:50:28 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.8 2004/07/29 13:33:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -150,7 +150,7 @@ public class EcoreUtil
 
   /**
    * Returns the adapter factory for the specified adapter type.
-   * @param adapters list of adapter factories to search.
+   * @param adapterFactories list of adapter factories to search.
    * @param type the type of adapter.
    * @return an adapter factory from the list or null.
    */
@@ -752,7 +752,7 @@ public class EcoreUtil
 
   /**
    * An iterator over the tree contents of a collection of EObjects, Resources, and ResourceSets;
-   * use {@link #getAllContents getAllContents} to create a new instance.
+   * use {@link EcoreUtil#getAllContents getAllContents} to create a new instance.
    * It provides a special iterator for ResourceSet.getResources 
    * that is tolerant of growth in the underlying collection 
    * which result from demand loaded resources;
@@ -806,7 +806,7 @@ public class EcoreUtil
 
     /**
      * Returns an iterator over the {@link EObject#eContents() children} of the given parent EObject.
-     * @param object the parent object.
+     * @param eObject the parent object.
      * @return the children iterator.
      */
     protected Iterator getEObjectChildren(EObject eObject)
@@ -865,11 +865,10 @@ public class EcoreUtil
   }
 
   /**
-   * A mapping building traverser of a collection of {@link #getAllContents content trees};
+   * A mapping building traverser of a collection of {@link EcoreUtil#getAllContents content trees};
    * the map is from target {@link EObject object} to a collection of {@link org.eclipse.emf.ecore.EStructuralFeature.Setting}.
    * Since this implementation extends a Map implementation, it can yield itself as the result for most operations.
-   * The {@link #crossReference traverser} {@link #crossReference considers} 
-   * each EObject in the {@link EObject#eCrossReferences} of each EObject in the content tree,
+   * The traverser considers each EObject in the {@link EObject#eCrossReferences} of each EObject in the content tree,
    * and creates a setting for each positive match.
    * This default implementation {@link #find creates} a map of all cross references.
    */
@@ -1541,7 +1540,7 @@ public class EcoreUtil
 
     /**
      * Returns a map of all proxy references from the specified content tree.
-     * @param emfObjectsToSearch a collection of objects whose combined content trees should be considered.
+     * @param emfObjects a collection of objects whose combined content trees should be considered.
      * @return a map of cross references.
      */
     public static Map find(Collection emfObjects)
@@ -1647,7 +1646,7 @@ public class EcoreUtil
 
     /**
      * Returns a map of all unresolvable proxies from the specified content tree.
-     * @param emfObjectsToSearch a collection of objects whose combined content trees should be considered.
+     * @param emfObjects a collection of objects whose combined content trees should be considered.
      * @return a map of cross references.
      */
     public static Map find(Collection emfObjects)
@@ -1793,7 +1792,7 @@ public class EcoreUtil
    * If <code>eList</code>'s contents and order are already exactly that of the <code>prototype</code> collection,
    * no change will be made.
    * @param eList the list to set.
-   * @param prototype the collection representing the desired content and order.
+   * @param prototypeCollection the collection representing the desired content and order.
    * @deprecated replaced by {@link EcoreUtil#setEList(EList, List)}.
    */
   public static void setEList(EList eList, Collection prototypeCollection)
@@ -1808,7 +1807,7 @@ public class EcoreUtil
    * If <code>eList</code>'s contents and order are already exactly that of the <code>prototype</code> list,
    * no change will be made.
    * @param eList the list to set.
-   * @param prototype the list representing the desired content and order.
+   * @param prototypeList the list representing the desired content and order.
    */
   public static void setEList(EList eList, List prototypeList)
   {

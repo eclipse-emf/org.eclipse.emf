@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DragAndDropCommand.java,v 1.3 2004/05/31 16:57:16 emerks Exp $
+ * $Id: DragAndDropCommand.java,v 1.4 2004/07/29 13:33:00 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -67,7 +67,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
  
   /**
    * This creates a command to perform a drag and drop operation upon the owner.
-   * See {@link DragAndDropCommand#DragAndDropCommand DragAndDropCommand} for a description of the arguments.
+   * See {@link DragAndDropCommand DragAndDropCommand} for a description of the arguments.
    */
   public static Command create(EditingDomain domain, Object owner, float location, int operations, int operation, Collection collection)
   {
