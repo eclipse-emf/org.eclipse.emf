@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.5 2004/09/01 13:14:46 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.6 2004/10/22 16:37:17 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -545,8 +545,8 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
           ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
           listChange.setKind(ChangeKind.ADD_LITERAL);
           listChange.setIndex(0);
-          listChange.getValues().addAll((EList)originalObject.eGet(feature));
           getListChanges().add(listChange);
+          listChange.getValues().addAll((EList)originalObject.eGet(feature));
         }
         originalObject.eUnset(feature);
       }
