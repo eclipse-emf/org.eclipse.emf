@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.10 2004/10/19 15:16:51 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.11 2004/11/11 19:52:10 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -581,5 +581,11 @@ public class ReflectiveItemProvider
     boolean label = feature == getLabelFeature(eClass);
 
     fireNotifyChanged(new ViewerNotification(notification, object, child, !child || (child && label)));
+  }
+  
+  protected boolean isWrappingNeeded(Object object)
+  {
+    wrappingNeeded = null;
+    return super.isWrappingNeeded(object);
   }
 }
