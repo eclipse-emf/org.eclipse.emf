@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.10 2004/07/08 08:16:02 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.11 2004/08/18 19:11:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2511,6 +2511,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     setBasePackage(oldGenPackageVersion.getBasePackage());
     setResource(oldGenPackageVersion.getResource());
     setAdapterFactory(oldGenPackageVersion.isAdapterFactory());
+    setLoadInitialization(oldGenPackageVersion.isLoadInitialization());
   }
 
   public boolean reconcile()
