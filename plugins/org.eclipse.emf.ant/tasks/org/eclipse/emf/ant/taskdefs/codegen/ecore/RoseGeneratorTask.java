@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseGeneratorTask.java,v 1.1 2004/12/30 08:15:34 marcelop Exp $
+ * $Id: RoseGeneratorTask.java,v 1.2 2005/01/27 01:39:14 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -59,14 +59,14 @@ import org.eclipse.emf.codegen.ecore.Rose2GenModel;
  */
 public class RoseGeneratorTask extends GeneratorTask
 {
-  protected void adjustCommandline()
+  protected void addGenModelArguments()
   {
-    super.adjustCommandline();
-    getCommandline().createArgument(false).setValue("-noQualify");
+    super.addGenModelArguments();
+    getCommandline().createArgument().setValue("-noQualify");
   }
 
-  protected void createGenModel() throws Exception
+  protected void createGenModel(String[] arguments) throws Exception
   {
-    new Rose2GenModel().execute(getProgressMonitor(), getCommandline().getArguments());
+    new Rose2GenModel().execute(getProgressMonitor(), arguments);
   }
 }

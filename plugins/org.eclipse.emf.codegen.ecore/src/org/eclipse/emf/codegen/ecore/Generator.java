@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.7 2004/11/01 21:18:08 davidms Exp $
+ * $Id: Generator.java,v 1.8 2005/01/27 01:39:16 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -297,13 +297,13 @@ public class Generator extends CodeGen
                     genModel.setModelDirectory(findOrCreateContainerHelper(rootLocation, modelDirectory, progressMonitor));
   
                     String editDirectory = genModel.getEditDirectory();
-                    if (editDirectory != null)
+                    if (edit && editDirectory != null)
                     {
                       genModel.setEditDirectory(findOrCreateContainerHelper(rootLocation, editDirectory, progressMonitor));
                     }
   
                     String editorDirectory = genModel.getEditorDirectory();
-                    if (editorDirectory != null)
+                    if (editor && editorDirectory != null)
                     {
                       genModel.setEditorDirectory(findOrCreateContainerHelper(rootLocation, editorDirectory, progressMonitor));
                     }

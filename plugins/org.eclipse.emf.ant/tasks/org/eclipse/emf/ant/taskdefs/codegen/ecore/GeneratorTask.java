@@ -12,11 +12,13 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.1 2004/12/30 08:15:34 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.2 2005/01/27 01:39:14 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Commandline;
@@ -45,7 +47,11 @@ public abstract class GeneratorTask extends EMFTask
   private String copyright;
   private boolean sdo = false;
 
-  private Commandline cmdl;
+  protected Commandline commandline;
+  protected boolean useModelAttribute = true;
+  protected boolean generateModelProject = true;
+  protected boolean generateEditProject = true;
+  protected boolean generateEditorProject = true;
 
   public void setModel(File model)
   {
@@ -69,12 +75,7 @@ public abstract class GeneratorTask extends EMFTask
 
   public Commandline.Argument createArg()
   {
-    if (cmdl == null)
-    {
-      cmdl = new Commandline();
-    }
-
-    return cmdl.createArgument();
+    return getCommandline().createArgument();
   }
 
   public void setTemplatePath(File templatePath)
@@ -91,10 +92,23 @@ public abstract class GeneratorTask extends EMFTask
   {
     this.sdo = sdo;
   }
-
+  
+  protected Commandline getCommandline()
+  {
+    if (commandline == null)
+    {
+      commandline = new Commandline();
+    }
+    return commandline;
+  }
+  
   protected void checkAttributes() throws BuildException
   {
-    assertTrue("The 'model' attribute must be specified.", model != null);
+    if (useModelAttribute)
+    {
+      assertTrue("The 'model' attribute must be specified.", model != null);
+    }
+    
     assertTrue("The 'genModel' attribute must be specified.", genModel != null);
     assertTrue("The 'modelProject' attribute must be specified.", modelProject != null);
     assertTrue("The specifed 'templatePath' attribute is not a valid directory.", templatePath == null || templatePath.isDirectory());
@@ -102,50 +116,89 @@ public abstract class GeneratorTask extends EMFTask
 
   protected void doExecute() throws Exception
   {
-    adjustCommandline();
-    createGenModel();
-    generator();
+    addGenModelArguments();
+    adjustEditAndEditorProjects();
+    createGenModel(getCommandline().getArguments());
+    
+    List arguments = getGeneratorArguments();
+    generateCodeFromGenModel((String[])arguments.toArray(new String [arguments.size()]));
   }
 
-  abstract protected void createGenModel() throws Exception;
+  abstract protected void createGenModel(String[] arguments) throws Exception;
 
-  protected Commandline getCommandline()
+  protected void addGenModelArguments()
   {
-    return cmdl;
-  }
-
-  protected void adjustCommandline()
-  {
-    if (sdo)
+    getCommandline().createArgument(true).setValue(genModel.getAbsolutePath());
+    if (useModelAttribute)
     {
-      getCommandline().createArgument(true).setValue("-sdo");
+      getCommandline().createArgument(true).setValue(model.getAbsolutePath());
     }
-
-    if (copyright != null)
+    
+    getCommandline().createArgument().setValue("-modelProject");
+    getCommandline().createArgument().setValue(modelProject.getAbsolutePath());
+    if (modelProjectFragmentPath != null)
     {
-      getCommandline().createArgument(true).setValue(copyright);
-      getCommandline().createArgument(true).setValue("-copyright");
+      getCommandline().createArgument().setValue(modelProjectFragmentPath);
     }
 
     if (templatePath != null)
     {
-      getCommandline().createArgument(true).setValue(templatePath.getAbsolutePath());
-      getCommandline().createArgument(true).setValue("-templatePath");
+      getCommandline().createArgument().setValue("-templatePath");
+      getCommandline().createArgument().setValue(templatePath.getAbsolutePath());
     }
 
-    if (modelProjectFragmentPath != null)
+    if (copyright != null)
     {
-      getCommandline().createArgument(true).setValue(modelProjectFragmentPath);
+      getCommandline().createArgument().setValue("-copyright");
+      getCommandline().createArgument().setValue(copyright);
     }
 
-    getCommandline().createArgument(true).setValue(modelProject.getAbsolutePath());
-    getCommandline().createArgument(true).setValue("-modelProject");
-    getCommandline().createArgument(true).setValue(genModel.getAbsolutePath());
-    getCommandline().createArgument(true).setValue(model.getAbsolutePath());
+    if (sdo)
+    {
+      getCommandline().createArgument().setValue("-sdo");
+    }
+  }
+  
+  protected void adjustEditAndEditorProjects()
+  {
+    String arguments = getCommandline().toString();
+    if (arguments.indexOf("-editProject") < 0)
+    {
+      generateEditProject = false;
+      getCommandline().createArgument().setValue("-editProject");
+      getCommandline().createArgument().setValue(modelProject.getAbsolutePath() + ".edit");
+      if (modelProjectFragmentPath != null)
+      {
+        getCommandline().createArgument().setValue(modelProjectFragmentPath);
+      }
+    }
+    
+    if (arguments.indexOf("-editorProject") < 0)
+    {
+      generateEditorProject = false;
+      getCommandline().createArgument().setValue("-editorProject");
+      getCommandline().createArgument().setValue(modelProject.getAbsolutePath() + ".editor");
+      if (modelProjectFragmentPath != null)
+      {
+        getCommandline().createArgument().setValue(modelProjectFragmentPath);
+      }
+    }
+  }
+  
+  protected List getGeneratorArguments()
+  {
+    List arguments = new ArrayList();
+
+    if (generateModelProject) arguments.add("-model");
+    if (generateEditProject) arguments.add("-edit");
+    if (generateEditorProject) arguments.add("-editor");
+
+    arguments.add(genModel.getAbsolutePath());
+    return arguments;
   }
 
-  protected void generator()
+  protected void generateCodeFromGenModel(String[] arguments)
   {
-    new Generator().run(new String []{ "-forceOverwrite", genModel.getAbsolutePath() });
+    new Generator().run(arguments);
   }
 }
