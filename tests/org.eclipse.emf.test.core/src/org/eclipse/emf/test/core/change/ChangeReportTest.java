@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeReportTest.java,v 1.4 2004/06/23 15:25:43 marcelop Exp $
+ * $Id: ChangeReportTest.java,v 1.5 2004/06/30 20:37:41 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.ChangeKind;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ListChange;
+import org.eclipse.emf.ecore.change.ResourceChange;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -61,6 +62,8 @@ extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite();
+    ts.addTest(new ChangeReportTest("testResource"));
+    ts.addTest(new ChangeReportTest("testAttribute"));
     ts.addTest(new ChangeReportTest("testReuse"));
     ts.addTest(new ChangeReportTest("testSetElement"));
     ts.addTest(new ChangeReportTest("testRemoveElementAndApply"));
@@ -334,5 +337,77 @@ extends TestCase
     changeDescription = changeRecorder.endRecording();
     
     assertEquals(1, changeDescription.getObjectChanges().size());
+  }
+  
+  public void testResource()
+  {
+    Resource resource = (Resource)resourceSet.getResources().get(0);
+    assertEquals(1, resource.getContents().size());
+    EPackage ePackage = (EPackage)resource.getContents().get(0);
+    
+    EPackage newPackage = EcoreFactory.eINSTANCE.createEPackage();
+    newPackage.setName("name0");
+
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);    
+    resource.getContents().set(0, newPackage);
+    newPackage.setName("name1");
+    resource.getContents().add(EcoreFactory.eINSTANCE.createEPackage());
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    assertEquals(2, resource.getContents().size());
+    assertEquals(newPackage, resource.getContents().get(0));
+    assertEquals("name1", newPackage.getName());
+    assertTrue(eClass0 != resource.getContents().get(1));
+    
+    assertEquals(1, changeDescription.getResourceChanges().size());
+    ResourceChange resourceChange = (ResourceChange)changeDescription.getResourceChanges().get(0);
+    assertEquals(3, resourceChange.getListChanges().size());
+    
+    int hasCorrectKinds = 0;
+    for (Iterator i = resourceChange.getListChanges().iterator(); i.hasNext();)
+    {
+      ListChange listChange = (ListChange)i.next();
+      switch(listChange.getKind().getValue())
+      {
+        case ChangeKind.REMOVE:
+          hasCorrectKinds += 1;
+          break;
+        case ChangeKind.ADD:
+          hasCorrectKinds += 5;
+          break;
+      }
+    }
+    assertEquals(7, hasCorrectKinds);
+    
+    assertEquals(1, changeDescription.getObjectChanges().size());
+    
+    changeDescription.apply();
+    assertEquals(1, resource.getContents().size());
+    assertEquals(ePackage, resource.getContents().get(0));
+    assertEquals("name0", newPackage.getName());
+  }
+  
+  public void testAttribute()
+  {
+    String previousName = eClass0.getName();
+    Object previousSource = eAnnotation.getSource();
+    
+    Resource resource = (Resource)resourceSet.getResources().get(0);
+    URI previousURI = resource.getURI();
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    eClass0.setName("newName");
+    eAnnotation.setSource("new Source");
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    assertEquals(2, changeDescription.getObjectChanges().size());
+    
+    assertFalse(previousName.equals(eClass0.getName()));
+    assertFalse(eAnnotation.getSource().equals(previousSource));
+    
+    changeDescription.apply();
+    
+    assertEquals(previousName, eClass0.getName());
+    assertEquals(previousSource, eAnnotation.getSource());    
   }
 }
