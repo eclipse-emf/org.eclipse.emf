@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: ResourceImpl.java,v 1.3 2004/09/16 15:22:56 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -775,7 +775,24 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     ZipOutputStream zipOutputStream = null;
     if (useZip())
     {
-      zipOutputStream = new ZipOutputStream(outputStream);
+      zipOutputStream = 
+        new ZipOutputStream(outputStream)
+        {
+          public void flush()
+          {
+          }
+          public void close() throws IOException
+          {
+            try
+            {
+              super.flush();
+            }
+            catch (IOException exception)
+            {
+            }
+            super.close();
+          }
+        };
       zipOutputStream.putNextEntry(newContentZipEntry());
       outputStream = zipOutputStream;
     }
