@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Example.java,v 1.2 2004/11/15 22:26:41 marcelop Exp $
+ * $Id: Example.java,v 1.3 2004/11/26 11:32:46 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
+// This is importing the EObjectImpl
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 class AnotherClass extends EObjectImpl
