@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.2 2004/03/08 20:39:11 emerks Exp $
+ * $Id: EcoreBuilder.java,v 1.3 2004/04/12 15:00:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -802,9 +802,16 @@ public class EcoreBuilder implements RoseVisitor
     if (exceptions != null)
     {
       int count = 0;
-      for (StringTokenizer stringTokenizer = new StringTokenizer(exceptions, ", \n\r\t"); stringTokenizer.hasMoreTokens(); )
+      for (StringTokenizer stringTokenizer = new StringTokenizer(exceptions.trim(), ","); stringTokenizer.hasMoreTokens(); )
       {
-        String exception = stringTokenizer.nextToken();
+        // This handles Rose 2003 format, e.g.,
+        // Logical View::JavaException[40722F9D0294]
+        //
+        String exception = stringTokenizer.nextToken().trim();
+        if (exception.indexOf("[") != -1)
+        {
+          exception = exception.substring(0, exception.indexOf("["));
+        }
         String exceptionValue = getQualifiedTypeName(eOperation, exception);
         if (exceptionValue != null && !exceptionValue.equals(""))
         {
