@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.6 2004/04/18 23:18:28 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.7 2004/04/22 14:29:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1214,6 +1214,12 @@ public class XMLSaveImpl implements XMLSave
     if (href != null)
     {
       doc.startElement(name);
+      EClass eClass = remote.eClass();
+      EClass expectedType = (EClass)f.getEType();
+      if (eClass != expectedType && expectedType.isAbstract())
+      {
+        saveTypeAttribute(eClass);
+      }
       doc.endContentElement(href);
     }
   }

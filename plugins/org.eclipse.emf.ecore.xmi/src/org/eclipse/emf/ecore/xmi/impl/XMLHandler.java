@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.7 2004/04/18 23:17:54 emerks Exp $
+ * $Id: XMLHandler.java,v 1.8 2004/04/22 14:29:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -976,7 +976,8 @@ public abstract class XMLHandler
       else if (extendedMetaData != null)
       {
         EReference eReference = (EReference)feature;
-        if (!eReference.isContainment() && !eReference.isResolveProxies())
+        boolean isContainment = eReference.isContainment();
+        if (!isContainment && !eReference.isResolveProxies())
         {
           isIDREF = true;
           objects.push(null);
@@ -990,14 +991,21 @@ public abstract class XMLHandler
           EObject childObject = (EObject) objects.peek();
           if (childObject != null)
           {
-            EStructuralFeature simpleFeature = extendedMetaData.getSimpleFeature(childObject.eClass());
-            if (simpleFeature != null)
+            if (isContainment)
             {
-              isSimpleFeature = true;
-              isIDREF = simpleFeature instanceof EReference;
-              objects.push(null);
-              mixedTargets.push(null);
-              types.push(simpleFeature);
+              EStructuralFeature simpleFeature = extendedMetaData.getSimpleFeature(childObject.eClass());
+              if (simpleFeature != null)
+              {
+                isSimpleFeature = true;
+                isIDREF = simpleFeature instanceof EReference;
+                objects.push(null);
+                mixedTargets.push(null);
+                types.push(simpleFeature);
+                text = new StringBuffer();
+              }
+            }
+            else
+            {
               text = new StringBuffer();
             }
           }
