@@ -12,26 +12,39 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.1 2004/07/21 14:25:49 marcelop Exp $
+ * $Id: DataGraphTest.java,v 1.2 2004/07/22 05:41:13 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.sdo.EChangeSummary;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
+import org.eclipse.emf.ecore.sdo.util.DataGraphResourceFactoryImpl;
 import org.eclipse.emf.ecore.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+
+import commonj.sdo.ChangeSummary;
+import commonj.sdo.DataObject;
 
 public class DataGraphTest extends TestCase
 {
@@ -52,12 +65,10 @@ public class DataGraphTest extends TestCase
     TestSuite ts = new TestSuite();
     ts.addTest(new DataGraphTest("testSave"));
     ts.addTest(new DataGraphTest("testLoad"));
+    ts.addTest(new DataGraphTest("testOldContainer"));
     return ts;
   }
   
-  /* (non-Javadoc)
-   * @see junit.framework.TestCase#setUp()
-   */
   protected void setUp() throws Exception
   {
     xmlOptions = new HashMap();
@@ -66,20 +77,54 @@ public class DataGraphTest extends TestCase
     xmlOptions.put(XMLResource.OPTION_FORMATTED, Boolean.FALSE);
     
     expectedXML = 
-    "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:ecore=\"http://www.eclipse.org/emf/2002/Ecore\" xmlns:sdo=\"commonj.sdo\"><models><ecore:EPackage name=\"sdotest\"><eClassifiers xsi:type=\"ecore:EClass\" name=\"Class1\"/><eClassifiers xsi:type=\"ecore:EClass\" name=\"Class2\"/></ecore:EPackage></models><ecore:EPackage name=\"sdotest\"><eClassifiers xsi:type=\"ecore:EClass\" name=\"Class1\"/><eClassifiers xsi:type=\"ecore:EClass\" name=\"Class2\"/></ecore:EPackage></sdo:datagraph>" + System.getProperties().getProperty("line.separator");
+    "<sdo:datagraph xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\"><testClass name=\"Root\"><child name=\"Parent\"><child name=\"Child\"/></child></testClass></sdo:datagraph>" + System.getProperties().getProperty("line.separator");
 
+    Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new DataGraphResourceFactoryImpl());    
+    
+    // Create a dynamic package
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
-    ePackage.setName("sdotest");
+    ePackage.setName("testPackage");
+    ePackage.setNsURI("testPackage");
+    EPackage.Registry.INSTANCE.put("testPackage", ePackage);
     
+    // Set the factory impl to one that creates data objects.
+    ePackage.setEFactoryInstance(new EFactoryImpl()
+      {
+        public EObject basicCreate(EClass cls)
+        {
+          EObjectImpl result = (EObjectImpl)SDOFactory.eINSTANCE.createEDataObject();
+          result.eSetClass(cls);
+          return result;
+        }
+      });
+
+    // Create a test class that has a name and contains children
     EClass eClass = EcoreFactory.eINSTANCE.createEClass();
-    eClass.setName("Class1");
+    eClass.setName("testClass");
+    EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
+    eAttribute.setName("name");
+    eAttribute.setEType(EcorePackage.eINSTANCE.getEString());
+    eClass.getEStructuralFeatures().add(eAttribute);
+    EReference eReference = EcoreFactory.eINSTANCE.createEReference();
+    eReference.setName("child");
+    eReference.setUpperBound(-1);
+    eReference.setEType(eClass);
+    eReference.setContainment(true);
+    eClass.getEStructuralFeatures().add(eReference);
+
+    // Register the class with the package
     ePackage.getEClassifiers().add(eClass);
-    eClass = EcoreFactory.eINSTANCE.createEClass();
-    eClass.setName("Class2");
-    ePackage.getEClassifiers().add(eClass);
-    
+
+    // Create a new data graph with the resource set
     eDataGraph = SDOFactory.eINSTANCE.createEDataGraph();
-    eDataGraph.setERootObject(ePackage);
+
+    // Create some objects in the graph
+    DataObject rootObject = eDataGraph.createRootObject("testPackage", "testClass");
+    rootObject.set("name", "Root");
+    DataObject parentObject = rootObject.createDataObject("child", "testPackage", "testClass");
+    parentObject.set("name", "Parent");
+    DataObject childObject = parentObject.createDataObject("child", "testPackage", "testClass");
+    childObject.set("name", "Child");    
   }
   
   public void testSave() throws Exception
@@ -94,18 +139,47 @@ public class DataGraphTest extends TestCase
     EDataGraph loadedDataGraph = SDOUtil.loadDataGraph(new ByteArrayInputStream(expectedXML.getBytes()), xmlOptions);
     
     assertNotNull(loadedDataGraph.getERootObject());
-    assertTrue(loadedDataGraph.getERootObject() instanceof EPackage);
+    assertTrue(loadedDataGraph.getERootObject() instanceof DataObject);
     
-    EPackage expectedPackage = (EPackage)eDataGraph.getERootObject();
-    EPackage loadedPackage = (EPackage)loadedDataGraph.getERootObject();
-    assertEquals(expectedPackage.getName(), loadedPackage.getName());
-    assertEquals(expectedPackage.getEClassifiers().size(), loadedPackage.getEClassifiers().size());
+    DataObject expectedObject = (DataObject)eDataGraph.getERootObject();
+    DataObject loadedObject = (DataObject)loadedDataGraph.getERootObject();
+    assertEquals(expectedObject.get("name"), loadedObject.get("name"));
+    assertTrue(loadedObject.get("child") instanceof List);
+    assertEquals(1, ((List)loadedObject.get("child")).size());
+    assertTrue(((List)loadedObject.get("child")).get(0) instanceof DataObject);
     
-    for (int i=0; i<expectedPackage.getEClassifiers().size(); i++)
-    {
-      EClass expectedClass = (EClass)expectedPackage.getEClassifiers().get(i);
-      EClass loadedClass = (EClass)loadedPackage.getEClassifiers().get(i);
-      assertEquals(expectedClass.getName(), loadedClass.getName());
-    }
-  }  
+    expectedObject = expectedObject.getDataObject("child.0");
+    loadedObject = loadedObject.getDataObject("child.0");
+    assertEquals(expectedObject.get("name"), loadedObject.get("name"));
+    assertTrue(loadedObject.get("child") instanceof List);
+    assertEquals(1, ((List)loadedObject.get("child")).size());
+    assertTrue(((List)loadedObject.get("child")).get(0) instanceof DataObject);
+
+    expectedObject = expectedObject.getDataObject("child.0");
+    loadedObject = loadedObject.getDataObject("child.0");
+    assertEquals(expectedObject.get("name"), loadedObject.get("name"));
+    assertTrue(loadedObject.get("child") instanceof List);
+    assertEquals(0, ((List)loadedObject.get("child")).size());
+  }
+  
+  // bugzilla 70560,70561,70562 
+  public void testOldContainer()
+  {
+    DataObject rootObject = eDataGraph.getRootObject();
+    assertEquals("Root", rootObject.getString("name"));
+    DataObject childObject = rootObject.getDataObject("child.0").getDataObject("child.0");
+    assertEquals("Child", childObject.getString("name"));
+    
+    ChangeSummary changeSummary = eDataGraph.getChangeSummary();
+    changeSummary.beginLogging();
+    rootObject.setString("name", "Root2");
+    childObject.delete();
+    assertNull(childObject.getContainer());
+    changeSummary.endLogging();
+
+    assertEquals("Root2", rootObject.getString("name"));
+    assertNull(((EChangeSummary)changeSummary).getOldContainer(rootObject));
+    assertEquals(changeSummary, childObject.getContainer());
+    assertEquals(rootObject.getDataObject("child.0"), ((EChangeSummary)changeSummary).getOldContainer(childObject));
+  }
 }
