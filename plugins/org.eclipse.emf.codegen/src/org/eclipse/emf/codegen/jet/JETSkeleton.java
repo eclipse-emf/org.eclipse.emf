@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETSkeleton.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETSkeleton.java,v 1.2 2004/05/16 17:32:43 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -50,6 +50,11 @@ public class JETSkeleton
   public JETSkeleton() 
   {
     compilationUnit = jdomFactory.createCompilationUnit(SKELETON_COMPILATION_UNIT, "CLASS");
+  }
+  
+  public String getCompilationUnitContents()
+  {
+    return compilationUnit.getContents();
   }
 
   public IDOMCompilationUnit getCompilationUnit()
