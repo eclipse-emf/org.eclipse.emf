@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="java"
+    nsURI="http://www.eclipse.org/emf/2002/Java" nsPrefix="java">
+  <eClassifiers xsi:type="ecore:EClass" name="JClass" eSuperTypes="#//JMember">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="final" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interface" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="throwable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaClass" eType="#//JavaClass"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
+        eType="#//JField" volatile="true" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
+        eType="#//JMethod" volatile="true" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superTypes" upperBound="-1"
+        eType="#//JClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allSuperTypes" upperBound="-1"
+        eType="#//JClass" volatile="true" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
+        eType="#//JMember" containment="true" eOpposite="#//JMember/containingType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="componentType" eType="#//JClass"
+        transient="true" eOpposite="#//JClass/arrayType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arrayType" eType="#//JClass"
+        transient="true" containment="true" eOpposite="#//JClass/componentType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unit" eType="#//JCompilationUnit"
+        transient="true" eOpposite="#//JCompilationUnit/types"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allMethods" upperBound="-1"
+        eType="#//JMethod" volatile="true" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allFields" upperBound="-1"
+        eType="#//JField" volatile="true" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="#//JPackage"
+        eOpposite="#//JPackage/types"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
+        eType="#//JClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allTypes" upperBound="-1"
+        eType="#//JClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JCompilationUnit" eSuperTypes="#//JModelElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="imports" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
+        eType="#//JClass" containment="true" eOpposite="#//JClass/unit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="importedPackages" upperBound="-1"
+        eType="#//JPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="importedTypes" upperBound="-1"
+        eType="#//JClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="#//JPackage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JField" eSuperTypes="#//JMember">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="final" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transient" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="volatile" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaField" eType="#//JavaField"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initializer" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//JClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JInitializer" eSuperTypes="#//JMember">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="body" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JMember" abstract="true" eSuperTypes="#//JModelElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="static" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibility" eType="#//JVisibility"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containingType" eType="#//JClass"
+        transient="true" eOpposite="#//JClass/members"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JMethod" eSuperTypes="#//JMember">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="final" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="native" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="synchronized" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaMethod" eType="#//JavaMethod"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="constructor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaConstructor" eType="#//JavaConstructor"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="body" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//JParameter" containment="true" eOpposite="#//JParameter/method"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exceptions" upperBound="-1"
+        eType="#//JClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnType" eType="#//JClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JModelElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="jNode" eType="#//JNode"
+        transient="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JPackage" eSuperTypes="#//JModelElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaPackage" eType="#//JavaPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
+        eType="#//JClass" eOpposite="#//JClass/package"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JParameter" eSuperTypes="#//JModelElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="final" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="method" eType="#//JMethod"
+        transient="true" eOpposite="#//JMethod/parameters"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//JClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="JavaClass" instanceClassName="java.lang.Class"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="JavaConstructor" instanceClassName="java.lang.reflect.Constructor"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="JavaField" instanceClassName="java.lang.reflect.Field"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="JavaMethod" instanceClassName="java.lang.reflect.Method"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="JavaPackage" instanceClassName="java.lang.Package"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="JNode" instanceClassName="java.lang.Object"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="JVisibility">
+    <eLiterals name="public"/>
+    <eLiterals name="protected" value="1"/>
+    <eLiterals name="private" value="2"/>
+    <eLiterals name="package" value="3"/>
+  </eClassifiers>
+</ecore:EPackage>
