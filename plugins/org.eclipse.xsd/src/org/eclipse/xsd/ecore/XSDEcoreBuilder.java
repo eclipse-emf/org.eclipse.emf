@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.20 2004/08/04 19:26:22 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.21 2004/09/29 14:47:19 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -651,7 +651,13 @@ public class XSDEcoreBuilder extends MapBuilder
       {
         EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
         setAnnotations(eEnum, xsdSimpleTypeDefinition);
-        eEnum.setName(validName(xsdSimpleTypeDefinition.getAliasName(), true));
+
+        String name = getEcoreAttribute(xsdSimpleTypeDefinition, "name");
+        if (name == null)
+        {
+          name = validName(xsdSimpleTypeDefinition.getAliasName(), true);
+        }
+        eEnum.setName(name);
         extendedMetaData.setName(eEnum, xsdSimpleTypeDefinition.getAliasName());
 
         EPackage ePackage = getEPackage(xsdSimpleTypeDefinition);
@@ -1820,10 +1826,15 @@ public class XSDEcoreBuilder extends MapBuilder
         extendedMetaData.setName(xsiSchemaLocationMapFeature, "xsi:schemaLocation");
       }
 
+      String name = getEcoreAttribute(xsdFeature, "name");
+      if (name == null)
+      {
+        name= validName(xsdFeature.getName(), false);
+      }
       eStructuralFeature =
         createFeature
           (documentEClass,
-           validName(xsdFeature.getName(), false),
+           name,
            getEClassifier(xsdFeature.getType()),
            xsdFeature);
 
