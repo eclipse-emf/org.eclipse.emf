@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.13 2004/10/03 23:58:34 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.14 2004/11/01 21:14:42 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -50,10 +50,14 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jdt.core.jdom.DOMFactory;
 import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
 import org.eclipse.jdt.core.jdom.IDOMImport;
 import org.eclipse.jdt.core.jdom.IDOMNode;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.text.edits.TextEdit;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
@@ -390,6 +394,9 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         importManager.addMasterImport(packageName, className);
         setImportManager(importManager);
 
+        // Create a code formatter for this compilation unit, if needed
+        CodeFormatter codeFormatter = getGenModel().isCodeFormatting() ? getGenModel().createCodeFormatter() : null;
+
         String emitterResult = jetEmitter.generate(new SubProgressMonitor(progressMonitor, 1), new Object [] { this });
         progressMonitor.worked(1);
 
@@ -413,7 +420,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           jMerger.merge();
           progressMonitor.worked(1);
 
-          newContents = jMerger.getTargetCompilationUnitContents();
+          newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
           changed = !oldContents.equals(newContents);
           if (changed)
           {
@@ -422,7 +429,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             {
               jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(targetFile.getContents(true)));
               jMerger.remerge();
-              newContents = jMerger.getTargetCompilationUnitContents();
+              newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
             }
           }
         }
@@ -433,7 +440,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile.getFullPath() }));
           jMerger.merge();
           progressMonitor.worked(1);
-          newContents = jMerger.getTargetCompilationUnitContents();
+          newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
         }
 
         if (changed)
@@ -683,6 +690,36 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
     progressMonitor.done();
     return container;
+  }
+
+  /**
+   * If {@link org.eclipse.emf.codegen.ecore.GenModel#isCodeFormatting code formatting} is enabled for this model, use
+   * the specified JDT code formatter to format the given compilation unit contents. If no code formatter is specified,
+   * one will be {@link org.eclipse.emf.codegen.ecore.GenModel#createCodeFormatter created}.
+   */
+  protected String formatCode(String contents, CodeFormatter codeFormatter)
+  {
+    if (getGenModel().isCodeFormatting())
+    {
+      if (codeFormatter == null)
+      {
+        codeFormatter = getGenModel().createCodeFormatter();
+      }
+
+      IDocument doc = new Document(contents);
+      TextEdit edit = codeFormatter.format(CodeFormatter.K_COMPILATION_UNIT, doc.get(), 0, doc.get().length(), 0, null);
+
+      try
+      {
+        edit.apply(doc);
+        contents = doc.get();
+      }
+      catch (Exception exception)
+      {
+        CodeGenEcorePlugin.INSTANCE.log(exception);
+      }
+    }
+    return contents;
   }
 
   public String format(String name, char separator, String prefix, boolean includePrefix)
