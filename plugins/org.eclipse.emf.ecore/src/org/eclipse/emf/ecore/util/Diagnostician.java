@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostician.java,v 1.4 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: Diagnostician.java,v 1.5 2005/03/15 16:09:59 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -78,7 +78,7 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
     context.put(EValidator.class, this);
     BasicDiagnostic diagnostics = 
       new BasicDiagnostic
-        ("org.eclipse.emf.ecore",
+        (EObjectValidator.DIAGNOSTIC_SOURCE,
          0,
          EcorePlugin.INSTANCE.getString
            ("_UI_DiagnosticRoot_diagnostic", 
@@ -160,7 +160,7 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
     context.put(EValidator.class, this);
     BasicDiagnostic diagnostics = 
       new BasicDiagnostic
-        ("org.eclipse.emf.ecore",
+        (EObjectValidator.DIAGNOSTIC_SOURCE,
          0,
          EcorePlugin.INSTANCE.getString
            ("_UI_DiagnosticRoot_diagnostic", 
