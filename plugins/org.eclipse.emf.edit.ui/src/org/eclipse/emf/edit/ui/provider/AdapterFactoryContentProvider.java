@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryContentProvider.java,v 1.2 2004/03/31 20:11:59 davidms Exp $
+ * $Id: AdapterFactoryContentProvider.java,v 1.3 2004/04/05 18:35:05 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -288,6 +288,10 @@ public class AdapterFactoryContentProvider
 
     public void run()
     {
+      // Never update the viewer on a resolve.
+      //
+      if (notification.getEventType() == Notification.RESOLVE) return;
+
       Object element = notification.getElement();
 
       if (viewer instanceof StructuredViewer)
