@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.3 2005/02/14 21:45:23 nickb Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.4 2005/02/14 22:32:39 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -31,7 +31,22 @@ extends Plugin
         super();
         instance = this;
         
+        try
+        {
+          if (Class.forName("org.apache.derby.drda.NetworkServerControl") != null)
+          {
+            System.out.println("*** Derby is in the classpath.");
+            System.setProperty("test.target", "performance");
+            System.setProperty("eclipse.perf.dbloc", "net://localhost:1527/");
+            System.setProperty("eclipse.perf.config" ,"build=fromJava");
+          }
+        }
+        catch (ClassNotFoundException e)
+        {
+        }
+        
         System.out.println("EMFTestPerformancePlugin() - debug start");
+        System.out.println("*** " + System.getProperty("blah") + " ***");
         Map properties = System.getProperties(); 
         for (Iterator i = properties.entrySet().iterator(); i.hasNext();)
         {
