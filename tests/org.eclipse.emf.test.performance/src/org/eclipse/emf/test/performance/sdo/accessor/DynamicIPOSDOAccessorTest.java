@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.8 2005/03/03 19:25:56 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.9 2005/03/03 21:56:31 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -244,9 +244,13 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   protected void setUp() throws Exception
   {
     super.setUp();
+    tagAsSummary("Performance Results for " + getClass().getName(), TIME_DIMENSIONS);
+    poSetup();
+    assertNotNull(po);
+  }
 
-    tagAsSummary("Performance Results for " + getClass().getPackage().getName(), TIME_DIMENSIONS);
-
+  protected void poSetup()
+  {
     // dynamic model
     resourceSet = SDOUtil.createResourceSet();
     metaData = registerModel(resourceSet);
@@ -257,8 +261,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     initNewValues();
 
     // No need for EPackage Registry clean-up since working on resourceSet.
-
-    assertNotNull(po);
   }
 
   protected ExtendedMetaData registerModel(ResourceSet resourceSet)

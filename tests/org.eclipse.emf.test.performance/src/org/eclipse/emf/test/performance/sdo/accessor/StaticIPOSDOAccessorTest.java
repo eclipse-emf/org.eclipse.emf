@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.9 2005/03/03 19:25:56 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.10 2005/03/03 21:56:31 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -121,15 +121,14 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   protected void setUp() throws Exception
   {
     super.setUp();
+  }
 
-    tagAsSummary("Performance Results for " + getClass().getPackage().getName(), TIME_DIMENSIONS);
-
+  protected void poSetup()
+  {
     initPO();
 
     // serialize DG so that it can be deserialized by DynamicAccessorTest
     //serializeDataGraph();
-
-    assertNotNull(po);
 
     initModel();
   }
