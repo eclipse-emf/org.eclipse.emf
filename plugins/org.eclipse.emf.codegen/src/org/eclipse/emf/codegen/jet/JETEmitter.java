@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.7 2005/02/22 15:54:48 marcelop Exp $
+ * $Id: JETEmitter.java,v 1.8 2005/03/06 00:00:50 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -549,6 +549,7 @@ public class JETEmitter
             if (classpathURL == null)
             {
               url = bundle.getEntry(element.getValue());
+              path = new Path(Platform.asLocalURL(url).getFile()); 
             }
             else
             {
