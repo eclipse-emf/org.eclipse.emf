@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xsd2ecore:XSD2EcoreMappingRoot xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsd2ecore="http://www.eclipse.org/emf/2002/XSD2Ecore" inputs="types.xsd#/"
+    outputs="com.example.types.ecore#/" topToBottom="true">
+  <nested inputs="../../../../../../../../../../plugin/org.eclipse.xsd_2.0.0/cache/www.w3.org/2001/XMLSchema.xsd#//boolean;XSDSimpleTypeDefinition=8"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
+  <nested inputs="../../../../../../../../../../plugin/org.eclipse.xsd_2.0.0/cache/www.w3.org/2001/XMLSchema.xsd#//byte;XSDSimpleTypeDefinition=44"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Byte"/>
+  <nested inputs="../../../../../../../../../../plugin/org.eclipse.xsd_2.0.0/cache/www.w3.org/2001/XMLSchema.xsd#//decimal;XSDSimpleTypeDefinition=11"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Decimal"/>
+  <nested inputs="../../../../../../../../../../plugin/org.eclipse.xsd_2.0.0/cache/www.w3.org/2001/XMLSchema.xsd#//float;XSDSimpleTypeDefinition=9"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Float"/>
+  <nested inputs="../../../../../../../../../../plugin/org.eclipse.xsd_2.0.0/cache/www.w3.org/2001/XMLSchema.xsd#//double;XSDSimpleTypeDefinition=10"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Double"/>
+  <nested inputs="../../../../../../../../../../plugin/org.eclipse.xsd_2.0.0/cache/www.w3.org/2001/XMLSchema.xsd#//int;XSDSimpleTypeDefinition=42"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+  <nested inputs="../../../../../../../../../../plugin/org.eclipse.xsd_2.0.0/cache/www.w3.org/2001/XMLSchema.xsd#//integer;XSDSimpleTypeDefinition=38"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Integer"/>
+  <nested inputs="../../../../../../../../../../plugin/org.eclipse.xsd_2.0.0/cache/www.w3.org/2001/XMLSchema.xsd#//long;XSDSimpleTypeDefinition=41"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Long"/>
+  <nested inputs="../../../../../../../../../../plugin/org.eclipse.xsd_2.0.0/cache/www.w3.org/2001/XMLSchema.xsd#//short;XSDSimpleTypeDefinition=43"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Short"/>
+  <nested inputs="../../../../../../../../../../plugin/org.eclipse.xsd_2.0.0/cache/www.w3.org/2001/XMLSchema.xsd#//string;XSDSimpleTypeDefinition=7"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  <nested inputs="types.xsd#//myChar;XSDSimpleTypeDefinition" outputs="com.example.types.ecore#//MyChar"/>
+  <nested inputs="types.xsd#//myDate;XSDSimpleTypeDefinition=1" outputs="com.example.types.ecore#//MyDate"/>
+  <nested inputs="types.xsd#//myBytes;XSDSimpleTypeDefinition=2" outputs="com.example.types.ecore#//MyBytes"/>
+  <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition" outputs="com.example.types.ecore#//AThing">
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="com.example.types.ecore#//AThing/aBoolean"/>
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="com.example.types.ecore#//AThing/aByte"/>
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=2"
+        outputs="com.example.types.ecore#//AThing/aDecimal"/>
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=3"
+        outputs="com.example.types.ecore#//AThing/aFloat"/>
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=4"
+        outputs="com.example.types.ecore#//AThing/aDouble"/>
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=5"
+        outputs="com.example.types.ecore#//AThing/aInt"/>
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=6"
+        outputs="com.example.types.ecore#//AThing/aInteger"/>
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=7"
+        outputs="com.example.types.ecore#//AThing/aLong"/>
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=8"
+        outputs="com.example.types.ecore#//AThing/aShort"/>
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=9"
+        outputs="com.example.types.ecore#//AThing/aString"/>
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=10"
+        outputs="com.example.types.ecore#//AThing/aChar"/>
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=11"
+        outputs="com.example.types.ecore#//AThing/aDate"/>
+    <nested inputs="types.xsd#//AThing;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=12"
+        outputs="com.example.types.ecore#//AThing/aBytes"/>
+  </nested>
+</xsd2ecore:XSD2EcoreMappingRoot>

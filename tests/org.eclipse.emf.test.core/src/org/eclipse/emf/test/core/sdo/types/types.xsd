@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+  targetNamespace="http://www.example.com/types"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:types="http://www.example.com/types"
+  xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"> 
+
+	<xsd:simpleType name="myChar" ecore:instanceClass="char">
+	    <xsd:restriction base="xsd:string">
+	    </xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="myDate" ecore:instanceClass="java.util.Date">
+	    <xsd:restriction base="xsd:string">
+	    </xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="myBytes" ecore:instanceClass="byte[]">
+	    <xsd:restriction base="xsd:string">
+	    </xsd:restriction>
+	</xsd:simpleType>
+
+   <xsd:complexType name="AThing">
+       <xsd:sequence>
+          <xsd:element name="aBoolean" type="xsd:boolean"/>
+          <xsd:element name="aByte" type="xsd:byte"/>
+          <xsd:element name="aDecimal" type="xsd:decimal"/>
+          <xsd:element name="aFloat" type="xsd:float"/>
+          <xsd:element name="aDouble" type="xsd:double"/>
+          <xsd:element name="aInt" type="xsd:int"/>
+          <xsd:element name="aInteger" type="xsd:integer"/>
+          <xsd:element name="aLong" type="xsd:long"/>
+          <xsd:element name="aShort" type="xsd:short"/>
+          <xsd:element name="aString" type="xsd:string"/>
+
+          <xsd:element name="aChar" type="types:myChar"/>
+          <xsd:element name="aDate" type="types:myDate"/>
+          <xsd:element name="aBytes" type="types:myBytes"/>
+       </xsd:sequence>
+   </xsd:complexType>
+</xsd:schema>
