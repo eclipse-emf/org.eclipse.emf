@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.4 2004/07/06 18:09:06 emerks Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.5 2004/10/07 12:19:04 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -98,6 +98,12 @@ public abstract class XSDSchemaDirectiveImpl
   protected XSDSchemaDirectiveImpl() 
   {
     super();
+  }
+
+  public void reset()
+  {
+    super.reset();
+    resolved = false;
   }
 
   /**

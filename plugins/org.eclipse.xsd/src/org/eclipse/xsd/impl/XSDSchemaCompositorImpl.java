@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaCompositorImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDSchemaCompositorImpl.java,v 1.2 2004/10/07 12:19:24 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.xsd.XSDPackage;
@@ -65,6 +66,16 @@ public abstract class XSDSchemaCompositorImpl
   {
     super();
   }
+
+  public void reset()
+  {
+    super.reset();
+    if (resolvedSchema != null && incorporatedSchema != resolvedSchema && resolvedSchema != null)
+    {
+      EcoreUtil.remove(incorporatedSchema);
+    }
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
