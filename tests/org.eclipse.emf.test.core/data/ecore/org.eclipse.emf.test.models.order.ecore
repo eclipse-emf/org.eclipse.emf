@@ -79,10 +79,10 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Order">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;           Describes a movie order which includes date and the list of movies&#xD;&#xA;        "/>
+      <details key="documentation" value="Describes a movie order which includes date and the list of movies"/>
     </eAnnotations>
     <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;           &lt;hasElement>date&lt;/hasElement>&#xD;&#xA;        "/>
+      <details key="appinfo" value="Information:&lt;hasElement>date&lt;/hasElement>."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="order"/>

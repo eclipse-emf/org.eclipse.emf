@@ -18,12 +18,8 @@
     
     <xsd:complexType name="order">
       <xsd:annotation>
-        <xsd:appinfo>
-           <hasElement>date</hasElement>
-        </xsd:appinfo>
-        <xsd:documentation>
-           Describes a movie order which includes date and the list of movies
-        </xsd:documentation>
+        <xsd:appinfo>Information:<hasElement>date</hasElement>.</xsd:appinfo>
+        <xsd:documentation>Describes a movie order which includes date and the list of movies</xsd:documentation>
       </xsd:annotation>
       <xsd:sequence>
          <xsd:choice>
