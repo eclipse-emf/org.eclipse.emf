@@ -15,14 +15,14 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.1 2004/03/06 17:31:33 marcelop Exp $
+ * $Id: feature.xml,v 1.2 2004/07/14 15:44:27 marcelop Exp $
  */
 -->
 
 <feature
       id="org.eclipse.emf.tests"
       label="Tests for Eclipse Modeling Framework"
-      version="2.0.0"
+      version="2.0.1"
       image= "eclipse_update_120.jpg"
       provider-name="Eclipse.org">
 
@@ -59,14 +59,14 @@
          id="org.eclipse.emf.tests"
          download-size="0"
          install-size="0"
-         version="2.0.0">
+         version="2.0.1">
    </plugin>
 
    <plugin
          id="org.eclipse.emf.test.core"
          download-size="0"
          install-size="0"
-         version="2.0.0">
+         version="2.0.1">
    </plugin>
     
 </feature>
