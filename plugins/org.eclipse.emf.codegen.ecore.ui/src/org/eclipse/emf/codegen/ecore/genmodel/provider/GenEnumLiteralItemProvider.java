@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralItemProvider.java,v 1.2 2004/03/18 18:21:26 emerks Exp $
+ * $Id: GenEnumLiteralItemProvider.java,v 1.3 2004/04/03 20:43:55 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -30,6 +30,8 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 // import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
@@ -109,20 +111,21 @@ public class GenEnumLiteralItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public void notifyChanged(Notification notification)
   {
+    updateChildren(notification);
+
     switch (notification.getFeatureID(GenEnumLiteral.class))
     {
       case GenModelPackage.GEN_ENUM_LITERAL__ECORE_ENUM_LITERAL:
-      {
-        fireNotifyChanged(notification);
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
-      }
     }
     super.notifyChanged(notification);
   }

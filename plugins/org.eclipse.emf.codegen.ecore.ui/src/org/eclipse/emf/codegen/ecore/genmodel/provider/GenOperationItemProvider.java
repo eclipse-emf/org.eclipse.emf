@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationItemProvider.java,v 1.2 2004/03/18 18:21:26 emerks Exp $
+ * $Id: GenOperationItemProvider.java,v 1.3 2004/04/03 20:43:55 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -34,6 +34,8 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 // import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
@@ -151,21 +153,22 @@ public class GenOperationItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public void notifyChanged(Notification notification)
   {
+    updateChildren(notification);
+
     switch (notification.getFeatureID(GenOperation.class))
     {
       case GenModelPackage.GEN_OPERATION__ECORE_OPERATION:
       case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
-      {
-        fireNotifyChanged(notification);
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
-      }
     }
     super.notifyChanged(notification);
   }

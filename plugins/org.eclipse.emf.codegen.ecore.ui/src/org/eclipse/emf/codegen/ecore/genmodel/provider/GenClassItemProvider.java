@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassItemProvider.java,v 1.2 2004/03/18 18:21:26 emerks Exp $
+ * $Id: GenClassItemProvider.java,v 1.3 2004/04/03 20:43:55 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -26,8 +26,9 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -35,6 +36,8 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 // import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
 
@@ -167,15 +170,15 @@ public class GenClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenReferences(Object object)
+  public Collection getChildrenFeatures(Object object)
   {
-    if (childrenReferences == null)
+    if (childrenFeatures == null)
     {
-      super.getChildrenReferences(object);
-      childrenReferences.add(GenModelPackage.eINSTANCE.getGenClass_GenFeatures());
-      childrenReferences.add(GenModelPackage.eINSTANCE.getGenClass_GenOperations());
+      super.getChildrenFeatures(object);
+      childrenFeatures.add(GenModelPackage.eINSTANCE.getGenClass_GenFeatures());
+      childrenFeatures.add(GenModelPackage.eINSTANCE.getGenClass_GenOperations());
     }
-    return childrenReferences;
+    return childrenFeatures;
   }
 
   /**
@@ -183,12 +186,12 @@ public class GenClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EReference getChildReference(Object object, Object child)
+  protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     // Check the type of the specified child object and return the proper feature to use for
     // adding (see {@link AddCommand}) it as a child.
 
-    return super.getChildReference(object, child);
+    return super.getChildFeature(object, child);
   }
 
 
@@ -235,26 +238,29 @@ public class GenClassItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public void notifyChanged(Notification notification)
   {
+    updateChildren(notification);
+
     switch (notification.getFeatureID(GenClass.class))
     {
       case GenModelPackage.GEN_CLASS__GEN_PACKAGE:
       case GenModelPackage.GEN_CLASS__PROVIDER:
       case GenModelPackage.GEN_CLASS__IMAGE:
       case GenModelPackage.GEN_CLASS__ECORE_CLASS:
+      case GenModelPackage.GEN_CLASS__LABEL_FEATURE:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+        return;
       case GenModelPackage.GEN_CLASS__GEN_FEATURES:
       case GenModelPackage.GEN_CLASS__GEN_OPERATIONS:
-      case GenModelPackage.GEN_CLASS__LABEL_FEATURE:
-      {
-        fireNotifyChanged(notification);
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
         return;
-      }
     }
     super.notifyChanged(notification);
   }

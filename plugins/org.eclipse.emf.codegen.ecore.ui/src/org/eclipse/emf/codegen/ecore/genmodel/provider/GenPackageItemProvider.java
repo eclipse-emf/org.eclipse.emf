@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.2 2004/03/18 18:21:26 emerks Exp $
+ * $Id: GenPackageItemProvider.java,v 1.3 2004/04/03 20:43:55 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -25,7 +25,8 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -34,6 +35,8 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
+
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
  * This is the item provider adpater for a {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage} object.
@@ -173,37 +176,36 @@ public class GenPackageItemProvider
   }
 
   /**
-   * This specifies how to implement {@link #getChildren} and 
-   * {@link org.eclipse.emf.edit.command.AddCommand} and 
-   * {@link org.eclipse.emf.edit.command.RemoveCommand} support 
-   * in {@link #createCommand}.
-   */
-  public Collection getChildrenReferences(Object object)
-  {
-    if (childrenReferences == null)
-    {
-      super.getChildrenReferences(object);
-      childrenReferences.add(GenModelPackage.eINSTANCE.getGenPackage_NestedGenPackages());
-      childrenReferences.add(GenModelPackage.eINSTANCE.getGenPackage_GenClasses());
-      childrenReferences.add(GenModelPackage.eINSTANCE.getGenPackage_GenEnums());
-      childrenReferences.add(GenModelPackage.eINSTANCE.getGenPackage_GenDataTypes());
-    }
-    return childrenReferences;
-  }
-
-  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EReference getChildReference(Object object, Object child)
+  protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     // Check the type of the specified child object and return the proper feature to use for
     // adding (see {@link AddCommand}) it as a child.
 
-    return super.getChildReference(object, child);
+    return super.getChildFeature(object, child);
   }
 
+
+  /**
+   * This specifies how to implement {@link #getChildren} 
+   * and {@link org.eclipse.emf.edit.command.AddCommand} and {@link org.eclipse.emf.edit.command.RemoveCommand} 
+   * support in {@link #createCommand}.
+   */
+  public Collection getChildrenFeatures(Object object)
+  {
+    if (childrenFeatures == null)
+    {
+      super.getChildrenFeatures(object);
+      childrenFeatures.add(GenModelPackage.eINSTANCE.getGenPackage_NestedGenPackages());
+      childrenFeatures.add(GenModelPackage.eINSTANCE.getGenPackage_GenClasses());
+      childrenFeatures.add(GenModelPackage.eINSTANCE.getGenPackage_GenEnums());
+      childrenFeatures.add(GenModelPackage.eINSTANCE.getGenPackage_GenDataTypes());
+    }
+    return childrenFeatures;
+  }
 
   /**
    */
@@ -225,13 +227,16 @@ public class GenPackageItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public void notifyChanged(Notification notification)
   {
+    updateChildren(notification);
+
     switch (notification.getFeatureID(GenPackage.class))
     {
       case GenModelPackage.GEN_PACKAGE__PREFIX:
@@ -239,14 +244,14 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__RESOURCE:
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+        return;
       case GenModelPackage.GEN_PACKAGE__GEN_ENUMS:
       case GenModelPackage.GEN_PACKAGE__GEN_DATA_TYPES:
       case GenModelPackage.GEN_PACKAGE__GEN_CLASSES:
       case GenModelPackage.GEN_PACKAGE__NESTED_GEN_PACKAGES:
-      {
-        fireNotifyChanged(notification);
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
         return;
-      }
     }
     super.notifyChanged(notification);
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureItemProvider.java,v 1.3 2004/03/31 16:19:19 davidms Exp $
+ * $Id: GenFeatureItemProvider.java,v 1.4 2004/04/03 20:43:55 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -33,6 +33,8 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 // import org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind;
 
@@ -266,23 +268,25 @@ public class GenFeatureItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public void notifyChanged(Notification notification)
   {
+    updateChildren(notification);
+
     switch (notification.getFeatureID(GenFeature.class))
     {
       case GenModelPackage.GEN_FEATURE__PROPERTY:
       case GenModelPackage.GEN_FEATURE__NOTIFY:
       case GenModelPackage.GEN_FEATURE__CHILDREN:
+      case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
-      {
-        fireNotifyChanged(notification);
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
-      }
     }
     super.notifyChanged(notification);
   }
