@@ -12,20 +12,24 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.7 2004/09/16 15:12:25 marcelop Exp $
+ * $Id: SimpleModelTest.java,v 1.7.2.1 2005/01/14 22:56:18 nickb Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
-
-import org.eclipse.core.runtime.Platform;
+import java.util.Map;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
@@ -41,11 +45,12 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
+import org.eclipse.emf.test.core.TestUtil;
 
 
 public class SimpleModelTest extends TestCase
@@ -81,6 +86,7 @@ public class SimpleModelTest extends TestCase
     ts.addTest(new SimpleModelTest("testSaveAndLoad"));
     ts.addTest(new SimpleModelTest("testSaveAndLoadZip"));
     ts.addTest(new SimpleModelTest("testProxy"));
+    ts.addTest(new SimpleModelTest("testTrackingModificaiton"));
     return ts;
   }
 
@@ -279,7 +285,7 @@ public class SimpleModelTest extends TestCase
     employeesList.add(employee1);
     employeesList.add(employee2);
 
-    URI departmentsURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/departments.dept");
+    URI departmentsURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/departments.dept");
     XMLResource departmentsResource = (XMLResource)new XMIResourceFactoryImpl().createResource(departmentsURI);
     departmentsResource.setUseZip(true);
     departmentsResource.getContents().add(department);
@@ -343,7 +349,7 @@ public class SimpleModelTest extends TestCase
     employeesList.add(employee1);
     employeesList.add(employee2);
 
-    URI departmentsURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/departments.xmi");
+    URI departmentsURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/departments.xmi");
     Resource departmentsResource = new XMIResourceFactoryImpl().createResource(departmentsURI);
     departmentsResource.getContents().add(department);
 
@@ -398,21 +404,21 @@ public class SimpleModelTest extends TestCase
     EObject department = companyFactory.create(departmentClass);
     department.eSet(departmentName, "ACME1");
     List associateDepartmentsList = (List)department.eGet(associateDepartments);
-    URI departmentURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/department.xmi");
+    URI departmentURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/department.xmi");
     Resource departmentResource = new XMIResourceFactoryImpl().createResource(departmentURI);
     departmentResource.getContents().add(department);
     
     EObject department1 = companyFactory.create(departmentClass);
     department1.eSet(departmentName, "ACME1");
     associateDepartmentsList.add(department1);
-    URI department1URI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/department1.xmi");
+    URI department1URI = URI.createFileURI(TestUtil.getPluginDirectory() + "/department1.xmi");
     Resource department1Resource = new XMIResourceFactoryImpl().createResource(department1URI);
     department1Resource.getContents().add(department1);
     
     EObject department2 = companyFactory.create(departmentClass);
     department2.eSet(departmentName, "ACME2");
     associateDepartmentsList.add(department2);
-    URI department2URI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/department2.xmi");
+    URI department2URI = URI.createFileURI(TestUtil.getPluginDirectory() + "/department2.xmi");
     Resource department2Resource = new XMIResourceFactoryImpl().createResource(department2URI);
     department2Resource.getContents().add(department2);
     
@@ -466,5 +472,82 @@ public class SimpleModelTest extends TestCase
     assertFalse(new File(department1URI.toFileString()).exists());
     new File(department2URI.toFileString()).delete();
     assertFalse(new File(department2URI.toFileString()).exists());
+  }
+  
+  /*
+   * Bugzilla 80110
+   */
+  public void testTrackingModificaiton() throws Exception
+  {
+    Resource resource = new ResourceImpl()
+    {
+      protected void doSave(OutputStream outputStream,Map options) throws IOException
+      {
+      }
+    };
+    assertFalse(resource.isTrackingModification());
+    assertFalse(resource.isModified());
+    
+    EFactory companyFactory = companyPackage.getEFactoryInstance();
+    EObject employee = companyFactory.create(employeeClass);
+    EObject department = companyFactory.create(departmentClass);
+    ((List)department.eGet(departmentEmployees)).add(employee);
+    
+    resource.getContents().add(department);
+    assertFalse(resource.isTrackingModification());
+    assertFalse(resource.isModified());
+
+    resource.setTrackingModification(true);
+    assertTrue(resource.isTrackingModification());
+    assertFalse(resource.isModified());
+    
+    employee.eSet(employeeName, "John");
+    assertTrue(resource.isTrackingModification());
+    assertTrue(resource.isModified());
+    
+    resource.save(new ByteArrayOutputStream(), null);
+    assertTrue(resource.isTrackingModification());
+    assertFalse(resource.isModified());
+    
+    resource.setTrackingModification(false);
+    assertFalse(resource.isTrackingModification());
+    assertFalse(resource.isModified());    
+
+    employee.eSet(employeeName, "Joe");
+    assertEquals(resource, employee.eResource());
+    assertFalse(resource.isTrackingModification());
+    assertFalse(resource.isModified());
+    
+    resource.setTrackingModification(true);
+    assertTrue(resource.isTrackingModification());
+    assertFalse(resource.isModified());
+   
+    EObject employee1 = companyFactory.create(employeeClass);
+    EObject department1 = companyFactory.create(departmentClass);
+    ((List)department1.eGet(departmentEmployees)).add(employee1);
+    resource.getContents().add(department1);
+    assertTrue(resource.isTrackingModification());
+    assertTrue(resource.isModified());
+
+    resource.save(new ByteArrayOutputStream(), null);
+    assertTrue(resource.isTrackingModification());
+    assertFalse(resource.isModified());
+    
+    employee1.eSet(employeeName, "Mike");
+    assertTrue(resource.isTrackingModification());
+    assertTrue(resource.isModified());
+
+    resource.save(new ByteArrayOutputStream(), null);
+    assertTrue(resource.isTrackingModification());
+    assertFalse(resource.isModified());
+
+    resource.setTrackingModification(false);
+    assertFalse(resource.isTrackingModification());
+    assertFalse(resource.isModified());    
+
+    employee1.eSet(employeeName, "Mark");
+    assertEquals(resource, employee1.eResource());
+    assertFalse(resource.isTrackingModification());
+    assertFalse(resource.isModified());    
   }
 }

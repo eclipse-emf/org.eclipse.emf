@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
+ * $Id: AllSuites.java,v 1.5.2.1 2005/01/14 22:56:19 nickb Exp $
  */
-package org.eclipse.emf.test.build;
+package org.eclipse.emf.test.sdo;
 
 
 import junit.framework.Test;
@@ -24,15 +24,18 @@ import junit.framework.TestSuite;
 public class AllSuites extends TestSuite
 {
   private static Test[] suites = new Test []{ 
-    org.eclipse.emf.test.core.sdo.DataGraphTest.suite()
-    ,org.eclipse.emf.test.core.sdo.types.SDOUtilGetTest.suite()
-    ,org.eclipse.emf.test.core.sdo.types.SDOUtilSetTest.suite()
-    ,org.eclipse.emf.test.core.sdo.types.SDOUtilProtectedGetTest.suite()
+    org.eclipse.emf.test.sdo.SpecialCasesTest.suite() //must be the first to be invoked
+    ,org.eclipse.emf.test.sdo.DataGraphTest.suite()
+    ,org.eclipse.emf.test.sdo.ChangeSummaryTest.suite()
+    ,org.eclipse.emf.test.sdo.types.SDOUtilGetTest.suite()
+    ,org.eclipse.emf.test.sdo.types.SDOUtilSetTest.suite()
+    ,org.eclipse.emf.test.sdo.types.SDOUtilProtectedGetTest.suite()
+    ,org.eclipse.emf.test.sdo.TestSDO.suite()
   };
 
   public static Test suite()
   {
-    return new AllSuites("EMF Build JUnit Test Suite");
+    return new AllSuites("EMF SDO JUnit Test Suite");
   }
 
   public AllSuites()

@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ResourceCacheMechanismTest.java,v 1.1 2004/10/21 16:13:05 marcelop Exp $
+ * $Id: ResourceCacheMechanismTest.java,v 1.3.2.1 2005/01/14 22:56:18 nickb Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Test;
@@ -28,6 +29,8 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -59,6 +62,7 @@ public class ResourceCacheMechanismTest extends TestCase
     testSuite.addTest(new ResourceCacheMechanismTest("testXMLResourceImplIDCache"));
     testSuite.addTest(new ResourceCacheMechanismTest("testAllIDCaches"));
     testSuite.addTest(new ResourceCacheMechanismTest("testResourceSetURICache"));
+    testSuite.addTest(new ResourceCacheMechanismTest("testXMLResourceIDCacheWithContainment"));
     return testSuite;
   }  
   
@@ -191,14 +195,22 @@ public class ResourceCacheMechanismTest extends TestCase
     assertNull(xmlResource.getEObject("MARY"));
     assertEquals("externalIDForJohn", xmlResource.getID(john));
     assertNull(xmlResource.getID(mary));
+ 
+    //Setting mary's external ID again
+    xmlResource.setID(mary, "MARY");
+    //john and mary can be retrieved by their external IDs
+    assertEquals(john, xmlResource.getEObject("externalIDForJohn"));
+    assertEquals(mary, xmlResource.getEObject("MARY"));
     
-    //Removing mary
+    //Removing mary from the resource
     xmlResource.getContents().remove(mary);
     assertEquals(1, xmlResource.getContents().size());
     
     //Mary should not be in the maps.
     assertEquals(john, xmlResource.getEObject("externalIDForJohn"));
     assertEquals("externalIDForJohn", xmlResource.getID(john));
+    assertNull(xmlResource.getEObject("MARY"));
+    assertNull(xmlResource.getID(mary));
   }
 
   /*
@@ -253,6 +265,12 @@ public class ResourceCacheMechanismTest extends TestCase
     assertEquals(1, ((XMLResourceImpl)xmlResource).getEObjectToIDMap().size());
     assertEquals("externalIDForJohn", ((XMLResourceImpl)xmlResource).getEObjectToIDMap().get(john));
     assertNull(((XMLResourceImpl)xmlResource).getEObjectToIDMap().get(mary));
+    
+    //Setting mary's external ID again
+    xmlResource.setID(mary, "MARY");
+    //john and mary can be retrieved by their external IDs
+    assertEquals(john, xmlResource.getEObject("externalIDForJohn"));
+    assertEquals(mary, xmlResource.getEObject("MARY"));    
     
     //Removing mary
     xmlResource.getContents().remove(mary);
@@ -366,5 +384,43 @@ public class ResourceCacheMechanismTest extends TestCase
     
     resourceSet.getResources().clear();
     assertTrue(map.isEmpty());
+  }
+  
+  public void testXMLResourceIDCacheWithContainment() throws Exception
+  {
+    EClass person = john.eClass();
+    EPackage pack = person.getEPackage();
+    
+    EClass company = EcoreFactory.eINSTANCE.createEClass();
+    company.setName("company");
+    pack.getEClassifiers().add(company);
+    
+    EReference employees = EcoreFactory.eINSTANCE.createEReference();
+    company.getEStructuralFeatures().add(employees);
+    employees.setName("employees");
+    employees.setContainment(true);
+    employees.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    employees.setEType(person);
+    
+    EObject company1 = pack.getEFactoryInstance().create(company);
+    ((List)company1.eGet(employees)).add(john);
+    assertEquals(company1, john.eContainer());
+    
+    XMLResource xmlResource = new XMLResourceImpl();
+    xmlResource.getContents().add(company1);
+    assertEquals(xmlResource, company1.eResource());
+    assertEquals(john, xmlResource.getEObject((String)john.eGet(id)));
+    
+    xmlResource.setID(john, "JOHN");
+    assertEquals(john, xmlResource.getEObject("JOHN"));
+    
+    EObject company2 = pack.getEFactoryInstance().create(company);
+    ((List)company2.eGet(employees)).add(john);
+    assertEquals(company2, john.eContainer());
+    assertTrue(((List)company1.eGet(employees)).isEmpty());
+    
+    assertTrue(((XMLResourceImpl)xmlResource).getEObjectToIDMap().isEmpty());
+    assertTrue(((XMLResourceImpl)xmlResource).getIDToEObjectMap().isEmpty());
+    assertNull(xmlResource.getEObject("JOHN"));
   }
 }

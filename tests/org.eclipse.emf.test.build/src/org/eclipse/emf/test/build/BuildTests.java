@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.2 2004/11/03 22:53:07 marcelop Exp $
+ * $Id: BuildTests.java,v 1.13.2.1 2005/01/14 22:56:18 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -52,6 +52,9 @@ import org.eclipse.osgi.service.environment.Constants;
 
 public class BuildTests extends TestCase
 {
+  
+  public boolean debug = false;
+  
   private List copyrightExcludeDirectories;
 
   private List cvsExcludeDirectories;
@@ -134,12 +137,12 @@ public class BuildTests extends TestCase
     }
     catch (FileNotFoundException e)
     {
-      System.out.println("Could not open log file: " + string);
-      result = true;
+      System.out.println("** WARNING ** :: Could not open log file: " + string);
+      result = false; // if no file, no errors!
     }
     catch (IOException e)
     {
-      System.out.println("Error reading log file: " + string);
+      System.out.println("** ERROR ** :: Error reading log file: " + string);
       result = true;
     }
     finally
@@ -609,15 +612,21 @@ public class BuildTests extends TestCase
 
   public void testChkpii()
   {
+    if (debug) { System.out.println("locateBuildGeneratedZipFiles() ... "); }
+    
     String[] zipFiles = locateBuildGeneratedZipFiles();
     String sniffFolder = Platform.getInstanceLocation().getURL().getFile();
+    
+    if (debug) { System.out.println("sniffFolder = "+sniffFolder); }
+    
     FileTool.IZipFilter zipFilter = getTrueFilter();
 
     for (int i = 0; i < zipFiles.length; i++)
     {
       try
       {
-        FileTool.unzip(zipFilter, new ZipFile(zipFiles[i]), new File(sniffFolder));
+            if (debug) { System.out.println("Unzipping: "+zipFiles[i]); }
+            FileTool.unzip(zipFilter, new ZipFile(zipFiles[i]), new File(sniffFolder));
       }
       catch (IOException e)
       {
@@ -817,10 +826,13 @@ public class BuildTests extends TestCase
 
     // String to use when running in Eclipse
     // String installDir = BootLoader.getInstallURL().getPath() + "..";
+    
+    if (debug) { System.out.println("installDir = "+installDir); } 
 
     try
     {
       installDir = adjustPath(new File(installDir).getCanonicalPath().toString());
+      if (debug) { System.out.println("installDir (adjusted) = "+installDir); } 
     }
     catch (IOException e)
     {
@@ -833,16 +845,23 @@ public class BuildTests extends TestCase
     {
       File file = files[i];
       String fileName = file.getName();
+      if (debug) { System.out.println("filename["+i+"] = "+fileName); } 
 
       if (fileName.endsWith(".zip"))
       {
-        for (int j = 0; j < BUILD_GENERATED_ZIP_FILES_SUFFIX.length; j++)
+        if (debug) { System.out.println("zip filename = "+fileName); } 
+        for (int j = 0; j < BUILD_GENERATED_ZIP_FILES_PREFIX.length; j++)
         {
-          if (fileName.startsWith(BUILD_GENERATED_ZIP_FILES_SUFFIX[j]))
+          if (debug) { System.out.println("Prefix: BUILD_GENERATED_ZIP_FILES_PREFIX["+j+"] = "+BUILD_GENERATED_ZIP_FILES_PREFIX[j]); }
+          if (fileName.startsWith(BUILD_GENERATED_ZIP_FILES_PREFIX[j]))
+          {
+            if (debug) { System.out.println("adding zip: "+file.getAbsolutePath()); } 
             zipFiles.add(file.getAbsolutePath());
+          }
         }
       }
     }
+    if (debug) { System.out.println("zipFiles.size() = "+zipFiles.size()); }
     return (String[])zipFiles.toArray(new String [zipFiles.size()]);
   }
 
@@ -869,7 +888,7 @@ public class BuildTests extends TestCase
         file += "_other.txt";
     }
 
-    file = EMFTestBuildPlugin.getPluginDirectory() + file;
+    file = TestUtil.getPluginDirectory() + file;
     if (new File(file).isFile())
     {
       return " -X " + file;
@@ -1023,8 +1042,8 @@ public class BuildTests extends TestCase
     return false;
   }
 
-  public static final String[] BUILD_GENERATED_ZIP_FILES_SUFFIX = { "emf-runtime", "emf-source", "emf-doc", "xsd-runtime", "xsd-source",
-      "xsd-doc", "sdo-runtime", "sdo-source", "sdo-doc", "emf-xsd-sdo-SDK" };
+  public static final String[] BUILD_GENERATED_ZIP_FILES_PREFIX = { "emf-runtime", "emf-source", "emf-doc", "xsd-runtime", "xsd-source",
+      "xsd-doc", "sdo-runtime", "sdo-source", "sdo-doc", "emf-sdo-xsd-SDK" }; // last one changed 041104 to fix absentee chkpii testing
 
   public static final String[] REQUIRED_FEATURE_FILES = { "cpl-v10.html", "feature.properties", "feature.xml", "license.html" };
 

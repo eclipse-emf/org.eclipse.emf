@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotUniqueListTest.java,v 1.2 2004/10/28 21:19:01 marcelop Exp $
+ * $Id: NotUniqueListTest.java,v 1.2.2.1 2005/01/14 22:56:18 nickb Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 

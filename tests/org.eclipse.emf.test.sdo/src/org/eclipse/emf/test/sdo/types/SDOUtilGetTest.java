@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: SDOUtilGetTest.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
+ * $Id: SDOUtilGetTest.java,v 1.2.2.1 2005/01/14 22:56:18 nickb Exp $
  */
-package org.eclipse.emf.test.core.sdo.types;
+package org.eclipse.emf.test.sdo.types;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -28,9 +28,9 @@ import junit.framework.TestSuite;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.sdo.EDataObject;
 import org.eclipse.emf.ecore.sdo.util.SDOUtil;
-import org.eclipse.emf.test.core.sdo.types.model.types.AThing;
-import org.eclipse.emf.test.core.sdo.types.model.types.TypesFactory;
-import org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage;
+import org.eclipse.emf.test.sdo.types.model.types.AThing;
+import org.eclipse.emf.test.sdo.types.model.types.TypesFactory;
+import org.eclipse.emf.test.sdo.types.model.types.TypesPackage;
 
 /**
  * @author marcelop

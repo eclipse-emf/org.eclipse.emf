@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.1 2004/11/03 16:04:15 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.5.2.1 2005/01/14 22:56:18 nickb Exp $
  */
 package org.eclipse.emf.test.core.change;
 
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -30,8 +32,12 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.change.ChangeDescription;
@@ -42,10 +48,13 @@ import org.eclipse.emf.ecore.change.ResourceChange;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
+import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.emf.test.core.TestUtil;
 
 
 public class ChangeRecordTest
@@ -85,6 +94,8 @@ extends TestCase
     ts.addTest(new ChangeRecordTest("testMoveElementAndApply", callSummarize));
     ts.addTest(new ChangeRecordTest("testApply", callSummarize));
     ts.addTest(new ChangeRecordTest("testApplyAndReverse", callSummarize));
+    ts.addTest(new ChangeRecordTest("testResumeRecording", callSummarize));
+    ts.addTest(new ChangeRecordTest("testResumeSerializedRecording", callSummarize));
     return ts;
   }
   
@@ -419,26 +430,26 @@ extends TestCase
     List afterChange = new ArrayList(eAnnotation.getContents());
     
     //current != before && current == after
-    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
-    assertTrue(EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+    assertFalse(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
+    assertTrue(TestUtil.areEqual(afterChange, eAnnotation.getContents()));
 
     changeDescription.applyAndReverse();
     
     //current == before && current != after
-    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
-    assertFalse(EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+    assertTrue(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
+    assertFalse(TestUtil.areEqual(afterChange, eAnnotation.getContents()));
     
     changeDescription.applyAndReverse();
 
     //current != before && current == after
-    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
-    assertTrue(EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+    assertFalse(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
+    assertTrue(TestUtil.areEqual(afterChange, eAnnotation.getContents()));
     
     changeDescription.apply();
     
     //current == before && current != after
-    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
-    assertFalse(EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+    assertTrue(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
+    assertFalse(TestUtil.areEqual(afterChange, eAnnotation.getContents()));
   }
 
   /*
@@ -546,21 +557,385 @@ extends TestCase
     if (initialListAreDifferent)
     {
       //Tests if the lists are different
-      assertFalse(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
+      assertFalse(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
     }
     else
     {
       //Tests if the lists are equal
-      assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));      
+      assertTrue(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));      
     }
     
     changeDescription.apply(); 
     
     //Tests if the change description was reset
-    assertEquals(0, changeDescription.getObjectChanges().size());
-    assertEquals(0, changeDescription.getObjectsToAttach().size());
+//    assertEquals(0, changeDescription.getObjectChanges().size());
+//    assertEquals(0, changeDescription.getObjectsToAttach().size());
     
     //Tests if the list was rolled back
-    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));        
-  }  
+    assertTrue(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
+    
+    // Another apply shouldn't change anything
+    changeDescription.apply(); 
+    assertTrue(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
+  }
+  
+  /*
+   * Bugzilla 81013
+   */  
+  public void testResumeRecording() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("http://www.eclipse.org/emf/pack");
+    
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    person.setName("Person");
+    pack.getEClassifiers().add(person);
+
+    EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
+    name.setName("name");
+    name.setEType(EcorePackage.eINSTANCE.getEString());
+    person.getEStructuralFeatures().add(name);
+    EAttribute id = EcoreFactory.eINSTANCE.createEAttribute();
+    id.setName("id");
+    id.setEType(EcorePackage.eINSTANCE.getEString());
+    person.getEStructuralFeatures().add(id);
+    
+    EReference friendsReference = EcoreFactory.eINSTANCE.createEReference();
+    friendsReference.setName("Friends");
+    friendsReference.setEType(person);
+    friendsReference.setContainment(true);
+    friendsReference.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    person.getEStructuralFeatures().add(friendsReference);    
+    
+    EObject john = pack.getEFactoryInstance().create(person);
+    john.eSet(id, "123");
+    EObject mary = pack.getEFactoryInstance().create(person);
+    mary.eSet(name, "Mary");
+    EObject peter = pack.getEFactoryInstance().create(person);
+    peter.eSet(name, "Peter");
+    ((List)john.eGet(friendsReference)).add(peter);
+    
+    Resource resource = new ResourceImpl();
+    resource.getContents().add(john);
+    
+    // State 0
+    assertEquals(1, resource.getContents().size());
+    assertNull(john.eGet(name));
+    assertEquals("123", john.eGet(id));
+    assertEquals("Mary", mary.eGet(name));
+    assertEquals(1, ((List)john.eGet(friendsReference)).size());
+    assertEquals(peter, ((List)john.eGet(friendsReference)).get(0));
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(john);
+    john.eSet(name, "John");
+    john.eSet(id, "456");
+    ((List)john.eGet(friendsReference)).add(mary);
+    ((List)john.eGet(friendsReference)).remove(peter);
+    ChangeDescription changeDescription = callSummarize ? changeRecorder.endRecording() : changeRecorder.summarize();
+
+    // State 1
+    assertEquals(1, resource.getContents().size());
+    assertEquals(john, resource.getContents().get(0));
+    assertEquals("John", john.eGet(name));
+    assertEquals("456", john.eGet(id));
+    assertEquals("Mary", mary.eGet(name));
+    assertEquals(1, ((List)john.eGet(friendsReference)).size());
+    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, changeDescription.getObjectsToDetach().size());
+    assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
+    
+    changeRecorder = new ChangeRecorder();
+    changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{john}));
+    mary.eSet(name, "Mary P");
+    john.eSet(id, "789");
+    EObject joe = pack.getEFactoryInstance().create(person);
+    joe.eSet(name, "Joe");
+    ((List)john.eGet(friendsReference)).add(joe);
+    if (callSummarize) changeRecorder.summarize(); else changeRecorder.endRecording();
+    
+    // State 2
+    assertEquals(1, resource.getContents().size());
+    assertEquals(john, resource.getContents().get(0));
+    assertEquals("John", john.eGet(name));
+    assertEquals("789", john.eGet(id));
+    assertEquals("Mary P", mary.eGet(name));
+    assertEquals("Joe", joe.eGet(name));
+    assertEquals(2, ((List)john.eGet(friendsReference)).size());
+    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(joe, ((List)john.eGet(friendsReference)).get(1));
+    assertEquals(2, changeDescription.getObjectsToDetach().size());
+    assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
+    assertEquals(joe, changeDescription.getObjectsToDetach().get(1));
+    
+    changeDescription.applyAndReverse();
+    
+    // State 0
+    assertEquals(1, resource.getContents().size());
+    assertEquals(john, resource.getContents().get(0));
+    assertNull(john.eGet(name));
+    assertEquals("123", john.eGet(id));
+    assertEquals("Mary", mary.eGet(name));
+    assertEquals(1, ((List)john.eGet(friendsReference)).size());
+    assertEquals(peter, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, changeDescription.getObjectsToDetach().size());
+    assertEquals(peter, changeDescription.getObjectsToDetach().get(0));
+    
+    changeDescription.applyAndReverse();
+    
+    // State 2
+    assertEquals(1, resource.getContents().size());
+    assertEquals(john, resource.getContents().get(0));
+    assertEquals("John", john.eGet(name));
+    assertEquals("789", john.eGet(id));
+    assertEquals("Mary P", mary.eGet(name));
+    assertEquals("Joe", joe.eGet(name));
+    assertEquals(2, ((List)john.eGet(friendsReference)).size());
+    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(joe, ((List)john.eGet(friendsReference)).get(1));
+    assertEquals(2, changeDescription.getObjectsToDetach().size());
+    assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
+    assertEquals(joe, changeDescription.getObjectsToDetach().get(1));
+    
+    changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{resource, john, mary, joe}));
+    mary.eSet(name, "Mary Po");
+    john.eSet(id, "0");
+    EObject jane = pack.getEFactoryInstance().create(person);
+    jane.eSet(name, "Jane");
+    ((List)john.eGet(friendsReference)).add(jane);
+    ((List)john.eGet(friendsReference)).remove(mary);
+    ((List)john.eGet(friendsReference)).remove(joe);
+    resource.getContents().remove(0);
+    if (callSummarize) changeRecorder.summarize(); else changeRecorder.endRecording();
+    
+    // State 3
+    assertTrue(resource.getContents().isEmpty());
+    assertEquals("John", john.eGet(name));
+    assertEquals("0", john.eGet(id));
+    assertEquals("Mary Po", mary.eGet(name));
+    assertEquals("Joe", joe.eGet(name));
+    assertEquals("Jane", jane.eGet(name));
+    assertEquals(1, ((List)john.eGet(friendsReference)).size());
+    assertEquals(jane, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(3, changeDescription.getObjectsToDetach().size());
+    assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
+    assertEquals(joe, changeDescription.getObjectsToDetach().get(1));
+    assertEquals(jane, changeDescription.getObjectsToDetach().get(2));
+    
+    changeDescription.applyAndReverse();
+    
+    // State 0
+    assertEquals(1, resource.getContents().size());
+    assertEquals(john, resource.getContents().get(0));
+    assertNull(john.eGet(name));
+    assertEquals("123", john.eGet(id));
+    assertEquals("Mary", mary.eGet(name));
+    assertEquals(1, ((List)john.eGet(friendsReference)).size());
+    assertEquals(peter, ((List)john.eGet(friendsReference)).get(0));
+
+    changeDescription.apply();
+
+    // State 3
+    assertTrue(resource.getContents().isEmpty());
+    assertEquals("John", john.eGet(name));
+    assertEquals("0", john.eGet(id));
+    assertEquals("Mary Po", mary.eGet(name));
+    assertEquals("Joe", joe.eGet(name));
+    assertEquals("Jane", jane.eGet(name));
+    assertEquals(1, ((List)john.eGet(friendsReference)).size());
+    assertEquals(jane, ((List)john.eGet(friendsReference)).get(0));
+
+    changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{john, mary}));
+    mary.eSet(name, "Mary Pop");
+    john.eSet(id, "1");
+    jane.eSet(id, "2");
+    ((List)john.eGet(friendsReference)).set(0, joe);
+    joe.eSet(id, "123");
+    ((List)john.eGet(friendsReference)).add(jane);
+    resource.getContents().add(mary);
+    if (callSummarize) changeRecorder.summarize(); else changeRecorder.endRecording();
+    
+    // State 4
+    assertEquals(1, resource.getContents().size());
+    assertEquals(mary, resource.getContents().get(0));
+    assertEquals("John", john.eGet(name));
+    assertEquals("1", john.eGet(id));
+    assertEquals("Mary Pop", mary.eGet(name));
+    assertEquals("Joe", joe.eGet(name));
+    assertEquals("123", joe.eGet(id));
+    assertEquals("Jane", jane.eGet(name));
+    assertEquals("2", jane.eGet(id));
+    assertEquals(2, ((List)john.eGet(friendsReference)).size());
+    assertEquals(joe, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(jane, ((List)john.eGet(friendsReference)).get(1));
+    
+    changeDescription.applyAndReverse();   
+    
+    // State 3 (apply resets the ChangeDescription)
+    assertTrue(resource.getContents().isEmpty());
+    assertEquals("John", john.eGet(name));
+    assertEquals("0", john.eGet(id));
+    assertEquals("Mary Po", mary.eGet(name));
+    assertEquals("Joe", joe.eGet(name));
+    assertEquals("Jane", jane.eGet(name));
+    assertEquals(1, ((List)john.eGet(friendsReference)).size());
+    assertEquals(jane, ((List)john.eGet(friendsReference)).get(0));
+  }
+  
+  /*
+   * Bugzilla 81013
+   */
+  public void testResumeSerializedRecording() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("http://www.eclipse.org/emf/pack");
+    
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    person.setName("Person");
+    pack.getEClassifiers().add(person);
+
+    EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
+    name.setName("name");
+    name.setEType(EcorePackage.eINSTANCE.getEString());
+    person.getEStructuralFeatures().add(name);
+    EAttribute id = EcoreFactory.eINSTANCE.createEAttribute();
+    id.setName("id");
+    id.setEType(EcorePackage.eINSTANCE.getEString());
+    person.getEStructuralFeatures().add(id);
+    
+    EReference friendsReference = EcoreFactory.eINSTANCE.createEReference();
+    friendsReference.setName("Friends");
+    friendsReference.setEType(person);
+    friendsReference.setContainment(true);
+    friendsReference.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    person.getEStructuralFeatures().add(friendsReference);    
+    
+    EObject john = pack.getEFactoryInstance().create(person);
+    john.eSet(id, "123");
+    EObject mary = pack.getEFactoryInstance().create(person);
+    mary.eSet(name, "Mary");
+
+    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/johnTRSR.xmi");
+    URI changeDescriptionURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/changeDescriptionTRSR.xmi");    
+    
+    XMLResource johnResource = new XMLResourceImpl(johnURI);
+    johnResource.getContents().add(john);
+    
+    // State 0
+    assertEquals(1, johnResource.getContents().size());
+    assertNull(john.eGet(name));
+    assertEquals("123", john.eGet(id));
+    assertEquals("Mary", mary.eGet(name));
+    assertTrue(((List)john.eGet(friendsReference)).isEmpty());
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(john);
+    john.eSet(name, "John");
+    john.eSet(id, "456");
+    ((List)john.eGet(friendsReference)).add(mary);
+    ChangeDescription changeDescription = callSummarize ? changeRecorder.endRecording() : changeRecorder.summarize();
+    
+    XMLResource changeDescriptionResource = new XMLResourceImpl(changeDescriptionURI);
+    changeDescriptionResource.getContents().add(changeDescription);
+    
+    // State 1
+    assertEquals(1, johnResource.getContents().size());
+    assertEquals(john, johnResource.getContents().get(0));
+    assertEquals("John", john.eGet(name));
+    assertEquals("456", john.eGet(id));
+    assertEquals("Mary", mary.eGet(name));
+    assertEquals(1, ((List)john.eGet(friendsReference)).size());
+    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
+
+    johnResource.save(null);
+    changeDescriptionResource.save(null);
+    
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+    
+    Resource loadedJohnResource = resourceSet.getResource(johnURI, true);
+    EObject loadedJohn = (EObject)loadedJohnResource.getContents().get(0);
+    EObject loadedMary = (EObject)((List)loadedJohn.eGet(friendsReference)).get(0);
+    Resource loadedChangeDescriptionResource = resourceSet.getResource(changeDescriptionURI, true);
+    ChangeDescription loadedChangeDescription = (ChangeDescription)loadedChangeDescriptionResource.getContents().get(0);
+    
+    // State 1
+    assertEquals(1, loadedJohnResource.getContents().size());
+    assertEquals(loadedJohn, loadedJohnResource.getContents().get(0));
+    assertEquals("John", loadedJohn.eGet(name));
+    assertEquals("456", loadedJohn.eGet(id));
+    assertEquals("Mary", loadedMary.eGet(name));
+    assertEquals(1, ((List)loadedJohn.eGet(friendsReference)).size());
+    assertEquals(loadedMary, ((List)loadedJohn.eGet(friendsReference)).get(0));
+    
+    loadedChangeDescription.applyAndReverse();
+    
+    // State 0
+    assertEquals(1, loadedJohnResource.getContents().size());
+    assertNull(loadedJohn.eGet(name));
+    assertEquals("123", loadedJohn.eGet(id));
+    assertEquals("Mary", loadedMary.eGet(name));
+    assertTrue(((List)loadedJohn.eGet(friendsReference)).isEmpty());
+    
+    changeRecorder.beginRecording(loadedChangeDescription, Arrays.asList(new Object[]{loadedJohn, loadedMary}));
+    loadedMary.eSet(name, "Mary P");
+    loadedJohn.eSet(id, "789");
+    EObject joe = pack.getEFactoryInstance().create(person);
+    joe.eSet(name, "Joe");
+    ((List)loadedJohn.eGet(friendsReference)).add(joe);    
+    if (callSummarize) changeRecorder.summarize(); else changeRecorder.endRecording();
+    
+    // State 2
+    assertEquals(1, loadedJohnResource.getContents().size());
+    assertEquals(loadedJohn, loadedJohnResource.getContents().get(0));
+    assertNull(loadedJohn.eGet(name));
+    assertEquals("789", loadedJohn.eGet(id));
+    assertEquals("Mary P", loadedMary.eGet(name));
+    assertEquals("Joe", joe.eGet(name));
+    assertEquals(1, ((List)loadedJohn.eGet(friendsReference)).size());
+    assertEquals(joe, ((List)loadedJohn.eGet(friendsReference)).get(0));
+    
+    loadedChangeDescription.applyAndReverse();
+
+    // State 1
+    assertEquals(1, loadedJohnResource.getContents().size());
+    assertEquals(loadedJohn, loadedJohnResource.getContents().get(0));
+    assertEquals("John", loadedJohn.eGet(name));
+    assertEquals("456", loadedJohn.eGet(id));
+    assertEquals("Mary", loadedMary.eGet(name));
+    assertEquals(1, ((List)loadedJohn.eGet(friendsReference)).size());
+    assertEquals(loadedMary, ((List)loadedJohn.eGet(friendsReference)).get(0));
+
+
+    EObject aVeryDifferentPerson = pack.getEFactoryInstance().create(person);
+    aVeryDifferentPerson.eSet(id, "123");
+    assertEquals("123", aVeryDifferentPerson.eGet(id));
+    
+    changeRecorder.beginRecording(loadedChangeDescription, Arrays.asList(new Object[]{aVeryDifferentPerson}));
+    aVeryDifferentPerson.eSet(id, "1");
+    if (callSummarize) changeRecorder.summarize(); else changeRecorder.endRecording();
+    
+    assertEquals("1", aVeryDifferentPerson.eGet(id));
+
+    loadedChangeDescription.applyAndReverse();
+    
+    assertEquals("123", aVeryDifferentPerson.eGet(id));
+    // State 2
+    assertEquals(1, loadedJohnResource.getContents().size());
+    assertEquals(loadedJohn, loadedJohnResource.getContents().get(0));
+    assertNull(loadedJohn.eGet(name));
+    assertEquals("789", loadedJohn.eGet(id));
+    assertEquals("Mary P", loadedMary.eGet(name));
+    assertEquals("Joe", joe.eGet(name));
+    assertEquals(1, ((List)loadedJohn.eGet(friendsReference)).size());
+    assertEquals(joe, ((List)loadedJohn.eGet(friendsReference)).get(0));
+    
+    File file = new File(johnURI.toFileString());
+    file.delete();
+    assertFalse(file.exists());
+    file = new File(changeDescriptionURI.toFileString());
+    file.delete();
+    assertFalse(file.exists());    
+  }
 }

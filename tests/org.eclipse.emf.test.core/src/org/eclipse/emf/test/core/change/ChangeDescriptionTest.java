@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionTest.java,v 1.4 2004/11/03 16:04:15 marcelop Exp $
+ * $Id: ChangeDescriptionTest.java,v 1.6.2.1 2005/01/14 22:56:18 nickb Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -29,6 +29,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.change.ChangeDescription;
@@ -37,9 +38,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
+import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.emf.test.core.TestUtil;
 
 
 public class ChangeDescriptionTest extends TestCase
@@ -56,6 +59,7 @@ public class ChangeDescriptionTest extends TestCase
     ts.addTest(new ChangeDescriptionTest("testUnchangeableFeature"));
     ts.addTest(new ChangeDescriptionTest("testApplyAndReverse2"));
     ts.addTest(new ChangeDescriptionTest("testApplyAndReverse3"));
+    ts.addTest(new ChangeDescriptionTest("testXMLResourceID"));
     return ts;
   }
 
@@ -105,8 +109,8 @@ public class ChangeDescriptionTest extends TestCase
           assertEquals("Comparing iteration: " + i, xmi[i % 2], newXMI);
       }
 
-      assertEquals(i % 2 == 0, EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
-      assertEquals(i % 2 != 0, EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+      assertEquals(i % 2 == 0, TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
+      assertEquals(i % 2 != 0, TestUtil.areEqual(afterChange, eAnnotation.getContents()));
 
       changeDescription.applyAndReverse();
     }
@@ -218,5 +222,53 @@ public class ChangeDescriptionTest extends TestCase
     assertTrue(ePackage.getEAnnotations().isEmpty());
     assertEquals(1, eClass.getEAnnotations().size());
     assertEquals(eAnnotation, eClass.getEAnnotations().get(0));
+  }
+  
+  public void testXMLResourceID()
+  {
+    //Instantiating an object
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    EClass cls = EcoreFactory.eINSTANCE.createEClass();
+    cls.setName("cls");
+    pack.getEClassifiers().add(cls);
+    EObject eObject = pack.getEFactoryInstance().create(cls);
+    
+    //Instantiating a resource
+    XMLResource xmlResource = new XMLResourceImpl();
+    
+    //Adding the object to the resource
+    xmlResource.getContents().add(eObject);
+    assertEquals(xmlResource, eObject.eResource());
+    assertNull(xmlResource.getID(eObject));
+
+    //Setting an external ID
+    xmlResource.setID(eObject, "CLASS:cls");
+    
+    //State1: resource has 1 object and "CLASS:cls" is the object's id
+    assertEquals(1, xmlResource.getContents().size());
+    assertEquals(eObject, xmlResource.getContents().get(0));
+    assertEquals(eObject, xmlResource.getEObject("CLASS:cls"));
+    assertEquals("CLASS:cls", xmlResource.getID(eObject));
+    
+    //Removing the object from the resource
+    ChangeRecorder changeRecorder = new ChangeRecorder(xmlResource);
+    xmlResource.getContents().remove(eObject);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    //State2: resource has no objects and nothing is identified by the ID     
+    assertTrue(xmlResource.getContents().isEmpty());
+    assertNull(xmlResource.getID(eObject));
+    assertNull(xmlResource.getEObject("CLASS:cls"));
+    assertTrue(((XMLResourceImpl)xmlResource).getEObjectToIDMap().isEmpty());
+    assertTrue(((XMLResourceImpl)xmlResource).getIDToEObjectMap().isEmpty());
+    
+    changeDescription.applyAndReverse();
+    
+    //State 3: resouce has 1 object and no ID is set
+    assertEquals(1, xmlResource.getContents().size());
+    assertEquals(eObject, xmlResource.getContents().get(0));
+    //
+    assertNull(xmlResource.getID(eObject));
+    assertNull(xmlResource.getEObject("CLASS:cls"));
   }  
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtilStaticMethodsTest.java,v 1.4 2004/08/25 21:49:21 marcelop Exp $
+ * $Id: EcoreUtilStaticMethodsTest.java,v 1.4.2.1 2005/01/14 22:56:18 nickb Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -29,15 +29,10 @@ import junit.framework.TestSuite;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
-import org.eclipse.emf.test.models.order.CustomerOrder;
-import org.eclipse.emf.test.models.order.Order;
-import org.eclipse.emf.test.models.order.OrderFactory;
+import org.eclipse.emf.test.core.TestUtil;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDFactory;
 
 public class EcoreUtilStaticMethodsTest extends TestCase
 {
@@ -52,42 +47,19 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testGenerateUUID"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testIndexOf"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testSetEList"));
-    testSuite.addTest(new EcoreUtilStaticMethodsTest("testIsAncestor"));
+    testSuite.addTest(new EcoreUtilStaticMethodsTest("testCopyUnsettableSetEmptyList"));
     return testSuite;
   }
   
-  public void testIsAncestor()
+  public void testCopyUnsettableSetEmptyList()
   {
-    ResourceSet resourceSet = new ResourceSetImpl();
-    Resource resource = new ResourceImpl();
-    Order order = OrderFactory.eINSTANCE.createOrder();
-    CustomerOrder customerOrder = OrderFactory.eINSTANCE.createCustomerOrder();
-    
-    assertFalse(EcoreUtil.isAncestor(customerOrder, order));
-    assertFalse(EcoreUtil.isAncestor(resource, order));
-    assertFalse(EcoreUtil.isAncestor(resourceSet, order));
-    
-    resource.getContents().add(order);
-    assertFalse(EcoreUtil.isAncestor(customerOrder, order));
-    assertTrue(EcoreUtil.isAncestor(resource, order));
-    assertFalse(EcoreUtil.isAncestor(resourceSet, order));
-    
-    resourceSet.getResources().add(resource);
-    assertFalse(EcoreUtil.isAncestor(customerOrder, order));
-    assertTrue(EcoreUtil.isAncestor(resource, order));
-    assertTrue(EcoreUtil.isAncestor(resourceSet, order));
-    
-    customerOrder.setMoviesSeen(order);
-    assertTrue(EcoreUtil.isAncestor(customerOrder, order));
-    assertFalse(EcoreUtil.isAncestor(resource, order));
-    assertFalse(EcoreUtil.isAncestor(resourceSet, order));
-    
-    resource.getContents().add(customerOrder);
-    assertTrue(EcoreUtil.isAncestor(customerOrder, order));
-    assertTrue(EcoreUtil.isAncestor(resource, order));
-    assertTrue(EcoreUtil.isAncestor(resourceSet, order));
+    XSDComplexTypeDefinition xsdComplexTypeDefinition = XSDFactory.eINSTANCE.createXSDComplexTypeDefinition();
+    xsdComplexTypeDefinition.getLexicalFinal().clear();
+    assertTrue(xsdComplexTypeDefinition.isSetLexicalFinal());
+    XSDComplexTypeDefinition xsdComplexTypeDefinitionCopy = (XSDComplexTypeDefinition)EcoreUtil.copy(xsdComplexTypeDefinition);
+    assertTrue(xsdComplexTypeDefinitionCopy.isSetLexicalFinal());
   }
-
+  
   public void testIndexOf()
   {
     assertIndexOf(populateList(new ArrayList()));
@@ -102,62 +74,61 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     assertSetEList(populateList(new UniqueEList()));
   }
   
-	public void testGenerateUUID()
-	{
-		final Collection set = new HashSet();
-		
-		set.add(EcoreUtil.generateUUID());
-		set.add(EcoreUtil.generateUUID());
-		set.add(EcoreUtil.generateUUID());
-		assertEquals(3, set.size());
-		
-		Runnable runnable = new Runnable()
-		{
-			public void run()
-			{
-				set.add(EcoreUtil.generateUUID());
+  public void testGenerateUUID()
+  {
+    final Collection set = new HashSet();
+    
+    set.add(EcoreUtil.generateUUID());
+    set.add(EcoreUtil.generateUUID());
+    set.add(EcoreUtil.generateUUID());
+    assertEquals(3, set.size());
+    
+    Runnable runnable = new Runnable()
+    {
+      public void run()
+      {
+        set.add(EcoreUtil.generateUUID());
 
-				try
-				{
-					Thread.sleep(100);
-				}
-				catch (InterruptedException e)
-				{
-				}
-				
-				set.add(EcoreUtil.generateUUID());
-				set.add(EcoreUtil.generateUUID());				
-			}
-		};
-		
-		Thread thread1 = new Thread(runnable);
-		Thread thread2 = new Thread(runnable);
-		Thread thread3 = new Thread(runnable);
-		
-		try
-		{
-			thread1.start(); thread1.join();
-			thread2.start(); thread2.join();
-			thread3.start(); thread3.join();
-		}
-		catch (InterruptedException e)
-		{
-		}		
-		assertEquals(12, set.size());
-	}  
-  
+        try
+        {
+          Thread.sleep(100);
+        }
+        catch (InterruptedException e)
+        {
+        }
+        
+        set.add(EcoreUtil.generateUUID());
+        set.add(EcoreUtil.generateUUID());        
+      }
+    };
+    
+    Thread thread1 = new Thread(runnable);
+    Thread thread2 = new Thread(runnable);
+    Thread thread3 = new Thread(runnable);
+    
+    try
+    {
+      thread1.start(); thread1.join();
+      thread2.start(); thread2.join();
+      thread3.start(); thread3.join();
+    }
+    catch (InterruptedException e)
+    {
+    }    
+    assertEquals(12, set.size());
+  }  
   
   protected List populateList(List list)
   {
-    list.add(null); 					//0
-    list.add(Boolean.FALSE);	//1
-    list.add(new Integer(1));	//2
-    list.add(new Integer(2));	//3
-    list.add(null);						//4
-    list.add("String");				//5
-    list.add(new Integer(1));	//6
-    list.add("String");				//7
-    list.add(Boolean.FALSE);	//8
+    list.add(null);            //0
+    list.add(Boolean.FALSE);   //1
+    list.add(new Integer(1));  //2
+    list.add(new Integer(2));  //3
+    list.add(null);            //4
+    list.add("String");        //5
+    list.add(new Integer(1));  //6
+    list.add("String");        //7
+    list.add(Boolean.FALSE);   //8
 
     return list;
   }
@@ -187,28 +158,28 @@ public class EcoreUtilStaticMethodsTest extends TestCase
   {
     EList eList = new BasicEList();
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Empty list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
+    assertTrue("Empty list test", TestUtil.areEqual(prototypeList, eList));
     
     eList = new BasicEList();
     eList.add(0, "String");
     eList.add(Boolean.FALSE);
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Smaller list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
+    assertTrue("Smaller list test", TestUtil.areEqual(prototypeList, eList));
     
     eList = (EList)populateList(new BasicEList());
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Same list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
+    assertTrue("Same list test", TestUtil.areEqual(prototypeList, eList));
 
     eList.remove(2);
     eList.add(3, this);
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Equal size list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
+    assertTrue("Equal size list test", TestUtil.areEqual(prototypeList, eList));
 
     eList.add(0, "String");
     eList.add(2, Boolean.FALSE);
     eList.add(Boolean.FALSE);
     eList.add(this);
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Bigger list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
+    assertTrue("Bigger list test", TestUtil.areEqual(prototypeList, eList));
   }
 }

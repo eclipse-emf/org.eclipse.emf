@@ -16,27 +16,25 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.11 2004/10/29 19:20:57 marcelop Exp $
+ * $Id: plugin.xml,v 1.9.2.1 2005/01/14 22:56:19 nickb Exp $
  */
 -->
 
 <plugin
    id="org.eclipse.emf.test.core"
-   name="Test for EMF Core functions"
-   version="2.1.0"
-   provider-name="Eclipse.org"
+   name="%pluginName"
+   version="2.0.2"
+   provider-name="%providerName"
    class="org.eclipse.emf.test.core.EMFTestCorePlugin">
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.ecore.change"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.emf.ecore.sdo"/>
-      <import plugin="org.junit"/>
       <import plugin="org.eclipse.xsd"/>
-      <import plugin="org.eclipse.emf.codegen.ecore"/>
-      <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="org.junit"/>
    </requires>
 
    <runtime>

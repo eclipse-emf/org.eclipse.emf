@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FileTool.java,v 1.1 2004/11/03 19:41:32 marcelop Exp $
+ * $Id: FileTool.java,v 1.1.2.1 2005/01/14 22:56:18 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 

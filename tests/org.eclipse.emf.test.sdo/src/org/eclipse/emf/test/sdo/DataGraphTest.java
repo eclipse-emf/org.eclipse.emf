@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
+ * $Id: DataGraphTest.java,v 1.1.2.1 2005/01/14 22:56:19 nickb Exp $
  */
 package org.eclipse.emf.test.sdo;
 
