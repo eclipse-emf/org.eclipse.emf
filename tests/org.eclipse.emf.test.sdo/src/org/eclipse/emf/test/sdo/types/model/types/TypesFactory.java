@@ -2,9 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesFactory.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
+ * $Id: TypesFactory.java,v 1.2 2004/11/03 23:30:47 marcelop Exp $
  */
-package org.eclipse.emf.test.core.sdo.types.model.types;
+package org.eclipse.emf.test.sdo.types.model.types;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage
+ * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage
  * @generated
  */
 public interface TypesFactory extends EFactory
@@ -24,7 +24,7 @@ public interface TypesFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  TypesFactory eINSTANCE = new org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesFactoryImpl();
+  TypesFactory eINSTANCE = new org.eclipse.emf.test.sdo.types.model.types.impl.TypesFactoryImpl();
 
   /**
    * Returns a new object of class '<em>AThing</em>'.

@@ -2,16 +2,15 @@
  * <copyright>
  * </copyright>
  *
- * $Id: AThingImpl.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
+ * $Id: AThingImpl.java,v 1.2 2004/11/03 23:30:47 marcelop Exp $
  */
-package org.eclipse.emf.test.core.sdo.types.model.types.impl;
+package org.eclipse.emf.test.sdo.types.model.types.impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import java.util.Collection;
 import java.util.Date;
-
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -27,8 +26,8 @@ import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 
-import org.eclipse.emf.test.core.sdo.types.model.types.AThing;
-import org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage;
+import org.eclipse.emf.test.sdo.types.model.types.AThing;
+import org.eclipse.emf.test.sdo.types.model.types.TypesPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,38 +36,38 @@ import org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#isABoolean <em>ABoolean</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getAByte <em>AByte</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getADecimal <em>ADecimal</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getAFloat <em>AFloat</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getADouble <em>ADouble</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getAInt <em>AInt</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getAInteger <em>AInteger</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getALong <em>ALong</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getAShort <em>AShort</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getAString <em>AString</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getAChar <em>AChar</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getADate <em>ADate</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getABytes <em>ABytes</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getANumber <em>ANumber</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getAObject <em>AObject</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getAThread <em>AThread</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyBoolean <em>Many Boolean</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyByte <em>Many Byte</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyDecimal <em>Many Decimal</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyFloat <em>Many Float</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyDouble <em>Many Double</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyInt <em>Many Int</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyInteger <em>Many Integer</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyLong <em>Many Long</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyShort <em>Many Short</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyString <em>Many String</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyChar <em>Many Char</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyDate <em>Many Date</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyBytes <em>Many Bytes</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyNumber <em>Many Number</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyObject <em>Many Object</em>}</li>
- *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getManyThread <em>Many Thread</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#isABoolean <em>ABoolean</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getAByte <em>AByte</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getADecimal <em>ADecimal</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getAFloat <em>AFloat</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getADouble <em>ADouble</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getAInt <em>AInt</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getAInteger <em>AInteger</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getALong <em>ALong</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getAShort <em>AShort</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getAString <em>AString</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getAChar <em>AChar</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getADate <em>ADate</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getABytes <em>ABytes</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getANumber <em>ANumber</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getAObject <em>AObject</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getAThread <em>AThread</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyBoolean <em>Many Boolean</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyByte <em>Many Byte</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyDecimal <em>Many Decimal</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyFloat <em>Many Float</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyDouble <em>Many Double</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyInt <em>Many Int</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyInteger <em>Many Integer</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyLong <em>Many Long</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyShort <em>Many Short</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyString <em>Many String</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyChar <em>Many Char</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyDate <em>Many Date</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyBytes <em>Many Bytes</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyNumber <em>Many Number</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyObject <em>Many Object</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl#getManyThread <em>Many Thread</em>}</li>
  * </ul>
  * </p>
  *
@@ -776,345 +775,6 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public Date getADate()
-  {
-    return aDate;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setADate(Date newADate)
-  {
-    Date oldADate = aDate;
-    aDate = newADate;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__ADATE, oldADate, aDate));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public byte[] getABytes()
-  {
-    return aBytes;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setABytes(byte[] newABytes)
-  {
-    byte[] oldABytes = aBytes;
-    aBytes = newABytes;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__ABYTES, oldABytes, aBytes));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Number getANumber()
-  {
-    return aNumber;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setANumber(Number newANumber)
-  {
-    Number oldANumber = aNumber;
-    aNumber = newANumber;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__ANUMBER, oldANumber, aNumber));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object getAObject()
-  {
-    return aObject;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setAObject(Object newAObject)
-  {
-    Object oldAObject = aObject;
-    aObject = newAObject;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__AOBJECT, oldAObject, aObject));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Thread getAThread()
-  {
-    return aThread;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setAThread(Thread newAThread)
-  {
-    Thread oldAThread = aThread;
-    aThread = newAThread;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__ATHREAD, oldAThread, aThread));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyBoolean()
-  {
-    if (manyBoolean == null)
-    {
-      manyBoolean = new EDataTypeEList(Boolean.class, this, TypesPackage.ATHING__MANY_BOOLEAN);
-    }
-    return manyBoolean;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyByte()
-  {
-    if (manyByte == null)
-    {
-      manyByte = new EDataTypeEList(Byte.class, this, TypesPackage.ATHING__MANY_BYTE);
-    }
-    return manyByte;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyDecimal()
-  {
-    if (manyDecimal == null)
-    {
-      manyDecimal = new EDataTypeEList(BigDecimal.class, this, TypesPackage.ATHING__MANY_DECIMAL);
-    }
-    return manyDecimal;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyFloat()
-  {
-    if (manyFloat == null)
-    {
-      manyFloat = new EDataTypeEList(Float.class, this, TypesPackage.ATHING__MANY_FLOAT);
-    }
-    return manyFloat;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyDouble()
-  {
-    if (manyDouble == null)
-    {
-      manyDouble = new EDataTypeEList(Double.class, this, TypesPackage.ATHING__MANY_DOUBLE);
-    }
-    return manyDouble;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyInt()
-  {
-    if (manyInt == null)
-    {
-      manyInt = new EDataTypeEList(Integer.class, this, TypesPackage.ATHING__MANY_INT);
-    }
-    return manyInt;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyInteger()
-  {
-    if (manyInteger == null)
-    {
-      manyInteger = new EDataTypeEList(BigInteger.class, this, TypesPackage.ATHING__MANY_INTEGER);
-    }
-    return manyInteger;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyLong()
-  {
-    if (manyLong == null)
-    {
-      manyLong = new EDataTypeEList(Long.class, this, TypesPackage.ATHING__MANY_LONG);
-    }
-    return manyLong;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyShort()
-  {
-    if (manyShort == null)
-    {
-      manyShort = new EDataTypeEList(Short.class, this, TypesPackage.ATHING__MANY_SHORT);
-    }
-    return manyShort;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyString()
-  {
-    if (manyString == null)
-    {
-      manyString = new EDataTypeEList(String.class, this, TypesPackage.ATHING__MANY_STRING);
-    }
-    return manyString;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyChar()
-  {
-    if (manyChar == null)
-    {
-      manyChar = new EDataTypeEList(Character.class, this, TypesPackage.ATHING__MANY_CHAR);
-    }
-    return manyChar;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyDate()
-  {
-    if (manyDate == null)
-    {
-      manyDate = new EDataTypeEList(Date.class, this, TypesPackage.ATHING__MANY_DATE);
-    }
-    return manyDate;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyBytes()
-  {
-    if (manyBytes == null)
-    {
-      manyBytes = new EDataTypeEList(byte[].class, this, TypesPackage.ATHING__MANY_BYTES);
-    }
-    return manyBytes;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyNumber()
-  {
-    if (manyNumber == null)
-    {
-      manyNumber = new EDataTypeEList(Number.class, this, TypesPackage.ATHING__MANY_NUMBER);
-    }
-    return manyNumber;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyObject()
-  {
-    if (manyObject == null)
-    {
-      manyObject = new EDataTypeEList(Object.class, this, TypesPackage.ATHING__MANY_OBJECT);
-    }
-    return manyObject;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getManyThread()
-  {
-    if (manyThread == null)
-    {
-      manyThread = new EDataTypeEList(Thread.class, this, TypesPackage.ATHING__MANY_THREAD);
-    }
-    return manyThread;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public float getAFloat()
   {
     return aFloat;
@@ -1454,6 +1114,345 @@ public class AThingImpl extends EDataObjectImpl implements AThing
   public boolean isSetAChar()
   {
     return aCharESet;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Date getADate()
+  {
+    return aDate;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setADate(Date newADate)
+  {
+    Date oldADate = aDate;
+    aDate = newADate;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__ADATE, oldADate, aDate));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public byte[] getABytes()
+  {
+    return aBytes;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setABytes(byte[] newABytes)
+  {
+    byte[] oldABytes = aBytes;
+    aBytes = newABytes;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__ABYTES, oldABytes, aBytes));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Number getANumber()
+  {
+    return aNumber;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setANumber(Number newANumber)
+  {
+    Number oldANumber = aNumber;
+    aNumber = newANumber;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__ANUMBER, oldANumber, aNumber));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Object getAObject()
+  {
+    return aObject;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setAObject(Object newAObject)
+  {
+    Object oldAObject = aObject;
+    aObject = newAObject;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__AOBJECT, oldAObject, aObject));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Thread getAThread()
+  {
+    return aThread;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setAThread(Thread newAThread)
+  {
+    Thread oldAThread = aThread;
+    aThread = newAThread;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__ATHREAD, oldAThread, aThread));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyBoolean()
+  {
+    if (manyBoolean == null)
+    {
+      manyBoolean = new EDataTypeEList(Boolean.class, this, TypesPackage.ATHING__MANY_BOOLEAN);
+    }
+    return manyBoolean;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyByte()
+  {
+    if (manyByte == null)
+    {
+      manyByte = new EDataTypeEList(Byte.class, this, TypesPackage.ATHING__MANY_BYTE);
+    }
+    return manyByte;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyDecimal()
+  {
+    if (manyDecimal == null)
+    {
+      manyDecimal = new EDataTypeEList(BigDecimal.class, this, TypesPackage.ATHING__MANY_DECIMAL);
+    }
+    return manyDecimal;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyFloat()
+  {
+    if (manyFloat == null)
+    {
+      manyFloat = new EDataTypeEList(Float.class, this, TypesPackage.ATHING__MANY_FLOAT);
+    }
+    return manyFloat;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyDouble()
+  {
+    if (manyDouble == null)
+    {
+      manyDouble = new EDataTypeEList(Double.class, this, TypesPackage.ATHING__MANY_DOUBLE);
+    }
+    return manyDouble;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyInt()
+  {
+    if (manyInt == null)
+    {
+      manyInt = new EDataTypeEList(Integer.class, this, TypesPackage.ATHING__MANY_INT);
+    }
+    return manyInt;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyInteger()
+  {
+    if (manyInteger == null)
+    {
+      manyInteger = new EDataTypeEList(BigInteger.class, this, TypesPackage.ATHING__MANY_INTEGER);
+    }
+    return manyInteger;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyLong()
+  {
+    if (manyLong == null)
+    {
+      manyLong = new EDataTypeEList(Long.class, this, TypesPackage.ATHING__MANY_LONG);
+    }
+    return manyLong;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyShort()
+  {
+    if (manyShort == null)
+    {
+      manyShort = new EDataTypeEList(Short.class, this, TypesPackage.ATHING__MANY_SHORT);
+    }
+    return manyShort;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyString()
+  {
+    if (manyString == null)
+    {
+      manyString = new EDataTypeEList(String.class, this, TypesPackage.ATHING__MANY_STRING);
+    }
+    return manyString;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyChar()
+  {
+    if (manyChar == null)
+    {
+      manyChar = new EDataTypeEList(Character.class, this, TypesPackage.ATHING__MANY_CHAR);
+    }
+    return manyChar;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyDate()
+  {
+    if (manyDate == null)
+    {
+      manyDate = new EDataTypeEList(Date.class, this, TypesPackage.ATHING__MANY_DATE);
+    }
+    return manyDate;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyBytes()
+  {
+    if (manyBytes == null)
+    {
+      manyBytes = new EDataTypeEList(byte[].class, this, TypesPackage.ATHING__MANY_BYTES);
+    }
+    return manyBytes;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyNumber()
+  {
+    if (manyNumber == null)
+    {
+      manyNumber = new EDataTypeEList(Number.class, this, TypesPackage.ATHING__MANY_NUMBER);
+    }
+    return manyNumber;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyObject()
+  {
+    if (manyObject == null)
+    {
+      manyObject = new EDataTypeEList(Object.class, this, TypesPackage.ATHING__MANY_OBJECT);
+    }
+    return manyObject;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getManyThread()
+  {
+    if (manyThread == null)
+    {
+      manyThread = new EDataTypeEList(Thread.class, this, TypesPackage.ATHING__MANY_THREAD);
+    }
+    return manyThread;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MultivalueAttributeTest.java,v 1.3 2004/10/22 16:37:01 marcelop Exp $
+ * $Id: MultivalueAttributeTest.java,v 1.4 2004/11/03 23:30:40 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -26,19 +26,24 @@ import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.ChangeKind;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.test.core.EMFTestCorePlugin;
-import org.eclipse.emf.test.core.sdo.types.model.types.AThing;
-import org.eclipse.emf.test.core.sdo.types.model.types.TypesFactory;
 
 public class MultivalueAttributeTest extends TestCase
 {
-  private AThing thing;
+  private EObject thing;
+  private EAttribute manyInt;
   
   public MultivalueAttributeTest(String name)
   {
@@ -58,18 +63,34 @@ public class MultivalueAttributeTest extends TestCase
    */
   protected void setUp() throws Exception
   {
-    thing = TypesFactory.eINSTANCE.createAThing();
+    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    EClass thingEClass = EcoreFactory.eINSTANCE.createEClass();
+    thingEClass.setName("Thing");
+    ePackage.getEClassifiers().add(thingEClass);
+    
+    manyInt = EcoreFactory.eINSTANCE.createEAttribute();
+    manyInt.setName("manyInt");
+    manyInt.setEType(EcorePackage.eINSTANCE.getEInt());
+    manyInt.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    thingEClass.getEStructuralFeatures().add(manyInt);
+    
+    thing = ePackage.getEFactoryInstance().create(thingEClass);
+  }
+  
+  private List getManyInt()
+  {
+    return (List)thing.eGet(manyInt);
   }
 
   public void testMultiValueAttributeChange()
   {
-    thing.getManyInt().add(new Integer(1));
+    getManyInt().add(new Integer(1));
     
     ChangeRecorder changeRecorder = new ChangeRecorder((EObject)thing);
     
-    thing.getManyInt().add(new Integer(2));
-    thing.getManyInt().add(new Integer(3));
-    thing.getManyInt().remove(0);
+    getManyInt().add(new Integer(2));
+    getManyInt().add(new Integer(3));
+    getManyInt().remove(0);
     
     ChangeDescription changeDescription = changeRecorder.endRecording();
         
@@ -103,11 +124,11 @@ public class MultivalueAttributeTest extends TestCase
     }
     assertEquals(2, count);
         
-    assertEquals(2, thing.getManyInt().size());
-    assertFalse(thing.getManyInt().contains(new Integer(1)));
+    assertEquals(2, getManyInt().size());
+    assertFalse(getManyInt().contains(new Integer(1)));
     changeDescription.apply();
-    assertEquals(1, thing.getManyInt().size());
-    assertTrue(thing.getManyInt().contains(new Integer(1)));
+    assertEquals(1, getManyInt().size());
+    assertTrue(getManyInt().contains(new Integer(1)));
   }
   
   /*
@@ -115,27 +136,27 @@ public class MultivalueAttributeTest extends TestCase
    */
   public void testApplyAndReverse()
   {
-    List beforeChange = new ArrayList(thing.getManyInt());
+    List beforeChange = new ArrayList(getManyInt());
     
     ChangeRecorder changeRecorder = new ChangeRecorder((EObject)thing);
-    thing.getManyInt().add(new Integer(2));
-    thing.getManyInt().add(new Integer(3));
+    getManyInt().add(new Integer(2));
+    getManyInt().add(new Integer(3));
     ChangeDescription changeDescription = changeRecorder.endRecording();
     
-    List afterChange = new ArrayList(thing.getManyInt());
+    List afterChange = new ArrayList(getManyInt());
     
     //current != before && current == after
-    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, thing.getManyInt()));
-    assertTrue(EMFTestCorePlugin.areEqual(afterChange, thing.getManyInt()));
+    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, getManyInt()));
+    assertTrue(EMFTestCorePlugin.areEqual(afterChange, getManyInt()));
     
     changeDescription.applyAndReverse();    
     //current == before && current != after
-    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, thing.getManyInt()));
-    assertFalse(EMFTestCorePlugin.areEqual(afterChange, thing.getManyInt()));    
+    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, getManyInt()));
+    assertFalse(EMFTestCorePlugin.areEqual(afterChange, getManyInt()));    
 
     changeDescription.apply();    
     //current != before && current == after
-    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, thing.getManyInt()));
-    assertTrue(EMFTestCorePlugin.areEqual(afterChange, thing.getManyInt()));
+    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, getManyInt()));
+    assertTrue(EMFTestCorePlugin.areEqual(afterChange, getManyInt()));
   }  
 }

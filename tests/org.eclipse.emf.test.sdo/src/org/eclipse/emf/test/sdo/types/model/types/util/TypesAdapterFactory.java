@@ -2,9 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesAdapterFactory.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
+ * $Id: TypesAdapterFactory.java,v 1.2 2004/11/03 23:30:47 marcelop Exp $
  */
-package org.eclipse.emf.test.core.sdo.types.model.types.util;
+package org.eclipse.emf.test.sdo.types.model.types.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -13,14 +13,14 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import org.eclipse.emf.test.core.sdo.types.model.types.*;
+import org.eclipse.emf.test.sdo.types.model.types.*;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage
+ * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage
  * @generated
  */
 public class TypesAdapterFactory extends AdapterFactoryImpl
@@ -102,13 +102,13 @@ public class TypesAdapterFactory extends AdapterFactoryImpl
 
 
   /**
-   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing <em>AThing</em>}'.
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.sdo.types.model.types.AThing <em>AThing</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing
    * @generated
    */
   public Adapter createAThingAdapter()

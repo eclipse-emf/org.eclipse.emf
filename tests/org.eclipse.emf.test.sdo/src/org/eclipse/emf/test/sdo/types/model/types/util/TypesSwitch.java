@@ -2,16 +2,16 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesSwitch.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
+ * $Id: TypesSwitch.java,v 1.2 2004/11/03 23:30:47 marcelop Exp $
  */
-package org.eclipse.emf.test.core.sdo.types.model.types.util;
+package org.eclipse.emf.test.sdo.types.model.types.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import org.eclipse.emf.test.core.sdo.types.model.types.*;
+import org.eclipse.emf.test.sdo.types.model.types.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +23,7 @@ import org.eclipse.emf.test.core.sdo.types.model.types.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage
+ * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage
  * @generated
  */
 public class TypesSwitch

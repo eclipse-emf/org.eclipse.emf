@@ -2,9 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesPackageImpl.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
+ * $Id: TypesPackageImpl.java,v 1.2 2004/11/03 23:30:47 marcelop Exp $
  */
-package org.eclipse.emf.test.core.sdo.types.model.types.impl;
+package org.eclipse.emf.test.sdo.types.model.types.impl;
 
 import java.util.Date;
 
@@ -19,9 +19,9 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
-import org.eclipse.emf.test.core.sdo.types.model.types.AThing;
-import org.eclipse.emf.test.core.sdo.types.model.types.TypesFactory;
-import org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage;
+import org.eclipse.emf.test.sdo.types.model.types.AThing;
+import org.eclipse.emf.test.sdo.types.model.types.TypesFactory;
+import org.eclipse.emf.test.sdo.types.model.types.TypesPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -98,7 +98,7 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see org.eclipse.emf.ecore.EPackage.Registry
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#eNS_URI
+   * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#eNS_URI
    * @see #init()
    * @generated
    */
@@ -154,6 +154,9 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
     // Initialize created meta-data
     theTypesPackage.initializePackageContents();
 
+    // Mark meta-data to indicate it can't be changed
+    theTypesPackage.freeze();
+
     return theTypesPackage;
   }
 
@@ -195,6 +198,86 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
   public EAttribute getAThing_ADecimal()
   {
     return (EAttribute)aThingEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_AFloat()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ADouble()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_AInt()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_AInteger()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(6);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ALong()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(7);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_AShort()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(8);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_AString()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(9);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_AChar()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(10);
   }
 
   /**
@@ -475,86 +558,6 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
   public EDataType getMyThread()
   {
     return myThreadEDataType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getAThing_AFloat()
-  {
-    return (EAttribute)aThingEClass.getEStructuralFeatures().get(3);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getAThing_ADouble()
-  {
-    return (EAttribute)aThingEClass.getEStructuralFeatures().get(4);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getAThing_AInt()
-  {
-    return (EAttribute)aThingEClass.getEStructuralFeatures().get(5);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getAThing_AInteger()
-  {
-    return (EAttribute)aThingEClass.getEStructuralFeatures().get(6);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getAThing_ALong()
-  {
-    return (EAttribute)aThingEClass.getEStructuralFeatures().get(7);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getAThing_AShort()
-  {
-    return (EAttribute)aThingEClass.getEStructuralFeatures().get(8);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getAThing_AString()
-  {
-    return (EAttribute)aThingEClass.getEStructuralFeatures().get(9);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getAThing_AChar()
-  {
-    return (EAttribute)aThingEClass.getEStructuralFeatures().get(10);
   }
 
   /**

@@ -2,9 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesPackage.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
+ * $Id: TypesPackage.java,v 1.2 2004/11/03 23:30:47 marcelop Exp $
  */
-package org.eclipse.emf.test.core.sdo.types.model.types;
+package org.eclipse.emf.test.sdo.types.model.types;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -22,10 +22,11 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesFactory
+ * @see org.eclipse.emf.test.sdo.types.model.types.TypesFactory
  * @generated
  */
-public interface TypesPackage extends EPackage{
+public interface TypesPackage extends EPackage
+{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -56,14 +57,14 @@ public interface TypesPackage extends EPackage{
    * <!-- end-user-doc -->
    * @generated
    */
-  TypesPackage eINSTANCE = org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesPackageImpl.init();
+  TypesPackage eINSTANCE = org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl.init();
 
   /**
-   * The meta object id for the '{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl <em>AThing</em>}' class.
+   * The meta object id for the '{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl <em>AThing</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesPackageImpl#getAThing()
+   * @see org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl
+   * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getAThing()
    * @generated
    */
   int ATHING = 0;
@@ -365,12 +366,11 @@ public interface TypesPackage extends EPackage{
    */
   int ATHING_FEATURE_COUNT = 32;
 
-
   /**
    * The meta object id for the '<em>My Bytes</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesPackageImpl#getMyBytes()
+   * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyBytes()
    * @generated
    */
   int MY_BYTES = 1;
@@ -379,7 +379,7 @@ public interface TypesPackage extends EPackage{
    * The meta object id for the '<em>My Char</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesPackageImpl#getMyChar()
+   * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyChar()
    * @generated
    */
   int MY_CHAR = 2;
@@ -389,7 +389,7 @@ public interface TypesPackage extends EPackage{
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see java.lang.Character
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesPackageImpl#getMyCharObject()
+   * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyCharObject()
    * @generated
    */
   int MY_CHAR_OBJECT = 3;
@@ -399,18 +399,17 @@ public interface TypesPackage extends EPackage{
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see java.util.Date
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesPackageImpl#getMyDate()
+   * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyDate()
    * @generated
    */
   int MY_DATE = 4;
-
 
   /**
    * The meta object id for the '<em>My Number</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see java.lang.Number
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesPackageImpl#getMyNumber()
+   * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyNumber()
    * @generated
    */
   int MY_NUMBER = 5;
@@ -420,7 +419,7 @@ public interface TypesPackage extends EPackage{
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see java.lang.Object
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesPackageImpl#getMyObject()
+   * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyObject()
    * @generated
    */
   int MY_OBJECT = 6;
@@ -430,281 +429,369 @@ public interface TypesPackage extends EPackage{
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see java.lang.Thread
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesPackageImpl#getMyThread()
+   * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyThread()
    * @generated
    */
   int MY_THREAD = 7;
 
 
   /**
-   * Returns the meta object for class '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing <em>AThing</em>}'.
+   * Returns the meta object for class '{@link org.eclipse.emf.test.sdo.types.model.types.AThing <em>AThing</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for class '<em>AThing</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing
    * @generated
    */
   EClass getAThing();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#isABoolean <em>ABoolean</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#isABoolean <em>ABoolean</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>ABoolean</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#isABoolean()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#isABoolean()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ABoolean();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAByte <em>AByte</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getAByte <em>AByte</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>AByte</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAByte()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getAByte()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_AByte();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getADecimal <em>ADecimal</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getADecimal <em>ADecimal</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>ADecimal</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getADecimal()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getADecimal()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ADecimal();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getADate <em>ADate</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getAFloat <em>AFloat</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>AFloat</em>'.
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getAFloat()
+   * @see #getAThing()
+   * @generated
+   */
+  EAttribute getAThing_AFloat();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getADouble <em>ADouble</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>ADouble</em>'.
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getADouble()
+   * @see #getAThing()
+   * @generated
+   */
+  EAttribute getAThing_ADouble();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getAInt <em>AInt</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>AInt</em>'.
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getAInt()
+   * @see #getAThing()
+   * @generated
+   */
+  EAttribute getAThing_AInt();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getAInteger <em>AInteger</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>AInteger</em>'.
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getAInteger()
+   * @see #getAThing()
+   * @generated
+   */
+  EAttribute getAThing_AInteger();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getALong <em>ALong</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>ALong</em>'.
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getALong()
+   * @see #getAThing()
+   * @generated
+   */
+  EAttribute getAThing_ALong();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getAShort <em>AShort</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>AShort</em>'.
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getAShort()
+   * @see #getAThing()
+   * @generated
+   */
+  EAttribute getAThing_AShort();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getAString <em>AString</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>AString</em>'.
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getAString()
+   * @see #getAThing()
+   * @generated
+   */
+  EAttribute getAThing_AString();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getAChar <em>AChar</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>AChar</em>'.
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getAChar()
+   * @see #getAThing()
+   * @generated
+   */
+  EAttribute getAThing_AChar();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getADate <em>ADate</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>ADate</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getADate()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getADate()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ADate();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getABytes <em>ABytes</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getABytes <em>ABytes</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>ABytes</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getABytes()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getABytes()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ABytes();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getANumber <em>ANumber</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getANumber <em>ANumber</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>ANumber</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getANumber()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getANumber()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ANumber();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAObject <em>AObject</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getAObject <em>AObject</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>AObject</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAObject()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getAObject()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_AObject();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAThread <em>AThread</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getAThread <em>AThread</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>AThread</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAThread()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getAThread()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_AThread();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyBoolean <em>Many Boolean</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyBoolean <em>Many Boolean</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Boolean</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyBoolean()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyBoolean()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyBoolean();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyByte <em>Many Byte</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyByte <em>Many Byte</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Byte</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyByte()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyByte()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyByte();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyDecimal <em>Many Decimal</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyDecimal <em>Many Decimal</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Decimal</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyDecimal()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyDecimal()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyDecimal();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyFloat <em>Many Float</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyFloat <em>Many Float</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Float</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyFloat()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyFloat()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyFloat();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyDouble <em>Many Double</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyDouble <em>Many Double</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Double</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyDouble()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyDouble()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyDouble();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyInt <em>Many Int</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyInt <em>Many Int</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Int</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyInt()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyInt()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyInt();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyInteger <em>Many Integer</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyInteger <em>Many Integer</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Integer</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyInteger()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyInteger()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyInteger();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyLong <em>Many Long</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyLong <em>Many Long</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Long</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyLong()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyLong()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyLong();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyShort <em>Many Short</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyShort <em>Many Short</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Short</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyShort()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyShort()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyShort();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyString <em>Many String</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyString <em>Many String</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many String</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyString()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyString()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyString();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyChar <em>Many Char</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyChar <em>Many Char</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Char</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyChar()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyChar()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyChar();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyDate <em>Many Date</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyDate <em>Many Date</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Date</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyDate()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyDate()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyDate();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyBytes <em>Many Bytes</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyBytes <em>Many Bytes</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Bytes</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyBytes()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyBytes()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyBytes();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyNumber <em>Many Number</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyNumber <em>Many Number</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Number</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyNumber()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyNumber()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyNumber();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyObject <em>Many Object</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyObject <em>Many Object</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Object</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyObject()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyObject()
    * @see #getAThing()
    * @generated
    */
   EAttribute getAThing_ManyObject();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyThread <em>Many Thread</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.test.sdo.types.model.types.AThing#getManyThread <em>Many Thread</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute list '<em>Many Thread</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyThread()
+   * @see org.eclipse.emf.test.sdo.types.model.types.AThing#getManyThread()
    * @see #getAThing()
    * @generated
    */
@@ -784,94 +871,6 @@ public interface TypesPackage extends EPackage{
    * @generated
    */
   EDataType getMyThread();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAFloat <em>AFloat</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>AFloat</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAFloat()
-   * @see #getAThing()
-   * @generated
-   */
-  EAttribute getAThing_AFloat();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getADouble <em>ADouble</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>ADouble</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getADouble()
-   * @see #getAThing()
-   * @generated
-   */
-  EAttribute getAThing_ADouble();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAInt <em>AInt</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>AInt</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAInt()
-   * @see #getAThing()
-   * @generated
-   */
-  EAttribute getAThing_AInt();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAInteger <em>AInteger</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>AInteger</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAInteger()
-   * @see #getAThing()
-   * @generated
-   */
-  EAttribute getAThing_AInteger();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getALong <em>ALong</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>ALong</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getALong()
-   * @see #getAThing()
-   * @generated
-   */
-  EAttribute getAThing_ALong();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAShort <em>AShort</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>AShort</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAShort()
-   * @see #getAThing()
-   * @generated
-   */
-  EAttribute getAThing_AShort();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAString <em>AString</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>AString</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAString()
-   * @see #getAThing()
-   * @generated
-   */
-  EAttribute getAThing_AString();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAChar <em>AChar</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>AChar</em>'.
-   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAChar()
-   * @see #getAThing()
-   * @generated
-   */
-  EAttribute getAThing_AChar();
 
   /**
    * Returns the factory that creates the instances of the model.
