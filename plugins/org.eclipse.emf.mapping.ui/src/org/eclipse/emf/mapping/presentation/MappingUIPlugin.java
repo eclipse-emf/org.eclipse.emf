@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingUIPlugin.java,v 1.1 2004/03/06 17:31:33 marcelop Exp $
+ * $Id: MappingUIPlugin.java,v 1.2 2004/05/16 16:51:27 emerks Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -21,8 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPluginDescriptor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
@@ -53,21 +52,13 @@ public class MappingUIPlugin extends AbstractUIPlugin
   /**
    * Create the instance.
    */
-  public MappingUIPlugin(IPluginDescriptor descriptor) 
+  public MappingUIPlugin() 
   {
-    super(descriptor);
+    super();
 
     // Remember the static instance.
     //
     instance = this;
-  }
-
-  /**
-   * Do initialization stuff here.
-   */
-  public void startup() throws CoreException 
-  {
-    super.startup();
   }
 
   /**
@@ -81,7 +72,7 @@ public class MappingUIPlugin extends AbstractUIPlugin
 
   public String getString(String key)
   {
-    return getDescriptor().getResourceBundle().getString(key);
+    return Platform.getResourceBundle(getBundle()).getString(key);
   }
 
   public String getString(String key, Object s1)
@@ -101,7 +92,7 @@ public class MappingUIPlugin extends AbstractUIPlugin
   {
     try
     {
-      ImageDescriptor imageDescriptor = ImageDescriptor.createFromURL(new URL(getDescriptor().getInstallURL(), "icons/" + key + ".gif"));
+      ImageDescriptor imageDescriptor = ImageDescriptor.createFromURL(new URL(getBundle().getEntry("/"), "icons/" + key + ".gif"));
       return imageDescriptor;
     }
     catch (MalformedURLException exception)

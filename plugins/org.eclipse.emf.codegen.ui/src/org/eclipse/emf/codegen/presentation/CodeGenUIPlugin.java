@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGenUIPlugin.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: CodeGenUIPlugin.java,v 1.2 2004/05/16 17:17:57 emerks Exp $
  */
 package org.eclipse.emf.codegen.presentation;
 
@@ -22,8 +22,8 @@ import java.net.URL;
 import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -53,9 +53,9 @@ public class CodeGenUIPlugin extends AbstractUIPlugin
   /**
    * Create the instance.
    */
-  public CodeGenUIPlugin(IPluginDescriptor descriptor) 
+  public CodeGenUIPlugin() 
   {
-    super(descriptor);
+    super();
 
     // Remember the static instance.
     //
@@ -67,14 +67,14 @@ public class CodeGenUIPlugin extends AbstractUIPlugin
    */
   public String getString(String key) 
   {
-    return plugin.getDescriptor().getResourceBundle().getString(key);
+    return Platform.getResourceBundle(plugin.getBundle()).getString(key);
   }
 
   public ImageDescriptor getImage(String key)
   {
     try
     {
-      return ImageDescriptor.createFromURL(new URL(getDescriptor().getInstallURL() + "icons/" + key + ".gif"));
+      return ImageDescriptor.createFromURL(new URL(getBundle().getEntry("/") + "icons/" + key + ".gif"));
     }
     catch (MalformedURLException exception)
     {
@@ -110,7 +110,7 @@ public class CodeGenUIPlugin extends AbstractUIPlugin
       status = 
         new Status
           (IStatus.ERROR, 
-           getPlugin().getDescriptor().getUniqueIdentifier(),
+           getPlugin().getBundle().getSymbolicName(),
            0,
            exception.getLocalizedMessage(),
            exception);

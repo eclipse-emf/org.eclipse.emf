@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: MappingPlugin.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
+ * $Id: MappingPlugin.java,v 1.3 2004/05/16 16:56:50 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
-
-import org.eclipse.core.runtime.IPluginDescriptor;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -98,9 +96,9 @@ public final class MappingPlugin extends EMFPlugin
      * @param descriptor the description of the plugin.
      * @generated
      */
-    public Implementation(IPluginDescriptor descriptor)
+    public Implementation()
     {
-      super(descriptor);
+      super();
 
       // Remember the static instance.
       //

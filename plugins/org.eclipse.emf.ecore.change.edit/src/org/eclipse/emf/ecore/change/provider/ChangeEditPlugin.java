@@ -12,11 +12,9 @@
  *
  * </copyright>
  *
- * $Id: ChangeEditPlugin.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ChangeEditPlugin.java,v 1.2 2004/05/16 17:09:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
-
-import org.eclipse.core.runtime.IPluginDescriptor;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -100,9 +98,9 @@ public final class ChangeEditPlugin extends EMFPlugin
      * @param descriptor the description of the plugin.
      * @generated
      */
-    public Implementation(IPluginDescriptor descriptor)
+    public Implementation()
     {
-      super(descriptor);
+      super();
 
       // Remember the static instance.
       //

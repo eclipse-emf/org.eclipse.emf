@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EcorePlugin.java,v 1.2 2004/05/16 17:13:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -24,12 +24,12 @@ import java.util.Map;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPluginDescriptor;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
+import org.osgi.framework.BundleContext;
 // ECLIPSE-DEPEND-END
 
 
@@ -219,9 +219,9 @@ public class EcorePlugin
      * Creates the singleton instance.
      * @param descriptor the initialization data for the plugin.
      */
-    public Implementation(IPluginDescriptor descriptor)
+    public Implementation()
     {
-      super(descriptor);
+      super();
       plugin = this;
     }
   
@@ -282,9 +282,9 @@ public class EcorePlugin
      * </p>
      * @throws CoreException if there is a show stopping problem.
      */
-    public void startup() throws CoreException
+    public void start(BundleContext context) throws Exception
     {
-      super.startup();
+      super.start(context);
 
       workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 

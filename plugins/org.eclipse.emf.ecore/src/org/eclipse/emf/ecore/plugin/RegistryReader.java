@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegistryReader.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: RegistryReader.java,v 1.2 2004/05/16 17:14:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -23,8 +23,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IPluginDescriptor;
-import org.eclipse.core.runtime.IPluginRegistry;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EPackage;
@@ -35,11 +35,11 @@ abstract class RegistryReader
 {
   protected static final String TAG_DESCRIPTION = "description";
 
-  protected IPluginRegistry pluginRegistry;
+  protected IExtensionRegistry pluginRegistry;
   String pluginID;
   String extensionPointID;
 
-  public RegistryReader(IPluginRegistry pluginRegistry, String pluginID, String extensionPointID)
+  public RegistryReader(IExtensionRegistry pluginRegistry, String pluginID, String extensionPointID)
   {
     super();
     this.pluginRegistry = pluginRegistry;
@@ -94,8 +94,7 @@ abstract class RegistryReader
   protected void logError(IConfigurationElement element, String text)
   {
     IExtension extension = element.getDeclaringExtension();
-    IPluginDescriptor descriptor = extension.getDeclaringPluginDescriptor();
-    System.err.println("Plugin " + descriptor.getUniqueIdentifier() + ", extension " + extension.getExtensionPointUniqueIdentifier());
+    System.err.println("Plugin " + extension.getNamespace() + ", extension " + extension.getExtensionPointUniqueIdentifier());
     System.err.println(text);
   }
 
@@ -163,8 +162,7 @@ abstract class RegistryReader
       //
       try
       {
-        ClassLoader pluginClassLoader = element.getDeclaringExtension().getDeclaringPluginDescriptor().getPluginClassLoader();
-        Class javaClass = pluginClassLoader.loadClass(element.getAttribute(attributeName));
+        Class javaClass = Platform.getBundle(element.getDeclaringExtension().getNamespace()).loadClass(element.getAttribute(attributeName));
         Field field = javaClass.getField("eINSTANCE");
         Object result = field.get(null);
         return (EPackage)result;

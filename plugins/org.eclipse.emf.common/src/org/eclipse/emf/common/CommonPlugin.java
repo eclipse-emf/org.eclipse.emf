@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: CommonPlugin.java,v 1.2 2004/05/16 17:17:16 emerks Exp $
  */
 package org.eclipse.emf.common;
 
-
-import org.eclipse.core.runtime.IPluginDescriptor;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
@@ -80,9 +78,9 @@ public final class CommonPlugin extends EMFPlugin
      * Creates an instance.
      * @param descriptor the description of the plugin.
      */
-    public Implementation(IPluginDescriptor descriptor)
+    public Implementation()
     {
-      super(descriptor);
+      super();
 
       // Remember the static instance.
       //

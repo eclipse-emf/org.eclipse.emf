@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.2 2004/03/20 20:54:23 marcelop Exp $
+ * $Id: plugin.xml,v 1.3 2004/05/16 17:16:56 emerks Exp $
  */
 -->
 
@@ -28,7 +28,7 @@
     class = "org.eclipse.emf.common.CommonPlugin$Implementation" >
 
   <requires>
-    <import plugin="org.eclipse.core.runtime.compatibility"/>
+    <import plugin="org.eclipse.core.runtime"/>
   </requires>
 
   <runtime>

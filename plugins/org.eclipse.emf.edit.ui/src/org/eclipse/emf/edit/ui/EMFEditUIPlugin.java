@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: EMFEditUIPlugin.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EMFEditUIPlugin.java,v 1.2 2004/05/16 16:59:52 emerks Exp $
  */
 package org.eclipse.emf.edit.ui;
 
-
-import org.eclipse.core.runtime.IPluginDescriptor;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -81,9 +79,9 @@ public final class EMFEditUIPlugin extends EMFPlugin
      * Creates an instance.
      * @param descriptor the description of the plugin.
      */
-    public Implementation(IPluginDescriptor descriptor)
+    public Implementation()
     {
-      super(descriptor);
+      super();
 
       // Remember the static instance.
       //

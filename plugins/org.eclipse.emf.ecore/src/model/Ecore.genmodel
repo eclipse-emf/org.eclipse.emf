@@ -4,7 +4,8 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.ecore/src"
     editDirectory="/org.eclipse.emf.ecore.edit/src" editorDirectory="/org.eclipse.emf.ecore.editor/src"
     modelPluginID="org.eclipse.emf.ecore" runtimeJar="true" modelName="Ecore" editPluginClass="org.eclipse.emf.ecore.provider.EcoreEditPlugin"
-    editorPluginClass="org.eclipse.emf.ecore.presentation.EcoreEditorPlugin" updateClasspath="false">
+    editorPluginClass="org.eclipse.emf.ecore.presentation.EcoreEditorPlugin" updateClasspath="false"
+    runtimeCompatibility="false">
   <foreignModel>Ecore.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>

@@ -2,12 +2,10 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EcoreEditorPlugin.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EcoreEditorPlugin.java,v 1.2 2004/05/16 17:06:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
-
-import org.eclipse.core.runtime.IPluginDescriptor;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -90,9 +88,9 @@ public final class EcoreEditorPlugin extends EMFPlugin
      * @param descriptor the description of the plugin.
      * @generated
      */
-    public Implementation(IPluginDescriptor descriptor)
+    public Implementation()
     {
-      super(descriptor);
+      super();
 
       // Remember the static instance.
       //

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EMFPlugin.java,v 1.2 2004/05/16 17:17:16 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -27,8 +27,8 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 
@@ -80,6 +80,18 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
   public Logger getPluginLogger()
   {
     return (Logger)getPluginResourceLocator();
+  }
+
+  public String getSymbolicName()
+  {
+    if (getPluginResourceLocator() instanceof EclipsePlugin)
+    {
+      return ((EclipsePlugin)getPluginResourceLocator()).getSymbolicName();
+    }
+    else
+    {
+      throw new UnsupportedOperationException("Plugin ID not available " + this);
+    }
   }
 
   /*
@@ -305,11 +317,28 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
   {
     /**
      * Creates an instance.
-     * @param descriptor the description of the plugin.
      */
-    public EclipsePlugin(IPluginDescriptor descriptor)
+    public EclipsePlugin()
+    {
+      super();
+    }
+
+    /**
+     * Creates an instance.
+     * @param descriptor the description of the plugin.
+     * @deprecated
+     */
+    public EclipsePlugin(org.eclipse.core.runtime.IPluginDescriptor descriptor)
     {
       super(descriptor);
+    }
+
+    /**
+     * Return the plugin ID.
+     */
+    public String getSymbolicName()
+    {
+      return getBundle().getSymbolicName();
     }
 
     /*
@@ -317,7 +346,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
      */
     public URL getBaseURL()
     {
-      return getDescriptor().getInstallURL();
+      return getBundle().getEntry("/");
     }
 
     /*
@@ -363,7 +392,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
      */
     public String getString(String key)
     {
-      return getDescriptor().getResourceBundle().getString(key);
+      return Platform.getResourceBundle(getBundle()).getString(key);
     }
 
     /*
@@ -405,14 +434,14 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
             message = "";
           }
 
-          getLog().log(new Status(IStatus.WARNING, getDescriptor().getUniqueIdentifier(), 0, message, throwable));
+          getLog().log(new Status(IStatus.WARNING, getBundle().getSymbolicName(), 0, message, throwable));
         }
         else
         {
           // System.err.println("Logged throwable: --------------------");
           // throwable.printStackTrace();
 
-          getLog().log (new Status (IStatus.WARNING, getDescriptor().getUniqueIdentifier(), 0, logEntry.toString(), null));
+          getLog().log (new Status (IStatus.WARNING, getBundle().getSymbolicName(), 0, logEntry.toString(), null));
         }
       }
     }

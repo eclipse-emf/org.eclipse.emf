@@ -12,11 +12,9 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditPlugin.java,v 1.2 2004/03/18 20:10:57 emerks Exp $
+ * $Id: GenModelEditPlugin.java,v 1.3 2004/05/16 17:19:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
-
-import org.eclipse.core.runtime.IPluginDescriptor;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -100,9 +98,9 @@ public final class GenModelEditPlugin extends EMFPlugin
      * @param descriptor the description of the plugin.
      * @generated
      */
-    public Implementation(IPluginDescriptor descriptor)
+    public Implementation()
     {
-      super(descriptor);
+      super();
 
       // Remember the static instance.
       //

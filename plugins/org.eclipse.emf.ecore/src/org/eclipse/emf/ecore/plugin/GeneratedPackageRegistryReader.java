@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratedPackageRegistryReader.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GeneratedPackageRegistryReader.java,v 1.2 2004/05/16 17:14:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -36,8 +36,8 @@ class GeneratedPackageRegistryReader extends RegistryReader
   public GeneratedPackageRegistryReader()
   {
     super
-      (Platform.getPluginRegistry(),
-       EcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(), 
+      (Platform.getExtensionRegistry(),
+       EcorePlugin.getPlugin().getBundle().getSymbolicName(), 
        EcorePlugin.GENERATED_PACKAGE_PPID);
   }
 

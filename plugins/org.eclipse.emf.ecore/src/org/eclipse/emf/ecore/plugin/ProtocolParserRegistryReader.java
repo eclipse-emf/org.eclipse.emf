@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProtocolParserRegistryReader.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: ProtocolParserRegistryReader.java,v 1.2 2004/05/16 17:14:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -38,8 +38,8 @@ class ProtocolParserRegistryReader extends RegistryReader
   public ProtocolParserRegistryReader()
   {
     super
-      (Platform.getPluginRegistry(),
-       EcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(), 
+      (Platform.getExtensionRegistry(),
+       EcorePlugin.getPlugin().getBundle().getSymbolicName(), 
        EcorePlugin.PROTOCOL_PARSER_PPID);
   }
 

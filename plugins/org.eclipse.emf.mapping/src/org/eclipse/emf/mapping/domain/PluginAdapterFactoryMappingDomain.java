@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PluginAdapterFactoryMappingDomain.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: PluginAdapterFactoryMappingDomain.java,v 1.2 2004/05/16 16:56:38 emerks Exp $
  */
 package org.eclipse.emf.mapping.domain;
 
@@ -20,7 +20,7 @@ package org.eclipse.emf.mapping.domain;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IPluginRegistry;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.common.command.CommandStack;
@@ -115,9 +115,9 @@ public class PluginAdapterFactoryMappingDomain extends AdapterFactoryMappingDoma
   {
     if (mappingDomainKey == null) return;
 
-    IPluginRegistry registry = Platform.getPluginRegistry();
+    IExtensionRegistry registry = Platform.getExtensionRegistry();
     IExtensionPoint pct = 
-      registry.getExtensionPoint(MappingPlugin.getPlugin().getDescriptor().getUniqueIdentifier(), MAPPING_EXTENSION_POINT_ID);
+      registry.getExtensionPoint(MappingPlugin.getPlugin().getBundle().getSymbolicName(), MAPPING_EXTENSION_POINT_ID);
                 
     IExtension[] extension = pct.getExtensions();
     for (int l = 0; l < extension.length; ++l) 

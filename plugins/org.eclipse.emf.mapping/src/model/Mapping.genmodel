@@ -5,7 +5,7 @@
     creationCommands="false" editDirectory="/org.eclipse.emf.mapping/src" editorDirectory=""
     modelPluginID="org.eclipse.emf.mapping" runtimeJar="true" modelName="Mapping"
     modelPluginClass="org.eclipse.emf.mapping.MappingPlugin" editPluginClass="org.eclipse.emf.mapping.MappingPlugin"
-    editorPluginClass="" updateClasspath="false" usedGenPackages="../../../org.eclipse.emf.ecore/src/model/Ecore.genmodel#//ecore">
+    editorPluginClass="" updateClasspath="false" runtimeCompatibility="false" usedGenPackages="../../../org.eclipse.emf.ecore/src/model/Ecore.genmodel#//ecore">
   <foreignModel>Mapping.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>

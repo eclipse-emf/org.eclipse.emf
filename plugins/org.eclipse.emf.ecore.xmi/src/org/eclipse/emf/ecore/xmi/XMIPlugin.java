@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XMIPlugin.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMIPlugin.java,v 1.2 2004/05/16 17:01:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
-
-import org.eclipse.core.runtime.IPluginDescriptor;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -72,9 +70,9 @@ public final class XMIPlugin extends EMFPlugin
      * Creates an instance.
      * @param descriptor the description of the plugin.
      */
-    public Implementation(IPluginDescriptor descriptor)
+    public Implementation()
     {
-      super(descriptor);
+      super();
 
       // Remember the static instance.
       //
