@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.11 2004/06/18 15:22:12 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.12 2004/06/23 12:37:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -673,10 +673,15 @@ public class XMLHelperImpl implements XMLHelper
     for (Iterator i = packages.entrySet().iterator(); i.hasNext(); )
     {
       Map.Entry entry = (Map.Entry)i.next();
-      EPackage conflict = (EPackage)map.put(entry.getValue(), entry.getKey());
+      Object value = entry.getValue();
+      if (value == null)
+      {
+        value = "";
+      }
+      EPackage conflict = (EPackage)map.put(value, entry.getKey());
       if (conflict != null && conflict.eResource() != null)
       {
-        map.put(entry.getValue(), conflict);
+        map.put(value, conflict);
       }
     }
     EPackage[] result = new EPackage[map.size()];
