@@ -29,25 +29,25 @@ public class PluginXML
   protected final String TEXT_21 = "\" />" + NL + "  </extension>";
   protected final String TEXT_22 = NL;
   protected final String TEXT_23 = NL + "  <extension" + NL + "    point=\"org.eclipse.core.runtime.applications\"" + NL + "    id=\"";
-  protected final String TEXT_24 = "_Application\">" + NL + "    <application>" + NL + "      <run" + NL + "        class=\"";
+  protected final String TEXT_24 = "Application\">" + NL + "    <application>" + NL + "      <run" + NL + "        class=\"";
   protected final String TEXT_25 = "$Application\">" + NL + "      </run>" + NL + "    </application>" + NL + "  </extension>" + NL + "" + NL + "   <extension" + NL + "    point=\"org.eclipse.ui.perspectives\">" + NL + "    <perspective" + NL + "      name=\"%_UI_Perspective_label\"" + NL + "      class=\"";
   protected final String TEXT_26 = "$Perspective\"" + NL + "      id=\"";
-  protected final String TEXT_27 = "_Perspective\">" + NL + "    </perspective>" + NL + "  </extension>" + NL + "" + NL + "  <extension" + NL + "    point=\"org.eclipse.ui.actionSets\">" + NL + "    <actionSet" + NL + "      label=\"%_UI_";
+  protected final String TEXT_27 = "Perspective\">" + NL + "    </perspective>" + NL + "  </extension>" + NL + "" + NL + "  <extension" + NL + "    point=\"org.eclipse.ui.actionSets\">" + NL + "    <actionSet" + NL + "      label=\"%_UI_";
   protected final String TEXT_28 = "_ActionSet_label\"" + NL + "      visible=\"true\"" + NL + "      id=\"";
-  protected final String TEXT_29 = "_ActionSet\">" + NL + "      <action" + NL + "        label=\"%_UI_Menu_About_label\"" + NL + "        class=\"";
+  protected final String TEXT_29 = "ActionSet\">" + NL + "      <action" + NL + "        label=\"%_UI_Menu_About_label\"" + NL + "        class=\"";
   protected final String TEXT_30 = "$AboutAction\"" + NL + "        menubarPath=\"help/additions\"" + NL + "        id=\"";
-  protected final String TEXT_31 = "_AboutAction\">" + NL + "      </action>" + NL + "      <action" + NL + "        label=\"%_UI_Menu_OpenURI_label\"" + NL + "        accelerator=\"Ctrl+U\"" + NL + "        class=\"";
+  protected final String TEXT_31 = "AboutAction\">" + NL + "      </action>" + NL + "      <action" + NL + "        label=\"%_UI_Menu_OpenURI_label\"" + NL + "        accelerator=\"Ctrl+U\"" + NL + "        class=\"";
   protected final String TEXT_32 = "$OpenURIAction\"" + NL + "        menubarPath=\"file/additions\"" + NL + "        id=\"";
-  protected final String TEXT_33 = "_OpenURIAction\">" + NL + "      </action>" + NL + "      <action" + NL + "        label=\"%_UI_Menu_Open_label\"" + NL + "        accelerator=\"Ctrl+O\"" + NL + "        class=\"";
+  protected final String TEXT_33 = "OpenURIAction\">" + NL + "      </action>" + NL + "      <action" + NL + "        label=\"%_UI_Menu_Open_label\"" + NL + "        accelerator=\"Ctrl+O\"" + NL + "        class=\"";
   protected final String TEXT_34 = "$OpenAction\"" + NL + "        menubarPath=\"file/additions\"" + NL + "        id=\"";
-  protected final String TEXT_35 = "_OpenAction\">" + NL + "      </action>" + NL + "    </actionSet>" + NL + "  </extension>" + NL + "   ";
+  protected final String TEXT_35 = "OpenAction\">" + NL + "      </action>" + NL + "    </actionSet>" + NL + "  </extension>" + NL + "   ";
   protected final String TEXT_36 = NL;
   protected final String TEXT_37 = NL + "  <extension" + NL + "    point=\"org.eclipse.ui.actionSets\">" + NL + "    <actionSet" + NL + "      label=\"%_UI_";
   protected final String TEXT_38 = "_ActionSet_label\"" + NL + "      visible=\"true\"" + NL + "      id=\"";
-  protected final String TEXT_39 = "_ActionSet\">" + NL + "      <action" + NL + "        label=\"%_UI_";
+  protected final String TEXT_39 = "ActionSet\">" + NL + "      <action" + NL + "        label=\"%_UI_";
   protected final String TEXT_40 = "_label\"" + NL + "        class=\"";
   protected final String TEXT_41 = "$NewAction\"" + NL + "        menubarPath=\"file/new/additions\"" + NL + "        id=\"";
-  protected final String TEXT_42 = "New\">" + NL + "      </action>" + NL + "    </actionSet>" + NL + "  </extension>  ";
+  protected final String TEXT_42 = "NewAction\">" + NL + "      </action>" + NL + "    </actionSet>" + NL + "  </extension>  ";
   protected final String TEXT_43 = NL + "  <extension" + NL + "    point = \"org.eclipse.ui.newWizards\">" + NL + "    <category" + NL + "      id = \"org.eclipse.emf.ecore.Wizard.category.ID\"" + NL + "      name=\"%_UI_Wizard_category\">" + NL + "    </category>" + NL + "    <wizard" + NL + "      id = \"";
   protected final String TEXT_44 = "ID\"" + NL + "      name = \"%_UI_";
   protected final String TEXT_45 = "_label\"" + NL + "      class = \"";
@@ -131,7 +131,7 @@ public class PluginXML
     }
     if (genModel.isRichClientPlatform()) {
     stringBuffer.append(TEXT_23);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(genModel.getEditorAdvisorClassName());
     stringBuffer.append(TEXT_24);
     stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
     stringBuffer.append(TEXT_25);
@@ -141,7 +141,7 @@ public class PluginXML
     stringBuffer.append(TEXT_27);
     stringBuffer.append(genModel.getEditorAdvisorClassName());
     stringBuffer.append(TEXT_28);
-    stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
+    stringBuffer.append(genModel.getEditorAdvisorClassName());
     stringBuffer.append(TEXT_29);
     stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
     stringBuffer.append(TEXT_30);
@@ -168,7 +168,7 @@ public class PluginXML
     stringBuffer.append(TEXT_40);
     stringBuffer.append(genPackage.getQualifiedActionBarContributorClassName());
     stringBuffer.append(TEXT_41);
-    stringBuffer.append(genPackage.getPackageName());
+    stringBuffer.append(genPackage.getQualifiedActionBarContributorClassName());
     stringBuffer.append(TEXT_42);
     } else {
     stringBuffer.append(TEXT_43);

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.7 2004/06/15 12:25:28 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.8 2004/06/15 20:12:14 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -67,7 +67,7 @@
 <%if (genModel.isRichClientPlatform()) {%>
   <extension
     point="org.eclipse.core.runtime.applications"
-    id="<%=genModel.getQualifiedEditorAdvisorClassName()%>_Application">
+    id="<%=genModel.getEditorAdvisorClassName()%>Application">
     <application>
       <run
         class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$Application">
@@ -80,7 +80,7 @@
     <perspective
       name="%_UI_Perspective_label"
       class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$Perspective"
-      id="<%=genModel.getQualifiedEditorAdvisorClassName()%>_Perspective">
+      id="<%=genModel.getQualifiedEditorAdvisorClassName()%>Perspective">
     </perspective>
   </extension>
 
@@ -89,26 +89,26 @@
     <actionSet
       label="%_UI_<%=genModel.getEditorAdvisorClassName()%>_ActionSet_label"
       visible="true"
-      id="<%=genModel.getQualifiedEditorAdvisorClassName()%>_ActionSet">
+      id="<%=genModel.getEditorAdvisorClassName()%>ActionSet">
       <action
         label="%_UI_Menu_About_label"
         class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$AboutAction"
         menubarPath="help/additions"
-        id="<%=genModel.getQualifiedEditorAdvisorClassName()%>_AboutAction">
+        id="<%=genModel.getQualifiedEditorAdvisorClassName()%>AboutAction">
       </action>
       <action
         label="%_UI_Menu_OpenURI_label"
         accelerator="Ctrl+U"
         class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$OpenURIAction"
         menubarPath="file/additions"
-        id="<%=genModel.getQualifiedEditorAdvisorClassName()%>_OpenURIAction">
+        id="<%=genModel.getQualifiedEditorAdvisorClassName()%>OpenURIAction">
       </action>
       <action
         label="%_UI_Menu_Open_label"
         accelerator="Ctrl+O"
         class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$OpenAction"
         menubarPath="file/additions"
-        id="<%=genModel.getQualifiedEditorAdvisorClassName()%>_OpenAction">
+        id="<%=genModel.getQualifiedEditorAdvisorClassName()%>OpenAction">
       </action>
     </actionSet>
   </extension>
@@ -122,12 +122,12 @@
     <actionSet
       label="%_UI_<%=genPackage.getModelWizardClassName()%>_ActionSet_label"
       visible="true"
-      id="<%=genPackage.getQualifiedActionBarContributorClassName()%>_ActionSet">
+      id="<%=genPackage.getQualifiedActionBarContributorClassName()%>ActionSet">
       <action
         label="%_UI_<%=genPackage.getModelWizardClassName()%>_label"
         class="<%=genPackage.getQualifiedActionBarContributorClassName()%>$NewAction"
         menubarPath="file/new/additions"
-        id="<%=genPackage.getPackageName()%>New">
+        id="<%=genPackage.getQualifiedActionBarContributorClassName()%>NewAction">
       </action>
     </actionSet>
   </extension>  

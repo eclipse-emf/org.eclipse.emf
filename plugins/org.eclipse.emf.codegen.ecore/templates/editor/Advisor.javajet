@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.List java.util.Iterator org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.2 2004/06/15 12:25:28 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.List java.util.Iterator org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.3 2004/06/15 20:12:14 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -19,8 +19,48 @@
 <%@ include file="../Header.jetinc"%>
 package <%=genModel.getEditorPluginPackageName()%>;
 
-<%genModel.addImport("org.eclipse.ui.application.WorkbenchAdvisor");%>
+
+import java.io.File;
+import java.util.Iterator;
+
+import org.eclipse.core.runtime.IPlatformRunnable;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.GroupMarker;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.actions.ContributionItemFactory;
+import org.eclipse.ui.application.IActionBarConfigurer;
+import org.eclipse.ui.application.IWorkbenchConfigurer;
+import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
+import org.eclipse.ui.application.WorkbenchAdvisor;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IFolderLayout;
+import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+
+import org.eclipse.emf.common.ui.action.WorkbenchWindowActionDelegate;
+import org.eclipse.emf.common.ui.URIEditorInput;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.edit.ui.action.LoadResourceAction;
+
+import <%=genModel.getQualifiedEditorPluginClassName()%>;
 <%genModel.markImportLocation(stringBuffer);%>
+
 
 /**
  * Customized {@link WorkbenchAdvisor} for the RCP application.
@@ -47,7 +87,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 */
 	private static String getString(String key)
 	{
-		return <%=genModel.getImportedName(genModel.getQualifiedEditorPluginClassName())%>.INSTANCE.getString(key);
+		return <%=genModel.getEditorPluginClassName()%>.INSTANCE.getString(key);
 	}
 
 	/**
@@ -58,7 +98,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 */
 	private static String getString(String key, Object s1)
 	{
-		return <%=genModel.getImportedName(genModel.getQualifiedEditorPluginClassName())%>.INSTANCE.getString(key, new Object [] { s1 });
+		return <%=genModel.getQualifiedEditorPluginClassName()%>.INSTANCE.getString(key, new Object [] { s1 });
 	}
 
 	/**
@@ -67,7 +107,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static class Application implements <%=genModel.getImportedName("org.eclipse.core.runtime.IPlatformRunnable")%>
+	public static class Application implements IPlatformRunnable
 	{
 		/**
 		 * @see org.eclipse.core.runtime.IPlatformRunnable#run(java.lang.Object)
@@ -78,17 +118,17 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		public Object run(Object args)
 		{
 			WorkbenchAdvisor workbenchAdvisor = new <%=genModel.getEditorAdvisorClassName()%>();
-			<%=genModel.getImportedName("org.eclipse.swt.widgets.Display")%> display = <%=genModel.getImportedName("org.eclipse.ui.PlatformUI")%>.createDisplay();
+			Display display = PlatformUI.createDisplay();
 			try
 			{
-				int returnCode = <%=genModel.getImportedName("org.eclipse.ui.PlatformUI")%>.createAndRunWorkbench(display, workbenchAdvisor);
-				if (returnCode == <%=genModel.getImportedName("org.eclipse.ui.PlatformUI")%>.RETURN_RESTART)
+				int returnCode = PlatformUI.createAndRunWorkbench(display, workbenchAdvisor);
+				if (returnCode == PlatformUI.RETURN_RESTART)
 				{
-					return <%=genModel.getImportedName("org.eclipse.core.runtime.IPlatformRunnable")%>.EXIT_RESTART;
+					return IPlatformRunnable.EXIT_RESTART;
 				}
 				else
 				{
-					return <%=genModel.getImportedName("org.eclipse.core.runtime.IPlatformRunnable")%>.EXIT_OK;
+					return IPlatformRunnable.EXIT_OK;
 				}
 			}
 			finally
@@ -104,7 +144,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static class Perspective implements <%=genModel.getImportedName("org.eclipse.ui.IPerspectiveFactory")%>
+	public static class Perspective implements IPerspectiveFactory
 	{
 		/**
 		 * Perspective ID
@@ -112,7 +152,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public static final String ID_PERSPECTIVE = "<%=genModel.getQualifiedEditorAdvisorClassName()%>_Perspective";<%=genModel.getNonNLS()%>
+		public static final String ID_PERSPECTIVE = "<%=genModel.getQualifiedEditorAdvisorClassName()%>Perspective";<%=genModel.getNonNLS()%>
 
 		/**
 		 * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(org.eclipse.ui.IPageLayout)
@@ -120,16 +160,16 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public void createInitialLayout(<%=genModel.getImportedName("org.eclipse.ui.IPageLayout")%> layout)
+		public void createInitialLayout(IPageLayout layout)
 		{
 			layout.setEditorAreaVisible(true);
 			layout.addPerspectiveShortcut(ID_PERSPECTIVE);
 
-			<%=genModel.getImportedName("org.eclipse.ui.IFolderLayout")%> right = layout.createFolder("right", <%=genModel.getImportedName("org.eclipse.ui.IPageLayout")%>.RIGHT, (float)0.66, layout.getEditorArea());<%=genModel.getNonNLS()%>
-			right.addView(<%=genModel.getImportedName("org.eclipse.ui.IPageLayout")%>.ID_OUTLINE);
+			IFolderLayout right = layout.createFolder("right", IPageLayout.RIGHT, (float)0.66, layout.getEditorArea());<%=genModel.getNonNLS()%>
+			right.addView(IPageLayout.ID_OUTLINE);
 
-			IFolderLayout bottonRight = layout.createFolder("bottonRight", <%=genModel.getImportedName("org.eclipse.ui.IPageLayout")%>.BOTTOM, (float)0.60, "right");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
-			bottonRight.addView(<%=genModel.getImportedName("org.eclipse.ui.IPageLayout")%>.ID_PROP_SHEET);
+			IFolderLayout bottonRight = layout.createFolder("bottonRight", IPageLayout.BOTTOM, (float)0.60, "right");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+			bottonRight.addView(IPageLayout.ID_PROP_SHEET);
 		}
 	}
 
@@ -139,7 +179,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static class AboutAction extends <%=genModel.getImportedName("org.eclipse.emf.common.ui.action.WorkbenchWindowActionDelegate")%>
+	public static class AboutAction extends WorkbenchWindowActionDelegate
 	{
 		/**
 		 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
@@ -147,9 +187,9 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public void run(<%=genModel.getImportedName("org.eclipse.jface.action.IAction")%> action)
+		public void run(IAction action)
 		{
-			<%=genModel.getImportedName("org.eclipse.jface.dialogs.MessageDialog")%>.openInformation(getWindow().getShell(), getString("_UI_About_title"),<%=genModel.getNonNLS()%>
+			MessageDialog.openInformation(getWindow().getShell(), getString("_UI_About_title"),<%=genModel.getNonNLS()%>
 			getString("_UI_About_text"));<%=genModel.getNonNLS()%>
 		}
 	}
@@ -160,7 +200,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static class OpenAction extends <%=genModel.getImportedName("org.eclipse.emf.common.ui.action.WorkbenchWindowActionDelegate")%>
+	public static class OpenAction extends WorkbenchWindowActionDelegate
 	{
 		/**
 		 * Opens the editors for the files selected using the file dialog.
@@ -168,12 +208,12 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public void run(<%=genModel.getImportedName("org.eclipse.jface.action.IAction")%> action)
+		public void run(IAction action)
 		{
-			String filePath = openFilePathDialog(getWindow().getShell(), null, <%=genModel.getImportedName("org.eclipse.swt.SWT")%>.OPEN);
+			String filePath = openFilePathDialog(getWindow().getShell(), null, SWT.OPEN);
 			if (filePath != null)
 			{
-				openEditor(getWindow().getWorkbench(), <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>.createFileURI(filePath));
+				openEditor(getWindow().getWorkbench(), URI.createFileURI(filePath));
 			}
 		}
 	}
@@ -184,7 +224,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static class OpenURIAction extends <%=genModel.getImportedName("org.eclipse.emf.common.ui.action.WorkbenchWindowActionDelegate")%>
+	public static class OpenURIAction extends WorkbenchWindowActionDelegate
 	{
 		/**
 		 * Opens the editors for the files selected using the LoadResourceDialog.
@@ -192,14 +232,14 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public void run(<%=genModel.getImportedName("org.eclipse.jface.action.IAction")%> action)
+		public void run(IAction action)
 		{
-			<%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.LoadResourceAction.LoadResourceDialog")%> loadResourceDialog = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.LoadResourceAction.LoadResourceDialog")%>(getWindow().getShell());
-			if (<%=genModel.getImportedName("org.eclipse.jface.dialogs.Dialog")%>.OK == loadResourceDialog.open())
+			LoadResourceAction.LoadResourceDialog loadResourceDialog = new LoadResourceAction.LoadResourceDialog(getWindow().getShell());
+			if (Dialog.OK == loadResourceDialog.open())
 			{
-				for (<%=genModel.getImportedName("java.util.Iterator")%> i = loadResourceDialog.getURIs().iterator(); i.hasNext();)
+				for (Iterator i = loadResourceDialog.getURIs().iterator(); i.hasNext();)
 				{
-					openEditor(getWindow().getWorkbench(), (<%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%>)i.next());
+					openEditor(getWindow().getWorkbench(), (URI)i.next());
 				}
 			}
 		}
@@ -210,9 +250,9 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static String openFilePathDialog(<%=genModel.getImportedName("org.eclipse.swt.widgets.Shell")%> shell, String fileExtensionFilter, int style)
+	public static String openFilePathDialog(Shell shell, String fileExtensionFilter, int style)
 	{
-		<%=genModel.getImportedName("org.eclipse.swt.widgets.FileDialog")%> fileDialog = new <%=genModel.getImportedName("org.eclipse.swt.widgets.FileDialog")%>(shell, style);
+		FileDialog fileDialog = new FileDialog(shell, style);
 <% List genPackages = genModel.getAllGenPackagesWithClassifiers(); if (!genPackages.isEmpty()) {%>
 		if (fileExtensionFilter == null)
 		{
@@ -227,7 +267,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		fileDialog.open();
 		if (fileDialog.getFileName() != null && fileDialog.getFileName().length() > 0)
 		{
-			return fileDialog.getFilterPath() + <%=genModel.getImportedName("java.io.File")%>.separator + fileDialog.getFileName();
+			return fileDialog.getFilterPath() + File.separator + fileDialog.getFileName();
 		}
 		else
 		{
@@ -240,15 +280,15 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static boolean openEditor(<%=genModel.getImportedName("org.eclipse.ui.IWorkbench")%> workbench, <%=genModel.getImportedName("org.eclipse.emf.common.util.URI")%> fileURI)
+	public static boolean openEditor(IWorkbench workbench, URI fileURI)
 	{
-		<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchWindow")%> workbenchWindow = workbench.getActiveWorkbenchWindow();
-		<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchPage")%> page = workbenchWindow.getActivePage();
+		IWorkbenchWindow workbenchWindow = workbench.getActiveWorkbenchWindow();
+		IWorkbenchPage page = workbenchWindow.getActivePage();
 
-		<%=genModel.getImportedName("org.eclipse.ui.IEditorDescriptor")%> editorDescriptor = workbench.getEditorRegistry().getDefaultEditor(fileURI.toFileString());
+		IEditorDescriptor editorDescriptor = workbench.getEditorRegistry().getDefaultEditor(fileURI.toFileString());
 		if (editorDescriptor == null)
 		{
-			<%=genModel.getImportedName("org.eclipse.jface.dialogs.MessageDialog")%>.openError(
+			MessageDialog.openError(
 			workbenchWindow.getShell(),
 			getString("_UI_Error_title"), <%=genModel.getNonNLS()%>
 			getString("_WARN_No_Editor", fileURI.toFileString())); <%=genModel.getNonNLS()%>
@@ -258,11 +298,11 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		{
 			try
 			{
-				page.openEditor(new <%=genModel.getImportedName("org.eclipse.emf.common.ui.URIEditorInput")%>(fileURI), editorDescriptor.getId());
+				page.openEditor(new URIEditorInput(fileURI), editorDescriptor.getId());
 			}
-			catch (<%=genModel.getImportedName("org.eclipse.ui.PartInitException")%> exception)
+			catch (PartInitException exception)
 			{
-				<%=genModel.getImportedName("org.eclipse.jface.dialogs.MessageDialog")%>.openError(
+				MessageDialog.openError(
 				workbenchWindow.getShell(),
 				getString("_UI_OpenEditorError_label"), <%=genModel.getNonNLS()%>
 				exception.getMessage());
@@ -290,7 +330,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void initialize(<%=genModel.getImportedName("org.eclipse.ui.application.IWorkbenchConfigurer")%> configurer)
+	public void initialize(IWorkbenchConfigurer configurer)
 	{
 		super.initialize(configurer);
 		configurer.setSaveAndRestore(true);
@@ -302,10 +342,10 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void preWindowOpen(<%=genModel.getImportedName("org.eclipse.ui.application.IWorkbenchWindowConfigurer")%> configurer)
+	public void preWindowOpen(IWorkbenchWindowConfigurer configurer)
 	{
 		super.preWindowOpen(configurer);
-		configurer.setInitialSize(new <%=genModel.getImportedName("org.eclipse.swt.graphics.Point")%>(600, 450));
+		configurer.setInitialSize(new Point(600, 450));
 		configurer.setShowCoolBar(false);
 		configurer.setShowStatusLine(true);
 		configurer.setTitle(getString("_UI_Application_title"));<%=genModel.getNonNLS()%>
@@ -317,7 +357,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void fillActionBars(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchWindow")%> window, <%=genModel.getImportedName("org.eclipse.ui.application.IActionBarConfigurer")%> configurer, int flags)
+	public void fillActionBars(IWorkbenchWindow window, IActionBarConfigurer configurer, int flags)
 	{
 		super.fillActionBars(window, configurer, flags);
 		if ((flags & FILL_MENU_BAR) != 0)
@@ -331,12 +371,12 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void fillMenuBar(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchWindow")%> window, <%=genModel.getImportedName("org.eclipse.ui.application.IActionBarConfigurer")%> configurer)
+	protected void fillMenuBar(IWorkbenchWindow window, IActionBarConfigurer configurer)
 	{
-		<%=genModel.getImportedName("org.eclipse.jface.action.IMenuManager")%> menuBar = configurer.getMenuManager();
+		IMenuManager menuBar = configurer.getMenuManager();
 		menuBar.add(createFileMenu(window));
 		menuBar.add(createEditMenu(window));
-		menuBar.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.MB_ADDITIONS));
+		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 		menuBar.add(createWindowMenu(window));
 		menuBar.add(createHelpMenu(window));
 	}
@@ -347,28 +387,28 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> createFileMenu(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchWindow")%> window)
+	protected IMenuManager createFileMenu(IWorkbenchWindow window)
 	{
-		<%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> menu = new <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%>(getString("_UI_Menu_File_label"),<%=genModel.getNonNLS()%>
-		<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.M_FILE);    
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.FILE_START));
+		IMenuManager menu = new MenuManager(getString("_UI_Menu_File_label"),<%=genModel.getNonNLS()%>
+		IWorkbenchActionConstants.M_FILE);    
+		menu.add(new GroupMarker(IWorkbenchActionConstants.FILE_START));
 
-		<%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> newMenu = new <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%>(getString("_UI_Menu_New_label"), "new");<%=genModel.getNonNLS()%> <%=genModel.getNonNLS(2)%>
-		newMenu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.MB_ADDITIONS));
+		IMenuManager newMenu = new MenuManager(getString("_UI_Menu_New_label"), "new");<%=genModel.getNonNLS()%> <%=genModel.getNonNLS(2)%>
+		newMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 
 		menu.add(newMenu);
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>());
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.MB_ADDITIONS));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>());
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.CLOSE.create(window));
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.CLOSE_ALL.create(window));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>());
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.SAVE.create(window));
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.SAVE_AS.create(window));
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.SAVE_ALL.create(window));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>());
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.QUIT.create(window));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.FILE_END));
+		menu.add(new Separator());
+		menu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+		menu.add(new Separator());
+		menu.add(ActionFactory.CLOSE.create(window));
+		menu.add(ActionFactory.CLOSE_ALL.create(window));
+		menu.add(new Separator());
+		menu.add(ActionFactory.SAVE.create(window));
+		menu.add(ActionFactory.SAVE_AS.create(window));
+		menu.add(ActionFactory.SAVE_ALL.create(window));
+		menu.add(new Separator());
+		menu.add(ActionFactory.QUIT.create(window));
+		menu.add(new GroupMarker(IWorkbenchActionConstants.FILE_END));
 		return menu;
 	}
 
@@ -378,31 +418,31 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> createEditMenu(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchWindow")%> window)
+	protected IMenuManager createEditMenu(IWorkbenchWindow window)
 	{
-		<%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> menu = new <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%>(getString("_UI_Menu_Edit_label"),<%=genModel.getNonNLS()%>
-		<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.M_EDIT);
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.EDIT_START));
+		IMenuManager menu = new MenuManager(getString("_UI_Menu_Edit_label"),<%=genModel.getNonNLS()%>
+		IWorkbenchActionConstants.M_EDIT);
+		menu.add(new GroupMarker(IWorkbenchActionConstants.EDIT_START));
 
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.UNDO.create(window));
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.REDO.create(window));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.UNDO_EXT));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>());
+		menu.add(ActionFactory.UNDO.create(window));
+		menu.add(ActionFactory.REDO.create(window));
+		menu.add(new GroupMarker(IWorkbenchActionConstants.UNDO_EXT));
+		menu.add(new Separator());
 
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.CUT.create(window));
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.COPY.create(window));
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.PASTE.create(window));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.CUT_EXT));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>());
+		menu.add(ActionFactory.CUT.create(window));
+		menu.add(ActionFactory.COPY.create(window));
+		menu.add(ActionFactory.PASTE.create(window));
+		menu.add(new GroupMarker(IWorkbenchActionConstants.CUT_EXT));
+		menu.add(new Separator());
 
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.DELETE.create(window));
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.SELECT_ALL.create(window));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>());
+		menu.add(ActionFactory.DELETE.create(window));
+		menu.add(ActionFactory.SELECT_ALL.create(window));
+		menu.add(new Separator());
 
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.ADD_EXT));
+		menu.add(new GroupMarker(IWorkbenchActionConstants.ADD_EXT));
 
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.EDIT_END));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.MB_ADDITIONS));
+		menu.add(new GroupMarker(IWorkbenchActionConstants.EDIT_END));
+		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 		return menu;
 	}
 
@@ -412,14 +452,14 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> createWindowMenu(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchWindow")%> window)
+	protected IMenuManager createWindowMenu(IWorkbenchWindow window)
 	{
-		<%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> menu = new <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%>(getString("_UI_Menu_Window_label"),<%=genModel.getNonNLS()%>
-		<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.M_WINDOW);
+		IMenuManager menu = new MenuManager(getString("_UI_Menu_Window_label"),<%=genModel.getNonNLS()%>
+		IWorkbenchActionConstants.M_WINDOW);
 
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ActionFactory")%>.OPEN_NEW_WINDOW.create(window));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.MB_ADDITIONS));
-		menu.add(<%=genModel.getImportedName("org.eclipse.ui.actions.ContributionItemFactory")%>.OPEN_WINDOWS.create(window));
+		menu.add(ActionFactory.OPEN_NEW_WINDOW.create(window));
+		menu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+		menu.add(ContributionItemFactory.OPEN_WINDOWS.create(window));
 
 		return menu;
 	}
@@ -430,15 +470,15 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> createHelpMenu(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchWindow")%> window)
+	protected IMenuManager createHelpMenu(IWorkbenchWindow window)
 	{
-		<%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> menu = new <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%>(getString("_UI_Menu_Help_label"), <%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.M_HELP);<%=genModel.getNonNLS()%>
+		IMenuManager menu = new MenuManager(getString("_UI_Menu_Help_label"), IWorkbenchActionConstants.M_HELP);<%=genModel.getNonNLS()%>
 		// Welcome or intro page would go here
 		// Help contents would go here
 		// Tips and tricks page would go here
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.HELP_START));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.HELP_END));
-		menu.add(new <%=genModel.getImportedName("org.eclipse.jface.action.GroupMarker")%>(<%=genModel.getImportedName("org.eclipse.ui.IWorkbenchActionConstants")%>.MB_ADDITIONS));
+		menu.add(new GroupMarker(IWorkbenchActionConstants.HELP_START));
+		menu.add(new GroupMarker(IWorkbenchActionConstants.HELP_END));
+		menu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 		return menu;
 	}
 }
