@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.12 2004/08/25 20:30:25 elena Exp $
+ * $Id: XMLResource.java,v 1.13 2004/09/01 20:10:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -173,6 +173,21 @@ public interface XMLResource extends Resource
    * Specify the XML encoding to be used during save.
    */
   String OPTION_ENCODING  = "ENCODING";
+
+  /**
+   * Flush the output stream whenever the number of characters/bytes pending exceeds the specified Integer value. 
+   * This helps to reduce memory requirements for serializing a large file, but it's slower.
+   * The default value is Integer.MAX_VALUE.  
+   * I.e., the stream is never flushed.
+   */
+  String OPTION_FLUSH_THRESHOLD = "FLUSH_THRESHOLD";
+
+  /**
+   * Write the intermediate results of serialization to the file system rather to an in-memory buffer.
+   * This helps to reduce memory requirements for serializing a large file, but it's slower.
+   * The default is <code>Boolean.FALSE</code> unless set to <code>Boolean.TRUE</code> explicitly.
+   */
+  String OPTION_USE_FILE_BUFFER = "USE_FILE_BUFFER";
 
   String HREF = "href";
   String NIL = "nil";

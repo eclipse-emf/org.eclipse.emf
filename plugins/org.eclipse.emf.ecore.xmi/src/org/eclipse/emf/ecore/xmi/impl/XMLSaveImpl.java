@@ -12,14 +12,18 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.15 2004/08/25 20:30:25 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.16 2004/09/01 20:11:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,6 +82,7 @@ public class XMLSaveImpl implements XMLSave
   protected EClass anyType;
   protected Map eObjectToExtensionMap;
   protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
+  protected int flushThreshold = Integer.MAX_VALUE;
 
   protected static final int SKIP = 0;
   protected static final int SAME_DOC = 1;
@@ -212,21 +217,40 @@ public class XMLSaveImpl implements XMLSave
       anySimpleType = XMLTypePackage.eINSTANCE.getSimpleAnyType();
     }
     
+    if (options.get(XMLResource.OPTION_FLUSH_THRESHOLD) instanceof Integer)
+    {
+      flushThreshold  = ((Integer)options.get(XMLResource.OPTION_FLUSH_THRESHOLD)).intValue();
+    }
+
+    String temporaryFileName =  null;
+    if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_FILE_BUFFER)))
+    {
+      try
+      {
+        temporaryFileName = File.createTempFile("XMLSave", null).getPath();
+      }
+      catch (IOException exception)
+      {
+        // If we can't create a temp file then we have to ignore the option.
+      }
+    }
+    int effectiveLineWidth = lineWidth == null ? Integer.MAX_VALUE : lineWidth.intValue();
     if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_SAVE_DOCTYPE)))
     {
       if (resource != null)
       {
-        doc = new XMLString (lineWidth == null ? Integer.MAX_VALUE : lineWidth.intValue(), resource.getPublicId(), resource.getSystemId());
+        doc = new XMLString(effectiveLineWidth, resource.getPublicId(), resource.getSystemId(), temporaryFileName);
       }
       else
       {
-        doc = new XMLString (lineWidth == null ? Integer.MAX_VALUE : lineWidth.intValue(), null, null);
+        doc = new XMLString (effectiveLineWidth, null, null, temporaryFileName);
       }
     }
     else 
     {
-      doc = new XMLString(lineWidth == null ? Integer.MAX_VALUE : lineWidth.intValue());
+      doc = new XMLString(effectiveLineWidth, temporaryFileName);
     }
+
     if (Boolean.FALSE.equals(options.get(XMLResource.OPTION_FORMATTED)))
     {
       doc.setUnformatted(true);
@@ -544,6 +568,7 @@ public class XMLSaveImpl implements XMLSave
 
   public void write(OutputStreamWriter os) throws IOException
   {
+    int count = 0;
     final int BUFFER_SIZE = 8192;
     char[] buffer = new char[BUFFER_SIZE];
     int pos = 0;
@@ -561,13 +586,39 @@ public class XMLSaveImpl implements XMLSave
       }
       s.getChars(0, slen, buffer, pos);
       pos += slen;
+      count += slen;
+      if (count > flushThreshold)
+      {
+        os.flush();
+        count = 0;
+      }
     }
     os.write(buffer, 0, pos);
+
+    String temporaryFileName = doc.getTemporaryFileName();
+    if (temporaryFileName != null)
+    {
+      InputStreamReader reader = new InputStreamReader(new FileInputStream(temporaryFileName), "UTF8");
+      for (int length = reader.read(buffer, 0, BUFFER_SIZE); length > 0; length = reader.read(buffer, 0, BUFFER_SIZE))
+      {
+        os.write(buffer, 0, length);
+        count += length;
+        if (count > flushThreshold)
+        {
+          os.flush();
+          count = 0;
+        }
+      }
+      reader.close();
+      new File(temporaryFileName).delete();
+    }
+
     os.flush();
   }
 
   public void writeAscii(OutputStream os) throws IOException
   {
+    int count = 0;
     final int BUFFER_SIZE = 8192;
     char[] buffer = new char[BUFFER_SIZE];
     byte[] bytes = new byte[BUFFER_SIZE];
@@ -592,6 +643,12 @@ public class XMLSaveImpl implements XMLSave
       }
       s.getChars(0, slen, buffer, pos);
       pos += slen;
+      count += slen;
+      if (count > flushThreshold)
+      {
+        os.flush();
+        count = 0;
+      }
     }
 
     for (int x = 0; x < pos; x++)
@@ -600,6 +657,25 @@ public class XMLSaveImpl implements XMLSave
     }
 
     os.write(bytes, 0, pos);
+
+    String temporaryFileName = doc.getTemporaryFileName();
+    if (temporaryFileName != null)
+    {
+      InputStream inputStream = new FileInputStream(temporaryFileName);
+      for (int length = inputStream.read(bytes, 0, BUFFER_SIZE); length > 0; length = inputStream.read(bytes, 0, BUFFER_SIZE))
+      {
+        os.write(bytes, 0, length);
+        count += length;
+        if (count > flushThreshold)
+        {
+          os.flush();
+          count = 0;
+        }
+      }
+      inputStream.close();
+      new File(temporaryFileName).delete();
+    }
+
     os.flush();
   }
 
