@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConstants.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDConstants.java,v 1.2 2004/09/01 13:25:27 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -1556,7 +1556,7 @@ public class XSDConstants
   {
     while (xsdSimpleTypeDefinition != null)
     {
-      if (isAnySimpleType(xsdSimpleTypeDefinition))
+      if (isURType(xsdSimpleTypeDefinition))
       {
         return false;
       }
