@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.5 2004/05/23 04:13:49 davidms Exp $
+ * $Id: GenPackageItemProvider.java,v 1.6 2004/05/27 20:16:30 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -262,6 +262,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__BASE_PACKAGE:
       case GenModelPackage.GEN_PACKAGE__RESOURCE:
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
+      case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;

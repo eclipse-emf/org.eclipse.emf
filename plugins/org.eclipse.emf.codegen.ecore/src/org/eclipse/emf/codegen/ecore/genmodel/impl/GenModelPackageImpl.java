@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.4 2004/05/23 04:06:25 davidms Exp $
+ * $Id: GenModelPackageImpl.java,v 1.5 2004/05/27 20:16:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -203,7 +203,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     if (isInited) return (GenModelPackage)EPackage.Registry.INSTANCE.get(GenModelPackage.eNS_URI);
 
     // Obtain or create and register package
-    GenModelPackageImpl theGenModelPackage = (GenModelPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new GenModelPackageImpl());
+    GenModelPackageImpl theGenModelPackage = (GenModelPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof GenModelPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new GenModelPackageImpl());
 
     isInited = true;
 
@@ -554,9 +554,19 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getGenModel_ReflectiveDelegation()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(32);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getGenModel_GenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(32);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(33);
   }
 
   /**
@@ -566,7 +576,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    */
   public EReference getGenModel_UsedGenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(33);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(34);
   }
 
   /**
@@ -1112,6 +1122,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS);
     createEAttribute(genModelEClass, GEN_MODEL__RUNTIME_COMPATIBILITY);
     createEAttribute(genModelEClass, GEN_MODEL__RICH_CLIENT_PLATFORM);
+    createEAttribute(genModelEClass, GEN_MODEL__REFLECTIVE_DELEGATION);
     createEReference(genModelEClass, GEN_MODEL__GEN_PACKAGES);
     createEReference(genModelEClass, GEN_MODEL__USED_GEN_PACKAGES);
 
@@ -1249,6 +1260,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_FeatureMapWrapperClass(), ecorePackage.getEString(), "featureMapWrapperClass", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_RuntimeCompatibility(), ecorePackage.getEBoolean(), "runtimeCompatibility", "true", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_RichClientPlatform(), ecorePackage.getEBoolean(), "richClientPlatform", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_ReflectiveDelegation(), ecorePackage.getEBoolean(), "reflectiveDelegation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenModel_GenPackages(), this.getGenPackage(), this.getGenPackage_GenModel(), "genPackages", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenModel_UsedGenPackages(), this.getGenPackage(), null, "usedGenPackages", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

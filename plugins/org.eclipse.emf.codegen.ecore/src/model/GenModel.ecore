@@ -50,6 +50,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="runtimeCompatibility" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="richClientPlatform" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reflectiveDelegation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genPackages" upperBound="-1"
         eType="#//GenPackage" containment="true" eOpposite="#//GenPackage/genModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="usedGenPackages" upperBound="-1"

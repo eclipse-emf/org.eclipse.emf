@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.10 2004/05/26 15:22:15 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.11 2004/05/27 20:16:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -105,6 +105,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFeatureMapWrapperClass <em>Feature Map Wrapper Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRuntimeCompatibility <em>Runtime Compatibility</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRichClientPlatform <em>Rich Client Platform</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isReflectiveDelegation <em>Reflective Delegation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -723,6 +724,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean richClientPlatform = RICH_CLIENT_PLATFORM_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isReflectiveDelegation() <em>Reflective Delegation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isReflectiveDelegation()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean REFLECTIVE_DELEGATION_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isReflectiveDelegation() <em>Reflective Delegation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isReflectiveDelegation()
+   * @generated
+   * @ordered
+   */
+  protected boolean reflectiveDelegation = REFLECTIVE_DELEGATION_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -2690,6 +2711,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isReflectiveDelegation()
+  {
+    return reflectiveDelegation;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setReflectiveDelegation(boolean newReflectiveDelegation)
+  {
+    boolean oldReflectiveDelegation = reflectiveDelegation;
+    reflectiveDelegation = newReflectiveDelegation;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION, oldReflectiveDelegation, reflectiveDelegation));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getGenPackages()
   {
     if (genPackages == null)
@@ -2859,6 +2903,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isRuntimeCompatibility() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
         return isRichClientPlatform() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
+        return isReflectiveDelegation() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -2940,6 +2986,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return runtimeCompatibility != RUNTIME_COMPATIBILITY_EDEFAULT;
       case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
         return richClientPlatform != RICH_CLIENT_PLATFORM_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
+        return reflectiveDelegation != REFLECTIVE_DELEGATION_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3055,6 +3103,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
         setRichClientPlatform(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
+        setReflectiveDelegation(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -3173,6 +3224,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
         setRichClientPlatform(RICH_CLIENT_PLATFORM_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
+        setReflectiveDelegation(REFLECTIVE_DELEGATION_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -3257,6 +3311,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(runtimeCompatibility);
     result.append(", richClientPlatform: ");
     result.append(richClientPlatform);
+    result.append(", reflectiveDelegation: ");
+    result.append(reflectiveDelegation);
     result.append(')');
     return result.toString();
   }

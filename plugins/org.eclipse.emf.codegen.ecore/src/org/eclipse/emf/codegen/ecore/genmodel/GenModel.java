@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.6 2004/05/26 15:22:15 marcelop Exp $
+ * $Id: GenModel.java,v 1.7 2004/05/27 20:16:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -68,6 +68,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureMapWrapperClass <em>Feature Map Wrapper Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRuntimeCompatibility <em>Runtime Compatibility</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichClientPlatform <em>Rich Client Platform</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isReflectiveDelegation <em>Reflective Delegation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -876,6 +877,32 @@ public interface GenModel extends GenBase{
    * @generated
    */
   void setRichClientPlatform(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Reflective Delegation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Reflective Delegation</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Reflective Delegation</em>' attribute.
+   * @see #setReflectiveDelegation(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ReflectiveDelegation()
+   * @model 
+   * @generated
+   */
+  boolean isReflectiveDelegation();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isReflectiveDelegation <em>Reflective Delegation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Reflective Delegation</em>' attribute.
+   * @see #isReflectiveDelegation()
+   * @generated
+   */
+  void setReflectiveDelegation(boolean value);
 
   /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.

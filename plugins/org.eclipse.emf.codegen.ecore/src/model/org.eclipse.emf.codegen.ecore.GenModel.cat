@@ -172,6 +172,10 @@
 		(object ClassAttribute "richClientPlatform"
 		    quid       	"40B01B1E0055"
 		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "reflectiveDelegation"
+		    quid       	"40B62BDD009C"
+		    type       	"boolean"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -2289,7 +2293,7 @@
 	    max_height 	28350
 	    max_width  	21600
 	    origin_x   	0
-	    origin_y   	0
+	    origin_y   	557
 	    items      	(list diagram_item_list
 		(object ClassView "Class" "Logical View::genmodel::GenBase" @134
 		    ShowCompartmentStereotypes 	TRUE
@@ -2563,7 +2567,7 @@
 		    location   	(2000, 1536)
 		    label      	(object ItemLabel
 			Parent_View 	@151
-			location   	(1361, 680)
+			location   	(1361, 655)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	1278
@@ -2575,11 +2579,11 @@
 		    quidu      	"3C175881028E"
 		    compartment 	(object Compartment
 			Parent_View 	@151
-			location   	(1361, 740)
+			location   	(1361, 715)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	33
+			nlines     	34
 			max_width  	1275
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
@@ -2607,7 +2611,7 @@
 			    "+ featureMapWrapperInternalInterface : String"
 			    "+ featureMapWrapperClass : String"))
 		    width      	1296
-		    height     	1736
+		    height     	1786
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenPackage" @152
@@ -2660,7 +2664,7 @@
 		    client     	@151
 		    supplier   	@134
 		    line_style 	3
-		    origin_attachment 	(1725, 668)
+		    origin_attachment 	(1725, 643)
 		    terminal_attachment 	(1725, 314)
 		    drawSupplier 	@143)
 		(object InheritView "" @155
@@ -2718,14 +2722,6 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D8C92B10303"
-		    compartment 	(object Compartment
-			Parent_View 	@157
-			location   	(1674, 248)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	228)
 		    width      	350
 		    height     	292
 		    annotation 	8
@@ -2757,14 +2753,6 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D8C9D820115"
-		    compartment 	(object Compartment
-			Parent_View 	@158
-			location   	(1668, 728)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	228)
 		    width      	362
 		    height     	292
 		    annotation 	8
@@ -2795,14 +2783,6 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D9D6E110209"
-		    compartment 	(object Compartment
-			Parent_View 	@159
-			location   	(108, 1062)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	5
-			max_width  	162)
 		    width      	378
 		    height     	392
 		    annotation 	8
@@ -2830,7 +2810,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	8
-			max_width  	697
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ creationCommands : boolean = true"
 			    "+ editDirectory : String"
@@ -2860,14 +2840,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3C1759CD00A1"
-		    compartment 	(object Compartment
-			Parent_View 	@161
-			location   	(943, 656)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	5
-			max_width  	553)
 		    width      	564
 		    height     	336
 		    annotation 	8
@@ -2889,14 +2861,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3C1759410016"
-		    compartment 	(object Compartment
-			Parent_View 	@162
-			location   	(952, 178)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	534)
 		    width      	546
 		    height     	236
 		    annotation 	8
@@ -2971,7 +2935,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	2
-			max_width  	581
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ resource : GenResourceKind"))
 		    width      	592
