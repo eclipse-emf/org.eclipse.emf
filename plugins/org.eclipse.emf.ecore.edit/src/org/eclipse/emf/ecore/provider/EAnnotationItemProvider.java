@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.2 2004/04/06 03:26:15 davidms Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.3 2004/05/05 11:56:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -71,6 +71,7 @@ public class EAnnotationItemProvider
       super.getPropertyDescriptors(object);
 
       addSourcePropertyDescriptor(object);
+      addReferencesPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -91,6 +92,23 @@ public class EAnnotationItemProvider
          EcorePackage.eINSTANCE.getEAnnotation_Source(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+  }
+
+  /**
+   * This adds a property descriptor for the References feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addReferencesPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_EAnnotation_references_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_EAnnotation_references_feature", "_UI_EAnnotation_type"),
+         EcorePackage.eINSTANCE.getEAnnotation_References(),
+         true));
   }
 
   /**
