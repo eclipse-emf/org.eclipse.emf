@@ -16,14 +16,14 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.8 2004/11/01 21:15:57 davidms Exp $
+ * $Id: plugin.xml,v 1.4.2.1 2005/02/16 21:05:17 emerks Exp $
  */
 -->
 
 <plugin
     name = "%pluginName"
     id = "org.eclipse.emf.codegen.ecore"
-    version = "2.1.0" 
+    version = "2.0.2" 
     provider-name = "%providerName"
     class = "org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin$Implementation" >
     
@@ -35,12 +35,12 @@
     <import plugin="org.eclipse.emf.ecore" export="true"/>
     <import plugin="org.eclipse.emf.codegen" export="true"/>
     <import plugin="org.eclipse.emf.ecore.xmi"/>
-    <import plugin="org.eclipse.text"/>
   </requires>
 
   <runtime>
     <library name="runtime/codegen.ecore.jar">
       <export name="*"/>
+      <packages prefixes="org.eclipse.emf.codegen.ecore"/>
     </library>
   </runtime>
 
@@ -76,10 +76,6 @@
 
   <extension point = "org.eclipse.emf.ecore.extension_parser">
     <parser type="genmodel" class="org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl"/>
-  </extension>
-
-  <extension point="org.eclipse.team.core.fileTypes">
-    <fileTypes extension="genmodel" type="text"/>    
   </extension>
 
 </plugin>
