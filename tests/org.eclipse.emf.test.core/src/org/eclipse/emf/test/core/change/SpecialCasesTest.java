@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.2 2004/10/22 19:25:49 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.3 2004/10/28 21:19:01 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
@@ -125,14 +126,14 @@ public class SpecialCasesTest  extends TestCase
     friendsReference.setName("Friends");
     friendsReference.setEType(person);
     friendsReference.setContainment(true);
-    friendsReference.setUpperBound(-1);
+    friendsReference.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     person.getEStructuralFeatures().add(friendsReference);
 
     EReference enemiesReference = EcoreFactory.eINSTANCE.createEReference();
     enemiesReference.setName("Enemies");
     enemiesReference.setEType(person);
     enemiesReference.setContainment(true);
-    enemiesReference.setUpperBound(-1);
+    enemiesReference.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     person.getEStructuralFeatures().add(enemiesReference);
     
     // Instantiating the model
@@ -267,7 +268,7 @@ public class SpecialCasesTest  extends TestCase
     EReference employeesReference = EcoreFactory.eINSTANCE.createEReference();
     employeesReference.setName("Employess");
     employeesReference.setEType(person);
-    employeesReference.setUpperBound(-1);
+    employeesReference.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     company.getEStructuralFeatures().add(employeesReference);
 
     worksForReference.setEOpposite(employeesReference);

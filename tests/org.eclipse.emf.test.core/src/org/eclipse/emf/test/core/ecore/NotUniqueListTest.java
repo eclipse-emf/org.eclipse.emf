@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotUniqueListTest.java,v 1.1 2004/10/14 17:39:46 marcelop Exp $
+ * $Id: NotUniqueListTest.java,v 1.2 2004/10/28 21:19:01 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 public class NotUniqueListTest extends TestCase
@@ -114,7 +115,7 @@ public class NotUniqueListTest extends TestCase
     trips.setEType(city);
     trips.setContainment(false);
     trips.setUnique(false);
-    trips.setUpperBound(-1);
+    trips.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     person.getEStructuralFeatures().add(trips);
     
     final EObject ny = pack.getEFactoryInstance().create(city);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.6 2004/08/24 18:29:27 bportier Exp $
+ * $Id: DataGraphTest.java,v 1.7 2004/10/28 21:19:01 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -114,7 +115,7 @@ public class DataGraphTest extends TestCase
     eClass.getEStructuralFeatures().add(eAttribute);
     EReference eReference = EcoreFactory.eINSTANCE.createEReference();
     eReference.setName("child");
-    eReference.setUpperBound(-1);
+    eReference.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     eReference.setEType(eClass);
     eReference.setContainment(true);
     eClass.getEStructuralFeatures().add(eReference);
