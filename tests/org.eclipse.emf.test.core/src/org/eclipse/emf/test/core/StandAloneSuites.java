@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StandAloneSuites.java,v 1.2 2004/09/01 13:11:14 emerks Exp $
+ * $Id: StandAloneSuites.java,v 1.3 2004/10/14 17:41:10 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -35,6 +35,7 @@ public class StandAloneSuites extends TestSuite
     ,org.eclipse.emf.test.core.change.MultivalueAttributeTest.suite()
     ,org.eclipse.emf.test.core.change.SpecialCasesTest.suite()
     ,org.eclipse.emf.test.core.ecore.EcoreUtilStaticMethodsTest.suite()
+    ,org.eclipse.emf.test.core.ecore.NotUniqueListTest.suite()
     ,org.eclipse.emf.test.core.xmi.NamespaceTest.suite()
     ,org.eclipse.emf.test.core.xmi.OrderTest.suite()
     ,org.eclipse.emf.test.core.xmi.QNameTest.suite()
