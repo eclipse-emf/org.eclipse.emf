@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.4 2004/05/06 12:46:06 fbudinsky Exp $
+ * $Id: EcoreUtil.java,v 1.5 2004/05/14 13:50:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2192,6 +2192,24 @@ public class EcoreUtil
       }
       eAnnotation.getDetails().put("constraints", value.toString());
     }
+  }
+
+  public static String getAnnotation(EModelElement eModelElement, String sourceURI, String key)
+  {
+    EAnnotation eAnnotation = eModelElement.getEAnnotation(sourceURI);
+    return eAnnotation == null ? null : (String)eAnnotation.getDetails().get(key);
+  }
+
+  public static void setAnnotation(EModelElement eModelElement, String sourceURI, String key, String value)
+  {
+    EAnnotation eAnnotation = eModelElement.getEAnnotation(sourceURI);
+    if (eAnnotation == null)
+    {
+      eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+      eAnnotation.setSource(sourceURI);
+      eModelElement.getEAnnotations().add(eAnnotation);
+    }
+    eAnnotation.getDetails().put(key, value);
   }
 
   /**
