@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.3 2004/04/02 17:46:20 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.4 2004/04/14 15:24:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -770,7 +770,7 @@ public class JavaEcoreBuilder
 
         String [] superInterfaces = type.getSuperInterfaces();
         String extend = getExtendsAnnotation(type.getComment());
-        if (extend != null)
+        if (extend != null && superInterfaces != null)
         {
           List superInterfaceList = new ArrayList(Arrays.asList(superInterfaces));
           for (StringTokenizer stringTokenizer = new StringTokenizer(extend, " ,\t\n\r\f"); stringTokenizer.hasMoreTokens(); )
