@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.1 2004/05/05 19:51:42 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.2 2004/05/08 13:49:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -284,7 +284,7 @@ public class EObjectValidator implements EValidator
     for (EContentsEList.FeatureIterator i = (EContentsEList.FeatureIterator)eObject.eCrossReferences().iterator(); i.hasNext(); )
     {
       EObject eCrossReferenceObject = (EObject)i.next();
-      if (!eCrossReferenceObject.eIsProxy())
+      if (eCrossReferenceObject.eIsProxy())
       {
         result = false;
         if (diagnostics != null)
@@ -319,7 +319,7 @@ public class EObjectValidator implements EValidator
     for (EContentsEList.FeatureIterator i = (EContentsEList.FeatureIterator)eObject.eCrossReferences().iterator(); i.hasNext(); )
     {
       EObject eCrossReferenceObject = (EObject)i.next();
-      if (eCrossReferenceObject.eResource() == null)
+      if (eCrossReferenceObject.eResource() == null && !eCrossReferenceObject.eIsProxy())
       {
         result = false;
         if (diagnostics != null)
