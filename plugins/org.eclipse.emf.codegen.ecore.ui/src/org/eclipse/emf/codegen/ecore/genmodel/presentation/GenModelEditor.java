@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.8 2004/06/13 12:20:54 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.9 2004/06/17 10:37:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -862,7 +862,7 @@ public class GenModelEditor
       // This runs the options, and shows progress.
       // (It appears to be a bad thing to fork this onto another thread.)
       //
-      new ProgressMonitorDialog(getSite().getShell()).run(false, false, operation);
+      new ProgressMonitorDialog(getSite().getShell()).run(true, false, operation);
 
       // Refresh the necessary state.
       //
