@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBase.java,v 1.3 2005/03/07 21:26:07 khussey Exp $
+ * $Id: GenBase.java,v 1.4 2005/04/04 19:20:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -43,8 +43,6 @@ public interface GenBase extends EObject{
 
   boolean canGenerate();
   void generate(IProgressMonitor progressMonitor);
-
-  GenModelPackage ePackageGenModel();
 
   //
   // EMFEdit generation
