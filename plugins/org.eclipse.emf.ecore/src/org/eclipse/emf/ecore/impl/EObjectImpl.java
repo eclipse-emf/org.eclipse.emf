@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EObjectImpl.java,v 1.2 2004/06/08 18:30:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.InternalEObject;
  * <p>
  * </p>
  *
- * @generated
+ * @generated NOT
  */
 public class EObjectImpl extends BasicEObjectImpl implements EObject 
 {
