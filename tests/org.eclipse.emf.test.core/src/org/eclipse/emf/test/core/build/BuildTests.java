@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.19 2004/07/29 13:32:30 marcelop Exp $
+ * $Id: BuildTests.java,v 1.20 2004/08/03 21:31:56 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -36,6 +36,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -632,6 +634,39 @@ public class BuildTests extends TestCase
         (result1 && result2 && result3));
   }
   
+  /*
+   * Checks if the ecore.jar has any file different than *.class - fails if it has
+   */
+  public void testECoreJar() throws Exception
+  {
+    String installDir = Platform.getInstallLocation().getURL().getPath();
+    File pluginsDir = new File(installDir, "plugins");
+    File[] plugins = pluginsDir.listFiles();
+    File eCoreJar = null;
+    for (int i = 0; i < plugins.length; i++)
+    {
+      if("org.eclipse.emf.ecore".equals(plugins[i].getName()) || plugins[i].getName().startsWith("org.eclipse.emf.ecore_"))
+      {
+        eCoreJar = new File(plugins[i], "runtime/ecore.jar");
+        assertTrue(eCoreJar.exists());
+        assertTrue(eCoreJar.isFile());
+        
+        JarFile jarFile = new JarFile(eCoreJar);
+        for (Enumeration entries=jarFile.entries(); entries.hasMoreElements();)
+        {
+          JarEntry entry = (JarEntry)entries.nextElement();
+          if (!entry.isDirectory())
+          {
+            String name = entry.getName();
+            assertTrue(name, entry.getName().endsWith(".class"));
+          }
+        }
+        break;
+      }
+    }
+    assertNotNull(eCoreJar);
+  }
+  
   public void testDocPlugins() throws Exception
   {
     String installDir = Platform.getInstallLocation().getURL().getPath();
@@ -1028,6 +1063,7 @@ public class BuildTests extends TestCase
     ts.addTest(new BuildTests("testPluginFiles"));
     ts.addTest(new BuildTests("testChkpii"));
     ts.addTest(new BuildTests("testDocPlugins"));
+    ts.addTest(new BuildTests("testECoreJar"));
     return ts;
   }
 
