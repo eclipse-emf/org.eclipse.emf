@@ -24,16 +24,15 @@
             aList.add(EMFAntPlugin.getDefault());
             
             //Creating a JETEmitter task
-            taskAdapter = MyProject.createTask("emf.JETEmitter");
-            jetEmitter = taskAdapter.getProxy();
-            
+            jetEmitter = MyProject.createTask("emf.JETEmitter");
+
             //Setting the attributes
             jetEmitter.setTemplateFile(MyProject.resolveFile("complex.javajet"));
             jetEmitter.setNewFile(MyProject.resolveFile("Complex.java"));
             jetEmitter.setArgument(aList);
 
-            //Executing the adapter            
-            taskAdapter.perform();
+            //Running the task
+            jetEmitter.perform();
             ]]></script>
     </target>
 
