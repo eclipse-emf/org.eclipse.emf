@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.6 2004/05/16 17:29:58 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.7 2004/05/17 13:12:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1533,7 +1533,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           (new SubProgressMonitor(progressMonitor, 1),
            Generator.EMF_EDIT_PROJECT_STYLE,
            getEffectiveModelPluginVariables(),
-           getEditDirectory(),
+           getEditPluginDirectory(),
            getEditPluginPackageName(),
            getEditPluginClassName(),
            getEditPluginClassEmitter());
@@ -1613,7 +1613,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         (new SubProgressMonitor(progressMonitor, 1),
          Generator.EMF_EDITOR_PROJECT_STYLE,
          getEffectiveModelPluginVariables(),
-         getEditorDirectory(),
+         getEditorPluginDirectory(),
          getEditorPluginPackageName(),
          getEditorPluginClassName(),
          getEditorPluginClassEmitter());
@@ -3312,6 +3312,28 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return result;
   }
 
+  protected String getEditPluginDirectory()
+  {
+    String result =  getEditDirectory(); 
+    String plugin = null;
+    if (sameModelEditProject())
+    {
+      plugin = getModelPluginClass();
+      result = getModelDirectory();
+    }
+    if (isBlank(plugin))
+    {
+      plugin = getEditPluginClass();
+      result = getEditDirectory();
+    }
+    if (isBlank(plugin) && sameEditEditorProject())
+    {
+      plugin = getEditorPluginClass();
+      result = getEditorDirectory();
+    }
+    return result;
+  }
+
   protected String getEditorPluginClassToUse()
   {
     String result = null;
@@ -3326,6 +3348,28 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (isBlank(result))
     {
       result = getEditorPluginClass();
+    }
+    return result;
+  }
+
+  protected String getEditorPluginDirectory()
+  {
+    String result =  getEditorDirectory(); 
+    String plugin = null;
+    if (sameModelEditorProject())
+    {
+      plugin = getModelPluginClass();
+      result = getModelDirectory();
+    }
+    if (isBlank(plugin) && sameEditEditorProject())
+    {
+      plugin = getEditPluginClass();
+      result = getEditDirectory();
+    }
+    if (isBlank(plugin))
+    {
+      plugin = getEditorPluginClass();
+      result = getEditorDirectory();
     }
     return result;
   }
