@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: MappingRootImpl.java,v 1.2 2004/05/26 21:00:59 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -1013,7 +1013,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
           return true;
         }
 
-        protected NotificationImpl createNotification(int eventType, Object oldObject, Object newObject, int index)
+        protected NotificationImpl createNotification(int eventType, Object oldObject, Object newObject, int index, boolean wasSet)
         {
           Object object = oldObject == null ? newObject : oldObject;
           // Ensure that this is a touch notification so to resource aren't marked as dirty.
@@ -1025,7 +1025,8 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
                Notification.NO_FEATURE_ID - 1,
                object,
                object,
-               Notification.NO_INDEX);
+               Notification.NO_INDEX,
+               wasSet);
           MappedObjectStateAdapter.this.fireNotifyChanged(notification);
           return notification;
         }
