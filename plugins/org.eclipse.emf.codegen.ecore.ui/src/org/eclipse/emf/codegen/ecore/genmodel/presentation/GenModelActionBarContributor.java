@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.8 2004/07/05 15:06:21 marcelop Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.9 2004/07/16 16:28:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -49,6 +49,8 @@ import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 
+//import org.eclipse.emf.edit.ui.action.LoadResourceAction;
+//import org.eclipse.emf.edit.ui.action.ValidateAction;
 // import java.util.LinkedList;
 // import org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind;
 // import org.eclipse.jface.action.ActionContributionItem;
