@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapTest.java,v 1.1 2005/03/03 19:42:41 marcelop Exp $
+ * $Id: FeatureMapTest.java,v 1.2 2005/03/03 19:44:37 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -44,12 +44,12 @@ public class FeatureMapTest extends TestCase
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite("ListTest");
-    testSuite.addTest(new FeatureMapTest("testFeatureMap1"));
-    testSuite.addTest(new FeatureMapTest("testFeatureMap2"));
+    testSuite.addTest(new FeatureMapTest("testAttributesAsFeatures"));
+    testSuite.addTest(new FeatureMapTest("testReferencesAsFeatures"));
     return testSuite;
   }
 
-  public void testFeatureMap1() throws Exception
+  public void testAttributesAsFeatures() throws Exception
   {
     EcorePackage ecorePackage = EcorePackage.eINSTANCE;
     EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
@@ -122,7 +122,7 @@ public class FeatureMapTest extends TestCase
     assertEquals("String6", standardList.get(2));
   } 
 
-  public void testFeatureMap2() throws Exception
+  public void testReferencesAsFeatures() throws Exception
   {
     EcorePackage ecorePackage = EcorePackage.eINSTANCE;
     EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
