@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.6 2004/04/07 21:02:28 emerks Exp $
+ * $Id: XMLHandler.java,v 1.7 2004/04/18 23:17:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -78,6 +78,8 @@ public abstract class XMLHandler
   protected final static String SCHEMA_LOCATION_ATTRIB = XMLResource.XSI_NS + ":" + XMLResource.SCHEMA_LOCATION;
   protected final static String NO_NAMESPACE_SCHEMA_LOCATION_ATTRIB = XMLResource.XSI_NS + ":" + XMLResource.NO_NAMESPACE_SCHEMA_LOCATION;
 
+  protected final static boolean DEBUG_DEMANDED_PACKAGES = false;
+  
   protected static class MyStack extends ArrayList
   {
     public MyStack()
@@ -250,6 +252,8 @@ public abstract class XMLHandler
   protected ExtendedMetaData extendedMetaData;
   protected EClass anyType;
   protected EClass anySimpleType;
+  protected boolean recordUnknownFeature;
+  protected Map eObjectToExtensionMap;
 
   /**
    */
@@ -275,6 +279,9 @@ public abstract class XMLHandler
     extent       = (InternalEList) xmlResource.getContents();
     resolve      = resourceURI != null && resourceURI.isHierarchical() && !resourceURI.isRelative();
 
+    eObjectToExtensionMap = xmlResource.getEObjectToExtensionMap();
+    eObjectToExtensionMap.clear();
+
     if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_DISABLE_NOTIFY)))
       disableNotify = true;
 
@@ -291,22 +298,13 @@ public abstract class XMLHandler
     }
 
     Object extendedMetaDataOption = options.get(XMLResource.OPTION_EXTENDED_META_DATA);
-    if (extendedMetaDataOption instanceof Boolean)
-    {
-      if (extendedMetaDataOption.equals(Boolean.TRUE))
-      {
-        extendedMetaData = 
-          resourceSet == null ?
-            ExtendedMetaData.INSTANCE :
-            new BasicExtendedMetaData(resourceSet.getPackageRegistry());
-      }
-    }
-    else
-    {
-      extendedMetaData = (ExtendedMetaData)options.get(XMLResource.OPTION_EXTENDED_META_DATA);
-    }
+    setExtendedMetaDataOption(extendedMetaDataOption);
 
-    helper.setExtendedMetaData(extendedMetaData);
+    recordUnknownFeature = Boolean.TRUE.equals(options.get(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE));  
+    if (recordUnknownFeature && extendedMetaData == null)
+    {
+      setExtendedMetaDataOption(Boolean.TRUE);
+    }
 
     if (extendedMetaData != null)
     {
@@ -325,7 +323,30 @@ public abstract class XMLHandler
     }
     
     helper.setAnySimpleType(anySimpleType);
-    
+  }
+
+  protected void setExtendedMetaDataOption(Object extendedMetaDataOption)
+  {
+    if (extendedMetaDataOption instanceof Boolean)
+    {
+      if (extendedMetaDataOption.equals(Boolean.TRUE))
+      {
+        extendedMetaData = 
+          resourceSet == null ?
+            ExtendedMetaData.INSTANCE :
+            new BasicExtendedMetaData(resourceSet.getPackageRegistry());
+      }
+      else
+      {
+        extendedMetaData = null;
+      }
+    }
+    else
+    {
+      extendedMetaData = (ExtendedMetaData)extendedMetaDataOption;
+    }
+
+    helper.setExtendedMetaData(extendedMetaData);
   }
 
   /**
@@ -626,15 +647,18 @@ public abstract class XMLHandler
         }
       }
 
-      // EATM temporary for debug purposes only.
-      //
-      Collection demandedPackages = EcoreUtil.copyAll(extendedMetaData.demandedPackages());
-      for (Iterator i = demandedPackages.iterator(); i.hasNext(); )
+      if (DEBUG_DEMANDED_PACKAGES)
       {
-        EPackage ePackage = (EPackage)i.next();
-        ePackage.setName(ePackage.getNsURI());
+        // EATM temporary for debug purposes only.
+        //
+        Collection demandedPackages = EcoreUtil.copyAll(extendedMetaData.demandedPackages());
+        for (Iterator i = demandedPackages.iterator(); i.hasNext();)
+        {
+          EPackage ePackage = (EPackage)i.next();
+          ePackage.setName(ePackage.getNsURI());
+        }
+        extent.addAll(demandedPackages);
       }
-      extent.addAll(demandedPackages);
     }
   }
 
@@ -1031,15 +1055,8 @@ public abstract class XMLHandler
             }
           }
         }
-
-        types.push(ERROR_TYPE);
-        error
-          (new FeatureNotFoundException
-            (name,
-             peekObject,
-             getLocation(),
-             getLineNumber(),
-             getColumnNumber()));
+       
+        handleUnknownFeature(prefix, name, true, peekObject, null);
       }
     }
   }
@@ -1058,7 +1075,64 @@ public abstract class XMLHandler
   {
     return resourceURI == null ? "" : resourceURI.toString();
   }
+  
+  protected AnyType getExtension(EObject peekObject)
+  {
+    AnyType anyType = (AnyType)eObjectToExtensionMap.get(peekObject);
+    if (anyType == null)
+    {
+      anyType = XMLTypeFactory.eINSTANCE.createAnyType();
+      eObjectToExtensionMap.put(peekObject, anyType);
+    }
+    return anyType;
+  }
 
+  protected void handleUnknownFeature(String prefix, String name, boolean isElement, EObject peekObject, String value)
+  {
+    if (recordUnknownFeature)
+    {
+      recordUnknownFeature(prefix, name, isElement, peekObject, value);
+    }
+    else
+    {
+      reportUnknownFeature(prefix, name, isElement, peekObject, value);
+    }
+  }
+
+  protected void recordUnknownFeature(String prefix, String name, boolean isElement, EObject peekObject, String value)
+  {
+    if (isElement)
+    {
+      AnyType anyType = getExtension(peekObject);
+      objects.push(anyType);
+      mixedTargets.push(anyType.getAny());
+      types.push(XMLTypePackage.eINSTANCE.getAnyType_Any());
+
+      handleFeature(prefix, name);
+
+      objects.remove(objects.size() - 2);
+      mixedTargets.remove(mixedTargets.size() - 2);
+      types.remove(types.size() - 2);
+    }
+    else
+    {
+      AnyType anyType = getExtension(peekObject);
+      setAttribValue(anyType, prefix == null ? name : prefix + ":" + name, value);
+    }
+  }
+
+  protected void reportUnknownFeature(String prefix, String name, boolean isElement, EObject peekObject, String value)
+  {
+    types.push(ERROR_TYPE);
+    error
+      (new FeatureNotFoundException
+        (name,
+         peekObject,
+         getLocation(),
+         getLineNumber(),
+         getColumnNumber()));
+  }
+  
   public void error(XMIException e)
   {
     xmlResource.getErrors().add(e);
@@ -1509,13 +1583,7 @@ public abstract class XMLHandler
     EStructuralFeature feature = getFeature(object, prefix, localName, false);
     if (feature == null)
     {
-      error
-        (new FeatureNotFoundException
-           (name,
-            object,
-            getLocation(),
-            getLineNumber(),
-            getColumnNumber()));
+      handleUnknownFeature(prefix, localName, false, object, value);
     }
     else
     {
