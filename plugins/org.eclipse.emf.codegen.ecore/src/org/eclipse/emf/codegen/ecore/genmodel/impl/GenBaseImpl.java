@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.8 2004/07/05 03:16:51 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.9 2004/08/05 21:16:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -498,21 +498,25 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected void setImportManager(ImportManager importManager)
   {
-    ((GenBaseImpl)getGenModel()).setImportManager(importManager);
+    GenModelImpl genModel = (GenModelImpl)getGenModel();
+    if (genModel != null)
+    {
+      genModel.setImportManager(importManager);
 
-    // EATM Kind of ugly...
-    //
-    if (ecoreGenPackage != null && ((GenPackageImpl)ecoreGenPackage).getImportManager() != importManager)
-    {
-      ((GenPackageImpl)ecoreGenPackage).setImportManager(getImportManager());
-    }
-    if (xmlTypeGenPackage != null && ((GenPackageImpl)xmlTypeGenPackage).getImportManager() != importManager)
-    {
-      ((GenPackageImpl)xmlTypeGenPackage).setImportManager(getImportManager());
-    }
-    if (xmlNamespaceGenPackage != null && ((GenPackageImpl)xmlNamespaceGenPackage).getImportManager() != importManager)
-    {
-      ((GenPackageImpl)xmlNamespaceGenPackage).setImportManager(getImportManager());
+      // EATM Kind of ugly...
+      //
+      if (ecoreGenPackage != null && ((GenPackageImpl)ecoreGenPackage).getImportManager() != importManager)
+      {
+        ((GenPackageImpl)ecoreGenPackage).setImportManager(getImportManager());
+      }
+      if (xmlTypeGenPackage != null && ((GenPackageImpl)xmlTypeGenPackage).getImportManager() != importManager)
+      {
+        ((GenPackageImpl)xmlTypeGenPackage).setImportManager(getImportManager());
+      }
+      if (xmlNamespaceGenPackage != null && ((GenPackageImpl)xmlNamespaceGenPackage).getImportManager() != importManager)
+      {
+        ((GenPackageImpl)xmlNamespaceGenPackage).setImportManager(getImportManager());
+      }
     }
   }
 
