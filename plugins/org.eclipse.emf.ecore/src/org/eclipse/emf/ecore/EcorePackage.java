@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EcorePackage.java,v 1.2 2004/05/05 19:50:33 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -1834,7 +1834,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEEList()
    * @generated
    */
-  int EE_LIST = 30;
+  int EE_LIST = 31;
 
   /**
    * The meta object id for the '<em>EResource</em>' data type.
@@ -1844,7 +1844,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEResource()
    * @generated
    */
-  int ERESOURCE = 42;
+  int ERESOURCE = 44;
 
   /**
    * The meta object id for the '<em>EResource Set</em>' data type.
@@ -1854,7 +1854,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEResourceSet()
    * @generated
    */
-  int ERESOURCE_SET = 43;
+  int ERESOURCE_SET = 45;
 
   /**
    * The meta object id for the '<em>EBoolean Object</em>' data type.
@@ -1887,6 +1887,16 @@ public interface EcorePackage extends EPackage{
   int EDATE = 27;
 
   /**
+   * The meta object id for the '<em>EDiagnostic Chain</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.common.util.DiagnosticChain
+   * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEDiagnosticChain()
+   * @generated
+   */
+  int EDIAGNOSTIC_CHAIN = 28;
+
+  /**
    * The meta object id for the '<em>EDouble Object</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1894,7 +1904,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEDoubleObject()
    * @generated
    */
-  int EDOUBLE_OBJECT = 29;
+  int EDOUBLE_OBJECT = 30;
 
   /**
    * The meta object id for the '<em>EFloat Object</em>' data type.
@@ -1904,7 +1914,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFloatObject()
    * @generated
    */
-  int EFLOAT_OBJECT = 35;
+  int EFLOAT_OBJECT = 36;
 
   /**
    * The meta object id for the '<em>EInteger Object</em>' data type.
@@ -1914,7 +1924,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEIntegerObject()
    * @generated
    */
-  int EINTEGER_OBJECT = 37;
+  int EINTEGER_OBJECT = 38;
 
   /**
    * The meta object id for the '<em>EBoolean</em>' data type.
@@ -1969,7 +1979,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEDouble()
    * @generated
    */
-  int EDOUBLE = 28;
+  int EDOUBLE = 29;
 
   /**
    * The meta object id for the '<em>EFloat</em>' data type.
@@ -1978,7 +1988,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFloat()
    * @generated
    */
-  int EFLOAT = 34;
+  int EFLOAT = 35;
 
   /**
    * The meta object id for the '<em>EInt</em>' data type.
@@ -1987,7 +1997,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEInt()
    * @generated
    */
-  int EINT = 36;
+  int EINT = 37;
 
   /**
    * The meta object id for the '<em>EJava Class</em>' data type.
@@ -1997,7 +2007,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEJavaClass()
    * @generated
    */
-  int EJAVA_CLASS = 38;
+  int EJAVA_CLASS = 39;
 
   /**
    * The meta object id for the '<em>EJava Object</em>' data type.
@@ -2007,7 +2017,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEJavaObject()
    * @generated
    */
-  int EJAVA_OBJECT = 39;
+  int EJAVA_OBJECT = 40;
 
   /**
    * The meta object id for the '<em>ELong Object</em>' data type.
@@ -2017,7 +2027,17 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getELongObject()
    * @generated
    */
-  int ELONG_OBJECT = 41;
+  int ELONG_OBJECT = 42;
+
+  /**
+   * The meta object id for the '<em>EMap</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see java.util.Map
+   * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEMap()
+   * @generated
+   */
+  int EMAP = 43;
 
   /**
    * The meta object id for the '<em>EShort Object</em>' data type.
@@ -2027,7 +2047,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEShortObject()
    * @generated
    */
-  int ESHORT_OBJECT = 45;
+  int ESHORT_OBJECT = 47;
 
   /**
    * The meta object id for the '<em>ELong</em>' data type.
@@ -2036,7 +2056,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getELong()
    * @generated
    */
-  int ELONG = 40;
+  int ELONG = 41;
 
   /**
    * The meta object id for the '<em>EShort</em>' data type.
@@ -2045,7 +2065,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEShort()
    * @generated
    */
-  int ESHORT = 44;
+  int ESHORT = 46;
 
   /**
    * The meta object id for the '<em>ETree Iterator</em>' data type.
@@ -2055,7 +2075,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getETreeIterator()
    * @generated
    */
-  int ETREE_ITERATOR = 47;
+  int ETREE_ITERATOR = 49;
 
 
   /**
@@ -2066,7 +2086,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFeatureMapEntry()
    * @generated
    */
-  int EFEATURE_MAP_ENTRY = 33;
+  int EFEATURE_MAP_ENTRY = 34;
 
 
   /**
@@ -2077,7 +2097,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEEnumerator()
    * @generated
    */
-  int EENUMERATOR = 31;
+  int EENUMERATOR = 32;
 
 
   /**
@@ -2088,7 +2108,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFeatureMap()
    * @generated
    */
-  int EFEATURE_MAP = 32;
+  int EFEATURE_MAP = 33;
 
   /**
    * The meta object id for the '<em>EString</em>' data type.
@@ -2098,7 +2118,7 @@ public interface EcorePackage extends EPackage{
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEString()
    * @generated
    */
-  int ESTRING = 46;
+  int ESTRING = 48;
 
 
   /**
@@ -3116,6 +3136,17 @@ public interface EcorePackage extends EPackage{
   EDataType getEDate();
 
   /**
+   * Returns the meta object for data type '{@link org.eclipse.emf.common.util.DiagnosticChain <em>EDiagnostic Chain</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for data type '<em>EDiagnostic Chain</em>'.
+   * @see org.eclipse.emf.common.util.DiagnosticChain
+   * @model instanceClass="org.eclipse.emf.common.util.DiagnosticChain" serializable="false"
+   * @generated
+   */
+  EDataType getEDiagnosticChain();
+
+  /**
    * Returns the meta object for data type '{@link java.lang.Double <em>EDouble Object</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3261,6 +3292,17 @@ public interface EcorePackage extends EPackage{
    * @generated
    */
   EDataType getELongObject();
+
+  /**
+   * Returns the meta object for data type '{@link java.util.Map <em>EMap</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for data type '<em>EMap</em>'.
+   * @see java.util.Map
+   * @model instanceClass="java.util.Map" serializable="false"
+   * @generated
+   */
+  EDataType getEMap();
 
   /**
    * Returns the meta object for data type '{@link java.lang.Short <em>EShort Object</em>}'.

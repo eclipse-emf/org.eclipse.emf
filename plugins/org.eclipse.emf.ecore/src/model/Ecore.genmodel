@@ -19,6 +19,7 @@
     <genDataTypes ecoreDataType="Ecore.ecore#//EChar"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//ECharacterObject"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EDate"/>
+    <genDataTypes ecoreDataType="Ecore.ecore#//EDiagnosticChain"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EDouble"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EDoubleObject"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EEList"/>
@@ -33,6 +34,7 @@
     <genDataTypes ecoreDataType="Ecore.ecore#//EJavaObject"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//ELong"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//ELongObject"/>
+    <genDataTypes ecoreDataType="Ecore.ecore#//EMap"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EResource"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EResourceSet"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EShort"/>
@@ -48,7 +50,7 @@
       <genFeatures property="None" children="true" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/details"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/eModelElement"/>
       <genFeatures property="None" children="true" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/contents"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/references"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/references"/>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EClass">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EClass/abstract"/>
