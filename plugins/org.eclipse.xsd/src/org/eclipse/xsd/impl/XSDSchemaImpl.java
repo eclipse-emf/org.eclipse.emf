@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.5 2004/08/17 14:21:02 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.6 2004/08/24 15:54:54 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -711,6 +711,11 @@ public class XSDSchemaImpl
     {
       public Object put(Object key, Object value)
       {
+        if ("".equals(key))
+        {
+          throw new IllegalArgumentException("The default prefix should represented as null rather than as a zero length String");
+        }
+
         if (value == null)
         {
           value = "";
