@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2004/11/03 19:32:04 marcelop Exp $
+ * $Id: plugin.xml,v 1.2 2004/11/11 18:13:41 nickb Exp $
  */
 -->
 
@@ -31,6 +31,10 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.junit"/>
+      <import plugin="org.eclipse.emf.test.core"/>
+      <import plugin="org.eclipse.emf.test.edit"/>
+      <import plugin="org.eclipse.emf.test.sdo"/>
+      <import plugin="org.eclipse.emf.test.xml"/>
    </requires>
 
    <runtime>
