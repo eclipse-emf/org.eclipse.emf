@@ -25,7 +25,7 @@
 			<topic label="What's New in v1.0.1" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.1" />
 		</topic>
 
-		<topic label="EMF FAQ" href="http://download.eclipse.org/tools/emf/scripts/docs.php?doc=docs/../faq/index.html" />
+		<topic label="EMF FAQ" href="http://dev.eclipse.org/viewcvs/indextools.cgi/~checkout~/emf-home/faq/index.html" />
 	</topic>
 
 	<topic label="Javadoc" href="references/javadoc/index.html"/>
