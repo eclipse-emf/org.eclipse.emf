@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EFactoryItemProvider.java,v 1.2 2004/04/06 03:26:15 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -33,6 +33,8 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
+
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
  * This is the item provider adpater for a {@link org.eclipse.emf.ecore.EFactory} object.
@@ -120,20 +122,21 @@ public class EFactoryItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public void notifyChanged(Notification notification)
   {
+    updateChildren(notification);
+
     switch (notification.getFeatureID(EFactory.class))
     {
       case EcorePackage.EFACTORY__EPACKAGE:
-      {
-        fireNotifyChanged(notification);
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
-      }
     }
     super.notifyChanged(notification);
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EParameterItemProvider.java,v 1.2 2004/04/06 03:26:15 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -101,13 +101,15 @@ public class EParameterItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public void notifyChanged(Notification notification)
   {
+    updateChildren(notification);
     super.notifyChanged(notification);
   }
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.3 2004/03/21 15:07:07 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.4 2004/04/06 03:26:15 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -38,6 +38,8 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
+
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
  * This is the item provider adpater for a {@link org.eclipse.emf.ecore.ETypedElement} object.
@@ -255,13 +257,16 @@ public class ETypedElementItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public void notifyChanged(Notification notification)
   {
+    updateChildren(notification);
+
     switch (notification.getFeatureID(ETypedElement.class))
     {
       case EcorePackage.ETYPED_ELEMENT__ORDERED:
@@ -271,10 +276,8 @@ public class ETypedElementItemProvider
       case EcorePackage.ETYPED_ELEMENT__MANY:
       case EcorePackage.ETYPED_ELEMENT__REQUIRED:
       case EcorePackage.ETYPED_ELEMENT__ETYPE:
-      {
-        fireNotifyChanged(notification);
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
-      }
     }
     super.notifyChanged(notification);
   }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <genmodel:GenModel xmi:version="2.0"
-  xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-  xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.ecore/src"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.ecore/src"
     editDirectory="/org.eclipse.emf.ecore.edit/src" editorDirectory="/org.eclipse.emf.ecore.editor/src"
     modelPluginID="org.eclipse.emf.ecore" runtimeJar="true" modelName="Ecore" editPluginClass="org.eclipse.emf.ecore.provider.EcoreEditPlugin"
     editorPluginClass="org.eclipse.emf.ecore.presentation.EcoreEditorPlugin" updateClasspath="false">
@@ -40,31 +40,31 @@
     <genDataTypes ecoreDataType="Ecore.ecore#//EString"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//ETreeIterator"/>
     <genClasses ecoreClass="Ecore.ecore#//EAttribute">
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EAttribute/iD"/>
-      <genFeatures property="Readonly" ecoreFeature="ecore:EReference Ecore.ecore#//EAttribute/eAttributeType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EAttribute/iD"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAttribute/eAttributeType"/>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EAnnotation">
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EAnnotation/source"/>
-      <genFeatures property="None" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/details"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/eModelElement"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/contents"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/references"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EAnnotation/source"/>
+      <genFeatures property="None" children="true" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/details"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/eModelElement"/>
+      <genFeatures property="None" children="true" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/contents"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EAnnotation/references"/>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EClass">
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EClass/abstract"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EClass/interface"/>
-      <genFeatures ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eSuperTypes"/>
-      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eOperations"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAllAttributes"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAllReferences"/>
-      <genFeatures property="None" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eReferences"/>
-      <genFeatures property="None" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAttributes"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAllContainments"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAllOperations"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAllStructuralFeatures"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAllSuperTypes"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eIDAttribute"/>
-      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eStructuralFeatures"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EClass/abstract"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EClass/interface"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eSuperTypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eOperations"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAllAttributes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAllReferences"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eReferences"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAttributes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAllContainments"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAllOperations"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAllStructuralFeatures"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eAllSuperTypes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eIDAttribute"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Ecore.ecore#//EClass/eStructuralFeatures"/>
       <genOperations ecoreOperation="Ecore.ecore#//EClass/isSuperTypeOf">
         <genParameters ecoreParameter="Ecore.ecore#//EClass/isSuperTypeOf/someClass"/>
       </genOperations>
@@ -76,20 +76,20 @@
       </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="Ecore.ecore#//EClassifier">
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EClassifier/instanceClassName"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EClassifier/instanceClass"/>
-      <genFeatures property="Readonly" ecoreFeature="ecore:EAttribute Ecore.ecore#//EClassifier/defaultValue"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClassifier/ePackage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EClassifier/instanceClassName"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EClassifier/instanceClass"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EClassifier/defaultValue"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EClassifier/ePackage"/>
       <genOperations ecoreOperation="Ecore.ecore#//EClassifier/isInstance">
         <genParameters ecoreParameter="Ecore.ecore#//EClassifier/isInstance/object"/>
       </genOperations>
       <genOperations ecoreOperation="Ecore.ecore#//EClassifier/getClassifierID"/>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EDataType">
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EDataType/serializable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EDataType/serializable"/>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EEnum">
-      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference Ecore.ecore#//EEnum/eLiterals"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Ecore.ecore#//EEnum/eLiterals"/>
       <genOperations ecoreOperation="Ecore.ecore#//EEnum/getEEnumLiteral">
         <genParameters ecoreParameter="Ecore.ecore#//EEnum/getEEnumLiteral/name"/>
       </genOperations>
@@ -98,12 +98,12 @@
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EEnumLiteral">
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EEnumLiteral/value"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EEnumLiteral/instance"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EEnumLiteral/eEnum"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EEnumLiteral/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EEnumLiteral/instance"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EEnumLiteral/eEnum"/>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EFactory">
-      <genFeatures ecoreFeature="ecore:EReference Ecore.ecore#//EFactory/ePackage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EFactory/ePackage"/>
       <genOperations ecoreOperation="Ecore.ecore#//EFactory/create">
         <genParameters ecoreParameter="Ecore.ecore#//EFactory/create/eClass"/>
       </genOperations>
@@ -117,13 +117,13 @@
       </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="Ecore.ecore#//EModelElement">
-      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference Ecore.ecore#//EModelElement/eAnnotations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Ecore.ecore#//EModelElement/eAnnotations"/>
       <genOperations ecoreOperation="Ecore.ecore#//EModelElement/getEAnnotation">
         <genParameters ecoreParameter="Ecore.ecore#//EModelElement/getEAnnotation/source"/>
       </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="Ecore.ecore#//ENamedElement">
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//ENamedElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//ENamedElement/name"/>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EObject">
       <genOperations ecoreOperation="Ecore.ecore#//EObject/eClass"/>
@@ -154,55 +154,55 @@
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EOperation">
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EOperation/eContainingClass"/>
-      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference Ecore.ecore#//EOperation/eParameters"/>
-      <genFeatures notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EOperation/eExceptions"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EOperation/eContainingClass"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Ecore.ecore#//EOperation/eParameters"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EOperation/eExceptions"/>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EPackage">
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EPackage/nsURI"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EPackage/nsPrefix"/>
-      <genFeatures ecoreFeature="ecore:EReference Ecore.ecore#//EPackage/eFactoryInstance"/>
-      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference Ecore.ecore#//EPackage/eClassifiers"/>
-      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference Ecore.ecore#//EPackage/eSubpackages"/>
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EPackage/eSuperPackage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EPackage/nsURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EPackage/nsPrefix"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EPackage/eFactoryInstance"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Ecore.ecore#//EPackage/eClassifiers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Ecore.ecore#//EPackage/eSubpackages"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EPackage/eSuperPackage"/>
       <genOperations ecoreOperation="Ecore.ecore#//EPackage/getEClassifier">
         <genParameters ecoreParameter="Ecore.ecore#//EPackage/getEClassifier/name"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EParameter">
-      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference Ecore.ecore#//EParameter/eOperation"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EParameter/eOperation"/>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EReference">
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EReference/containment"/>
-      <genFeatures property="Readonly" ecoreFeature="ecore:EAttribute Ecore.ecore#//EReference/container"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EReference/resolveProxies"/>
-      <genFeatures ecoreFeature="ecore:EReference Ecore.ecore#//EReference/eOpposite"/>
-      <genFeatures property="Readonly" ecoreFeature="ecore:EReference Ecore.ecore#//EReference/eReferenceType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EReference/containment"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EReference/container"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EReference/resolveProxies"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EReference/eOpposite"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EReference/eReferenceType"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Ecore.ecore#//EStructuralFeature">
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/changeable"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/volatile"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/transient"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/defaultValueLiteral"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/defaultValue"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/unsettable"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/derived"/>
-      <genFeatures property="Readonly" ecoreFeature="ecore:EReference Ecore.ecore#//EStructuralFeature/eContainingClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/changeable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/volatile"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/transient"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/defaultValueLiteral"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/defaultValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/unsettable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/derived"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EStructuralFeature/eContainingClass"/>
       <genOperations ecoreOperation="Ecore.ecore#//EStructuralFeature/getFeatureID"/>
       <genOperations ecoreOperation="Ecore.ecore#//EStructuralFeature/getContainerClass"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Ecore.ecore#//ETypedElement">
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//ETypedElement/ordered"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//ETypedElement/unique"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//ETypedElement/lowerBound"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//ETypedElement/upperBound"/>
-      <genFeatures property="Readonly" ecoreFeature="ecore:EAttribute Ecore.ecore#//ETypedElement/many"/>
-      <genFeatures property="Readonly" ecoreFeature="ecore:EAttribute Ecore.ecore#//ETypedElement/required"/>
-      <genFeatures ecoreFeature="ecore:EReference Ecore.ecore#//ETypedElement/eType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//ETypedElement/ordered"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//ETypedElement/unique"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//ETypedElement/lowerBound"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//ETypedElement/upperBound"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//ETypedElement/many"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//ETypedElement/required"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//ETypedElement/eType"/>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EStringToStringMapEntry">
-      <genFeatures property="Readonly" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStringToStringMapEntry/key"/>
-      <genFeatures ecoreFeature="ecore:EAttribute Ecore.ecore#//EStringToStringMapEntry/value"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStringToStringMapEntry/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStringToStringMapEntry/value"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

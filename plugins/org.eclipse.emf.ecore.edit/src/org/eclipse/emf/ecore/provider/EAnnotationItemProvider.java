@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.2 2004/04/06 03:26:15 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -32,6 +33,8 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
  * This is the item provider adpater for a {@link org.eclipse.emf.ecore.EAnnotation} object.
@@ -90,25 +93,38 @@ public class EAnnotationItemProvider
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
   }
 
-
   /**
-   * This specifies how to implement {@link #getChildren} 
-   * and {@link org.eclipse.emf.edit.command.AddCommand} and {@link org.eclipse.emf.edit.command.RemoveCommand} 
-   * support in {@link #createCommand}.
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
-  public Collection getChildrenReferences(Object object)
+  public Collection getChildrenFeatures(Object object)
   {
-    if (childrenReferences == null)
+    if (childrenFeatures == null)
     {
-      super.getChildrenReferences(object);
-      childrenReferences.add(EcorePackage.eINSTANCE.getEAnnotation_Details());
-      childrenReferences.add(EcorePackage.eINSTANCE.getEAnnotation_Contents());
+      super.getChildrenFeatures(object);
+      childrenFeatures.add(EcorePackage.eINSTANCE.getEAnnotation_Details());
+      childrenFeatures.add(EcorePackage.eINSTANCE.getEAnnotation_Contents());
     }
-    return childrenReferences;
+    return childrenFeatures;
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected EStructuralFeature getChildFeature(Object object, Object child)
+  {
+    // Check the type of the specified child object and return the proper feature to use for
+    // adding (see {@link AddCommand}) it as a child.
+
+    return super.getChildFeature(object, child);
+  }
+
 
   /**
    * This returns EAnnotation.gif.
@@ -147,21 +163,25 @@ public class EAnnotationItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public void notifyChanged(Notification notification)
   {
+    updateChildren(notification);
+
     switch (notification.getFeatureID(EAnnotation.class))
     {
       case EcorePackage.EANNOTATION__SOURCE:
-      case EcorePackage.EANNOTATION__DETAILS:
-      {
-        fireNotifyChanged(notification);
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
-      }
+      case EcorePackage.EANNOTATION__DETAILS:
+      case EcorePackage.EANNOTATION__CONTENTS:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+        return;
     }
     super.notifyChanged(notification);
   }
