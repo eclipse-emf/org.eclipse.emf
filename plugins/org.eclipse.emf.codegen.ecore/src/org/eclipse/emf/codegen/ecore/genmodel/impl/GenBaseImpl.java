@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.20 2005/03/07 21:26:07 khussey Exp $
+ * $Id: GenBaseImpl.java,v 1.21 2005/04/04 19:25:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -70,7 +70,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -874,7 +873,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     {
       if (ecoreGenPackage == null)
       {
-        GenModel ecoreGenModel = GenModelFactory.eINSTANCE.createGenModel();
+        GenModel ecoreGenModel = getGenModel().createGenModel();
         ecoreGenModel.initialize(Collections.singleton(EcorePackage.eINSTANCE));
         ecoreGenPackage = (GenPackage)ecoreGenModel.getGenPackages().get(0);
         ecoreGenPackage.setPrefix("Ecore");
@@ -888,7 +887,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     {
       if (xmlTypeGenPackage == null)
       {
-        GenModel xmlTypeGenModel = GenModelFactory.eINSTANCE.createGenModel();
+        GenModel xmlTypeGenModel = getGenModel().createGenModel();
         xmlTypeGenModel.initialize(Collections.singleton(XMLTypePackage.eINSTANCE));
         xmlTypeGenPackage = (GenPackage)xmlTypeGenModel.getGenPackages().get(0);
         xmlTypeGenPackage.setPrefix("XMLType");
@@ -902,7 +901,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     {
       if (xmlNamespaceGenPackage == null)
       {
-        GenModel xmlNamespaceGenModel = GenModelFactory.eINSTANCE.createGenModel();
+        GenModel xmlNamespaceGenModel = getGenModel().createGenModel();
         xmlNamespaceGenModel.initialize(Collections.singleton(XMLNamespacePackage.eINSTANCE));
         xmlNamespaceGenPackage = (GenPackage)xmlNamespaceGenModel.getGenPackages().get(0);
         xmlNamespaceGenPackage.setPrefix("XMLNamespace");
@@ -1760,11 +1759,6 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     result.append("=\"");
     result.append(value);
     result.append("\" ");
-  }
-
-  public GenModelPackage ePackageGenModel()
-  {
-    return GenModelPackage.eINSTANCE;
   }
 
   protected static boolean isJavaUtilMapEntry(String name)
