@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.16 2004/09/01 20:11:13 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.17 2004/09/29 14:47:35 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -55,6 +55,7 @@ import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.XMLChar;
 
 
 /**
@@ -2019,9 +2020,11 @@ public class XMLSaveImpl implements XMLSave
       grow(inputLength);
       input.getChars(0, inputLength, value, 0);
       int pos = 0;
+      char ch = 0;
       while (inputLength-- > 0)
       {
-        switch (value[pos])
+        ch = value[pos];
+        switch (ch)
         {
           case '&':
             pos = replace(pos, AMP, inputLength);
@@ -2054,6 +2057,10 @@ public class XMLSaveImpl implements XMLSave
             break;
           }
           default:
+            if (!XMLChar.isValid(ch))
+            {
+              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString((int)ch)+") was found in the element content:" +input);
+            }
             pos++;
             break;
         }
