@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.8 2004/08/06 17:04:19 emerks Exp $
+ * $Id: EMFProjectWizard.java,v 1.9 2004/11/01 22:36:23 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -755,6 +755,11 @@ public class EMFProjectWizard extends Wizard implements INewWizard
     return uri;
   }
 
+  protected RoseUtil createRoseUtil()
+  {
+  	return new RoseUtil();
+  }
+
   /**
    * A page that allows a Rose model to be imported.
    */
@@ -1159,7 +1164,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
               for (;;)
               {
                 unitTree = null;
-                roseUtil = new RoseUtil();
+                roseUtil = createRoseUtil();
                 roseUtil.getVariableToDirectoryMap().putAll(pathMap);
       
                 String message = null;
@@ -2600,7 +2605,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
                   progressMonitor.subTask
                     (GenModelEditPlugin.INSTANCE.getString("_UI_CreatingPackagesFor_message", new Object [] { roseModelLocationString }));
     
-                  roseUtil = new RoseUtil();
+                  roseUtil = createRoseUtil();
                   roseUtil.getVariableToDirectoryMap().putAll(roseModelPage.getPathMap());
             
                   ePackageToEcoreFileInformationMap.clear();

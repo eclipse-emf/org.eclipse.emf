@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseUtil.java,v 1.4 2004/05/16 17:27:31 emerks Exp $
+ * $Id: RoseUtil.java,v 1.5 2004/11/01 22:36:26 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -47,16 +47,16 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  */
 public class RoseUtil 
 {
-  Map quidTable = new HashMap();
-  Map nameTable = new HashMap();
-  Map superTable = new HashMap();
-  Map refTable = new HashMap();
-  Map typeTable = new HashMap();
-  Map primitiveTable = new HashMap();
-  Map variableToDirectoryMap = new HashMap();
-  Map packageNameToNSNameMap = new HashMap();
-  Map packageNameToNSURIMap = new HashMap();
-  Map ePackageToInformationMap = new HashMap();
+  protected Map quidTable = new HashMap();
+  protected Map nameTable = new HashMap();
+  protected Map superTable = new HashMap();
+  protected Map refTable = new HashMap();
+  protected Map typeTable = new HashMap();
+  protected Map primitiveTable = new HashMap();
+  protected Map variableToDirectoryMap = new HashMap();
+  protected Map packageNameToNSNameMap = new HashMap();
+  protected Map packageNameToNSURIMap = new HashMap();
+  protected Map ePackageToInformationMap = new HashMap();
 
   MultiStatus status = 
     new MultiStatus
@@ -65,7 +65,7 @@ public class RoseUtil
        CodeGenEcorePlugin.INSTANCE.getString("_UI_ProblemsWereEncounteredLoadingTheRoseModel_message"),
        null);
 
-  EcoreBuilder ecoreBuilder = new EcoreBuilder(this);
+  protected EcoreBuilder ecoreBuilder = new EcoreBuilder(this);
 
   public UnitTreeNode createRoseUnitTreeAndTable(String fileNameNodeValue, UnitTreeNode topNode) throws Exception
   {
