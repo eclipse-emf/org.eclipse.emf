@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.6 2004/10/06 20:52:01 davidms Exp $
+ * $Id: GenDataTypeImpl.java,v 1.7 2004/12/16 16:20:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -302,6 +302,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     {
       result.append(" serializable=\"false\"");
     }
+
+    appendAnnotationInfo(result, getEcoreDataType());
 
     return result.toString();
   }

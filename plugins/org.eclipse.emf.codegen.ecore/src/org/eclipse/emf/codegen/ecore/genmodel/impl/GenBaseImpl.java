@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.16 2004/12/08 15:41:54 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.17 2004/12/16 16:19:44 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -82,6 +82,7 @@ import org.eclipse.emf.codegen.jmerge.PropertyMerger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -1709,6 +1710,158 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   public String getModelInfo()
   {
     return "";
+  }
+
+  protected static interface AnnotationFilter
+  {
+    boolean accept(EModelElement eModelElement, String source, String key, String value);
+  }
+  
+  protected static class AnnotationFilterImpl implements AnnotationFilter
+  {
+    public AnnotationFilterImpl()
+    {
+    }
+    
+    public boolean accept(EModelElement eModelElement, String source, String key, String value)
+    {
+      return !(GenModelPackage.eNS_URI.equals(source) && "documentation".equals(key));
+    }
+  }
+  
+  protected static final AnnotationFilter DEFAULT_ANNOTATION_FILTER = new AnnotationFilterImpl();
+  
+  protected List getAnnotationInfo(EModelElement eModelElement)
+  {
+    return getAnnotationInfo(eModelElement, DEFAULT_ANNOTATION_FILTER);
+  }
+  
+  protected List getAnnotationInfo(EModelElement eModelElement, AnnotationFilter annotationFilter)
+  {
+    List result = Collections.EMPTY_LIST;
+    for (Iterator i = eModelElement.getEAnnotations().iterator(); i.hasNext(); )
+    {
+      EAnnotation eAnnotation = (EAnnotation)i.next();
+      String source = eAnnotation.getSource();
+      if (source != null)
+      {
+        StringBuffer stringBuffer = null;
+        for (Iterator j = eAnnotation.getDetails().iterator(); j.hasNext(); )
+        {
+          Map.Entry mapEntry = (Map.Entry)j.next();
+          String key = (String)mapEntry.getKey();
+          String value = (String)mapEntry.getValue();
+          if (annotationFilter.accept(eModelElement, source, key, value))
+          {
+            if (stringBuffer == null)
+            {
+              stringBuffer = new StringBuffer(escapeString(source, " ="));
+            }
+            stringBuffer.append(' ');
+            stringBuffer.append(escapeString(key, " ="));
+            stringBuffer.append("=\'");
+            stringBuffer.append(escapeString(value, ""));
+            stringBuffer.append('\'');
+          }
+        }
+        if (stringBuffer != null)
+        {
+          if (result.size() == 0)
+          {
+            result = new ArrayList();
+          }
+          result.add(stringBuffer.toString());
+        } 
+      }
+    }
+    return result;
+  }
+
+  protected void appendAnnotationInfo(StringBuffer result, EModelElement eModelElement)
+  {
+    appendAnnotationInfo(result, eModelElement, DEFAULT_ANNOTATION_FILTER);
+  }
+
+  protected void appendAnnotationInfo(StringBuffer result, EModelElement eModelElement, AnnotationFilter annotationFilter)
+  {
+    for (Iterator i = getAnnotationInfo(eModelElement, annotationFilter).iterator(); i.hasNext(); )
+    {
+      String annotationInfo = (String)i.next();
+      appendLineBreak(result);
+      if (annotationInfo.startsWith(ExtendedMetaData.ANNOTATION_URI))
+      {
+        appendModelSetting(result, "extendedMetaData", annotationInfo.substring(ExtendedMetaData.ANNOTATION_URI.length() + 1));
+      }
+      else
+      {
+        appendModelSetting(result, "annotation", annotationInfo);
+      } 
+    }
+  }
+  
+  protected static String escapeString(String s, String additionalCharactersToEscape)
+  {
+    if (s == null) return null;
+    
+    int len = s.length();
+    StringBuffer result = new StringBuffer(len + 16);
+    for (int i = 0; i < len; i++)
+    {
+      char c = s.charAt(i);
+      if (c == '\b') result.append("\\b");
+      else if (c == '\t') result.append("\\t");
+      else if (c == '\n') result.append("\\n");
+      else if (c == '\f') result.append("\\f");
+      else if (c == '\r') result.append("\\r");
+      else if (c == '\"') result.append("\\\"");
+      else if (c == '\'') result.append("\\\'");
+      else if (c == '\\') result.append("\\\\");
+      else if (additionalCharactersToEscape.indexOf(c) == -1 && c >= 32 && c < 127) 
+      {
+        result.append(c);
+      }
+      else if (c < 256)
+      {
+        String num = Integer.toOctalString(c);
+        switch(num.length()) 
+        {
+          case 1: result.append("\\00"); break;
+          case 2: result.append("\\0"); break;
+          default: result.append("\\"); break;
+        }
+        result.append(num);
+      }
+      else
+      {
+        String num = Integer.toHexString(c);
+        switch(num.length()) 
+        {
+          case 1: result.append("\\u000"); break;
+          case 2: result.append("\\u00"); break;
+          case 3: result.append("\\u0"); break;
+          default: result.append("\\u"); break;
+        }
+        result.append(num);
+      }
+    }
+    
+    return result.toString();
+  }
+
+  protected void appendLineBreak(StringBuffer result)
+  {
+    for (int i = result.length(); --i >= 0; )
+    {
+      if (Character.isWhitespace(result.charAt(i)))
+      {
+        result.deleteCharAt(i);
+      }
+      else
+      {
+        break;
+      }
+    }
+    result.append(System.getProperty("line.separator"));
   }
 
   protected void appendModelSetting(StringBuffer result, String qualifier, String name, String value)

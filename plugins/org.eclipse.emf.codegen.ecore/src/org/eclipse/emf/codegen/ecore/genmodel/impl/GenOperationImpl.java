@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.4 2004/10/22 17:27:53 davidms Exp $
+ * $Id: GenOperationImpl.java,v 1.5 2004/12/16 16:21:45 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -519,6 +519,8 @@ public class GenOperationImpl extends GenBaseImpl implements GenOperation
       result.append(parameterResult);
       result.append('"');
     }
+
+    appendAnnotationInfo(result, getEcoreOperation());
   
     return result.toString();
   }
