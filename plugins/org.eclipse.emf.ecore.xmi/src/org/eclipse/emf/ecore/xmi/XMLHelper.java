@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XMLHelper.java,v 1.4 2004/05/11 15:46:18 elena Exp $
+ * $Id: XMLHelper.java,v 1.5 2004/11/07 18:02:03 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
@@ -226,6 +227,17 @@ public interface XMLHelper
    * Records the prefix to URI mapping while loading an XML document.
    */
   void addPrefix(String prefix, String uri);
+  
+  /**
+   * Returns a map of prefixes to URI mapping for elements with any content
+   */
+  Map getAnyContentPrefixToURIMapping();
+  
+  /**
+   * Must be called during endDocument to record all the prefix to URI mappings that have
+   * been seen in the document during loading
+   */
+  void recordPrefixToURIMapping();
   
   /** 
    * Returns the namespace prefix that's in effect while loading an XML document.

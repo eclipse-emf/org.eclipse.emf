@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedMetaData.java,v 1.4 2004/10/03 23:56:38 davidms Exp $
+ * $Id: ExtendedMetaData.java,v 1.5 2004/11/07 18:02:06 elena Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -35,6 +35,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 public interface ExtendedMetaData
 {
   String ANNOTATION_URI = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
+  String XMLNS_URI = "http://www.w3.org/2000/xmlns/";
+  String XML_URI = "http://www.w3.org/XML/1998/namespace";
 
   EPackage getPackage(String namespace);
   void putPackage(String namespace, EPackage ePackage);

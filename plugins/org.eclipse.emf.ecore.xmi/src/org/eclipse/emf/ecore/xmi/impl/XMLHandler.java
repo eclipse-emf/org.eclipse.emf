@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.21 2004/09/30 13:47:42 emerks Exp $
+ * $Id: XMLHandler.java,v 1.22 2004/11/07 18:02:03 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -258,6 +258,7 @@ public abstract class XMLHandler
   protected EClass anyType;
   protected EClass anySimpleType;
   protected boolean recordUnknownFeature;
+  protected boolean recordAnyTypeNSDecls;
   protected Map eObjectToExtensionMap;
   protected EStructuralFeature contextFeature;
   protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
@@ -336,6 +337,8 @@ public abstract class XMLHandler
     {
       eClassFeatureNamePairToEStructuralFeatureMap = new HashMap();
     }
+    
+    recordAnyTypeNSDecls = Boolean.TRUE.equals(options.get(XMLResource.OPTION_RECORD_ANY_TYPE_NAMESPACE_DECLARATIONS));
   }
 
   protected void setExtendedMetaDataOption(Object extendedMetaDataOption)
@@ -624,6 +627,7 @@ public abstract class XMLHandler
    */
   public void endDocument()
   {
+    helper.recordPrefixToURIMapping();
     handleForwardReferences(true);
 
     if (disableNotify) 
@@ -1473,6 +1477,17 @@ public abstract class XMLHandler
    */
   protected void processObject(EObject object)
   {
+    if (recordAnyTypeNSDecls && object instanceof AnyType)
+    {
+      FeatureMap featureMap = ((AnyType)object).getAnyAttribute();
+      for (Iterator i = helper.getAnyContentPrefixToURIMapping().entrySet().iterator(); i.hasNext();)
+      {
+        Map.Entry entry = (Map.Entry)i.next();
+        Object uri = entry.getValue();
+        featureMap.add(extendedMetaData.demandFeature(ExtendedMetaData.XMLNS_URI, (String)entry.getKey(), false), uri == null ? "" : uri);
+      }
+    }
+
     if (object != null)
     {
       objects.push(object);

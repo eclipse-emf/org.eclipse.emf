@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.16 2004/10/21 16:20:26 marcelop Exp $
+ * $Id: XMLResource.java,v 1.17 2004/11/07 18:02:03 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -180,6 +180,11 @@ public interface XMLResource extends Resource
    * Specify the XML encoding to be used during save.
    */
   String OPTION_ENCODING  = "ENCODING";
+  
+  /**
+   * Enable preserving namespace declarations on elements of type <code>AnyType</code>
+   */
+  String OPTION_RECORD_ANY_TYPE_NAMESPACE_DECLARATIONS  = "RECORD_ANY_TYPE_NAMESPACE_DECLARATIONS";
 
   /**
    * Flush the output stream whenever the number of characters/bytes pending exceeds the specified Integer value. 

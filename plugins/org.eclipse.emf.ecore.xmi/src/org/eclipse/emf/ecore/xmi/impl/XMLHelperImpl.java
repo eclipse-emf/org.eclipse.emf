@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.15 2004/11/03 16:05:17 marcelop Exp $
+ * $Id: XMLHelperImpl.java,v 1.16 2004/11/07 18:02:03 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -77,11 +78,13 @@ public class XMLHelperImpl implements XMLHelper
   protected String processDanglingHREF;
   protected DanglingHREFException danglingHREFException;
   protected EMap prefixesToURIs;
+  protected Map anyPrefixesToURIs;
   protected NamespaceSupport namespaceSupport;
   protected EClass anySimpleType;
   // true if seen xmlns="" declaration
   protected boolean seenEmptyStringMapping;
   protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
+  protected List allPrefixToURI;
 
   public static String saveString(Map options, List contents, String encoding, XMLHelper helper) throws Exception
   {
@@ -107,6 +110,8 @@ public class XMLHelperImpl implements XMLHelper
     packages = new HashMap();
     featuresToKinds = new HashMap();
     prefixesToURIs = new BasicEMap();
+    anyPrefixesToURIs = new HashMap();
+    allPrefixToURI = new ArrayList();
     namespaceSupport = new NamespaceSupport();
   }
 
@@ -278,6 +283,10 @@ public class XMLHelperImpl implements XMLHelper
     {
       return name;
     }
+    else if (name.length() == 0)
+    {
+      return nsPrefix;
+    }
     else
     {
       return nsPrefix + ":" + name;
@@ -318,6 +327,13 @@ public class XMLHelperImpl implements XMLHelper
 
       if (!found)
       {
+        // for any content prefix to URI mapping could be in namespace context
+        nsPrefix = namespaceSupport.getPrefix(nsURI);
+        if (nsPrefix != null)
+        {
+          return nsPrefix;
+        }
+
         if (nsURI != null)
         {
           nsPrefix = xmlSchemaTypePackage == ePackage ? "xsd" : ePackage.getNsPrefix();
@@ -903,30 +919,26 @@ public class XMLHelperImpl implements XMLHelper
     {
       uri = (uri.length() == 0) ? null : uri.intern();
       namespaceSupport.declarePrefix(prefix, uri);
-      
-      Object originalURI = null;
-      if (prefix.length() == 0 && seenEmptyStringMapping)
-      {
-        // HACK: for handling QNames during the save, we must make sure that during the load
-        // if we saw xmlns="" declaration it is never overwriten, to make sure to handle the following XML doc:
-        // <root xmlns="http://a">
-        //  <product xmlns="">qnameValue</product>
-        //  <order xmlns="http://b"/>
-        // </root>
-        originalURI = uri;
-      }
-      else
-      {
-        originalURI = prefixesToURIs.put(prefix, uri);
-        if (originalURI != null)
-        {
-          prefixesToURIs.put(prefix, originalURI);
-          originalURI = uri;
-        }
-      } 
-      addNSDeclaration(prefix, (String)originalURI);
+      allPrefixToURI.add(prefix);
+      allPrefixToURI.add(uri);
     }
   }
+  
+  public Map getAnyContentPrefixToURIMapping()
+  {
+    anyPrefixesToURIs.clear();
+    int count = namespaceSupport.getDeclaredPrefixCount();
+    int size = allPrefixToURI.size();
+    Object uri, prefix = null;    
+    while (count-->0)
+    {         
+      uri = allPrefixToURI.remove(--size);
+      prefix = allPrefixToURI.remove(--size);
+      anyPrefixesToURIs.put(prefix, uri);
+     }
+    return anyPrefixesToURIs;
+  }
+  
 
   public String getURI(String prefix) 
   {
@@ -934,13 +946,50 @@ public class XMLHelperImpl implements XMLHelper
       "xml".equals(prefix) ? 
         "http://www.w3.org/XML/1998/namespace" : 
         "xmlns".equals(prefix) ? 
-          "http://www.w3.org/2000/xmlns/" :
+          ExtendedMetaData.XMLNS_URI :
           namespaceSupport.getURI(prefix);
   }
 
   public EMap getPrefixToNamespaceMap()
   {
     return prefixesToURIs;
+  }
+  
+  public void recordPrefixToURIMapping()
+  {
+    for (int i = 0, size = allPrefixToURI.size(); i < size;)
+    {
+      String prefix = (String)allPrefixToURI.get(i++);
+      String uri = (String)allPrefixToURI.get(i++);
+      String originalURI = (String)prefixesToURIs.get(prefix);
+      if (uri == null)
+      {
+        // xmlns="" declaration
+        // Example #1: <a><qname>q</qname><b xmlns="abc"/></a>
+        // Example #2: <a xmlns="abc"><b xmlns=""/><c xmlns="abc2"/></a>
+        // Example #3: <a xmlns:a="abc"><b xmlns:a="abc2"/></a>
+        
+        seenEmptyStringMapping = true;
+        if (originalURI != null)
+        {
+          // since xmlns="" is default declaration, remove ""->empty_URI mapping
+          prefixesToURIs.removeKey(prefix);
+          addNSDeclaration(prefix, (String)originalURI);
+        }
+        continue;
+      }
+      else if ((seenEmptyStringMapping && prefix.length() == 0) || originalURI != null)
+      {
+        // record default ns declaration as duplicate if seen QName (#1) or seen xmlns="" (#2)
+        // record duplicate declaration for a given prefix (#3)
+        addNSDeclaration(prefix, uri);       
+      }
+      else
+      {
+        // recording a first declaration for a given prefix
+        prefixesToURIs.put(prefix, uri);
+      }
+    }
   }
 
   public void setPrefixToNamespaceMap(EMap prefixToNamespaceMap)
@@ -1058,8 +1107,35 @@ public class XMLHelperImpl implements XMLHelper
 
       // prefix not found
       return null;
-    } 
-  }
+    }
+    
+    public String getPrefix(String uri) 
+    {
+      // find uri in current context
+      for (int i = namespaceSize; i > 0; i -= 2) 
+      {
+        if (namespace[i - 1] == uri) 
+        {
+          if (getURI(namespace[i - 2]) == uri)
+            return namespace[i - 2];
+        }
+      }
+
+      // uri not found
+      return null;
+    }
+    
+    public int getDeclaredPrefixCount()
+    {
+      return (namespaceSize - context[currentContext]) / 2;
+    }
+
+    public String getDeclaredPrefixAt(int index)
+    {
+      return namespace[context[currentContext] + index * 2];
+    } // getDeclaredPrefixAt(int):String
+
+  }// namespace context
 
   public void setAnySimpleType(EClass type)
   {

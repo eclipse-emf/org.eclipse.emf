@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.12 2004/10/03 23:56:38 davidms Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.13 2004/11/07 18:02:06 elena Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1667,7 +1667,12 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       setQualified(ePackage, namespace != null);
       if (namespace != null)
       {
-        ePackage.setNsPrefix("_");
+        ePackage.setNsPrefix
+          (namespace.equals(ExtendedMetaData.XMLNS_URI) ? 
+             namespace.equals(ExtendedMetaData.XML_URI) ?
+               "xml" : 
+               "xmlns" : 
+             "_");
       }
       demandRegistry.put(namespace, ePackage);
 

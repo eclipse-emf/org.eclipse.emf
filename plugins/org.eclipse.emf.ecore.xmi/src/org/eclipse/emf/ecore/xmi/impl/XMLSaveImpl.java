@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.20 2004/10/21 21:27:41 marcelop Exp $
+ * $Id: XMLSaveImpl.java,v 1.21 2004/11/07 18:02:03 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -530,7 +530,9 @@ public class XMLSaveImpl implements XMLSave
     for (int i = 0; i < packages.length; i++)
     {
       EPackage ePackage = packages[i];
-      if (ePackage != noNamespacePackage && ePackage != XMLNamespacePackage.eINSTANCE)
+      if (ePackage != noNamespacePackage && 
+            ePackage != XMLNamespacePackage.eINSTANCE &&
+            !ExtendedMetaData.XMLNS_URI.equals(ePackage.getNsURI()))
       {
         String nsURI = extendedMetaData == null ? ePackage.getNsURI() : extendedMetaData.getNamespace(ePackage);
         if (ePackage == xmlSchemaTypePackage)
@@ -729,9 +731,23 @@ public class XMLSaveImpl implements XMLSave
       }
     }
 
+    if (o instanceof AnyType)
+    {
+      helper.pushContext();
+      for (Iterator i = ((AnyType)o).getAnyAttribute().iterator(); i.hasNext(); )
+      {
+        FeatureMap.Entry entry = (FeatureMap.Entry)i.next();
+        if (ExtendedMetaData.XMLNS_URI.equals(extendedMetaData.getNamespace(entry.getEStructuralFeature())))
+        {
+          String uri = (String)entry.getValue();
+          helper.addPrefix(extendedMetaData.getName(entry.getEStructuralFeature()), uri == null ? "" : uri);
+        }
+      }
+    }
+    
     String featureName = helper.getQName(f);
     doc.startElement(featureName);
-
+    
     if (eClass != eType && eClass != anyType)
     {
       if (eClass == anySimpleType)
@@ -1098,6 +1114,10 @@ public class XMLSaveImpl implements XMLSave
   {
     if (processElementExtensions(o))
     {
+      if (o instanceof AnyType)
+      {       
+        helper.popContext();
+      }
       doc.endElement();
     }
     else
@@ -1116,6 +1136,10 @@ public class XMLSaveImpl implements XMLSave
         }
         default:
         {
+          if (o instanceof AnyType)
+          {       
+            helper.popContext();
+          }
           doc.endElement();
           break;
         }
