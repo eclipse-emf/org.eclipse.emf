@@ -12,12 +12,17 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.23 2005/02/21 14:34:51 marcelop Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.24 2005/02/21 15:32:32 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.util.Properties;
+
+import org.osgi.framework.BundleContext;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
@@ -31,7 +36,7 @@ public class EMFTestPerformancePlugin extends Plugin
     private String user;
     private String pass;
     private String performanceConfiguration;
-    
+
     private Class networkServerControlClass;
     private Object networkServerControl;
 
@@ -102,30 +107,31 @@ public class EMFTestPerformancePlugin extends Plugin
     {
       this.performanceConfiguration = performanceConfiguration;
     }
-    
+
     //Returns true if the server is running
     public void startIfDown()
     {
       if (!isRunning() && networkServerControl != null)
       {
         Thread thread = new Thread()
-        {
-          public void run()
           {
-            try
+            public void run()
             {
-              System.out.println("*** Starting Derby...");
-              if (home != null) System.setProperty("derby.system.home", home);
-              Method startMethod = networkServerControlClass.getDeclaredMethod("start", new Class []{ PrintWriter.class });
-              startMethod.invoke(networkServerControl, new Object [1]);
+              try
+              {
+                System.out.println("*** Starting Derby...");
+                if (home != null)
+                  System.setProperty("derby.system.home", home);
+                Method startMethod = networkServerControlClass.getDeclaredMethod("start", new Class []{ PrintWriter.class });
+                startMethod.invoke(networkServerControl, new Object [1]);
+              }
+              catch (Exception e)
+              {
+                System.err.println("*** Unable to start Derby");
+                e.printStackTrace();
+              }
             }
-            catch (Exception e)
-            {
-              System.err.println("*** Unable to start Derby");
-              e.printStackTrace();
-            }
-          }
-        };
+          };
         thread.start();
       }
     }
@@ -133,12 +139,14 @@ public class EMFTestPerformancePlugin extends Plugin
     public void writeSystemProperties()
     {
       System.setProperty("test.target", "performance");
-      if (home != null) System.setProperty("derby.system.home", home);
-      if (performanceConfiguration != null) System.setProperty("eclipse.perf.config", performanceConfiguration);
+      if (home != null)
+        System.setProperty("derby.system.home", home);
+      if (performanceConfiguration != null)
+        System.setProperty("eclipse.perf.config", performanceConfiguration);
 
       String userAtt = user != null ? "" : (";dbuser=" + user);
       String passAtt = pass != null ? "" : (";dbpasswd=" + pass);
-      
+
       Class driverClass = null;
       try
       {
@@ -174,21 +182,39 @@ public class EMFTestPerformancePlugin extends Plugin
   {
     super();
     instance = this;
+  }
+
+  public static EMFTestPerformancePlugin getPlugin()
+  {
+    return instance;
+  }
+
+  public void start(BundleContext context) throws Exception
+  {
+    super.start(context);
 
     DerbyHelper derbyHelper = new DerbyHelper();
     if (derbyHelper.isAvailable())
     {
       setDerbyAttributes(derbyHelper);
-      
+
       derbyHelper.startIfDown();
       derbyHelper.writeSystemProperties();
       derbyHelper.printSystemProperties();
     }
   }
-  
-  private static void setDerbyAttributes(DerbyHelper derbyHelper)
+
+  private void setDerbyAttributes(DerbyHelper derbyHelper)
   {
-    if (Platform.isRunning())
+    Properties testingProperties = getTestingProperties();
+    if (testingProperties != null)
+    {
+      derbyHelper.setUser(testingProperties.getProperty("emf.test.performance.dbuser"));
+      derbyHelper.setPass(testingProperties.getProperty("emf.test.performance.dbpass"));
+      derbyHelper.setHome(testingProperties.getProperty("emf.test.performance.dbhome"));
+      derbyHelper.setPerformanceConfiguration(testingProperties.getProperty("emf.test.performance.dbconf"));
+    }
+    else if (Platform.isRunning())
     {
       String[] args = Platform.getApplicationArgs();
       for (int i = 0, maxi = args.length; i < maxi; i++)
@@ -226,8 +252,45 @@ public class EMFTestPerformancePlugin extends Plugin
     }
   }
 
-  public static EMFTestPerformancePlugin getPlugin()
+  private File getTestingPropertiesFile()
   {
-    return instance;
+    String fileName = "testing.properties";
+    File parentDir = new File(TestUtil.getPluginDirectory());
+
+    do
+    {
+      File file = new File(parentDir, fileName);
+      if (file.isFile())
+      {
+        return file;
+      }
+      else
+      {
+        parentDir = parentDir.getParentFile();
+      }
+    }
+    while (parentDir != null);
+
+    return null;
+  }
+
+  private Properties getTestingProperties()
+  {
+    File testingPropertiesFile = getTestingPropertiesFile();
+    if (testingPropertiesFile != null)
+    {
+      Properties testingProperties = new Properties();
+      try
+      {
+        testingProperties.load(new FileInputStream(testingPropertiesFile));
+        return testingProperties;
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace();
+      }
+    }
+
+    return null;
   }
 }
