@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.5 2004/05/13 11:00:18 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.6 2004/05/16 17:29:16 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -404,14 +404,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           progressMonitor.subTask
             (CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object [] { targetFile.getFullPath() }));
           jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(targetFile.getContents(true)));
-          String oldContents = jMerger.getTargetCompilationUnit().getContents();
+          String oldContents = jMerger.getTargetCompilationUnitContents();
 
           progressMonitor.subTask
             (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile.getFullPath() }));
           jMerger.merge();
           progressMonitor.worked(1);
 
-          newContents = jMerger.getTargetCompilationUnit().getContents();
+          newContents = jMerger.getTargetCompilationUnitContents();
           changed = !oldContents.equals(newContents);
           if (changed)
           {
@@ -420,7 +420,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             {
               jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(targetFile.getContents(true)));
               jMerger.remerge();
-              newContents = jMerger.getTargetCompilationUnit().getContents();
+              newContents = jMerger.getTargetCompilationUnitContents();
             }
           }
         }
@@ -431,7 +431,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile.getFullPath() }));
           jMerger.merge();
           progressMonitor.worked(1);
-          newContents = jMerger.getTargetCompilationUnit().getContents();
+          newContents = jMerger.getTargetCompilationUnitContents();
         }
 
         if (changed)
