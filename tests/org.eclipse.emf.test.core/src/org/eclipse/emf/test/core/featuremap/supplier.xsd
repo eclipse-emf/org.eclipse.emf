@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+  targetNamespace="http://www.example.com/supplier"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:supplier="http://www.example.com/supplier" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"> 
+
+  <xsd:complexType name="PurchaseOrder">
+    <xsd:sequence>
+      <xsd:element name="id" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="Supplier">
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string"/>
+      <xsd:choice maxOccurs="unbounded" ecore:name="orders">
+        <xsd:element name="preferredOrders" type="supplier:PurchaseOrder"/>
+        <xsd:element name="standardOrders" type="supplier:PurchaseOrder"/>
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>  
+</xsd:schema>
