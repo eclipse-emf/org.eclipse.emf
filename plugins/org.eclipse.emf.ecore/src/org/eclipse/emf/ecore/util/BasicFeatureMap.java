@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.12 2005/02/16 15:38:09 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.13 2005/03/08 23:20:59 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1828,7 +1828,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
               Object value = entry.getValue();
               if (value != null && resolve && isResolveProxies(feature))
               {
-                value = resolveProxy(feature, i, count, entry.getValue());
+                value = resolveProxy(feature, i, count, value);
               }
               return value;
             }
