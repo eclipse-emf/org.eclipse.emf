@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.2 2004/03/10 12:19:14 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -1354,11 +1354,13 @@ public class JavaEcoreBuilder
     if (comment != null)
     {
       Matcher matcher = extendsAnnotationExpression.matcher(comment);
-      if (!matcher.find())
+      boolean found = matcher.find();
+      if (!found)
       {
         matcher = implementsAnnotationExpression.matcher(comment);
+        found = matcher.find();
       }
-      if (matcher.find())
+      if (found)
       {
         return comment.substring(matcher.start(1), matcher.end(1));
       }
