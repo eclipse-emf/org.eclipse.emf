@@ -1,0 +1,940 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en"><html><head>                                
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"><title>Generating an EMF Model</title></head><body>
+    
+<h2>Generating an Extended EMF Model</h2>
+    
+<p>This
+tutorial is a follow-on to the tutorial "Generating an EMF Model" in which
+a simple "library" model is generated. In that tutorial, we showed
+how an EMF model can be generated very easily from a Rose model or a set of Java interface
+files. In this tutorial, we will show you how an extended EMF
+model, one that extends an existing model, can be generated.</p>
+<p>First of all, let us review what the "library" model contains:<br>
+<img src="images/sl001.gif" alt="" width="416" height="272">
+<br>
+</p>
+<p>We are now going to extend this "library" model by creating a new package
+called "schoollibrary". The "schoollibrary" package contains three classes,
+two of which extend classes in the "library" model:<br>
+<br>
+<img src="images/sl002.gif" alt="" width="511" height="238">
+<br>
+</p>
+<p>This tutorial will show you step-by-step how to generate an EMF model of this "schoollibrary"
+package using the existing "library" model.  As in the previous tutorial, we will
+demonstrate creating this new model from a Rose model and from a set of Java
+interfaces.</p>
+<p>
+The screenshots in this tutorial were captured using version 2.1 of the Eclipse SDK and
+    version 1.1.0 (build 20030501_0612VL) of EMF.</p>
+<h3>Contents</h3>
+    
+<table border="0" cellspacing="2" cellpadding="2" width="100%">
+      <tbody><tr>
+        <td valign="top" width="100">Step 0:</td>
+        <td valign="top"><a href="#step0">Prerequisites</a></td>
+      </tr>
+      <tr>
+        <td valign="top">Step 1:</td>
+        <td valign="top">
+          Creating a New EMF Model Project from
+            <a href="#step1a">a Rose Model</a> or 
+            <a href="#step1b">Java Interfaces</a>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">Step 2:</td>
+        <td valign="top">
+          <a href="#step2">Generating the EMF Model and the Editor</a>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">Step 3:</td>
+        <td valign="top">
+          <a href="#step3">Running the Generated Editor</a>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">Step 4:</td>
+        <td valign="top">
+          <a href="#step4">Modifying the Editor<br>
+</a> 
+        </td>
+      </tr><tr>
+      <td valign="top">Appendix:<br>
+      </td>
+      <td valign="top"><a href="#appendix">An Alternative Way of Generating the Model and Editor</a><br>
+      </td>
+    </tr>
+    </tbody>
+</table>
+    <br>
+<hr>
+<p align="right"><a name="step0">&nbsp;</a><a href="#top">contents</a></p>
+<h3>Step 0: Prerequisites</h3>
+<p>You have generated the library model as well as its editor in an
+Eclipse workspace following the instructions in the tutorial <a href="../../tutorials/clibmod/clibmod.html">"Generating
+an EMF Model"</a>.</p>
+    
+<ul>
+      <li>Launch Eclipse and verify that these three projects
+are shown in the Navigator view in the Resource perspective: "library", "library.edit", and "library.editor".<br>
+        <br>
+    <img src="images/sl010.gif" alt="" width="198" height="288">
+&nbsp;
+        <br>&nbsp;
+      </li>
+      
+    
+</ul>
+    
+<hr>
+	<p align="right"><a name="step1a">&nbsp;</a><a href="#top">contents</a></p>
+<h3>Step 1a: Creating a New EMF Model from a Rose Model</h3>
+    
+<p>Save the Rose model file <a href="images/../schoollibrary.mdl">schoollibrary.mdl</a> somewhere on your
+    workstation, say, d:\tmp\lib. It contains both the "library" and "schoollibrary" packages:<br>
+<br>
+<img src="images/sl100.gif" alt="" width="831" height="504">
+<br>
+</p>
+    
+<p><br>
+We should really place each of the packages in a separate ".cat" file and reference them
+in the ".mdl" file. This would enable the packages to be shared
+by various models. However, this is not the key for this tutorial, we have duplicated
+the "library" package in the previous tutorial in the "schoollibrary" model.
+The generator behaves exactly the same whether the package is contained inside
+the same ".mdl" file or referenced in an external ".cat" file.<br>
+</p>
+<p>The following steps will create a new EMF model project in the workspace:</p>
+     
+    
+<ul>
+      <li>Select "File/New/Project..." to bring up the New Project dialog.
+        <br>
+    <img src="images/sl101.gif" alt="" width="444" height="148">
+&nbsp;<br>&nbsp;
+      </li>
+      <li>
+        Select "Eclipse Modeling Framework" and then "EMF Project".  Click the
+        "Next" button.
+        <br>
+    <img src="images/sl102.gif" alt="" width="391" height="146">
+&nbsp;
+        <br>&nbsp;
+      </li>
+      <li>
+        Give the project a name (for example, "schoollibrary"), and then click the "Next"
+        button.
+        <br>
+    <img src="images/sl103.gif" alt="" width="500" height="227">
+&nbsp;
+        <br>&nbsp;
+      </li>
+      <li>
+        Select "Load from a Rose model" and click the "Next" button.
+        <br>
+    <img src="images/sl104.gif" alt="" width="500" height="210">
+<br>
+        &nbsp;
+        <br>&nbsp;
+      </li>
+      <li>
+        Click on the "Browse" button and use the file dialog to locate the Rose model file.
+        <br>
+    <img src="images/sl105.gif" alt="" width="569" height="501">
+&nbsp;
+        <br>&nbsp;
+      </li>
+      <li>EMF will examine the Rose model file and suggest a default GenModel name . You can change the name in the entry field if you
+        wish. Click the "Next" button.
+        <br>
+    <img src="images/sl106.gif" alt="" width="500" height="500">
+&nbsp;
+        <br>&nbsp;
+      </li>
+      <li>The Rose model contains two packages, "library" and "schoollibrary".  Select         "schoollibrary".
+It is the model we want to generate. We want to reuse the existing "library"
+model, so we don't check the "library" package.  However, because "schoollibrary"
+references the "library" model, we need to specify where to find the "library"
+model. Click the "Browse" button.         <br>
+    <img src="images/sl107.gif" alt="" width="500" height="500">
+    <br>
+<br>
+        </li><li>EMF will search the workspace and locate all the models it can find. Select the project and path where the "library.genmodel"
+is found. Click the "OK" button.<br>
+    <img src="images/sl108.gif" alt="" width="569" height="419">
+<br>&nbsp;</li>
+  <li>Select the Library package (in the library's .genmodel tree) that you want to reference. As
+soon as you select the "Library" package, note that the error message disappears. Click the "Finish" button.<br>
+    <img src="images/sl109.gif" alt="" width="500" height="500">
+    <br>
+&nbsp;</li>
+      <li>
+        An Ecore model and a GenModel will be created.  The GenModel, which
+        controls code generation for the model, is opened in the main view.
+        <br>
+    <img src="images/sl110.gif" alt="" width="500" height="300">
+&nbsp;
+        <br>&nbsp;
+      </li>
+    
+</ul>
+    
+<hr>
+	<p align="right"><a name="step1b">&nbsp;</a><a href="#top">contents</a></p>
+<h3>Step 1b: Creating a New EMF Model from Java Interfaces</h3>
+   Here are
+the annotated Java interfaces for the "schoollibrary" package. We can create
+the GenModel from these interface files instead of a Rose model.  
+<blockquote><b><i>SchoolLibrary.java</i></b><br>
+  <table border="1" frame="box">
+    <tbody>
+      <tr>
+        <td valign="CENTER">
+        <pre><tt><font color="#000000">package org.eclipse.example.schoollibrary;<br><br>import org.eclipse.example.library.Library;<br><br>/**<br>&nbsp;* </font><font color="#3333ff">@model<br></font><font color="#000000">&nbsp;*/<br>public interface </font><font color="#009900">SchoolLibrary<font color="#000000"> extends <font color="#009900">Library</font></font><br></font><font color="#000000">{<br></font><font color="#000000">&nbsp; /**<br>&nbsp;&nbsp; * </font><font color="#3333ff">@model<br></font><font color="#000000">&nbsp;&nbsp; */<br></font><font color="#ff0000">&nbsp; String getLocation();<br></font><font color="#000000">}</font></tt></pre>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
+<blockquote><b><i>Asset.java</i></b><br>
+    <table border="1" frame="box">
+      <tbody>
+        <tr>
+          <td valign="CENTER">
+          <pre><tt><font color="#000000">package org.eclipse.example.schoollibrary;<br><br>/**<br>&nbsp;* </font><font color="#3333ff">@model<br></font><font color="#000000">&nbsp;*/<br>public interface </font><font color="#009900">Asset<br></font><font color="#000000">{<br><tt><font color="#000000">&nbsp; /**<br>&nbsp;&nbsp; * </font><font color="#3333ff">@model<br></font><font color="#000000">&nbsp;&nbsp; */<br></font><font color="#ff0000">&nbsp; float getValue();<br></font></tt></font></tt><tt><font color="#000000">}</font></tt></pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</blockquote>
+<blockquote><b><i>SchoolBook.java</i></b><br>
+      <table border="1" frame="box">
+        <tbody>
+          <tr>
+            <td valign="CENTER">
+            <pre><tt><font color="#000000">package org.eclipse.example.schoollibrary;<br><br>import org.eclipse.example.library.Book;<br><br>/**<br>&nbsp;* </font><font color="#3333ff">@model<br></font><font color="#000000">&nbsp;*/<br>public interface </font><font color="#009900">SchoolBook<font color="#000000"> extends <font color="#009900">Book</font>, <font color="#009900">Asset</font></font><br></font><font color="#000000">{<br></font><font color="#000000">}</font></tt><br><br></pre>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</blockquote>
+<br>
+<ol type="A">
+  <li><h4>Create a Java Project</h4>
+  <ul>
+    <li>
+    Select "File/New/Project..." to bring up the New Project dialog:<br>
+        <img src="images/sl151.gif" alt="" width="487" height="86">
+        <br>
+<br>
+    </li>
+    <li>
+    Select "Java" and then "Java Project". Click the "Next" button.<br>
+        <img src="images/sl152.gif" alt="" width="500" height="200">
+        <br>
+        <br>
+</li><li>Give the project a name, for example "schoollibrary", and click the "Next" button.<br>
+        <img src="images/sl153.gif" alt="" width="500" height="212">
+        <br>
+        <br>
+      </li>
+      <li>Select "Add Folder...", click on
+the "Create New Folder..." button, and enter "src" as the name of the source
+folder. You'll be prompted to update the Build ouptut folder, click "Yes".<br>
+        <img src="images/sl154.gif" alt="" width="501" height="500">
+        <br>
+        <br>
+      </li>
+      <li>Change the Default output folder to "schoollibrary/runtime".<br>
+        <img src="images/sl155.gif" alt="" width="160" height="75">
+        <br>
+        <br>
+      </li>
+      <li>Select the "Projects" tab and select the "library" project as a dependent project.<br>
+        <img src="images/sl156.gif" alt="" width="500" height="196">
+        <br>
+        <br>
+      </li>
+      <li>Click the "Finish" button and the "schoollibrary" project should appear in the Package Explorer view.<br>
+        <img src="images/sl157.gif" alt="" width="180" height="143">
+        <br>
+      </li>
+  </ul>
+  </li>
+  <li><h4>Import the Interfaces</h4> 
+You can create and type in the interfaces as in the previous tutorial, but
+we will show here how to import them from the zip file <a href="images/../schoollibrary.zip">schoollibrary.zip</a>.<br>
+    <br>
+  <ul>
+    <li>
+    Save the above zip file in a directory on your workstation, say "d:\tmp".<br>
+<br>
+    </li>
+    <li>
+    Bring up the Import dialog, by selecting "File/Import..."<br>
+        <img src="images/sl158.gif" alt="" width="126" height="358">
+        <br>
+        <br>
+</li><li>Select "Zip file". Click the "Next" button.<br>
+        <img src="images/sl159.gif" alt="" width="151" height="236">
+        <br>
+        <br>
+      </li>
+      <li>Type in the zip file name or use the "Browse" button to bring up a dialog to locate
+the zip file. You can then expand the directory tree and select the individual
+files in the zip file to import. Select all the files (3) available.<br>
+        <img src="images/sl160.gif" alt="" width="528" height="235">
+        <br>
+        <br>
+      </li>
+      <li>In
+the destination folder input field, type in "schoollibrary/src" or locate
+it using the "Browse" button. Click the "Finish" button.<br>
+        <img src="images/sl161.gif" alt="" width="526" height="93">
+        <br>
+        <br>
+      </li>
+      <li>Expand the "schoollibrary" project and you will see that the interface
+files were imported. It shows errors because the "library" project it depends
+on has been fully generated and it requires the EMF package in the Java Build Path
+to properly compile the interfaces. Do not worry about the errors right now.
+Once the EMF model is generated, the proper dependencies will be set up and
+these errors will disappear.<br>
+        <img src="images/sl162.gif" alt="" width="254" height="221">
+        <br>
+        <br>
+      </li>
+  </ul>
+  </li>
+  <li><h4>Create the Gen(erate) Model</h4>
+  <ul>
+    <li>With the "schoollibrary" project selected, select "File/New/Other..."<br>
+        <img src="images/sl163.gif" alt="" width="491" height="271">
+        <br>
+<br>
+    </li>
+    <li>
+    Select "Eclipse Modeling Framework" on the left and "EMF Models" on the right. Click the "Next" button.<br>
+        <img src="images/sl164.gif" alt="" width="500" height="200">
+        <br>
+        <br>
+</li><li>Enter "schoollibrary/src/model" as the name of the folder where
+the genmodel will be generated and change the .genmodel name to "schoollibrary.genmodel".
+(This folder name and file name are used so that the GenModel is generated
+in the same place as in the other method using a Rose model.) Click the "Next"
+button.<br>
+        <img src="images/sl165.gif" alt="" width="500" height="592">
+        <br>
+        <br>
+      </li>
+      <li>Select "Load from Java annotations". Click the "Next" button.<br>
+        <img src="images/sl166.gif" alt="" width="310" height="230">
+        <br>
+        <br>
+      </li>
+      <li>Select schoollibrary package. Click the "Finish" button.<br>
+        <img src="images/sl167.gif" alt="" width="500" height="570">
+        <br>
+        <br>
+      </li>
+      <li>
+        An Ecore model and a GenModel will be created.  The GenModel, which
+        controls code generation for the model, is opened in the main view.<br>
+        <img src="images/sl168.gif" alt="" width="500" height="350">
+        <br>
+        <br>
+      </li>
+  </ul>
+  </li>
+</ol>
+<hr>
+	<p align="right"><a name="step2">&nbsp;</a><a href="#top">contents</a></p>
+<h3>Step 2: Generating the EMF Model and the Editor</h3>
+         
+    
+<p>The GenModel shows a root object, which represents the whole
+    model.  The immediate children under the root object represent the packages inside the model.
+    </p>
+<ul>
+      <li> 
+        The GenModel can be expanded to see its various elements.       
+ The icon for the "Library" package has a superimposed arrow indicating it
+is a reference to a package defined somewhere else.<br>
+<br>
+        <img src="images/sl201.gif" alt="" width="270" height="150">
+        <br>&nbsp;
+      </li>
+      
+      <li>You 
+can generate the model code and the editors for all the packages in the GenModel 
+in one step by right-clicking on the the root element of the GenModel tree
+and selecting the "Generate All" menu item. EMF will update the plugin.xml,
+the Java Build Path and the dependent libraries for the plugin as well. No
+code for any referenced model ("library" in this example) will be generated.<br>
+    <img src="images/sl203.gif" alt="" width="270" height="302">
+ 
+<br>
+        &nbsp;
+        &nbsp;
+      </li>
+      <li>   
+     The "schoollibrary.edit" and "schoollibrary.editor" projects should
+be generated and shown in the Navigator view if you are in the Resource perspective
+(or in the Package Explorer view if you are in the Java perspective.) The
+generated code will be compiled and is ready to execute.<br>
+    <br>
+    <img src="images/sl204.gif" alt="" width="218" height="348" align="top">
+&nbsp; <img src="images/sl205.gif" alt="" width="269" height="542" align="top">
+<br>
+        <br>&nbsp;
+      
+   </li>
+    
+</ul>
+<hr>
+	<p align="right"><a name="step3">&nbsp;</a><a href="#top">contents</a></p>
+<h3>Step 3: Running the Generated Editor</h3>
+    
+<p>Before a run-time workbench instance can be run, a launch configuration need to be setup.&nbsp;
+      </p>
+    
+    
+<ul>
+      <li> 
+        Switch to the Debug &nbsp;perspective and configure a launch configuration
+as described in <a href="#step4">Step 4</a> of the previous tutorial if it has not already been
+set up.<br>
+    <br>
+    <img src="images/sl303.gif" alt="" width="627" height="560">
+<br>
+        &nbsp;
+        &nbsp;</li>
+      <li>&nbsp;Launch a run-time workbench instance, either from the configuration dialog or the Run menu:<br>
+    <br>
+    <img src="images/sl304.gif" alt="" width="178" height="103">
+    <br>
+    <br>
+</li>
+    
+      <li>
+        Wait for the run-time workbench instance to come up.  Bring
+        up the "Help/About Eclipse Platform" dialog, click on the "Plug-in
+        Details" button, and verify that the generated plugins are loaded.
+        <br>
+        <img src="images/sl305.gif" alt="" width="595" height="437">
+        <br>&nbsp;
+      </li>
+    
+</ul>
+      
+    
+<p>The school library model wizard can now be used to create a new instance of
+    the model.</p>
+    
+    
+<ul>
+      <li>
+        Bring up the "File/New/Project..." dialog and select "Simple" followed by
+        "Project". Give the project a name and click the "Finish" button.<br>
+    <img src="images/sl306.gif" alt="" width="209" height="134">
+<br>
+        &nbsp;
+      </li>
+      <li>
+        Right-click the project and select "New/Other..." from the pop-up menu.
+        <br>
+    <img src="images/sl307.gif" alt="" width="409" height="164">
+<br>&nbsp;
+      </li>
+      <li>
+        Select "Example EMF Model Creation Wizards" and "Schoollibrary Model".  Click
+        the "Next" button.
+        <br>
+        <img src="images/sl308.gif" alt="" width="495" height="494">
+        <br>&nbsp;
+      </li>
+      <li>
+        Enter a file name for the "schoollibrary" model.  Make sure it ends with a
+        ".schoollibrary" extension.
+        Click the "Next" button.<br>
+        <img src="images/sl309.gif" alt="" width="181" height="53">
+        <br>&nbsp;
+      </li>
+      
+      
+    <li>
+        Select "SchoolLibrary" as the root model object and click the "Finish" button.
+        <br>
+        <img src="images/sl310.gif" alt="" width="196" height="136">
+        <br>&nbsp;&nbsp;
+        &nbsp;&nbsp;</li>
+      <li> 
+        The "My.schoollibrary" resource should open up in the &nbsp;main
+window. Note that the root object is indeed a "School Library". Enter some
+values for the "Location" and "Name" attributes in the Properties view. Refer
+to the previous tutorial or the manual on how to open the Properties view
+if it is not already opened.<br>
+    <img src="images/sl311.gif" alt="" width="443" height="247">
+ <br>&nbsp;
+      </li>
+      <li>         Right-click on the School
+Library and select "New Child". Notice that three kinds of objects
+can be created under a School Library: "Writer", "Book", and "School Book". "Writer" and "Book" are defined in the
+"library" package while "SchoolBook" is defined in the "schoollibrary" package.<br>
+        <img src="images/sl312.gif" alt="" width="328" height="215">
+        <br>&nbsp;
+      </li>
+      
+      
+      
+      <li>Create 
+a couple "Writer" objects, a "Book" object and a "School Book" object. Notice
+that a "School Book" object inherits all the attributes of a "Book" object
+plus one extra attribute ("value") as we intended.<br>
+        <img src="images/sl313.gif" alt="" width="392" height="297">
+    <br>
+    <br>
+    <img src="images/sl314.gif" alt="" width="488" height="314">
+&nbsp;<br>
+    <br>
+    <br>
+</li><li>Save the model.<br>
+    <img src="images/sl315.gif" alt="" width="295" height="194">
+<br>&nbsp;
+      &nbsp;&nbsp;
+      <br>
+  </li>
+    
+</ul>
+<hr>
+	<p align="right"><a name="step4">&nbsp;</a><a href="#top">contents</a></p>
+<h3>Step 4: Modifying the Editor</h3>
+    
+<p>This part of the tutorial will show you how you can change the label in the generated editor in a number of ways.
+      </p>
+<p>Quit the run-time workbench instance and go back to the Resource perspective
+of the original Eclipse workbench with the "schoollibrary" genmodel.    
+  </p>
+    
+    
+<ul>
+      <li>Select the "SchoolLibrary" item. In the Properties view, change
+the "Label Feature" property to the attribute "location". This will cause
+the value of the "location" attribute (instead of the "name" attribute) to
+be displayed as the label to SchoolLibrary objects in the editor. The default
+attribute to use for this value is the attribute named "name" (or one that
+ends with "name") if it exists.<br>
+    <br>
+    <img src="images/sl401.gif" alt="" width="390" height="303">
+<br>
+        &nbsp;
+        &nbsp;</li>
+      <li>&nbsp;To have the change
+take effect, we don't have to re-generate all the classes. All we need to
+regenerate is the provider class related to "SchoolLibrary", so we can simply
+right-click on "SchoolLibrary" and select "Generate Edit Code". There is also
+no harm in re-generating all the classes. However, it takes longer.<br>
+    <br>
+    <img src="images/sl402.gif" alt="" width="253" height="309">
+<br>
+    <br>
+</li>
+    
+      <li>You can examine the timestamps on the generated files
+to satisfy yourself that indeed only "SchoolLibraryItemProvider.java" was
+re-generated. The following table summarizes the files that will be generated 
+with the "Generate Model Code", "Generate Edit Code" and "Generate Editor Code" menu
+items when you right-click on the different objects. The "Generate All" menu
+item is equivalent to selecting the three menu items together.<br>
+    <br>
+    <table cellpadding="2" cellspacing="2" border="1" width="100%">
+      <tbody>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">Generate Model Code<br>
+          </td>
+          <td valign="top">Generate Edit Code<br>
+          </td>
+          <td valign="top">Generate Editor Code<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">Model &lt;M&gt;<br>
+          </td>
+          <td valign="top">plugin.xml<br>
+&lt;M&gt;Plugin.java<br>
+(and files associated with each package in the model)<br>
+          </td>
+          <td valign="top">plugin.xml<br>
+plugin.properties<br>
+&lt;M&gt;EditPlugin.java<br>
+(and files associated with each package in the model)<br>
+          </td>
+          <td valign="top">plugin.xml<br>
+plugin.properties<br>
+&lt;M&gt;EditorPlugin.java<br>
+(and files associated with each package in the model)<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">Package &lt;P&gt;<br>
+          </td>
+          <td valign="top">&lt;P&gt;Package.java<br>
+&lt;P&gt;PackageImpl.java<br>
+&lt;P&gt;Factory.java<br>
+&lt;P&gt;FactoryImpl.java<br>
+&lt;P&gt;Switch.java<br>
+&lt;P&gt;AdaptorFactory.java<br>
+&lt;P&gt;ResourceImpl.java<br>
+&lt;P&gt;ResourceFactory.java<br>
+(and files associated with each Class and Enum in the package)<br>
+          </td>
+          <td valign="top">&lt;P&gt;ItemProviderAdaptorFactory.java<br>
+(and files associated with each Class in the package)<br>
+          </td>
+          <td valign="top">&lt;P&gt;Editor.java<br>
+&lt;P&gt;ModelWizard.java<br>
+&lt;P&gt;ActionBarContributor.java<br>
+          <br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">Class &lt;C&gt;<br>
+          </td>
+          <td valign="top">&lt;C&gt;.java<br>
+&lt;C&gt;Impl.java<br>
+          </td>
+          <td valign="top">&lt;C&gt;ItemProvider.java<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">Enum &lt;E&gt;<br>
+          </td>
+          <td valign="top">&lt;E&gt;.java<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+</li><li>Now you can switch to the Debug perspective and launch the run-time workbench
+instance again. Open the "My.schoollibrary" resource again if it was closed before. Expand the GenModel and select
+the "School Library" object. You can see that the location of the school library is shown in the
+label instead of its name.<br>
+    <img src="images/sl403.gif" alt="" width="428" height="277">
+<br>
+        &nbsp;
+        &nbsp;</li>
+    
+</ul>
+      
+    
+    
+    
+<ul>
+      
+      
+      
+    <li>Suppose that now you don't like the prefix "School Library" in the label and want
+to get rid of it. The only way to do this is to edit the code, but it
+is still quite simple to do. All the values of the various properties that are displayed are
+supplied to the UI code through the Item Providers. For text labels, they are
+supplied through the "getText()" method in the Item Provider.<br>
+    <br>
+</li><li>Expand the "schoollibrary.edit" project, locate the "SchoolLibraryItemProvider.java" file, and then open it.<br>
+    <img src="images/sl404.gif" alt="" width="353" height="378">
+    <br>
+    <br>
+  </li>
+<li>Locate the "getText()" method in the Outline view and select it.<br>
+        <img src="images/sl405.gif" alt="" width="395" height="242">
+        <br>&nbsp;&nbsp;
+        &nbsp;&nbsp;</li>
+      <li> The cursor in the main window will then move to that method.<br>
+    <img src="images/sl406.gif" alt="" width="593" height="200">
+&nbsp;<br>&nbsp;
+      </li>
+      <li>Remove the string "School Library"
+in the return statement. In order not to lose the change when the code is
+re-generated, the "<font face="Courier New, Courier, monospace">@generated</font>" tag needs to be removed as well.<br>
+        <img src="images/sl407.gif" alt="" width="593" height="193">
+        <br>&nbsp;
+      </li>
+      
+      
+      
+      <li>Save
+the change, switch to the Debug perspective, launch the run-time workbench
+instance and open "My.schoollibrary". You can see the label for School Library now contains
+just the value of the "location" attribute.<br>
+        <img src="images/sl408.gif" alt="" width="404" height="280">
+&nbsp;&nbsp;<br>
+    <br>
+</li><li>In the above step, we have changed the original getText() method. The
+"Label Feature" property on the "School Library" object in the "schoollibrary.genmodel"
+now has no effect on the generated code. This is because we have removed the "<font face="Courier New, Courier, monospace">@generated</font>" tag, preventing it from being overwritten during code generation.<br>
+    <br>
+  </li>
+  <li>Suppose
+that now you have not yet decided whether your School Library editor will 
+display the value of the location attribute or the value of the name attribute.
+Instead, you want to be able to change it from the .genmodel "Label Feature"
+attribute later. However, you do not want the prefix "School Library" displayed
+in the editor. Can this be achieved?<br>
+    <br>
+It can, but you need to write a little bit more code. Rename the "<font face="Courier New, Courier, monospace">getText()</font>" method
+to "<font face="Courier New, Courier, monospace">getTextGen()</font>" (and keep the <font face="Courier New, Courier, monospace">@generated</font> tag) and create a "<font face="Courier New, Courier, monospace">getText()</font>" method
+that will manipulate the string returned by "<font face="Courier New, Courier, monospace">getTextGen()</font>" as follows:<br>
+    <br>
+    <img src="images/sl409.gif" alt="" width="750" height="190">
+    <br>
+    <br>
+This is a feature of the codegen: When a method it is going to generate already
+exists and does not have the "<font face="Courier New, Courier, monospace">@generated</font>" tag, it will look for a method with
+the same name plus the suffix "<font face="Courier New, Courier, monospace">Gen</font>". If the method exists and is tagged with "<font face="Courier New, Courier, monospace">@generated</font>", the
+content will be generated into this method.<br>
+    <br>
+  </li>
+  <li>To show you that the method is really re-generated, remove the method body of <font face="Courier New, Courier, monospace">getTextGen()</font>. Eclipse will give an error because it expects a return statement.
+Don't worry about the error.<br>
+    <br>
+  </li>
+  <li>Save the "SchoolLibraryItemProvider.java" file.<br>
+    <img src="images/sl410.gif" alt="" width="317" height="185">
+    <br>
+    <br>
+  </li>
+  <li>Switch back to "schoollibrary.genmodel", select "SchoolLibrary", and re-generate Edit code:<br>
+    <br>
+    <img src="images/sl411.gif" alt="" width="360" height="360">
+    <br>
+    <br>
+  </li>
+  <li>Now, switch back to the "<font face="Courier New, Courier, monospace">getTextGen()</font>" method in "SchoolLibraryItemProvider.java". It now has content and the error message is gone.<br>
+    <br>
+    <img src="images/sl412.gif" alt="" width="750" height="230">
+    <br>
+    <br>
+  </li>
+  <li>You can go back to the "School Library" object in "schoollibrary.genmodel"
+and change the "Label Feature" property, &nbsp;regenerate the code and verify
+that the generated code does indeed change according to the "Label Feature"
+property.       </li>
+    
+</ul>
+    
+<hr>
+	<p align="right"><a name="appendix">&nbsp;</a><a href="#top">contents</a></p>
+<h3>Appendix: An Alternative Way of Generating the Model and Editor</h3>
+    
+<p>If you do not already have the base model "Library" and its editor generated 
+in separate projects, you can have both the "Library" and "School Library" 
+models generated into the same set of projects. This can be done either through
+a Rose model or through a set of Java interfaces.</p>
+<ol type="A">
+  <li><h4>Through Rose Model</h4>
+<ul>
+  <li>Working in the Resource perspective, select the "File/New/Other...".<br>
+    <br>
+    <img src="images/sl501.gif" alt="" width="476" height="173">
+    <br>&nbsp; &nbsp;
+  </li>
+  <li>Create a new EMF Project. Click the "Next" button.<br>
+    <br>
+    <img src="images/sl502.gif" alt="" width="494" height="219">
+    <br>
+<br>
+  </li>
+  <li>Give the project a name, for example "schoollibrary2". Click the "Next" button.<br>
+    <img src="images/sl503.gif" alt="" width="495" height="209">
+    <br> &nbsp; &nbsp;
+  </li>
+      
+  <li>Select "Load from a Rose Model" and click the "Next" button.<br>
+    <img src="images/sl504.gif" alt="" width="497" height="211">
+    <br> <br>
+  </li>
+  <li>Click the "Browse" button, locate and open the <a href="images/../schoollibrary.mdl">"schoollibrary.mdl"</a> file. Then click the "Next" button.<br>
+    <img src="images/sl505.gif" alt="" width="569" height="501">
+&nbsp; <br> <br>
+  </li>
+  <li>Select both the "library" and "schoollibrary" packages.
+  This is different from what we did in Step 1 in which we referenced
+  the "library" model generated previously. Click the "Finish" button.<br>
+    <img src="images/sl506.gif" alt="" width="495" height="273">
+    &nbsp;<br>&nbsp;&nbsp; &nbsp;&nbsp;
+  </li>
+</ul>
+</li>
+<li><h4>Through Java Interfaces:</h4>
+<ul>
+<li>         Create a new Java project. Working in the Java perspective,
+select "File/New/Project..." to bring up the New Project dialog.<br>
+        <img src="images/sl551.gif" alt="" width="431" height="91">
+        <br>
+<br>
+</li>
+<li>
+        Select "Java Project". Click the "Next" button.<br>
+        <img src="images/sl552.gif" alt="" width="500" height="171">
+        <br>
+        <br>
+</li><li>Give the project a name, for example "schoollibrary2". Click the "Next" button.<br>
+        <img src="images/sl553.gif" alt="" width="500" height="224">
+        <br>
+        <br>
+      </li>
+      <li>Click
+"Add Folder...", click on "Create New Folder..."
+and create a "src" sub-folder. Click "Yes" when you are asked to update the
+build output folder. Change the build output folder to "schoollibrary2/runtime". 
+Click the "Finish" button.<br>
+        <img src="images/sl554.gif" alt="" width="500" height="500">
+        <br>
+        <br>
+      </li>
+      <li>A "schoollibrary2" project will be created.<br>
+        <img src="images/sl555.gif" alt="" width="294" height="209">
+        <br>
+      </li>
+      <li>Import the "library" interfaces from <a href="images/../library.zip">"library.zip"</a>. With the "schoollibrary2" project selected, select "File/Import..." and select "Zip file".<br>
+        <img src="images/sl556.gif" alt="" width="157" height="354" align="top">
+ &nbsp; <img src="images/sl557.gif" alt="" width="214" height="227" align="top">
+        <br>
+        <br>
+      </li>
+      <li>Locate the zip file and import it into the "schoollibrary2/src" directory. Click the "Finish" button.<br>
+        <img src="images/sl558.gif" alt="" width="529" height="551">
+        <br>
+        <br>
+      </li>
+      <li>Import the "schoollibrary" interfaces from <a href="images/../schoollibrary.zip">"schoollibrary.zip"</a> in a similar way.<br>
+        <img src="images/sl559.gif" alt="" width="529" height="551">
+        <br>
+        <br>
+      </li>
+      <li>Now you should have all the required Java interfaces in the project.<br>
+        <img src="images/sl560.gif" alt="" width="294" height="346"><br>
+        <br>
+      </li>
+      <li>With the "schoollibrary2" project selected, Select "File/New/Others...".<br>
+        <img src="images/sl561.gif" alt="" width="490" height="276">
+        <br>
+        <br>
+      </li>
+      <li>Select "EMF Models". Click the "Next" button.<br>
+        <img src="images/sl562.gif" alt="" width="500" height="200">
+        <br>
+        <br>
+      </li>
+      <li>Enter "schoollibrary2/src/model" as the name of folder and "schoollibrary.genmodel" as the file name. Click the "Next" button.<br>
+        <img src="images/sl563.gif" alt="" width="500" height="570">
+        <br>
+        <br>
+      </li>
+      <li>Select "Load from Java annotations". Click the "Next" button.<br>
+        <img src="images/sl564.gif" alt="" width="310" height="230">
+        <br>
+        <br>
+        <br>
+      </li>
+      <li>Select both library and schoollibrary package. Click the "Finish" button.<br>
+        <img src="images/sl565.gif" alt="" width="500" height="570">
+        <br>
+        <br>
+        <br>
+      </li>
+</ul>
+</li>
+<li><h4>Generating the EMF Model and the Editor</h4>
+<ul>
+  <li>
+The "schoollibrary.genmodel" is now created either through the Rose model or the Java interfaces.
+It should appear in the main view. In the Resource perspective, expand the genmodel and notice that
+the icon for the "Library" package does not have the arrow in it. The absence of the arrow
+indicates that the package is actually in the project.<br>
+    <img src="images/sl507.gif" alt="" width="455" height="438">
+ &nbsp;<br>&nbsp;
+  </li>
+  <li>Save
+the change, and generate the model code, edit code and editor code.<br>
+        <img src="images/sl509.gif" alt="" width="433" height="243">
+&nbsp; <br>
+    <br>
+  </li>
+  <li>You should see the "schoollibrary2.edit" and "schoollibrary2.editor"
+plugins in the Navigator view. Expand them and you should see both the "library"
+and "schoollibrary" models generated in them.<br>
+    <img src="images/sl510.gif" alt="" width="254" height="416"> <br>
+    <br>
+  </li>
+</ul>
+</li>
+  <li><h4>Running the Generated Editor</h4>
+<ul>
+  <li>Now, switch to the Debug perspective and create
+a new Launch Configurations dialog. Select "Run/Run..." to bring up the Launch Configuration.
+Select "Run-time Workbench" and click "New".<br>
+    <img src="images/sl511.gif" alt="" width="627" height="560">
+    <br> <br> <br>
+  </li>
+  <li>Give
+the configuration a name and switch to the "Plug-ins and Fragments" tab.
+Select the "Choose plug-ins and fragments to launch from the list" radio
+button. Next, select the set of plugins you just created. Click the "Apply"
+button.<br>
+    <img src="images/sl512.gif" alt="" width="653" height="560">
+    <br>
+    <br>
+  </li>
+  <li>You can now run this configuration by clicking the "Run" button. You
+should find that the schoollibrary editor behaves the same as the editor we generated the
+other way.<br>
+    <br>
+  </li>
+  <li>You
+can also create a Library model: Select "File/New/Other...". In the dialog
+that appears, select "Example EMF Model Creation Wizards" and then select
+"Library Model". Click the "Next" button.<br>
+    &nbsp;<img src="images/sl513.gif" alt="" width="497" height="216">
+    <br>
+    <br><br>
+  </li>
+  <li>Give the library model a name and click the "Next" button.<br>
+    <img src="images/sl514.gif" alt="" width="161" height="48">
+    <br>
+    <br>
+  </li>
+  <li>Select "Library" as the top-level object. Click the "Finish" button.<br>
+    <img src="images/sl515.gif" alt="" width="500" height="127">
+    <br>
+    <br>
+  </li>
+  <li>The model "My.library" will be opened in the main view. Expand the
+model and right-click on the top-level "Library" object. Select the "New Child"
+menu item and you will see three type of children objects that can be created. Note that
+"School Book" is included, even though it is in the "Library" package.<br>
+    <img src="images/sl516.gif" alt="" width="298" height="250">
+    <br> <br>
+The "School Book" object is not available when the "Library" model is
+generated on its own as in the previous tutorial because it does not know
+about the existence of the "schoollibrary" package when the model is being generated. Now when the base package
+and the extended package are generated into the same project, they know
+about each other.
+This feature occurs when multiple packages are generated together.<br>       
+  </li>
+</ul>
+</ol>
+    
+<hr>
+	<p align="right"><a href="#top">contents</a></p>
+</body></html>
