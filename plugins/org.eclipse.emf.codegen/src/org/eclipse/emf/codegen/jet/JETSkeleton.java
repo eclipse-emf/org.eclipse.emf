@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETSkeleton.java,v 1.2 2004/05/16 17:32:43 emerks Exp $
+ * $Id: JETSkeleton.java,v 1.3 2004/10/07 11:21:44 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -166,7 +166,7 @@ public class JETSkeleton
     {
       if (node.getNodeType() == IDOMNode.TYPE)
       {
-        for (StringTokenizer stringTokenizer = new StringTokenizer(importList, " \t"); stringTokenizer.hasMoreTokens(); )
+        for (StringTokenizer stringTokenizer = new StringTokenizer(importList, " \t\n\r"); stringTokenizer.hasMoreTokens(); )
         {
           String token = stringTokenizer.nextToken();
           String newImport = "import " + token + ";" + NL;
