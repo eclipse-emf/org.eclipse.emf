@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.8 2004/08/11 20:46:13 emerks Exp $
+ * $Id: JETCompiler.java,v 1.9 2005/01/24 22:13:23 davidms Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -571,26 +571,30 @@ public class JETCompiler implements JETParseEventListener
     String result = null;
     for (int i = 0; i < locationURIPath.length; ++i)
     {
-      try
-      {
-        result = locationURIPath[i];
-        if (!result.endsWith("/"))
-        {
-          result += "/";
-        }
-        result += relativeLocationURI;
+      result = locationURIPath[i];
 
-        InputStream inputStream = openStream(result);
-        inputStream.close();
-        break;
-      }
-      catch (JETException exception)
+      if (result != null)
       {
-        result = null;
-      }
-      catch (IOException exception)
-      {
-        result = null;
+        try
+        {
+          if (!result.endsWith("/"))
+          {
+            result += "/";
+          }
+          result += relativeLocationURI;
+  
+          InputStream inputStream = openStream(result);
+          inputStream.close();
+          break;
+        }
+        catch (JETException exception)
+        {
+          result = null;
+        }
+        catch (IOException exception)
+        {
+          result = null;
+        }
       }
     }
     return result;
