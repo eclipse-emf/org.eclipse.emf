@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.8 2004/05/16 17:25:19 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.9 2004/05/29 16:12:22 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -491,6 +491,17 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	protected void handleActivate()
 	{
+		// Recompute the read only state.
+		//
+		if (editingDomain.getResourceToReadOnlyMap() != null)
+		{
+		  editingDomain.getResourceToReadOnlyMap().clear();
+
+		  // Refresh any actions that may become enabled or disabled.
+		  //
+		  setSelection(getSelection());
+		}
+
 		if (!removedResources.isEmpty())
 		{
 			if (handleDirtyConflict())
@@ -621,7 +632,7 @@ public class <%=genPackage.getEditorClassName()%>
 
 		// Create the editing domain with a special command stack.
 		//
-		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
+		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new <%=genModel.getImportedName("java.util.HashMap")%>());
 	}
 
 	/**
@@ -1444,7 +1455,7 @@ public class <%=genPackage.getEditorClassName()%>
 					EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
 					if (eObject != null)
 					{
-					  setSelectionToViewer(Collections.singleton(eObject));
+					  setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
 					}
 				}
 			}
