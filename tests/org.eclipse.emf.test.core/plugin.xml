@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.8 2004/07/14 15:44:19 marcelop Exp $
+ * $Id: plugin.xml,v 1.9 2004/08/22 23:35:30 davidms Exp $
  */
 -->
 
@@ -36,6 +36,7 @@
       <import plugin="org.junit"/>
       <import plugin="org.eclipse.xsd"/>
       <import plugin="org.eclipse.emf.codegen.ecore"/>
+      <import plugin="org.eclipse.emf.edit"/>
    </requires>
 
    <runtime>
