@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.2 2004/03/10 00:16:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -26,22 +26,8 @@ import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.emf.ecore.EFactory;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EParameter;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.util.FeatureMap;
-
 
 /**
  * <!-- begin-user-doc -->
