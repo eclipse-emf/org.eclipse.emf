@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.9 2004/05/19 13:37:11 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.10 2004/06/18 09:11:23 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -1610,7 +1610,11 @@ public class JavaEcoreBuilder
 
     // If we don't have one yet, maybe it's one of the special types...
     //
-    if (eClassifier == null && (packageName.length() == 0 || packageName.equals("java.lang")))
+    if (eClassifier == null && 
+          (packageName.length() == 0 || 
+             packageName.equals("java.lang") ||
+             packageName.equals("java.math") ||
+             packageName.equals("java.util")))
     {
       for (Iterator j = EcorePackage.eINSTANCE.getEClassifiers().iterator(); j.hasNext(); )
       {
