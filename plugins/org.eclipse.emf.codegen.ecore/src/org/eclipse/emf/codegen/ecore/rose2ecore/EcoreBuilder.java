@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.16 2005/03/10 22:58:12 emerks Exp $
+ * $Id: EcoreBuilder.java,v 1.17 2005/03/17 23:58:19 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -1342,10 +1342,10 @@ public class EcoreBuilder implements RoseVisitor
       if (subObject instanceof EClass)
       {
         EClass eClass = (EClass)subObject;
-        List extend = new UniqueEList();
-        List unspecified = new UniqueEList();
-        List mixin = new UniqueEList();
-        List nonClass = new UniqueEList();
+        List extend = new ArrayList();
+        List unspecified = new ArrayList();
+        List mixin = new ArrayList();
+        List nonClass = new ArrayList();
         for (Iterator j = ((List)roseUtil.superTable.get(eClass)).iterator(); j.hasNext(); )
         {
           String quid = (String)j.next();
