@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeValidator.java,v 1.4 2004/06/08 15:35:43 emerks Exp $
+ * $Id: XMLTypeValidator.java,v 1.5 2004/06/13 11:54:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -104,7 +104,7 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT:
         return validateXMLTypeDocumentRoot((XMLTypeDocumentRoot)value, diagnostics, context);
       case XMLTypePackage.ANY_SIMPLE_TYPE:
-        return validateAnySimpleType((Object)value, diagnostics, context);
+        return validateAnySimpleType(value, diagnostics, context);
       case XMLTypePackage.ANY_URI:
         return validateAnyURI((String)value, diagnostics, context);
       case XMLTypePackage.BASE64_BINARY:
@@ -118,9 +118,9 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.BYTE_OBJECT:
         return validateByteObject((Byte)value, diagnostics, context);
       case XMLTypePackage.DATE:
-        return validateDate((Object)value, diagnostics, context);
+        return validateDate(value, diagnostics, context);
       case XMLTypePackage.DATE_TIME:
-        return validateDateTime((Object)value, diagnostics, context);
+        return validateDateTime(value, diagnostics, context);
       case XMLTypePackage.DECIMAL:
         return validateDecimal((BigDecimal)value, diagnostics, context);
       case XMLTypePackage.DOUBLE:
@@ -128,7 +128,7 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.DOUBLE_OBJECT:
         return validateDoubleObject((Double)value, diagnostics, context);
       case XMLTypePackage.DURATION:
-        return validateDuration((Object)value, diagnostics, context);
+        return validateDuration(value, diagnostics, context);
       case XMLTypePackage.ENTITIES:
         return validateENTITIES((List)value, diagnostics, context);
       case XMLTypePackage.ENTITIES_BASE:
@@ -140,15 +140,15 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.FLOAT_OBJECT:
         return validateFloatObject((Float)value, diagnostics, context);
       case XMLTypePackage.GDAY:
-        return validateGDay((Object)value, diagnostics, context);
+        return validateGDay(value, diagnostics, context);
       case XMLTypePackage.GMONTH:
-        return validateGMonth((Object)value, diagnostics, context);
+        return validateGMonth(value, diagnostics, context);
       case XMLTypePackage.GMONTH_DAY:
-        return validateGMonthDay((Object)value, diagnostics, context);
+        return validateGMonthDay(value, diagnostics, context);
       case XMLTypePackage.GYEAR:
-        return validateGYear((Object)value, diagnostics, context);
+        return validateGYear(value, diagnostics, context);
       case XMLTypePackage.GYEAR_MONTH:
-        return validateGYearMonth((Object)value, diagnostics, context);
+        return validateGYearMonth(value, diagnostics, context);
       case XMLTypePackage.HEX_BINARY:
         return validateHexBinary((byte[])value, diagnostics, context);
       case XMLTypePackage.ID:
@@ -190,11 +190,11 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.NORMALIZED_STRING:
         return validateNormalizedString((String)value, diagnostics, context);
       case XMLTypePackage.NOTATION:
-        return validateNOTATION((Object)value, diagnostics, context);
+        return validateNOTATION(value, diagnostics, context);
       case XMLTypePackage.POSITIVE_INTEGER:
         return validatePositiveInteger((BigInteger)value, diagnostics, context);
       case XMLTypePackage.QNAME:
-        return validateQName((Object)value, diagnostics, context);
+        return validateQName(value, diagnostics, context);
       case XMLTypePackage.SHORT:
         return validateShort(((Short)value).shortValue(), diagnostics, context);
       case XMLTypePackage.SHORT_OBJECT:
@@ -202,7 +202,7 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.STRING:
         return validateString((String)value, diagnostics, context);
       case XMLTypePackage.TIME:
-        return validateTime((Object)value, diagnostics, context);
+        return validateTime(value, diagnostics, context);
       case XMLTypePackage.TOKEN:
         return validateToken((String)value, diagnostics, context);
       case XMLTypePackage.UNSIGNED_BYTE:
