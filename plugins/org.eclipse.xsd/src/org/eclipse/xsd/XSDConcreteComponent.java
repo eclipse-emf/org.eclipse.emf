@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponent.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDConcreteComponent.java,v 1.2 2004/07/29 17:56:18 marcelop Exp $
  */
 package org.eclipse.xsd;
 
@@ -179,7 +179,7 @@ public interface XSDConcreteComponent extends EObject
   void elementContentsChanged(Element changedElement);
 
   /**
-   * Returns the resolved type definition of the given {@link XSDNamedComponent#getURI() URI}.
+   * Returns the resolved type definition of the given {@link org.eclipse.xsd.XSDNamedComponent#getURI() URI}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveTypeDefinition(java.lang.String, java.lang.String)
    * @see #resolveTypeDefinition(java.lang.String)
@@ -191,7 +191,7 @@ public interface XSDConcreteComponent extends EObject
 
   /**
    * Returns the resolved type definition of the given  
-   * {@link XSDNamedComponent#getTargetNamespace() namespace} and {@link XSDNamedComponent#getName() name}.
+   * {@link org.eclipse.xsd.XSDNamedComponent#getTargetNamespace() namespace} and {@link org.eclipse.xsd.XSDNamedComponent#getName() name}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveTypeDefinitionURI(java.lang.String)
    * @see #resolveTypeDefinition(java.lang.String)
@@ -204,7 +204,7 @@ public interface XSDConcreteComponent extends EObject
   XSDTypeDefinition resolveTypeDefinition(String namespace, String localName);
 
   /**
-   * Returns the resolved type definition of the given {@link XSDNamedComponent#getName() name} 
+   * Returns the resolved type definition of the given {@link org.eclipse.xsd.XSDNamedComponent#getName() name} 
    * within the {@link #getSchema() schema}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #getSchema()
@@ -218,7 +218,7 @@ public interface XSDConcreteComponent extends EObject
   XSDTypeDefinition resolveTypeDefinition(String localName);
   
   /**
-   * Returns the resolved simple type definition of the given {@link XSDNamedComponent#getURI() URI}.
+   * Returns the resolved simple type definition of the given {@link org.eclipse.xsd.XSDNamedComponent#getURI() URI}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveSimpleTypeDefinition(java.lang.String, java.lang.String)
    * @see #resolveSimpleTypeDefinition(java.lang.String)
@@ -230,7 +230,7 @@ public interface XSDConcreteComponent extends EObject
 
   /**
    * Returns the resolved simple type definition of the given  
-   * {@link XSDNamedComponent#getTargetNamespace() namespace} and {@link XSDNamedComponent#getName() name}.
+   * {@link org.eclipse.xsd.XSDNamedComponent#getTargetNamespace() namespace} and {@link org.eclipse.xsd.XSDNamedComponent#getName() name}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveSimpleTypeDefinitionURI(java.lang.String)
    * @see #resolveSimpleTypeDefinition(java.lang.String)
@@ -243,7 +243,7 @@ public interface XSDConcreteComponent extends EObject
   XSDSimpleTypeDefinition resolveSimpleTypeDefinition(String namespace, String localName);
 
   /**
-   * Returns the resolved simple type definition of the given {@link XSDNamedComponent#getName() name} 
+   * Returns the resolved simple type definition of the given {@link org.eclipse.xsd.XSDNamedComponent#getName() name} 
    * within the {@link #getSchema() schema}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #getSchema()
@@ -257,7 +257,7 @@ public interface XSDConcreteComponent extends EObject
   XSDSimpleTypeDefinition resolveSimpleTypeDefinition(String localName);
   
   /**
-   * Returns the resolved complex type definition of the given {@link XSDNamedComponent#getURI() URI}.
+   * Returns the resolved complex type definition of the given {@link org.eclipse.xsd.XSDNamedComponent#getURI() URI}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveComplexTypeDefinition(java.lang.String, java.lang.String)
    * @see #resolveComplexTypeDefinition(java.lang.String)
@@ -269,7 +269,7 @@ public interface XSDConcreteComponent extends EObject
 
   /**
    * Returns the resolved complex type definition of the given  
-   * {@link XSDNamedComponent#getTargetNamespace() namespace} and {@link XSDNamedComponent#getName() name}.
+   * {@link org.eclipse.xsd.XSDNamedComponent#getTargetNamespace() namespace} and {@link org.eclipse.xsd.XSDNamedComponent#getName() name}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveComplexTypeDefinitionURI(java.lang.String)
    * @see #resolveComplexTypeDefinition(java.lang.String)
@@ -282,7 +282,7 @@ public interface XSDConcreteComponent extends EObject
   XSDComplexTypeDefinition resolveComplexTypeDefinition(String namespace, String localName);
 
   /**
-   * Returns the resolved complex type definition of the given {@link XSDNamedComponent#getName() name} 
+   * Returns the resolved complex type definition of the given {@link org.eclipse.xsd.XSDNamedComponent#getName() name} 
    * within the {@link #getSchema() schema}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #getSchema()
@@ -296,7 +296,7 @@ public interface XSDConcreteComponent extends EObject
   XSDComplexTypeDefinition resolveComplexTypeDefinition(String localName);
 
   /**
-   * Returns the resolved attribute declaration of the given {@link XSDNamedComponent#getURI() URI}.
+   * Returns the resolved attribute declaration of the given {@link org.eclipse.xsd.XSDNamedComponent#getURI() URI}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveAttributeDeclaration(java.lang.String, java.lang.String)
    * @see #resolveAttributeDeclaration(java.lang.String)
@@ -308,7 +308,7 @@ public interface XSDConcreteComponent extends EObject
 
   /**
    * Returns the resolved attribute declaration of the given  
-   * {@link XSDNamedComponent#getTargetNamespace() namespace} and {@link XSDNamedComponent#getName() name}.
+   * {@link org.eclipse.xsd.XSDNamedComponent#getTargetNamespace() namespace} and {@link org.eclipse.xsd.XSDNamedComponent#getName() name}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveAttributeDeclarationURI(java.lang.String)
    * @see #resolveAttributeDeclaration(java.lang.String)
@@ -321,7 +321,7 @@ public interface XSDConcreteComponent extends EObject
   XSDAttributeDeclaration resolveAttributeDeclaration(String namespace, String localName);
 
   /**
-   * Returns the resolved attribute declaration of the given {@link XSDNamedComponent#getName() name} 
+   * Returns the resolved attribute declaration of the given {@link org.eclipse.xsd.XSDNamedComponent#getName() name} 
    * within the {@link #getSchema() schema}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #getSchema()
@@ -335,7 +335,7 @@ public interface XSDConcreteComponent extends EObject
   XSDAttributeDeclaration resolveAttributeDeclaration(String localName);
 
   /**
-   * Returns the resolved element declaration of the given {@link XSDNamedComponent#getURI() URI}.
+   * Returns the resolved element declaration of the given {@link org.eclipse.xsd.XSDNamedComponent#getURI() URI}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveElementDeclaration(java.lang.String, java.lang.String)
    * @see #resolveElementDeclaration(java.lang.String)
@@ -347,7 +347,7 @@ public interface XSDConcreteComponent extends EObject
 
   /**
    * Returns the resolved element declaration of the given  
-   * {@link XSDNamedComponent#getTargetNamespace() namespace} and {@link XSDNamedComponent#getName() name}.
+   * {@link org.eclipse.xsd.XSDNamedComponent#getTargetNamespace() namespace} and {@link org.eclipse.xsd.XSDNamedComponent#getName() name}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveElementDeclarationURI(java.lang.String)
    * @see #resolveElementDeclaration(java.lang.String)
@@ -360,7 +360,7 @@ public interface XSDConcreteComponent extends EObject
   XSDElementDeclaration resolveElementDeclaration(String namespace, String localName);
 
   /**
-   * Returns the resolved element declaration of the given {@link XSDNamedComponent#getName() name} 
+   * Returns the resolved element declaration of the given {@link org.eclipse.xsd.XSDNamedComponent#getName() name} 
    * within the {@link #getSchema() schema}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #getSchema()
@@ -374,7 +374,7 @@ public interface XSDConcreteComponent extends EObject
   XSDElementDeclaration resolveElementDeclaration(String localName);
   
   /**
-   * Returns the resolved attribute group definition of the given {@link XSDNamedComponent#getURI() URI}.
+   * Returns the resolved attribute group definition of the given {@link org.eclipse.xsd.XSDNamedComponent#getURI() URI}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveAttributeGroupDefinition(java.lang.String, java.lang.String)
    * @see #resolveAttributeGroupDefinition(java.lang.String)
@@ -386,7 +386,7 @@ public interface XSDConcreteComponent extends EObject
 
   /**
    * Returns the resolved attribute group definition the given  
-   * {@link XSDNamedComponent#getTargetNamespace() namespace} and {@link XSDNamedComponent#getName() name}.
+   * {@link org.eclipse.xsd.XSDNamedComponent#getTargetNamespace() namespace} and {@link org.eclipse.xsd.XSDNamedComponent#getName() name}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveAttributeGroupDefinitionURI(java.lang.String)
    * @see #resolveAttributeGroupDefinition(java.lang.String)
@@ -399,7 +399,7 @@ public interface XSDConcreteComponent extends EObject
   XSDAttributeGroupDefinition resolveAttributeGroupDefinition(String namespace, String localName);
 
   /**
-   * Returns the resolved attribute group definition of the given {@link XSDNamedComponent#getName() name} 
+   * Returns the resolved attribute group definition of the given {@link org.eclipse.xsd.XSDNamedComponent#getName() name} 
    * within the {@link #getSchema() schema}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #getSchema()
@@ -413,7 +413,7 @@ public interface XSDConcreteComponent extends EObject
   XSDAttributeGroupDefinition resolveAttributeGroupDefinition(String localName);
   
   /**
-   * Returns the resolved model group definition of the given {@link XSDNamedComponent#getURI() URI}.
+   * Returns the resolved model group definition of the given {@link org.eclipse.xsd.XSDNamedComponent#getURI() URI}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveModelGroupDefinition(java.lang.String, java.lang.String)
    * @see #resolveModelGroupDefinition(java.lang.String)
@@ -425,7 +425,7 @@ public interface XSDConcreteComponent extends EObject
 
   /**
    * Returns the resolved model group definition of the given  
-   * {@link XSDNamedComponent#getTargetNamespace() namespace} and {@link XSDNamedComponent#getName() name}.
+   * {@link org.eclipse.xsd.XSDNamedComponent#getTargetNamespace() namespace} and {@link org.eclipse.xsd.XSDNamedComponent#getName() name}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveModelGroupDefinitionURI(java.lang.String)
    * @see #resolveModelGroupDefinition(java.lang.String)
@@ -438,7 +438,7 @@ public interface XSDConcreteComponent extends EObject
   XSDModelGroupDefinition resolveModelGroupDefinition(String namespace, String localName);
 
   /**
-   * Returns the resolved model group definition of the given {@link XSDNamedComponent#getName() name} 
+   * Returns the resolved model group definition of the given {@link org.eclipse.xsd.XSDNamedComponent#getName() name} 
    * within the {@link #getSchema() schema}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #getSchema()
@@ -452,7 +452,7 @@ public interface XSDConcreteComponent extends EObject
   XSDModelGroupDefinition resolveModelGroupDefinition(String localName);
 
   /**
-   * Returns the resolved identity constraint definition of the given {@link XSDNamedComponent#getURI() URI}.
+   * Returns the resolved identity constraint definition of the given {@link org.eclipse.xsd.XSDNamedComponent#getURI() URI}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveIdentityConstraintDefinition(java.lang.String, java.lang.String)
    * @see #resolveIdentityConstraintDefinition(java.lang.String)
@@ -464,7 +464,7 @@ public interface XSDConcreteComponent extends EObject
 
   /**
    * Returns the resolved identity constraint definition of the given  
-   * {@link XSDNamedComponent#getTargetNamespace() namespace} and {@link XSDNamedComponent#getName() name}.
+   * {@link org.eclipse.xsd.XSDNamedComponent#getTargetNamespace() namespace} and {@link org.eclipse.xsd.XSDNamedComponent#getName() name}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveIdentityConstraintDefinitionURI(java.lang.String)
    * @see #resolveIdentityConstraintDefinition(java.lang.String)
@@ -477,7 +477,7 @@ public interface XSDConcreteComponent extends EObject
   XSDIdentityConstraintDefinition resolveIdentityConstraintDefinition(String namespace, String localName);
 
   /**
-   * Returns the resolved identity constraint definition of the given {@link XSDNamedComponent#getName() name} 
+   * Returns the resolved identity constraint definition of the given {@link org.eclipse.xsd.XSDNamedComponent#getName() name} 
    * within the {@link #getSchema() schema}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #getSchema()
@@ -491,7 +491,7 @@ public interface XSDConcreteComponent extends EObject
   XSDIdentityConstraintDefinition resolveIdentityConstraintDefinition(String localName);
 
   /**
-   * Returns the resolved notation declaration of the given {@link XSDNamedComponent#getURI() URI}.
+   * Returns the resolved notation declaration of the given {@link org.eclipse.xsd.XSDNamedComponent#getURI() URI}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveNotationDeclaration(java.lang.String, java.lang.String)
    * @see #resolveNotationDeclaration(java.lang.String)
@@ -503,7 +503,7 @@ public interface XSDConcreteComponent extends EObject
 
   /**
    * Returns the resolved notation declaration of the given  
-   * {@link XSDNamedComponent#getTargetNamespace() namespace} and {@link XSDNamedComponent#getName() name}.
+   * {@link org.eclipse.xsd.XSDNamedComponent#getTargetNamespace() namespace} and {@link org.eclipse.xsd.XSDNamedComponent#getName() name}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #resolveNotationDeclarationURI(java.lang.String)
    * @see #resolveNotationDeclaration(java.lang.String)
@@ -516,7 +516,7 @@ public interface XSDConcreteComponent extends EObject
   XSDNotationDeclaration resolveNotationDeclaration(String namespace, String localName);
 
   /**
-   * Returns the resolved notation declaration the given {@link XSDNamedComponent#getName() name} 
+   * Returns the resolved notation declaration the given {@link org.eclipse.xsd.XSDNamedComponent#getName() name} 
    * within the {@link #getSchema() schema}.
    * An unresolved instance is synthesized to hold the namespace and name if an existing instance cannot be found.
    * @see #getSchema()
