@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.10 2004/11/30 11:34:39 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.11 2004/12/11 12:13:54 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2076,7 +2076,7 @@ public class XSDSchemaImpl
             if (xsdSchemaDirective instanceof XSDSchemaCompositor && ((XSDSchemaCompositor)xsdSchemaDirective).getIncorporatedSchema() == xsdSchema)
             {
               XSDSchema incorporatingSchema = xsdSchemaDirective.getSchema();
-              if (!visited.contains(incorporatingSchema))
+              if (incorporatingSchema != null && !visited.contains(incorporatingSchema))
               {
                 visited.add(incorporatingSchema);
                 incorporatingSchemas.add(incorporatingSchema);
@@ -3157,14 +3157,17 @@ public class XSDSchemaImpl
           {
             XSDComplexTypeDefinition redefinedComplexTypeDefinition = 
               resolveComplexTypeDefinition(xsdComplexTypeDefinition.getName());
-            for (Iterator i = getSchemasToRedefine().iterator(); i.hasNext(); )
+            if (xsdComplexTypeDefinition != redefinedComplexTypeDefinition)
             {
-              XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
-              int index = schemaToRedefine.getTypeDefinitions().indexOf(redefinedComplexTypeDefinition);
-              if (index != -1)
+              for (Iterator i = getSchemasToRedefine().iterator(); i.hasNext(); )
               {
-                schemaToRedefine.getTypeDefinitions().set(index, xsdComplexTypeDefinition);
-                schemaToRedefine.redefinitionMap.put(xsdComplexTypeDefinition, redefinedComplexTypeDefinition);
+                XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
+                int index = schemaToRedefine.getTypeDefinitions().indexOf(redefinedComplexTypeDefinition);
+                if (index != -1)
+                {
+                  schemaToRedefine.getTypeDefinitions().set(index, xsdComplexTypeDefinition);
+                  schemaToRedefine.redefinitionMap.put(xsdComplexTypeDefinition, redefinedComplexTypeDefinition);
+                }
               }
             }
             return this;
