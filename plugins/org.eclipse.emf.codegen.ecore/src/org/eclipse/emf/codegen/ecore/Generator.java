@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: Generator.java,v 1.2 2004/03/21 16:10:42 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -715,6 +715,14 @@ public class Generator extends CodeGen
     if (Character.isJavaIdentifierStart(name.charAt(0)))
     {
       result.append(name.charAt(0));
+    }
+    else
+    {
+      result.append('_');
+      if (Character.isJavaIdentifierPart(name.charAt(0)))
+      {
+        result.append(name.charAt(0));
+      }
     }
     for (int i = 1; i < name.length(); ++ i)
     {
