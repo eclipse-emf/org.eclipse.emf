@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.13 2004/05/14 19:28:13 marcelop Exp $
+ * $Id: BuildTests.java,v 1.14 2004/05/14 19:53:16 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -607,7 +607,7 @@ public class BuildTests extends TestCase
   public void testChkpii()
   {
     String[] zipFiles = locateBuildGeneratedZipFiles();
-    String sniffFolder = Platform.getInstanceLocation().getURL().getFile();
+    String sniffFolder = Platform.getInstallLocation().getURL().getFile();
     FileTool.IZipFilter zipFilter = getTrueFilter();
 
     for (int i = 0; i < zipFiles.length; i++)
@@ -689,7 +689,7 @@ public class BuildTests extends TestCase
   private String[] locateBuildGeneratedZipFiles()
   {
     // String to use when running as an automated test.
-    String installDir = Platform.getInstanceLocation().getURL().getPath() + File.separator + ".." + File.separator + "..";
+    String installDir = Platform.getInstallLocation().getURL().getPath() + File.separator + ".." + File.separator + "..";
 
     // String to use when running in Eclipse
     // String installDir = BootLoader.getInstallURL().getPath() + "..";
@@ -786,7 +786,7 @@ public class BuildTests extends TestCase
    */
   private String getFilesToTest(int type)
   {
-    String sniffFolder = Platform.getInstanceLocation().getURL().getFile();
+    String sniffFolder = Platform.getInstallLocation().getURL().getFile();
     String aString = new File(sniffFolder).getPath() + File.separator;
     switch (type)
     {
@@ -961,7 +961,7 @@ public class BuildTests extends TestCase
     assertNotNull(getExec());
 
     // Autoamted Test
-    logFileName = Platform.getInstanceLocation().getURL().getPath() + ".." + File.separator + ".." + File.separator + "results" + File.separator
+    logFileName = Platform.getInstallLocation().getURL().getPath() + ".." + File.separator + ".." + File.separator + "results" + File.separator
         + "chkpii"; // A
     // tad
     // bogus
@@ -978,7 +978,7 @@ public class BuildTests extends TestCase
     // results
     // from!
 
-    sourceDirectoryName = Platform.getInstanceLocation().getURL().getPath() + ".." + File.separator + ".." + File.separator + ".." + File.separator
+    sourceDirectoryName = Platform.getInstallLocation().getURL().getPath() + ".." + File.separator + ".." + File.separator + ".." + File.separator
         + ".." + File.separator + "src";
     // Runtime Workbench - TODI Put me back to Automated status
     //      logFileName = "d:\\results";
@@ -999,13 +999,13 @@ public class BuildTests extends TestCase
     {
     }
 
-    System.setProperty("PLUGIN_PATH", adjustPath(Platform.getInstanceLocation().getURL().getPath()) + "plugins");
+    System.setProperty("PLUGIN_PATH", adjustPath(Platform.getInstallLocation().getURL().getPath()) + "plugins");
   }
 
   public void testFeatureFiles()
   {
     List result = new ArrayList();
-    String installDir = Platform.getInstanceLocation().getURL().getPath();
+    String installDir = Platform.getInstallLocation().getURL().getPath();
     File featureDir = new File(installDir, "features");
     File[] features = featureDir.listFiles();
     for (int i = 0; i < features.length; i++)
@@ -1052,7 +1052,7 @@ public class BuildTests extends TestCase
   public void testPluginFiles()
   {
     List result = new ArrayList();
-    String installDir = Platform.getInstanceLocation().getURL().getPath();
+    String installDir = Platform.getInstallLocation().getURL().getPath();
     File pluginDir = new File(installDir, "plugins");
     File[] plugins = pluginDir.listFiles();
     for (int i = 0; i < plugins.length; i++)
