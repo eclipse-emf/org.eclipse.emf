@@ -1,0 +1,200 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: JETTest.java,v 1.1 2004/06/22 03:05:34 marcelop Exp $
+ */
+package org.eclipse.emf.test.core.jet;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.Writer;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
+
+import org.eclipse.emf.codegen.jet.JETEmitter;
+import org.eclipse.emf.test.core.EMFTestCorePlugin;
+
+public class JETTest extends TestCase
+{
+  protected static final File TEMPLATE_FILE = new File(EMFTestCorePlugin.getPlugin().getPluginDirectory(), "aTemplate.javajet");
+  
+  /**
+   * @param name
+   */
+  public JETTest(String name)
+  {
+    super(name);
+  }
+
+  public static Test suite()
+  {
+    TestSuite ts = new TestSuite();
+    ts.addTest(new JETTest("testEmmiter"));
+    ts.addTest(new JETTest("testCRLF"));
+    ts.addTest(new JETTest("testLF"));
+    return ts;
+  }
+  
+  public void testEmmiter() throws Exception
+  {
+    String text = createTemplateText("\r\n");
+    saveFile(TEMPLATE_FILE, templateHeader("\r\n").append(text).toString());
+    
+    JETEmitter emitter = new JETEmitter(TEMPLATE_FILE.getAbsolutePath());
+    String generatedText = emitter.generate(new NullProgressMonitor(), new Object[]{""});
+    
+    String lineSeparator = System.getProperties().getProperty("line.separator");
+    if(!"\r\n".equals(lineSeparator))
+    {
+      generatedText.replaceAll(lineSeparator, "\r\n");
+    }
+    assertEquals(text, generatedText);        
+  }
+  
+  public void testCRLF() throws Exception
+  {
+    assertLineSeparator("\r\n");
+  }
+
+  public void testLF() throws Exception
+  {
+    assertLineSeparator("\n");
+  }
+  
+  /*
+   * This test:
+   * 1. Creates a javajet template using the specified lineSeparator
+   * 2. Generates a class by invoking the Emitter against the template above
+   * 3. Reads the content of the Gen class
+   * 4. Checks if the Gen class has the appropriate text.
+   * 
+   * Given this text:
+   * 	
+   * xyz<NL>yy1
+   * 
+   * where NL is the line separator, the "appropriate" text in the Gen class is
+   * 
+   * "xyz" + NL + "yy1"
+   */
+  protected void assertLineSeparator(String lineSeparator) throws IOException, CoreException
+  {
+    String text = createTemplateText(lineSeparator);
+    saveFile(TEMPLATE_FILE, templateHeader(lineSeparator).append(text).toString());
+    
+    JETEmitter emitter = new JETEmitter(TEMPLATE_FILE.getAbsolutePath());
+    emitter.generate(new NullProgressMonitor(), new Object[]{""});
+    
+    IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(emitter.getProjectName());
+    IFile generatedJavaFile = project.getFile(new Path("src/jetTest/ATemplateGen.java"));
+    assertTrue(generatedJavaFile.exists());
+    String generatedGen = readInputStream(generatedJavaFile.getContents());
+    
+    StringBuffer expectedText = new StringBuffer(text);
+    while(expectedText.charAt(0) == '\r' | expectedText.charAt(0) == '\n')
+    {
+      expectedText.deleteCharAt(0);
+    }
+    for(int i=expectedText.length()-1; expectedText.charAt(i) == '\r' | expectedText.charAt(i) == '\n'; i--)
+    {
+      expectedText.deleteCharAt(i);
+    }
+    text = "\"" + expectedText.toString().replaceAll(lineSeparator, "\" + NL + \"").replaceAll("\t", "\\\\t") + "\"";
+ 
+    if(generatedGen.indexOf(text) < 0)
+      System.out.println("text:\n%%" + text + "%%\n\n\ngeneratedGen:\n%%" + generatedGen + "%%");
+      
+      
+    assertTrue(generatedGen.indexOf(text) >= 0);
+  }
+  
+  protected StringBuffer templateHeader(String lineSeparator)
+  {
+    StringBuffer text = new StringBuffer();
+    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.1 2004/06/22 03:05:34 marcelop Exp $\"%>").append(lineSeparator);
+    
+    text.append("<%").append(lineSeparator);
+    text.append("/**").append(lineSeparator);
+    text.append(" * <copyright>").append(lineSeparator);
+    text.append(" */").append(lineSeparator);
+    text.append("%>").append(lineSeparator);
+    return text;
+  }
+  
+  protected String createTemplateText(String lineSeparator)
+  {
+    StringBuffer text = new StringBuffer();
+    text.append(lineSeparator);
+    text.append("public class ATemplateGen").append(lineSeparator);
+    text.append("{").append(lineSeparator);
+    text.append("\tprivate String name;").append(lineSeparator);
+    text.append("\tprivate int value;").append(lineSeparator);
+    text.append("}").append(lineSeparator);
+    text.append(lineSeparator);
+
+    return text.toString();
+  }
+  
+  protected void saveFile(File file, String text) throws IOException
+  {
+    Writer writer = null;
+    try
+    {
+	    writer = new BufferedWriter(new FileWriter(file));
+	    writer.write(text);
+    }
+    finally
+    {
+      if(writer != null)
+      {
+        writer.close();
+      }
+    }
+  }
+  
+  protected String readInputStream(InputStream inputStream) throws IOException
+  {
+    Reader reader = null;
+    try
+    {
+	    reader = new InputStreamReader(inputStream);
+	    StringBuffer stringBuffer = new StringBuffer();
+	    for(int c=reader.read(); c > -1; c=reader.read())
+	    {
+	      stringBuffer.append((char)c);
+	    }
+	    return stringBuffer.toString();
+    }
+    finally
+    {
+      if(reader != null)
+      {
+        reader.close();
+      }
+    }
+  }  
+}
