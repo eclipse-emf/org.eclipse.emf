@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EMFProjectWizard.java,v 1.2 2004/03/10 16:30:59 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -2039,7 +2039,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
             }
             catch (Exception exception)
             {
-//              exception.printStackTrace();
+              GenModelEditPlugin.INSTANCE.log(exception);
             }
             finally
             {
