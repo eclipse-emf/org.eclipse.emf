@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.12 2004/11/15 21:39:27 davidms Exp $
+ * $Id: EcoreBuilder.java,v 1.13 2004/12/16 16:23:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -659,8 +659,11 @@ public class EcoreBuilder implements RoseVisitor
   }
 
 
-  protected static final Pattern ANNOTATION_PATTERN = Pattern.compile("\\s*([^ ='\"]+)((\\s+[^ ='\"]+=(['\"])[^'\"]*\\4)*)");
-  protected static final Pattern ANNOTATION_DETAIL_PATTERN = Pattern.compile("\\s*([^ ='\"]+)=(['\"])([^'\"]*)\\2");
+  protected static final Pattern ANNOTATION_PATTERN = 
+    Pattern.compile("\\G\\s*((?>\\\\.|\\S)+)((?:\\s+(?>\\\\.|\\S)+\\s*+=\\s*(['\"])((?>\\\\.|.)*?)\\3)*)");
+      
+  protected static final Pattern ANNOTATION_DETAIL_PATTERN = 
+    Pattern.compile("\\s+((?>\\\\.|\\S)+)\\s*+=\\s*((['\"])((?>\\\\.|.)*?)\\3)");
 
   protected void setEModelElementProperties(RoseNode roseNode, EModelElement eModelElement)
   {
@@ -673,7 +676,7 @@ public class EcoreBuilder implements RoseVisitor
         eAnnotation.setSource(parseString(matcher.group(1)));
         for (Matcher detailMatcher = ANNOTATION_DETAIL_PATTERN.matcher(matcher.group(2)); detailMatcher.find(); )
         {
-          eAnnotation.getDetails().put(parseString(detailMatcher.group(1)), parseString(detailMatcher.group(3)));
+          eAnnotation.getDetails().put(parseString(detailMatcher.group(1)), parseString(detailMatcher.group(4)));
         }
         eModelElement.getEAnnotations().add(eAnnotation);
       }
@@ -2143,7 +2146,7 @@ public class EcoreBuilder implements RoseVisitor
   // literal rules, with two exceptions: an unescaped " does not terminate
   // the string, and a \ not followed by b, t, n, f, r, ", ', u, or an octal
   // digit is taken literally, not as an error
-  protected static String parseString(String s)
+  public static String parseString(String s)
   {
     if (s == null) return null;
 
