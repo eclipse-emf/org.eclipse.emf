@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CopyCommand.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: CopyCommand.java,v 1.2 2004/03/25 19:57:55 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -122,7 +122,9 @@ public class CopyCommand extends StrictCompoundCommand
     this.owner = (EObject)owner;
     this.copyHelper = copyHelper;
     this.optimize = optimize;
-  } 
+
+    copyHelper.incrementDeferredInitializationCount();
+  }
 
   protected boolean prepare()
   {
@@ -135,30 +137,33 @@ public class CopyCommand extends StrictCompoundCommand
 
     // Create an initialize copy command for each of the created objects.
     //
-    Command initializeCommand = 
-      new CompoundCommand()
-      {
-        public boolean prepare()
+    if (copyHelper.decrementDeferredInitializationCount() == 0)
+    {
+      Command initializeCommand = 
+        new CompoundCommand()
         {
-          for (Iterator copiedObjects = copyHelper.initializationIterator(); copiedObjects.hasNext(); )
+          public boolean prepare()
           {
-            EObject object = (EObject)copiedObjects.next();
-            Command initializeCopyCommand = InitializeCopyCommand.create(domain, object, copyHelper);
-
-            // Record it for execution.
-            //
-            if (!this.appendIfCanExecute(initializeCopyCommand))
+            for (Iterator copiedObjects = copyHelper.initializationIterator(); copiedObjects.hasNext(); )
             {
-              return false;
+              EObject object = (EObject)copiedObjects.next();
+              Command initializeCopyCommand = InitializeCopyCommand.create(domain, object, copyHelper);
+  
+              // Record it for execution.
+              //
+              if (!this.appendIfCanExecute(initializeCopyCommand))
+              {
+                return false;
+              }
+  
+              copiedObjects.remove();
             }
-
-            copiedObjects.remove();
+  
+            return true;
           }
-
-          return true;
-        }
-      };
-    append(initializeCommand);
+        };
+      append(initializeCommand);
+    }
 
     // This will execute the CreateCopyCommand's and then call canExecute on the InitializeCopyCommand's.
     //
@@ -244,6 +249,7 @@ public class CopyCommand extends StrictCompoundCommand
   public static class Helper extends HashMap
   {
     protected ArrayList initializationList = new ArrayList();
+    protected int deferredInitializationCount;
 
     /**
      * Return the copy of the specified object if it has one.
@@ -281,6 +287,16 @@ public class CopyCommand extends StrictCompoundCommand
     public Iterator initializationIterator() 
     {
       return initializationList.iterator();
+    }
+
+    public void incrementDeferredInitializationCount()
+    {
+      ++deferredInitializationCount;
+    }
+
+    public int decrementDeferredInitializationCount()
+    {
+      return --deferredInitializationCount;
     }
   }
 }
