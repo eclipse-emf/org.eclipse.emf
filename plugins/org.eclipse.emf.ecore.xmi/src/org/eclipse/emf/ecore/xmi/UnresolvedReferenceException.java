@@ -12,30 +12,22 @@
  *
  * </copyright>
  *
- * $Id: UnresolvedReferenceException.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: UnresolvedReferenceException.java,v 1.2 2004/04/05 20:06:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
-public class UnresolvedReferenceException extends XMIException {
-    protected String reference;
+public class UnresolvedReferenceException extends XMIException 
+{
+  protected String reference;
 
-	/**
-	 * Constructor for UnresolvedReferenceException.
-	 * @param reference
-	 * @param location
-	 * @param line
-	 * @param column
-	 */
-	public UnresolvedReferenceException(
-		String reference,
-		String location,
-		int line,
-		int column) {
-		super("Unresolved reference '" + reference + "'.", location, line, column);
-		this.reference = reference;
-	}
-	
-	public String getReference() {
-		return reference;
-	}	
+  public UnresolvedReferenceException(String reference, String location, int line, int column) 
+  {
+    super("Unresolved reference '" + reference + "'.", location, line, column);
+    this.reference = reference;
+  }
+  
+  public String getReference() 
+  {
+    return reference;
+  }
 }

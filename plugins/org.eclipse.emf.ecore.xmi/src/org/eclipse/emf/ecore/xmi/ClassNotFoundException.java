@@ -12,40 +12,31 @@
  *
  * </copyright>
  *
- * $Id: ClassNotFoundException.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ClassNotFoundException.java,v 1.2 2004/04/05 20:06:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
 import org.eclipse.emf.ecore.EFactory;
 
-public class ClassNotFoundException extends XMIException {
-    protected String className;
-    protected EFactory factory;
+public class ClassNotFoundException extends XMIException 
+{
+  protected String className;
+  protected EFactory factory;
 
-	/**
-	 * Constructor for ClassNotFoundException.
-	 * @param name
-	 * @param factory
-	 * @param location
-	 * @param line
-	 * @param column
-	 */
-	public ClassNotFoundException(
-		String name,
-		EFactory factory,
-		String location,
-		int line,
-		int column) {
-		super("Class '" + name + "' not found.", location, line, column);
-		className = name;
-		this.factory = factory;
-	}
-	
-	public String getName() {
-		return className;
-	}	
-	
-	public EFactory getFactory() {
-		return factory;
-	}	
+  public ClassNotFoundException(String name, EFactory factory, String location, int line, int column) 
+  {
+    super("Class '" + name + "' not found.", location, line, column);
+    className = name;
+    this.factory = factory;
+  }
+  
+  public String getName() 
+  {
+    return className;
+  }  
+  
+  public EFactory getFactory() 
+  {
+    return factory;
+  }  
 }

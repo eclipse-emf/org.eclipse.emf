@@ -12,49 +12,40 @@
  *
  * </copyright>
  *
- * $Id: IllegalValueException.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: IllegalValueException.java,v 1.2 2004/04/05 20:06:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-public class IllegalValueException extends XMIException {
-	protected EObject object;
-	protected EStructuralFeature feature;
-	protected Object value;
-	
-	/**
-	 * Constructor for ClassNotFoundException.
-	 * @param name
-	 * @param factory
-	 * @param location
-	 * @param line
-	 * @param column
-	 */
-	public IllegalValueException(
-		EObject object,
-		EStructuralFeature feature,
-		Object value,
-		Exception emfException,
-		String location,
-		int line,
-		int column) {
-		super("Value '" + value + "' is not legal.", emfException, location, line, column);
-		this.object  = object;
-		this.feature = feature;
-		this.value   = value;
-	}
-	
-	public EObject getObject() {
-		return object;
-	}
-	
-	public EStructuralFeature getFeature() {
-		return feature;
-	}
-	
-	public Object getValue() {
-		return value;
-	}
+public class IllegalValueException extends XMIException 
+{
+  protected EObject object;
+  protected EStructuralFeature feature;
+  protected Object value;
+  
+  public IllegalValueException
+    (EObject object, EStructuralFeature feature, Object value, Exception emfException, String location, int line, int column) 
+  {
+    super("Value '" + value + "' is not legal.", emfException, location, line, column);
+    this.object  = object;
+    this.feature = feature;
+    this.value   = value;
+  }
+  
+  public EObject getObject() 
+  {
+    return object;
+  }
+  
+  public EStructuralFeature getFeature() 
+  {
+    return feature;
+  }
+  
+  public Object getValue() 
+  {
+    return value;
+  }
 }

@@ -12,25 +12,15 @@
  *
  * </copyright>
  *
- * $Id: DanglingHREFException.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: DanglingHREFException.java,v 1.2 2004/04/05 20:06:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
 
-public class DanglingHREFException extends XMIException {
-
-	/**
-	 * Constructor for DanglingHREFException.
-	 * @param message
-	 * @param location
-	 * @param line
-	 * @param column
-	 */
-	public DanglingHREFException(
-		String message,
-		String location,
-		int line,
-		int column) {
-		super(message, location, line, column);
-	}
+public class DanglingHREFException extends XMIException 
+{
+  public DanglingHREFException(String message, String location, int line, int column) 
+  {
+    super(message, location, line, column);
+  }
 }

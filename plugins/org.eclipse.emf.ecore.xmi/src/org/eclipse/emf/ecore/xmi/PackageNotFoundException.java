@@ -12,30 +12,22 @@
  *
  * </copyright>
  *
- * $Id: PackageNotFoundException.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: PackageNotFoundException.java,v 1.2 2004/04/05 20:06:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
-public class PackageNotFoundException extends XMIException {
-    protected String uri;
+public class PackageNotFoundException extends XMIException 
+{
+  protected String uri;
 
-	/**
-	 * Constructor for PackageNotFoundException.
-	 * @param uri
-	 * @param location
-	 * @param line
-	 * @param column
-	 */
-	public PackageNotFoundException(
-		String uri,
-		String location,
-		int line,
-		int column) {
-		super("Package with uri '" + uri + "' not found.", location, line, column);
-		this.uri = uri;
-	}
-	
-	public String uri() {
-		return uri;
-	}	
+  public PackageNotFoundException(String uri, String location, int line, int column) 
+  {
+    super("Package with uri '" + uri + "' not found.", location, line, column);
+    this.uri = uri;
+  }
+  
+  public String uri() 
+  {
+    return uri;
+  }  
 }

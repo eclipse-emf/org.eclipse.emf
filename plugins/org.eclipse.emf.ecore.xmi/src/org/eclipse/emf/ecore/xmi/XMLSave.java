@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSave.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLSave.java,v 1.2 2004/04/05 20:06:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -24,6 +24,7 @@ import java.util.Map;
  * This defines the methods for the interface that XMLResourceImpl
  * uses to save the resource.
  */
-public interface XMLSave {
+public interface XMLSave 
+{
   void save(XMLResource resource, OutputStream outputStream, Map options) throws IOException;
 }
