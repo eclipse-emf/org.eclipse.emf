@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.3 2004/03/23 09:49:43 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.4 2004/03/23 16:59:15 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -128,15 +128,15 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		{
 			public boolean isEnabled()
 			{
-				return getPage().getActivePart() instanceof IViewerProvider;
+				return activeEditorPart instanceof IViewerProvider;
 			}
 			
 			public void run()
 			{
-				if (getPage().getActivePart() instanceof IViewerProvider)
+				if (activeEditorPart instanceof IViewerProvider)
 				{
-					Viewer viewer = ((IViewerProvider)getPage().getActivePart()).getViewer();
-					if(viewer != null)
+					Viewer viewer = ((IViewerProvider)activeEditorPart).getViewer();
+					if (viewer != null)
 					{
 						viewer.refresh();
 					}
