@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.6 2004/06/02 15:43:32 marcelop Exp $
+ * $Id: EPackageImpl.java,v 1.7 2004/06/18 09:52:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -49,6 +49,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -57,6 +58,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>EPackage</b></em>'.
+ * @extends BasicExtendedMetaData.EPackageExtendedMetaData.Holder
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -72,7 +74,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class EPackageImpl extends ENamedElementImpl implements EPackage
+public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicExtendedMetaData.EPackageExtendedMetaData.Holder
 {
   /**
    * The default value of the '{@link #getNsURI() <em>Ns URI</em>}' attribute.
@@ -1263,5 +1265,17 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
     {
       // Do nothing
     }
+  }
+
+  protected BasicExtendedMetaData.EPackageExtendedMetaData ePackageExtendedMetaData;
+
+  public BasicExtendedMetaData.EPackageExtendedMetaData getExtendedMetaData()
+  {
+    return ePackageExtendedMetaData;
+  }
+
+  public void setExtendedMetaData(BasicExtendedMetaData.EPackageExtendedMetaData ePackageExtendedMetaData)
+  {
+    this.ePackageExtendedMetaData = ePackageExtendedMetaData;
   }
 }

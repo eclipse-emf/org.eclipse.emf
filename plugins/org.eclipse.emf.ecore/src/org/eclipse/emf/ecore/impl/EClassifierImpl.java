@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.4 2004/06/11 22:14:52 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.5 2004/06/18 09:52:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -29,12 +29,14 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>EMeta Object</b></em>'.
+ * @extends BasicExtendedMetaData.EClassifierExtendedMetaData.Holder
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -48,7 +50,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public abstract class EClassifierImpl extends ENamedElementImpl implements EClassifier
+public abstract class EClassifierImpl extends ENamedElementImpl implements EClassifier, BasicExtendedMetaData.EClassifierExtendedMetaData.Holder
 {
   protected int metaObjectID = -1;
 
@@ -580,4 +582,15 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
     return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
+  protected BasicExtendedMetaData.EClassifierExtendedMetaData eClassifierExtendedMetaData;
+
+  public BasicExtendedMetaData.EClassifierExtendedMetaData getExtendedMetaData()
+  {
+    return eClassifierExtendedMetaData;
+  }
+
+  public void setExtendedMetaData(BasicExtendedMetaData.EClassifierExtendedMetaData eClassifierExtendedMetaData)
+  {
+    this.eClassifierExtendedMetaData = eClassifierExtendedMetaData;
+  }
 }

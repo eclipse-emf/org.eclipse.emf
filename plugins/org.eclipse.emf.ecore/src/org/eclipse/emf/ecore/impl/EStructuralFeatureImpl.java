@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.4 2004/06/11 22:14:52 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.5 2004/06/18 09:52:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
@@ -54,7 +55,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>EStructural Feature</b></em>'.
- * @extends EStructuralFeature.Internal
+ * @extends EStructuralFeature.Internal, BasicExtendedMetaData.EStructuralFeatureExtendedMetaData.Holder
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -72,7 +73,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public abstract class EStructuralFeatureImpl extends ETypedElementImpl implements EStructuralFeature, EStructuralFeature.Internal
+public abstract class EStructuralFeatureImpl extends ETypedElementImpl implements EStructuralFeature, EStructuralFeature.Internal, BasicExtendedMetaData.EStructuralFeatureExtendedMetaData.Holder
 {
   protected int featureID = -1;
   protected Class containerClass;
@@ -2599,5 +2600,17 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       cachedIsFeatureMap = eType != null && eType.getInstanceClassName() == "org.eclipse.emf.ecore.util.FeatureMap$Entry";
     }
     return cachedIsFeatureMap;
+  }
+
+  protected BasicExtendedMetaData.EStructuralFeatureExtendedMetaData eStructuralFeatureExtendedMetaData;
+
+  public BasicExtendedMetaData.EStructuralFeatureExtendedMetaData getExtendedMetaData()
+  {
+    return eStructuralFeatureExtendedMetaData;
+  }
+
+  public void setExtendedMetaData(BasicExtendedMetaData.EStructuralFeatureExtendedMetaData eStructuralFeatureExtendedMetaData)
+  {
+    this.eStructuralFeatureExtendedMetaData = eStructuralFeatureExtendedMetaData;
   }
 }
