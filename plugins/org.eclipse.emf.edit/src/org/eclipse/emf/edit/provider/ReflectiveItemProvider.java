@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.6 2004/06/18 15:20:36 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.7 2004/06/19 21:33:50 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -261,7 +261,7 @@ public class ReflectiveItemProvider
     for (Iterator i = eClass.getEAllReferences().iterator(); i.hasNext(); )
     {
       EReference eReference = (EReference)i.next();
-      if (eReference.isContainment())
+      if (eReference.isContainment() && eReference.isChangeable())
       {
         EClass referenceType = eReference.getEReferenceType();
 
