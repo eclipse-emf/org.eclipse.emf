@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineImpl.java,v 1.3 2004/04/30 12:45:05 emerks Exp $
+ * $Id: XSDRedefineImpl.java,v 1.4 2004/11/30 11:33:37 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -332,7 +332,9 @@ public class XSDRedefineImpl
       super.patch();
       if (oldPendingSchemaLocation == null)
       {
-        for (Iterator i = containingSchema.getSchemasToRedefine().iterator(); i.hasNext(); )
+        List redefinitions = containingSchema.getSchemasToRedefine();
+        containingSchema.schemasToRedefine = null;
+        for (Iterator i = redefinitions.iterator(); i.hasNext(); )
         {
           XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
           if (schemaToRedefine != containingSchema)
@@ -341,7 +343,6 @@ public class XSDRedefineImpl
             schemaToRedefine.pendingSchemaLocation = null;
           }
         }
-        containingSchema.schemasToRedefine = null;
       }
     }
     else
