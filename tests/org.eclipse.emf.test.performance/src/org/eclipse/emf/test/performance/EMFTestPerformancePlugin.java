@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.25 2005/02/21 19:45:12 marcelop Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.26 2005/03/20 04:28:37 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -193,7 +193,8 @@ public class EMFTestPerformancePlugin extends Plugin
   {
     super.start(context);
 
-    DerbyHelper derbyHelper = new DerbyHelper();
+	// instead of this, ensure Derby is started by the shell script that runs runtests (see relengbuildgtk.sh)
+    /*DerbyHelper derbyHelper = new DerbyHelper();
     if (derbyHelper.isAvailable())
     {
       setDerbyAttributes(derbyHelper);
@@ -201,7 +202,7 @@ public class EMFTestPerformancePlugin extends Plugin
       derbyHelper.startIfDown();
       derbyHelper.writeSystemProperties();
       derbyHelper.printSystemProperties();
-    }
+    }*/
   }
 
   private void setDerbyAttributes(DerbyHelper derbyHelper)
