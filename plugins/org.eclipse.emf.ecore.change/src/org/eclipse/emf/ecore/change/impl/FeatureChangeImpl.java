@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.8 2004/11/03 16:07:02 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.5.2.1 2005/02/01 19:30:39 nickb Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -237,7 +237,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     if (valueString == null)
     {
       EStructuralFeature feature = getFeature();
-      if (feature instanceof EAttribute)
+      if (feature instanceof EAttribute && !feature.isMany())
       {
         EDataType type = (EDataType)feature.getEType();
         valueString = EcoreUtil.convertToString(type, value);
@@ -498,7 +498,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   public void apply(EObject originalObject)
   {
     EStructuralFeature feature = getFeature();
-    if (feature != null  && feature.isChangeable())
+    if (feature != null)
     {
       if (!isSet())
       {
@@ -536,9 +536,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   public void applyAndReverse(EObject originalObject)
   {
     EStructuralFeature feature = getFeature();
-    boolean isEReference = feature instanceof EReference;
-    
-    if (feature != null && feature.isChangeable() && (!isEReference || !((EReference)feature).isContainer()))
+    if (feature != null)
     {
       if (!isSet())
       {
@@ -547,15 +545,8 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
           ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
           listChange.setKind(ChangeKind.ADD_LITERAL);
           listChange.setIndex(0);
+          listChange.getValues().addAll((EList)originalObject.eGet(feature));
           getListChanges().add(listChange);
-          if (isEReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
-          {
-            listChange.getValues().addAll((EList)getValue());
-          }
-          else
-          {
-            listChange.getValues().addAll((EList)originalObject.eGet(feature));
-          }
         }
         originalObject.eUnset(feature);
       }
@@ -563,7 +554,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       {
         if (listChanges != null)
         {
-          if (isEReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
+          if (feature instanceof EReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
           {
             // Bi-directional references need to use this less efficient approach because some
             //  or all of the changes may already have been made from the other end.
@@ -589,11 +580,6 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
 
       setSet(newIsSet);
       setValue(newValue);
-      
-      if(!isSet())
-      {
-        getListChanges().clear();
-      }
     }
   }
   
