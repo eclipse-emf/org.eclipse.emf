@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.11 2004/11/15 14:56:27 davidms Exp $
+ * $Id: EcoreBuilder.java,v 1.12 2004/11/15 21:39:27 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -1147,10 +1147,13 @@ public class EcoreBuilder implements RoseVisitor
           EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.SET, true);
         }
 
-        if (eStructuralFeature.isChangeable() && eStructuralFeature.isUnsettable())
+        if (eStructuralFeature.isUnsettable())
         {
           EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET, true);
-          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, true);
+          if (eStructuralFeature.isChangeable())
+          {
+            EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, true);
+          }
         }
         break;
       case RoseNode.VISIBILITY_READ_ONLY:
@@ -1165,10 +1168,13 @@ public class EcoreBuilder implements RoseVisitor
           EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.SET, true);
         }
 
-        if (eStructuralFeature.isChangeable() && eStructuralFeature.isUnsettable())
+        if (eStructuralFeature.isUnsettable())
         {
           EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET, true);
-          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, true);
+          if (eStructuralFeature.isChangeable())
+          {
+            EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, true);
+          }
         }
         break;
       case RoseNode.VISIBILITY_READ_WRITE:
@@ -1179,10 +1185,13 @@ public class EcoreBuilder implements RoseVisitor
               ("_UI_InvalidReadWriteVisibility_message", new Object [] { eStructuralFeature.getName() }));
         }
 
-        if (eStructuralFeature.isChangeable() && eStructuralFeature.isUnsettable())
+        if (eStructuralFeature.isUnsettable())
         {
           EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET, true);
-          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, true);          
+          if (eStructuralFeature.isChangeable())
+          {
+            EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, true);
+          }
         }
         break;
       case RoseNode.VISIBILITY_READ_ONLY_UNSETTABLE:
@@ -1197,13 +1206,13 @@ public class EcoreBuilder implements RoseVisitor
           EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.SET, true);
         }
 
-        if (!eStructuralFeature.isUnsettable() || !eStructuralFeature.isChangeable())
+        if (!eStructuralFeature.isUnsettable())
         {
           warning
             (CodeGenEcorePlugin.INSTANCE.getString
               ("_UI_InvalidUnsettableVisibility_message", new Object [] { eStructuralFeature.getName() }));
         }
-        else
+        else if (eStructuralFeature.isChangeable())
         {
           EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, true);
         }
