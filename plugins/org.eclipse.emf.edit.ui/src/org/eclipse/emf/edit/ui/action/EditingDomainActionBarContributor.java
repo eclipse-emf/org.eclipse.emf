@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainActionBarContributor.java,v 1.2 2004/03/23 09:49:50 marcelop Exp $
+ * $Id: EditingDomainActionBarContributor.java,v 1.3 2004/04/19 20:45:27 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
 
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -38,8 +39,6 @@ import org.eclipse.ui.part.IPage;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
-
-import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 
 
 /**
@@ -98,6 +97,10 @@ public class EditingDomainActionBarContributor
    */
   protected RedoAction redoAction;
 
+  /**
+   * This is the action used to load a resource.
+   */
+  protected LoadResourceAction loadResourceAction;
 
   /**
    * This creates an instance the contributor.
@@ -219,6 +222,11 @@ public class EditingDomainActionBarContributor
     undoAction.setActiveEditor(null);
     redoAction.setActiveEditor(null);
 
+    if (loadResourceAction != null)
+    {
+      loadResourceAction.setActiveEditor(null);
+    }
+
     ISelectionProvider selectionProvider = 
       activeEditor instanceof ISelectionProvider ?
         (ISelectionProvider)activeEditor :
@@ -239,6 +247,11 @@ public class EditingDomainActionBarContributor
     pasteAction.setActiveEditor(activeEditor);
     undoAction.setActiveEditor(activeEditor);
     redoAction.setActiveEditor(activeEditor);
+
+    if (loadResourceAction != null)
+    {
+      loadResourceAction.setActiveEditor(activeEditor);
+    }
 
     ISelectionProvider selectionProvider = 
       activeEditor instanceof ISelectionProvider ?
@@ -268,6 +281,11 @@ public class EditingDomainActionBarContributor
     pasteAction.updateSelection(structuredSelection);
     undoAction.update();
     redoAction.update();
+
+    if (loadResourceAction != null)
+    {
+      loadResourceAction.update();
+    }
   }
 
   /**
@@ -290,6 +308,13 @@ public class EditingDomainActionBarContributor
     menuManager.add(new ActionContributionItem(pasteAction));
     menuManager.add(new Separator());
     menuManager.add(new ActionContributionItem(deleteAction));
+    menuManager.add(new Separator());
+
+    if (loadResourceAction != null)
+    {
+      menuManager.add(new ActionContributionItem(loadResourceAction));
+      menuManager.add(new Separator());
+    }
 
     // Add our other standard marker.
     //
