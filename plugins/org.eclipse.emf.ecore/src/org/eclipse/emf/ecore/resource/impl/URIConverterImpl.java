@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.2 2004/08/13 13:50:48 davidms Exp $
+ * $Id: URIConverterImpl.java,v 1.3 2004/09/01 20:10:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -68,6 +68,7 @@ public class URIConverterImpl implements URIConverter
     protected boolean force;
     protected boolean keepHistory;
     protected IProgressMonitor progressMonitor;
+    protected boolean previouslyFlushed;
 
     public PlatformResourceOutputStream(IFile file,  boolean force, boolean keepHistory, IProgressMonitor progressMonitor)
     {
@@ -98,18 +99,39 @@ public class URIConverterImpl implements URIConverter
 
     public void close() throws IOException 
     {
+      flush();
       super.close();
+    }
 
-      createContainer(file.getParent());
+    public void flush() throws IOException 
+    {
+      super.flush();
+
+      if (previouslyFlushed)
+      {
+        if (count == 0)
+        {
+          return;
+        }
+      }
+      else
+      {
+        createContainer(file.getParent());
+      }
 
       byte[] contents = toByteArray();
       InputStream inputStream = new ByteArrayInputStream(contents, 0, contents.length);
   
       try 
       {
-        if (!file.exists())
+        if (previouslyFlushed)
+        {
+          file.appendContents(inputStream, force, keepHistory, progressMonitor); 
+        }
+        else if (!file.exists())
         {
           file.create(inputStream, false, null);
+          previouslyFlushed = true;
         }
         else 
         {
@@ -118,8 +140,10 @@ public class URIConverterImpl implements URIConverter
             file.refreshLocal(IResource.DEPTH_ONE, progressMonitor);
           }
           file.setContents(inputStream, force, keepHistory, progressMonitor); 
+          previouslyFlushed = true;
         }
-      } 
+        reset();
+      }
       catch (CoreException exception) 
       {
         throw new Resource.IOWrappedException(exception);
