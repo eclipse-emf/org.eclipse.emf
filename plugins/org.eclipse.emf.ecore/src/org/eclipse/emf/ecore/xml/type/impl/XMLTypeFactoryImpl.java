@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.6 2004/05/16 17:12:32 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.7 2004/05/21 22:13:38 elena Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -28,8 +28,10 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.xml.type.*;
-
-
+import org.eclipse.emf.ecore.xml.type.internal.QName;
+import org.eclipse.emf.ecore.xml.type.internal.XMLDuration;
+import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.*;
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
@@ -386,7 +388,22 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createAnyURIFromString(EDataType eDataType, String initialValue)
   {
-    // TODO no validation is performed on anyURI value
+    if (initialValue != null)
+    {
+      //encode special characters using XLink 5.4 algorithm
+      initialValue = URI.encode(initialValue);
+      // Support for relative URLs
+      // According to Java 1.1: URLs may also be specified with a
+      // String and the URL object that it is related to.
+      try 
+      {
+        new URI(URI.BASE_URI, initialValue);
+      }
+      catch (URI.MalformedURIException e)
+      {
+        throw new InvalidDatatypeValueException("Invalid anyURI value: '"+initialValue+"' :"+e.getCause().toString());
+      }
+    }
     return initialValue;
   }
 
@@ -405,10 +422,15 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createBase64BinaryFromString(EDataType eDataType, String initialValue)
+  public byte[] createBase64BinaryFromString(EDataType eDataType, String initialValue)
   {
-    // TODO no validation is performed on base64Binary
-    return initialValue;
+    if (initialValue == null) return null;
+    byte[] value = Base64.decode(initialValue);
+    if (value == null)
+    {
+      throw new InvalidDatatypeValueException("Invalid base64Binary value: '"+initialValue+"'");
+    }
+    return value;
   }
 
   /**
@@ -418,7 +440,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertBase64BinaryToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return instanceValue == null ? null : Base64.encode((byte[])instanceValue);
   }
 
   /**
@@ -668,8 +690,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createDateFromString(EDataType eDataType, String initialValue)
   {
-    // TODO date value is not validated
-    return initialValue;
+    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.DATE);
+
   }
 
   /**
@@ -689,8 +711,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createDateTimeFromString(EDataType eDataType, String initialValue)
   {
-    // TODO dateTime is not validated
-    return initialValue;
+    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.DATETIME);
   }
 
   /**
@@ -770,8 +791,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createDurationFromString(EDataType eDataType, String initialValue)
   {
-    // TODO duration is not validated
-    return initialValue;
+    return initialValue == null ? null : new XMLDuration(initialValue);
   }
 
   /**
@@ -827,7 +847,6 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createNormalizedStringFromString(EDataType eDataType, String initialValue)
   {
-    // TODO normalizedString is not validated
     return initialValue;
   }
 
@@ -848,8 +867,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createTokenFromString(EDataType eDataType, String initialValue)
   {
-    // TODO token is not validated
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNormalizedString(), initialValue);
+    return initialValue;
   }
 
   /**
@@ -869,8 +887,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createNameFromString(EDataType eDataType, String initialValue)
   {
-    // TODO name is not validated
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getToken(), initialValue);
+    if (initialValue == null) return null;
+    if (!XMLChar.isValidName(initialValue))
+    {
+      throw new InvalidDatatypeValueException("Invalid Name value: '" + initialValue + "'");
+    }
+    return initialValue;
   }
 
   /**
@@ -890,8 +912,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createNCNameFromString(EDataType eDataType, String initialValue)
   {
-    // TODO NCName is not validated
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getName_(), initialValue);
+    if (initialValue == null) return null;
+    if (!XMLChar.isValidNCName(initialValue))
+    {
+      throw new InvalidDatatypeValueException("Invalid NCName value: '" + initialValue + "'");
+    }
+    return initialValue;  
   }
 
   /**
@@ -911,7 +937,6 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createENTITYFromString(EDataType eDataType, String initialValue)
   {
-    // TODO entity is not validated
     return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNCName(), initialValue);
   }
 
@@ -992,8 +1017,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGDayFromString(EDataType eDataType, String initialValue)
   {
-    //TODO gDay is not validated
-    return initialValue;
+    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.GDAY);
+
   }
 
   /**
@@ -1013,9 +1038,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGMonthFromString(EDataType eDataType, String initialValue)
   {
-    // TODO gMonth is not validated
-    return initialValue;
-  }
+    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.GMONTH);
+}
 
   /**
    * <!-- begin-user-doc -->
@@ -1034,8 +1058,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGMonthDayFromString(EDataType eDataType, String initialValue)
   {
-    // TODO gMonthDay is not validated
-    return initialValue;
+    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.GMONTHDAY);
   }
 
   /**
@@ -1055,9 +1078,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGYearFromString(EDataType eDataType, String initialValue)
   {
-    // TODO gYear is not validated
-    return initialValue;
-  }
+    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.GYEAR);
+}
 
   /**
    * <!-- begin-user-doc -->
@@ -1076,9 +1098,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGYearMonthFromString(EDataType eDataType, String initialValue)
   {
-    // TODO: gYearMonth is not validated
-    return initialValue;
-  }
+    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.GYEARMONTH);
+}
 
   /**
    * <!-- begin-user-doc -->
@@ -1095,10 +1116,15 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createHexBinaryFromString(EDataType eDataType, String initialValue)
+  public byte[] createHexBinaryFromString(EDataType eDataType, String initialValue)
   {
-    // TODO hexBinary is not validated
-    return initialValue;
+    if (initialValue == null) return null;
+    byte[] value = HexBin.decode(initialValue);
+    if (value == null)
+    {
+      throw new InvalidDatatypeValueException("Invalid hexBinary value: '"+initialValue+"'");
+    }
+    return value;
   }
 
   /**
@@ -1108,7 +1134,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertHexBinaryToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return instanceValue == null ? null : HexBin.encode((byte[])instanceValue);
   }
 
   /**
@@ -1134,11 +1160,10 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   public String createIDREFFromString(EDataType eDataType, String initialValue)
   {
-    // TODO IDREF is not validated
     return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNCName(), initialValue);
   }
 
@@ -1271,11 +1296,16 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String createNMTOKENFromString(EDataType eDataType, String initialValue)
   {
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getToken(), initialValue);
+    if (initialValue == null) return null;
+    if (!XMLChar.isValidNmtoken(initialValue))
+    {
+      throw new InvalidDatatypeValueException("Invalid NMTOKEN value: '" + initialValue + "'");
+    }
+    return initialValue;  
   }
 
   /**
@@ -1367,11 +1397,11 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createNOTATIONFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    return initialValue == null ? null : new QName(initialValue); 
   }
 
   /**
@@ -1381,7 +1411,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertNOTATIONToString(EDataType eDataType, Object instanceValue)
   {
-    return (String)instanceValue;
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
@@ -1411,21 +1441,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createQNameFromString(EDataType eDataType, String initialValue)
   {
-    if (initialValue == null) return null;
-    
-    String rawname = initialValue;
-    int index = rawname.indexOf(":");
-
-    String prefix = "";
-    String localName = rawname;
-    if (index != -1)
-    {
-      prefix    = rawname.substring(0, index).intern();
-      localName = rawname.substring(index + 1).intern();
-    }
-    // TODO use XMLChar in xsd.DataValue to check local name and prefix
-
-    return new QName("", localName, prefix);
+    return initialValue == null ? null : new QName(initialValue);    
   }
 
   /**
@@ -1445,9 +1461,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createTimeFromString(EDataType eDataType, String initialValue)
   {
-    // TODO time is not validated
-    return initialValue;
-  }
+    return initialValue == null ?  null : new XMLCalendar(initialValue, XMLCalendar.TIME);
+}
 
   /**
    * <!-- begin-user-doc -->
@@ -1630,6 +1645,6 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     {
       return Boolean.FALSE;
     }
-    throw new IllegalArgumentException("'" + initialValue + "' is no a valid 'boolean' value");
+    throw new InvalidDatatypeValueException("Invalid boolean value: '" + initialValue + "'");
   }
 } //XMLTypeFactoryImpl

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackage.java,v 1.2 2004/04/10 20:30:57 emerks Exp $
+ * $Id: XMLTypePackage.java,v 1.3 2004/05/21 22:13:38 elena Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -288,7 +288,6 @@ public interface XMLTypePackage extends EPackage
    * The meta object id for the '<em>Base64 Binary</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see java.lang.Object
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getBase64Binary()
    * @generated
    */
@@ -611,7 +610,6 @@ public interface XMLTypePackage extends EPackage
    * The meta object id for the '<em>Hex Binary</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see java.lang.Object
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getHexBinary()
    * @generated
    */
@@ -1021,12 +1019,11 @@ public interface XMLTypePackage extends EPackage
   EDataType getAnyURI();
 
   /**
-   * Returns the meta object for data type '{@link java.lang.Object <em>Base64 Binary</em>}'.
+   * Returns the meta object for data type '<em>Base64 Binary</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Base64 Binary</em>'.
-   * @see java.lang.Object
-   * @model instanceClass="java.lang.Object"
+   * @model instanceClass="byte[]"
    * @generated
    */
   EDataType getBase64Binary();
@@ -1377,12 +1374,11 @@ public interface XMLTypePackage extends EPackage
   EDataType getGYearMonth();
 
   /**
-   * Returns the meta object for data type '{@link java.lang.Object <em>Hex Binary</em>}'.
+   * Returns the meta object for data type '<em>Hex Binary</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Hex Binary</em>'.
-   * @see java.lang.Object
-   * @model instanceClass="java.lang.Object"
+   * @model instanceClass="byte[]"
    * @generated
    */
   EDataType getHexBinary();

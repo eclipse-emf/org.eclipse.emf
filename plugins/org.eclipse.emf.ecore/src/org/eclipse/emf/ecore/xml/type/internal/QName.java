@@ -12,10 +12,13 @@
  *
  * </copyright>
  *
- * $Id: QName.java,v 1.1 2004/05/11 15:40:03 elena Exp $
+ * $Id: QName.java,v 1.1 2004/05/21 22:13:38 elena Exp $
  */
 
-package org.eclipse.emf.ecore.xml.type;
+package org.eclipse.emf.ecore.xml.type.internal;
+
+import org.eclipse.emf.ecore.xml.type.InvalidDatatypeValueException;
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.XMLChar;
 
 /**
  * A structure that holds the components of an XML Namespaces qualified
@@ -25,6 +28,7 @@ package org.eclipse.emf.ecore.xml.type;
  * If not specified, the prefix is set to empty string ("").
  * If not specified, the namespace uri is set to empty string ("");
  * <p>
+ * NOTE: this class is for internal use only.
  */
 public final class QName
 {
@@ -34,6 +38,35 @@ public final class QName
   private String localPart;
 
   private String namespaceURI;
+  
+  /**
+   * Constructs a QName.
+   * @param qname a <a href="http://www.w3.org/TR/REC-xml-names/#dt-qname">qualified name</a>
+   * Throws Exception if value is not legal qualified name 
+   */
+  public QName (String qname)
+  {
+    String rawname = qname;
+    int index = rawname.indexOf(":");
+
+    String prefix = "";
+    String localName = rawname;
+    if (index != -1)
+    {
+      prefix    = rawname.substring(0, index);
+      localName = rawname.substring(index + 1);
+    }
+    // both prefix (if any) a localpart must be valid NCName
+    if (prefix.length() > 0 && !XMLChar.isValidNCName(prefix))
+        throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName"+qname);
+
+    if(!XMLChar.isValidNCName(localName))
+      throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName"+qname);
+     
+    setPrefix(prefix);
+    setLocalPart(localName);
+    setNamespaceURI(null);
+  }
 
   /** Constructs a QName with the specified values. */
   public QName(String namespaceUri, String localPart, String prefix)
@@ -52,6 +85,11 @@ public final class QName
       return namespaceURI.equals(qname.getNamespaceURI()) && localPart.equals(qname.getLocalPart());
     }
     return false;
+  }
+  
+  public int hashCode() 
+  {
+    return namespaceURI.hashCode() + localPart.hashCode();
   }
 
   /** Returns a string representation of this object. */

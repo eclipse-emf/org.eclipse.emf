@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeValidator.java,v 1.1 2004/05/05 19:36:43 emerks Exp $
+ * $Id: XMLTypeValidator.java,v 1.2 2004/05/21 22:13:38 elena Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -107,7 +107,7 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.ANY_URI:
         return validateAnyURI((String)value, diagnostics, context);
       case XMLTypePackage.BASE64_BINARY:
-        return validateBase64Binary((Object)value, diagnostics, context);
+        return validateBase64Binary((byte[])value, diagnostics, context);
       case XMLTypePackage.BOOLEAN:
         return validateBoolean(((Boolean)value).booleanValue(), diagnostics, context);
       case XMLTypePackage.BOOLEAN_OBJECT:
@@ -149,7 +149,7 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.GYEAR_MONTH:
         return validateGYearMonth((Object)value, diagnostics, context);
       case XMLTypePackage.HEX_BINARY:
-        return validateHexBinary((Object)value, diagnostics, context);
+        return validateHexBinary((byte[])value, diagnostics, context);
       case XMLTypePackage.ID:
         return validateID((String)value, diagnostics, context);
       case XMLTypePackage.IDREF:
@@ -290,7 +290,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateBase64Binary(Object base64Binary, DiagnosticChain diagnostics, Map context)
+  public boolean validateBase64Binary(byte[] base64Binary, DiagnosticChain diagnostics, Map context)
   {
     return true;
   }
@@ -565,7 +565,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateHexBinary(Object hexBinary, DiagnosticChain diagnostics, Map context)
+  public boolean validateHexBinary(byte[] hexBinary, DiagnosticChain diagnostics, Map context)
   {
     return true;
   }

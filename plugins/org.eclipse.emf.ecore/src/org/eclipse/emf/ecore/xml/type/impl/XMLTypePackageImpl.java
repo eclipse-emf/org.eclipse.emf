@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.3 2004/05/05 19:37:31 emerks Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.4 2004/05/21 22:13:38 elena Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -1435,7 +1435,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     // Initialize data types
     initEDataType(anySimpleTypeEDataType, Object.class, "AnySimpleType", IS_SERIALIZABLE);
     initEDataType(anyURIEDataType, String.class, "AnyURI", IS_SERIALIZABLE);
-    initEDataType(base64BinaryEDataType, Object.class, "Base64Binary", IS_SERIALIZABLE);
+    initEDataType(base64BinaryEDataType, byte[].class, "Base64Binary", IS_SERIALIZABLE);
     initEDataType(booleanEDataType, boolean.class, "Boolean", IS_SERIALIZABLE);
     initEDataType(booleanObjectEDataType, Boolean.class, "BooleanObject", IS_SERIALIZABLE);
     initEDataType(byteEDataType, byte.class, "Byte", IS_SERIALIZABLE);
@@ -1456,7 +1456,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     initEDataType(gMonthDayEDataType, Object.class, "GMonthDay", IS_SERIALIZABLE);
     initEDataType(gYearEDataType, Object.class, "GYear", IS_SERIALIZABLE);
     initEDataType(gYearMonthEDataType, Object.class, "GYearMonth", IS_SERIALIZABLE);
-    initEDataType(hexBinaryEDataType, Object.class, "HexBinary", IS_SERIALIZABLE);
+    initEDataType(hexBinaryEDataType, byte[].class, "HexBinary", IS_SERIALIZABLE);
     initEDataType(idEDataType, String.class, "ID", IS_SERIALIZABLE);
     initEDataType(idrefEDataType, String.class, "IDREF", IS_SERIALIZABLE);
     initEDataType(idrefsEDataType, List.class, "IDREFS", IS_SERIALIZABLE);
@@ -1568,7 +1568,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "base64Binary",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });			
     addAnnotation
@@ -1747,7 +1746,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "hexBinary",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });		
     addAnnotation
