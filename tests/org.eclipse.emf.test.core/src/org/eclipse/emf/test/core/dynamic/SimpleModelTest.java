@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.8 2004/12/03 15:38:40 marcelop Exp $
+ * $Id: SimpleModelTest.java,v 1.9 2004/12/06 01:38:36 marcelop Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -514,6 +514,39 @@ public class SimpleModelTest extends TestCase
     assertFalse(resource.isModified());    
 
     employee.eSet(employeeName, "Joe");
+    assertEquals(resource, employee.eResource());
+    assertFalse(resource.isTrackingModification());
+    assertFalse(resource.isModified());
+    
+    resource.setTrackingModification(true);
+    assertTrue(resource.isTrackingModification());
+    assertFalse(resource.isModified());
+   
+    EObject employee1 = companyFactory.create(employeeClass);
+    EObject department1 = companyFactory.create(departmentClass);
+    ((List)department1.eGet(departmentEmployees)).add(employee1);
+    resource.getContents().add(department1);
+    assertTrue(resource.isTrackingModification());
+    assertTrue(resource.isModified());
+
+    resource.save(new ByteArrayOutputStream(), null);
+    assertTrue(resource.isTrackingModification());
+    assertFalse(resource.isModified());
+    
+    employee1.eSet(employeeName, "Mike");
+    assertTrue(resource.isTrackingModification());
+    assertTrue(resource.isModified());
+
+    resource.save(new ByteArrayOutputStream(), null);
+    assertTrue(resource.isTrackingModification());
+    assertFalse(resource.isModified());
+
+    resource.setTrackingModification(false);
+    assertFalse(resource.isTrackingModification());
+    assertFalse(resource.isModified());    
+
+    employee1.eSet(employeeName, "Mark");
+    assertEquals(resource, employee1.eResource());
     assertFalse(resource.isTrackingModification());
     assertFalse(resource.isModified());    
   }
