@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.10 2004/08/26 20:13:07 davidms Exp $
+ * $Id: URI.java,v 1.11 2005/02/23 18:31:39 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -218,8 +218,8 @@ public final class URI
   private static final long SEGMENT_CHAR_LO = UNRESERVED_LO | lowBitmask(";:@&=+$,");
   private static final long PATH_CHAR_HI = SEGMENT_CHAR_HI | highBitmask('/');  // | ucschar | escaped
   private static final long PATH_CHAR_LO = SEGMENT_CHAR_LO | lowBitmask('/');
-  private static final long SCHEME_CHAR_HI = ALPHANUM_HI | highBitmask("+-.");
-  private static final long SCHEME_CHAR_LO = ALPHANUM_LO | lowBitmask("+-.");
+//  private static final long SCHEME_CHAR_HI = ALPHANUM_HI | highBitmask("+-.");
+//  private static final long SCHEME_CHAR_LO = ALPHANUM_LO | lowBitmask("+-.");
   private static final long MAJOR_SEPARATOR_HI = highBitmask(":/?#");
   private static final long MAJOR_SEPARATOR_LO = lowBitmask(":/?#");
   private static final long SEGMENT_END_HI = highBitmask("/?#");

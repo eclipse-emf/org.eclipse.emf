@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataValue.java,v 1.5 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: DataValue.java,v 1.6 2005/02/23 18:31:46 marcelop Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -115,7 +115,6 @@ public static final class  Base64 {
   static private final int  TWENTYFOURBITGROUP = 24;
   static private final int  EIGHTBIT           = 8;
   static private final int  SIXTEENBIT         = 16;
-  static private final int  SIXBIT             = 6;
   static private final int  FOURBYTE           = 4;
   static private final int  SIGN               = -128;
   static private final char PAD                = '=';
@@ -150,8 +149,8 @@ public static final class  Base64 {
 
       for (int i = 52,  j = 0; i<=61; i++, j++)
           lookUpBase64Alphabet[i] = (char)('0' + j);
-      lookUpBase64Alphabet[62] = (char)'+';
-      lookUpBase64Alphabet[63] = (char)'/';
+      lookUpBase64Alphabet[62] = '+';
+      lookUpBase64Alphabet[63] = '/';
 
   }
 
@@ -1468,7 +1467,7 @@ public static class EncodingMap {
 * default port for a specific scheme). Rather, it only knows the
 * grammar and basic set of operations that can be applied to a URI.
 *
-* @version  $Id: DataValue.java,v 1.5 2004/07/29 13:33:22 marcelop Exp $
+* @version  $Id: DataValue.java,v 1.6 2005/02/23 18:31:46 marcelop Exp $
 *
 **********************************************************************/
  public static final class URI implements Serializable {
@@ -1653,8 +1652,6 @@ public static class EncodingMap {
 
   /** If specified, stores the fragment for this URI; otherwise null */
   private String m_fragment = null;
-
-  private static boolean DEBUG = false;
 
   /**
   * Construct a new and uninitialized URI.
@@ -3291,25 +3288,6 @@ public static class EncodingMap {
   }
 
  /**
-  * Determine whether a character is a reserved character:
-  * ';', '/', '?', ':', '@', '&', '=', '+', '$', ',', '[', or ']'
-  *
-  * @return true if the string contains any reserved characters
-  */
-  private static boolean isReservedCharacter(char p_char) {
-     return (p_char <= ']' && (fgLookupTable[p_char] & RESERVED_CHARACTERS) != 0);
-  }
-
- /**
-  * Determine whether a char is an unreserved character.
-  *
-  * @return true if the char is unreserved, false otherwise
-  */
-  private static boolean isUnreservedCharacter(char p_char) {
-     return (p_char <= '~' && (fgLookupTable[p_char] & MASK_UNRESERVED_MASK) != 0);
-  }
-
- /**
   * Determine whether a char is a URI character (reserved or 
   * unreserved, not including '%' for escaped octets).
   *
@@ -3506,7 +3484,7 @@ public static class EncodingMap {
   * @author Michael Glavassevich, IBM
   * @author Rahul Srivastava, Sun Microsystems Inc.
   *
-  * @version $Id: DataValue.java,v 1.5 2004/07/29 13:33:22 marcelop Exp $
+  * @version $Id: DataValue.java,v 1.6 2005/02/23 18:31:46 marcelop Exp $
   */
  public static final class XMLChar {
 

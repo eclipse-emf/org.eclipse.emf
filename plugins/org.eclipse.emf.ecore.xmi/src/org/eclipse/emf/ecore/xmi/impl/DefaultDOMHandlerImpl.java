@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DefaultDOMHandlerImpl.java,v 1.2 2005/01/25 18:45:01 elena Exp $
+ * $Id: DefaultDOMHandlerImpl.java,v 1.3 2005/02/23 18:31:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -170,7 +170,7 @@ public class DefaultDOMHandlerImpl implements DOMHandler, DOMHelper
 
   public DOMHelper getDOMHelper()
   {
-    return (DOMHelper)this;
+    return this;
   }
 
   final static boolean DEBUG = false;

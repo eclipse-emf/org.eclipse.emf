@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.28 2005/02/22 22:19:59 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.29 2005/02/23 18:31:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2550,7 +2550,7 @@ public class XMLSaveImpl implements XMLSave
           default:
             if (!XMLChar.isValid(ch))
             {
-              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString((int)ch)+") was found in the element content:" +input);
+              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString(ch)+") was found in the element content:" +input);
             }
             pos++;
             break;
@@ -2602,7 +2602,7 @@ public class XMLSaveImpl implements XMLSave
           default:
             if (!XMLChar.isValid(ch))
             {
-              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString((int)ch)+") was found in the element content:" +input);
+              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString(ch)+") was found in the element content:" +input);
             }
             pos++;
             break;

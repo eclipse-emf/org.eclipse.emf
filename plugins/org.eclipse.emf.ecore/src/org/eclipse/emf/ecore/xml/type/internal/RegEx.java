@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.5 2004/10/29 19:47:30 marcelop Exp $
+ * $Id: RegEx.java,v 1.6 2005/02/23 18:31:46 marcelop Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -581,25 +581,25 @@ public final class RegEx
     static final String createOptionString(int options) {
         StringBuffer sb = new StringBuffer(9);
         if ((options & RegularExpression.PROHIBIT_FIXED_STRING_OPTIMIZATION) != 0)
-            sb.append((char)'F');
+            sb.append('F');
         if ((options & RegularExpression.PROHIBIT_HEAD_CHARACTER_OPTIMIZATION) != 0)
-            sb.append((char)'H');
+            sb.append('H');
         if ((options & RegularExpression.XMLSCHEMA_MODE) != 0)
-            sb.append((char)'X');
+            sb.append('X');
         if ((options & RegularExpression.IGNORE_CASE) != 0)
-            sb.append((char)'i');
+            sb.append('i');
         if ((options & RegularExpression.MULTIPLE_LINES) != 0)
-            sb.append((char)'m');
+            sb.append('m');
         if ((options & RegularExpression.SINGLE_LINE) != 0)
-            sb.append((char)'s');
+            sb.append('s');
         if ((options & RegularExpression.USE_UNICODE_CATEGORY) != 0)
-            sb.append((char)'u');
+            sb.append('u');
         if ((options & RegularExpression.UNICODE_WORD_BOUNDARY) != 0)
-            sb.append((char)'w');
+            sb.append('w');
         if ((options & RegularExpression.EXTENDED_COMMENT) != 0)
-            sb.append((char)'x');
+            sb.append('x');
         if ((options & RegularExpression.SPECIAL_COMMA) != 0)
-            sb.append((char)',');
+            sb.append(',');
         return sb.toString().intern();
     }
 
@@ -632,7 +632,7 @@ public final class RegEx
                     buffer.append((char)next);
                     offset ++;
                 } else {                        // Other escaped character.
-                    buffer.append((char)'\\');
+                    buffer.append('\\');
                     buffer.append((char)next);
                     offset ++;
                 }
@@ -784,7 +784,7 @@ public final class RegEx
                     buffer = new StringBuffer(i+(len-i)*2);
                     if (i > 0)  buffer.append(literal.substring(0, i));
                 }
-                buffer.append((char)'\\');
+                buffer.append('\\');
                 buffer.append((char)ch);
             } else if (buffer != null)
                 buffer.append((char)ch);
@@ -1262,7 +1262,7 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.5 2004/10/29 19:47:30 marcelop Exp $
+   * @version $Id: RegEx.java,v 1.6 2005/02/23 18:31:46 marcelop Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
       static final boolean DEBUG = false;
@@ -4711,7 +4711,7 @@ public final class RegEx
                         sb.append(escapeCharInCharClass(this.ranges[i]));
                     } else {
                         sb.append(escapeCharInCharClass(this.ranges[i]));
-                        sb.append((char)'-');
+                        sb.append('-');
                         sb.append(escapeCharInCharClass(this.ranges[i+1]));
                     }
                 }
@@ -6661,7 +6661,7 @@ public final class RegEx
                       buffer.append("Is");
                       if (n.indexOf(' ') >= 0) {
                           for (int ci = 0;  ci < n.length();  ci ++)
-                              if (n.charAt(ci) != ' ')  buffer.append((char)n.charAt(ci));
+                              if (n.charAt(ci) != ' ')  buffer.append(n.charAt(ci));
                       }
                       else {
                           buffer.append(n);
@@ -7382,7 +7382,7 @@ public final class RegEx
           sb.append(((Token)this.children.elementAt(0)).toString(options));
           for (int i = 1; i < this.children.size(); i++)
           {
-            sb.append((char)'|');
+            sb.append('|');
             sb.append(((Token)this.children.elementAt(i)).toString(options));
           }
           ret = new String(sb);
@@ -7396,7 +7396,7 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.5 2004/10/29 19:47:30 marcelop Exp $
+   * @version $Id: RegEx.java,v 1.6 2005/02/23 18:31:46 marcelop Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.2 2004/05/27 20:20:42 emerks Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.3 2005/02/23 18:31:46 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -601,7 +601,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
 
   protected void eInitializeContainer()
   {
-    eContainer = (InternalEObject)eStore().getContainer(this);
+    eContainer = eStore().getContainer(this);
     if (eContainer != null)
     {
       EStructuralFeature eContainingFeature = eStore().getContainingFeature(this);

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.9 2005/01/31 15:37:58 davidms Exp $
+ * $Id: ValidateAction.java,v 1.10 2005/02/23 18:31:40 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -32,7 +32,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -43,6 +42,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
@@ -304,7 +304,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
          EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationOK_title"),
          EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationOK_message"));
-      result = Dialog.CANCEL;
+      result = Window.CANCEL;
     }
 
     if (Platform.getBundle("org.eclipse.core.resources") != null)
@@ -320,7 +320,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         EMFEditUIPlugin.INSTANCE.log(exception);
       }
     
-      if (result == Dialog.OK)
+      if (result == Window.OK)
       {
         if (!diagnostic.getChildren().isEmpty())
         {

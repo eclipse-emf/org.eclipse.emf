@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceEList.java,v 1.2 2004/05/22 19:08:06 marcelop Exp $
+ * $Id: ECrossReferenceEList.java,v 1.3 2005/02/23 18:31:46 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -152,7 +152,7 @@ public class ECrossReferenceEList extends EContentsEList
   {
     if (eStructuralFeatures == null)
     {
-      return FeatureIteratorImpl.EMPTY_ITERATOR;
+      return EContentsEList.FeatureIteratorImpl.EMPTY_ITERATOR;
     }
 
     return new FeatureIteratorImpl(eObject, eStructuralFeatures);
@@ -162,7 +162,7 @@ public class ECrossReferenceEList extends EContentsEList
   {
     if (eStructuralFeatures == null)
     {
-      return FeatureIteratorImpl.EMPTY_ITERATOR;
+      return EContentsEList.FeatureIteratorImpl.EMPTY_ITERATOR;
     }
 
     return new FeatureIteratorImpl(eObject, eStructuralFeatures);
@@ -177,7 +177,7 @@ public class ECrossReferenceEList extends EContentsEList
         throw new IndexOutOfBoundsException("index=" + index + ", size=0");
       }
 
-      return FeatureIteratorImpl.EMPTY_ITERATOR;
+      return EContentsEList.FeatureIteratorImpl.EMPTY_ITERATOR;
     }
 
     ListIterator result = new FeatureIteratorImpl(eObject, eStructuralFeatures);

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.7 2005/02/03 20:47:09 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.8 2005/02/23 18:31:46 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1395,7 +1395,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     {
       this.style = style;
       this.dataClass = Object.class;
-      this.dynamicKind = EcoreEList.Dynamic.kind(feature);
+      this.dynamicKind = EcoreEList.Generic.kind(feature);
       this.feature = feature;
     }
 
@@ -1411,7 +1411,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     {
       this.style = style;
       this.dataClass = Object.class;
-      this.dynamicKind = EcoreEList.Dynamic.kind(feature);
+      this.dynamicKind = EcoreEList.Generic.kind(feature);
       this.feature = feature;
       this.inverseFeature = inverseFeature;
     }
@@ -1725,7 +1725,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         notifications = owner.eBasicRemoveFromContainer(notifications);
       }
       int featureID = owner.eClass().getEAllStructuralFeatures().indexOf(feature);
-      return owner.eBasicSetContainer((InternalEObject)otherEnd, featureID, notifications);
+      return owner.eBasicSetContainer(otherEnd, featureID, notifications);
     }
 
     public NotificationChain dynamicInverseRemove

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.21 2005/02/22 22:19:59 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.22 2005/02/23 18:31:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1108,7 +1108,7 @@ public class XMLHelperImpl implements XMLHelper
         {
           // since xmlns="" is default declaration, remove ""->empty_URI mapping
           prefixesToURIs.removeKey(prefix);
-          addNSDeclaration(prefix, (String)originalURI);
+          addNSDeclaration(prefix, originalURI);
         }
         continue;
       }

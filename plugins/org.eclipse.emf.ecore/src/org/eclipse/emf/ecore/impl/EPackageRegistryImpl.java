@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageRegistryImpl.java,v 1.4 2004/09/29 14:40:20 emerks Exp $
+ * $Id: EPackageRegistryImpl.java,v 1.5 2005/02/23 18:31:46 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -41,7 +42,7 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
       String className = System.getProperty("org.eclipse.emf.ecore.EPackage.Registry.INSTANCE");
       if (className == null)
       {
-        if (!EcorePlugin.IS_ECLIPSE_RUNNING)
+        if (!EMFPlugin.IS_ECLIPSE_RUNNING)
         {
           return new Delegator();
         }

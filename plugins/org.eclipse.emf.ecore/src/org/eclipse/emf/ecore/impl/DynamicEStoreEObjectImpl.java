@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicEStoreEObjectImpl.java,v 1.1 2004/05/27 20:21:29 emerks Exp $
+ * $Id: DynamicEStoreEObjectImpl.java,v 1.2 2005/02/23 18:31:46 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -171,7 +171,7 @@ public class DynamicEStoreEObjectImpl extends DynamicEObjectImpl
 
   protected void eInitializeContainer()
   {
-    eContainer = (InternalEObject)eStore().getContainer(this);
+    eContainer = eStore().getContainer(this);
     if (eContainer != null)
     {
       EStructuralFeature eContainingFeature = eStore().getContainingFeature(this);
