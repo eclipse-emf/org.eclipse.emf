@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenFeature.java,v 1.2 2004/03/31 16:19:31 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getProperty <em>Property</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isNotify <em>Notify</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isChildren <em>Children</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isCreateChild <em>Create Child</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getGenClass <em>Gen Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getEcoreFeature <em>Ecore Feature</em>}</li>
  * </ul>
@@ -115,6 +116,69 @@ public interface GenFeature extends GenBase
    * @generated
    */
   void setChildren(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Create Child</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * This attribute determines whether child objects can be created via this feature. It is temporarily unsettable to
+   * ease migration from pre-2.0 versions of EMF, in which the {@link #isChildren children} feature did this as a
+   * secondary role.
+   * </p>
+   * <p>
+   * If the feature has not yet been set, it will be set based on the value of the {@link #isChildren children}
+   * feature, before its value is returned. This ensures that pre-2.0 models will upgrade themselves, and continue to
+   * work as before.
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Create Child</em>' attribute.
+   * @see #isSetCreateChild()
+   * @see #unsetCreateChild()
+   * @see #setCreateChild(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature_CreateChild()
+   * @model unsettable="true"
+   * @generated
+   */
+  boolean isCreateChild();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isCreateChild <em>Create Child</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Create Child</em>' attribute.
+   * @see #isSetCreateChild()
+   * @see #unsetCreateChild()
+   * @see #isCreateChild()
+   * @generated
+   */
+  void setCreateChild(boolean value);
+
+  /**
+   * Unsets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isCreateChild <em>Create Child</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetCreateChild()
+   * @see #isCreateChild()
+   * @see #setCreateChild(boolean)
+   * @generated
+   */
+  void unsetCreateChild();
+
+  /**
+   * Returns whether the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isCreateChild <em>Create Child</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <p>
+   * This always returns true.  If the feature is unset, it will first be set based on the value of {@link #isChildren
+   * children}. This ensures that pre-2.0 models will upgrade themselves, and continue to behave as before
+   * </p>
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Create Child</em>' attribute is set.
+   * @see #unsetCreateChild()
+   * @see #isCreateChild()
+   * @see #setCreateChild(boolean)
+   * @generated
+   */
+  boolean isSetCreateChild();
 
   /**
    * Returns the value of the '<em><b>Gen Class</b></em>' container reference.

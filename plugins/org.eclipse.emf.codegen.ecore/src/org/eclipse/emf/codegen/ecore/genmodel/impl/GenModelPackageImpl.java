@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenModelPackageImpl.java,v 1.2 2004/03/31 16:19:31 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -786,9 +786,19 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getGenFeature_CreateChild()
+  {
+    return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getGenFeature_GenClass()
   {
-    return (EReference)genFeatureEClass.getEStructuralFeatures().get(3);
+    return (EReference)genFeatureEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -798,7 +808,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    */
   public EReference getGenFeature_EcoreFeature()
   {
-    return (EReference)genFeatureEClass.getEStructuralFeatures().get(4);
+    return (EReference)genFeatureEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -1100,6 +1110,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genFeatureEClass, GEN_FEATURE__PROPERTY);
     createEAttribute(genFeatureEClass, GEN_FEATURE__NOTIFY);
     createEAttribute(genFeatureEClass, GEN_FEATURE__CHILDREN);
+    createEAttribute(genFeatureEClass, GEN_FEATURE__CREATE_CHILD);
     createEReference(genFeatureEClass, GEN_FEATURE__GEN_CLASS);
     createEReference(genFeatureEClass, GEN_FEATURE__ECORE_FEATURE);
 
@@ -1233,6 +1244,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenFeature_Property(), this.getGenPropertyKind(), "property", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
     initEAttribute(getGenFeature_Notify(), ecorePackage.getEBoolean(), "notify", "true", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
     initEAttribute(getGenFeature_Children(), ecorePackage.getEBoolean(), "children", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
+    initEAttribute(getGenFeature_CreateChild(), ecorePackage.getEBoolean(), "createChild", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED);
     initEReference(getGenFeature_GenClass(), this.getGenClass(), this.getGenClass_GenFeatures(), "genClass", null, 1, 1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
     initEReference(getGenFeature_EcoreFeature(), theEcorePackage.getEStructuralFeature(), null, "ecoreFeature", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
 

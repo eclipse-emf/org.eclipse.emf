@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenClass.java,v 1.2 2004/03/31 16:19:31 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -298,11 +298,19 @@ public interface GenClass extends GenClassifier{
 
   List/*of GenFeature*/ getLabelFeatureCandidates();
   List/*of GenFeature*/ getPropertyFeatures();
+
   List/*of GenFeature*/ getNotifyFeatures();
+  List/*of GenFeature*/ getLabelNotifyFeatures();
+  List/*of GenFeature*/ getContentNotifyFeatures();
+  List/*of GenFeature*/ getLabelAndContentNotifyFeatures();
+
   List/*of GenFeature*/ getChildrenFeatures();
   List/*of GenFeature*/ getAllChildrenFeatures();
-  List/*of GenFeature*/ getCrossPackageChildrenFeatures();
-  List/*of GenFeature*/ getSharedClassChildrenFeatures();
+
+  List/*of GenFeature*/ getCreateChildFeatures();
+  List/*of GenFeature*/ getAllCreateChildFeatures();
+  List/*of GenFeature*/ getCrossPackageCreateChildFeatures();
+  List/*of GenFeature*/ getSharedClassCreateChildFeatures();
 
   List/*of GenClass*/ getChildrenClasses(GenFeature genFeature);
   List/*of GenClass*/ getCrossPackageChildrenClasses(GenFeature genFeature);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureItemProvider.java,v 1.2 2004/03/18 18:21:26 emerks Exp $
+ * $Id: GenFeatureItemProvider.java,v 1.3 2004/03/31 16:19:19 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -74,6 +74,7 @@ public class GenFeatureItemProvider
       addPropertyPropertyDescriptor(object);
       addNotifyPropertyDescriptor(object);
       addChildrenPropertyDescriptor(object);
+      addCreateChildPropertyDescriptor(object);
       addEcoreFeaturePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -131,6 +132,25 @@ public class GenFeatureItemProvider
          getString("_UI_GenFeature_children_feature"),
          getString("_UI_GenFeature_children_description"),
          GenModelPackage.eINSTANCE.getGenFeature_Children(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory")));
+  }
+
+  /**
+   * This adds a property descriptor for the Children feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addCreateChildPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new GenItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_GenFeature_createChild_feature"),
+         getString("_UI_GenFeature_createChild_description"),
+         GenModelPackage.eINSTANCE.getGenFeature_CreateChild(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory")));

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.2 2004/03/30 15:33:17 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.3 2004/03/31 16:19:31 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1187,17 +1187,44 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         });
   }
 
+  public List/*of GenFeature*/ getLabelNotifyFeatures()
+  {
+    GenFeature feature = getLabelFeature();
+    return feature != null && feature.isNotify() && !feature.isChildren() ?
+      Collections.singletonList(feature) :
+      Collections.EMPTY_LIST;
+  }
+
+  public List/*of GenFeature*/ getContentNotifyFeatures()
+  {
+    return collectGenFeatures(getProviderImplementedGenClasses(), null,
+      new GenFeatureFilter()
+      {
+        public boolean accept(GenFeature genFeature)
+        {
+          return genFeature.isNotify() && genFeature.isChildren() && genFeature != getLabelFeature();
+        }
+      });
+  }
+
+  public List/*of GenFeature*/ getLabelAndContentNotifyFeatures()
+  {
+    GenFeature feature = getLabelFeature();
+    return feature != null && feature.isNotify() && feature.isChildren() ?
+      Collections.singletonList(feature) :
+      Collections.EMPTY_LIST;
+  }
+
   public List/*of GenFeature*/ getChildrenFeatures()
   {
-    return 
-      collectGenFeatures
+    return collectGenFeatures
        (getProviderImplementedGenClasses(), 
         null, 
         new GenFeatureFilter()
         {
           public boolean accept(GenFeature genFeature) 
           {
-            return (genFeature.isFeatureMapType() || genFeature.isContains()) && genFeature.isChildren();
+            return genFeature.isChildren();
           }
         });
   }
@@ -1212,24 +1239,48 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          {
            public boolean accept(GenFeature genFeature) 
            {
-             return (genFeature.isFeatureMapType() || genFeature.isContains()) && genFeature.isChildren();
+            return genFeature.isChildren();
            }
          });
   }
 
-  public List getCrossPackageChildrenFeatures()
+  public List/*of GenFeature*/ getCreateChildFeatures()
+  {
+    return collectGenFeatures(getProviderImplementedGenClasses(), null,
+      new GenFeatureFilter()
+      {
+        public boolean accept(GenFeature genFeature) 
+        {
+          return genFeature.isCreateChild();
+        }
+      });
+  }
+
+  public List/*of GenFeature*/ getAllCreateChildFeatures()
+  {
+    return collectGenFeatures(getAllBaseGenClasses(), getGenFeatures(),
+      new GenFeatureFilter()
+      {
+        public boolean accept(GenFeature genFeature) 
+        {
+          return genFeature.isCreateChild();
+        }
+      });
+  }
+
+  public List getCrossPackageCreateChildFeatures()
   {
     GenClass base = getProviderExtendsGenClass();
 
-    // children features handled by a provider base class from outside of
+    // create child features handled by a provider base class from outside of
     // this package, that has already been generated
     return base == null || base.getGenPackage() == getGenPackage() || getGenModel().getAllGenPackagesWithClassifiers().contains(base.getGenPackage()) ?
-      Collections.EMPTY_LIST : base.getAllChildrenFeatures();
+      Collections.EMPTY_LIST : base.getAllCreateChildFeatures();
   }
 
-  public List getSharedClassChildrenFeatures()
+  public List getSharedClassCreateChildFeatures()
   {
-    List childrenFeatures = getAllChildrenFeatures();
+    List childrenFeatures = getAllCreateChildFeatures();
     
     // build mapping from classes to list of features that use them
     Map classToFeatureMap = new HashMap();
@@ -1555,7 +1606,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     {
       if (!canGenerateEdit()) return;
 
-      progressMonitor.beginTask("", 2 + getAllChildrenFeatures().size());
+      progressMonitor.beginTask("", 2 + getAllCreateChildFeatures().size());
       progressMonitor.subTask
         (CodeGenEcorePlugin.INSTANCE.getString
            ("_UI_GeneratingProvider_message", new Object [] { getFormattedName() }));
@@ -1589,7 +1640,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
       if (getGenModel().isCreationCommands())
       {
-        for (Iterator iter = getAllChildrenFeatures().iterator(); iter.hasNext(); )
+        for (Iterator iter = getAllCreateChildFeatures().iterator(); iter.hasNext(); )
         {
           GenFeature feature = (GenFeature)iter.next();
           for (Iterator cIter = getChildrenClasses(feature).iterator(); cIter.hasNext(); )

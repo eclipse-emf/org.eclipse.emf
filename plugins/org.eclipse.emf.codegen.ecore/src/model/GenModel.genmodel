@@ -86,6 +86,7 @@
       <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/property"/>
       <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/notify"/>
       <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/children"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/createChild"/>
       <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenFeature/genClass"/>
       <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenFeature/ecoreFeature"/>
     </genClasses>

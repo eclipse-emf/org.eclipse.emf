@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenFeatureImpl.java,v 1.2 2004/03/31 16:19:31 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -55,6 +55,7 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getProperty <em>Property</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isNotify <em>Notify</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isChildren <em>Children</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isCreateChild <em>Create Child</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getGenClass <em>Gen Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getEcoreFeature <em>Ecore Feature</em>}</li>
  * </ul>
@@ -123,6 +124,35 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
    * @ordered
    */
   protected boolean children = CHILDREN_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isCreateChild() <em>Create Child</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCreateChild()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean CREATE_CHILD_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isCreateChild() <em>Create Child</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCreateChild()
+   * @generated
+   * @ordered
+   */
+  protected boolean createChild = CREATE_CHILD_EDEFAULT;
+
+  /**
+   * This is true if the Create Child attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean createChildESet = false;
 
   /**
    * The cached value of the '{@link #getEcoreFeature() <em>Ecore Feature</em>}' reference.
@@ -226,6 +256,83 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     children = newChildren;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__CHILDREN, oldChildren, children));
+  }
+
+  /*
+   * Set from {@link #isChildren children} if unset, and return value.
+   */
+  public boolean isCreateChild()
+  {
+    autoSetCreateChild();
+    return isCreateChildGen();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isCreateChildGen()
+  {
+    return createChild;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setCreateChild(boolean newCreateChild)
+  {
+    boolean oldCreateChild = createChild;
+    createChild = newCreateChild;
+    boolean oldCreateChildESet = createChildESet;
+    createChildESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__CREATE_CHILD, oldCreateChild, createChild, !oldCreateChildESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetCreateChild()
+  {
+    boolean oldCreateChild = createChild;
+    boolean oldCreateChildESet = createChildESet;
+    createChild = CREATE_CHILD_EDEFAULT;
+    createChildESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_FEATURE__CREATE_CHILD, oldCreateChild, CREATE_CHILD_EDEFAULT, oldCreateChildESet));
+  }
+
+  /**
+   * Set from {@link #isChildren children} if necessary, and return true.
+   */
+  public boolean isSetCreateChild()
+  {
+    autoSetCreateChild();
+    return isSetCreateChildGen();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetCreateChildGen()
+  {
+    return createChildESet;
+  }
+
+  protected void autoSetCreateChild()
+  {
+    if (!isSetCreateChildGen())
+    {
+      boolean value = (isChildren() || (!isChildren() && hasDelegateFeature())) && !isFeatureMapType();
+      setCreateChild(value);
+    }
   }
 
   /**
@@ -389,6 +496,8 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
         return isNotify() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_FEATURE__CHILDREN:
         return isChildren() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
+        return isCreateChild() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         return getGenClass();
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
@@ -413,6 +522,8 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
         return notify != NOTIFY_EDEFAULT;
       case GenModelPackage.GEN_FEATURE__CHILDREN:
         return children != CHILDREN_EDEFAULT;
+      case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
+        return isSetCreateChild();
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         return getGenClass() != null;
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
@@ -438,6 +549,9 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
         return;
       case GenModelPackage.GEN_FEATURE__CHILDREN:
         setChildren(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
+        setCreateChild(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         setGenClass((GenClass)newValue);
@@ -467,6 +581,9 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__CHILDREN:
         setChildren(CHILDREN_EDEFAULT);
         return;
+      case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
+        unsetCreateChild();
+        return;
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         setGenClass((GenClass)null);
         return;
@@ -493,6 +610,8 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     result.append(notify);
     result.append(", children: ");
     result.append(children);
+    result.append(", createChild: ");
+    if (createChildESet) result.append(createChild); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }
@@ -1104,9 +1223,10 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   {
     EStructuralFeature ecoreFeature = getEcoreFeature();
     EClass ecoreClass = ecoreFeature.getEContainingClass();
+    EStructuralFeature mixedFeature = ExtendedMetaData.INSTANCE.getMixedFeature(ecoreClass);
     return 
-      ExtendedMetaData.INSTANCE.getMixedFeature(ecoreClass) != null ||
-        ExtendedMetaData.INSTANCE.getGroup(ecoreFeature) != null;
+      (mixedFeature != null && mixedFeature != ecoreFeature) ||
+      ExtendedMetaData.INSTANCE.getGroup(ecoreFeature) != null;
   }
 
   public GenFeature getDelegateFeature()
@@ -1118,7 +1238,7 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     {
       eStructuralFeature = ExtendedMetaData.INSTANCE.getMixedFeature(ecoreClass);
     }
-    if (eStructuralFeature != null)
+    if (eStructuralFeature != null && eStructuralFeature != ecoreFeature)
     {
       return findGenFeature(eStructuralFeature);
     }
@@ -1146,22 +1266,22 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
           setProperty(GenPropertyKind.NONE_LITERAL);
         }
         setChildren(eReference.isContainment() && !hasDelegateFeature());
-
-        // EATM NotifyChangedToViewerRefresh will interpret ADD/REMOVE as content changes.
-        //
+        setCreateChild(eReference.isContainment());
         setNotify(isChildren());
       }
       else if (isFeatureMapType())
       {
         setProperty(GenPropertyKind.NONE_LITERAL);
-        setChildren(true);
-        setNotify(true);
+        setChildren(!hasDelegateFeature());
+        setCreateChild(false);
+        setNotify(isChildren());
       }
       else
       {
         setProperty(eFeature.isChangeable() ? GenPropertyKind.EDITABLE_LITERAL : GenPropertyKind.READONLY_LITERAL);
         setChildren(false);
-        setNotify(isProperty());
+        setCreateChild(false);
+        setNotify(true);
       }
     }
   }
@@ -1375,7 +1495,14 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   {
     setProperty(oldGenFeatureVersion.getProperty());
     setNotify(oldGenFeatureVersion.isNotify());
-    setChildren(isContains() == oldGenFeatureVersion.isContains() ? oldGenFeatureVersion.isChildren() : isContains());
+
+    if ((hasDelegateFeature() && oldGenFeatureVersion.hasDelegateFeature()) ||
+        (isContains() && oldGenFeatureVersion.isContains()) ||
+        (!hasDelegateFeature() && !isContains()))
+    {
+      setChildren(oldGenFeatureVersion.isChildren());
+      setCreateChild(oldGenFeatureVersion.isCreateChild());
+    }
   }
 
   public boolean reconcile()
