@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2GenModel.java,v 1.7 2005/03/07 21:26:07 khussey Exp $
+ * $Id: XSD2GenModel.java,v 1.8 2005/03/09 16:51:45 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -73,10 +73,11 @@ public class XSD2GenModel extends Generator
     System.out.println("Usage: { <model.xsd> | <model.wsdl> }+ [ <model.genmodel> ] <OPTION>");
     System.out.println("<OPTION>          ::= [ <PROJECT-OPTION> ]  [ <PACKAGE-MAP> ] [ <PACKAGES> ]");
     System.out.println("                      [ <TEMPLATE-PATH> ] [ <MODEL-PLUGIN-ID> ] [ <COPYRIGHT> ] [ <SDO> ]");
-    System.out.println("<PROJECT-OPTION>  ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ]");
+    System.out.println("<PROJECT-OPTION>  ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ] [ <TESTS-PROJECT> ]");
     System.out.println("<MODEL-PROJECT>   ::= -modelProject <model-directory> <fragment-path>");
     System.out.println("<EDIT-PROJECT>    ::= -editProject <edit-directory> <fragment-path>");
     System.out.println("<EDITOR-PROJECT>  ::= -editorProject <editor-directory> <fragment-path>");
+    System.out.println("<TESTS-PROJECT>   ::= -testsProject <tests-directory> <fragment-path>");
     System.out.println("<PACKAGE-MAP>     ::= -packageMap { <nsURI> <qualified-package-name> }+");
     System.out.println("<PACKAGES>        ::= -packages { <nsURI> }+");
     System.out.println("<TEMPLATE-PATH>   ::= -templatePath <template-directory>");

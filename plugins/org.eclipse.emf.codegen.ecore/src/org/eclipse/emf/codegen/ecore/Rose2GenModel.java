@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Rose2GenModel.java,v 1.11 2005/03/07 21:26:07 khussey Exp $
+ * $Id: Rose2GenModel.java,v 1.12 2005/03/09 16:49:35 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -86,10 +86,11 @@ public class Rose2GenModel extends Generator
     System.out.println("<OPTION>          ::= [ <PROJECT-OPTION> ]  [ <PATHMAP> ]");
     System.out.println("                      { <PACKAGE> }+  { <REF-PACKAGE> }*");
     System.out.println("                      [ <TEMPLATE-PATH> ] [ <MODEL-PLUGIN-ID> ] [ <COPYRIGHT> ] [ <SDO> ]");
-    System.out.println("<PROJECT-OPTION>  ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ]");
+    System.out.println("<PROJECT-OPTION>  ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ] [ <TESTS-PROJECT> ]");
     System.out.println("<MODEL-PROJECT>   ::= -modelProject <model-directory> <fragment-path>");
     System.out.println("<EDIT-PROJECT>    ::= -editProject <edit-directory> <fragment-path>");
     System.out.println("<EDITOR-PROJECT>  ::= -editorProject <editor-directory> <fragment-path>");
+    System.out.println("<TESTS-PROJECT>   ::= -testsProject <tests-directory> <fragment-path>");
     System.out.println("<PATHMAP>         ::= -pathMap { <symbol> <directory> }+");
     System.out.println("<PACKAGE>         ::= -package <name> [ <nsPrefix> <nsURI> <base> <prefix> ]");
     System.out.println("<REF-PACKAGE>     ::= -refPackage <name> [ <nsPrefix> <nsURI> <base> <prefix> ]");
