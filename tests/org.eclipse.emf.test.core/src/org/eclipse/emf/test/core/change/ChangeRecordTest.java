@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.3 2004/12/14 23:39:50 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.4 2004/12/16 16:42:19 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -642,6 +642,8 @@ extends TestCase
     assertEquals("Mary", mary.eGet(name));
     assertEquals(1, ((List)john.eGet(friendsReference)).size());
     assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, changeDescription.getObjectsToDetach().size());
+    assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
     
     changeRecorder = new ChangeRecorder();
     changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{john}));
@@ -662,6 +664,9 @@ extends TestCase
     assertEquals(2, ((List)john.eGet(friendsReference)).size());
     assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
     assertEquals(joe, ((List)john.eGet(friendsReference)).get(1));
+    assertEquals(2, changeDescription.getObjectsToDetach().size());
+    assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
+    assertEquals(joe, changeDescription.getObjectsToDetach().get(1));
     
     changeDescription.applyAndReverse();
     
@@ -673,6 +678,8 @@ extends TestCase
     assertEquals("Mary", mary.eGet(name));
     assertEquals(1, ((List)john.eGet(friendsReference)).size());
     assertEquals(peter, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, changeDescription.getObjectsToDetach().size());
+    assertEquals(peter, changeDescription.getObjectsToDetach().get(0));
     
     changeDescription.applyAndReverse();
     
@@ -686,6 +693,9 @@ extends TestCase
     assertEquals(2, ((List)john.eGet(friendsReference)).size());
     assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
     assertEquals(joe, ((List)john.eGet(friendsReference)).get(1));
+    assertEquals(2, changeDescription.getObjectsToDetach().size());
+    assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
+    assertEquals(joe, changeDescription.getObjectsToDetach().get(1));
     
     changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{resource, john, mary, joe}));
     mary.eSet(name, "Mary Po");
@@ -707,6 +717,10 @@ extends TestCase
     assertEquals("Jane", jane.eGet(name));
     assertEquals(1, ((List)john.eGet(friendsReference)).size());
     assertEquals(jane, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(3, changeDescription.getObjectsToDetach().size());
+    assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
+    assertEquals(joe, changeDescription.getObjectsToDetach().get(1));
+    assertEquals(jane, changeDescription.getObjectsToDetach().get(2));
     
     changeDescription.applyAndReverse();
     
