@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.11 2005/03/07 21:25:52 khussey Exp $
+ * $Id: EMFProjectWizard.java,v 1.12 2005/03/24 22:48:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -2879,7 +2879,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
         ePackageToEcoreFileInformationMap.put(ePackage, ecoreFileNameInformation);
 
         String qualifiedName = ePackage.getName();
-        String ecoreFileName = qualifiedName + ".ecore";
+        String ecoreFileName = ePackage.eResource() == null ? qualifiedName + ".ecore" : ePackage.eResource().getURI().lastSegment();
         int index = qualifiedName.lastIndexOf(".");
         if (index != -1)
         {
