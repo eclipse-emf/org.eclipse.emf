@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSwitch.java,v 1.5 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: EcoreSwitch.java,v 1.6 2005/04/06 15:10:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -137,6 +137,15 @@ public class EcoreSwitch
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case EcorePackage.ECLASSIFIER:
+      {
+        EClassifier eClassifier = (EClassifier)theEObject;
+        Object result = caseEClassifier(eClassifier);
+        if (result == null) result = caseENamedElement(eClassifier);
+        if (result == null) result = caseEModelElement(eClassifier);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case EcorePackage.EDATA_TYPE:
       {
         EDataType eDataType = (EDataType)theEObject;
@@ -172,6 +181,21 @@ public class EcoreSwitch
         EFactory eFactory = (EFactory)theEObject;
         Object result = caseEFactory(eFactory);
         if (result == null) result = caseEModelElement(eFactory);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.EMODEL_ELEMENT:
+      {
+        EModelElement eModelElement = (EModelElement)theEObject;
+        Object result = caseEModelElement(eModelElement);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.ENAMED_ELEMENT:
+      {
+        ENamedElement eNamedElement = (ENamedElement)theEObject;
+        Object result = caseENamedElement(eNamedElement);
+        if (result == null) result = caseEModelElement(eNamedElement);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -215,10 +239,22 @@ public class EcoreSwitch
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY:
+      case EcorePackage.ESTRUCTURAL_FEATURE:
       {
-        Map.Entry eStringToStringMapEntry = (Map.Entry)theEObject;
-        Object result = caseEStringToStringMapEntry(eStringToStringMapEntry);
+        EStructuralFeature eStructuralFeature = (EStructuralFeature)theEObject;
+        Object result = caseEStructuralFeature(eStructuralFeature);
+        if (result == null) result = caseETypedElement(eStructuralFeature);
+        if (result == null) result = caseENamedElement(eStructuralFeature);
+        if (result == null) result = caseEModelElement(eStructuralFeature);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.ETYPED_ELEMENT:
+      {
+        ETypedElement eTypedElement = (ETypedElement)theEObject;
+        Object result = caseETypedElement(eTypedElement);
+        if (result == null) result = caseENamedElement(eTypedElement);
+        if (result == null) result = caseEModelElement(eTypedElement);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
