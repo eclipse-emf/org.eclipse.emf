@@ -32,9 +32,11 @@
 
   <!-- This target defines the performance tests that need to be run. -->
   <target name="performance-suite">
-    <property name="emf-performance-folder" value="${eclipse-home}/emf_folder"/>
+    <property name="emf-performance-folder" value="${eclipse-home}/emf_performance_folder"/>
     <delete dir="${emf-performance-folder}" quiet="true"/>
     <ant target="ui-test" antfile="${library-file}" dir="${eclipse-home}">
+       <property name="timeout" value="5400000"/>
+       <property name="vmargs" value="-Xms250M -Xmx250M"/>
        <property name="data-dir" value="${emf-performance-folder}"/>
        <property name="plugin-name" value="${plugin-name}"/>
        <property name="classname" value="org.eclipse.emf.test.performance.AllSuites"/>
