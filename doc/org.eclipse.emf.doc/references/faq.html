@@ -27,12 +27,12 @@
    <tbody>
     <tr>
       <td align="Left" valign="Top" colspan="2" bgcolor="#0070A0">
-      <b><font face="Arial,Helvetica" color="#FFFFFF">EMF Developer FAQ</font></b></td>
+      <b><font color="#FFFFFF">EMF Developer FAQ</font></b></td>
    </tr>
    <tr>
      <td>
-       <font size="-1" face="arial,helvetica,geneva">
-         Last Modified: September 24</font><sup><font size="-2" face="Arial">th</font></sup><font size="-1" face="arial,helvetica,geneva">, 2002</font>
+       <font size="-1">
+         Last Modified: September 24</font><sup><font size="-2">th</font></sup><font size="-1">, 2002</font>
      </td>
    </tr>
 
@@ -69,13 +69,13 @@
     </ol><BR>
   <li> <b> <a href="#standards">Modeling Standards:</a></b>
     <ol>
-       <li><a href="#std_mofrelationship">What is the relationship of OMG™ MOF™ to the EMF Ecore model?</a></li>
+       <li><a href="#std_mofrelationship">What is the relationship of OMG&trade; MOF&trade; to the EMF Ecore model?</a></li>
        <li><a href="#std_xmisupport">Does EMF support OMG XMI?</a></li>
-       <li><a href="#std_umltools">Can I create an EMF model using UML™ modeling tools?</a></li>
+       <li><a href="#std_umltools">Can I create an EMF model using UML&trade; modeling tools?</a></li>
        <li><a href="#std_createfromxmi">Can I create an EMF model using OMG XMI?</a></li>
-       <li><a href="#std_whatismda">What is Model Driven Architecture – MDA?</a></li>
-       <li><a href="#std_reltomda">What is the relationship of EMF to OMG™ MDA™?</a></li>
-       <li><a href="#std_reltojmi">What is the relationship of EMF to JMI™?</a></li>
+       <li><a href="#std_whatismda">What is Model Driven Architecture - MDA?</a></li>
+       <li><a href="#std_reltomda">What is the relationship of EMF to OMG&trade; MDA&trade;?</a></li>
+       <li><a href="#std_reltojmi">What is the relationship of EMF to JMI&trade;?</a></li>
     </ol><BR>
   <li><b><a href="#developer">Developer:</a></b>
     <ol>
@@ -207,18 +207,18 @@ course, there's also an EMF.Edit-based XML schema editor built on it.
   <tr>
     <td colspan="2">
     <ol>
-      <li><b><a name="std_mofrelationship">What is the relationship of OMG™ MOF™ to the EMF Ecore model?</a></b>
+      <li><b><a name="std_mofrelationship">What is the relationship of OMG&trade; MOF&trade; to the EMF Ecore model?</a></b>
           <p>
 The OMG MOF 1.4 Model has influenced the design of the EMF Ecore model.
 The Ecore model evolved in parallel with the MOF 1.4 model. 
 Implementation experience in integrating a number of tools led to an optimized
 implementation (focused on tool integration as opposed to the original MOF focus
 of metadata repositories) that uses a subset of the modeling concepts in MOF 1.4.
-For example, Ecore does not support ‘first class’ Associations. 
+For example, Ecore does not support 'first class' Associations. 
 Associations are mapped to a pair of Ecore References.  
-To minimize confusion, we have used the term ‘Ecore’ to refer to the object model
+To minimize confusion, we have used the term 'Ecore' to refer to the object model
 in the EMF framework.
-We use the terms ‘Ecore model’ and ‘EMF model’ interchangeably in this FAQ,
+We use the terms 'Ecore model' and 'EMF model' interchangeably in this FAQ,
 because the object model of the Eclipse EMF framework is the Ecore model.
           <p>
 The designers of EMF are participating in the OMG process to influence the design
@@ -226,24 +226,24 @@ of MOF 2.0 and UML 2.0, which are still being defined.
       <BR><BR></li>
       <li><b><a name="std_xmisupport">Does EMF support OMG XMI?</a></b>
           <p>
-EMF uses OMG XML Metadata Interchange (XMI™) 2.0 as the default XML serialization
+EMF uses OMG XML Metadata Interchange (XMI&trade;) 2.0 as the default XML serialization
 format for Ecore models and Ecore instances. 
 The EMF framework allows the use of other serialization formats also.
 The XMI 2.0 document production rules are used because of more compact representation
 than XMI 1.2.
       <BR><BR></li>
-      <li><b><a name="std_umltools">Can I create an EMF model using UML™ modeling tools?</a></b>
+      <li><b><a name="std_umltools">Can I create an EMF model using UML&trade; modeling tools?</a></b>
       <p>
 EMF models can be defined using UML modeling tools such as Rational Rose. 
 You simply define a class model with the packages, attributes, references, data
 types, and operations. 
 This class model can be imported into EMF for additional code generation.
 Since many Java developers are familiar with simple class modeling, this serves
-as a ‘gentle introduction’ to UML class modeling.
+as a 'gentle introduction' to UML class modeling.
 In addition to UML class models, EMF models can be created by using annotated Java
 interfaces or by directly editing an XMI document using an XML editor.
 This approach is used to allow the benefits of model based code generation (one of
-the principles of the OMG Model Driven Architecture – MDA)
+the principles of the OMG Model Driven Architecture - MDA)
 to not just users familiar with UML, but also the larger community of developers
 using Java and XML.
       <BR><BR></li>
@@ -255,7 +255,7 @@ your favorite text or an XML editor. Alternately you can use a modeling tool tha
 can produce the XMI document from a UML model.
 You can also use annotated Java interfaces to define your input model.
       <BR><BR></li>
-      <li><b><a name="std_whatismda">What is Model Driven Architecture – MDA?</a></b>
+      <li><b><a name="std_whatismda">What is Model Driven Architecture - MDA?</a></b>
           <p>
 MDA is an industry architecture proposed by the OMG that addresses full life cycle
 application development, data, and application integration standards that
@@ -269,14 +269,14 @@ An example of the use of MDA is to use a UML model representation of a tool or a
 and to use this model to automate (some or all) of the Java interface, implementation, as
 well as any XML serialization for the modeled objects.
 Many of the recent OMG standards such as UML, MOF, and CWM were developed using MDA principles
-of using abstract models (these are also referred to as Platform Independent Models – PIM)
+of using abstract models (these are also referred to as Platform Independent Models - PIM)
 which can be mapped to Platform Specific Models (PSM).
-Please note that ‘platform independent’ is a relative term!
+Please note that 'platform independent' is a relative term!
           <p>
 For more information on MDA and related MDA specifications including UML, XMI,
 and MOF, please visit <a href="http://www.omg.org/mda">www.omg.org/mda</a>.
       <BR><BR></li>
-      <li><b><a name="std_reltomda">What is the relationship of EMF to OMG™ MDA™?</a></b>
+      <li><b><a name="std_reltomda">What is the relationship of EMF to OMG&trade; MDA&trade;?</a></b>
           <p>
 One of the key goals of EMF is to use simple visual models to allow easy integration of Java
 and XML tools.
@@ -288,14 +288,14 @@ instances.
 Essentially EMF supports the key MDA concept of using models as input to development and
 integration tools which produce multiple programming language (Java in the case of Eclipse
 EMF itself) or data interchange format (XML) representations. 
-The code generation and XML serialization is ‘driven’ from the same model.
+The code generation and XML serialization is 'driven' from the same model.
           <p>
 EMF supports OMG XMI 2.0 XML serialization format and the use of UML models for the analysis
 and design of EMF models.
       <BR><BR></li>
-      <li><b><a name="std_reltojmi">What is the relationship of EMF to JMI™?</a></b>
+      <li><b><a name="std_reltojmi">What is the relationship of EMF to JMI&trade;?</a></b>
           <p>
-JMI (Java™ Metadata Interface) is a mapping of the OMG MOF 1.4 to the Java language developed
+JMI (Java&trade; Metadata Interface) is a mapping of the OMG MOF 1.4 to the Java language developed
 by the Java Community Process.
 The JMI spec and the Eclipse EMF model to Java mapping were developed in parallel
 and are not the same. 
