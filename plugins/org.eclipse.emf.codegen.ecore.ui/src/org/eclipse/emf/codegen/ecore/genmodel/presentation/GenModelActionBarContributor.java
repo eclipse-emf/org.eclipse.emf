@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.2 2004/03/18 20:10:01 emerks Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.3 2004/03/23 09:52:39 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -36,14 +37,21 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.Viewer;
+
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
 // import java.util.LinkedList;
 // import org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind;
@@ -83,6 +91,56 @@ public class GenModelActionBarContributor
   protected ISelectionProvider selectionProvider;
 
   /**
+   * This action opens the Properties view.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected IAction showPropertiesViewAction = 
+    new Action(GenModelEditPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))
+    {
+      public void run()
+      {
+        try
+        {
+          getPage().showView("org.eclipse.ui.views.PropertySheet");
+        }
+        catch(PartInitException exception)
+        {
+          GenModelEditPlugin.INSTANCE.log(exception);
+        }
+      }
+    };
+      
+  /**
+   * This action refreshes the viewer of the current editor if the editor
+   * implements {@link IViewerProvider}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected IAction refreshViewerAction = 
+    new Action(GenModelEditPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item"))
+    {
+      public boolean isEnabled()
+      {
+        return getPage().getActivePart() instanceof IViewerProvider;
+      }
+      
+      public void run()
+      {
+        if (getPage().getActivePart() instanceof IViewerProvider)
+        {
+          Viewer viewer = ((IViewerProvider)getPage().getActivePart()).getViewer();
+          if(viewer != null)
+          {
+            viewer.refresh();
+          }
+        }
+      }
+    };
+
+  /**
    * This is the menu manager for the "Generate" menu.
    */
   protected IMenuManager generateMenuManager;
@@ -106,9 +164,9 @@ public class GenModelActionBarContributor
     }
   }
 
-  protected Action reloadAction = new ReloadAction();
+  protected IAction reloadAction = new ReloadAction();
 
-  protected Action generateAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateModel_menu_item"))
+  protected IAction generateAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateModel_menu_item"))
   {
     protected boolean canGenerate(GenBase genObject)
     {
@@ -121,7 +179,7 @@ public class GenModelActionBarContributor
     }
   };
 
-  protected Action generateEditAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateEdit_menu_item"))
+  protected IAction generateEditAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateEdit_menu_item"))
   {
     protected boolean canGenerate(GenBase genObject)
     {
@@ -134,7 +192,7 @@ public class GenModelActionBarContributor
     }  
   };
 
-  protected Action generateEditorAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateEditor_menu_item"))
+  protected IAction generateEditorAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateEditor_menu_item"))
   {
     protected boolean canGenerate(GenBase genObject)
     {
@@ -147,7 +205,31 @@ public class GenModelActionBarContributor
     }  
   };
 
-  protected Action generateAllAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateAll_menu_item"))
+  protected IAction generateSchemaAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateSchema_menu_item"))
+  {
+    protected boolean canGenerate(GenBase genObject)
+    {
+      return genObject instanceof GenModel || (genObject instanceof GenPackage && ((GenPackage)genObject).hasClassifiers());
+    }
+
+    protected void generate(GenBase genObject, IProgressMonitor progressMonitor)
+    {
+      progressMonitor.beginTask("", 3);
+      if (genObject instanceof GenModel)
+      {
+        for (Iterator i = ((GenModel)genObject).getGenPackages().iterator(); i.hasNext();)
+        {
+          generate((GenPackage)i.next(), new SubProgressMonitor(progressMonitor, 1));
+        }
+      }
+      else if (genObject instanceof GenPackage)
+      {
+        ((GenPackage)genObject).generateSchema();
+      }
+    }
+  };  
+
+  protected IAction generateAllAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateAll_menu_item"))
   {
     protected boolean canGenerate(GenBase genObject)
     {
@@ -265,6 +347,10 @@ public class GenModelActionBarContributor
     generateMenuManager.add(generateEditAction);
     generateMenuManager.add(generateEditorAction);
     generateMenuManager.add(generateAllAction);
+
+    generateMenuManager.add(new Separator("schema-actions"));
+    generateMenuManager.add(generateSchemaAction);    
+    
     generateMenuManager.add(new Separator("global-actions"));
     generateMenuManager.add(reloadAction);
   }
@@ -325,11 +411,25 @@ public class GenModelActionBarContributor
    */
   public void menuAboutToShow(IMenuManager menuManager)
   {
+    generateAllAction.setEnabled(generateAllAction.isEnabled());
+    generateSchemaAction.setEnabled(generateSchemaAction.isEnabled());
+    generateEditorAction.setEnabled(generateEditorAction.isEnabled());
+    generateEditAction.setEnabled(generateEditAction.isEnabled());
+    generateAction.setEnabled(generateAction.isEnabled());
+    refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
+    
     super.menuAboutToShow(menuManager);
     menuManager.insertBefore("additions", new Separator("generate-actions"));
     menuManager.insertAfter("generate-actions", generateAllAction);
     menuManager.insertAfter("generate-actions", generateEditorAction);
     menuManager.insertAfter("generate-actions", generateEditAction);
     menuManager.insertAfter("generate-actions", generateAction);
+
+    menuManager.insertBefore("additions", new Separator("schema-actions"));
+    menuManager.insertAfter("schema-actions", generateSchemaAction);
+
+    menuManager.insertAfter("additions-end", new Separator("ui-actions"));
+    menuManager.insertAfter("ui-actions", showPropertiesViewAction);
+    menuManager.insertAfter("ui-actions", refreshViewerAction);
   }
 }
