@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.12 2005/02/18 06:47:12 marcelop Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.13 2005/02/18 07:04:31 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -56,7 +56,7 @@ extends Plugin
             thread.start();
             
             System.setProperty("test.target", "performance");
-            System.setProperty("eclipse.perf.dbloc", "net://localhost/;dbuser=app;dbpasswd=app");
+            System.setProperty("eclipse.perf.dbloc", "/home/www-data/derby/derbyroot;dbuser=app;dbpasswd=app");
             System.setProperty("eclipse.perf.config" ,"build=fromJava");            
           }
         }
