@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.14 2004/11/10 13:32:04 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.15 2004/11/15 14:46:21 davidms Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2381,6 +2381,99 @@ public class EcoreUtil
       eModelElement.getEAnnotations().add(eAnnotation);
     }
     eAnnotation.getDetails().put(key, value);
+  }
+
+  /**
+   * Identifier for the get accessor.
+   * @see #isSuppressedVisibility
+   * @see #setSuppressedVisibility
+   * @since 2.1
+   */
+  public static final int GET = 0; 
+
+  /**
+   * Identifier for the set accessor.
+   * @see #isSuppressedVisibility
+   * @see #setSuppressedVisibility
+   * @since 2.1
+   */
+  public static final int SET = 1;
+
+  /**
+   * Identifier for the isSet accessor.
+   * @see #isSuppressedVisibility
+   * @see #setSuppressedVisibility
+   * @since 2.1
+   */
+  public static final int IS_SET = 2;
+
+  /**
+   * Identifier for the unset accessor.
+   * @see #isSuppressedVisibility
+   * @see #setSuppressedVisibility
+   * @since 2.1
+   */
+  public static final int UNSET = 3;
+
+  // Keys that will be used to record visibility for the accessors.
+  //
+  static final String[] ACCESSOR_KEYS =
+  {
+    "suppressedGetVisibility",
+    "suppressedSetVisibility",
+    "suppressedIsSetVisibility",
+    "suppressedUnsetVisibility"
+  };
+
+  // Value used to suppress visibility.
+  //
+  static final String TRUE = "true";
+
+  /**
+   * Tests whether the given structural feature has been annotated to prevent generation of accessor methods in its
+   * interface.
+   * @param eStructuralFeature the structural feature
+   * @param accessor the type of accessor method, one of {@link #GET}, {@link #SET}, {@link #IS_SET}, or {@link #UNSET}
+   * @return whether the specified accessor's visibility is suppressed
+   * @since 2.1
+   */
+  public static boolean isSuppressedVisibility(EStructuralFeature eStructuralFeature, int accessor)
+  {
+    if (accessor < GET || accessor > UNSET) throw new IllegalArgumentException("Invalid accessor identifier: " + accessor);
+
+    EAnnotation eAnnotation = eStructuralFeature.getEAnnotation(GEN_MODEL_PACKAGE_NS_URI);
+    return eAnnotation == null ? false : TRUE.equalsIgnoreCase((String)eAnnotation.getDetails().get(ACCESSOR_KEYS[accessor]));
+  }
+  
+  /**
+   * Sets or removes annotations on the given structural feature to prevent generation of accessor methods in its interface.
+   * @param eStructuralFeature the structural feature
+   * @param accessor the type of accessor method, one of {@link #GET}, {@link #SET}, {@link #IS_SET}, or {@link #UNSET}
+   * @param suppress whether the specified accessor's visibility should be suppressed
+   * @since 2.1
+   */
+  public static void setSuppressedVisibility(EStructuralFeature eStructuralFeature, int accessor, boolean suppress)
+  {
+    if (accessor < GET || accessor > UNSET) throw new IllegalArgumentException("Invalid accessor identifier: " + accessor);
+
+    EAnnotation eAnnotation = eStructuralFeature.getEAnnotation(GEN_MODEL_PACKAGE_NS_URI);
+    if (!suppress)
+    {
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().removeKey(ACCESSOR_KEYS[accessor]);
+      }
+    }
+    else
+    {
+      if (eAnnotation == null)
+      {
+        eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+        eAnnotation.setSource(GEN_MODEL_PACKAGE_NS_URI);
+        eStructuralFeature.getEAnnotations().add(eAnnotation);
+      }
+      eAnnotation.getDetails().put(ACCESSOR_KEYS[accessor], TRUE);
+    }
   }
 
   /**
