@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EAttributeImpl.java,v 1.2 2004/05/06 18:37:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 
 
 /**
@@ -90,6 +91,59 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
   public boolean isID()
   {
     return iD;
+  }
+
+  protected byte effectiveIsMany;
+
+  public boolean isMany()
+  {
+    switch (effectiveIsMany)
+    {
+      case -1:
+      {
+        return true;
+      }
+      case 0:
+      {
+        int upper = getUpperBound();
+        if (upper > 1 || upper == UNBOUNDED_MULTIPLICITY)
+        {
+          effectiveIsMany = -1;
+          return true;
+        }
+        else 
+        {
+          EClassifier eType = getEType();
+          if (eType != null && FeatureMapUtil.isFeatureMapEntry(eType))
+          {
+            effectiveIsMany = -1;
+            return true;
+          }
+          else
+          {
+            effectiveIsMany = 1;
+            return false;
+          }
+        }
+      }
+      default:
+      case 1:
+      {
+        return false;
+      }
+    }
+  }
+
+  public void setUpperBound(int upperBound)
+  {
+    effectiveIsMany = 0;
+    super.setUpperBound(upperBound);
+  }
+
+  public void setEType(EClassifier eType)
+  {
+    effectiveIsMany = 0;
+    super.setEType(eType);
   }
 
   /**
