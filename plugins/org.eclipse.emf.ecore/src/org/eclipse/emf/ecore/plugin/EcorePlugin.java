@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.2 2004/05/16 17:13:48 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.3 2004/05/18 15:38:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -280,7 +279,7 @@ public class EcorePlugin
      *  platform:/plugin/plugin-name_1.2.3/special/a/b.c
      *</pre>
      * </p>
-     * @throws CoreException if there is a show stopping problem.
+     * @throws Exception if there is a show stopping problem.
      */
     public void start(BundleContext context) throws Exception
     {
