@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.2 2004/05/26 15:17:31 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.3 2004/06/08 12:32:30 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -24,6 +24,9 @@ package <%=genPackage.getUtilitiesPackageName()%>;
 <%genModel.addImport("org.eclipse.emf.ecore.EPackage");%>
 <%if (!genPackage.hasJavaLangConflict()) genModel.addImport(genPackage.getInterfacePackageName() + ".*");%>
 <%genModel.markImportLocation(stringBuffer);%>
+<%genModel.addPseudoImport("org.eclipse.emf.ecore.EValidator.Registry");%>
+<%genModel.addPseudoImport("org.eclipse.emf.ecore.EValidator.SubstitutionLabelProvider");%>
+<%genModel.addPseudoImport("org.eclipse.emf.ecore.EValidator.PatternMatcher");%>
 
 /**
  * <!-- begin-user-doc -->
@@ -144,7 +147,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 		}
 	}
 
-<%for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next(); String result = "result".equals(genClassifier.getSafeUncapName()) ? "theResult" : "result"; String diagnostics = "diagnostics".equals(genClassifier.getSafeUncapName()) ? "theDiagnostics" : "diagnostics"; String context = "context".equals(genClassifier.getSafeUncapName()) ? "theContext" : "context";%>
+<%for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next(); String result = "result".equals(genClassifier.getSafeUncapName()) ? "theResult" : "result"; String diagnostics = "diagnostics".equals(genClassifier.getSafeUncapName()) ? "theDiagnostics" : "diagnostics"; String item = "item".equals(genClassifier.getSafeUncapName()) ? "theItem" : "item"; String context = "context".equals(genClassifier.getSafeUncapName()) ? "theContext" : "context";%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -198,6 +201,59 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	 */
 	public static final <%=genDataType.getImportedInstanceClassName()%> <%=constant%>__VALUE = <%=genDataType.getStaticValue(genDataType.getMaxLiteral())%>;
 
+<%} else if (constraint.equals("TotalDigits") && genDataType.getTotalDigits() != -1 && !"java.math.BigDecimal".equals(genDataType.getQualifiedInstanceClassName())) { String value = "1"; for (int digitCount = genDataType.getTotalDigits(); digitCount > 0; --digitCount) value += "0"; %>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @see #validate<%=genDataType.getName()%>_<%=constraint%>
+	 */
+	public static final <%=genDataType.getImportedInstanceClassName()%> <%=constant%>__UPPER_BOUND = <%=genDataType.getStaticValue(value)%>;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @see #validate<%=genDataType.getName()%>_<%=constraint%>
+	 */
+	public static final <%=genDataType.getImportedInstanceClassName()%> <%=constant%>__LOWER_BOUND = <%=genDataType.getStaticValue("-" + value)%>;
+
+<%} else if (constraint.equals("Pattern") && !genDataType.getPatterns().isEmpty()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @see #validate<%=genDataType.getName()%>_<%=constraint%>
+	 */
+	public static final  PatternMatcher [][] <%=constant%>__VALUES =
+		new PatternMatcher [][] 
+		{
+<%for (Iterator k = genDataType.getPatterns().iterator(); k.hasNext(); ) { List patternList = (List)k.next();%>
+			new PatternMatcher [] 
+			{
+<%for (Iterator p = patternList.iterator(); p.hasNext(); ) { String pattern = (String)p.next();%>
+				<%=genModel.getImportedName("org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil")%>.createPatternMatcher(<%=pattern%>)<%=p.hasNext() ? "," : ""%>
+<%}%>
+			}<%=k.hasNext() ? "," : ""%>
+<%}%>
+		};
+
+<%} else if (constraint.equals("Enumeration") && !genDataType.getEnumerationLiterals().isEmpty()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @see #validate<%=genDataType.getName()%>_<%=constraint%>
+	 */
+	public static final <%=genModel.getImportedName("java.util.Collection")%> <%=constant%>__VALUES =
+		wrapEnumerationValues
+			(new Object[] 
+			 {
+<%for (Iterator k = genDataType.getEnumerationLiterals().iterator(); k.hasNext(); ) { String literal = (String)k.next();%>
+				 <%if (genDataType.isPrimitiveType()) {%>new <%=genDataType.getObjectInstanceClassName()%>(<%}%><%=genDataType.getStaticValue(literal)%><%if (genDataType.isPrimitiveType()) {%>)<%}%><%=k.hasNext() ? "," : ""%>
+<%}%>
+			 });
+
 <%}%>
 <%}%>
 	/**
@@ -209,7 +265,42 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	public boolean validate<%=genClassifier.getName()%>_<%=constraint%>(<%=genClassifier.getImportedInstanceClassName()%> <%=genClassifier.getSafeUncapName()%>, DiagnosticChain <%=diagnostics%>, Map <%=context%>)
 	{
 <%if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;%>
-<%if (constraint.equals("Min") && genDataType.getMinLiteral() != null) {%>
+<%if (constraint.equals("ItemType") && genDataType.getItemType() != null) { GenDataType itemType = genDataType.getItemType(); String itemDelegate = itemType.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(itemType.getGenPackage()) + "Validator.";%>
+		boolean <%=result%> = true;
+		for (<%=genModel.getImportedName("java.util.Iterator")%> i = <%=genClassifier.getSafeUncapName()%>.iterator(); i.hasNext() && (result || diagnostics != null); )
+		{
+			Object item = i.next();
+			if (<%=itemType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=itemType.getClassifierAccessorName()%>().isInstance(item))
+			{
+				result &= <%=itemDelegate%>validate<%=itemType.getName()%>(<%if (itemType.isPrimitiveType()) {%>(<%}%>(<%=itemType.getObjectInstanceClassName()%>)<%=item%><%if (itemType.isPrimitiveType()) {%>).<%=itemType.getPrimitiveValueFunction()%>()<%}%>, <%=diagnostics%>, <%=context%>);
+			}
+			else
+			{
+				result = false;
+				reportDataValueTypeViolation(<%=itemType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=itemType.getClassifierAccessorName()%>(), item, <%=diagnostics%>, <%=context%>);
+			}
+		}
+	  return result;
+<%} else if (constraint.equals("MemberTypes") && !genDataType.getMemberTypes().isEmpty()) {%>
+		boolean <%=result%> = true;
+<%for (ListIterator k = genDataType.getMemberTypes().listIterator(); k.hasNext(); ) { GenDataType memberType = (GenDataType)k.next(); String memberDelegate = memberType.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(memberType.getGenPackage()) + "Validator.";%>
+		<%if (k.previousIndex() != 0){%>else <%}%>if (<%=memberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=memberType.getClassifierAccessorName()%>().isInstance(<%=genClassifier.getSafeUncapName()%>))
+		{
+			result &= <%=memberDelegate%>validate<%=memberType.getName()%>(<%if (memberType.isPrimitiveType()) {%>(<%}%>(<%=memberType.getObjectInstanceClassName()%>)<%=genClassifier.getSafeUncapName()%><%if (memberType.isPrimitiveType()) {%>).<%=memberType.getPrimitiveValueFunction()%>()<%}%>, <%=diagnostics%>, <%=context%>);
+		}
+<%}%>
+	  return result;
+<%} else if (constraint.equals("Pattern") && !genDataType.getPatterns().isEmpty()) {%>
+		return validatePattern(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), <%if (genDataType.isPrimitiveType()) {%>new <%=genDataType.getObjectInstanceClassName()%>(<%}%><%=genDataType.getSafeUncapName()%><%if (genDataType.isPrimitiveType()) {%>)<%}%>, <%=constant%>__VALUES, <%=diagnostics%>, <%=context%>);
+<%} else if (constraint.equals("Enumeration") && !genDataType.getEnumerationLiterals().isEmpty()) { String variable = genDataType.getSafeUncapName();%>
+<%if (genDataType.isPrimitiveType()) { variable = variable + "Object";%>
+		<%=genDataType.getObjectInstanceClassName()%> <%=variable%> = new <%=genDataType.getObjectInstanceClassName()%>(<%=genDataType.getSafeUncapName()%>);
+<%}%>
+		boolean <%=result%> = <%=constant%>__VALUES.contains(<%=variable%>);
+		if (!<%=result%> && <%=diagnostics%> != null) 
+			reportEnumerationViolation(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), <%=variable%>, <%=constant%>__VALUES, <%=diagnostics%>, <%=context%>);
+		return <%=result%>; 
+<%} else if (constraint.equals("Min") && genDataType.getMinLiteral() != null) {%>
 <%if (genDataType.isPrimitiveType()) {%>
 		boolean <%=result%> = <%=genDataType.getSafeUncapName()%> <%=genDataType.isMinInclusive() ? ">=" : ">"%> <%=constant%>__VALUE;
 		if (!<%=result%> && <%=diagnostics%> != null) 
@@ -245,10 +336,31 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 		if (!<%=result%> && <%=diagnostics%> != null) 
 			reportMaxLengthViolation(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), <%=genDataType.getSafeUncapName()%>, length, <%=genDataType.getMaxLength()%>, <%=diagnostics%>, <%=context%>);
 		return <%=result%>;
+<%} else if (constraint.equals("TotalDigits") && genDataType.getTotalDigits() != -1) {%>
+<%if (genDataType.isPrimitiveType()) {%>
+		boolean <%=result%> = <%=genDataType.getSafeUncapName()%> > <%=constant%>__LOWER_BOUND && <%=genDataType.getSafeUncapName()%> < <%=constant%>__UPPER_BOUND;
+		if (!<%=result%> && <%=diagnostics%> != null) 
+			reportTotalDigitsViolation(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), new <%=genDataType.getObjectInstanceClassName()%>(<%=genDataType.getSafeUncapName()%>), <%=genDataType.getTotalDigits()%>, <%=diagnostics%>, <%=context%>);
+<%} else if ("java.math.BigDecimal".equals(genDataType.getQualifiedInstanceClassName())) {%>
+		boolean <%=result%> = <%=genDataType.getSafeUncapName()%>.unscaledValue().abs().toString().length() <= <%=genDataType.getTotalDigits()%>;
+		if (!<%=result%> && <%=diagnostics%> != null) 
+			reportTotalDigitsViolation(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), <%=genDataType.getSafeUncapName()%>, <%=genDataType.getTotalDigits()%>, <%=diagnostics%>, <%=context%>);
+<%} else {%>
+		boolean <%=result%> = <%=genDataType.getSafeUncapName()%>.compareTo(<%=constant%>__LOWER_BOUND) > 0 && <%=genDataType.getSafeUncapName()%>.compareTo(<%=constant%>__UPPER_BOUND) < 0;
+		if (!<%=result%> && <%=diagnostics%> != null) 
+			reportTotalDigitsViolation(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), <%=genDataType.getSafeUncapName()%>, <%=genDataType.getTotalDigits()%>, <%=diagnostics%>, <%=context%>);
+<%}%>
+		return <%=result%>; 
+<%} else if (constraint.equals("FractionDigits") && genDataType.getFractionDigits() != -1 && "java.math.BigDecimal".equals(genDataType.getQualifiedInstanceClassName())) {%>
+		boolean <%=result%> = <%=genDataType.getSafeUncapName()%>.scale() <= <%=genDataType.getFractionDigits()%>;
+		if (!<%=result%> && <%=diagnostics%> != null) 
+			reportFractionDigitsViolation(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), <%=genDataType.getSafeUncapName()%>, <%=genDataType.getFractionDigits()%>, <%=diagnostics%>, <%=context%>);
+		return <%=result%>; 
 <%} else if (constraintDelegate != null) {%>
 		// TODO override the constraint
 		return <%=delegate%>validate<%=constraintDelegate.getName()%>_<%=constraint%>(<%=genClassifier.getSafeUncapName()%><%=accessor%>, <%=diagnostics%>, <%=context%>);
 <%} else {%>
+		// TODO implement the constraint
 		return true;
 <%}%>
 <%} else if (constraintDelegate != null) {%>
