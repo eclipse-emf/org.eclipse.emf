@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.9 2004/08/12 14:58:38 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.10 2004/09/30 13:24:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1005,11 +1005,19 @@ public class EcoreUtil
       }
     }
 
+    protected EContentsEList.FeatureIterator getCrossReferences(EObject eObject)
+    {
+      return 
+        (EContentsEList.FeatureIterator)
+          (resolve() ? 
+            eObject.eCrossReferences().iterator() : 
+            ((InternalEList)eObject.eCrossReferences()).basicIterator()); 
+    }
+
     protected void handleCrossReference(EObject eObject)
     {
       InternalEObject internalEObject = (InternalEObject)eObject;
-      for (EContentsEList.FeatureIterator crossReferences = (EContentsEList.FeatureIterator)(resolve()
-        ? internalEObject.eCrossReferences().iterator() : ((InternalEList)internalEObject.eCrossReferences()).basicIterator()); crossReferences.hasNext();)
+      for (EContentsEList.FeatureIterator crossReferences = getCrossReferences(internalEObject); crossReferences.hasNext();)
       {
         EObject crossReferencedEObject = (EObject)crossReferences.next();
         EReference eReference = (EReference)crossReferences.feature();
