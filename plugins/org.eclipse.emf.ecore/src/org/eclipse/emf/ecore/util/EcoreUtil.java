@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.20 2005/03/11 14:32:01 bportier Exp $
+ * $Id: EcoreUtil.java,v 1.21 2005/03/18 21:56:58 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2256,31 +2256,11 @@ public class EcoreUtil
    * @return the index of the first occurrence of the argument in this
    *         list (where index>=fromIndex); returns <tt>-1</tt> if the 
    * 				 object is not found.
+   * @deprecated replaced by {@link ECollections#indexOf(List, Object, int)} in 2.1.0
    */
   public static int indexOf(List list, Object o, int fromIndex)
   {
-    if (fromIndex < 0)
-    {
-      fromIndex = 0;
-    }
-
-    int size = list.size();
-    for (int i = fromIndex; i < size; i++)
-    {
-      Object element = list.get(i);
-      if (o == null)
-      {
-        if (element == null)
-        {
-          return i;
-        }
-      }
-      else if (o == element || o.equals(element))
-      {
-        return i;
-      }
-    }
-    return -1;
+    return ECollections.indexOf(list, o, fromIndex);
   }
 
   /** 
@@ -2291,11 +2271,11 @@ public class EcoreUtil
    * no change will be made.
    * @param eList the list to set.
    * @param prototypeCollection the collection representing the desired content and order.
-   * @deprecated replaced by {@link EcoreUtil#setEList(EList, List)}.
+   * @deprecated replaced by {@link ECollections#setEList(EList, List)} in 2.1.0
    */
   public static void setEList(EList eList, Collection prototypeCollection)
   {
-    setEList(eList, new ArrayList(prototypeCollection));
+    ECollections.setEList(eList, new ArrayList(prototypeCollection));
   }
 
   /** 
@@ -2306,63 +2286,11 @@ public class EcoreUtil
    * no change will be made.
    * @param eList the list to set.
    * @param prototypeList the list representing the desired content and order.
+   * @deprecated replaced by {@link ECollections#setEList(EList, List)} in 2.1.0
    */
   public static void setEList(EList eList, List prototypeList)
   {
-    int index = 0;
-    for (Iterator objects = prototypeList.iterator(); objects.hasNext(); ++index)
-    {
-      Object prototypeObject = objects.next();
-      if (eList.size() <= index)
-      {
-        eList.add(prototypeObject);
-      }
-      else
-      {
-        boolean done;
-        do
-        {
-          done = true;
-          Object targetObject = eList.get(index);
-          if (targetObject == null ? prototypeObject != null : !targetObject.equals(prototypeObject))
-          {
-            int position = indexOf(eList, prototypeObject, index);
-            if (position != -1)
-            {
-              int targetIndex = indexOf(prototypeList, targetObject, index);
-              if (targetIndex == -1)
-              {
-                eList.remove(index);
-                done = false;
-              }
-              else if (targetIndex > position)
-              {
-                if (eList.size() <= targetIndex)
-                {
-                  targetIndex = eList.size() - 1;
-                }
-                eList.move(targetIndex, index);
-
-                done = false;
-              }
-              else
-              {
-                eList.move(index, position);
-              }
-            }
-            else
-            {
-              eList.add(index, prototypeObject);
-            }
-          }
-        }
-        while (!done);
-      }
-    }
-    for (int i = eList.size(); i > index;)
-    {
-      eList.remove(--i);
-    }
+    ECollections.setEList(eList, prototypeList);
   }
 
   /**
