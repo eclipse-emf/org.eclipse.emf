@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataValue.java,v 1.2 2004/06/15 22:50:50 elena Exp $
+ * $Id: DataValue.java,v 1.3 2004/06/16 15:55:04 elena Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -190,55 +190,19 @@ public static final class  Base64 {
       int      fewerThan24bits   = lengthDataBits%TWENTYFOURBITGROUP;
       int      numberTriplets    = lengthDataBits/TWENTYFOURBITGROUP;
       int      numberQuartet     = fewerThan24bits != 0 ? numberTriplets+1 : numberTriplets;
-      int      numberLines       = (numberQuartet-1)/19;
       char     encodedData[]     = null;
 
-      encodedData = new char[numberQuartet*4+numberLines];
+      encodedData = new char[numberQuartet*4];
 
       byte k=0, l=0, b1=0,b2=0,b3=0;
 
       int encodedIndex = 0;
       int dataIndex   = 0;
-      int i           = 0;
       if (fDebug) {
           System.out.println("number of triplets = " + numberTriplets );
       }
 
-      for (int line = 0; line < numberLines-1; line++) {
-          for (int quartet = 0; quartet < 19; quartet++) {
-              b1 = binaryData[dataIndex++];
-              b2 = binaryData[dataIndex++];
-              b3 = binaryData[dataIndex++];
-
-              if (fDebug) {
-                  System.out.println( "b1= " + b1 +", b2= " + b2 + ", b3= " + b3 );
-              }
-
-              l  = (byte)(b2 & 0x0f);
-              k  = (byte)(b1 & 0x03);
-
-              byte val1 = ((b1 & SIGN)==0)?(byte)(b1>>2):(byte)((b1)>>2^0xc0);
-
-              byte val2 = ((b2 & SIGN)==0)?(byte)(b2>>4):(byte)((b2)>>4^0xf0);
-              byte val3 = ((b3 & SIGN)==0)?(byte)(b3>>6):(byte)((b3)>>6^0xfc);
-
-              if (fDebug) {
-                  System.out.println( "val2 = " + val2 );
-                  System.out.println( "k4   = " + (k<<4));
-                  System.out.println( "vak  = " + (val2 | (k<<4)));
-              }
-
-              encodedData[encodedIndex++] = lookUpBase64Alphabet[ val1 ];
-              encodedData[encodedIndex++] = lookUpBase64Alphabet[ val2 | ( k<<4 )];
-              encodedData[encodedIndex++] = lookUpBase64Alphabet[ (l <<2 ) | val3 ];
-              encodedData[encodedIndex++] = lookUpBase64Alphabet[ b3 & 0x3f ];
-
-              i++;
-          }
-          encodedData[encodedIndex++] = 0xa;
-      }
-
-      for (; i<numberTriplets; i++) {
+      for (int i=0; i<numberTriplets; i++) {
           b1 = binaryData[dataIndex++];
           b2 = binaryData[dataIndex++];
           b3 = binaryData[dataIndex++];
@@ -1502,7 +1466,7 @@ public static class EncodingMap {
 * default port for a specific scheme). Rather, it only knows the
 * grammar and basic set of operations that can be applied to a URI.
 *
-* @version  $Id: DataValue.java,v 1.2 2004/06/15 22:50:50 elena Exp $
+* @version  $Id: DataValue.java,v 1.3 2004/06/16 15:55:04 elena Exp $
 *
 **********************************************************************/
  public static final class URI implements Serializable {
@@ -3540,7 +3504,7 @@ public static class EncodingMap {
   * @author Michael Glavassevich, IBM
   * @author Rahul Srivastava, Sun Microsystems Inc.
   *
-  * @version $Id: DataValue.java,v 1.2 2004/06/15 22:50:50 elena Exp $
+  * @version $Id: DataValue.java,v 1.3 2004/06/16 15:55:04 elena Exp $
   */
  public static final class XMLChar {
 
