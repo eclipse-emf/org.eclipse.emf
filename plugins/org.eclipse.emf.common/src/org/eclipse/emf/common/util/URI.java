@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.3 2004/04/07 16:18:26 emerks Exp $
+ * $Id: URI.java,v 1.4 2004/04/12 17:08:30 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -173,8 +173,8 @@ public final class URI
       throw new IllegalArgumentException("non-hierarchical JAR-scheme URI");
     }
 
-    return new URI(false, scheme, opaquePart, null, false, NO_SEGMENTS,
-                   null, fragment);
+    validateURI(false, scheme, opaquePart, null, false, NO_SEGMENTS, null, fragment);
+    return new URI(false, scheme, opaquePart, null, false, NO_SEGMENTS, null, fragment);
   }
 
   /**
@@ -206,8 +206,8 @@ public final class URI
       throw new IllegalArgumentException("JAR-scheme URI with no path");
     }
 
-    return new URI(true, scheme, authority, device, false, NO_SEGMENTS,
-                   query, fragment);
+    validateURI(true, scheme, authority, device, false, NO_SEGMENTS, query, fragment);
+    return new URI(true, scheme, authority, device, false, NO_SEGMENTS, query, fragment);
   }
 
   /**
@@ -239,8 +239,9 @@ public final class URI
       throw new IllegalArgumentException("JAR-scheme URI with device");
     }
 
-    return new URI(true, scheme, authority, device, true, fix(segments),
-                   query, fragment);
+    segments = fix(segments);
+    validateURI(true, scheme, authority, device, true, segments, query, fragment);
+    return new URI(true, scheme, authority, device, true, segments, query, fragment);
   }
 
   /**
@@ -259,8 +260,9 @@ public final class URI
   public static URI createHierarchicalURI(String[] segments, String query,
                                           String fragment)
   {
-    return new URI(true, null, null, null, false, fix(segments), query,
-                   fragment);
+    segments = fix(segments);
+    validateURI(true, null, null, null, false, segments, query, fragment);
+    return new URI(true, null, null, null, false, segments, query, fragment);
   }
 
   // Converts null to length-zero array, and clones array to ensure
@@ -413,8 +415,8 @@ public final class URI
       fragment = uri.substring(++i);
     }
 
-    return new URI(hierarchical, scheme, authority, device, absolutePath,
-                   segments, query, fragment);
+    validateURI(hierarchical, scheme, authority, device, absolutePath, segments, query, fragment);
+    return new URI(hierarchical, scheme, authority, device, absolutePath, segments, query, fragment);
   }
 
   /**
@@ -511,50 +513,11 @@ public final class URI
     return i;
   }
 
-  // Private constructor for use of static factory methods.  Does validation
-  // of each component, but assumes that the inter-component requirements
-  // described in the factory doc-comments are all satisfied.
+  // Private constructor for use of static factory methods.
   private URI(boolean hierarchical, String scheme, String authority,
               String device, boolean absolutePath, String[] segments,
               String query, String fragment)
   {
-    boolean jarScheme = SCHEME_JAR.equalsIgnoreCase(scheme);
-
-    if (!validScheme(scheme))
-    {
-      throw new IllegalArgumentException("invalid scheme: " + scheme);
-    }
-    if (!hierarchical && !validOpaquePart(authority))
-    {
-      throw new IllegalArgumentException("invalid opaquePart: " + authority);
-    }
-    if (hierarchical && !jarScheme && !validAuthority(authority))
-    {
-      throw new IllegalArgumentException("invalid authority: " + authority);
-    }
-    if (hierarchical && jarScheme && !validJarAuthority(authority))
-    {
-      throw new IllegalArgumentException("invalid authority: " + authority);
-    }
-    if (!validDevice(device))
-    {
-      throw new IllegalArgumentException("invalid device: " + device);
-    }
-    if (!validSegments(segments))
-    {
-      String s = segments == null ? "invalid segments: " + segments :
-        "invalid segment: " + firstInvalidSegment(segments);
-      throw new IllegalArgumentException(s);
-    }
-    if (!validQuery(query))
-    {
-      throw new IllegalArgumentException("invalid query: " + query);
-    }
-    if (!validFragment(fragment))
-    {
-      throw new IllegalArgumentException("invalid fragment: " + fragment);
-    }
-
     int hashCode = 0;
     if (hierarchical)
     {
@@ -599,6 +562,55 @@ public final class URI
     this.segments = segments;
     this.query = query;
     this.fragment = fragment;
+  }
+  
+  // Validates all of the URI components.  Factory methods should call this
+  // before using the constructor, though they must ensure that the
+  // inter-component requirements described in their own Javadocs are all
+  // satisfied, themselves.  If a new URI is being constructed out of
+  // an existing URI, this need not be called.  Instead, just the new
+  // components may be validated individually.
+  private static void validateURI(boolean hierarchical, String scheme,
+                                    String authority, String device,
+                                    boolean absolutePath, String[] segments,
+                                    String query, String fragment)
+  {
+    boolean jarScheme = SCHEME_JAR.equalsIgnoreCase(scheme);
+
+    if (!validScheme(scheme))
+    {
+      throw new IllegalArgumentException("invalid scheme: " + scheme);
+    }
+    if (!hierarchical && !validOpaquePart(authority))
+    {
+      throw new IllegalArgumentException("invalid opaquePart: " + authority);
+    }
+    if (hierarchical && !jarScheme && !validAuthority(authority))
+    {
+      throw new IllegalArgumentException("invalid authority: " + authority);
+    }
+    if (hierarchical && jarScheme && !validJarAuthority(authority))
+    {
+      throw new IllegalArgumentException("invalid authority: " + authority);
+    }
+    if (!validDevice(device))
+    {
+      throw new IllegalArgumentException("invalid device: " + device);
+    }
+    if (!validSegments(segments))
+    {
+      String s = segments == null ? "invalid segments: " + segments :
+        "invalid segment: " + firstInvalidSegment(segments);
+      throw new IllegalArgumentException(s);
+    }
+    if (!validQuery(query))
+    {
+      throw new IllegalArgumentException("invalid query: " + query);
+    }
+    if (!validFragment(fragment))
+    {
+      throw new IllegalArgumentException("invalid fragment: " + fragment);
+    }
   }
 
   // Searches the specified string for any of the specified target
@@ -1362,7 +1374,8 @@ public final class URI
     }
     // else keep authority, device, path, and query
     
-    // always keep fragment, even if null, and use scheme from base
+    // always keep fragment, even if null, and use scheme from base;
+    // no validation needed since all components are from existing URIs
     return new URI(true, base.scheme(), newAuthority, newDevice,
                    newAbsolutePath, newSegments, newQuery, fragment);
   }
@@ -1564,7 +1577,8 @@ public final class URI
     }
     // else keep authority, device, path, and query
 
-    // always include fragment, even if null
+    // always include fragment, even if null;
+    // no validation needed since all components are from existing URIs
     return new URI(true, null, newAuthority, newDevice, newAbsolutePath,
                    newSegments, newQuery, fragment);
   }
@@ -2091,6 +2105,7 @@ public final class URI
       }
     }
 
+    // no validation needed since all components are from existing URIs
     return new URI(true, newPrefix.scheme(), newPrefix.authority(),
                    newPrefix.device(), newPrefix.hasAbsolutePath(),
                    mergedSegments, query, fragment);
