@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StandAloneSuites.java,v 1.1 2004/11/11 18:13:41 nickb Exp $
+ * $Id: StandAloneSuites.java,v 1.2 2004/11/11 18:23:23 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 import junit.framework.Test;
@@ -29,7 +29,7 @@ public class StandAloneSuites extends TestSuite
 
   public static Test suite()
   {
-    return new StandAloneSuites("EMF Core StandAlone JUnit Test Suite");
+    return new StandAloneSuites("EMF StandAlone JUnit Test Suite");
   }
 
   public StandAloneSuites()
