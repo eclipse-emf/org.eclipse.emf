@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingWrapperItemProvider.java,v 1.2 2004/04/05 23:10:58 davidms Exp $
+ * $Id: DelegatingWrapperItemProvider.java,v 1.3 2004/08/05 15:42:11 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -41,8 +41,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 /**
  * A wrapper for model objects and other wrappers.  This handles most of the item provider methods by delegating to the
- * item provider returned by adapting on the value, but it returns the {@link IWrapperItemProvider#getOwner owner} as
- * the parent, and it has to decorate the children, property descriptors, and commands that it returns.
+ * item provider returned by adapting on the value, but it returns the {@link org.eclipse.emf.edit.provider.WrapperItemProvider#getParent(Object) owner} 
+ * as the parent, and it has to decorate the children, property descriptors, and commands that it returns.
  */
 public class DelegatingWrapperItemProvider extends WrapperItemProvider
   implements

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryImpl.java,v 1.2 2004/07/29 13:32:37 marcelop Exp $
+ * $Id: AdapterFactoryImpl.java,v 1.3 2004/08/05 15:42:12 marcelop Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -139,7 +139,7 @@ public class AdapterFactoryImpl implements AdapterFactory
   }
 
   /**
-   * Creates an {@link AdapterImpl}.
+   * Creates an {@link org.eclipse.emf.common.notify.impl.AdapterImpl}.
    * @param target the notifier to adapt.
    * @return a new adapter.
    * @see #createAdapter(Notifier)
@@ -150,7 +150,7 @@ public class AdapterFactoryImpl implements AdapterFactory
   }
 
   /** 
-   * Associates an adapter with a notifier by adding it to the target's {@link Notifier#eAdapters adapters}.
+   * Associates an adapter with a notifier by adding it to the target's {@link org.eclipse.emf.common.notify.impl.Notifier#eAdapters adapters}.
    * @param adapter the new adapter to associate.
    * @param target the notifier being adapted.
    */

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.4 2004/07/29 17:56:15 marcelop Exp $
+ * $Id: WrapperItemProvider.java,v 1.5 2004/08/05 15:42:11 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -137,7 +137,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
 
   /**
    * {@link ITreeItemContentProvider#getParent ITreeItemContentProvider.getParent} is implemented by returning the
-   * {@link #getOwner owner}.
+   * {@link #owner}.
    */
   public Object getParent(Object object)
   {
@@ -145,7 +145,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
   }
 
   /**
-   * {@link IItemLabelProvider#getText IItemLabelProvider.getText} is implemented by returning a non-null value, as a
+   * {@link org.eclipse.emf.edit.provider.IItemLabelProvider#getText IItemLabelProvider.getText} is implemented by returning a non-null value, as a
    * string, or "null".
    */
   public String getText(Object object)
@@ -154,7 +154,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
   }
 
   /**
-   * {@link IItemLabelProvider#getImage IItemLabelProvider.getImage} is implemented by returning the default icon for
+   * {@link org.eclipse.emf.edit.provider.IItemLabelProvider#getImage IItemLabelProvider.getImage} is implemented by returning the default icon for
    * an EMF.Edit item.
    */
   public Object getImage(Object object)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceFactoryImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ResourceFactoryImpl.java,v 1.2 2004/08/05 15:42:15 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -34,7 +34,7 @@ public class ResourceFactoryImpl implements Resource.Factory
   }
   
   /**
-   * Returns a newly allocated default resource {@link ResourceImpl#ResourceImpl(URI) implementation}.
+   * Returns a newly allocated default resource {@link org.eclipse.emf.ecore.resource.impl.ResourceImpl#ResourceImpl(URI) implementation}.
    * @param uri the URI.
    * @return a new resource for the URI.
    */

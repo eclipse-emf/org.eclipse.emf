@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerPane.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: ViewerPane.java,v 1.2 2004/08/05 15:42:14 marcelop Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -415,9 +415,6 @@ public abstract class ViewerPane implements IPropertyListener, Listener
     }
   }
 
-  /**
-   * @private
-   */
   public void dispose() 
   {
     if ((control != null) && (!control.isDisposed())) 

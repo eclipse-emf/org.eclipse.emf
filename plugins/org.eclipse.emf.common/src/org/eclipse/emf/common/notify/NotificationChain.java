@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationChain.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: NotificationChain.java,v 1.2 2004/08/05 15:42:12 marcelop Exp $
  */
 package org.eclipse.emf.common.notify;
 
@@ -33,7 +33,8 @@ public interface NotificationChain
   public boolean add(Notification notification);
 
   /**
-   * Dispatches each notification to the appropriate notifier via {@link Notifier#eNotify Notifier.eNotify}.
+   * Dispatches each notification to the appropriate notifier via 
+   * {@link org.eclipse.emf.common.notify.Notifier#eNotify Notifier.eNotify}.
    */
   public void dispatch();
 }
