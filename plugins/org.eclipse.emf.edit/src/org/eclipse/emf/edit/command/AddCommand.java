@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddCommand.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: AddCommand.java,v 1.2 2004/05/29 16:09:51 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -295,6 +295,11 @@ public class AddCommand extends AbstractOverrideableCommand
           return false;
         }
       }
+    }
+
+    if (owner != null && domain.isReadOnly(owner.eResource()))
+    {
+      return false;
     }
 
     return true;

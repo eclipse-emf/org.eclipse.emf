@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReplaceCommand.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ReplaceCommand.java,v 1.2 2004/05/29 16:09:51 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -231,6 +231,10 @@ public class ReplaceCommand extends AbstractOverrideableCommand
     // there are not replacements.
     //
     if (ownerList == null || !ownerList.contains(value) || collection == null || collection.isEmpty())
+    {
+      return false;
+    }
+    else if (owner != null && domain.isReadOnly(owner.eResource()))
     {
       return false;
     }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RemoveCommand.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: RemoveCommand.java,v 1.2 2004/05/29 16:09:51 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -230,7 +230,10 @@ public class RemoveCommand extends AbstractOverrideableCommand
     // This can execute if there is an owner list and a collection and the owner list contains all the objects of the collection.
     //
     boolean result =
-      ownerList != null && collection != null && ownerList.containsAll(collection);
+      ownerList != null && 
+        collection != null && 
+        ownerList.containsAll(collection) && 
+        (owner == null || !domain.isReadOnly(owner.eResource()));
 
     return result;
   }

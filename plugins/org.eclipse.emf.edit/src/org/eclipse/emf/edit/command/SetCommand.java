@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: SetCommand.java,v 1.2 2004/05/29 16:09:51 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -275,6 +275,11 @@ public class SetCommand extends AbstractOverrideableCommand
     //
     if (owner != null)
     {
+      if (domain.isReadOnly(owner.eResource()))
+      {
+        return false;
+      }
+
       // Get the owner's meta object.
       //
       EClass eMetaObject = owner.eClass();
