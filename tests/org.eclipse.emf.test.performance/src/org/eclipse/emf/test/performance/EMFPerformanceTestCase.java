@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.2 2005/02/01 04:10:59 marcelop Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.3 2005/02/01 18:23:32 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -27,11 +27,13 @@ import org.eclipse.test.performance.PerformanceTestCase;
  * don't affect the measurements.</li>
  * <li>Invoking <tt><b>super.</b>setUp</tt> and <tt><b>super.</b>tearDown</tt> is
  * mandatory if these methods are being overwritten by subclasses</li>
- * <li>The <tt>iterations</tt> attribute defines how many times a test will
- * be invoked.  Each iteration is measured and the final result is an average of 
- * all iterations.  The default value is 1.</li>
+ * <li>The <tt>iterations</tt> attribute defines how many times a test will be invoked.  
+ * If the <tt>startMeasuring</tt> and <tt>stopMeasuring</tt> are invoked in the test, each 
+ * iteration is measured and the final result is an average of all iterations.  The default 
+ * number of iterations is 1.</li>
  * <li>The <tt>warmUp</tt> attribute defines how many times a test will be invoked
- * <b>before</b> the measurements take place.</li>
+ * <b>before</b> the measurements take place.  The <tt>startMeasuring</tt> and 
+ * <tt>stopMeasuring</tt> methods won't do anything while the test is being warmed up.</li>
  * </ul>
  * </p>
  * @since 2.1.0
@@ -63,6 +65,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
   
   private int iterations = 1;
   private int warmUp = 0;
+  private boolean warmingUp = false;
   
   public EMFPerformanceTestCase(String name)
   {
@@ -95,22 +98,53 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
   {
     return warmUp;
   }
-
+  
+  protected boolean isWarmingUp()
+  {
+    return warmingUp;
+  }
+  
+  protected void startMeasuring()
+  {
+    if (!isWarmingUp())
+    {
+      super.startMeasuring();
+    }
+  }
+  
+  protected void stopMeasuring()
+  {
+    if (!isWarmingUp())
+    {
+      super.stopMeasuring();
+    }
+  }
+  
   protected void runTest() throws Throwable
   {
     assertTrue("Iterations must be greater than 0", getIterations() > 0); 
     
-    for (int i=0, maxi=getWarmUp(); i<maxi; i++)
-    {
-      super.runTest();
-    }
-    
+    warmUp();
     for (int i=0, maxi=getIterations(); i<maxi; i++)
     {
-      startMeasuring();
       super.runTest();
-      stopMeasuring();
     }
+  }
+  
+  protected void warmUp() throws Throwable
+  {
+    warmingUp = true;
+    try
+    {
+      for (int i=0, maxi=getWarmUp(); i<maxi; i++)
+      {
+        super.runTest();
+      }
+    }
+    finally
+    {
+      warmingUp = false;
+    }    
   }
   
   protected void tearDown() throws Exception
@@ -118,5 +152,5 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     commitMeasurements();
     assertPerformance();    
     super.tearDown();
-  }
+  }  
 }

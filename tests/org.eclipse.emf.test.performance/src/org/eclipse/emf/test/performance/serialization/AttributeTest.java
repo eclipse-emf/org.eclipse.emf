@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AttributeTest.java,v 1.1 2005/01/31 22:26:09 marcelop Exp $
+ * $Id: AttributeTest.java,v 1.2 2005/02/01 18:23:32 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -233,12 +233,16 @@ public class AttributeTest extends EMFPerformanceTestCase
   }
   
   private final void save(EObject eObject) throws Exception
-  {
+  {    
     Resource resource = new XMLResourceImpl();
     resource.getContents().add(eObject);
-    resource.save(baos, saveOptions);
     
+    startMeasuring();
+    
+    resource.save(baos, saveOptions);
     baos.reset();
-    baos.close();    
-  }  
+    baos.close();
+    
+    stopMeasuring();
+  } 
 }
