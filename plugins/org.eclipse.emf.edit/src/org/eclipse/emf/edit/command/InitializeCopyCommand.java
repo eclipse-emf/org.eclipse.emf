@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InitializeCopyCommand.java,v 1.2 2004/03/15 15:01:08 marcelop Exp $
+ * $Id: InitializeCopyCommand.java,v 1.3 2004/05/14 19:39:11 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -27,6 +27,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
@@ -131,7 +134,7 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
     for (Iterator attributes = getAttributesToCopy().iterator(); attributes.hasNext(); )
     {
       EAttribute attribute = (EAttribute) attributes.next();
-      if (attribute.isChangeable() && (attribute.isMany() || owner.eIsSet(attribute)))
+      if (attribute.isChangeable() && !attribute.isDerived() && (attribute.isMany() || owner.eIsSet(attribute)))
       {
         Object value = owner.eGet(attribute);
         if (!attribute.isMany())
@@ -140,8 +143,49 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
         }
         else
         {
-          List list = (List) copy.eGet(attribute);
-          list.addAll((List) value);
+          List list = (List)copy.eGet(attribute);
+          if (FeatureMapUtil.isFeatureMap(attribute))
+          {
+            FeatureMap featureMap = (FeatureMap)list;
+            LOOP:
+            for (Iterator i = ((List)value).iterator(); i.hasNext(); )
+            {
+              FeatureMap.Entry entry = (FeatureMap.Entry)i.next();
+              EStructuralFeature entryFeature = entry.getEStructuralFeature();
+              if (entryFeature instanceof EAttribute)
+              {
+                featureMap.add(entry);
+              }
+              else
+              {
+                EReference reference = (EReference)entryFeature;
+                EReference reverseReference = reference.getEOpposite();
+                Object entryValue = entry.getValue();
+                boolean copiedTargetRequired = reverseReference != null || reference.isContainment();
+                EObject target = copyHelper.getCopyTarget((EObject)entryValue, copiedTargetRequired);
+                if (target != null)
+                {
+                  if (reverseReference != null)
+                  {
+                    for (Iterator j = featureMap.iterator(); j.hasNext(); )
+                    {
+                      FeatureMap.Entry copyEntry = (FeatureMap.Entry)j.next();
+                      if (copyEntry.getEStructuralFeature() == reference && copyEntry.getValue() == target)
+                      {
+                        featureMap.move(featureMap.size() - 1, copyEntry);
+                        continue LOOP;
+                      }
+                    }
+                  }
+                  featureMap.add(reference, target);
+                }
+              }
+            }
+          }
+          else
+          {
+            list.addAll((List)value);
+          }
         }
       }
     }
@@ -162,7 +206,7 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
     for (Iterator references = getReferencesToCopy().iterator(); references.hasNext(); ) 
     {
       EReference reference = (EReference) references.next();
-      if (!reference.isChangeable())
+      if (!reference.isChangeable() || reference.isDerived())
       {
         continue;
       }
