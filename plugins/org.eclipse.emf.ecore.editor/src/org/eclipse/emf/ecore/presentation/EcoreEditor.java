@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.4 2004/03/23 17:00:38 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.5 2004/03/24 18:00:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -485,7 +485,7 @@ public class EcoreEditor
    */
   protected void handleChangedResources()
   {
-    if (!isDirty() || handleDirtyConflict())
+    if (!changedResources.isEmpty() && (!isDirty() || handleDirtyConflict()))
     {
       editingDomain.getCommandStack().flush();
 

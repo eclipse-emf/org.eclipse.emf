@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.5 2004/03/23 09:56:55 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.6 2004/03/24 18:00:30 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -357,7 +357,7 @@ public class GenModelEditor
    */
   protected void handleChangedResources()
   {
-    if (!isDirty() || handleDirtyConflict())
+    if (!changedResources.isEmpty() && (!isDirty() || handleDirtyConflict()))
     {
       editingDomain.getCommandStack().flush();
       Resource mainResource = (Resource)editingDomain.getResourceSet().getResources().get(0);
