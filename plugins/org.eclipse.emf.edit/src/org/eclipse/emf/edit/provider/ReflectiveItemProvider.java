@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.11 2004/11/11 19:52:10 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.12 2004/12/11 12:28:16 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -30,11 +31,15 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
@@ -91,30 +96,90 @@ public class ReflectiveItemProvider
   }
 
   protected List allRoots;
+  protected List allEPackages;
   protected List allEClasses;
 
+  protected void gatherAllMetaData(EObject eObject)
+  {
+    EObject root = EcoreUtil.getRootContainer(eObject);
+    ExtendedMetaData extendedMetaData =
+        root.eResource() == null || root.eResource().getResourceSet() == null ?
+          ExtendedMetaData.INSTANCE :
+          new BasicExtendedMetaData(root.eResource().getResourceSet().getPackageRegistry());
+    EStructuralFeature xmlnsPrefixMapFeature = extendedMetaData.getXMLNSPrefixMapFeature(root.eClass());
+    if (xmlnsPrefixMapFeature != null)
+    {
+      for (Iterator i = ((List)root.eGet(xmlnsPrefixMapFeature)).iterator(); i.hasNext(); )
+      {
+        Map.Entry entry = (Map.Entry)i.next();
+        EPackage ePackage = extendedMetaData.getPackage((String)entry.getValue());
+        if (ePackage != null)
+        {
+          gatherMetaData((EModelElement)EcoreUtil.getRootContainer(ePackage));
+        }
+      }
+    }
+    
+    gatherMetaData(eObject.eClass());
+  }
+  
   protected List getAllEClasses(EClass eClass)
+  {
+    gatherMetaData(eClass);
+    return allEClasses;
+  }
+  
+  protected List getAllEPackages(EClass eClass)
+  {
+    gatherMetaData(eClass);
+    return allEPackages;
+  }
+    
+  protected void gatherMetaData(EModelElement eModelElement)
   {
     if (allRoots == null)
     {
       allRoots = new ArrayList();
       allEClasses = new ArrayList();
+      allEPackages = new ArrayList();
     }
-
+    
     Set roots = new HashSet();
-    EObject root = EcoreUtil.getRootContainer(eClass);
+    EObject root = EcoreUtil.getRootContainer(eModelElement);
     for (;;)
     {
       if (!allRoots.contains(root))
       {
         allRoots.add(root);
+        ExtendedMetaData extendedMetaData = 
+            root.eResource() == null || root.eResource().getResourceSet() == null ?
+              ExtendedMetaData.INSTANCE :
+              new BasicExtendedMetaData(root.eResource().getResourceSet().getPackageRegistry());
+        if (root instanceof EPackage)
+        {
+          allEPackages.add(root);
+        }
         for (Iterator i = root.eAllContents(); i.hasNext(); )
         {
           EObject eObject = (EObject)i.next();
-          if (eObject instanceof EClass)
+          
+          if (eObject instanceof EClassifier)
           {
-            allEClasses.add(eObject);
+            extendedMetaData.getName((EClassifier)eObject);
+            if (eObject instanceof EClass)
+            {
+              allEClasses.add(eObject);
+            }
           }
+          else if (eObject instanceof EStructuralFeature)
+          {
+            extendedMetaData.getName((EStructuralFeature)eObject);
+          }
+          else if (eObject instanceof EPackage)
+          {
+            allEPackages.add(eObject);
+          }
+          
           for (Iterator j = eObject.eClass().getEAllReferences().iterator(); j.hasNext(); )
           {
             EReference eReference = (EReference)j.next();
@@ -163,8 +228,6 @@ public class ReflectiveItemProvider
         i.remove();
       }
     }
-
-    return allEClasses;
   }
 
   protected List getAllConcreteSubclasses(EClass eClass)
@@ -175,7 +238,7 @@ public class ReflectiveItemProvider
       for (Iterator i = getAllEClasses(eClass).iterator(); i.hasNext(); )
       {
         EClass otherEClass = (EClass)i.next();
-        if (!otherEClass.isAbstract())
+        if (!otherEClass.isAbstract() && !ExtendedMetaData.INSTANCE.isAnonymous(otherEClass))
         {
           result.add(otherEClass);
         }
@@ -386,22 +449,79 @@ public class ReflectiveItemProvider
        for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
        {
          EStructuralFeature otherFeature = (EStructuralFeature)i.next();
-         if (otherFeature != feature && otherFeature.isDerived() &&
+         if (otherFeature != feature && otherFeature.isDerived() && otherFeature.isChangeable() &&
              ExtendedMetaData.INSTANCE.getGroup(otherFeature) == null)
          {
            delegated.add(otherFeature);
          }
        }
     }
-    else if (ExtendedMetaData.INSTANCE.getFeatureKind(feature) == ExtendedMetaData.GROUP_FEATURE)
+    else
     {
-      for (Iterator i = eClass.getEStructuralFeatures().iterator(); i.hasNext(); )
+      switch (ExtendedMetaData.INSTANCE.getFeatureKind(feature))
       {
-        EStructuralFeature otherFeature = (EStructuralFeature)i.next();
-        if (otherFeature != feature && otherFeature.isDerived() && otherFeature.isChangeable() &&
-            ExtendedMetaData.INSTANCE.getGroup(otherFeature) == feature)
+        case ExtendedMetaData.GROUP_FEATURE:
         {
-          delegated.add(otherFeature);
+          Set allDelegated = new HashSet();
+          for (Iterator i = eClass.getEStructuralFeatures().iterator(); i.hasNext(); )
+          {
+            EStructuralFeature otherFeature = (EStructuralFeature)i.next();
+            if (otherFeature != feature && otherFeature.isDerived() && 
+                ExtendedMetaData.INSTANCE.getGroup(otherFeature) == feature)
+            { 
+              if (otherFeature.isChangeable())
+              {
+                delegated.add(otherFeature);
+              }
+              allDelegated.add(otherFeature);
+            }
+          }
+          
+          for (Iterator i = getAllEPackages(eClass).iterator(); i.hasNext(); )
+          {
+            EPackage ePackage = (EPackage)i.next();
+            EClass documentRootEClass = ExtendedMetaData.INSTANCE.getDocumentRoot(ePackage);
+            if (documentRootEClass != null)
+            {
+              for (Iterator j = documentRootEClass.getEAllStructuralFeatures().iterator(); j.hasNext(); )
+              {
+                EStructuralFeature otherFeature = (EStructuralFeature)j.next();
+                if (otherFeature != feature && 
+                      otherFeature.isChangeable() &&
+                      otherFeature.isDerived() &&
+                      allDelegated.contains(ExtendedMetaData.INSTANCE.getAffiliation(eClass, otherFeature)))
+                {
+                  delegated.add(otherFeature);
+                }
+              }
+            }
+          }
+            
+          break;
+        }
+        case ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE:
+        case ExtendedMetaData.ELEMENT_WILDCARD_FEATURE:
+        {
+          for (Iterator i = getAllEPackages(eClass).iterator(); i.hasNext(); )
+          {
+            EPackage ePackage = (EPackage)i.next();
+            EClass documentRootEClass = ExtendedMetaData.INSTANCE.getDocumentRoot(ePackage);
+            if (documentRootEClass != null)
+            {
+              for (Iterator j = documentRootEClass.getEAllStructuralFeatures().iterator(); j.hasNext(); )
+              {
+                EStructuralFeature otherFeature = (EStructuralFeature)j.next();
+                if (otherFeature != feature && 
+                      otherFeature.isDerived() && 
+                      otherFeature.isChangeable() &&
+                      ExtendedMetaData.INSTANCE.getAffiliation(eClass, otherFeature) == feature)
+                {
+                  delegated.add(otherFeature);
+                }
+              }
+            }
+          }
+          break;
         }
       }
     }
@@ -426,12 +546,9 @@ public class ReflectiveItemProvider
    */
   protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)    
   {
-    EObject eObject = (EObject)object;
-    EClass eClass = eObject.eClass();
-
     // This ensure that this package itself is traversed even if the reference type is EObject...
     //
-    getAllEClasses(eClass);
+    gatherAllMetaData((EObject)object);
 
     for (Iterator i = getChildrenFeatures(object).iterator(); i.hasNext(); )
     {
