@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.6 2005/01/25 18:45:01 elena Exp $
+ * $Id: XMLResourceImpl.java,v 1.7 2005/03/15 18:55:15 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -158,7 +158,19 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       options = Collections.EMPTY_MAP;
     }
 
+    ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
+
+    if (handler != null)
+    {
+      handler.preLoad(this, inputStream, options);
+    }
+
     xmlLoad.load(this, inputStream, options);
+
+    if (handler != null)
+    {
+      handler.postLoad(this, inputStream, options);
+    }
   }
 
   public void doSave(OutputStream outputStream, Map options) throws IOException
@@ -170,7 +182,20 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       options = Collections.EMPTY_MAP;
     }
 
+    ResourceHandler handler = (ResourceHandler)options.get(OPTION_RESOURCE_HANDLER);
+
+    if (handler != null)
+    {
+      handler.preSave(this, outputStream, options);
+    }
+
     xmlSave.save(this, outputStream, options);
+
+
+    if (handler != null)
+    {
+      handler.postSave(this, outputStream, options);
+    }
   }
 
   public Document toDOM(Map options, Document doc, DOMHandler handler)

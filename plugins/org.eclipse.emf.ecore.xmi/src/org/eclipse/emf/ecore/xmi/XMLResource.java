@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.23 2005/03/15 16:25:11 elena Exp $
+ * $Id: XMLResource.java,v 1.24 2005/03/15 18:55:15 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -224,6 +226,14 @@ public interface XMLResource extends Resource
    */
   String OPTION_DEFER_IDREF_RESOLUTION = "DEFER_IDREF_RESOLUTION";
   
+  /**
+   * Implementations can register the resource handler to receive call backs for loading or saving resources.
+   * The value of this option must be a class that extends the BasicResourceHandler class. 
+   * @see org.eclipse.emf.ecore.xmi.XMLResource.ResourceHandler
+   * @see org.eclipse.emf.ecore.xmi.impl.BasicResourceHandler
+   */
+  String OPTION_RESOURCE_HANDLER = "RESOURCE_HANDLER";
+
   String HREF = "href";
   String NIL = "nil";
   String TYPE = "type";
@@ -458,4 +468,14 @@ public interface XMLResource extends Resource
      */
     void setName(String name);
   }
+
+  interface ResourceHandler
+  {
+    public void preLoad(XMLResource resource, InputStream inputStream, Map options);
+    public void postLoad(XMLResource resource, InputStream inputStream, Map options);
+
+    public void preSave(XMLResource resource, OutputStream outputStream, Map options);
+    public void postSave(XMLResource resource, OutputStream outputStream, Map options);
+  }
+
 }
