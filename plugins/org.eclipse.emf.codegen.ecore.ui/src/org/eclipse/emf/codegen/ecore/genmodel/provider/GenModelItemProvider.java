@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.3 2004/04/05 14:09:37 davidms Exp $
+ * $Id: GenModelItemProvider.java,v 1.4 2004/05/16 17:20:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -99,6 +99,8 @@ public class GenModelItemProvider
       addFeatureMapWrapperInterfacePropertyDescriptor(object);
       addFeatureMapWrapperInternalInterfacePropertyDescriptor(object);
       addFeatureMapWrapperClassPropertyDescriptor(object);
+      addRuntimeCompatibilityPropertyDescriptor(object);
+      addRichClientPlatformPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -617,6 +619,44 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Runtime Compatibility feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addRuntimeCompatibilityPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_GenModel_runtimeCompatibility_feature"),
+         getString("_UI_GenModel_runtimeCompatibility_description"),
+         GenModelPackage.eINSTANCE.getGenModel_RuntimeCompatibility(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_AllPropertyCategory")));
+  }
+
+  /**
+   * This adds a property descriptor for the Rich Client Platform feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addRichClientPlatformPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_GenModel_richClientPlatform_feature"),
+         getString("_UI_GenModel_runtimeCompatibility_description"),
+         GenModelPackage.eINSTANCE.getGenModel_RichClientPlatform(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditorPropertyCategory")));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -647,7 +687,6 @@ public class GenModelItemProvider
 
     return super.getChildFeature(object, child);
   }
-
 
   /**
    */
@@ -708,6 +747,8 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE:
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE:
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS:
+      case GenModelPackage.GEN_MODEL__RUNTIME_COMPATIBILITY:
+      case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
@@ -728,5 +769,6 @@ public class GenModelItemProvider
   {
     return GenModelEditPlugin.INSTANCE;
   }
+
 }
 
