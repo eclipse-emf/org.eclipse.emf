@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.5 2004/12/13 20:22:31 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.6 2004/12/14 18:38:06 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -63,7 +63,7 @@ public class SpecialCasesTest  extends TestCase
   
   public static Test suite()
   {
-    TestSuite ts = new TestSuite("FeatureMapTest - ChangeRecorder");
+    TestSuite ts = new TestSuite("Change Moldel - Special Cases");
     ts.addTest(new SpecialCasesTest("testFeatureMapChange"));
     ts.addTest(new SpecialCasesTest("testOneToManyContainment"));
     ts.addTest(new SpecialCasesTest("testOneToOneContainment"));
