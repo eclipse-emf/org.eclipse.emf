@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: StaticBidirectionalTest.java,v 1.3 2005/03/18 04:04:56 nickb Exp $
+ * $Id: StaticBidirectionalTest.java,v 1.4 2005/03/18 16:20:37 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
 
 import java.util.List;
-import java.util.Properties;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -35,26 +34,14 @@ import commonj.sdo.Property;
 public class StaticBidirectionalTest extends DynamicBidirectionalTest
 {
 
-  protected static Properties props = new Properties();
-  protected static int iterations;
-
-  /**
-   * By calculating the value of iterations based on the value in the accompanying iterations.properties file,
-   * changing the values of the iterations can be done all in one place instead of throughout this file.
-   * Additionally, static fields are no longer required to define ITERATIONS_* constants.
-   * @param name
-   */
   public StaticBidirectionalTest(String name)
   {
     super(name);
-	iterations = getIterations(StaticBidirectionalTest.class.getName()+"."+name);
   }
 
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite();
-
-	testSuite.addTest(new StaticBidirectionalTest("testGetIterationsCount"));
 
     testSuite.addTest(new StaticBidirectionalTest("setAdaptedByGenerated").setWarmUp(0).setRepetitions(REPETITIONS_10));
     // TODO tune warmup
@@ -129,7 +116,7 @@ public class StaticBidirectionalTest extends DynamicBidirectionalTest
     Writer writer1 = (Writer)this.writer1;
 
     startMeasuring();
-    for (int i = 0; i < iterations; i++)
+    for (int i = 0; i < ITERATIONS_25K; i++)
     {
       book0.setAuthor(writer1);
       book0.setAuthor(writer0);
@@ -149,17 +136,12 @@ public class StaticBidirectionalTest extends DynamicBidirectionalTest
     ((Notifier)writer1).eAdapters().add(adapter);
 
     startMeasuring();
-    for (int i = 0; i < iterations; i++)
+    for (int i = 0; i < ITERATIONS_8K; i++)
     {
       book0.setAuthor(writer1);
       book0.setAuthor(writer0);
     }
     stopMeasuring();
-  }
-
-  public void testGetIterationsCount()
-  {
-	  System.out.println("StaticBidirectionalTest.testGetIterationsCount: "+iterations);
   }
 
 }

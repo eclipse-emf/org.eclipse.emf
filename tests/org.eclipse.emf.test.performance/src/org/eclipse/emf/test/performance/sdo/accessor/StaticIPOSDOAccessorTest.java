@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.18 2005/03/18 04:04:56 nickb Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.19 2005/03/18 16:20:37 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -23,7 +23,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Properties;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -50,6 +49,12 @@ import commonj.sdo.Property;
 public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 {
 
+  protected static final int ITERATIONS_40K = 40000;
+
+  protected static final int ITERATIONS_400K = 400000;
+
+  protected static final int ITERATIONS_800K = 800000;
+
   // values for get with generated code.
   protected Address addressBillToValue;
 
@@ -59,32 +64,14 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 
   protected HashMap hashMap = new HashMap();
 
-  protected static Properties props = new Properties();
-  protected static int iterations;
-
-  /**
-   * By calculating the value of iterations based on the value in the accompanying iterations.properties file,
-   * changing the values of the iterations can be done all in one place instead of throughout this file.
-   * Additionally, static fields are no longer required to define ITERATIONS_* constants.
-   * @param name
-   */
   public StaticIPOSDOAccessorTest(String name)
   {
     super(name);
-	iterations = getIterations(StaticIPOSDOAccessorTest.class.getName()+"."+name);
   }
 
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite();
-
-	// TODO verify values are being loaded correctly
-	//testSuite.addTest(new StaticIPOSDOAccessorTest("testGetIterationsCount"));
-	//testSuite.addTest(new DynamicIPOSDOAccessorTest("testGetIterationsCount"));
-	//testSuite.addTest(new StaticBidirectionalTest("testGetIterationsCount"));
-	//testSuite.addTest(new DynamicBidirectionalTest("testGetIterationsCount"));
-	//testSuite.addTest(new StaticSequenceTest("testGetIterationsCount"));
-	//testSuite.addTest(new DynamicSequenceTest("testGetIterationsCount"));
 
     testSuite.addTest(new StaticIPOSDOAccessorTest("getFromMap").setWarmUp(500).setRepetitions(REPETITIONS_10));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setInMap").setWarmUp(2000).setRepetitions(REPETITIONS_10));
@@ -118,7 +105,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByGenerated").setWarmUp(3000).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByGenerated").setWarmUp(2000).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
-    // TODO tune warmup for setByProperty
+    // TODO tune warmup for setByProperty    
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByProperty").setWarmUp(2000).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
@@ -253,7 +240,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   }
 
   /**
-   * Tests HashMap (not EMF) access time.
+   * Tests HashMap (not EMF) access time. 
    */
   public void getFromMap()
   {
@@ -265,7 +252,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     initMap();
 
     startMeasuring();
-    for (int i = 0; i < iterations; i++)
+    for (int i = 0; i < ITERATIONS_100K; i++)
     {
       // to use objectValue inside the loop.
       if (objectValue != this)
@@ -278,7 +265,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   }
 
   /**
-   * Tests HashMap (not EMF) access time.
+   * Tests HashMap (not EMF) access time. 
    */
   public void setInMap()
   {
@@ -289,7 +276,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     initMap();
 
     startMeasuring();
-    for (int i = 0; i < iterations; i++)
+    for (int i = 0; i < ITERATIONS_50K; i++)
     {
       hashMap.put(itemCommentProp, "comment x");
       // to alternate the feature to set.
@@ -309,7 +296,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     BigInteger quantity0 = this.quantity0;
 
     startMeasuring();
-    for (int i = 0; i < iterations; i++)
+    for (int i = 0; i < ITERATIONS_800K; i++)
     {
       // to use quantityValue inside the loop.
       if (quantityValue != quantity0)
@@ -328,7 +315,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     BigInteger quantity1 = this.quantity1;
 
     startMeasuring();
-    for (int i = 0; i < iterations; i++)
+    for (int i = 0; i < ITERATIONS_400K; i++)
     {
       itemElement.setQuantity(quantity0);
       // TODO ideally, we'd want to alternate the feature to set.
@@ -353,7 +340,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     PurchaseOrderType po = (PurchaseOrderType)this.po;
     startMeasuring();
 
-    for (int i = 0; i < iterations; i++)
+    for (int i = 0; i < ITERATIONS_40K; i++)
     {
       if (i % 2 == 0)
       { // like get
@@ -405,7 +392,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     USAddress newBillToAddress1 = (USAddress)this.newBillToAddress1;
     startMeasuring();
 
-    for (int i = 0; i < iterations; i++)
+    for (int i = 0; i < ITERATIONS_10K; i++)
     {
       if (i % 2 == 0)
       { // to set to a new value each time.
@@ -437,8 +424,4 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     stopMeasuring();
   }
 
-  public void testGetIterationsCount()
-  {
-	  System.out.println("StaticIPOSDOAccessorTest.testGetIterationsCount: "+iterations);
-  }
 }

@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: DynamicSequenceTest.java,v 1.4 2005/03/18 04:04:56 nickb Exp $
+ * $Id: DynamicSequenceTest.java,v 1.5 2005/03/18 16:20:37 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
 
 import java.util.List;
-import java.util.Properties;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -37,6 +36,14 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
 {
 
   protected static final int REPETITIONS = 10;
+
+  protected static final int ITERATIONS_50K = 50000;
+
+  protected static final int ITERATIONS_100K = 100000;
+
+  protected static final int ITERATIONS_500K = 500000;
+
+  protected static final int ITERATIONS_1000K = 1000000;
 
   protected EPOFactory epoFactoryInstance = EPOFactory.eINSTANCE;
 
@@ -66,28 +73,15 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
 
   protected List derivedValue;
 
-  protected static Properties props = new Properties();
-  protected static int iterations;
-
-  /**
-   * By calculating the value of iterations based on the value in the accompanying iterations.properties file,
-   * changing the values of the iterations can be done all in one place instead of throughout this file.
-   * Additionally, static fields are no longer required to define ITERATIONS_* constants.
-   * @param name
-   */
   public DynamicSequenceTest(String name)
   {
     super(name);
-	iterations = getIterations(DynamicSequenceTest.class.getName()+"."+name);
   }
 
   public static Test suite()
   {
 
     TestSuite testSuite = new TestSuite();
-
-	testSuite.addTest(new DynamicSequenceTest("testGetIterationsCount"));
-
     return testSuite;
   }
 
@@ -111,7 +105,7 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
     EStructuralFeature ordersFeat = this.ordersFeat;
 
     startMeasuring();
-    for (int i = 0; i < iterations; i++)
+    for (int i = 0; i < ITERATIONS_500K; i++)
     {
       if (objectValue != this)
       { // TODO ideally, we'd want to call different methods (which return Sequence).
@@ -129,7 +123,7 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
     EStructuralFeature standardOrdersFeat = this.standardOrdersFeat;
 
     startMeasuring();
-    for (int i = 0; i < iterations; i++)
+    for (int i = 0; i < ITERATIONS_100K; i++)
     {
       if (objectValue != this)
       {
@@ -147,7 +141,7 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
     Property ordersProp = this.ordersProp;
 
     startMeasuring();
-    for (int i = 0; i < iterations; i++)
+    for (int i = 0; i < ITERATIONS_100K; i++)
     {
       if (sequenceValue != this)
       { // TODO ideally, we'd want to call different methods (which return Sequence).
@@ -165,7 +159,7 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
     Property standardOrdersProp = this.standardOrdersProp;
 
     startMeasuring();
-    for (int i = 0; i < iterations; i++)
+    for (int i = 0; i < ITERATIONS_50K; i++)
     {
       if (derivedValue != this)
       {
@@ -174,11 +168,6 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
       }
     }
     stopMeasuring();
-  }
-
-  public void testGetIterationsCount()
-  {
-	  System.out.println("DynamicSequenceTest.testGetIterationsCount: "+iterations);
   }
 
 }
