@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.2 2004/03/08 20:13:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -59,7 +59,6 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabFolder2;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
@@ -730,17 +729,11 @@ public class GenModelEditor
     if (getPageCount() <= 1)
     {
       setPageText(0, "");
-      if (getContainer() instanceof CTabFolder2)
-      {
-        ((CTabFolder2)getContainer()).setTabHeight(1);
-        Point point = getContainer().getSize();
-        getContainer().setSize(point.x, point.y + 6);
-      }
-      else
+      if (getContainer() instanceof CTabFolder)
       {
         ((CTabFolder)getContainer()).setTabHeight(1);
         Point point = getContainer().getSize();
-        getContainer().setSize(point.x, point.y + 2);
+        getContainer().setSize(point.x, point.y + 6);
       }
     }
   }

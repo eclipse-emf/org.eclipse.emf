@@ -14,7 +14,7 @@
  *
  * </copyright>
  *
- * $Id: Editor.javajet,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: Editor.javajet,v 1.2 2004/03/08 20:13:40 emerks Exp $
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
@@ -109,7 +109,6 @@ import org.eclipse.swt.SWT;
 
 import org.eclipse.swt.custom.TableTree;
 import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabFolder2;
 
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
@@ -1057,17 +1056,11 @@ public class <%=genPackage.getEditorClassName()%>
 		if (getPageCount() <= 1)
 		{
 			setPageText(0, "");<%=genModel.getNonNLS()%>
-			if (getContainer() instanceof CTabFolder2)
-			{
-				((CTabFolder2)getContainer()).setTabHeight(1);
-				Point point = getContainer().getSize();
-				getContainer().setSize(point.x, point.y + 6);
-			}
-			else
+			if (getContainer() instanceof CTabFolder)
 			{
 				((CTabFolder)getContainer()).setTabHeight(1);
 				Point point = getContainer().getSize();
-				getContainer().setSize(point.x, point.y + 2);
+				getContainer().setSize(point.x, point.y + 6);
 			}
 		}
 	}

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingEditor.java,v 1.1 2004/03/06 17:31:33 marcelop Exp $
+ * $Id: MappingEditor.java,v 1.2 2004/03/08 20:14:06 emerks Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -59,7 +59,6 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabFolder2;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.TableTree;
 import org.eclipse.swt.custom.TableTreeItem;
@@ -1590,17 +1589,11 @@ public abstract class MappingEditor
     if (getPageCount() <= 1)
     {
       setPageText(0, "");
-      if (getContainer() instanceof CTabFolder2)
-      {
-        ((CTabFolder2)getContainer()).setTabHeight(1);
-        Point point = getContainer().getSize();
-        getContainer().setSize(point.x, point.y + 6);
-      }
-      else
+      if (getContainer() instanceof CTabFolder)
       {
         ((CTabFolder)getContainer()).setTabHeight(1);
         Point point = getContainer().getSize();
-        getContainer().setSize(point.x, point.y + 2);
+        getContainer().setSize(point.x, point.y + 6);
       }
     }
   }
