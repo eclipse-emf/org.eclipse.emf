@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.2 2004/05/16 17:33:10 emerks Exp $
+ * $Id: JETEmitter.java,v 1.3 2004/05/22 19:07:41 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -414,7 +414,7 @@ public class JETEmitter
           ((IFolder)sourceContainer).create(false, true, new SubProgressMonitor(subProgressMonitor, 1));
         }
       }
-      IFile targetFile = ((IContainer)sourceContainer).getFile(new Path(jetCompiler.getSkeleton().getClassName() + ".java"));
+      IFile targetFile = sourceContainer.getFile(new Path(jetCompiler.getSkeleton().getClassName() + ".java"));
       if (!targetFile.exists())
       {
         subProgressMonitor.subTask

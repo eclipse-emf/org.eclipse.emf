@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.3 2004/05/22 19:07:34 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -395,8 +395,8 @@ public class GenOperationImpl extends GenBaseImpl implements GenOperation
   public GenPackage getReturnTypeGenPackage()
   {
     EClassifier eType = getReturn();
-    if (eType instanceof EClassifier)
-      return findGenPackage(((EClassifier)eType).getEPackage());
+    if (eType != null)
+      return findGenPackage(eType.getEPackage());
     else
       return null;
   }

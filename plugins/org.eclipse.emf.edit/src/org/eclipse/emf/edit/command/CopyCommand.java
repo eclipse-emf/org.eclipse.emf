@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CopyCommand.java,v 1.2 2004/03/25 19:57:55 emerks Exp $
+ * $Id: CopyCommand.java,v 1.3 2004/05/22 19:07:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -119,7 +119,7 @@ public class CopyCommand extends StrictCompoundCommand
 
     this.resultIndex = 0;
     this.domain = domain;
-    this.owner = (EObject)owner;
+    this.owner = owner;
     this.copyHelper = copyHelper;
     this.optimize = optimize;
 

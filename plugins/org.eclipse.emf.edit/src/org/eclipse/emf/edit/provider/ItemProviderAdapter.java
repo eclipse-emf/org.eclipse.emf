@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.4 2004/04/07 21:02:48 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.5 2004/05/22 19:07:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -269,7 +269,7 @@ public class ItemProviderAdapter
    */
   public Object getPropertyValue(Object object, String property) 
   {
-    return ((IItemPropertyDescriptor)getPropertyDescriptor(object, property)).getPropertyValue(object);
+    return getPropertyDescriptor(object, property).getPropertyValue(object);
   }
 
   /**
@@ -278,7 +278,7 @@ public class ItemProviderAdapter
    */
   public boolean isPropertySet(Object object, String property) 
   {
-    return ((IItemPropertyDescriptor)getPropertyDescriptor(object, property)).isPropertySet(object);
+    return getPropertyDescriptor(object, property).isPropertySet(object);
   }
 
   /**
@@ -287,7 +287,7 @@ public class ItemProviderAdapter
    */
   public void resetPropertyValue(Object object, String property) 
   {
-    ((IItemPropertyDescriptor)getPropertyDescriptor(object, property)).resetPropertyValue(object);
+    getPropertyDescriptor(object, property).resetPropertyValue(object);
   }
 
   /**
@@ -296,7 +296,7 @@ public class ItemProviderAdapter
    */
   public void setPropertyValue(Object object, String property, Object value) 
   {
-    ((IItemPropertyDescriptor)getPropertyDescriptor(object, property)).setPropertyValue(object, value);
+    getPropertyDescriptor(object, property).setPropertyValue(object, value);
   }
   
   /**

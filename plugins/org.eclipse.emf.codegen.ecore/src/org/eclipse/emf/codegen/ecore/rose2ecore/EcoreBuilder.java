@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.7 2004/05/16 17:27:42 emerks Exp $
+ * $Id: EcoreBuilder.java,v 1.8 2004/05/22 19:07:34 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -1492,7 +1492,7 @@ public class EcoreBuilder implements RoseVisitor
         for (Iterator opposites = oppositesToRemove.iterator(); opposites.hasNext(); )
         {
           EReference opposite = (EReference)opposites.next();
-          EClass oppositeEClass = (EClass)opposite.getEContainingClass();
+          EClass oppositeEClass = opposite.getEContainingClass();
           if (oppositeEClass != null)
           {
             oppositeEClass.getEStructuralFeatures().remove(opposite);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.3 2004/05/06 18:25:35 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.4 2004/05/22 19:07:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -334,7 +334,7 @@ public class ReflectiveItemProvider
     updateChildren(notification);
 
     EObject object = (EObject)notification.getNotifier();
-    EClass eClass = (EClass)object.eClass();
+    EClass eClass = object.eClass();
     EStructuralFeature feature = (EStructuralFeature)notification.getFeature();
 
     boolean label = feature == getLabelFeature(eClass);

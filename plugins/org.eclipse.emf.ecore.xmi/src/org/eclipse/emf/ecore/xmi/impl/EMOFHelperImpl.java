@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EMOFHelperImpl.java,v 1.2 2004/05/22 19:07:43 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -64,7 +64,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
   {
     if (feature == EcorePackage.eINSTANCE.getEStructuralFeature_Changeable())
     {
-      ((EStructuralFeature)object).setChangeable(Boolean.FALSE.toString().equals((String)value)); // Ecore.changeable = !EMOF.isReadOnly
+      ((EStructuralFeature)object).setChangeable(Boolean.FALSE.toString().equals(value)); // Ecore.changeable = !EMOF.isReadOnly
     }
     else
     {

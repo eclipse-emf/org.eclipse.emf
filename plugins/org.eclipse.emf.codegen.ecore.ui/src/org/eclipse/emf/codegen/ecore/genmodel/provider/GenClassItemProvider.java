@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassItemProvider.java,v 1.5 2004/05/16 17:20:25 emerks Exp $
+ * $Id: GenClassItemProvider.java,v 1.6 2004/05/22 19:06:58 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -207,7 +207,7 @@ public class GenClassItemProvider
   public String getText(Object object)
   {
     GenClass genClass = (GenClass)object;
-    EClass eClass = (EClass)genClass.getEcoreClass();
+    EClass eClass = genClass.getEcoreClass();
     StringBuffer result = new StringBuffer();
     if (eClass.getName() != null)
     {

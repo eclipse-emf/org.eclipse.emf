@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.4 2004/05/16 17:31:01 emerks Exp $
+ * $Id: Generator.java,v 1.5 2004/05/22 19:07:34 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -602,7 +602,7 @@ public class Generator extends CodeGen
                 Object variable = i.next();
                 if (variable instanceof IClasspathEntry)
                 {
-                  classpathEntries.add((IClasspathEntry)variable);
+                  classpathEntries.add(variable);
                 }
                 else if (variable instanceof String)
                 {

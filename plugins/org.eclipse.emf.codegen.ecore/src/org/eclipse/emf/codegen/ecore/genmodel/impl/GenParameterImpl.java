@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenParameterImpl.java,v 1.2 2004/05/22 19:07:34 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -321,8 +321,8 @@ public class GenParameterImpl extends GenBaseImpl implements GenParameter
   public GenPackage getTypeGenPackage()
   {
     EClassifier eType = getEcoreParameter().getEType();
-    if (eType instanceof EClassifier)
-      return findGenPackage(((EClassifier)eType).getEPackage());
+    if (eType != null)
+      return findGenPackage(eType.getEPackage());
     else
       return null;
   }

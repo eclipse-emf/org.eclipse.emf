@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.3 2004/05/14 21:41:36 emerks Exp $
+ * $Id: ChangeRecorder.java,v 1.4 2004/05/22 19:07:25 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -519,7 +519,7 @@ public class ChangeRecorder implements Adapter
   protected void finalizeChange(ResourceChange change)
   {
     EList oldList = new BasicEList(change.getResource().getContents());
-    EList newList = (EList)change.getValue();
+    EList newList = change.getValue();
     createListChanges(oldList, newList, change.getListChanges());
   }
 

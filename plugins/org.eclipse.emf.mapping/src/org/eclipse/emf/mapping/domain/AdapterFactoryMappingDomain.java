@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryMappingDomain.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: AdapterFactoryMappingDomain.java,v 1.2 2004/05/22 19:07:46 marcelop Exp $
  */
 package org.eclipse.emf.mapping.domain;
 
@@ -678,7 +678,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
   {
     EObject result = null;
     EClassifier sourceClassifier = (EClassifier)sourceType;
-    String sourceTypeName = ((EPackage)sourceClassifier.getEPackage()).getNsURI() + packageTypeSeparator + sourceClassifier.getName();
+    String sourceTypeName = sourceClassifier.getEPackage().getNsURI() + packageTypeSeparator + sourceClassifier.getName();
     String targetTypeName = (String)typeTable.get(sourceTypeName);
         
     if (targetTypeName != null) 

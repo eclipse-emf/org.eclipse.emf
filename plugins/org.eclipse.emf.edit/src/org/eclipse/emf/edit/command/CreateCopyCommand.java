@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateCopyCommand.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: CreateCopyCommand.java,v 1.2 2004/05/22 19:07:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -80,7 +80,7 @@ public class CreateCopyCommand extends AbstractOverrideableCommand implements Ch
   {
     super(domain, LABEL, DESCRIPTION);
 
-    this.owner = (EObject)owner;
+    this.owner = owner;
     this.copyHelper = copyHelper;
   }
 
@@ -112,7 +112,7 @@ public class CreateCopyCommand extends AbstractOverrideableCommand implements Ch
     EClass metaObject = owner.eClass();
     EPackage ePackage = metaObject.getEPackage();
     EFactory eFactory = ePackage.getEFactoryInstance();
-    copy = (EObject)eFactory.create(metaObject);
+    copy = eFactory.create(metaObject);
     copyHelper.put(owner, copy);
   }
 

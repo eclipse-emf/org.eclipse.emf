@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentsEList.java,v 1.2 2004/04/22 16:47:41 emerks Exp $
+ * $Id: EContentsEList.java,v 1.3 2004/05/22 19:08:06 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -41,7 +41,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
   {
     this.eObject = eObject;
     this.eStructuralFeatures = 
-      (EStructuralFeature [])((EClassImpl.FeatureSubsetSupplier)eObject.eClass().getEAllStructuralFeatures()).containments();
+      ((EClassImpl.FeatureSubsetSupplier)eObject.eClass().getEAllStructuralFeatures()).containments();
   }
 
   public EContentsEList(EObject eObject, List eStructuralFeatures)
@@ -371,7 +371,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
           {
             while (featureCursor < eStructuralFeatures.length)
             {
-              EStructuralFeature feature = (EStructuralFeature)eStructuralFeatures[featureCursor++];
+              EStructuralFeature feature = eStructuralFeatures[featureCursor++];
               if (isIncluded(feature) && (!useIsSet() || eObject.eIsSet(feature)))
               {
                 Object value = eObject.eGet(feature, resolve());
@@ -486,7 +486,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
           {
             while (featureCursor > 0)
             {
-              EStructuralFeature feature = (EStructuralFeature)eStructuralFeatures[--featureCursor];
+              EStructuralFeature feature = eStructuralFeatures[--featureCursor];
               if (isIncluded(feature) && (!useIsSet() || eObject.eIsSet(feature)))
               {
                 Object value = eObject.eGet(feature, resolve());

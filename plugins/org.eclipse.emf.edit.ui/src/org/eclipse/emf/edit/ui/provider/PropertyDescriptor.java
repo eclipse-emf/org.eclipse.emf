@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.2 2004/04/01 21:34:59 emerks Exp $
+ * $Id: PropertyDescriptor.java,v 1.3 2004/05/22 19:07:38 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -292,7 +292,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
     else if (genericFeature instanceof EStructuralFeature)
     {
       final EStructuralFeature feature = (EStructuralFeature)genericFeature;
-      final EClassifier eType = ((EStructuralFeature)feature).getEType();
+      final EClassifier eType = feature.getEType();
       final Collection choiceOfValues = itemPropertyDescriptor.getChoiceOfValues(object);
       if (choiceOfValues != null)
       {

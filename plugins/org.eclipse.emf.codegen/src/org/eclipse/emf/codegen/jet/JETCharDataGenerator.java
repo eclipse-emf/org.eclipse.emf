@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCharDataGenerator.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETCharDataGenerator.java,v 1.2 2004/05/22 19:07:41 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -144,7 +144,7 @@ public class JETCharDataGenerator
           }
           default:
           {
-            stringBuffer.append((char) ch);
+            stringBuffer.append(ch);
           }
         }
       }

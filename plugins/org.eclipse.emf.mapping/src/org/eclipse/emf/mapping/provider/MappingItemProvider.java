@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingItemProvider.java,v 1.5 2004/05/16 16:56:10 emerks Exp $
+ * $Id: MappingItemProvider.java,v 1.6 2004/05/22 19:07:46 marcelop Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -156,7 +156,7 @@ public class MappingItemProvider
             public Object getPropertyValue(Object thisObject)
             {
               Mapping thisMapping = (Mapping)thisObject;
-              MappingHelper helper = (MappingHelper)thisMapping.getHelper();
+              MappingHelper helper = thisMapping.getHelper();
               if (helper != null)
                 return helper;
               else

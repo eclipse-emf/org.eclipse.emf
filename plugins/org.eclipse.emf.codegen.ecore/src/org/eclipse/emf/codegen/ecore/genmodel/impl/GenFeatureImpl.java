@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.4 2004/05/07 22:39:33 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.5 2004/05/22 19:07:34 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -906,7 +906,7 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     EClassifier eType = getEcoreFeature().getEType();
     if (eType instanceof EDataType)
     {
-      GenDataType genDataType = (GenDataType)findGenClassifier((EDataType)eType);
+      GenDataType genDataType = (GenDataType)findGenClassifier(eType);
       return genDataType.getStaticValue(defaultString);
     }
 
