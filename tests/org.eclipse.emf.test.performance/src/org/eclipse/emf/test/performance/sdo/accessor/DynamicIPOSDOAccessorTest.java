@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.12 2005/03/10 16:12:21 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.13 2005/03/15 20:05:28 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -22,31 +22,21 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EPackage.Registry;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
-import org.eclipse.emf.ecore.sdo.impl.DynamicEDataObjectImpl;
 import org.eclipse.emf.ecore.sdo.util.SDOUtil;
-import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.test.performance.EMFPerformanceTestCase;
 import org.eclipse.emf.test.performance.TestUtil;
-import org.eclipse.xsd.ecore.XSDEcoreBuilder;
+import org.eclipse.emf.test.performance.sdo.DynamicIPOModel;
+import org.eclipse.emf.test.performance.sdo.IPOModel;
 import org.eclipse.xsd.impl.type.XSDDateType;
-import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
 import com.example.sdo.ipo.IpoFactory;
 import com.example.sdo.ipo.USAddress;
@@ -74,61 +64,14 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected static final int ITERATIONS_200K = 200000;
 
-  protected static int ITERATIONS_SETDO = 2500;
-
   protected static final String DATA = TestUtil.getPluginDirectory() + "/data/";
-
-  protected static final String DATA_URI = "file:///" + DATA;
 
   protected static final int NUM_ITEMS = 1;
 
   protected IpoFactory ipoFactoryInstance = IpoFactory.eINSTANCE;
 
   // model
-
-  protected Property shipToProp;
-
-  protected Property billToProp;
-
-  protected Property commentProp;
-
-  protected Property itemsProp;
-
-  protected Property itemProp;
-
-  protected Property orderDateProp;
-
-  protected Property productNameProp;
-
-  protected EStructuralFeature quantityFeat;
-
-  protected EStructuralFeature usPriceFeat;
-
-  protected Property quantityProp;
-
-  protected Property usPriceProp;
-
-  protected Property itemCommentProp;
-
-  protected Property shipDateProp;
-
-  protected Property partNumProp;
-
-  protected EClass usAddressEClass;
-
-  protected EStructuralFeature usAddressNameFeat;
-
-  protected EStructuralFeature usAddressStreetFeat;
-
-  protected EStructuralFeature usAddressCityFeat;
-
-  protected EStructuralFeature usAddressStateFeat;
-
-  protected EStructuralFeature usAddressZipFeat;
-
-  protected ExtendedMetaData metaData;
-
-  protected ResourceSet resourceSet;
+  protected static IPOModel model;
 
   // the purchase order
   protected DataObject po;
@@ -250,87 +193,34 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   {
     super.setUp();
     tagAsSummary("Performance Results for " + getClass().getName(), TIME_DIMENSIONS);
-    poSetup();
-    assertNotNull(po);
-  }
 
-  protected void poSetup()
-  {
-    // dynamic model
-    resourceSet = SDOUtil.createResourceSet();
-    metaData = registerModel(resourceSet);
+    // metadata
+    setModel();
 
-    // load the po DG from XML.
+    // instance
     initPO();
+    assertNotNull(po);
+
+    serialize();
 
     initNewValues();
-
-    // No need for EPackage Registry clean-up since working on resourceSet.
   }
 
-  protected ExtendedMetaData registerModel(ResourceSet resourceSet)
+  protected void serialize()
   {
-    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xsd", new XSDResourceFactoryImpl());
+    // do nothing.
+  }
 
-    XSDEcoreBuilder xsdEcoreBuilder = new XSDEcoreBuilder();
-    List packageList = (List)xsdEcoreBuilder.generate(URI.createURI(DATA_URI + "ipo.xsd"));
-    Registry packageRegistry = resourceSet.getPackageRegistry();
-
-    EPackage epackage = (EPackage)packageList.get(0);
-    epackage.setEFactoryInstance(new DynamicEDataObjectImpl.FactoryImpl());
-    String nsURI = epackage.getNsURI();
-    packageRegistry.put(nsURI, epackage);
-    assertTrue("com.example.ipo".equals(epackage.getName()));
-
-    List classifiers = epackage.getEClassifiers();
-    for (Iterator i = classifiers.iterator(); i.hasNext();)
-    {
-      EClassifier eClassifier = (EClassifier)i.next();
-      if ("PurchaseOrderType".equals(eClassifier.getName()))
-      {
-
-        EClass eClass = (EClass)eClassifier;
-        List features = eClass.getEAllStructuralFeatures();
-        shipToProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(0));
-        billToProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(1));
-        commentProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(2));
-        itemsProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(3));
-        itemProp = itemsProp.getType().getProperty("item");
-        orderDateProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(4));
-      }
-      if ("ItemType".equals(eClassifier.getName()))
-      {
-        EClass eClass = (EClass)eClassifier;
-        List features = eClass.getEAllStructuralFeatures();
-        productNameProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(0));
-        quantityFeat = (EStructuralFeature)features.get(1);
-        quantityProp = SDOUtil.adaptProperty(quantityFeat);
-        usPriceFeat = (EStructuralFeature)features.get(2);
-        usPriceProp = SDOUtil.adaptProperty(usPriceFeat);
-        itemCommentProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(3));
-        shipDateProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(4));
-        partNumProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(5));
-      }
-      if ("USAddress".equals(eClassifier.getName()))
-      {
-        usAddressEClass = (EClass)eClassifier;
-        List features = usAddressEClass.getEAllStructuralFeatures();
-        usAddressNameFeat = (EStructuralFeature)features.get(0);
-        usAddressStreetFeat = (EStructuralFeature)features.get(1);
-        usAddressCityFeat = (EStructuralFeature)features.get(2);
-        usAddressStateFeat = (EStructuralFeature)features.get(3);
-        usAddressZipFeat = (EStructuralFeature)features.get(4);
-      }
-
-    }
-
-    return new BasicExtendedMetaData(packageRegistry);
+  protected void setModel()
+  {
+    // dynamic model
+    model = DynamicIPOModel.INSTANCE;
   }
 
   protected void initPO()
   {
     HashMap loadOptions = new HashMap();
-    loadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, metaData);
+    loadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, model.getMetaData());
 
     try
     {
@@ -340,7 +230,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
       inputStream.close();
       DataObject root = (DataObject)dataGraph.getERootObject();
       po = root.getDataObject("purchaseOrder");
-      itemElement = (DataObject)po.getDataObject(itemsProp).getList(itemProp).get(0);
+      itemElement = (DataObject)po.getDataObject(model.getItemsProp()).getList(model.getItemProp()).get(0);
     }
     catch (IOException e)
     {
@@ -393,8 +283,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   {
     EObject itemElement = (EObject)this.itemElement;
     Object objectValue = this.objectValue;
-    EStructuralFeature quantityFeat = this.quantityFeat;
-    EStructuralFeature usPriceFeat = this.usPriceFeat;
+    EStructuralFeature quantityFeat = model.getQuantityFeat();
+    EStructuralFeature usPriceFeat = model.getUsPriceFeat();
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_100K; i++)
@@ -416,8 +306,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigInteger quantity1 = this.quantity1;
     BigDecimal usPrice0 = this.usPrice0;
     BigDecimal usPrice1 = this.usPrice1;
-    EStructuralFeature quantityFeat = this.quantityFeat;
-    EStructuralFeature usPriceFeat = this.usPriceFeat;
+    EStructuralFeature quantityFeat = model.getQuantityFeat();
+    EStructuralFeature usPriceFeat = model.getUsPriceFeat();
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_50K; i++)
@@ -436,8 +326,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   {
     DataObject itemElement = this.itemElement;
     Object objectValue = this.objectValue;
-    Property quantityProp = this.quantityProp;
-    Property usPriceProp = this.usPriceProp;
+    Property quantityProp = model.getQuantityProp();
+    Property usPriceProp = model.getUsPriceProp();
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_100K; i++)
@@ -459,8 +349,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigInteger quantity1 = this.quantity1;
     BigDecimal usPrice0 = this.usPrice0;
     BigDecimal usPrice1 = this.usPrice1;
-    Property quantityProp = this.quantityProp;
-    Property usPriceProp = this.usPriceProp;
+    Property quantityProp = model.getQuantityProp();
+    Property usPriceProp = model.getUsPriceProp();
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_50K; i++)
@@ -518,7 +408,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     DataObject itemElement = this.itemElement;
     BigInteger quantityValue = this.quantityValue;
     BigInteger quantity0 = this.quantity0;
-    Property quantityProp = this.quantityProp;
+    Property quantityProp = model.getQuantityProp();
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_200K; i++)
@@ -538,7 +428,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     DataObject itemElement = this.itemElement;
     BigInteger quantity0 = this.quantity0;
     BigInteger quantity1 = this.quantity1;
-    Property quantityProp = this.quantityProp;
+    Property quantityProp = model.getQuantityProp();
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_100K; i++)
@@ -609,7 +499,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     DataObject itemElement = this.itemElement;
     BigDecimal usPriceValue = this.usPriceValue;
     BigDecimal usPrice0 = this.usPrice0;
-    Property usPriceProp = this.usPriceProp;
+    Property usPriceProp = model.getUsPriceProp();
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_200K; i++)
@@ -685,8 +575,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   {
     DataObject po = this.po;
     DataObject dataObjectValue = this.dataObjectValue;
-    Property shipToProp = this.shipToProp;
-    Property billToProp = this.billToProp;
+    Property shipToProp = model.getShipToProp();
+    Property billToProp = model.getBillToProp();
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_100K; i++)
@@ -708,11 +598,11 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     DataObject newShipToAddress1 = this.newShipToAddress1;
     DataObject newBillToAddress0 = this.newBillToAddress0;
     DataObject newBillToAddress1 = this.newBillToAddress1;
-    Property shipToProp = this.shipToProp;
-    Property billToProp = this.billToProp;
+    Property shipToProp = model.getShipToProp();
+    Property billToProp = model.getBillToProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_SETDO; i++)
+    for (int i = 0; i < ITERATIONS_2_5K; i++)
     {
       po.setDataObject(shipToProp, newShipToAddress0);
       // to alternate the feature to set.
@@ -742,29 +632,29 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     {
       if (i % 2 == 0)
       { // like set.
-        shipToValue = po.getDataObject(shipToProp);
-        billToValue = po.getDataObject(billToProp);
-        orderCommentValue = po.getString(commentProp);
-        orderDateValue = po.get(orderDateProp);
+        shipToValue = po.getDataObject(model.getShipToProp());
+        billToValue = po.getDataObject(model.getBillToProp());
+        orderCommentValue = po.getString(model.getCommentProp());
+        orderDateValue = po.get(model.getOrderDateProp());
       }
       else
       {
-        shipToValue = po.getDataObject(shipToProp);
-        billToValue = po.getDataObject(billToProp);
-        orderCommentValue = po.getString(commentProp);
-        orderDateValue = po.get(orderDateProp);
+        shipToValue = po.getDataObject(model.getShipToProp());
+        billToValue = po.getDataObject(model.getBillToProp());
+        orderCommentValue = po.getString(model.getCommentProp());
+        orderDateValue = po.get(model.getOrderDateProp());
       }
 
-      itemsValue = po.getDataObject(itemsProp).getList(itemProp);
+      itemsValue = po.getDataObject(model.getItemsProp()).getList(model.getItemProp());
       for (int j = 0; j < itemsValue.size(); j++)
       {
         itemElementValue = (DataObject)itemsValue.get(j);
-        productNameValue = itemElementValue.getString(productNameProp);
-        quantityValue = itemElementValue.getBigInteger(quantityProp);
-        usPriceValue = itemElementValue.getBigDecimal(usPriceProp);
-        itemCommentValue = itemElementValue.getString(itemCommentProp);
-        shipDateValue = itemElementValue.get(shipDateProp);
-        partNumValue = itemElementValue.getString(partNumProp);
+        productNameValue = itemElementValue.getString(model.getProductNameProp());
+        quantityValue = itemElementValue.getBigInteger(model.getQuantityProp());
+        usPriceValue = itemElementValue.getBigDecimal(model.getUsPriceProp());
+        itemCommentValue = itemElementValue.getString(model.getItemCommentProp());
+        shipDateValue = itemElementValue.get(model.getShipDateProp());
+        partNumValue = itemElementValue.getString(model.getPartNumProp());
       }
     }
     stopMeasuring();
@@ -788,29 +678,29 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     {
       if (i % 2 == 0)
       { // to set to a new value each time.
-        po.setDataObject(shipToProp, newShipToAddress0);
-        po.setDataObject(billToProp, newBillToAddress0);
-        po.setString(commentProp, orderComment0);
-        po.set(orderDateProp, orderDate0);
+        po.setDataObject(model.getShipToProp(), newShipToAddress0);
+        po.setDataObject(model.getBillToProp(), newBillToAddress0);
+        po.setString(model.getCommentProp(), orderComment0);
+        po.set(model.getOrderDateProp(), orderDate0);
       }
       else
       {
-        po.setDataObject(shipToProp, newShipToAddress1);
-        po.setDataObject(billToProp, newBillToAddress1);
-        po.setString(commentProp, orderComment1);
-        po.set(orderDateProp, orderDate1);
+        po.setDataObject(model.getShipToProp(), newShipToAddress1);
+        po.setDataObject(model.getBillToProp(), newBillToAddress1);
+        po.setString(model.getCommentProp(), orderComment1);
+        po.set(model.getOrderDateProp(), orderDate1);
       }
 
-      itemsValue = po.getDataObject(itemsProp).getList(itemProp);
+      itemsValue = po.getDataObject(model.getItemsProp()).getList(model.getItemProp());
       for (int j = 0; j < NUM_ITEMS; j++)
       {
         itemElementValue = (DataObject)itemsValue.get(j);
-        itemElementValue.setString(productNameProp, productName0);
-        itemElementValue.setBigInteger(quantityProp, quantity0);
-        itemElementValue.setBigDecimal(usPriceProp, usPrice0);
-        itemElementValue.setString(itemCommentProp, itemComment0);
-        itemElementValue.set(shipDateProp, shipDate0);
-        itemElementValue.setString(partNumProp, partNum0);
+        itemElementValue.setString(model.getProductNameProp(), productName0);
+        itemElementValue.setBigInteger(model.getQuantityProp(), quantity0);
+        itemElementValue.setBigDecimal(model.getUsPriceProp(), usPrice0);
+        itemElementValue.setString(model.getItemCommentProp(), itemComment0);
+        itemElementValue.set(model.getShipDateProp(), shipDate0);
+        itemElementValue.setString(model.getPartNumProp(), partNum0);
       }
     }
     stopMeasuring();

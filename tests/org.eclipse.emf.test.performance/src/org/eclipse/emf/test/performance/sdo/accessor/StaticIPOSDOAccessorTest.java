@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.14 2005/03/10 22:11:50 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.15 2005/03/15 20:05:28 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -23,30 +23,24 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
-import org.eclipse.emf.ecore.sdo.EProperty;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
-import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.test.performance.sdo.StaticIPOModel;
 import org.eclipse.xsd.impl.type.XSDDateType;
 
 import com.example.sdo.ipo.Address;
 import com.example.sdo.ipo.DocumentRoot;
-import com.example.sdo.ipo.IpoPackage;
 import com.example.sdo.ipo.ItemType;
 import com.example.sdo.ipo.Items;
 import com.example.sdo.ipo.PurchaseOrderType;
 import com.example.sdo.ipo.USAddress;
 import com.example.sdo.ipo.USState;
-import com.example.sdo.ipo.util.IpoResourceFactoryImpl;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -106,11 +100,12 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     testSuite.addTest(new StaticIPOSDOAccessorTest("getStringByName").setWarmUp(2000).setRepetitions(REPETITIONS_10));
 
     testSuite.addTest(new StaticIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(2000).setRepetitions(REPETITIONS_5));
 
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByGenerated").setWarmUp(3000).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByGenerated").setWarmUp(2000).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
+    // TODO tune warmup for setByProperty    
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByProperty").setWarmUp(2000).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
@@ -125,16 +120,16 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     super.setUp();
   }
 
-  protected void poSetup()
+  protected void serialize()
   {
-    initPO();
-
     // serialize DG so that it can be deserialized by DynamicAccessorTest
     //serializeDataGraph();
+  }
 
-    initModel();
-    initNewValues();
-    ITERATIONS_SETDO = 50000;
+  protected void setModel()
+  {
+    // static model
+    model = StaticIPOModel.INSTANCE;
   }
 
   protected void initPO()
@@ -188,33 +183,6 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     dataGraph.setEChangeSummary(sdoFactoryInstance.createEChangeSummary());
   }
 
-  private void initModel()
-  {
-    List properties = po.getType().getProperties();
-    shipToProp = (Property)properties.get(0);
-    billToProp = (Property)properties.get(1);
-    commentProp = (Property)properties.get(2);
-    itemsProp = (Property)properties.get(3);
-    itemProp = itemsProp.getType().getProperty("item");
-    orderDateProp = (Property)properties.get(4);
-    List itemProperties = itemProp.getType().getProperties();
-    productNameProp = (Property)itemProperties.get(0);
-    quantityProp = (Property)itemProperties.get(1);
-    quantityFeat = ((EProperty)quantityProp).getEStructuralFeature();
-    usPriceProp = (Property)itemProperties.get(2);
-    usPriceFeat = ((EProperty)usPriceProp).getEStructuralFeature();
-    itemCommentProp = (Property)itemProperties.get(3);
-    shipDateProp = (Property)itemProperties.get(4);
-    partNumProp = (Property)itemProperties.get(5);
-  }
-
-  protected ExtendedMetaData registerModel(ResourceSet resourceSet)
-  {
-    IpoPackage ipoPackageInstance = IpoPackage.eINSTANCE;
-    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new IpoResourceFactoryImpl());
-    return new BasicExtendedMetaData(resourceSet.getPackageRegistry());
-  }
-
   private void serializeDataGraph()
   {
     DataGraph dataGraph = po.getDataGraph();
@@ -258,17 +226,17 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
       items.getItem().add(itemElement);
     }
 
-    hashMap.put(shipToProp, shipToAddress);
-    hashMap.put(billToProp, billToAddress);
+    hashMap.put(model.getShipToProp(), shipToAddress);
+    hashMap.put(model.getBillToProp(), billToAddress);
     // leave comment not set.
-    hashMap.put(itemsProp, items);
-    hashMap.put(orderDateProp, new XSDDateType().getValue("2006-02-10"));
-    hashMap.put(productNameProp, "The 0 name");
-    hashMap.put(quantityProp, new BigInteger("133"));
-    hashMap.put(usPriceProp, new BigDecimal(100));
-    hashMap.put(itemCommentProp, "comment 0");
-    hashMap.put(shipDateProp, new XSDDateType().getValue("2006-03-10"));
-    hashMap.put(partNumProp, "part num 0");
+    hashMap.put(model.getItemsProp(), items);
+    hashMap.put(model.getOrderDateProp(), new XSDDateType().getValue("2006-02-10"));
+    hashMap.put(model.getProductNameProp(), "The 0 name");
+    hashMap.put(model.getQuantityProp(), new BigInteger("133"));
+    hashMap.put(model.getUsPriceProp(), new BigDecimal(100));
+    hashMap.put(model.getItemCommentProp(), "comment 0");
+    hashMap.put(model.getShipDateProp(), new XSDDateType().getValue("2006-03-10"));
+    hashMap.put(model.getPartNumProp(), "part num 0");
   }
 
   /**
@@ -278,8 +246,8 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   {
     HashMap hashMap = this.hashMap;
     Object objectValue = this.objectValue;
-    Property quantityProp = this.quantityProp;
-    Property usPriceProp = this.usPriceProp;
+    Property quantityProp = model.getQuantityProp();
+    Property usPriceProp = model.getUsPriceProp();
 
     initMap();
 
@@ -302,8 +270,8 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   public void setInMap()
   {
     HashMap hashMap = this.hashMap;
-    Property itemCommentProp = this.itemCommentProp;
-    Property partNumProp = this.partNumProp;
+    Property itemCommentProp = model.getItemCommentProp();
+    Property partNumProp = model.getPartNumProp();
 
     initMap();
 
