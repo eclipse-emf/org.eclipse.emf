@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.2 2004/06/08 13:21:25 marcelop Exp $
+ * $Id: XMLTypeUtil.java,v 1.3 2004/06/11 16:09:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -20,6 +20,8 @@ package org.eclipse.emf.ecore.xml.type.util;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue;
 import org.eclipse.emf.ecore.xml.type.internal.RegEx;
+import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
+import org.eclipse.emf.ecore.xml.type.internal.XMLDuration;
 
 
 /**
@@ -27,11 +29,25 @@ import org.eclipse.emf.ecore.xml.type.internal.RegEx;
  */
 public final class XMLTypeUtil
 {
+  public static final int EQUALS = 0;
+  public static final int LESS_THAN = -1;
+  public static final int GREATER_THAN = 1;
+  public static final int INDETERMINATE = 2;
+
+  public static int compareCalendar(Object calendar1, Object calendar2)
+  {
+    return XMLCalendar.compare((XMLCalendar)calendar2, (XMLCalendar)calendar2);
+  }
+
+  public static int compareDuration(Object duration1, Object duration2)
+  {
+    return XMLDuration.compare((XMLDuration)duration1, (XMLDuration)duration2);
+  }
+
   public static boolean isSpace(char value)
   {
     return DataValue.XMLChar.isSpace(value);
   }
-
 
   public static String normalize(String value, boolean collapse) 
   {
