@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.14 2004/05/28 19:22:51 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.15 2004/06/02 16:36:49 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -771,6 +771,7 @@ public class XSDEcoreBuilder extends MapBuilder
                  null,
                  0,
                  -1);
+            extendedMetaData.setName(mixedFeature, ":mixed");
           }
         }
         else 
