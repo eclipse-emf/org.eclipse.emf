@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.5 2004/04/05 20:09:56 elena Exp $
+ * $Id: XMLHandler.java,v 1.6 2004/04/07 21:02:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -315,9 +315,9 @@ public abstract class XMLHandler
       text = new StringBuffer();
     }
     
-    // HACK for SDO implementation
     anyType = (EClass)options.get(XMLResource.OPTION_ANY_TYPE);
     anySimpleType = (EClass)options.get(XMLResource.OPTION_ANY_SIMPLE_TYPE);
+
     if (anyType == null)
     {
       anyType = XMLTypePackage.eINSTANCE.getAnyType();
@@ -1171,7 +1171,7 @@ public abstract class XMLHandler
             eType == EcorePackage.eINSTANCE.getEObject() &&
             extendedMetaData.getFeatureKind(feature) != ExtendedMetaData.UNSPECIFIED_FEATURE)
       {
-        typeName = anyType.getName();
+        typeName = extendedMetaData.getName(anyType);
         factory = anyType.getEPackage().getEFactoryInstance();
       }
       else
