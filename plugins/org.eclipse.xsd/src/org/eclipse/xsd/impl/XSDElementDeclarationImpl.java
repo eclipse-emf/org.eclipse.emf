@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.2 2004/04/30 13:54:31 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -684,8 +684,8 @@ public class XSDElementDeclarationImpl
             theSubstitutionGroupAffiliation.getTypeDefinition();
         if (newTypeDefinition != theTypeDefinition)
         {
-          setTypeDefinition(newTypeDefinition);
           isTypeExplicit = false;
+          setTypeDefinitionGen(newTypeDefinition);
         }
       }
     }
@@ -1402,10 +1402,6 @@ public class XSDElementDeclarationImpl
             setAnonymousTypeDefinition(null);
           }
         }
-        if (eReference != null)
-        {
-          isTypeExplicit = true;
-        }
       }
       if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDElementDeclaration_SubstitutionGroupAffiliation())
       {
@@ -1774,12 +1770,18 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setTypeDefinition(XSDTypeDefinition newTypeDefinition)
+  public void setTypeDefinitionGen(XSDTypeDefinition newTypeDefinition)
   {
     XSDTypeDefinition oldTypeDefinition = typeDefinition;
     typeDefinition = newTypeDefinition;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ELEMENT_DECLARATION__TYPE_DEFINITION, oldTypeDefinition, typeDefinition));
+  }
+
+  public void setTypeDefinition(XSDTypeDefinition newTypeDefinition)
+  {
+    isTypeExplicit = newTypeDefinition != null;
+    setTypeDefinitionGen(newTypeDefinition);
   }
 
   /**

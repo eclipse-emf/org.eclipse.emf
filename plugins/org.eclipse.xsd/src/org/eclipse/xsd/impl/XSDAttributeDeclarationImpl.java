@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDAttributeDeclarationImpl.java,v 1.2 2004/04/30 13:54:31 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -239,8 +239,8 @@ public class XSDAttributeDeclarationImpl
         XSDSimpleTypeDefinition newTypeDefinition = getSchema().getSchemaForSchema().resolveSimpleTypeDefinition("anySimpleType");
         if (newTypeDefinition != theTypeDefinition)
         {
-          setTypeDefinition(newTypeDefinition);
           isTypeExplicit = false;
+          setTypeDefinitionGen(newTypeDefinition);
         }
       }
     }
@@ -466,7 +466,8 @@ public class XSDAttributeDeclarationImpl
         }
         else if (getAnonymousTypeDefinition() != getTypeDefinition())
         {
-          setTypeDefinition(resolveSimpleTypeDefinition(changedElement.getNamespaceURI(), "anySimpleType"));
+          isTypeExplicit = false;
+          setTypeDefinitionGen(resolveSimpleTypeDefinition(changedElement.getNamespaceURI(), "anySimpleType"));
         }
 
         if (getScope() instanceof XSDSchema)
@@ -775,12 +776,18 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setTypeDefinition(XSDSimpleTypeDefinition newTypeDefinition)
+  public void setTypeDefinitionGen(XSDSimpleTypeDefinition newTypeDefinition)
   {
     XSDSimpleTypeDefinition oldTypeDefinition = typeDefinition;
     typeDefinition = newTypeDefinition;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ATTRIBUTE_DECLARATION__TYPE_DEFINITION, oldTypeDefinition, typeDefinition));
+  }
+
+  public void setTypeDefinition(XSDSimpleTypeDefinition newTypeDefinition)
+  {
+    isTypeExplicit = newTypeDefinition != null;
+    setTypeDefinitionGen(newTypeDefinition);
   }
 
   /**
