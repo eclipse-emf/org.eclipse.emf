@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.16 2004/08/11 16:52:11 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.17 2004/08/11 18:08:32 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -217,7 +217,7 @@ public class ChangeRecorder implements Adapter
         EReference eReference = (EReference)feature;
         handleFeature(eReference, eReference.isContainment() ? eReference : null, notification, (EObject)notifier);
       }
-      else
+      else if (feature != null)
       {
         handleFeature((EStructuralFeature)feature, null, notification, (EObject) notifier);
       }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeReportTest.java,v 1.6 2004/08/11 17:20:29 marcelop Exp $
+ * $Id: ChangeReportTest.java,v 1.7 2004/08/11 18:08:33 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -222,7 +222,7 @@ extends TestCase
       assertEquals(eClass0, listChange.getReferenceValues().get(0));
     }
     
-    applyCheck(changeDescription, beforeChange, false);
+    applyCheck(changeDescription, beforeChange, !callSummarize);
   }  
 
   public void testAddElementAndApply()
@@ -279,7 +279,7 @@ extends TestCase
       assertEquals(1, listChange.getIndex());
     }
 
-    applyCheck(changeDescription, beforeChange, false);
+    applyCheck(changeDescription, beforeChange, !callSummarize);
   } 
   
   public void testMoveElementAndApply()
@@ -356,7 +356,7 @@ extends TestCase
       }
     }
 
-    applyCheck(changeDescription, beforeChange, false);
+    applyCheck(changeDescription, beforeChange, !callSummarize);
   }
   
   public void testApply()
