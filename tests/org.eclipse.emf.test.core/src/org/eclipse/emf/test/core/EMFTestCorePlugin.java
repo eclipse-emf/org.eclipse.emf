@@ -12,12 +12,15 @@
  *
  * </copyright>
  *
- * $Id: EMFTestCorePlugin.java,v 1.1 2004/03/06 17:31:33 marcelop Exp $
+ * $Id: EMFTestCorePlugin.java,v 1.2 2004/03/25 04:16:08 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
+import java.io.IOException;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPluginDescriptor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 
 public class EMFTestCorePlugin 
@@ -53,5 +56,17 @@ extends Plugin
     public void shutdown() throws CoreException
     {
         super.shutdown();
+    }
+    
+    public String getPluginDirectory()
+    {
+      try
+      {
+        return new java.io.File(Platform.asLocalURL(getDescriptor().getInstallURL()).getFile()).toString();
+      }
+      catch (IOException e)
+      {
+      }
+      return null;
     }
 }

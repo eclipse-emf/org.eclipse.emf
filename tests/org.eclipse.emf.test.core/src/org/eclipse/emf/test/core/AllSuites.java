@@ -12,52 +12,52 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.1 2004/03/06 17:31:33 marcelop Exp $
+ * $Id: AllSuites.java,v 1.2 2004/03/25 04:16:08 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
+
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class AllSuites
-extends TestSuite
+
+public class AllSuites extends TestSuite
 {
-    public static String pkgName = "EMF Core JUnit Test Suite";
-    
-    private static Test[] suites = new Test[]
-    {
-            org.eclipse.emf.test.core.dynamic.SimpleModelTest.suite(),
-            org.eclipse.emf.test.core.build.BuildTests.suite()
-    };
+  public static String pkgName = "EMF Core JUnit Test Suite";
 
-    public static Test suite()
-    {
-        return new AllSuites(pkgName);
-    }
-    
-    public AllSuites()
-    {
-        super();
-        populateSuite();
-    }
+  private static Test[] suites = new Test []{ 
+    org.eclipse.emf.test.core.dynamic.SimpleModelTest.suite(),
+    org.eclipse.emf.test.core.build.BuildTests.suite()
+  };
 
-    public AllSuites(Class theClass)
-    {
-        super(theClass);
-        populateSuite();
-    }
+  public static Test suite()
+  {
+    return new AllSuites(pkgName);
+  }
 
-    public AllSuites(String name)
-    {
-        super(name);
-        populateSuite();
-    }
+  public AllSuites()
+  {
+    super();
+    populateSuite();
+  }
 
-    private void populateSuite()
+  public AllSuites(Class theClass)
+  {
+    super(theClass);
+    populateSuite();
+  }
+
+  public AllSuites(String name)
+  {
+    super(name);
+    populateSuite();
+  }
+
+  private void populateSuite()
+  {
+    for (int i = 0; i < suites.length; i++)
     {
-        for (int i = 0; i < suites.length; i++)
-        {    
-            addTest(suites[i]);
-        }
-    }        
+      addTest(suites[i]);
+    }
+  }
 }
