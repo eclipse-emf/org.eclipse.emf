@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.7 2004/06/18 09:52:06 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.8 2004/06/19 17:47:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -874,6 +874,42 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
      boolean isDerived,
      boolean isOrdered)
   {
+    initEAttribute
+      (a, 
+       type, 
+       name, 
+       defaultValue, 
+       lowerBound, 
+       upperBound, 
+       ((EClassifier)a.eContainer()).getInstanceClass(),
+       isTransient, 
+       isVolatile, 
+       isChangeable, 
+       isUnsettable, 
+       isID,
+       isUnique, 
+       isDerived, 
+       isOrdered);
+    return a;
+  }
+
+  protected EAttribute initEAttribute
+    (EAttribute a, 
+     EClassifier type,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     Class containerClass,
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isUnsettable,
+     boolean isID,
+     boolean isUnique,
+     boolean isDerived,
+     boolean isOrdered)
+  {
     initEStructuralFeature
       (a, 
        type, 
@@ -881,6 +917,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
        defaultValue, 
        lowerBound, 
        upperBound, 
+       containerClass,
        isTransient, 
        isVolatile, 
        isChangeable, 
@@ -1060,6 +1097,46 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
      boolean isDerived,
      boolean isOrdered)
   {
+    initEReference
+      (r, 
+       type, 
+       otherEnd,
+       name, 
+       defaultValue, 
+       lowerBound, 
+       upperBound, 
+       ((EClassifier)r.eContainer()).getInstanceClass(),
+       isTransient, 
+       isVolatile, 
+       isChangeable, 
+       isContainment,
+       isResolveProxies,
+       isUnsettable, 
+       isUnique, 
+       isDerived, 
+       isOrdered);
+    return r;
+  }
+
+  protected EReference initEReference
+    (EReference r, 
+     EClassifier type, 
+     EReference otherEnd,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     Class containerClass,
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isContainment, 
+     boolean isResolveProxies,
+     boolean isUnsettable,
+     boolean isUnique,
+     boolean isDerived,
+     boolean isOrdered)
+  {
     initEStructuralFeature
       (r, 
        type, 
@@ -1067,6 +1144,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
        defaultValue, 
        lowerBound, 
        upperBound, 
+       containerClass,
        isTransient, 
        isVolatile, 
        isChangeable, 
@@ -1090,6 +1168,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
      String defaultValue,
      int lowerBound, 
      int upperBound, 
+     Class containerClass,
      boolean isTransient, 
      boolean isVolatile, 
      boolean isChangeable,
@@ -1099,7 +1178,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
      boolean isOrdered)
   {
     s.setName(name);
-    ((EStructuralFeatureImpl)s).setContainerClass(((EClassifier)s.eContainer()).getInstanceClass());
+    ((EStructuralFeatureImpl)s).setContainerClass(containerClass);
     s.setTransient(isTransient);
     s.setVolatile(isVolatile);
     s.setChangeable(isChangeable);
@@ -1237,11 +1316,20 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     List features = eClass.getEStructuralFeatures();
     if (!features.isEmpty())
     {
+      // The container class must be null for the open content features of the document root
+      // to ensure that they are looked up in the actual eClass() 
+      // rather than assumed to be a feature with a feature ID relative to the actual class.
+      // Otherwise, it's good to have this optimization.
+      //
+      Class containerClass = ExtendedMetaData.INSTANCE.getDocumentRoot(this) == eClass ? null : eClass.getInstanceClass();
+
       int id = eClass.getEAllStructuralFeatures().indexOf(features.get(0));
       
       for (Iterator i = features.iterator(); i.hasNext(); )
       {
-        ((EStructuralFeatureImpl)i.next()).setFeatureID(id++);
+        EStructuralFeatureImpl eStructuralFeature = (EStructuralFeatureImpl)i.next();
+        eStructuralFeature.setFeatureID(id++);
+        eStructuralFeature.setContainerClass(containerClass);
       }
     }
   }
