@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.3 2004/07/29 13:33:09 marcelop Exp $
+ * $Id: XSDResourceImpl.java,v 1.4 2004/08/03 16:24:05 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -462,7 +462,9 @@ public class XSDResourceImpl extends ResourceImpl
     }
 
     String schemaLocation = getURI().toString();
-    for (Iterator i = attachedSchemas.iterator(); i.hasNext(); )
+    Collection previouslyAttachedSchemas = attachedSchemas;
+    attachedSchemas = null;
+    for (Iterator i = previouslyAttachedSchemas.iterator(); i.hasNext(); )
     {
       XSDSchema xsdSchema = (XSDSchema)i.next();
       xsdSchema.setSchemaLocation(schemaLocation);
