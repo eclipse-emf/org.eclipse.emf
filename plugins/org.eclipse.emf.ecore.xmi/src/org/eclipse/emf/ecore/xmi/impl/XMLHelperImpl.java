@@ -1,0 +1,908 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002-2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: XMLHelperImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ */
+package org.eclipse.emf.ecore.xmi.impl;
+
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.BasicEMap;
+import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EFactory;
+import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.xmi.DanglingHREFException;
+import org.eclipse.emf.ecore.xmi.IllegalValueException;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.XMLHelper;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+
+
+/**
+ * This class handles the package to use when there is no XML
+ * namespace in an XML file.
+ */
+public class XMLHelperImpl implements XMLHelper
+{
+  protected static final Integer INTEGER_DATATYPE_IS_MANY = new Integer(DATATYPE_IS_MANY);
+  protected static final Integer INTEGER_DATATYPE_SINGLE  = new Integer(DATATYPE_SINGLE);
+  protected static final Integer INTEGER_IS_MANY_ADD      = new Integer(IS_MANY_ADD);
+  protected static final Integer INTEGER_IS_MANY_MOVE     = new Integer(IS_MANY_MOVE);
+
+  protected EPackage noNamespacePackage;
+  protected XMLResource.XMLMap xmlMap;
+  protected ExtendedMetaData extendedMetaData;
+  protected EPackage.Registry packageRegistry;
+  protected XMLResource resource;
+  protected URI resourceURI;
+  protected boolean deresolve;
+  protected Map packages;
+  protected Map featuresToKinds;
+  protected String processDanglingHREF;
+  protected DanglingHREFException danglingHREFException;
+  protected EMap prefixesToURIs;
+
+  public static String saveString(Map options, List contents, String encoding, XMLHelper helper) throws Exception
+  {
+    if (helper == null)
+    {
+      helper = new XMIHelperImpl();
+    }
+    if (!options.containsKey(XMIResource.OPTION_DECLARE_XML))
+    {
+      options = new HashMap(options);
+      options.put(XMIResource.OPTION_DECLARE_XML, Boolean.FALSE);
+    }
+    XMLSaveImpl save = new XMISaveImpl(options, helper, encoding);
+    ((XMLHelperImpl)helper).processDanglingHREF = (String)options.get(XMIResource.OPTION_PROCESS_DANGLING_HREF);
+    save.traverse(contents);
+    char[] chars = save.toChar();
+    return new String(chars);
+  }
+
+  public XMLHelperImpl()
+  {
+    super();
+    packages = new HashMap();
+    featuresToKinds = new HashMap();
+    prefixesToURIs = new BasicEMap();
+  }
+
+  public XMLHelperImpl(XMLResource resource)
+  {
+    this();
+    setResource(resource);
+  }
+
+  public void setNoNamespacePackage(EPackage pkg)
+  {
+    noNamespacePackage = pkg;
+  }
+
+  public EPackage getNoNamespacePackage()
+  {
+    return 
+      noNamespacePackage != null ?
+        noNamespacePackage :
+        extendedMetaData != null ?
+          extendedMetaData.getPackage(null) :
+          null;
+  }
+
+  public void setXMLMap(XMLResource.XMLMap map)
+  {
+    xmlMap = map;
+    if (map != null && map.getNoNamespacePackage() != null)
+    {
+      setNoNamespacePackage(map.getNoNamespacePackage());
+    }
+  }
+
+  public XMLResource.XMLMap getXMLMap()
+  {
+    return xmlMap;
+  }
+
+  public void setExtendedMetaData(ExtendedMetaData extendedMetaData)
+  {
+    this.extendedMetaData = extendedMetaData;
+    if (extendedMetaData != null && extendedMetaData.getPackage(null) != null)
+    {
+      setNoNamespacePackage(extendedMetaData.getPackage(null));
+    }
+  }
+
+  public ExtendedMetaData getExtendedMetaData()
+  {
+    return extendedMetaData;
+  }
+
+  public XMLResource getResource()
+  {
+    return resource;
+  }
+
+  public void setResource(XMLResource resource)
+  {
+    this.resource = resource;
+    if (resource == null)
+    {
+      resourceURI = null;
+      deresolve = false;
+      packageRegistry = EPackage.Registry.INSTANCE;
+    }
+    else
+    {
+      resourceURI = resource.getURI();
+      deresolve = resourceURI != null && !resourceURI.isRelative() && resourceURI.isHierarchical();
+      packageRegistry = resource.getResourceSet() == null ? EPackage.Registry.INSTANCE : resource.getResourceSet().getPackageRegistry();
+    }
+  }
+
+  public Object getValue(EObject obj, EStructuralFeature f)
+  {
+    return obj.eGet(f, false);
+  }
+
+  public String getQName(EClass c)
+  {
+    String name = getName(c);
+    if (xmlMap != null)
+    {
+      XMLResource.XMLInfo clsInfo = xmlMap.getInfo(c);
+
+      if (clsInfo != null)
+      {
+        String targetNamespace = clsInfo.getTargetNamespace();
+        return getQName(targetNamespace, name);
+      }
+    }
+
+    return getQName(c.getEPackage(), name);
+  }
+
+  public String getQName(EDataType c)
+  {
+    String name = getName(c);
+    if (xmlMap != null)
+    {
+      XMLResource.XMLInfo clsInfo = xmlMap.getInfo(c);
+
+      if (clsInfo != null)
+      {
+        String targetNamespace = clsInfo.getTargetNamespace();
+        return getQName(targetNamespace, name);
+      }
+    }
+
+    return getQName(c.getEPackage(), name);
+  }
+
+  public String getQName(EStructuralFeature feature)
+  {
+    if (extendedMetaData != null)
+    {
+      String namespace = extendedMetaData.getNamespace(feature);
+      String name = extendedMetaData.getName(feature);
+      String result = name;
+
+      // We need to be careful that we don't end up requiring the no namespace package 
+      // just because the feature is unqualified.
+      //
+      if (namespace != null)
+      {
+        // There really must be a package.
+        //
+        EPackage ePackage = extendedMetaData.getPackage(namespace);
+        if (ePackage == null)
+        {
+          ePackage = extendedMetaData.demandPackage(namespace);
+        }
+
+        result = getQName(ePackage, name);
+
+        // We must have a qualifier for an attribute that needs qualified.
+        //
+        if (result.length() == name.length() && extendedMetaData.getFeatureKind(feature) == ExtendedMetaData.ATTRIBUTE_FEATURE)
+        {
+          result = getQName(ePackage, name, true);
+        }
+      }
+      return result;
+    }
+
+    String name = getName(feature);
+    if (xmlMap != null)
+    {
+      XMLResource.XMLInfo info = xmlMap.getInfo(feature);
+      if (info != null)
+      {
+        return getQName(info.getTargetNamespace(), name);
+      }
+    }
+
+    return name;
+  }
+
+  protected String getQName(EPackage ePackage, String name)
+  {
+    return getQName(ePackage, name, false);
+  }
+
+  protected String getQName(EPackage ePackage, String name, boolean mustHavePrefix)
+  {
+    String nsPrefix = getPrefix(ePackage, mustHavePrefix);
+    if ("".equals(nsPrefix))
+    {
+      return name;
+    }
+    else
+    {
+      return nsPrefix + ":" + name;
+    }
+  }
+
+  public String getPrefix(EPackage ePackage)
+  {
+    return getPrefix(ePackage, false);
+  }
+
+  protected String getPrefix(EPackage ePackage, boolean mustHavePrefix)
+  {
+    String nsPrefix = (String)packages.get(ePackage);
+    if (nsPrefix == null || mustHavePrefix && nsPrefix.length() == 0)
+    {
+      String nsURI = extendedMetaData == null ? ePackage.getNsURI() : extendedMetaData.getNamespace(ePackage);
+
+      boolean found = false;
+      for (Iterator i = prefixesToURIs.entrySet().iterator(); i.hasNext(); )
+      {
+        Map.Entry entry = (Map.Entry)i.next();
+        if (nsURI == null ? entry.getValue() == null : nsURI.equals(entry.getValue()))
+        {
+          nsPrefix = (String)entry.getKey();
+          if (!mustHavePrefix || nsPrefix.length() > 0)
+          {
+            found = true;
+            break;
+          }
+        }
+      }
+
+      if (!found)
+      {
+        if (nsURI != null)
+        {
+          nsPrefix = ePackage.getNsPrefix();
+        }
+        if (nsPrefix == null)
+        {
+          nsPrefix = mustHavePrefix ? "_" : "";
+        }
+  
+        if (prefixesToURIs.containsKey(nsPrefix))
+        {
+          String currentValue = (String)prefixesToURIs.get(nsPrefix);
+          if (currentValue == null ? nsURI != null : !currentValue.equals(nsURI))
+          {
+            int index = 1;
+            while (prefixesToURIs.containsKey(nsPrefix + "_" + index))
+            {
+              ++index;
+            }
+            nsPrefix += "_" + index;
+          }
+        }
+
+        prefixesToURIs.put(nsPrefix, nsURI);
+      }
+
+      if (!packages.containsKey(ePackage))
+      {
+        packages.put(ePackage, nsPrefix);
+      }
+    }
+
+    return nsPrefix;
+  }
+
+  public List getPrefixes(EPackage ePackage)
+  {
+    List result = new UniqueEList();
+    result.add(getPrefix(ePackage));
+    String namespace = extendedMetaData == null ? ePackage.getNsURI() : extendedMetaData.getNamespace(ePackage);
+    for (Iterator i = prefixesToURIs.entrySet().iterator(); i.hasNext(); )
+    {
+      Map.Entry entry = (Map.Entry)i.next();
+      if (namespace == null ? entry.getValue() == null : namespace.equals(entry.getValue()))
+      {
+        result.add(entry.getKey());
+      }
+    }
+    return result;
+  }
+
+  protected String getQName(String uri, String name)
+  {
+    if (uri == null)
+    {
+      EPackage theNoNamespacePackage = getNoNamespacePackage();
+      if (theNoNamespacePackage != null)
+      {
+        packages.put(theNoNamespacePackage, "");
+      }
+
+      return name;
+    }
+
+    EPackage ePackage = 
+      extendedMetaData == null ?
+        EPackage.Registry.INSTANCE.getEPackage(uri) :
+        extendedMetaData.getPackage(uri);
+    if (ePackage == null)
+    {
+      // EATM this would be wrong.
+      return name;
+    }
+    else
+    {
+      return getQName(ePackage, name);
+    }
+  }
+
+  public String getName(ENamedElement obj)
+  {
+    if (extendedMetaData != null)
+    {
+      return extendedMetaData.getName(obj);
+    }
+    
+    if (xmlMap != null)
+    {
+      XMLResource.XMLInfo info = xmlMap.getInfo(obj);
+      if (info != null)
+      {
+         String result = info.getName();
+         if (result != null)
+         {
+           return result;
+         }
+      }
+    }
+
+    return obj.getName();
+  }
+
+
+  public String getID(EObject obj)
+  {
+    return resource == null ? null : resource.getID(obj);
+  }
+
+  public String getIDREF(EObject obj)
+  {
+    return resource == null ? null : resource.getURIFragment(obj);
+  }
+
+  protected URI handleDanglingHREF(EObject object)
+  {
+    if (!XMIResource.OPTION_PROCESS_DANGLING_HREF_DISCARD.equals(processDanglingHREF))
+    {
+      DanglingHREFException exception = new DanglingHREFException("The object '" + object + "' is not contained in a resource.", resource.getURI().toString(), 0, 0);
+ 
+      if (danglingHREFException == null)
+      {
+        danglingHREFException = exception;
+      }
+   
+      resource.getErrors().add(exception);
+    }
+
+    return null;
+  }
+
+  public String getHREF(EObject obj)
+  {
+    InternalEObject o = (InternalEObject) obj;
+
+    URI objectURI = o.eProxyURI();
+    if (objectURI == null)
+    {
+      Resource otherResource = obj.eResource();
+      if (otherResource == null)
+      {
+        objectURI = handleDanglingHREF(obj);
+        if (objectURI == null)
+        {
+          return null;
+        }
+      }
+      else
+      {
+        objectURI = getHREF(otherResource, obj);
+      }
+    }
+
+    objectURI = deresolve(objectURI);
+
+    return objectURI.toString();
+  }
+
+  protected URI getHREF(Resource otherResource, EObject obj)
+  {
+    return otherResource.getURI().appendFragment(otherResource.getURIFragment(obj));
+  }
+
+  public URI deresolve(URI uri)
+  {
+    if (deresolve && !uri.isRelative())
+    {
+      URI deresolvedURI = uri.deresolve(resourceURI, true, true, false);
+      if (deresolvedURI.hasRelativePath())
+      {
+        uri = deresolvedURI;
+      }
+    }
+
+    return uri;
+  }
+
+  public int getFeatureKind(EStructuralFeature feature)
+  {
+    Integer kind = (Integer) featuresToKinds.get(feature);
+    if (kind != null)
+    {
+      return kind.intValue();
+    }
+    else
+    {
+      computeFeatureKind(feature);
+      kind = (Integer) featuresToKinds.get(feature);
+      if (kind != null)
+      {
+        return kind.intValue();
+      }
+      else
+      {
+        return OTHER;
+      }
+    }
+  }
+
+  public EObject createObject(EFactory eFactory, String classXMIName)
+  {
+    EPackage ePackage = eFactory.getEPackage();
+    if (extendedMetaData != null)
+    {
+      EClassifier eClassifier = extendedMetaData.getType(ePackage, classXMIName);
+      if (eClassifier == null)
+      {
+        return null;
+      }
+      else if (eClassifier instanceof EClass)
+      {
+        return (EObject) eFactory.create((EClass)eClassifier);
+      }
+      else
+      {
+        SimpleAnyType result = XMLTypeFactory.eINSTANCE.createSimpleAnyType();
+        result.setInstanceType((EDataType)eClassifier);
+        return result;
+      }
+    }
+    else
+    {
+      EClass eClass = (EClass)ePackage.getEClassifier(classXMIName);
+      if (eClass == null && xmlMap != null)
+      {
+        eClass = (EClass) xmlMap.getClassifier(ePackage.getNsURI(), classXMIName);
+      }
+  
+      if (eClass != null)
+      {
+        return (EObject) eFactory.create(eClass);
+      }
+      else
+      {
+        return null;
+      }
+    }
+  }
+
+  public EStructuralFeature getFeature(EClass eClass, String namespaceURI, String name)
+  {
+    EStructuralFeature feature = getFeatureWithoutMap(eClass, name);
+    if (feature == null && xmlMap != null)
+    {
+      feature = xmlMap.getFeature(eClass, namespaceURI, name);
+      if (feature != null)
+      {
+        computeFeatureKind(feature);
+      }
+    }
+
+    return feature;
+  }
+
+  public EStructuralFeature getFeature(EClass eClass, String namespaceURI, String name, boolean isElement)
+  {
+    if (extendedMetaData != null)
+    {
+      EStructuralFeature eStructuralFeature = 
+        isElement ? 
+          extendedMetaData.getElement(eClass, namespaceURI, name) : 
+          extendedMetaData.getAttribute(eClass, namespaceURI == "" ? null : namespaceURI, name);
+      if (eStructuralFeature != null)
+      {
+        computeFeatureKind(eStructuralFeature);
+      }
+      else
+      {
+        eStructuralFeature = getFeature(eClass, namespaceURI, name);
+
+        // Only if the feature kind is unspecified should we return a match.
+        // Otherwise, we might return an attribute feature when an element is required, 
+        // or vice versa.
+        //
+        if (eStructuralFeature != null && 
+              extendedMetaData.getFeatureKind(eStructuralFeature) != ExtendedMetaData.UNSPECIFIED_FEATURE)
+        {
+          eStructuralFeature = null;
+        }
+      }
+
+      return eStructuralFeature;
+    }
+
+    return getFeature(eClass, namespaceURI, name);
+  }
+
+  protected EStructuralFeature getFeatureWithoutMap(EClass eClass, String name)
+  {
+    EStructuralFeature feature = (EStructuralFeature) eClass.getEStructuralFeature(name);
+
+    if (feature != null)
+      computeFeatureKind(feature);
+
+    return feature;
+  }
+
+  protected void computeFeatureKind(EStructuralFeature feature)
+  {
+    EClassifier eClassifier = feature.getEType();
+
+    if (eClassifier instanceof EDataType)
+    {
+      if (feature.isMany())
+      {
+        featuresToKinds.put(feature, INTEGER_DATATYPE_IS_MANY);
+      }
+      else
+      {
+        featuresToKinds.put(feature, INTEGER_DATATYPE_SINGLE);
+      }
+    }
+    else
+    {
+      if (feature.isMany())
+      {
+        EReference reference = (EReference) feature;
+        EReference opposite  = reference.getEOpposite();
+
+        if (opposite == null || opposite.isTransient() || !opposite.isMany())
+          featuresToKinds.put(feature, INTEGER_IS_MANY_ADD);
+        else
+          featuresToKinds.put(feature, INTEGER_IS_MANY_MOVE);
+      }
+    }
+  }
+
+  public String getJavaEncoding(String xmlEncoding)
+  {
+    return xmlEncoding;
+  }
+
+  public String getXMLEncoding(String javaEncoding)
+  {
+    return javaEncoding;
+  }
+
+  public EPackage[] packages()
+  {
+    Set pkgs = packages.keySet();
+    EPackage[] packages = new EPackage[pkgs.size()];
+    pkgs.toArray(packages);
+    Comparator comparator =
+      new Comparator()
+      {
+        public int compare(Object o1, Object o2)
+        {
+          // EATM very slow
+          return getPrefix((EPackage)o1).compareTo(getPrefix((EPackage) o2));
+          //return ((EPackage) o1).getNsPrefix().compareTo(((EPackage) o2).getNsPrefix());
+        }
+      };
+    Arrays.sort(packages, comparator);
+    return packages;
+  }
+
+  public void setValue(EObject object, EStructuralFeature feature, Object value, int position)
+  {
+    if (extendedMetaData != null)
+    {
+      EStructuralFeature targetFeature = extendedMetaData.getAffiliation(object.eClass(), feature);
+      if (targetFeature != null && targetFeature != feature)
+      {
+        if (targetFeature.getEType() == EcorePackage.eINSTANCE.getEFeatureMapEntry())
+        {
+          FeatureMap featureMap = (FeatureMap)object.eGet(targetFeature);
+          featureMap.add(feature, value);
+          return;
+        }
+        else
+        {
+          feature = targetFeature;
+        }
+      }
+    }
+
+    int kind = getFeatureKind(feature);
+    switch (kind)
+    {
+      case DATATYPE_SINGLE:
+      case DATATYPE_IS_MANY:
+      {
+        EClassifier eClassifier = feature.getEType();
+        EDataType eDataType = (EDataType) eClassifier;
+        EFactory eFactory = eDataType.getEPackage().getEFactoryInstance();
+
+        if (kind == DATATYPE_IS_MANY)
+        {
+          InternalEList list = (InternalEList) object.eGet(feature);
+          if (position == -2)
+          {
+            for (StringTokenizer stringTokenizer = new StringTokenizer((String)value, " "); stringTokenizer.hasMoreTokens(); )
+            {
+              String token = stringTokenizer.nextToken();
+              list.addUnique(eFactory.createFromString(eDataType, token));
+            }
+
+            // Make sure that the list will appear to be set to be empty.
+            //
+            if (list.isEmpty())
+            {
+              list.clear();
+            }
+          }
+          else if (value == null)
+          {
+            list.addUnique(null);
+          }
+          else
+          {
+            list.addUnique(eFactory.createFromString(eDataType, (String) value));
+          }
+        }
+        else if (value == null)
+        {
+          object.eSet(feature, null);
+        }
+        else
+        {
+          object.eSet(feature, eFactory.createFromString(eDataType, (String) value));
+        }
+        break;
+      }
+      case IS_MANY_ADD:
+      case IS_MANY_MOVE:
+      {
+        InternalEList list = (InternalEList) object.eGet(feature);
+
+        if (position == -1)
+        {
+          list.addUnique(value);
+        }
+        else if (position == -2)
+        {
+          list.clear();
+        }
+        else if (kind == IS_MANY_ADD)
+        {
+          list.addUnique(position, value);
+        }
+        else
+        {
+          list.move(position, value);
+        }
+        break;
+      }
+      default:
+      {
+        object.eSet(feature, value);
+        break;
+      }
+    }
+  }
+
+  public List setManyReference(ManyReference reference, String location)
+  {
+    EStructuralFeature feature = reference.getFeature();
+    int kind = getFeatureKind(feature);
+    InternalEList list = (InternalEList) reference.getObject().eGet(feature);
+    List xmiExceptions = new BasicEList();
+    Object[] values = reference.getValues();
+    int[] positions = reference.getPositions();
+
+    if (kind == IS_MANY_ADD)
+    {
+      for (int i = 0, l = values.length; i < l; i++)
+      {
+        if (values[i] != null)
+        {
+          try
+          {
+            list.addUnique(positions[i], values[i]);
+          }
+          catch (RuntimeException e)
+          {
+            xmiExceptions.add(new IllegalValueException
+                                    (reference.getObject(),
+                                     feature,
+                                     values[i],
+                                     e,
+                                     location,
+                                     reference.getLineNumber(),
+                                     reference.getColumnNumber()
+                                    ));
+          }
+        }
+      }
+    }
+    else
+    {
+      for (int i = 0, l = values.length; i < l; i++)
+      {
+        if (values[i] != null)
+        {
+          try
+          {
+            list.move(positions[i], values[i]);
+          }
+          catch (RuntimeException e)
+          {
+            xmiExceptions.add(new IllegalValueException
+                                    (reference.getObject(),
+                                     feature,
+                                     values[i],
+                                     e,
+                                     location,
+                                     reference.getLineNumber(),
+                                     reference.getColumnNumber()
+                                    ));
+          }
+        }
+      }
+    }
+
+    if (xmiExceptions.isEmpty())
+    {
+      return null;
+    }
+    else
+    {
+      return xmiExceptions;
+    }
+  }
+
+  public void setProcessDanglingHREF(String value)
+  {
+    processDanglingHREF = value;
+  }
+
+  public DanglingHREFException getDanglingHREFException()
+  {
+    return danglingHREFException;
+  }
+
+  public URI resolve(URI relative, URI base) 
+  {
+    return relative.resolve(base);
+  }
+
+  public void addPrefix(String prefix, String uri) 
+  {
+    if (!"xml".equals(prefix) && !"xmlns".equals(prefix))
+    {
+      Object previousURI = prefixesToURIs.put(prefix, "".equals(uri) ? null : uri);
+      if (previousURI != null)
+      {
+        int index = 1;
+        while (prefixesToURIs.containsKey(prefix + "_" + index))
+        {
+          ++index;
+        }
+        prefixesToURIs.put(prefix + "_" + index, previousURI);
+      }
+    }
+  }
+
+  public String getURI(String prefix) 
+  {
+    return 
+      "xml".equals(prefix) ? 
+        "http://www.w3.org/XML/1998/namespace" : 
+        "xmlns".equals(prefix) ? 
+          "http://www.w3.org/2000/xmlns/" :
+          (String) prefixesToURIs.get(prefix);
+  }
+
+  public EMap getPrefixToNamespaceMap()
+  {
+    return prefixesToURIs;
+  }
+
+  public void setPrefixToNamespaceMap(EMap prefixToNamespaceMap)
+  {
+    for (Iterator i = prefixToNamespaceMap.iterator(); i.hasNext(); )
+    {
+      Map.Entry entry = (Map.Entry)i.next();
+      String prefix = (String)entry.getKey();
+      String namespace = (String)entry.getValue();
+      EPackage ePackage = null;
+      if (extendedMetaData == null)
+      {
+        ePackage =  packageRegistry.getEPackage(namespace);
+      }
+      else
+      {
+        ePackage =  extendedMetaData.getPackage(namespace);
+        if (ePackage == null && !XMLResource.XSI_URI.equals(namespace))
+        {
+          ePackage = extendedMetaData.demandPackage(namespace);
+        }
+      }
+      if (ePackage != null && !packages.containsKey(ePackage))
+      {
+        packages.put(ePackage, prefix);
+      }
+      prefixesToURIs.put(prefix, namespace);
+    }
+  }
+}

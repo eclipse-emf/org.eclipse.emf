@@ -1,0 +1,438 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<head>
+<title>What's New in EMF 1.1.0</title>
+<meta http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
+</head>
+<body lang="EN-US">
+<table summary="" BORDER=0 CELLPADDING=2 WIDTH="100%" >
+<tr>
+  <td ALIGN=LEFT VALIGN=TOP BGCOLOR="#0070A0">
+    <b><font face="Arial,Helvetica" color="#FFFFFF">
+      <b><a name="emf_110">What's new in EMF 1.1.0?</a></b>
+    </font></b>
+
+  </td>
+</tr>
+
+<tr>
+<td>
+<ol>
+
+<li>
+
+<b><a name="emf110a">Eclipse 2.1 based</a></b>
+  
+<p>
+   As with EMF 1.0.2, the EMF 1.1.0 drivers will only work well with 
+Eclipse 2.1 or Eclipse 2.1.1. They should work with 2.0.2, but they won't get the CLASSPATH correct for .editor 
+projects.   
+ 
+
+<br>
+&nbsp;
+ 
+
+
+<li>
+ 
+<b><a name="emf110b">Migration from 1.0.2</a></b>
+  
+<p>
+Code regeneration of 1.0.2 projects is recommended, but not required.  (See "Bug Fixes and Improvements" below.)
+ 
+<br>
+&nbsp;
+ 
+
+
+
+<li>
+ 
+<b><a name="emf110c">New Mapping Plugins</a></b>
+
+<p>
+Two new mapping plugins (org.eclipse.emf.mapping and org.eclipse.emf.mapping.ui) have been added.  Documentation for these new plugins will be forthcoming soon.  A sample of their use is provided by the  two xsd2ecore plugins (org.eclipse.emf.mapping.xsd2ecore and org.eclipse.emf.mapping.xsd2ecore.editor) in the XSD (XML Schema Infoset Model) Eclipse Technology Subproject, Version 1.1.0.  
+
+<br>
+&nbsp;
+ 
+
+
+ 
+<li>
+
+ 
+<b><a name="emf_110d">Build 20030501_0612VL: Bug Fixes and Improvements</a></b>
+ 
+<p>  
+There are numerous bug fixes and improvements included with this build, some of which are described below.  Where the description applies to a fix for a bug reported through Bugzilla, the Bugzilla number is included after the description.  
+<br>
+&nbsp;
+
+<ul>
+<li>
+XMI files created by the org.eclipse.emf.ecore.xmi plugin are now saved with a system-specific line separator.  (Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=36913">36913</a>).
+
+
+
+<li>
+You can now use the empty String ("") as the default value for a String attribute in your Rose model.
+
+
+<li>
+EMF now writes the .ecore and .genmodel files using UTF-8 as the encoding when the default Java locale's language is not English.
+
+
+<li>
+EMF can now read a Rose .mdl file created by a Japanese version of Rose (Rose 2001A.04.00 Japanese version). (Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=36651">36651</a>).
+
+
+
+<li>
+The EMF code generator now supports classes (or more generally types) whose names end in "Impl". (Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=35952">35952</a>).  
+
+
+<li>
+A number of improvements have been made to the XSD to Ecore conversion, including improvements in the ability to parse according to the originating schema. 
+
+
+<li>
+The implementation for dynamic EMF has been reworked to be faster and to use less space.
+
+
+<li>
+We have introduced org.eclipse.emf.common.util.DelegatingEList, org.eclipse.emf.common.notify.impl.DelegatingNotifyingListImpl, and org.eclipse.emf.ecore.util.DelegatingEcoreEList to allow clients to wrap an existing list implementation that they may have as the "backing store" for a list that implements all the correct EMF behaviors.
+
+
+<li>
+<b>Important!</b> Template changes to improve performance and to ensure that dynamic EMF works properly for multiple inheritance will be picked up only if clients regenerate their models, so it is recommended but not required that clients regenerate.
+   
+<br>
+  
+ 
+</ul>
+ 
+
+
+<br>
+&nbsp;
+
+<li>
+
+ 
+<b><a name="emf_110e">Build 20030513_0618VL: Bug Fixes and Improvements</a></b>
+ 
+<p>  
+There are numerous bug fixes and improvements included with this build, some of which are described below.  Where the description applies to a fix for a bug reported through Bugzilla, the Bugzilla number is included after the description.  You can link directly to the Bugzilla bug using this number.  
+<br>
+&nbsp;
+
+<ul>
+<li>
+The method URI.createDeviceURI is deprecated in favor of using URI.createURI which will always recognize a leading device component just as URI.createDeviceURI did previously.  We ask that clients remove uses of createDeviceURI so that we can remove the method from a subsequent drop.   In general, any deprecation warning should be eliminated in anticipation of the support disappearing.
+
+
+<li>
+The feature order of serialized instances  is now preserved when going from XSD to Ecore.
+
+
+<li>
+The infinite loop caused by a missing resource for the org.eclipse.emf.common plugin has been fixed. (Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=37193">37193</a>).
+
+
+<li>
+The generated model editor wizard now provides an encoding choice.  <b>Important!</b> Because of this change, a newly generated editor plugin will now require (and include) the following import in its plugin.xml file:  
+<p>
+
+	&lt;import plugin="org.eclipse.emf.ecore.xmi"/&gt;
+<p>
+However, because the plugin.xml file is not regenerated or merged, clients who are regenerating an editor that they have generated before will need either to remove the plugin.xml file and let it be regenerated anew, or to add this import manually to the existing plugin.xml file. (Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=37366">37366</a>).
+
+
+
+<li>
+The .properties file used by the generated editor plugin is now ISO-8859-1 encoded.  (Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=37367">37367</a>).
+
+
+<li>
+
+The getPropertyDescriptor(Object object, Object propertyId) method in the org.eclipse.emf.edit.provider.ItemProviderAdapter.java now demand creates
+properties. (Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=37190">37190</a>).
+
+
+<li>
+OPTION_ENCODING is now supported an an alternative/override to setEncoding() when saving an XMLResource 
+(org.eclipse.emf.ecore.xmi.XMLResource).  An example of its use is as follows:
+<pre>
+	Map options = new HashMap();
+	options.put(XMLResource.OPTION_ENCODING, initialObjectCreationPage.getEncoding());
+	resource.save(options);
+</pre>
+
+
+<li>
+Some minor API changes include removing the empty XMIHelper interface, eliminating XMLResource.changed in favor of supporting repeating calls to XMLResource.setID, and changing EObject.eContainmentFeature's result type from EStructuralFeature to EReference.
+
+
+<li>
+Notification.CREATE in org.eclipse.emf.common.notify.Notification.java has been deprecated.  
+We ask that clients remove uses of Notification.CREATE so that we can remove it from a subsequent drop.  
+In general, any deprecation warning should be eliminated in anticipation of the support disappearing.
+
+<br>
+&nbsp;
+
+</ul>
+ <li>
+ 
+<b><a name="emf_110f">Build 20030519_0521VL: Bug Fixes and Improvements</a></b>
+ 
+
+<p>  
+There are numerous bug fixes and improvements included with this build, some of which are described below.
+<br>
+&nbsp;
+
+<ul>
+<li>
+The following now applies to the xsd2ecore mapping:
+<ul>
+<li>
+   If an attribute's type is primitive (or it is an enum), it should be unsettable when mapped to Ecore.
+
+<li>
+   If its type is not primitive (and not an enum) and it has a default value different from null, 
+it should be unsettable when mapped to Ecore.
+
+
+<li>
+   Also, support for promoting a primitive type to a wrapper type for nillable elements has been added.
+
+</ul>
+
+
+<li>
+The eSettingDelegate() accessor method in the EObjectImpl.java class has been added to provide access to SettingDelegate.
+
+
+<li>
+For the EMF .ecore/.genmodel editors and the generated model editors, the menubar Edit menu items are now enabled when the outline and properties views have focus.
+
+
+<li>
+Multiline @model annotations are now supported.
+
+
+
+<li>
+A check has been added to ensure that the GenPackage's prefix is always made to begin with an uppercase letter, if it does not already.
+
+<br>
+&nbsp;
+ 
+</ul>
+ 
+
+ 
+ 
+ <li>
+ 
+<b><a name="emf_110g">Build 20030527_0913VL: Bug Fixes and Improvements</a></b>
+
+<p>  
+There are some bug fixes and improvements included with this build, some of which are described below.
+<br>
+&nbsp;
+
+<ul>
+<li>
+The prepare() method in ReplaceCommand has been corrected to accept objects of the correct class. 
+ (Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=37953">37953</a>).
+
+
+<li>
+Both IntegerCellEditor and FloatCellEditor have been deprecated in org.eclipse.emf.edit.ui.provider.PropertyDescriptor.java; EDataTypeCellEditor should be used instead.  We ask that clients remove uses of both IntegerCellEditor and FloatCellEditor so that we can remove them from a subsequent drop.  In general, any deprecation warning should be eliminated in anticipation of the support disappearing.
+
+
+
+<li>
+In the org.eclipse.emf.codegen.jet package, two constructors have been added to the JETEmitter.java class to enable the class loader to be provided explicitly.  Also, the GenModelImpl.java class in the org.eclipse.emf.codegen.ecore.genmodel.impl package has been changed to use them.
+
+
+<li>
+When using Java annotations, the following will be ignored:    
+<br><br>
+          -an interface that appears in the @extends or @implements notation in the comment (i.e., an interface that is being extended or implemented)
+<br><br>
+The reasoning for this is as follows:  If you want to model this, you would not use @extends (or @implements, as appropriate).  Therefore, the appearance of an interface in the @extends/@implements implies that it is intentionally outside of the model.
+
+<br>
+&nbsp;
+</ul>
+
+ 
+
+ 
+ 
+ <li>
+ 
+<b><a name="emf_110h">Build 20030602_1759VL: Bug Fixes and Improvements</a></b>
+ 
+<p>  
+There are some bug fixes and improvements included with this build, some of which are described below.
+<br>
+&nbsp;
+
+<ul>
+<li>
+In the org.eclipse.emf.ecore.util package, the following EcoreEList subclass inheritance bugs have been fixed:
+<ul>
+<li>
+EObjectContainmentElist.Unsettable now extends EObjectContainmentEList instead of EObjectEList.
+
+<li>
+EObjectWithInverseResolvingEList.Unsettable.ManyInverse now extends EObjectWithInverseResolvingEList.Unsettable instead of EObjectWithInverseEList.Unsettable. 
+
+</ul>
+
+
+<li>
+The org.eclipse.emf.ecore.util.ECoreUtil class has been made noninstantiable.
+
+
+<li>
+The visibility of the prepare() method in the org.eclipse.emf.edit.command.SetCommand class has been changed from public to protected.
+
+
+
+
+<br>
+&nbsp;
+</ul>
+ 
+
+
+ <li>
+ 
+<b><a name="emf_110i">Build 20030605_1020SL: Bug Fixes and Improvements</a></b>
+ 
+<p>  
+There are some bug fixes and improvements included with this build, some of which are described below.
+<br>
+&nbsp;
+
+<ul>
+
+<li>
+The change that made the org.eclipse.emf.ecore.util.ECoreUtil class noninstantiable has been reversed. 
+
+
+<br>
+
+&nbsp;
+</ul>
+ 
+
+
+
+
+ <li>
+ 
+<b><a name="emf_110j">Build 20030611_1435VL: Bug Fixes and Improvements</a></b>
+ 
+
+<p>  
+There are some bug fixes and improvements included with this build, some of which are described below.
+<br>
+&nbsp;
+
+<ul>
+
+<li>
+The setSelectionToWidget((List list, boolean reveal) method in the org.eclipse.emf.mapping.presentation.MappingEditor.java class has been changed to guard against the list being null. 
+(Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=38693">38693</a>) 
+
+
+<li>
+The generated code for an attribute with isUnique=False now ensures that isUnique is set to false.
+
+
+<li>
+The prerequisites section of the "Generating an EMF Model Using XML Schema" tutorial has been updated to include a link to the XSD Downloads page.  
+(Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=38217">38217</a>)
+
+ 
+<br>
+&nbsp;
+</ul>
+ 
+<li> 
+<b><a name="emf_110k">Build 20030616_1530VL: Bug Fixes and Improvements</a></b>
+ 
+<p>  
+There are some bug fixes and improvements included with this build, some of which are described below.
+<br>
+&nbsp;
+
+<ul>
+
+<li>
+The value of FEEDBACK_INSERT_AFTER has been changed in the org.eclipse.emf.edit.command.DragAndDropFeedback.java class as a reault of changes in the SWT constants.
+
+
+<li>
+
+When JETEmitter creates the .JETEmitters project, it now checks for the existence of the "src" and "runtime" folders before trying to create them.
+(Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=38238">38238</a>) 
+
+
+<li>
+The org.eclipse.emf.codegen.CodeGenPlugin.java class has been changed to be an EMFPlugin so that exceptions can be easily logged.
+(Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=38087">38087</a>) 
+
+
+<li>
+&lt;package prefix=...&gt; elements have been addded to the plugin.xml files for all the EMF and XSD plugins.
+(Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=38225">38225</a>)
+
+
+
+<li>
+As per the newsgroup discussion, the following two constructors have been added in the org.eclipse.emf.common.ui.celleditor.ExtendedComboBoxEditor.java class:
+<ul>
+<li> public ExtendedComboBoxCellEditor(Composite composite, List list, ILabelIProvider labelProvider, int style)
+
+<li> public ExtendedComboBoxCellEditor(Composite composite, List list, ILabelProvider labelProvider, boolean sorted, int style)
+
+</ul>
+The existing constructors have been updated to call these with the default value for the style argument set to use SWT.READ_ONLY.
+
+ 
+<br>
+&nbsp;
+</ul>
+
+<li> 
+<b><a name="emf_110l">Build 20030620_1105VL: Bug Fixes and Improvements</a></b>
+ 
+<p>  
+This build is a refresh of EMF being delivered with the corresponding build of XSD.
+<br>
+&nbsp;
+ 
+
+<!--- end of copy -->
+
+</ol>
+</td>
+</tr>
+</table>

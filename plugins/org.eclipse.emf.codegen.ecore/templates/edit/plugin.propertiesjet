@@ -1,0 +1,66 @@
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" %>
+<%
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: plugin.propertiesjet,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+%>
+<%GenModel genModel = (GenModel)argument;%>
+<%@ include file="../Header.javajet"%>
+
+# ====================================================================
+# To code developer:
+#   Do NOT change the properties between this line and the
+#   "%%% END OF TRANSLATED PROPERTIES %%%" line.
+#   Make a new property name, append to the end of the file and change
+#   the code to use the new property.
+# ====================================================================
+
+# ====================================================================
+# %%% END OF TRANSLATED PROPERTIES %%%
+# ====================================================================
+
+pluginName = <%=genModel.getModelName()%> Edit Support
+providerName = www.example.org
+
+<%if (genModel.isCreationCommands()) {%>
+_UI_CreateChild_text = {0}
+_UI_CreateChild_text2 = {1} {0}
+_UI_CreateChild_tooltip = Create New {0} Under {1} Feature
+_UI_CreateChild_description = Create a new child of type {0} for the {1} feature of the selected {2}.
+_UI_CreateSibling_description = Create a new sibling of type {0} for the selected {2}, under the {1} feature of their parent.
+
+<%}%>
+_UI_PropertyDescriptor_description = The {0} of the {1}
+
+<%for (Iterator i=genModel.getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext();) { GenPackage genPackage = (GenPackage)i.next();%>
+  <%if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) { %>
+    <%for (Iterator j=genPackage.getGenClasses().iterator(); j.hasNext();) { GenClass genClass = (GenClass)j.next();%>
+_UI_<%=genClass.getName()%>_type = <%=genClass.getFormattedName()%>
+    <%}%>
+  <%}%>
+<%}%>
+_UI_Unknown_type = Object
+
+<%for (Iterator i=genModel.getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext();) { GenPackage genPackage = (GenPackage)i.next();%>
+  <%if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) {%>
+    <%for (Iterator j=genPackage.getAllGenFeatures().iterator(); j.hasNext();) { GenFeature genFeature = (GenFeature)j.next(); GenClass genClass = genFeature.getGenClass();%>
+      <%if (genModel.isCreationCommands() || genFeature.isProperty()) {%>
+_UI_<%=genClass.getName()%>_<%=genFeature.getName()%>_feature = <%=genFeature.getFormattedName()%>
+      <%}%>
+    <%}%>
+  <%}%>
+<%}%>
+_UI_Unknown_feature = Unspecified

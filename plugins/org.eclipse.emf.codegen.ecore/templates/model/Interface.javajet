@@ -1,0 +1,184 @@
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" %>
+<%
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: Interface.javajet,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+%>
+<%GenClass genClass = (GenClass)argument; GenPackage genPackage = genClass.getGenPackage(); GenModel genModel=genPackage.getGenModel();%>
+<%@ include file="../Header.javajet"%>
+package <%=genPackage.getInterfacePackageName()%>;
+
+<%genModel.markImportLocation(stringBuffer, genPackage);%>
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b><%=genClass.getFormattedName()%></b></em>'.
+ * <!-- end-user-doc -->
+<%if (genClass.hasDocumentation()) {%>
+ *
+ * <!-- begin-model-doc -->
+ * <%=genClass.getDocumentation(genModel.getIndentation(stringBuffer))%>
+ * <!-- end-model-doc -->
+<%}%>
+ *
+<%if (!genClass.getGenFeatures().isEmpty()) {%>
+ * <p>
+ * The following features are supported:
+ * <ul>
+<%for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+ *   <li>{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}</li>
+<%}%>
+ * </ul>
+ * </p>
+<%}%>
+ *
+ * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genClass.getClassifierAccessorName()%>()
+ * @model <%=genClass.getModelInfo()%>
+ * @generated
+ */
+public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends()%>
+{
+<%if (genModel.getCopyrightText() != null) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	<%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
+
+<%}%>
+<%for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+	/**
+	 * Returns the value of the '<em><b><%=genFeature.getFormattedName()%></b></em>' <%=genFeature.getFeatureKind()%>.
+<%if (genFeature.isListType()) {%>
+  <%if (genFeature.isMapType()) { GenFeature keyFeature = genFeature.getMapGenClass().getMapEntryKeyFeature(); GenFeature valueFeature = genFeature.getMapGenClass().getMapEntryValueFeature(); %>
+	 * The key is of type <%if (keyFeature.isListType()) {%>list of {@link <%=keyFeature.getQualifiedListItemType()%>}<%} else {%>{@link <%=keyFeature.getType()%>}<%}%>,
+	 * and the value is of type <%if (valueFeature.isListType()) {%>list of {@link <%=valueFeature.getQualifiedListItemType()%>}<%} else {%>{@link <%=valueFeature.getType()%>}<%}%>,
+  <%} else {%>
+	 * The list contents are of type {@link <%=genFeature.getQualifiedListItemType()%>}.
+  <%}%>
+<%} else if (genFeature.isSetDefaultValue()) {%>
+	 * The default value is <code><%=genFeature.getDefaultValue()%></code>.
+<%}%>
+<%if (genFeature.getGenEnumType() != null) {%>
+	 * The literals are from the enumeration {@link <%=genFeature.getGenEnumType().getQualifiedName()%>}.
+<%}%>
+<%if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); %>
+	 * It is bidirectional and its opposite is '{@link <%=reverseGenFeature.getGenClass().getQualifiedInterfaceName()%>#<%=reverseGenFeature.getGetAccessor()%> <em><%=reverseGenFeature.getFormattedName()%></em>}'.
+<%}%>
+	 * <!-- begin-user-doc -->
+<%if (!genFeature.hasDocumentation()) {%>
+	 * <p>
+	 * If the meaning of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%> isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+<%}%>
+	 * <!-- end-user-doc -->
+<%if (genFeature.hasDocumentation()) {%>
+	 * <!-- begin-model-doc -->
+	 * <%=genFeature.getDocumentation(genModel.getIndentation(stringBuffer))%>
+	 * <!-- end-model-doc -->
+<%}%>
+	 * @return the value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+<%if (genFeature.getGenEnumType() != null) {%>
+	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
+<%}%>
+<%if (genFeature.isUnsettable()) {%>
+	 * @see #isSet<%=genFeature.getAccessorName()%>()
+<%  if (genFeature.isChangeable()) {%>
+	 * @see #unset<%=genFeature.getAccessorName()%>()
+<%  }%>
+<%}%>
+<%if (genFeature.isChangeable() && !genFeature.isListType()) {%>
+	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
+<%}%>
+	 * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genFeature.getFeatureAccessorName()%>()
+<%if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); %>
+	 * @see <%=reverseGenFeature.getGenClass().getQualifiedInterfaceName()%>#<%=reverseGenFeature.getGetAccessor()%>
+<%}%>
+	 * @model <%=genFeature.getModelInfo()%>
+	 * @generated
+	 */
+	<%=genFeature.getImportedType()%> <%=genFeature.getGetAccessor()%>();
+
+<%if (genFeature.isChangeable()) {%>
+<%if (!genFeature.isListType()) {%>
+	/**
+	 * Sets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+<%if (genFeature.isEnumType()) {%>
+	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
+<%}%>
+<%if (genFeature.isUnsettable()) {%>
+	 * @see #isSet<%=genFeature.getAccessorName()%>()
+	 * @see #unset<%=genFeature.getAccessorName()%>()
+<%}%>
+	 * @see #<%=genFeature.getGetAccessor()%>()
+	 * @generated
+	 */
+	void set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%> value);
+
+<%}%>
+<%if (genFeature.isUnsettable()) {%>
+	/**
+	 * Unsets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSet<%=genFeature.getAccessorName()%>()
+	 * @see #<%=genFeature.getGetAccessor()%>()
+<%if (!genFeature.isListType()) {%>
+	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
+<%}%>
+	 * @generated
+	 */
+	void unset<%=genFeature.getAccessorName()%>();
+
+	/**
+	 * Returns whether the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%> is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%> is set.
+	 * @see #unset<%=genFeature.getAccessorName()%>()
+	 * @see #<%=genFeature.getGetAccessor()%>()
+<%if (!genFeature.isListType()) {%>
+	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
+<%}%>
+	 * @generated
+	 */
+	boolean isSet<%=genFeature.getAccessorName()%>();
+
+<%}%>
+<%}%>
+<%}//for%>
+<%for (Iterator i=genClass.getGenOperations().iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+<%if (genOperation.hasDocumentation()) {%>
+	 * <!-- begin-model-doc -->
+	 * <%=genOperation.getDocumentation(genModel.getIndentation(stringBuffer))%>
+	 * <!-- end-model-doc -->
+<%}%>
+	 * @model <%=genOperation.getModelInfo()%>
+	 * @generated
+	 */
+	<%=genOperation.getImportedReturnType()%> <%=genOperation.getName()%>(<%=genOperation.getParameters()%>)<%=genOperation.getThrows()%>;
+
+<%}//for%>
+} // <%=genClass.getInterfaceName()%>
+<%genModel.emitSortedImports();%>

@@ -1,0 +1,192 @@
+<title>Getting EMF Source Files from CVS</title>
+
+
+<h1><center>Getting EMF Source Files from CVS</center></h1>
+
+<p>
+<b><center>June 30, 2003</center></b>
+<p>
+<hr>
+
+<b>Summary:</b>
+<p>
+This document includes information for you to start developing with the EMF project source files. The EMF open source project is stored in a CVS repository. You should be familiar with CVS concepts and have some experience working with the Eclipse Workbench. A good source of information on CVS can be found on the 
+<a href="http://dev.eclipse.org/viewcvs/index.cgi/?cvsroot=Tools_Project">CVS repository</a> page. The Eclipse help files also provide a tutorial and documentation on how to use CVS. 
+<p>
+<b>This document includes a setup procedure that you may wish to use to checkout the EMF projects and resolve compilation errors.  We have used this procedure on Eclipse 2.1.0 with a clean workspace.</b>
+
+<hr>
+<ol>
+<h2><li>Software Environment</h2>
+<p>
+In order to develop on the EMF project, you need the following software installed on your system.
+<p>
+<ul>
+<li><a href="http://www.eclipse.org/downloads/index.php">Eclipse</a> Version 2.1 or later</li>
+<li>A JRE as required by Eclipse</li>
+</ul>
+
+<p>
+When specifying directory paths on your system, remember to compensate for the difference between the environment presented in this article and your development environment.
+</li>
+<hr>
+<h2><li>Setting up the Eclipse Workspace to check out EMF files from CVS</h2>
+
+<u>Configuring the plug-in environment</u>
+
+<p>
+Each EMF plug-in depends on other plug-ins.  
+Since Eclipse 2.1, the PDE provides an alternative way of expressing and computing the classpath using classpath containers.  In order to turn on the use of classpath containers, do the following: 
+<p>
+<ol>
+<li>Select <b>Windows > Preferences</b>.</li> 
+<li>Expand <b>Plug-In Development</b> and select <b>Java Build Path Control</b>.</li>
+<li>Check the <b>Use classpath containers for dependent plug-ins</b> option.  (Note: Leave the Preferences dialog open as you’ll need it for the next step.)</li>
+</ol>
+
+<p>
+<img src="./images/img1.jpg">
+<p>
+
+You need to specify where Eclipse should look for required plug-ins if they do not exist in the current workspace. To do this:
+<p>
+<ol>
+<li>In the Preferences dialog, with <b>Plug-In Development</b> expanded,
+select <b>Target Platform</b>.</li>
+<li>Make sure the <b>this application</b> radio button is selected.</li>
+<li>Click <b>Select All</b> so that all the plug-ins are selected.</li> 
+<li>Click <b>OK</b> to close the Preferences dialog.</li>
+</ol>
+
+
+<p>
+<img src="./images/img2.jpg">
+
+</li>
+<hr>
+<h2><li>Understanding the CVS structure</h2>
+
+<p>
+If you are unfamiliar with CVS concepts, there is a good list of resources on the CVS repository page.
+
+<p>
+For each published EMF driver, a new CVS branch is created. The name of the CVS branch follows this convention:
+<p>
+<pre>      EMF_&lt;version number&gt;_&lt;driver level&gt;</pre>
+<p>
+where
+<p>
+&lt;version number&gt; is based on the current EMF version (for example,  1_1_0), and
+<p>
+&lt;driver level&gt; is the driver level that was used to drop to the CVS repository.
+<p>
+For example, a branch might have the following name:
+<p>
+      EMF_1_1_0_20030501_0612VL     
+
+<p>
+The HEAD branch will always contain the latest file versions. Therefore, in order to get the latest files, you would just have to work with the HEAD branch.  The structure of the CVS repository is shown below:
+
+<p>
+<img src="./images/img3.jpg">
+
+<p>
+As multiple drivers are placed in CVS, the repository will have a HEAD branch corresponding to the latest driver, and entries under Branches that correspond to earlier EMF build levels.  If for some reason you need to get files from a certain driver, you would check out code from the branch you are interested in.
+</li>
+<hr>
+<h2><li>Checking out code from CVS using anonymous user</h2>
+
+<p>
+An anonymous user will have access only to check out files from the CVS repository. This user does not have the privileges to check in files into CVS.
+
+<h3>Configuring the CVS client to check out EMF files</h3>
+<p>
+To check out EMF files from CVS:
+<p>
+<ol>
+<li>Open a CVS perspective in the Eclipse Workbench by selecting
+<b>Windows > Open Perspective > CVS Repository Exploring</b>.</li>   
+
+<li>Right click on the CVS Repositories view as shown below, and select 
+<b>New > Repository Location...</b></li>
+
+<p>
+<img src="./images/img4.jpg">
+
+<p>
+<li>Enter the information as shown below in the Add CVS Repository dialog and click Finish. This will establish a connection with the \home\tools repository located on dev.eclipse.org using the anonymous user ID.  Make sure you set the connection type to pserver and use the default port as shown.</li>
+</ol>
+
+<p>
+<img src="./images/img5.jpg">
+
+<h3>Checking out code from CVS for the first time</h3>
+
+<p>
+If you followed the previous section, you should see a new repository entry in the CVS Repositories view. To check out code, do the following:
+
+<p>
+
+<ol> 
+<li>Expand the repository node.</li>
+<li>Then expand the HEAD node as shown below to view all the modules in the CVS Repository.</li>
+
+<p>
+<img src="./images/img6.jpg">
+
+<p>
+<li>Now you are ready to check out the EMF CVS modules. Scroll down and highlight all the modules that start with “org.eclipse.emf” as shown below. Then right click and select the <b>Check Out As Project</b> menu option.</li>
+
+<p>
+<img src="./images/img7.jpg">
+
+<p>
+<li>Once this is done you should have a project for each of the EMF CVS modules that you check out. Switch to the Java perspective to use the projects.  
+</ol>
+
+<h2><li><a name="Resolving Dependency Problems">Resolving Dependency Problems</a></h2>
+
+<p>
+Following this scenario, you will find that the projects have compilation errors after you check them out.  To resolve these, update the classpath. To do this, right click on the project and select the <b>Update Classpath...</b> menu option as shown below. The Update Java class path dialog will appear. 
+
+<p>
+<img src="./images/img8.jpg">
+
+<p>
+Ensure that your project is checked in the Plug-ins and Fragments Found list, and then click <b>Finish</b>.  Note: If you want to update all the EMF projects, select all the EMF projects in the dialog before you click <b>Finish</b>.
+
+<p>
+<img src="images\img9.jpg">
+
+</li>
+
+
+<h2><li>Synchronizing your local sand box with the latest HEAD CVS branch</h2>
+<p>
+To synchronize your local changes with the HEAD CVS branch, right click on the resource that you want to synchronize, and then select <b>Team > Synchronize with Repository</b>.
+
+<p>
+<p>
+<img src="./images/img10.jpg">
+
+<p>
+The synchronize view should be open at this point. The following text is from the Eclipse help contents and briefly discusses the synchronization view. Please refer to the Eclipse help for the complete context and additional information.
+
+<p>
+<hr>
+<img src="./images/img11.jpg">
+<hr>
+
+<p>
+At this point you can manually merge your changes or automatically merge the changes.  To automatically merge your changes, right click on the resource you want to merge.  Select <b>Team > Update</b> as shown below.
+
+<p>
+<img src="./images/img12.jpg">
+
+<p>
+If there are conflicts that CVS cannot resolve, it will insert special markup in the file to indicate that those lines could not be merged.  If you want more information about CVS, refer to the Eclipse help files.
+</li>
+<hr>
+</li>
+
+</ol>

@@ -1,0 +1,49 @@
+
+theWorkspace=workspace
+diff=
+force=
+dynamic=
+while [ "$1" != "" ]; do
+  case $1 in
+    -projects*)  shift; projects="-projects $1"; shift;;
+    -dynamic*)  dynamic=-dynamicTemplates; shift;;
+    -force*)    force=-forceOverwrite; shift;;
+    -diff)      diff=-diff; shift;;
+    -platform)  shift; theWorkspace=$1; shift;;
+    -data)      shift; theWorkspace=$1; shift;;
+    *)          arguments="$arguments $1"; shift;;
+  esac
+done
+
+
+$VABASE/jre/bin/java \
+  -Xmx900M \
+  -Djava.compiler=NONE \
+  -verify \
+  -cp $VABASE/startup.jar \
+  org.eclipse.core.launcher.Main \
+  -data $theWorkspace \
+  -application org.eclipse.emf.codegen.ecore.Generator \
+  -data $theWorkspace \
+  $projects \
+  $dynamic \
+  $diff \
+  $force \
+  $arguments \
+  |  \
+  tee $TMP/gen-log.$$
+
+
+if [ "$diff" == "-diff" ]; then
+  for i in $(sed '{ /Using alternate/!d; s/.*Using alternate \(.*\.new\).*/\1/; }'< $TMP/gen-log.$$); do
+    newName=$VABASE/plugins$i 
+    oldName=$VABASE/plugins$(dirname $i)/$(basename $i | sed 's/.\(.*\).new/\1/')
+    if ( diff -b $oldName $newName | grep -q "." ); then
+      echo $oldName;
+      diff $oldName $newName;
+    fi
+  done
+fi
+
+exit 0
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<!-- ====================================================================== -->
+<!-- Define the top level topics                                            -->
+<!-- ====================================================================== -->
+
+<toc label="EMF Programmer&apos;s Guide">
+	<topic label="EMF Framework Overview" href="references/overview/EMF.html"/>
+	<topic label="EMF.Edit Framework Overview" href="references/overview/EMF.Edit.html"/>
+	<topic label="EMF v1.0 User&apos;s Guide" href="references/UG/EMF_v1.0_Users_Guide.html"/>
+
+	<topic label="Tutorials">
+		<link toc="tutorials.xml" />
+	</topic>
+
+	<topic label="Release Notes">
+		<link toc="relnotes.xml" />
+	</topic>
+
+	<topic label="Javadoc" href="references/javadoc/index.html"/>
+</toc>

@@ -1,0 +1,254 @@
+
+(object Petal
+    version    	42
+    _written   	"Rose 4.5.8163.3"
+    charSet    	0)
+
+(object Class_Category "tree"
+    is_unit    	TRUE
+    is_loaded  	TRUE
+    attributes 	(list Attribute_Set
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"prefix"
+	    value      	"Tree")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"basePackage"
+	    value      	"org.eclipse.emf.edit")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"nsPrefix"
+	    value      	"tree")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"nsURI"
+	    value      	"http://www.eclipse.org/emf/2002/Tree"))
+    quid       	"3BE1B5830266"
+    exportControl 	"Public"
+    logical_models 	(list unit_reference_list
+	(object Class "TreeNode"
+	    quid       	"3BE1B593033B"
+	    language   	"Java")
+	(object Association "$UNNAMED$0"
+	    quid       	"3BE1B7160324"
+	    roles      	(list role_list
+		(object Role "parent"
+		    quid       	"3BE1B71B0122"
+		    label      	"parent"
+		    supplier   	"Logical View::tree::TreeNode"
+		    quidu      	"3BE1B593033B"
+		    client_cardinality 	(value cardinality "0..1")
+		    is_navigable 	TRUE
+		    is_aggregate 	TRUE)
+		(object Role "children"
+		    quid       	"3BE1B71B012C"
+		    label      	"children"
+		    supplier   	"Logical View::tree::TreeNode"
+		    quidu      	"3BE1B593033B"
+		    client_cardinality 	(value cardinality "0..n")
+		    Containment 	"By Value"
+		    is_navigable 	TRUE)))
+	(object Association "$UNNAMED$1"
+	    quid       	"3C9CB9810167"
+	    roles      	(list role_list
+		(object Role "$UNNAMED$2"
+		    quid       	"3C9CB98300AC"
+		    supplier   	"Logical View::tree::TreeNode"
+		    quidu      	"3BE1B593033B")
+		(object Role "data"
+		    quid       	"3C9CB98300AD"
+		    label      	"data"
+		    supplier   	"Logical View::ecore::EObject"
+		    quidu      	"3C4F1C860123"
+		    client_cardinality 	(value cardinality "1")
+		    is_navigable 	TRUE))))
+    logical_presentations 	(list unit_reference_list
+	(object ClassDiagram "Main"
+	    quid       	"3BE1B5A60108"
+	    title      	"Main"
+	    zoom       	100
+	    max_height 	28350
+	    max_width  	21600
+	    origin_x   	0
+	    origin_y   	0
+	    items      	(list diagram_item_list
+		(object ClassView "Class" "Logical View::tree::TreeNode" @1
+		    ShowCompartmentStereotypes 	TRUE
+		    SuppressAttribute 	TRUE
+		    SuppressOperation 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(608, 304)
+		    label      	(object ItemLabel
+			Parent_View 	@1
+			location   	(461, 241)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	294
+			justify    	0
+			label      	"TreeNode")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"3BE1B593033B"
+		    width      	312
+		    height     	150
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object AssociationViewNew "$UNNAMED$0" @2
+		    location   	(219, 609)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"3BE1B7160324"
+		    roleview_list 	(list RoleViews
+			(object RoleView "parent" @3
+			    Parent_View 	@2
+			    location   	(-197, 225)
+			    label      	(object SegLabel @4
+				Parent_View 	@3
+				location   	(467, 506)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	144
+				justify    	0
+				label      	"+parent"
+				pctDist    	0.409539
+				height     	104
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3BE1B71B0122"
+			    client     	@2
+			    supplier   	@1
+			    vertices   	(list Points
+				(219, 609)
+				(597, 609)
+				(597, 379))
+			    line_style 	3
+			    origin_attachment 	(219, 609)
+			    terminal_attachment 	(597, 379)
+			    label      	(object SegLabel @5
+				Parent_View 	@3
+				location   	(707, 499)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	72
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.802632
+				height     	110
+				orientation 	1))
+			(object RoleView "children" @6
+			    Parent_View 	@2
+			    location   	(-197, 225)
+			    label      	(object SegLabel @7
+				Parent_View 	@6
+				location   	(311, 261)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	168
+				justify    	0
+				label      	"+children"
+				pctDist    	0.787500
+				height     	40
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3BE1B71B012C"
+			    client     	@2
+			    supplier   	@1
+			    vertices   	(list Points
+				(219, 609)
+				(159, 609)
+				(159, 300)
+				(452, 300))
+			    line_style 	3
+			    origin_attachment 	(219, 609)
+			    terminal_attachment 	(452, 300)
+			    label      	(object SegLabel @8
+				Parent_View 	@6
+				location   	(368, 338)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	70
+				justify    	0
+				label      	"0..*"
+				pctDist    	0.873438
+				height     	38
+				orientation 	1))))
+		(object ClassView "Class" "Logical View::ecore::EObject" @9
+		    ShowCompartmentStereotypes 	TRUE
+		    SuppressAttribute 	TRUE
+		    SuppressOperation 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(1184, 304)
+		    label      	(object ItemLabel
+			Parent_View 	@9
+			location   	(1056, 238)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	257
+			justify    	0
+			label      	"EObject")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"3C4F1C860123"
+		    width      	275
+		    height     	156
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object AssociationViewNew "$UNNAMED$1" @10
+		    location   	(905, 304)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"3C9CB9810167"
+		    roleview_list 	(list RoleViews
+			(object RoleView "$UNNAMED$2" @11
+			    Parent_View 	@10
+			    location   	(-615, -432)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3C9CB98300AC"
+			    client     	@10
+			    supplier   	@1
+			    line_style 	0)
+			(object RoleView "data" @12
+			    Parent_View 	@10
+			    location   	(-615, -432)
+			    label      	(object SegLabel @13
+				Parent_View 	@12
+				location   	(952, 250)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	108
+				justify    	0
+				label      	"+data"
+				pctDist    	0.333333
+				height     	55
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3C9CB98300AD"
+			    client     	@10
+			    supplier   	@9
+			    line_style 	0
+			    label      	(object SegLabel @14
+				Parent_View 	@12
+				location   	(965, 358)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"1"
+				pctDist    	0.432624
+				height     	54
+				orientation 	1))))))))

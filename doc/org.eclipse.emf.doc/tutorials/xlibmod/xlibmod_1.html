@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <title>Generating an EMF Model using XML Schema: Import from XML Schema</title>
+  </head>
+  <body>
+
+    <h2>Generating an EMF Model using XML Schema</h2>
+
+    <a href="xlibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+    <a href="xlibmod_0.html">Previous: Prerequisites</a>&nbsp;&nbsp;&nbsp;
+    <a href="xlibmod_2.html">Next: Generating the EMF Model Code</a>
+    <hr>
+
+    <h3>Step 1: Importing the Model from XML Schema</h3>
+
+    <p>Use the XML Schema file you saved earlier:
+    <a href="library.xsd">library.xsd</a> as a sample model.</p>
+
+    <p>Create a new Ecore model project in the workspace:</p>
+     
+    <ul>
+      <li>
+        Bring up the "File/New/Project..." dialog.
+        <br>
+        <img src="../clibmod/cg101.gif" alt="File/New/Project..." height="55" width="341">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Select "Eclipse Modeling Framework" and "EMF Project".  Click the
+        "Next" button.
+        <br>
+        <img src="../clibmod/cg132.gif" alt="EMF Project" height="150"
+          width="394">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Give the project a name, say, "library".  Then, click the "Next"
+        button.
+        <br>
+        <img src="../clibmod/cg133.gif" alt="Name the project" height="203"
+          width="294">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Select "Load from an XML Schema" and click the "Next" button.
+        <br>
+        <img src="xl101.gif" alt="Load from an XML Schema" height="200"
+          width="255">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Click on the "Browse File System..." or "Browse Workspace..." button to 
+        locate and load the XML schema file on your system. Alternatively, you can 
+        enter the XML schema file's location directly in the "XML Schema URI" entry
+        field and then click on the "Load..." button to load it. (Note: If you locate
+        the schema using either "Browse File System..." button or "Brose Workspace..."
+        button, you do not need to click on the "Load..." button.)
+        <br>
+        <img src="xl102.gif" alt="Browse for XML Schema file" height="200"
+          width="500">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        After the XML schema file is loaded, a default GenModel name will be suggested. 
+        You can change the name in the "Generator model name" entry field if you wish. 
+        You can also select "Create XML Schema to Ecore Map" to generate a mapping file 
+        that maps from an XML Schema to Ecore, with an extension of ".xsd2ecore". If you
+        do not select this option, the mapping file is not generated.
+        Click the "Next" button.
+        <br>
+        <img src="xl103.gif" alt="Gen Model Name" height="500" width="500">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Select the package for which you want to generate an EMF model - In general, 
+        there can be many packages within a single schema. However, in this case, 
+        there is only one package, "library".  Click the "Finish" button.
+        <br>
+        <img src="xl104.gif" alt="Select package" height="500" width="500">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Three files will be created: (1) A mapping file that maps from an XML Schema to
+        Ecore, with an extension of ".xsd2ecore", (2) an Ecore model, with an extension of
+        ".ecore", and (3) a GenModel, with an extension of ".genmodel". The GenModel, which 
+        controls code generation for the model appears in the main view.
+        <br>
+        <img src="xl105.gif" alt="Opened GenModel" height="167" width="498">
+        <br>&nbsp;
+      </li>
+    </ul>
+
+    <p>
+    The Ecore model "com.example.library.ecore" has the package name as its file 
+    name. The package name comes from the value of the EPackage's nsPrefix attribute is
+    derived from the schema's target namespace (if the schema has a target namespace),
+    or from the URI file path of the schema document if the schema does not
+    contain a target namespace. In this sample, the "library.xsd" file includes
+    a targetNamespace attribute that has a value of "http://www.example.com/library". 
+    Therefore, the nsPrefix attribute for the "Library" is set to "com.example.library". 
+    </p>
+    
+    <hr>
+    <a href="xlibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+    <a href="xlibmod_0.html">Previous: Prerequisites</a>&nbsp;&nbsp;&nbsp;
+    <a href="xlibmod_2.html">Next: Generate the Model Code</a>
+  </body>
+</html>

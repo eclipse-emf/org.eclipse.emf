@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <title>Generating an EMF Model using XML Schema: Run the Editor</title>
+  </head>
+  <body>
+
+    <h2>Generating an EMF Model using XML Schema:</h2>
+    <a href="xlibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+    <a href="xlibmod_3.html">Previous: Generating the Editor</a>
+      &nbsp;&nbsp;&nbsp;
+    <font color="#999999">Next</font>
+    <hr>
+
+    <h3>Step 4: Running the Generated Editor</h3>
+
+    <p>In order to run plugins in a runtime workbench, a lunch configuration
+    must first be set up:</p>
+
+    <ul>
+      <li>
+        Select "Run..." from the "Run" menu.
+        <br>
+        <img src="xl401.gif" alt="Run/Run..." height="155" width="493">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Select "Run-time Workbench" and click the "New" button.
+        <br>
+        <img src="../clibmod/cg402.gif" alt="New Run-time Workbench" height="329"
+          width="615">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        You may want to change the configuration's name to something more
+        recognizable.  Then, switch to the "Plug-ins and Fragments" tab.
+        <br>
+        <img src="../clibmod/cg403.gif" alt="Name the configuration" height="245"
+          width="575">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Select "Choose plugin-ins and fragments to launch from the list", and
+        then select the top-level "External Plug-ins".
+        <br>
+        <img src="../clibmod/cg404.gif" alt="Select all External Plugins" height="297"
+          width="457">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Switch to the "Common" tab, select "Run" from the "Display in favorites menu" section
+        of the dialog, and the click the "Apply" button.
+        <br>
+        <img src="../clibmod/cg405.gif" alt="Display in favorites menu: Run" height="363"
+          width="470">
+        <br>&nbsp;
+      </li>
+    </ul>
+
+    <p>A runtime workbench can be launched from the "Launch Configurations"
+    dialog by clicking on the "Run" button.  Once the launch configuration
+    has been set up, it can also be launched from the "Run" button on the
+    toolbar.</p>
+
+    <ul>
+      <li>
+        Select the new launch configuration from the "Run" button drop-down.
+        <br>
+        <img src="../clibmod/cg406.gif" alt="Library Configuration" height="124"
+          width="355">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Wait for a second instance of the Eclipse platform to come up.  Bring
+        up the "Help/About Eclipse Platform" dialog, click on the "Plug-in
+        Details" button, and verify that the generated plugins are there.
+        <br>
+        <img src="../clibmod/cg407.gif" alt="Plug-in Details" height="437" width="595">
+        <br>&nbsp;
+      </li>
+    </ul>
+      
+    <p>The library model wizard can now be used to create a new instance of
+    the model.</p>
+
+    <ul>
+      <li>
+        Working in the Resource perspective, Bring up the "File/New/Project..." dialog.
+        <br>
+        <img src="../clibmod/cg101.gif" alt="File/New/Project..." height="55" width="341">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Select "Simple" and "Project". Click the "Next" button.
+        <br>
+        <img src="../clibmod/cg408.gif" alt="Simple Project" height="91" width="333">
+        <br>&nbsp;
+      </li>
+
+      <li> 
+        Give the project a name and click the "Finish" button.
+        <br>
+        <img src="../clibmod/cg409.gif" alt="Name the project" height="126" width="213">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Right-click the project and select "New/Other..." from the pop-up menu.
+        <br>
+        <img src="../clibmod/cg410.gif" alt="New/Other..." height="178" width="387">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Select "Example EMF Model Creation Wizards" and "Library Model".  Click
+        the "Next" button.
+        <br>
+        <img src="../clibmod/cg411.gif" alt="Library Model" height="500" width="500">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Enter a file name for the library model.  Make sure it ends with a
+        ".library" extension. Then click the "Next" button.
+        <br>
+        <img src="../clibmod/cg412.gif" alt="Name the library model file" height="46"
+          width="146">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Select "Library" as the model object, and click the "Finish" button.
+        <br>
+        <img src="../clibmod/cg413.gif" alt="Select the Model Object" height="238"
+          width="498">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        The newly created library model is opened in the main view.
+        <br>
+        <img src="../clibmod/cg414.gif" alt="New library model" height="118" width="482">
+        <br>&nbsp;
+      </li>
+    </ul>
+
+    <p>The root object in this editor corresponds to the "My.library" resource.
+    Under it lies a single library, the object that was selected as the model
+    object in the wizard.</p>
+
+    <ul>
+      <li>
+        Expand the "platform:/resource/librarytest/My.library" resource to see
+        the library object.  Select it.
+        <br>
+        <img src="../clibmod/cg415.gif" alt="Expanded resource" height="242" width="592">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        In the Properties view, click on the "Value" column of the "Name"
+        property, and give a name to the library.  The label in the main
+        view will be updated when you hit Enter.
+        <br>
+        <img src="../clibmod/cg416.gif" alt="Name the library" height="105" width="646">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Right-click on the library and select "New Child/Writer" from the
+        pop-up menu to add a new writer to the library.
+        <br>
+        <img src="../clibmod/cg417.gif" alt="New Child/Writer" height="240" width="332">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Enter the name of the writer in the Properties view.
+        <br>
+        <img src="../clibmod/cg418.gif" alt="Name the writer" height="260" width="470">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Similarly, a book can be added to the library.
+        <br>
+        <img src="../clibmod/cg419.gif" alt="New Child/Book" height="238" width="325">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        All the book's attributes and references can be edited in the Properties
+        view.
+        <br>
+        <img src="../clibmod/cg420.gif" alt="Book properties" height="365" width="568">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        You can save, close, and then re-open the model using the text editor
+        if you wish to see the saved model in XMI format.
+        <br>
+        <img src="../clibmod/cg421.gif" alt="Open With/Text Editor" height="213"
+          width="379">
+        <br>&nbsp;
+      </li>
+
+      <li>
+      The XMI format file of "My.library" contains a Library object called "Skills Center",
+      a Book object with the value of title as "Fellowinship of the Ring", and a Writer object
+      that "JRR Tolkien" is the writer's name.
+        <br>
+        <img src="xl402.gif" alt="XMI format" height="330" width="564">
+        <br>&nbsp;
+      </li>
+    </ul>
+
+    <hr>
+    <a href="xlibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+    <a href="xlibmod_3.html">Previous: Generating the Editor</a>
+      &nbsp;&nbsp;&nbsp;
+    <font color="#999999">Next</font>
+  </body>
+</html>

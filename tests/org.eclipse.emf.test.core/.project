@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>org.eclipse.emf.test.core</name>
+	<comment></comment>
+	<projects>
+		<project>org.eclipse.core.resources</project>
+		<project>org.eclipse.debug.core</project>
+		<project>org.eclipse.emf.common</project>
+		<project>org.eclipse.emf.ecore</project>
+		<project>org.eclipse.emf.ecore.xmi</project>
+		<project>org.eclipse.emf.edit</project>
+		<project>org.eclipse.jdt.core</project>
+		<project>org.eclipse.jdt.launching</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.pde.ManifestBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.pde.SchemaBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.eclipse.pde.PluginNature</nature>
+	</natures>
+</projectDescription>

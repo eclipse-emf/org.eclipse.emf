@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en"><html><head>
+  
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+
+  
+  
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <title>Generating an Extended EMF Model: Creating a new EMF Model from Java Interfaces</title>
+</head><body>
+    
+<h2>Generating an Extended EMF Model</h2>
+
+
+  <a href="slibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+  <a href="slibmod_0.html">Previous: Prerequisites</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="slibmod_2.html">Next: Generating the EMF Model and the Editor</a>   
+
+<hr>
+    
+<h3>Step 1b: Creating a New EMF Model from Java Interfaces</h3>
+   Here are
+the annotated Java interfaces for the "schoollibrary" package. We can create
+the GenModel from these interface files instead of a Rose model.  
+<blockquote><b><i>SchoolLibrary.java</i></b><br>
+  <table border="1" frame="box">
+    <tbody>
+      <tr>
+        <td valign="CENTER">
+        <pre><tt><font color="#000000">package org.eclipse.example.schoollibrary;<br><br>import org.eclipse.example.library.Library;<br><br>/**<br>&nbsp;* </font><font color="#3333ff">@model<br></font><font color="#000000">&nbsp;*/<br>public interface </font><font color="#009900">SchoolLibrary<font color="#000000"> extends <font color="#009900">Library</font></font><br></font><font color="#000000">{<br></font><font color="#000000">&nbsp; /**<br>&nbsp;&nbsp; * </font><font color="#3333ff">@model<br></font><font color="#000000">&nbsp;&nbsp; */<br></font><font color="#ff0000">&nbsp; String getLocation();<br></font><font color="#000000">}</font></tt></pre>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
+
+
+
+<blockquote><b><i>Asset.java</i></b><br>
+    <table border="1" frame="box">
+      <tbody>
+        <tr>
+          <td valign="CENTER">
+          <pre><tt><font color="#000000">package org.eclipse.example.schoollibrary;<br><br>/**<br>&nbsp;* </font><font color="#3333ff">@model<br></font><font color="#000000">&nbsp;*/<br>public interface </font><font color="#009900">Asset<br></font><font color="#000000">{<br><tt><font color="#000000">&nbsp; /**<br>&nbsp;&nbsp; * </font><font color="#3333ff">@model<br></font><font color="#000000">&nbsp;&nbsp; */<br></font><font color="#ff0000">&nbsp; float getValue();<br></font></tt></font></tt><tt><font color="#000000">}</font></tt></pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</blockquote>
+
+
+
+<blockquote><b><i>SchoolBook.java</i></b><br>
+      <table border="1" frame="box">
+        <tbody>
+          <tr>
+            <td valign="CENTER">
+            <pre><tt><font color="#000000">package org.eclipse.example.schoollibrary;<br><br>import org.eclipse.example.library.Book;<br><br>/**<br>&nbsp;* </font><font color="#3333ff">@model<br></font><font color="#000000">&nbsp;*/<br>public interface </font><font color="#009900">SchoolBook<font color="#000000"> extends <font color="#009900">Book</font>, <font color="#009900">Asset</font></font><br></font><font color="#000000">{<br></font><font color="#000000">}</font></tt><br><br></pre>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</blockquote>
+
+<br>
+
+
+
+<ol type="A">
+
+
+  <li><h4>Create a Java Project</h4>
+  <ul>
+    <li>
+    Select "File/New/Project..." to bring up the New Project dialog:<br>
+        <img src="sl151.gif" alt="" width="487" height="86">
+        <br>
+<br>
+    </li>
+
+    <li>
+    Select "Java" and then "Java Project". Click the "Next" button.<br>
+        <img src="sl152.gif" alt="" width="500" height="200">
+        <br>
+        <br>
+</li><li>Give the project a name, for example "schoollibrary", and click the "Next" button.<br>
+        <img src="sl153.gif" alt="" width="500" height="212">
+        <br>
+        <br>
+      </li>
+      <li>Select "Add Folder...", click on
+the "Create New Folder..." button, and enter "src" as the name of the source
+folder. You'll be prompted to update the Build ouptut folder, click "Yes".<br>
+        <img src="sl154.gif" alt="" width="501" height="500">
+        <br>
+        <br>
+      </li>
+      <li>Change the Default output folder to "schoollibrary/runtime".<br>
+        <img src="sl155.gif" alt="" width="160" height="75">
+        <br>
+        <br>
+      </li>
+      <li>Select the "Projects" tab and select the "library" project as a dependent project.<br>
+        <img src="sl156.gif" alt="" width="500" height="196">
+
+        <br>
+        <br>
+      </li>
+      <li>Click the "Finish" button and the "schoollibrary" project should appear in the Package Explorer view.<br>
+        <img src="sl157.gif" alt="" width="180" height="143">
+
+        <br>
+      </li>
+
+  </ul>
+  </li>
+
+  <li><h4>Import the Interfaces</h4> 
+You can create and type in the interfaces as in the previous tutorial, but
+we will show here how to import them from the zip file <a href="schoollibrary.zip">schoollibrary.zip</a>.<br>
+    <br>
+
+  <ul>
+    <li>
+    Save the above zip file in a directory on your workstation, say "d:\tmp".<br>
+<br>
+    </li>
+
+    <li>
+    Bring up the Import dialog, by selecting "File/Import..."<br>
+        <img src="sl158.gif" alt="" width="126" height="358">
+        <br>
+        <br>
+</li><li>Select "Zip file". Click the "Next" button.<br>
+        <img src="sl159.gif" alt="" width="151" height="236">
+        <br>
+        <br>
+      </li>
+      <li>Type in the zip file name or use the "Browse" button to bring up a dialog to locate
+the zip file. You can then expand the directory tree and select the individual
+files in the zip file to import. Select all the files (3) available.<br>
+        <img src="sl160.gif" alt="" width="528" height="235">
+        <br>
+        <br>
+      </li>
+      <li>In
+the destination folder input field, type in "schoollibrary/src" or locate
+it using the "Browse" button. Click the "Finish" button.<br>
+        <img src="sl161.gif" alt="" width="526" height="93">
+        <br>
+        <br>
+      </li>
+      <li>Expand the "schoollibrary" project and you will see that the interface
+files were imported. It shows errors because the "library" project it depends
+on has been fully generated and it requires the EMF package in the Java Build Path
+to properly compile the interfaces. Do not worry about the errors right now.
+Once the EMF model is generated, the proper dependencies will be set up and
+these errors will disappear.<br>
+        <img src="sl162.gif" alt="" width="254" height="221">
+        <br>
+        <br>
+      </li>
+
+  </ul>
+  </li>
+
+  <li><h4>Create the Gen(erate) Model</h4>
+  <ul>
+    <li>With the "schoollibrary" project selected, select "File/New/Other..."<br>
+        <img src="sl163.gif" alt="" width="491" height="271">
+        <br>
+<br>
+    </li>
+
+    <li>
+    Select "Eclipse Modeling Framework" on the left and "EMF Models" on the right. Click the "Next" button.<br>
+        <img src="sl164.gif" alt="" width="500" height="200">
+        <br>
+        <br>
+</li><li>Enter "schoollibrary/src/model" as the name of the folder where
+the genmodel will be generated and change the .genmodel name to "schoollibrary.genmodel".
+(This folder name and file name are used so that the GenModel is generated
+in the same place as in the other method using a Rose model.) Click the "Next"
+button.<br>
+        <img src="sl165.gif" alt="" width="500" height="592">
+        <br>
+        <br>
+      </li>
+      <li>Select "Load from Java annotations". Click the "Next" button.<br>
+        <img src="sl166.gif" alt="" width="310" height="230">
+        <br>
+        <br>
+      </li>
+      <li>Select schoollibrary package. Click the "Finish" button.<br>
+        <img src="sl167.gif" alt="" width="500" height="570">
+        <br>
+        <br>
+      </li>
+      <li>
+        An Ecore model and a GenModel will be created.  The GenModel, which
+        controls code generation for the model, is opened in the main view.<br>
+        <img src="sl168.gif" alt="" width="500" height="350">
+        <br>
+        <br>
+      </li>
+
+  </ul>
+  </li>
+
+</ol>
+
+
+
+
+<hr>
+
+  <a href="slibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+  <a href="slibmod_0.html">Previous: Prerequisites</a>&nbsp;&nbsp;&nbsp;
+  <a href="slibmod_2.html">Next: Generating the EMF Model and the Editor</a>
+<br>
+
+
+
+
+<br>
+
+
+<br>
+
+<br>
+
+</body></html>

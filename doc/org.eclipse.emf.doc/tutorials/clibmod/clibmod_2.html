@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <title>Generating an EMF Model: Generate the Model Code</title>
+  </head>
+  <body>
+
+    <h2>Generating an EMF Model</h2>
+
+    <a href="clibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+    Previous: <a href="clibmod_1a.html">Import from Rose</a> or
+    <a href="clibmod_1b.html">Define Using Java</a>&nbsp;&nbsp;&nbsp;
+    <a href="clibmod_3.html">Next: Generate the Editor</a>
+    <hr>
+
+    <h3>Step 2: Generate the EMF Model Code</h3>
+         
+    <p>The GenModel shows a root object, representing the the whole
+    model.  The model object has children that represent its packages, whose
+    children then represent classifiers (classes and datatypes, including
+    enumerated types).  The children of classes are class attributes,
+    references, and operations; the children of enumerated types are enum
+    literals.
+
+    <ul>
+      <li>
+        The GenModel can be expanded to see its various elements.
+        <br>
+        <img src="cg201.gif" alt="Expanded GenModel" height="200" width="320">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        There are properties associated with each object.  If the Properties
+        view isn't already showing, bring up "Window/Show View/Other..."
+        <br>
+        <img src="cg202.gif" alt="Window/Show View/Other..." height="257"
+          width="378">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Expand the "Basic" set of views and choose "Properties".
+        <br>
+        <img src="cg203.gif" alt="Chose Properties" height="164" width="153">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        These properties control the behavior of the code generator.
+        <br>
+        <img src="cg204.gif" alt="GenModel properties" height="502"
+          width="575">
+        <br>&nbsp;
+      </li>
+    </ul>
+
+    <p>In most cases, the properites need not be changed from their default
+    values, but these options can provide a great deal of control over the
+    code that gets generated.  This topic will be explored more fully in
+    future tutorial material; for now, select several different GenModel
+    objects, and observe their properties.</p>
+
+    <p>The GenModel is also the place where you initiate the code generation.
+    By right-clicking on an object in the model, you can generate code for
+    it.</p>
+
+    <ul>
+      <li>
+        Right-click the "library" model object and
+        select "Generate Model Code" from the pop-up menu.
+        <br>
+        <img src="cg207.gif" alt="Generate Model" height="238" width="213">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Observe the generated files.
+        <br>
+        <img src="cg208.gif" alt="Generated model code" height="357"
+          width="245">
+        <br>
+        <br>
+      </li>
+    </ul>
+
+    <p>After generation, the class interfaces and enum class will have been
+    created (if the model was imported from Rose) or completed (if the model
+    was defined using annotated Java), and a new pair of interfaces will have
+    been created for the package itself and for the factory.  There will also
+    be two new packages, with "impl" and "util" suffixes, which contain
+    implementations of the interfaces and additional utility classes, and
+    a "plugin.xml" manifest file for the model plugin.</p>
+
+    <p>If you define the model by using annotated Java, after generating code by
+    selecting "Generate Model Code" pop-up menu, you will see the warning message
+    "The import java.util.List is never used". This message is ok for you to continue
+    to work on next step.</p>
+
+    <p>If you change the model, you can regenerate it, and changes will be
+    merged with any hand modifications that may have been made to the code.
+    You can also selectively generate a subset of the model code by
+    right-clicking on a package, class, or enum object and selecting
+    "Generate Model Code" from the pop-up menu.</p>
+
+    <hr>
+    <a href="clibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+    Previous: <a href="clibmod_1a.html">Import from Rose</a> or
+    <a href="clibmod_1b.html">Define Using Java</a>&nbsp;&nbsp;&nbsp;
+    <a href="clibmod_3.html">Next: Generate the Editor</a>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002-2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: NotificationChain.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+package org.eclipse.emf.common.notify;
+
+
+/**
+ * An accumulator of notifications.
+ * As notifications are produced, 
+ * they are {@link #add accumulated} in a chain, 
+ * and possibly even merged, 
+ * before finally being {@link #dispatch dispatched} to the notifier.
+ */
+public interface NotificationChain 
+{
+  /**
+   * Adds a notification to the chain.
+   * @return whether the notification was added.
+   */
+  public boolean add(Notification notification);
+
+  /**
+   * Dispatches each notification to the appropriate notifier via {@link Notifier#eNotify Notifier.eNotify}.
+   */
+  public void dispatch();
+}

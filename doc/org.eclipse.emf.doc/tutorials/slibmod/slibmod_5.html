@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en"><html><head>
+    
+  
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+
+
+    
+  
+  
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"><title>Generating an Extended EMF Model: An Alternative way of Generating the Model and Editor</title></head><body>
+    
+<h2>Generating an Extended EMF Model</h2>
+
+
+
+    <a href="slibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+    <a href="slibmod_4.html">Previous: Modifying the Editor</a>&nbsp;&nbsp;&nbsp;
+    <font color="#999999">Next</font>
+    
+<hr>
+
+    
+<h3>Appendix: An Alternative Way of Generating the Model and Editor</h3>
+
+
+
+    
+<p>If you do not already have the base model "Library" and its editor generated 
+in separate projects, you can have both the "Library" and "School Library" 
+models generated into the same set of projects. This can be done either through
+a Rose model or through a set of Java interfaces.</p>
+
+
+
+
+
+<ol type="A">
+
+
+
+  <li><h4>Through Rose Model</h4>
+
+<ul>
+  <li>Working in the Resource perspective, select the "File/New/Other...".<br>
+    <br>
+    <img src="sl501.gif" alt="" width="476" height="173">
+    <br>&nbsp; &nbsp;
+  </li>
+
+  <li>Create a new EMF Project. Click the "Next" button.<br>
+    <br>
+    <img src="sl502.gif" alt="" width="494" height="219">
+    <br>
+<br>
+  </li>
+
+  <li>Give the project a name, for example "schoollibrary2". Click the "Next" button.<br>
+    <img src="sl503.gif" alt="" width="495" height="209">
+    <br> &nbsp; &nbsp;
+  </li>
+      
+  <li>Select "Load from a Rose Model" and click the "Next" button.<br>
+    <img src="sl504.gif" alt="" width="497" height="211">
+    <br> <br>
+  </li>
+
+  <li>Click the "Browse" button, locate and open the <a href="schoollibrary.zip">"schoollibrary.mdl"</a> file. Then click the "Next" button.<br>
+    <img src="sl505.gif" alt="" width="569" height="501">
+&nbsp; <br> <br>
+  </li>
+
+  <li>Select both the "library" and "schoollibrary" packages.
+  This is different from what we did in Step 1 in which we referenced
+  the "library" model generated previously. Click the "Finish" button.<br>
+    <img src="sl506.gif" alt="" width="495" height="273">
+    &nbsp;<br>&nbsp;&nbsp; &nbsp;&nbsp;
+  </li>
+</ul>
+</li>
+
+<li><h4>Through Java Interfaces:</h4>
+<ul>
+<li>         Create a new Java project. Working in the Java perspective,
+select "File/New/Project..." to bring up the New Project dialog.<br>
+        <img src="sl551.gif" alt="" width="431" height="91">
+        <br>
+<br>
+</li>
+<li>
+        Select "Java Project". Click the "Next" button.<br>
+        <img src="sl552.gif" alt="" width="500" height="171">
+        <br>
+        <br>
+</li><li>Give the project a name, for example "schoollibrary2". Click the "Next" button.<br>
+        <img src="sl553.gif" alt="" width="500" height="224">
+        <br>
+        <br>
+      </li>
+      <li>Click
+"Add Folder...", click on "Create New Folder..."
+and create a "src" sub-folder. Click "Yes" when you are asked to update the
+build output folder. Change the build output folder to "schoollibrary2/runtime". 
+Click the "Finish" button.<br>
+        <img src="sl554.gif" alt="" width="500" height="500">
+        <br>
+        <br>
+      </li>
+      <li>A "schoollibrary2" project will be created.<br>
+        <img src="sl555.gif" alt="" width="294" height="209">
+        <br>
+      </li>
+      <li>Import the "library" interfaces from <a href="library.zip">"library.zip"</a>. With the "schoollibrary2" project selected, select "File/Import..." and select "Zip file".<br>
+        <img src="sl556.gif" alt="" width="157" height="354" align="top">
+ &nbsp; <img src="sl557.gif" alt="" width="214" height="227" align="top">
+        <br>
+        <br>
+      </li>
+      <li>Locate the zip file and import it into the "schoollibrary2/src" directory. Click the "Finish" button.<br>
+        <img src="sl558.gif" alt="" width="529" height="551">
+        <br>
+        <br>
+      </li>
+      <li>Import the "schoollibrary" interfaces from <a href="schoollibrary.zip">"schoollibrary.zip"</a> in a similar way.<br>
+        <img src="sl559.gif" alt="" width="529" height="551">
+        <br>
+        <br>
+      </li>
+      <li>Now you should have all the required Java interfaces in the project.<br>
+        <img src="sl560.gif" alt="" width="294" height="346"><br>
+
+        <br>
+      </li>
+      <li>With the "schoollibrary2" project selected, Select "File/New/Others...".<br>
+        <img src="sl561.gif" alt="" width="490" height="276">
+        <br>
+        <br>
+      </li>
+      <li>Select "EMF Models". Click the "Next" button.<br>
+        <img src="sl562.gif" alt="" width="500" height="200">
+        <br>
+        <br>
+      </li>
+      <li>Enter "schoollibrary2/src/model" as the name of folder and "schoollibrary.genmodel" as the file name. Click the "Next" button.<br>
+        <img src="sl563.gif" alt="" width="500" height="570">
+        <br>
+        <br>
+      </li>
+      <li>Select "Load from Java annotations". Click the "Next" button.<br>
+        <img src="sl564.gif" alt="" width="310" height="230">
+        <br>
+        <br>
+        <br>
+      </li>
+      <li>Select both library and schoollibrary package. Click the "Finish" button.<br>
+        <img src="sl565.gif" alt="" width="500" height="570">
+        <br>
+        <br>
+        <br>
+      </li>
+
+</ul>
+
+</li>
+
+
+
+<li><h4>Generating the EMF Model and the Editor</h4>
+
+<ul>
+
+
+  <li>
+The "schoollibrary.genmodel" is now created either through the Rose model or the Java interfaces.
+It should appear in the main view. In the Resource perspective, expand the genmodel and notice that
+the icon for the "Library" package does not have the arrow in it. The absence of the arrow
+indicates that the package is actually in the project.<br>
+    <img src="sl507.gif" alt="" width="455" height="438">
+ &nbsp;<br>&nbsp;
+  </li>
+
+  <li>Save
+the change, and generate the model code, edit code and editor code.<br>
+        <img src="sl509.gif" alt="" width="433" height="243">
+
+&nbsp; <br>
+    <br>
+  </li>
+
+  <li>You should see the "schoollibrary2.edit" and "schoollibrary2.editor"
+plugins in the Navigator view. Expand them and you should see both the "library"
+and "schoollibrary" models generated in them.<br>
+    <img src="sl510.gif" alt="" width="254" height="416"> <br>
+    <br>
+  </li>
+</ul>
+</li>
+  <li><h4>Running the Generated Editor</h4>
+<ul>
+  <li>Now, switch to the Debug perspective and create
+a new Launch Configurations dialog. Select "Run/Run..." to bring up the Launch Configuration.
+Select "Run-time Workbench" and click "New".<br>
+    <img src="sl511.gif" alt="" width="627" height="560">
+    <br> <br> <br>
+  </li>
+
+  <li>Give
+the configuration a name and switch to the "Plug-ins and Fragments" tab.
+Select the "Choose plug-ins and fragments to launch from the list" radio
+button. Next, select the set of plugins you just created. Click the "Apply"
+button.<br>
+    <img src="sl512.gif" alt="" width="653" height="560">
+    <br>
+    <br>
+  </li>
+
+  <li>You can now run this configuration by clicking the "Run" button. You
+should find that the schoollibrary editor behaves the same as the editor we generated the
+other way.<br>
+    <br>
+  </li>
+
+  <li>You
+can also create a Library model: Select "File/New/Other...". In the dialog
+that appears, select "Example EMF Model Creation Wizards" and then select
+"Library Model". Click the "Next" button.<br>
+    &nbsp;<img src="sl513.gif" alt="" width="497" height="216">
+    <br>
+    <br><br>
+
+  </li>
+
+  <li>Give the library model a name and click the "Next" button.<br>
+    <img src="sl514.gif" alt="" width="161" height="48">
+    <br>
+    <br>
+  </li>
+
+  <li>Select "Library" as the top-level object. Click the "Finish" button.<br>
+    <img src="sl515.gif" alt="" width="500" height="127">
+    <br>
+    <br>
+  </li>
+
+  <li>The model "My.library" will be opened in the main view. Expand the
+model and right-click on the top-level "Library" object. Select the "New Child"
+menu item and you will see three type of children objects that can be created. Note that
+"School Book" is included, even though it is in the "Library" package.<br>
+    <img src="sl516.gif" alt="" width="298" height="250">
+    <br> <br>
+The "School Book" object is not available when the "Library" model is
+generated on its own as in the previous tutorial because it does not know
+about the existence of the "schoollibrary" package when the model is being generated. Now when the base package
+and the extended package are generated into the same project, they know
+about each other.
+This feature occurs when multiple packages are generated together.<br>       
+  </li>
+
+</ul>
+</ol>
+
+
+
+
+    
+<hr>
+    <a href="slibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+    <a href="slibmod_4.html">Previous: &nbsp;Modifying the Editor</a>
+      &nbsp;&nbsp;&nbsp;
+    <font color="#999999">Next</font>
+  <br>
+
+
+
+<br>
+
+
+
+<br>
+
+<br>
+</body></html>

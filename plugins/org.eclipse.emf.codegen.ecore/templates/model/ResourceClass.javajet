@@ -1,0 +1,59 @@
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ResourceClass" %>
+<%
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: ResourceClass.javajet,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+%>
+<%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
+<%@ include file="../Header.javajet"%>
+package <%=genPackage.getUtilitiesPackageName()%>;
+
+<%genModel.getImportedName("org.eclipse.emf.common.util.URI");%>
+<%genModel.markImportLocation(stringBuffer);%>
+
+/**
+ * <!-- begin-user-doc -->
+ * The <b>Resource </b> associated with the package.
+ * <!-- end-user-doc -->
+ * @see <%=genPackage.getQualifiedResourceFactoryClassName()%>
+ * @generated
+ */
+public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImportedResourceBaseClassName()%>
+{
+<%if (genModel.getCopyrightText() != null) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final <%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
+
+<%}%>
+	/**
+	 * Creates an instance of the resource.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param uri the URI of the new resource.
+	 * @generated
+	 */
+	public <%=genPackage.getResourceClassName()%>(URI uri)
+	{
+		super(uri);
+<%if (genPackage.getResource() == GenResourceKind.XML_LITERAL) {%>
+<%}%>
+	}
+} //<%=genPackage.getResourceFactoryClassName()%>
+<%genModel.emitSortedImports();%>

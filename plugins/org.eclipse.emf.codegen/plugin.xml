@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002-2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: plugin.xml,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+-->
+
+<plugin
+    name = "%pluginName"
+    id = "org.eclipse.emf.codegen"
+    version = "2.0.0" 
+    provider-name = "%providerName"
+    class = "org.eclipse.emf.codegen.CodeGenPlugin$Implementation">
+    
+  <requires>
+    <import plugin="org.eclipse.emf.common"/>
+    <import plugin="org.eclipse.core.resources"/>
+    <import plugin="org.eclipse.jdt.core"/>
+    <import plugin="org.eclipse.jdt.launching"/>
+    <import plugin="org.eclipse.debug.core"/>
+  </requires>
+
+  <runtime>
+    <library name="runtime/codegen.jar">
+      <export name="*"/>
+      <packages prefixes="org.eclipse.emf.codegen"/>
+    </library>
+  </runtime>
+
+  <extension id="CodeGen" point="org.eclipse.core.runtime.applications">
+    <application>
+      <run class="org.eclipse.emf.codegen.CodeGen"/>
+    </application>
+  </extension>
+
+  <extension id="JMerger" point="org.eclipse.core.runtime.applications">
+    <application>
+      <run class="org.eclipse.emf.codegen.jmerge.JMerger"/>
+    </application>
+  </extension>
+
+  <!--
+    JET Nature Contribution
+     Purpose: JET Nature definition
+  -->
+  <extension point="org.eclipse.core.resources.natures" id="jet.IJETNature">
+    <runtime>
+      <run class="org.eclipse.emf.codegen.jet.JETNature"/>
+    </runtime>
+  </extension>
+
+  <!--
+    Extension point: org.eclipse.core.resources.builders
+    Purpose: Extension for JET Builder
+  -->
+  <extension point="org.eclipse.core.resources.builders" id="JETBuilder" name="%jetBuilder">
+    <builder>
+        <run class="org.eclipse.emf.codegen.jet.JETBuilder"/>
+    </builder>
+  </extension>
+
+</plugin>
+
+
+

@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <title>Generating an EMF Model: Import from Rose</title>
+  </head>
+  <body>
+
+    <h2>Generating an EMF Model</h2>
+
+    <a href="clibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+    <a href="clibmod_0.html">Previous: Prerequisites</a>&nbsp;&nbsp;&nbsp;
+    <a href="clibmod_2.html">Next: Generate the Model Code</a>
+    <hr>
+
+    <h3>Step 1a: Import the Model from Rose</h3>
+
+    <p>The Rose file for the library model can be found here:
+    <a href="library.mdl">library.mdl</a>.  Save it somewhere on your
+    workstation.</p>
+
+    <p>Create a new Ecore model project in the workspace:</p>
+     
+    <ul>
+      <li>
+        Bring up the "File/New/Project..." dialog.
+        <br>
+        <img src="cg101.gif" alt="File/New/Project..." height="55" width="341">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Select "Eclipse Modeling framework" and "EMF Project".  Click the
+        "Next" button.
+        <br>
+        <img src="cg132.gif" alt="EMF Project" height="150"
+          width="394">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Give the project a name, say, "library".  Then, click the "Next"
+        button.
+        <br>
+        <img src="cg133.gif" alt="Name the project" height="203"
+          width="294">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Select "Load from a Rose class model" and click the "Next" button.
+        <br>
+        <img src="cg138.gif" alt="Load from a Rose class model" height="200"
+          width="255">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Click on the "Browse" button and locate the Rose model file.
+        <br>
+        <img src="cg134.gif" alt="Browse for Rose file" height="161"
+          width="500">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        The Rose model file will be examined, and a default GenModel name
+        will be suggested. You can change the name in the entry box if you
+        wish. Then click the "Next" button.
+        <br>
+        <img src="cg135.gif" alt="Gen Model Name" height="500" width="500">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        In general, a Rose model may contain more than one package.  Select
+        the package for which you want to generate an EMF model -- in this
+        case, the only package, "library".  Click the "Finish" button.
+        <br>
+        <img src="cg136.gif" alt="Select package" height="181" width="500">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        An Ecore model and a GenModel will be created.  The GenModel, which
+        controls code generation for the model, is opened in the main view.
+        <br>
+        <img src="cg137.gif" alt="Opened GenModel" height="130" width="450">
+        <br>&nbsp;
+      </li>
+    </ul>
+
+    <hr>
+    <a href="clibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+    <a href="clibmod_0.html">Previous: Prerequisites</a>&nbsp;&nbsp;&nbsp;
+    <a href="clibmod_2.html">Next: Generate the Model Code</a>
+  </body>
+</html>

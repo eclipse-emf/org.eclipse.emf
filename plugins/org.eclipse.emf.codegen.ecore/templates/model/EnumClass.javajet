@@ -1,0 +1,161 @@
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" %>
+<%
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: EnumClass.javajet,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+%>
+<%GenEnum genEnum = (GenEnum)argument; GenPackage genPackage = genEnum.getGenPackage(); GenModel genModel=genPackage.getGenModel();%>
+<%@ include file="../Header.javajet"%>
+package <%=genPackage.getInterfacePackageName()%>;
+
+<%genModel.addImport("java.util.Arrays");%>
+<%genModel.addImport("java.util.List");%>
+<%genModel.addImport("java.util.Collections");%>
+<%genModel.addImport("org.eclipse.emf.common.util.AbstractEnumerator");%>
+<%genModel.markImportLocation(stringBuffer, genPackage);%>
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the literals of the enumeration '<em><b><%=genEnum.getFormattedName()%></b></em>',
+ * and utility methods for working with them.
+ * <!-- end-user-doc -->
+<%if (genEnum.hasDocumentation()) {%>
+ * <!-- begin-model-doc -->
+ * <%=genEnum.getDocumentation(genModel.getIndentation(stringBuffer))%>
+ * <!-- end-model-doc -->
+<%}%>
+ * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genEnum.getName()%>()
+ * @model
+ * @generated
+ */
+public final class <%=genEnum.getName()%> extends AbstractEnumerator
+{
+<%if (genModel.getCopyrightText() != null) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final <%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
+
+<%}%>
+<%for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();%>
+	/**
+	 * The '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #<%=genEnumLiteral.getEnumLiteralID()%>_LITERAL
+	 * @model <%=genEnumLiteral.getModelInfo()%>
+	 * @generated
+	 * @ordered
+	 */
+	public static final int <%=genEnumLiteral.getEnumLiteralID()%> = <%=genEnumLiteral.getValue()%>;
+
+<%}%>
+<%for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();%>
+	/**
+	 * The '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal object.
+	 * <!-- begin-user-doc -->
+<%if (!genEnumLiteral.hasDocumentation()) {%>
+	 * <p>
+	 * If the meaning of '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+<%}%>
+	 * <!-- end-user-doc -->
+<%if (genEnumLiteral.hasDocumentation()) {%>
+	 * <!-- begin-model-doc -->
+	 * <%=genEnumLiteral.getDocumentation(genModel.getIndentation(stringBuffer))%>
+	 * <!-- end-model-doc -->
+<%}%>
+	 * @see #<%=genEnumLiteral.getEnumLiteralID()%>
+	 * @generated
+	 * @ordered
+	 */
+	public static final <%=genEnum.getName()%> <%=genEnumLiteral.getEnumLiteralID()%>_LITERAL = new <%=genEnum.getName()%>(<%=genEnumLiteral.getEnumLiteralID()%>, "<%=genEnumLiteral.getName()%>");<%=genModel.getNonNLS()%>
+
+<%}%>
+	/**
+	 * An array of all the '<em><b><%=genEnum.getFormattedName()%></b></em>' enumerators.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private static final <%=genEnum.getName()%>[] VALUES_ARRAY =
+		new <%=genEnum.getName()%>[]
+		{
+<%for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();%>
+			<%=genEnumLiteral.getEnumLiteralID()%>_LITERAL,
+<%}%>
+		};
+
+	/**
+	 * A public read-only list of all the '<em><b><%=genEnum.getFormattedName()%></b></em>' enumerators.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+
+	/**
+	 * Returns the '<em><b><%=genEnum.getFormattedName()%></b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static <%=genEnum.getName()%> get(<%=genModel.getImportedName("java.lang.String")%> name)
+	{
+		for (int i = 0; i < VALUES_ARRAY.length; ++i)
+		{
+			<%=genEnum.getName()%> result = VALUES_ARRAY[i];
+			if (result.toString().equals(name))
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b><%=genEnum.getFormattedName()%></b></em>' literal with the specified value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static <%=genEnum.getName()%> get(int value)
+	{
+		switch (value)
+		{
+<%for (Iterator l=genEnum.getUniqueValuedGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();%>
+			case <%=genEnumLiteral.getEnumLiteralID()%>: return <%=genEnumLiteral.getEnumLiteralID()%>_LITERAL;
+<%}%>
+		}
+		return null;	
+	}
+
+	/**
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private <%=genEnum.getName()%>(int value, <%=genModel.getImportedName("java.lang.String")%> name)
+	{
+		super(value, name);
+	}
+
+} //<%=genEnum.getName()%>
+<%genModel.emitSortedImports();%>

@@ -1,0 +1,3 @@
+-group "EMF Common UI" org.eclipse.emf.common.ui
+-group "EMF Common UI Cell Editors" org.eclipse.emf.common.ui.celleditor
+-overview build/overview.html

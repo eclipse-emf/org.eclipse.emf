@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002-2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: plugin.xml,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+-->
+
+<plugin
+    name = "%pluginName"
+    id = "org.eclipse.emf.ecore"
+    version = "2.0.0"
+    provider-name = "%providerName" 
+    class="org.eclipse.emf.ecore.plugin.EcorePlugin$Implementation">
+
+  <requires>
+    <import plugin="org.eclipse.core.resources"/>
+    <import plugin="org.eclipse.emf.common" export="true"/>
+  </requires>
+
+  <runtime>
+    <library name="runtime/ecore.jar">
+      <export name="*"/>
+      <packages prefixes="org.eclipse.emf.ecore"/>
+    </library>
+  </runtime>
+
+  <extension-point name="EMF Generated Package Registry" id="generated_package"/>
+<!--
+    An EMF generated package can be registered with the EPackage.Registry.INSTANCE as follows:
+
+      <extension point="org.eclipse.emf.ecore.generated_package" >
+         <package uri="http://www.eclipse.org/xsd/2002/XSD" class="org.eclipse.xsd.XSDPackage"/> 
+      </extension>
+-->
+
+  <extension-point name="EMF URI Extension Parser Registry" id="extension_parser"/>
+
+<!-- 
+    An EMF Resource.Factory can be registered with the Resource.Factory.Registry.INSTANCE as an extension parser as follows:
+
+      <extension point="org.eclipse.emf.ecore.extension_parser">
+         <parser type="xsd" class="org.eclipse.xsd.util.XSDResourceFactoryImpl"/>
+      </extension>
+-->
+
+  <extension-point name="EMF URI Protocol Parser Registry" id="protocol_parser"/>
+<!--
+    An EMF Resource.Factory can be registered with the Resource.Factory.Registry.INSTANCE as a protocol parser as follows:
+
+      <extension point="org.eclipse.emf.ecore.protocol_parser" >
+         <parser protocolName="java" class="org.eclipse.java.JavaDocumentParser"/>
+      </extension>
+-->
+
+  <extension-point name="EMF URI Mapping Registry" id="uri_mapping"/>
+<!--
+    A URI mapping can be registered with the URIConverter.URI_MAP as follows:
+
+      <extension point="org.eclipse.emf.ecore.uri_mapping" >
+         <mapping source="//special/" target="special/"/>
+      </extension>
+  
+    If the target is relative, it is resolved against the plugin's installed location,
+    returning in a URI of the form:
+
+      platform:/plugin/plugin-name_1.2.3/...
+
+    A folder to folder mapping, i.e., where both source and target end in /,
+    will remap entire subtrees, not just instances that match exactly.
+-->
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package
+        uri = "http://www.eclipse.org/emf/2002/Ecore"
+        class = "org.eclipse.emf.ecore.EcorePackage" />
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package
+        uri = "http://www.eclipse.org/emf/2003/XMLType"
+        class = "org.eclipse.emf.ecore.xml.type.XMLTypePackage" />
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package
+        uri = "http://www.w3.org/XML/1998/namespace"
+        class = "org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage" />
+  </extension>
+
+</plugin>

@@ -1,0 +1,85 @@
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" %>
+<%
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: plugin.propertiesjet,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+%>
+<%GenModel genModel = (GenModel)argument;%>
+<%@ include file="../Header.javajet"%>
+
+# ====================================================================
+# To code developer:
+#   Do NOT change the properties between this line and the
+#   "%%% END OF TRANSLATED PROPERTIES %%%" line.
+#   Make a new property name, append to the end of the file and change
+#   the code to use the new property.
+# ====================================================================
+
+# ====================================================================
+# %%% END OF TRANSLATED PROPERTIES %%%
+# ====================================================================
+
+pluginName = <%=genModel.getModelName()%> Editor
+providerName = www.example.org
+
+<%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next();%>
+_UI_<%=genPackage.getEditorClassName()%>_menu = &<%=genPackage.getPrefix()%> Editor
+<%}%>
+
+<%if (genModel.isCreationCommands()) {%>
+_UI_CreateChild_menu_item = &New Child
+_UI_CreateSibling_menu_item = N&ew Sibling
+
+<%}%>
+_UI_SelectionPage_label = Selection
+_UI_ParentPage_label = Parent
+_UI_ListPage_label = List
+_UI_TreePage_label = Tree
+_UI_TablePage_label = Table
+_UI_TableTreePage_label = TableTree
+_UI_ObjectColumn_label = Object
+_UI_SelfColumn_label = Self
+
+_UI_NoObjectSelected = Selected Nothing
+_UI_SingleObjectSelected = Selected Object: {0}
+_UI_MultiObjectSelected = Selected {0} Objects
+
+_UI_OpenEditorError_label = Open Editor
+
+_UI_Wizard_category = Example EMF Model Creation Wizards
+
+<%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next();%>
+_UI_<%=genPackage.getModelWizardClassName()%>_label = <%=genPackage.getPrefix()%> Model
+_UI_<%=genPackage.getModelWizardClassName()%>_description = Create a new <%=genPackage.getPrefix()%> model
+
+_UI_<%=genPackage.getEditorClassName()%>_label = <%=genPackage.getPrefix()%> Model Editor
+
+_UI_<%=genPackage.getEditorClassName()%>FilenameDefaultBase = My
+_UI_<%=genPackage.getEditorClassName()%>FilenameExtension = <%=genPackage.getPrefix().toLowerCase()%>
+
+<%}%>
+_UI_Wizard_label = New
+
+_WARN_FilenameExtension = The filename must end in ".{0}"
+
+_UI_ModelObject = Model Object
+_UI_XMLEncoding = XML Encoding
+_UI_XMLEncodingChoices = <%=genModel.getXMLEncodingChoices()%>
+_UI_Wizard_initial_object_description = Select a model object to create
+
+_UI_FileConflict_label = File Conflict
+_WARN_FileConflict = There are unsaved changes that conflict with changes made outside the editor.  Do you wish to discard this editor's changes?
+

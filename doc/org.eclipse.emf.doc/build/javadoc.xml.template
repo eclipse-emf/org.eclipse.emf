@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Plugin Javadoc" default="javadoc">
+	<property name="destDir" value="doc"/>
+	<property name="classpath" value="bin"/>
+	<property name="overview" value="build/overview.html"/>
+	
+	<target name="javadoc">
+		<javadoc 
+			destdir="${destDir}" 
+			classpath="${classpath}"
+			overview="${overview}"
+
+			windowtitle="EMF Javadoc"
+			footer="Copyright 2001-2003 IBM Corporation and others.&lt;br&gt; All Rights Reserved."
+
+			docencoding="UTF-8"
+			charset="UTF-8"
+			breakiterator="true"
+			access="protected" 
+			use="true" 
+			notree="false" 
+			nonavbar="false" 
+			noindex="false" 
+			splitindex="true" 
+			author="true" 
+			version="true" 
+			nodeprecatedlist="false" 
+			nodeprecated="false">
+				<arg value="-J-Xmx180m"/>
+				<link href="http://java.sun.com/j2se/1.4.2/docs/api"/>
+				
+				<tag name="ignore" description="ignore" enabled="false"/>
+				<tag name="generated" description="ignore" enabled="false"/>
+				<tag name="model" description="ignore" enabled="false"/>
+				<tag name="modifiable" description="ignore" enabled="false"/>
+				<tag name="extends" description="ignore" enabled="false"/>
+				<tag name="implements" description="ignore" enabled="false"/>
+				<tag name="ordered" description="ignore" enabled="false"/>
+
+				<group title="Ecore Model API"            packages="orgeclipse.emf.ecore:org.eclipse.emf.ecore.resource:org.eclipse.emf.ecore.xmi:org.eclipse.emf.ecore.plugin:org.eclipse.emf.ecore.util"/>
+				<group title="Ecore Model Implementation" packages="orgeclipse.emf.ecore.impl:org.eclipse.emf.ecore.resource.impl:org.eclipse.emf.ecore.xmi.impl"/>
+				<group title="Ecore Edit"                 packages="orgeclipse.emf.ecore.provider"/>
+				<group title="Ecore Editor"               packages="orgeclipse.emf.ecore.presentation"/>
+				<group title="Ecore Change Model"         packages="org.eclipse.emf.ecore.change:org.eclipse.emf.ecore.change.impl"/>
+				<group title="Ecore Change Utilities"     packages="org.eclipse.emf.ecore.change.util"/>
+				<group title="Ecore Change UI"            packages="org.eclipse.emf.ecore.change.provider"/>
+				<group title="Codegen Ecore"              packages="orgeclipse.emf.codegen.ecore:org.eclipse.emf.codegen.ecore.genmodel:org.eclipse.emf.codegen.ecore.genmodel.impl:org.eclipse.emf.codegen.ecore.genmodel.util:org.eclipse.emf.codegen.ecore.java2ecore:org.eclipse.emf.codegen.ecore.rose2ecore:org.eclipse.emf.codegen.ecore.rose2ecore.parser"/>
+				<group title="Codegen Ecore UI"           packages="orgeclipse.emf.codegen.ecore.genmodel.action:org.eclipse.emf.codegen.ecore.genmodel.presentation:org.eclipse.emf.codegen.ecore.genmodel.provider"/>
+				<group title="Codegen"                    packages="orgeclipse.emf.codegen:org.eclipse.emf.codegen.jet:org.eclipse.emf.codegen.jmerge"/>
+				<group title="Codegen UI"                 packages="orgeclipse.emf.codegen.action:org.eclipse.emf.codegen.presentation"/>
+				<group title="Edit Framework"             packages="orgeclipse.emf.edit.command:org.eclipse.emf.edit.domain:org.eclipse.emf.edit.provider:org.eclipse.emf.edit.provider.resource:org.eclipse.emf.edit.tree:org.eclipse.emf.edit.tree.impl:org.eclipse.emf.edit.tree.provider:org.eclipse.emf.edit.tree.util"/>
+				<group title="Edit Framework UI"          packages="orgeclipse.emf.edit.ui.action:org.eclipse.emf.edit.ui.celleditor:org.eclipse.emf.edit.ui.dnd:org.eclipse.emf.edit.ui.provider"/>
+				<group title="Notification"               packages="orgeclipse.emf.common.notify:org.eclipse.emf.common.notify.impl"/>
+				<group title="Command"                    packages="orgeclipse.emf.common.command"/>
+				<group title="Utilities"                  packages="orgeclipse.emf.common.util"/>
+				<group title="Common"                     packages="orgeclipse.emf.common"/>
+				<group title="Mapping Model"              packages="orgeclipse.emf.mapping:org.eclipse.emf.mapping.impl:org.eclipse.emf.mapping.util"/>
+				<group title="Mapping Edit"               packages="orgeclipse.emf.mapping.command:org.eclipse.emf.mapping.domain:org.eclipse.emf.mapping.provider"/>
+				<group title="EMF Mapping Editor"         packages="orgeclipse.emf.mapping.action:org.eclipse.emf.mapping.presentation"/>
+
+@packagesets@
+				
+		</javadoc>
+	</target>
+</project>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="ASCII"?>
+<genmodel:GenModel xmi:version="2.0"
+  xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+  xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.codegen.ecore/src"
+    creationCommands="false" editDirectory="/org.eclipse.emf.codegen.ecore.ui/src"
+    editorDirectory="/org.eclipse.emf.codegen.ecore.ui/src" modelPluginID="org.eclipse.emf.codegen.ecore"
+    runtimeJar="true" modelName="GenModel" editPluginClass="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin"
+    editorPluginClass="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin"
+    usedGenPackages="../../../org.eclipse.emf.ecore/src/model/Ecore.genmodel#//ecore">
+  <foreignModel>GenModel.mdl</foreignModel>
+  <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
+  <foreignModel>../../..</foreignModel>
+  <genPackages prefix="GenModel" basePackage="org.eclipse.emf.codegen.ecore" ecorePackage="GenModel.ecore#/">
+    <genEnums ecoreEnum="GenModel.ecore#//GenProviderKind">
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenProviderKind/Singleton"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenProviderKind/Stateful"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenProviderKind/None"/>
+    </genEnums>
+    <genEnums ecoreEnum="GenModel.ecore#//GenPropertyKind">
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenPropertyKind/Editable"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenPropertyKind/Readonly"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenPropertyKind/None"/>
+    </genEnums>
+    <genEnums ecoreEnum="GenModel.ecore#//GenResourceKind">
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenResourceKind/None"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenResourceKind/Basic"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenResourceKind/XMI"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenResourceKind/XML"/>
+    </genEnums>
+    <genClasses ecoreClass="GenModel.ecore#//GenModel">
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/copyrightText"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/modelDirectory"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/creationCommands"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editDirectory"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editorDirectory"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/modelPluginID"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/templateDirectory"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/runtimeJar"/>
+      <genFeatures property="None" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/foreignModel"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/dynamicTemplates"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/redirection"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/forceOverwrite"/>
+      <genFeatures property="None" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/nonExternalizedStringTag"/>
+      <genFeatures property="None" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/testDirectory"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/modelName"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/modelPluginClass"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editPluginClass"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editorPluginClass"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/updateClasspath"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/generateSchema"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/nonNLSMarkers"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/staticPackages"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/modelPluginVariables"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/rootExtendsInterface"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/rootExtendsClass"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/rootImplementsInterface"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/suppressEMFTypes"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/featureMapWrapperInterface"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/featureMapWrapperInternalInterface"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/featureMapWrapperClass"/>
+      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
+      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
+    </genClasses>
+    <genClasses ecoreClass="GenModel.ecore#//GenPackage">
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/prefix"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/basePackage"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/resource"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/adapterFactory"/>
+      <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/ecorePackage"/>
+      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genModel"/>
+      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genEnums"/>
+      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genDataTypes"/>
+      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genClasses"/>
+      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/nestedGenPackages"/>
+      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genClassifiers"/>
+    </genClasses>
+    <genClasses ecoreClass="GenModel.ecore#//GenClass">
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenClass/provider"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenClass/image"/>
+      <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/ecoreClass"/>
+      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/genFeatures"/>
+      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/genOperations"/>
+      <genFeatures ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/labelFeature"/>
+    </genClasses>
+    <genClasses ecoreClass="GenModel.ecore#//GenFeature">
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/property"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/notify"/>
+      <genFeatures ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/children"/>
+      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenFeature/genClass"/>
+      <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenFeature/ecoreFeature"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="GenModel.ecore#//GenBase"/>
+    <genClasses ecoreClass="GenModel.ecore#//GenEnum">
+      <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnum/ecoreEnum"/>
+      <genFeatures property="None" children="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnum/genEnumLiterals"/>
+    </genClasses>
+    <genClasses ecoreClass="GenModel.ecore#//GenEnumLiteral">
+      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnumLiteral/genEnum"/>
+      <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnumLiteral/ecoreEnumLiteral"/>
+    </genClasses>
+    <genClasses provider="None" ecoreClass="GenModel.ecore#//GenClassifier">
+      <genFeatures property="None" ecoreFeature="ecore:EReference GenModel.ecore#//GenClassifier/genPackage"/>
+    </genClasses>
+    <genClasses ecoreClass="GenModel.ecore#//GenDataType">
+      <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenDataType/ecoreDataType"/>
+    </genClasses>
+    <genClasses ecoreClass="GenModel.ecore#//GenOperation">
+      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genClass"/>
+      <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/ecoreOperation"/>
+      <genFeatures property="None" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genParameters"/>
+    </genClasses>
+    <genClasses provider="None" ecoreClass="GenModel.ecore#//GenParameter">
+      <genFeatures property="None" notify="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenParameter/genOperation"/>
+      <genFeatures property="Readonly" ecoreFeature="ecore:EReference GenModel.ecore#//GenParameter/ecoreParameter"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

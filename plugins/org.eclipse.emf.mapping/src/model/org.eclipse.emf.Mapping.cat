@@ -1,0 +1,1453 @@
+
+(object Petal
+    version    	42
+    _written   	"Rose 4.5.8163.3"
+    charSet    	0)
+
+(object Class_Category "mapping"
+    is_unit    	TRUE
+    is_loaded  	TRUE
+    attributes 	(list Attribute_Set
+	(object Attribute
+	    tool       	"IDL"
+	    name       	"uuid"
+	    value      	(value Text "DCE:E6066BAE-85C3-11D4-9C3C-000000000000:1"))
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"prefix"
+	    value      	"Mapping")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"basePackage"
+	    value      	"org.eclipse.emf")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"nsPrefix"
+	    value      	"mapping")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"nsURI"
+	    value      	"http://www.eclipse.org/emf/2002/Mapping"))
+    quid       	"374AA9C803A4"
+    visible_categories 	(list visibility_relationship_list
+	(object Visibility_Relationship
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"IDL"
+		    name       	"uuid"
+		    value      	(value Text "DCE:E6066BAF-85C3-11D4-9C3C-000000000000:1")))
+	    quid       	"38CE54180220"
+	    supplier   	"Logical View::mof"
+	    quidu      	"374AA8F9028E"))
+    exportControl 	"Public"
+    logical_models 	(list unit_reference_list
+	(object Class "MappingHelper"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"IDL"
+		    name       	"uuid"
+		    value      	(value Text "DCE:E6066BB0-85C3-11D4-9C3C-000000000000:1")))
+	    quid       	"3773D5BB0065"
+	    language   	"Java")
+	(object Class "Mapping"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"IDL"
+		    name       	"uuid"
+		    value      	(value Text "DCE:E6066BB1-85C3-11D4-9C3C-000000000000:1")))
+	    quid       	"38BEA2CF0117")
+	(object Class "TypeConverter"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"IDL"
+		    name       	"uuid"
+		    value      	(value Text "DCE:E6066BB5-85C3-11D4-9C3C-000000000000:1")))
+	    quid       	"38BEAE400390"
+	    superclasses 	(list inheritance_relationship_list
+		(object Inheritance_Relationship
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BB6-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"38C571D502B9"
+		    supplier   	"Logical View::mapping::MappingHelper"
+		    quidu      	"3773D5BB0065")))
+	(object Class "FunctionPair"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"IDL"
+		    name       	"uuid"
+		    value      	(value Text "DCE:E6066BB7-85C3-11D4-9C3C-000000000000:1")))
+	    quid       	"38BEAF670069"
+	    superclasses 	(list inheritance_relationship_list
+		(object Inheritance_Relationship
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BB8-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"38BEB0070069"
+		    supplier   	"Logical View::mapping::TypeConverter"
+		    quidu      	"38BEAE400390")))
+	(object Class "FunctionNamePair"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"IDL"
+		    name       	"uuid"
+		    value      	(value Text "DCE:E6066BB9-85C3-11D4-9C3C-000000000000:1")))
+	    quid       	"38BEAFAD00F6"
+	    superclasses 	(list inheritance_relationship_list
+		(object Inheritance_Relationship
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BBA-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"38BEB00D0144"
+		    supplier   	"Logical View::mapping::TypeConverter"
+		    quidu      	"38BEAE400390"))
+	    class_attributes 	(list class_attribute_list
+		(object ClassAttribute "in2out"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BBB-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"38BEAFCD0391"
+		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "out2in"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BBC-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"38BEAFDE0088"
+		    type       	"String"
+		    exportControl 	"Public")))
+	(object Class "MappingStrategy"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"IDL"
+		    name       	"uuid"
+		    value      	(value Text "DCE:E6066BBD-85C3-11D4-9C3C-000000000000:1")))
+	    quid       	"38C571ED00AB"
+	    superclasses 	(list inheritance_relationship_list
+		(object Inheritance_Relationship
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BBE-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"38C571FB0318"
+		    supplier   	"Logical View::mapping::MappingHelper"
+		    quidu      	"3773D5BB0065")))
+	(object Class "MappingRoot"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"IDL"
+		    name       	"uuid"
+		    value      	(value Text "DCE:E6066BBF-85C3-11D4-9C3C-000000000000:1")))
+	    quid       	"38BEA7F701B6"
+	    superclasses 	(list inheritance_relationship_list
+		(object Inheritance_Relationship
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BC0-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"38D85C080062"
+		    supplier   	"Logical View::mapping::Mapping"
+		    quidu      	"38BEA2CF0117"))
+	    class_attributes 	(list class_attribute_list
+		(object ClassAttribute "outputReadOnly"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BC3-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"396224C7036A"
+		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "topToBottom"
+		    quid       	"3AB0D0D00251"
+		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "commandStack"
+		    quid       	"3A9E906401D7"
+		    type       	"String"
+		    exportControl 	"Public")))
+	(object Class "ComplexTypeConverter"
+	    quid       	"39C0F45C0242"
+	    superclasses 	(list inheritance_relationship_list
+		(object Inheritance_Relationship
+		    quid       	"39C0F46C01C3"
+		    supplier   	"Logical View::mapping::TypeConverter"
+		    quidu      	"38BEAE400390")))
+	(object Association "CompositionMapperToMappingHelper"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"IDL"
+		    name       	"uuid"
+		    value      	(value Text "DCE:E6066BCE-85C3-11D4-9C3C-000000000000:1")))
+	    quid       	"37663A370110"
+	    roles      	(list role_list
+		(object Role "mapper"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BCF-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"37663A38007B"
+		    label      	"mapper"
+		    supplier   	"Logical View::mapping::Mapping"
+		    quidu      	"38BEA2CF0117"
+		    is_navigable 	TRUE
+		    is_aggregate 	TRUE)
+		(object Role "helper"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BD0-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"37663A38007C"
+		    label      	"helper"
+		    supplier   	"Logical View::mapping::MappingHelper"
+		    quidu      	"3773D5BB0065"
+		    client_cardinality 	(value cardinality "0..1")
+		    Containment 	"By Value"
+		    is_navigable 	TRUE)))
+	(object Association "$UNNAMED$0"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"IDL"
+		    name       	"uuid"
+		    value      	(value Text "DCE:E6066BD1-85C3-11D4-9C3C-000000000000:1")))
+	    quid       	"37663A4700D6"
+	    roles      	(list role_list
+		(object Role "nested"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BD2-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"37663A4B01AF"
+		    label      	"nested"
+		    supplier   	"Logical View::mapping::Mapping"
+		    quidu      	"38BEA2CF0117"
+		    client_cardinality 	(value cardinality "0..n")
+		    Containment 	"By Value"
+		    is_navigable 	TRUE)
+		(object Role "nestedIn"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BD3-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"37663A4B01B0"
+		    label      	"nestedIn"
+		    supplier   	"Logical View::mapping::Mapping"
+		    quidu      	"38BEA2CF0117"
+		    client_cardinality 	(value cardinality "0..1")
+		    is_navigable 	TRUE
+		    is_aggregate 	TRUE)))
+	(object Association "OperationToA2B"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"IDL"
+		    name       	"uuid"
+		    value      	(value Text "DCE:E6066BE6-85C3-11D4-9C3C-000000000000:1")))
+	    quid       	"38BEB055017A"
+	    roles      	(list role_list
+		(object Role "in2out"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BE7-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"38BEB0560243"
+		    label      	"in2out"
+		    supplier   	"Logical View::ecore::EOperation"
+		    quidu      	"3904DAA200A0"
+		    client_cardinality 	(value cardinality "0..1")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$1"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BE8-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"38BEB0560276"
+		    supplier   	"Logical View::mapping::FunctionPair"
+		    quidu      	"38BEAF670069")))
+	(object Association "OperationToB2A"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"IDL"
+		    name       	"uuid"
+		    value      	(value Text "DCE:E6066BE9-85C3-11D4-9C3C-000000000000:1")))
+	    quid       	"38BEB08200CA"
+	    roles      	(list role_list
+		(object Role "out2in"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BEA-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"38BEB08E032A"
+		    label      	"out2in"
+		    supplier   	"Logical View::ecore::EOperation"
+		    quidu      	"3904DAA200A0"
+		    client_cardinality 	(value cardinality "0..1")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$2"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"IDL"
+			    name       	"uuid"
+			    value      	(value Text "DCE:E6066BEB-85C3-11D4-9C3C-000000000000:1")))
+		    quid       	"38BEB08E035C"
+		    supplier   	"Logical View::mapping::FunctionPair"
+		    quidu      	"38BEAF670069")))
+	(object Association "$UNNAMED$3"
+	    quid       	"39C0F4BD0007"
+	    roles      	(list role_list
+		(object Role "in2out"
+		    quid       	"39C0F4BE0095"
+		    label      	"in2out"
+		    supplier   	"Logical View::mapping::Mapping"
+		    quidu      	"38BEA2CF0117"
+		    client_cardinality 	(value cardinality "0..1")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$4"
+		    quid       	"39C0F4BE009F"
+		    supplier   	"Logical View::mapping::ComplexTypeConverter"
+		    quidu      	"39C0F45C0242")))
+	(object Association "$UNNAMED$5"
+	    quid       	"39C0F4DB0154"
+	    roles      	(list role_list
+		(object Role "out2in"
+		    quid       	"39C0F4DD0035"
+		    label      	"out2in"
+		    supplier   	"Logical View::mapping::Mapping"
+		    quidu      	"38BEA2CF0117"
+		    client_cardinality 	(value cardinality "0..1")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$6"
+		    quid       	"39C0F4DD0036"
+		    supplier   	"Logical View::mapping::ComplexTypeConverter"
+		    quidu      	"39C0F45C0242")))
+	(object Association "$UNNAMED$7"
+	    quid       	"3A01F4C002E1"
+	    roles      	(list role_list
+		(object Role "inputs"
+		    quid       	"3A01F4C40065"
+		    label      	"inputs"
+		    supplier   	"Logical View::ecore::EObject"
+		    quidu      	"3C4F1C860123"
+		    client_cardinality 	(value cardinality "0..n")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$8"
+		    quid       	"3A01F4C4006F"
+		    supplier   	"Logical View::mapping::Mapping"
+		    quidu      	"38BEA2CF0117")))
+	(object Association "$UNNAMED$9"
+	    quid       	"3A01F50B000D"
+	    roles      	(list role_list
+		(object Role "outputs"
+		    quid       	"3A01F50D010B"
+		    label      	"outputs"
+		    supplier   	"Logical View::ecore::EObject"
+		    quidu      	"3C4F1C860123"
+		    client_cardinality 	(value cardinality "0..n")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$10"
+		    quid       	"3A01F50D0115"
+		    supplier   	"Logical View::mapping::Mapping"
+		    quidu      	"38BEA2CF0117")))
+	(object Association "$UNNAMED$11"
+	    quid       	"3A7028D60345"
+	    roles      	(list role_list
+		(object Role "typeMapping"
+		    quid       	"3A7028DD03C7"
+		    label      	"typeMapping"
+		    supplier   	"Logical View::mapping::Mapping"
+		    quidu      	"38BEA2CF0117"
+		    client_cardinality 	(value cardinality "0..1")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$12"
+		    quid       	"3A7028DD03C8"
+		    supplier   	"Logical View::mapping::Mapping"
+		    quidu      	"38BEA2CF0117")))
+	(object Association "$UNNAMED$13"
+	    quid       	"3AC2157C0376"
+	    roles      	(list role_list
+		(object Role "$UNNAMED$14"
+		    quid       	"3AC2158003C2"
+		    supplier   	"Logical View::mapping::MappingHelper"
+		    quidu      	"3773D5BB0065")
+		(object Role "helpedObject"
+		    quid       	"3AC2158003C3"
+		    label      	"helpedObject"
+		    supplier   	"Logical View::ecore::EObject"
+		    quidu      	"3C4F1C860123"
+		    client_cardinality 	(value cardinality "0..1")
+		    is_navigable 	TRUE)))
+	(object Association "$UNNAMED$15"
+	    quid       	"3AC215C90031"
+	    roles      	(list role_list
+		(object Role "nestedIn"
+		    quid       	"3AC215CD01D1"
+		    label      	"nestedIn"
+		    supplier   	"Logical View::mapping::MappingHelper"
+		    quidu      	"3773D5BB0065"
+		    client_cardinality 	(value cardinality "0..1")
+		    is_navigable 	TRUE
+		    is_aggregate 	TRUE)
+		(object Role "nested"
+		    quid       	"3AC215CD01D2"
+		    label      	"nested"
+		    supplier   	"Logical View::mapping::MappingHelper"
+		    quidu      	"3773D5BB0065"
+		    client_cardinality 	(value cardinality "0..n")
+		    Containment 	"By Value"
+		    is_navigable 	TRUE))))
+    logical_presentations 	(list unit_reference_list
+	(object ClassDiagram "Mapping"
+	    quid       	"374AA9DD008E"
+	    title      	"Mapping"
+	    zoom       	100
+	    max_height 	28350
+	    max_width  	21600
+	    origin_x   	0
+	    origin_y   	0
+	    items      	(list diagram_item_list
+		(object ClassView "Class" "Logical View::mapping::TypeConverter" @1
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(1264, 1088)
+		    label      	(object ItemLabel
+			Parent_View 	@1
+			location   	(1120, 1037)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	288
+			justify    	0
+			label      	"TypeConverter")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"38BEAE400390"
+		    width      	306
+		    height     	126
+		    annotation 	8)
+		(object ClassView "Class" "Logical View::mapping::MappingStrategy" @2
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(1728, 1088)
+		    label      	(object ItemLabel
+			Parent_View 	@2
+			location   	(1556, 1037)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	344
+			justify    	0
+			label      	"MappingStrategy")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"38C571ED00AB"
+		    width      	362
+		    height     	126
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object ClassView "Class" "Logical View::mapping::Mapping" @3
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(752, 720)
+		    label      	(object ItemLabel
+			Parent_View 	@3
+			location   	(661, 668)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	182
+			justify    	0
+			label      	"Mapping")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"38BEA2CF0117"
+		    width      	200
+		    height     	128
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object AssociationViewNew "$UNNAMED$0" @4
+		    location   	(443, 993)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"37663A4700D6"
+		    roleview_list 	(list RoleViews
+			(object RoleView "nested" @5
+			    Parent_View 	@4
+			    location   	(-341, -367)
+			    label      	(object SegLabel @6
+				Parent_View 	@5
+				location   	(529, 737)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	144
+				justify    	0
+				label      	"+nested"
+				pctDist    	0.781818
+				height     	26
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"37663A4B01AF"
+			    client     	@4
+			    supplier   	@3
+			    vertices   	(list Points
+				(443, 993)
+				(383, 993)
+				(383, 762)
+				(652, 762))
+			    line_style 	3
+			    origin_attachment 	(443, 993)
+			    terminal_attachment 	(652, 762)
+			    label      	(object SegLabel @7
+				Parent_View 	@5
+				location   	(609, 802)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	70
+				justify    	0
+				label      	"0..*"
+				pctDist    	0.925049
+				height     	40
+				orientation 	1))
+			(object RoleView "nestedIn" @8
+			    Parent_View 	@4
+			    location   	(-341, -367)
+			    label      	(object SegLabel @9
+				Parent_View 	@8
+				location   	(654, 954)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	181
+				justify    	0
+				label      	"+nestedIn"
+				pctDist    	0.402672
+				height     	40
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"37663A4B01B0"
+			    client     	@4
+			    supplier   	@3
+			    vertices   	(list Points
+				(443, 993)
+				(758, 993)
+				(758, 784))
+			    line_style 	3
+			    origin_attachment 	(443, 993)
+			    terminal_attachment 	(758, 784)
+			    label      	(object SegLabel @10
+				Parent_View 	@8
+				location   	(807, 879)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	72
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.818702
+				height     	49
+				orientation 	1))))
+		(object AssociationViewNew "$UNNAMED$11" @11
+		    location   	(443, 503)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"3A7028D60345"
+		    roleview_list 	(list RoleViews
+			(object RoleView "typeMapping" @12
+			    Parent_View 	@11
+			    location   	(-517, -489)
+			    label      	(object SegLabel @13
+				Parent_View 	@12
+				location   	(560, 463)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	264
+				justify    	0
+				label      	"+typeMapping"
+				pctDist    	0.295739
+				height     	41
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3A7028DD03C7"
+			    client     	@11
+			    supplier   	@3
+			    vertices   	(list Points
+				(443, 503)
+				(689, 503)
+				(689, 656))
+			    line_style 	3
+			    origin_attachment 	(443, 503)
+			    terminal_attachment 	(689, 656)
+			    label      	(object SegLabel @14
+				Parent_View 	@12
+				location   	(651, 547)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.726817
+				height     	39
+				orientation 	1))
+			(object RoleView "$UNNAMED$12" @15
+			    Parent_View 	@11
+			    location   	(-517, -489)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3A7028DD03C8"
+			    client     	@11
+			    supplier   	@3
+			    vertices   	(list Points
+				(443, 503)
+				(383, 503)
+				(383, 690)
+				(652, 690))
+			    line_style 	3
+			    origin_attachment 	(443, 503)
+			    terminal_attachment 	(652, 690))))
+		(object ClassView "Class" "Logical View::mapping::MappingHelper" @16
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(1520, 720)
+		    label      	(object ItemLabel
+			Parent_View 	@16
+			location   	(1371, 668)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	298
+			justify    	0
+			label      	"MappingHelper")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"3773D5BB0065"
+		    width      	316
+		    height     	128
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object InheritTreeView "" @17
+		    location   	(1520, 920)
+		    line_color 	3342489
+		    fill_color 	13434879
+		    supplier   	@16
+		    vertices   	(list Points
+			(1520, 920)
+			(1520, 784)))
+		(object InheritView "" @18
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"38C571D502B9"
+		    client     	@1
+		    supplier   	@16
+		    line_style 	3
+		    origin_attachment 	(1296, 1025)
+		    terminal_attachment 	(1296, 920)
+		    drawSupplier 	@17)
+		(object InheritView "" @19
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"38C571FB0318"
+		    client     	@2
+		    supplier   	@16
+		    line_style 	3
+		    origin_attachment 	(1711, 1025)
+		    terminal_attachment 	(1711, 920)
+		    drawSupplier 	@17)
+		(object AssociationViewNew "CompositionMapperToMappingHelper" @20
+		    location   	(1106, 720)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"37663A370110"
+		    roleview_list 	(list RoleViews
+			(object RoleView "mapper" @21
+			    Parent_View 	@20
+			    location   	(-1086, -624)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"37663A38007B"
+			    client     	@20
+			    supplier   	@3
+			    line_style 	0)
+			(object RoleView "helper" @22
+			    Parent_View 	@20
+			    location   	(-1086, -624)
+			    label      	(object SegLabel @23
+				Parent_View 	@22
+				location   	(1274, 682)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	132
+				justify    	0
+				label      	"+helper"
+				pctDist    	0.658824
+				height     	39
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"37663A38007C"
+			    client     	@20
+			    supplier   	@16
+			    line_style 	0
+			    label      	(object SegLabel @24
+				Parent_View 	@22
+				location   	(1303, 759)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	72
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.770642
+				height     	39
+				orientation 	1))))
+		(object AssociationViewNew "$UNNAMED$15" @25
+		    location   	(1937, 619)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"3AC215C90031"
+		    roleview_list 	(list RoleViews
+			(object RoleView "nestedIn" @26
+			    Parent_View 	@25
+			    location   	(-207, -485)
+			    label      	(object SegLabel @27
+				Parent_View 	@26
+				location   	(1821, 756)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	180
+				justify    	0
+				label      	"+nestedIn"
+				pctDist    	0.600478
+				height     	37
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3AC215CD01D1"
+			    client     	@25
+			    supplier   	@16
+			    vertices   	(list Points
+				(1937, 619)
+				(1937, 719)
+				(1678, 719))
+			    line_style 	3
+			    origin_attachment 	(1937, 619)
+			    terminal_attachment 	(1678, 719)
+			    label      	(object SegLabel @28
+				Parent_View 	@26
+				location   	(1854, 695)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.509569
+				height     	25
+				orientation 	1))
+			(object RoleView "nested" @29
+			    Parent_View 	@25
+			    location   	(-207, -485)
+			    label      	(object SegLabel @30
+				Parent_View 	@29
+				location   	(1728, 529)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	144
+				justify    	0
+				label      	"+nested"
+				pctDist    	0.573561
+				height     	31
+				orientation 	1)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3AC215CD01D2"
+			    client     	@25
+			    supplier   	@16
+			    vertices   	(list Points
+				(1937, 619)
+				(1937, 559)
+				(1625, 559)
+				(1625, 656))
+			    line_style 	3
+			    origin_attachment 	(1937, 619)
+			    terminal_attachment 	(1625, 656)
+			    label      	(object SegLabel @31
+				Parent_View 	@29
+				location   	(1687, 587)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"0..*"
+				pctDist    	0.663113
+				height     	28
+				orientation 	0))))
+		(object ClassView "Class" "Logical View::ecore::EObject" @32
+		    ShowCompartmentStereotypes 	TRUE
+		    location   	(1536, 272)
+		    label      	(object ItemLabel
+			Parent_View 	@32
+			location   	(1447, 197)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	178
+			justify    	0
+			label      	"EObject")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"3C4F1C860123"
+		    width      	196
+		    height     	174
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object AssociationViewNew "$UNNAMED$7" @33
+		    location   	(870, 209)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"3A01F4C002E1"
+		    roleview_list 	(list RoleViews
+			(object RoleView "inputs" @34
+			    Parent_View 	@33
+			    location   	(-90, -783)
+			    label      	(object SegLabel @35
+				Parent_View 	@34
+				location   	(1210, 170)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	132
+				justify    	0
+				label      	"+inputs"
+				pctDist    	0.599638
+				height     	40
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3A01F4C40065"
+			    client     	@33
+			    supplier   	@32
+			    line_style 	3
+			    origin_attachment 	(870, 209)
+			    terminal_attachment 	(1438, 209)
+			    label      	(object SegLabel @36
+				Parent_View 	@34
+				location   	(1347, 182)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"0..*"
+				pctDist    	0.842391
+				height     	28
+				orientation 	0))
+			(object RoleView "$UNNAMED$8" @37
+			    Parent_View 	@33
+			    location   	(-90, -783)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3A01F4C4006F"
+			    client     	@33
+			    supplier   	@3
+			    vertices   	(list Points
+				(870, 209)
+				(750, 209)
+				(750, 656))
+			    line_style 	3
+			    origin_attachment 	(870, 209)
+			    terminal_attachment 	(750, 656))))
+		(object AssociationViewNew "$UNNAMED$9" @38
+		    location   	(964, 322)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"3A01F50B000D"
+		    roleview_list 	(list RoleViews
+			(object RoleView "outputs" @39
+			    Parent_View 	@38
+			    location   	(4, -670)
+			    label      	(object SegLabel @40
+				Parent_View 	@39
+				location   	(1197, 282)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	168
+				justify    	0
+				label      	"+outputs"
+				pctDist    	0.494226
+				height     	41
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3A01F50D010B"
+			    client     	@38
+			    supplier   	@32
+			    line_style 	3
+			    origin_attachment 	(964, 322)
+			    terminal_attachment 	(1438, 322)
+			    label      	(object SegLabel @41
+				Parent_View 	@39
+				location   	(1338, 295)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"0..*"
+				pctDist    	0.789838
+				height     	28
+				orientation 	0))
+			(object RoleView "$UNNAMED$10" @42
+			    Parent_View 	@38
+			    location   	(4, -670)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3A01F50D0115"
+			    client     	@38
+			    supplier   	@3
+			    vertices   	(list Points
+				(964, 322)
+				(825, 322)
+				(825, 656))
+			    line_style 	3
+			    origin_attachment 	(964, 322)
+			    terminal_attachment 	(825, 656))))
+		(object AssociationViewNew "$UNNAMED$13" @43
+		    location   	(1524, 507)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"3AC2157C0376"
+		    roleview_list 	(list RoleViews
+			(object RoleView "$UNNAMED$14" @44
+			    Parent_View 	@43
+			    location   	(84, -229)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3AC2158003C2"
+			    client     	@43
+			    supplier   	@16
+			    line_style 	3
+			    origin_attachment 	(1524, 507)
+			    terminal_attachment 	(1524, 656))
+			(object RoleView "helpedObject" @45
+			    Parent_View 	@43
+			    location   	(84, -229)
+			    label      	(object SegLabel @46
+				Parent_View 	@45
+				location   	(1373, 447)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	264
+				justify    	0
+				label      	"+helpedObject"
+				pctDist    	0.409091
+				height     	152
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"3AC2158003C3"
+			    client     	@43
+			    supplier   	@32
+			    line_style 	3
+			    origin_attachment 	(1524, 507)
+			    terminal_attachment 	(1524, 359)
+			    label      	(object SegLabel @47
+				Parent_View 	@45
+				location   	(1583, 432)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.507576
+				height     	59
+				orientation 	1))))))
+	(object ClassDiagram "Mapping root"
+	    quid       	"38C570B4007D"
+	    title      	"Mapping root"
+	    zoom       	100
+	    max_height 	28350
+	    max_width  	21600
+	    origin_x   	0
+	    origin_y   	0
+	    items      	(list diagram_item_list
+		(object ClassView "Class" "Logical View::mapping::MappingRoot" @48
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(656, 656)
+		    label      	(object ItemLabel
+			Parent_View 	@48
+			location   	(394, 525)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	524
+			justify    	0
+			label      	"MappingRoot")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"38BEA7F701B6"
+		    width      	542
+		    height     	286
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object ClassView "Class" "Logical View::mapping::Mapping" @49
+		    ShowCompartmentStereotypes 	TRUE
+		    location   	(640, 240)
+		    label      	(object ItemLabel
+			Parent_View 	@49
+			location   	(545, 189)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	190
+			justify    	0
+			label      	"Mapping")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"38BEA2CF0117"
+		    width      	208
+		    height     	126
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object InheritView "" @50
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"38D85C080062"
+		    client     	@48
+		    supplier   	@49
+		    line_style 	3
+		    origin_attachment 	(641, 513)
+		    terminal_attachment 	(641, 303))))
+	(object ClassDiagram "TypeConverter"
+	    quid       	"38BEAA0E03A0"
+	    title      	"TypeConverter"
+	    zoom       	100
+	    max_height 	28350
+	    max_width  	21600
+	    origin_x   	0
+	    origin_y   	0
+	    items      	(list diagram_item_list
+		(object ClassView "Class" "Logical View::mapping::TypeConverter" @51
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(992, 304)
+		    label      	(object ItemLabel
+			Parent_View 	@51
+			location   	(845, 235)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	295
+			justify    	0
+			label      	"TypeConverter")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"38BEAE400390"
+		    width      	313
+		    height     	162
+		    annotation 	8)
+		(object ClassView "Class" "Logical View::mapping::FunctionNamePair" @52
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(912, 784)
+		    label      	(object ItemLabel
+			Parent_View 	@52
+			location   	(729, 678)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	366
+			justify    	0
+			label      	"FunctionNamePair")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"38BEAFAD00F6"
+		    width      	384
+		    height     	236
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object InheritTreeView "" @53
+		    location   	(997, 543)
+		    line_color 	3342489
+		    fill_color 	13434879
+		    supplier   	@51
+		    vertices   	(list Points
+			(997, 543)
+			(997, 385)))
+		(object ClassView "Class" "Logical View::ecore::EOperation" @54
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    location   	(2064, 752)
+		    label      	(object ItemLabel
+			Parent_View 	@54
+			location   	(1947, 677)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	234
+			justify    	0
+			label      	"EOperation")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"3904DAA200A0"
+		    width      	252
+		    height     	174
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object ClassView "Class" "Logical View::mapping::FunctionPair" @55
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(1376, 752)
+		    label      	(object ItemLabel
+			Parent_View 	@55
+			location   	(1232, 670)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	289
+			justify    	0
+			label      	"FunctionPair")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"38BEAF670069"
+		    width      	307
+		    height     	188
+		    annotation 	8)
+		(object AssociationViewNew "OperationToA2B" @56
+		    location   	(1733, 703)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"38BEB055017A"
+		    roleview_list 	(list RoleViews
+			(object RoleView "in2out" @57
+			    Parent_View 	@56
+			    location   	(229, -513)
+			    label      	(object SegLabel @58
+				Parent_View 	@57
+				location   	(1726, 666)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	132
+				justify    	0
+				label      	"+in2out"
+				pctDist    	-0.038674
+				height     	38
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"38BEB0560243"
+			    client     	@56
+			    supplier   	@54
+			    line_style 	3
+			    origin_attachment 	(1733, 703)
+			    terminal_attachment 	(1938, 703)
+			    label      	(object SegLabel @59
+				Parent_View 	@57
+				location   	(1858, 666)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	75
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.611111
+				height     	38
+				orientation 	0))
+			(object RoleView "$UNNAMED$1" @60
+			    Parent_View 	@56
+			    location   	(229, -513)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"38BEB0560276"
+			    client     	@56
+			    supplier   	@55
+			    line_style 	3
+			    origin_attachment 	(1733, 703)
+			    terminal_attachment 	(1529, 703))))
+		(object AssociationViewNew "OperationToB2A" @61
+		    location   	(1733, 806)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"38BEB08200CA"
+		    roleview_list 	(list RoleViews
+			(object RoleView "out2in" @62
+			    Parent_View 	@61
+			    location   	(229, -410)
+			    label      	(object SegLabel @63
+				Parent_View 	@62
+				location   	(1733, 769)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	132
+				justify    	0
+				label      	"+out2in"
+				pctDist    	0.000000
+				height     	38
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"38BEB08E032A"
+			    client     	@61
+			    supplier   	@54
+			    line_style 	3
+			    origin_attachment 	(1733, 806)
+			    terminal_attachment 	(1938, 806)
+			    label      	(object SegLabel @64
+				Parent_View 	@62
+				location   	(1863, 769)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	72
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.638889
+				height     	38
+				orientation 	0))
+			(object RoleView "$UNNAMED$2" @65
+			    Parent_View 	@61
+			    location   	(229, -410)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"38BEB08E035C"
+			    client     	@61
+			    supplier   	@55
+			    line_style 	3
+			    origin_attachment 	(1733, 806)
+			    terminal_attachment 	(1529, 806))))
+		(object NoteView @66
+		    location   	(1936, 320)
+		    label      	(object ItemLabel
+			Parent_View 	@66
+			location   	(1701, 207)
+			fill_color 	13434879
+			nlines     	4
+			max_width  	434
+			label      	
+|TBD - do we need to
+|support functions with
+|multiple output values?
+|e.g. polar-to-cartesian
+			)
+		    line_color 	3342489
+		    fill_color 	13434879
+		    width      	494
+		    height     	238)
+		(object ClassView "Class" "Logical View::mapping::Mapping" @67
+		    ShowCompartmentStereotypes 	TRUE
+		    SuppressAttribute 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(384, 1168)
+		    label      	(object ItemLabel
+			Parent_View 	@67
+			location   	(289, 1116)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	190
+			justify    	0
+			label      	"Mapping")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"38BEA2CF0117"
+		    width      	208
+		    height     	128
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object ClassView "Class" "Logical View::mapping::ComplexTypeConverter" @68
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(368, 736)
+		    label      	(object ItemLabel
+			Parent_View 	@68
+			location   	(146, 685)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	444
+			justify    	0
+			label      	"ComplexTypeConverter")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"39C0F45C0242"
+		    width      	462
+		    height     	126
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object InheritView "" @69
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"39C0F46C01C3"
+		    client     	@68
+		    supplier   	@51
+		    line_style 	3
+		    origin_attachment 	(378, 673)
+		    terminal_attachment 	(378, 543)
+		    drawSupplier 	@53)
+		(object AssociationViewNew "$UNNAMED$3" @70
+		    location   	(319, 951)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"39C0F4BD0007"
+		    roleview_list 	(list RoleViews
+			(object RoleView "in2out" @71
+			    Parent_View 	@70
+			    location   	(-65, -105)
+			    label      	(object SegLabel @72
+				Parent_View 	@71
+				location   	(231, 1005)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	132
+				justify    	0
+				label      	"+in2out"
+				pctDist    	0.352941
+				height     	88
+				orientation 	1)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"39C0F4BE0095"
+			    client     	@70
+			    supplier   	@67
+			    line_style 	3
+			    origin_attachment 	(319, 951)
+			    terminal_attachment 	(319, 1104)
+			    label      	(object SegLabel @73
+				Parent_View 	@71
+				location   	(255, 1059)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	75
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.705882
+				height     	64
+				orientation 	1))
+			(object RoleView "$UNNAMED$4" @74
+			    Parent_View 	@70
+			    location   	(-65, -105)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"39C0F4BE009F"
+			    client     	@70
+			    supplier   	@68
+			    line_style 	3
+			    origin_attachment 	(319, 951)
+			    terminal_attachment 	(319, 799))))
+		(object AssociationViewNew "$UNNAMED$5" @75
+		    location   	(444, 951)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"39C0F4DB0154"
+		    roleview_list 	(list RoleViews
+			(object RoleView "out2in" @76
+			    Parent_View 	@75
+			    location   	(60, -105)
+			    label      	(object SegLabel @77
+				Parent_View 	@76
+				location   	(533, 1003)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	132
+				justify    	0
+				label      	"+out2in"
+				pctDist    	0.339869
+				height     	89
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"39C0F4DD0035"
+			    client     	@75
+			    supplier   	@67
+			    line_style 	3
+			    origin_attachment 	(444, 951)
+			    terminal_attachment 	(444, 1104)
+			    label      	(object SegLabel @78
+				Parent_View 	@76
+				location   	(531, 1053)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	72
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.666667
+				height     	87
+				orientation 	0))
+			(object RoleView "$UNNAMED$6" @79
+			    Parent_View 	@75
+			    location   	(60, -105)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"39C0F4DD0036"
+			    client     	@75
+			    supplier   	@68
+			    line_style 	3
+			    origin_attachment 	(444, 951)
+			    terminal_attachment 	(444, 799))))
+		(object InheritView "" @80
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"38BEB00D0144"
+		    client     	@52
+		    supplier   	@51
+		    line_style 	3
+		    origin_attachment 	(903, 666)
+		    terminal_attachment 	(903, 543)
+		    drawSupplier 	@53)
+		(object InheritView "" @81
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"38BEB0070069"
+		    client     	@55
+		    supplier   	@51
+		    line_style 	3
+		    origin_attachment 	(1372, 658)
+		    terminal_attachment 	(1372, 543)
+		    drawSupplier 	@53)))))

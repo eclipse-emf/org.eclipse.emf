@@ -1,0 +1,1022 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002-2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: EPackageImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+package org.eclipse.emf.ecore.impl;
+
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.Enumerator;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EFactory;
+import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EParameter;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>EPackage</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link org.eclipse.emf.ecore.impl.EPackageImpl#getNsURI <em>Ns URI</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.EPackageImpl#getNsPrefix <em>Ns Prefix</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.EPackageImpl#getEFactoryInstance <em>EFactory Instance</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.EPackageImpl#getEClassifiers <em>EClassifiers</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.EPackageImpl#getESubpackages <em>ESubpackages</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.EPackageImpl#getESuperPackage <em>ESuper Package</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @generated
+ */
+public class EPackageImpl extends ENamedElementImpl implements EPackage
+{
+  /**
+   * The default value of the '{@link #getNsURI() <em>Ns URI</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getNsURI()
+   * @generated
+   * @ordered
+   */
+  protected static final String NS_URI_EDEFAULT = null;
+
+  /**
+   * The Ecore factory.
+   */
+  protected EcoreFactory ecoreFactory = null;
+
+  /**
+   * The Ecore factory.
+   */
+  protected EcorePackage ecorePackage = null;
+
+  /**
+   * The map from name to 
+   */
+  protected Map eNameToEClassifierMap; 
+
+  /**
+   * Creates an instance.
+   */
+  protected EPackageImpl()
+  {
+    super();
+
+    setEFactoryInstance(new EFactoryImpl());
+
+    ecorePackage = EcorePackage.eINSTANCE;
+    ecoreFactory = EcoreFactory.eINSTANCE;
+  }
+
+  /**
+   * Creates an instance with a factory.
+   * @param eFactory the factory of the new package.
+   */
+  protected EPackageImpl(EFactory eFactory)
+  {
+    super();
+
+    setEFactoryInstance(eFactory);
+
+    ecorePackage = EcorePackage.eINSTANCE;
+    ecoreFactory = EcoreFactory.eINSTANCE;
+  }
+
+  /**
+   * Creates a {@link org.eclipse.emf.ecore.EPackage.Registry#INSTANCE registered} instance that has a default factory.
+   * @param packageURI the registered {@link #getNsURI namespace URI} of the new package.
+   */
+  protected EPackageImpl(String packageURI)
+  {
+    this(packageURI, new EFactoryImpl());
+  }
+
+  /**
+   * Creates a {@link org.eclipse.emf.ecore.EPackage.Registry#INSTANCE registered} instance with a factory.
+   * @param packageURI the registered {@link #getNsURI namespace URI} of the new package.
+   * @param eFactory the factory of the new package.
+   */
+  protected EPackageImpl(String packageURI, EFactory factory)
+  {
+    super();
+
+    Registry.INSTANCE.put(packageURI, this);
+
+    setEFactoryInstance(factory);
+
+    if (factory == EcoreFactory.eINSTANCE)
+    {
+      ecorePackage = (EcorePackage)this;
+      ecoreFactory = (EcoreFactory)factory;
+    }
+    else
+    {
+      ecorePackage = EcorePackage.eINSTANCE;
+      ecoreFactory = EcoreFactory.eINSTANCE;
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected EClass eStaticClass()
+  {
+    return EcorePackage.eINSTANCE.getEPackage();
+  }
+
+  /**
+   * @generated modifiable
+   */
+  public void setNamespaceURI(String nsURI)
+  {
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  {
+    switch (eDerivedStructuralFeatureID(eFeature))
+    {
+      case EcorePackage.EPACKAGE__EANNOTATIONS:
+        return getEAnnotations();
+      case EcorePackage.EPACKAGE__NAME:
+        return getName();
+      case EcorePackage.EPACKAGE__NS_URI:
+        return getNsURI();
+      case EcorePackage.EPACKAGE__NS_PREFIX:
+        return getNsPrefix();
+      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
+        return getEFactoryInstance();
+      case EcorePackage.EPACKAGE__ECLASSIFIERS:
+        return getEClassifiers();
+      case EcorePackage.EPACKAGE__ESUBPACKAGES:
+        return getESubpackages();
+      case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
+        return getESuperPackage();
+    }
+    return eDynamicGet(eFeature, resolve);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(EStructuralFeature eFeature)
+  {
+    switch (eDerivedStructuralFeatureID(eFeature))
+    {
+      case EcorePackage.EPACKAGE__EANNOTATIONS:
+        return eAnnotations != null && !eAnnotations.isEmpty();
+      case EcorePackage.EPACKAGE__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case EcorePackage.EPACKAGE__NS_URI:
+        return NS_URI_EDEFAULT == null ? nsURI != null : !NS_URI_EDEFAULT.equals(nsURI);
+      case EcorePackage.EPACKAGE__NS_PREFIX:
+        return NS_PREFIX_EDEFAULT == null ? nsPrefix != null : !NS_PREFIX_EDEFAULT.equals(nsPrefix);
+      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
+        return eFactoryInstance != null;
+      case EcorePackage.EPACKAGE__ECLASSIFIERS:
+        return eClassifiers != null && !eClassifiers.isEmpty();
+      case EcorePackage.EPACKAGE__ESUBPACKAGES:
+        return eSubpackages != null && !eSubpackages.isEmpty();
+      case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
+        return getESuperPackage() != null;
+    }
+    return eDynamicIsSet(eFeature);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eSet(EStructuralFeature eFeature, Object newValue)
+  {
+    switch (eDerivedStructuralFeatureID(eFeature))
+    {
+      case EcorePackage.EPACKAGE__EANNOTATIONS:
+        getEAnnotations().clear();
+        getEAnnotations().addAll((Collection)newValue);
+        return;
+      case EcorePackage.EPACKAGE__NAME:
+        setName((String)newValue);
+        return;
+      case EcorePackage.EPACKAGE__NS_URI:
+        setNsURI((String)newValue);
+        return;
+      case EcorePackage.EPACKAGE__NS_PREFIX:
+        setNsPrefix((String)newValue);
+        return;
+      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
+        setEFactoryInstance((EFactory)newValue);
+        return;
+      case EcorePackage.EPACKAGE__ECLASSIFIERS:
+        getEClassifiers().clear();
+        getEClassifiers().addAll((Collection)newValue);
+        return;
+      case EcorePackage.EPACKAGE__ESUBPACKAGES:
+        getESubpackages().clear();
+        getESubpackages().addAll((Collection)newValue);
+        return;
+    }
+    eDynamicSet(eFeature, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eUnset(EStructuralFeature eFeature)
+  {
+    switch (eDerivedStructuralFeatureID(eFeature))
+    {
+      case EcorePackage.EPACKAGE__EANNOTATIONS:
+        getEAnnotations().clear();
+        return;
+      case EcorePackage.EPACKAGE__NAME:
+        setName(NAME_EDEFAULT);
+        return;
+      case EcorePackage.EPACKAGE__NS_URI:
+        setNsURI(NS_URI_EDEFAULT);
+        return;
+      case EcorePackage.EPACKAGE__NS_PREFIX:
+        setNsPrefix(NS_PREFIX_EDEFAULT);
+        return;
+      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
+        setEFactoryInstance((EFactory)null);
+        return;
+      case EcorePackage.EPACKAGE__ECLASSIFIERS:
+        getEClassifiers().clear();
+        return;
+      case EcorePackage.EPACKAGE__ESUBPACKAGES:
+        getESubpackages().clear();
+        return;
+    }
+    eDynamicUnset(eFeature);
+  }
+
+  /**
+   * The cached value of the '{@link #getNsURI() <em>Ns URI</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getNsURI()
+   * @generated
+   * @ordered
+   */
+  protected String nsURI = NS_URI_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getNsPrefix() <em>Ns Prefix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getNsPrefix()
+   * @generated
+   * @ordered
+   */
+  protected static final String NS_PREFIX_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getNsPrefix() <em>Ns Prefix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getNsPrefix()
+   * @generated
+   * @ordered
+   */
+  protected String nsPrefix = NS_PREFIX_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getEFactoryInstance() <em>EFactory Instance</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEFactoryInstance()
+   * @generated
+   * @ordered
+   */
+  protected EFactory eFactoryInstance = null;
+
+  /**
+   * The cached value of the '{@link #getEClassifiers() <em>EClassifiers</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEClassifiers()
+   * @generated
+   * @ordered
+   */
+  protected EList eClassifiers = null;
+
+  /**
+   * The cached value of the '{@link #getESubpackages() <em>ESubpackages</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getESubpackages()
+   * @generated
+   * @ordered
+   */
+  protected EList eSubpackages = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getNsURI()
+  {
+    return nsURI;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setNsURI(String newNsURI)
+  {
+    String oldNsURI = nsURI;
+    nsURI = newNsURI;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EPACKAGE__NS_URI, oldNsURI, nsURI));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getNsPrefix()
+  {
+    return nsPrefix;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setNsPrefix(String newNsPrefix)
+  {
+    String oldNsPrefix = nsPrefix;
+    nsPrefix = newNsPrefix;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EPACKAGE__NS_PREFIX, oldNsPrefix, nsPrefix));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EFactory getEFactoryInstance()
+  {
+    return eFactoryInstance;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setEFactoryInstance(EFactory newEFactoryInstance)
+  {
+    if (newEFactoryInstance != eFactoryInstance)
+    {
+      NotificationChain msgs = null;
+      if (eFactoryInstance != null)
+        msgs = ((InternalEObject)eFactoryInstance).eInverseRemove(this, EcorePackage.EFACTORY__EPACKAGE, EFactory.class, msgs);
+      if (newEFactoryInstance != null)
+        msgs = ((InternalEObject)newEFactoryInstance).eInverseAdd(this, EcorePackage.EFACTORY__EPACKAGE, EFactory.class, msgs);
+      msgs = basicSetEFactoryInstance(newEFactoryInstance, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EPACKAGE__EFACTORY_INSTANCE, newEFactoryInstance, newEFactoryInstance));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetEFactoryInstance(EFactory newEFactoryInstance, NotificationChain msgs)
+  {
+    EFactory oldEFactoryInstance = eFactoryInstance;
+    eFactoryInstance = newEFactoryInstance;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EcorePackage.EPACKAGE__EFACTORY_INSTANCE, oldEFactoryInstance, newEFactoryInstance);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public EList getEClassifiers()
+  {
+    if (eClassifiers == null)
+    {
+      eClassifiers = 
+        new EObjectContainmentWithInverseEList(EClassifier.class, this, EcorePackage.EPACKAGE__ECLASSIFIERS, EcorePackage.ECLASSIFIER__EPACKAGE)
+        {
+          protected void didChange()
+          {
+            eNameToEClassifierMap = null;
+          }
+        };
+    }
+    return eClassifiers;
+  }
+
+  /**
+   * @generated modifiable
+   */
+  public EClassifier getEClassifier(String name)
+  {
+    if (eNameToEClassifierMap == null)
+    {
+      List eClassifiers = getEClassifiers();
+      eNameToEClassifierMap = new HashMap(eClassifiers.size());
+      for (Iterator i = eClassifiers.iterator(); i.hasNext(); )
+      {
+        EClassifier eClassifier = (EClassifier)i.next();
+        eNameToEClassifierMap.put(eClassifier.getName(), eClassifier);
+      }
+    }
+
+    return (EClassifier)eNameToEClassifierMap.get(name);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList getESubpackages()
+  {
+    if (eSubpackages == null)
+    {
+      eSubpackages = new EObjectContainmentWithInverseEList(EPackage.class, this, EcorePackage.EPACKAGE__ESUBPACKAGES, EcorePackage.EPACKAGE__ESUPER_PACKAGE);
+    }
+    return eSubpackages;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated modifiable
+   */
+  public EPackage getESuperPackage()
+  {
+    return (eContainerFeatureID == EcorePackage.EPACKAGE__ESUPER_PACKAGE) ? (EPackage)eContainer : null;
+  }
+
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  {
+    if (featureID >= 0)
+    {
+      switch (eDerivedStructuralFeatureID(featureID, baseClass))
+      {
+        case EcorePackage.EPACKAGE__EANNOTATIONS:
+          return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+        case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
+          if (eFactoryInstance != null)
+            msgs = ((InternalEObject)eFactoryInstance).eInverseRemove(this, EcorePackage.EFACTORY__EPACKAGE, EFactory.class, msgs);
+          return basicSetEFactoryInstance((EFactory)otherEnd, msgs);
+        case EcorePackage.EPACKAGE__ECLASSIFIERS:
+          return ((InternalEList)getEClassifiers()).basicAdd(otherEnd, msgs);
+        case EcorePackage.EPACKAGE__ESUBPACKAGES:
+          return ((InternalEList)getESubpackages()).basicAdd(otherEnd, msgs);
+        case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
+          if (eContainer != null)
+            msgs = eBasicRemoveFromContainer(msgs);
+          return eBasicSetContainer(otherEnd, EcorePackage.EPACKAGE__ESUPER_PACKAGE, msgs);
+        default:
+          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
+      }
+    }
+    if (eContainer != null)
+      msgs = eBasicRemoveFromContainer(msgs);
+    return eBasicSetContainer(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  {
+    if (featureID >= 0)
+    {
+      switch (eDerivedStructuralFeatureID(featureID, baseClass))
+      {
+        case EcorePackage.EPACKAGE__EANNOTATIONS:
+          return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+        case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
+          return basicSetEFactoryInstance(null, msgs);
+        case EcorePackage.EPACKAGE__ECLASSIFIERS:
+          return ((InternalEList)getEClassifiers()).basicRemove(otherEnd, msgs);
+        case EcorePackage.EPACKAGE__ESUBPACKAGES:
+          return ((InternalEList)getESubpackages()).basicRemove(otherEnd, msgs);
+        case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
+          return eBasicSetContainer(null, EcorePackage.EPACKAGE__ESUPER_PACKAGE, msgs);
+        default:
+          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+      }
+    }
+    return eBasicSetContainer(null, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  {
+    if (eContainerFeatureID >= 0)
+    {
+      switch (eContainerFeatureID)
+      {
+        case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
+          return ((InternalEObject)eContainer).eInverseRemove(this, EcorePackage.EPACKAGE__ESUBPACKAGES, EPackage.class, msgs);
+        default:
+          return eDynamicBasicRemoveFromContainer(msgs);
+      }
+    }
+    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (nsURI: ");
+    result.append(nsURI);
+    result.append(", nsPrefix: ");
+    result.append(nsPrefix);
+    result.append(')');
+    return result.toString();
+  }
+
+  protected Resource createResource(String uri)
+  {
+    Resource resource = eResource();
+    if (resource == null) 
+    {
+      URI actualURI = URI.createURI(uri);
+      resource = 
+        new ResourceImpl(actualURI)
+        {
+          public boolean useIDs()
+          {
+            return false;
+          }
+        };
+      resource.getContents().add(this);
+    }
+    return resource;
+  }
+
+  protected EClass createEClass(int id)
+  {
+    EClassImpl c = (EClassImpl)ecoreFactory.createEClass();
+    c.setClassifierID(id);
+    getEClassifiers().add(c);
+    return c;
+  }
+
+  protected EEnum createEEnum(int id)
+  {
+    EEnumImpl e = (EEnumImpl)ecoreFactory.createEEnum();
+    e.setClassifierID(id);
+    getEClassifiers().add(e);
+    return e;
+  }
+
+  protected EDataType createEDataType(int id)
+  {
+    EDataTypeImpl d = (EDataTypeImpl)ecoreFactory.createEDataType();
+    d.setClassifierID(id);
+    getEClassifiers().add(d);
+    return d;
+  }
+
+  protected void createEAttribute(EClass owner, int id)
+  {
+    EAttributeImpl a = (EAttributeImpl)ecoreFactory.createEAttribute();
+    a.setFeatureID(id);
+    owner.getEStructuralFeatures().add(a);
+  }
+
+  protected void createEReference(EClass owner, int id)
+  {
+    EReferenceImpl r = (EReferenceImpl)ecoreFactory.createEReference();
+    r.setFeatureID(id);
+    owner.getEStructuralFeatures().add(r);
+  }
+
+  final static protected boolean IS_ABSTRACT = true;
+  final static protected boolean IS_INTERFACE = true;
+
+  protected EClass initEClass(EClass c, Class instanceClass, String name, boolean isAbstract, boolean isInterface)
+  {
+    initEClassifier(c, ecorePackage.getEClass(), instanceClass, name);
+    c.setAbstract(isAbstract);
+    c.setInterface(isInterface);
+    return c;
+  }
+
+  protected EEnum initEEnum(EEnum e, Class instanceClass, String name)
+  {
+    initEClassifier(e, ecorePackage.getEEnum(), instanceClass, name);
+    return e;
+  }
+
+  final static protected boolean IS_SERIALIZABLE = true;
+
+  protected EDataType initEDataType(EDataType d, Class instanceClass, String name, boolean isSerializable)
+  {
+    initEClassifier(d, ecorePackage.getEDataType(), instanceClass, name);
+    d.setSerializable(isSerializable);
+    return d;
+  }
+
+  private void initEClassifier(EClassifier o, EClass metaObject, Class instanceClass, String name)
+  {
+    o.setName(name);
+    if (instanceClass != null)
+    {
+      o.setInstanceClass(instanceClass);
+    }
+  }
+
+  protected static final boolean IS_DERIVED = true;
+  protected static final boolean IS_TRANSIENT = true;
+  protected static final boolean IS_VOLATILE = true;
+  protected static final boolean IS_CHANGEABLE = true;
+  protected static final boolean IS_UNSETTABLE = true;
+  protected static final boolean IS_UNIQUE = true;
+  protected static final boolean IS_ID = true;
+
+  /**
+   * @deprecated
+   */
+  protected EAttribute initEAttribute
+    (EAttribute a, 
+     EClassifier type,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isUnsettable)
+  {
+    return 
+      initEAttribute
+        (a, type, name, defaultValue, lowerBound, upperBound, isTransient, isVolatile, isChangeable, isUnsettable, false, true);
+  }
+
+  /**
+   * @deprecated
+   */
+  protected EAttribute initEAttribute
+    (EAttribute a, 
+     EClassifier type,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isUnsettable,
+     boolean isID)
+  {
+    return 
+      initEAttribute
+        (a, type, name, defaultValue, lowerBound, upperBound, isTransient, isVolatile, isChangeable, isUnsettable, isID, true);
+  }
+
+  /**
+   * @deprecated
+   */
+  protected EAttribute initEAttribute
+    (EAttribute a, 
+     EClassifier type,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isUnsettable,
+     boolean isID,
+     boolean isUnique)
+  {
+    return 
+      initEAttribute
+        (a, type, name, defaultValue, lowerBound, upperBound, isTransient, isVolatile, isChangeable, isUnsettable, isID, isUnique, false);
+  }
+
+  protected EAttribute initEAttribute
+    (EAttribute a, 
+     EClassifier type,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isUnsettable,
+     boolean isID,
+     boolean isUnique,
+     boolean isDerived)
+  {
+    initEStructuralFeature
+      (a, type, name, defaultValue, lowerBound, upperBound, isTransient, isVolatile, isChangeable, isUnsettable, isUnique, isDerived);
+    a.setID(isID);
+    return a;
+  }
+
+  final static protected boolean IS_COMPOSITE = true;
+  final static protected boolean IS_RESOLVE_PROXIES = true;
+  final static protected boolean IS_RESOLVABLE = true;
+
+  /**
+   * @deprecated
+   */
+  protected EReference initEReference
+    (EReference r, 
+     EClassifier type, 
+     EReference otherEnd,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isContainment, 
+     boolean isResolveProxies)
+  {
+    initEReference
+      (r, 
+       type, 
+       otherEnd, 
+       name, 
+       defaultValue, 
+       lowerBound, 
+       upperBound, 
+       isTransient, 
+       isVolatile, 
+       isChangeable, 
+       isContainment, 
+       isResolveProxies, 
+       false, 
+       true);
+    return r;
+  }
+
+  /**
+   * @deprecated
+   */
+  protected EReference initEReference
+    (EReference r, 
+     EClassifier type, 
+     EReference otherEnd,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isContainment, 
+     boolean isResolveProxies,
+     boolean isUnsettable)
+  {
+    initEReference
+      (r, 
+       type, 
+       otherEnd, 
+       name, 
+       defaultValue, 
+       lowerBound, 
+       upperBound, 
+       isTransient, 
+       isVolatile, 
+       isChangeable, 
+       isContainment, 
+       isResolveProxies, 
+       isUnsettable, 
+       true);
+    return r;
+  }
+
+  /**
+   * @deprecated
+   */
+  protected EReference initEReference
+    (EReference r, 
+     EClassifier type, 
+     EReference otherEnd,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isContainment, 
+     boolean isResolveProxies,
+     boolean isUnsettable,
+     boolean isUnique)
+  {
+    initEReference
+      (r, 
+       type, 
+       otherEnd, 
+       name, 
+       defaultValue, 
+       lowerBound, 
+       upperBound, 
+       isTransient, 
+       isVolatile, 
+       isChangeable, 
+       isContainment, 
+       isResolveProxies, 
+       isUnsettable, 
+       isUnique,
+       false);
+    return r;
+  }
+
+  protected EReference initEReference
+    (EReference r, 
+     EClassifier type, 
+     EReference otherEnd,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isContainment, 
+     boolean isResolveProxies,
+     boolean isUnsettable,
+     boolean isUnique,
+     boolean isDerived)
+  {
+    initEStructuralFeature
+      (r, type, name, defaultValue, lowerBound, upperBound, isTransient, isVolatile, isChangeable, isUnsettable, isUnique, isDerived);
+    r.setContainment(isContainment);
+    if (otherEnd != null)
+    {
+      r.setEOpposite(otherEnd);
+    }
+    r.setResolveProxies(isResolveProxies);
+    return r;
+  }
+
+  private void initEStructuralFeature
+    (EStructuralFeature s, 
+     EClassifier type,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable,
+     boolean isUnsettable,
+     boolean isUnique,
+     boolean isDerived)
+  {
+    s.setName(name);
+    ((EStructuralFeatureImpl)s).setContainerClass(((EClassifier)s.eContainer()).getInstanceClass());
+    s.setTransient(isTransient);
+    s.setVolatile(isVolatile);
+    s.setChangeable(isChangeable);
+    s.setUnsettable(isUnsettable);
+    s.setUnique(isUnique);
+    s.setDerived(isDerived);
+    s.setLowerBound(lowerBound);
+    s.setUpperBound(upperBound);
+    s.setEType(type);
+    if (defaultValue != null)
+    {
+      s.setDefaultValueLiteral(defaultValue);
+    }
+  }
+
+  protected EOperation addEOperation(EClass owner, EClassifier type, String name)
+  {
+    EOperation o = ecoreFactory.createEOperation();
+    o.setEType(type);
+    o.setName(name);
+    owner.getEOperations().add(o);
+    return o;
+  }
+
+  protected void addEParameter(EOperation owner, EClassifier type, String name)
+  {
+    EParameter p = ecoreFactory.createEParameter();
+    p.setEType(type);
+    p.setName(name);
+    owner.getEParameters().add(p);
+  }
+
+  protected void addEException(EOperation owner, EClassifier exception)
+  {
+    owner.getEExceptions().add(exception);
+  }
+
+  protected void addEEnumLiteral(EEnum owner, Enumerator e)
+  {
+    EEnumLiteral l = ecoreFactory.createEEnumLiteral();
+    l.setInstance(e);
+    owner.getELiterals().add(l);
+  }
+
+  protected void addAnnotation(ENamedElement eNamedElement, String source, String [] details)
+  {
+    EAnnotation eAnnotation = ecoreFactory.createEAnnotation();
+    eAnnotation.setSource(source);
+    EMap theDetails = eAnnotation.getDetails();
+    for (int i = 1; i < details.length; i += 2)
+    {
+      theDetails.put(details[i - 1], details[i]);
+    }
+    eNamedElement.getEAnnotations().add(eAnnotation);
+  }
+}

@@ -1,0 +1,269 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002-2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: ETypedElementItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ */
+package org.eclipse.emf.ecore.provider;
+
+
+import java.util.Collection;
+import java.util.List;
+
+import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertySource;
+import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
+import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+
+
+/**
+ * This is the item provider adpater for a {@link org.eclipse.emf.ecore.ETypedElement} object.
+ * <!-- begin-user-doc -->
+ * <!-- end-user-doc -->
+ * @generated
+ */
+public class ETypedElementItemProvider
+  extends ENamedElementItemProvider
+  implements
+    IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource
+{
+  /**
+   * This constructs an instance from a factory and a notifier.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ETypedElementItemProvider(AdapterFactory adapterFactory)
+  {
+    super(adapterFactory);
+  }
+
+  /**
+   * This returns the property descriptors for the adapted class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getPropertyDescriptors(Object object)
+  {
+    if (itemPropertyDescriptors == null)
+    {
+      super.getPropertyDescriptors(object);
+
+      addOrderedPropertyDescriptor(object);
+      addUniquePropertyDescriptor(object);
+      addLowerBoundPropertyDescriptor(object);
+      addUpperBoundPropertyDescriptor(object);
+      addManyPropertyDescriptor(object);
+      addRequiredPropertyDescriptor(object);
+      addETypePropertyDescriptor(object);
+    }
+    return itemPropertyDescriptors;
+  }
+
+  /**
+   * This adds a property descriptor for the Ordered feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addOrderedPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_ETypedElement_ordered_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_ordered_feature", "_UI_ETypedElement_type"),
+         EcorePackage.eINSTANCE.getETypedElement_Ordered(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+  }
+
+  /**
+   * This adds a property descriptor for the Unique feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addUniquePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_ETypedElement_unique_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_unique_feature", "_UI_ETypedElement_type"),
+         EcorePackage.eINSTANCE.getETypedElement_Unique(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+  }
+
+  /**
+   * This adds a property descriptor for the Lower Bound feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addLowerBoundPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_ETypedElement_lowerBound_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_lowerBound_feature", "_UI_ETypedElement_type"),
+         EcorePackage.eINSTANCE.getETypedElement_LowerBound(),
+         true,
+         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE));
+  }
+
+  /**
+   * This adds a property descriptor for the Upper Bound feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addUpperBoundPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_ETypedElement_upperBound_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_upperBound_feature", "_UI_ETypedElement_type"),
+         EcorePackage.eINSTANCE.getETypedElement_UpperBound(),
+         true,
+         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE));
+  }
+
+  /**
+   * This adds a property descriptor for the Many feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addManyPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_ETypedElement_many_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_many_feature", "_UI_ETypedElement_type"),
+         EcorePackage.eINSTANCE.getETypedElement_Many(),
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+  }
+
+  /**
+   * This adds a property descriptor for the Required feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addRequiredPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_ETypedElement_required_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_required_feature", "_UI_ETypedElement_type"),
+         EcorePackage.eINSTANCE.getETypedElement_Required(),
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+  }
+
+  /**
+   * This adds a property descriptor for the EType feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addETypePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_ETypedElement_eType_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_eType_feature", "_UI_ETypedElement_type"),
+         EcorePackage.eINSTANCE.getETypedElement_EType(),
+         true));
+  }
+
+
+  /**
+   * This returns the label text for the adapted class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getText(Object object)
+  {
+    String label = ((ETypedElement)object).getName();
+    return label == null || label.length() == 0 ?
+      getString("_UI_ETypedElement_type") :
+      getString("_UI_ETypedElement_type") + " " + label;
+  }
+
+  /**
+   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void notifyChanged(Notification notification)
+  {
+    switch (notification.getFeatureID(ETypedElement.class))
+    {
+      case EcorePackage.ETYPED_ELEMENT__ORDERED:
+      case EcorePackage.ETYPED_ELEMENT__UNIQUE:
+      case EcorePackage.ETYPED_ELEMENT__LOWER_BOUND:
+      case EcorePackage.ETYPED_ELEMENT__UPPER_BOUND:
+      case EcorePackage.ETYPED_ELEMENT__MANY:
+      case EcorePackage.ETYPED_ELEMENT__REQUIRED:
+      case EcorePackage.ETYPED_ELEMENT__ETYPE:
+      {
+        fireNotifyChanged(notification);
+        return;
+      }
+    }
+    super.notifyChanged(notification);
+  }
+
+  /**
+   * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s
+   * describing all of the children that can be created under this object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  {
+    super.collectNewChildDescriptors(newChildDescriptors, object);
+  }
+
+  /**
+   * Return the resource locator for this item provider's resources.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ResourceLocator getResourceLocator()
+  {
+    return EcoreEditPlugin.INSTANCE;
+  }
+}

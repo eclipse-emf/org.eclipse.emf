@@ -1,0 +1,313 @@
+<%@ jet package="org.eclipse.emf.codegen.ecore" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" %>
+<%
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: Interface.javajet,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+%>
+<%GenClass genClass = (GenClass)argument; GenPackage genPackage = genClass.getGenPackage(); GenModel genModel=genPackage.getGenModel();%>
+<%@ include file="Header.javajet"%>
+package <%=genPackage.getInterfacePackageName()%>;
+
+<%genModel.markImportLocation(stringBuffer);%>
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b><%=genClass.getFormattedName()%></b></em>'.
+ * <!-- end-user-doc -->
+ *
+ * <p>
+<%if (!genClass.getGenFeatures().isEmpty()) {%>
+ * The following features are supported:
+ * <ul>
+<%for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+ *   <li>{@link <%=genClass.getQualifiedInterfaceName()%>#get<%=genFeature.getGetName()%> <em><%=genFeature.getFormattedName()%></em>}</li>
+<%}%>
+ * </ul>
+<%}%>
+ * </p>
+ *
+ * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genClass.getInterfaceName()%>()
+ * @generated modifiable
+ */
+public interface <%=genClass.getInterfaceName()%> extends <%for (Iterator i=genClass.getBaseInterfaceNames().iterator(); i.hasNext();) {%><%=(String)i.next() + (i.hasNext() ? ", " : "")%><%}%> 
+{
+<%if (genModel.getCopyrightText() != null) {%>
+	/**
+	 * @generated
+	 */
+	<%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";
+
+<%}%>
+<%if (genModel.getDriverNumber() != null) {%>
+	/**
+	 * @generated
+	 */
+	<%=genModel.getImportedName("java.lang.String")%> mofDriverNumber = "<%=genModel.getDriverNumber()%>";
+
+<%}%>
+<%if (genClass.isRootOfPackage()) { %>
+	/**
+	 * Returns the meta package of {@link <%=genClass.getQualifiedInterfaceName()%>}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta package of {@link <%=genClass.getQualifiedInterfaceName()%>}.
+	 * @generated
+	 */
+	<%=genPackage.getPackageInterfaceName()%> ePackage<%=genPackage.getPackageAccessorName()%>();
+
+<%}%>
+	/**
+	 * Returns the meta class of {@link <%=genClass.getQualifiedInterfaceName()%>}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta class.
+	 * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genClass.getInterfaceName()%>()
+	 * @see #ePackage<%=genPackage.getPackageAccessorName()%>()
+	 * @generated
+	 */
+	<%=genModel.getImportedName("org.eclipse.emf.ecore.EClass")%> eClass<%=genClass.getInterfaceName()%>();
+<%for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+
+	/**
+	 * Returns the value of the '<em><b><%=genFeature.getFormattedName()%></b></em>' <%=genFeature.getFeatureKind()%>.
+<%if (genFeature.isListType()) {%>
+	 * The list contents are of type {@link <%=genFeature.getListItemType()%>}.
+<%}%>
+<%if (genFeature.getGenEnumType() != null) {%>
+	 * The literals are from the enumeration {@link <%=genFeature.getGenEnumType().getQualifiedName()%>}.
+<%}%>
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%> isn't clear, 
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+<%if (genFeature.isBooleanType()) {%>
+	 * @see #is<%=genFeature.getCapName()%>()
+<%} else if (genFeature.isPrimitiveType()) {%>
+	 * @see #getValue<%=genFeature.getCapName()%>()
+<%if (genFeature.isEnumType()) {%>
+	 * @see #get<%=genFeature.getCapName()%>()
+	 * @see #getString<%=genFeature.getCapName()%>()
+	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
+<%}%>
+<%}%>
+<%if (genFeature.isChangeable() && !genFeature.isListType()) {%>
+	 * @see #isSet<%=genFeature.getCapName()%>()
+	 * @see #unset<%=genFeature.getCapName()%>()
+	 * @see #set<%=genFeature.getCapName()%>(<%=genFeature.getType()%>)
+<%}%>
+	 * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genFeature.getFeatureAccessorName()%>()
+	 * @generated
+	 */
+	<%=genFeature.getType()%> get<%=genFeature.getGetName()%>();
+<%if (genFeature.isBooleanType()) {%>
+
+	/**
+	 * Returns whether the object is '{@link <%=genClass.getQualifiedInterfaceName()%>#get<%=genFeature.getGetName()%> <em><%=genFeature.getFormattedName()%></em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the object is '<em><%=genFeature.getFormattedName()%></em>'.
+	 * @see #get<%=genFeature.getGetName()%>()
+<%if (genFeature.isChangeable()) {%>
+	 * @see #isSet<%=genFeature.getCapName()%>()
+	 * @see #unset<%=genFeature.getCapName()%>()
+	 * @see #set<%=genFeature.getCapName()%>(boolean)
+<%}%>
+	 * @generated
+	 */
+	boolean is<%=genFeature.getCapName()%>();
+<%} else if (genFeature.isPrimitiveType()) {%>
+
+	/**
+	 * Returns the primitive value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#get<%=genFeature.getGetName()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the primitive value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+	 * @see #get<%=genFeature.getGetName()%>()
+<%if (genFeature.isEnumType()) {%>
+	 * @see #getValue<%=genFeature.getCapName()%>()
+	 * @see #getString<%=genFeature.getCapName()%>()
+	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
+<%}%>
+<%if (genFeature.isChangeable()) {%>
+	 * @see #isSet<%=genFeature.getCapName()%>()
+	 * @see #unset<%=genFeature.getCapName()%>()
+	 * @see #set<%=genFeature.getCapName()%>(<%=genFeature.getPrimitiveType()%>)
+<%}%>
+	 * @generated
+	 */
+	<%=genFeature.getPrimitiveType()%> getValue<%=genFeature.getCapName()%>();
+<%}%>
+<%if (genFeature.isEnumType()) {%>
+
+	/**
+	 * Returns the String value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#get<%=genFeature.getGetName()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the String value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+	 * @see #get<%=genFeature.getGetName()%>()
+	 * @see #get<%=genFeature.getCapName()%>()
+	 * @see #getValue<%=genFeature.getCapName()%>()
+	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
+<%if (genFeature.isChangeable()) {%>
+	 * @see #isSet<%=genFeature.getCapName()%>()
+	 * @see #unset<%=genFeature.getCapName()%>()
+	 * @see #set<%=genFeature.getCapName()%>(<%=genModel.getImportedName("java.lang.String")%>)
+<%}%>
+	 * @generated
+	 */
+	<%=genModel.getImportedName("java.lang.String")%> getString<%=genFeature.getCapName()%>();
+
+	/**
+	 * Returns the Integer value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#get<%=genFeature.getGetName()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the Integer value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+	 * @see #get<%=genFeature.getGetName()%>()
+	 * @see #getValue<%=genFeature.getCapName()%>()
+	 * @see #getString<%=genFeature.getCapName()%>()
+	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
+<%if (genFeature.isChangeable()) {%>
+	 * @see #isSet<%=genFeature.getCapName()%>()
+	 * @see #unset<%=genFeature.getCapName()%>()
+	 * @see #set<%=genFeature.getCapName()%>(<%=genModel.getImportedName("java.lang.Integer")%>)
+<%}%>
+	 * @generated
+	 */
+	<%=genModel.getImportedName("java.lang.Integer")%> get<%=genFeature.getCapName()%>();
+<%}%>
+<%if (genFeature.isChangeable() && !genFeature.isListType()) {%>
+
+	/**
+	 * Sets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#get<%=genFeature.getGetName()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+<%if (genFeature.isPrimitiveType()) {%>
+	 * @see #set<%=genFeature.getCapName()%>(<%=genFeature.getPrimitiveType()%>)
+<%if (genFeature.isEnumType()) {%>
+	 * @see #set<%=genFeature.getCapName()%>(<%=genModel.getImportedName("java.lang.Integer")%>)
+	 * @see #set<%=genFeature.getCapName()%>(<%=genModel.getImportedName("java.lang.String")%>)
+	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
+<%}%>
+<%}%>
+	 * @see #isSet<%=genFeature.getCapName()%>()
+	 * @see #unset<%=genFeature.getCapName()%>()
+	 * @see #get<%=genFeature.getGetName()%>()
+	 * @generated
+	 */
+	void set<%=genFeature.getCapName()%>(<%=genFeature.getType()%> value)<%if (genFeature.isEnumType()) {%> throws <%=genModel.getImportedName("org.eclipse.emf.ecore.ref.EnumerationException")%><%}%>;
+<%if (genFeature.isPrimitiveType()) {%>
+
+	/**
+	 * Sets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#get<%=genFeature.getGetName()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+<%if (genFeature.isEnumType()) {%>
+	 * @param value the int value of the new enumeration literal value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+<%} else {%>
+	 * @param value the new value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+<%}%>
+	 * @see #set<%=genFeature.getCapName()%>(<%=genFeature.getType()%>)
+<%if (genFeature.isEnumType()) {%>
+	 * @see #set<%=genFeature.getCapName()%>(<%=genModel.getImportedName("java.lang.Integer")%>)
+	 * @see #set<%=genFeature.getCapName()%>(<%=genModel.getImportedName("java.lang.String")%>)
+	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
+<%}%>
+	 * @see #isSet<%=genFeature.getCapName()%>()
+	 * @see #unset<%=genFeature.getCapName()%>()
+<%if (genFeature.isBooleanType()) {%>
+	 * @see #is<%=genFeature.getCapName()%>()
+<%} else {%>
+	 * @see #getValue<%=genFeature.getCapName()%>()
+<%}%>
+	 * @generated
+	 */
+	void set<%=genFeature.getCapName()%>(<%=genFeature.getPrimitiveType()%> value)<%if (genFeature.isEnumType()) {%> throws <%=genModel.getImportedName("org.eclipse.emf.ecore.ref.EnumerationException")%><%}%>;
+<%}%>
+<%if (genFeature.isEnumType()) {%>
+
+	/**
+	 * Sets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#get<%=genFeature.getGetName()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the String value of the new enumeration literal value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+	 * @see #set<%=genFeature.getCapName()%>(<%=genFeature.getType()%>)
+	 * @see #set<%=genFeature.getCapName()%>(<%=genFeature.getPrimitiveType()%>)
+	 * @see #set<%=genFeature.getCapName()%>(<%=genModel.getImportedName("java.lang.Integer")%>)
+	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
+	 * @see #isSet<%=genFeature.getCapName()%>()
+	 * @see #unset<%=genFeature.getCapName()%>()
+	 * @see #getString<%=genFeature.getCapName()%>()
+	 * @generated
+	 */
+	void set<%=genFeature.getCapName()%>(<%=genModel.getImportedName("java.lang.String")%> value) throws <%=genModel.getImportedName("org.eclipse.emf.ecore.ref.EnumerationException")%>;
+
+	/**
+	 * Sets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#get<%=genFeature.getGetName()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the Integer value of the new enumeration literal value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+	 * @see #set<%=genFeature.getCapName()%>(<%=genFeature.getType()%>)
+	 * @see #set<%=genFeature.getCapName()%>(<%=genFeature.getPrimitiveType()%>)
+	 * @see #set<%=genFeature.getCapName()%>(<%=genModel.getImportedName("java.lang.String")%>)
+	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
+	 * @see #isSet<%=genFeature.getCapName()%>()
+	 * @see #unset<%=genFeature.getCapName()%>()
+	 * @see #getValue<%=genFeature.getCapName()%>()
+	 * @generated
+	 */
+	void set<%=genFeature.getCapName()%>(<%=genModel.getImportedName("java.lang.Integer")%> value) throws <%=genModel.getImportedName("org.eclipse.emf.ecore.ref.EnumerationException")%>;
+<%}%>
+
+	/**
+	 * Unsets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#get<%=genFeature.getGetName()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSet<%=genFeature.getCapName()%>()
+	 * @see #get<%=genFeature.getGetName()%>()
+	 * @see #set<%=genFeature.getCapName()%>(<%=genFeature.getType()%>)
+	 * @generated
+	 */
+	void unset<%=genFeature.getCapName()%>();
+
+	/**
+	 * Returns whether the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#get<%=genFeature.getGetName()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%> is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%> is set.
+	 * @see #unset<%=genFeature.getCapName()%>()
+	 * @see #get<%=genFeature.getGetName()%>()
+	 * @see #set<%=genFeature.getCapName()%>(<%=genFeature.getType()%>)
+	 * @generated
+	 */
+	boolean isSet<%=genFeature.getCapName()%>();
+<%}%>
+<%}//for%>
+<%for (Iterator i=genClass.getGenOperations().iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();%>
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	<%=genOperation.getReturnType()%> <%=genOperation.getName()%>(<%=genOperation.getParameters()%>);
+<%}//for%>
+
+} // <%=genClass.getInterfaceName()%>
+<%genModel.emitSortedImports();%>

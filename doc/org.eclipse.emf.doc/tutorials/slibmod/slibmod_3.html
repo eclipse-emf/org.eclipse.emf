@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en"><html><head>
+    
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+    
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <title>Generating an Extended EMF Model: Running the Generated Editor</title>
+</head><body>
+
+    
+<h2>Generating an Extended EMF Model</h2>
+
+
+    <a href="slibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+    <a href="slibmod_2.html">Previous: Generating the EMF Model and the Editor</a>
+      &nbsp;&nbsp;&nbsp;
+    <a href="slibmod_4.html">Next: Modifying the Editor</a>
+<hr>
+
+    
+<h3>Step 3: Running the Generated Editor</h3>
+
+
+    
+<p>Before a run-time workbench instance can be run, a launch configuration need to be setup.&nbsp;
+      </p>
+
+
+    
+
+    
+<ul>
+
+
+      <li> 
+        Switch to the Debug &nbsp;perspective and configure a launch configuration
+as described in <a href="../clibmod/clibmod_4.html">Step 4</a> of the previous tutorial if it has not already been
+set up.<br>
+    <br>
+    <img src="sl303.gif" alt="" width="627" height="560">
+<br>
+        &nbsp;
+        &nbsp;</li>
+
+      <li>&nbsp;Launch a run-time workbench instance, either from the configuration dialog or the Run menu:<br>
+    <br>
+    <img src="sl304.gif" alt="" width="178" height="103">
+    <br>
+    <br>
+</li>
+    
+
+      <li>
+        Wait for the run-time workbench instance to come up.  Bring
+        up the "Help/About Eclipse Platform" dialog, click on the "Plug-in
+        Details" button, and verify that the generated plugins are loaded.
+        <br>
+        <img src="sl305.gif" alt="" width="595" height="437">
+
+        <br>&nbsp;
+      </li>
+    
+</ul>
+
+      
+    
+<p>The school library model wizard can now be used to create a new instance of
+    the model.</p>
+
+
+    
+
+    
+<ul>
+
+      <li>
+        Bring up the "File/New/Project..." dialog and select "Simple" followed by
+        "Project". Give the project a name and click the "Finish" button.<br>
+    <img src="sl306.gif" alt="" width="209" height="134">
+<br>
+        &nbsp;
+      </li>
+
+      <li>
+        Right-click the project and select "New/Other..." from the pop-up menu.
+        <br>
+    <img src="sl307.gif" alt="" width="409" height="164">
+<br>&nbsp;
+      </li>
+
+      <li>
+        Select "Example EMF Model Creation Wizards" and "Schoollibrary Model".  Click
+        the "Next" button.
+        <br>
+        <img src="sl308.gif" alt="" width="495" height="494">
+
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Enter a file name for the "schoollibrary" model.  Make sure it ends with a
+        ".schoollibrary" extension.
+        Click the "Next" button.<br>
+        <img src="sl309.gif" alt="" width="181" height="53">
+
+        <br>&nbsp;
+      </li>
+
+      
+
+      
+    <li>
+        Select "SchoolLibrary" as the root model object and click the "Finish" button.
+        <br>
+        <img src="sl310.gif" alt="" width="196" height="136">
+
+        <br>&nbsp;&nbsp;
+        &nbsp;&nbsp;</li>
+
+      <li> 
+        The "My.schoollibrary" resource should open up in the &nbsp;main
+window. Note that the root object is indeed a "School Library". Enter some
+values for the "Location" and "Name" attributes in the Properties view. Refer
+to the previous tutorial or the manual on how to open the Properties view
+if it is not already opened.<br>
+    <img src="sl311.gif" alt="" width="443" height="247">
+ <br>&nbsp;
+      </li>
+
+      <li>         Right-click on the School
+Library and select "New Child". Notice that three kinds of objects
+can be created under a School Library: "Writer", "Book", and "School Book". "Writer" and "Book" are defined in the
+"library" package while "SchoolBook" is defined in the "schoollibrary" package.<br>
+        <img src="sl312.gif" alt="" width="328" height="215">
+
+        <br>&nbsp;
+      </li>
+
+      
+
+      
+
+      
+
+      <li>Create 
+a couple "Writer" objects, a "Book" object and a "School Book" object. Notice
+that a "School Book" object inherits all the attributes of a "Book" object
+plus one extra attribute ("value") as we intended.<br>
+        <img src="sl313.gif" alt="" width="392" height="297">
+    <br>
+    <br>
+    <img src="sl314.gif" alt="" width="488" height="314">
+&nbsp;<br>
+    <br>
+    <br>
+</li><li>Save the model.<br>
+    <img src="sl315.gif" alt="" width="295" height="194">
+<br>&nbsp;
+      &nbsp;&nbsp;
+      <br>
+  </li>
+
+    
+</ul>
+
+<hr>
+    <a href="slibmod_main.html">Top</a>&nbsp;&nbsp;&nbsp;
+    <a href="slibmod_2.html">Previous: Generating the EMF Editor and the Editor</a>
+      &nbsp;&nbsp;&nbsp;
+    <a href="slibmod_4.html">Next: Modifying the Editor</a><br>
+
+<br>
+
+<br>
+
+<br>
+
+</body></html>

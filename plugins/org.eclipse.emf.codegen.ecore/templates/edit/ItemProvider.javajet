@@ -1,0 +1,289 @@
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" %>
+<%
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: ItemProvider.javajet,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+%>
+<%GenClass genClass = (GenClass)argument; GenPackage genPackage = genClass.getGenPackage(); GenModel genModel=genPackage.getGenModel();%>
+<%@ include file="../Header.javajet"%>
+package <%=genPackage.getProviderPackageName()%>;
+
+
+<%genModel.addImport("org.eclipse.emf.common.notify.AdapterFactory");%>
+<%genModel.addImport("org.eclipse.emf.common.notify.Notification");%>
+<%genModel.addImport("org.eclipse.emf.common.util.ResourceLocator");%>
+<%genModel.addImport("org.eclipse.emf.edit.provider.IEditingDomainItemProvider");%>
+<%genModel.addImport("org.eclipse.emf.edit.provider.IItemLabelProvider");%>
+<%genModel.addImport("org.eclipse.emf.edit.provider.IItemPropertySource");%>
+<%genModel.addImport("org.eclipse.emf.edit.provider.IStructuredItemContentProvider");%>
+<%genModel.addImport("org.eclipse.emf.edit.provider.ITreeItemContentProvider");%>
+<%genModel.addImport("java.util.List");%>
+<%genModel.markImportLocation(stringBuffer);%>
+
+/**
+ * This is the item provider adpater for a {@link <%=genClass.getQualifiedInterfaceName()%>} object.
+ * <!-- begin-user-doc -->
+ * <!-- end-user-doc -->
+ * @generated
+ */
+public class <%=genClass.getProviderClassName()%>
+	extends <%=genClass.getProviderBaseClassName() != null ? genClass.getProviderBaseClassName() : genModel.getImportedName("org.eclipse.emf.edit.provider.ItemProviderAdapter")%>
+	implements
+		IEditingDomainItemProvider,
+		IStructuredItemContentProvider,
+		ITreeItemContentProvider,
+		IItemLabelProvider,
+		IItemPropertySource
+{
+<%if (genModel.getCopyrightText() != null) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final <%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
+
+<%}%>
+	/**
+	 * This constructs an instance from a factory and a notifier.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <%=genClass.getProviderClassName()%>(AdapterFactory adapterFactory)
+	{
+		super(adapterFactory);
+	}
+
+	/**
+	 * This returns the property descriptors for the adapted class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public List getPropertyDescriptors(Object object)
+	{
+		if (itemPropertyDescriptors == null)
+		{
+			super.getPropertyDescriptors(object);
+
+<%for (Iterator i=genClass.getPropertyFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+			add<%=genFeature.getCapName()%>PropertyDescriptor(object);
+<%}%>
+		}
+		return itemPropertyDescriptors;
+	}
+
+<%for (Iterator i=genClass.getPropertyFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+	/**
+	 * This adds a property descriptor for the <%=genFeature.getFormattedName()%> feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void add<%=genFeature.getCapName()%>PropertyDescriptor(Object object)
+	{
+		itemPropertyDescriptors.add
+			(new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.ItemPropertyDescriptor")%>
+				(((<%=genModel.getImportedName("org.eclipse.emf.edit.provider.ComposeableAdapterFactory")%>)adapterFactory).getRootAdapterFactory(),
+				 getString("_UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_feature"),<%=genModel.getNonNLS()%>
+				 getString("_UI_PropertyDescriptor_description", "_UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_feature", "_UI_<%=genFeature.getGenClass().getName()%>_type"),<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%>
+				 <%=genFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genFeature.getFeatureAccessorName()%>(),
+<%if (genFeature.isReferenceType()) {%>
+				 <%=genFeature.getProperty() == GenPropertyKind.EDITABLE_LITERAL ? "true" : "false"%>));
+<%} else {%>
+				 <%=genFeature.getProperty() == GenPropertyKind.EDITABLE_LITERAL ? "true" : "false"%>,
+				 <%=genModel.getImportedName("org.eclipse.emf.edit.provider.ItemPropertyDescriptor")%>.<%=genFeature.getPropertyImageName()%>));
+<%}%>
+	}
+
+<%}%>
+<%if (!genClass.getChildrenFeatures().isEmpty()) {%>
+	/**
+	 * This specifies how to implement {@link #getChildren} 
+	 * and {@link org.eclipse.emf.edit.command.AddCommand} and {@link org.eclipse.emf.edit.command.RemoveCommand} 
+	 * support in {@link #createCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <%=genModel.getImportedName("java.util.Collection")%> getChildrenReferences(Object object)
+	{
+		if (childrenReferences == null)
+		{
+			super.getChildrenReferences(object);
+<%for (Iterator i=genClass.getChildrenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+			childrenReferences.add(<%=genFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genFeature.getFeatureAccessorName()%>());
+<%}%>
+		}
+		return childrenReferences;
+	}
+
+<%if (genClass.getChildrenFeatures().size() > 1) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected <%=genModel.getImportedName("org.eclipse.emf.ecore.EReference")%> getChildReference(Object object, Object child)
+	{
+		// Check the type of the specified child object and return the proper feature to use for
+		// adding (see {@link AddCommand}) it as a child.
+
+		return super.getChildReference(object, child);
+	}
+
+<%}%>
+<%}%>
+<%if (genClass.isImage()) {%>
+
+	/**
+	 * This returns <%=genClass.getName()%>.gif.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object getImage(Object object)
+	{
+		return getResourceLocator().getImage("full/obj16/<%=genClass.getName()%>");<%=genModel.getNonNLS()%>
+	}
+<%}%>
+
+	/**
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getText(Object object)
+	{
+<%if (genClass.isMapEntry()) {%>
+		<%=genClass.getImportedInterfaceName()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%>)object;
+		return "" + <%=genClass.getSafeUncapName()%>.getKey() + " -> " + <%=genClass.getSafeUncapName()%>.getValue();<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+<%} else if (genClass.getLabelFeature() != null) { GenFeature labelFeature = genClass.getLabelFeature();%>
+  <%if (labelFeature.isPrimitiveType()) {%>
+		<%=genClass.getImportedInterfaceName()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%>)object;
+		return getString("_UI_<%=genClass.getName()%>_type") + " " + <%=genClass.getSafeUncapName()%>.<%=genClass.getLabelFeature().getGetAccessor()%>();<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+  <%} else {%>
+    <%if (labelFeature.isStringType()) {%>
+		String label = ((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>();
+    <%} else {%>
+		<%=labelFeature.getImportedType()%> labelValue = ((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>();
+		String label = labelValue == null ? null : labelValue.toString();
+    <%}%>
+		return label == null || label.length() == 0 ?
+			getString("_UI_<%=genClass.getName()%>_type") :<%=genModel.getNonNLS()%>
+			getString("_UI_<%=genClass.getName()%>_type") + " " + label;<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+  <%}%>
+<%} else {%>
+		return getString("_UI_<%=genClass.getName()%>_type");<%=genModel.getNonNLS()%>
+<%}%>
+	}
+
+	/**
+	 * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void notifyChanged(Notification notification)
+	{
+<%if (!genClass.getNotifyFeatures().isEmpty()) {%>
+		switch (notification.getFeatureID(<%=genClass.getImportedInterfaceName()%>.class))
+		{
+<%for (Iterator i=genClass.getNotifyFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+			case <%=genClass.getQualifiedFeatureID(genFeature)%>:
+<%}%>
+			{
+				fireNotifyChanged(notification);
+				return;
+			}
+		}
+<%}%>
+		super.notifyChanged(notification);
+	}
+<%if (genModel.isCreationCommands()) {%>
+
+	/**
+	 * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s
+	 * describing all of the children that can be created under this object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void collectNewChildDescriptors(<%=genModel.getImportedName("java.util.Collection")%> newChildDescriptors, Object object)
+	{
+		super.collectNewChildDescriptors(newChildDescriptors, object);
+  <%for (Iterator i=genClass.getCrossPackageChildrenFeatures().iterator(); i.hasNext();) { GenFeature createFeature = (GenFeature)i.next();%>
+    <%for (Iterator c=genClass.getCrossPackageChildrenClasses(createFeature).iterator(); c.hasNext();) { GenClass createClass = (GenClass)c.next();%>
+
+		newChildDescriptors.add
+			(createChildParameter
+				(<%=createFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createFeature.getFeatureAccessorName()%>(),
+      <%if (createClass.isMapEntry()) { %>
+				 <%=createClass.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.create(<%=createClass.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createClass.getName()%>())));
+      <%} else {%>
+				 <%=createClass.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.create<%=createClass.getName()%>()));
+      <%}%>
+    <%}%>
+  <%}%>
+  <%for (Iterator i=genClass.getChildrenFeatures().iterator(); i.hasNext();) { GenFeature createFeature = (GenFeature)i.next();%>
+    <%for (Iterator c=genClass.getChildrenClasses(createFeature).iterator(); c.hasNext();) { GenClass createClass = (GenClass)c.next();%>
+
+		newChildDescriptors.add
+			(createChildParameter
+				(<%=createFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createFeature.getFeatureAccessorName()%>(),
+      <%if (createClass.isMapEntry()) { %>
+				 <%=createClass.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.create(<%=createClass.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createClass.getName()%>())));
+      <%} else {%>
+				 <%=createClass.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.create<%=createClass.getName()%>()));
+      <%}%>
+    <%}%>
+  <%}%>
+	}
+  <%if (!genClass.getSharedClassChildrenFeatures().isEmpty()) {%>
+
+	/**
+	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getCreateChildText(Object owner, Object feature, Object child, <%=genModel.getImportedName("java.util.Collection")%> selection)
+	{
+		boolean qualify =
+    <%for (Iterator i = genClass.getSharedClassChildrenFeatures().iterator(); i.hasNext();) { GenFeature createFeature = (GenFeature)i.next();%>
+			feature == <%=createFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createFeature.getFeatureAccessorName()%>()<%=i.hasNext() ? " ||" : ";"%>
+    <%}%>
+		return getString(
+			qualify ? "_UI_CreateChild_text2" : "_UI_CreateChild_text",<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+			new Object[] { getTypeText(child), getFeatureText(feature), getTypeText(owner) });
+	}
+  <%}%>
+<%}%>
+
+	/**
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ResourceLocator getResourceLocator()
+	{
+		return <%=genPackage.getImportedEditPluginClassName()%>.INSTANCE;
+	}
+}
+<%genModel.emitSortedImports();%>

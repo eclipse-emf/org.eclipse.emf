@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <title>Specifying Package Information in Rose</title>
+  </head>
+  <body>
+
+    <h2>Specifying Package Information in Rose</h2>
+
+    <p>When a Rational Rose class diagram is used as the source for EMF model
+    generation, there are a number of pieces of information about each package
+    that are not expressed in the UML, requiring the generator to infer them
+    from the package name.  Instead, it is preferable to store them directly
+    in the Rose model as model properties.</p>
+
+    <p>To show how this is done, we will use a slightly modified version of
+    the library model from the <cite>Generating an EMF Model</cite> tutorial: 
+    <a href="library.mdl">library.mdl</a>.</p>
+
+    <p>The model elements must belong to a package.  When the model is
+    converted to Ecore, if there are any elements that are not contained in a
+    package, a package will be created for them, and its properties will be
+    inferred from the name of the model.</p>
+
+    <ul>
+      <li>
+        Observe that all the elements of the library model are contained in
+        the "library" package.
+        <br>
+        <img src="rp01.gif" alt="Library package" width="241" height="206">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        The model elements are the same as in the previous tutorial.
+        <br>
+        <img src="rp02.gif" alt="Class diagrams" width="577" height="403">
+        <br>&nbsp;
+      </li>
+    </ul>
+
+    <p>Ecore's additional Rose model properties are defined in a property file,
+    "ecore.pty".  Before we can set them, we must add them to Rose's
+    vocabulary.</p>
+<!--[ Needed for web version until next build is posted...
+    <p>The property file is contained in the EMF Source package.  If you
+    have installed that package, you must locate the 
+    "src/org.eclipse.emf.ecore_1.0.1/emf.ecore.src.zip" archive under it,
+    and unzip it in place.  Then, the property file will be available in
+    the "src/org.eclipse.emf.ecore_1.0.1/model" subdirectory.  Otherwise,
+    it is available here to be saved to your workstation:
+    <a href="ecore.pty">ecore.pty</a>.</p>
+-->
+    
+    <ul>
+      <li>
+        From the "Tools" menu, select "Model Properties", and then "Add...".
+        <br>
+        <img src="rp03.gif" alt="Tools/Model Properties/Add..." width="246"
+          height="196">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        The property file is located in the "rose" subdirectory of the
+        "org.eclipse.emf.codegen.ecore" plugin.  Navigate to that directory,
+        select "ecore.pty", and click the "Open" button.
+        <br>
+        <img src="rp04.gif" alt="Update model properties from ecore.pty"
+          width="426" height="264">
+<!--[ Needed for web version until next build is posted...
+        Locate and select the "ecore.pty" file, and click the "Open" button.
+        <br>
+        <img src="rp07.gif" alt="Update model properties from ecore.pty"
+          width="426" height="264">
+-->
+        <br>&nbsp;
+      </li>
+    </ul>
+
+    <p>The Ecore package properties can now be edited.</p>
+
+    <ul>
+      <li>
+        Right-click the "library" package and select "Open Specification..."
+        from the pop-up menu.
+        <br>
+        <img src="rp05.gif" alt="Open Specification..." width="301"
+          height="165">
+        <br>&nbsp;
+      </li>
+
+      <li>
+        Switch to the "eCore" tab.  To change a property, simply click on the
+        "Value" column, and type the new text.  When finished setting
+        properties, click the "OK" button.
+        <br>
+        <img src="rp06.gif" alt="eCore properties" width="344" height="401">
+        <br>&nbsp;
+      </li>
+    </ul>
+
+    <p>The properties that can be set divide into two groups: properties of
+    the Ecore model itself, and properties of the GenModel that drives code
+    generation.</p>
+
+    <p>The Ecore properties are as follows:</p>
+
+    <blockquote>                   
+      <table cellpadding="8" cellspacing="0" border="0">
+        <tr>
+          <td valign="top">packageName</td>
+          <td valign="top">
+            The name of the Ecore package, if different from the Rose/UML
+            name.  If not set, the Rose package name, converted to lower
+            case, is used.
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">nsPrefix</td>
+          <td valign="top">
+            The namespace prefix for the package's
+            <a href="http://www.w3.org/TR/REC-xml-names/">XML namespace</a>,
+            used in a qualified name to select the package's namespace.  If
+            not set, the value of packageName is used.
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">nsURI</td>
+          <td valign="top">
+            The unique URI reference that indentifies the package's XML
+            namespace.  If not set, the value of nsPrefix, with "http:///"
+            prepended and ".xmi" appended, is used.
+          </td>
+        </tr>
+      </table>
+    </blockquote>
+
+    <p>The GenModel properties are as follows:</p>
+
+    <blockquote>                   
+      <table cellpadding="8" cellspacing="0" border="0">
+        <tr>
+          <td valign="top">prefix</td>
+          <td valign="top">
+            The prefix used in the names of generated package, factory,
+            switch, adapter factory (and more) classes for this package.
+            If not set, the value of packageName, with its first character
+            capitalized, is used.
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">basePackage</td>
+          <td valign="top">
+            The Java package of which the generated package is to be a
+            subpackage.  This allows code with globally unique package names
+            to be easily generated (without modeling empty, nested base
+            packages).  If not set, no default is used.
+          </td>
+        </tr>
+      </table>
+    </blockquote>
+
+    <p>In addition to these package properties, the Ecore property file
+    defines properties for classes, attributes, relations, and operations,
+    all of which can be found on the "eCore" tabs of their respective
+    Specification dialog boxes.  Feel free to experiment with them, or refer
+    to sections 3.1.1.4 through 3.1.1.7 of the <cite>EMF Users' Guide</cite>
+    for complete explanations.
+  </body>
+</html>

@@ -1,0 +1,2 @@
+-group "Ecore Edit"   org.eclipse.emf.ecore.provider
+-overview build/overview.html

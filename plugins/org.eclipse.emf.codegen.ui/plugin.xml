@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002-2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: plugin.xml,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+-->
+
+<plugin
+    name = "%pluginName"
+    id = "org.eclipse.emf.codegen.ui"
+    version = "2.0.0" 
+    provider-name = "%providerName"
+    class = "org.eclipse.emf.codegen.presentation.CodeGenUIPlugin">
+    
+  <requires>
+    <import plugin="org.eclipse.emf.codegen"/>
+    <import plugin="org.eclipse.core.resources"/>
+    <import plugin="org.eclipse.jdt.core"/>
+    <import plugin="org.eclipse.jdt.launching"/>
+    <import plugin="org.eclipse.ui"/>
+    <import plugin="org.eclipse.ui.ide"/>
+  </requires>
+
+  <runtime>
+    <library name="runtime/codegen.ui.jar">
+      <export name="*"/>
+      <packages prefixes="org.eclipse.emf.codegen.action,org.eclipse.emf.codegen.presentation"/>
+    </library>
+  </runtime>
+
+  <!-- Template Compiler pop-up menu action -->
+  <extension point="org.eclipse.ui.popupMenus">
+    <objectContribution 
+        id="compileTemplateContribution" 
+        objectClass="org.eclipse.core.resources.IFile" 
+        nameFilter="*.javajet">
+      <action 
+          id="compileTemplate" 
+          class="org.eclipse.emf.codegen.action.CompileTemplateAction" 
+          menuPath="additions" 
+          label="%_UI_CompileTemplate_label" 
+          enablesFor="*"/>
+      <!-- <filter name="nature" value="org.eclipse.emf.codegen.jet.IJETNature"/> -->
+    </objectContribution>
+  </extension>
+  
+  <!-- JET conversion wizard -->
+  <extension point="org.eclipse.ui.newWizards">
+    <category name="%_UI_JETDevelopment_label" id="org.eclipse.emf.codegen.ui.JETNewWizards">
+    </category>
+    <wizard
+          name="%_UI_JETConvertProject_label"
+          icon="icons/full/ctool16/ConvertToJETProjectWizard.gif"
+          category="org.eclipse.emf.codegen.ui.JETNewWizards"
+          class="org.eclipse.emf.codegen.presentation.ConvertToJETProjectWizard"
+          id="org.eclipse.emf.codegen.ui.ConvertToJETProjectWizard">
+       <description>%_UI_JETConvertProject_message</description>
+    </wizard>
+  </extension>
+
+  <!-- JET properties settings -->
+  <extension point="org.eclipse.ui.propertyPages">
+    <page
+        id="JETSettingsPropertiesPage"
+        name= "%_UI_JETSettings_label"
+        objectClass="org.eclipse.core.resources.IProject"
+        adaptable="true" 
+        class="org.eclipse.emf.codegen.presentation.JETPropertyPage">
+      <filter name="nature" value="org.eclipse.emf.codegen.jet.IJETNature"/>
+    </page>
+  </extension>
+
+</plugin>

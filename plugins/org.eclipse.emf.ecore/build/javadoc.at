@@ -1,0 +1,5 @@
+-group "Ecore Model"   org.eclipse.emf.ecore:org.eclipse.emf.ecore.impl
+-group "Ecore Utilities" org.eclipse.emf.ecore.util
+-group "Ecore Resources"  org.eclipse.emf.ecore.resource:org.eclipse.emf.ecore.resource.impl
+-group "Ecore Plugin" org.eclipse.emf.ecore.plugin
+-overview build/overview.html

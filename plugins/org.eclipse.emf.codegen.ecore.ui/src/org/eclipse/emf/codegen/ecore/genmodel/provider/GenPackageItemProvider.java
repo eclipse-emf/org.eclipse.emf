@@ -1,0 +1,264 @@
+/**
+ * <copyright> 
+ *
+ * Copyright (c) 2002-2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: GenPackageItemProvider.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ */
+package org.eclipse.emf.codegen.ecore.genmodel.provider;
+
+
+import java.util.Collection;
+import java.util.List;
+
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertySource;
+import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
+import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+
+
+/**
+ * This is the item provider adpater for a {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage} object.
+ * <!-- begin-user-doc -->
+ * <!-- end-user-doc -->
+ * @generated
+ */
+public class GenPackageItemProvider
+  extends GenBaseItemProvider
+  implements 
+    IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource
+{
+  /**
+   * This constructs an instance from a factory and a notifier.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public GenPackageItemProvider(AdapterFactory adapterFactory)
+  {
+    super(adapterFactory);
+  }
+
+  /**
+   * This returns the property descriptors for the adapted class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getPropertyDescriptors(Object object)
+  {
+    if (itemPropertyDescriptors == null)
+    {
+      super.getPropertyDescriptors(object);
+
+      addPrefixPropertyDescriptor(object);
+      addBasePackagePropertyDescriptor(object);
+      addResourcePropertyDescriptor(object);
+      addAdapterFactoryPropertyDescriptor(object);
+      addEcorePackagePropertyDescriptor(object);
+    }
+    return itemPropertyDescriptors;
+  }
+
+  /**
+   * This adds a property descriptor for the Prefix feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addPrefixPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new GenItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_GenPackage_prefix_feature"),
+         getString("_UI_GenPackage_prefix_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_Prefix(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_AllPropertyCategory")));
+  }
+
+  /**
+   * This adds a property descriptor for the Base Package feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addBasePackagePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new GenItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_GenPackage_basePackage_feature"),
+         getString("_UI_GenPackage_basePackage_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_BasePackage(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_AllPropertyCategory")));
+  }
+
+  /**
+   * This adds a property descriptor for the Resource feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addResourcePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new GenItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_GenPackage_resource_feature"),
+         getString("_UI_GenPackage_resource_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_Resource(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory")));
+  }
+
+  /**
+   * This adds a property descriptor for the Adapter Factory feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addAdapterFactoryPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new GenItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_GenPackage_adapterFactory_feature"),
+         getString("_UI_GenPackage_adapterFactory_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_AdapterFactory(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory")));
+  }
+
+  /**
+   * This adds a property descriptor for the Ecore Package feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addEcorePackagePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new GenItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_GenPackage_ecorePackage_feature"),
+         getString("_UI_GenPackage_ecorePackage_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_EcorePackage(),
+         false,
+         getString("_UI_EcorePropertyCategory")));
+  }
+
+  /**
+   * This specifies how to implement {@link #getChildren} and 
+   * {@link org.eclipse.emf.edit.command.AddCommand} and 
+   * {@link org.eclipse.emf.edit.command.RemoveCommand} support 
+   * in {@link #createCommand}.
+   */
+  public Collection getChildrenReferences(Object object)
+  {
+    if (childrenReferences == null)
+    {
+      super.getChildrenReferences(object);
+      childrenReferences.add(GenModelPackage.eINSTANCE.getGenPackage_NestedGenPackages());
+      childrenReferences.add(GenModelPackage.eINSTANCE.getGenPackage_GenClasses());
+      childrenReferences.add(GenModelPackage.eINSTANCE.getGenPackage_GenEnums());
+      childrenReferences.add(GenModelPackage.eINSTANCE.getGenPackage_GenDataTypes());
+    }
+    return childrenReferences;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected EReference getChildReference(Object object, Object child)
+  {
+    // Check the type of the specified child object and return the proper feature to use for
+    // adding (see {@link org.eclipse.emf.edit.command.AddCommand}) it as a child.
+
+    return super.getChildReference(object, child);
+  }
+
+
+  /**
+   */
+  public Object getImage(Object object)
+  {
+    GenPackage genPackage = (GenPackage)object;
+    return 
+      new UnderlayedImage
+        (getResourceLocator().getImage(genPackage.canGenerate() ? "full/obj16/EPackage" : "full/obj16/UsedGenPackage"));
+  }
+
+  /**
+   * This returns the label text for the adapted class.
+   */
+  public String getText(Object object)
+  {
+    GenPackage genPackage = (GenPackage)object;
+    return genPackage.getPrefix();
+  }
+
+  /**
+   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void notifyChanged(Notification notification)
+  {
+    switch (notification.getFeatureID(GenPackage.class))
+    {
+      case GenModelPackage.GEN_PACKAGE__PREFIX:
+      case GenModelPackage.GEN_PACKAGE__BASE_PACKAGE:
+      case GenModelPackage.GEN_PACKAGE__RESOURCE:
+      case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
+      case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
+      case GenModelPackage.GEN_PACKAGE__GEN_ENUMS:
+      case GenModelPackage.GEN_PACKAGE__GEN_DATA_TYPES:
+      case GenModelPackage.GEN_PACKAGE__GEN_CLASSES:
+      case GenModelPackage.GEN_PACKAGE__NESTED_GEN_PACKAGES:
+      {
+        fireNotifyChanged(notification);
+        return;
+      }
+    }
+    super.notifyChanged(notification);
+  }
+
+  /**
+   * Return the resource locator for this item provider's resources.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ResourceLocator getResourceLocator()
+  {
+    return GenModelEditPlugin.INSTANCE;
+  }
+}

@@ -1,0 +1,20 @@
+
+theWorkspace=workspace
+while [ "$1" != "" ]; do
+  case $1 in
+    -platform)  shift; theWorkspace=$1; shift;;
+    *)          arguments="$arguments $1"; shift;;
+  esac
+done
+
+
+$VABASE/jre/bin/java \
+  -Xmx900M \
+  -Djava.compiler=NONE \
+  -verify \
+  -cp $VABASE/startup.jar \
+  org.eclipse.core.launcher.Main \
+  -data $theWorkspace \
+  -application org.eclipse.emf.codegen.CodeGen \
+  $arguments 
+

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+<!-- ====================================================================== -->
+<!-- Define topics for the main guide                                       -->
+<!-- ====================================================================== -->
+<toc label="Release Notes">
+	<topic label="What's New in v2.0.0" href="references/news/whatsnew2.0.0.html"/>
+	<topic label="What's New in v1.1.1" href="references/news/whatsnew1.1.1.html"/>
+	<topic label="What's New in v1.1.0" href="references/news/whatsnew1.1.0.html"/>
+	<topic label="What's New in v1.0.2" href="references/news/whatsnew1.0.2.html"/>
+	<topic label="What's New in v1.0.1" href="references/news/whatsnew1.0.1.html"/>
+</toc>
