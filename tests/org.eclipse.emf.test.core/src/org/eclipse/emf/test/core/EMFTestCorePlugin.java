@@ -12,11 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EMFTestCorePlugin.java,v 1.8 2004/08/20 22:58:27 marcelop Exp $
+ * $Id: EMFTestCorePlugin.java,v 1.9 2004/08/24 21:21:50 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
@@ -26,6 +28,7 @@ public class EMFTestCorePlugin
 extends Plugin
 {
     private static EMFTestCorePlugin instance;
+    private static class Foo{};
     
     public EMFTestCorePlugin()
     {
@@ -38,16 +41,22 @@ extends Plugin
         return instance;
     }
 
-    public String getPluginDirectory()
+    public static String getPluginDirectory()
     {
-      try
+      if (getPlugin() != null)
       {
-        return new java.io.File(Platform.asLocalURL(getBundle().getEntry("/")).getFile()).toString();
+        try
+        {
+            return new java.io.File(Platform.asLocalURL(getPlugin().getBundle().getEntry("/")).getFile()).toString();
+        }
+        catch (IOException e)
+        {
+        }
       }
-      catch (IOException e)
-      {
-      }
-      return "";
+      URL url = new Foo().getClass().getResource(".");
+      String path = url.getPath();
+      path = path.substring(0, path.indexOf("org.eclipse.emf.test.core/") + "org.eclipse.emf.test.core/".length());
+      return new File(path).getAbsolutePath();
     }
     
     public static boolean areEqual(List list1, List list2)

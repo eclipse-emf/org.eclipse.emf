@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NamespaceTest.java,v 1.3 2004/08/11 15:55:52 marcelop Exp $
+ * $Id: NamespaceTest.java,v 1.4 2004/08/24 21:21:50 marcelop Exp $
  */
 
 package org.eclipse.emf.test.core.xmi;
@@ -39,7 +39,7 @@ import org.eclipse.emf.test.models.dbprice.DbpricePackage;
 public class NamespaceTest extends TestCase
 {
   
-  final static String BASE_XML_URI = EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/data/xml/";
+  final static String BASE_XML_URI = EMFTestCorePlugin.getPluginDirectory() + "/data/xml/";
   String file = null;
   ResourceSet rs; 
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.22 2004/08/11 15:55:52 marcelop Exp $
+ * $Id: BuildTests.java,v 1.23 2004/08/24 21:21:50 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -866,7 +866,7 @@ public class BuildTests extends TestCase
         file += "_other.txt";
     }
 
-    file = EMFTestCorePlugin.getPlugin().getPluginDirectory() + file;
+    file = EMFTestCorePlugin.getPluginDirectory() + file;
     if (new File(file).isFile())
     {
       return " -X " + file;

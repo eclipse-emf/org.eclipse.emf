@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SDOUtilProtectedGetTest.java,v 1.2 2004/08/11 15:55:52 marcelop Exp $
+ * $Id: SDOUtilProtectedGetTest.java,v 1.3 2004/08/24 21:21:50 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types;
 
@@ -128,9 +128,7 @@ public class SDOUtilProtectedGetTest extends TestCase
 
   public void testGetBoolean() throws Exception
   {
-    assertEquals(true, TypeConverter.getBoolean(new Boolean(true)));
     assertEquals(true, TypeConverter.getBoolean(Boolean.TRUE));
-    assertEquals(false, TypeConverter.getBoolean(new Boolean(false)));
     assertEquals(false, TypeConverter.getBoolean(Boolean.FALSE));
 
     assertEquals(true, TypeConverter.getBoolean(String.valueOf(true)));

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreTest.java,v 1.2 2004/08/11 15:55:52 marcelop Exp $
+ * $Id: XSD2EcoreTest.java,v 1.3 2004/08/24 21:21:50 marcelop Exp $
  */
 package org.eclipse.emf.test.core.xsdecore;
 
@@ -62,8 +62,8 @@ public class XSD2EcoreTest extends TestCase
   Vector ecorefiles;
 
   // base uri of the xsd and ecore files
-  final static String BASE_XSD_URI = EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/data/xsd/";
-  final static String BASE_ECORE_URI = EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/data/ecore/";
+  final static String BASE_XSD_URI = EMFTestCorePlugin.getPluginDirectory() + "/data/xsd/";
+  final static String BASE_ECORE_URI = EMFTestCorePlugin.getPluginDirectory() + "/data/ecore/";
 
   // to serialize .ecore files turn this on
   final static boolean SERIALISE_ECORE = false;
@@ -163,7 +163,7 @@ public class XSD2EcoreTest extends TestCase
         // fix resource URI
         EPackage ePackage = (EPackage)resource.getContents().get(0);
         String ecoreFileName = ePackage.getName() + ".ecore";
-        URI ecoreURI = URI.createFileURI(EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/data/xsd_ecore/" + ecoreFileName);
+        URI ecoreURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/data/xsd_ecore/" + ecoreFileName);
         Resource newResource = resourceSet.createResource(URI.createURI("*.ecore"));
         newResource.setURI(ecoreURI);
 

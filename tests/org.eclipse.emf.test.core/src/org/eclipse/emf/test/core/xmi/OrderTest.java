@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: OrderTest.java,v 1.2 2004/08/11 15:55:52 marcelop Exp $
+ * $Id: OrderTest.java,v 1.3 2004/08/24 21:21:50 marcelop Exp $
  */
 package org.eclipse.emf.test.core.xmi;
 
@@ -41,7 +41,7 @@ import org.eclipse.emf.test.models.movie.db.DbPackage;
  */
 public class OrderTest extends TestCase
 {
-  final static String BASE_XML_URI = EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/data/xml/";
+  final static String BASE_XML_URI = EMFTestCorePlugin.getPluginDirectory() + "/data/xml/";
 
   String inputXML;
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNameTest.java,v 1.2 2004/08/11 15:55:52 marcelop Exp $
+ * $Id: QNameTest.java,v 1.3 2004/08/24 21:21:50 marcelop Exp $
  */
 package org.eclipse.emf.test.core.xmi;
 
@@ -43,9 +43,9 @@ import org.eclipse.emf.test.models.qname.QnamePackage;
  */
 public class QNameTest extends TestCase
 {
-  final static String BASE_XML_URI = EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/data/xml/";
+  final static String BASE_XML_URI = EMFTestCorePlugin.getPluginDirectory() + "/data/xml/";
 
-  final static String BASE_XMI_URI = EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/data/xmi/";
+  final static String BASE_XMI_URI = EMFTestCorePlugin.getPluginDirectory() + "/data/xmi/";
 
   DocumentBuilder builder;
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.5 2004/08/17 15:59:41 marcelop Exp $
+ * $Id: SimpleModelTest.java,v 1.6 2004/08/24 21:21:50 marcelop Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -20,6 +20,8 @@ package org.eclipse.emf.test.core.dynamic;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+
+import org.eclipse.core.runtime.Platform;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -275,7 +277,7 @@ public class SimpleModelTest extends TestCase
     employeesList.add(employee1);
     employeesList.add(employee2);
 
-    URI departmentsURI = URI.createFileURI(EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/departments.xmi");
+    URI departmentsURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/departments.xmi");
     Resource departmentsResource = new XMIResourceFactoryImpl().createResource(departmentsURI);
     departmentsResource.getContents().add(department);
 
@@ -285,6 +287,11 @@ public class SimpleModelTest extends TestCase
 
     //Loading department in ResourceSet
     ResourceSet resourceSet = new ResourceSetImpl();
+    if (!Platform.isRunning())
+    {
+      resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+    }
+
     Resource loadedResource = resourceSet.getResource(departmentsURI, true);
     assertEquals(1, resourceSet.getResources().size());
     assertEquals(1, loadedResource.getContents().size());
@@ -325,21 +332,21 @@ public class SimpleModelTest extends TestCase
     EObject department = companyFactory.create(departmentClass);
     department.eSet(departmentName, "ACME1");
     List associateDepartmentsList = (List)department.eGet(associateDepartments);
-    URI departmentURI = URI.createFileURI(EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/department.xmi");
+    URI departmentURI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/department.xmi");
     Resource departmentResource = new XMIResourceFactoryImpl().createResource(departmentURI);
     departmentResource.getContents().add(department);
     
     EObject department1 = companyFactory.create(departmentClass);
     department1.eSet(departmentName, "ACME1");
     associateDepartmentsList.add(department1);
-    URI department1URI = URI.createFileURI(EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/department1.xmi");
+    URI department1URI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/department1.xmi");
     Resource department1Resource = new XMIResourceFactoryImpl().createResource(department1URI);
     department1Resource.getContents().add(department1);
     
     EObject department2 = companyFactory.create(departmentClass);
     department2.eSet(departmentName, "ACME2");
     associateDepartmentsList.add(department2);
-    URI department2URI = URI.createFileURI(EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/department2.xmi");
+    URI department2URI = URI.createFileURI(EMFTestCorePlugin.getPluginDirectory() + "/department2.xmi");
     Resource department2Resource = new XMIResourceFactoryImpl().createResource(department2URI);
     department2Resource.getContents().add(department2);
     
@@ -353,6 +360,11 @@ public class SimpleModelTest extends TestCase
     
     //Loading department into a resource set
     ResourceSet resourceSet = new ResourceSetImpl();
+    if (!Platform.isRunning())
+    {
+      resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+    }
+
     Resource loadedResource = resourceSet.getResource(departmentURI, true);
     assertEquals(1, loadedResource.getContents().size());
     assertTrue(loadedResource.getContents().get(0) instanceof EObject);
