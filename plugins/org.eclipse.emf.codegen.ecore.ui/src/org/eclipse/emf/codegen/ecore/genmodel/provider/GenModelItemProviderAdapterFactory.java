@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProviderAdapterFactory.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenModelItemProviderAdapterFactory.java,v 1.2 2004/10/24 21:55:30 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -27,6 +27,7 @@ import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
+import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -43,7 +44,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
  * <!-- end-user-doc -->
  * @generated
  */
-public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier
+public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable
 {
   /**
    * This keeps track of the root adapter factory that delegates to this adapter factory.
@@ -374,6 +375,24 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
     {
       parentAdapterFactory.fireNotifyChanged(notification);
     }
+  }
+
+  /**
+   * This disposes all of the item providers created by this factory. 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void dispose()
+  {
+    if (genModelItemProvider != null) genModelItemProvider.dispose();
+    if (genPackageItemProvider != null) genPackageItemProvider.dispose();
+    if (genClassItemProvider != null) genClassItemProvider.dispose();
+    if (genFeatureItemProvider != null) genFeatureItemProvider.dispose();
+    if (genEnumItemProvider != null) genEnumItemProvider.dispose();
+    if (genEnumLiteralItemProvider != null) genEnumLiteralItemProvider.dispose();
+    if (genDataTypeItemProvider != null) genDataTypeItemProvider.dispose();
+    if (genOperationItemProvider != null) genOperationItemProvider.dispose();
   }
 
 }
