@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.2 2004/03/31 14:54:39 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.3 2004/04/06 22:19:00 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -222,6 +222,30 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   }
 
   /**
+   * This creates an instance where the filter flags are specified, there is a
+   * a specifed category, and the cell editor is determined from the type of
+   * the structural feature.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      String displayName,
+      String description,
+      EStructuralFeature feature, 
+      boolean isSettable,
+      String category,
+      String [] filterFlags)
+  {
+    this.adapterFactory = adapterFactory;
+    this.itemDelegator = new ItemDelegator(adapterFactory);
+    this.displayName = displayName;
+    this.description = description;
+    this.feature = feature;
+    this.isSettable = isSettable;
+    this.category = category;
+    this.filterFlags = filterFlags;
+  }
+
+  /**
    * This creates an instance where the category and filter flags are empty 
    * and the cell editor is determined for the references.
    */
@@ -297,6 +321,32 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
     this.isSettable = isSettable;
     this.staticImage = staticImage;
     this.category = category;
+  }
+
+  /**
+   * This creates an instance where the filter flags are specified, there is a
+   * static image used and a specifed category, and the cell editor is
+   * determined from the type of the structural feature.
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      String displayName,
+      String description,
+      EStructuralFeature feature, 
+      boolean isSettable,
+      Object staticImage,
+      String category,
+      String [] filterFlags)
+  {
+    this.adapterFactory = adapterFactory;
+    this.itemDelegator = new ItemDelegator(adapterFactory);
+    this.displayName = displayName;
+    this.description = description;
+    this.feature = feature;
+    this.isSettable = isSettable;
+    this.staticImage = staticImage;
+    this.category = category;
+    this.filterFlags = filterFlags;
   }
 
   /**
