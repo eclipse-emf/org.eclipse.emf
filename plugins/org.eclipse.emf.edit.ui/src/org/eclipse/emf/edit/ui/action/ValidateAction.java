@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.3 2004/05/08 13:49:49 emerks Exp $
+ * $Id: ValidateAction.java,v 1.4 2004/05/08 21:19:23 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.edit.ui.action;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -28,14 +29,20 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.URI;
 
+
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 
@@ -52,18 +59,25 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
+import org.eclipse.swt.widgets.Shell;
+
 import org.eclipse.jface.action.Action;
 
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.Viewer;
 
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.IEditorPart;
+
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 import org.eclipse.ui.part.ISetSelectionTarget;
 
@@ -85,17 +99,78 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     setDescription(EMFEditUIPlugin.INSTANCE.getString("_UI_Validate_simple_description"));
   }
 
+  public void run()
+  {
+    final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+
+    WorkspaceModifyOperation operation =
+      new WorkspaceModifyOperation()
+      {
+        // This is the method that gets invoked when the operation runs.
+        //
+        protected void execute(final IProgressMonitor progressMonitor) throws CoreException
+        {
+          try
+          {
+            final Diagnostic diagnostic = validate(progressMonitor);
+            shell.getDisplay().asyncExec 
+              (new Runnable()
+               {
+                 public void run()
+                 {
+                   if (progressMonitor.isCanceled())
+                   {
+                     handleDiagnostic(Diagnostic.OK_INSTANCE);
+                   }
+                   else
+                   {
+                     handleDiagnostic(diagnostic);
+                   }
+                 }
+               });
+          }
+          finally
+          {
+            progressMonitor.done();
+          }
+        }
+      };
+
+    try
+    {
+      // This runs the operation, and shows progress.
+      // (It appears to be a bad thing to fork this onto another thread.)
+      //
+      new ProgressMonitorDialog(shell).run(true, true, operation);
+    }
+    catch (Exception exception)
+    {
+      EMFEditUIPlugin.INSTANCE.log(exception);
+    }
+  }
+
   /**
    * This simply execute the command.
    */
-  public void run()
+  protected Diagnostic validate(final IProgressMonitor progressMonitor)
   {
+    EObject eObject = (EObject)selectedObjects.iterator().next();
+    int count = 0;
+    for (Iterator i = ((EObject)selectedObjects.iterator().next()).eAllContents(); i.hasNext(); i.next())
+    {
+      ++count;
+    }
+
+    progressMonitor.beginTask("", count);
+
     final AdapterFactory adapterFactory = 
       domain instanceof AdapterFactoryEditingDomain ? ((AdapterFactoryEditingDomain)domain).getAdapterFactory() : null;
 
     Diagnostician diagnostician = 
       new Diagnostician()
       {
+        protected int threshold = 10;
+
         public String getObjectLabel(EObject eObject)
         {
           if (adapterFactory != null && !eObject.eIsProxy())
@@ -110,35 +185,42 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           return super.getObjectLabel(eObject);
         }
 
-/*
-        public String getFeatureLabel(EStructuralFeature eStructuralFeature)
+        public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map context)
         {
-          return eStructuralFeature.getName();
-        }
+         progressMonitor.worked(1);
+/*
+          try
+          {
+            if (progressMonitor.isCanceled())
+            {
+              return false;
+            }
+            Thread.sleep(100);
+          }
+          catch (Exception exception)
+          {
+          }
 */
+          return super.validate(eClass, eObject, diagnostics, context);
+        }
       };
 
-    Diagnostic diagnostic = diagnostician.validate((EObject)selectedObjects.iterator().next());
-    ErrorDialog.openError
-      (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-       EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_title"),
-       EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_message"),
-       BasicDiagnostic.toIStatus(diagnostic));
+    progressMonitor.setTaskName
+      (EMFEditUIPlugin.INSTANCE.getString("_UI_Validating_message", new Object [] {diagnostician.getObjectLabel(eObject)}));
 
-    if (!diagnostic.getChildren().isEmpty())
-    {
-      List data = ((Diagnostic)diagnostic.getChildren().get(0)).getData();
-      if (!data.isEmpty() && data.get(0) instanceof EObject)
-      {
-        Object part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
-        if (part instanceof ISetSelectionTarget)
-        {
-          ((ISetSelectionTarget)part).selectReveal(new StructuredSelection(data.get(0)));
-        }
-      }
-    }
+    return diagnostician.validate(eObject);
+  }
 
-    IFile file = getFile();
+  protected void handleDiagnostic(final Diagnostic diagnostic)
+  {
+    final IFile file = getFile();
+    final int result = 
+      ErrorDialog.openError
+        (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_title"),
+         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_message"),
+         BasicDiagnostic.toIStatus(diagnostic));
+
     try
     {
       file.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
@@ -147,11 +229,35 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     {
       EMFEditUIPlugin.INSTANCE.log(exception);
     }
-
-    for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
+  
+    if (result == Dialog.OK)
     {
-      Diagnostic childDiagnostic = (Diagnostic)i.next();
-      createMarkers(file, childDiagnostic);
+      if (!diagnostic.getChildren().isEmpty())
+      {
+        List data = ((Diagnostic)diagnostic.getChildren().get(0)).getData();
+        if (!data.isEmpty() && data.get(0) instanceof EObject)
+        {
+          Object part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
+          if (part instanceof ISetSelectionTarget)
+          {
+            ((ISetSelectionTarget)part).selectReveal(new StructuredSelection(data.get(0)));
+          }
+          else if (part instanceof IViewerProvider)
+          {
+            Viewer viewer = ((IViewerProvider)part).getViewer();
+            if (viewer != null)
+            {
+              viewer.setSelection(new StructuredSelection(data.get(0)), true);
+            }
+          }
+        }
+      }
+  
+      for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
+      {
+        Diagnostic childDiagnostic = (Diagnostic)i.next();
+        createMarkers(file, childDiagnostic);
+      }
     }
   }
 
