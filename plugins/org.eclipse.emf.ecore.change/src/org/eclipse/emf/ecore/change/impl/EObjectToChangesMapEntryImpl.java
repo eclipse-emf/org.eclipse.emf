@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryImpl.java,v 1.5 2004/08/11 21:18:49 elena Exp $
+ * $Id: EObjectToChangesMapEntryImpl.java,v 1.6 2004/08/12 13:50:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -96,7 +96,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
   {
     return ChangePackage.eINSTANCE.getEObjectToChangesMapEntry();
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -116,7 +116,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
     }
     return key;
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -145,7 +145,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
   {
     return key;
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
