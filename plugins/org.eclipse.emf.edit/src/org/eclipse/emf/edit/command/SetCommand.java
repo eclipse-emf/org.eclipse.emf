@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.2 2004/05/29 16:09:51 emerks Exp $
+ * $Id: SetCommand.java,v 1.3 2004/08/22 23:28:27 davidms Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -62,6 +62,9 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * instead will return a compound command (e.g., a {@link RemoveCommand} followed by an {@link AddCommand}
  * for the other end of the relation) which can be undone.
  * <p>
+ * When setting a containment (or container) feature, we always assume that the object that will be
+ * contained is not already in a container, but take no action in this class to ensure this is the case. 
+ * <p>
  * A set command is an {@link OverrideableCommand}.
  */
 public class SetCommand extends AbstractOverrideableCommand
@@ -71,6 +74,14 @@ public class SetCommand extends AbstractOverrideableCommand
    */
   public static Command create(EditingDomain domain, final Object owner, Object feature, Object value) 
   {
+    return create(domain, owner, feature, value, CommandParameter.NO_INDEX);
+  }
+
+  /**
+   * This creates a command to set the owner's feature to the specified value at the specified index.
+   */
+  public static Command create(EditingDomain domain, final Object owner, Object feature, Object value, int index) 
+  {
     // If the feature is a bi-directional reference with a multiplicity-many reverse, a composite reverse,
     // or a multiplicity-1 reverse that is already set (on value), then we'll switch things around and 
     // execute this command a little differently, because otherwise it's not undoable.
@@ -78,8 +89,11 @@ public class SetCommand extends AbstractOverrideableCommand
     if (owner instanceof EObject && ((EObject)owner).eClass().getEAllReferences().contains(feature))
     {
       EReference eReference = (EReference)feature;
-      if (eReference.isMany())
+      if (eReference.isMany() && index == CommandParameter.NO_INDEX)
       {
+        // We never directly set a multiplicity-many feature to a list directly.  Instead, we remove the old values
+        // values and insert the new values.
+        //
         CompoundCommand compound = 
           new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL, LABEL, DESCRIPTION)
           {
@@ -106,39 +120,82 @@ public class SetCommand extends AbstractOverrideableCommand
         EReference eOtherEnd = eReference.getEOpposite();
         if (eOtherEnd.isMany())
         {
-          Object oldValue = ((EObject)owner).eGet(eReference);
-          if (value == null) 
+          if (eReference.isMany())
           {
-            if (oldValue == null) 
-            { // (value == null) && (oldValue == null)
-              return domain.createCommand(SetCommand.class, new CommandParameter(owner, eReference, value));
-            }
-            else 
-            {  // (value == null) && (oldValue != null)
-              return RemoveCommand.create(domain, oldValue, eOtherEnd, Collections.singleton(owner));
+            // For a many-to-many association, the command can only be undoable if the value or owner is last in its
+            // respective list, since the undo will include an inverse add.  So, if the value is last, but the owner is
+            // not, we create an undoable compound command that removes from the opposite end and then inserts the new
+            // value.
+            //
+            EList list = (EList)((EObject)owner).eGet(eReference);
+            if (index == list.size() - 1)
+            {
+              EObject oldValue = (EObject)list.get(index);
+              EList oppositeList = (EList)oldValue.eGet(eOtherEnd);
+              if (oppositeList.get(oppositeList.size() - 1) != owner)
+              {
+                CompoundCommand compound = 
+                  new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL, LABEL, DESCRIPTION)
+                  {
+                    public Collection getAffectedObjects()
+                    {
+                      return Collections.singleton(owner);
+                    }
+                  };
+                compound.append(RemoveCommand.create(domain, oldValue, eOtherEnd, owner));
+                compound.append(AddCommand.create(domain, owner, feature, value));
+                return compound;
+              }
             }
           }
-          else 
-          { // ((value != null) 
-            Command addCommand = 
-              new CommandWrapper(AddCommand.create(domain, value, eOtherEnd, Collections.singleton(owner)))
-              {
-                public Collection getAffectedObjects()
-                {
-                  return Collections.singleton(owner);
-                }
-              };
-
-            if (oldValue == null) 
-            { // (value != null) && (oldValue == null)
-              return addCommand;
+          else
+          {
+            // For a 1-to-many association, doing the set as a remove and add from the other end will make it undoable.
+            // In particular, if there is an existing non-null value, we first need to remove it from the other end, so
+            // that it will be reinserted at the correct index on undo. 
+            //
+            Object oldValue = ((EObject)owner).eGet(eReference);
+            if (value == null) 
+            {
+              if (oldValue == null) 
+              { // (value == null) && (oldValue == null)
+                // A simple set will suffice.
+                //
+                return domain.createCommand(SetCommand.class, new CommandParameter(owner, eReference, value));
+              }
+              else 
+              { // (value == null) && (oldValue != null)
+                // Remove owner from the old value.
+                //
+                return RemoveCommand.create(domain, oldValue, eOtherEnd, Collections.singleton(owner));
+              }
             }
             else 
-            { // ((value != null) && (oldValue != null))
-              CompoundCommand compound = new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL, LABEL, DESCRIPTION);
-              compound.append(RemoveCommand.create(domain, oldValue, eOtherEnd, Collections.singleton(owner)));
-              compound.append(addCommand);
-              return compound;
+            { // ((value != null) 
+              Command addCommand = 
+                new CommandWrapper(AddCommand.create(domain, value, eOtherEnd, Collections.singleton(owner)))
+                {
+                  public Collection getAffectedObjects()
+                  {
+                    return Collections.singleton(owner);
+                  }
+                };
+  
+              if (oldValue == null) 
+              { // (value != null) && (oldValue == null)
+                // Add owner to new value.
+                //
+                return addCommand;
+              }
+              else 
+              { // ((value != null) && (oldValue != null))
+                // Need a compound command to remove owner from old value and add it to new value.
+                //
+                CompoundCommand compound = new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL, LABEL, DESCRIPTION);
+                compound.append(RemoveCommand.create(domain, oldValue, eOtherEnd, Collections.singleton(owner)));
+                compound.append(addCommand);
+                return compound;
+              }
             }
           }
         }
@@ -146,7 +203,7 @@ public class SetCommand extends AbstractOverrideableCommand
         {
           if (value != null)
           {
-            // For consistency, we always set container relations from the container end.
+            // For consistency, we always set 1-1 container relations from the container end.
             //
             return 
               new CommandWrapper(SetCommand.create(domain, value, eOtherEnd, owner))
@@ -164,6 +221,10 @@ public class SetCommand extends AbstractOverrideableCommand
         }
         else
         {
+          // For a many-to-1 or 1-to-1 association, if the opposite reference on the new value is already set to
+          // something, we need a compound command that first explicitly removes that reference, so that it will be
+          // restored in the undo.
+          //
           if (value instanceof EObject && ((EObject)value).eGet(eOtherEnd) != null)
           {
             CompoundCommand compound = 
@@ -174,14 +235,26 @@ public class SetCommand extends AbstractOverrideableCommand
                   return true;
                 }
               };
-            compound.append(domain.createCommand(SetCommand.class, new CommandParameter(value, eOtherEnd, null)));
-            compound.append(domain.createCommand(SetCommand.class, new CommandParameter(owner, eReference, value)));
+            if (eReference.isMany())
+            {
+              // For a many-to-1, we use SetCommand.create() to create the commmand to remove the opposite reference;
+              // a RemoveCommand on its opposite will actually result.
+              //
+              compound.append(SetCommand.create(domain, value, eOtherEnd, null));
+            }
+            else
+            {
+              // For a 1-to-1, we can directly create a SetCommand.
+              //
+              compound.append(domain.createCommand(SetCommand.class, new CommandParameter(value, eOtherEnd, null)));
+            }
+            compound.append(domain.createCommand(SetCommand.class, new CommandParameter(owner, eReference, value, index)));
             return compound;
           }
         }
       }
     }
-    return domain.createCommand(SetCommand.class, new CommandParameter(owner, feature, value));
+    return domain.createCommand(SetCommand.class, new CommandParameter(owner, feature, value, index));
   }
 
   /**
@@ -205,7 +278,13 @@ public class SetCommand extends AbstractOverrideableCommand
   protected EStructuralFeature feature;
 
   /**
-   * This is the value of to be set.
+   * If non-null, this is the list in which the command will set a value.
+   * If null, feature is single-valued or no index was specified.
+   */
+  protected EList ownerList;
+
+  /**
+   * This is the value to be set.
    */
   protected Object value;
 
@@ -213,6 +292,11 @@ public class SetCommand extends AbstractOverrideableCommand
    * This is the old value of the feature which must be restored during undo.
    */
   protected Object oldValue;
+
+  /**
+   * This is the position at which the object will be set.
+   */
+  protected int index;
 
   /**
    * This specified whether or not this command can be undone.
@@ -231,6 +315,27 @@ public class SetCommand extends AbstractOverrideableCommand
     this.owner = owner;
     this.feature = feature;
     this.value = value;
+    this.index = CommandParameter.NO_INDEX;
+  }
+
+  /**
+   * This constructs a primitive command to set the owner's feature to the specified value at the given index.
+   */
+  public SetCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value, int index)  
+  {
+    super(domain, LABEL, DESCRIPTION);
+
+    // Initialize all the fields from the command parameter.
+    //
+    this.owner = owner;
+    this.feature = feature;
+    this.value = value;
+    this.index = index;
+
+    if (index != CommandParameter.NO_INDEX)
+    {
+      ownerList = getOwnerList(owner, feature);
+    }
   }
 
   /**
@@ -250,7 +355,23 @@ public class SetCommand extends AbstractOverrideableCommand
   }
 
   /**
-   * This returns the value of to be set.
+   * If the command will set a single value in a list, this returns the list in which it will set; null otherwise.
+   */
+  public EList getOwnerList()
+  {
+    return ownerList;
+  }
+
+  /**
+   * This returns the position at which the objects will be added.
+   */
+  public int getIndex()
+  {
+    return index;
+  }
+
+  /**
+   * This returns the value to be set.
    */
   public Object getValue()
   {
@@ -293,9 +414,24 @@ public class SetCommand extends AbstractOverrideableCommand
         EAttribute eAttribute = (EAttribute)feature;
         EClassifier eType = eAttribute.getEType();
 
-        if (eAttribute.isMany())
+        if (ownerList != null)
         {
-          oldValue = new BasicEList((EList)owner.eGet(feature));
+          // Setting at an index. Make sure the index is valid and record the old value at it. 
+          //
+          if (index >= 0 && index < ownerList.size() && eType.isInstance(value))
+          {
+            oldValue = ownerList.get(index);
+            result = true;
+          }
+        }
+        else if (eAttribute.isMany())
+        {
+          // If the attribute is set, record it's old value.
+          //
+          if (owner.eIsSet(eAttribute))
+          {
+            oldValue = new BasicEList((EList)owner.eGet(feature));
+          }
 
           if (value == null)
           {
@@ -335,52 +471,66 @@ public class SetCommand extends AbstractOverrideableCommand
         //
         EReference eReference = (EReference)feature;
 
-        // Make sure it's a single-valued relation (multi-valued is not supported).
+        // Make sure we're only setting a single value -- either a value at a specified index in a multi-valued
+        // reference or just a single-valued reference is allowed.  Setting a whole multi-valued feature is not. 
         //
-        if (!eReference.isMany())
+        if (ownerList != null)
         {
-          // This just turns into the regular case, just like setting a String or Integer.
-          //
+          if (index >= 0 && index < ownerList.size() && eReference.getEType().isInstance(value))
+          {
+            oldValue = ownerList.get(index);
+            result = true;
+          }
+        }
+        else if (!eReference.isMany())
+        {
           oldValue = owner.eGet(feature);
 
-          // We want to make sure the object is of a type compatible with the type of the reference.
-          //
           if (value == null || eReference.getEType().isInstance(value))
           {
             result = true;
+          }
+        }
 
-            // Check to see if the container is being put into a contained object
-            //
-            if (eReference.isContainment())
+        // Make sure the container is not being put into a contained object.
+        //
+        if (result && eReference.isContainment())
+        {
+          for (EObject container = owner; container != null; container = container.eContainer())
+          {
+            if (value == container)
             {
-              for (EObject container = owner; container != null; container = container.eContainer())
-              {
-                if (value == container)
-                {
-                  result = false;
-                  break;
-                }
-              }
-            }
-
-            if (result)
-            {
-              // Setting a bi-direction relation may not be undoable.
-              //
-              if (eReference.getEOpposite() != null)
-              {
-                EReference eOtherEnd = eReference.getEOpposite();
-                if (eOtherEnd.isMany())
-                {
-                  canUndo = (oldValue == null);
-                }
-                else
-                {
-                  canUndo = (value == null || ((EObject)value).eGet(eOtherEnd) == null);
-                }
-              }
+              result = false;
+              break;
             }
           }
+        }
+
+        // Check whether the command is undoable.
+        //
+        if (result && eReference.getEOpposite() != null)
+        {
+          EReference eOtherEnd = eReference.getEOpposite();
+          if (eOtherEnd.isMany())
+          {
+            // If there is an existing value, the opposite reference is multi-valued, and the owner is not last in that
+            // opposite reference, then executing the set will remove the owner from its position in the list, and
+            // undoing would add it back at the end, failing to preserve the order.
+            //
+            if (oldValue != null)
+            {
+              EList oppositeList = (EList)((EObject)oldValue).eGet(eOtherEnd);
+              canUndo = oppositeList.get(oppositeList.size() - 1) == owner;
+            }
+          }
+          else
+          {
+            // If the new value is non-null and the opposite reference is single-valued, then the set will clear that
+            // opposite reference, and undoing would not restore it.
+            //
+            canUndo = (value == null || ((EObject)value).eGet(eOtherEnd) == null);
+          }
+
         }
       }
     }
@@ -392,7 +542,11 @@ public class SetCommand extends AbstractOverrideableCommand
   {
     // Either set or unset the feature.
     //
-    if (value == null)
+    if (ownerList != null)
+    {
+      ownerList.set(index, value);
+    }
+    else if (value == null)
     {
       owner.eUnset(feature);
     }
@@ -411,7 +565,11 @@ public class SetCommand extends AbstractOverrideableCommand
   {
     // Either set or unset the old value.
     //
-    if (oldValue == null)
+    if (ownerList != null)
+    {
+      ownerList.set(index, oldValue);
+    }
+    else if (oldValue == null)
     {
       owner.eUnset(feature);
     }
@@ -423,9 +581,13 @@ public class SetCommand extends AbstractOverrideableCommand
 
   public void doRedo() 
   {
-    // Either set or unset the old value.
+    // Either set or unset the feature.
     //
-    if (value == null)
+    if (ownerList != null)
+    {
+      ownerList.set(index, value);
+    }
+    else if (value == null)
     {
       owner.eUnset(feature);
     }
@@ -454,6 +616,11 @@ public class SetCommand extends AbstractOverrideableCommand
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (owner: " + owner + ")");
     result.append(" (feature: " + feature + ")");
+    if (ownerList != null)
+    {
+      result.append(" (ownerList: " + ownerList + ")");
+      result.append(" (index: " + index + ")");
+    }
     result.append(" (value: " + value + ")");
     result.append(" (oldValue: " + oldValue + ")");
 
