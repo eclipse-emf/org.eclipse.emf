@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.10 2004/06/18 09:11:23 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.11 2004/07/28 16:39:30 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -1313,6 +1313,7 @@ public class JavaEcoreBuilder
         catch (NumberFormatException exception)
         {
           CodeGenEcorePlugin.INSTANCE.log(exception);
+          eEnumLiteral.setValue(eEnum.getELiterals().size());
         }
       }
       else
