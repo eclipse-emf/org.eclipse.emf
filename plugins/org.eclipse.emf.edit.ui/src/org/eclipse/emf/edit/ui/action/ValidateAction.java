@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.7 2004/06/19 20:50:35 emerks Exp $
+ * $Id: ValidateAction.java,v 1.8 2004/10/13 20:25:42 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -34,6 +34,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -190,7 +191,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
                {
                  if (progressMonitor.isCanceled())
                  {
-                   handleDiagnostic(Diagnostic.OK_INSTANCE);
+                   handleDiagnostic(Diagnostic.CANCEL_INSTANCE);
                  }
                  else
                  {
@@ -288,6 +289,15 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
   protected void handleDiagnostic(final Diagnostic diagnostic)
   {
+    if (diagnostic.getSeverity() == Diagnostic.OK)
+    {
+      MessageDialog.openInformation
+        (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationOK_title"),
+         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationOK_message"));
+      return;
+    }
+
     final int result = 
       ErrorDialog.openError
         (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
