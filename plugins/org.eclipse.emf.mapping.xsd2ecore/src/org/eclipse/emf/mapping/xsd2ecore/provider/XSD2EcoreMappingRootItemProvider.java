@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreMappingRootItemProvider.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSD2EcoreMappingRootItemProvider.java,v 1.2 2004/03/12 23:36:34 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.provider;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.mapping.provider.MappingRootItemProvider;
 import org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePlugin;
 
+// import org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMappingRoot;
 
 /**
  * This is the item provider adpater for a {@link org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMappingRoot} object.
@@ -68,6 +69,7 @@ public class XSD2EcoreMappingRootItemProvider
     }
     return itemPropertyDescriptors;
   }
+
 
   /**
    * This returns the label text for the adapted class.

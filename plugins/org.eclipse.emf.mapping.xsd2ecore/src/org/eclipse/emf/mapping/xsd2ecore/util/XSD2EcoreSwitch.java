@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreSwitch.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSD2EcoreSwitch.java,v 1.2 2004/03/12 23:36:34 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.util;
 
@@ -20,8 +20,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.mapping.Mapping;
 import org.eclipse.emf.mapping.MappingRoot;
-import org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMappingRoot;
-import org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePackage;
+import org.eclipse.emf.mapping.xsd2ecore.*;
+
 
 /**
  * <!-- begin-user-doc -->

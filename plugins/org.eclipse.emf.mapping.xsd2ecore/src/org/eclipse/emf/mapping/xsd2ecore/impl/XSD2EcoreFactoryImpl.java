@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreFactoryImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSD2EcoreFactoryImpl.java,v 1.2 2004/03/12 23:36:34 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
@@ -20,9 +20,7 @@ package org.eclipse.emf.mapping.xsd2ecore.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreFactory;
-import org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMappingRoot;
-import org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePackage;
+import org.eclipse.emf.mapping.xsd2ecore.*;
 
 
 /**
@@ -83,11 +81,11 @@ public class XSD2EcoreFactoryImpl extends EFactoryImpl implements XSD2EcoreFacto
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @deprecated
    * @generated
    */
   public static XSD2EcorePackage getPackage()
   {
     return XSD2EcorePackage.eINSTANCE;
   }
-
 } //XSD2EcoreFactoryImpl
