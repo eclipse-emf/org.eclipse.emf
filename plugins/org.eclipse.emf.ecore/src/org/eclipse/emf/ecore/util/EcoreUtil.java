@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.16 2005/02/08 18:29:37 bportier Exp $
+ * $Id: EcoreUtil.java,v 1.17 2005/02/15 15:50:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1157,10 +1157,13 @@ public class EcoreUtil
       for (EContentsEList.FeatureIterator crossReferences = getCrossReferences(internalEObject); crossReferences.hasNext();)
       {
         EObject crossReferencedEObject = (EObject)crossReferences.next();
-        EReference eReference = (EReference)crossReferences.feature();
-        if (crossReference(internalEObject, eReference, crossReferencedEObject))
+        if (crossReferencedEObject != null)
         {
-          getCollection(crossReferencedEObject).add(internalEObject.eSetting(eReference));
+          EReference eReference = (EReference)crossReferences.feature();
+          if (crossReference(internalEObject, eReference, crossReferencedEObject))
+          {
+            getCollection(crossReferencedEObject).add(internalEObject.eSetting(eReference));
+          }
         }
       }
     }
