@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Plugin Javadoc" default="javadoc">
+	<property name="destDir" value="doc"/>
+	<property name="classpath" value="bin"/>
+	<property name="overview" value="build/overview.html"/>
+	
+	<target name="javadoc">
+		<javadoc 
+			destdir="${destDir}" 
+			classpath="${classpath}"
+			overview="${overview}"
+
+			windowtitle="XSD Javadoc"
+			footer="Copyright 2001-2003 IBM Corporation and others.&lt;br&gt; All Rights Reserved."
+
+			docencoding="UTF-8"
+			charset="UTF-8"
+			breakiterator="true"
+			access="protected" 
+			use="true" 
+			notree="false" 
+			nonavbar="false" 
+			noindex="false" 
+			splitindex="true" 
+			author="true" 
+			version="true" 
+			nodeprecatedlist="false" 
+			nodeprecated="false">
+				<arg value="-J-Xmx180m"/>
+				<link href="http://java.sun.com/j2se/1.4.2/docs/api"/>
+				
+				<tag name="ignore" description="ignore" enabled="false"/>
+				<tag name="generated" description="ignore" enabled="false"/>
+				<tag name="model" description="ignore" enabled="false"/>
+				<tag name="modifiable" description="ignore" enabled="false"/>
+				<tag name="extends" description="ignore" enabled="false"/>
+				<tag name="implements" description="ignore" enabled="false"/>
+				<tag name="ordered" description="ignore" enabled="false"/>
+				
+				<group title="XML Schema Model API"                       packages="org.eclipse.xsd:org.eclipse.xsd.util"/>
+				<group title="XML Schema Model Implementation"            packages="org.eclipse.xsd.impl:org.eclipse.xsd.impl.type"/>
+				<group title="XML Schema Model To Ecore Model Conversion" packages="org.eclipse.xsd.ecore"/>
+				<group title="XML Schema Model Edit"                      packages="org.eclipse.xsd.provider"/>
+				<group title="XML Schema Model Editor"                    packages="org.eclipse.xsd.presentation"/>
+				<group title="XSD to Ecore Mapping Model"                 packages="org.eclipse.emf.mapping.xsd2ecore:org.eclipse.emf.mapping.xsd2ecore.impl:org.eclipse.emf.mapping.xsd2ecore.util"/>
+				<group title="XSD to Ecore Mapping Edit"                  packages="org.eclipse.emf.mapping.xsd2ecore.provider"/>
+				<group title="XSD to Ecore Mapping Editor"                packages="org.eclipse.emf.mapping.xsd2ecore.presentation"/>
+
+@packagesets@
+				
+		</javadoc>
+	</target>
+</project>

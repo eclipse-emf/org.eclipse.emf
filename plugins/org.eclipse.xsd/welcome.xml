@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<welcomePage 
+	title="XML Schema Infoset Model (XSD)">
+
+<intro>
+The XSD Infoset Model is a reference library for use with any code that
+examines, creates or modifies XML Schemas (standalone or as part of
+other artifacts, such as XForms or WSDL documents).
+</intro>
+
+<item><b>Learn More</b>
+	This is the official site of XSD: <topic href="http://www.eclipse.org/xsd">http://www.eclipse.org/xsd</topic>
+</item>
+
+</welcomePage>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- XML Schema schema for magic parts of XML Schemas -->
+<xs:schema targetNamespace="http://www.w3.org/2001/XMLSchema" blockDefault="#all" elementFormDefault="qualified" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xml:lang="EN">
+
+  <xs:annotation>
+    <xs:documentation>
+      This defines two magic types, 
+      namely anyType, the simple type definition almost equivalent to the ur-type definition,
+      and anySimpleType, the base type of all built-in datatypes.
+    </xs:documentation>
+  </xs:annotation>
+ 
+  <xs:simpleType name="anyType" id="anyType">
+    <xs:restriction base="xs:anyType">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="anySimpleType" id="anySimpleType">
+    <xs:restriction base="xs:anyType">
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

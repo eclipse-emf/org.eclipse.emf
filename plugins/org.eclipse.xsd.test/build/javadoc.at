@@ -1,0 +1,2 @@
+-group "XML Schema Model Test" org.eclipse.xsd.test
+-overview build/overview.html

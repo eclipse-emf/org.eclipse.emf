@@ -1,0 +1,99 @@
+
+(object Petal
+    version    	42
+    _written   	"Rose 4.5.8163.3"
+    charSet    	0)
+
+(object Class_Category "xsd2ecore"
+    is_unit    	TRUE
+    is_loaded  	TRUE
+    attributes 	(list Attribute_Set
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"prefix"
+	    value      	"XSD2Ecore")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"basePackage"
+	    value      	"org.eclipse.emf.mapping")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"nsPrefix"
+	    value      	"xsd2ecore")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"nsURI"
+	    value      	"http://www.eclipse.org/emf/2002/XSD2Ecore"))
+    quid       	"3D9E0D68011C"
+    exportControl 	"Public"
+    logical_models 	(list unit_reference_list
+	(object Class "XSD2EcoreMappingRoot"
+	    quid       	"3D9E0DC4033E"
+	    superclasses 	(list inheritance_relationship_list
+		(object Inheritance_Relationship
+		    quid       	"3D9E0DD3010E"
+		    supplier   	"Logical View::mapping::MappingRoot"
+		    quidu      	"38BEA7F701B6"))))
+    logical_presentations 	(list unit_reference_list
+	(object ClassDiagram "XSD to Ecore Hierarchy"
+	    quid       	"3D9E0D780290"
+	    title      	"XSD to Ecore Hierarchy"
+	    zoom       	100
+	    max_height 	28350
+	    max_width  	21600
+	    origin_x   	0
+	    origin_y   	0
+	    items      	(list diagram_item_list
+		(object ClassView "Class" "Logical View::mapping::MappingRoot" @1
+		    ShowCompartmentStereotypes 	TRUE
+		    SuppressAttribute 	TRUE
+		    SuppressOperation 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(384, 176)
+		    label      	(object ItemLabel
+			Parent_View 	@1
+			location   	(248, 126)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	272
+			justify    	0
+			label      	"MappingRoot")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"38BEA7F701B6"
+		    width      	290
+		    height     	124
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object ClassView "Class" "Logical View::xsd2ecore::XSD2EcoreMappingRoot" @2
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(432, 784)
+		    label      	(object ItemLabel
+			Parent_View 	@2
+			location   	(194, 733)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	476
+			justify    	0
+			label      	"XSD2EcoreMappingRoot")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"3D9E0DC4033E"
+		    width      	494
+		    height     	126
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object InheritView "" @3
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"3D9E0DD3010E"
+		    client     	@2
+		    supplier   	@1
+		    line_style 	3
+		    origin_attachment 	(381, 721)
+		    terminal_attachment 	(381, 238))))))

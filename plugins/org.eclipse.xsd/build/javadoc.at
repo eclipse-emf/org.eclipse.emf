@@ -1,0 +1,5 @@
+-group "XML Schema Model API" org.eclipse.xsd:org.eclipse.xsd.util
+-group "XML Schema Model Implementation" org.eclipse.xsd.impl:org.eclipse.xsd.impl.type
+-group "XML Schema Model To Ecore Model Conversion" org.eclipse.xsd.ecore
+-overview build/overview.html
+-footer "Copyright 2002-2003 IBM Corporation and others.<br> All Rights Reserved."

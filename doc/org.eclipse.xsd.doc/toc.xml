@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<!-- ====================================================================== -->
+<!-- Define the top level topics                                            -->
+<!-- ====================================================================== -->
+
+<toc label="XSD Documentation">
+	<topic label="XML Schema Infoset Model FAQ" href="doc/faq/FAQ.html"/>
+	<topic label="Article: Analyzing XML schemas with the Schema Infoset Model" href="doc/articles/dwtip1-scpw/index.html"/>
+	<topic label="Diagrams and Animations" href="doc/diagrams/diagrams.html"/>
+	<topic label="Javadoc" href="references/javadoc/index.html"/>
+</toc>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- XML Schema schema for XML Schema instance -->
+<xs:schema targetNamespace="http://www.w3.org/2001/XMLSchema-instance" blockDefault="#all" elementFormDefault="qualified" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xml:lang="EN">
+
+  <xs:annotation>
+    <xs:documentation>
+      This provides XML Schema instance declarations.
+    </xs:documentation>
+  </xs:annotation>
+ 
+  <xs:attribute name="type" type="xs:QName" id="type"/>
+  <xs:attribute name="nil" type="xs:boolean" id="nil"/>
+  <xs:attribute name="schemaLocation" id="schemaLocation">
+    <xs:simpleType>
+      <xs:list itemType="xs:anyURI">
+      </xs:list>
+    </xs:simpleType>
+  </xs:attribute>
+  <xs:attribute name="noNamespaceSchemaLocation" type="xs:anyURI" id="noNamespaceSchemaLocation"/>
+
+</xs:schema>

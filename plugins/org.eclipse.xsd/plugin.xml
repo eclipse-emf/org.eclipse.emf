@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002-2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: plugin.xml,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ */
+-->
+
+<plugin
+    name = "%pluginName"
+    id = "org.eclipse.xsd"
+    version = "2.0.0"
+    provider-name = "%providerName"
+    class = "org.eclipse.xsd.XSDPlugin$Implementation">
+
+  <requires>
+    <import plugin="org.eclipse.emf.ecore" export="true"/>
+    <import plugin="org.eclipse.core.resources"/>
+  </requires>
+
+  <runtime>
+    <library name="runtime/xsd.jar">
+      <export name="*"/>
+      <packages prefixes="org.eclipse.xsd"/>
+    </library>
+  </runtime>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+        uri = "http://www.eclipse.org/xsd/2002/XSD" 
+        class = "org.eclipse.xsd.XSDPackage" />
+  </extension>
+
+  <extension point = "org.eclipse.emf.ecore.extension_parser">
+    <parser type="xsd" class="org.eclipse.xsd.util.XSDResourceFactoryImpl"/>
+  </extension>
+
+<extension
+      id="diagnostic"
+      name="%_UI_XMLSchemaDiagnostic_marker"
+      point="org.eclipse.core.resources.markers">
+   <super
+         type="org.eclipse.core.resources.problemmarker">
+   </super>
+   <persistent
+         value="true">
+   </persistent>
+   <attribute
+         name="diagnostic">
+   </attribute>
+</extension>
+
+</plugin>
+

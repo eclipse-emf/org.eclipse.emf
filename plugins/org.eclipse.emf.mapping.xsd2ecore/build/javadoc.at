@@ -1,0 +1,2 @@
+-group "XSD to Ecore Mapping Model"  org.eclipse.emf.mapping.xsd2ecore:org.eclipse.emf.mapping.xsd2ecore.impl:org.eclipse.emf.mapping.xsd2ecore.util
+-group "XSD to Ecore Mapping Edit"  org.eclipse.emf.mapping.xsd2ecore.provider
