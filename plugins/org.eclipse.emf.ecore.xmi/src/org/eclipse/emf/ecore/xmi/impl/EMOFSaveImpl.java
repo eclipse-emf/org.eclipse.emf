@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFSaveImpl.java,v 1.2 2004/03/15 15:00:52 marcelop Exp $
+ * $Id: EMOFSaveImpl.java,v 1.3 2005/01/26 18:42:06 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -133,6 +133,16 @@ public class EMOFSaveImpl extends XMISaveImpl
     {
       super.saveDataTypeElementSingle(o, f);
     }
+  }
+
+  protected String getDatatypeValue(Object value, EStructuralFeature f)
+  {
+    String result = super.getDatatypeValue(value, f);
+    if (f == EcorePackage.eINSTANCE.getETypedElement_UpperBound() && "-1".equals(result))
+    {
+      result = "*";
+    } 
+    return result;
   }
 
   protected void saveExtensionFeature(EObject o, EStructuralFeature f)

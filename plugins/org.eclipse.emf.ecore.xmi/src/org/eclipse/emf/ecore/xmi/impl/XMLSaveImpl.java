@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.25 2005/01/25 18:45:01 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.26 2005/01/26 18:42:06 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2536,7 +2536,7 @@ public class XMLSaveImpl implements XMLSave
     }
   }
 
-  private String getDatatypeValue (Object value, EStructuralFeature f)
+  protected String getDatatypeValue(Object value, EStructuralFeature f)
   {
     if (value == null) 
     {

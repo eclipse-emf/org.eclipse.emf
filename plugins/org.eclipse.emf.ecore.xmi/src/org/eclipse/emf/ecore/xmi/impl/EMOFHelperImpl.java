@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.2 2004/05/22 19:07:43 marcelop Exp $
+ * $Id: EMOFHelperImpl.java,v 1.3 2005/01/26 18:42:06 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EContentsEList;
@@ -65,6 +66,10 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     if (feature == EcorePackage.eINSTANCE.getEStructuralFeature_Changeable())
     {
       ((EStructuralFeature)object).setChangeable(Boolean.FALSE.toString().equals(value)); // Ecore.changeable = !EMOF.isReadOnly
+    }
+    else if (feature == EcorePackage.eINSTANCE.getETypedElement_UpperBound() && "*".equals(value))
+    {
+      ((ETypedElement)object).setUpperBound(-1);
     }
     else
     {
