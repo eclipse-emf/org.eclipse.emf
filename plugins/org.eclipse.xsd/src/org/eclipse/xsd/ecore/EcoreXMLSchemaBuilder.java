@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreXMLSchemaBuilder.java,v 1.4 2005/01/17 22:40:18 elena Exp $
+ * $Id: EcoreXMLSchemaBuilder.java,v 1.5 2005/01/24 16:51:57 elena Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -407,13 +407,16 @@ public class EcoreXMLSchemaBuilder extends MapBuilder
   {
     List features = new ArrayList();
     List superClasses = eClass.getESuperTypes();
-
+    
     for (int i = 0; i < superClasses.size(); i++)
       if (!classesToIgnore.contains(superClasses.get(i)))
         features.addAll(getAllFeatures((EClass)superClasses.get(i), classesToIgnore));
 
     features.addAll(eClass.getEAttributes());
     features.addAll(eClass.getEReferences());
+    
+    // the class has been processed and should be ignored if seen again in the hierarchy
+    classesToIgnore.add(eClass);
     return features;
   }
 
