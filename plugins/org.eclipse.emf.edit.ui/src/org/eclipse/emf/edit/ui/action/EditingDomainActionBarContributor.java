@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainActionBarContributor.java,v 1.3 2004/04/19 20:45:27 emerks Exp $
+ * $Id: EditingDomainActionBarContributor.java,v 1.4 2004/05/05 19:29:30 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -101,6 +101,11 @@ public class EditingDomainActionBarContributor
    * This is the action used to load a resource.
    */
   protected LoadResourceAction loadResourceAction;
+
+  /**
+   * This is the action used to perform validation.
+   */
+  protected ValidateAction validateAction;
 
   /**
    * This creates an instance the contributor.
@@ -235,6 +240,12 @@ public class EditingDomainActionBarContributor
     selectionProvider.removeSelectionChangedListener(cutAction);
     selectionProvider.removeSelectionChangedListener(copyAction);
     selectionProvider.removeSelectionChangedListener(pasteAction);
+
+    if (validateAction != null)
+    {
+      validateAction.setActiveEditor(null);
+      selectionProvider.removeSelectionChangedListener(validateAction);
+    }
   }
 
   public void activate()
@@ -262,6 +273,12 @@ public class EditingDomainActionBarContributor
     selectionProvider.addSelectionChangedListener(copyAction);
     selectionProvider.addSelectionChangedListener(pasteAction);
 
+    if (validateAction != null)
+    {
+      validateAction.setActiveEditor(activeEditor);
+      selectionProvider.addSelectionChangedListener(validateAction);
+    }
+
     update();
   }
 
@@ -286,6 +303,11 @@ public class EditingDomainActionBarContributor
     {
       loadResourceAction.update();
     }
+
+    if (validateAction != null)
+    {
+      validateAction.updateSelection(structuredSelection);
+    }
   }
 
   /**
@@ -309,6 +331,12 @@ public class EditingDomainActionBarContributor
     menuManager.add(new Separator());
     menuManager.add(new ActionContributionItem(deleteAction));
     menuManager.add(new Separator());
+
+    if (validateAction != null)
+    {
+      menuManager.add(new ActionContributionItem(validateAction));
+      menuManager.add(new Separator());
+    }
 
     if (loadResourceAction != null)
     {
