@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHandler.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EMOFHandler.java,v 1.2 2004/06/01 18:18:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -75,7 +75,7 @@ public class EMOFHandler extends SAXXMIHandler
   {
     if (EMOFExtendedMetaData.EXTENSION.equals(localName) && XMIResource.XMI_URI.equals(helper.getURI(prefix)))
     {
-      if (attribs != null && EcorePackage.eNS_URI.equals(attribs.getValue("", EMOFExtendedMetaData.XMI_EXTENDER_ATTRIBUTE)))
+      if (attribs != null && EcorePackage.eNS_URI.equals(attribs.getValue(EMOFExtendedMetaData.XMI_EXTENDER_ATTRIBUTE)))
       {
         types.push(ECORE_EXTENSION_TYPE);
       }
@@ -96,6 +96,8 @@ public class EMOFHandler extends SAXXMIHandler
     {
       elements.pop();
       types.pop();
+      helper.popContext();
+      mixedTargets.pop();
     }
     else
     {
