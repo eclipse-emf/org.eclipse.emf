@@ -12,10 +12,15 @@
  *
  * </copyright>
  *
- * $Id: EMFTestSDOPlugin.java,v 1.2 2004/11/03 23:30:47 marcelop Exp $
+ * $Id: EMFTestSDOPlugin.java,v 1.3 2004/12/19 04:02:21 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 
 public class EMFTestSDOPlugin 
@@ -34,4 +39,22 @@ extends Plugin
     {
         return instance;
     }
+    
+    public static String getPluginDirectory()
+    {
+      if (getPlugin() != null)
+      {
+        try
+        {
+            return new java.io.File(Platform.asLocalURL(getPlugin().getBundle().getEntry("/")).getFile()).toString();
+        }
+        catch (IOException e)
+        {
+        }
+      }
+      URL url = new Foo().getClass().getResource(".");
+      String path = url.getPath();
+      path = path.substring(0, path.indexOf("org.eclipse.emf.test.sdo/") + "org.eclipse.emf.test.sdo/".length());
+      return new File(path).getAbsolutePath();
+    }    
 }
