@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceChangeImpl.java,v 1.2 2004/06/13 11:53:35 emerks Exp $
+ * $Id: ResourceChangeImpl.java,v 1.3 2004/11/08 18:06:32 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -199,7 +199,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
   public void setResource(Resource newResource)
   {
     setResourceGen(newResource);
-    setResourceURI(newResource.getURI().toString());
+    setResourceURI(newResource.getURI() == null ? null : newResource.getURI().toString());
   }
 
   /**
