@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.4 2004/06/19 18:33:59 emerks Exp $
+ * $Id: ChangePackageImpl.java,v 1.5 2004/07/20 16:18:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -138,10 +138,10 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    */
   public static ChangePackage init()
   {
-    if (isInited) return (ChangePackage)EPackage.Registry.INSTANCE.get(ChangePackage.eNS_URI);
+    if (isInited) return (ChangePackage)EPackage.Registry.INSTANCE.getEPackage(ChangePackage.eNS_URI);
 
     // Obtain or create and register package
-    ChangePackageImpl theChangePackage = (ChangePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ChangePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ChangePackageImpl());
+    ChangePackageImpl theChangePackage = (ChangePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof ChangePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new ChangePackageImpl());
 
     isInited = true;
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingPackageImpl.java,v 1.4 2004/06/19 18:34:08 emerks Exp $
+ * $Id: MappingPackageImpl.java,v 1.5 2004/07/20 16:18:49 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -151,10 +151,10 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    */
   public static MappingPackage init()
   {
-    if (isInited) return (MappingPackage)EPackage.Registry.INSTANCE.get(MappingPackage.eNS_URI);
+    if (isInited) return (MappingPackage)EPackage.Registry.INSTANCE.getEPackage(MappingPackage.eNS_URI);
 
     // Obtain or create and register package
-    MappingPackageImpl theMappingPackage = (MappingPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof MappingPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new MappingPackageImpl());
+    MappingPackageImpl theMappingPackage = (MappingPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof MappingPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new MappingPackageImpl());
 
     isInited = true;
 

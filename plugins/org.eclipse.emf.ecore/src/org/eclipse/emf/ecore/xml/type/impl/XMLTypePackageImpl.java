@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.9 2004/06/19 18:34:15 emerks Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.10 2004/07/20 16:18:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -524,10 +524,10 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    */
   public static XMLTypePackage init()
   {
-    if (isInited) return (XMLTypePackage)EPackage.Registry.INSTANCE.get(XMLTypePackage.eNS_URI);
+    if (isInited) return (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 
     // Obtain or create and register package
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XMLTypePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XMLTypePackageImpl());
+    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof XMLTypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new XMLTypePackageImpl());
 
     isInited = true;
 

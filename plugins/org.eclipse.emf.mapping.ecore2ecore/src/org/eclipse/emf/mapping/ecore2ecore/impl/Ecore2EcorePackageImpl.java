@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcorePackageImpl.java,v 1.4 2004/06/17 11:03:06 emerks Exp $
+ * $Id: Ecore2EcorePackageImpl.java,v 1.5 2004/07/20 16:18:15 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
@@ -94,10 +94,10 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
    */
   public static Ecore2EcorePackage init()
   {
-    if (isInited) return (Ecore2EcorePackage)EPackage.Registry.INSTANCE.get(Ecore2EcorePackage.eNS_URI);
+    if (isInited) return (Ecore2EcorePackage)EPackage.Registry.INSTANCE.getEPackage(Ecore2EcorePackage.eNS_URI);
 
     // Obtain or create and register package
-    Ecore2EcorePackageImpl theEcore2EcorePackage = (Ecore2EcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof Ecore2EcorePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new Ecore2EcorePackageImpl());
+    Ecore2EcorePackageImpl theEcore2EcorePackage = (Ecore2EcorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof Ecore2EcorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new Ecore2EcorePackageImpl());
 
     isInited = true;
 

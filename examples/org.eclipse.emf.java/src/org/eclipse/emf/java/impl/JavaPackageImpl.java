@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackageImpl.java,v 1.3 2004/06/19 18:34:06 emerks Exp $
+ * $Id: JavaPackageImpl.java,v 1.4 2004/07/20 16:18:44 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -213,10 +213,10 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    */
   public static JavaPackage init()
   {
-    if (isInited) return (JavaPackage)EPackage.Registry.INSTANCE.get(JavaPackage.eNS_URI);
+    if (isInited) return (JavaPackage)EPackage.Registry.INSTANCE.getEPackage(JavaPackage.eNS_URI);
 
     // Obtain or create and register package
-    JavaPackageImpl theJavaPackage = (JavaPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof JavaPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new JavaPackageImpl());
+    JavaPackageImpl theJavaPackage = (JavaPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof JavaPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new JavaPackageImpl());
 
     isInited = true;
 
