@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.7 2004/10/25 17:08:08 elena Exp $
+ * $Id: EFactoryImpl.java,v 1.5.2.1 2005/02/01 19:32:41 nickb Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
+import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -387,8 +388,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     {
       formatException = e;
     }
-    String exceptionString = (formatException != null) ? formatException.toString() : "";
-    throw new IllegalArgumentException("The value '" + stringValue + "' is invalid. " + exceptionString);
+    throw new IllegalArgumentException(formatException.toString());
   }
 
   /**
@@ -473,13 +473,31 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     return XMLTypeUtil.normalize(value, true);
   }
 
+  private static class SafeSimpleDateFormat extends SimpleDateFormat
+  {
+    public SafeSimpleDateFormat(String pattern)
+    {
+      super(pattern);
+    }
+    
+    public synchronized Date parse(String source) throws ParseException
+    {
+      return super.parse(source);
+    }
+    
+    public synchronized StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition)
+    {
+      return super.format(date, toAppendTo, fieldPosition);
+    }
+  }
+  
   protected static final DateFormat [] EDATE_FORMATS = 
   {
-    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSSZ"),
-    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS"),
-    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
-    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"),
-    new SimpleDateFormat("yyyy-MM-dd")
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSSZ"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm"),
+    new SafeSimpleDateFormat("yyyy-MM-dd")
   };
 
   /**
