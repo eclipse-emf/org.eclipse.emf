@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.2 2004/04/22 16:47:41 emerks Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.3 2004/05/27 20:21:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -254,7 +254,7 @@ public abstract class DelegatingEcoreEList
 
         if (isNotificationRequired())
         {
-          owner.eNotify(createNotification(Notification.RESOLVE, object, resolved, index));
+          owner.eNotify(createNotification(Notification.RESOLVE, object, resolved, index, false));
         }
 
         return resolved;
