@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.6 2005/02/22 11:59:00 emerks Exp $
+ * $Id: JETEmitter.java,v 1.7 2005/02/22 15:54:48 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -586,7 +586,7 @@ public class JETEmitter
                            IResource.ALLOW_MISSING_LOCAL, 
                            new NullProgressMonitor());
                       }
-                      folder.refreshLocal(IProject.DEPTH_INFINITE, new NullProgressMonitor());
+                      folder.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
                       path = folder.getFullPath();
                       
                       break;
