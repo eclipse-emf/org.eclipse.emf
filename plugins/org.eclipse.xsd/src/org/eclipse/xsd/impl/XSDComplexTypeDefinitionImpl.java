@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.5 2004/09/28 14:36:44 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.6 2004/10/07 12:15:37 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -989,7 +989,7 @@ public class XSDComplexTypeDefinitionImpl
   {
     super.patch();
     XSDTypeDefinition theBaseTypeDefinition = getBaseTypeDefinition();
-    if (theBaseTypeDefinition != null && theBaseTypeDefinition.getContainer() == null)
+    if (theBaseTypeDefinition != null && (forceResolve || theBaseTypeDefinition.getContainer() == null))
     {
       theBaseTypeDefinition = resolveTypeDefinition(theBaseTypeDefinition.getTargetNamespace(), theBaseTypeDefinition.getName());
     }

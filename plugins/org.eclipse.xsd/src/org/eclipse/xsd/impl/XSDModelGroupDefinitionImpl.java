@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.4 2004/08/11 15:08:55 marcelop Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.5 2004/10/07 12:15:37 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -176,7 +176,7 @@ public class XSDModelGroupDefinitionImpl
     super.patch();
     XSDModelGroupDefinition theResolvedModelGroupDefinition = getResolvedModelGroupDefinition();
 
-    if (theResolvedModelGroupDefinition != this && theResolvedModelGroupDefinition.getContainer() == null)
+    if (theResolvedModelGroupDefinition != this && (forceResolve || theResolvedModelGroupDefinition.getContainer() == null))
     {
       XSDModelGroupDefinition newResolvedModelGroupDefinition =
         resolveModelGroupDefinition(theResolvedModelGroupDefinition.getTargetNamespace(), theResolvedModelGroupDefinition.getName());

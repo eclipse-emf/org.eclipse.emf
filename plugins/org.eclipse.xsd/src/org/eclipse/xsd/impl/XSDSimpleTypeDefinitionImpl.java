@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.4 2004/09/29 14:44:27 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.5 2004/10/07 12:17:04 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -637,7 +637,7 @@ public class XSDSimpleTypeDefinitionImpl
     if (!(getContainer() instanceof XSDComplexTypeDefinition))
     {
       XSDSimpleTypeDefinition theBaseTypeDefinition = getBaseTypeDefinition();
-      if (theBaseTypeDefinition != null && theBaseTypeDefinition.getContainer() == null)
+      if (theBaseTypeDefinition != null && (forceResolve || theBaseTypeDefinition.getContainer() == null))
       {
         theBaseTypeDefinition = resolveSimpleTypeDefinition(theBaseTypeDefinition.getTargetNamespace(), theBaseTypeDefinition.getName());
       }
@@ -647,7 +647,7 @@ public class XSDSimpleTypeDefinitionImpl
         XSDSimpleTypeDefinition theItemTypeDefinition = getItemTypeDefinition();
         if (theItemTypeDefinition != null)
         {
-          if (theItemTypeDefinition.getContainer() == null)
+          if (forceResolve || theItemTypeDefinition.getContainer() == null)
           {
             XSDSimpleTypeDefinition newItemTypeDefinition = 
               resolveSimpleTypeDefinition(theItemTypeDefinition.getTargetNamespace(), theItemTypeDefinition.getName());
@@ -662,7 +662,7 @@ public class XSDSimpleTypeDefinitionImpl
           for (ListIterator theMemberTypeDefinitions = getMemberTypeDefinitions().listIterator(); theMemberTypeDefinitions.hasNext(); )
           {
             XSDSimpleTypeDefinition theMemberTypeDefinition = (XSDSimpleTypeDefinition)theMemberTypeDefinitions.next();
-            if (theMemberTypeDefinition.getContainer() == null)
+            if (forceResolve || theMemberTypeDefinition.getContainer() == null)
             {
               XSDSimpleTypeDefinition newMemberTypeDefinition = 
                 resolveSimpleTypeDefinition(theMemberTypeDefinition.getTargetNamespace(), theMemberTypeDefinition.getName());
