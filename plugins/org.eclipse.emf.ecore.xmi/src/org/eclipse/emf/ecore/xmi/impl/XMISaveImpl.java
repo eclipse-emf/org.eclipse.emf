@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMISaveImpl.java,v 1.2 2004/03/15 15:00:52 marcelop Exp $
+ * $Id: XMISaveImpl.java,v 1.3 2004/04/18 23:17:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -54,6 +54,7 @@ public class XMISaveImpl extends XMLSaveImpl
   {
     super.init(resource, options);
     this.xmiType = Boolean.TRUE.equals(options.get(XMIResource.OPTION_USE_XMI_TYPE));
+    helper.getPrefixToNamespaceMap().put(XMIResource.XMI_NS, XMIResource.XMI_URI);
   }
 
   public Object writeTopObjects(List contents)
