@@ -11,7 +11,7 @@ public class ItemProvider
   protected final String TEXT_3 = "Id";
   protected final String TEXT_4 = NL + " */" + NL + "package ";
   protected final String TEXT_5 = ";" + NL + NL;
-  protected final String TEXT_6 = NL + NL + "/**" + NL + " * This is the item provider adpater for a {@link ";
+  protected final String TEXT_6 = NL + NL + "/**" + NL + " * This is the item provider adapter for a {@link ";
   protected final String TEXT_7 = "} object." + NL + " * <!-- begin-user-doc -->" + NL + " * <!-- end-user-doc -->" + NL + " * @generated" + NL + " */" + NL + "public class ";
   protected final String TEXT_8 = NL + "\textends ";
   protected final String TEXT_9 = NL + "\timplements" + NL + "\t\tIEditingDomainItemProvider," + NL + "\t\tIStructuredItemContentProvider," + NL + "\t\tITreeItemContentProvider," + NL + "\t\tIItemLabelProvider," + NL + "\t\tIItemPropertySource" + NL + "{";
@@ -189,7 +189,7 @@ public class ItemProvider
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
