@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGeneratorTask.java,v 1.3 2005/02/01 18:30:52 marcelop Exp $
+ * $Id: XSDGeneratorTask.java,v 1.4 2005/02/10 22:11:51 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -79,7 +79,7 @@ public class XSDGeneratorTask extends GeneratorTask
   {
     private File file;
     private String uri;
-    
+
     public File getFile()
     {
       return file;
@@ -89,20 +89,20 @@ public class XSDGeneratorTask extends GeneratorTask
     {
       this.file = file;
     }
-    
+
     public String getUri()
     {
       return uri;
     }
-    
+
     public void setUri(String uri)
     {
       this.uri = uri;
     }
   }
-  
+
   private List models;
-  
+
   public Model createModel()
   {
     Model model = new Model();
@@ -113,7 +113,7 @@ public class XSDGeneratorTask extends GeneratorTask
     models.add(model);
     return model;
   }
-  
+
   protected void checkAttributes() throws BuildException
   {
     if (models != null)
@@ -122,17 +122,18 @@ public class XSDGeneratorTask extends GeneratorTask
       for (Iterator i = models.iterator(); i.hasNext();)
       {
         Model model = (Model)i.next();
-        assertTrue("Either the 'file' or the 'uri' attributes of a 'model' element must be specified.", model.getFile() != null || model.getUri() != null);
+        assertTrue("Either the 'file' or the 'uri' attributes of a 'model' element must be specified.", model.getFile() != null
+          || model.getUri() != null);
       }
     }
-    
+
     super.checkAttributes();
   }
-  
+
   protected void addGenModelArguments()
   {
     super.addGenModelArguments();
-    
+
     if (models != null)
     {
       for (Iterator i = models.iterator(); i.hasNext();)
@@ -143,7 +144,7 @@ public class XSDGeneratorTask extends GeneratorTask
       }
     }
   }
-  
+
   protected void createGenModel(String[] arguments) throws Exception
   {
     new XSD2GenModel().execute(getProgressMonitor(), arguments);

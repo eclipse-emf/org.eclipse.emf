@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,10 +12,9 @@
  *
  * </copyright>
  *
- * $Id: JETEmitterTask.java,v 1.1 2004/12/30 08:15:34 marcelop Exp $
+ * $Id: JETEmitterTask.java,v 1.2 2005/02/10 22:11:51 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -112,7 +111,7 @@ public class JETEmitterTask extends EMFTask
   {
     this.templateFile = templateFile;
   }
-  
+
   public void setTemplateURI(String templateURI)
   {
     this.templateURI = templateURI;
@@ -138,7 +137,7 @@ public class JETEmitterTask extends EMFTask
     variables.add(variable);
     return variable;
   }
-  
+
   public void setArgument(Object argument)
   {
     this.argument = argument;
@@ -148,7 +147,7 @@ public class JETEmitterTask extends EMFTask
   {
     this.argumentClass = argumentClass;
   }
-  
+
   protected void checkAttributes() throws BuildException
   {
     assertTrue("Either 'templateURI' or 'templateFile' must be specified.", templateURI != null || templateFile != null);
@@ -177,7 +176,7 @@ public class JETEmitterTask extends EMFTask
         emitter.addVariable(variable.getName(), variable.getPluginID());
       }
     }
-          
+
     return emitter;
   }
 
@@ -186,17 +185,17 @@ public class JETEmitterTask extends EMFTask
     Object[] arguments = null;
     if (argument != null)
     {
-      arguments = argument instanceof Object[] ? (Object[])argument : new Object[]{argument};
+      arguments = argument instanceof Object[] ? (Object[])argument : new Object []{ argument };
     }
     else if (argumentClass != null)
     {
-      arguments = new Object[]{argumentClass.newInstance()};
+      arguments = new Object []{ argumentClass.newInstance() };
     }
     else
     {
-      arguments = new Object[1];
+      arguments = new Object [1];
     }
-    
+
     String result = emitter.generate(getProgressMonitor(), arguments);
     Util.writeFile(newFile, result);
   }

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTask.java,v 1.1 2004/12/30 08:15:34 marcelop Exp $
+ * $Id: EMFTask.java,v 1.2 2005/02/10 22:11:51 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs;
 
@@ -45,12 +45,12 @@ public abstract class EMFTask extends Task
       throw new BuildException(message);
     }
   }
-  
+
   protected IProgressMonitor getProgressMonitor()
   {
     try
     {
-      IProgressMonitor progressMonitor = (IProgressMonitor) getProject().getReferences().get(AntCorePlugin.ECLIPSE_PROGRESS_MONITOR);
+      IProgressMonitor progressMonitor = (IProgressMonitor)getProject().getReferences().get(AntCorePlugin.ECLIPSE_PROGRESS_MONITOR);
       if (progressMonitor != null)
       {
         return progressMonitor;
@@ -58,13 +58,10 @@ public abstract class EMFTask extends Task
     }
     catch (Exception e)
     {
-    }    
+    }
     return new NullProgressMonitor();
   }
 
-  /* (non-Javadoc)
-   * @see org.apache.tools.ant.Task#execute()
-   */
   public final void execute() throws BuildException
   {
     checkAttributes();
@@ -75,7 +72,14 @@ public abstract class EMFTask extends Task
     }
     catch (Exception e)
     {
-      throw new BuildException(e);
+      if (e instanceof BuildException)
+      {
+        throw (BuildException)e;
+      }
+      else
+      {
+        throw new BuildException(e);
+      }
     }
   }
 

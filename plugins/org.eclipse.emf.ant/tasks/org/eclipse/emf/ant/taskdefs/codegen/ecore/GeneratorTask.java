@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.3 2005/02/01 18:30:52 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.4 2005/02/10 22:11:51 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Commandline;
+import org.apache.tools.ant.types.EnumeratedAttribute;
 
 import org.eclipse.emf.ant.taskdefs.EMFTask;
 import org.eclipse.emf.codegen.ecore.Generator;
@@ -39,6 +40,18 @@ import org.eclipse.emf.codegen.ecore.Generator;
  */
 public abstract class GeneratorTask extends EMFTask
 {
+  public static class ReconcileGenModelType extends EnumeratedAttribute
+  {
+    public String[] getValues()
+    {
+      return new String []{ "overwrite", "keep", "reload" };
+    }
+  }
+
+  private static final int GENMODEL_OVERWRITE = 0;
+  private static final int GENMODEL_KEEP = 1;
+  private static final int GENMODEL_RELOAD = 2;
+
   private File model;
   private File genModel;
   private File modelProject;
@@ -47,6 +60,9 @@ public abstract class GeneratorTask extends EMFTask
   private File templatePath;
   private String copyright;
   private boolean sdo = false;
+
+  private int reconcileGenModel = GENMODEL_OVERWRITE;
+  private boolean generateJavaCode = true;
 
   protected Commandline commandline;
   protected boolean useModelAttribute = true;
@@ -98,7 +114,30 @@ public abstract class GeneratorTask extends EMFTask
   {
     this.sdo = sdo;
   }
-  
+
+  public void setReconcileGenModel(ReconcileGenModelType type)
+  {
+    String value = type.getValue();
+    if ("overwrite".equals(value))
+    {
+      reconcileGenModel = GENMODEL_OVERWRITE;
+    }
+    else if ("keep".equals(value))
+    {
+      reconcileGenModel = GENMODEL_KEEP;
+    }
+    else if ("reload".equals(value))
+    {
+      reconcileGenModel = GENMODEL_RELOAD;
+      throw new UnsupportedOperationException("'genModelAction=\"reload\"' is not supported yet.");
+    }
+  }
+
+  public void setGenerateJavaCode(boolean generateJavaCode)
+  {
+    this.generateJavaCode = generateJavaCode;
+  }
+
   protected Commandline getCommandline()
   {
     if (commandline == null)
@@ -107,14 +146,14 @@ public abstract class GeneratorTask extends EMFTask
     }
     return commandline;
   }
-  
+
   protected void checkAttributes() throws BuildException
   {
     if (useModelAttribute)
     {
       assertTrue("The 'model' attribute must be specified.", model != null);
     }
-    
+
     assertTrue("The 'genModel' attribute must be specified.", genModel != null);
     assertTrue("The 'modelProject' attribute must be specified.", modelProject != null);
     assertTrue("The specifed 'templatePath' attribute is not a valid directory.", templatePath == null || templatePath.isDirectory());
@@ -122,12 +161,24 @@ public abstract class GeneratorTask extends EMFTask
 
   protected void doExecute() throws Exception
   {
-    addGenModelArguments();
-    adjustEditAndEditorProjects();
-    createGenModel(getCommandline().getArguments());
-    
-    List arguments = getGeneratorArguments();
-    generateCodeFromGenModel((String[])arguments.toArray(new String [arguments.size()]));
+    switch (reconcileGenModel)
+    {
+      case GENMODEL_KEEP: {
+        if (genModel.exists())
+          break;
+      }
+      case GENMODEL_OVERWRITE: {
+        addGenModelArguments();
+        adjustEditAndEditorProjects();
+        createGenModel(getCommandline().getArguments());
+      }
+    }
+
+    if (generateJavaCode)
+    {
+      List arguments = getGeneratorArguments();
+      generateCodeFromGenModel((String[])arguments.toArray(new String [arguments.size()]));
+    }
   }
 
   abstract protected void createGenModel(String[] arguments) throws Exception;
@@ -139,7 +190,7 @@ public abstract class GeneratorTask extends EMFTask
     {
       getCommandline().createArgument(true).setValue(model.getAbsolutePath());
     }
-    
+
     getCommandline().createArgument().setValue("-modelProject");
     getCommandline().createArgument().setValue(modelProject.getAbsolutePath());
     if (modelProjectFragmentPath != null)
@@ -152,12 +203,12 @@ public abstract class GeneratorTask extends EMFTask
       getCommandline().createArgument().setValue("-templatePath");
       getCommandline().createArgument().setValue(templatePath.getAbsolutePath());
     }
-    
+
     if (modelPluginID != null)
     {
       getCommandline().createArgument().setValue("-modelPluginID");
       getCommandline().createArgument().setValue(modelPluginID);
-    }    
+    }
 
     if (copyright != null)
     {
@@ -170,7 +221,7 @@ public abstract class GeneratorTask extends EMFTask
       getCommandline().createArgument().setValue("-sdo");
     }
   }
-  
+
   protected void adjustEditAndEditorProjects()
   {
     String arguments = getCommandline().toString();
@@ -184,7 +235,7 @@ public abstract class GeneratorTask extends EMFTask
         getCommandline().createArgument().setValue(modelProjectFragmentPath);
       }
     }
-    
+
     if (arguments.indexOf("-editorProject") < 0)
     {
       generateEditorProject = false;
@@ -196,14 +247,17 @@ public abstract class GeneratorTask extends EMFTask
       }
     }
   }
-  
+
   protected List getGeneratorArguments()
   {
     List arguments = new ArrayList();
 
-    if (generateModelProject) arguments.add("-model");
-    if (generateEditProject) arguments.add("-edit");
-    if (generateEditorProject) arguments.add("-editor");
+    if (generateModelProject)
+      arguments.add("-model");
+    if (generateEditProject)
+      arguments.add("-edit");
+    if (generateEditorProject)
+      arguments.add("-editor");
 
     arguments.add(genModel.getAbsolutePath());
     return arguments;

@@ -1,10 +1,10 @@
-<%@ jet package="jetTest" imports="java.util.Random" class="SimpleGen" version="$Id: simple.javajet,v 1.1 2004/12/30 08:15:34 marcelop Exp $"%>
+<%@ jet package="jetTest" class="SimpleGen" version="$Id: simple.javajet,v 1.2 2005/02/10 22:11:51 marcelop Exp $"%>
 public class Simple
 {
 	public void main(String[] args)
 	{
 <%for (int i=1; i <= 20; i++) {%>
-		System.out.println("One number lower than " + <%=i%> + ": " + <%=new Random().nextInt(i)%>);
+		System.out.println("The number " + <%=i%> + " is <%=i%2==0?"even":"odd"%>");
 <%}%>
 	}
 }
