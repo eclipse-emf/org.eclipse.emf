@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureEditorDialog.java,v 1.3 2004/06/10 05:18:17 marcelop Exp $
+ * $Id: FeatureEditorDialog.java,v 1.4 2004/06/10 05:31:32 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
@@ -215,6 +215,7 @@ public class FeatureEditorDialog extends Dialog
       choiceComposite.setLayoutData(data);
 
       GridLayout layout = new GridLayout();
+      data.verticalAlignment = GridData.BEGINNING;
       data.horizontalAlignment = GridData.FILL;
       layout.marginHeight = 0;
       layout.marginWidth = 0;
@@ -253,7 +254,7 @@ public class FeatureEditorDialog extends Dialog
       choiceTableViewer.setInput(new ItemProvider(choiceOfValues));
     }
 
-    final Text choiceText = choiceOfValues == null ? new Text(contents, SWT.MULTI | SWT.BORDER) : null;
+    final Text choiceText = choiceOfValues == null ? new Text(choiceComposite, SWT.MULTI | SWT.BORDER) : null;
     if (choiceText != null)
     {
       GridData choiceTextGridData = new GridData();
