@@ -49,13 +49,12 @@
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="Base64Binary" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="Base64Binary" instanceClassName="byte[]">
     <eAnnotations>
       <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;length&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="base64Binary"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
@@ -228,13 +227,12 @@
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="HexBinary" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="HexBinary" instanceClassName="byte[]">
     <eAnnotations>
       <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;length&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="hexBinary"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>

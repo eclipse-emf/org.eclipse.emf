@@ -377,7 +377,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-   <xs:simpleType name="hexBinary" id="hexBinary">
+   <xs:simpleType ecore:instanceClass="byte[]" name="hexBinary" id="hexBinary">
     <xs:annotation>
       <xs:appinfo>
         <hfp:hasFacet name="length"/>
@@ -401,7 +401,7 @@
     </xs:restriction>
    </xs:simpleType>
 
- <xs:simpleType name="base64Binary" id="base64Binary">
+ <xs:simpleType ecore:instanceClass="byte[]" name="base64Binary" id="base64Binary">
     <xs:annotation>
       <xs:appinfo>
         <hfp:hasFacet name="length"/>
