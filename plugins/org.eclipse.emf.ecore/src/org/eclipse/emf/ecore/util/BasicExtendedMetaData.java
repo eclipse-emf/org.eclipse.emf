@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.4 2004/04/18 23:19:40 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.5 2004/05/05 19:38:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1080,6 +1080,388 @@ public class BasicExtendedMetaData implements ExtendedMetaData
              wildcard.length() != 3 : 
              !wildcard.endsWith(namespace) || wildcard.length() != namespace.length() + 3 :
            wildcard.equals("##any") || wildcard.equals(namespace);
+  }
+
+  public int getWhiteSpaceFacet(EDataType eDataType)
+  {
+    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    if (eAnnotation != null)
+    {
+      String whiteSpaceLiteral = (String)eAnnotation.getDetails().get("whiteSpace");
+      for (int i = 1; i < WHITE_SPACE_KINDS.length; ++i)
+      {
+        if (WHITE_SPACE_KINDS[i].equals(whiteSpaceLiteral))
+        {
+          return i;
+        }
+      }
+    }
+    return UNSPECIFIED_WHITE_SPACE;
+  }
+
+  public void setWhiteSpaceFacet(EDataType eDataType, int whiteSpace)
+  {
+    if (whiteSpace == UNSPECIFIED_WHITE_SPACE)
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, false);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("whiteSpace");
+      }
+    }
+    else
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, true);
+      eAnnotation.getDetails().put("whiteSpace", WHITE_SPACE_KINDS[whiteSpace]);
+    }
+  }
+
+  public List getEnumerationFacet(EDataType eDataType)
+  {
+    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    if (eAnnotation != null)
+    {
+      String enumerationLiteral = (String)eAnnotation.getDetails().get("enumeration");
+      if (enumerationLiteral != null)
+      {
+        List result = new ArrayList();
+        for (StringTokenizer stringTokenizer = new StringTokenizer(enumerationLiteral, " "); stringTokenizer.hasMoreTokens(); )
+        {
+          String enumeration = stringTokenizer.nextToken().replaceAll("%20", " ").replaceAll("%25", "%");
+          result.add(enumeration);
+        }
+        return result;
+      }
+    }
+    return Collections.EMPTY_LIST;
+  }
+
+  public void setEnumerationFacet(EDataType eDataType, List literals)
+  {
+    if (literals.isEmpty())
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, false);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("enumeration");
+      }
+    }
+    else
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, true);
+      StringBuffer result = new StringBuffer();
+      for (Iterator i = literals.iterator(); i.hasNext(); )
+      {
+        result.append(((String)i.next()).replaceAll("%","%25").replaceAll(" ", "%20"));
+        result.append(' ');
+      }
+      eAnnotation.getDetails().put("enumeration", result.substring(0, result.length() - 1));
+    }
+  }
+
+  public List getPatternFacet(EDataType eDataType)
+  {
+    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    if (eAnnotation != null)
+    {
+      String patternLiteral = (String)eAnnotation.getDetails().get("pattern");
+      if (patternLiteral != null)
+      {
+        List result = new ArrayList();
+        for (StringTokenizer stringTokenizer = new StringTokenizer(patternLiteral, " "); stringTokenizer.hasMoreTokens(); )
+        {
+          String pattern = stringTokenizer.nextToken().replaceAll("%20", " ").replaceAll("%25", "%");
+          result.add(pattern);
+        }
+        return result;
+      }
+    }
+    return Collections.EMPTY_LIST;
+  }
+
+  public void setPatternFacet(EDataType eDataType, List pattern)
+  {
+    if (pattern.isEmpty())
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, false);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("pattern");
+      }
+    }
+    else
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, true);
+      StringBuffer result = new StringBuffer();
+      for (Iterator i = pattern.iterator(); i.hasNext(); )
+      {
+        result.append(((String)i.next()).replaceAll("%","%25").replaceAll(" ", "%20"));
+        result.append(' ');
+      }
+      eAnnotation.getDetails().put("pattern", result.substring(0, result.length() - 1));
+    }
+  }
+
+
+  public int getTotalDigitsFacet(EDataType eDataType)
+  {
+    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    if (eAnnotation != null)
+    {
+      String totalDigitsLiteral = (String)eAnnotation.getDetails().get("totalDigits");
+      if (totalDigitsLiteral != null)
+      {
+        return Integer.parseInt(totalDigitsLiteral);
+      }
+    }
+    return -1;
+  }
+
+  public void setTotalDigitsFacet(EDataType eDataType, int digits)
+  {
+    if (digits == -1)
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, false);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("totalDigits");
+      }
+    }
+    else
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, true);
+      eAnnotation.getDetails().put("totalDigits", Integer.toString(digits));
+    } 
+  }
+
+  public int getFractionDigitsFacet(EDataType eDataType)
+  {
+    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    if (eAnnotation != null)
+    {
+      String fractionDigitsLiteral = (String)eAnnotation.getDetails().get("fractionDigits");
+      if (fractionDigitsLiteral != null)
+      {
+        return Integer.parseInt(fractionDigitsLiteral);
+      }
+    }
+    return -1;
+  }
+
+  public void setFractionDigitsFacet(EDataType eDataType, int digits)
+  {
+    if (digits == -1)
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, false);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("factionDigits");
+      }
+    }
+    else
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, true);
+      eAnnotation.getDetails().put("fractionDigits", Integer.toString(digits));
+    } 
+  }
+
+  public int getLengthFacet(EDataType eDataType)
+  {
+    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    if (eAnnotation != null)
+    {
+      String lengthLiteral = (String)eAnnotation.getDetails().get("length");
+      if (lengthLiteral != null)
+      {
+        return Integer.parseInt(lengthLiteral);
+      }
+    }
+    return -1;
+  }
+
+  public void setLengthFacet(EDataType eDataType, int length)
+  {
+    if (length == -1)
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, false);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("length");
+      }
+    }
+    else
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, true);
+      eAnnotation.getDetails().put("length", Integer.toString(length));
+    } 
+  }
+
+
+  public int getMinLengthFacet(EDataType eDataType)
+  {
+    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    if (eAnnotation != null)
+    {
+      String minLengthLiteral = (String)eAnnotation.getDetails().get("minLength");
+      if (minLengthLiteral != null)
+      {
+        return Integer.parseInt(minLengthLiteral);
+      }
+    }
+    return -1;
+  }
+
+  public void setMinLengthFacet(EDataType eDataType, int length)
+  {
+    if (length == -1)
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, false);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("minLength");
+      }
+    }
+    else
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, true);
+      eAnnotation.getDetails().put("minLength", Integer.toString(length));
+    } 
+  }
+
+  public int getMaxLengthFacet(EDataType eDataType)
+  {
+    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    if (eAnnotation != null)
+    {
+      String maxLengthLiteral = (String)eAnnotation.getDetails().get("maxLength");
+      if (maxLengthLiteral != null)
+      {
+        return Integer.parseInt(maxLengthLiteral);
+      }
+    }
+    return -1;
+  }
+
+  public void setMaxLengthFacet(EDataType eDataType, int length)
+  {
+    if (length == -1)
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, false);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("maxLength");
+      }
+    }
+    else
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, true);
+      eAnnotation.getDetails().put("maxLength", Integer.toString(length));
+    } 
+  }
+
+  public String getMinExclusiveFacet(EDataType eDataType)
+  {
+    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    return
+      eAnnotation == null ? 
+        null : 
+        (String)eAnnotation.getDetails().get("minExclusive");
+  }
+
+  public void setMinExclusiveFacet(EDataType eDataType, String literal)
+  {
+    if (literal == null)
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, false);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("minExclusive");
+      }
+    }
+    else
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, true);
+      eAnnotation.getDetails().put("minExclusive", literal);
+    } 
+  }
+
+
+  public String getMaxExclusiveFacet(EDataType eDataType)
+  {
+    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    return
+      eAnnotation == null ? 
+        null : 
+        (String)eAnnotation.getDetails().get("maxExclusive");
+  }
+
+  public void setMaxExclusiveFacet(EDataType eDataType, String literal)
+  {
+    if (literal == null)
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, false);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("maxExclusive");
+      }
+    }
+    else
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, true);
+      eAnnotation.getDetails().put("maxExclusive", literal);
+    } 
+  }
+
+  public String getMinInclusiveFacet(EDataType eDataType)
+  {
+    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    return
+      eAnnotation == null ? 
+        null : 
+        (String)eAnnotation.getDetails().get("minInclusive");
+  }
+
+  public void setMinInclusiveFacet(EDataType eDataType, String literal)
+  {
+    if (literal == null)
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, false);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("minInclusive");
+      }
+    }
+    else
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, true);
+      eAnnotation.getDetails().put("minInclusive", literal);
+    } 
+  }
+
+  public String getMaxInclusiveFacet(EDataType eDataType)
+  {
+    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    return
+      eAnnotation == null ? 
+        null : 
+        (String)eAnnotation.getDetails().get("maxInclusive");
+  }
+
+  public void setMaxInclusiveFacet(EDataType eDataType, String literal)
+  {
+    if (literal == null)
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, false);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("maxInclusive");
+      }
+    }
+    else
+    {
+      EAnnotation eAnnotation = getAnnotation(eDataType, true);
+      eAnnotation.getDetails().put("maxInclusive", literal);
+    } 
   }
 
   public EPackage demandPackage(String namespace)

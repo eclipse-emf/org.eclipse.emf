@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedMetaData.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ExtendedMetaData.java,v 1.2 2004/05/05 19:38:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -135,6 +135,48 @@ public interface ExtendedMetaData
 
   EStructuralFeature getAttributeWildcardAffiliation(EClass eClass, String namespace, String name);
   EStructuralFeature getElementWildcardAffiliation(EClass eClass, String namespace, String name);
+
+  int UNSPECIFIED_WHITE_SPACE = 0;
+  int PRESERVE_WHITE_SPACE = 1;
+  int REPLACE_WHITE_SPACE = 2;
+  int COLLAPSE_WHITE_SPACE = 3;
+  String [] WHITE_SPACE_KINDS = { "unspecified", "preserve", "replace", "collapse" };
+
+  int getWhiteSpaceFacet(EDataType eDataType);
+  void setWhiteSpaceFacet(EDataType eDataType, int whiteSpace);
+
+  List getEnumerationFacet(EDataType eDataType);
+  void setEnumerationFacet(EDataType eDataType, List literals);
+
+  List getPatternFacet(EDataType eDataType);
+  void setPatternFacet(EDataType eDataType, List pattern);
+
+  int getTotalDigitsFacet(EDataType eDataType);
+  void setTotalDigitsFacet(EDataType eDataType, int digits);
+
+  int getFractionDigitsFacet(EDataType eDataType);
+  void setFractionDigitsFacet(EDataType eDataType, int digits);
+
+  int getLengthFacet(EDataType eDataType);
+  void setLengthFacet(EDataType eDataType, int length);
+
+  int getMinLengthFacet(EDataType eDataType);
+  void setMinLengthFacet(EDataType eDataType, int length);
+
+  int getMaxLengthFacet(EDataType eDataType);
+  void setMaxLengthFacet(EDataType eDataType, int length);
+
+  String getMinExclusiveFacet(EDataType eDataType);
+  void setMinExclusiveFacet(EDataType eDataType, String literal);
+
+  String getMaxExclusiveFacet(EDataType eDataType);
+  void setMaxExclusiveFacet(EDataType eDataType, String literal);
+
+  String getMinInclusiveFacet(EDataType eDataType);
+  void setMinInclusiveFacet(EDataType eDataType, String literal);
+
+  String getMaxInclusiveFacet(EDataType eDataType);
+  void setMaxInclusiveFacet(EDataType eDataType, String literal);
 
   EPackage demandPackage(String namespace);
   EClassifier demandType(String namespace, String name);
