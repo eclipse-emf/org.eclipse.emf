@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.27 2005/01/25 20:31:49 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.28 2005/02/15 16:23:34 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2107,6 +2107,21 @@ public class XSDEcoreBuilder extends MapBuilder
       else if (eReference.getEOpposite() == null)
       {
         EStructuralFeature eOppositeFeature =  oppositeEClass.getEStructuralFeature(opposite);
+        
+        // Match by XML name if this fails.
+        if (eOppositeFeature == null)
+        {
+          for (Iterator j = oppositeEClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+          {
+            EStructuralFeature feature = (EStructuralFeature)j.next();
+            if (opposite.equals(extendedMetaData.getName(feature)))
+            {
+              eOppositeFeature = feature;
+              break;
+            }
+          }
+        }
+        
         if (eOppositeFeature instanceof EReference)
         {
           EReference eOpposite = (EReference)eOppositeFeature;
