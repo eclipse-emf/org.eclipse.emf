@@ -16,12 +16,12 @@ public interface Book
   int getPages();
 
   /**
-   * @model oppoosite="books"
-   */
-  Writer getAuthor();
-
-  /**
    * @model
    */
   BookCategory getCategory();
+
+  /**
+   * @model oppoosite="books"
+   */
+  Writer getAuthor();
 }

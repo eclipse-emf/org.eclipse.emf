@@ -1,4 +1,5 @@
 package org.eclipse.example.library;
+
 /**
  * @model
  */

@@ -8,9 +8,9 @@ import java.util.List;
 public interface Library
 {
   /**
-   * @model type="Book" containment="true"
+   * @model
    */
-  List getBooks();
+  String getName();
 
   /**
    * @model type="Writer" containment="true"
@@ -18,7 +18,7 @@ public interface Library
   List getWriters();
 
   /**
-   * @model
+   * @model type="Book" containment="true"
    */
-  String getName();
+  List getBooks();
 }
