@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.14 2004/08/06 20:07:54 emerks Exp $
+ * $Id: XMLHandler.java,v 1.15 2004/08/17 12:13:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1567,7 +1567,7 @@ public abstract class XMLHandler
       String fragment = uri.fragment();
       Resource resource = null;
 
-      if ("java".equalsIgnoreCase(uri.scheme()))
+      if ("java".equalsIgnoreCase(uri.scheme()) && uri.authority() != null)
       {
         try
         {
@@ -1580,7 +1580,8 @@ public abstract class XMLHandler
         {
         }
       }
-      else if (resourceSet != null)
+
+      if (resource == null && resourceSet != null)
       {
         URI trimmedURI = uri.trimFragment();
         resource = resourceSet.getResource(trimmedURI, false);
