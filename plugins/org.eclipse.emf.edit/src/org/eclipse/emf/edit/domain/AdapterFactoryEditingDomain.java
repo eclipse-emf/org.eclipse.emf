@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.10 2004/07/29 13:33:00 marcelop Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.11 2004/09/28 16:07:24 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -121,7 +121,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
           EditingDomain editingDomain = ((IEditingDomainProvider)resourceSet).getEditingDomain();
           return editingDomain;
         }
-        else
+        else if (resourceSet != null)
         {
           editingDomainProvider = (IEditingDomainProvider)EcoreUtil.getExistingAdapter(resourceSet, IEditingDomainProvider.class);
           if (editingDomainProvider != null)
