@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETReader.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETReader.java,v 1.2 2004/04/13 11:15:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -78,7 +78,19 @@ public class JETReader
       CharArrayWriter writer   = new CharArrayWriter();
       char            buf[] = new char[1024];
       for (int i = 0; (i = reader.read(buf)) != -1; )
-        writer.write(buf, 0, i);
+      {
+        // Remove zero width non-breaking space, which may be used as a byte order marker, 
+        // and may be ignored according to the Unicode FAQ: http://www.unicode.org/unicode/faq/utf_bom.html#38
+        //
+        if (buf[0] == '\uFEFF')
+        {
+          writer.write(buf, 1, i - 1);
+        }
+        else
+        {
+          writer.write(buf, 0, i);
+        }
+      }
       writer.close();
       if (current == null) 
       {
