@@ -96,13 +96,13 @@ http://www.eclipse.org/legal/cpl-v10.html
          id="org.eclipse.emf.ecore.change"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.1.0"/>
 
    <plugin
          id="org.eclipse.emf.ecore.change.edit"
          download-size="0"
          install-size="0"
-         version="2.0.0"/>
+         version="2.1.0"/>
 
    <plugin
          id="org.eclipse.emf.ecore.xmi"
@@ -126,7 +126,7 @@ http://www.eclipse.org/legal/cpl-v10.html
          id="org.eclipse.emf.mapping"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.1.0"/>
 
    <plugin
          id="org.eclipse.emf.mapping.ui"
@@ -138,7 +138,7 @@ http://www.eclipse.org/legal/cpl-v10.html
          id="org.eclipse.emf.mapping.ecore2ecore"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.1.0"/>
 
    <plugin
          id="org.eclipse.emf.mapping.ecore2ecore.editor"
