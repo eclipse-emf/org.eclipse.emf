@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.2 2004/03/09 20:44:50 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.3 2004/03/23 09:49:43 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -33,6 +33,9 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 <%}%>
 
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
@@ -48,8 +51,10 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.Viewer;
 
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PartInitException;
 
 <%genModel.markImportLocation(stringBuffer);%>
 
@@ -88,6 +93,56 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * @generated
 	 */
 	protected ISelectionProvider selectionProvider;
+
+	/**
+	 * This action opens the Properties view.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected IAction showPropertiesViewAction = 
+		new Action(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))<%=genModel.getNonNLS()%>
+		{
+			public void run()
+			{
+				try
+				{
+					getPage().showView("org.eclipse.ui.views.PropertySheet");<%=genModel.getNonNLS()%>
+				}
+				catch(PartInitException exception)
+				{
+					<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
+				}
+			}
+		};
+
+	/**
+	 * This action refreshes the viewer of the current editor if the editor
+	 * implements {@link IViewerProvider}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected IAction refreshViewerAction = 
+		new Action(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_RefreshViewer_menu_item"))<%=genModel.getNonNLS()%>
+		{
+			public boolean isEnabled()
+			{
+				return getPage().getActivePart() instanceof IViewerProvider;
+			}
+			
+			public void run()
+			{
+				if (getPage().getActivePart() instanceof IViewerProvider)
+				{
+					Viewer viewer = ((IViewerProvider)getPage().getActivePart()).getViewer();
+					if(viewer != null)
+					{
+						viewer.refresh();
+					}
+				}
+			}
+		};
 
 <%if (genModel.isCreationCommands()) {%>
 	/**
@@ -391,6 +446,8 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 */
 	public void menuAboutToShow(IMenuManager menuManager)
 	{
+		refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
+		
 		super.menuAboutToShow(menuManager);
 		MenuManager submenuManager = null;
 
@@ -401,6 +458,10 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		submenuManager = new MenuManager(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_CreateSibling_menu_item"));<%=genModel.getNonNLS()%>
 		populateManager(submenuManager, createSiblingActions, null);
 		menuManager.insertBefore("additions", submenuManager);<%=genModel.getNonNLS()%>
+		
+		menuManager.insertAfter("additions-end", new Separator("ui-actions"));<%=genModel.getNonNLS(2)%>
+		menuManager.insertAfter("ui-actions", showPropertiesViewAction);<%=genModel.getNonNLS()%>
+		menuManager.insertAfter("ui-actions", refreshViewerAction);<%=genModel.getNonNLS()%>
 	}
 <%}%>
 }
