@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenModel.java,v 1.2 2004/03/21 15:16:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -872,6 +872,7 @@ public interface GenModel extends GenBase{
 
   String getImportedName(String qualifiedName);
   void addImport(String qualifiedName);
+  void addPseudoImport(String qualifiedName);
 
   JControlModel getJControlModel();
 
