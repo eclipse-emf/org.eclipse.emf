@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.1 2004/11/25 19:41:51 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.2 2004/11/25 19:43:01 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -94,6 +94,6 @@ public class JMergerTest extends TestCase
     }
     
     String expectedMerge = EMFTestToolsPlugin.readFile(MERGE_EXPECTED);
-    assertEquals(expectedMerge, mergeResult.toString());
+    assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\r'", expectedMerge, mergeResult.toString());
   }  
 }
