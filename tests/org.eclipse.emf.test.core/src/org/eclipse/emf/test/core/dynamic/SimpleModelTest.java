@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.1 2004/03/06 17:31:33 marcelop Exp $
+ * $Id: SimpleModelTest.java,v 1.2 2004/03/22 19:08:16 marcelop Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -46,11 +46,6 @@ extends TestCase
     private EAttribute departmentNumber;
     
     private EReference departmentEmployees;
-    
-    public SimpleModelTest()
-    {
-        super();
-    }
     
     public SimpleModelTest(String name)
     {
