@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.2 2004/03/08 21:32:43 emerks Exp $
+ * $Id: XSDEditor.java,v 1.3 2004/03/16 20:52:29 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -1070,6 +1070,7 @@ public class XSDEditor
       XSDParser xsdParser = new XSDParser();
       String documentContent = sourceViewer.getDocument().get();
       xsdParser.parseString(documentContent);
+      xsdSchema.clearDiagnostics();
       xsdParser.setSchema(xsdSchema);
       xsdSchema.validate();
       handleDiagnostics(null);
