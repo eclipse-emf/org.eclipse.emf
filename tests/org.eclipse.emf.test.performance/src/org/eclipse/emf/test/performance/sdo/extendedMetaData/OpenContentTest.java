@@ -73,7 +73,7 @@ public class OpenContentTest extends EMFPerformanceTestCase
   {
     TestSuite ts = new TestSuite("OpenContentTest");
     ts.addTest(new OpenContentTest("demandFeature").setWarmUp(500).setRepetitions(5));
-    ts.addTest(new OpenContentTest("createDemandFeatureDO").setWarmUp(500).setRepetitions(5));
+    ts.addTest(new OpenContentTest("createDemandFeatureDO").setWarmUp(1000).setRepetitions(5));
     return ts;
   }
 
@@ -109,7 +109,10 @@ public class OpenContentTest extends EMFPerformanceTestCase
     startMeasuring();
     for (int i = 0; i < ITERATIONS_200; i++)
     {
-      feat = localMetaData.demandFeature(demandNamespace, names[i], true);
+      if (feat != this)
+      {
+        feat = localMetaData.demandFeature(demandNamespace, names[i], true);
+      }
     }
     stopMeasuring();
   }
@@ -143,7 +146,10 @@ public class OpenContentTest extends EMFPerformanceTestCase
     startMeasuring();
     for (int i = 0; i < ITERATIONS_100; i++)
     {
-      complexDO = openDO.createDataObject(properties[i]);
+      if (complexDO != this)
+      {
+        complexDO = openDO.createDataObject(properties[i]);
+      }
     }
     stopMeasuring();
   }
