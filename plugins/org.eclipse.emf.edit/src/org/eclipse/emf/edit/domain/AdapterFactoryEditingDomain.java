@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.2 2004/04/30 14:34:09 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.3 2004/05/28 22:21:01 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CopyToClipboardCommand;
 import org.eclipse.emf.edit.command.CreateChildCommand;
@@ -50,6 +51,7 @@ import org.eclipse.emf.edit.command.PasteFromClipboardCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IWrapperItemProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 
@@ -157,6 +159,14 @@ public class AdapterFactoryEditingDomain implements EditingDomain
       EditingDomain editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor((EObject)object);
       return editingDomain;
     }
+    else if (object instanceof FeatureMap.Entry)
+    {
+      return getEditingDomainFor(((FeatureMap.Entry)object).getValue());
+    }
+    else if (object instanceof IWrapperItemProvider)
+    {
+      return getEditingDomainFor(((IWrapperItemProvider)object).getValue());
+    }
     else
     {
       return null;
@@ -188,7 +198,21 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     return 
       object instanceof IEditingDomainItemProvider ? 
         (IEditingDomainItemProvider)object : 
-        null;
+        object instanceof IWrapperItemProvider ? 
+          getEditingDomainItemProviderFor(((IWrapperItemProvider)object).getValue()) : 
+          object instanceof FeatureMap.Entry ? 
+            getEditingDomainItemProviderFor(((FeatureMap.Entry)object).getValue()) : 
+            null;
+  }
+
+  /**
+   * This is an implementation of a context that knows about this editing domain.
+   * It is used to help implement 
+   * {@link #getEditingDomainFor(java.lang.Object) getEditingDomainFor(Object)}
+   * and {@link #getEditingDomainFor(org.eclipse.emf.ecore.EObject) getEditingDomainFor(EObject)}
+   * An instance of this is created if needed in the constructor.
+   * 
+          null;
   }
 
   /**
