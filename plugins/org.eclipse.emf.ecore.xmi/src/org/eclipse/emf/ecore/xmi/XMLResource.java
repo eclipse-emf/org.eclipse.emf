@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.11 2004/08/19 11:06:44 emerks Exp $
+ * $Id: XMLResource.java,v 1.12 2004/08/25 20:30:25 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -48,6 +48,12 @@ public interface XMLResource extends Resource
    * @see org.eclipse.emf.ecore.EStructuralFeature
    */
   String OPTION_USE_XML_NAME_TO_FEATURE_MAP = "USE_XML_NAME_TO_FEATURE_MAP";
+  
+  /**
+   * Force type information (xsi:type/xmi:type) to be serialized for references 
+   * in cases where the object type is different from the feature type
+   */
+  String OPTION_SAVE_TYPE_INFORMATION = "SAVE_TYPE_INFORMATION";
   
   /**
    * Specify parser features with their corresponding values, 

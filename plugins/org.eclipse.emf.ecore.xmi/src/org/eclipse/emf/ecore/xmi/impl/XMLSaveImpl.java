@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.14 2004/08/06 20:07:08 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.15 2004/08/25 20:30:25 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -64,6 +64,7 @@ public class XMLSaveImpl implements XMLSave
   protected boolean declareXSI;
   protected boolean useEncodedAttributeStyle;
   protected boolean declareXML;
+  protected boolean saveTypeInfo;
   protected Escape escape;
   protected Lookup featureTable;
   protected String encoding;
@@ -201,7 +202,8 @@ public class XMLSaveImpl implements XMLSave
     declareSchemaLocationImplementation = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SCHEMA_LOCATION_IMPLEMENTATION));
     declareSchemaLocation = declareSchemaLocationImplementation || Boolean.TRUE.equals(options.get(XMLResource.OPTION_SCHEMA_LOCATION));
     Integer lineWidth = (Integer)options.get(XMLResource.OPTION_LINE_WIDTH);
-    
+    saveTypeInfo = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SAVE_TYPE_INFORMATION));
+        
     anyType = (EClass)options.get(XMLResource.OPTION_ANY_TYPE);
     anySimpleType = (EClass)options.get(XMLResource.OPTION_ANY_SIMPLE_TYPE);
     if (anyType == null)
@@ -1159,7 +1161,7 @@ public class XMLSaveImpl implements XMLSave
         {
           EClass eClass = value.eClass();
           EClass expectedType = (EClass) f.getEType();
-          if (eClass != expectedType && expectedType.isAbstract())
+          if (eClass != expectedType && (saveTypeInfo || expectedType.isAbstract()))
           {
             doc.addAttributeContent(helper.getQName(eClass));
             doc.addAttributeContent(" ");
@@ -1190,7 +1192,7 @@ public class XMLSaveImpl implements XMLSave
           {
             EClass eClass = value.eClass();
             EClass expectedType = (EClass) f.getEType();
-            if (eClass != expectedType && expectedType.isAbstract())
+            if (eClass != expectedType && (saveTypeInfo || expectedType.isAbstract()))
             {
               doc.addAttributeContent(helper.getQName(eClass));
               doc.addAttributeContent(" ");
@@ -1256,7 +1258,7 @@ public class XMLSaveImpl implements XMLSave
       doc.startElement(name);
       EClass eClass = remote.eClass();
       EClass expectedType = (EClass)f.getEType();
-      if (eClass != expectedType && expectedType.isAbstract())
+      if (eClass != expectedType && (saveTypeInfo || expectedType.isAbstract()))
       {
         saveTypeAttribute(eClass);
       }
@@ -1385,7 +1387,7 @@ public class XMLSaveImpl implements XMLSave
       EClass eClass = remote.eClass();
 
       EClass expectedType = (EClass) f.getEType();
-      if (eClass != expectedType && expectedType.isAbstract())
+      if (eClass != expectedType && (saveTypeInfo || expectedType.isAbstract()))
       {
         saveTypeAttribute(eClass);
       }
