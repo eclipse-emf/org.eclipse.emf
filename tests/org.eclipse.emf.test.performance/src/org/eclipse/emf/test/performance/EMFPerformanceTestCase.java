@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.1 2005/01/31 22:26:09 marcelop Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.2 2005/02/01 04:10:59 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -27,6 +27,11 @@ import org.eclipse.test.performance.PerformanceTestCase;
  * don't affect the measurements.</li>
  * <li>Invoking <tt><b>super.</b>setUp</tt> and <tt><b>super.</b>tearDown</tt> is
  * mandatory if these methods are being overwritten by subclasses</li>
+ * <li>The <tt>iterations</tt> attribute defines how many times a test will
+ * be invoked.  Each iteration is measured and the final result is an average of 
+ * all iterations.  The default value is 1.</li>
+ * <li>The <tt>warmUp</tt> attribute defines how many times a test will be invoked
+ * <b>before</b> the measurements take place.</li>
  * </ul>
  * </p>
  * @since 2.1.0
