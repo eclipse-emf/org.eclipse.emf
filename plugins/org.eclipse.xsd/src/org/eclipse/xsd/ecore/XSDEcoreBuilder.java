@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.2 2004/03/08 21:32:21 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.3 2004/03/29 16:20:24 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -100,6 +100,7 @@ public class XSDEcoreBuilder extends MapBuilder
 {
   protected XSDSchema rootSchema;
   protected List simpleDiagnostics;
+  protected List diagnostics;
   protected List xsdSchemas = new UniqueEList();
   protected Map targetNamespaceToEPackageMap = new HashMap();
   protected ExtendedMetaData extendedMetaData;
@@ -117,6 +118,16 @@ public class XSDEcoreBuilder extends MapBuilder
   public XSDSchema getSchema()
   {
     return rootSchema;
+  }
+
+  public void setValidate(boolean validate)
+  {
+    diagnostics = validate ? new ArrayList() : null;
+  }
+
+  public List getDiagnostics()
+  {
+    return diagnostics;
   }
 
   public XSDSchema getRootSchema()
@@ -2030,31 +2041,38 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
 
-    if (simpleDiagnostics != null)
+    if (simpleDiagnostics != null || diagnostics == null)
     {
       xsdSchema.validate();
       if (!xsdSchema.getAllDiagnostics().isEmpty())
       {
-        for (Iterator i = xsdSchema.getAllDiagnostics().iterator(); i.hasNext(); )
+        if (simpleDiagnostics != null)
         {
-          XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)i.next();
+          for (Iterator i = xsdSchema.getAllDiagnostics().iterator(); i.hasNext(); )
+          {
+            XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)i.next();
 
-          List tuple = new ArrayList();
-          tuple.add(xsdDiagnostic.getSeverity().toString());
+            List tuple = new ArrayList();
+            tuple.add(xsdDiagnostic.getSeverity().toString());
 
-          String localizedSeverity = XSDPlugin.INSTANCE.getString("_UI_XSDDiagnosticSeverity_" + xsdDiagnostic.getSeverity());
-          tuple.add
-            (XSDPlugin.INSTANCE.getString
-              ("_UI_DiagnosticFileLineColumn_message",
-               new Object []
-               {
-                 localizedSeverity + ": " + xsdDiagnostic.getMessage() + " ",
-                 xsdDiagnostic.getLocationURI(),
-                 new Integer(xsdDiagnostic.getLine()),
-                 new Integer(xsdDiagnostic.getColumn())
-               }));
+            String localizedSeverity = XSDPlugin.INSTANCE.getString("_UI_XSDDiagnosticSeverity_" + xsdDiagnostic.getSeverity());
+            tuple.add
+              (XSDPlugin.INSTANCE.getString
+                ("_UI_DiagnosticFileLineColumn_message",
+                 new Object []
+                 {
+                   localizedSeverity + ": " + xsdDiagnostic.getMessage() + " ",
+                   xsdDiagnostic.getLocationURI(),
+                   new Integer(xsdDiagnostic.getLine()),
+                   new Integer(xsdDiagnostic.getColumn())
+                 }));
 
-          simpleDiagnostics.add(tuple); 
+            simpleDiagnostics.add(tuple); 
+          }
+        }
+        if (diagnostics != null)
+        {
+          diagnostics.addAll(xsdSchema.getAllDiagnostics());
         }
       }
     }
