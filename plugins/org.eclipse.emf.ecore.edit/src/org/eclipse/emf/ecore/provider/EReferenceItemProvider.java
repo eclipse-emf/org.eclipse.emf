@@ -12,19 +12,26 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.4 2004/06/08 18:29:32 emerks Exp $
+ * $Id: EReferenceItemProvider.java,v 1.5 2004/12/13 20:25:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -140,7 +147,7 @@ public class EReferenceItemProvider
    * This adds a property descriptor for the EOpposite feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected void addEOppositePropertyDescriptor(Object object)
   {
@@ -151,7 +158,88 @@ public class EReferenceItemProvider
          getString("_UI_EReference_eOpposite_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_eOpposite_feature", "_UI_EReference_type"),
          EcorePackage.eINSTANCE.getEReference_EOpposite(),
-         true));
+         true)
+        {
+          public Collection getChoiceOfValues(Object object)
+          {
+            EReference eReference = (EReference)object;
+            EClass eContainingClass = eReference.getEContainingClass();
+            EClass eReferenceType = eReference.getEReferenceType();
+            if (eContainingClass == null || eReferenceType == null)
+            {
+              return Collections.EMPTY_LIST;
+            }
+            Collection result = new ArrayList(super.getChoiceOfValues(object));
+            for (Iterator i = result.iterator(); i.hasNext(); )
+            {
+              EReference eOpposite = (EReference)i.next();
+              if (eOpposite != null)
+              {
+                if (eOpposite == eReference)
+                {
+                  i.remove();
+                }
+                else
+                {
+                  EClass eOppositeContainingClass = eOpposite.getEContainingClass();
+                  EClass eOppositeReferenceType = eOpposite.getEReferenceType();
+                  if (eOppositeContainingClass == null || 
+                        !eOppositeContainingClass.isSuperTypeOf(eReferenceType)  || 
+                        !eContainingClass.isSuperTypeOf(eOppositeReferenceType))
+                  {
+                    i.remove();
+                  }
+                }
+              }
+            }
+            return result;
+          }
+          
+          public void setPropertyValue(Object object, Object value)
+          {
+            EReference eReference = (EReference)object;
+            EReference eOpposite = (EReference)value;
+            EditingDomain editingDomain = getEditingDomain(eReference);
+            if (editingDomain == null)
+            {
+              EReference oldReferenceOpposite = eReference.getEOpposite();
+              if (oldReferenceOpposite != null)
+              {
+                oldReferenceOpposite.setEOpposite(null);
+              }
+              if (eOpposite != null)
+              {
+                EReference oldOppositeOpposite = eOpposite.getEOpposite();
+                if (oldOppositeOpposite != null)
+                {
+                  oldOppositeOpposite.setEOpposite(null);
+                }
+                eOpposite.setEOpposite(eReference);
+              }
+              eReference.setEOpposite(eOpposite);
+            }
+            else
+            {
+              CompoundCommand compoundCommand = new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL);
+              EReference oldReferenceOpposite = eReference.getEOpposite();
+              if (oldReferenceOpposite != null)
+              {
+                compoundCommand.append(SetCommand.create(editingDomain, getCommandOwner(oldReferenceOpposite), feature, null));
+              }
+              if (eOpposite != null)
+              {
+                EReference oldOppositeOpposite = eOpposite.getEOpposite();
+                if (oldOppositeOpposite != null)
+                {
+                  compoundCommand.append(SetCommand.create(editingDomain, getCommandOwner(oldOppositeOpposite), feature, null));
+                }
+                compoundCommand.append(SetCommand.create(editingDomain, getCommandOwner(eOpposite), feature, eReference));
+              }
+              compoundCommand.append(SetCommand.create(editingDomain, getCommandOwner(eReference), feature, eOpposite));
+              editingDomain.getCommandStack().execute(compoundCommand);
+            }
+          }
+        });
   }
 
   /**
