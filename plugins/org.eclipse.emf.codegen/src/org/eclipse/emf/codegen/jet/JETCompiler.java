@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETCompiler.java,v 1.2 2004/03/09 20:43:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -193,6 +193,10 @@ public class JETCompiler implements JETParseEventListener
           else if (entry.getKey().equals("endTag"))
           {
             parser.setEndTag((String)entry.getValue());
+          }
+          else if (entry.getKey().equals("version"))
+          {
+            // Ignore the version
           }
 
     /*

@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.2 2004/03/09 20:44:49 emerks Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002 IBM Corporation and others.
+ * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,12 +13,10 @@
  *   IBM - Initial API and implementation
  *
  * </copyright>
- *
- * $Id: EnumClass.javajet,v 1.1 2004/03/06 17:31:31 marcelop Exp $
  */
 %>
 <%GenEnum genEnum = (GenEnum)argument; GenPackage genPackage = genEnum.getGenPackage(); GenModel genModel=genPackage.getGenModel();%>
-<%@ include file="../Header.javajet"%>
+<%@ include file="../Header.jetinc"%>
 package <%=genPackage.getInterfacePackageName()%>;
 
 <%genModel.addImport("java.util.Arrays");%>
