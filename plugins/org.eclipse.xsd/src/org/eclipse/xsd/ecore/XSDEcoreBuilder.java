@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.23 2004/12/06 12:51:46 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.24 2004/12/11 12:14:43 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1824,7 +1824,7 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
 
-    return resourceSet.getResources();
+    return new ArrayList(resourceSet.getResources());
   }
 
   public EStructuralFeature getEStructuralFeature(XSDFeature xsdFeature)
