@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.4 2004/08/06 20:16:37 emerks Exp $
+ * $Id: BasicEList.java,v 1.5 2004/08/12 11:30:06 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -492,7 +492,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
    */
   public Object get(int index) 
   {
-    if (index >= size || index < 0)
+    if (index >= size)
       throw new IndexOutOfBoundsException("index=" + index + ", size=" + size);
 
     return resolve(index, data[index]);
@@ -508,7 +508,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
    */
   public Object basicGet(int index) 
   {
-    if (index >= size || index < 0)
+    if (index >= size)
       throw new IndexOutOfBoundsException("index=" + index + ", size=" + size);
 
     return data[index];
@@ -528,7 +528,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
    */
   public Object set(int index, Object object) 
   {
-    if (index >= size || index < 0)
+    if (index >= size)
       throw new IndexOutOfBoundsException("index=" + index + ", size=" + size);
 
     if (isUnique())
@@ -618,7 +618,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
    */
   public void add(int index, Object object)
   {
-    if (index > size || index < 0)
+    if (index > size)
       throw new IndexOutOfBoundsException("index=" + index + ", size=" + size);
 
     if (isUnique() && contains(object))
@@ -715,7 +715,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
    */
   public boolean addAll(int index, Collection collection) 
   {
-    if (index > size || index < 0)
+    if (index > size)
         throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
 
     if (isUnique())
@@ -815,7 +815,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
    */
   public Object remove(int index) 
   {
-    if (index >= size || index < 0)
+    if (index >= size)
       throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
 
     ++modCount;
@@ -904,10 +904,10 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   public Object move(int targetIndex, int sourceIndex)
   {
     ++modCount;
-    if (targetIndex >= size || targetIndex < 0)
+    if (targetIndex >= size)
       throw new IndexOutOfBoundsException("targetIndex=" + targetIndex + ", size=" + size);
 
-    if (sourceIndex >= size || sourceIndex < 0)
+    if (sourceIndex >= size)
       throw new IndexOutOfBoundsException("sourceIndex=" + sourceIndex + ", size=" + size);
 
     Object object = data[sourceIndex];
