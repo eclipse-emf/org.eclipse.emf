@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.3 2004/06/01 12:12:52 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.4 2004/10/07 12:18:29 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -137,6 +137,7 @@ public abstract class XSDConcreteComponentImpl
 
   protected boolean updatingDOM; 
   protected boolean isReconciling; 
+  protected boolean forceResolve; 
   protected EList xsdContents;
 
   protected XSDConcreteComponentImpl() 
@@ -223,6 +224,15 @@ public abstract class XSDConcreteComponentImpl
     }
 
     return xsdContents;
+  }
+
+  public void reset()
+  {
+    for (Iterator contents = getXSDContents().iterator(); contents.hasNext(); )
+    {
+      XSDConcreteComponentImpl content = (XSDConcreteComponentImpl)contents.next();
+      content.reset();
+    }
   }
 
   protected final Element createElement(int nodeType)
@@ -506,9 +516,11 @@ public abstract class XSDConcreteComponentImpl
     for (Iterator contents = getXSDContents().iterator(); contents.hasNext(); )
     {
       XSDConcreteComponentImpl content = (XSDConcreteComponentImpl)contents.next();
+      content.forceResolve = forceResolve;
       content.isReconciling = true;
       content.patch();
       content.isReconciling = false;
+      content.forceResolve = false;
     }
   }
 
