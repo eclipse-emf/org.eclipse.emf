@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.2 2004/03/09 20:44:49 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.3 2004/11/09 17:24:18 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -54,19 +54,6 @@ public final class <%=genEnum.getName()%> extends AbstractEnumerator
 	/**
 	 * The '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #<%=genEnumLiteral.getEnumLiteralID()%>_LITERAL
-	 * @model <%=genEnumLiteral.getModelInfo()%>
-	 * @generated
-	 * @ordered
-	 */
-	public static final int <%=genEnumLiteral.getEnumLiteralID()%> = <%=genEnumLiteral.getValue()%>;
-
-<%}%>
-<%for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();%>
-	/**
-	 * The '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal object.
-	 * <!-- begin-user-doc -->
 <%if (!genEnumLiteral.hasDocumentation()) {%>
 	 * <p>
 	 * If the meaning of '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal object isn't clear,
@@ -79,6 +66,19 @@ public final class <%=genEnum.getName()%> extends AbstractEnumerator
 	 * <%=genEnumLiteral.getDocumentation(genModel.getIndentation(stringBuffer))%>
 	 * <!-- end-model-doc -->
 <%}%>
+	 * @see #<%=genEnumLiteral.getEnumLiteralID()%>_LITERAL
+	 * @model <%=genEnumLiteral.getModelInfo()%>
+	 * @generated
+	 * @ordered
+	 */
+	public static final int <%=genEnumLiteral.getEnumLiteralID()%> = <%=genEnumLiteral.getValue()%>;
+
+<%}%>
+<%for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();%>
+	/**
+	 * The '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #<%=genEnumLiteral.getEnumLiteralID()%>
 	 * @generated
 	 * @ordered

@@ -24,19 +24,19 @@ public class EnumClass
   protected final String TEXT_16 = "\";";
   protected final String TEXT_17 = NL;
   protected final String TEXT_18 = NL + "\t/**" + NL + "\t * The '<em><b>";
-  protected final String TEXT_19 = "</b></em>' literal value." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see #";
-  protected final String TEXT_20 = "_LITERAL" + NL + "\t * @model ";
-  protected final String TEXT_21 = NL + "\t * @generated" + NL + "\t * @ordered" + NL + "\t */" + NL + "\tpublic static final int ";
-  protected final String TEXT_22 = " = ";
-  protected final String TEXT_23 = ";" + NL;
-  protected final String TEXT_24 = NL + "\t/**" + NL + "\t * The '<em><b>";
-  protected final String TEXT_25 = "</b></em>' literal object." + NL + "\t * <!-- begin-user-doc -->";
-  protected final String TEXT_26 = NL + "\t * <p>" + NL + "\t * If the meaning of '<em><b>";
-  protected final String TEXT_27 = "</b></em>' literal object isn't clear," + NL + "\t * there really should be more of a description here..." + NL + "\t * </p>";
-  protected final String TEXT_28 = NL + "\t * <!-- end-user-doc -->";
-  protected final String TEXT_29 = NL + "\t * <!-- begin-model-doc -->" + NL + "\t * ";
-  protected final String TEXT_30 = NL + "\t * <!-- end-model-doc -->";
-  protected final String TEXT_31 = NL + "\t * @see #";
+  protected final String TEXT_19 = "</b></em>' literal value." + NL + "\t * <!-- begin-user-doc -->";
+  protected final String TEXT_20 = NL + "\t * <p>" + NL + "\t * If the meaning of '<em><b>";
+  protected final String TEXT_21 = "</b></em>' literal object isn't clear," + NL + "\t * there really should be more of a description here..." + NL + "\t * </p>";
+  protected final String TEXT_22 = NL + "\t * <!-- end-user-doc -->";
+  protected final String TEXT_23 = NL + "\t * <!-- begin-model-doc -->" + NL + "\t * ";
+  protected final String TEXT_24 = NL + "\t * <!-- end-model-doc -->";
+  protected final String TEXT_25 = NL + "\t * @see #";
+  protected final String TEXT_26 = "_LITERAL" + NL + "\t * @model ";
+  protected final String TEXT_27 = NL + "\t * @generated" + NL + "\t * @ordered" + NL + "\t */" + NL + "\tpublic static final int ";
+  protected final String TEXT_28 = " = ";
+  protected final String TEXT_29 = ";" + NL;
+  protected final String TEXT_30 = NL + "\t/**" + NL + "\t * The '<em><b>";
+  protected final String TEXT_31 = "</b></em>' literal object." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see #";
   protected final String TEXT_32 = NL + "\t * @generated" + NL + "\t * @ordered" + NL + "\t */" + NL + "\tpublic static final ";
   protected final String TEXT_33 = " ";
   protected final String TEXT_34 = "_LITERAL = new ";
@@ -127,30 +127,30 @@ public class EnumClass
     stringBuffer.append(TEXT_18);
     stringBuffer.append(genEnumLiteral.getFormattedName());
     stringBuffer.append(TEXT_19);
-    stringBuffer.append(genEnumLiteral.getEnumLiteralID());
+    if (!genEnumLiteral.hasDocumentation()) {
     stringBuffer.append(TEXT_20);
-    stringBuffer.append(genEnumLiteral.getModelInfo());
+    stringBuffer.append(genEnumLiteral.getFormattedName());
     stringBuffer.append(TEXT_21);
-    stringBuffer.append(genEnumLiteral.getEnumLiteralID());
+    }
     stringBuffer.append(TEXT_22);
-    stringBuffer.append(genEnumLiteral.getValue());
+    if (genEnumLiteral.hasDocumentation()) {
     stringBuffer.append(TEXT_23);
+    stringBuffer.append(genEnumLiteral.getDocumentation(genModel.getIndentation(stringBuffer)));
+    stringBuffer.append(TEXT_24);
+    }
+    stringBuffer.append(TEXT_25);
+    stringBuffer.append(genEnumLiteral.getEnumLiteralID());
+    stringBuffer.append(TEXT_26);
+    stringBuffer.append(genEnumLiteral.getModelInfo());
+    stringBuffer.append(TEXT_27);
+    stringBuffer.append(genEnumLiteral.getEnumLiteralID());
+    stringBuffer.append(TEXT_28);
+    stringBuffer.append(genEnumLiteral.getValue());
+    stringBuffer.append(TEXT_29);
     }
     for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();
-    stringBuffer.append(TEXT_24);
-    stringBuffer.append(genEnumLiteral.getFormattedName());
-    stringBuffer.append(TEXT_25);
-    if (!genEnumLiteral.hasDocumentation()) {
-    stringBuffer.append(TEXT_26);
-    stringBuffer.append(genEnumLiteral.getFormattedName());
-    stringBuffer.append(TEXT_27);
-    }
-    stringBuffer.append(TEXT_28);
-    if (genEnumLiteral.hasDocumentation()) {
-    stringBuffer.append(TEXT_29);
-    stringBuffer.append(genEnumLiteral.getDocumentation(genModel.getIndentation(stringBuffer)));
     stringBuffer.append(TEXT_30);
-    }
+    stringBuffer.append(genEnumLiteral.getFormattedName());
     stringBuffer.append(TEXT_31);
     stringBuffer.append(genEnumLiteral.getEnumLiteralID());
     stringBuffer.append(TEXT_32);
