@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.2 2004/05/23 04:17:51 davidms Exp $
+ * $Id: EClassifierImpl.java,v 1.3 2004/05/28 19:32:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -317,13 +317,42 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getInstanceClassName()
+  public String getInstanceClassNameGen()
   {
     return instanceClassName;
   }
 
+  public String getInstanceClassName()
+  {
+    return getInstanceClassNameGen() != null ? getInstanceClassNameGen() : generatedInstanceClassName;
+  }
+
+  protected String generatedInstanceClassName;
+
+  public void setGeneratedInstanceClass(boolean isGenerated)
+  {
+    if (isGenerated)
+    {
+      if (generatedInstanceClassName == null)
+      {
+        generatedInstanceClassName = instanceClassName;
+        instanceClassName = null;
+      }
+    }
+    else if (generatedInstanceClassName != null)
+    {
+      instanceClassName = generatedInstanceClassName;
+      generatedInstanceClassName = null;
+    }
+  }
+
   public void setInstanceClassName(String value)
   {
+    if (instanceClassName == null && generatedInstanceClassName != null)
+    {
+      instanceClassName = generatedInstanceClassName;
+      generatedInstanceClassName = null;
+    }
     setInstanceClassNameGen(value == null ? null : value.intern());
     if (instanceClass != null)
     {
@@ -358,7 +387,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
 
   public Class getInstanceClass() 
   {
-    if (instanceClass == null && instanceClassName != null)
+    if (instanceClass == null && (instanceClassName != null || generatedInstanceClassName != null))
     {
       try
       {

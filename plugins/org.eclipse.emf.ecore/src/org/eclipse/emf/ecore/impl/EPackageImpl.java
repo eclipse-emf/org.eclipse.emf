@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.3 2004/05/23 04:15:31 davidms Exp $
+ * $Id: EPackageImpl.java,v 1.4 2004/05/28 19:32:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -49,6 +49,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -683,6 +684,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
 
   final static protected boolean IS_ABSTRACT = true;
   final static protected boolean IS_INTERFACE = true;
+  final static protected boolean IS_GENERATED_INSTANCE_CLASS = true;
 
   protected EClass initEClass(EClass c, Class instanceClass, String name, boolean isAbstract, boolean isInterface)
   {
@@ -692,9 +694,17 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
     return c;
   }
 
+  protected EClass initEClass(EClass c, Class instanceClass, String name, boolean isAbstract, boolean isInterface, boolean isGenerated)
+  {
+    initEClassifier(c, ecorePackage.getEClass(), instanceClass, name, isGenerated);
+    c.setAbstract(isAbstract);
+    c.setInterface(isInterface);
+    return c;
+  }
+
   protected EEnum initEEnum(EEnum e, Class instanceClass, String name)
   {
-    initEClassifier(e, ecorePackage.getEEnum(), instanceClass, name);
+    initEClassifier(e, ecorePackage.getEEnum(), instanceClass, name, true);
     return e;
   }
 
@@ -702,7 +712,14 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
 
   protected EDataType initEDataType(EDataType d, Class instanceClass, String name, boolean isSerializable)
   {
-    initEClassifier(d, ecorePackage.getEDataType(), instanceClass, name);
+    initEClassifier(d, ecorePackage.getEDataType(), instanceClass, name, false);
+    d.setSerializable(isSerializable);
+    return d;
+  }
+
+  protected EDataType initEDataType(EDataType d, Class instanceClass, String name, boolean isSerializable, boolean isGenerated)
+  {
+    initEClassifier(d, ecorePackage.getEDataType(), instanceClass, name, isGenerated);
     d.setSerializable(isSerializable);
     return d;
   }
@@ -713,6 +730,19 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
     if (instanceClass != null)
     {
       o.setInstanceClass(instanceClass);
+    }
+  }
+
+  private void initEClassifier(EClassifier o, EClass metaObject, Class instanceClass, String name, boolean isGenerated)
+  {
+    o.setName(name);
+    if (instanceClass != null)
+    {
+      o.setInstanceClass(instanceClass);
+    }
+    if (isGenerated)
+    {
+      ((EClassifierImpl)o).setGeneratedInstanceClass(true);
     }
   }
 
@@ -1170,6 +1200,15 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
       if (eClassifier.getClassifierID() == -1 && eClassifier instanceof EDataType)
       {
         eClassifier.setClassifierID(id++);
+        if (eClassifier.getInstanceClassName() == "org.eclipse.emf.common.util.AbstractEnumerator")
+        {
+          EDataType baseType = ExtendedMetaData.INSTANCE.getBaseType((EDataType)eClassifier);
+          if (baseType instanceof EEnum)
+          {
+            eClassifier.setInstanceClass(baseType.getInstanceClass());
+            ((EClassifierImpl)eClassifier).setGeneratedInstanceClass(true);
+          }
+        }
       }
     }
   }
@@ -1182,6 +1221,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage
       int i = className.lastIndexOf('.', className.lastIndexOf('.') - 1);
       className = i == -1 ? eClassifier.getName() : className.substring(0, i + 1) + eClassifier.getName();
       eClassifier.setInstanceClassName(className);
+      ((EClassifierImpl)eClassifier).setGeneratedInstanceClass(true);
     }
   }
 

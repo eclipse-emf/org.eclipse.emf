@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EDataTypeImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EDataTypeImpl.java,v 1.2 2004/05/28 19:32:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -113,6 +113,25 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
   {
     super.setInstanceClassGen(instanceClass);
     defaultValueIsSet = false;
+  }
+
+  public void setGeneratedInstanceClass(boolean isGenerated)
+  {
+    super.setGeneratedInstanceClass(isGenerated);
+
+    setDataTypeGeneratedInstanceClass(isGenerated);
+
+  }
+
+  protected void setDataTypeGeneratedInstanceClass(boolean isGenerated)
+  {
+    // EEnumImpl overrides this to do nothing.
+    // The only case that is special is when a more specific instance of AbstractEnumerator is generated/reused.
+    //
+    if (isGenerated)
+    {
+      instanceClassName = "org.eclipse.emf.common.util.AbstractEnumerator";
+    }
   }
 
   /**
