@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.4 2004/04/10 20:30:57 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.5 2004/05/11 15:40:04 elena Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -382,121 +382,123 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String createAnyURIFromString(EDataType eDataType, String initialValue)
   {
-    return (String)super.createFromString(eDataType, initialValue);
+    // TODO no validation is performed on anyURI value
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertAnyURIToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return (String)instanceValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createBase64BinaryFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    // TODO no validation is performed on base64Binary
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertBase64BinaryToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Boolean createBooleanFromString(EDataType eDataType, String initialValue)
   {
-    return (Boolean)super.createFromString(eDataType, initialValue);
+    return initialValue == null ? null : booleanValueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertBooleanToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Boolean createBooleanObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Boolean)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getBoolean(), initialValue);
+    return initialValue == null ? null : booleanValueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertBooleanObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getBoolean(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public BigDecimal createDecimalFromString(EDataType eDataType, String initialValue)
   {
-    return (BigDecimal)super.createFromString(eDataType, initialValue);
+    return initialValue == null ? null : new BigDecimal(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertDecimalToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public BigInteger createIntegerFromString(EDataType eDataType, String initialValue)
   {
-    return (BigInteger)super.createFromString(eDataType, initialValue);
+    return initialValue == null ? null : new BigInteger(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertIntegerToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
@@ -506,7 +508,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Integer createIntObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Integer)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getInt(), initialValue);
+    return initialValue == null ? null : Integer.valueOf(initialValue);
   }
 
   /**
@@ -516,267 +518,270 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertIntObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getInt(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Long createLongFromString(EDataType eDataType, String initialValue)
   {
-    return (Long)super.createFromString(eDataType, initialValue);
+    return initialValue == null ? null : Long.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertLongToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Long createLongObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Long)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getLong(), initialValue);
+    return initialValue == null ? null : Long.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertLongObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getLong(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Integer createIntFromString(EDataType eDataType, String initialValue)
   {
-    return (Integer)super.createFromString(eDataType, initialValue);
+    return initialValue == null ? null : Integer.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertIntToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Short createShortFromString(EDataType eDataType, String initialValue)
   {
-    return (Short)super.createFromString(eDataType, initialValue);
+    return initialValue == null ? null : Short.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertShortToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Short createShortObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Short)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getShort(), initialValue);
+    return initialValue == null ? null : Short.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertShortObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getShort(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Byte createByteFromString(EDataType eDataType, String initialValue)
   {
-    return (Byte)super.createFromString(eDataType, initialValue);
+    return initialValue == null ? null : Byte.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertByteToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Byte createByteObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Byte)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getByte(), initialValue);
+    return initialValue == null ? null : Byte.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertByteObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getByte(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createDateFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    // TODO date value is not validated
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertDateToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createDateTimeFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    // TODO dateTime is not validated
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertDateTimeToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String createStringFromString(EDataType eDataType, String initialValue)
   {
-    return (String)super.createFromString(eDataType, initialValue);
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertStringToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return (String)instanceValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Double createDoubleFromString(EDataType eDataType, String initialValue)
   {
-    return (Double)super.createFromString(eDataType, initialValue);
+    return initialValue == null ? null : Double.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertDoubleToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Double createDoubleObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Double)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getDouble(), initialValue);
+    return initialValue == null ? null : Double.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertDoubleObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getDouble(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createDurationFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    // TODO duration is not validated
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertDurationToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
@@ -818,101 +823,106 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String createNormalizedStringFromString(EDataType eDataType, String initialValue)
   {
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getString(), initialValue);
+    // TODO normalizedString is not validated
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertNormalizedStringToString(EDataType eDataType, Object instanceValue)
-  {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getString(), instanceValue);
+  {    
+    return (String)instanceValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String createTokenFromString(EDataType eDataType, String initialValue)
   {
+    // TODO token is not validated
     return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNormalizedString(), initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertTokenToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getNormalizedString(), instanceValue);
+    return (String)instanceValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String createNameFromString(EDataType eDataType, String initialValue)
   {
+    // TODO name is not validated
     return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getToken(), initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertNameToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getToken(), instanceValue);
+    return (String)instanceValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String createNCNameFromString(EDataType eDataType, String initialValue)
   {
+    // TODO NCName is not validated
     return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getName_(), initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertNCNameToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getName_(), instanceValue);
+    return (String)instanceValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String createENTITYFromString(EDataType eDataType, String initialValue)
   {
+    // TODO entity is not validated
     return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNCName(), initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertENTITYToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getNCName(), instanceValue);
+    return (String)instanceValue;
   }
 
   /**
@@ -938,161 +948,167 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Float createFloatFromString(EDataType eDataType, String initialValue)
   {
-    return (Float)super.createFromString(eDataType, initialValue);
+    return initialValue == null ? null : Float.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertFloatToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Float createFloatObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Float)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getFloat(), initialValue);
+    return initialValue == null ? null : Float.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertFloatObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getFloat(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createGDayFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    //TODO gDay is not validated
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertGDayToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createGMonthFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    // TODO gMonth is not validated
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertGMonthToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createGMonthDayFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    // TODO gMonthDay is not validated
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertGMonthDayToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createGYearFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    // TODO gYear is not validated
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertGYearToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createGYearMonthFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    // TODO: gYearMonth is not validated
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertGYearMonthToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createHexBinaryFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    // TODO hexBinary is not validated
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertHexBinaryToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
@@ -1102,37 +1118,39 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createIDFromString(EDataType eDataType, String initialValue)
   {
+    // TODO ID is not validated
     return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNCName(), initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertIDToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getNCName(), instanceValue);
+    return (String)instanceValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String createIDREFFromString(EDataType eDataType, String initialValue)
   {
+    // TODO IDREF is not validated
     return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNCName(), initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertIDREFToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getNCName(), instanceValue);
+    return (String)instanceValue;
   }
 
   /**
@@ -1204,31 +1222,31 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertLanguageToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getToken(), instanceValue);
+    return (String)instanceValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public BigInteger createNonPositiveIntegerFromString(EDataType eDataType, String initialValue)
   {
-    return (BigInteger)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getInteger(), initialValue);
+    return initialValue == null ? null : new BigInteger(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertNonPositiveIntegerToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getInteger(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
@@ -1264,11 +1282,11 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertNMTOKENToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getToken(), instanceValue);
+    return (String)instanceValue;
   }
 
   /**
@@ -1330,21 +1348,21 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public BigInteger createNonNegativeIntegerFromString(EDataType eDataType, String initialValue)
   {
-    return (BigInteger)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getInteger(), initialValue);
+    return initialValue == null ? null : new BigInteger(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertNonNegativeIntegerToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getInteger(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
@@ -1360,11 +1378,11 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertNOTATIONToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return (String)instanceValue;
   }
 
   /**
@@ -1390,41 +1408,56 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createQNameFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    if (initialValue == null) return null;
+    
+    String rawname = initialValue;
+    int index = rawname.indexOf(":");
+
+    String prefix = "";
+    String localName = rawname;
+    if (index != -1)
+    {
+      prefix    = rawname.substring(0, index).intern();
+      localName = rawname.substring(index + 1).intern();
+    }
+    // TODO use XMLChar in xsd.DataValue to check local name and prefix
+
+    return new QName("", localName, prefix);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertQNameToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Object createTimeFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getAnySimpleType(), initialValue);
+    // TODO time is not validated
+    return initialValue;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertTimeToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getAnySimpleType(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
@@ -1450,101 +1483,101 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Long createUnsignedIntFromString(EDataType eDataType, String initialValue)
   {
-    return (Long)super.createFromString(eDataType, initialValue);
+    return initialValue == null ? null : Long.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertUnsignedIntToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Long createUnsignedIntObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Long)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getUnsignedInt(), initialValue);
+    return initialValue == null ? null : Long.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertUnsignedIntObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getUnsignedInt(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Integer createUnsignedShortFromString(EDataType eDataType, String initialValue)
   {
-    return (Integer)super.createFromString(eDataType, initialValue);
+    return initialValue == null ? null : Integer.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertUnsignedShortToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Integer createUnsignedShortObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Integer)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getUnsignedShort(), initialValue);
+    return initialValue == null ? null : Integer.valueOf(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertUnsignedShortObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getUnsignedShort(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Short createUnsignedByteFromString(EDataType eDataType, String initialValue)
   {
-    return (Short)super.createFromString(eDataType, initialValue);
+    return initialValue == null ? null : new Short(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertUnsignedByteToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
@@ -1554,7 +1587,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Short createUnsignedByteObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Short)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getUnsignedByte(), initialValue);
+    return initialValue == null ? null : new Short(initialValue);
   }
 
   /**
@@ -1564,7 +1597,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertUnsignedByteObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getUnsignedByte(), instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
@@ -1586,5 +1619,18 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   public static XMLTypePackage getPackage()
   {
     return XMLTypePackage.eINSTANCE;
+  }
+  
+  protected Boolean booleanValueOf(String initialValue)
+  {
+    if ("true".equals(initialValue) || "1".equals(initialValue))
+    {
+      return Boolean.TRUE;
+    }
+    else if ("false".equals(initialValue) || "0".equals(initialValue))
+    {
+      return Boolean.FALSE;
+    }
+    throw new IllegalArgumentException("'" + initialValue + "' is no a valid 'boolean' value");
   }
 } //XMLTypeFactoryImpl

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.2 2004/04/01 16:15:10 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.3 2004/05/11 15:40:04 elena Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -211,7 +211,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
   }
 
   /**
-   * @generated modifiable
+   * @generated NOT
    */
   public Object createFromString(EDataType eDataType, String stringValue) 
   {
@@ -266,7 +266,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
         {
         }
       }
-      return null;
+      throw new IllegalArgumentException("The value '"+stringValue+"' does not match any member types of the union datatype '" + eDataType.getName() + "'");
     }
 
     Class c = EcoreUtil.wrapperClassFor(eDataType.getInstanceClass());
@@ -300,7 +300,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     catch (NoSuchMethodException e)
     {
     }
-
+    Exception formatException = null;
     try
     {
       if (ctor != null)
@@ -311,14 +311,17 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     }
     catch (InstantiationException e)
     {
+      formatException = e;
     }
     catch (InvocationTargetException e)
     {
+      formatException = e;
     }
     catch (IllegalAccessException e)
     {
+      formatException = e;
     }
-
+    
     Method valueOf = null;
     try
     {
@@ -338,15 +341,18 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     }
     catch (IllegalArgumentException e)
     {
+      formatException = e;
     }
     catch (InvocationTargetException e)
     {
+      formatException = e;
     }
     catch (IllegalAccessException e)
     {
+      formatException = e;
     }
+    throw new IllegalArgumentException(formatException.getCause().toString());
 
-    return null;
   }
 
   /**
