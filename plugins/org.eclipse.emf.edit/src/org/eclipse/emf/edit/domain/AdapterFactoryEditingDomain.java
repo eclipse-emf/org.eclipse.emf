@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.6 2004/06/01 22:16:25 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.7 2004/06/17 10:04:17 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -45,6 +45,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CopyToClipboardCommand;
 import org.eclipse.emf.edit.command.CreateChildCommand;
@@ -340,7 +341,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     } 
     catch (Exception exception) 
     {
-      exception.printStackTrace();
+      EMFEditPlugin.INSTANCE.log(exception);
     }
 
     return null;
