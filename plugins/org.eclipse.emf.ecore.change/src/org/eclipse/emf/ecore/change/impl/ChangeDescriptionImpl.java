@@ -12,13 +12,16 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.2 2004/04/14 15:26:34 emerks Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.3 2004/05/13 20:26:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
@@ -210,6 +213,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
     getObjectsToAttach().clear();
     getObjectChanges().clear();
     getResourceChanges().clear();
+    oldContainmentInformation = null;
   }
 
   /**
@@ -260,6 +264,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
     }
     getObjectsToDetach().clear();
     getObjectsToDetach().addAll(oldObjectsToAttach);
+    oldContainmentInformation = null;
   }
 
   protected void preApply(boolean reverse)
@@ -303,6 +308,88 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
     }
   }
 
+  protected Map oldContainmentInformation;
+
+  protected static class OldContainmentInformation
+  {
+    public EObject container;
+    public EReference containmentFeature;
+
+    public OldContainmentInformation(EObject container, EReference containmentFeature)
+    {
+      this.container = container;
+      this.containmentFeature = containmentFeature;
+    }
+  }
+
+  protected Map getOldContainmentInformation()
+  {
+    if (oldContainmentInformation == null)
+    {
+      oldContainmentInformation = new HashMap();
+      for (Iterator i = getObjectChanges().iterator(); i.hasNext(); )
+      {
+        Map.Entry entry = (Map.Entry)i.next();
+        List featureChanges = (List)entry.getValue();
+        for (Iterator j = featureChanges.iterator(); j.hasNext(); )
+        {
+          FeatureChange featureChange = (FeatureChange)j.next();
+          EStructuralFeature feature = featureChange.getFeature();
+          if (feature instanceof EReference && ((EReference)feature).isContainment())
+          {
+            EObject container = (EObject)entry.getKey();
+            if (feature.isMany())
+            {
+              for (Iterator k = ((List)featureChange.getValue()).iterator(); k.hasNext(); )
+              {
+                EObject eObject = (EObject)k.next();
+                if (eObject.eContainer() != container || eObject.eContainmentFeature() != feature)
+                {
+                  oldContainmentInformation.put(eObject, new OldContainmentInformation(container, (EReference)feature));
+                }
+              }
+            }
+            else
+            {
+              EObject eObject = (EObject)featureChange.getValue();
+              if (eObject.eContainer() != container || eObject.eContainmentFeature() != feature)
+              {
+                oldContainmentInformation.put(eObject, new OldContainmentInformation(container, (EReference)feature));
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return oldContainmentInformation;
+  }
+
+  public EObject getOldContainer(EObject eObject)
+  {
+    OldContainmentInformation oldContainmentInformation = (OldContainmentInformation)getOldContainmentInformation().get(eObject);
+    if (oldContainmentInformation == null)
+    {
+      return eObject.eContainer();
+    }
+    else
+    {
+      return oldContainmentInformation.container;
+    }
+  }
+
+  public EReference getOldContainmentFeature(EObject eObject)
+  {
+    OldContainmentInformation oldContainmentInformation = (OldContainmentInformation)getOldContainmentInformation().get(eObject);
+    if (oldContainmentInformation == null)
+    {
+      return eObject.eContainmentFeature();
+    }
+    else
+    {
+      return oldContainmentInformation.containmentFeature;
+    }
+  }
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
