@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.1 2004/03/06 17:31:33 marcelop Exp $
+ * $Id: BuildTests.java,v 1.2 2004/03/20 21:27:14 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -585,7 +585,7 @@ public class BuildTests extends TestCase
     public void testChkpii()
     {
         String[] zipFiles = locateBuildGeneratedZipFiles();
-        String sniffFolder = Platform.getInstanceLocation().toOSString();
+        String sniffFolder = Platform.getInstanceLocation().getURL().getFile();
         FileTool.IZipFilter zipFilter = getTrueFilter();
         
         for (int i = 0; i < zipFiles.length; i++)
@@ -742,7 +742,7 @@ public class BuildTests extends TestCase
      */
     private String getFilesToTest(int type)
     {
-        String sniffFolder = Platform.getInstanceLocation().toOSString();
+        String sniffFolder = Platform.getInstanceLocation().getURL().getFile();
         String aString = new File(sniffFolder).getPath() + File.separator;
         switch(type)
         {
@@ -897,6 +897,7 @@ public class BuildTests extends TestCase
         TestSuite ts = new TestSuite();
         ts.addTest(new BuildTests("testFeatureFiles"));
         ts.addTest(new BuildTests("testPluginFiles"));
+        //ts.addTest(new BuildTests("testChkpii"));
         return ts;
     }    
 
