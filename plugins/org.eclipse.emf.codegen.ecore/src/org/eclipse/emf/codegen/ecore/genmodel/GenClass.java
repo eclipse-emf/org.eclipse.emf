@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.3 2004/04/02 17:44:08 emerks Exp $
+ * $Id: GenClass.java,v 1.4 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -209,7 +209,6 @@ public interface GenClass extends GenClassifier{
    * make sure it's not a reserved word.
    */  
   String getUncapName();
-  String getSafeUncapName();
 
   List/*of GenClass*/ getBaseGenClasses();
   List/*of GenClass*/ getAllBaseGenClasses();
@@ -320,4 +319,6 @@ public interface GenClass extends GenClassifier{
   String getModelInfo();
 
   boolean reconcile(GenClass oldGenClassVersion);
-} 
+
+  GenOperation getInvariantOperation(String constraint);
+}

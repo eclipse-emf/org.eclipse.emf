@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.3 2004/03/21 15:20:05 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.4 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -59,6 +59,8 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -959,6 +961,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String factoryClassTemplateName = "model/FactoryClass.javajet";
   protected String adapterFactoryClassTemplateName = "model/AdapterFactoryClass.javajet";
   protected String switchClassTemplateName = "model/SwitchClass.javajet";
+  protected String validatorSwitchClassTemplateName = "model/ValidatorClass.javajet";
   protected String pluginXMLTemplateName = "model/plugin.xmljet";
   protected String pluginPropertiesTemplateName = "model/plugin.propertiesjet";
   protected String modelPluginTemplateName = "model/Plugin.javajet";
@@ -978,6 +981,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter factoryClassEmitter = null;
   protected JETEmitter adapterFactoryClassEmitter = null;
   protected JETEmitter switchClassEmitter = null;
+  protected JETEmitter validatorSwitchClassEmitter = null;
   protected JETEmitter pluginXMLEmitter = null;
   protected JETEmitter pluginPropertiesEmitter = null;
   protected JETEmitter modelPluginClassEmitter = null;
@@ -1133,6 +1137,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     return switchClassEmitter;
   } 
+
+  public JETEmitter getValidatorClassEmitter()
+  {
+    if (validatorSwitchClassEmitter == null)
+    {
+      validatorSwitchClassEmitter = createJETEmitter(validatorSwitchClassTemplateName);
+      setMethod(validatorSwitchClassEmitter, "org.eclipse.emf.codegen.ecore.templates.model.ValidatorClass");
+    }
+    return validatorSwitchClassEmitter;
+  }
 
   public JETEmitter getPluginXMLEmitter()
   {
@@ -1311,6 +1325,33 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return status;
   }
 
+  protected ExtendedMetaData extendedMetaData;
+  protected ExtendedMetaData getExtendedMetaData()
+  {
+    if (extendedMetaData == null)
+    {
+      extendedMetaData = 
+        eResource() == null || eResource().getResourceSet() == null ? 
+          ExtendedMetaData.INSTANCE : 
+          new BasicExtendedMetaData(eResource().getResourceSet().getPackageRegistry());
+      populateExtendedMetaData(getGenPackages());
+      populateExtendedMetaData(getStaticGenPackages());
+      populateExtendedMetaData(getUsedGenPackages());
+    }
+    return extendedMetaData;
+  }
+
+  protected void populateExtendedMetaData(List genPackages)
+  {
+    for (Iterator i = genPackages.iterator(); i.hasNext(); )
+    {
+      GenPackage genPackage = (GenPackage)i.next();
+      EPackage ePackage = genPackage.getEcorePackage();
+      extendedMetaData.putPackage(ePackage.getNsURI(), ePackage);
+      populateExtendedMetaData(genPackage.getSubGenPackages());
+    }
+  }
+
   public boolean hasPluginSupport()
   {
     return !isBlank(getModelPluginID());
@@ -1322,31 +1363,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       if (!canGenerate()) return;
 
+      getStaticGenPackages();
+
       progressMonitor.beginTask("", getGenPackages().size() + 3);
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingPackages_message"));
-
-      LOOP:
-      for (Iterator i = getStaticPackages().iterator(); i.hasNext(); )
-      {
-        String nsURI = (String)i.next();
-        for (Iterator j = getStaticGenPackages().iterator(); j.hasNext(); )
-        {
-          GenPackage staticGenPackage = (GenPackage)j.next();
-          if (staticGenPackage.getNSURI().equals(nsURI))
-          {
-            continue LOOP;
-          }
-        }
-        EPackage staticEPackage = eResource().getResourceSet().getPackageRegistry().getEPackage(nsURI);
-        if (staticEPackage != null)
-        {
-          GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
-          GenPackage staticGenPackage = GenModelFactory.eINSTANCE.createGenPackage();
-          staticGenPackage.initialize(staticEPackage);
-          staticGenPackages.add(staticGenPackage);
-          genModel.getGenPackages().add(staticGenPackage);
-        }
-      }
 
       // Force the project to be setup properly.
       //
@@ -1430,6 +1450,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       if (!canGenerateEdit()) return;
 
+      getStaticGenPackages();
+
       progressMonitor.beginTask("", getGenPackages().size() + 1);
 
       // Force the project to be setup properly.
@@ -1509,6 +1531,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     try
     {
       if (!canGenerateEditor()) return;
+
+      getStaticGenPackages();
 
       progressMonitor.beginTask("", getGenPackages().size() + 1);
 
@@ -1590,7 +1614,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String modelWizardGIFName = "editor/NewModel.gif";
 
   protected JETEmitter itemProviderEmitter = null;
-//   protected JETEmitter extendedItemProviderEmitter = null;
+ //   protected JETEmitter extendedItemProviderEmitter = null;
   protected JETEmitter itemProviderAdapterFactoryEmitter = null;
   protected JETEmitter editPluginClassEmitter = null;
   protected JETEmitter editPluginXMLEmitter = null;
@@ -1617,15 +1641,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return itemProviderEmitter;
   }
 
-//   public JETEmitter getExtendedItemProviderEmitter()
-//   {
-//     if (extendedItemProviderEmitter == null)
-//     {
-//       extendedItemProviderEmitter = createJETEmitter(extendedItemProviderTemplateName);
-//       setMethod(extendedItemProviderEmitter, "org.eclipse.emf.codegen.ecore.templates.edit.ExtendedItemProvider");
-//     }
-//     return extendedItemProviderEmitter;
-//   }
+ //   public JETEmitter getExtendedItemProviderEmitter()
+ //   {
+ //     if (extendedItemProviderEmitter == null)
+ //     {
+ //       extendedItemProviderEmitter = createJETEmitter(extendedItemProviderTemplateName);
+ //       setMethod(extendedItemProviderEmitter, "org.eclipse.emf.codegen.ecore.templates.edit.ExtendedItemProvider");
+ //     }
+ //     return extendedItemProviderEmitter;
+ //   }
 
   public JETEmitter getItemProviderAdapterFactoryEmitter()
   {
@@ -1763,7 +1787,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editorPluginPropertiesEmitter;
   }
 
-/*
+ /*
   public boolean isGenerateEditPlugin()
   {
     return getEditDirectory() != null;
@@ -1773,7 +1797,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return getEditorDirectory() != null;
   }
-*/
+ */
 
   /**
    * <!-- begin-user-doc -->
@@ -2479,6 +2503,28 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (staticGenPackages == null)
     {
       staticGenPackages = new UniqueEList();
+      LOOP:
+      for (Iterator i = getStaticPackages().iterator(); i.hasNext(); )
+      {
+        String nsURI = (String)i.next();
+        for (Iterator j = getStaticGenPackages().iterator(); j.hasNext(); )
+        {
+          GenPackage staticGenPackage = (GenPackage)j.next();
+          if (staticGenPackage.getNSURI().equals(nsURI))
+          {
+            continue LOOP;
+          }
+        }
+        EPackage staticEPackage = eResource().getResourceSet().getPackageRegistry().getEPackage(nsURI);
+        if (staticEPackage != null)
+        {
+          GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
+          GenPackage staticGenPackage = GenModelFactory.eINSTANCE.createGenPackage();
+          staticGenPackage.initialize(staticEPackage);
+          staticGenPackages.add(staticGenPackage);
+          genModel.getGenPackages().add(staticGenPackage);
+        }
+      }
     }
     return staticGenPackages;
   }
@@ -3591,5 +3637,5 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return ((GenPackage)getGenPackages().get(0)).getEcorePackage();
   }
-} //GenModelImpl
+ } //GenModelImpl
 

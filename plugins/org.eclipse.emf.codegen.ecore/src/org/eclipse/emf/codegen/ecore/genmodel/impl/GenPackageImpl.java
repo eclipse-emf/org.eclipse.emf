@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.3 2004/03/23 09:51:06 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.4 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -928,6 +928,32 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return getPrefixedName("Switch");
   }
 
+  protected static final boolean NO_CONSTRAINTS = "true".equals(System.getProperty("EMF_NO_CONSTRAINTS")); 
+
+  public boolean hasConstraints()
+  {
+    if (NO_CONSTRAINTS) return false;
+    for (Iterator i = getGenClassifiers().iterator(); i.hasNext(); )
+    {
+      GenClassifier genClassifier = (GenClassifier)i.next();
+      if (!genClassifier.getGenConstraints().isEmpty())
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public String getValidatorClassName()
+  {
+    return getPrefixedName("Validator");
+  }
+
+  public String getImportedValidatorClassName()
+  {
+    return getGenModel().getImportedName(getUtilitiesPackageName() + "." + getPrefixedName("Validator"));
+  }
+
   protected String getPrefixedName(String name)
   {
     if (getPrefix() != null)
@@ -1231,11 +1257,19 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public List getAllSwitchGenClasses()
   {
+    if (switchHelper == null)
+    {
+      switchHelper = new SwitchHelper();
+    }
     return switchHelper.getAllGenClasses();
-  }  
+  }
 
   public String getClassUniqueName(GenClass genClass)
   {
+    if (switchHelper == null)
+    {
+      switchHelper = new SwitchHelper();
+    }
     return switchHelper.getUniqueName(genClass);
   }
 
@@ -1243,13 +1277,23 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   private class SwitchHelper extends GenBaseImpl.UniqueNameHelper
   {
-    private List allGenClasses = null;
+    protected List allGenClasses = new LinkedList();
+    protected List allBaseGenPackages = new UniqueEList();
 
     public SwitchHelper()
     {
       super(3 * getGenClasses().size());
-      allGenClasses = new LinkedList();
+      initLocal();
+      initBases();
+    }
 
+    protected SwitchHelper(int size)
+    {
+      super(size);
+    }
+
+    protected void initLocal()
+    {
       // Add all classes from this package first, to guarantee they get the
       // simple names
       for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
@@ -1262,7 +1306,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           allGenClasses.add(genClass);
         }
       }
+    }
 
+    protected void initBases()
+    {
       // Go through class supertypes to catch any from other packages
       for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
       {
@@ -1276,6 +1323,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           if (baseGenClass != null && !baseGenClass.isEObject() && add(baseGenClass))
           {
             allGenClasses.add(baseGenClass);
+            if (baseGenClass.getGenPackage() != GenPackageImpl.this)
+            {
+              allBaseGenPackages.add(baseGenClass.getGenPackage());
+            }
           }
         }
       }
@@ -1283,18 +1334,103 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
     protected String getName(Object o)
     {
-      return ((GenClass)o).getName();
+      return ((GenClassifier)o).getName();
     }
 
     protected List getAlternateNames(Object o)
     {
-      GenClass genClass = (GenClass)o;
-      return Collections.singletonList(genClass.getGenPackage().getPrefix() + "_" + genClass.getName());
+      GenClassifier genClassifier = (GenClassifier)o;
+      return Collections.singletonList(genClassifier.getGenPackage().getPrefix() + "_" + genClassifier.getName());
     }
 
     public List getAllGenClasses()
     {
       return allGenClasses;
+    }
+  }
+
+  public List getAllValidatorBaseGenPackages()
+  {
+    if (validatorHelper == null)
+    {
+      validatorHelper = new ValidatorHelper();
+    }
+    return validatorHelper.getAllBaseGenPackages();
+  }
+
+  public String getValidatorPackageUniqueSafeName(GenPackage genPackage)
+  {
+    if (validatorHelper == null)
+    {
+      validatorHelper = new ValidatorHelper();
+    }
+    return validatorHelper.getPackageUniqueSafeName(genPackage);
+  }
+
+  private ValidatorHelper validatorHelper = null;
+
+  private class ValidatorHelper 
+  {
+    protected List allBaseGenPackages = new UniqueEList();
+
+    public ValidatorHelper()
+    {
+      init();
+    }
+
+    protected void init()
+    {
+      // Go through class supertypes to catch constraints from other packages
+      for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
+      {
+        GenClass genClass = (GenClass)i.next();
+        if (!genClass.isEObject()) 
+        {
+          for (Iterator j = genClass.getEcoreClass().getEAllSuperTypes().iterator(); j.hasNext(); )
+          {
+            EClass base = (EClass)j.next();
+            GenClass baseGenClass = findGenClass(base);
+            if (baseGenClass != null && 
+                  !baseGenClass.isEObject() && 
+                  baseGenClass.getGenPackage() != GenPackageImpl.this &&
+                  !baseGenClass.getGenConstraints().isEmpty())
+            {
+              allBaseGenPackages.add(baseGenClass.getGenPackage());
+            }
+          }
+        }
+      }
+
+      for (Iterator i = getGenDataTypes().iterator(); i.hasNext(); )
+      {
+        GenDataType genDataType = (GenDataType)i.next();
+        for (GenDataType baseType = genDataType.getBaseType(); baseType != null; baseType = baseType.getBaseType())
+        {
+          allBaseGenPackages.add(baseType.getGenPackage());
+        }
+        GenDataType itemType = genDataType.getItemType();
+        if (itemType != null)
+        {
+          allBaseGenPackages.add(itemType.getGenPackage());
+        }
+        for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); )
+        {
+          GenDataType memberType = (GenDataType)j.next();
+          allBaseGenPackages.add(memberType.getGenPackage());
+        }
+      }
+
+      allBaseGenPackages.remove(GenPackageImpl.this);      
+    }
+
+    public List getAllBaseGenPackages()
+    {
+      return allBaseGenPackages;
+    }
+
+    public String getPackageUniqueSafeName(GenPackage genPackage)
+    {
+      return safeName(uncapPrefixedName(genPackage.getPrefix())); 
     }
   }
 
@@ -1399,6 +1535,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       // Create helpers to cache and supply information for unique naming
       switchHelper = new SwitchHelper();
+      validatorHelper = new ValidatorHelper();
       dependencyHelper = new DependencyHelper();
 
       for (Iterator iter = getGenClasses().iterator(); iter.hasNext(); )
@@ -1472,6 +1609,21 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
            getFactoryClassName(), 
            getGenModel().getFactoryClassEmitter());
 
+        if (hasConstraints())
+        {
+          progressMonitor.subTask
+            (CodeGenEcorePlugin.INSTANCE.getString
+               ("_UI_GeneratingJavaClass_message", new Object [] { getUtilitiesPackageName() + "." + getValidatorClassName() }));
+          generate
+            (new SubProgressMonitor(progressMonitor, 1), 
+             Generator.EMF_MODEL_PROJECT_STYLE,
+             getGenModel().getEffectiveModelPluginVariables(),
+             getGenModel().getModelDirectory(),
+             getUtilitiesPackageName(), 
+             getValidatorClassName(), 
+             getGenModel().getValidatorClassEmitter());
+        }
+
         if (isAdapterFactory())
         {
           progressMonitor.subTask
@@ -1537,6 +1689,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       // Clear the transient helpers
       switchHelper = null;
+      validatorHelper = null;
       dependencyHelper = null;
 
       progressMonitor.done();
@@ -2342,7 +2495,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       return false;
     }
 
-    return ExtendedMetaData.INSTANCE.getDocumentRoot(getEcorePackage()) != null;
+    return getExtendedMetaData().getDocumentRoot(getEcorePackage()) != null;
   }
 
   public boolean hasExtendedMetaData()
@@ -2392,7 +2545,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   {
     if (hasExtendedMetaData())
     {
-      return ExtendedMetaData.INSTANCE.getNamespace(getEcorePackage()) != null;
+      return getExtendedMetaData().getNamespace(getEcorePackage()) != null;
     }
 
     EAnnotation eAnnotation = getEcorePackage().getEAnnotation(XSD2ECORE_URI);

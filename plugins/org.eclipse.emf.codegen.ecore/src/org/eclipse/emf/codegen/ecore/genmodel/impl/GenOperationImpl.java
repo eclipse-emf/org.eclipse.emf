@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenOperationImpl.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -660,5 +660,17 @@ public class GenOperationImpl extends GenBaseImpl implements GenOperation
       }
       return result.toString();
     }
+  }
+
+  public boolean isInvariant()
+  {
+    return
+      getReturnType() != null && 
+        "boolean".equals(getReturnType()) &&
+        getGenParameters().size() == 2 &&
+        "org.eclipse.emf.common.util.DiagnosticChain".equals
+          (((GenParameter)getGenParameters().get(0)).getEcoreParameter().getEType().getInstanceClassName()) &&
+        "java.util.Map".equals
+          (((GenParameter)getGenParameters().get(1)).getEcoreParameter().getEType().getInstanceClassName());
   }
 }

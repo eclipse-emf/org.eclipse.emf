@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.2 2004/03/23 09:51:06 marcelop Exp $
+ * $Id: GenPackage.java,v 1.3 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -326,6 +326,8 @@ public interface GenPackage extends GenBase{
   String getUncapAdapterFactoryClassName();
 
   String getSwitchClassName();
+  String getValidatorClassName();
+  String getImportedValidatorClassName();
 
   List getAllGenDataTypes();
 
@@ -366,6 +368,9 @@ public interface GenPackage extends GenBase{
 
   List /*of GenClass*/ getAllSwitchGenClasses();
   String getClassUniqueName(GenClass genClass);
+
+  List /*of GenPackage*/ getAllValidatorBaseGenPackages();
+  String getValidatorPackageUniqueSafeName(GenPackage genPackage);
 
   void initialize(EPackage ePackage);
 
@@ -429,4 +434,6 @@ public interface GenPackage extends GenBase{
   boolean hasDocumentRoot();
   boolean hasExtendedMetaData();
   boolean hasTargetNamespace();
+
+  boolean hasConstraints();
 }

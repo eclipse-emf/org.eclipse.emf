@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataType.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenDataType.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -69,15 +69,29 @@ public interface GenDataType extends GenClassifier {
   String getImportedInstanceClassName();
   String getObjectInstanceClassName();
 
+  boolean isObjectType();
   boolean isPrimitiveType();
   boolean isArrayType();
   boolean isSerializable();
+  String getPrimitiveValueFunction();
   String getSerializableFlag();
   String getModelInfo();
 
   GenDataType getBaseType();
   GenDataType getItemType();
   List /*GenDataType*/ getMemberTypes();
+
+  String getMinLiteral();
+  boolean isMinInclusive();
+
+  String getMaxLiteral();
+  boolean isMaxInclusive();
+
+  String getLengthAccessorFunction();
+  int getMinLength();
+  int getMaxLength();
+
+  String getStaticValue(String literal);
 
   void initialize(EDataType eDataType);
 

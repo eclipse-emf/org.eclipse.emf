@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenClassifier.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenClassifier.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
+
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClassifier;
 
@@ -61,6 +63,8 @@ public interface GenClassifier extends GenBase {
   String getName();
   String getClassifierAccessorName();
 
+  String getSafeUncapName();
+
   String getImportedInstanceClassName();
 
   /**
@@ -70,4 +74,9 @@ public interface GenClassifier extends GenBase {
 
   String getClassifierInstanceName();
   String getClassifierID();
+
+  List /* of String */ getGenConstraints();
+  List /* of String */ getAllGenConstraints();
+  GenClassifier getConstraintImplementor(String constraint);
+  GenClassifier getConstraintDelegate(String constraint);
 }

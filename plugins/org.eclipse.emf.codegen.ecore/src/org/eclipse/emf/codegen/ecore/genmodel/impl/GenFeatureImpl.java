@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.2 2004/03/31 16:19:31 davidms Exp $
+ * $Id: GenFeatureImpl.java,v 1.3 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -22,7 +22,6 @@ import java.util.Iterator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
-import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -37,12 +36,9 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 
 /**
@@ -888,90 +884,11 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   public String getStaticDefaultValue()
   {
     String defaultString = getEcoreFeature().getDefaultValueLiteral();
-
     EClassifier eType = getEcoreFeature().getEType();
-    if (eType instanceof EEnum)
-    {
-      GenEnum genEnum = findGenEnum((EEnum)eType);
-      GenEnumLiteral genEnumLiteral = genEnum.getGenEnumLiteral(defaultString);
-      return genEnum.getImportedName() + "." + genEnumLiteral.getEnumLiteralID() + "_LITERAL";
-    }
-
     if (eType instanceof EDataType)
     {
-      if (eType.getEPackage() != EcorePackage.eINSTANCE && defaultString != null)
-      {
-        boolean replaced = false;
-        for (Iterator i = EcorePackage.eINSTANCE.getEClassifiers().iterator(); i.hasNext(); )
-        {
-          EClassifier eClassifier = (EClassifier)i.next();
-          if (eClassifier instanceof EDataType && 
-                eClassifier.getInstanceClassName().equals(eType.getInstanceClassName()) &&
-                ((EDataType)eClassifier).isSerializable())
-          {
-            replaced = true;
-            eType = eClassifier;
-            break;
-          }
-        }
-        if (!replaced)
-        {
-          return null;
-        }
-      }
-
-      Object defaultObject = eType.getDefaultValue();
-      if (defaultString != null)
-      {
-        try
-        {
-          defaultObject = EcoreFactory.eINSTANCE.createFromString((EDataType)eType, defaultString);
-        }
-        catch (Exception e)
-        {
-          return "";  // cause a syntax error
-        }
-      }
-      if (defaultObject == null) return "null";
-      String result = Literals.toLiteral(defaultObject);
-
-      // import any class names
-      if (defaultObject instanceof Float && result.startsWith("java.lang.Float"))
-      {
-        result = getGenModel().getImportedName("java.lang.Float") + result.substring(15);
-      }
-      else if (defaultObject instanceof Double && result.startsWith("java.lang.Double"))
-      {
-        result = getGenModel().getImportedName("java.lang.Double") + result.substring(16);
-      }
-      else if (defaultObject instanceof Class && result.endsWith(".class"))
-      {
-        result = getGenModel().getImportedName(result.substring(0, result.length() - 6)) + ".class";
-      }
-
-      // include wrapping for wrapped primitive types
-      Class typeClass = getInstanceClass(eType);
-      if (typeClass == Boolean.class || typeClass == Character.class ||
-          typeClass == Byte.class    || typeClass == Short.class     ||
-          typeClass == Integer.class || typeClass == Long.class      ||
-          typeClass == Float.class   || typeClass == Double.class)
-      {
-        StringBuffer wrapped = new StringBuffer("new ");
-        wrapped.append(getGenModel().getImportedName(eType.getInstanceClassName()));
-        wrapped.append('(');
-        if (typeClass == Byte.class)
-        {
-          wrapped.append("(byte)");
-        }
-        else if (typeClass == Short.class)
-        {
-          wrapped.append("(short)");
-        }
-        wrapped.append(result);
-        wrapped.append(')');
-        result = wrapped.toString();
-      }
-      return result;
+      GenDataType genDataType = (GenDataType)findGenClassifier((EDataType)eType);
+      return genDataType.getStaticValue(defaultString);
     }
 
     return "null";
@@ -1130,6 +1047,12 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     return result + "IS_DERIVED";
   }
 
+  public String getOrderedFlag()
+  {
+    String result = !getEcoreFeature().isOrdered() ? "!" : "";
+    return result + "IS_ORDERED";
+  }
+
   public String getTransientFlag()
   {
     String result = !getEcoreFeature().isTransient() ? "!" : "";
@@ -1223,20 +1146,20 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   {
     EStructuralFeature ecoreFeature = getEcoreFeature();
     EClass ecoreClass = ecoreFeature.getEContainingClass();
-    EStructuralFeature mixedFeature = ExtendedMetaData.INSTANCE.getMixedFeature(ecoreClass);
+    EStructuralFeature mixedFeature = getExtendedMetaData().getMixedFeature(ecoreClass);
     return 
       (mixedFeature != null && mixedFeature != ecoreFeature) ||
-      ExtendedMetaData.INSTANCE.getGroup(ecoreFeature) != null;
+      getExtendedMetaData().getGroup(ecoreFeature) != null;
   }
 
   public GenFeature getDelegateFeature()
   {
     EStructuralFeature ecoreFeature = getEcoreFeature();
     EClass ecoreClass = ecoreFeature.getEContainingClass();
-    EStructuralFeature eStructuralFeature = ExtendedMetaData.INSTANCE.getGroup(ecoreFeature);
+    EStructuralFeature eStructuralFeature = getExtendedMetaData().getGroup(ecoreFeature);
     if (eStructuralFeature == null)
     {
-      eStructuralFeature = ExtendedMetaData.INSTANCE.getMixedFeature(ecoreClass);
+      eStructuralFeature = getExtendedMetaData().getMixedFeature(ecoreClass);
     }
     if (eStructuralFeature != null && eStructuralFeature != ecoreFeature)
     {
@@ -1432,6 +1355,11 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     if (eStructuralFeature.isDerived())
     {
       appendModelSetting(result, qualified, "derived", "true");
+    }
+
+    if (!eStructuralFeature.isOrdered())
+    {
+      appendModelSetting(result, qualified, "ordered", "false");
     }
 
     return result.toString().trim();

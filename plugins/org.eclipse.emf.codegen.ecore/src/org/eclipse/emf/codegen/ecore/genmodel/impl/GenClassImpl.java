@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.5 2004/04/03 20:06:11 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.6 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,6 +34,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
@@ -347,16 +349,6 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public String getImportedClassName()
   {
     return getGenModel().getImportedName(getQualifiedClassName());
-  }
-
-  public String getUncapName()
-  {
-    return uncapPrefixedName(getName());
-  }
-
-  public String getSafeUncapName()
-  {
-    return safeName(getUncapName());
   }
 
   public List getBaseGenClasses()
@@ -1773,5 +1765,91 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
       return true;
     }
+  }
+
+  public List getGenConstraints()
+  {
+    List result = new UniqueEList(super.getGenConstraints());
+    for (Iterator i = getGenOperations().iterator(); i.hasNext(); )
+    {
+      GenOperation genOperation = (GenOperation)i.next();
+      if (genOperation.isInvariant())
+      {
+        result.add(genOperation.getName());
+      }
+    }
+
+    return result;
+  }
+
+  public static final List INTRINSIC_CONSTRAINTS = 
+    Arrays.asList
+      (new String [] 
+       {
+        "EveryMultiplicityConforms", 
+        "EveryDataValueConforms", 
+        "EveryReferenceIsContained", 
+        "EveryProxyResolves"
+       });
+
+  public List getAllGenConstraints()
+  {
+    List result = new ArrayList(INTRINSIC_CONSTRAINTS);
+    result.addAll(collectGenConstraints(getAllBaseGenClasses(), getGenConstraints(), null));
+    return result;
+  }
+
+  public GenClassifier getConstraintImplementor(String constraint)
+  {
+    if (getGenConstraints().contains(constraint))
+    {
+      return this;
+    }
+    else
+    {
+      for (Iterator i = getBaseGenClasses().iterator(); i.hasNext(); )
+      {
+        GenClass baseGenClass = (GenClass)i.next();
+        if (baseGenClass.getGenConstraints().contains(constraint))
+        {
+          return baseGenClass;
+        }
+        else if (baseGenClass.getAllGenConstraints().contains(constraint))
+        {
+          return baseGenClass.getConstraintImplementor(constraint);
+        }
+      }
+      return null;
+    }
+  }
+
+  public GenClassifier getConstraintDelegate(String constraint)
+  {
+    for (Iterator i = getBaseGenClasses().iterator(); i.hasNext(); )
+    {
+      GenClass baseGenClass = (GenClass)i.next();
+      if (baseGenClass.getGenConstraints().contains(constraint))
+      {
+        return baseGenClass;
+      }
+      else if (baseGenClass.getAllGenConstraints().contains(constraint))
+      {
+        return baseGenClass.getConstraintImplementor(constraint);
+      }
+    }
+    return null;
+  }
+
+  public GenOperation getInvariantOperation(String constraint)
+  {
+    for (Iterator j = getGenOperations().iterator(); j.hasNext(); )
+    {
+      GenOperation genOperation = (GenOperation)j.next();
+      if (genOperation.getName().equals(constraint) && genOperation.isInvariant())
+      {
+        return genOperation;
+      }
+    }
+    return null;
   }
 }

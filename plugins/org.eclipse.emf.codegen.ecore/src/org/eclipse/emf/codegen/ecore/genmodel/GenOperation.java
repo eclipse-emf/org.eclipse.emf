@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenOperation.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -139,4 +139,6 @@ public interface GenOperation extends GenBase{
 
   List getGenExceptions();
   String getThrows();
+
+  boolean isInvariant();
 }

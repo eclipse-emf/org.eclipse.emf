@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.3 2004/05/05 13:26:32 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.4 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1013,7 +1013,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
     if ("org.eclipse.emf.common.util.AbstractEnumerator".equals(eType.getInstanceClassName()))
     {
-      EDataType baseType = ExtendedMetaData.INSTANCE.getBaseType((EDataType)eType);
+      EDataType baseType = getExtendedMetaData().getBaseType((EDataType)eType);
       if (baseType instanceof EEnum)
       {
         GenEnum genEnum = findGenEnum((EEnum)baseType);
@@ -1454,6 +1454,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     boolean accept(GenOperation genOperation);
   }  
 
+  protected static interface GenConstraintFilter
+  {
+    boolean accept(String genConstraint);
+  }
+
   /**
    * Return all GenClasses in the specified genClasses list that are
    * accepted by filter; all are accepted if filter is null.
@@ -1565,6 +1570,46 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         if (filter == null || filter.accept(genOperation))
         {
           result.add(genOperation);
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Iterate over the lists returned by calling getGenConstraints() on items in
+   * the list of genClassifiers, and then over the list of genConstraints.  Return
+   * all such constraint if filter is null, or those accepted by filter,
+   * otherwise.  Either list argument is ignored if it is null.
+   */
+  protected List collectGenConstraints(List genClassifiers, List genConstraints, GenConstraintFilter filter)
+  {
+    List result = new UniqueEList();
+
+    if (genClassifiers != null)
+    {
+      for (Iterator iter = genClassifiers.iterator(); iter.hasNext(); )
+      {
+        GenClassifier genClassifier = (GenClassifier)iter.next();
+        for (Iterator sIter = genClassifier.getGenConstraints().iterator(); sIter.hasNext(); )
+        {
+          String genConstraint = (String)sIter.next();
+          if (filter == null || filter.accept(genConstraint))
+          {
+            result.add(genConstraint);
+          }
+        }
+      }
+    }
+
+    if (genConstraints != null)
+    {
+      for (Iterator iter = genConstraints.iterator(); iter.hasNext(); )
+      {
+        String genConstraint = (String)iter.next();
+        if (filter == null || filter.accept(genConstraint))
+        {
+          result.add(genConstraint);
         }
       }
     }
@@ -2102,5 +2147,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
       return stringBuffer.toString();
     }
+  }
+
+  protected ExtendedMetaData getExtendedMetaData()
+  {
+    return eContainer() == null ? ExtendedMetaData.INSTANCE : ((GenBaseImpl)eContainer()).getExtendedMetaData();
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenEnumImpl.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -296,6 +296,11 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     return getEcoreEnum();
   }
 
+  public EDataType getEcoreDataType()
+  {
+    return getEcoreEnum();
+  }
+
   public String getImportedMetaType()
   {
     return getGenModel().getImportedName("org.eclipse.emf.ecore.EEnum");
@@ -311,10 +316,12 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     return getGenModel().getImportedName(getQualifiedName());
   }
 
+/*
   public String getImportedInstanceClassName()
   {
     return getGenModel().getImportedName("org.eclipse.emf.ecore.EEnumLiteral"); 
   }
+*/
 
   public String getEnumLiteralID(GenEnumLiteral genEnumLiteral)
   {
@@ -478,6 +485,12 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
 
       return true;
     }
+  }
+
+  public String getStaticValue(String literal)
+  {
+    GenEnumLiteral genEnumLiteral = getGenEnumLiteral(literal);
+    return getImportedName() + "." + genEnumLiteral.getEnumLiteralID() + "_LITERAL";
   }
 
 } //GenEnumImpl

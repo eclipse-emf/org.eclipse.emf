@@ -12,21 +12,27 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenDataTypeImpl.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -207,7 +213,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
     if (name.equals("org.eclipse.emf.common.util.AbstractEnumerator"))
     {
-      EDataType baseType = ExtendedMetaData.INSTANCE.getBaseType(getEcoreDataType());
+      EDataType baseType = getExtendedMetaData().getBaseType(getEcoreDataType());
       if (baseType instanceof EEnum)
       {
         GenEnum genEnum = findGenEnum((EEnum)baseType);
@@ -252,6 +258,33 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return getEcoreDataType().getInstanceClassName().indexOf('[') != -1;
   }
 
+  public boolean isObjectType()
+  {
+    return "java.lang.Object".equals(getEcoreDataType());
+  }
+
+  public String getPrimitiveValueFunction()
+  {
+    Class instanceClass = getEcoreDataType().getInstanceClass();
+    if (instanceClass == java.lang.Boolean.TYPE)
+      return "booleanValue";
+    if (instanceClass == java.lang.Byte.TYPE)
+      return "byteValue";
+    if (instanceClass == java.lang.Character.TYPE)
+      return "charValue";
+    if (instanceClass == java.lang.Double.TYPE)
+      return "doubleValue";
+    if (instanceClass == java.lang.Float.TYPE)
+      return "floatValue";
+    if (instanceClass == java.lang.Integer.TYPE)
+      return "intValue";
+    if (instanceClass == java.lang.Long.TYPE)
+      return "longValue";
+    if (instanceClass == java.lang.Short.TYPE)
+      return "shortValue";
+    return null;
+  }
+
   public String getModelInfo()
   {
     StringBuffer result = new StringBuffer();
@@ -268,25 +301,155 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public GenDataType getBaseType()
   {
-    EDataType baseType = ExtendedMetaData.INSTANCE.getBaseType(getEcoreDataType());
+    EDataType baseType = getExtendedMetaData().getBaseType(getEcoreDataType());
     return baseType == null ? null : (GenDataType)findGenClassifier(baseType);
   }
 
   public GenDataType getItemType()
   {
-    EDataType itemType = ExtendedMetaData.INSTANCE.getItemType(getEcoreDataType());
+    EDataType itemType = getExtendedMetaData().getItemType(getEcoreDataType());
     return itemType == null ? null : (GenDataType)findGenClassifier(itemType);
   }
 
   public List /*GenDataType*/ getMemberTypes()
   {
     List result = new ArrayList();
-    for (Iterator i = ExtendedMetaData.INSTANCE.getMemberTypes(getEcoreDataType()).iterator(); i.hasNext(); )
+    for (Iterator i = getExtendedMetaData().getMemberTypes(getEcoreDataType()).iterator(); i.hasNext(); )
     {
       EDataType memberType = (EDataType)i.next();
       result.add(findGenClassifier(memberType));
     }
     return result;
+  }
+
+  public String getMinLiteral()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      String min = extendedMetaData.getMinExclusiveFacet(eDataType);
+      if (min != null)
+      {
+        return min;
+      }
+      min = extendedMetaData.getMinInclusiveFacet(eDataType);
+      if (min != null)
+      {
+        return min;
+      }
+    }
+    return null;
+  }
+
+  public boolean isMinInclusive()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      String min = extendedMetaData.getMinExclusiveFacet(eDataType);
+      if (min != null)
+      {
+        return false;
+      }
+      min = extendedMetaData.getMinInclusiveFacet(eDataType);
+      if (min != null)
+      {
+        return true;
+      }
+    }
+    return true;
+  }
+
+  public String getMaxLiteral()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      String max = extendedMetaData.getMaxExclusiveFacet(eDataType);
+      if (max != null)
+      {
+        return max;
+      }
+      max = extendedMetaData.getMaxInclusiveFacet(eDataType);
+      if (max != null)
+      {
+        return max;
+      }
+    }
+    return null;
+  }
+
+  public boolean isMaxInclusive()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      String max = extendedMetaData.getMaxExclusiveFacet(eDataType);
+      if (max != null)
+      {
+        return false;
+      }
+      max = extendedMetaData.getMaxInclusiveFacet(eDataType);
+      if (max != null)
+      {
+        return true;
+      }
+    }
+    return true;
+  }
+
+  public String getLengthAccessorFunction()
+  {
+    if (isArrayType())
+    {
+      return "length";
+    }
+    else if ("java.lang.String".equals(getEcoreDataType().getInstanceClassName()))
+    {
+      return "length()";
+    }
+    else
+    {
+      return "size()";
+    }
+  }
+
+  public int getMinLength()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      int minLength = extendedMetaData.getMinLengthFacet(eDataType);
+      if (minLength != -1)
+      {
+        return minLength;
+      }
+      minLength = extendedMetaData.getLengthFacet(eDataType);
+      if (minLength != -1)
+      {
+        return minLength;
+      }
+    }
+    return -1;
+  }
+
+  public int getMaxLength()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      int maxLength = extendedMetaData.getMaxLengthFacet(eDataType);
+      if (maxLength != -1)
+      {
+        return maxLength;
+      }
+      maxLength = extendedMetaData.getLengthFacet(eDataType);
+      if (maxLength != -1)
+      {
+        return maxLength;
+      }
+    }
+    return -1;
   }
 
   public void initialize(EDataType eDataType)
@@ -322,5 +485,181 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     {
       return true;
     }
+  }
+
+  public List getGenConstraints()
+  {
+    List constraints = new ArrayList(super.getGenConstraints());
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    EDataType eDataType = getEcoreDataType();
+    // White space is not a constraint; it should affect createFromString only.
+    //
+    // if (extendedMetaData.getWhiteSpaceFacet(eDataType) != ExtendedMetaData.UNSPECIFIED_WHITE_SPACE)
+    // {
+    //   constraints.add("WhiteSpace");
+    // }
+    if (!extendedMetaData.getEnumerationFacet(eDataType).isEmpty())
+    {
+      constraints.add("Enumeration");
+    }
+    if (!extendedMetaData.getPatternFacet(eDataType).isEmpty())
+    {
+      constraints.add("Pattern");
+    }
+    if (extendedMetaData.getTotalDigitsFacet(eDataType) != -1)
+    {
+      constraints.add("TotalDigits");
+    }
+    if (extendedMetaData.getFractionDigitsFacet(eDataType) != -1)
+    {
+      constraints.add("FractionDigits");
+    }
+    if (extendedMetaData.getLengthFacet(eDataType) != -1)
+    {
+      constraints.add("Length");
+    }
+    if (extendedMetaData.getMinLengthFacet(eDataType) != -1)
+    {
+      constraints.add("MinLength");
+    }
+    if (extendedMetaData.getMaxLengthFacet(eDataType) != -1)
+    {
+      constraints.add("MaxLength");
+    }
+    if (extendedMetaData.getMinExclusiveFacet(eDataType) != null || extendedMetaData.getMinInclusiveFacet(eDataType) != null)
+    {
+      constraints.add("Min");
+    }
+    if (extendedMetaData.getMaxExclusiveFacet(eDataType) != null || extendedMetaData.getMaxInclusiveFacet(eDataType) != null)
+    {
+      constraints.add("Max");
+    }
+    return constraints;
+  }
+
+  public List getAllGenConstraints()
+  {
+    List allBaseTypes = new ArrayList();
+    for (GenDataType baseType = getBaseType(); baseType != null; baseType = baseType.getBaseType())
+    {
+      allBaseTypes.add(baseType);
+    }
+    return collectGenConstraints(allBaseTypes, getGenConstraints(), null);
+  }
+
+  public GenClassifier getConstraintImplementor(String constraint)
+  {
+    for (GenDataType baseType = this; baseType != null; baseType = baseType.getBaseType())
+    {
+      if (baseType.getGenConstraints().contains(constraint))
+      {
+        return baseType;
+      }
+    }
+    return null;
+  }
+
+  public GenClassifier getConstraintDelegate(String constraint)
+  {
+    for (GenDataType baseType = getBaseType(); baseType != null; baseType = baseType.getBaseType())
+    {
+      if (baseType.getGenConstraints().contains(constraint))
+      {
+        return baseType;
+      }
+    }
+    return null;
+  }
+
+  public String getStaticValue(String literal)
+  {
+    EClassifier eDataType = getEcoreDataType();
+    if (eDataType instanceof EEnum)
+    {
+      GenEnum genEnum = findGenEnum((EEnum)eDataType);
+      return genEnum.getStaticValue(literal);
+    }
+
+    if (eDataType.getEPackage() != EcorePackage.eINSTANCE && literal != null)
+    {
+      boolean replaced = false;
+      for (Iterator i = EcorePackage.eINSTANCE.getEClassifiers().iterator(); i.hasNext(); )
+      {
+        EClassifier eClassifier = (EClassifier)i.next();
+        if (eClassifier instanceof EDataType && 
+              eClassifier.getInstanceClassName().equals(eDataType.getInstanceClassName()) &&
+              ((EDataType)eClassifier).isSerializable())
+        {
+          replaced = true;
+          eDataType = eClassifier;
+          break;
+        }
+      }
+      if (!replaced)
+      {
+        return null;
+      }
+    }
+
+    Object defaultObject = eDataType.getDefaultValue();
+    if (literal != null)
+    {
+      try
+      {
+        defaultObject = EcoreFactory.eINSTANCE.createFromString((EDataType)eDataType, literal);
+      }
+      catch (Exception e)
+      {
+        return "";  // cause a syntax error
+      }
+    }
+    if (defaultObject == null) return "null";
+    String result = Literals.toLiteral(defaultObject);
+
+    // import any class names
+    if (defaultObject instanceof Float && result.startsWith("java.lang.Float"))
+    {
+      result = getGenModel().getImportedName("java.lang.Float") + result.substring(15);
+    }
+    else if (defaultObject instanceof Double && result.startsWith("java.lang.Double"))
+    {
+      result = getGenModel().getImportedName("java.lang.Double") + result.substring(16);
+    }
+    else if (defaultObject instanceof BigDecimal)
+    {
+      result = "new " + getGenModel().getImportedName("java.math.BigDecimal") + result.substring(24);
+    }
+    else if (defaultObject instanceof BigInteger)
+    {
+      result = "new " + getGenModel().getImportedName("java.math.BigInteger") + result.substring(24);
+    }
+    else if (defaultObject instanceof Class && result.endsWith(".class"))
+    {
+      result = getGenModel().getImportedName(result.substring(0, result.length() - 6)) + ".class";
+    }
+
+    // include wrapping for wrapped primitive types
+    Class typeClass = getInstanceClass(eDataType);
+    if (typeClass == Boolean.class || typeClass == Character.class ||
+        typeClass == Byte.class    || typeClass == Short.class     ||
+        typeClass == Integer.class || typeClass == Long.class      ||
+        typeClass == Float.class   || typeClass == Double.class)
+    {
+      StringBuffer wrapped = new StringBuffer("new ");
+      wrapped.append(getGenModel().getImportedName(eDataType.getInstanceClassName()));
+      wrapped.append('(');
+      if (typeClass == Byte.class)
+      {
+        wrapped.append("(byte)");
+      }
+      else if (typeClass == Short.class)
+      {
+        wrapped.append("(short)");
+      }
+      wrapped.append(result);
+      wrapped.append(')');
+      result = wrapped.toString();
+    }
+    return result;
   }
 }

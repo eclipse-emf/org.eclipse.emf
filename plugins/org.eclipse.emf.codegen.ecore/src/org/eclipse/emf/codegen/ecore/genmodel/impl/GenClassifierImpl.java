@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenClassifierImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenClassifierImpl.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
+
+import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -24,6 +26,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
 /**
@@ -129,6 +132,16 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
     return getEcoreClassifier().getName();
   }
 
+  public String getUncapName()
+  {
+    return uncapPrefixedName(getName());
+  }
+
+  public String getSafeUncapName()
+  {
+    return safeName(getUncapName());
+  }
+
   public String getClassifierAccessorName()
   {
     String result = getEcoreClassifier().getName();
@@ -154,5 +167,20 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
     String name = getName();
     String prefix = getGenPackage().getPrefix();
     return format(name, '_', prefix, true).toUpperCase();
+  }
+
+  public List /* of String */ getGenConstraints()
+  {
+    return EcoreUtil.getConstraints(getEcoreClassifier());
+  }
+
+  public List /* of String */ getAllGenConstraints()
+  {
+    return getGenConstraints();
+  }
+
+  public GenClassifier getConstraintImplementor(String constraint)
+  {
+    return this;
   }
 } 

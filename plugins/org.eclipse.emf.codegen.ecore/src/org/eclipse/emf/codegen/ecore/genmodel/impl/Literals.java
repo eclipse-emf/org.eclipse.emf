@@ -1,4 +1,25 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002-2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: Literals.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
+ */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
+
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 
 /**
  * Utility class for converting primitive values, strings, and classes to
@@ -55,6 +76,14 @@ public class Literals
     if (o instanceof String)
     {
       return toStringLiteral((String)o);
+    }
+    if (o instanceof BigDecimal)
+    {
+      return toBigDecimalLiteral((BigDecimal)o);
+    }
+    if (o instanceof BigInteger)
+    {
+      return toBigIntegerLiteral((BigInteger)o);
     }
     if (o instanceof Class)
     {
@@ -198,6 +227,20 @@ public class Literals
     return "\\u" + num;
   }
 
+  /**
+   * Returns a literal expression for the given <code>BigDecimal</code>.  
+   */
+  public static String toBigDecimalLiteral(BigDecimal bigDecimal)
+  {
+    if (bigDecimal == null) return "null";
+    return "new java.math.BigDecimal(\"" + bigDecimal.toString() + "\")";
+  }
+
+  public static String toBigIntegerLiteral(BigInteger bigInteger)
+  {
+    if (bigInteger == null) return "null";
+    return "new java.math.BigInteger(\"" + bigInteger.toString() + "\")";
+  }
 
   /**
    * Returns a literal expression for the given <code>Class</code> value.
