@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.4 2004/05/16 16:44:08 emerks Exp $
+ * $Id: plugin.xml,v 1.5 2004/06/07 19:35:25 marcelop Exp $
  */
 -->
 
@@ -118,4 +118,20 @@
   </extension>
 -->
 
+  <extension point="org.eclipse.ui.activities">
+    <activity 
+      id="org.eclipse.XSD"
+      description="%_UI_Activity_XSD_description"
+      name="%_UI_Activity_XSD_name"/>
+   			
+    <categoryActivityBinding 
+      activityId="org.eclipse.XSD"
+      categoryId="org.eclipse.categories.modelingCategory"/>
+
+    <activityPatternBinding
+      activityId="org.eclipse.XSD"
+      pattern="org\.eclipse\.xsd\.editor/.*"/>
+            		
+    <defaultEnablement id="org.eclipse.XSD"/>
+  </extension> 
 </plugin>
