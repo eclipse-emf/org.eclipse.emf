@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.6 2004/10/22 16:37:17 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.7 2004/10/25 20:58:26 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -580,6 +580,11 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
 
       setSet(newIsSet);
       setValue(newValue);
+      
+      if(!isSet())
+      {
+        getListChanges().clear();
+      }
     }
   }
   
