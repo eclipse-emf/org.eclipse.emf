@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ChangeReportTest.java,v 1.11 2004/10/25 20:53:26 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.1 2004/11/03 16:04:15 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -46,11 +45,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.test.core.EMFTestCorePlugin;
 
 
-public class ChangeReportTest
+public class ChangeRecordTest
 extends TestCase
 {
   private boolean callSummarize = false;
@@ -59,12 +57,12 @@ extends TestCase
   private EAnnotation eAnnotation;
   private EClass eClass0;
   
-  public ChangeReportTest(String name)
+  public ChangeRecordTest(String name)
   {
     super(name);
   }
   
-  public ChangeReportTest(String name, boolean callSummarize)
+  public ChangeRecordTest(String name, boolean callSummarize)
   {
     super(name);
     this.callSummarize = callSummarize;
@@ -78,16 +76,15 @@ extends TestCase
   public static Test suite(boolean callSummarize)
   {
     TestSuite ts = new TestSuite("ChangeReportTest - callSummarize:" + callSummarize);
-    ts.addTest(new ChangeReportTest("testResource", callSummarize));
-    ts.addTest(new ChangeReportTest("testAttribute", callSummarize));
-    ts.addTest(new ChangeReportTest("testReuse", callSummarize));
-    ts.addTest(new ChangeReportTest("testSetElement", callSummarize));
-    ts.addTest(new ChangeReportTest("testRemoveElementAndApply", callSummarize));
-    ts.addTest(new ChangeReportTest("testAddElementAndApply", callSummarize));
-    ts.addTest(new ChangeReportTest("testMoveElementAndApply", callSummarize));
-    ts.addTest(new ChangeReportTest("testApply", callSummarize));
-    ts.addTest(new ChangeReportTest("testApplyAndReverse", callSummarize));
-    ts.addTest(new ChangeReportTest("testMultipleApplyAndReverse", callSummarize));
+    ts.addTest(new ChangeRecordTest("testResource", callSummarize));
+    ts.addTest(new ChangeRecordTest("testAttribute", callSummarize));
+    ts.addTest(new ChangeRecordTest("testReuse", callSummarize));
+    ts.addTest(new ChangeRecordTest("testSetElement", callSummarize));
+    ts.addTest(new ChangeRecordTest("testRemoveElementAndApply", callSummarize));
+    ts.addTest(new ChangeRecordTest("testAddElementAndApply", callSummarize));
+    ts.addTest(new ChangeRecordTest("testMoveElementAndApply", callSummarize));
+    ts.addTest(new ChangeRecordTest("testApply", callSummarize));
+    ts.addTest(new ChangeRecordTest("testApplyAndReverse", callSummarize));
     return ts;
   }
   
@@ -565,52 +562,5 @@ extends TestCase
     
     //Tests if the list was rolled back
     assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));        
-  }
-  
-  /*
-   * Bugzilla 76971
-   */
-  public void testMultipleApplyAndReverse() throws Exception
-  {
-    eAnnotation.getContents().clear();
-    
-    List beforeChange = new ArrayList(eAnnotation.getContents());
-    
-    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
-    eAnnotation.getContents().add(EcoreFactory.eINSTANCE.createEClass());
-    eAnnotation.getContents().add(EcoreFactory.eINSTANCE.createEClass());
-    eAnnotation.getContents().move(0, 1);
-    ChangeDescription changeDescription = changeRecorder.endRecording();
-    
-    Resource resource = new XMIResourceImpl();
-    resource.getContents().add(changeDescription);
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    String[] xmi = new String[2];
-    
-    List afterChange = new ArrayList(eAnnotation.getContents());
-    
-    for(int i=1; i<=20; i++)
-    {
-      baos.reset();
-      resource.save(baos, null);
-      switch(i)
-      {
-        case 1:
-          xmi[1] = new String(baos.toByteArray());
-          break;
-        case 2:
-          xmi[0] = new String(baos.toByteArray());
-          break;
-        default:
-          String newXMI = new String(baos.toByteArray());
-          assertEquals("Comparing iteration: " + i, xmi[i%2], newXMI);
-          xmi[i%2] = newXMI;
-      }
-      
-      assertEquals(i%2 == 0, EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
-      assertEquals(i%2 != 0, EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
-
-      changeDescription.applyAndReverse();
-    }
-  }
+  }  
 }
