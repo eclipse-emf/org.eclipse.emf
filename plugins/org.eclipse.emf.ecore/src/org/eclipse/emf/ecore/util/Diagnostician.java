@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostician.java,v 1.1 2004/05/05 19:51:42 emerks Exp $
+ * $Id: Diagnostician.java,v 1.2 2004/05/08 13:09:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -140,7 +140,7 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
       Iterator i = eContents.iterator(); 
       EObject child = (EObject)i.next();
       boolean result = validate(child, diagnostics, context);
-      while (i.hasNext() && (!result || diagnostics == null))
+      while (i.hasNext() && (result || diagnostics != null))
       {
         child = (EObject)i.next();
         result &= validate(child, diagnostics, context);
