@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2004/04/28 18:58:51 davidms Exp $
+ * $Id: plugin.xml,v 1.2 2004/05/16 16:53:12 emerks Exp $
  */
 -->
 
@@ -28,7 +28,7 @@
    class="org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePlugin$Implementation">
 
    <requires>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
+      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.emf.ecore" export="true"/>
       <import plugin="org.eclipse.emf.ecore.edit" export="true"/>
       <import plugin="org.eclipse.emf.ecore.xmi" export="true"/>
