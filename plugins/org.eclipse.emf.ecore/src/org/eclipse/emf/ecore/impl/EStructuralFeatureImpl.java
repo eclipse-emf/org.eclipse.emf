@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.2 2004/03/20 21:46:10 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.3 2004/05/12 19:12:23 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1637,7 +1637,11 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     {
       if (newValue != null && !eClass.isInstance(newValue))
       {
-        throw new ClassCastException("The newNew value must be of type " + eClass);
+        throw 
+          new ClassCastException
+            ("The value of type '" + 
+               (newValue instanceof EObject ? ((EObject)newValue).eClass().toString() : newValue.getClass().toString()) + 
+               "' must be of type '" + eClass + "'");
       }
 
       EObject eContainer = owner.eContainer();
@@ -1864,7 +1868,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     {
       if (!eDataType.isInstance(object))
       {
-        throw new ClassCastException();
+        throw new ClassCastException("The value of type '" + object.getClass() + "' must be of type '" + eDataType + "'");
       }
     }
   }
@@ -1883,7 +1887,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     {
       if (!dataClass.isInstance(object))
       {
-        throw new ClassCastException();
+        throw new ClassCastException("The value of type '" + object.getClass() + "' must be of type '" + dataClass + "'");
       }
     }
   }
@@ -2013,7 +2017,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     {
       if (!eDataType.isInstance(object))
       {
-        throw new ClassCastException();
+        throw new ClassCastException("The value of type '" + object.getClass() + "' must be of type '" + eDataType + "'");
       }
     }
   }
@@ -2032,7 +2036,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     {
       if (!dataClass.isInstance(object))
       {
-        throw new ClassCastException();
+        throw new ClassCastException("The value of type '" + object.getClass() + "' must be of type '" + dataClass + "'");
       }
     }
   }
@@ -2092,7 +2096,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           {
             if (!eClass.isInstance(resolvedEObject))
             {
-              throw new ClassCastException();
+              throw new ClassCastException("The value of type '" + resolvedEObject.getClass() + "' must be of type '" + eClass + "'");
             }
             settings.dynamicSet(index, result = resolvedEObject);
             if (owner.eNotificationRequired())
