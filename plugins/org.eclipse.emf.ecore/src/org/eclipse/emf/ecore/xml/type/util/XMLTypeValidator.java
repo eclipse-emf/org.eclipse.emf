@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeValidator.java,v 1.5 2004/06/13 11:54:11 emerks Exp $
+ * $Id: XMLTypeValidator.java,v 1.6 2004/10/20 14:02:39 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -405,7 +405,7 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateENTITIES_MinLength(List entities, DiagnosticChain diagnostics, Map context)
   {
     int length = entities.size();  
-    boolean result = length < 1;
+    boolean result = length >= 1;
     if (!result && diagnostics != null) 
       reportMinLengthViolation(XMLTypePackage.eINSTANCE.getENTITIES(), entities, length, 1, diagnostics, context);
     return result;
@@ -581,7 +581,7 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateIDREFS_MinLength(List idrefs, DiagnosticChain diagnostics, Map context)
   {
     int length = idrefs.size();  
-    boolean result = length < 1;
+    boolean result = length >= 1;
     if (!result && diagnostics != null) 
       reportMinLengthViolation(XMLTypePackage.eINSTANCE.getIDREFS(), idrefs, length, 1, diagnostics, context);
     return result;
@@ -879,7 +879,7 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateNMTOKENS_MinLength(List nmtokens, DiagnosticChain diagnostics, Map context)
   {
     int length = nmtokens.size();  
-    boolean result = length < 1;
+    boolean result = length >= 1;
     if (!result && diagnostics != null) 
       reportMinLengthViolation(XMLTypePackage.eINSTANCE.getNMTOKENS(), nmtokens, length, 1, diagnostics, context);
     return result;
