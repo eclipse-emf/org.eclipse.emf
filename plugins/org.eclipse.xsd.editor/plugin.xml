@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.7 2004/07/16 17:25:30 marcelop Exp $
+ * $Id: plugin.xml,v 1.8 2004/10/29 19:20:45 marcelop Exp $
  */
 -->
 
@@ -42,7 +42,6 @@
   <runtime>
     <library name="runtime/xsd.editor.jar">
       <export name="*"/>
-      <packages prefixes="org.eclipse.xsd.presentation"/>
     </library>
   </runtime>
 

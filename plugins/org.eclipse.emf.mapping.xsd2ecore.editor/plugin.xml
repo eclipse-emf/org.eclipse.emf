@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.7 2004/07/20 17:17:55 marcelop Exp $
+ * $Id: plugin.xml,v 1.8 2004/10/29 19:20:54 marcelop Exp $
  */
 -->
 
@@ -37,7 +37,6 @@
   <runtime>
     <library name="runtime/mapping.xsd2ecore.editor.jar">
       <export name="*"/>
-      <packages prefixes="org.eclipse.emf.mapping.xsd2ecore.presentation"/>
     </library>
   </runtime>
 
