@@ -18,6 +18,7 @@
       <genFeatures property="None" notify="false" createChild="true" ecoreFeature="ecore:EReference XMLNamespace.ecore#//XMLNamespaceDocumentRoot/xMLNSPrefixMap"/>
       <genFeatures property="None" notify="false" createChild="true" ecoreFeature="ecore:EReference XMLNamespace.ecore#//XMLNamespaceDocumentRoot/xSISchemaLocation"/>
       <genFeatures createChild="true" ecoreFeature="ecore:EAttribute XMLNamespace.ecore#//XMLNamespaceDocumentRoot/base"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XMLNamespace.ecore#//XMLNamespaceDocumentRoot/id"/>
       <genFeatures createChild="true" ecoreFeature="ecore:EAttribute XMLNamespace.ecore#//XMLNamespaceDocumentRoot/lang"/>
       <genFeatures createChild="true" ecoreFeature="ecore:EAttribute XMLNamespace.ecore#//XMLNamespaceDocumentRoot/space"/>
     </genClasses>

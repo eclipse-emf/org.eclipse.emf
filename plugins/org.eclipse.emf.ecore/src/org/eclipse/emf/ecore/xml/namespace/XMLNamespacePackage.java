@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackage.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
+ * $Id: XMLNamespacePackage.java,v 1.3 2005/02/21 15:13:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -120,13 +120,22 @@ public interface XMLNamespacePackage extends EPackage
   int XML_NAMESPACE_DOCUMENT_ROOT__BASE = 3;
 
   /**
+   * The feature id for the '<em><b>Id</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XML_NAMESPACE_DOCUMENT_ROOT__ID = 4;
+
+  /**
    * The feature id for the '<em><b>Lang</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int XML_NAMESPACE_DOCUMENT_ROOT__LANG = 4;
+  int XML_NAMESPACE_DOCUMENT_ROOT__LANG = 5;
 
   /**
    * The feature id for the '<em><b>Space</b></em>' attribute.
@@ -135,7 +144,7 @@ public interface XMLNamespacePackage extends EPackage
    * @generated
    * @ordered
    */
-  int XML_NAMESPACE_DOCUMENT_ROOT__SPACE = 5;
+  int XML_NAMESPACE_DOCUMENT_ROOT__SPACE = 6;
 
   /**
    * The number of structural features of the the '<em>Document Root</em>' class.
@@ -144,7 +153,7 @@ public interface XMLNamespacePackage extends EPackage
    * @generated
    * @ordered
    */
-  int XML_NAMESPACE_DOCUMENT_ROOT_FEATURE_COUNT = 6;
+  int XML_NAMESPACE_DOCUMENT_ROOT_FEATURE_COUNT = 7;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.xml.namespace.SpaceType <em>Space Type</em>}' enum.
@@ -220,6 +229,17 @@ public interface XMLNamespacePackage extends EPackage
    * @generated
    */
   EAttribute getXMLNamespaceDocumentRoot_Base();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getId <em>Id</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Id</em>'.
+   * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getId()
+   * @see #getXMLNamespaceDocumentRoot()
+   * @generated
+   */
+  EAttribute getXMLNamespaceDocumentRoot_Id();
 
   /**
    * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getLang <em>Lang</em>}'.

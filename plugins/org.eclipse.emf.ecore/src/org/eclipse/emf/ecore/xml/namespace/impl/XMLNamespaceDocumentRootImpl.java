@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRootImpl.java,v 1.2 2004/05/16 17:13:02 emerks Exp $
+ * $Id: XMLNamespaceDocumentRootImpl.java,v 1.3 2005/02/21 15:13:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -49,6 +49,7 @@ import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceDocumentRootImpl#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceDocumentRootImpl#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceDocumentRootImpl#getBase <em>Base</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceDocumentRootImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceDocumentRootImpl#getLang <em>Lang</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceDocumentRootImpl#getSpace <em>Space</em>}</li>
  * </ul>
@@ -107,6 +108,26 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * @ordered
    */
   protected String base = BASE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getId()
+   * @generated
+   * @ordered
+   */
+  protected static final String ID_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getId()
+   * @generated
+   * @ordered
+   */
+  protected String id = ID_EDEFAULT;
 
   /**
    * The default value of the '{@link #getLang() <em>Lang</em>}' attribute.
@@ -247,6 +268,29 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getId()
+  {
+    return id;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setId(String newId)
+  {
+    String oldId = id;
+    id = newId;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__ID, oldId, id));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public String getLang()
   {
     return lang;
@@ -356,6 +400,8 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
         return getXSISchemaLocation();
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__BASE:
         return getBase();
+      case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__ID:
+        return getId();
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__LANG:
         return getLang();
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__SPACE:
@@ -388,6 +434,9 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__BASE:
         setBase((String)newValue);
         return;
+      case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__ID:
+        setId((String)newValue);
+        return;
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__LANG:
         setLang((String)newValue);
         return;
@@ -419,6 +468,9 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__BASE:
         setBase(BASE_EDEFAULT);
         return;
+      case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__ID:
+        setId(ID_EDEFAULT);
+        return;
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__LANG:
         setLang(LANG_EDEFAULT);
         return;
@@ -446,6 +498,8 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
         return xSISchemaLocation != null && !xSISchemaLocation.isEmpty();
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__BASE:
         return BASE_EDEFAULT == null ? base != null : !BASE_EDEFAULT.equals(base);
+      case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__ID:
+        return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__LANG:
         return LANG_EDEFAULT == null ? lang != null : !LANG_EDEFAULT.equals(lang);
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__SPACE:
@@ -468,6 +522,8 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
     result.append(mixed);
     result.append(", base: ");
     result.append(base);
+    result.append(", id: ");
+    result.append(id);
     result.append(", lang: ");
     result.append(lang);
     result.append(", space: ");

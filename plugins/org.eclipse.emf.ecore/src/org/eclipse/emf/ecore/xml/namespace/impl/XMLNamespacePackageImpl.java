@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackageImpl.java,v 1.7 2004/12/16 21:33:53 emerks Exp $
+ * $Id: XMLNamespacePackageImpl.java,v 1.8 2005/02/21 15:13:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -189,7 +189,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getXMLNamespaceDocumentRoot_Lang()
+  public EAttribute getXMLNamespaceDocumentRoot_Id()
   {
     return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(4);
   }
@@ -199,9 +199,19 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getXMLNamespaceDocumentRoot_Space()
+  public EAttribute getXMLNamespaceDocumentRoot_Lang()
   {
     return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getXMLNamespaceDocumentRoot_Space()
+  {
+    return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(6);
   }
 
   /**
@@ -259,6 +269,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     createEReference(xmlNamespaceDocumentRootEClass, XML_NAMESPACE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
     createEReference(xmlNamespaceDocumentRootEClass, XML_NAMESPACE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
     createEAttribute(xmlNamespaceDocumentRootEClass, XML_NAMESPACE_DOCUMENT_ROOT__BASE);
+    createEAttribute(xmlNamespaceDocumentRootEClass, XML_NAMESPACE_DOCUMENT_ROOT__ID);
     createEAttribute(xmlNamespaceDocumentRootEClass, XML_NAMESPACE_DOCUMENT_ROOT__LANG);
     createEAttribute(xmlNamespaceDocumentRootEClass, XML_NAMESPACE_DOCUMENT_ROOT__SPACE);
 
@@ -304,6 +315,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     initEReference(getXMLNamespaceDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXMLNamespaceDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXMLNamespaceDocumentRoot_Base(), theXMLTypePackage.getAnyURI(), "base", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXMLNamespaceDocumentRoot_Id(), theXMLTypePackage.getID(), "id", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXMLNamespaceDocumentRoot_Lang(), theXMLTypePackage.getLanguage(), "lang", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXMLNamespaceDocumentRoot_Space(), this.getSpaceType(), "space", "preserve", 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -386,6 +398,15 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
        {
        "kind", "attribute",
        "name", "base",
+       "namespace", "##targetNamespace"
+       });		
+    addAnnotation
+      (getXMLNamespaceDocumentRoot_Id(), 
+       source, 
+       new String[] 
+       {
+       "kind", "attribute",
+       "name", "id",
        "namespace", "##targetNamespace"
        });		
     addAnnotation

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRoot.java,v 1.3 2004/12/16 21:33:53 emerks Exp $
+ * $Id: XMLNamespaceDocumentRoot.java,v 1.4 2005/02/21 15:13:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getBase <em>Base</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getId <em>Id</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getLang <em>Lang</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getSpace <em>Space</em>}</li>
  * </ul>
@@ -124,6 +125,33 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @generated
    */
   void setBase(String value);
+
+  /**
+   * Returns the value of the '<em><b>Id</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Id</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Id</em>' attribute.
+   * @see #setId(String)
+   * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Id()
+   * @model unique="false" id="true" dataType="org.eclipse.emf.ecore.xml.type.ID"
+   *        extendedMetaData="kind='attribute' name='id' namespace='##targetNamespace'"
+   * @generated
+   */
+  String getId();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getId <em>Id</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Id</em>' attribute.
+   * @see #getId()
+   * @generated
+   */
+  void setId(String value);
 
   /**
    * Returns the value of the '<em><b>Lang</b></em>' attribute.
