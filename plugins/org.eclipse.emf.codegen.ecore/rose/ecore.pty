@@ -132,6 +132,38 @@
                 value      	FALSE)
             (object Attribute
                 tool       	"Ecore"
+                name       	"visibility"
+                value      	("VisibilityKind" 0))
+            (object Attribute
+                tool       	"Ecore"
+                name       	"VisibilityKind"
+                value      	(list Attribute_Set
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Unspecified"
+                  value       0)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "None"
+                  value       1)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-only"
+                  value       2)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-write"
+                  value       3)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-only unsettable"
+                  value       4)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-write unsettable"
+                  value       5)))
+            (object Attribute
+                tool       	"Ecore"
                 name       	"xmlName"
                 value      	"")
             (object Attribute
@@ -146,7 +178,6 @@
                 tool       	"Ecore"
                 name       	"FeatureKind"
                 value      	(list Attribute_Set
-
               (object Attribute
                   tool        "Ecore"
                   name        "Unspecified"
@@ -163,7 +194,6 @@
                   tool        "Ecore"
                   name        "Element"
                   value       4)))
-
             (object Attribute
                 tool       	"Ecore"
                 name       	"annotation"
@@ -196,6 +226,38 @@
                 tool       	"Ecore"
                 name       	"isResolveProxies"
                 value      	TRUE)
+            (object Attribute
+                tool       	"Ecore"
+                name       	"visibility"
+                value      	("VisibilityKind" 0))
+            (object Attribute
+                tool       	"Ecore"
+                name       	"VisibilityKind"
+                value      	(list Attribute_Set
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Unspecified"
+                  value       0)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "None"
+                  value       1)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-only"
+                  value       2)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-write"
+                  value       3)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-only unsettable"
+                  value       4)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-write unsettable"
+                  value       5)))
             (object Attribute
                 tool        "Ecore"
                 name        "xmlName"
