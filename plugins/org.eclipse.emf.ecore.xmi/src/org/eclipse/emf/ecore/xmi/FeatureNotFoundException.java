@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureNotFoundException.java,v 1.2 2004/04/05 20:06:48 emerks Exp $
+ * $Id: FeatureNotFoundException.java,v 1.3 2004/10/07 12:06:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 public class FeatureNotFoundException extends XMIException 
 {
   protected String featureName;
-  protected EObject object;
+  protected transient EObject object;
 
   public FeatureNotFoundException(String name, EObject object, String location, int line, int column) 
   {
