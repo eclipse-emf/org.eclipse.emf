@@ -600,7 +600,7 @@
 		    (object Attribute
 			tool       	"CORBA"
 			name       	"CmIdentification"
-			value      	(value Text "  %X% %Q% %Z% %W%"))
+			value      	(value Text "$Id: library.mdl,v 1.2 2004/03/31 17:03:43 nickb Exp $"))
 		    (object Attribute
 			tool       	"CORBA"
 			name       	"CopyrightNotice"
@@ -620,7 +620,7 @@
 		    (object Attribute
 			tool       	"CORBA"
 			name       	"CmIdentification"
-			value      	(value Text "  %X% %Q% %Z% %W%"))
+			value      	(value Text "$Id: library.mdl,v 1.2 2004/03/31 17:03:43 nickb Exp $"))
 		    (object Attribute
 			tool       	"CORBA"
 			name       	"CopyrightNotice"
@@ -2412,7 +2412,7 @@
 		    (object Attribute
 			tool       	"cg"
 			name       	"CmIdentification"
-			value      	(value Text "  %X% %Q% %Z% %W%"))
+			value      	(value Text "$Id: library.mdl,v 1.2 2004/03/31 17:03:43 nickb Exp $"))
 		    (object Attribute
 			tool       	"cg"
 			name       	"CopyrightNotice"
@@ -2512,7 +2512,7 @@
 		    (object Attribute
 			tool       	"cg"
 			name       	"CmIdentification"
-			value      	(value Text "  %X% %Q% %Z% %W%"))
+			value      	(value Text "$Id: library.mdl,v 1.2 2004/03/31 17:03:43 nickb Exp $"))
 		    (object Attribute
 			tool       	"cg"
 			name       	"CopyrightNotice"
@@ -4628,7 +4628,7 @@
 		    (object Attribute
 			tool       	"IDL"
 			name       	"CmIdentification"
-			value      	(value Text "  %X% %Q% %Z% %W%"))
+			value      	(value Text "$Id: library.mdl,v 1.2 2004/03/31 17:03:43 nickb Exp $"))
 		    (object Attribute
 			tool       	"IDL"
 			name       	"CopyrightNotice"
@@ -4660,7 +4660,7 @@
 		    (object Attribute
 			tool       	"IDL"
 			name       	"CmIdentification"
-			value      	(value Text "  %X% %Q% %Z% %W%"))
+			value      	(value Text "$Id: library.mdl,v 1.2 2004/03/31 17:03:43 nickb Exp $"))
 		    (object Attribute
 			tool       	"IDL"
 			name       	"CopyrightNotice"
