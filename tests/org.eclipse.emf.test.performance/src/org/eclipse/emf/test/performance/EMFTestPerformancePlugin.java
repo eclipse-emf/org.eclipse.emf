@@ -12,9 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.2 2005/01/05 20:42:53 marcelop Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.3 2005/02/14 21:45:23 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
+
+import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.core.runtime.Plugin;
 
@@ -27,6 +30,15 @@ extends Plugin
     {
         super();
         instance = this;
+        
+        System.out.println("EMFTestPerformancePlugin() - debug start");
+        Map properties = System.getProperties(); 
+        for (Iterator i = properties.entrySet().iterator(); i.hasNext();)
+        {
+          Map.Entry entry = (Map.Entry)i.next();
+          System.out.println("key:'" + entry.getKey() + "' - value:'" + entry.getValue() + "'");
+        }
+        System.out.println("EMFTestPerformancePlugin() - debug end");        
     }
 
     public static EMFTestPerformancePlugin getPlugin()
