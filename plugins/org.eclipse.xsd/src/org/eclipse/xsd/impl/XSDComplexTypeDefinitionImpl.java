@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.3 2004/06/13 11:52:18 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.4 2004/07/19 14:41:23 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1834,16 +1834,19 @@ public class XSDComplexTypeDefinitionImpl
         XSDAttributeDeclaration baseXSDAttributeDeclaration = baseXSDAttributeUse.getAttributeDeclaration();
         if (xsdAttributeDeclaration.hasSameNameAndTargetNamespace(baseXSDAttributeDeclaration))
         {
-          XSDTypeDefinition badType = 
-            xsdAttributeDeclaration.getTypeDefinition().getBadTypeDerivation
-              (baseXSDAttributeDeclaration.getTypeDefinition(), true, true);
-          if (badType != null)
+          if (xsdAttributeDeclaration.getTypeDefinition() != null)
           {
-            xsdConcreteComponent.getDiagnosticTarget(xsdAttributeUse).createDiagnostic
-              (XSDDiagnosticSeverity.ERROR_LITERAL, 
-               "derivation-ok-restriction.2.1.2", 
-               xsdAttributeDeclaration.getURI(),
-               baseXSDAttributeDeclaration.getTypeDefinition().getURI());
+            XSDTypeDefinition badType = 
+              xsdAttributeDeclaration.getTypeDefinition().getBadTypeDerivation
+                (baseXSDAttributeDeclaration.getTypeDefinition(), true, true);
+            if (badType != null)
+            {
+              xsdConcreteComponent.getDiagnosticTarget(xsdAttributeUse).createDiagnostic
+                (XSDDiagnosticSeverity.ERROR_LITERAL, 
+                 "derivation-ok-restriction.2.1.2", 
+                 xsdAttributeDeclaration.getURI(),
+                 baseXSDAttributeDeclaration.getTypeDefinition().getURI());
+            }
           }
 
           if (baseXSDAttributeUse.isRequired() && !xsdAttributeUse.isRequired())
