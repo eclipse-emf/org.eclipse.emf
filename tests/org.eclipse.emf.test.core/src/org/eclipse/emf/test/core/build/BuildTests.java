@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.15 2004/05/14 20:31:41 marcelop Exp $
+ * $Id: BuildTests.java,v 1.16 2004/07/14 15:17:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -30,11 +30,14 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import junit.framework.Test;
@@ -628,6 +631,71 @@ public class BuildTests extends TestCase
     assertTrue("Translation errors in files.  See the chkpii logs linked from the test results page for details.",
         (result1 && result2 && result3));
   }
+  
+  public void testDocPlugins() throws Exception
+  {
+    String installDir = Platform.getInstallLocation().getURL().getPath();
+    File pluginDir = new File(installDir, "plugins");
+    File[] plugins = pluginDir.listFiles();
+    StringBuffer problems = new StringBuffer();
+    for (int i = 0; i < plugins.length; i++)
+    {
+      File aPlugin = plugins[i];
+      if(aPlugin.getName().indexOf(".emf.doc") > 0 || aPlugin.getName().indexOf(".xsd.doc") > 0 || aPlugin.getName().indexOf(".sdo.doc") > 0)
+      {
+        String problem  = docPluginTest(aPlugin);
+        if(problem != null)
+        {
+          problems.append("\n").append(problem);
+        }
+      }
+    }
+    
+    if(problems.length() > 0)
+    {
+      fail("At least one doc plugin is wrong." + problems.toString());
+    }
+  }
+  
+  private String docPluginTest(File pluginDir) throws ZipException, IOException
+  {
+    StringBuffer problems = new StringBuffer();
+    if (!new File(pluginDir, "toc.xml").isFile())
+    {
+      problems.append("\n   - No toc.xml file");
+    }
+    
+    if (new File(pluginDir, "doc.zip").isFile())
+    {
+      boolean hasJavadocGif = false;
+      ZipFile docZip = new ZipFile(new File(pluginDir, "doc.zip"));
+      for (Enumeration entries=docZip.entries(); entries.hasMoreElements();)
+      {
+        ZipEntry entry = (ZipEntry)entries.nextElement();
+        String name = entry.getName();
+        if(name.matches("references\\/javadoc\\/.*\\/doc-files/.*\\.gif$"))
+        {
+          hasJavadocGif = true;
+          break;
+        }
+      }
+      if (!hasJavadocGif)
+      {
+        problems.append("\n   - doc.zip doesn't have a reference/javadoc/*/doc-files/*.gif");
+      }
+      docZip.close();
+    }
+    else
+    {
+      problems.append("\n   - No doc.zip file");
+    }
+    
+    if(problems.length() > 0)
+    {
+      return pluginDir.getName() + problems.toString();
+    }
+    return null;
+  }
 
   private boolean testChkpii(int type)
   {
@@ -950,6 +1018,7 @@ public class BuildTests extends TestCase
     ts.addTest(new BuildTests("testFeatureFiles"));
     ts.addTest(new BuildTests("testPluginFiles"));
     ts.addTest(new BuildTests("testChkpii"));
+    ts.addTest(new BuildTests("testDocPlugins"));
     return ts;
   }
 
