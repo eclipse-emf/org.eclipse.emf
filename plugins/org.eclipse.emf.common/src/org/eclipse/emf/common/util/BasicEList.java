@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.3 2004/07/29 13:32:37 marcelop Exp $
+ * $Id: BasicEList.java,v 1.4 2004/08/06 20:16:37 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -1723,6 +1723,49 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   }
 
   /**
+   * A <code>BasicEList</code> that {@link #useEquals uses} <code>==</code> instead of <code>equals</code> to compare members.
+   */
+  public static class FastCompare extends BasicEList
+  {
+    /**
+     * Creates an empty instance with no initial capacity.
+     */
+    public FastCompare()
+    {
+      super();
+    }
+
+    /**
+     * Creates an empty instance with the given capacity.
+     * @param initialCapacity the initial capacity of the list before it must grow.
+     * @exception IllegalArgumentException if the <code>initialCapacity</code> is negative.
+     */
+    public FastCompare(int initialCapacity)
+    {
+      super(initialCapacity);
+    }
+
+    /**
+     * Creates an instance that is a copy of the collection.
+     * @param collection the initial contents of the list.
+     */
+    public FastCompare(Collection collection)
+    {
+      super(collection.size());
+      addAll(collection);
+    }
+
+    /**
+     * Returns <code>false</code> because this list uses <code>==</code>.
+     * @return <code>false</code>.
+     */
+    protected boolean useEquals()
+    {
+      return false;
+    }
+  }
+
+  /**
    * Returns the collection of objects in the given collection that are also contained by this list.
    * @param collection the other collection.
    * @return the collection of objects in the given collection that are also contained by this list.
@@ -1738,7 +1781,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
       {
         if (filteredResult == null)
         {
-          result = filteredResult = new BasicEList(collection);
+          result = filteredResult = useEquals() ? new BasicEList(collection) : new FastCompare(collection);
         }
         filteredResult.remove(object);
       }
@@ -1753,7 +1796,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
    */
   protected Collection getNonDuplicates(Collection collection)
   {
-    Collection result = new UniqueEList(collection.size());
+    Collection result = useEquals() ?  new UniqueEList(collection.size()) : new UniqueEList.FastCompare(collection.size());
     for (Iterator i = collection.iterator(); i.hasNext(); )
     {
       Object object = i.next();
