@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedMetaData.java,v 1.7 2005/01/10 02:25:00 davidms Exp $
+ * $Id: ExtendedMetaData.java,v 1.8 2005/02/11 06:01:58 davidms Exp $
  */
 package org.eclipse.emf.ecore.util;
 

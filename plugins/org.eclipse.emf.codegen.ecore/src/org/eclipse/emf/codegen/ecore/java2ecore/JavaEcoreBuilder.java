@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.17 2005/01/19 01:44:36 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.18 2005/02/11 06:02:07 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
