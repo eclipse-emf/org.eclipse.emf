@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2GenModel.java,v 1.4 2005/02/01 18:30:53 marcelop Exp $
+ * $Id: XSD2GenModel.java,v 1.5 2005/02/04 20:25:19 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -72,7 +72,7 @@ public class XSD2GenModel extends Generator
   {
     System.out.println("Usage: { <model.xsd> | <model.wsdl> }+ [ <model.genmodel> ] <OPTION>");
     System.out.println("<OPTION>          ::= [ <PROJECT-OPTION> ]  [ <PACKAGE-MAP> ] [ <PACKAGES> ]");
-    System.out.println("                      [ <TEMPLATE-PATH> ] [ <COPYRIGHT> ] [ <SDO> ]");
+    System.out.println("                      [ <TEMPLATE-PATH> ] [ <MODEL-PLUGIN-ID> ] [ <COPYRIGHT> ] [ <SDO> ]");
     System.out.println("<PROJECT-OPTION>  ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ]");
     System.out.println("<MODEL-PROJECT>   ::= -modelProject <model-directory> <fragment-path>");
     System.out.println("<EDIT-PROJECT>    ::= -editProject <edit-directory> <fragment-path>");

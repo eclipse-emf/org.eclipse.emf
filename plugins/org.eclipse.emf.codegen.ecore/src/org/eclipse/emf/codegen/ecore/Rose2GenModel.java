@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Rose2GenModel.java,v 1.8 2005/02/01 18:30:53 marcelop Exp $
+ * $Id: Rose2GenModel.java,v 1.9 2005/02/04 20:25:19 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -85,9 +85,9 @@ public class Rose2GenModel extends Generator
     System.out.println("Usage: <model.mdl> [ <model.genmodel> ] <OPTION>");
     System.out.println("<OPTION>          ::= [ <PROJECT-OPTION> ]  [ <PATHMAP> ]");
     System.out.println("                      { <PACKAGE> }+  { <REF-PACKAGE> }*");
-    System.out.println("                      [ <TEMPLATE-PATH> ] [ <COPYRIGHT> ] [ <SDO> ]");
+    System.out.println("                      [ <TEMPLATE-PATH> ] [ <MODEL-PLUGIN-ID> ] [ <COPYRIGHT> ] [ <SDO> ]");
     System.out.println("<PROJECT-OPTION>  ::= <MODEL-PROJECT> [ <EDIT-PROJECT> ] [ <EDITOR-PROJECT> ]");
-    System.out.println("<MODEL-PROJECT>   ::= -modelProject <mode-directory> <fragment-path>");
+    System.out.println("<MODEL-PROJECT>   ::= -modelProject <model-directory> <fragment-path>");
     System.out.println("<EDIT-PROJECT>    ::= -editProject <edit-directory> <fragment-path>");
     System.out.println("<EDITOR-PROJECT>  ::= -editorProject <editor-directory> <fragment-path>");
     System.out.println("<PATHMAP>         ::= -pathMap { <symbol> <directory> }+");
