@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.5 2004/08/11 15:09:01 marcelop Exp $
+ * $Id: PropertyDescriptor.java,v 1.6 2004/09/24 04:22:29 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -125,7 +125,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
   }
 
   /**
-   * This cell editor ensures that only Integer values are supported
+   * This cell editor ensures that only type-compatible values are supported
    */
   public static class EDataTypeCellEditor extends TextCellEditor
   {
@@ -296,7 +296,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
       final Collection choiceOfValues = itemPropertyDescriptor.getChoiceOfValues(object);
       if (choiceOfValues != null)
       {
-        if (feature.isMany())
+        if (itemPropertyDescriptor.isMany(object))
         {
           boolean valid = true;
           for (Iterator i = choiceOfValues.iterator(); i.hasNext(); )
@@ -344,7 +344,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
         EDataType eDataType = (EDataType)eType;
         if (eDataType.isSerializable())
         {
-          if (feature.isMany()) 
+          if (itemPropertyDescriptor.isMany(object)) 
           {
             result = 
               new ExtendedDialogCellEditor(composite, getLabelProvider())
