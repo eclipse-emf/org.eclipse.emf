@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.2 2004/06/04 09:49:09 emerks Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.3 2004/06/13 11:52:18 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -66,6 +66,16 @@ public class XSDModelGroupDefinitionImpl
   extends XSDRedefinableComponentImpl 
   implements XSDModelGroupDefinition
 {
+  /**
+   * The default value of the '{@link #isModelGroupDefinitionReference() <em>Model Group Definition Reference</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isModelGroupDefinitionReference()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean MODEL_GROUP_DEFINITION_REFERENCE_EDEFAULT = false;
+
   /**
    * The cached value of the '{@link #getAnnotation() <em>Annotation</em>}' containment reference.
    * <!-- begin-user-doc -->
@@ -720,17 +730,17 @@ public class XSDModelGroupDefinitionImpl
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__TARGET_NAMESPACE:
         return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ALIAS_NAME:
-        return getAliasName() != null;
+        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__URI:
-        return getURI() != null;
+        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ALIAS_URI:
-        return getAliasURI() != null;
+        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__QNAME:
-        return getQName() != null;
+        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__CIRCULAR:
-        return isCircular() != false;
+        return isCircular() != CIRCULAR_EDEFAULT;
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__MODEL_GROUP_DEFINITION_REFERENCE:
-        return isModelGroupDefinitionReference() != false;
+        return isModelGroupDefinitionReference() != MODEL_GROUP_DEFINITION_REFERENCE_EDEFAULT;
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ANNOTATION:
         return annotation != null;
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__MODEL_GROUP:

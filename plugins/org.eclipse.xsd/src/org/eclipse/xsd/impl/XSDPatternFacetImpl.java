@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPatternFacetImpl.java,v 1.2 2004/05/22 19:07:19 marcelop Exp $
+ * $Id: XSDPatternFacetImpl.java,v 1.3 2004/06/13 11:52:17 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -262,9 +262,9 @@ public class XSDPatternFacetImpl
       case XSDPackage.XSD_PATTERN_FACET__LEXICAL_VALUE:
         return LEXICAL_VALUE_EDEFAULT == null ? lexicalValue != null : !LEXICAL_VALUE_EDEFAULT.equals(lexicalValue);
       case XSDPackage.XSD_PATTERN_FACET__FACET_NAME:
-        return getFacetName() != null;
+        return FACET_NAME_EDEFAULT == null ? getFacetName() != null : !FACET_NAME_EDEFAULT.equals(getFacetName());
       case XSDPackage.XSD_PATTERN_FACET__EFFECTIVE_VALUE:
-        return getEffectiveValue() != null;
+        return EFFECTIVE_VALUE_EDEFAULT == null ? getEffectiveValue() != null : !EFFECTIVE_VALUE_EDEFAULT.equals(getEffectiveValue());
       case XSDPackage.XSD_PATTERN_FACET__ANNOTATION:
         return annotation != null;
       case XSDPackage.XSD_PATTERN_FACET__SIMPLE_TYPE_DEFINITION:

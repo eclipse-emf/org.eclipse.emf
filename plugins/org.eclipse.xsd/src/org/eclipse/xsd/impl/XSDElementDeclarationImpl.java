@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.3 2004/05/25 17:55:47 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.4 2004/06/13 11:52:17 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -193,6 +193,26 @@ public class XSDElementDeclarationImpl
    * @ordered
    */
   protected EList block = null;
+
+  /**
+   * The default value of the '{@link #isElementDeclarationReference() <em>Element Declaration Reference</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isElementDeclarationReference()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean ELEMENT_DECLARATION_REFERENCE_EDEFAULT = false;
+
+  /**
+   * The default value of the '{@link #isCircular() <em>Circular</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCircular()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean CIRCULAR_EDEFAULT = false;
 
   /**
    * The cached value of the '{@link #getAnnotation() <em>Annotation</em>}' containment reference.
@@ -2150,13 +2170,13 @@ public class XSDElementDeclarationImpl
       case XSDPackage.XSD_ELEMENT_DECLARATION__TARGET_NAMESPACE:
         return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
       case XSDPackage.XSD_ELEMENT_DECLARATION__ALIAS_NAME:
-        return getAliasName() != null;
+        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
       case XSDPackage.XSD_ELEMENT_DECLARATION__URI:
-        return getURI() != null;
+        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
       case XSDPackage.XSD_ELEMENT_DECLARATION__ALIAS_URI:
-        return getAliasURI() != null;
+        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
       case XSDPackage.XSD_ELEMENT_DECLARATION__QNAME:
-        return getQName() != null;
+        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
       case XSDPackage.XSD_ELEMENT_DECLARATION__VALUE:
         return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
       case XSDPackage.XSD_ELEMENT_DECLARATION__CONSTRAINT:
@@ -2166,9 +2186,9 @@ public class XSDElementDeclarationImpl
       case XSDPackage.XSD_ELEMENT_DECLARATION__LEXICAL_VALUE:
         return LEXICAL_VALUE_EDEFAULT == null ? lexicalValue != null : !LEXICAL_VALUE_EDEFAULT.equals(lexicalValue);
       case XSDPackage.XSD_ELEMENT_DECLARATION__GLOBAL:
-        return isGlobal() != false;
+        return isGlobal() != GLOBAL_EDEFAULT;
       case XSDPackage.XSD_ELEMENT_DECLARATION__FEATURE_REFERENCE:
-        return isFeatureReference() != false;
+        return isFeatureReference() != FEATURE_REFERENCE_EDEFAULT;
       case XSDPackage.XSD_ELEMENT_DECLARATION__SCOPE:
         return getScope() != null;
       case XSDPackage.XSD_ELEMENT_DECLARATION__RESOLVED_FEATURE:
@@ -2188,9 +2208,9 @@ public class XSDElementDeclarationImpl
       case XSDPackage.XSD_ELEMENT_DECLARATION__BLOCK:
         return isSetBlock();
       case XSDPackage.XSD_ELEMENT_DECLARATION__ELEMENT_DECLARATION_REFERENCE:
-        return isElementDeclarationReference() != false;
+        return isElementDeclarationReference() != ELEMENT_DECLARATION_REFERENCE_EDEFAULT;
       case XSDPackage.XSD_ELEMENT_DECLARATION__CIRCULAR:
-        return isCircular() != false;
+        return isCircular() != CIRCULAR_EDEFAULT;
       case XSDPackage.XSD_ELEMENT_DECLARATION__ANNOTATION:
         return annotation != null;
       case XSDPackage.XSD_ELEMENT_DECLARATION__ANONYMOUS_TYPE_DEFINITION:

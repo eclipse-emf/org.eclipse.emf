@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFacetImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDFacetImpl.java,v 1.2 2004/06/13 11:52:17 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -79,6 +79,26 @@ public abstract class XSDFacetImpl
    * @ordered
    */
   protected String lexicalValue = LEXICAL_VALUE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getFacetName() <em>Facet Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFacetName()
+   * @generated
+   * @ordered
+   */
+  protected static final String FACET_NAME_EDEFAULT = null;
+
+  /**
+   * The default value of the '{@link #getEffectiveValue() <em>Effective Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEffectiveValue()
+   * @generated
+   * @ordered
+   */
+  protected static final Object EFFECTIVE_VALUE_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getAnnotation() <em>Annotation</em>}' containment reference.
@@ -391,9 +411,9 @@ public abstract class XSDFacetImpl
       case XSDPackage.XSD_FACET__LEXICAL_VALUE:
         return LEXICAL_VALUE_EDEFAULT == null ? lexicalValue != null : !LEXICAL_VALUE_EDEFAULT.equals(lexicalValue);
       case XSDPackage.XSD_FACET__FACET_NAME:
-        return getFacetName() != null;
+        return FACET_NAME_EDEFAULT == null ? getFacetName() != null : !FACET_NAME_EDEFAULT.equals(getFacetName());
       case XSDPackage.XSD_FACET__EFFECTIVE_VALUE:
-        return getEffectiveValue() != null;
+        return EFFECTIVE_VALUE_EDEFAULT == null ? getEffectiveValue() != null : !EFFECTIVE_VALUE_EDEFAULT.equals(getEffectiveValue());
       case XSDPackage.XSD_FACET__ANNOTATION:
         return annotation != null;
       case XSDPackage.XSD_FACET__SIMPLE_TYPE_DEFINITION:

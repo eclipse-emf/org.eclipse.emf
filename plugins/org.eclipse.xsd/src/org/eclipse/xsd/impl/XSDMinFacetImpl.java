@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMinFacetImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDMinFacetImpl.java,v 1.2 2004/06/13 11:52:17 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -82,6 +82,26 @@ public abstract class XSDMinFacetImpl
    * @ordered
    */
   protected Object value = VALUE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isInclusive() <em>Inclusive</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isInclusive()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean INCLUSIVE_EDEFAULT = false;
+
+  /**
+   * The default value of the '{@link #isExclusive() <em>Exclusive</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isExclusive()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean EXCLUSIVE_EDEFAULT = false;
 
   protected XSDMinFacetImpl() 
   {
@@ -299,9 +319,9 @@ public abstract class XSDMinFacetImpl
       case XSDPackage.XSD_MIN_FACET__LEXICAL_VALUE:
         return LEXICAL_VALUE_EDEFAULT == null ? lexicalValue != null : !LEXICAL_VALUE_EDEFAULT.equals(lexicalValue);
       case XSDPackage.XSD_MIN_FACET__FACET_NAME:
-        return getFacetName() != null;
+        return FACET_NAME_EDEFAULT == null ? getFacetName() != null : !FACET_NAME_EDEFAULT.equals(getFacetName());
       case XSDPackage.XSD_MIN_FACET__EFFECTIVE_VALUE:
-        return getEffectiveValue() != null;
+        return EFFECTIVE_VALUE_EDEFAULT == null ? getEffectiveValue() != null : !EFFECTIVE_VALUE_EDEFAULT.equals(getEffectiveValue());
       case XSDPackage.XSD_MIN_FACET__ANNOTATION:
         return annotation != null;
       case XSDPackage.XSD_MIN_FACET__SIMPLE_TYPE_DEFINITION:
@@ -311,9 +331,9 @@ public abstract class XSDMinFacetImpl
       case XSDPackage.XSD_MIN_FACET__VALUE:
         return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
       case XSDPackage.XSD_MIN_FACET__INCLUSIVE:
-        return isInclusive() != false;
+        return isInclusive() != INCLUSIVE_EDEFAULT;
       case XSDPackage.XSD_MIN_FACET__EXCLUSIVE:
-        return isExclusive() != false;
+        return isExclusive() != EXCLUSIVE_EDEFAULT;
     }
     return eDynamicIsSet(eFeature);
   }

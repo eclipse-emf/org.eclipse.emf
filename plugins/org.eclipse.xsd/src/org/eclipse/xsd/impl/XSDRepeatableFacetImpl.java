@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRepeatableFacetImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDRepeatableFacetImpl.java,v 1.2 2004/06/13 11:52:17 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -246,9 +246,9 @@ public abstract class XSDRepeatableFacetImpl
       case XSDPackage.XSD_REPEATABLE_FACET__LEXICAL_VALUE:
         return LEXICAL_VALUE_EDEFAULT == null ? lexicalValue != null : !LEXICAL_VALUE_EDEFAULT.equals(lexicalValue);
       case XSDPackage.XSD_REPEATABLE_FACET__FACET_NAME:
-        return getFacetName() != null;
+        return FACET_NAME_EDEFAULT == null ? getFacetName() != null : !FACET_NAME_EDEFAULT.equals(getFacetName());
       case XSDPackage.XSD_REPEATABLE_FACET__EFFECTIVE_VALUE:
-        return getEffectiveValue() != null;
+        return EFFECTIVE_VALUE_EDEFAULT == null ? getEffectiveValue() != null : !EFFECTIVE_VALUE_EDEFAULT.equals(getEffectiveValue());
       case XSDPackage.XSD_REPEATABLE_FACET__ANNOTATION:
         return annotation != null;
       case XSDPackage.XSD_REPEATABLE_FACET__SIMPLE_TYPE_DEFINITION:

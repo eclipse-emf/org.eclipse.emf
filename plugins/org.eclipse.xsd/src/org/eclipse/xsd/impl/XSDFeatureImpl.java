@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFeatureImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDFeatureImpl.java,v 1.2 2004/06/13 11:52:17 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -167,6 +167,26 @@ public abstract class XSDFeatureImpl
    * @ordered
    */
   protected String lexicalValue = LEXICAL_VALUE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isGlobal() <em>Global</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isGlobal()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean GLOBAL_EDEFAULT = false;
+
+  /**
+   * The default value of the '{@link #isFeatureReference() <em>Feature Reference</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isFeatureReference()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean FEATURE_REFERENCE_EDEFAULT = false;
 
   protected XSDFeatureImpl() 
   {
@@ -729,13 +749,13 @@ public abstract class XSDFeatureImpl
       case XSDPackage.XSD_FEATURE__TARGET_NAMESPACE:
         return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
       case XSDPackage.XSD_FEATURE__ALIAS_NAME:
-        return getAliasName() != null;
+        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
       case XSDPackage.XSD_FEATURE__URI:
-        return getURI() != null;
+        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
       case XSDPackage.XSD_FEATURE__ALIAS_URI:
-        return getAliasURI() != null;
+        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
       case XSDPackage.XSD_FEATURE__QNAME:
-        return getQName() != null;
+        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
       case XSDPackage.XSD_FEATURE__VALUE:
         return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
       case XSDPackage.XSD_FEATURE__CONSTRAINT:
@@ -745,9 +765,9 @@ public abstract class XSDFeatureImpl
       case XSDPackage.XSD_FEATURE__LEXICAL_VALUE:
         return LEXICAL_VALUE_EDEFAULT == null ? lexicalValue != null : !LEXICAL_VALUE_EDEFAULT.equals(lexicalValue);
       case XSDPackage.XSD_FEATURE__GLOBAL:
-        return isGlobal() != false;
+        return isGlobal() != GLOBAL_EDEFAULT;
       case XSDPackage.XSD_FEATURE__FEATURE_REFERENCE:
-        return isFeatureReference() != false;
+        return isFeatureReference() != FEATURE_REFERENCE_EDEFAULT;
       case XSDPackage.XSD_FEATURE__SCOPE:
         return getScope() != null;
       case XSDPackage.XSD_FEATURE__RESOLVED_FEATURE:

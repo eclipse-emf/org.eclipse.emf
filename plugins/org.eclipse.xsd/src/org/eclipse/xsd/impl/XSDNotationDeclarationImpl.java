@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNotationDeclarationImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDNotationDeclarationImpl.java,v 1.2 2004/06/13 11:52:18 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -385,13 +385,13 @@ public class XSDNotationDeclarationImpl
       case XSDPackage.XSD_NOTATION_DECLARATION__TARGET_NAMESPACE:
         return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
       case XSDPackage.XSD_NOTATION_DECLARATION__ALIAS_NAME:
-        return getAliasName() != null;
+        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
       case XSDPackage.XSD_NOTATION_DECLARATION__URI:
-        return getURI() != null;
+        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
       case XSDPackage.XSD_NOTATION_DECLARATION__ALIAS_URI:
-        return getAliasURI() != null;
+        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
       case XSDPackage.XSD_NOTATION_DECLARATION__QNAME:
-        return getQName() != null;
+        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
       case XSDPackage.XSD_NOTATION_DECLARATION__SYSTEM_IDENTIFIER:
         return SYSTEM_IDENTIFIER_EDEFAULT == null ? systemIdentifier != null : !SYSTEM_IDENTIFIER_EDEFAULT.equals(systemIdentifier);
       case XSDPackage.XSD_NOTATION_DECLARATION__PUBLIC_IDENTIFIER:

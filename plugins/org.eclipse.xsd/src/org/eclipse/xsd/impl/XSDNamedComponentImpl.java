@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNamedComponentImpl.java,v 1.2 2004/06/08 22:31:29 emerks Exp $
+ * $Id: XSDNamedComponentImpl.java,v 1.3 2004/06/13 11:52:18 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -107,6 +107,46 @@ public abstract class XSDNamedComponentImpl
    * @ordered
    */
   protected String targetNamespace = TARGET_NAMESPACE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getAliasName() <em>Alias Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getAliasName()
+   * @generated
+   * @ordered
+   */
+  protected static final String ALIAS_NAME_EDEFAULT = null;
+
+  /**
+   * The default value of the '{@link #getURI() <em>URI</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getURI()
+   * @generated
+   * @ordered
+   */
+  protected static final String URI_EDEFAULT = null;
+
+  /**
+   * The default value of the '{@link #getAliasURI() <em>Alias URI</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getAliasURI()
+   * @generated
+   * @ordered
+   */
+  protected static final String ALIAS_URI_EDEFAULT = null;
+
+  /**
+   * The default value of the '{@link #getQName() <em>QName</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getQName()
+   * @generated
+   * @ordered
+   */
+  protected static final String QNAME_EDEFAULT = null;
 
   public static List sortNamedComponents(Collection xsdNamedComponents)
   {
@@ -647,13 +687,13 @@ public abstract class XSDNamedComponentImpl
       case XSDPackage.XSD_NAMED_COMPONENT__TARGET_NAMESPACE:
         return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
       case XSDPackage.XSD_NAMED_COMPONENT__ALIAS_NAME:
-        return getAliasName() != null;
+        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
       case XSDPackage.XSD_NAMED_COMPONENT__URI:
-        return getURI() != null;
+        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
       case XSDPackage.XSD_NAMED_COMPONENT__ALIAS_URI:
-        return getAliasURI() != null;
+        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
       case XSDPackage.XSD_NAMED_COMPONENT__QNAME:
-        return getQName() != null;
+        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
     }
     return eDynamicIsSet(eFeature);
   }
