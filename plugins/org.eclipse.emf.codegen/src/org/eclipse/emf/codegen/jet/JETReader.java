@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETReader.java,v 1.3 2004/07/29 13:32:47 marcelop Exp $
+ * $Id: JETReader.java,v 1.4 2005/03/31 19:52:21 davidms Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -43,6 +43,7 @@ public class JETReader
   protected String master = null;
   protected List sourceFiles = new ArrayList();
   protected int size = 0;
+  protected boolean trimExtraNewLine = true;
 
   public JETReader(String locationURI, InputStream inputStream, String encoding) throws JETException
   {
@@ -154,19 +155,76 @@ public class JETReader
     return sourceFiles.size() - 1;
   }
 
-
+  /**
+   * Returns whether more input is available. If the end of the buffer for an included file is reached, it will return
+   * to the context of the previous file, and return whether more input is available from there. In this case, if
+   * trimExtraNewLine is true, then an unwanted extra newline character will be suppressed. We consider the first
+   * newline in the buffer we are returning to be unwanted if the ending buffer already has at least one trailing
+   * newline.
+  */
   public boolean hasMoreInput() 
   {
-    if (current.cursor >= current.stream.length) 
+    if (current.cursor < current.stream.length)
     {
-      while (popFile()) 
-      {
-        if (current.cursor < current.stream.length) return true;
-      }
-      return false;
+      return true;
     }
+    
+    boolean nl = hasTrailingNewLine();
+    while (popFile()) 
+    {
+      if (current.cursor < current.stream.length)
+      {
+        if (trimExtraNewLine && nl)
+        {
+          skipNewLine();
+        }
+        return true;
+      }
+    }
+    return false;
+  }
 
-    return true;
+  /**
+   * Tests whether the current stream has at least one trailing newline, optionally followed by spaces.
+   */
+  protected boolean hasTrailingNewLine()
+  {
+    char[] stream = current.stream;
+
+    for (int i = stream.length - 1; i >= 0; i--)
+    {
+      if (stream[i] == '\n' || stream[i] == '\r')
+      {
+        return true;
+      }
+      else if (stream[i] != ' ')
+      {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * If the next character would be a line break, moves the cursor past it.
+   */
+  protected void skipNewLine()
+  {
+    char[] stream = current.stream;
+    int c = current.cursor;
+
+    if (stream.length > c + 1 && (stream[c] == '\n' && stream[c + 1] == '\r' || stream[c] == '\r' && stream[c + 1] == '\n'))
+    {
+      current.cursor += 2;
+      current.line++;
+      current.col = stream[0] == '\n' ? 1 : 0;
+    }
+    else if (stream.length >  c && (stream[c] == '\n' || stream[c] == '\r'))
+    {
+      current.cursor++;
+      current.line++;
+      current.col = 0;
+    }
   }
 
   public int nextChar() 

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETParser.java,v 1.3 2004/07/29 13:32:47 marcelop Exp $
+ * $Id: JETParser.java,v 1.4 2005/03/31 19:52:22 davidms Exp $
  *
  * The Apache Software License, Version 1.1
  *
@@ -456,55 +456,7 @@ public class JETParser
         }
 
         JETMark stop = reader.mark();
- 
-        StringBuffer leadingCharacters = new StringBuffer();
-        try
-        {
-          if ("include".equals(match))
-          {
-            while (reader.hasMoreInput() && reader.peekChar() == ' ')
-            {
-              reader.nextChar();
-              leadingCharacters.append(' ');
-            }
-
-            if (reader.matches("\r\n")) 
-            {
-              reader.advance("\r\n".length());
-              leadingCharacters.append("\r\n");
-              parser.writer.write(leadingCharacters.toString());
-              parser.flushCharData();
-              stop = reader.mark();
-            }
-            else if (reader.matches("\n\r")) 
-            {
-              reader.advance("\n\r".length());
-              leadingCharacters.append("\n\r");
-              parser.writer.write(leadingCharacters.toString());
-              parser.flushCharData();
-              stop = reader.mark();
-            }
-            else if (reader.matches("\n")) 
-            {
-              reader.advance("\n".length());
-              leadingCharacters.append("\n");
-              parser.writer.write(leadingCharacters.toString());
-              parser.flushCharData();
-              stop = reader.mark();
-            }
-            else
-            {
-              reader.reset(stop);
-            }
-          }
-        }
-        catch (IOException exception)
-        {
-          throw new JETException(exception);
-        }
-
         listener.handleDirective(match, start, stop, attrs);
-
         return true;
       }
       else
