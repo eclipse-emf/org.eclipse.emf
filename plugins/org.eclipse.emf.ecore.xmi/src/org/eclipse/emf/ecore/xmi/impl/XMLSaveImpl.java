@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.31 2005/03/15 20:36:30 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.32 2005/03/19 15:25:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1930,6 +1930,11 @@ public class XMLSaveImpl implements XMLSave
     }
   }
 
+  protected void saveFeatureMapElementReference(EObject o, EReference f)
+  {
+    saveElementReference(o, f);
+  }
+  
   protected boolean saveElementFeatureMap(EObject o, EStructuralFeature f)
   {
     List values = (List)helper.getValue(o, f);
@@ -1954,7 +1959,7 @@ public class XMLSaveImpl implements XMLSave
           }
           else if (referenceEntryFeature.isResolveProxies())
           {
-            saveElementReference((EObject)value, entryFeature);
+            saveFeatureMapElementReference((EObject)value, referenceEntryFeature);
           }
           else
           {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMISaveImpl.java,v 1.6 2005/01/25 18:45:01 elena Exp $
+ * $Id: XMISaveImpl.java,v 1.7 2005/03/19 15:25:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
@@ -133,5 +134,17 @@ public class XMISaveImpl extends XMLSaveImpl
   public boolean isDuplicateURI(String nsURI)
   {
     return XMIResource.XMI_URI.equals(nsURI);
+  }
+
+  protected void saveFeatureMapElementReference(EObject o, EReference f)
+  {
+    if (extendedMetaData == null || extendedMetaData.getFeatureKind(f) != ExtendedMetaData.ELEMENT_FEATURE)
+    {
+      saveHref(o, f);
+    }
+    else
+    {
+      saveElementReference(o, f);
+    } 
   }
 }
