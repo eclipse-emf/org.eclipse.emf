@@ -9,7 +9,8 @@
   <foreignModel>Ecore.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>
-  <genPackages prefix="Ecore" basePackage="org.eclipse.emf" ecorePackage="Ecore.ecore#/">
+  <genPackages prefix="Ecore" basePackage="org.eclipse.emf" disposableProviderFactory="true"
+      ecorePackage="Ecore.ecore#/">
     <genDataTypes ecoreDataType="Ecore.ecore#//EBigDecimal"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EBigInteger"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EBoolean"/>
