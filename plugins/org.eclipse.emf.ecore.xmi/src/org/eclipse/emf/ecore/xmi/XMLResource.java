@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.8 2004/07/29 17:56:24 marcelop Exp $
+ * $Id: XMLResource.java,v 1.9 2004/08/06 20:06:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -147,6 +147,13 @@ public interface XMLResource extends Resource
    * Produce an xsi:schemaLocation/xsi:noNamespaceSchemaLocation in the saved result.
    */
   String OPTION_SCHEMA_LOCATION = "SCHEMA_LOCATION";
+
+  /**
+   * Produce an xsi:schemaLocation/xsi:noNamespaceSchemaLocation in the saved result 
+   * to encode the name of the Java interface that declares the eINSTANCE of the EPackage implementation
+   * for those cases where OPTION_SCHEMA_LOCATION would not produce a physical location URI.
+   */
+  String OPTION_SCHEMA_LOCATION_IMPLEMENTATION = "SCHEMA_LOCATION_IMPLEMENTATION";
 
   /**
    * Specify the XML encoding to be used during save.

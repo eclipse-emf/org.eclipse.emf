@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.13 2004/06/12 12:07:43 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.14 2004/08/06 20:07:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -20,7 +20,9 @@ package org.eclipse.emf.ecore.xmi.impl;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +70,7 @@ public class XMLSaveImpl implements XMLSave
   protected String idAttributeName = "id";
   protected String processDanglingHREF;
   protected boolean declareSchemaLocation;
+  protected boolean declareSchemaLocationImplementation;
   protected XMLResource.XMLMap map;
   protected ExtendedMetaData extendedMetaData;
   protected EClass anySimpleType;
@@ -195,7 +198,8 @@ public class XMLSaveImpl implements XMLSave
     declareXSI = false;
     useEncodedAttributeStyle = Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE));
     declareXML = !Boolean.FALSE.equals(options.get(XMLResource.OPTION_DECLARE_XML));
-    declareSchemaLocation = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SCHEMA_LOCATION));
+    declareSchemaLocationImplementation = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SCHEMA_LOCATION_IMPLEMENTATION));
+    declareSchemaLocation = declareSchemaLocationImplementation || Boolean.TRUE.equals(options.get(XMLResource.OPTION_SCHEMA_LOCATION));
     Integer lineWidth = (Integer)options.get(XMLResource.OPTION_LINE_WIDTH);
     
     anyType = (EClass)options.get(XMLResource.OPTION_ANY_TYPE);
@@ -366,7 +370,7 @@ public class XMLSaveImpl implements XMLSave
     String xsiNoNamespaceSchemaLocation = null;
     if (declareSchemaLocation)
     {
-      boolean handledBySchemaLocationMap = false;
+      Map handledBySchemaLocationMap = Collections.EMPTY_MAP;
 
       if (extendedMetaData != null)
       {
@@ -379,11 +383,10 @@ public class XMLSaveImpl implements XMLSave
           EReference xsiSchemaLocationMapFeature = extendedMetaData.getXSISchemaLocationMapFeature(eClass);
           if (xsiSchemaLocationMapFeature != null)
           {
-            handledBySchemaLocationMap = true;
-
             EMap xsiSchemaLocationMap = (EMap)root.eGet(xsiSchemaLocationMapFeature);
             if (!xsiSchemaLocationMap.isEmpty())
             {
+              handledBySchemaLocationMap = xsiSchemaLocationMap.map();
               declareXSI = true;
               for (Iterator i = xsiSchemaLocationMap.entrySet().iterator(); i.hasNext(); )
               {
@@ -414,15 +417,35 @@ public class XMLSaveImpl implements XMLSave
         }
       }
 
-      if (!handledBySchemaLocationMap)
+      for (int i = 0; i < packages.length; i++)
       {
-        for (int i = 0; i < packages.length; i++)
+        EPackage ePackage = packages[i];
+
+        String javaImplementationLocation = null;
+        if (declareSchemaLocationImplementation)
         {
-          EPackage ePackage = packages[i];
-          if (noNamespacePackage == ePackage)
+          // First try to see if this package's implementation class has an eInstance.
+          //
+          try
+          {
+            Field field = ePackage.getClass().getField("eINSTANCE");
+            javaImplementationLocation = "java://" + field.getDeclaringClass().getName();
+          }
+          catch (Exception exception)
+          {
+          }
+        }
+
+        if (noNamespacePackage == ePackage)
+        {
+          if (ePackage.eResource() != null && !handledBySchemaLocationMap.containsKey(null))
           {
             declareXSI = true;
-            if (ePackage.eResource() != null)
+            if (javaImplementationLocation != null)
+            {
+              xsiNoNamespaceSchemaLocation = javaImplementationLocation;
+            }
+            else
             {
               xsiNoNamespaceSchemaLocation = helper.getHREF(ePackage);
               if (xsiNoNamespaceSchemaLocation.endsWith("#/"))
@@ -431,14 +454,17 @@ public class XMLSaveImpl implements XMLSave
               }
             }
           }
-          else
+        }
+        else
+        {
+          Resource resource = ePackage.eResource();
+          if (resource != null)
           {
-            Resource resource = ePackage.eResource();
-            if (resource != null)
+            String nsURI = ePackage.getNsURI();
+            if (!handledBySchemaLocationMap.containsKey(nsURI))
             {
               URI uri = resource.getURI();
-              String nsURI = ePackage.getNsURI();
-              if (uri == null ? nsURI != null : !uri.toString().equals(nsURI))
+              if (javaImplementationLocation != null || (uri == null ? nsURI != null : !uri.toString().equals(nsURI)))
               {
                 declareXSI = true;
                 if (xsiSchemaLocation == null)
@@ -451,7 +477,7 @@ public class XMLSaveImpl implements XMLSave
                 }
                 xsiSchemaLocation.append(nsURI);
                 xsiSchemaLocation.append(' ');
-                String location = helper.getHREF(ePackage);
+                String location = javaImplementationLocation == null ? helper.getHREF(ePackage) : javaImplementationLocation;
                 if (location.endsWith("#/"))
                 {
                   location = location.substring(0, location.length() - 2);
