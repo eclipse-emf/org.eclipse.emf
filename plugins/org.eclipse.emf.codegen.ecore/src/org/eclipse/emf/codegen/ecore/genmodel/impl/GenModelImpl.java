@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.9 2004/05/23 04:09:30 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.10 2004/05/26 15:22:15 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -50,19 +50,19 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
-import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -976,6 +976,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (getGenPackages().isEmpty())
     {
       setRuntimeCompatibility(false);
+      setRuntimeJar(true);
     }
 
     LOOP:
@@ -1013,6 +1014,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String validatorSwitchClassTemplateName = "model/ValidatorClass.javajet";
   protected String pluginXMLTemplateName = "model/plugin.xmljet";
   protected String pluginPropertiesTemplateName = "model/plugin.propertiesjet";
+  protected String buildPropertiesTemplateName = "model/build.propertiesjet";
   protected String modelPluginTemplateName = "model/Plugin.javajet";
   protected String resourceTemplateName = "model/ResourceClass.javajet";
   protected String resourceFactoryTemplateName = "model/ResourceFactoryClass.javajet";
@@ -1033,6 +1035,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter validatorSwitchClassEmitter = null;
   protected JETEmitter pluginXMLEmitter = null;
   protected JETEmitter pluginPropertiesEmitter = null;
+  protected JETEmitter buildPropertiesEmitter = null;
   protected JETEmitter modelPluginClassEmitter = null;
   protected JETEmitter resourceClassEmitter = null;
   protected JETEmitter resourceFactoryClassEmitter = null;
@@ -1215,6 +1218,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(pluginPropertiesEmitter, "org.eclipse.emf.codegen.ecore.templates.model.PluginProperties");
     }
     return pluginPropertiesEmitter;
+  }
+
+  public JETEmitter getBuildPropertiesEmitter()
+  {
+    if (buildPropertiesEmitter == null)
+    {
+      buildPropertiesEmitter = createJETEmitter(buildPropertiesTemplateName);
+      setMethod(buildPropertiesEmitter, "org.eclipse.emf.codegen.ecore.templates.model.BuildProperties");
+    }
+    return buildPropertiesEmitter;
   }
 
   public JETEmitter getModelPluginClassEmitter()
@@ -1475,6 +1488,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
            getEffectiveModelPluginVariables(),
            getModelProjectDirectory() + "/plugin.properties",
            getPluginPropertiesEmitter());
+        
+        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelBuildProperties_message"));
+        generate
+          (new SubProgressMonitor(progressMonitor, 1),
+           Generator.EMF_MODEL_PROJECT_STYLE,
+           getEffectiveModelPluginVariables(),
+           getModelProjectDirectory() + "/build.properties",
+           getBuildPropertiesEmitter());        
       }
     }
     finally
@@ -1558,6 +1579,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
          getEffectiveModelPluginVariables(),
          getEditProjectDirectory() + "/plugin.properties",
          getEditPluginPropertiesEmitter());
+
+      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditBuildProperties_message"));
+      generate
+        (new SubProgressMonitor(progressMonitor, 1),
+         Generator.EMF_EDIT_PROJECT_STYLE,
+         getEffectiveModelPluginVariables(),
+         getEditProjectDirectory() + "/build.properties",
+         getEditBuildPropertiesEmitter());
     }
     finally
     {
@@ -1637,6 +1666,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
          getEffectiveModelPluginVariables(),
          getEditorProjectDirectory() + "/plugin.properties",
          getEditorPluginPropertiesEmitter());
+
+      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorBuildProperties_message"));
+      generate
+        (new SubProgressMonitor(progressMonitor, 1),
+         Generator.EMF_EDITOR_PROJECT_STYLE,
+         getEffectiveModelPluginVariables(),
+         getEditorProjectDirectory() + "/build.properties",
+         getEditorBuildPropertiesEmitter());
     }
     finally
     {
@@ -1653,6 +1690,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String editPluginTemplateName = "edit/Plugin.javajet";
   protected String editPluginXMLTemplateName = "edit/plugin.xmljet";
   protected String editPluginPropertiesTemplateName = "edit/plugin.propertiesjet";
+  protected String editBuildPropertiesTemplateName = "edit/build.propertiesjet";
   protected String itemGIFName = "edit/Item.gif";
   protected String createChildGIFName = "edit/CreateChild.gif";
 
@@ -1662,6 +1700,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String editorPluginTemplateName = "editor/Plugin.javajet";
   protected String editorPluginXMLTemplateName = "editor/plugin.xmljet";
   protected String editorPluginPropertiesTemplateName = "editor/plugin.propertiesjet";
+  protected String editorBuildPropertiesTemplateName = "editor/build.propertiesjet";
   protected String modelGIFName = "editor/ModelFile.gif";
   protected String modelWizardGIFName = "editor/NewModel.gif";
 
@@ -1671,6 +1710,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter editPluginClassEmitter = null;
   protected JETEmitter editPluginXMLEmitter = null;
   protected JETEmitter editPluginPropertiesEmitter = null;
+  protected JETEmitter editBuildPropertiesEmitter = null;
   protected GIFEmitter itemGIFEmitter = null;
   protected GIFEmitter createChildGIFEmitter = null;
 
@@ -1680,6 +1720,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter editorPluginClassEmitter = null;
   protected JETEmitter editorPluginXMLEmitter = null;
   protected JETEmitter editorPluginPropertiesEmitter = null;
+  protected JETEmitter editorBuildPropertiesEmitter = null;
   protected GIFEmitter modelGIFEmitter = null;
   protected GIFEmitter modelWizardGIFEmitter = null;
 
@@ -1743,6 +1784,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editPluginPropertiesEmitter;
   }
 
+  public JETEmitter getEditBuildPropertiesEmitter()
+  {
+    if (editBuildPropertiesEmitter == null)
+    {
+      editBuildPropertiesEmitter = createJETEmitter(editBuildPropertiesTemplateName);
+      setMethod(editBuildPropertiesEmitter, "org.eclipse.emf.codegen.ecore.templates.edit.BuildProperties");
+    }
+    return editBuildPropertiesEmitter;
+  }
+  
   public GIFEmitter getItemGIFEmitter()
   {
     if (itemGIFEmitter == null)
@@ -1839,7 +1890,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editorPluginPropertiesEmitter;
   }
 
- /*
+  public JETEmitter getEditorBuildPropertiesEmitter()
+  {
+    if (editorBuildPropertiesEmitter == null)
+    {
+      editorBuildPropertiesEmitter = createJETEmitter(editorBuildPropertiesTemplateName);
+      setMethod(editorBuildPropertiesEmitter, "org.eclipse.emf.codegen.ecore.templates.editor.BuildProperties");
+    }
+    return editorBuildPropertiesEmitter;
+  }
+
+  /*
   public boolean isGenerateEditPlugin()
   {
     return getEditDirectory() != null;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.5 2004/05/16 17:30:36 emerks Exp $
+ * $Id: GenModel.java,v 1.6 2004/05/26 15:22:15 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -948,6 +948,7 @@ public interface GenModel extends GenBase{
   JETEmitter getModelPluginClassEmitter();
   JETEmitter getResourceClassEmitter();
   JETEmitter getResourceFactoryClassEmitter();
+  JETEmitter getBuildPropertiesEmitter();
 
   //
   // EMF.Edit generation
@@ -959,6 +960,7 @@ public interface GenModel extends GenBase{
   JETEmitter getEditPluginClassEmitter();
   JETEmitter getEditPluginXMLEmitter();
   JETEmitter getEditPluginPropertiesEmitter();
+  JETEmitter getEditBuildPropertiesEmitter();
 
   //
   // EMF.Editor generation
@@ -971,6 +973,7 @@ public interface GenModel extends GenBase{
   JETEmitter getEditorPluginClassEmitter();
   JETEmitter getEditorPluginXMLEmitter();
   JETEmitter getEditorPluginPropertiesEmitter();
+  JETEmitter getEditorBuildPropertiesEmitter();
 
   // boolean isGenerateEditPlugin();
   // boolean isGenerateEditorPlugin();
