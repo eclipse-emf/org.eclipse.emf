@@ -4,8 +4,7 @@ a.footnote:link    { text-decoration: none; }
 a.footnote:visited { text-decoration: none; }
 a.footnote:hover   { text-decoration: underline; }
 
-pre				    {  color: #4444CC; }
-tt.code				 { color: #4444CC; }
+tt.code            { color: #4444CC; }
 pre.code           { color: #4444CC; }
 
-.highlight			 {  background-color: #FFFFCC; }
+.highlight         {  background-color: #FFFFCC; }
