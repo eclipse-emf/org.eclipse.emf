@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2005/02/15 20:21:05 bportier Exp $
+ * $Id: plugin.xml,v 1.6 2005/04/04 18:51:55 nickb Exp $
  */
 -->
 
@@ -33,10 +33,10 @@
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.change"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf.ecore.sdo"/>
       <import plugin="org.eclipse.xsd"/>
       <import plugin="org.junit"/>
       <import plugin="org.eclipse.test.performance"/>
-      <import plugin="org.eclipse.emf.ecore.sdo"/>
       <import plugin="org.apache.derby" optional="true"/>
    </requires>
 
@@ -45,5 +45,4 @@
          <export name="*"/>
       </library>
    </runtime>
-   
 </plugin>
