@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.5 2004/04/05 14:09:39 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.6 2004/05/16 17:26:03 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -147,7 +147,6 @@ public class <%=genClass.getProviderClassName()%>
 <%}%>
 <%}%>
 <%if (genClass.isImage()) {%>
-
 	/**
 	 * This returns <%=genClass.getName()%>.gif.
 	 * <!-- begin-user-doc -->
@@ -158,8 +157,8 @@ public class <%=genClass.getProviderClassName()%>
 	{
 		return getResourceLocator().getImage("full/obj16/<%=genClass.getName()%>");<%=genModel.getNonNLS()%>
 	}
-<%}%>
 
+<%}%>
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
@@ -230,8 +229,8 @@ public class <%=genClass.getProviderClassName()%>
 <%}%>
 		super.notifyChanged(notification);
 	}
-<%if (genModel.isCreationCommands()) {%>
 
+<%if (genModel.isCreationCommands()) {%>
 	/**
 	 * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s
 	 * describing all of the children that can be created under this object.
@@ -269,8 +268,8 @@ public class <%=genClass.getProviderClassName()%>
     <%}%>
   <%}%>
 	}
-  <%if (!genClass.getSharedClassCreateChildFeatures().isEmpty()) {%>
 
+  <%if (!genClass.getSharedClassCreateChildFeatures().isEmpty()) {%>
 	/**
 	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
 	 * <!-- begin-user-doc -->
@@ -287,9 +286,9 @@ public class <%=genClass.getProviderClassName()%>
 			qualify ? "_UI_CreateChild_text2" : "_UI_CreateChild_text",<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 			new Object[] { getTypeText(child), getFeatureText(feature), getTypeText(owner) });
 	}
+
   <%}%>
 <%}%>
-
 	/**
 	 * Return the resource locator for this item provider's resources.
 	 * <!-- begin-user-doc -->
@@ -300,5 +299,6 @@ public class <%=genClass.getProviderClassName()%>
 	{
 		return <%=genPackage.getImportedEditPluginClassName()%>.INSTANCE;
 	}
+
 }
 <%genModel.emitSortedImports();%>

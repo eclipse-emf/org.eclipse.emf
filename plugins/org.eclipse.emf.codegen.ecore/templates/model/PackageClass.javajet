@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.4 2004/05/05 19:41:58 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.5 2004/05/16 17:24:09 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -331,8 +331,8 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
   <%}%>
 <%}%>
 	}
-<%for (Iterator i = genPackage.getAnnotationSources().iterator(); i.hasNext();) { String annotationSource = (String)i.next();%>
 
+<%for (Iterator i = genPackage.getAnnotationSources().iterator(); i.hasNext();) { String annotationSource = (String)i.next();%>
 	/**
 	 * Initializes the annotations for <b><%=annotationSource%></b>.
 	 * <!-- begin-user-doc -->
@@ -356,6 +356,7 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
     <%}%>
   <%}%>
 	}
+
 <%}%>
 } //<%=genPackage.getPackageClassName()%>
 <%genModel.emitSortedImports();%>

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.6 2004/05/11 15:16:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.7 2004/05/16 17:24:09 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -246,5 +246,6 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 	{
 		return <%=genPackage.getImportedPackageInterfaceName()%>.eINSTANCE;
 	}
+
 } //<%=genPackage.getFactoryClassName()%>
 <%genModel.emitSortedImports();%>

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.4 2004/05/05 19:41:23 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.5 2004/05/16 17:24:09 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -989,6 +989,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%> container = eContainer();
 		return container == null ? null : (<%=genModel.getImportedName("org.eclipse.emf.common.util.EMap")%>)container.eGet(eContainmentFeature());
 	}
+
 <%}%>
 } //<%=genClass.getClassName()%>
 <%genModel.emitSortedImports();%>
