@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.18 2004/11/23 12:41:25 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.19 2004/12/11 12:23:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1981,7 +1981,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   protected boolean isMixed()
   {
-    return ExtendedMetaData.INSTANCE.getContentKind(getEcoreClass()) == ExtendedMetaData.MIXED_CONTENT;
+    return getExtendedMetaData().getContentKind(getEcoreClass()) == ExtendedMetaData.MIXED_CONTENT;
   }
 
   public GenFeature getMixedGenFeature()
