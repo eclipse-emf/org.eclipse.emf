@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.21 2005/03/18 21:56:58 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.22 2005/03/28 13:19:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2876,6 +2876,8 @@ public class EcoreUtil
     private static short clockSequence;
 
     private static short timeAdjustment;
+    
+    private static int sleepTime = 1;
 
     /**
      * A cached array of bytes representing the UUID. The second 8 bytes
@@ -2966,7 +2968,7 @@ public class EcoreUtil
           // Wait so that the clock can catch up and the time adjustment won't overflow.
           try
           {
-            Thread.sleep(1);
+            Thread.sleep(sleepTime);
           }
           catch (InterruptedException exception)
           {
@@ -2975,9 +2977,17 @@ public class EcoreUtil
           timeAdjustment = 0;
           currentTime = System.currentTimeMillis() + EPOCH_ADJUSTMENT;
 
-          if (lastTime == currentTime)
+          while (lastTime == currentTime)
           {
-            throw new Error("Clock failure in generating a UUID.");
+            try
+            {
+              ++sleepTime;
+              Thread.sleep(1);
+            }
+            catch (InterruptedException exception)
+            {
+            }
+            currentTime = System.currentTimeMillis() + EPOCH_ADJUSTMENT;
           }
         }
       }
@@ -3155,4 +3165,5 @@ public class EcoreUtil
    }
    }
    */
-}
+            }
+
