@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.9 2004/08/13 13:49:37 davidms Exp $
+ * $Id: URI.java,v 1.10 2004/08/26 20:13:07 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -224,6 +224,12 @@ public final class URI
   private static final long MAJOR_SEPARATOR_LO = lowBitmask(":/?#");
   private static final long SEGMENT_END_HI = highBitmask("/?#");
   private static final long SEGMENT_END_LO = lowBitmask("/?#");
+
+  // We can't want to do encoding of platform resource URIs by default yet.   
+  //
+  private static final boolean ENCODE_PLATFORM_RESOURCE_URIS =
+    System.getProperty("org.eclipse.emf.common.util.URI.encodePlatformResourceURIs") != null &&
+    !"false".equalsIgnoreCase(System.getProperty("org.eclipse.emf.common.util.URI.encodePlatformResourceURIs"));
 
   // Static initializer for archiveSchemes.
   static
@@ -758,11 +764,13 @@ public final class URI
    * <p>This scheme supports relocatable projects in Eclipse and in
    * stand-alone EMF.
    *
-   * <p>The path is encoded to escape all spaces, <code>#</code> characters,
-   * and other characters disallowed in URIs, as well as <code>?</code>,
-   * which would delimit a path from a query.  Decoding can be performed with
-   * the static {@link #decode(String) decode} method.
-
+   * <p>If the <code>org.eclipse.emf.common.util.URI.encodePlatformResourceURIs</code> 
+   * system property is set to "true", the path is automatically encoded to
+   * escape all spaces, <code>#</code> characters, and other characters
+   * disallowed in URIs, as well as <code>?</code>, which would delimit a
+   * path from a query.  Decoding can be performed with the static {@link
+   * #decode(String) decode} method.
+   * 
    * @exception java.lang.IllegalArgumentException if any component parsed
    * from the path is not valid according to {@link #validDevice validDevice},
    * {@link #validSegments validSegments}, {@link #validQuery validQuery}, or
@@ -772,7 +780,10 @@ public final class URI
    */
   public static URI createPlatformResourceURI(String pathName)
   {
-    pathName = encode(pathName, PATH_CHAR_HI, PATH_CHAR_LO, false);
+    if (ENCODE_PLATFORM_RESOURCE_URIS)
+    {
+      pathName = encode(pathName, PATH_CHAR_HI, PATH_CHAR_LO, false);
+    }
     URI result = createURI((pathName.charAt(0) == SEGMENT_SEPARATOR ? "platform:/resource" : "platform:/resource/") + pathName);
     return result;
   }

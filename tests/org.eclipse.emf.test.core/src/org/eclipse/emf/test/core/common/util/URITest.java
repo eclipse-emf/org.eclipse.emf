@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URITest.java,v 1.5 2004/08/13 13:51:37 davidms Exp $
+ * $Id: URITest.java,v 1.6 2004/08/26 20:13:05 davidms Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -571,14 +571,16 @@ public class URITest extends TestCase
       assertEquals("Bad URI encode: " + unencoded, URI.createURI(encodedURIStrings[i]), encodedURI);
     }
 
-    String[] paths = UNENCODED_PLATFORM_PATHS;
-    encodedURIStrings = ENCODED_PLATFORM_PATH_URIS;
-
-    for (int i = 0, len = paths.length; i < len; i++)
-    {
-      String path = paths[i];
-      URI uri = URI.createPlatformResourceURI(path);
-      assertEquals("Bad platform resource encode: " + path, encodedURIStrings[i], uri.toString());
-    }
+    //As of Bugzilla 72731, this behaviour requires a system property to be set.
+    //
+    //String[] paths = UNENCODED_PLATFORM_PATHS;
+    //encodedURIStrings = ENCODED_PLATFORM_PATH_URIS;
+    //
+    //for (int i = 0, len = paths.length; i < len; i++)
+    //{
+    //  String path = paths[i];
+    //  URI uri = URI.createPlatformResourceURI(path);
+    //  assertEquals("Bad platform resource encode: " + path, encodedURIStrings[i], uri.toString());
+    //}
   }
 }
