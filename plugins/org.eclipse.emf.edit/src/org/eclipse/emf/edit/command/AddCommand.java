@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddCommand.java,v 1.5 2004/10/20 23:09:39 davidms Exp $
+ * $Id: AddCommand.java,v 1.6 2004/12/11 12:23:03 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -361,7 +361,7 @@ public class AddCommand extends AbstractOverrideableCommand
               entryFeatures.add(entryFeature);
             }
           }
-          else if (!entryFeatures.add(entryFeature) && !entryFeature.isMany()) 
+          else if (!entryFeatures.add(entryFeature) && !FeatureMapUtil.isMany(owner, entryFeature)) 
           {
             return false;
           }
