@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SimplePackageImpl.java,v 1.2 2004/07/19 19:23:53 marcelop Exp $
+ * $Id: SimplePackageImpl.java,v 1.3 2004/07/29 13:54:09 marcelop Exp $
  */
 package com.example.simple.impl;
 
@@ -88,10 +88,10 @@ public class SimplePackageImpl extends EPackageImpl implements SimplePackage
    */
   public static SimplePackage init()
   {
-    if (isInited) return (SimplePackage)EPackage.Registry.INSTANCE.get(SimplePackage.eNS_URI);
+    if (isInited) return (SimplePackage)EPackage.Registry.INSTANCE.getEPackage(SimplePackage.eNS_URI);
 
     // Obtain or create and register package
-    SimplePackageImpl theSimplePackage = (SimplePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof SimplePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new SimplePackageImpl());
+    SimplePackageImpl theSimplePackage = (SimplePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof SimplePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new SimplePackageImpl());
 
     isInited = true;
 

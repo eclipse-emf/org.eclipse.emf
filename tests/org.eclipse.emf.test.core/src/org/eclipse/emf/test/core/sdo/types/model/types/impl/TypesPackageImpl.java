@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesPackageImpl.java,v 1.3 2004/07/09 05:29:33 marcelop Exp $
+ * $Id: TypesPackageImpl.java,v 1.4 2004/07/29 13:54:09 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types.impl;
 
@@ -138,10 +138,10 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
    */
   public static TypesPackage init()
   {
-    if (isInited) return (TypesPackage)EPackage.Registry.INSTANCE.get(TypesPackage.eNS_URI);
+    if (isInited) return (TypesPackage)EPackage.Registry.INSTANCE.getEPackage(TypesPackage.eNS_URI);
 
     // Obtain or create and register package
-    TypesPackageImpl theTypesPackage = (TypesPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof TypesPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new TypesPackageImpl());
+    TypesPackageImpl theTypesPackage = (TypesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof TypesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new TypesPackageImpl());
 
     isInited = true;
 

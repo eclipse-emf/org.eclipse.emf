@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.3 2004/07/21 14:24:30 marcelop Exp $
+ * $Id: ListChangeImpl.java,v 1.4 2004/07/29 13:54:07 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -214,7 +214,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
     }
     return dataValues;
   }
-  
+
   /**
    * Creates the data value delegating list
    */
