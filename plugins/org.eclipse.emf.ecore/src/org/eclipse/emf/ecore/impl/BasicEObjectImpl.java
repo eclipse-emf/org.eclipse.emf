@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.3 2004/09/27 14:04:44 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.4 2004/10/18 13:19:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -397,13 +397,16 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
           FeatureMap featureMap = (FeatureMap)eContainer.eGet(eFeature);
           for (int i = 0, size = featureMap.size(); i < size; ++i)
           {
-            EStructuralFeature entryFeature = featureMap.getEStructuralFeature(i);
-            if (entryFeature instanceof EReference)
+            if (featureMap.getValue(i) == this)
             {
-              EReference entryReference = (EReference)entryFeature;
-              if (entryReference.isContainment())
+              EStructuralFeature entryFeature = featureMap.getEStructuralFeature(i);
+              if (entryFeature instanceof EReference)
               {
-                return entryReference;
+                EReference entryReference = (EReference)entryFeature;
+                if (entryReference.isContainment())
+                {
+                  return entryReference;
+                }
               }
             }
           }
