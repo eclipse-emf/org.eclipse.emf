@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMainTest.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDMainTest.java,v 1.2 2004/03/08 21:32:14 emerks Exp $
  */
 package org.eclipse.xsd.test;
 
@@ -116,9 +116,8 @@ public class XSDMainTest // implements IPlatformRunnable
       {
         // Serialize the Purchase Order schema sample.
         //
-        XSDPrototypicalSchema xsdPrototypicalSchema = new XSDPrototypicalSchema();
         System.out.println("<!-- ** PurchaseOrderSchema ** -->");
-        XSDSchema xsdPurchaseOrderSchema = xsdPrototypicalSchema.getPurchaseOrderSchema();
+        XSDSchema xsdPurchaseOrderSchema = XSDPrototypicalSchema.getPurchaseOrderSchema();
         if (xsdPurchaseOrderSchema.getElement() == null)
         {
           xsdPurchaseOrderSchema.updateElement();
@@ -128,7 +127,7 @@ public class XSDMainTest // implements IPlatformRunnable
         // Serialize the prototypical schema sample.
         //
         System.out.println("<!-- ** PrototypicalSchema ** -->");
-        XSDSchema xsdSchema = xsdPrototypicalSchema.getPrototypicalSchema();
+        XSDSchema xsdSchema = XSDPrototypicalSchema.getPrototypicalSchema();
         if (xsdSchema.getElement() == null)
         {
           xsdSchema.updateElement();

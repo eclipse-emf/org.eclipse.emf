@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDItemProviderAdapter.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDItemProviderAdapter.java,v 1.2 2004/03/08 21:32:32 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -897,7 +897,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
       typeKey.append('_');
       typeKey.append(qualifier);
     }
-    return XSDEditPlugin.getPlugin().getString(typeKey.toString());
+    return XSDEditPlugin.getString(typeKey.toString());
   }  
 
   /**

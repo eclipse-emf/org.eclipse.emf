@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDEditor.java,v 1.2 2004/03/08 21:32:43 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -69,6 +69,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
+import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -1983,7 +1984,7 @@ public class XSDEditor
       }
 */
       setActivePage(0);
-      textEditor.gotoMarker(marker);
+      ((IGotoMarker)textEditor.getAdapter(IGotoMarker.class)).gotoMarker(marker);
     }
     catch (Exception exception)
     {

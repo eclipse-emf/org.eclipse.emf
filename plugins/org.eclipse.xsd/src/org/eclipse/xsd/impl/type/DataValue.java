@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataValue.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: DataValue.java,v 1.2 2004/03/08 21:32:21 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -384,15 +384,14 @@ public static final class  Base64 {
 	}
 	catch(UnsupportedEncodingException e) {	
 	}
-	finally {
-            String retVal = null;
-            try {
-                retVal = decoded == null ? null : new String(decoded, "8859_1");
-            } catch (UnsupportedEncodingException e) {
-            }
-            return retVal;
-	}
+	
+    String retVal = null;
+    try {
+        retVal = decoded == null ? null : new String(decoded, "8859_1");
+    } catch (UnsupportedEncodingException e) {
     }
+    return retVal;
+	}
 }
 
 
@@ -492,15 +491,14 @@ public static final class  HexBin {
 	}
 	catch(UnsupportedEncodingException e) {
  	}
-	finally {
-            String retVal = null;
-            try {
-                retVal = decoded == null ? null : new String(decoded, "8859_1");
-            } catch (UnsupportedEncodingException e) {
-            }
-            return retVal;
-	}
+
+    String retVal = null;
+    try {
+        retVal = decoded == null ? null : new String(decoded, "8859_1");
+    } catch (UnsupportedEncodingException e) {
     }
+    return retVal;
+	}
 }
 
 /*

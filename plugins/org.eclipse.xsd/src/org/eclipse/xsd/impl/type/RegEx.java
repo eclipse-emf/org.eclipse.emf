@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: RegEx.java,v 1.2 2004/03/08 21:32:21 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -3706,7 +3706,7 @@ static class RegexParser {
  * </pre>
  *
  * <hr width="50%">
- * <h3>TODO</h3>
+ * <h3>future</h3>
  * <ul>
  *   <li><a href="http://www.unicode.org/unicode/reports/tr18/">Unicode Regular Expression Guidelines</a>
  *     <ul>
@@ -3959,7 +3959,7 @@ public static class RegularExpression implements java.io.Serializable {
         }
         con.match = match;
 
-        if (this.isSet(this.options, XMLSCHEMA_MODE)) {
+        if (isSet(this.options, XMLSCHEMA_MODE)) {
             int matchEnd = this. matchCharArray (con, this.operations, con.start, 1, this.options);
             //System.err.println("DEBUG: matchEnd="+matchEnd);
             if (matchEnd == con.limit) {
@@ -4042,7 +4042,7 @@ public static class RegularExpression implements java.io.Serializable {
         else if (this.firstChar != null) {
             //System.err.println("DEBUG: with firstchar-matching: "+this.firstChar);
             RangeToken range = this.firstChar;
-            if (this.isSet(this.options, IGNORE_CASE)) {
+            if (isSet(this.options, IGNORE_CASE)) {
                 range = this.firstChar.getCaseInsensitiveToken();
                 for (matchStart = con.start;  matchStart <= limit;  matchStart ++) {
                     int ch =  target [  matchStart ] ;
@@ -4668,7 +4668,7 @@ public static class RegularExpression implements java.io.Serializable {
         }
         con.match = match;
 
-        if (this.isSet(this.options, XMLSCHEMA_MODE)) {
+        if (isSet(this.options, XMLSCHEMA_MODE)) {
             if (DEBUG) {
                 System.err.println("target string="+target);
             }
@@ -4757,7 +4757,7 @@ public static class RegularExpression implements java.io.Serializable {
         else if (this.firstChar != null) {
             //System.err.println("DEBUG: with firstchar-matching: "+this.firstChar);
             RangeToken range = this.firstChar;
-            if (this.isSet(this.options, IGNORE_CASE)) {
+            if (isSet(this.options, IGNORE_CASE)) {
                 range = this.firstChar.getCaseInsensitiveToken();
                 for (matchStart = con.start;  matchStart <= limit;  matchStart ++) {
                     int ch =  target .charAt(  matchStart ) ;
@@ -5321,7 +5321,7 @@ public static class RegularExpression implements java.io.Serializable {
         }
         con.match = match;
 
-        if (this.isSet(this.options, XMLSCHEMA_MODE)) {
+        if (isSet(this.options, XMLSCHEMA_MODE)) {
             int matchEnd = this. matchCharacterIterator (con, this.operations, con.start, 1, this.options);
             //System.err.println("DEBUG: matchEnd="+matchEnd);
             if (matchEnd == con.limit) {
@@ -5404,7 +5404,7 @@ public static class RegularExpression implements java.io.Serializable {
         else if (this.firstChar != null) {
             //System.err.println("DEBUG: with firstchar-matching: "+this.firstChar);
             RangeToken range = this.firstChar;
-            if (this.isSet(this.options, IGNORE_CASE)) {
+            if (isSet(options, IGNORE_CASE)) {
                 range = this.firstChar.getCaseInsensitiveToken();
                 for (matchStart = con.start;  matchStart <= limit;  matchStart ++) {
                     int ch =  target .setIndex(  matchStart ) ;
@@ -6236,7 +6236,7 @@ public static class RegularExpression implements java.io.Serializable {
     private void setPattern(String newPattern, int options) throws ParseException {
         this.regex = newPattern;
         this.options = options;
-        RegexParser rp = this.isSet(this.options, RegularExpression.XMLSCHEMA_MODE)
+        RegexParser rp = isSet(this.options, RegularExpression.XMLSCHEMA_MODE)
                          ? new ParserForXMLSchema() : new RegexParser();
         this.tokentree = rp.parse(this.regex, this.options);
         this.nofparen = rp.parennumber;

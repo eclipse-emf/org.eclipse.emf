@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: plugin.xml,v 1.2 2004/03/08 21:32:48 emerks Exp $
  */
 -->
 
@@ -45,7 +45,6 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID">
       </category>
       <wizard
-            availableAsShortcut="true"
             name="%_UI_XSD2EcoreModelWizard_label"
             icon="icons/full/ctool16/NewXSD2Ecore.gif"
             category="org.eclipse.emf.ecore.Wizard.category.ID"

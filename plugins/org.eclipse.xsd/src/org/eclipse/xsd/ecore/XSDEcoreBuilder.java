@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.2 2004/03/08 21:32:21 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1566,9 +1566,9 @@ public class XSDEcoreBuilder extends MapBuilder
 
     // Make sure to populate the mapping for the special XML namespace schema if it isn't the one we are trying to map.
     //
-    if (xsdSchemas.size() == 1 && !XMLNamespacePackage.eINSTANCE.eNS_URI.equals(xsdSchema.getTargetNamespace()))
+    if (xsdSchemas.size() == 1 && !XMLNamespacePackage.eNS_URI.equals(xsdSchema.getTargetNamespace()))
     {
-      XSDAttributeDeclaration xmlLangAttribute = xsdSchema.resolveAttributeDeclaration(XMLNamespacePackage.eINSTANCE.eNS_URI, "lang");
+      XSDAttributeDeclaration xmlLangAttribute = xsdSchema.resolveAttributeDeclaration(XMLNamespacePackage.eNS_URI, "lang");
       if (xmlLangAttribute.getContainer() != null)
       {
         getEPackage(xmlLangAttribute);

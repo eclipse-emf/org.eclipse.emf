@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: plugin.xml,v 1.2 2004/03/08 21:32:43 emerks Exp $
  */
 -->
 
@@ -80,7 +80,6 @@
         name = "%_UI_XSDModelWizard_label"
         class = "org.eclipse.xsd.presentation.XSDModelWizard"
         category = "org.eclipse.emf.ecore.Wizard.category.ID"
-        availableAsShortcut="true"
         icon = "icons/full/ctool16/NewXSD.gif">
       <description>%_UI_XSDModelWizard_description</description>
       <selection class = "org.eclipse.core.resources.IResource" />
