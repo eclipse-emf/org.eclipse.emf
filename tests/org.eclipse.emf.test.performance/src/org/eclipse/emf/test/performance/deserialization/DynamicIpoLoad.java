@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpoLoad.java,v 1.5 2005/02/17 16:44:48 bportier Exp $
+ * $Id: DynamicIpoLoad.java,v 1.6 2005/02/21 22:34:17 bportier Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -52,7 +52,7 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
 
   final static int REPETITIONS = 10;
 
-  final static int ITERATIONS = 1000;
+  final static int ITERATIONS = 200;
 
   final static int WARMUP = 3000;
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.3 2005/02/18 22:35:07 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.4 2005/02/21 22:34:17 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -63,11 +63,10 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected static final int MICRO_ITERATIONS = 100000;
 
-  protected static final int WARMUP = 200;
+  protected static final int MICRO_PATH_ITERATIONS = 5000;
 
-  protected static final int MICRO_WARMUP = 3000;
-
-  protected static final int PATH_WARMUP = 100;
+  // path accessors are slower -> less iterations -> not comparable to other accessors.
+  protected static final int PATH_ITERATIONS = 300;
 
   protected static final String DATA = TestUtil.getPluginDirectory() + "/data/";
 
@@ -182,30 +181,21 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     TestSuite testSuite = new TestSuite();
 
     // the warmup number is the optimal one for consistency of results and best peformance.
-    // result: 22
+
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3000).setRepetitions(REPETITIONS));
-    // result: 30
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(1000).setRepetitions(REPETITIONS));
-    // result: 28
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(2000).setRepetitions(10));
+    
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(1000).setRepetitions(REPETITIONS));
-    // result: 30
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(2000).setRepetitions(REPETITIONS));
-    
-    
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    
-    
-    // TODO find optimal warmup number.
-    // result: 518
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
-    // TODO find optimal warmup number.
-    // result:
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(2000).setRepetitions(10));
+
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(200).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(200).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(200).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(200).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByPath").setWarmUp(2000).setRepetitions(REPETITIONS));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByPath").setWarmUp(3000).setRepetitions(10));
 
     return testSuite;
   }
@@ -352,11 +342,11 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
-  // TODO is it fair to compare this to the previous two? No
+  // only comparable to other get*ByPath() methods.
   public void getBigIntegerByPath()
   {
     startMeasuring();
-    for (int i = 0; i < MICRO_ITERATIONS; i++)
+    for (int i = 0; i < MICRO_PATH_ITERATIONS; i++)
     {
       quantityValue = po.getBigInteger("items/item[1]/quantity");
     }
@@ -385,10 +375,11 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  // only comparable to other get*ByPath() methods.
   public void getBigDecimalByPath()
   {
     startMeasuring();
-    for (int i = 0; i < MICRO_ITERATIONS; i++)
+    for (int i = 0; i < MICRO_PATH_ITERATIONS; i++)
     {
       quantityValue = po.getBigInteger("items/item[1]/uSPrice");
     }
@@ -472,6 +463,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   /**
    * <p>
    * Uses the SDO reflective API to get the values of a DataObject whose model has been dynamically created.
+   * Not comparable to other non-path accesor tests because less iterations.
    * Test details:
    * <ul>
    * <li>get/set: get</li>
@@ -483,7 +475,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void getByPath()
   {
     startMeasuring();
-    for (int i = 0; i < ITERATIONS; i++)
+    for (int i = 0; i < PATH_ITERATIONS; i++)
     {
       shipToValue = po.getDataObject("shipTo");
       billToValue = po.getDataObject("billTo");
@@ -582,6 +574,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   /**
    * <p>
    * Uses the SDO reflective API to set the values of a DataObject whose model has been dynamically created.
+   * Not comparable to other non-path accesor tests because less iterations.
    * Test details:
    * <ul>
    * <li>get/set: set</li>
@@ -593,7 +586,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void setByPath()
   {
     startMeasuring();
-    for (int i = 0; i < ITERATIONS; i++)
+    for (int i = 0; i < PATH_ITERATIONS; i++)
     {
       po.set("shipTo", newShipToAddress);
       po.set("billTo", newBillToAddress);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOLoadTest.java,v 1.2 2005/02/17 16:14:07 bportier Exp $
+ * $Id: DynamicIPOSDOLoadTest.java,v 1.3 2005/02/21 22:34:17 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.deserialization;
 
@@ -49,7 +49,7 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
 
   final static int REPETITIONS = 10;
 
-  final static int ITERATIONS = 1000;
+  final static int ITERATIONS = 200;
 
   final static int WARMUP = 3000;
 
@@ -170,7 +170,6 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
     {
       resourceSet.getResources().clear();
       dataGraph = SDOUtil.loadDataGraph(dgByteInputStream, loadOptions);
-      dgByteInputStream.close();
       dgByteInputStream.reset();
     }
   }
