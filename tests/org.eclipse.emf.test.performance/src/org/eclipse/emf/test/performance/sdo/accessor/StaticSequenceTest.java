@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSequenceTest.java,v 1.6 2005/03/18 16:20:37 nickb Exp $
+ * $Id: StaticSequenceTest.java,v 1.7 2005/04/02 15:30:14 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -55,6 +55,8 @@ public class StaticSequenceTest extends DynamicSequenceTest
     testSuite.addTest(new StaticSequenceTest("getSequence").setWarmUp(1000).setRepetitions(REPETITIONS));
     testSuite.addTest(new StaticSequenceTest("getDerived").setWarmUp(1000).setRepetitions(REPETITIONS));
 
+    testSuite.addTest(new StaticSequenceTest("contains").setWarmUp(1000).setRepetitions(REPETITIONS));
+
     return testSuite;
   }
 
@@ -78,13 +80,20 @@ public class StaticSequenceTest extends DynamicSequenceTest
     this.supplier = (DataObject)supplier;
     supplier.setName("The Supplier");
 
-    PurchaseOrder po = epoFactoryInstance.createPurchaseOrder();
-    po.setComment("po1");
-    supplier.getPriorityOrders().add(po);
+    PurchaseOrder po;
+    for (int i = 0; i < 10; i++)
+    {
+      po = epoFactoryInstance.createPurchaseOrder();
+      po.setComment("priority" + i);
+      supplier.getPriorityOrders().add(po);
+    }
 
-    po = epoFactoryInstance.createPurchaseOrder();
-    po.setComment("po2");
-    supplier.getStandardOrders().add(po);
+    for (int i = 0; i < 10; i++)
+    {
+      po = epoFactoryInstance.createPurchaseOrder();
+      po.setComment("standard" + i);
+      supplier.getStandardOrders().add(po);
+    }
   }
 
   private void initModel()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicSequenceTest.java,v 1.5 2005/03/18 16:20:37 nickb Exp $
+ * $Id: DynamicSequenceTest.java,v 1.6 2005/04/02 15:30:14 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.test.performance.EMFPerformanceTestCase;
 
 import com.example.sdo.epo.EPOFactory;
+import com.example.sdo.epo.PurchaseOrder;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
@@ -37,6 +38,8 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
 
   protected static final int REPETITIONS = 10;
 
+  protected static final int ITERATIONS_10K = 10000;
+  
   protected static final int ITERATIONS_50K = 50000;
 
   protected static final int ITERATIONS_100K = 100000;
@@ -168,6 +171,27 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
       }
     }
     stopMeasuring();
+  }
+  
+  public void contains()
+  {
+    DataObject supplier = this.supplier;
+    List derivedValue = this.derivedValue;
+    Property priorityOrdersProp = this.priorityOrdersProp;
+    boolean contains = false;
+    derivedValue = supplier.getList(priorityOrdersProp);
+    PurchaseOrder newPo = epoFactoryInstance.createPurchaseOrder();
+    
+    startMeasuring();
+    for (int i = 0; i < ITERATIONS_10K; i++)
+    {
+      if (!contains)
+      {
+        contains = derivedValue.contains(newPo);
+      }
+    }
+    stopMeasuring();
+    
   }
 
 }
