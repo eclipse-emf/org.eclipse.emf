@@ -10,16 +10,13 @@
 		<topic label="Article: Analyzing XML schemas with the Schema Infoset Model" href="references/articles/dwtip1-scpw/index.html"/>
 		<topic label="Diagrams and Animations" href="references/diagrams/diagrams.html"/>
 	</topic>
-
 	<topic label="Online Docs">
 		<topic label="Release Notes">
 			<topic label="What's New in v2.1" href="http://www.eclipse.org/emf/news/release-notes.php?version=2.1" />
 			<topic label="What's New in v2.0" href="http://www.eclipse.org/emf/news/release-notes.php?version=2.0" />
 			<topic label="What's New in v1.x" href="http://www.eclipse.org/emf/news/release-notes-1.x.php" />
 		</topic>
-
 		<topic label="XSD FAQ" href="http://www.eclipse.org/emf/faq/faq.php?FAQ=XSD" />
 	</topic>
-
 	<topic label="Javadoc" href="references/javadoc/index.html"/>
 </toc>
