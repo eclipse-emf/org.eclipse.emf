@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.21 2005/02/21 04:28:09 nickb Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.22 2005/02/21 04:41:09 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -167,20 +167,6 @@ public class EMFTestPerformancePlugin extends Plugin
       System.out.println("test.target: " + System.getProperty("test.target"));
       System.out.println("eclipse.perf.config: " + System.getProperty("eclipse.perf.config"));
       System.out.println("eclipse.perf.dbloc: " + System.getProperty("eclipse.perf.dbloc"));
-      System.out.println("*** Java properties");
-      try
-      {
-        System.out.println(
-          "getLocation(): " + 
-           getClass().getSuperclass().getProtectionDomain().getCodeSource().getLocation().toString()
-        );
-        
-      }
-      catch (Exception e)
-      {
-         e.getStackTrace();
-      }
-      
     }
   }
 
