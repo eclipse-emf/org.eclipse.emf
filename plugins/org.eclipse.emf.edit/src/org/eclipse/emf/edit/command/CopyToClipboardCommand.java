@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CopyToClipboardCommand.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: CopyToClipboardCommand.java,v 1.2 2004/05/29 16:08:08 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
@@ -29,7 +30,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * This works exactly like a {@link CopyCommand} but set the copy result to the {@link EditingDomain}.
  * In fact, the implementation is just a proxy for copy command.
  */
-public class CopyToClipboardCommand extends AbstractOverrideableCommand
+public class CopyToClipboardCommand extends AbstractOverrideableCommand implements AbstractCommand.NonDirtying
 {
   /**
    * This creates a command that copies the given collection of objects to the clipboard.
