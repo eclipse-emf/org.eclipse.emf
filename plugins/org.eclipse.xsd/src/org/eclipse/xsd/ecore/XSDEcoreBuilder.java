@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.7 2004/05/09 16:33:24 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.8 2004/05/10 15:19:17 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1559,15 +1559,16 @@ public class XSDEcoreBuilder extends MapBuilder
         {
           isIgnored = false;
         }
+        else if (target != null)
+        {
+          isIgnored = true;
+        }
 
         if (!isIgnored)
         {
-          if (target == null)
-          {
-            EffectiveOccurrence effectiveOccurrence = new EffectiveOccurrence(effectiveMinOccurs, effectiveMaxOccurs, xsdParticle, null);
-            result.add(effectiveOccurrence);
-            target = xsdModelGroup;
-          }
+          EffectiveOccurrence effectiveOccurrence = new EffectiveOccurrence(effectiveMinOccurs, effectiveMaxOccurs, xsdParticle, null);
+          result.add(effectiveOccurrence);
+          target = xsdModelGroup;
         }
 
         if (xsdModelGroup.getCompositor() == XSDCompositor.CHOICE_LITERAL)
