@@ -330,9 +330,9 @@ No.  Validating parsers, such as <a href="http://xml.apache.org">Xerces</a>, sho
 </a></b>
        <p>
        You can call 
-       <a href="http://download.eclipse.org/tools/downloads/emf/javadoc/xsd/javadoc/org/eclipse/xsd/XSDConcreteComponent.html#validate()">validate</a> 
+       <a href="http://download.eclipse.org/technology/xsd/javadoc/org/eclipse/xsd/XSDConcreteComponent.html#validate()">validate</a> 
        on a schema and check whether there are any 
-       <a href="http://download.eclipse.org/tools/downloads/emf/javadoc/xsd/javadoc/org/eclipse/xsd/XSDSchema.html#getAllDiagnostics()">diagnostics</a>.
+       <a href="http://download.eclipse.org/technology/xsd/javadoc/org/eclipse/xsd/XSDSchema.html#getAllDiagnostics()">diagnostics</a>.
        The diagnostics may include warnings or informational messages, in addition to error messages.
        </p>
        <br><br><hr>
@@ -394,14 +394,14 @@ there are errors in the attribute values?</a></b>
       <li><b><a name="h2l_sampleMethods">Are there sample Java methods that show how to use the API?</a></b>
       <p>
 Sample code that includes links back to the javadoc is at:
-<a href="http://download.eclipse.org/tools/downloads/emf/javadoc/xsd/javadoc/org/eclipse/xsd/util/XSDPrototypicalSchema.html">XSDPrototypicalSchema.html</a>.
+<a href="http://download.eclipse.org/technology/xsd/javadoc/org/eclipse/xsd/util/XSDPrototypicalSchema.html">XSDPrototypicalSchema.html</a>.
 </p>
 <p>
 Examples of convenience functions also illustrate the use of the bare API.
 Those example convenience functions are in the source code.  Info about them is located at
-<a href="http://download.eclipse.org/tools/downloads/emf/javadoc/xsd/javadoc/org/eclipse/xsd/util/XSDSchemaBuildingTools.html">XSDSchemaBuildingTools.html</a>
+<a href="http://download.eclipse.org/technology/xsd/javadoc/org/eclipse/xsd/util/XSDSchemaBuildingTools.html">XSDSchemaBuildingTools.html</a>
 and
-<a href="http://download.eclipse.org/tools/downloads/emf/javadoc/xsd/javadoc/org/eclipse/xsd/util/XSDSchemaQueryTools.html">XSDSchemaQueryTools.html</a>.
+<a href="http://download.eclipse.org/technology/xsd/javadoc/org/eclipse/xsd/util/XSDSchemaQueryTools.html">XSDSchemaQueryTools.html</a>.
       </p>
       <br><br><hr>
       </li>
@@ -424,10 +424,10 @@ reference other schema documents through &lt;include&gt; &lt;import&gt; or &lt;r
 be fetched from locations other than those given in the schemaLocation attribute?</a></b>
       <p>
 Yes, you can use a ResourceSet's URIConverter's 
-<a href="http://dev.eclipse.org/viewcvs/indextools.cgi/~checkout~/emf-home/http://download.eclipse.org/tools/downloads/emf/javadoc/xsd/javadoc/org/eclipse/emf/ecore/resource/URIConverter.html#getURIMap()">URI map</a> 
+<a href="http://dev.eclipse.org/viewcvs/indextools.cgi/~checkout~/emf-home/http://download.eclipse.org/technology/xsd/javadoc/org/eclipse/emf/ecore/resource/URIConverter.html#getURIMap()">URI map</a> 
 to map logical URIs to physical URIs.
 You can see an example of that code in XSDProtocotypicalSchema 
-<a href="http://download.eclipse.org/tools/downloads/emf/javadoc/xsd/javadoc/org/eclipse/xsd/util/XSDPrototypicalSchema.html#traceLoading(java.lang.String)">traceLoading()</a>.
+<a href="http://download.eclipse.org/technology/xsd/javadoc/org/eclipse/xsd/util/XSDPrototypicalSchema.html#traceLoading(java.lang.String)">traceLoading()</a>.
       </p>
       <br><br><hr>
       </li>
@@ -623,7 +623,7 @@ r.setURI(uri) if you wish the schema to be saved in the future to another locati
 <p>
 There is generic support for remove in EMF:
 <pre>
-  <a href="http://dev.eclipse.org/viewcvs/indextools.cgi/~checkout~/emf-home/http://download.eclipse.org/tools/downloads/emf/javadoc/xsd/javadoc/org/eclipse/emf/ecore/util/EcoreUtil.html#remove(org.eclipse.emf.ecore.EObject)">EcoreUtil.remove</a>
+  <a href="http://dev.eclipse.org/viewcvs/indextools.cgi/~checkout~/emf-home/http://download.eclipse.org/technology/xsd/javadoc/org/eclipse/emf/ecore/util/EcoreUtil.html#remove(org.eclipse.emf.ecore.EObject)">EcoreUtil.remove</a>
 </pre>
 The removed component will look like an unresolved reference to any components that still reference it.
 </p>
@@ -638,7 +638,7 @@ what do I do?
 As part of your initialization, for each extension that will contain schemas (shown as foo in this
 example), you should call  
 <pre>
-org.eclipse.emf.resource.Resource.Factory.Registry.<a href="http://dev.eclipse.org/viewcvs/indextools.cgi/~checkout~/emf-home/http://download.eclipse.org/tools/downloads/emf/javadoc/xsd/javadoc/org/eclipse/emf/ecore/resource/Resource.Factory.Registry.html#INSTANCE">INSTANCE</a>.registerExtension("foo", 
+org.eclipse.emf.resource.Resource.Factory.Registry.<a href="http://dev.eclipse.org/viewcvs/indextools.cgi/~checkout~/emf-home/http://download.eclipse.org/technology/xsd/javadoc/org/eclipse/emf/ecore/resource/Resource.Factory.Registry.html#INSTANCE">INSTANCE</a>.registerExtension("foo", 
   new XSDResourceFactoryImpl());
 </pre>
       </p>
@@ -693,9 +693,9 @@ yourStopVariable = yourSchema.getSchemaForSchema().resolveTypeDefinition("anyTyp
 </pre>
 There are recognizers of the special types in XSDConstants:
 <pre>
-  <a href="http://download.eclipse.org/tools/downloads/emf/javadoc/xsd/javadoc/org/eclipse/xsd/util/XSDConstants.html#isURType(org.eclipse.xsd.XSDTypeDefinition)">XSDConstants.isURType</a>
-  <a href="http://download.eclipse.org/tools/downloads/emf/javadoc/xsd/javadoc/org/eclipse/xsd/util/XSDConstants.html#isAnyType(org.eclipse.xsd.XSDTypeDefinition)">XSDConstants.isAnyType</a>
-  <a href="http://download.eclipse.org/tools/downloads/emf/javadoc/xsd/javadoc/org/eclipse/xsd/util/XSDConstants.html#isAnySimple(org.eclipse.xsd.XSDTypeDefinition)">XSDConstants.isAnySimpleType</a>
+  <a href="http://download.eclipse.org/technology/xsd/javadoc/org/eclipse/xsd/util/XSDConstants.html#isURType(org.eclipse.xsd.XSDTypeDefinition)">XSDConstants.isURType</a>
+  <a href="http://download.eclipse.org/technology/xsd/javadoc/org/eclipse/xsd/util/XSDConstants.html#isAnyType(org.eclipse.xsd.XSDTypeDefinition)">XSDConstants.isAnyType</a>
+  <a href="http://download.eclipse.org/technology/xsd/javadoc/org/eclipse/xsd/util/XSDConstants.html#isAnySimple(org.eclipse.xsd.XSDTypeDefinition)">XSDConstants.isAnySimpleType</a>
 </pre>
 
       </p>
