@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.22 2005/02/21 04:41:09 nickb Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.23 2005/02/21 14:34:51 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -21,8 +21,6 @@ import java.lang.reflect.Method;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
-
-import com.ibm.xslt4j.bcel.generic.GETSTATIC;
 
 
 public class EMFTestPerformancePlugin extends Plugin
