@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomain.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EditingDomain.java,v 1.2 2004/05/29 16:08:42 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -125,4 +125,9 @@ public interface EditingDomain
    * This returns whether or not copy command optimizations are safe in this domain.
    */
   boolean getOptimizeCopy();
+
+  /**
+   * This returns whether the resource is read only in editing domain.
+   */
+  boolean isReadOnly(Resource resource);
 }
