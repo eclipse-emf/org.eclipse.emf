@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.15 2004/10/30 19:16:01 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.16 2004/10/30 23:29:55 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -906,16 +906,16 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     List allBases = getAllBaseGenClasses();
     List result = new ArrayList(allBases.size());
 
-	// If extending an interface, its mixins must be included, since there is no implementation to handle them.
-	//
+    // If extending an interface, its mixins must be included, since there is no implementation to handle them.
+    //
     GenClass baseGenClass = getBaseGenClass();
     if (baseGenClass.isInterface())
     {
       result.addAll(baseGenClass.getMixinGenClasses());
     }
 
-	// Mixins are everything after the base class.
-	//
+    // Mixins are everything after the base class.
+    //
     int i = allBases.indexOf(baseGenClass) + 1;
     result.addAll(allBases.subList(i, allBases.size()));
     return result;
