@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.4 2004/12/16 19:08:30 marcelop Exp $
+ * $Id: AllSuites.java,v 1.5 2004/12/19 04:00:46 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -24,12 +24,13 @@ import junit.framework.TestSuite;
 public class AllSuites extends TestSuite
 {
   private static Test[] suites = new Test []{ 
-    org.eclipse.emf.test.sdo.DataGraphTest.suite()
+    org.eclipse.emf.test.sdo.SpecialCasesTest.suite() //must be the first to be invoked
+    ,org.eclipse.emf.test.sdo.DataGraphTest.suite()
     ,org.eclipse.emf.test.sdo.ChangeSummaryTest.suite()
     ,org.eclipse.emf.test.sdo.types.SDOUtilGetTest.suite()
     ,org.eclipse.emf.test.sdo.types.SDOUtilSetTest.suite()
     ,org.eclipse.emf.test.sdo.types.SDOUtilProtectedGetTest.suite()
-    ,com.example.simple.TestSDO.suite()
+    ,org.eclipse.emf.test.sdo.TestSDO.suite()
   };
 
   public static Test suite()
