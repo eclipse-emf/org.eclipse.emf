@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.8 2004/05/25 17:56:14 emerks Exp $
+ * $Id: XSDEditor.java,v 1.9 2004/05/26 12:06:04 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -120,6 +120,7 @@ import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.ui.ViewerPane;
 import org.eclipse.emf.common.ui.celleditor.ExtendedComboBoxCellEditor;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -190,7 +191,7 @@ import org.eclipse.xsd.util.XSDSwitch;
  */
 public class XSDEditor
   extends MultiPageEditorPart
-  implements IEditingDomainProvider, ISelectionProvider, IMenuListener
+  implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider
 {
   /**
    * This keeps track of the root object of the model.
@@ -604,6 +605,62 @@ public class XSDEditor
     protected ISelectionProvider selectionProvider;
 
     /**
+     * This action refreshes the viewer of the current editor if the editor
+     * implements {@link org.eclipse.emf.common.ui.viewer.IViewerProvider}.
+     */
+    protected IAction refreshViewerAction =
+      new Action(XSDEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item"))
+      {
+        public boolean isEnabled()
+        {
+          return activeEditorPart instanceof IViewerProvider;
+        }
+
+        public void run()
+        {
+          if (activeEditorPart instanceof IViewerProvider)
+          {
+            Viewer viewer = ((IViewerProvider)activeEditorPart).getViewer();
+            if (viewer != null)
+            {
+              viewer.refresh();
+            }
+          }
+        }
+      };
+
+    /**
+     * This action opens the Properties view.
+     */
+    protected IAction showPropertiesViewAction =
+      new Action(XSDEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))
+      {
+        public void run()
+        {
+          try
+          {
+            getPage().showView("org.eclipse.ui.views.PropertySheet");
+          }
+          catch (PartInitException exception)
+          {
+            XSDEditorPlugin.INSTANCE.log(exception);
+          }
+        }
+      };
+
+    /**
+     * This action enable or disable automatic validation.
+     */
+    protected IAction validateAutomaticallyAction =
+      new Action(XSDEditorPlugin.INSTANCE.getString("_UI_ValidateAutomatically_menu_item"))
+      {
+        public void run()
+        {
+          ((XSDEditor)activeEditorPart).setValidateAutomatically(isChecked());
+        }
+      };
+
+    /**
      * This will contain one CreateChildAction corresponding to each
      * descriptor generated for the current selection.
      */
@@ -648,7 +705,9 @@ public class XSDEditor
       IMenuManager submenuManager = new MenuManager(XSDEditorPlugin.INSTANCE.getString("_UI_XSDEditor_menu"), "org.eclipse.xsdMenuID");
       menuManager.insertAfter("additions", submenuManager);
       submenuManager.add(new Separator("settings"));
+      submenuManager.add(new Separator("actions"));
       submenuManager.add(new Separator("additions"));
+      submenuManager.add(new Separator("additions-end"));
 
       // prepare for child and sibling creation item addition/removal
       createChildMenuManager = new MenuManager(XSDEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
@@ -656,6 +715,21 @@ public class XSDEditor
       submenuManager.insertBefore("additions", new Separator("actions"));
       submenuManager.insertBefore("additions", createChildMenuManager);
       submenuManager.insertBefore("additions", createSiblingMenuManager);
+
+      // Force an update because Eclipse hides empty menus now.
+      //
+      submenuManager.addMenuListener
+        (new IMenuListener()
+         {
+           public void menuAboutToShow(IMenuManager menuManager)
+           {
+             menuManager.updateAll(true);
+           }
+         });
+
+      validateAutomaticallyAction.setChecked(true);
+      submenuManager.insertAfter("additions-end", validateAutomaticallyAction);
+      addGlobalActions(submenuManager);
     }
 
     /**
@@ -687,6 +761,11 @@ public class XSDEditor
       // fake a selection changed event to update the menus
       if (selectionProvider.getSelection() != null)
         selectionChanged(new SelectionChangedEvent(selectionProvider, selectionProvider.getSelection()));
+
+      if (part instanceof XSDEditor)
+      {
+        validateAutomaticallyAction.setChecked(((XSDEditor)part).isValidateAutomatically());
+      }
     }
 
     /**
@@ -842,6 +921,28 @@ public class XSDEditor
       populateManager(submenuManager, createChildActions, null);
       menuManager.insertAfter("additions", submenuManager);
     }
+
+    /**
+     * This inserts global actions before the "additions-end" separator.
+     */
+    protected void addGlobalActions(IMenuManager menuManager)
+    {
+      menuManager.insertAfter("additions-end", new Separator("ui-actions"));
+      menuManager.insertAfter("ui-actions", showPropertiesViewAction);
+  
+      refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
+      menuManager.insertAfter("ui-actions", refreshViewerAction);
+  
+      super.addGlobalActions(menuManager);
+    }
+  }
+
+  /**
+   * This returns the viewer as required by the {@link IViewerProvider} interface.
+   */
+  public Viewer getViewer()
+  {
+    return currentViewer;
   }
 
   /**
@@ -1075,8 +1176,11 @@ public class XSDEditor
       xsdParser.parseString(documentContent);
       xsdSchema.clearDiagnostics();
       xsdParser.setSchema(xsdSchema);
-      xsdSchema.validate();
-      handleDiagnostics(null);
+      if (validateAutomatically)
+      {
+        xsdSchema.validate();
+        handleDiagnostics(null);
+      }
     }
     catch (Exception exception)
     {
@@ -1363,53 +1467,56 @@ public class XSDEditor
         IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ZERO);
         Collection deletableMarkers = new ArrayList(Arrays.asList(markers));
 
-        for (Iterator xsdDiagnostics = xsdSchema.getAllDiagnostics().iterator(); xsdDiagnostics.hasNext(); )
+        if (validateAutomatically)
         {
-          XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)xsdDiagnostics.next();
-          String uriReferencePath = xsdSchema.eResource().getURIFragment(xsdDiagnostic);
-
-          IMarker marker = null;
-          for (int i = 0; i < markers.length; ++i)
+          for (Iterator xsdDiagnostics = xsdSchema.getAllDiagnostics().iterator(); xsdDiagnostics.hasNext(); )
           {
-            if (markers[i].getAttribute(XSDDiagnostic.URI_FRAGMENT_ATTRIBUTE, "").equals(uriReferencePath))
+            XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)xsdDiagnostics.next();
+            String uriReferencePath = xsdSchema.eResource().getURIFragment(xsdDiagnostic);
+
+            IMarker marker = null;
+            for (int i = 0; i < markers.length; ++i)
             {
-              marker = markers[i];
-              deletableMarkers.remove(marker);
-              break;
-            }
-          }
-
-          if (marker == null)
-          {
-            marker = file.createMarker(XSDDiagnostic.MARKER);
-            marker.setAttribute(XSDDiagnostic.URI_FRAGMENT_ATTRIBUTE, uriReferencePath);
-          }
-
-          initializeMarkerPosition(marker, xsdDiagnostic);
-
-          marker.setAttribute(IMarker.MESSAGE, xsdDiagnostic.getMessage());
-
-          switch (xsdDiagnostic.getSeverity().getValue())
-          {
-            case XSDDiagnosticSeverity.FATAL:
-            case XSDDiagnosticSeverity.ERROR:
-            {
-              if (newSelection == null)
+              if (markers[i].getAttribute(XSDDiagnostic.URI_FRAGMENT_ATTRIBUTE, "").equals(uriReferencePath))
               {
-                newSelection = xsdDiagnostic.getPrimaryComponent();
+                marker = markers[i];
+                deletableMarkers.remove(marker);
+                break;
               }
-              marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-              break;
             }
-            case XSDDiagnosticSeverity.WARNING:
+
+            if (marker == null)
             {
-              marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-              break;
+              marker = file.createMarker(XSDDiagnostic.MARKER);
+              marker.setAttribute(XSDDiagnostic.URI_FRAGMENT_ATTRIBUTE, uriReferencePath);
             }
-            case XSDDiagnosticSeverity.INFORMATION:
+
+            initializeMarkerPosition(marker, xsdDiagnostic);
+
+            marker.setAttribute(IMarker.MESSAGE, xsdDiagnostic.getMessage());
+
+            switch (xsdDiagnostic.getSeverity().getValue())
             {
-              marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
-              break;
+              case XSDDiagnosticSeverity.FATAL:
+              case XSDDiagnosticSeverity.ERROR:
+              {
+                if (newSelection == null)
+                {
+                  newSelection = xsdDiagnostic.getPrimaryComponent();
+                }
+                marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+                break;
+              }
+              case XSDDiagnosticSeverity.WARNING:
+              {
+                marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+                break;
+              }
+              case XSDDiagnosticSeverity.INFORMATION:
+              {
+                marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+                break;
+              }
             }
           }
         }
@@ -2145,6 +2252,25 @@ public class XSDEditor
     getSite().getPage().removePartListener(partListener);
     ((IDisposable)semanticAdapterFactory).dispose();
     ((IDisposable)syntacticAdapterFactory).dispose();
+  }
+
+  protected boolean validateAutomatically = true;
+  public void setValidateAutomatically(boolean validateAutomatically)
+  {
+    this.validateAutomatically = validateAutomatically;
+    if (validateAutomatically)
+    {
+      handleDocumentChange();
+    }
+    else
+    {
+      handleDiagnostics(null);
+    }
+  }
+
+  public boolean isValidateAutomatically()
+  {
+    return validateAutomatically;
   }
 
   /**
