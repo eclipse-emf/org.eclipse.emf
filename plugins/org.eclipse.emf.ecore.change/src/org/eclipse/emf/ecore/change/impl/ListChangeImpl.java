@@ -12,16 +12,16 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.2 2004/03/08 19:54:34 emerks Exp $
+ * $Id: ListChangeImpl.java,v 1.3 2004/07/21 14:24:30 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
 
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.DelegatingEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -150,6 +150,13 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * @ordered
    */
   protected EStructuralFeature feature = null;
+  
+  /**
+   * The data value delegating list is used to ensure that the elements
+   * are properly converted to and from strings when added and removed
+   * from the dataValues list. 
+   */
+  protected EList dataValueDelegatingList = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -206,6 +213,32 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
       dataValues = new EDataTypeUniqueEList(String.class, this, ChangePackage.LIST_CHANGE__DATA_VALUES);
     }
     return dataValues;
+  }
+  
+  /**
+   * Creates the data value delegating list
+   */
+  protected EList createDataValueDelegatingList()
+  {
+    return new DelegatingEList()
+    {
+      protected List delegateList()
+      {
+        return getDataValues();
+      }
+      
+      protected Object resolve(int index, Object object)
+      {
+        EDataType type = (EDataType)getFeature().getEType();
+        return EcoreUtil.createFromString(type, (String)object);
+      }
+      
+      protected Object validate(int index, Object object)
+      {
+        EDataType type = (EDataType)getFeature().getEType();
+        return EcoreUtil.convertToString(type, object);
+      }
+    };
   }
 
   /**
@@ -335,20 +368,18 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
     EStructuralFeature feature = getFeature();
     if (feature instanceof EAttribute)
     {
-      EList values = new BasicEList();
-      EDataType type = (EDataType)feature.getEType();
-      for (Iterator iter = getDataValues().iterator(); iter.hasNext(); )
+      if(dataValueDelegatingList == null)
       {
-        values.add(EcoreUtil.createFromString(type, (String)iter.next()));
+        dataValueDelegatingList = createDataValueDelegatingList();
       }
-      return values;
+      return dataValueDelegatingList;
     }
     else
     {
       return getReferenceValues();
     }
   }
-
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -356,23 +387,9 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    */
   public void setValues(EList values)
   {
-    EStructuralFeature feature = getFeature();
-    if (feature instanceof EAttribute)
-    {
-      EDataType type = (EDataType)feature.getEType();
-      EList dataValues = getDataValues();
-      dataValues.clear();
-      for (Iterator iter = values.iterator(); iter.hasNext(); )
-      {
-        dataValues.add(EcoreUtil.convertToString(type, iter.next()));
-      }
-    }
-    else
-    {
-      EList referenceValues = getReferenceValues();
-      referenceValues.clear();
-      referenceValues.addAll(values);
-    }
+    EList featureValues = getValues();
+    featureValues.clear();
+    featureValues.addAll(values);
   }
 
   /**
