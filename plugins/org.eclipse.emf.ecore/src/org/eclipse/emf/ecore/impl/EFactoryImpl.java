@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.6 2004/10/06 21:49:54 davidms Exp $
+ * $Id: EFactoryImpl.java,v 1.7 2004/10/25 17:08:08 elena Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -387,7 +387,8 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     {
       formatException = e;
     }
-    throw new IllegalArgumentException(formatException.toString());
+    String exceptionString = (formatException != null) ? formatException.toString() : "";
+    throw new IllegalArgumentException("The value '" + stringValue + "' is invalid. " + exceptionString);
   }
 
   /**
