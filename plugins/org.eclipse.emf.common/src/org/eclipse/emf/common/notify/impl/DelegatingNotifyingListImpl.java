@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.2 2004/07/29 13:32:37 marcelop Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.3 2004/10/14 17:41:29 marcelop Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -558,27 +558,67 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
         BasicEList list = new BasicEList(collection);
         Object [] objects = list.data();
         positions = new int [listSize];
-
-        // Count up the objects that will be removed.
-        // The objects are exchanged to produce this list's order
-        //
         int count = 0;
-        for (ListIterator i = delegateListIterator(); i.hasNext(); )
+
+        if (isUnique())
         {
-          Object object = i.next();
-          for (int j = listSize; --j >= 0; )
+          // Count up the objects that will be removed.
+          // The objects are exchanged to produce this list's order
+          //
+          for (ListIterator i = delegateListIterator(); i.hasNext(); )
           {
-            if (equalObjects(object, objects[j]))
+            Object object = i.next();
+            for (int j = listSize; --j >= 0; )
             {
-              if (count != j)
+              if (equalObjects(object, objects[j]))
               {
-                Object x = objects[count];
-                objects[count] = objects[j];
-                objects[j] = x;
+                if (count != j)
+                {
+                  Object x = objects[count];
+                  objects[count] = objects[j];
+                  objects[j] = x;
+                }
+                positions[count++] = i.previousIndex();
+                break;
               }
-              positions[count++] = i.previousIndex();
-              break;
             }
+          }
+        }
+        else
+        {
+          BasicEList resultList = new BasicEList(listSize);
+          
+          // Count up the objects that will be removed.
+          // The objects are exchanged to produce this list's order
+          //
+          for (ListIterator i = delegateListIterator(); i.hasNext(); )
+          {
+            Object object = i.next();
+            for (int j = listSize; --j >= 0; )
+            {
+              if (equalObjects(object, objects[j]))
+              {
+                if (positions.length <= count)
+                {
+                  int [] oldPositions = positions;
+                  positions = new int [2 * positions.length];
+                  System.arraycopy(oldPositions, 0, positions, 0, count);
+                }
+                positions[count++] = i.previousIndex();
+                resultList.add(objects[j]);
+              }
+            }
+          }
+          
+          list = resultList;
+          objects = resultList.data();
+          listSize = count;
+          
+          if (count > positions.length)
+          {
+            int [] oldPositions = positions;
+            positions = new int [count];
+            System.arraycopy(oldPositions, 0, positions, 0, count);
           }
         }
 

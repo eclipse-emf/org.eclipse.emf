@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.3 2004/07/29 17:56:20 marcelop Exp $
+ * $Id: NotifyingListImpl.java,v 1.4 2004/10/14 17:41:29 marcelop Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -567,27 +567,67 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
         BasicEList list = new BasicEList(collection);
         Object [] objects = list.data();
         positions = new int [listSize];
-
-        // Count up the objects that will be removed.
-        // The objects are exchanged to produce this list's order
-        //
         int count = 0;
-        for (int i = 0; i < size; ++i)
+
+        if (isUnique())
         {
-          Object object = data[i];
-          for (int j = listSize; --j >= 0; )
+          // Count up the objects that will be removed.
+          // The objects are exchanged to produce this list's order
+          //
+          for (int i = 0; i < size; ++i)
           {
-            if (equalObjects(object, objects[j]))
+            Object object = data[i];
+            for (int j = listSize; --j >= 0; )
             {
-              if (count != j)
+              if (equalObjects(object, objects[j]))
               {
-                Object x = objects[count];
-                objects[count] = objects[j];
-                objects[j] = x;
+                if (count != j)
+                {
+                  Object x = objects[count];
+                  objects[count] = objects[j];
+                  objects[j] = x;
+                }
+                positions[count++] = i;
+                break;
               }
-              positions[count++] = i;
-              break;
             }
+          }
+        }
+        else
+        {
+          BasicEList resultList = new BasicEList(listSize);
+          
+          // Count up the objects that will be removed.
+          // The objects are exchanged to produce this list's order
+          //
+          for (int i = 0; i < size; ++i)
+          {
+            Object object = data[i];
+            for (int j = listSize; --j >= 0; )
+            {
+              if (equalObjects(object, objects[j]))
+              {
+                if (positions.length <= count)
+                {
+                  int [] oldPositions = positions;
+                  positions = new int [2 * positions.length];
+                  System.arraycopy(oldPositions, 0, positions, 0, count);
+                }
+                positions[count++] = i;
+                resultList.add(objects[j]);
+              }
+            }
+          }
+          
+          list = resultList;
+          objects = resultList.data();
+          listSize = count;
+          
+          if (count > positions.length)
+          {
+            int [] oldPositions = positions;
+            positions = new int [count];
+            System.arraycopy(oldPositions, 0, positions, 0, count);
           }
         }
 
