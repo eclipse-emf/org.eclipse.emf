@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.5 2004/11/26 11:34:34 marcelop Exp $
+ * $Id: ASTTest.java,v 1.6 2004/11/26 11:51:04 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -99,8 +99,8 @@ public class ASTTest extends TestCase
    List importDeclarations = compilationUnit.imports();
    assertEquals(5, importDeclarations.size());
    assertEquals("java.util.Collections", ((ImportDeclaration)importDeclarations.get(0)).getName().getFullyQualifiedName());
-   assertEquals("java.util.List", ((ImportDeclaration)importDeclarations.get(1)).getName().toString());
-   assertEquals("java.util.Map", ((ImportDeclaration)importDeclarations.get(2)).getName().toString());
+   assertEquals("java.util.List", ((ImportDeclaration)importDeclarations.get(1)).getName().getFullyQualifiedName());
+   assertEquals("java.util.Map", ((ImportDeclaration)importDeclarations.get(2)).getName().getFullyQualifiedName());
    assertEquals("org.eclipse.emf.common.notify.Notification", ((ImportDeclaration)importDeclarations.get(3)).getName().getFullyQualifiedName());
    assertEquals("org.eclipse.emf.ecore.impl.EObjectImpl", ((ImportDeclaration)importDeclarations.get(4)).getName().getFullyQualifiedName());
    
