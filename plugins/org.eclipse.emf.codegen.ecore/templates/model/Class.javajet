@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.2 2004/03/09 20:44:49 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.3 2004/03/23 16:22:45 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -228,9 +228,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
       <%}%>
     <%} else {%>
       <%if (delegateFeature.isFeatureMapWrapped()) {%>
-		return (<%=genFeature.getImportedType()%>)((<%=delegateFeature.getImportedEffectiveFeatureMapWrapperInternalInterface()%>)get<%=delegateFeature.getAccessorName()%>()).featureMap().get(<%=genFeature.getQualifiedFeatureAccessorName()%>(),true);
+		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)((<%=delegateFeature.getImportedEffectiveFeatureMapWrapperInternalInterface()%>)get<%=delegateFeature.getAccessorName()%>()).featureMap().get(<%=genFeature.getQualifiedFeatureAccessorName()%>(),true)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
       <%} else {%>
-		return (<%=genFeature.getImportedType()%>)get<%=delegateFeature.getAccessorName()%>().get(<%=genFeature.getQualifiedFeatureAccessorName()%>(), true);
+		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)get<%=delegateFeature.getAccessorName()%>().get(<%=genFeature.getQualifiedFeatureAccessorName()%>(), true)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
       <%}%>
     <%}%>
   <%} else {%>
@@ -381,9 +381,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
   <%}%>
 <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();%>
   <%if (delegateFeature.isFeatureMapWrapped()) {%>
-		((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)((<%=delegateFeature.getImportedEffectiveFeatureMapWrapperInternalInterface()%>)get<%=delegateFeature.getAccessorName()%>()).featureMap()).set(<%=genFeature.getQualifiedFeatureAccessorName()%>(), new<%=genFeature.getCapName()%>);
+		((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)((<%=delegateFeature.getImportedEffectiveFeatureMapWrapperInternalInterface()%>)get<%=delegateFeature.getAccessorName()%>()).featureMap()).set(<%=genFeature.getQualifiedFeatureAccessorName()%>(), <%if (genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType()%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()) {%>)<%}%>);
   <%} else {%>
-		((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)get<%=delegateFeature.getAccessorName()%>()).set(<%=genFeature.getQualifiedFeatureAccessorName()%>(), new<%=genFeature.getCapName()%>);
+		((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)get<%=delegateFeature.getAccessorName()%>()).set(<%=genFeature.getQualifiedFeatureAccessorName()%>(), <%if (genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType()%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()) {%>)<%}%>);
   <%}%>
 <%} else {%>
 		// TODO: implement this method to set the '<%=genFeature.getFormattedName()%>' <%=genFeature.getFeatureKind()%>
