@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: URIConverterImpl.java,v 1.2 2004/08/13 13:50:48 davidms Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -248,26 +248,20 @@ public class URIConverterImpl implements URIConverter
   public OutputStream createOutputStream(URI uri) throws IOException
   {
     URI converted = normalize(uri);
-    String scheme = converted.scheme();
-    if ("file".equals(scheme))
+    if (converted.isFile())
     {
       String filePath = converted.toFileString();
       return createFileOutputStream(filePath);
     }
-    else if ("platform".equals(scheme) && converted.segmentCount() > 1 && "resource".equals(converted.segment(0)))
+    else if ("platform".equals(converted.scheme()) && converted.segmentCount() > 1 && "resource".equals(converted.segment(0)))
     {
       StringBuffer platformResourcePath = new StringBuffer();
       for (int i = 1, size = converted.segmentCount(); i < size; ++i)
       {
         platformResourcePath.append('/');
-        platformResourcePath.append(converted.segment(i));
+        platformResourcePath.append(URI.decode(converted.segment(i)));
       }
       return createPlatformResourceOutputStream(platformResourcePath.toString());
-    }
-    else if (scheme == null)
-    {
-      String filePath = converted.toString();
-      return createFileOutputStream(filePath);
     }
     else
     {
@@ -370,26 +364,20 @@ public class URIConverterImpl implements URIConverter
   public InputStream createInputStream(URI uri) throws IOException
   {
     URI converted = normalize(uri);
-    String scheme = converted.scheme();
-    if ("file".equals(scheme))
+    if (converted.isFile())
     {
       String filePath = converted.toFileString();
       return createFileInputStream(filePath);
     }
-    else if ("platform".equals(scheme) && converted.segmentCount() > 1 && "resource".equals(converted.segment(0)))
+    else if ("platform".equals(converted.scheme()) && converted.segmentCount() > 1 && "resource".equals(converted.segment(0)))
     {
       StringBuffer platformResourcePath = new StringBuffer();
       for (int i = 1, size = converted.segmentCount(); i < size; ++i)
       {
         platformResourcePath.append('/');
-        platformResourcePath.append(converted.segment(i));
+        platformResourcePath.append(URI.decode(converted.segment(i)));
       }
       return createPlatformResourceInputStream(platformResourcePath.toString());
-    }
-    else if (scheme == null)
-    {
-      String filePath = converted.toString();
-      return createFileInputStream(filePath);
     }
     else
     {
@@ -483,7 +471,11 @@ public class URIConverterImpl implements URIConverter
       {
         if (result.hasAbsolutePath())
         {
-          result = URI.createPlatformResourceURI(result.toString());
+          result = URI.createPlatformResourceURI(result.trimFragment().toString());
+          if (fragment != null)
+          {
+            result = result.appendFragment(fragment);
+          }
         }
       }
       else 
