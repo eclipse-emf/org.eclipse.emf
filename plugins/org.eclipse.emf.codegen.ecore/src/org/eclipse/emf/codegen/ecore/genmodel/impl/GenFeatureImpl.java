@@ -12,15 +12,17 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.10 2004/11/15 14:54:43 davidms Exp $
+ * $Id: GenFeatureImpl.java,v 1.11 2004/12/11 12:27:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
@@ -1217,8 +1219,7 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   }
 
   /**
-   * This is incomplete.  It only does mixed types and model groups.  It doesn't search for substitution groups or
-   * wildcards yet.
+   * It considers mixed types, model groups, subsitution groups and wildcards.
    */
   public List/*of GenFeature*/ getDelegatedFeatures()
   {
@@ -1227,6 +1228,7 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     GenClass genClass = getGenClass();
     List delegated = new ArrayList();
 
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
     if (genClass.getMixedGenFeature() == this)
     {
        delegated.add(findGenFeature(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment()));
@@ -1241,24 +1243,95 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
        {
          GenFeature otherFeature = (GenFeature)iter.next();
          if (otherFeature != this && otherFeature.isDerived() &&
-             ExtendedMetaData.INSTANCE.getGroup(otherFeature.getEcoreFeature()) == null)
+             extendedMetaData.getGroup(otherFeature.getEcoreFeature()) == null)
          {
            delegated.add(otherFeature);
          }
        }
     }
-    else if (ExtendedMetaData.INSTANCE.getFeatureKind(getEcoreFeature()) == ExtendedMetaData.GROUP_FEATURE)
+    else
+    {
+      switch (extendedMetaData.getFeatureKind(getEcoreFeature()))
+      {
+        case ExtendedMetaData.GROUP_FEATURE:
+        {
+          Set allDelegated = new HashSet();
+          for (Iterator i = genClass.getGenFeatures().iterator(); i.hasNext(); )
+          {
+            GenFeature otherFeature = (GenFeature)i.next();
+            if (otherFeature != this && otherFeature.isDerived() && 
+                extendedMetaData.getGroup(otherFeature.getEcoreFeature()) == getEcoreFeature())
+            { 
+              if (otherFeature.isChangeable())
+              {
+                delegated.add(otherFeature);
+              }
+              allDelegated.add(otherFeature.getEcoreFeature());
+            }
+          }
+          
+          for (Iterator i = getGenModel().getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext(); )
+          {
+            GenPackage genPackage = (GenPackage)i.next(); 
+            if (genPackage.hasDocumentRoot())
+            {
+              GenClass documentRoot = findGenClass(extendedMetaData.getDocumentRoot(genPackage.getEcorePackage()));
+              for (Iterator j = documentRoot.getGenFeatures().iterator(); j.hasNext(); )
+              {
+                GenFeature otherFeature = (GenFeature)j.next();
+                if (otherFeature != this && 
+                      otherFeature.isChangeable() &&
+                      otherFeature.isDerived() &&
+                      allDelegated.contains(extendedMetaData.getAffiliation(genClass.getEcoreClass(), otherFeature.getEcoreFeature())))
+                {
+                  delegated.add(otherFeature);
+                }
+              }
+            }
+          }
+            
+          break;
+        }
+        case ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE:
+        case ExtendedMetaData.ELEMENT_WILDCARD_FEATURE:
+        {
+          for (Iterator i = getGenModel().getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext(); )
+          {
+            GenPackage genPackage = (GenPackage)i.next(); 
+            if (genPackage.hasDocumentRoot())
+            {
+              GenClass documentRoot = findGenClass(extendedMetaData.getDocumentRoot(genPackage.getEcorePackage()));
+              for (Iterator j = documentRoot.getGenFeatures().iterator(); j.hasNext(); )
+              {
+                GenFeature otherFeature = (GenFeature)j.next();
+                if (otherFeature != this && 
+                      otherFeature.isChangeable() &&
+                      otherFeature.isDerived() &&
+                      extendedMetaData.getAffiliation(genClass.getEcoreClass(), otherFeature.getEcoreFeature()) == getEcoreFeature())
+                {
+                  delegated.add(otherFeature);
+                }
+              }
+            }
+          }
+          break;
+        }
+      }
+    }
+   /* 
+    else if (extendedMetaData.getFeatureKind(getEcoreFeature()) == ExtendedMetaData.GROUP_FEATURE)
     {
       for (Iterator iter = genClass.getGenFeatures().iterator(); iter.hasNext(); )
       {
         GenFeature otherFeature = (GenFeature)iter.next();
         if (otherFeature != this && otherFeature.isDerived() && otherFeature.isChangeable() &&
-            ExtendedMetaData.INSTANCE.getGroup(otherFeature.getEcoreFeature()) == getEcoreFeature())
+            extendedMetaData.getGroup(otherFeature.getEcoreFeature()) == getEcoreFeature())
         {
           delegated.add(otherFeature);
         }
       }
     }
+    */
 
     List result = new ArrayList();
     for (Iterator iter = delegated.iterator(); iter.hasNext(); )
