@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.9 2005/03/16 20:52:51 khussey Exp $
+ * $Id: GenModelItemProvider.java,v 1.10 2005/03/21 15:46:54 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -714,7 +714,7 @@ public class GenModelItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_GenModel_testsDirectory_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_GenModel_testsDirectory_feature", "_UI_GenModel_type"),
+         getString("_UI_GenModel_testsDirectory_description"),
          GenModelPackage.eINSTANCE.getGenModel_TestsDirectory(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
@@ -734,7 +734,7 @@ public class GenModelItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_GenModel_testSuiteClass_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_GenModel_testSuiteClass_feature", "_UI_GenModel_type"),
+         getString("_UI_GenModel_testSuiteClass_description"),
          GenModelPackage.eINSTANCE.getGenModel_TestSuiteClass(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
@@ -754,7 +754,7 @@ public class GenModelItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_GenModel_booleanFlagsField_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_GenModel_booleanFlagsField_feature", "_UI_GenModel_type"),
+         getString("_UI_GenModel_booleanFlagsField_description"),
          GenModelPackage.eINSTANCE.getGenModel_BooleanFlagsField(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
@@ -774,7 +774,7 @@ public class GenModelItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_GenModel_booleanFlagsReservedBits_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_GenModel_booleanFlagsReservedBits_feature", "_UI_GenModel_type"),
+         getString("_UI_GenModel_booleanFlagsReservedBits_description"),
          GenModelPackage.eINSTANCE.getGenModel_BooleanFlagsReservedBits(),
          true,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
