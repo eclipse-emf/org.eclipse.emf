@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.3 2004/03/29 16:20:24 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.4 2004/04/01 12:36:33 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1076,10 +1076,11 @@ public class XSDEcoreBuilder extends MapBuilder
               eReference.setContainment(false);
               eReference.setResolveProxies(!isLocalReferenceType((XSDSimpleTypeDefinition)xsdElementDeclaration.getTypeDefinition()));
 
-              if (maxOccurs == 1 && xsdElementDeclaration.isNillable())
-              {
-                eReference.setUnsettable(true);
-              }
+            }
+
+            if (maxOccurs == 1 && xsdElementDeclaration.isNillable())
+            {
+              eReference.setUnsettable(true);
             }
           }
           else if (xsdTerm instanceof XSDWildcard)
@@ -1114,6 +1115,11 @@ public class XSDEcoreBuilder extends MapBuilder
           if (xsdElementDeclaration.getTypeDefinition() instanceof XSDSimpleTypeDefinition)
           {
             eReference.setResolveProxies(!isLocalReferenceType((XSDSimpleTypeDefinition)xsdElementDeclaration.getTypeDefinition()));
+          }
+
+          if (maxOccurs == 1 && xsdElementDeclaration.isNillable())
+          {
+            eReference.setUnsettable(true);
           }
         }
         else if (xsdComponent instanceof XSDAttributeUse)
@@ -1193,9 +1199,12 @@ public class XSDEcoreBuilder extends MapBuilder
               eAttribute.setID(true);
             }
 
-            if (xsdElementDeclaration.isNillable() && !canSupportNull((EDataType)type))
+            if (xsdElementDeclaration.isNillable())
             {
-              eAttribute.setEType(type = extendedMetaData.getType(type.getEPackage(), extendedMetaData.getName(type) + ":Object"));
+              if (!canSupportNull((EDataType)type))
+              {
+                eAttribute.setEType(type = extendedMetaData.getType(type.getEPackage(), extendedMetaData.getName(type) + ":Object"));
+              }
               if (maxOccurs == 1)
               {
                 eAttribute.setUnsettable(true);
