@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.6 2004/07/16 16:26:06 marcelop Exp $
+ * $Id: JavaEditor.java,v 1.7 2004/11/29 19:53:28 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -138,7 +138,9 @@ import java.util.HashMap;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 
+import org.eclipse.emf.java.util.JavaPackageResourceFactoryImpl;
 import org.eclipse.emf.java.util.JavaPackageResourceImpl;
+import org.eclipse.emf.java.util.JavaResourceFactoryImpl;
 import org.eclipse.emf.java.util.JavaUtil;
 
 //import org.eclipse.swt.events.ControlAdapter;
@@ -826,6 +828,10 @@ public class JavaEditor
 
     try
     {
+      Map extensionToFactoryMap = editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap();
+      extensionToFactoryMap.put("java", new JavaResourceFactoryImpl());
+      extensionToFactoryMap.put("packages", new JavaPackageResourceFactoryImpl());
+      
       setupClassLoader(modelFile.getFile().getProject());
 
       // Load the resource through the editing domain.
