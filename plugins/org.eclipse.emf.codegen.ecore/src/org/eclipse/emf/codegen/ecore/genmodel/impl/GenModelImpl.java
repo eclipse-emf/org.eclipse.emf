@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.2 2004/03/20 20:57:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3328,6 +3328,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public List getModelRequiredPlugins()
   {
     List result = new UniqueEList();
+    result.add("org.eclipse.core.runtime.compatibility");
     result.add("org.eclipse.emf.ecore");
     result.addAll(getEffectiveModelPluginIDs());
     for (Iterator i = getGenPackages().iterator(); i.hasNext(); )
@@ -3350,6 +3351,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public List getEditRequiredPlugins()
   {
     List result = new UniqueEList();
+    result.add("org.eclipse.core.runtime.compatibility");
+
     if (!sameModelEditProject())
     {
       for (Iterator i = getGenPackages().iterator(); i.hasNext(); )
@@ -3362,7 +3365,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       result.addAll(getModelRequiredPlugins());
     }
+    
     result.add("org.eclipse.emf.edit");
+    
     for (Iterator i = getUsedGenPackages().iterator(); i.hasNext(); )
     {
       GenPackage genPackage = (GenPackage)i.next();
@@ -3379,6 +3384,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public List getEditorRequiredPlugins()
   {
     List result = new UniqueEList();
+    result.add("org.eclipse.core.runtime.compatibility");
+    
     if (!sameEditEditorProject())
     {
       for (Iterator i = getGenPackages().iterator(); i.hasNext(); )

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
 
 <!--
 /**
@@ -15,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: plugin.xml,v 1.2 2004/03/20 20:53:15 marcelop Exp $
  */
 -->
 
@@ -26,18 +27,19 @@
    provider-name="%providerName"
    class="org.eclipse.emf.mapping.presentation.MappingUIPlugin">
 
+   <requires>
+      <import plugin="org.eclipse.core.runtime.compatibility"/>
+      <import plugin="org.eclipse.emf.mapping" export="true"/>
+      <import plugin="org.eclipse.emf.edit.ui" export="true"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.common"/>
+   </requires>
+
    <runtime>
       <library name="runtime/mapping.ui.jar">
          <export name="*"/>
          <packages prefixes="org.eclipse.emf.mapping.action,org.eclipse.emf.mapping.presentation"/>
       </library>
    </runtime>
-
-   <requires>
-      <import plugin="org.eclipse.emf.mapping" export="true"/>
-      <import plugin="org.eclipse.emf.edit.ui" export="true"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.emf.common"/>
-   </requires>
 
 </plugin>

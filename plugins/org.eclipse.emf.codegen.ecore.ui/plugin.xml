@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
 
 <!--
 /**
@@ -15,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.2 2004/03/08 21:32:11 emerks Exp $
+ * $Id: plugin.xml,v 1.3 2004/03/20 20:53:43 marcelop Exp $
  */
 -->
 
@@ -27,10 +28,11 @@
     class = "org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin$Implementation">
 
   <requires>
+    <import plugin="org.eclipse.core.runtime.compatibility"/>
+    <import plugin="org.eclipse.jdt.core"/>
     <import plugin="org.eclipse.emf.codegen.ecore" export="true"/>
     <import plugin="org.eclipse.emf.edit.ui" export="true"/>
     <import plugin="org.eclipse.emf.ecore.edit" export="true"/>
-    <import plugin="org.eclipse.jdt.core"/>
   </requires>
 
   <runtime>

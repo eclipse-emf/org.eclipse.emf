@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
 
 <!--
 /**
@@ -15,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: plugin.xml,v 1.2 2004/03/20 20:54:23 marcelop Exp $
  */
 -->
 
@@ -25,6 +26,10 @@
     version = "2.0.0"
     provider-name = "%providerName" 
     class = "org.eclipse.emf.common.CommonPlugin$Implementation" >
+
+  <requires>
+    <import plugin="org.eclipse.core.runtime.compatibility"/>
+  </requires>
 
   <runtime>
     <library name="runtime/common.jar">

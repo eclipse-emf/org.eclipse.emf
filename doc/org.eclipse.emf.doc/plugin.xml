@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
 
 <!--
 /**
@@ -15,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2004/03/06 17:31:30 marcelop Exp $
+ * $Id: plugin.xml,v 1.2 2004/03/20 20:54:06 marcelop Exp $
  */
 -->
 
@@ -26,6 +27,7 @@
    provider-name="%providerName">
 
    <requires>
+      <import plugin="org.eclipse.core.runtime.compatibility"/>
       <import plugin="org.eclipse.help"/>
    </requires>
 

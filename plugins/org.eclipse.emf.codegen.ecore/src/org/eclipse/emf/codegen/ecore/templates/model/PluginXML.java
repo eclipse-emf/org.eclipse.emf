@@ -6,7 +6,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.*;
 public class PluginXML
 {
   protected final String NL = System.getProperties().getProperty("line.separator");
-  protected final String TEXT_1 = "<?xml version=\"1.0\"?>" + NL + "" + NL + "<!--" + NL;
+  protected final String TEXT_1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + NL + "<?eclipse version=\"3.0\"?>" + NL + "" + NL + "<!--" + NL;
   protected final String TEXT_2 = "/**" + NL + " * <copyright>" + NL + " * </copyright>" + NL + " *" + NL + " * ";
   protected final String TEXT_3 = "Id";
   protected final String TEXT_4 = NL + " */" + NL + "-->" + NL + "" + NL + "<plugin" + NL + "    name = \"%pluginName\"" + NL + "    id = \"";
