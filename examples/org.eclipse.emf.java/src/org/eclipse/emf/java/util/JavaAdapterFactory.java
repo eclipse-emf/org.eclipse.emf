@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaAdapterFactory.java,v 1.1 2004/04/13 02:50:33 marcelop Exp $
+ * $Id: JavaAdapterFactory.java,v 1.2 2004/04/13 18:58:49 emerks Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -21,16 +21,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.java.JClass;
-import org.eclipse.emf.java.JCompilationUnit;
-import org.eclipse.emf.java.JField;
-import org.eclipse.emf.java.JInitializer;
-import org.eclipse.emf.java.JMember;
-import org.eclipse.emf.java.JMethod;
-import org.eclipse.emf.java.JModelElement;
-import org.eclipse.emf.java.JPackage;
-import org.eclipse.emf.java.JParameter;
-import org.eclipse.emf.java.JavaPackage;
+import org.eclipse.emf.java.*;
 
 
 /**

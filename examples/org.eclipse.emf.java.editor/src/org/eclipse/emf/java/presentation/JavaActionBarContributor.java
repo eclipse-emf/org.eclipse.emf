@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaActionBarContributor.java,v 1.1 2004/04/13 02:50:50 marcelop Exp $
+ * $Id: JavaActionBarContributor.java,v 1.2 2004/04/13 18:58:42 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -33,7 +33,15 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 
-
+//import java.util.Collection;
+//import java.util.Iterator;
+//import java.util.LinkedList;
+//import org.eclipse.jface.action.ActionContributionItem;
+//import org.eclipse.jface.action.IContributionItem;
+//import org.eclipse.jface.action.IContributionManager;
+//import org.eclipse.jface.action.SubContributionItem;
+//import org.eclipse.jface.viewers.ISelection;
+//import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
  * This is the action bar contributor for the Java model editor.

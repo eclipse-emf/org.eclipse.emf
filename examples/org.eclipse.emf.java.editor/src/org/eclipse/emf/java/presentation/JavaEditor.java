@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.1 2004/04/13 02:50:50 marcelop Exp $
+ * $Id: JavaEditor.java,v 1.2 2004/04/13 18:58:42 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -108,6 +108,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.ViewerPane;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -131,6 +132,9 @@ import org.eclipse.emf.java.JCompilationUnit;
 import org.eclipse.emf.java.provider.JavaItemProviderAdapterFactory;
 import org.eclipse.emf.java.util.JavaPackageResourceImpl;
 import org.eclipse.emf.java.util.JavaUtil;
+
+//import org.eclipse.swt.events.ControlAdapter;
+//import org.eclipse.swt.events.ControlEvent;
 
 
 /**
@@ -1646,6 +1650,7 @@ public class JavaEditor
 
     super.dispose();
   }
+
   public void setupClassLoader(IProject project)
   {
     JavaPackageResourceImpl javaPackageResource = 
@@ -1653,7 +1658,7 @@ public class JavaEditor
 
     IWorkspaceRoot workspaceRoot = project.getWorkspace().getRoot();
 
-    List libraryURLs = new ArrayList();
+    List libraryURLs = new UniqueEList();
     List sourceURIs = new ArrayList();
     try
     {
@@ -1683,6 +1688,9 @@ public class JavaEditor
               IJavaProject referencedJavaProject = JavaCore.create(referencedProject);
               IContainer container = workspaceRoot.getFolder(referencedJavaProject.getOutputLocation());
               libraryURLs.add(new URL(URI.createFileURI(container.getLocation().toString() + "/").toString()));
+
+              getAllReferencedProjects(libraryURLs, referencedProject.getDescription().getReferencedProjects());
+              getAllReferencedProjects(libraryURLs, referencedProject.getDescription().getDynamicReferences());
               break;
             }
             case IClasspathEntry.CPE_VARIABLE:
@@ -1707,6 +1715,29 @@ public class JavaEditor
     {
       exception.printStackTrace();
     }
+    catch (CoreException exception)
+    {
+      exception.printStackTrace();
+    }
+  }
 
+  /**
+   * Walks the projects recursively.
+   */
+  public void getAllReferencedProjects(Collection libraryURLs, IProject [] projects) throws CoreException, MalformedURLException
+  {
+    for (int i = 0; i < projects.length; ++i)
+    {
+      IProject project = projects[i];
+      if (project.exists() && project.isOpen())
+      {
+        IJavaProject referencedJavaProject = JavaCore.create(project);
+        IContainer container = project.getWorkspace().getRoot().getFolder(referencedJavaProject.getOutputLocation());
+
+        libraryURLs.add(new URL(URI.createFileURI(container.getLocation().toString() + "/").toString()));
+        getAllReferencedProjects(libraryURLs, project.getDescription().getReferencedProjects());
+        getAllReferencedProjects(libraryURLs, project.getDescription().getDynamicReferences());
+      }
+    }
   }
 }

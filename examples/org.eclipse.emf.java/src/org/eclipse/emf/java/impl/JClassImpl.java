@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.1 2004/04/13 02:50:33 marcelop Exp $
+ * $Id: JClassImpl.java,v 1.2 2004/04/13 18:58:49 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -1149,55 +1149,62 @@ public class JClassImpl extends JMemberImpl implements JClass
           setName(uri.substring(uri.lastIndexOf("/") + 1));
           Collection theMembers = new ArrayList();
 
-          Field [] memberFields = theJavaClass.getDeclaredFields();
-          for (int i = 0; i < memberFields.length; ++i)
+          try
           {
-            JField memberJField = JavaFactory.eINSTANCE.createJField();
-            theMembers.add(memberJField);
-            memberJField.setJavaField(memberFields[i]);
+            Field [] memberFields = theJavaClass.getDeclaredFields();
+            for (int i = 0; i < memberFields.length; ++i)
+            {
+              JField memberJField = JavaFactory.eINSTANCE.createJField();
+              theMembers.add(memberJField);
+              memberJField.setJavaField(memberFields[i]);
+            }
+
+            Method [] memberMethods = theJavaClass.getDeclaredMethods();
+            for (int i = 0; i < memberMethods.length; ++i)
+            {
+              JMethod memberJMethod = JavaFactory.eINSTANCE.createJMethod();
+              theMembers.add(memberJMethod);
+              memberJMethod.setJavaMethod(memberMethods[i]);
+            }
+
+            Constructor [] constructors = theJavaClass.getConstructors();
+            for (int i = 0; i < constructors.length; ++i)
+            {
+              JMethod memberJMethod = JavaFactory.eINSTANCE.createJMethod();
+              theMembers.add(memberJMethod);
+              memberJMethod.setJavaConstructor(constructors[i]);
+            }
+
+            Class [] memberTypes = theJavaClass.getDeclaredClasses();
+            for (int i = 0; i < memberTypes.length; ++i)
+            {
+              JClass memberJClass = JavaFactory.eINSTANCE.createJClass();
+              theMembers.add(memberJClass);
+              memberJClass.setJavaClass(memberTypes[i]);
+            }
+
+            getMembers().addAll(theMembers);
+
+            Collection theSuperTypes = new ArrayList();
+            if (theJavaClass.getSuperclass() != null)
+            {
+              theSuperTypes.add(JavaUtil.createJClassProxy(theJavaClass.getSuperclass()));
+            }
+            Class [] interfaces = theJavaClass.getInterfaces();
+            for (int i = 0; i < interfaces.length; ++i)
+            {
+              theSuperTypes.add(JavaUtil.createJClassProxy(interfaces[i]));
+            }
+            getSuperTypes().addAll(theSuperTypes);
+          }
+          catch (NoClassDefFoundError exception)
+          {
           }
 
-          Method [] memberMethods = theJavaClass.getDeclaredMethods();
-          for (int i = 0; i < memberMethods.length; ++i)
-          {
-            JMethod memberJMethod = JavaFactory.eINSTANCE.createJMethod();
-            theMembers.add(memberJMethod);
-            memberJMethod.setJavaMethod(memberMethods[i]);
-          }
-
-          Constructor [] constructors = theJavaClass.getConstructors();
-          for (int i = 0; i < constructors.length; ++i)
-          {
-            JMethod memberJMethod = JavaFactory.eINSTANCE.createJMethod();
-            theMembers.add(memberJMethod);
-            memberJMethod.setJavaConstructor(constructors[i]);
-          }
-
-          Class [] memberTypes = theJavaClass.getDeclaredClasses();
-          for (int i = 0; i < memberTypes.length; ++i)
-          {
-            JClass memberJClass = JavaFactory.eINSTANCE.createJClass();
-            theMembers.add(memberJClass);
-            memberJClass.setJavaClass(memberTypes[i]);
-          }
-
-          getMembers().addAll(theMembers);
           if (theJavaClass.getComponentType() != null)
           {
             setComponentType(JavaUtil.createJClassProxy(theJavaClass.getComponentType()));
           }
-
-          Collection theSuperTypes = new ArrayList();
-          if (theJavaClass.getSuperclass() != null)
-          {
-            theSuperTypes.add(JavaUtil.createJClassProxy(theJavaClass.getSuperclass()));
-          }
-          Class [] interfaces = theJavaClass.getInterfaces();
-          for (int i = 0; i < interfaces.length; ++i)
-          {
-            theSuperTypes.add(JavaUtil.createJClassProxy(interfaces[i]));
-          }
-          getSuperTypes().addAll(theSuperTypes);
 
           int modifiers = theJavaClass.getModifiers();
           setInterface(Modifier.isInterface(modifiers));

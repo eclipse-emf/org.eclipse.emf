@@ -12,20 +12,17 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitItemProvider.java,v 1.1 2004/04/13 02:50:25 marcelop Exp $
+ * $Id: JCompilationUnitItemProvider.java,v 1.2 2004/04/13 18:58:37 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -204,30 +201,6 @@ public class JCompilationUnitItemProvider
          JavaPackage.eINSTANCE.getJCompilationUnit_ImportedTypes(),
          true));
   }
-
-  /**
-   * This specifies how to implement {@link #getChildren} and {@link AddCommand} and {@link RemoveCommand} support in {@link #createCommand}.
-   * @generated EATM
-   */
-  public Collection getChildrenReferences(Object object)
-  {
-    JCompilationUnit jCompilationUnit = (JCompilationUnit)object;
-
-    // Make the special compilation unit empty.
-    //
-    if (".class".equals(jCompilationUnit.getName()))
-    {
-      return Collections.EMPTY_LIST;
-    }
-
-    if (childrenReferences == null)
-    {
-      super.getChildrenReferences(object);
-      childrenReferences.add(JavaPackage.eINSTANCE.getJCompilationUnit_Types());
-    }
-    return childrenReferences;
-  }
-
 
   /**
    * This returns JCompilationUnit.gif.
