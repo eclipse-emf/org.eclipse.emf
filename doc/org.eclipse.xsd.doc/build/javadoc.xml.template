@@ -37,6 +37,7 @@
 				<tag name="extends" description="ignore" enabled="false"/>
 				<tag name="implements" description="ignore" enabled="false"/>
 				<tag name="ordered" description="ignore" enabled="false"/>
+				<tag name="<!--" description="ignore" enabled="false"/>
 				
 				<group title="XML Schema Model API"                       packages="org.eclipse.xsd:org.eclipse.xsd.util"/>
 				<group title="XML Schema Model Implementation"            packages="org.eclipse.xsd.impl:org.eclipse.xsd.impl.type"/>
