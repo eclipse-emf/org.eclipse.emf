@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.4 2004/06/03 11:45:10 emerks Exp $
+ * $Id: XSDParser.java,v 1.5 2004/06/09 15:45:41 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -514,7 +514,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
   public InputSource resolveEntity(String publicId, String systemId) throws SAXException
   {
     InputSource inputSource;
-    if ("-//W3C//DTD XMLSCHEMA 200102//EN".equals(publicId))
+    if ("-//W3C//DTD XMLSCHEMA 200102//EN".equalsIgnoreCase(publicId))
     {
       inputSource = new InputSource( XSDPlugin.INSTANCE.getBaseURL() + "cache/www.w3.org/2001/XMLSchema.dtd");
       inputSource.setPublicId(publicId);
