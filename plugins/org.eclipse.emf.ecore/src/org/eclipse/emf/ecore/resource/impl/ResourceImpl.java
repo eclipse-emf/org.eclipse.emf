@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.3 2004/09/16 15:22:56 marcelop Exp $
+ * $Id: ResourceImpl.java,v 1.4 2004/10/21 16:11:31 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -172,6 +172,12 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * @see #detached(EObject)
    */
   protected Adapter modificationTrackingAdapter;
+
+  /**
+   * A map to retrieve the EObject based on the value of its ID feature.
+   * @see #setIntrinsicIDToEObjectMap(Map)
+   */
+  protected Map intrinsicIDToEObjectMap;
 
   /**
    * Creates a empty instance.
@@ -625,73 +631,153 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   }
 
   /**
+   * Returns the map used to cache the EObject that is identified by the {@link #getEObjectByID(String) value} 
+   * of its ID feature.
+   * @return the map used to cache the EObject that is identified by the value of its ID feature.
+   * @see #setIntrinsicIDToEObjectMap
+   */
+  public Map getIntrinsicIDToEObjectMap()
+  {
+    return intrinsicIDToEObjectMap;
+  }
+
+  /**
+   * Sets the map used to cache the EObject identified by the value of its ID feature.
+   * This cache is only activated if the map is not <code>null</code>.  
+   * The map will be lazily loaded by the {@link #getEObjectByID(String) getEObjectByID} method.
+   * It is up to the client to clear the cache when it becomes invalid, 
+   * e.g., when the ID of a previously mapped EObject is changed.
+   * @param intrinsicIDToEObjectMap the new map or <code>null</code>.
+   * @see #getIntrinsicIDToEObjectMap
+   */
+  public void setIntrinsicIDToEObjectMap(Map intrinsicIDToEObjectMap)
+  {
+    this.intrinsicIDToEObjectMap = intrinsicIDToEObjectMap;
+  }
+  
+
+  /**
    * Returns the object based on the fragment as an ID.
    */
   protected EObject getEObjectByID(String id)
   {
+    Map map = getIntrinsicIDToEObjectMap();
+    if (map != null)
+    {
+      EObject eObject = (EObject)map.get(id);
+      if (eObject != null)
+      {
+        return eObject;
+      }
+    }
+    
     for (Iterator i = getAllContents(); i.hasNext(); )
     {
       EObject eObject = (EObject)i.next();
-      if (id.equals(EcoreUtil.getID(eObject)))
+      String eObjectId = EcoreUtil.getID(eObject);
+      if (eObjectId != null)
       {
-        return eObject;
+        if (map != null)
+        {
+          map.put(eObjectId, eObject);
+        }
+        
+        if (eObjectId.equals(id))
+        {
+          return eObject;
+        }
       }
     }
 
     return null;
   }
 
-  /*
-   * Javadoc copied from interface.
-   */
   public void attached(EObject eObject)
+  {   
+    if (isAttachedDetachedHelperRequired())
+    {
+      attachedHelper(eObject);
+      for (Iterator tree = eObject.eAllContents(); tree.hasNext(); )
+      {
+        attachedHelper((EObject)tree.next());
+      }
+    }
+  }
+  
+  protected boolean isAttachedDetachedHelperRequired()
+  {
+    return isTrackingModification() || getIntrinsicIDToEObjectMap() != null;
+  }
+
+  protected void attachedHelper(EObject eObject)
   {
     if (isTrackingModification())
     {
-      addModificationTrackingAdapters(eObject);
+      eObject.eAdapters().add(modificationTrackingAdapter);
     }
+    
+    Map map = getIntrinsicIDToEObjectMap();
+    if (map != null)
+    {
+      String id = EcoreUtil.getID(eObject);
+      if (id != null)
+      {
+        map.put(id, eObject);
+      }
+    }    
   }
+  
 
   /**
    * Adds modification tracking adapters to the object and it's content tree.
    * @param eObject the object.
    * @see #attached(EObject)
+   * @deprecated since 2.1.0.  This method is not invoked anymore.  See 
+   * {@link #attachedHelper(EObject)}.
    */
-  protected void addModificationTrackingAdapters(EObject eObject)
+  final protected void addModificationTrackingAdapters(EObject eObject)
   {
-    eObject.eAdapters().add(modificationTrackingAdapter);
-    for (Iterator tree = eObject.eAllContents(); tree.hasNext(); )
-    {
-      EObject child = (EObject)tree.next();
-      child.eAdapters().add(modificationTrackingAdapter);
-    }
   }
 
-  /*
-   * Javadoc copied from interface.
-   */
   public void detached(EObject eObject)
   {
-    if (isTrackingModification())
+    if (isAttachedDetachedHelperRequired())
     {
-      removeModificationTrackingAdapters(eObject);
+      detachedHelper(eObject);
+      for (Iterator tree = eObject.eAllContents(); tree.hasNext(); )
+      {
+        detachedHelper((EObject)tree.next());
+      }
     }
   }
+  
+  protected void detachedHelper(EObject eObject)
+  {
+    Map map = getIntrinsicIDToEObjectMap();
+    if (map != null)
+    {
+      String id = EcoreUtil.getID(eObject);
+      if (id != null)
+      {
+        map.remove(id);
+      }
+    }
+
+    if (isTrackingModification())
+    {
+      eObject.eAdapters().remove(modificationTrackingAdapter);
+    }
+  }  
 
   /**
    * Removes modification tracking adapters to the object and it's content tree.
    * @param eObject the object.
    * @see #detached(EObject)
+   * @deprecated since 2.1.0.  This method is not invoked anymore.  See 
+   * {@link #attachedHelper(EObject)}.
    */
-  protected void removeModificationTrackingAdapters(EObject eObject)
+  final protected void removeModificationTrackingAdapters(EObject eObject)
   {
-    eObject.eAdapters().remove(modificationTrackingAdapter);
-    if (org.eclipse.emf.ecore.EcorePackage.eINSTANCE != null)
-    for (Iterator tree = eObject.eAllContents(); tree.hasNext(); )
-    {
-      EObject child = (EObject)tree.next();
-      child.eAdapters().remove(modificationTrackingAdapter);
-    }
   }
 
 
