@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.9 2004/06/15 21:51:09 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.10 2004/06/18 09:53:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -20,8 +20,10 @@ package org.eclipse.emf.ecore.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.eclipse.emf.common.util.EMap;
@@ -32,7 +34,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -122,7 +123,6 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     setContentKind(eClass, MIXED_CONTENT);
   }
 
-
   public EReference getXMLNSPrefixMapFeature(EClass eClass)
   {
     if (getContentKind(eClass) == MIXED_CONTENT)
@@ -159,6 +159,11 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   public boolean isQualified(EPackage ePackage)
   {
+    return getExtendedMetaData(ePackage).isQualified();
+  }
+
+  protected boolean basicIsQualified(EPackage ePackage)
+  {
     EAnnotation eAnnotation = getAnnotation(ePackage, false);
     return eAnnotation == null || !"false".equals(eAnnotation.getDetails().get("qualified"));
   }
@@ -178,6 +183,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         eAnnotation.getDetails().remove("qualified");
       }
     }
+    getExtendedMetaData(ePackage).setQualified(isQualified);
   }
 
   public String getNamespace(EPackage ePackage)
@@ -198,6 +204,11 @@ public class BasicExtendedMetaData implements ExtendedMetaData
   }
 
   public String getNamespace(EStructuralFeature eStructuralFeature)
+  {
+    return getExtendedMetaData(eStructuralFeature).getNamespace();
+  }
+
+  public String basicGetNamespace(EStructuralFeature eStructuralFeature)
   {
     EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
     if (eAnnotation == null)
@@ -221,15 +232,16 @@ public class BasicExtendedMetaData implements ExtendedMetaData
   public void setNamespace(EStructuralFeature eStructuralFeature, String namespace)
   {
     String packageNamespace = getNamespace(eStructuralFeature.getEContainingClass().getEPackage());
+    String convertedNamespace = namespace;
     if (namespace == null ? packageNamespace == null : namespace.equals(packageNamespace))
     {
-      namespace="##targetNamespace";
+      convertedNamespace="##targetNamespace";
     }
 
-    if (namespace != null)
+    if (convertedNamespace != null)
     {
       EAnnotation eAnnotation = getAnnotation(eStructuralFeature, true);
-      eAnnotation.getDetails().put("namespace", namespace);
+      eAnnotation.getDetails().put("namespace", convertedNamespace);
     }
     else
     {
@@ -239,11 +251,17 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         eAnnotation.getDetails().remove("namespace");
       }
     }
+    getExtendedMetaData(eStructuralFeature).setNamespace(namespace);
   }
 
-  public String getName(ENamedElement eNamedElement)
+  public String getName(EClassifier eClassifier)
   {
-    EAnnotation eAnnotation = getAnnotation(eNamedElement, false);
+    return getExtendedMetaData(eClassifier).getName();
+  }
+
+  protected String basicGetName(EClassifier eClassifier)
+  {
+    EAnnotation eAnnotation = getAnnotation(eClassifier, false);
     if (eAnnotation != null)
     {
       String result = (String)eAnnotation.getDetails().get("name");
@@ -252,13 +270,40 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         return result;
       }
     }
-    return eNamedElement.getName();
+    return eClassifier.getName();
   }
 
-  public void setName(ENamedElement eNamedElement, String name)
+  public void setName(EClassifier eClassifier, String name)
   {
-    EAnnotation eAnnotation = getAnnotation(eNamedElement, true);
+    EAnnotation eAnnotation = getAnnotation(eClassifier, true);
     eAnnotation.getDetails().put("name", name);
+    getExtendedMetaData(eClassifier).setName(name);
+  }
+
+  public String getName(EStructuralFeature eStructuralFeature)
+  {
+    return getExtendedMetaData(eStructuralFeature).getName();
+  }
+
+  protected String basicGetName(EStructuralFeature eStructuralFeature)
+  {
+    EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
+    if (eAnnotation != null)
+    {
+      String result = (String)eAnnotation.getDetails().get("name");
+      if (result != null)
+      {
+        return result;
+      }
+    }
+    return eStructuralFeature.getName();
+  }
+
+  public void setName(EStructuralFeature eStructuralFeature, String name)
+  {
+    EAnnotation eAnnotation = getAnnotation(eStructuralFeature, true);
+    eAnnotation.getDetails().put("name", name);
+    getExtendedMetaData(eStructuralFeature).setName(name);
   }
 
   protected String getQualifiedName(String defaultNamespace, EClassifier eClassifier)
@@ -327,6 +372,11 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   public int getFeatureKind(EStructuralFeature eStructuralFeature)
   {
+    return getExtendedMetaData(eStructuralFeature).getFeatureKind();
+  }
+
+  protected int basicGetFeatureKind(EStructuralFeature eStructuralFeature)
+  {
     EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
     if (eAnnotation != null)
     {
@@ -361,9 +411,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         eAnnotation.getDetails().remove("kind");
       }
     }
+    getExtendedMetaData(eStructuralFeature).setFeatureKind(kind);
   }
 
   public int getContentKind(EClass eClass)
+  {
+    return getExtendedMetaData(eClass).getContentKind();
+  }
+
+  protected int basicGetContentKind(EClass eClass)
   {
     EAnnotation eAnnotation = getAnnotation(eClass, false);
     if (eAnnotation != null)
@@ -399,11 +455,17 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         eAnnotation.getDetails().remove("kind");
       }
     }
+    getExtendedMetaData(eClass).setContentKind(kind);
   }
 
   public int getDerivationKind(EDataType eDataType)
   {
-    EAnnotation eAnnotation = getAnnotation(eDataType, false);
+    return getExtendedMetaData(eDataType).getDerivationKind();
+  }
+
+  protected int basicGetDerivationKind(EClassifier eClassifier)
+  {
+    EAnnotation eAnnotation = getAnnotation(eClassifier, false);
     if (eAnnotation != null)
     {
       EMap details = eAnnotation.getDetails();
@@ -428,6 +490,11 @@ public class BasicExtendedMetaData implements ExtendedMetaData
   }
 
   public EDataType getBaseType(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getBaseType();
+  }
+
+  public EDataType basicGetBaseType(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     if (eAnnotation != null)
@@ -468,9 +535,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       eAnnotation.getDetails().put("baseType", getQualifiedName(getNamespace(eDataType), baseType));
     }
+    getExtendedMetaData(eDataType).setBaseType(baseType);
   }
 
   public EDataType getItemType(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getItemType();
+  }
+
+  protected EDataType basicGetItemType(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     if (eAnnotation != null)
@@ -511,9 +584,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       eAnnotation.getDetails().put("itemType", getQualifiedName(getNamespace(eDataType), itemType));
     }
+    getExtendedMetaData(eDataType).setItemType(itemType);
   }
 
   public List /*EDataType*/ getMemberTypes(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getMemberTypes();
+  }
+
+  protected List /*EDataType*/ basicGetMemberTypes(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     if (eAnnotation != null)
@@ -566,6 +645,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       }
       eAnnotation.getDetails().put("memberTypes", result.substring(0, result.length() - 1));
     }
+    getExtendedMetaData(eDataType).setMemberTypes(memberTypes);
   }
 
   public EStructuralFeature getLocalAttribute(EClass eClass, String namespace, String name)
@@ -737,6 +817,11 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   public List /*String*/ getWildcards(EStructuralFeature eStructuralFeature)
   {
+    return getExtendedMetaData(eStructuralFeature).getWildcards();
+  }
+
+  protected List /*String*/ basicGetWildcards(EStructuralFeature eStructuralFeature)
+  {
     EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
     if (eAnnotation != null)
     {
@@ -830,9 +915,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       eAnnotation.getDetails().put("wildcards", value.toString());
       eAnnotation.getDetails().put("name","");
     }
+    getExtendedMetaData(eStructuralFeature).setWildcards(wildcards);
   }
 
   public int getProcessingKind(EStructuralFeature eStructuralFeature)
+  {
+    return getExtendedMetaData(eStructuralFeature).getProcessingKind();
+  }
+
+  protected int basicGetProcessingKind(EStructuralFeature eStructuralFeature)
   {
     EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
     if (eAnnotation != null)
@@ -868,9 +959,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         eAnnotation.getDetails().remove("processing");
       }
     }
+    getExtendedMetaData(eStructuralFeature).setProcessingKind(kind);
   }
 
   public EStructuralFeature getGroup(EStructuralFeature eStructuralFeature)
+  {
+    return getExtendedMetaData(eStructuralFeature).getGroup();
+  }
+
+  protected EStructuralFeature basicGetGroup(EStructuralFeature eStructuralFeature)
   {
     EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
     if (eAnnotation != null)
@@ -924,9 +1021,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       eAnnotation.getDetails().put
         ("group", getQualifiedName(getNamespace(eStructuralFeature.getEContainingClass().getEPackage()), group));
     }
+    getExtendedMetaData(eStructuralFeature).setGroup(group);
   }
 
   public EStructuralFeature getAffiliation(EStructuralFeature eStructuralFeature)
+  {
+    return getExtendedMetaData(eStructuralFeature).getAffiliation();
+  }
+
+  protected EStructuralFeature basicGetAffiliation(EStructuralFeature eStructuralFeature)
   {
     EAnnotation eAnnotation = getAnnotation(eStructuralFeature, false);
     if (eAnnotation != null)
@@ -968,6 +1071,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       eAnnotation.getDetails().put
         ("affiliation", getQualifiedName(getNamespace(eStructuralFeature.getEContainingClass().getEPackage()), affiliation));
     }
+    getExtendedMetaData(eStructuralFeature).setAffiliation(affiliation);
   }
 
   public EStructuralFeature getAffiliation(EClass eClass, EStructuralFeature eStructuralFeature)
@@ -1099,6 +1203,11 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   public int getWhiteSpaceFacet(EDataType eDataType)
   {
+    return getExtendedMetaData(eDataType).getWhiteSpaceFacet();
+  }
+
+  protected int basicGetWhiteSpaceFacet(EDataType eDataType)
+  {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     if (eAnnotation != null)
     {
@@ -1129,9 +1238,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       eAnnotation.getDetails().put("whiteSpace", WHITE_SPACE_KINDS[whiteSpace]);
     }
+    getExtendedMetaData(eDataType).setWhiteSpaceFacet(whiteSpace);
   }
 
   public List getEnumerationFacet(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getEnumerationFacet();
+  }
+
+  protected List basicGetEnumerationFacet(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     if (eAnnotation != null)
@@ -1172,9 +1287,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       }
       eAnnotation.getDetails().put("enumeration", result.substring(0, result.length() - 1));
     }
+    getExtendedMetaData(eDataType).setEnumerationFacet(literals);
   }
 
   public List getPatternFacet(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getPatternFacet();
+  }
+
+  protected List basicGetPatternFacet(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     if (eAnnotation != null)
@@ -1215,10 +1336,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       }
       eAnnotation.getDetails().put("pattern", result.substring(0, result.length() - 1));
     }
+    getExtendedMetaData(eDataType).setPatternFacet(pattern);
   }
 
-
   public int getTotalDigitsFacet(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getTotalDigitsFacet();
+  }
+
+  protected int basicGetTotalDigitsFacet(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     if (eAnnotation != null)
@@ -1247,9 +1373,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       eAnnotation.getDetails().put("totalDigits", Integer.toString(digits));
     } 
+    getExtendedMetaData(eDataType).setTotalDigitsFacet(digits);
   }
 
   public int getFractionDigitsFacet(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getFractionDigitsFacet();
+  }
+
+  protected int basicGetFractionDigitsFacet(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     if (eAnnotation != null)
@@ -1278,9 +1410,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       eAnnotation.getDetails().put("fractionDigits", Integer.toString(digits));
     } 
+    getExtendedMetaData(eDataType).setFractionDigitsFacet(digits);
   }
 
   public int getLengthFacet(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getLengthFacet();
+  }
+
+  protected int basicGetLengthFacet(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     if (eAnnotation != null)
@@ -1309,10 +1447,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       eAnnotation.getDetails().put("length", Integer.toString(length));
     } 
+    getExtendedMetaData(eDataType).setLengthFacet(length);
   }
 
-
   public int getMinLengthFacet(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getMinLengthFacet();
+  }
+
+  protected int basicGetMinLengthFacet(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     if (eAnnotation != null)
@@ -1341,9 +1484,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       eAnnotation.getDetails().put("minLength", Integer.toString(length));
     } 
+    getExtendedMetaData(eDataType).setMinLengthFacet(length);
   }
 
   public int getMaxLengthFacet(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getMaxLengthFacet();
+  }
+
+  protected int basicGetMaxLengthFacet(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     if (eAnnotation != null)
@@ -1372,9 +1521,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       eAnnotation.getDetails().put("maxLength", Integer.toString(length));
     } 
+    getExtendedMetaData(eDataType).setMaxLengthFacet(length);
   }
 
   public String getMinExclusiveFacet(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getMinExclusiveFacet();
+  }
+
+  protected String basicGetMinExclusiveFacet(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     return
@@ -1398,10 +1553,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       eAnnotation.getDetails().put("minExclusive", literal);
     } 
+    getExtendedMetaData(eDataType).setMinExclusiveFacet(literal);
   }
 
-
   public String getMaxExclusiveFacet(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getMaxExclusiveFacet();
+  }
+
+  protected String basicGetMaxExclusiveFacet(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     return
@@ -1425,9 +1585,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       eAnnotation.getDetails().put("maxExclusive", literal);
     } 
+    getExtendedMetaData(eDataType).setMaxExclusiveFacet(literal);
   }
 
   public String getMinInclusiveFacet(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getMinInclusiveFacet();
+  }
+
+  protected String basicGetMinInclusiveFacet(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     return
@@ -1451,9 +1617,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       eAnnotation.getDetails().put("minInclusive", literal);
     } 
+    getExtendedMetaData(eDataType).setMinInclusiveFacet(literal);
   }
 
   public String getMaxInclusiveFacet(EDataType eDataType)
+  {
+    return getExtendedMetaData(eDataType).getMaxInclusiveFacet();
+  }
+
+  protected String basicGetMaxInclusiveFacet(EDataType eDataType)
   {
     EAnnotation eAnnotation = getAnnotation(eDataType, false);
     return
@@ -1477,6 +1649,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, true);
       eAnnotation.getDetails().put("maxInclusive", literal);
     } 
+    getExtendedMetaData(eDataType).setMaxInclusiveFacet(literal);
   }
 
   public EPackage demandPackage(String namespace)
@@ -1596,4 +1769,811 @@ public class BasicExtendedMetaData implements ExtendedMetaData
   {
     return demandRegistry.values();
   }
+
+
+
+
+
+  public static interface EPackageExtendedMetaData
+  {
+    interface Holder
+    {
+      EPackageExtendedMetaData getExtendedMetaData();
+      void setExtendedMetaData(EPackageExtendedMetaData ePackageExtendedMetaData);
+    }
+
+    boolean isQualified();
+    void setQualified(boolean isQualified);
+  }
+
+  public class EPackageExtendedMetaDataImpl implements EPackageExtendedMetaData
+  {
+    protected EPackage ePackage;
+    protected boolean isInitialized;
+    protected boolean isQualified;
+
+    public EPackageExtendedMetaDataImpl(EPackage ePackage)
+    {
+      this.ePackage = ePackage;
+    }
+
+    public boolean isQualified()
+    {
+      if (!isInitialized)
+      {
+        setQualified(basicIsQualified(ePackage));
+      }
+      return isQualified;
+    }
+
+    public void setQualified(boolean isQualified)
+    {
+      this.isQualified = isQualified;
+      isInitialized = true;
+    }
+  }
+
+  protected EPackageExtendedMetaData getExtendedMetaData(EPackage ePackage)
+  {
+    EPackageExtendedMetaData.Holder holder = (EPackageExtendedMetaData.Holder)ePackage;
+    EPackageExtendedMetaData result = holder.getExtendedMetaData();
+    if (result == null)
+    {
+      holder.setExtendedMetaData(result = createEPackageExtendedMetaData(ePackage));
+    }
+    return result;
+  }
+
+  protected EPackageExtendedMetaData createEPackageExtendedMetaData(EPackage ePackage)
+  {
+    return new EPackageExtendedMetaDataImpl(ePackage);
+  }
+
+
+  protected static final String UNINITIALIZED_STRING = "uninitialized";
+  protected static final int UNINITIALIZED_INT = -2;
+  protected static final EDataType UNINITIALIZED_EDATA_TYPE = EcoreFactory.eINSTANCE.createEDataType();
+  protected static final EStructuralFeature UNINITIALIZED_ESTRUCTURAL_FEATURE = EcoreFactory.eINSTANCE.createEAttribute();
+
+
+  public static interface EClassifierExtendedMetaData
+  {
+    interface Holder
+    {
+      EClassifierExtendedMetaData getExtendedMetaData();
+      void setExtendedMetaData(EClassifierExtendedMetaData eClassifierExtendedMetaData);
+    }
+    String getName();
+    void setName(String name);
+
+    int getContentKind();
+    void setContentKind(int kind);
+
+    int getDerivationKind();
+
+    EDataType getBaseType();
+    void setBaseType(EDataType baseType);
+
+    EDataType getItemType();
+    void setItemType(EDataType itemType);
+
+    List getMemberTypes();
+    void setMemberTypes(List memberTypes);
+
+    int getWhiteSpaceFacet();
+    void setWhiteSpaceFacet(int whiteSpace);
+
+    List getEnumerationFacet();
+    void setEnumerationFacet(List literals);
+
+    List getPatternFacet();
+    void setPatternFacet(List literals);
+
+    int getTotalDigitsFacet();
+    void setTotalDigitsFacet(int digits);
+
+    int getFractionDigitsFacet();
+    void setFractionDigitsFacet(int digits);
+
+    int getLengthFacet();
+    void setLengthFacet(int length);
+    
+    int getMinLengthFacet();
+    void setMinLengthFacet(int length);
+    
+    int getMaxLengthFacet();
+    void setMaxLengthFacet(int length);
+
+    String getMinExclusiveFacet();
+    void setMinExclusiveFacet(String literal);
+
+    String getMaxExclusiveFacet();
+    void setMaxExclusiveFacet(String literal);
+
+    String getMinInclusiveFacet();
+    void setMinInclusiveFacet(String literal);
+
+    String getMaxInclusiveFacet();
+    void setMaxInclusiveFacet(String literal);
+  }
+
+  public class EClassExtendedMetaDataImpl implements EClassifierExtendedMetaData
+  {
+    protected EClass eClass;
+    protected String name = UNINITIALIZED_STRING;
+    protected int contentKind = UNINITIALIZED_INT;
+
+    public EClassExtendedMetaDataImpl(EClass eClass)
+    {
+      this.eClass = eClass;
+    }
+
+    public String getName()
+    {
+      if (name == UNINITIALIZED_STRING)
+      {
+        setName(basicGetName(eClass));
+      }
+      return name;
+    }
+
+    public void setName(String name)
+    {
+      this.name = name;
+    }
+
+    public int getContentKind()
+    {
+      if (contentKind == UNINITIALIZED_INT)
+      {
+        setContentKind(basicGetContentKind(eClass));
+      }
+      return contentKind;
+    }
+
+    public void setContentKind(int kind)
+    {
+      this.contentKind = kind;
+    }
+
+    public int getDerivationKind()
+    {
+      return 0;
+    }
+
+    public EDataType getBaseType()
+    {
+      return null;
+    }
+
+    public void setBaseType(EDataType baseType)
+    {
+      throw new UnsupportedOperationException("Can't set the base type of an EClass");
+    }
+
+    public EDataType getItemType()
+    {
+      return null;
+    }
+
+    public void setItemType(EDataType itemType)
+    {
+      throw new UnsupportedOperationException("Can't set the item type of an EClass");
+    }
+
+    public List getMemberTypes()
+    {
+      return Collections.EMPTY_LIST;
+    }
+
+    public void setMemberTypes(List memberTypes)
+    {
+      throw new UnsupportedOperationException("Can't set the member types of an EClass");
+    }
+
+    public int getWhiteSpaceFacet()
+    {
+      return 0;
+    }
+
+    public void setWhiteSpaceFacet(int whiteSpace)
+    {
+      throw new UnsupportedOperationException("Can't set the white space of an EClass");
+    }
+
+    public List getEnumerationFacet()
+    {
+      return Collections.EMPTY_LIST;
+    }
+
+    public void setEnumerationFacet(List literals)
+    {
+      throw new UnsupportedOperationException("Can't set the enumeration of an EClass");
+    }
+
+    public List getPatternFacet()
+    {
+      return Collections.EMPTY_LIST;
+    }
+
+    public void setPatternFacet(List pattern)
+    {
+      throw new UnsupportedOperationException("Can't set the pattern of an EClass");
+    }
+
+    public int getTotalDigitsFacet()
+    {
+      return -1;
+    }
+
+    public void setTotalDigitsFacet(int digits)
+    {
+      throw new UnsupportedOperationException("Can't set the total digits of an EClass");
+    }
+
+    public int getFractionDigitsFacet()
+    {
+      return -1;
+    }
+
+    public void setFractionDigitsFacet(int digits)
+    {
+      throw new UnsupportedOperationException("Can't set the fraction digits of an EClass");
+    }
+
+    public int getLengthFacet()
+    {
+      return -1;
+    }
+
+    public void setLengthFacet(int length)
+    {
+      throw new UnsupportedOperationException("Can't set the length of an EClass");
+    }
+
+    public int getMinLengthFacet()
+    {
+      return -1;
+    }
+
+    public void setMinLengthFacet(int minLength)
+    {
+      throw new UnsupportedOperationException("Can't set the min length of an EClass");
+    }
+
+    public int getMaxLengthFacet()
+    {
+      return -1;
+    }
+
+    public void setMaxLengthFacet(int maxLength)
+    {
+      throw new UnsupportedOperationException("Can't set the max length of an EClass");
+    }
+
+    public String getMinExclusiveFacet()
+    {
+      return null;
+    }
+
+    public void setMinExclusiveFacet(String literal)
+    {
+      throw new UnsupportedOperationException("Can't set the min exclusive of an EClass");
+    }
+
+    public String getMaxExclusiveFacet()
+    {
+      return null;
+    }
+
+    public void setMaxExclusiveFacet(String literal)
+    {
+      throw new UnsupportedOperationException("Can't set the max exclusive of an EClass");
+    }
+
+    public String getMinInclusiveFacet()
+    {
+      return null;
+    }
+
+    public void setMinInclusiveFacet(String literal)
+    {
+      throw new UnsupportedOperationException("Can't set the min inclusive of an EClass");
+    }
+
+    public String getMaxInclusiveFacet()
+    {
+      return null;
+    }
+
+    public void setMaxInclusiveFacet(String literal)
+    {
+      throw new UnsupportedOperationException("Can't set the max inclusive of an EClass");
+    }
+  }
+
+  public class EDataTypeExtendedMetaDataImpl implements EClassifierExtendedMetaData
+  {
+    protected EDataType eDataType;
+    protected String name = UNINITIALIZED_STRING;
+    protected EDataType baseType = UNINITIALIZED_EDATA_TYPE;
+    protected EDataType itemType = UNINITIALIZED_EDATA_TYPE;
+    protected List memberTypes;
+    protected int derivationKind = UNINITIALIZED_INT;
+    protected int whiteSpace = UNINITIALIZED_INT;
+    protected List enumerationLiterals;
+    protected List pattern;
+    int totalDigits = UNINITIALIZED_INT;
+    int fractionDigits = UNINITIALIZED_INT;
+    int length = UNINITIALIZED_INT;
+    int minLength = UNINITIALIZED_INT;
+    int maxLength = UNINITIALIZED_INT;
+    String minExclusive = UNINITIALIZED_STRING;
+    String maxExclusive = UNINITIALIZED_STRING;
+    String minInclusive = UNINITIALIZED_STRING;
+    String maxInclusive = UNINITIALIZED_STRING;
+
+    public EDataTypeExtendedMetaDataImpl(EDataType eDataType)
+    {
+      this.eDataType = eDataType;
+    }
+
+    public String getName()
+    {
+      if (name == UNINITIALIZED_STRING)
+      {
+        setName(basicGetName(eDataType));
+      }
+      return name;
+    }
+
+    public void setName(String name)
+    {
+      this.name = name;
+    }
+
+    public int getContentKind()
+    {
+      return 0;
+    }
+
+    public void setContentKind(int kind)
+    {
+      throw new UnsupportedOperationException("Can't set the content kind of an EDataType");
+    }
+
+    public int getDerivationKind()
+    {
+      if (derivationKind == UNINITIALIZED_INT)
+      {
+        if (getBaseType() != null)
+        {
+          derivationKind = RESTRICTION_DERIVATION;
+        }
+        else if (getItemType() != null)
+        {
+          derivationKind = LIST_DERIVATION;
+        }
+        else if (!memberTypes.isEmpty())
+        {
+          derivationKind = UNION_DERIVATION;
+        }
+        else
+        {
+          derivationKind = 0;
+        }
+      }
+      return derivationKind;
+    }
+
+    public EDataType getBaseType()
+    {
+      if (baseType == UNINITIALIZED_EDATA_TYPE)
+      {
+        setBaseType(basicGetBaseType(eDataType));
+      }
+      return baseType;
+    }
+
+    public void setBaseType(EDataType baseType)
+    {
+      this.baseType = baseType;
+      derivationKind = UNINITIALIZED_INT;
+    }
+
+    public EDataType getItemType()
+    {
+      if (itemType == UNINITIALIZED_EDATA_TYPE)
+      {
+        setItemType(basicGetItemType(eDataType));
+      }
+      return itemType;
+    }
+
+    public void setItemType(EDataType itemType)
+    {
+      this.itemType = itemType;
+      derivationKind = UNINITIALIZED_INT;
+    }
+
+    public List getMemberTypes()
+    {
+      if (memberTypes == null)
+      {
+        setMemberTypes(basicGetMemberTypes(eDataType));
+      }
+      return memberTypes;
+    }
+
+    public void setMemberTypes(List memberTypes)
+    {
+      this.memberTypes = memberTypes;
+      derivationKind = UNINITIALIZED_INT;
+    }
+
+    public int getWhiteSpaceFacet()
+    {
+      if (whiteSpace == UNINITIALIZED_INT)
+      {
+        setWhiteSpaceFacet(basicGetWhiteSpaceFacet(eDataType));
+      }
+      return whiteSpace;
+    }
+
+    public void setWhiteSpaceFacet(int whiteSpace)
+    {
+      this.whiteSpace = whiteSpace;
+    }
+
+    public List getEnumerationFacet()
+    {
+      if (enumerationLiterals == null)
+      {
+        setEnumerationFacet(basicGetEnumerationFacet(eDataType));
+      }
+      return enumerationLiterals;
+    }
+
+    public void setEnumerationFacet(List literals)
+    {
+      this.enumerationLiterals = literals;
+    }
+
+    public List getPatternFacet()
+    {
+      if (pattern == null)
+      {
+        setPatternFacet(basicGetPatternFacet(eDataType));
+      }
+      return pattern;
+    }
+
+    public void setPatternFacet(List pattern)
+    {
+      this.pattern = pattern;
+    }
+
+    public int getTotalDigitsFacet()
+    {
+      if (totalDigits == UNINITIALIZED_INT)
+      {
+        setTotalDigitsFacet(basicGetTotalDigitsFacet(eDataType));
+      }
+      return totalDigits;
+    }
+
+    public void setTotalDigitsFacet(int digits)
+    {
+      this.totalDigits = digits;
+    }
+
+    public int getFractionDigitsFacet()
+    {
+      if (fractionDigits == UNINITIALIZED_INT)
+      {
+        setFractionDigitsFacet(basicGetFractionDigitsFacet(eDataType));
+      }
+      return fractionDigits;
+    }
+
+    public void setFractionDigitsFacet(int digits)
+    {
+      this.fractionDigits = digits;
+    }
+
+    public int getLengthFacet()
+    {
+      if (length == UNINITIALIZED_INT)
+      {
+        setLengthFacet(basicGetLengthFacet(eDataType));
+      }
+      return length;
+    }
+
+    public void setLengthFacet(int length)
+    {
+      this.length = length;
+    }
+
+    public int getMinLengthFacet()
+    {
+      if (minLength == UNINITIALIZED_INT)
+      {
+        setMinLengthFacet(basicGetMinLengthFacet(eDataType));
+      }
+      return minLength;
+    }
+
+    public void setMinLengthFacet(int minLength)
+    {
+      this.minLength = minLength;
+    }
+
+    public int getMaxLengthFacet()
+    {
+      if (maxLength == UNINITIALIZED_INT)
+      {
+        setMaxLengthFacet(basicGetMaxLengthFacet(eDataType));
+      }
+      return maxLength;
+    }
+
+    public void setMaxLengthFacet(int maxLength)
+    {
+      this.maxLength = maxLength;
+    }
+
+    public String getMinExclusiveFacet()
+    {
+      if (minExclusive == UNINITIALIZED_STRING)
+      {
+        setMinExclusiveFacet(basicGetMinExclusiveFacet(eDataType));
+      }
+      return minExclusive;
+    }
+
+    public void setMinExclusiveFacet(String literal)
+    {
+      this.minExclusive = literal;
+    }
+
+    public String getMaxExclusiveFacet()
+    {
+      if (maxExclusive == UNINITIALIZED_STRING)
+      {
+        setMaxExclusiveFacet(basicGetMaxExclusiveFacet(eDataType));
+      }
+      return maxExclusive;
+    }
+
+    public void setMaxExclusiveFacet(String literal)
+    {
+      this.maxExclusive = literal;
+    }
+
+    public String getMinInclusiveFacet()
+    {
+      if (minInclusive == UNINITIALIZED_STRING)
+      {
+        setMinInclusiveFacet(basicGetMinInclusiveFacet(eDataType));
+      }
+      return minInclusive;
+    }
+
+    public void setMinInclusiveFacet(String literal)
+    {
+      this.minInclusive = literal;
+    }
+
+    public String getMaxInclusiveFacet()
+    {
+      if (maxInclusive == UNINITIALIZED_STRING)
+      {
+        setMaxInclusiveFacet(basicGetMaxInclusiveFacet(eDataType));
+      }
+      return maxInclusive;
+    }
+
+    public void setMaxInclusiveFacet(String literal)
+    {
+      this.maxInclusive = literal;
+    }
+  }
+
+  protected EClassifierExtendedMetaData getExtendedMetaData(EClassifier eClassifier)
+  {
+    EClassifierExtendedMetaData.Holder holder = (EClassifierExtendedMetaData.Holder)eClassifier;
+    EClassifierExtendedMetaData result = holder.getExtendedMetaData();
+    if (result == null)
+    {
+      holder.setExtendedMetaData(result = createEClassifierExtendedMetaData(eClassifier));
+    }
+    return result;
+  }
+
+  protected EClassifierExtendedMetaData createEClassifierExtendedMetaData(EClassifier eClassifier)
+  {
+    if (eClassifier instanceof EClass)
+    {
+      return new EClassExtendedMetaDataImpl((EClass)eClassifier);
+    }
+    else
+    {
+      return new EDataTypeExtendedMetaDataImpl((EDataType)eClassifier);
+    }
+  }
+
+  public static interface EStructuralFeatureExtendedMetaData
+  {
+    interface Holder
+    {
+      EStructuralFeatureExtendedMetaData getExtendedMetaData();
+      void setExtendedMetaData(EStructuralFeatureExtendedMetaData eStructuralFeatureExtendedMetaData);
+    }
+
+    String getName();
+    void setName(String name);
+
+    String getNamespace();
+    void setNamespace(String namespace);
+
+    int getFeatureKind();
+    void setFeatureKind(int kind);
+
+    List getWildcards();
+    void setWildcards(List wildcards);
+
+    int getProcessingKind();
+    void setProcessingKind(int kind);
+
+    EStructuralFeature getGroup();
+    void setGroup(EStructuralFeature group);
+
+    EStructuralFeature getAffiliation();
+    void setAffiliation(EStructuralFeature affiliation);
+
+    Map getValidatorMap();
+  }
+
+  public class EStructuralFeatureExtendedMetaDataImpl implements EStructuralFeatureExtendedMetaData
+  {
+    protected EStructuralFeature eStructuralFeature;
+    protected String name = UNINITIALIZED_STRING;
+    protected String namespace = UNINITIALIZED_STRING;
+    protected int featureKind = UNINITIALIZED_INT;
+    protected List wildcards;
+    protected int processingKind = UNINITIALIZED_INT;
+    protected EStructuralFeature group = UNINITIALIZED_ESTRUCTURAL_FEATURE;
+    protected EStructuralFeature affiliation = UNINITIALIZED_ESTRUCTURAL_FEATURE;
+    protected Map validatorMap;
+
+    public EStructuralFeatureExtendedMetaDataImpl(EStructuralFeature eStructuralFeature)
+    {
+      this.eStructuralFeature = eStructuralFeature;
+    }
+
+    public Map getValidatorMap()
+    {
+      if (validatorMap == null)
+      {
+        validatorMap = new Hashtable();
+      }
+      return validatorMap;
+    }
+
+    public String getName()
+    {
+      if (name == UNINITIALIZED_STRING)
+      {
+        setName(basicGetName(eStructuralFeature));
+      }
+      return name;
+    }
+
+    public void setName(String name)
+    {
+      this.name= name;
+    }
+
+    public String getNamespace()
+    {
+      if (namespace == UNINITIALIZED_STRING)
+      {
+        setNamespace(basicGetNamespace(eStructuralFeature));
+      }
+      return namespace;
+    }
+
+    public void setNamespace(String namespace)
+    {
+      this.namespace = namespace;
+    }
+
+    public int getFeatureKind()
+    {
+      if (featureKind == UNINITIALIZED_INT)
+      {
+        setFeatureKind(basicGetFeatureKind(eStructuralFeature));
+      }
+      return featureKind;
+    }
+
+    public void setFeatureKind(int kind)
+    {
+      this.featureKind = kind;
+    }
+
+    public List getWildcards()
+    {
+      if (wildcards == null)
+      {
+        setWildcards(basicGetWildcards(eStructuralFeature));
+      }
+      return wildcards;
+    }
+
+    public void setWildcards(List wildcards)
+    {
+      this.wildcards = wildcards;
+    }
+
+    public int getProcessingKind()
+    {
+      if (processingKind == UNINITIALIZED_INT)
+      {
+        setProcessingKind(basicGetProcessingKind(eStructuralFeature));
+      }
+      return processingKind;
+    }
+
+    public void setProcessingKind(int kind)
+    {
+      this.processingKind = kind;
+    }
+
+    public EStructuralFeature getGroup()
+    {
+      if (group == UNINITIALIZED_ESTRUCTURAL_FEATURE)
+      {
+        setGroup(basicGetGroup(eStructuralFeature));
+      }
+      return group;
+    }
+
+    public void setGroup(EStructuralFeature group)
+    {
+      this.group = group;
+    }
+
+    public EStructuralFeature getAffiliation()
+    {
+      if (affiliation == UNINITIALIZED_ESTRUCTURAL_FEATURE)
+      {
+        setAffiliation(basicGetAffiliation(eStructuralFeature));
+      }
+      return affiliation;
+    }
+
+    public void setAffiliation(EStructuralFeature affiliation)
+    {
+      this.affiliation = affiliation;
+    }
+  }
+
+  protected EStructuralFeatureExtendedMetaData getExtendedMetaData(EStructuralFeature eStructuralFeature)
+  {
+    EStructuralFeatureExtendedMetaData.Holder holder = (EStructuralFeatureExtendedMetaData.Holder)eStructuralFeature;
+    EStructuralFeatureExtendedMetaData result = holder.getExtendedMetaData();
+    if (result == null)
+    {
+      holder.setExtendedMetaData(result = createEStructuralFeatureExtendedMetaData(eStructuralFeature));
+    }
+    return result;
+  }
+
+  protected EStructuralFeatureExtendedMetaData createEStructuralFeatureExtendedMetaData(EStructuralFeature eStructuralFeature)
+  {
+    return new EStructuralFeatureExtendedMetaDataImpl(eStructuralFeature);
+  }
+
 }
