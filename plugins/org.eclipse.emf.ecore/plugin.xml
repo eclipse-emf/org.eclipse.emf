@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.2 2004/03/20 20:54:00 marcelop Exp $
+ * $Id: plugin.xml,v 1.3 2004/05/05 19:33:32 emerks Exp $
  */
 -->
 
@@ -103,4 +103,13 @@
         class = "org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage" />
   </extension>
 
+  <extension
+      id="diagnostic"
+      name="%_UI_EMFDiagnostic_marker"
+      point="org.eclipse.core.resources.markers">
+    <super type="org.eclipse.core.resources.problemmarker"/>
+    <persistent value="true"/>
+    <attribute name="diagnostic"/>
+  </extension>
+  
 </plugin>
