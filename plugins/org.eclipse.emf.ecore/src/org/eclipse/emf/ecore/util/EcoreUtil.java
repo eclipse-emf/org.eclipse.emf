@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.10 2004/09/30 13:24:49 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.11 2004/10/14 19:07:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -765,6 +765,14 @@ public class EcoreUtil
      * The collection of objects being iterated over.
      */
     protected Collection emfObjects;
+    
+    /**
+     * The most recently created iterator over a resource set's resources.
+     * This iterator needs special handling because it returns <code>true</code> for <code>hasNext()</code> 
+     * even when the list is exhausted.
+     * This ensures that any growth in the resources list will not be overlooked.
+     */
+    protected ResourcesIterator resourceSetIterator;
 
     /**
      * Creates an instance for the given collection of objects.
@@ -826,32 +834,136 @@ public class EcoreUtil
     }
 
     /**
+     * Returns the next object and advances the iterator.
+     * This override handles the {@link #resourceSetIterator} in a special way,
+     * i.e., it skips the null object that iterator yields as the last fake item of the list.
+     * @return the next object.
+     */
+    public boolean hasNext()
+    {
+      Iterator iterator;
+      if (!includeRoot && data == null)
+      {
+        nextPruneIterator = getChildren(object);
+        add(nextPruneIterator);
+        iterator = nextPruneIterator;
+      }
+      else
+      {
+        // We don't create an iterator stack until the root mapping itself has been returned by next once.
+        // After that the stack should be non-empty and the top iterator should yield true for hasNext.
+        //
+        if (data == null)
+        {
+          return true;
+        }
+        else if (isEmpty())
+        {
+          return false;
+        }
+        else
+        {
+          iterator = (Iterator)data[size - 1];
+        }
+      }
+      
+      // If we are on the special resource set iterator, and there isn't really a next object at this point...
+      //
+      if (iterator == resourceSetIterator && !resourceSetIterator.reallyHasNext())
+      {
+        // Skip the dummy null object and test again.
+        //
+        next();
+        return hasNext();
+      }
+      else
+      {
+        return iterator.hasNext();
+      }
+    }
+    
+    /**
+     * A special iterator that's tolerant of growth in the list of resources 
+     * which can result from demand loading when traversing the tree of contents.
+     */
+    protected static class ResourcesIterator implements Iterator
+    {
+      /**
+       * The resources to iterator over.
+       */
+      protected List resources;
+      
+      /**
+       * The current index of the iterator.
+       */
+      protected int index = 0;
+      
+      
+      /**
+       * Constructs an instance.
+       * @param resources the list of resources.
+       */
+      public ResourcesIterator(List resources)
+      {
+        this.resources = resources;
+      }
+      
+      /**
+       * Returns whether there really are any resources left.
+       * @return whether there really are any resources left.
+       */
+      public boolean reallyHasNext()
+      {
+        return index < resources.size();
+      }
+      
+      /**
+       * Returns whether there might be resources left by the time we next check.
+       * This returns <code>true</code> when the index is equal to the size, 
+       * because the tree iterator will still be set to yield the last of the contents of the resource, 
+       * and accessing that may cause another resource to be loaded.
+       * @return whether there might be resources left by the time we next check.
+       */
+      public boolean hasNext()
+      {
+        return index <= resources.size();
+      }
+
+      /**
+       * Returns the next item, or <code>null</code> if there isn't one.
+       * @return the next item, or <code>null</code> if there isn't one.
+       */
+      public Object next()
+      {
+        if (index >= resources.size())
+        {
+          ++index;
+          return null;
+        }
+        else
+        {
+          return resources.get(index++);
+        }
+      }
+
+      /**
+       * @throws UnsupportedOperationException always.
+       */
+      public void remove()
+      {
+        throw new UnsupportedOperationException();
+      }
+    }
+    
+    /**
      * Returns an iterator over the {@link ResourceSet#getResources() children} of the given parent resource set.
+     * It also records the result in {@link #resourceSetIterator} for special handling in {@link #hasNext()}.
      * @param resourceSet the parent resource set.
      * @return the children iterator.
      */
     protected Iterator getResourceSetChildren(ResourceSet resourceSet)
     {
-      final List resources = resourceSet.getResources();
-      return new Iterator()
-        {
-          int index = 0;
-
-          public boolean hasNext()
-          {
-            return index < resources.size();
-          }
-
-          public Object next()
-          {
-            return resources.get(index++);
-          }
-
-          public void remove()
-          {
-            throw new UnsupportedOperationException();
-          }
-        };
+      return resourceSetIterator = new ResourcesIterator(resourceSet.getResources());
     }
 
     /**
