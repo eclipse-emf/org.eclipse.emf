@@ -50,7 +50,7 @@ to be in the &quot;plugins&quot; directory nor in the workspace.<br/><br/></li>
 <br/> 
 java 
 <br/>&nbsp;&nbsp;-classpath <i>&lt;eclipseDir&gt;</i>/startup.jar org.eclipse.core.launcher.Main 
-<br/>&nbsp;&nbsp;-data <i>&lt;full path to a workspace - usually a temporary directory&gt;</i>
+<br/>&nbsp;&nbsp;-data <i>&lt;full path to a workspace - ideally an empty directory&gt;</i>
 <br/>&nbsp;&nbsp;-application org.eclipse.ant.core.antRunner
 <br/>&nbsp;&nbsp;-buildfile <i>&lt;full path to your script&gt;</i>
 <br/><br/></li>
@@ -62,9 +62,10 @@ should copy it to a different location and run the Ant scripts from there.</li>
 </ul>
 <h3>org.eclipse.emf.ant/examples/library</h3>
 <p>
-This directory contains the famous library model expressed as a Rose model and as a XML 
-schema.  The Ant scripts available in the &quot;build&quot; directory are able to generate the 
-code from both sources.
+This directory contains the famous library model expressed as a Rose model and as XML 
+schemas.  One schema, <i>library.xsd</i>, defines all the model elements in itself while the 
+<i>libraryPart*.xsd</i> schemas contain subsets of it.  In the &quot;build&quot; directory 
+you will find Ant scripts to generate code from each model specification.
 </p>
 <h3>org.eclipse.emf.ant/examples/jet</h3>
 <p>

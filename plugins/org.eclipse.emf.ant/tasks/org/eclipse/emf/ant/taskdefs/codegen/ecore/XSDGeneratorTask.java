@@ -12,9 +12,16 @@
  *
  * </copyright>
  *
- * $Id: XSDGeneratorTask.java,v 1.1 2004/12/30 08:15:34 marcelop Exp $
+ * $Id: XSDGeneratorTask.java,v 1.2 2005/01/27 01:37:14 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.tools.ant.BuildException;
 
 import org.eclipse.emf.codegen.ecore.XSD2GenModel;
 
@@ -53,13 +60,91 @@ import org.eclipse.emf.codegen.ecore.XSD2GenModel;
  *        &lt;arg line=&quot;-packages http://www.example.eclipse.org/Library&quot;/&gt;
  *  &lt;/emf.XSD2Java&gt;
  * </pre>
+ * <pre>
+ * &lt;emf.XSD2Java genModel=&quot;c:/lib/emf/lib.genmodel&quot; 
+ *                modelProject=&quot;c:/lib&quot; 
+ *                modelProjectFragmentPath=&quot;src&quot;&gt;
+ *        &lt;arg line=&quot;-packages http://www.example.eclipse.org/Library&quot;/&gt;
+ *        &lt;model uri=&quot;http://www.example.eclipse.org/library.xsd&quot;/&gt;
+ *        &lt;model file=&quot;c:/common.xsd&quot;/&gt;
+ *  &lt;/emf.XSD2Java&gt;
+ * </pre>
  * 
  * @since 2.1.0
  */
 public class XSDGeneratorTask extends GeneratorTask
 {
-  protected void createGenModel() throws Exception
+  public static class Model
   {
-    new XSD2GenModel().execute(getProgressMonitor(), getCommandline().getArguments());
+    private File file;
+    private String uri;
+    
+    public File getFile()
+    {
+      return file;
+    }
+
+    public void setFile(File file)
+    {
+      this.file = file;
+    }
+    
+    public String getUri()
+    {
+      return uri;
+    }
+    
+    public void setUri(String uri)
+    {
+      this.uri = uri;
+    }
+  }
+  
+  private List models;
+  
+  public Model createModel()
+  {
+    Model model = new Model();
+    if (models == null)
+    {
+      models = new ArrayList();
+    }
+    models.add(model);
+    return model;
+  }
+  
+  protected void checkAttributes() throws BuildException
+  {
+    if (models != null)
+    {
+      useModelAttribute = false;
+      for (Iterator i = models.iterator(); i.hasNext();)
+      {
+        Model model = (Model)i.next();
+        assertTrue("Either the 'file' or the 'uri' attributes of a 'model' element must be specified.", model.getFile() != null || model.getUri() != null);
+      }
+    }
+    
+    super.checkAttributes();
+  }
+  
+  protected void addGenModelArguments()
+  {
+    super.addGenModelArguments();
+    
+    if (models != null)
+    {
+      for (Iterator i = models.iterator(); i.hasNext();)
+      {
+        Model model = (Model)i.next();
+        String argument = model.getUri() != null ? model.getUri() : model.getFile().getAbsolutePath();
+        getCommandline().createArgument(true).setValue(argument);
+      }
+    }
+  }
+  
+  protected void createGenModel(String[] arguments) throws Exception
+  {
+    new XSD2GenModel().execute(getProgressMonitor(), arguments);
   }
 }
