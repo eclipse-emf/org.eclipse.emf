@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.8 2004/07/20 16:18:30 emerks Exp $
+ * $Id: GenModelPackageImpl.java,v 1.9 2004/08/12 14:50:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -215,6 +215,9 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
 
     // Initialize created meta-data
     theGenModelPackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theGenModelPackage.freeze();
 
     return theGenModelPackage;
   }

@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcorePackageImpl.java,v 1.5 2004/07/20 16:18:15 emerks Exp $
+ * $Id: Ecore2EcorePackageImpl.java,v 1.6 2004/08/12 14:50:34 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
@@ -110,6 +110,9 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
 
     // Initialize created meta-data
     theEcore2EcorePackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theEcore2EcorePackage.freeze();
 
     return theEcore2EcorePackage;
   }

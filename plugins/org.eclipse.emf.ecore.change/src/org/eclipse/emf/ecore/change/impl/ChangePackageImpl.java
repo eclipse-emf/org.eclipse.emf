@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.5 2004/07/20 16:18:27 emerks Exp $
+ * $Id: ChangePackageImpl.java,v 1.6 2004/08/12 14:50:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -153,6 +153,9 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
 
     // Initialize created meta-data
     theChangePackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theChangePackage.freeze();
 
     return theChangePackage;
   }

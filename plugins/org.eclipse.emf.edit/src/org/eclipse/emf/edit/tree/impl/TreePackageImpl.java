@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreePackageImpl.java,v 1.5 2004/07/20 16:18:11 emerks Exp $
+ * $Id: TreePackageImpl.java,v 1.6 2004/08/12 14:50:31 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -109,6 +109,9 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
 
     // Initialize created meta-data
     theTreePackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theTreePackage.freeze();
 
     return theTreePackage;
   }

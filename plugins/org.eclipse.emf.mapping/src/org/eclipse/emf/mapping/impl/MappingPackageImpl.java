@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingPackageImpl.java,v 1.5 2004/07/20 16:18:49 emerks Exp $
+ * $Id: MappingPackageImpl.java,v 1.6 2004/08/12 14:51:02 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -166,6 +166,9 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
 
     // Initialize created meta-data
     theMappingPackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theMappingPackage.freeze();
 
     return theMappingPackage;
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackageImpl.java,v 1.4 2004/07/20 16:18:44 emerks Exp $
+ * $Id: JavaPackageImpl.java,v 1.5 2004/08/12 14:51:00 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -225,6 +225,9 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
 
     // Initialize created meta-data
     theJavaPackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theJavaPackage.freeze();
 
     return theJavaPackage;
   }
