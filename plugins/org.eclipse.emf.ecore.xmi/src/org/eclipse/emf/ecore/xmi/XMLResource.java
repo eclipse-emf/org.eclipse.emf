@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.5 2004/04/07 21:00:09 emerks Exp $
+ * $Id: XMLResource.java,v 1.6 2004/04/18 23:14:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -132,6 +132,12 @@ public interface XMLResource extends Resource
   String OPTION_PROCESS_DANGLING_HREF_RECORD   = "RECORD";
 
   /**
+   * This options allows you to {@link #getEObjectToExtensionMap record} unknown features.
+   * The default is <code>Boolean.FALSE</code> unless set to <code>Boolean.TRUE</code> explicitly.
+   */
+  String OPTION_RECORD_UNKNOWN_FEATURE = "RECORD_UNKNOWN_FEATURE";
+
+  /**
    * Disable notifications during load, and enable them at the
    * end of a load.
    */
@@ -233,11 +239,17 @@ public interface XMLResource extends Resource
   void setID(EObject eObject, String id);
 
   /**
+   * Returns the map with {@link EObject} as keys and corresponding {@link org.eclipse.emf.ecore.xml.type.AnyType}s as the values.
+   * It's used to record unrecognized elements and attributes.
+   */
+  Map getEObjectToExtensionMap();
+
+  /**
    * This interface represents a mapping from Ecore constructs to the
    * XML representation of those constructs. It is used by the
    * XML serializer and deserializer to load and save XML files.
    */
-  public interface XMLMap
+  interface XMLMap
   {
     /**
      * Add an XMLInfo object for an Ecore construct to
@@ -300,7 +312,7 @@ public interface XMLResource extends Resource
    * The XMLMap interface maintains the association between XMLInfo
    * objects and the ecore constructs they describe.
    */
-  public interface XMLInfo
+  interface XMLInfo
   {
     /**
      * These constants are used to specify the XML representation
