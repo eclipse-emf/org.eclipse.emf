@@ -42,7 +42,7 @@ http://www.eclipse.org/legal/cpl-v10.html
          id="org.eclipse.xsd.edit"
          download-size="0"
          install-size="0"
-         version="2.0.0"/>
+         version="2.0.1"/>
 
    <plugin
          id="org.eclipse.xsd.editor"
@@ -54,7 +54,7 @@ http://www.eclipse.org/legal/cpl-v10.html
          id="org.eclipse.xsd.test"
          download-size="0"
          install-size="0"
-         version="2.0.0"/>
+         version="2.0.1"/>
 
    <plugin
          id="org.eclipse.emf.mapping.xsd2ecore"
