@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.4 2004/04/06 03:26:15 davidms Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.5 2004/05/11 13:05:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -215,6 +215,16 @@ public class ETypedElementItemProvider
            // Filter out types that aren't permitted.
            //
            Collection result = super.getChoiceOfValues(object);
+
+           for (Iterator i = EcorePackage.eINSTANCE.getEClassifiers().iterator(); i.hasNext(); )
+           {
+             Object classifier = i.next();
+             if (!result.contains(classifier))
+             {
+               result.add(classifier);
+             }
+           }
+
            if (object instanceof EAttribute)
            {
              for (Iterator i = result.iterator(); i.hasNext(); )
