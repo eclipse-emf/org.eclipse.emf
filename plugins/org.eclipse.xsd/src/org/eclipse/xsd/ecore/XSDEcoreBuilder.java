@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.4 2004/04/01 12:36:33 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.5 2004/04/10 20:29:50 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1668,8 +1668,15 @@ public class XSDEcoreBuilder extends MapBuilder
       String nameComponent = (String)i.next();
       if (nameComponent.length() > 0)
       {
-        result.append(Character.toUpperCase(nameComponent.charAt(0)));
-        result.append(nameComponent.substring(1));
+        if (result.length() > 0 || isUpperCase)
+        {
+          result.append(Character.toUpperCase(nameComponent.charAt(0)));
+          result.append(nameComponent.substring(1));
+        }
+        else
+        {
+          result.append(nameComponent);
+        }
       }
     }
 
@@ -1699,7 +1706,7 @@ public class XSDEcoreBuilder extends MapBuilder
         }
         if (Character.isUpperCase(curChar) || (!lastIsLower && Character.isDigit(curChar)) || curChar == separator)
         {
-          if ((lastIsLower || curChar == separator) && currentWord.length() > 0)
+          if (lastIsLower && currentWord.length() > 1 || curChar == separator && currentWord.length() > 0)
           {
             result.add(currentWord.toString());
             currentWord = new StringBuffer();
