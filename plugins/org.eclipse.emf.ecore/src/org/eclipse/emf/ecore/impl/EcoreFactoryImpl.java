@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.4 2004/04/01 16:15:10 emerks Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.5 2004/04/05 20:07:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -318,6 +318,22 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
     return eEnum;
   }
 
+  protected Boolean booleanValueOf(String initialValue)
+  {
+    if ("true".equalsIgnoreCase(initialValue))
+    {
+      return Boolean.TRUE;
+    }
+    else if ("false".equalsIgnoreCase(initialValue))
+    {
+      return Boolean.FALSE;
+    }
+    else
+    {
+      throw new IllegalArgumentException("Expecting true or false");
+    }
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -325,7 +341,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Boolean createEBooleanObjectFromString(EDataType metaObject, String initialValue) 
   {
-    return initialValue == null ? null : Boolean.valueOf(initialValue);
+    return initialValue == null ? null : booleanValueOf(initialValue);
   }
 
   /**
@@ -641,7 +657,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Boolean createEBooleanFromString(EDataType metaObject, String initialValue) 
   {
-    return initialValue == null ? null : Boolean.valueOf(initialValue);
+    return initialValue == null ? null : booleanValueOf(initialValue);
   }
 
   /**
