@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.6 2004/05/23 04:06:25 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.7 2004/05/28 19:21:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1576,7 +1576,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public void initialize(EPackage ePackage)
   {
-    if (ePackage != getEcorePackage())
+    boolean isDifferentPackage = ePackage != getEcorePackage();
+    if (isDifferentPackage)
     {
       setEcorePackage(ePackage);
   
@@ -1656,8 +1657,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       genPackage.initialize(nestedEPackage);
       getNestedGenPackages().add(genPackage);
     }
-  
-    setLoadInitialization(isBigModel());
+
+    if (isDifferentPackage)
+    {
+      setLoadInitialization(isBigModel());
+    }
   }
 
   protected boolean hasModelContribution()
