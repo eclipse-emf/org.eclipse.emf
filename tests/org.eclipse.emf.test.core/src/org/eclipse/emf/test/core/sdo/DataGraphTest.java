@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.7 2004/10/28 21:19:01 marcelop Exp $
+ * $Id: DataGraphTest.java,v 1.8 2004/10/29 16:05:22 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo;
 
@@ -72,7 +72,7 @@ public class DataGraphTest extends TestCase
     TestSuite ts = new TestSuite("DataGraphTest");
     ts.addTest(new DataGraphTest("testSave"));
     ts.addTest(new DataGraphTest("testLoad"));
-    ts.addTest(new DataGraphTest("testOldContainer"));
+    ts.addTest(new DataGraphTest("testChangeSummary"));
     ts.addTest(new DataGraphTest("testMultivalueXPathAccess"));
     return ts;
   }
@@ -190,25 +190,42 @@ public class DataGraphTest extends TestCase
     assertEquals(0, ((List)loadedObject.get("child")).size());
   }
 
-  // bugzilla 70560,70561,70562 
-  public void testOldContainer()
+  //bugzilla 70560,70561,70562 
+  public void testChangeSummary()
   {
     DataObject rootObject = eDataGraph.getRootObject();
     assertEquals("Root", rootObject.getString("name"));
-    DataObject childObject = rootObject.getDataObject("child.0").getDataObject("child.0");
+    DataObject parentObject = rootObject.getDataObject("child.0");
+    DataObject childObject = parentObject.getDataObject("child.0");
     assertEquals("Child", childObject.getString("name"));
 
     ChangeSummary changeSummary = eDataGraph.getChangeSummary();
     changeSummary.beginLogging();
+    
+    // modification
     rootObject.setString("name", "Root2");
+    
+    // deletion
     childObject.delete();
     assertNull(childObject.getContainer());
+    
+    // addition
+    DataObject newChildObject = parentObject.createDataObject("child", "testPackage", "testClass");
+    newChildObject.set("name", "NewChild");
+    
     changeSummary.endLogging();
 
     assertEquals("Root2", rootObject.getString("name"));
     assertNull(((EChangeSummary)changeSummary).getOldContainer(rootObject));
     assertEquals(changeSummary, childObject.getContainer());
-    assertEquals(rootObject.getDataObject("child.0"), ((EChangeSummary)changeSummary).getOldContainer(childObject));
+    assertEquals(rootObject.getDataObject("child[1]"), ((EChangeSummary)changeSummary).getOldContainer(childObject));
+    
+    assertTrue(changeSummary.isCreated(newChildObject));
+    assertTrue(changeSummary.isDeleted(childObject));
+    
+    assertTrue(changeSummary.getChangedDataObjects().contains(rootObject));
+    assertFalse(changeSummary.isCreated(rootObject));
+    assertFalse(changeSummary.isDeleted(rootObject));
   }
 
   // bugzilla 70563
