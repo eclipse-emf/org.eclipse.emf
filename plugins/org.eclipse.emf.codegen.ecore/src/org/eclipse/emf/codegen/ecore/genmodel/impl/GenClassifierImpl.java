@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifierImpl.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenClassifierImpl.java,v 1.3 2004/05/26 15:17:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -182,5 +182,10 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
   public GenClassifier getConstraintImplementor(String constraint)
   {
     return this;
+  }
+
+  public boolean hasOnlyDefaultConstraints()
+  {
+    return false;
   }
 } 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeValidator.java,v 1.2 2004/05/21 22:13:38 elena Exp $
+ * $Id: XMLTypeValidator.java,v 1.3 2004/05/26 15:17:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -230,11 +230,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateAnyType(AnyType anyType, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validate_EveryMultiplicityConforms(anyType, diagnostics, context);
-    if (result || diagnostics != null) result &= validate_EveryDataValueConforms(anyType, diagnostics, context);
-    if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(anyType, diagnostics, context);
-    if (result || diagnostics != null) result &= validate_EveryProxyResolves(anyType, diagnostics, context);
-    return result;
+    return validate_EveryDefaultConstraint(anyType, diagnostics, context);
   }
 
   /**
@@ -244,11 +240,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateSimpleAnyType(SimpleAnyType simpleAnyType, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validate_EveryMultiplicityConforms(simpleAnyType, diagnostics, context);
-    if (result || diagnostics != null) result &= validate_EveryDataValueConforms(simpleAnyType, diagnostics, context);
-    if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(simpleAnyType, diagnostics, context);
-    if (result || diagnostics != null) result &= validate_EveryProxyResolves(simpleAnyType, diagnostics, context);
-    return result;
+    return validate_EveryDefaultConstraint(simpleAnyType, diagnostics, context);
   }
 
   /**
@@ -258,11 +250,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateXMLTypeDocumentRoot(XMLTypeDocumentRoot xmlTypeDocumentRoot, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validate_EveryMultiplicityConforms(xmlTypeDocumentRoot, diagnostics, context);
-    if (result || diagnostics != null) result &= validate_EveryDataValueConforms(xmlTypeDocumentRoot, diagnostics, context);
-    if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(xmlTypeDocumentRoot, diagnostics, context);
-    if (result || diagnostics != null) result &= validate_EveryProxyResolves(xmlTypeDocumentRoot, diagnostics, context);
-    return result;
+    return validate_EveryDefaultConstraint(xmlTypeDocumentRoot, diagnostics, context);
   }
 
   /**

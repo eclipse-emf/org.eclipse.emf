@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.7 2004/05/07 22:39:33 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.8 2004/05/26 15:17:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1822,6 +1822,19 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
     }
     return null;
+  }
+
+  public boolean hasOnlyDefaultConstraints()
+  {
+    for (Iterator i = getAllGenConstraints().iterator(); i.hasNext(); )
+    {
+      String genConstraint = (String)i.next();
+      if (getConstraintDelegate(genConstraint) != null)
+      {
+        return false;
+      }
+    }
+    return true;
   }
 
   public GenOperation getInvariantOperation(String constraint)

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.1 2004/05/05 19:54:33 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.2 2004/05/26 15:17:31 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -154,6 +154,8 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	{
 <%if (genClassifier.getAllGenConstraints().isEmpty()) {%>
 		return true;
+<%} else if (genClassifier.hasOnlyDefaultConstraints()) {%>
+		return validate_EveryDefaultConstraint(<%if (!((GenClass)genClassifier).isEObjectExtension()){%>(<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)<%}%><%=genClassifier.getSafeUncapName()%>, <%=diagnostics%>, <%=context%>);
 <%} else { boolean first = true;%>
 <%for (Iterator j=genClassifier.getAllGenConstraints().iterator(); j.hasNext(); ) { String constraint = (String)j.next(); 
   GenClassifier constraintImplementor = genClassifier.getConstraintImplementor(constraint); 
