@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.7 2005/02/24 18:09:36 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.8 2005/03/01 21:16:21 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.Test;
@@ -35,6 +36,7 @@ import org.eclipse.emf.ecore.sdo.EProperty;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.xsd.impl.type.XSDDateType;
 
 import com.example.sdo.ipo.Address;
 import com.example.sdo.ipo.DocumentRoot;
@@ -61,6 +63,10 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 
   protected ItemType itemTypeElementValue;
 
+  protected HashMap hashMap = new HashMap();
+
+  protected Object mapValue;
+
   public StaticIPOSDOAccessorTest(String name)
   {
     super(name);
@@ -69,6 +75,9 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite();
+
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getFromMap").setWarmUp(500).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("putInMap").setWarmUp(2000).setRepetitions(REPETITIONS_10));
 
     testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByGenerated").setWarmUp(3000).setRepetitions(REPETITIONS_10));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByGenerated").setWarmUp(1000).setRepetitions(REPETITIONS_10));
@@ -211,6 +220,90 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     catch (IOException e)
     {
     }
+  }
+
+  private void initMap()
+  {
+    USAddress shipToAddress = ipoFactoryInstance.createUSAddress();
+    shipToAddress.setCity("Austin");
+    shipToAddress.setName("The Address");
+    shipToAddress.setState(USState.AR_LITERAL);
+    shipToAddress.setStreet("24 Lakeshore Dr.");
+    shipToAddress.setZip(new BigInteger("78741"));
+
+    USAddress billToAddress = ipoFactoryInstance.createUSAddress();
+    billToAddress.setCity("Paris");
+    billToAddress.setName("One of many");
+    billToAddress.setState(USState.AK_LITERAL);
+    billToAddress.setStreet("411 Duplex Av.");
+    billToAddress.setZip(new BigInteger("14665"));
+
+    Items items = ipoFactoryInstance.createItems();
+    for (int i = 0; i < NUM_ITEMS; i++)
+    {
+      ItemType itemElement = ipoFactoryInstance.createItemType();
+      itemElement.setComment("comment " + i);
+      itemElement.setPartNum("part num " + i + 10);
+      itemElement.setProductName("The " + i + " name");
+      itemElement.setQuantity(new BigInteger("133"));
+      itemElement.setShipDate(shipDate0);
+      itemElement.setUSPrice(new BigDecimal(100 + i));
+      items.getItem().add(itemElement);
+    }
+
+    hashMap.put(shipToProp, shipToAddress);
+    hashMap.put(billToProp, billToAddress);
+    // leave comment not set.
+    hashMap.put(itemsProp, items);
+    hashMap.put(orderDateProp, new XSDDateType().getValue("2006-02-10"));
+    hashMap.put(productNameProp, "The 0 name");
+    hashMap.put(quantityProp, new BigInteger("133"));
+    hashMap.put(usPriceProp, new BigDecimal(100));
+    hashMap.put(itemCommentProp, "comment 0");
+    hashMap.put(shipDateProp, new XSDDateType().getValue("2006-03-10"));
+    hashMap.put(partNumProp, "part num 0");
+  }
+
+  /**
+   * Tests HashMap (not EMF) access time. 
+   */
+  public void getFromMap()
+  {
+    initMap();
+    startMeasuring();
+    for (int i = 0; i < ITERATIONS_200K; i++)
+    {
+      if (i % 2 == 0)
+      { // like set
+        mapValue = hashMap.get(quantityProp);
+      }
+      else
+      {
+        mapValue = hashMap.get(quantityProp);
+      }
+    }
+    stopMeasuring();
+  }
+
+  /**
+   * Tests HashMap (not EMF) access time. 
+   */
+  public void putInMap()
+  {
+    initMap();
+    startMeasuring();
+    for (int i = 0; i < ITERATIONS_200K; i++)
+    {
+      if (i % 2 == 0)
+      { // to set to a new value each time.
+        hashMap.put(itemCommentProp, "comment x");
+      }
+      else
+      {
+        hashMap.put(itemCommentProp, "comment y");
+      }
+    }
+    stopMeasuring();
   }
 
   public void getBigIntegerByGenerated()
