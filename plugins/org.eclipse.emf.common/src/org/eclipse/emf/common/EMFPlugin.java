@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.4 2004/09/29 14:39:44 emerks Exp $
+ * $Id: EMFPlugin.java,v 1.5 2004/10/20 14:33:58 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -64,7 +64,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
     {
       result = Platform.isRunning();
     }
-    catch (Exception exception)
+    catch (Throwable exception)
     {
     }
     IS_ECLIPSE_RUNNING = result;
