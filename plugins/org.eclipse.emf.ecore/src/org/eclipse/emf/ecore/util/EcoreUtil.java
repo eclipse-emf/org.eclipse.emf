@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.5 2004/05/14 13:50:17 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.6 2004/05/23 04:19:35 davidms Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -44,6 +44,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -168,9 +169,12 @@ public class EcoreUtil
 
   /**
    * Returns the resolved object represented by proxy. Proxy chains are followed.
+   * If resourceSet is null, the global package registry is consulted to obtain a
+   * package registered against the proxy URI, less its fragment, in the same manner
+   * as the default resource set implementation's fallback behaviour.
    * @param proxy the proxy to be resolved.
    * @param resourceSet the resource set in which to resolve.
-   * @return the resolved object, or the proxy if unable to resolve.
+   * @return the resolved object, or the proxy if unable to resolve. 
    */
   public static EObject resolve(EObject proxy, ResourceSet resourceSet)
   {
@@ -179,7 +183,25 @@ public class EcoreUtil
     {
       try
       {
-        EObject resolvedObject = resourceSet.getEObject(proxyURI, true);
+        EObject resolvedObject = null;
+
+        if (resourceSet != null)
+        {
+          resolvedObject = resourceSet.getEObject(proxyURI, true);
+        }
+        else
+        {
+          EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(proxyURI.trimFragment().toString());
+          if (ePackage != null)
+          {
+            Resource resource =  ePackage.eResource();
+            if (resource != null)
+            {
+              resolvedObject = resource.getEObject(proxyURI.fragment().toString());
+            }
+          }
+        }
+
         if (resolvedObject != null && resolvedObject != proxy)
         {
           return resolve(resolvedObject, resourceSet);
@@ -195,68 +217,32 @@ public class EcoreUtil
 
   /**
    * Returns the resolved object represented by proxy. Proxy chains are followed.
+   * If resourceContext is null or not in a resource set, the global package registry is
+   * consulted to obtain a package registered against the proxy URI, less its fragment,
+   * in the same manner as the default resource set implementation's fallback behaviour.
    * @param proxy the proxy to be resolved.
    * @param resourceContext a context resource whose resource set is used for the resolve.
    * @return the resolved object, or the proxy if unable to resolve.
    */
   public static EObject resolve(EObject proxy, Resource resourceContext)
   {
-    URI proxyURI = ((InternalEObject)proxy).eProxyURI();
-    if (proxyURI != null)
-    {
-      ResourceSet resourceSet = resourceContext.getResourceSet();
-      if (resourceSet != null)
-      {
-        try 
-        {
-          EObject resolvedObject = resourceSet.getEObject(proxyURI, true);
-          if (resolvedObject != null && resolvedObject != proxy)
-          {
-            return resolve(resolvedObject, resourceSet);
-          }
-        }
-        catch (RuntimeException exception)
-        {
-          // Failure to resolve is ignored.
-        }
-      }
-    }
-    return proxy;
+    return resolve(proxy, resourceContext != null ? resourceContext.getResourceSet() : null);
   }
 
   /**
    * Returns the resolved object represented by proxy. Proxy chains are followed.
+   * If objectContext is null or not in a resource that is in a resource set, the
+   * global package registry is consulted to obtain a package registered against
+   * the proxy URI, less its fragment, in the same manner as the default resource
+   * set implementation's fallback behaviour.
    * @param proxy the proxy to be resolved.
    * @param objectContext a context object whose resource set is used for the resolve.
    * @return the resolved object, or the proxy if unable to resolve.
    */
   public static EObject resolve(EObject proxy, EObject objectContext)
   {
-    URI proxyURI = ((InternalEObject)proxy).eProxyURI();
-    if (proxyURI != null)
-    {
-      Resource resource = objectContext.eResource();
-      if (resource != null)
-      {
-        ResourceSet resourceSet = resource.getResourceSet();
-        if (resourceSet != null)
-        {
-          try
-          {
-            EObject resolvedObject = resourceSet.getEObject(proxyURI, true);
-            if (resolvedObject != null && resolvedObject != proxy)
-            {
-              return resolve(resolvedObject, resourceSet);
-            }
-          }
-          catch (RuntimeException exception)
-          {
-            // Failure to resolve is ignored.
-          }
-        }
-      }
-    }
-    return proxy;
+    Resource resourceContext = objectContext != null ? objectContext.eResource() : null;
+    return resolve(proxy, resourceContext != null ? resourceContext.getResourceSet() : null);
   }
 
   /**
