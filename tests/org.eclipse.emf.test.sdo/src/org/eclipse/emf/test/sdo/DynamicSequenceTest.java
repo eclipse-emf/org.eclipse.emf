@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicSequenceTest.java,v 1.1 2005/01/28 21:30:11 bportier Exp $
+ * $Id: DynamicSequenceTest.java,v 1.2 2005/02/04 14:16:53 bportier Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -52,7 +52,7 @@ public class DynamicSequenceTest extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("DynamicSequenceTest");
-    ts.addTest(new DynamicSequenceTest("SDOClient"));
+    ts.addTest(new DynamicSequenceTest("testDynamicSequence"));
     return ts;
   }
 
@@ -75,7 +75,7 @@ public class DynamicSequenceTest extends TestCase
   /**
    * An example of using the SDO Sequence API.
    */
-  public void SDOClient()
+  public void testDynamicSequence()
   {
     // shows the dynamic SDO API. The dynamic EMF API could be used too.
     DataObject supplierDO = (DataObject)createSupplier();
