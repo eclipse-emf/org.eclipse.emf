@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EClassifierImpl.java,v 1.2 2004/05/23 04:17:51 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -362,7 +362,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
     {
       try
       {
-        setInstanceClassGen(Class.forName(getInstanceClassName()));
+        setInstanceClassGen(getClassForName(getInstanceClassName()));
       }
       catch (ClassNotFoundException e)
       {
@@ -376,6 +376,18 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
     return getInstanceClassGen();
   }
 
+  /**
+   * Returns the <code>Class</code> object associated with the class or interface with the given name, as from a {@link
+   * java.lang.Class#forName} call; however, if this classifier belongs to a package, that package's class loader is
+   * used. Since the package may be model-specific code in another plug-in, its class loader may be able to see classes
+   * that Ecore's can't.
+   */
+  protected Class getClassForName(String name) throws ClassNotFoundException
+  {
+    EPackage p = getEPackage();
+    return p != null ? Class.forName(name, true, p.getClass().getClassLoader()) : Class.forName(name);
+  }
+  
   protected Class getPrimitiveOrArrayClass() 
   {
     String className = getInstanceClassName();
@@ -408,7 +420,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
       }
       try
       {
-        return Class.forName(result.toString());
+        return getClassForName(result.toString());
       }
       catch (ClassNotFoundException e) {}
     }
