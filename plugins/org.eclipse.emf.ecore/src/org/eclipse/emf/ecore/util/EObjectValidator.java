@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.3 2004/06/08 12:12:01 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.4 2004/06/19 21:36:23 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -376,11 +377,51 @@ public class EObjectValidator implements EValidator
   protected boolean validate_DataValueConforms
     (EObject eObject, EAttribute eAttribute, DiagnosticChain diagnostics, Map context)
   {
+    if (!eObject.eIsSet(eAttribute))
+    {
+      return true;
+    }
     boolean result = true;
     EDataType eDataType = eAttribute.getEAttributeType();
     EValidator rootValidator = getRootEValidator(context);
     Object value = eObject.eGet(eAttribute);
-    if (eAttribute.isMany())
+    if (FeatureMapUtil.isFeatureMap(eAttribute))
+    {
+      Collection featureMap = (Collection)value;
+      EClass eClass = eObject.eClass();
+      Map entryFeatureToDiagnosticChainMap = null;
+      for (Iterator i = featureMap.iterator(); i.hasNext() && (result || diagnostics != null); )
+      {
+        FeatureMap.Entry entry = (FeatureMap.Entry)i.next();
+        EStructuralFeature entryFeature = entry.getEStructuralFeature();
+        if (entryFeature instanceof EAttribute &&
+              ExtendedMetaData.INSTANCE.getAffiliation(eClass, entryFeature) == eAttribute)
+        {
+          EDataType entryType = (EDataType)entryFeature.getEType();
+          Object entryValue = entry.getValue();
+          boolean entryIsValid = rootValidator.validate(entryType, entryValue, null, context);
+          if (!entryIsValid)
+          {
+            result = false;
+            if (diagnostics != null)
+            {
+              if (entryFeatureToDiagnosticChainMap == null)
+              {
+                entryFeatureToDiagnosticChainMap = new HashMap();
+              }
+              DiagnosticChain entryFeatureDiagnostic = (DiagnosticChain)entryFeatureToDiagnosticChainMap.get(entryFeature);
+              if (entryFeatureDiagnostic == null)
+              {
+                entryFeatureDiagnostic = createBadDataValueDiagnostic(eObject, (EAttribute)entryFeature, diagnostics, context);
+                entryFeatureToDiagnosticChainMap.put(entryFeature, entryFeatureDiagnostic);
+              }
+              rootValidator.validate(entryType, entryValue, entryFeatureDiagnostic, context);
+            }
+          }
+        }
+      }
+    }
+    else if (eAttribute.isMany())
     {
       for (Iterator i = ((List)value).iterator(); i.hasNext() && result; )
       {
