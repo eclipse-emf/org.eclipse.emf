@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreEditorPlugin.java,v 1.2 2004/05/16 16:52:59 emerks Exp $
+ * $Id: Ecore2EcoreEditorPlugin.java,v 1.3 2004/06/08 18:20:32 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -98,7 +98,6 @@ public final class Ecore2EcoreEditorPlugin extends EMFPlugin
      * Creates an instance.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param descriptor the description of the plugin.
      * @generated
      */
     public Implementation()

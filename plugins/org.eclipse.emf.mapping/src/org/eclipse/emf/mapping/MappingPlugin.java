@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingPlugin.java,v 1.3 2004/05/16 16:56:50 emerks Exp $
+ * $Id: MappingPlugin.java,v 1.4 2004/06/08 18:20:54 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -93,7 +93,6 @@ public final class MappingPlugin extends EMFPlugin
      * Creates an instance.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param descriptor the description of the plugin.
      * @generated
      */
     public Implementation()
