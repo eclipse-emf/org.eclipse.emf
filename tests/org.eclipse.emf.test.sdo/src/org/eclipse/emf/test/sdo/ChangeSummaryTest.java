@@ -42,7 +42,7 @@ public class ChangeSummaryTest extends TestCase
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite("ChangeSummaryTest");
-    testSuite.addTest(new ChangeSummaryTest("testEndLoggingAfterSerialization"));
+    //testSuite.addTest(new ChangeSummaryTest("testEndLoggingAfterSerialization")); // not supported in 2.0.2 (yet)
     return testSuite;
   }
 

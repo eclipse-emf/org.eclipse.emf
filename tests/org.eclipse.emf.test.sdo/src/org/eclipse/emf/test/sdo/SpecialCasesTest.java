@@ -39,7 +39,7 @@ public class SpecialCasesTest extends TestCase
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite("SDO - Special Cases");
-    testSuite.addTest(new SpecialCasesTest("testClassCastExceptionProblem"));
+    //testSuite.addTest(new SpecialCasesTest("testClassCastExceptionProblem")); // not supported in 2.0.2 (yet)
     return testSuite;
   }
   
