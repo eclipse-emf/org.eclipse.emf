@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.8 2004/06/18 18:37:51 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.9 2004/06/18 18:53:18 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -586,6 +586,7 @@ public class ChangeRecorder implements Adapter
             }
             else
             {
+              createAddListChange(oldList, changesList, newObject, index, -1);
             }
           }
         }
