@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.2 2004/03/11 11:57:40 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.3 2004/03/15 15:00:51 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -43,7 +43,6 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xmi.DanglingHREFException;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLSave;
@@ -101,11 +100,11 @@ public class XMLSaveImpl implements XMLSave
 
   protected static final String XML_VERSION = "1.0";
 
-  protected static final String XSI_NIL             = XMIResource.XSI_NS+":"+XMIResource.NIL;             // xsi:nil
-  protected static final String XSI_TYPE_NS         = XMIResource.XSI_NS+":"+XMIResource.TYPE;            // xsi:type
-  protected static final String XSI_XMLNS           = XMIResource.XML_NS+":"+XMIResource.XSI_NS;          // xmlns:xsi
-  protected static final String XSI_SCHEMA_LOCATION = XMIResource.XSI_NS+":"+XMIResource.SCHEMA_LOCATION; // xsi:schemaLocation
-  protected static final String XSI_NO_NAMESPACE_SCHEMA_LOCATION = XMIResource.XSI_NS+":"+XMIResource.NO_NAMESPACE_SCHEMA_LOCATION; // xsi:noNamespaceSchemaLocation
+  protected static final String XSI_NIL             = XMLResource.XSI_NS+":"+XMLResource.NIL;             // xsi:nil
+  protected static final String XSI_TYPE_NS         = XMLResource.XSI_NS+":"+XMLResource.TYPE;            // xsi:type
+  protected static final String XSI_XMLNS           = XMLResource.XML_NS+":"+XMLResource.XSI_NS;          // xmlns:xsi
+  protected static final String XSI_SCHEMA_LOCATION = XMLResource.XSI_NS+":"+XMLResource.SCHEMA_LOCATION; // xsi:schemaLocation
+  protected static final String XSI_NO_NAMESPACE_SCHEMA_LOCATION = XMLResource.XSI_NS+":"+XMLResource.NO_NAMESPACE_SCHEMA_LOCATION; // xsi:noNamespaceSchemaLocation
 
   protected static final int EMPTY_ELEMENT = 1;
   protected static final int CONTENT_ELEMENT = 2;
@@ -419,7 +418,7 @@ public class XMLSaveImpl implements XMLSave
 
     if (declareXSI)
     {
-      doc.addAttribute(XSI_XMLNS, XMIResource.XSI_URI);
+      doc.addAttribute(XSI_XMLNS, XMLResource.XSI_URI);
     }
 
     for (int i = 0; i < packages.length; i++)
@@ -436,11 +435,11 @@ public class XMLSaveImpl implements XMLSave
             String nsPrefix = (String)j.next();
             if (nsPrefix != null && nsPrefix.length() > 0)
             {
-              doc.addAttributeNS(XMIResource.XML_NS, nsPrefix, nsURI);
+              doc.addAttributeNS(XMLResource.XML_NS, nsPrefix, nsURI);
             }
             else
             {
-              doc.addAttribute(XMIResource.XML_NS, nsURI);
+              doc.addAttribute(XMLResource.XML_NS, nsURI);
             }
           }
         }
@@ -1263,7 +1262,7 @@ public class XMLSaveImpl implements XMLSave
         saveTypeAttribute(eClass);
       }
 
-      doc.addAttribute(XMIResource.HREF, href);
+      doc.addAttribute(XMLResource.HREF, href);
       doc.endEmptyElement();
     }
   }

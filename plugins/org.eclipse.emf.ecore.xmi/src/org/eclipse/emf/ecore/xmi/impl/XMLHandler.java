@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLHandler.java,v 1.2 2004/03/15 15:00:52 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -55,7 +55,6 @@ import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.PackageNotFoundException;
 import org.eclipse.emf.ecore.xmi.UnresolvedReferenceException;
 import org.eclipse.emf.ecore.xmi.XMIException;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
@@ -74,10 +73,10 @@ public abstract class XMLHandler
   protected static final String OBJECT_TYPE = "object";
   protected static final String DOCUMENT_ROOT_TYPE = "documentRoot";
 
-  protected final static String TYPE_ATTRIB = XMIResource.XSI_NS + ":" + XMIResource.TYPE;
-  protected final static String NIL_ATTRIB = XMIResource.XSI_NS + ":" + XMIResource.NIL;
-  protected final static String SCHEMA_LOCATION_ATTRIB = XMIResource.XSI_NS + ":" + XMIResource.SCHEMA_LOCATION;
-  protected final static String NO_NAMESPACE_SCHEMA_LOCATION_ATTRIB = XMIResource.XSI_NS + ":" + XMIResource.NO_NAMESPACE_SCHEMA_LOCATION;
+  protected final static String TYPE_ATTRIB = XMLResource.XSI_NS + ":" + XMLResource.TYPE;
+  protected final static String NIL_ATTRIB = XMLResource.XSI_NS + ":" + XMLResource.NIL;
+  protected final static String SCHEMA_LOCATION_ATTRIB = XMLResource.XSI_NS + ":" + XMLResource.SCHEMA_LOCATION;
+  protected final static String NO_NAMESPACE_SCHEMA_LOCATION_ATTRIB = XMLResource.XSI_NS + ":" + XMLResource.NO_NAMESPACE_SCHEMA_LOCATION;
 
   protected static class MyStack extends ArrayList
   {
@@ -498,7 +497,7 @@ public abstract class XMLHandler
     for (Iterator i = forwardSingleReferences.iterator(); i.hasNext(); )
     {
       SingleReference ref = (SingleReference) i.next();
-      EObject obj = (EObject) xmlResource.getEObject((String) ref.getValue());
+      EObject obj = xmlResource.getEObject((String) ref.getValue());
 
       if (obj != null)
       {
@@ -530,7 +529,7 @@ public abstract class XMLHandler
       for (int j = 0, l = values.length; j < l; j++)
       {
         String id = (String) values[j];
-        EObject obj = (EObject) xmlResource.getEObject(id);
+        EObject obj = xmlResource.getEObject(id);
         values[j] = obj;
 
         if (obj == null)
@@ -540,7 +539,7 @@ public abstract class XMLHandler
           {
             error
               (new UnresolvedReferenceException
-                ((String) id,
+                (id,
                  getLocation(),
                  ref.getLineNumber(),
                  ref.getColumnNumber()));

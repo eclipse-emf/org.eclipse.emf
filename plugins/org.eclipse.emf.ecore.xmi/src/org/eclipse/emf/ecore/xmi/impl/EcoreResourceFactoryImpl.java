@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreResourceFactoryImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EcoreResourceFactoryImpl.java,v 1.2 2004/03/15 15:00:52 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -22,7 +22,7 @@ import java.util.Locale;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
-import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 
 
 public class EcoreResourceFactoryImpl extends ResourceFactoryImpl
@@ -45,8 +45,8 @@ public class EcoreResourceFactoryImpl extends ResourceFactoryImpl
       result.setEncoding("UTF-8");
     }
 
-    result.getDefaultSaveOptions().put(XMIResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
-    result.getDefaultSaveOptions().put(XMIResource.OPTION_LINE_WIDTH, new Integer(80));
+    result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+    result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, new Integer(80));
     return result;
   }
 }

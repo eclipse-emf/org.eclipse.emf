@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLHelperImpl.java,v 1.2 2004/03/15 15:00:51 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -48,7 +48,6 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xmi.DanglingHREFException;
 import org.eclipse.emf.ecore.xmi.IllegalValueException;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
@@ -85,13 +84,13 @@ public class XMLHelperImpl implements XMLHelper
     {
       helper = new XMIHelperImpl();
     }
-    if (!options.containsKey(XMIResource.OPTION_DECLARE_XML))
+    if (!options.containsKey(XMLResource.OPTION_DECLARE_XML))
     {
       options = new HashMap(options);
-      options.put(XMIResource.OPTION_DECLARE_XML, Boolean.FALSE);
+      options.put(XMLResource.OPTION_DECLARE_XML, Boolean.FALSE);
     }
     XMLSaveImpl save = new XMISaveImpl(options, helper, encoding);
-    ((XMLHelperImpl)helper).processDanglingHREF = (String)options.get(XMIResource.OPTION_PROCESS_DANGLING_HREF);
+    ((XMLHelperImpl)helper).processDanglingHREF = (String)options.get(XMLResource.OPTION_PROCESS_DANGLING_HREF);
     save.traverse(contents);
     char[] chars = save.toChar();
     return new String(chars);
@@ -423,7 +422,7 @@ public class XMLHelperImpl implements XMLHelper
 
   protected URI handleDanglingHREF(EObject object)
   {
-    if (!XMIResource.OPTION_PROCESS_DANGLING_HREF_DISCARD.equals(processDanglingHREF))
+    if (!XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD.equals(processDanglingHREF))
     {
       DanglingHREFException exception = new DanglingHREFException("The object '" + object + "' is not contained in a resource.", resource.getURI().toString(), 0, 0);
  

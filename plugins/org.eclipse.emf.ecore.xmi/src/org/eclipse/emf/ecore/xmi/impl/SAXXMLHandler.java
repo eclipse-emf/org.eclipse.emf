@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SAXXMLHandler.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: SAXXMLHandler.java,v 1.2 2004/03/15 15:00:52 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLResource.XMLInfo;
@@ -102,7 +101,7 @@ public class SAXXMLHandler extends XMLHandler
     for (int i = 0, size = attribs.getLength(); i < size; ++i)
     {
       String attrib = attribs.getQName(i);
-      if (attrib.startsWith(XMIResource.XML_NS))
+      if (attrib.startsWith(XMLResource.XML_NS))
       {
         handleXMLNSAttribute(attrib, attribs.getValue(i));
       }
@@ -137,11 +136,11 @@ public class SAXXMLHandler extends XMLHandler
         {
           xmlResource.setID(internalEObject, attribs.getValue(i));
         }
-        else if (name.equals(XMIResource.HREF))
+        else if (name.equals(XMLResource.HREF))
         {
           handleProxy(internalEObject, attribs.getValue(i));
         }
-        else if (!name.startsWith(XMIResource.XML_NS) && !notFeatures.contains(name))
+        else if (!name.startsWith(XMLResource.XML_NS) && !notFeatures.contains(name))
         {
           setAttribValue(obj, name, attribs.getValue(i));
         }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFSaveImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EMOFSaveImpl.java,v 1.2 2004/03/15 15:00:52 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -28,8 +28,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 
 
 public class EMOFSaveImpl extends XMISaveImpl 
@@ -185,7 +185,7 @@ public class EMOFSaveImpl extends XMISaveImpl
             {
               EObject value = (EObject)iter.next();
               doc.startElement(EMOFExtendedMetaData.EMOF_TAG_ELEMENT);
-              doc.addAttribute(XMIResource.HREF, helper.getHREF(value));
+              doc.addAttribute(XMLResource.HREF, helper.getHREF(value));
               doc.endEmptyElement();
             }
           }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLLoadImpl.java,v 1.2 2004/03/15 15:00:52 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -137,7 +137,7 @@ public class XMLLoadImpl implements XMLLoad
       is = new BufferedInputStream(is);
     
     byte[] buffer = readBuffer();
-    return XMIHandler.getXMLEncoding(buffer);
+    return XMLHandler.getXMLEncoding(buffer);
   }  
 
   protected byte[] readBuffer() throws IOException

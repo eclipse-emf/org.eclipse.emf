@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InitializeCopyCommand.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: InitializeCopyCommand.java,v 1.2 2004/03/15 15:01:08 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -77,8 +77,8 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
   {
     super(domain, LABEL, DESCRIPTION);
 
-    this.owner = (EObject)owner;
-    this.copy = (EObject)copyHelper.getCopy(owner);
+    this.owner = owner;
+    this.copy = copyHelper.getCopy(owner);
     this.copyHelper = copyHelper;
   }
 

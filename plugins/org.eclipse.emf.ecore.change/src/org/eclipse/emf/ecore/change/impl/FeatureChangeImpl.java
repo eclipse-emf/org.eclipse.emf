@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.2 2004/03/15 15:01:26 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -316,7 +316,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     if (referenceValue != null && referenceValue.eIsProxy())
     {
       EObject oldReferenceValue = referenceValue;
-      referenceValue = (EObject)EcoreUtil.resolve(referenceValue, this);
+      referenceValue = EcoreUtil.resolve(referenceValue, this);
       if (referenceValue != oldReferenceValue)
       {
         if (eNotificationRequired())

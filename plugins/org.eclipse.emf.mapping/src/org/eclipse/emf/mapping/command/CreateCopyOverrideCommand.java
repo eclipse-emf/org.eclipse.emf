@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateCopyOverrideCommand.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: CreateCopyOverrideCommand.java,v 1.2 2004/03/15 15:01:23 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -84,7 +84,7 @@ public class CreateCopyOverrideCommand extends AbstractCommand implements Childr
     {
       // Create the copy from this corresponding type.
       //
-      copy = (EObject)outputType.getEPackage().getEFactoryInstance().create(outputType);
+      copy = outputType.getEPackage().getEFactoryInstance().create(outputType);
 
       copyHelper.put(owner, copy);
 

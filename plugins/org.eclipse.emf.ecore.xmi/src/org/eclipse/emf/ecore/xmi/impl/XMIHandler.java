@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIHandler.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMIHandler.java,v 1.2 2004/03/15 15:00:52 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -32,7 +32,7 @@ public abstract class XMIHandler extends XMLHandler
   protected static final String XMI_ELEMENT_TYPE = "xmi";
   protected static final String XMI_UUID = "uuid";
 
-  protected final static String XMI_TYPE_ATTRIB = XMIResource.XMI_NS + ":" + XMIResource.TYPE;
+  protected final static String XMI_TYPE_ATTRIB = XMIResource.XMI_NS + ":" + XMLResource.TYPE;
   protected final static String ID_ATTRIB = XMIResource.XMI_NS + ":" + XMIResource.XMI_ID;
   protected final static String VERSION_ATTRIB = XMIResource.XMI_NS + ":" + XMIResource.VERSION_NAME;
   protected final static String UUID_ATTRIB = XMIResource.XMI_NS + ":" + XMI_UUID;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateChildCommand.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: CreateChildCommand.java,v 1.2 2004/03/15 15:01:08 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -192,8 +192,8 @@ public class CreateChildCommand extends CommandWrapper
   {
     super();
     this.domain = domain;
-    this.owner = (EObject)owner;
-    this.feature = (EReference)feature;
+    this.owner = owner;
+    this.feature = feature;
     this.child = child;
     this.index = index;
     this.selection = selection == null ? Collections.EMPTY_LIST : selection;
