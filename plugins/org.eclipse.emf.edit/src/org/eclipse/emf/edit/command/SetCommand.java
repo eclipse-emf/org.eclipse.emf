@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.5 2004/10/06 11:37:40 emerks Exp $
+ * $Id: SetCommand.java,v 1.6 2004/10/20 23:12:21 davidms Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -433,9 +433,11 @@ public class SetCommand extends AbstractOverrideableCommand
 
         if (ownerList != null)
         {
-          // Setting at an index. Make sure the index is valid and record the old value at it. 
+          // Setting at an index. Make sure the index is valid, the type is valid, and the value isn't already in a
+          // unique feature. Record the old value.
           //
-          if (index >= 0 && index < ownerList.size() && eType.isInstance(value))
+          if (index >= 0 && index < ownerList.size() && eType.isInstance(value) &&
+              (!eAttribute.isUnique() || !ownerList.contains(value)))
           {
             oldValue = ownerList.get(index);
             result = true;
@@ -493,7 +495,8 @@ public class SetCommand extends AbstractOverrideableCommand
         //
         if (ownerList != null)
         {
-          if (index >= 0 && index < ownerList.size() && eReference.getEType().isInstance(value))
+          if (index >= 0 && index < ownerList.size() && eReference.getEType().isInstance(value) &&
+              (!eReference.isUnique() || !ownerList.contains(value)))
           {
             oldValue = ownerList.get(index);
             result = true;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommandTest.java,v 1.2 2004/09/24 14:10:29 davidms Exp $
+ * $Id: SetCommandTest.java,v 1.3 2004/10/20 23:12:24 davidms Exp $
  */
 package org.eclipse.emf.test.core.edit.command;
 
@@ -21,6 +21,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -53,6 +54,9 @@ public class SetCommandTest extends TestCase
   public static Test suite()
   {
     TestSuite suite = new TestSuite("SetCommandTest");
+    suite.addTest(new SetCommandTest("testDuplicate"));
+    suite.addTest(new SetCommandTest("testDuplicateInUniqueAttribute"));
+    suite.addTest(new SetCommandTest("testDuplicateInAttribute"));
     suite.addTest(new SetCommandTest("testManyToManySimple"));
     suite.addTest(new SetCommandTest("testManyToMany"));
     suite.addTest(new SetCommandTest("testManyToManyNonUndoable"));
@@ -94,6 +98,75 @@ public class SetCommandTest extends TestCase
     editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
   }
 
+  public void testDuplicate()
+  {
+    C c = refFactory.createC();
+
+    D d0 = refFactory.createD();
+    D d1 = refFactory.createD();
+    D d2 = refFactory.createD();
+
+    EList d = c.getD();
+    d.add(d0);
+    d.add(d1);
+    d.add(d2);
+
+    Command set = SetCommand.create(editingDomain, c, refPackage.getC_D(), d2, 0);
+    assertFalse(set.canExecute());
+  }
+
+  public void testDuplicateInUniqueAttribute()
+  {
+    E e = refFactory.createE();
+
+    String s0 = "0";
+    String s1 = "1";
+    String s2 = "2";
+
+    EList ids = e.getIds();
+    ids.add(s0);
+    ids.add(s1);
+    ids.add(s2);
+
+    Command set = SetCommand.create(editingDomain, e, refPackage.getE_Ids(), s2, 0);
+    assertFalse(set.canExecute());
+  }
+
+  public void testDuplicateInAttribute()
+  {
+    E e = refFactory.createE();
+
+    String s0 = "0";
+    String s1 = "1";
+    String s2 = "2";
+
+    EList labels = e.getLabels();
+    labels.add(s0);
+    labels.add(s1);
+    labels.add(s2);
+
+    Command set = SetCommand.create(editingDomain, e, refPackage.getE_Labels(), s2, 0);
+
+    assertEquals(s0, labels.get(0));
+    assertTrue(set.canExecute());
+
+    CommandStack stack = editingDomain.getCommandStack();
+    stack.execute(set);
+
+    assertEquals(s2, labels.get(0));
+    assertTrue(stack.canUndo());
+
+    stack.undo();
+
+    assertEquals(s0, labels.get(0));
+    assertTrue(stack.canRedo());
+
+    stack.redo();
+
+    assertEquals(s2, labels.get(0));
+    assertTrue(stack.canUndo());
+  }
+  
   public void testManyToManySimple()
   {
     D d0 = refFactory.createD();
