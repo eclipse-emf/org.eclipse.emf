@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesFactoryImpl.java,v 1.1 2004/05/12 22:05:58 marcelop Exp $
+ * $Id: TypesFactoryImpl.java,v 1.2 2004/05/13 14:13:39 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types.impl;
 
@@ -13,9 +13,6 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import org.eclipse.emf.test.core.sdo.types.model.types.*;
 
@@ -111,24 +108,20 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public byte[] createMyBytesFromString(EDataType eDataType, String initialValue)
   {
-    // TODO: implement this method
-    // Ensure that you remove @generated or mark it @generated NOT
     throw new UnsupportedOperationException();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertMyBytesToString(EDataType eDataType, Object instanceValue)
   {
-    // TODO: implement this method
-    // Ensure that you remove @generated or mark it @generated NOT
     throw new UnsupportedOperationException();
   }
 
