@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.3 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.4 2004/05/07 22:39:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind;
 import org.eclipse.emf.common.notify.Notification;
@@ -631,7 +632,25 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   {
     String capName = getCapName();
     if (isMapEntryFeature()) return "getTyped" + capName;
-    return isBooleanType() ? "is" + capName : "get" + ("Class".equals(capName) ? "Class_" : capName);
+    String result = isBooleanType() ? "is" + capName : "get" + ("Class".equals(capName) ? "Class_" : capName);
+
+    GenClass rootImplementsInterface = getGenModel().getRootImplementsInterfaceGenClass();
+    if (rootImplementsInterface != null && !rootImplementsInterface.isEObject())
+    {
+      for (Iterator i = rootImplementsInterface.getAllGenOperations().iterator(); i.hasNext(); )
+      {
+        GenOperation genOperation = (GenOperation)i.next();
+        if (genOperation.getName().equals(result) && 
+              genOperation.getGenParameters().isEmpty() && 
+              !genOperation.getReturnType().equals(getType()))
+        {
+          result = result + "_";
+          break;
+        }
+      }
+    }
+
+    return result;
   }
 
   public String getSafeName()

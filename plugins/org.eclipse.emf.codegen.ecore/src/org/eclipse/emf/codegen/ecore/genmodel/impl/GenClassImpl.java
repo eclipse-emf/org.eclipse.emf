@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.6 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.7 2004/05/07 22:39:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -38,7 +38,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
 import org.eclipse.emf.common.notify.Notification;
@@ -729,25 +728,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     List implementedGenClasses = new UniqueEList(getImplementedGenClasses());
     if (needsRootImplementsInterfaceOperations())
     {
-      String rootImplementsInterface = getGenModel().getRootImplementsInterface();
-      GenClass match = null;
-      LOOP:
-      for (Iterator i = getGenModel().getAllGenUsedAndStaticGenPackagesWithClassifiers().iterator(); i.hasNext(); )
+      GenClass rootImplementsInterface = getGenModel().getRootImplementsInterfaceGenClass();
+      if (rootImplementsInterface != null)
       {
-        GenPackage genPackage = (GenPackage)i.next();
-        for (Iterator j = genPackage.getGenClasses().iterator(); j.hasNext(); )
-        {
-          GenClass genClass = (GenClass)j.next();
-          if (genClass.getQualifiedInterfaceName().equals(rootImplementsInterface))
-          {
-            match = genClass;
-            break LOOP;
-          }
-        }
-      }
-      if (match != null)
-      {
-        List allBaseClasses = new UniqueEList(match.getAllBaseGenClasses());
+        List allBaseClasses = new UniqueEList(rootImplementsInterface.getAllBaseGenClasses());
         for (Iterator i = allBaseClasses.iterator(); i.hasNext(); )
         {
           GenClass genClass = (GenClass)i.next();
@@ -756,7 +740,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
             i.remove();
           }
         }
-        allBaseClasses.add(match);
+        allBaseClasses.add(rootImplementsInterface);
         implementedGenClasses.addAll(allBaseClasses);
       }
     }

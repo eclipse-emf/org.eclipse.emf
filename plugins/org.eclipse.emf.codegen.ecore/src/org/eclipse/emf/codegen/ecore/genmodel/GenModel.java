@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.3 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenModel.java,v 1.4 2004/05/07 22:39:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -704,6 +704,9 @@ public interface GenModel extends GenBase{
    * @generated
    */
   String getRootImplementsInterface();
+
+  GenClass getRootImplementsInterfaceGenClass();
+
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRootImplementsInterface <em>Root Implements Interface</em>}' attribute.

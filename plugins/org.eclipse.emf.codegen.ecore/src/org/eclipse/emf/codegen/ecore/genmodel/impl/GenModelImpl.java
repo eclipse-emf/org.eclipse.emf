@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.4 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.5 2004/05/07 22:39:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -34,6 +34,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -2269,13 +2270,21 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EList getStaticPackages()
   {
     if (staticPackages == null)
     {
-      staticPackages = new EDataTypeUniqueEList(String.class, this, GenModelPackage.GEN_MODEL__STATIC_PACKAGES);
+      staticPackages = 
+        new EDataTypeUniqueEList(String.class, this, GenModelPackage.GEN_MODEL__STATIC_PACKAGES)
+        {
+          protected void didChange()
+          {
+            super.didChange();
+            staticGenPackages = null;
+          }
+        };
     }
     return staticPackages;
   }
@@ -2350,17 +2359,46 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return rootImplementsInterface;
   }
 
+  protected GenClass rootImplementsInterfaceGenClass;
+
+  public GenClass getRootImplementsInterfaceGenClass()
+  {
+    if (rootImplementsInterfaceGenClass == null)
+    {
+      for (Iterator i = getAllGenUsedAndStaticGenPackagesWithClassifiers().iterator(); i.hasNext(); )
+      {
+        GenPackage genPackage = (GenPackage)i.next();
+        for (Iterator j = genPackage.getGenClasses().iterator(); j.hasNext(); )
+        {
+          GenClass genClass = (GenClass)j.next();
+          if (genClass.getQualifiedInterfaceName().equals(rootImplementsInterface))
+          {
+            return rootImplementsInterfaceGenClass = genClass;
+          }
+        }
+      }
+    }
+
+    return rootImplementsInterfaceGenClass;
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setRootImplementsInterface(String newRootImplementsInterface)
+  public void setRootImplementsInterfaceGen(String newRootImplementsInterface)
   {
     String oldRootImplementsInterface = rootImplementsInterface;
     rootImplementsInterface = newRootImplementsInterface;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__ROOT_IMPLEMENTS_INTERFACE, oldRootImplementsInterface, rootImplementsInterface));
+  }
+
+  public void setRootImplementsInterface(String newRootImplementsInterface)
+  {
+    setRootImplementsInterfaceGen(newRootImplementsInterface);
+    rootImplementsInterfaceGenClass = null;
   }
 
   public List getEffectiveModelPluginVariables()
