@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.10 2004/10/12 16:52:01 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.11 2005/04/01 19:29:04 davidms Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,6 +21,7 @@ package <%=genPackage.getPresentationPackageName()%>;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -65,8 +66,8 @@ import org.eclipse.jface.wizard.WizardPage;
 
 import org.eclipse.swt.SWT;
 
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.ModifyEvent;
 
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -139,7 +140,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 
 <%}%>
 	/**
-	 * This is the file creation page.
+	 * This is the initial object creation page.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -163,6 +164,18 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 	protected IWorkbench workbench;
 
 	/**
+<%if (!genPackage.hasDocumentRoot()) {%>
+	 * Caches the names of the types that can be created as the root object.
+<%} else {%>
+	 * Caches the names of the features representing global elements.
+<%}%>
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected List initialObjectNames;
+
+	/**
 	 * This just records the information.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -177,12 +190,60 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 	}
 
 	/**
+<%if (!genPackage.hasDocumentRoot()) {%>
+	 * Returns the names of the types that can be created as the root object.
+<%} else {%>
+	 * Returns the names of the features representing global elements.
+<%}%>
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected Collection getInitialObjectNames()
+	{
+		if (initialObjectNames == null)
+		{
+			initialObjectNames = new ArrayList();
+<%if (!genPackage.hasDocumentRoot()) {%>
+			for (Iterator classifiers = <%=genPackage.getUncapPackageInterfaceName()%>.getEClassifiers().iterator(); classifiers.hasNext(); )
+			{
+				EClassifier eClassifier = (EClassifier)classifiers.next();
+				if (eClassifier instanceof EClass)
+				{
+					EClass eClass = (EClass)eClassifier;
+					if (!eClass.isAbstract())
+					{
+						initialObjectNames.add(eClass.getName());
+					}
+				}
+			}
+<%} else {%>
+			for (Iterator elements = <%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getAllElements(<%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getDocumentRoot(<%=genPackage.getUncapPackageInterfaceName()%>)).iterator(); elements.hasNext(); )
+			{
+				<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%> eStructuralFeature = (<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>)elements.next();
+				EClassifier eClassifier = eStructuralFeature.getEType();
+				if (eClassifier instanceof EClass)
+				{
+					EClass eClass = (EClass)eClassifier;
+					if (!eClass.isAbstract())
+					{
+						initialObjectNames.add(eStructuralFeature.getName());
+					}
+				}
+			}
+<%}%>
+			Collections.sort(initialObjectNames, java.text.Collator.getInstance());
+		}
+		return initialObjectNames;
+	}
+
+	/**
 	 * Create a new model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	EObject createInitialModel()
+	protected EObject createInitialModel()
 	{
 <%if (!genPackage.hasDocumentRoot()) {%>
 		EClass eClass = (EClass)<%=genPackage.getUncapPackageInterfaceName()%>.getEClassifier(initialObjectCreationPage.getInitialObjectName());
@@ -212,11 +273,11 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 			final URI fileURI = getModelURI();
 			if (new <%=genModel.getImportedName("java.io.File")%>(fileURI.toFileString()).exists())
 			{
-				if (!MessageDialog.openQuestion(
-					getShell(),
-					<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_Question_title"),<%=genModel.getNonNLS()%>
-					<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_WARN_FileConflict", new String []{ fileURI.toFileString() })))<%=genModel.getNonNLS()%>
-        		{
+				if (!MessageDialog.openQuestion
+						(getShell(),
+						 <%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_Question_title"),<%=genModel.getNonNLS()%>
+						 <%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_WARN_FileConflict", new String []{ fileURI.toFileString() })))<%=genModel.getNonNLS()%>
+				{
 					initialObjectCreationPage.selectFileField();
 					return false;
 				}
@@ -338,14 +399,6 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 	public class <%=genPackage.getModelWizardClassName()%>NewFileCreationPage extends WizardNewFileCreationPage
 	{
 		/**
-		 * Remember the model file.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		protected IFile modelFile;
-
-		/**
 		 * Pass in the selection.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -387,28 +440,13 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		}
 
 		/**
-		 * Store the dialog field settings upon completion.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public boolean performFinish()
-		{
-			modelFile = getModelFile();
-			return true;
-		}
-
-		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		public IFile getModelFile()
 		{
-			return
-				modelFile == null ?
-					ResourcesPlugin.getWorkspace().getRoot().getFile(getContainerFullPath().append(getFileName())) :
-					modelFile;
+			return ResourcesPlugin.getWorkspace().getRoot().getFile(getContainerFullPath().append(getFileName()));
 		}
 	}
 
@@ -421,21 +459,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 	 */
 	public class <%=genPackage.getModelWizardClassName()%>InitialObjectCreationPage extends WizardPage
 	{
-		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		protected String initialObjectName;
-
 <%if (genModel.isRichClientPlatform()) {%>
-		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		protected URI fileURI;
-
 		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -456,7 +480,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 */
-		protected String encoding;
+		protected List encodings;
 
 		/**
 		 * <!-- begin-user-doc -->
@@ -530,35 +554,28 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 				fileField.setLayoutData(data);
 			}
 
-			fileField.addModifyListener(new <%=genModel.getImportedName("org.eclipse.swt.events.ModifyListener")%>()
-			{
-				public void modifyText(<%=genModel.getImportedName("org.eclipse.swt.events.ModifyEvent")%> e)
-				{
-					setPageComplete(isPageComplete());
-				}
-			});
+			fileField.addModifyListener(validator);
 
 			<%=genModel.getImportedName("org.eclipse.swt.widgets.Button")%> resourceURIBrowseFileSystemButton = new <%=genModel.getImportedName("org.eclipse.swt.widgets.Button")%>(fileComposite, SWT.PUSH);
 			resourceURIBrowseFileSystemButton.setText(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_Browse_label"));<%=genModel.getNonNLS()%>
 
-			resourceURIBrowseFileSystemButton.addSelectionListener(new SelectionAdapter()
-			{
-				public void widgetSelected(SelectionEvent event)
-				{
-					String fileExtension = <%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("<%="_UI_"+genPackage.getEditorClassName()+"FilenameExtension"%>");<%=genModel.getNonNLS()%>
-					String filePath = <%=genModel.getImportedName(genModel.getQualifiedEditorAdvisorClassName())%>.openFilePathDialog(getShell(), "*."+fileExtension, <%=genModel.getImportedName("org.eclipse.swt.SWT")%>.OPEN);<%=genModel.getNonNLS()%>
-					if (filePath != null)
-					{
-						
-						if (!filePath.endsWith("."+fileExtension))<%=genModel.getNonNLS()%>
-						{
-							filePath = filePath + "." + fileExtension;<%=genModel.getNonNLS()%>
-						}
-						fileField.setText(filePath);
-					}
-				}
-			});
-
+			resourceURIBrowseFileSystemButton.addSelectionListener
+				(new <%=genModel.getImportedName("org.eclipse.swt.events.SelectionAdapter")%>()
+				 {
+					 public void widgetSelected(<%=genModel.getImportedName("org.eclipse.swt.events.SelectionEvent")%> event)
+					 {
+						 String fileExtension = <%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("<%="_UI_" + genPackage.getEditorClassName() + "FilenameExtension"%>");<%=genModel.getNonNLS()%>
+						 String filePath = <%=genModel.getImportedName(genModel.getQualifiedEditorAdvisorClassName())%>.openFilePathDialog(getShell(), "*." + fileExtension, <%=genModel.getImportedName("org.eclipse.swt.SWT")%>.OPEN);<%=genModel.getNonNLS()%>
+						 if (filePath != null)
+						 {
+							 if (!filePath.endsWith("." + fileExtension))<%=genModel.getNonNLS()%>
+							 {
+								 filePath = filePath + "." + fileExtension;<%=genModel.getNonNLS()%>
+							 }
+							 fileField.setText(filePath);
+						 }
+					 }
+				 });
 <%}%>
 			Label containerLabel = new Label(composite, SWT.LEFT);
 			{
@@ -577,51 +594,16 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 				initialObjectField.setLayoutData(data);
 			}
 
-			List objectNames = new ArrayList();
-<%if (!genPackage.hasDocumentRoot()) {%>
-			for (Iterator classifier = <%=genPackage.getUncapPackageInterfaceName()%>.getEClassifiers().iterator(); classifier.hasNext(); )
+			for (Iterator i = getInitialObjectNames().iterator(); i.hasNext(); )
 			{
-				EClassifier eClassifier = (EClassifier)classifier.next();
-				if (eClassifier instanceof EClass)
-				{
-					EClass eClass = (EClass)eClassifier;
-					if (!eClass.isAbstract())
-					{
-						objectNames.add(getLabel(eClass));
-					}
-				}
-			}
-<%} else {%>
-			for (Iterator elements = <%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getAllElements(<%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getDocumentRoot(<%=genPackage.getUncapPackageInterfaceName()%>)).iterator(); elements.hasNext(); )
-			{
-				<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%> eStructuralFeature = (<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>)elements.next();
-				EClassifier eClassifier = eStructuralFeature.getEType();
-				if (eClassifier instanceof EClass)
-				{
-					EClass eClass = (EClass)eClassifier;
-					if (!eClass.isAbstract())
-					{
-						objectNames.add(getLabel(eStructuralFeature));
-					}
-				}
-			}
-<%}%>
-
-			Collections.sort(objectNames, java.text.Collator.getInstance());
-			for (Iterator i = objectNames.iterator(); i.hasNext(); )
-			{
-				String objectName = (String)i.next();
-				initialObjectField.add(objectName);
+				initialObjectField.add(getLabel((String)i.next()));
 			}
 
-			initialObjectField.addSelectionListener
-				(new SelectionAdapter()
-				 {
-					 public void widgetSelected(SelectionEvent e)
-					 {
-						 setPageComplete(isPageComplete());
-					 }
-				 });
+			if (initialObjectField.getItemCount() == 1)
+			{
+				initialObjectField.select(0);
+			}
+			initialObjectField.addModifyListener(validator);
 
 			Label encodingLabel = new Label(composite, SWT.LEFT);
 			{
@@ -639,51 +621,87 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 				encodingField.setLayoutData(data);
 			}
 
-			for (StringTokenizer stringTokenizer = new StringTokenizer(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); )<%=genModel.getNonNLS()%>
+			for (Iterator i = getEncodings().iterator(); i.hasNext(); )
 			{
-				encodingField.add(stringTokenizer.nextToken());
+				encodingField.add((String)i.next());
 			}
-			encodingField.select(0);
 
+			encodingField.select(0);
+			encodingField.addModifyListener(validator);
+
+			setPageComplete(validatePage());
 			setControl(composite);
 		}
 
 		/**
-		 * The framework calls this to see if the file is correct.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public boolean isPageComplete()
+		protected ModifyListener validator =
+			new ModifyListener()
+			{
+				public void modifyText(ModifyEvent e)
+				{
+					setPageComplete(validatePage());
+				}
+			};
+
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		protected boolean validatePage()
 		{
 <%if (genModel.isRichClientPlatform()) {%>
-			return initialObjectField.getSelectionIndex() != -1 && fileField.getText().trim().length() > 0;
-<%} else {%>
-			if (super.isPageComplete())
+			URI fileURI = getFileURI();
+			if (fileURI == null || fileURI.isEmpty())
 			{
-				return initialObjectField.getSelectionIndex() != -1;
-			}
-			else
-			{
+				setErrorMessage(null);
 				return false;
 			}
+
+			String requiredExt = <%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtension");<%=genModel.getNonNLS()%>
+			String enteredExt = fileURI.fileExtension();
+			if (enteredExt == null || !enteredExt.equals(requiredExt))
+			{
+				setErrorMessage(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_WARN_FilenameExtension", new Object [] { requiredExt }));<%=genModel.getNonNLS()%>
+				return false;
+			}
+
+			setErrorMessage(null);
 <%}%>
+			return getInitialObjectName() != null && getEncodings().contains(encodingField.getText());
 		}
 
 		/**
-		 * Store the dialog field settings upon completion.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public boolean performFinish()
+		public void setVisible(boolean visible)
 		{
-<%if (genModel.isRichClientPlatform()) {%>
-			fileURI = getFileURI();
+			super.setVisible(visible);
+			if (visible)
+			{
+<%if (!genModel.isRichClientPlatform()) {%>
+				if (initialObjectField.getItemCount() == 1)
+				{
+					initialObjectField.clearSelection();
+					encodingField.setFocus();
+				}
+				else
+				{
+					encodingField.clearSelection();
+					initialObjectField.setFocus();
+				}
+<%} else {%>
+				initialObjectField.clearSelection();
+				encodingField.clearSelection();
+				fileField.setFocus();
 <%}%>
-			initialObjectName = getInitialObjectName();
-			encoding = getEncoding();
-			return true;
+			}
 		}
 
 		/**
@@ -693,43 +711,17 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		 */
 		public String getInitialObjectName()
 		{
-			if (initialObjectName != null)
+			String label = initialObjectField.getText();
+
+			for (Iterator i = getInitialObjectNames().iterator(); i.hasNext(); )
 			{
-				return initialObjectName;
-			}
-			else
-			{
-				String label = initialObjectField.getText();
-<%if (!genPackage.hasDocumentRoot()) {%>
-				for (Iterator classifier = <%=genPackage.getUncapPackageInterfaceName()%>.getEClassifiers().iterator(); classifier.hasNext(); )
+				String name = (String)i.next();
+				if (getLabel(name).equals(label))
 				{
-					EClassifier eClassifier = (EClassifier)classifier.next();
-					if (eClassifier instanceof EClass)
-					{
-						EClass eClass = (EClass)eClassifier;
-						if (!eClass.isAbstract() && getLabel(eClass).equals(label))
-						{
-							return eClass.getName();
-						}
-					}
+					return name;
 				}
-<%} else {%>
-				for (Iterator elements = <%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getAllElements(<%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getDocumentRoot(<%=genPackage.getUncapPackageInterfaceName()%>)).iterator(); elements.hasNext(); )
-				{
-					<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%> eStructuralFeature = (<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>)elements.next();
-					EClassifier eClassifier = eStructuralFeature.getEType();
-					if (eClassifier instanceof EClass)
-					{
-						EClass eClass = (EClass)eClassifier;
-						if (!eClass.isAbstract() && getLabel(eStructuralFeature).equals(label))
-						{
-							return eStructuralFeature.getName();
-						}
-					}
-				}
-<%}%>
-				return label;
 			}
+			return null;
 		}
 
 		/**
@@ -739,10 +731,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		 */
 		public String getEncoding()
 		{
-			return
-				encoding == null ?
-					encodingField.getText() :
-					encoding;
+			return encodingField.getText();
 		}
 <%if (genModel.isRichClientPlatform()) {%>
 
@@ -753,7 +742,14 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		 */
 		public URI getFileURI()
 		{
-			return fileField == null ? fileURI : URI.createFileURI(fileField.getText());
+			try
+			{
+				return URI.createFileURI(fileField.getText());
+			}
+			catch (Exception exception)
+			{
+			}
+			return null;
 		}
 
 		/**
@@ -763,46 +759,50 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		 */
 		public void selectFileField()
 		{
-			if (fileField != null)
-			{
+				initialObjectField.clearSelection();
+				encodingField.clearSelection();
 				fileField.selectAll();
 				fileField.setFocus();
-			}
 		}		
 <%}%>
+<%{ String type = genPackage.hasDocumentRoot() ? "feature" : "type"; String prefix = genPackage.hasDocumentRoot() ? "_UI_DocumentRoot_" : "_UI_";%>
+
 		/**
-		 * Returns the label of the specified element.
+		 * Returns the label for the specified <%=type%> name.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-<%if (!genPackage.hasDocumentRoot()) {%>
-		protected String getLabel(EClass eClass)
+		protected String getLabel(String <%=type%>Name)
 		{
-			String name = eClass.getName();
 			try
 			{
-				return <%=genPackage.getEditPluginClassName()%>.INSTANCE.getString("_UI_" + name + "_type");
+				return <%=genPackage.getEditPluginClassName()%>.INSTANCE.getString("<%=prefix%>" + <%=type%>Name + "_<%=type%>");
 			}
 			catch(MissingResourceException mre)
 			{
 			}
-			return name;
-		}
-<%} else {%>
-		protected String getLabel(EStructuralFeature eStructuralFeature)
-		{
-			String name = eStructuralFeature.getName();
-			try
-			{
-				return <%=genPackage.getEditPluginClassName()%>.INSTANCE.getString("_UI_" + name + "_feature");
-			}
-			catch(MissingResourceException mre)
-			{
-			}
-			return name;
+			return <%=type%>Name;
 		}
 <%}%>
+
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		protected Collection getEncodings()
+		{
+			if (encodings == null)
+			{
+				encodings = new ArrayList();
+				for (StringTokenizer stringTokenizer = new StringTokenizer(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); )
+				{
+					encodings.add(stringTokenizer.nextToken());
+				}
+			}
+			return encodings;
+		}
 	}
 
 	/**
