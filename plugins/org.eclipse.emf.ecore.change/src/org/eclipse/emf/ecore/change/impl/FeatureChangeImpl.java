@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.4 2004/08/11 21:18:49 elena Exp $
+ * $Id: FeatureChangeImpl.java,v 1.5 2004/09/01 13:14:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -508,7 +508,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       {
         if (listChanges != null)
         {
-          if (feature instanceof EReference && ((EReference)feature).getEOpposite() != null)
+          if (feature instanceof EReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
           {
             // Bi-directional references need to use this less efficient approach because some
             //  or all of the changes may already have been made from the other end.
@@ -538,9 +538,6 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     EStructuralFeature feature = getFeature();
     if (feature != null)
     {
-      boolean newIsSet = originalObject.eIsSet(feature);
-      Object newValue = feature.isMany() ? null : originalObject.eGet(feature);
-
       if (!isSet())
       {
         if (feature.isMany())
@@ -557,7 +554,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       {
         if (listChanges != null)
         {
-          if (feature instanceof EReference && ((EReference)feature).getEOpposite() != null)
+          if (feature instanceof EReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
           {
             // Bi-directional references need to use this less efficient approach because some
             //  or all of the changes may already have been made from the other end.
@@ -583,6 +580,22 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
 
       setSet(newIsSet);
       setValue(newValue);
+    }
+  }
+  
+  protected boolean newIsSet;
+  protected Object newValue;
+  
+  public void preApply(EObject originalObject, boolean reverse)
+  {
+    if (reverse)
+    {
+      EStructuralFeature feature = getFeature();
+      if (feature != null)
+      {
+        newIsSet = originalObject.eIsSet(feature);
+        newValue = feature.isMany() ? null : originalObject.eGet(feature);
+      }
     }
   }
 
