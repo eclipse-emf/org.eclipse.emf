@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObject.java,v 1.3 2004/10/03 15:49:41 davidms Exp $
+ * $Id: EObject.java,v 1.4 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -68,10 +68,10 @@ import org.eclipse.emf.ecore.resource.Resource;
  *
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEObject()
- * @model 
+ * @model
  * @generated
  */
-public interface EObject extends Notifier 
+public interface EObject extends Notifier
 {
   /**
    * <!-- begin-user-doc -->
@@ -84,7 +84,7 @@ public interface EObject extends Notifier
    * @see EClass#getEAllStructuralFeatures
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   EClass eClass();
@@ -104,7 +104,7 @@ public interface EObject extends Notifier
    * @see #eContainer
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   Resource eResource();
@@ -126,7 +126,7 @@ public interface EObject extends Notifier
    * @see #eContents
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   EObject eContainer();
@@ -171,7 +171,7 @@ public interface EObject extends Notifier
    * @see org.eclipse.emf.ecore.util.FeatureMap.Entry#getEStructuralFeature
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   EReference eContainmentFeature();
@@ -196,7 +196,7 @@ public interface EObject extends Notifier
    * @see #eAllContents
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   EList eContents();
@@ -209,7 +209,7 @@ public interface EObject extends Notifier
    * @see org.eclipse.emf.ecore.util.EcoreUtil#getAllContents
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   TreeIterator eAllContents();
@@ -228,7 +228,7 @@ public interface EObject extends Notifier
    * @see org.eclipse.emf.ecore.util.EcoreUtil#resolve(EObject, org.eclipse.emf.ecore.resource.ResourceSet)
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   boolean eIsProxy();
@@ -264,7 +264,7 @@ public interface EObject extends Notifier
    * @see org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer
    * @return a list view of the cross referenced objects.
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   EList eCrossReferences();
@@ -283,7 +283,7 @@ public interface EObject extends Notifier
    * @see #eGet(EStructuralFeature, boolean)
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   Object eGet(EStructuralFeature feature);
@@ -317,7 +317,7 @@ public interface EObject extends Notifier
    * @see #eGet(EStructuralFeature)
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   Object eGet(EStructuralFeature feature, boolean resolve);
@@ -348,7 +348,7 @@ public interface EObject extends Notifier
    * @see #eGet(EStructuralFeature, boolean)
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   void eSet(EStructuralFeature feature, Object newValue);
@@ -382,7 +382,7 @@ public interface EObject extends Notifier
    * @see #eGet(EStructuralFeature, boolean)
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   boolean eIsSet(EStructuralFeature feature);
@@ -413,7 +413,7 @@ public interface EObject extends Notifier
    * @see #eGet(EStructuralFeature, boolean)
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   void eUnset(EStructuralFeature feature);

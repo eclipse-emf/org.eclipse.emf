@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceImpl.java,v 1.2 2004/06/11 22:14:52 emerks Exp $
+ * $Id: EReferenceImpl.java,v 1.3 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -551,12 +551,12 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       switch (eContainerFeatureID)
       {
         case EcorePackage.EREFERENCE__ECONTAINING_CLASS:
-          return ((InternalEObject)eContainer).eInverseRemove(this, EcorePackage.ECLASS__ESTRUCTURAL_FEATURES, EClass.class, msgs);
+          return eContainer.eInverseRemove(this, EcorePackage.ECLASS__ESTRUCTURAL_FEATURES, EClass.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

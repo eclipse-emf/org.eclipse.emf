@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleAnyType.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: SimpleAnyType.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.EDataType;
  * </p>
  *
  * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getSimpleAnyType()
- * @model 
+ * @model extendedMetaData="name='simpleAnyType' kind='simple'"
  * @generated
  */
 public interface SimpleAnyType extends AnyType
@@ -52,6 +52,7 @@ public interface SimpleAnyType extends AnyType
    * @see #setRawValue(String)
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getSimpleAnyType_RawValue()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="name=':3' kind='simple'"
    * @generated
    */
   String getRawValue();
@@ -78,6 +79,7 @@ public interface SimpleAnyType extends AnyType
    * @see #setValue(Object)
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getSimpleAnyType_Value()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="name=':4' kind='simple'"
    * @generated
    */
   Object getValue();
@@ -104,6 +106,7 @@ public interface SimpleAnyType extends AnyType
    * @see #setInstanceType(EDataType)
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getSimpleAnyType_InstanceType()
    * @model resolveProxies="false" required="true"
+   *        extendedMetaData="name=':5' kind='simple'"
    * @generated
    */
   EDataType getInstanceType();

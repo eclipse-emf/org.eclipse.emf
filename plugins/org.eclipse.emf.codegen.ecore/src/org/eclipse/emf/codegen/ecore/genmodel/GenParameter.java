@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameter.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenParameter.java,v 1.2 2004/12/16 21:32:41 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -34,10 +34,11 @@ import org.eclipse.emf.ecore.EParameter;
  * </p>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenParameter()
- * @model 
+ * @model
  * @generated
  */
-public interface GenParameter extends GenBase {
+public interface GenParameter extends GenBase
+{
   /**
    * Returns the value of the '<em><b>Gen Operation</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getGenParameters <em>Gen Parameters</em>}'.

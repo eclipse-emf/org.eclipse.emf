@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.3 2004/08/12 15:01:10 emerks Exp $
+ * $Id: EcorePackage.java,v 1.4 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -35,7 +35,8 @@ package org.eclipse.emf.ecore;
  * @see org.eclipse.emf.ecore.EcoreFactory
  * @generated
  */
-public interface EcorePackage extends EPackage{
+public interface EcorePackage extends EPackage
+{
   /**
    * The package name.
    * @generated
@@ -3020,7 +3021,8 @@ public interface EcorePackage extends EPackage{
    * <!-- end-user-doc -->
    * @return the meta object for class '<em>EString To String Map Entry</em>'.
    * @see java.util.Map.Entry
-   * @model keyType="java.lang.String" valueType="java.lang.String" 
+   * @model keyType="java.lang.String"
+   *        valueType="java.lang.String"
    * @generated
    */
   EClass getEStringToStringMapEntry();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.10 2004/11/01 21:13:33 davidms Exp $
+ * $Id: GenModel.java,v 1.11 2004/12/16 21:32:41 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -78,10 +78,11 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  * </p>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel()
- * @model 
+ * @model
  * @generated
  */
-public interface GenModel extends GenBase{
+public interface GenModel extends GenBase
+{
   /**
    * Returns the value of the '<em><b>Copyright Text</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -93,7 +94,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Copyright Text</em>' attribute.
    * @see #setCopyrightText(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_CopyrightText()
-   * @model 
+   * @model
    * @generated
    */
   String getCopyrightText();
@@ -119,7 +120,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Model Directory</em>' attribute.
    * @see #setModelDirectory(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ModelDirectory()
-   * @model 
+   * @model
    * @generated
    */
   String getModelDirectory();
@@ -168,7 +169,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Edit Directory</em>' attribute.
    * @see #setEditDirectory(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditDirectory()
-   * @model 
+   * @model
    * @generated
    */
   String getEditDirectory();
@@ -194,7 +195,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Editor Directory</em>' attribute.
    * @see #setEditorDirectory(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditorDirectory()
-   * @model 
+   * @model
    * @generated
    */
   String getEditorDirectory();
@@ -220,7 +221,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Model Plugin ID</em>' attribute.
    * @see #setModelPluginID(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ModelPluginID()
-   * @model 
+   * @model
    * @generated
    */
   String getModelPluginID();
@@ -246,7 +247,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Template Directory</em>' attribute.
    * @see #setTemplateDirectory(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TemplateDirectory()
-   * @model 
+   * @model
    * @generated
    */
   String getTemplateDirectory();
@@ -268,7 +269,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Runtime Jar</em>' attribute.
    * @see #setRuntimeJar(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_RuntimeJar()
-   * @model 
+   * @model
    * @generated
    */
   boolean isRuntimeJar();
@@ -306,7 +307,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Dynamic Templates</em>' attribute.
    * @see #setDynamicTemplates(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_DynamicTemplates()
-   * @model 
+   * @model
    * @generated
    */
   boolean isDynamicTemplates();
@@ -332,7 +333,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Redirection</em>' attribute.
    * @see #setRedirection(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_Redirection()
-   * @model 
+   * @model
    * @generated
    */
   String getRedirection();
@@ -354,7 +355,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Force Overwrite</em>' attribute.
    * @see #setForceOverwrite(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ForceOverwrite()
-   * @model 
+   * @model
    * @generated
    */
   boolean isForceOverwrite();
@@ -381,7 +382,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Non Externalized String Tag</em>' attribute.
    * @see #setNonExternalizedStringTag(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_NonExternalizedStringTag()
-   * @model 
+   * @model
    * @generated
    */
   String getNonExternalizedStringTag();
@@ -411,7 +412,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Test Directory</em>' attribute.
    * @see #setTestDirectory(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TestDirectory()
-   * @model 
+   * @model
    * @generated
    */
   String getTestDirectory();
@@ -437,7 +438,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Model Name</em>' attribute.
    * @see #setModelName(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ModelName()
-   * @model 
+   * @model
    * @generated
    */
   String getModelName();
@@ -463,7 +464,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Model Plugin Class</em>' attribute.
    * @see #setModelPluginClass(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ModelPluginClass()
-   * @model 
+   * @model
    * @generated
    */
   String getModelPluginClass();
@@ -489,7 +490,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Edit Plugin Class</em>' attribute.
    * @see #setEditPluginClass(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditPluginClass()
-   * @model 
+   * @model
    * @generated
    */
   String getEditPluginClass();
@@ -515,7 +516,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Editor Plugin Class</em>' attribute.
    * @see #setEditorPluginClass(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditorPluginClass()
-   * @model 
+   * @model
    * @generated
    */
   String getEditorPluginClass();
@@ -568,7 +569,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Generate Schema</em>' attribute.
    * @see #setGenerateSchema(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_GenerateSchema()
-   * @model 
+   * @model
    * @generated
    */
   boolean isGenerateSchema();
@@ -706,7 +707,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Root Implements Interface</em>' attribute.
    * @see #setRootImplementsInterface(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_RootImplementsInterface()
-   * @model 
+   * @model
    * @generated
    */
   String getRootImplementsInterface();
@@ -735,7 +736,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Suppress EMF Types</em>' attribute.
    * @see #setSuppressEMFTypes(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_SuppressEMFTypes()
-   * @model 
+   * @model
    * @generated
    */
   boolean isSuppressEMFTypes();
@@ -761,7 +762,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Feature Map Wrapper Interface</em>' attribute.
    * @see #setFeatureMapWrapperInterface(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_FeatureMapWrapperInterface()
-   * @model 
+   * @model
    * @generated
    */
   String getFeatureMapWrapperInterface();
@@ -787,7 +788,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Feature Map Wrapper Internal Interface</em>' attribute.
    * @see #setFeatureMapWrapperInternalInterface(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_FeatureMapWrapperInternalInterface()
-   * @model 
+   * @model
    * @generated
    */
   String getFeatureMapWrapperInternalInterface();
@@ -813,7 +814,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Feature Map Wrapper Class</em>' attribute.
    * @see #setFeatureMapWrapperClass(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_FeatureMapWrapperClass()
-   * @model 
+   * @model
    * @generated
    */
   String getFeatureMapWrapperClass();
@@ -866,7 +867,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Rich Client Platform</em>' attribute.
    * @see #setRichClientPlatform(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_RichClientPlatform()
-   * @model 
+   * @model
    * @generated
    */
   boolean isRichClientPlatform();
@@ -892,7 +893,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Reflective Delegation</em>' attribute.
    * @see #setReflectiveDelegation(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ReflectiveDelegation()
-   * @model 
+   * @model
    * @generated
    */
   boolean isReflectiveDelegation();
@@ -918,7 +919,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Code Formatting</em>' attribute.
    * @see #setCodeFormatting(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_CodeFormatting()
-   * @model 
+   * @model
    * @generated
    */
   boolean isCodeFormatting();

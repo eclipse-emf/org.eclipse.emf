@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EDataType.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EDataType.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -31,7 +31,7 @@ package org.eclipse.emf.ecore;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEDataType()
- * @model 
+ * @model
  * @generated
  */
 public interface EDataType extends EClassifier

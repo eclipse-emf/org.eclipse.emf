@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenResourceKind.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenResourceKind.java,v 1.2 2004/12/16 21:32:41 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -60,7 +60,7 @@ public final class GenResourceKind extends AbstractEnumerator
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #XMI_LITERAL
-   * @model 
+   * @model
    * @generated
    * @ordered
    */
@@ -71,7 +71,7 @@ public final class GenResourceKind extends AbstractEnumerator
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #XML_LITERAL
-   * @model 
+   * @model
    * @generated
    * @ordered
    */

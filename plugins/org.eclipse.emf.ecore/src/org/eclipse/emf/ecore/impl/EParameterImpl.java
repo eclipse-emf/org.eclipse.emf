@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterImpl.java,v 1.2 2004/06/11 22:14:52 emerks Exp $
+ * $Id: EParameterImpl.java,v 1.3 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -135,12 +135,12 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
       switch (eContainerFeatureID)
       {
         case EcorePackage.EPARAMETER__EOPERATION:
-          return ((InternalEObject)eContainer).eInverseRemove(this, EcorePackage.EOPERATION__EPARAMETERS, EOperation.class, msgs);
+          return eContainer.eInverseRemove(this, EcorePackage.EOPERATION__EPARAMETERS, EOperation.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

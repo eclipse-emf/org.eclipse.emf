@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.3 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: EStructuralFeature.java,v 1.4 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -52,7 +52,7 @@ public interface EStructuralFeature extends ETypedElement
    * @return the value of the '<em>Transient</em>' attribute.
    * @see #setTransient(boolean)
    * @see org.eclipse.emf.ecore.EcorePackage#getEStructuralFeature_Transient()
-   * @model 
+   * @model
    * @generated
    */
   boolean isTransient();
@@ -74,7 +74,7 @@ public interface EStructuralFeature extends ETypedElement
    * @return the value of the '<em>Volatile</em>' attribute.
    * @see #setVolatile(boolean)
    * @see org.eclipse.emf.ecore.EcorePackage#getEStructuralFeature_Volatile()
-   * @model 
+   * @model
    * @generated
    */
   boolean isVolatile();
@@ -122,7 +122,7 @@ public interface EStructuralFeature extends ETypedElement
    * @return the value of the '<em>Default Value Literal</em>' attribute.
    * @see #setDefaultValueLiteral(String)
    * @see org.eclipse.emf.ecore.EcorePackage#getEStructuralFeature_DefaultValueLiteral()
-   * @model 
+   * @model
    * @generated
    */
   String getDefaultValueLiteral();
@@ -189,7 +189,7 @@ public interface EStructuralFeature extends ETypedElement
    * @return the value of the '<em>Unsettable</em>' attribute.
    * @see #setUnsettable(boolean)
    * @see org.eclipse.emf.ecore.EcorePackage#getEStructuralFeature_Unsettable()
-   * @model 
+   * @model
    * @generated
    */
   boolean isUnsettable();
@@ -217,7 +217,7 @@ public interface EStructuralFeature extends ETypedElement
    * @return the value of the '<em>Derived</em>' attribute.
    * @see #setDerived(boolean)
    * @see org.eclipse.emf.ecore.EcorePackage#getEStructuralFeature_Derived()
-   * @model 
+   * @model
    * @generated
    */
   boolean isDerived();

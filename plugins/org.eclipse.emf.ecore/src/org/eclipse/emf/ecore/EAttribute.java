@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttribute.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EAttribute.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -32,7 +32,7 @@ package org.eclipse.emf.ecore;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEAttribute()
- * @model 
+ * @model
  * @generated
  */
 public interface EAttribute extends EStructuralFeature
@@ -50,7 +50,7 @@ public interface EAttribute extends EStructuralFeature
    * @return the value of the '<em>ID</em>' attribute.
    * @see #setID(boolean)
    * @see org.eclipse.emf.ecore.EcorePackage#getEAttribute_ID()
-   * @model 
+   * @model
    * @generated
    */
   boolean isID();

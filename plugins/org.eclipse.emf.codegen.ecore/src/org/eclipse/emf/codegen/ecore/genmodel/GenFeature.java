@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.6 2004/11/15 14:54:43 davidms Exp $
+ * $Id: GenFeature.java,v 1.7 2004/12/16 21:32:41 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -40,10 +40,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * </p>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature()
- * @model 
+ * @model
  * @generated
  */
-public interface GenFeature extends GenBase 
+public interface GenFeature extends GenBase
 {
   /**
    * Returns the value of the '<em><b>Property</b></em>' attribute.
@@ -58,7 +58,7 @@ public interface GenFeature extends GenBase
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind
    * @see #setProperty(GenPropertyKind)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature_Property()
-   * @model 
+   * @model
    * @generated
    */
   GenPropertyKind getProperty();
@@ -104,7 +104,7 @@ public interface GenFeature extends GenBase
    * @return the value of the '<em>Children</em>' attribute.
    * @see #setChildren(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature_Children()
-   * @model 
+   * @model
    * @generated
    */
   boolean isChildren();

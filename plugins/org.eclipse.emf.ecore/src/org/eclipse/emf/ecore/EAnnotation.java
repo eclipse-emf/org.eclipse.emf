@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotation.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EAnnotation.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -36,7 +36,7 @@ import org.eclipse.emf.common.util.EMap;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEAnnotation()
- * @model 
+ * @model
  * @generated
  */
 public interface EAnnotation extends EModelElement
@@ -53,7 +53,7 @@ public interface EAnnotation extends EModelElement
    * @return the value of the '<em>Source</em>' attribute.
    * @see #setSource(String)
    * @see org.eclipse.emf.ecore.EcorePackage#getEAnnotation_Source()
-   * @model 
+   * @model
    * @generated
    */
   String getSource();

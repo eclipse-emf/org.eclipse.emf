@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AnyType.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: AnyType.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * </p>
  *
  * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getAnyType()
- * @model 
+ * @model extendedMetaData="name='anyType' kind='mixed'"
  * @generated
  */
 public interface AnyType extends EObject
@@ -53,6 +53,7 @@ public interface AnyType extends EObject
    * @return the value of the '<em>Mixed</em>' attribute list.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getAnyType_Mixed()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="kind='elementWildcard' name=':mixed'"
    * @generated
    */
   FeatureMap getMixed();
@@ -69,6 +70,7 @@ public interface AnyType extends EObject
    * @return the value of the '<em>Any</em>' attribute list.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getAnyType_Any()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='elementWildcard' wildcards='##any' name=':1' processing='lax'"
    * @generated
    */
   FeatureMap getAny();
@@ -85,6 +87,7 @@ public interface AnyType extends EObject
    * @return the value of the '<em>Any Attribute</em>' attribute list.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getAnyType_AnyAttribute()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="kind='attributeWildcard' wildcards='##any' name=':2' processing='lax'"
    * @generated
    */
   FeatureMap getAnyAttribute();

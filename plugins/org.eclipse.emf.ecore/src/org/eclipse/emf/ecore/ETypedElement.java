@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElement.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: ETypedElement.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -116,7 +116,7 @@ public interface ETypedElement extends ENamedElement
    * @return the value of the '<em>Lower Bound</em>' attribute.
    * @see #setLowerBound(int)
    * @see org.eclipse.emf.ecore.EcorePackage#getETypedElement_LowerBound()
-   * @model 
+   * @model
    * @generated
    */
   int getLowerBound();
@@ -197,7 +197,7 @@ public interface ETypedElement extends ENamedElement
    * @return the value of the '<em>EType</em>' reference.
    * @see #setEType(EClassifier)
    * @see org.eclipse.emf.ecore.EcorePackage#getETypedElement_EType()
-   * @model 
+   * @model
    * @generated
    */
   EClassifier getEType();

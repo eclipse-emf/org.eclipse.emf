@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumImpl.java,v 1.3 2004/06/11 22:14:52 emerks Exp $
+ * $Id: EEnumImpl.java,v 1.4 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -157,12 +157,12 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
       switch (eContainerFeatureID)
       {
         case EcorePackage.EENUM__EPACKAGE:
-          return ((InternalEObject)eContainer).eInverseRemove(this, EcorePackage.EPACKAGE__ECLASSIFIERS, EPackage.class, msgs);
+          return eContainer.eInverseRemove(this, EcorePackage.EPACKAGE__ECLASSIFIERS, EPackage.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

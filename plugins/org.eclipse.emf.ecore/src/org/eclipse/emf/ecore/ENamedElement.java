@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ENamedElement.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: ENamedElement.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -45,7 +45,7 @@ public interface ENamedElement extends EModelElement
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
    * @see org.eclipse.emf.ecore.EcorePackage#getENamedElement_Name()
-   * @model 
+   * @model
    * @generated
    */
   String getName();

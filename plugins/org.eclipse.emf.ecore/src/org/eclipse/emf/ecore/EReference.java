@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReference.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EReference.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -35,7 +35,7 @@ package org.eclipse.emf.ecore;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEReference()
- * @model 
+ * @model
  * @generated
  */
 public interface EReference extends EStructuralFeature
@@ -48,7 +48,7 @@ public interface EReference extends EStructuralFeature
    * @return the value of the '<em>Containment</em>' attribute.
    * @see #setContainment(boolean)
    * @see org.eclipse.emf.ecore.EcorePackage#getEReference_Containment()
-   * @model 
+   * @model
    * @generated
    */
   boolean isContainment();
@@ -113,7 +113,7 @@ public interface EReference extends EStructuralFeature
    * @return the value of the '<em>EOpposite</em>' reference.
    * @see #setEOpposite(EReference)
    * @see org.eclipse.emf.ecore.EcorePackage#getEReference_EOpposite()
-   * @model 
+   * @model
    * @generated
    */
   EReference getEOpposite();

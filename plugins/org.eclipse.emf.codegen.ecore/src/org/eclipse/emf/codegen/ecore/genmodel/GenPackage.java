@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.7 2004/10/22 19:20:50 davidms Exp $
+ * $Id: GenPackage.java,v 1.8 2004/12/16 21:32:41 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -49,10 +49,11 @@ import org.eclipse.emf.ecore.EPackage;
  * </p>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage()
- * @model 
+ * @model
  * @generated
  */
-public interface GenPackage extends GenBase{
+public interface GenPackage extends GenBase
+{
   /**
    * Returns the value of the '<em><b>Prefix</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -64,7 +65,7 @@ public interface GenPackage extends GenBase{
    * @return the value of the '<em>Prefix</em>' attribute.
    * @see #setPrefix(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_Prefix()
-   * @model 
+   * @model
    * @generated
    */
   String getPrefix();
@@ -90,7 +91,7 @@ public interface GenPackage extends GenBase{
    * @return the value of the '<em>Base Package</em>' attribute.
    * @see #setBasePackage(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_BasePackage()
-   * @model 
+   * @model
    * @generated
    */
   String getBasePackage();
@@ -118,7 +119,7 @@ public interface GenPackage extends GenBase{
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind
    * @see #setResource(GenResourceKind)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_Resource()
-   * @model 
+   * @model
    * @generated
    */
   GenResourceKind getResource();
@@ -145,7 +146,7 @@ public interface GenPackage extends GenBase{
    * @return the value of the '<em>Disposable Provider Factory</em>' attribute.
    * @see #setDisposableProviderFactory(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_DisposableProviderFactory()
-   * @model 
+   * @model
    * @generated
    */
   boolean isDisposableProviderFactory();
@@ -198,7 +199,7 @@ public interface GenPackage extends GenBase{
    * @return the value of the '<em>Load Initialization</em>' attribute.
    * @see #setLoadInitialization(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_LoadInitialization()
-   * @model 
+   * @model
    * @generated
    */
   boolean isLoadInitialization();

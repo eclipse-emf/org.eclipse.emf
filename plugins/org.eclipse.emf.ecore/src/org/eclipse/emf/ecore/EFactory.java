@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactory.java,v 1.2 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: EFactory.java,v 1.3 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -34,7 +34,7 @@ package org.eclipse.emf.ecore;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEFactory()
- * @model 
+ * @model
  * @generated
  */
 public interface EFactory extends EModelElement
@@ -72,7 +72,7 @@ public interface EFactory extends EModelElement
    * @param eClass the class of the new instance.
    * @return a new instance of the class.
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   EObject create(EClass eClass);
@@ -85,7 +85,7 @@ public interface EFactory extends EModelElement
    * @see #convertToString(EDataType, Object)
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   Object createFromString(EDataType eDataType, String literalValue);
@@ -99,7 +99,7 @@ public interface EFactory extends EModelElement
    * @see #createFromString(EDataType, String)
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   String convertToString(EDataType eDataType, Object instanceValue);

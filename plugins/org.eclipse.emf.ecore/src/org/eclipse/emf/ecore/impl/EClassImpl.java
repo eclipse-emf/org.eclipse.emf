@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.7 2004/08/26 11:20:59 emerks Exp $
+ * $Id: EClassImpl.java,v 1.8 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -564,12 +564,12 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       switch (eContainerFeatureID)
       {
         case EcorePackage.ECLASS__EPACKAGE:
-          return ((InternalEObject)eContainer).eInverseRemove(this, EcorePackage.EPACKAGE__ECLASSIFIERS, EPackage.class, msgs);
+          return eContainer.eInverseRemove(this, EcorePackage.EPACKAGE__ECLASSIFIERS, EPackage.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   public EStructuralFeature getEStructuralFeature(int featureID) 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.6 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: EClassifierImpl.java,v 1.7 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -574,12 +574,12 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
       switch (eContainerFeatureID)
       {
         case EcorePackage.ECLASSIFIER__EPACKAGE:
-          return ((InternalEObject)eContainer).eInverseRemove(this, EcorePackage.EPACKAGE__ECLASSIFIERS, EPackage.class, msgs);
+          return eContainer.eInverseRemove(this, EcorePackage.EPACKAGE__ECLASSIFIERS, EPackage.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   protected BasicExtendedMetaData.EClassifierExtendedMetaData eClassifierExtendedMetaData;

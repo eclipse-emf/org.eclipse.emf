@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.10 2004/08/12 15:02:26 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.11 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -606,12 +606,12 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       switch (eContainerFeatureID)
       {
         case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
-          return ((InternalEObject)eContainer).eInverseRemove(this, EcorePackage.EPACKAGE__ESUBPACKAGES, EPackage.class, msgs);
+          return eContainer.eInverseRemove(this, EcorePackage.EPACKAGE__ESUBPACKAGES, EPackage.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackage.java,v 1.2 2004/06/21 13:51:41 emerks Exp $
+ * $Id: EPackage.java,v 1.3 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -40,7 +40,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEPackage()
- * @model 
+ * @model
  * @generated
  */
 public interface EPackage extends ENamedElement
@@ -85,7 +85,7 @@ public interface EPackage extends ENamedElement
    * @return the value of the '<em>Ns URI</em>' attribute.
    * @see #setNsURI(String)
    * @see org.eclipse.emf.ecore.EcorePackage#getEPackage_NsURI()
-   * @model 
+   * @model
    * @generated
    */
   String getNsURI();
@@ -111,7 +111,7 @@ public interface EPackage extends ENamedElement
    * @return the value of the '<em>Ns Prefix</em>' attribute.
    * @see #setNsPrefix(String)
    * @see org.eclipse.emf.ecore.EcorePackage#getEPackage_NsPrefix()
-   * @model 
+   * @model
    * @generated
    */
   String getNsPrefix();
@@ -209,7 +209,7 @@ public interface EPackage extends ENamedElement
    * @param name the name in question.
    * @return the classifier with the given name.
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   EClassifier getEClassifier(String name);

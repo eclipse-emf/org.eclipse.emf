@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRoot.java,v 1.2 2004/05/16 17:13:27 emerks Exp $
+ * $Id: XMLNamespaceDocumentRoot.java,v 1.3 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -40,7 +40,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * </p>
  *
  * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot()
- * @model 
+ * @model extendedMetaData="name='' kind='mixed'"
  * @generated
  */
 public interface XMLNamespaceDocumentRoot extends EObject
@@ -57,6 +57,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @return the value of the '<em>Mixed</em>' attribute list.
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Mixed()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="kind='elementWildcard' name=':mixed'"
    * @generated
    */
   FeatureMap getMixed();
@@ -74,6 +75,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @return the value of the '<em>XMLNS Prefix Map</em>' map.
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_XMLNSPrefixMap()
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
   EMap getXMLNSPrefixMap();
@@ -91,6 +93,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @return the value of the '<em>XSI Schema Location</em>' map.
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_XSISchemaLocation()
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */
   EMap getXSISchemaLocation();
@@ -107,6 +110,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @see #setBase(String)
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Base()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnyURI"
+   *        extendedMetaData="kind='attribute' name='base' namespace='##targetNamespace'"
    * @generated
    */
   String getBase();
@@ -133,6 +137,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @see #setLang(String)
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Lang()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Language"
+   *        extendedMetaData="kind='attribute' name='lang' namespace='##targetNamespace'"
    * @generated
    */
   String getLang();
@@ -164,6 +169,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @see #setSpace(SpaceType)
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Space()
    * @model default="preserve" unique="false" unsettable="true"
+   *        extendedMetaData="kind='attribute' name='space' namespace='##targetNamespace'"
    * @generated
    */
   SpaceType getSpace();

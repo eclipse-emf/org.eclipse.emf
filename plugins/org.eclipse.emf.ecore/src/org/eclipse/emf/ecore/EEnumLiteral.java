@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteral.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EEnumLiteral.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -36,7 +36,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEEnumLiteral()
- * @model 
+ * @model
  * @generated
  */
 public interface EEnumLiteral extends ENamedElement, Enumerator
@@ -51,7 +51,7 @@ public interface EEnumLiteral extends ENamedElement, Enumerator
    * @return the value of the '<em>Value</em>' attribute.
    * @see #setValue(int)
    * @see org.eclipse.emf.ecore.EcorePackage#getEEnumLiteral_Value()
-   * @model 
+   * @model
    * @generated
    */
   int getValue();

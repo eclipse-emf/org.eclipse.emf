@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifier.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EClassifier.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -51,7 +51,7 @@ public interface EClassifier extends ENamedElement
    * @return the value of the '<em>Instance Class Name</em>' attribute.
    * @see #setInstanceClassName(String)
    * @see org.eclipse.emf.ecore.EcorePackage#getEClassifier_InstanceClassName()
-   * @model 
+   * @model
    * @generated
    */
   String getInstanceClassName();
@@ -127,7 +127,7 @@ public interface EClassifier extends ENamedElement
    * @see Class#isInstance
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   boolean isInstance(Object object);

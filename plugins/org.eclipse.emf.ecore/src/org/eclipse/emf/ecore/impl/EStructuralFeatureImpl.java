@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.5 2004/06/18 09:52:06 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.6 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -729,12 +729,12 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       switch (eContainerFeatureID)
       {
         case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
-          return ((InternalEObject)eContainer).eInverseRemove(this, EcorePackage.ECLASS__ESTRUCTURAL_FEATURES, EClass.class, msgs);
+          return eContainer.eInverseRemove(this, EcorePackage.ECLASS__ESTRUCTURAL_FEATURES, EClass.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   public void setContainerClass(Class containerClass)

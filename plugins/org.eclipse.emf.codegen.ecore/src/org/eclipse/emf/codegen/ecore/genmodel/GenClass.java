@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.6 2004/09/24 04:09:14 davidms Exp $
+ * $Id: GenClass.java,v 1.7 2004/12/16 21:32:41 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -41,10 +41,11 @@ import org.eclipse.emf.ecore.EClass;
  * </p>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClass()
- * @model 
+ * @model
  * @generated
  */
-public interface GenClass extends GenClassifier{
+public interface GenClass extends GenClassifier
+{
   /**
    * Returns the value of the '<em><b>Provider</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind}.
@@ -58,7 +59,7 @@ public interface GenClass extends GenClassifier{
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind
    * @see #setProvider(GenProviderKind)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClass_Provider()
-   * @model 
+   * @model
    * @generated
    */
   GenProviderKind getProvider();
@@ -174,7 +175,7 @@ public interface GenClass extends GenClassifier{
    * @return the value of the '<em>Label Feature</em>' reference.
    * @see #setLabelFeature(GenFeature)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClass_LabelFeature()
-   * @model 
+   * @model
    * @generated
    */
   GenFeature getLabelFeature();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnum.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenEnum.java,v 1.2 2004/12/16 21:32:41 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -37,10 +37,11 @@ import org.eclipse.emf.ecore.EEnum;
  * </p>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenEnum()
- * @model 
+ * @model
  * @generated
  */
-public interface GenEnum extends GenDataType{
+public interface GenEnum extends GenDataType
+{
   /**
    * Returns the value of the '<em><b>Ecore Enum</b></em>' reference.
    * <!-- begin-user-doc -->

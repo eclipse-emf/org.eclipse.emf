@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteral.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenEnumLiteral.java,v 1.2 2004/12/16 21:32:41 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -34,10 +34,11 @@ import org.eclipse.emf.ecore.EEnumLiteral;
  * </p>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenEnumLiteral()
- * @model 
+ * @model
  * @generated
  */
-public interface GenEnumLiteral extends GenBase {
+public interface GenEnumLiteral extends GenBase
+{
   /**
    * Returns the value of the '<em><b>Gen Enum</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnum#getGenEnumLiterals <em>Gen Enum Literals</em>}'.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeDocumentRoot.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLTypeDocumentRoot.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -40,7 +40,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * </p>
  *
  * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot()
- * @model 
+ * @model extendedMetaData="name='' kind='mixed'"
  * @generated
  */
 public interface XMLTypeDocumentRoot extends EObject
@@ -57,6 +57,7 @@ public interface XMLTypeDocumentRoot extends EObject
    * @return the value of the '<em>Mixed</em>' attribute list.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_Mixed()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="kind='elementWildcard' name=':mixed'"
    * @generated
    */
   FeatureMap getMixed();
@@ -74,6 +75,7 @@ public interface XMLTypeDocumentRoot extends EObject
    * @return the value of the '<em>XMLNS Prefix Map</em>' map.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_XMLNSPrefixMap()
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
   EMap getXMLNSPrefixMap();
@@ -91,6 +93,7 @@ public interface XMLTypeDocumentRoot extends EObject
    * @return the value of the '<em>XSI Schema Location</em>' map.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_XSISchemaLocation()
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */
   EMap getXSISchemaLocation();
@@ -106,7 +109,8 @@ public interface XMLTypeDocumentRoot extends EObject
    * @return the value of the '<em>Text</em>' attribute.
    * @see #setText(String)
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_Text()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='text' namespace='##targetNamespace'"
    * @generated
    */
   String getText();
@@ -132,7 +136,8 @@ public interface XMLTypeDocumentRoot extends EObject
    * @return the value of the '<em>CDATA</em>' attribute.
    * @see #setCDATA(String)
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_CDATA()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='cDATA' namespace='##targetNamespace'"
    * @generated
    */
   String getCDATA();
@@ -158,7 +163,8 @@ public interface XMLTypeDocumentRoot extends EObject
    * @return the value of the '<em>Comment</em>' attribute.
    * @see #setComment(String)
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_Comment()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='comment' namespace='##targetNamespace'"
    * @generated
    */
   String getComment();

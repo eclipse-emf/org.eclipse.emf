@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EEnumLiteralImpl.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -235,12 +235,12 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
       switch (eContainerFeatureID)
       {
         case EcorePackage.EENUM_LITERAL__EENUM:
-          return ((InternalEObject)eContainer).eInverseRemove(this, EcorePackage.EENUM__ELITERALS, EEnum.class, msgs);
+          return eContainer.eInverseRemove(this, EcorePackage.EENUM__ELITERALS, EEnum.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

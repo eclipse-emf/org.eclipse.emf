@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElement.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EModelElement.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -63,7 +63,7 @@ public interface EModelElement extends EObject
    * @see org.eclipse.emf.ecore.EAnnotation#getSource()
    * @ignore
    * <!-- end-user-doc -->
-   * @model 
+   * @model
    * @generated
    */
   EAnnotation getEAnnotation(String source);

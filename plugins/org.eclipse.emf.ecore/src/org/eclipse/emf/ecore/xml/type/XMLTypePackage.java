@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackage.java,v 1.3 2004/05/21 22:13:38 elena Exp $
+ * $Id: XMLTypePackage.java,v 1.4 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -1003,6 +1003,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Any Simple Type</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='anySimpleType'" 
    * @generated
    */
   EDataType getAnySimpleType();
@@ -1014,6 +1015,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Any URI</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='anyURI' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getAnyURI();
@@ -1024,6 +1026,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Base64 Binary</em>'.
    * @model instanceClass="byte[]"
+   *        extendedMetaData="name='base64Binary' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getBase64Binary();
@@ -1034,6 +1037,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Boolean</em>'.
    * @model instanceClass="boolean"
+   *        extendedMetaData="name='boolean' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getBoolean();
@@ -1045,6 +1049,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Boolean Object</em>'.
    * @see java.lang.Boolean
    * @model instanceClass="java.lang.Boolean"
+   *        extendedMetaData="name='boolean:Object' baseType='boolean'" 
    * @generated
    */
   EDataType getBooleanObject();
@@ -1056,6 +1061,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Decimal</em>'.
    * @see java.math.BigDecimal
    * @model instanceClass="java.math.BigDecimal"
+   *        extendedMetaData="name='decimal' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getDecimal();
@@ -1067,6 +1073,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Integer</em>'.
    * @see java.math.BigInteger
    * @model instanceClass="java.math.BigInteger"
+   *        extendedMetaData="name='integer'" 
    * @generated
    */
   EDataType getInteger();
@@ -1078,6 +1085,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Int Object</em>'.
    * @see java.lang.Integer
    * @model instanceClass="java.lang.Integer"
+   *        extendedMetaData="name='int:Object' baseType='int'" 
    * @generated
    */
   EDataType getIntObject();
@@ -1088,6 +1096,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Long</em>'.
    * @model instanceClass="long"
+   *        extendedMetaData="name='long'" 
    * @generated
    */
   EDataType getLong();
@@ -1099,6 +1108,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Long Object</em>'.
    * @see java.lang.Long
    * @model instanceClass="java.lang.Long"
+   *        extendedMetaData="name='long:Object' baseType='long'" 
    * @generated
    */
   EDataType getLongObject();
@@ -1109,6 +1119,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Int</em>'.
    * @model instanceClass="int"
+   *        extendedMetaData="name='int'" 
    * @generated
    */
   EDataType getInt();
@@ -1119,6 +1130,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Short</em>'.
    * @model instanceClass="short"
+   *        extendedMetaData="name='short'" 
    * @generated
    */
   EDataType getShort();
@@ -1130,6 +1142,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Short Object</em>'.
    * @see java.lang.Short
    * @model instanceClass="java.lang.Short"
+   *        extendedMetaData="name='short:Object' baseType='short'" 
    * @generated
    */
   EDataType getShortObject();
@@ -1140,6 +1153,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Byte</em>'.
    * @model instanceClass="byte"
+   *        extendedMetaData="name='byte'" 
    * @generated
    */
   EDataType getByte();
@@ -1151,6 +1165,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Byte Object</em>'.
    * @see java.lang.Byte
    * @model instanceClass="java.lang.Byte"
+   *        extendedMetaData="name='byte:Object' baseType='byte'" 
    * @generated
    */
   EDataType getByteObject();
@@ -1162,6 +1177,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Date</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='date' baseType='anySimpleType' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getDate();
@@ -1173,6 +1189,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Date Time</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='dateTime' baseType='anySimpleType' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getDateTime();
@@ -1184,6 +1201,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>String</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='string' whiteSpace='preserve'" 
    * @generated
    */
   EDataType getString();
@@ -1194,6 +1212,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Double</em>'.
    * @model instanceClass="double"
+   *        extendedMetaData="name='double' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getDouble();
@@ -1205,6 +1224,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Double Object</em>'.
    * @see java.lang.Double
    * @model instanceClass="java.lang.Double"
+   *        extendedMetaData="name='double:Object' baseType='double'" 
    * @generated
    */
   EDataType getDoubleObject();
@@ -1216,6 +1236,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Duration</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='duration' baseType='anySimpleType' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getDuration();
@@ -1227,6 +1248,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>ENTITIES Base</em>'.
    * @see java.util.List
    * @model instanceClass="java.util.List"
+   *        extendedMetaData="name='ENTITIES_._base' itemType='ENTITY'" 
    * @generated
    */
   EDataType getENTITIESBase();
@@ -1238,6 +1260,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Normalized String</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='normalizedString' baseType='string' whiteSpace='replace'" 
    * @generated
    */
   EDataType getNormalizedString();
@@ -1249,6 +1272,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Token</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='token' baseType='normalizedString' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getToken();
@@ -1260,6 +1284,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Name</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='Name' baseType='token' pattern='\\i\\c*'" 
    * @generated
    */
   EDataType getName_();
@@ -1271,6 +1296,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>NC Name</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='NCName' baseType='Name' pattern='[\\i-[:]][\\c-[:]]*'" 
    * @generated
    */
   EDataType getNCName();
@@ -1282,6 +1308,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>ENTITY</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='ENTITY' baseType='NCName'" 
    * @generated
    */
   EDataType getENTITY();
@@ -1293,6 +1320,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>ENTITIES</em>'.
    * @see java.util.List
    * @model instanceClass="java.util.List"
+   *        extendedMetaData="name='ENTITIES' baseType='ENTITIES_._base' minLength='1'" 
    * @generated
    */
   EDataType getENTITIES();
@@ -1303,6 +1331,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Float</em>'.
    * @model instanceClass="float"
+   *        extendedMetaData="name='float' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getFloat();
@@ -1314,6 +1343,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Float Object</em>'.
    * @see java.lang.Float
    * @model instanceClass="java.lang.Float"
+   *        extendedMetaData="name='float:Object' baseType='float'" 
    * @generated
    */
   EDataType getFloatObject();
@@ -1325,6 +1355,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>GDay</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='gDay' baseType='anySimpleType' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getGDay();
@@ -1336,6 +1367,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>GMonth</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='gMonth' baseType='anySimpleType' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getGMonth();
@@ -1347,6 +1379,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>GMonth Day</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='gMonthDay' baseType='anySimpleType' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getGMonthDay();
@@ -1358,6 +1391,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>GYear</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='gYear' baseType='anySimpleType' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getGYear();
@@ -1369,6 +1403,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>GYear Month</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='gYearMonth' baseType='anySimpleType' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getGYearMonth();
@@ -1379,6 +1414,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Hex Binary</em>'.
    * @model instanceClass="byte[]"
+   *        extendedMetaData="name='hexBinary' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getHexBinary();
@@ -1390,6 +1426,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>ID</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='ID' baseType='NCName'" 
    * @generated
    */
   EDataType getID();
@@ -1401,6 +1438,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>IDREF</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='IDREF' baseType='NCName'" 
    * @generated
    */
   EDataType getIDREF();
@@ -1412,6 +1450,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>IDREFS Base</em>'.
    * @see java.util.List
    * @model instanceClass="java.util.List"
+   *        extendedMetaData="name='IDREFS_._base' itemType='IDREF'" 
    * @generated
    */
   EDataType getIDREFSBase();
@@ -1423,6 +1462,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>IDREFS</em>'.
    * @see java.util.List
    * @model instanceClass="java.util.List"
+   *        extendedMetaData="name='IDREFS' baseType='IDREFS_._base' minLength='1'" 
    * @generated
    */
   EDataType getIDREFS();
@@ -1434,6 +1474,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Language</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='language' baseType='token' pattern='[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*'" 
    * @generated
    */
   EDataType getLanguage();
@@ -1445,6 +1486,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Non Positive Integer</em>'.
    * @see java.math.BigInteger
    * @model instanceClass="java.math.BigInteger"
+   *        extendedMetaData="name='nonPositiveInteger' baseType='integer' maxInclusive='0'" 
    * @generated
    */
   EDataType getNonPositiveInteger();
@@ -1456,6 +1498,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Negative Integer</em>'.
    * @see java.math.BigInteger
    * @model instanceClass="java.math.BigInteger"
+   *        extendedMetaData="name='negativeInteger' baseType='nonPositiveInteger' maxInclusive='-1'" 
    * @generated
    */
   EDataType getNegativeInteger();
@@ -1467,6 +1510,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>NMTOKEN</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='NMTOKEN' baseType='token' pattern='\\c+'" 
    * @generated
    */
   EDataType getNMTOKEN();
@@ -1478,6 +1522,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>NMTOKENS Base</em>'.
    * @see java.util.List
    * @model instanceClass="java.util.List"
+   *        extendedMetaData="name='NMTOKENS_._base' itemType='NMTOKEN'" 
    * @generated
    */
   EDataType getNMTOKENSBase();
@@ -1489,6 +1534,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>NMTOKENS</em>'.
    * @see java.util.List
    * @model instanceClass="java.util.List"
+   *        extendedMetaData="name='NMTOKENS' baseType='NMTOKENS_._base' minLength='1'" 
    * @generated
    */
   EDataType getNMTOKENS();
@@ -1500,6 +1546,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Non Negative Integer</em>'.
    * @see java.math.BigInteger
    * @model instanceClass="java.math.BigInteger"
+   *        extendedMetaData="name='nonNegativeInteger' baseType='integer' minInclusive='0'" 
    * @generated
    */
   EDataType getNonNegativeInteger();
@@ -1511,6 +1558,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>NOTATION</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='NOTATION' baseType='anySimpleType' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getNOTATION();
@@ -1522,6 +1570,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Positive Integer</em>'.
    * @see java.math.BigInteger
    * @model instanceClass="java.math.BigInteger"
+   *        extendedMetaData="name='positiveInteger' baseType='nonNegativeInteger' minInclusive='1'" 
    * @generated
    */
   EDataType getPositiveInteger();
@@ -1533,6 +1582,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>QName</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='QName' baseType='anySimpleType' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getQName();
@@ -1544,6 +1594,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Time</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='time' baseType='anySimpleType' whiteSpace='collapse'" 
    * @generated
    */
   EDataType getTime();
@@ -1555,6 +1606,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Unsigned Long</em>'.
    * @see java.math.BigInteger
    * @model instanceClass="java.math.BigInteger"
+   *        extendedMetaData="name='unsignedLong' baseType='nonNegativeInteger' maxInclusive='18446744073709551615' minInclusive='0'" 
    * @generated
    */
   EDataType getUnsignedLong();
@@ -1565,6 +1617,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Unsigned Int</em>'.
    * @model instanceClass="long"
+   *        extendedMetaData="name='unsignedInt' maxInclusive='4294967295' minInclusive='0'" 
    * @generated
    */
   EDataType getUnsignedInt();
@@ -1576,6 +1629,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Unsigned Int Object</em>'.
    * @see java.lang.Long
    * @model instanceClass="java.lang.Long"
+   *        extendedMetaData="name='unsignedInt:Object' baseType='unsignedInt'" 
    * @generated
    */
   EDataType getUnsignedIntObject();
@@ -1586,6 +1640,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Unsigned Short</em>'.
    * @model instanceClass="int"
+   *        extendedMetaData="name='unsignedShort' maxInclusive='65535' minInclusive='0'" 
    * @generated
    */
   EDataType getUnsignedShort();
@@ -1597,6 +1652,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Unsigned Short Object</em>'.
    * @see java.lang.Integer
    * @model instanceClass="java.lang.Integer"
+   *        extendedMetaData="name='unsignedShort:Object' baseType='unsignedShort'" 
    * @generated
    */
   EDataType getUnsignedShortObject();
@@ -1607,6 +1663,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Unsigned Byte</em>'.
    * @model instanceClass="short"
+   *        extendedMetaData="name='unsignedByte' maxInclusive='255' minInclusive='0'" 
    * @generated
    */
   EDataType getUnsignedByte();
@@ -1618,6 +1675,7 @@ public interface XMLTypePackage extends EPackage
    * @return the meta object for data type '<em>Unsigned Byte Object</em>'.
    * @see java.lang.Short
    * @model instanceClass="java.lang.Short"
+   *        extendedMetaData="name='unsignedByte:Object' baseType='unsignedByte'" 
    * @generated
    */
   EDataType getUnsignedByteObject();

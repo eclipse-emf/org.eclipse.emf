@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackage.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLNamespacePackage.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -260,6 +260,7 @@ public interface XMLNamespacePackage extends EPackage
    * @return the meta object for data type '<em>Space Type Object</em>'.
    * @see org.eclipse.emf.ecore.xml.namespace.SpaceType
    * @model instanceClass="org.eclipse.emf.ecore.xml.namespace.SpaceType"
+   *        extendedMetaData="name='space_._type:Object' baseType='space_._type'" 
    * @generated
    */
   EDataType getSpaceTypeObject();
