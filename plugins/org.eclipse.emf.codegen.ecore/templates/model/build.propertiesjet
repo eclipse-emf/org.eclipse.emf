@@ -1,0 +1,33 @@
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.1 2004/05/26 15:22:01 marcelop Exp $" %>
+<%
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002-2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ */
+%>
+<%GenModel genModel = (GenModel)argument;%>
+<!--
+<%@ include file="../Header.jetinc"%>
+-->
+<%if (genModel.isRuntimeJar()) {%>
+<%String jarFile = "runtime/"+genModel.getModelPluginID()+".jar";%>
+bin.includes =	plugin.xml,\
+				<%=jarFile%>,\
+				plugin.properties
+jars.compile.order = <%=jarFile%>
+source.<%=jarFile%> = src/
+output.<%=jarFile%> = bin/
+<%} else {%>
+bin.includes =	plugin.xml,\
+				plugin.properties
+<%}%>
