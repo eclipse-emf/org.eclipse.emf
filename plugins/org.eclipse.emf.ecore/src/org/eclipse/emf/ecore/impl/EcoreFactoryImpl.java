@@ -12,16 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.5 2004/04/05 20:07:27 emerks Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.6 2004/10/06 21:49:54 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -396,15 +394,6 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
 
     return instanceValue == null ? null : instanceValue.toString();
   }
-
-  protected static final DateFormat [] EDATE_FORMATS = 
-    {
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSSZ"),
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS"),
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"),
-      new SimpleDateFormat("yyyy-MM-dd")
-    };
 
   /**
    * <!-- begin-user-doc -->

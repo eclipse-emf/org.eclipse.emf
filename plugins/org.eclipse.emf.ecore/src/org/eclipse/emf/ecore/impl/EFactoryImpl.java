@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.5 2004/08/20 23:49:41 marcelop Exp $
+ * $Id: EFactoryImpl.java,v 1.6 2004/10/06 21:49:54 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -20,8 +20,12 @@ package org.eclipse.emf.ecore.impl;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -304,6 +308,23 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       return new Character(charValue);
     }
 
+    if (c == Date.class)
+    {
+      Exception exception = null;
+      for (int i = 0; i < EDATE_FORMATS.length; ++i)
+      {
+        try
+        {
+          return EDATE_FORMATS[i].parse(stringValue);
+        }
+        catch (ParseException parseException)
+        {
+          exception = parseException;
+        }
+      }
+      throw new IllegalArgumentException("The value '" + stringValue + "' is not a date formatted string of the form yyyy-MM-dd'T'HH:mm:ss'.'SSSZ or a valid subset thereof");
+    }
+
     Class stringClass = String.class;
     Class[] signature = { stringClass };
 
@@ -427,6 +448,10 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       Integer value = new Integer(charInt);
       return value.toString();
     }
+    else if (objectValue instanceof Date)
+    {
+      return EDATE_FORMATS[0].format((Date)objectValue);
+    }
     else if (objectValue != null)
     {
       return objectValue.toString();
@@ -446,6 +471,15 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
   {
     return XMLTypeUtil.normalize(value, true);
   }
+
+  protected static final DateFormat [] EDATE_FORMATS = 
+  {
+    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSSZ"),
+    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS"),
+    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
+    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"),
+    new SimpleDateFormat("yyyy-MM-dd")
+  };
 
   /**
    * <!-- begin-user-doc -->
