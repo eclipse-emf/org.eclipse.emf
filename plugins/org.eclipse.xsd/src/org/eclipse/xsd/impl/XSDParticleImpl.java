@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDParticleImpl.java,v 1.2 2004/03/15 16:39:24 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1067,6 +1067,26 @@ public class XSDParticleImpl
           case XSDCompositor.ALL:
           default:
           {
+            if (visitedModelGroups.size() > 1)
+            {
+              if (diagnostics == null)
+              {
+                diagnostics = new ArrayList();
+              }
+
+              XSDDiagnostic xsdDiagnostic = XSDFactory.eINSTANCE.createXSDDiagnostic();
+              xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.ERROR_LITERAL);
+              xsdDiagnostic.setMessage
+                (XSDPlugin.INSTANCE.getString
+                   ("_UI_XSDError_message", 
+                       new Object [] 
+                       {
+                         XSDPlugin.INSTANCE.getString("cos-all-limited.1")
+                       }));
+
+              diagnostics.add(xsdDiagnostic);
+            }
+
             if (xsdModelGroup.getParticles().size() == 0)
             {
               initialState.createTransition(null, finalState);
@@ -1085,7 +1105,7 @@ public class XSDParticleImpl
                 }
               }
 
-              if (xsdModelGroup.getParticles().size() > 8)
+              if (xsdModelGroup.getParticles().size() > 4)
               {
                 // diagnostics = new ArrayList();
                 // XSDDiagnostic xsdDiagnostic = XSDFactory.eINSTANCE.createXSDDiagnostic();
