@@ -1,578 +1,387 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
 <head>
-  <meta name="generator" content=
-  "HTML Tidy for Windows (vers 1st February 2004), see www.w3.org" />
-  <link rel="stylesheet" href=
-  "http://dev.eclipse.org/default_style.css" type="text/css" />
-
-  <title>EMF FAQ</title>
-  <meta http-equiv="Content-Type" content=
-  "text/html; charset=us-ascii" />
-  <style type="text/css">
-  /*<![CDATA[*/
-  a.c6 {color: #FFFFFF}
-  td.c5 {color: #FFFFFF}
-  sup.c4 {font-family: Arial; font-size: 64%}
-  span.c3 {font-family: arial,helvetica,geneva; font-size: 80%}
-  b.c2 {color: #FFFFFF; font-family: Arial,Helvetica}
-  table.c1 {border-collapse: collapse}
-  /*]]>*/
-  </style>
+ <link rel="stylesheet" href="http://dev.eclipse.org/default_style.css" type="text/css">
+ <title>EMF FAQ</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
+ <body>
 
-<body>
-  <!-- Title -->
+<!-- Title -->
 
-  <table summary="" border="0" cellspacing="0" cellpadding="3" width="100%"
-  class="c1" bordercolor="#111111">
-    <tbody>
-      <tr>
-        <td align="left" width="54%">
-          <p><span class="indextop">EMF Developer FAQ</span><br />
-          <span class="indexsub">frequently asked question and answers</span></p>
-        </td>
+<table border="0" cellspacing="0" cellpadding="3" width="100%" style="border-collapse: collapse" bordercolor="#111111">
+ <tbody>
+  <tr>
+   <td align="Left" width="54%">
+   <p><font class="indextop"> EMF Developer FAQ</font><br>
+       <font class="indexsub"> frequently asked question and answers</font></p>
+   </td>
+   <td width="46%"><img src="http://dev.eclipse.org/images/howto_banner.jpg" height="111" width="272" align="Center"></td>
+  </tr>
+ </tbody>
+</table>
 
-        <td width="46%"><img src=
-        "http://dev.eclipse.org/images/howto_banner.jpg" height=
-        "111" width="272" alt="how to" /></td>
-      </tr>
-    </tbody>
-  </table><!-- Introduction -->
+<!-- Introduction -->
 
-  <table summary="" border="0" cellspacing="0" cellpadding="2" width="100%"
-  class="c1" bordercolor="#111111">
-    <tbody>
-      <tr>
-        <td align="left" valign="top" colspan="2" bgcolor=
-        "#0070A0"><b class="c2">EMF Developer FAQ</b></td>
-      </tr>
-
-      <tr>
-        <td><span class="c3">Last Modified: September
-        24</span><sup class="c4">th</sup><span class="c3">,
-        2002</span></td>
-      </tr>
-    </tbody>
-  </table><br />
-  <!-- Table of contents header -->
-
-  <table summary="" border="0" cellspacing="0" cellpadding="2" width="100%"
-  bgcolor="#CCCCCC">
-    <tbody>
-      <tr>
-        <td class="c5" bgcolor="#777777"><b><a name="toc" id=
-        "toc">Table of contents:</a></b></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <ul>
-    <!-- General subheader -->
-
-    <li>
-      <b><a href="#general">General:</a></b>
-
-      <ol>
-        <li><a href="#general_about">What is EMF?</a></li>
-
-        <li><a href="#general_getstarted">How do I get started with
-        EMF?</a></li>
-
-        <li><a href="#general_tutorialpurpose">What exactly is the
-        tutorial trying to show?</a></li>
-
-        <li><a href="#general_realmodels">Are there any "real"
-        example EMF models in Eclipse?</a></li>
-      </ol><br />
-    </li>
-
-    <li>
-      <b><a href="#install">Download &amp; Installation:</a></b>
-
-      <ol>
-        <li><a href="#install_howto">How do I Install EMF?</a></li>
-
-        <li><a href="#install_um">Does EMF have a site that I can
-        use with the Eclipse Update Manager?</a></li>
-      </ol><br />
-    </li>
-
-    <li>
-      <b><a href="#standards">Modeling Standards:</a></b>
-
-      <ol>
-        <li><a href="#std_mofrelationship">What is the relationship
-        of OMG&#8482; MOF&#8482; to the EMF Ecore model?</a></li>
-
-        <li><a href="#std_xmisupport">Does EMF support OMG
-        XMI?</a></li>
-
-        <li><a href="#std_umltools">Can I create an EMF model using
-        UML&#8482; modeling tools?</a></li>
-
-        <li><a href="#std_createfromxmi">Can I create an EMF model
-        using OMG XMI?</a></li>
-
-        <li><a href="#std_whatismda">What is Model Driven
-        Architecture - MDA?</a></li>
-
-        <li><a href="#std_reltomda">What is the relationship of EMF
-        to OMG&#8482; MDA&#8482;?</a></li>
-
-        <li><a href="#std_reltojmi">What is the relationship of EMF
-        to JMI&#8482;?</a></li>
-      </ol><br />
-    </li>
-
-    <li>
-      <b><a href="#developer">Developer:</a></b>
-
-      <ol>
-        <li><a href="#dev_generate">Does it matter what node in the
-        genmodel tree I invoke Generate from?</a></li>
-
-        <li><a href="#dev_defaultpkg">Can model classes be in the
-        Java default package?</a></li>
-
-        <li><a href="#dev_starimports">Can annotated Java files use
-        * imports?</a></li>
-
-        <li><a href="#dev_properties">Does regeneration/merge work
-        for properties and plugin.xml files?</a></li>
-
-        <li><a href="#dev_standalone">Can EMF be used in
-        stand-alone applications?</a></li>
-      </ol><br />
-    </li>
-  </ul>
-
-  <table summary="" border="0" cellpadding="3" cellspacing="0" class="c1"
-  bordercolor="#111111" width="100%">
+<table border="0" cellspacing="0" cellpadding="2" width="100%" style="border-collapse: collapse" bordercolor="#111111">
+   <tbody>
     <tr>
-      <td class="c5" bgcolor="#777777"><b><a name="general" id=
-      "general">General</a></b></td>
+      <td align="Left" valign="Top" colspan="2" bgcolor="#0070A0">
+      <b><font face="Arial,Helvetica" color="#FFFFFF">EMF Developer FAQ</font></b></td>
+   </tr>
+   <tr>
+     <td>
+       <font size="-1" face="arial,helvetica,geneva">
+         Last Modified: September 24</font><sup><font size="-2" face="Arial">th</font></sup><font size="-1" face="arial,helvetica,geneva">, 2002</font>
+     </td>
+   </tr>
 
-      <td bgcolor="#777777"><a class="c6" href="#toc"><img src=
-      "http://www.eclipse.org/eclipse/faq/up_nav.gif" width="16"
-      height="16" alt="Goto Top" border="0" />top</a></td>
-    </tr>
+  </tbody>
+</table>
+ <br>
 
+<!-- Table of contents header -->
+
+<table border="0" cellspacing="0" cellpadding="2" width="100%" bgcolor="#cccccc">
+   <tbody>
     <tr>
-      <td colspan="2">
-        <ol>
-          <li>
-            <b><a name="general_about" id="general_about">What is
-            EMF?</a></b>
-
-            <p>The <a href="http://www.eclipse.org/emf" target=
-            "_top">Eclipse Modeling Framework</a> is a Java/XML
-            framework for generating tools and other applications
-            based on simple class models. EMF helps you rapidly
-            turn models into efficient, correct, and easily
-            customizable Java code. It is intended to provide the
-            benefits of formal modeling, but with a very low cost
-            of entry. In addition to code generation, it provides
-            the ability to save objects as XML documents for
-            interchange with other tools and applications. Models
-            can be created using annotated Java, XML documents, or
-            modeling tools like Rational Rose, then imported into
-            EMF. The code generator turns a model into a set of
-            Java implementation classes. These classes are
-            extensible and regenerable - you can modify them by
-            adding user-defined methods and instance variables.
-            When the model changes, you can regenerate the
-            implementation classes, and your modifications will be
-            retained. This works both ways - changes in the Java
-            code can be used to update the model.</p><br />
-          </li>
-
-          <li>
-            <b><a name="general_getstarted" id=
-            "general_getstarted">How do I get started with
-            EMF?</a></b>
-
-            <p>Start by reading the <a href=
-            "docs/doc.html">overview documents and the
-            tutorial</a>, followed by <a href=
-            "downloads/dl.html">downloading the
-            driver</a>.</p><br />
-          </li>
-
-          <li>
-            <b><a name="general_tutorialpurpose" id=
-            "general_tutorialpurpose">What exactly is the tutorial
-            trying to show?</a></b>
-
-            <p>After going through the tutorial, you will have
-            generated a completely working editor from nothing but
-            a picture of the object model (i.e., the simple
-            libarary model shown in the tutorial). If you run the
-            generated editor, you can add and remove books and
-            authors, edit the properties (e.g., the book title),
-            copy, paste, drag-and-drop, etc. All with unlimited
-            undo/redo. You can also save the document (the default
-            framework serialization format is XMI).</p>
-
-            <p>The purpose of the tutorial is to illustrate the
-            power of a model driven architecture (MDA). By
-            providing a model for the data your application will
-            manipulate, you can use EMF to generate a Java
-            implementation for you. EMF.Edit can leverage the same
-            model (meta) data to generate view support and even a
-            working editor. Read the overview documents for more
-            details.</p><br />
-          </li>
-
-          <li>
-            <b><a name="general_realmodels" id=
-            "general_realmodels"></a>Are there any "real" example
-            EMF models in Eclipse?</b>
-
-            <p>Well, for starters, EMF itself contains two
-            interesting models. The Ecore model serves as the
-            meta-model for any EMF model you create -- it is the
-            model that describes the structure of your models. The
-            Genmodel controls generation of an EMF model. In fact,
-            the generator UI that is used in the tutorial is the
-            EMF.Edit editor for the Genmodel, which explains why it
-            looks so much like the library editor in the tutorial.
-            If you want to explore Ecore and Genmodel further,
-            you'll find their Rose models and Java code in the EMF
-            source package available on our download page. Of
-            course, the code produced by the EMF generator is meant
-            to be a starting place, so you'll see that much
-            functionality has been manually added to both of these
-            models. But, it's quite easy to see the same sort of
-            generated patterns that appear in the simple library
-            example. Ecore is in the org.eclipse.emf.ecore plugin,
-            the Genmodel is in org.eclipse.emf.codegen.ecore, and
-            its editor UI is in org.eclipse.emf.codegen.ecore.ui.
-            You'll find the Rose models in the "model" subdirectory
-            of the source for the former two plugins.</p>
-
-            <p>Finally, an even more complex example of an EMF
-            model is XSD, the <a href=
-            "http://www.eclipse.org/xsd">XML Schema Infoset
-            Model</a>, a subproject of the Eclipse Technology
-            Project. XSD models the concrete and abstract
-            relationships expressed in an XML schema document,
-            providing an API to manipulate the model and an
-            XML-schema-specific replacement for EMF's default XMI
-            serialization. Of course, there's also an
-            EMF.Edit-based XML schema editor built on it.</p><br />
-          </li>
-        </ol>
+      <td bgcolor="#777777">
+        <font color="#FFFFFF"><b><a name="toc">Table of contents:</a></b></font>
       </td>
-    </tr>
+   </tr>
+  </tbody>
+</table>
 
-    <tr>
-      <td bgcolor="#777777"><b><a class="c6" name="install" id=
-      "install">Download and Install</a></b></td>
+<ul>
+  <!-- General subheader -->
+  <li><b><a href="#general">General:</a></b>
+    <ol>
+      <li><a href="#general_about">What is EMF?</a>
+      <li><a href="#general_getstarted">How do I get started with EMF?</a>
+      <li><a href="#general_tutorialpurpose">What exactly is the tutorial trying to show?</a>
+      <li><a href="#general_realmodels">Are there any "real" example EMF models in Eclipse?</a>
+    </ol>
+    <BR>
+  <li><b><a href="#install">Download &amp; Installation:</a></b>
+    <ol>
+          <li><a href="#install_howto">How do I Install EMF?</a>
+          <li><a href="#install_um">Does EMF have a site that I can use with the Eclipse Update Manager?</a>
+    </ol><BR>
+  <li> <b> <a href="#standards">Modeling Standards:</a></b>
+    <ol>
+       <li><a href="#std_mofrelationship">What is the relationship of OMG™ MOF™ to the EMF Ecore model?</a></li>
+       <li><a href="#std_xmisupport">Does EMF support OMG XMI?</a></li>
+       <li><a href="#std_umltools">Can I create an EMF model using UML™ modeling tools?</a></li>
+       <li><a href="#std_createfromxmi">Can I create an EMF model using OMG XMI?</a></li>
+       <li><a href="#std_whatismda">What is Model Driven Architecture – MDA?</a></li>
+       <li><a href="#std_reltomda">What is the relationship of EMF to OMG™ MDA™?</a></li>
+       <li><a href="#std_reltojmi">What is the relationship of EMF to JMI™?</a></li>
+    </ol><BR>
+  <li><b><a href="#developer">Developer:</a></b>
+    <ol>
+       <li><a href="#dev_generate">Does it matter what node in the genmodel tree I invoke Generate from?</a></li>
+       <li><a href="#dev_defaultpkg">Can model classes be in the Java default package?</a></li>
+       <li><a href="#dev_starimports">Can annotated Java files use * imports?</a></li>
+       <li><a href="#dev_properties">Does regeneration/merge work for properties and plugin.xml files?</a></li>
+       <li><a href="#dev_standalone">Can EMF be used in stand-alone applications?</a></li>
+    </ol><BR>
+</ul>
+<table border="0" cellpadding="3" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%">
+  <tr>
+    <td bgcolor="#777777"><font color="#FFFFFF"><b><a name="general">General</a></b></font></td>
+    <td bgcolor="#777777">
+        <a href="#toc">
+          <font color="#FFFFFF">
+            <img src="http://www.eclipse.org/eclipse/faq/up_nav.gif" width="16" height="16" alt="Goto Top" border="0" align="absmiddle">top
+          </font>
+        </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+    <ol>
+      <li><b><a name="general_about">What is EMF?</a></b>
+          <p>
+The <a href="http://www.eclipse.org/emf" target=_top>Eclipse Modeling Framework</a> 
+is a Java/XML framework for generating tools and other applications based on simple
+class models.
+EMF helps you rapidly turn models into efficient, correct, and easily customizable Java code.
+It is intended to provide the benefits of formal modeling, but with a very low cost of entry.
+In addition to code generation, it provides the ability to save objects as XML documents for
+interchange with other tools and applications.
+Models can be created using annotated Java, XML documents, or modeling tools like Rational Rose,
+then imported into EMF.
+The code generator turns a model into a set of Java implementation classes.
+These classes are extensible and regenerable - you can modify them by adding user-defined methods
+and instance variables.
+When the model changes, you can regenerate the implementation classes, and your modifications
+will be retained. This works both ways - changes in the Java code can be used to update
+the model.<br><br>
+      <li><b><a name="general_getstarted">How do I get started with EMF?</a></b>
+          <p>
+Start by reading the 
+<a href="docs/doc.html">overview documents and the tutorial</a>, followed by
+<a href="downloads/dl.html">downloading the driver</a>.
+          <br><br>
+      <li><b><a name="general_tutorialpurpose">What exactly is the tutorial trying to show?</a></b>
+          <p>
+After going through the tutorial, you will have generated a completely working
+editor from  nothing but a picture of the object model (i.e., the simple libarary
+model shown in the tutorial). If you run the generated editor, you can add and
+remove books and authors, edit the properties (e.g., the book title), copy, paste,
+drag-and-drop, etc. All with unlimited undo/redo. You can also save the document
+(the default framework serialization format is XMI).
+<p>
+The purpose of the tutorial is to illustrate the power of a model driven
+architecture (MDA). By providing a model for the data your application will
+manipulate, you can use EMF to generate a Java implementation for you. EMF.Edit can
+leverage the same model (meta) data to generate view support and even a working
+editor. Read the overview documents for more details.
+          <br><br>
+      <li><b><a name="general_realmodels"></a>Are there any "real" example EMF models in Eclipse?</b>
+          <p>
+Well, for starters, EMF
+itself contains two interesting models.  The Ecore model serves as the
+meta-model for any EMF model you create -- it is the model that describes
+the structure of your models. The Genmodel controls generation of an
+EMF model.  In fact, the generator UI that is used in the tutorial is the
+EMF.Edit editor for the Genmodel, which explains why it looks so much like
+the library editor in the tutorial.  If you want to explore Ecore and
+Genmodel further, you'll find their Rose models and Java code in the EMF
+source package available on our download page.  Of course, the code
+produced by the EMF generator is meant to be a starting place, so you'll
+see that much functionality has been manually added to both of these
+models.  But, it's quite easy to see the same sort of generated patterns
+that appear in the simple library example.  Ecore is in the
+org.eclipse.emf.ecore plugin, the Genmodel is in
+org.eclipse.emf.codegen.ecore, and its editor UI is in
+org.eclipse.emf.codegen.ecore.ui.  You'll find the Rose models in the
+"model" subdirectory of the source for the former two plugins.
+<p>
+Finally, an even more complex example of an EMF model is XSD,
+the <a href="http://www.eclipse.org/xsd">XML Schema Infoset Model</a>, 
+a subproject of the Eclipse Technology Project. 
+XSD models 
+the concrete and abstract relationships expressed in an XML schema
+document, providing an API to manipulate the model and an
+XML-schema-specific replacement for EMF's default XMI serialization.  Of
+course, there's also an EMF.Edit-based XML schema editor built on it. 
+          <br><br>
+    </ol>
+    </td>
+  </tr>
+  <tr>
+    <td bgcolor="#777777"><b><font color="#FFFFFF"><a name="install">Download and Install</a></font></b></td>
+    <td bgcolor="#777777">
+      <a href="#toc">
+        <font color="#FFFFFF">
+          <img src="http://www.eclipse.org/eclipse/faq/up_nav.gif" width="16" height="16" alt="Goto Top" border="0" align="absmiddle">top
+        </font>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+    <ol>
+      <li><b><a name="install_howto">How do I Install EMF?</a></b><P>
+      <a href="http://dev.eclipse.org/viewcvs/index.cgi/~checkout~/emf-home/downloads/dl.html?cvsroot=Tools_Project">
+      Download</a> the version of EMF that <b>matches</b> your installation of 
+      Eclipse.&nbsp; Exit Eclipse, and Unzip into the eclipse directory.<br><br>
+      </li>
+      <li><b><a name="install_um">Does EMF have a site that I can use with the Eclipse Update Manager?</a></b><P>
+      No, EMF does not have a site that you can use with the Eclipse Update Manager yet.<br><br>
+      </li>
+    </ol>
+    </td>
+  </tr>
+  <tr>
+    <td bgcolor="#777777"><font color="#FFFFFF"><b><a name="standards">Modeling Standards</a></b></font></td>
+    <td bgcolor="#777777">
+      <a href="#toc">
+      <font color="#FFFFFF">
+        <img src="http://www.eclipse.org/eclipse/faq/up_nav.gif" width="16" height="16" alt="Goto Top" border="0" align="absmiddle">top
+      </font>
+    </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+    <ol>
+      <li><b><a name="std_mofrelationship">What is the relationship of OMG™ MOF™ to the EMF Ecore model?</a></b>
+          <p>
+The OMG MOF 1.4 Model has influenced the design of the EMF Ecore model.
+The Ecore model evolved in parallel with the MOF 1.4 model. 
+Implementation experience in integrating a number of tools led to an optimized
+implementation (focused on tool integration as opposed to the original MOF focus
+of metadata repositories) that uses a subset of the modeling concepts in MOF 1.4.
+For example, Ecore does not support ‘first class’ Associations. 
+Associations are mapped to a pair of Ecore References.  
+To minimize confusion, we have used the term ‘Ecore’ to refer to the object model
+in the EMF framework.
+We use the terms ‘Ecore model’ and ‘EMF model’ interchangeably in this FAQ,
+because the object model of the Eclipse EMF framework is the Ecore model.
+          <p>
+The designers of EMF are participating in the OMG process to influence the design
+of MOF 2.0 and UML 2.0, which are still being defined.
+      <BR><BR></li>
+      <li><b><a name="std_xmisupport">Does EMF support OMG XMI?</a></b>
+          <p>
+EMF uses OMG XML Metadata Interchange (XMI™) 2.0 as the default XML serialization
+format for Ecore models and Ecore instances. 
+The EMF framework allows the use of other serialization formats also.
+The XMI 2.0 document production rules are used because of more compact representation
+than XMI 1.2.
+      <BR><BR></li>
+      <li><b><a name="std_umltools">Can I create an EMF model using UML™ modeling tools?</a></b>
+      <p>
+EMF models can be defined using UML modeling tools such as Rational Rose. 
+You simply define a class model with the packages, attributes, references, data
+types, and operations. 
+This class model can be imported into EMF for additional code generation.
+Since many Java developers are familiar with simple class modeling, this serves
+as a ‘gentle introduction’ to UML class modeling.
+In addition to UML class models, EMF models can be created by using annotated Java
+interfaces or by directly editing an XMI document using an XML editor.
+This approach is used to allow the benefits of model based code generation (one of
+the principles of the OMG Model Driven Architecture – MDA)
+to not just users familiar with UML, but also the larger community of developers
+using Java and XML.
+      <BR><BR></li>
+      <li><b><a name="std_createfromxmi">Can I create an EMF model using OMG XMI?</a></b>
+          <p>
+Yes.
+The XMI document that conforms to the EMF Ecore model can be directly edited using
+your favorite text or an XML editor. Alternately you can use a modeling tool that
+can produce the XMI document from a UML model.
+You can also use annotated Java interfaces to define your input model.
+      <BR><BR></li>
+      <li><b><a name="std_whatismda">What is Model Driven Architecture – MDA?</a></b>
+          <p>
+MDA is an industry architecture proposed by the OMG that addresses full life cycle
+application development, data, and application integration standards that
+work with multiple middleware (CORBA, J2EE), languages, and interchange formats.
+MDA unifies some of the industry best practices in software architecture,
+modeling, metadata management, and software transformation technologies that allow a
+user to develop a modeling specification once and target multiple
+technology implementations by using precise transformations/mappings.
+          <p>
+An example of the use of MDA is to use a UML model representation of a tool or application
+and to use this model to automate (some or all) of the Java interface, implementation, as
+well as any XML serialization for the modeled objects.
+Many of the recent OMG standards such as UML, MOF, and CWM were developed using MDA principles
+of using abstract models (these are also referred to as Platform Independent Models – PIM)
+which can be mapped to Platform Specific Models (PSM).
+Please note that ‘platform independent’ is a relative term!
+          <p>
+For more information on MDA and related MDA specifications including UML, XMI,
+and MOF, please visit <a href="http://www.omg.org/mda">www.omg.org/mda</a>.
+      <BR><BR></li>
+      <li><b><a name="std_reltomda">What is the relationship of EMF to OMG™ MDA™?</a></b>
+          <p>
+One of the key goals of EMF is to use simple visual models to allow easy integration of Java
+and XML tools.
+To accomplish this you can use a UML class model as input to the EMF framework.
+This model is then used to drive Java interface and implementation generation for EMF instances.
+These Java interfaces define a consistent programming model for tools built using EMF. 
+The same EMF model is also used to generate the XML serialization (XMI 2.0 format) for EMF
+instances.
+Essentially EMF supports the key MDA concept of using models as input to development and
+integration tools which produce multiple programming language (Java in the case of Eclipse
+EMF itself) or data interchange format (XML) representations. 
+The code generation and XML serialization is ‘driven’ from the same model.
+          <p>
+EMF supports OMG XMI 2.0 XML serialization format and the use of UML models for the analysis
+and design of EMF models.
+      <BR><BR></li>
+      <li><b><a name="std_reltojmi">What is the relationship of EMF to JMI™?</a></b>
+          <p>
+JMI (Java™ Metadata Interface) is a mapping of the OMG MOF 1.4 to the Java language developed
+by the Java Community Process.
+The JMI spec and the Eclipse EMF model to Java mapping were developed in parallel
+and are not the same. 
+The Eclipse EMF Java mappings have been optimized for in memory tool integration using Java and
+XML while JMI has been optimized for metadata repository usage scenarios.
+Eclipse EMF designers are actively involved in the ongoing development of MOF 2.0 and related
+mappings to XML and Java that are expected to proceed in the OMG and Java Community Process
+respectively. 
+      <BR><BR></li>
+    </ol>
+    </td>
+  </tr>
+  <tr>
+    <td bgcolor="#777777"><font color="#FFFFFF"><b><a name="developer">Developer</a></b></font></td>
+    <td bgcolor="#777777">
+        <a href="#toc">
+          <font color="#FFFFFF">
+            <img src="http://www.eclipse.org/eclipse/faq/up_nav.gif" width="16" height="16" alt="Goto Top" border="0" align="absmiddle">top
+          </font>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+    <ol>
+     <li><b><a name="dev_generate">Does it matter what node in the genmodel tree I invoke Generate from?</a></b>
+           <p>
+Definitely. To do a full generation, you need to invoke "Generate" or "Generate EMF.Edit"
+from the root node in the genmodel editor. If you invoke Generate lower down, you'll
+only generate the files associated with the selected subtree.
+           <BR><BR></li>
+    <li><b><a name="dev_defaultpkg">Can model classes be in the Java default package?</a></b>
+           <p>
+No. EMF does not allow model classes to be in the default Java package because it
+would need to be handled specially in the code generator,
+and since it's not a good Java convention anyway, we don't think it is
+worth supporting. Make sure that if you load your model from annotated Java that
+all the interfaces and classes with an @model tag also have an explicit
+package declaration.
+       <BR><BR></li>
+     <li><b><a name="dev_starimports">Can annotated Java files use * imports?</a></b>
+           <p>
+Currently no. Until our Java name lookup mechanisms are
+improved, we really rely on explicit imports to resolve names, i.e., two * imports
+would confuse the code. It's best to entirely avoid * imports for the time being.
+We will improve identifier lookup in the coming weeks.
+       <BR><BR></li>
+     <li><b><a name="dev_properties">Does regeneration/merge work for properties and plugin.xml files?</a></b>
+           <p>
+Not yet. The current generator does not support merge for the plugin.properties and
+plugin.xml files, so it will not overwrite them if they exist. If you want
+to regenerate them, you'll need to remove or rename them before regenerating.
+This will also be improved in the future.
+       <BR><BR></li>
+     <li><b><a name="dev_standalone">Can EMF be used in stand-alone applications?</a></b>
+           <p>
+An EMF model can be used without change in a stand-alone application with one exception. The default (XMI)
+serializer is not registered in the stand-alone EMF environment, so you need to explicitly register it
+with your model. For example, to register the XMI serializer for the library model, you would add something
+like this in your main: 
+<p>
+<pre>
+&nbsp;&nbsp;&nbsp;Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("library", new XMIResourceFactoryImpl());
+</pre>	
+<p>
+For EMF.Edit, the following framework plugins contain resources.jar files that need to be on the CLASSPATH
+for stand-alone execution.
+<p>
+<ol>
+ <li>org.eclipse.emf.common.ui/runtime/common.ui.resources.jar</li>
+ <li>org.eclipse.emf.common/runtime/common.resources.jar</li>
+ <li>org.eclipse.emf.edit.ui/runtime/edit.ui.resources.jar</li>
+ <li>org.eclipse.emf.edit/runtime/edit.resources.jar
+</ol>
+<p>
+Also, to produce the right .jar file for stand-alone execution of a generated project, 
+you need to copy the plugin.properties file and the icons directory to the directory containing
+the EMF XyzPlugin for the project.
+This will put the resources in just the right place to be found by the generated XyzPlugin
+during stand-alone execution. Such a project will work as both a plugin and for stand-alone execution.
+       <BR><BR></li>
+    </ol>
+    </td>
+  </tr>
+</table>
 
-      <td bgcolor="#777777"><a class="c6" href="#toc"><img src=
-      "http://www.eclipse.org/eclipse/faq/up_nav.gif" width="16"
-      height="16" alt="Goto Top" border="0" />top</a></td>
-    </tr>
 
-    <tr>
-      <td colspan="2">
-        <ol>
-          <li>
-            <b><a name="install_howto" id="install_howto">How do I
-            Install EMF?</a></b>
-
-            <p><a href=
-            "http://dev.eclipse.org/viewcvs/index.cgi/~checkout~/emf-home/downloads/dl.html?cvsroot=Tools_Project">
-            Download</a> the version of EMF that <b>matches</b>
-            your installation of Eclipse.&nbsp; Exit Eclipse, and
-            Unzip into the eclipse directory.</p><br />
-          </li>
-
-          <li>
-            <b><a name="install_um" id="install_um">Does EMF have a
-            site that I can use with the Eclipse Update
-            Manager?</a></b>
-
-            <p>No, EMF does not have a site that you can use with
-            the Eclipse Update Manager yet.</p><br />
-          </li>
-        </ol>
-      </td>
-    </tr>
-
-    <tr>
-      <td class="c5" bgcolor="#777777"><b><a name="standards" id=
-      "standards">Modeling Standards</a></b></td>
-
-      <td bgcolor="#777777"><a class="c6" href="#toc"><img src=
-      "http://www.eclipse.org/eclipse/faq/up_nav.gif" width="16"
-      height="16" alt="Goto Top" border="0" />top</a></td>
-    </tr>
-
-    <tr>
-      <td colspan="2">
-        <ol>
-          <li>
-            <b><a name="std_mofrelationship" id=
-            "std_mofrelationship">What is the relationship of
-            OMG&#8482; MOF&#8482; to the EMF Ecore model?</a></b>
-
-            <p>The OMG MOF 1.4 Model has influenced the design of
-            the EMF Ecore model. The Ecore model evolved in
-            parallel with the MOF 1.4 model. Implementation
-            experience in integrating a number of tools led to an
-            optimized implementation (focused on tool integration
-            as opposed to the original MOF focus of metadata
-            repositories) that uses a subset of the modeling
-            concepts in MOF 1.4. For example, Ecore does not
-            support 'first class' Associations. Associations are
-            mapped to a pair of Ecore References. To minimize
-            confusion, we have used the term 'Ecore' to refer to
-            the object model in the EMF framework. We use the terms
-            'Ecore model' and 'EMF model' interchangeably in this
-            FAQ, because the object model of the Eclipse EMF
-            framework is the Ecore model.</p>
-
-            <p>The designers of EMF are participating in the OMG
-            process to influence the design of MOF 2.0 and UML 2.0,
-            which are still being defined.</p><br />
-          </li>
-
-          <li>
-            <b><a name="std_xmisupport" id="std_xmisupport">Does
-            EMF support OMG XMI?</a></b>
-
-            <p>EMF uses OMG XML Metadata Interchange (XMI&#8482;)
-            2.0 as the default XML serialization format for Ecore
-            models and Ecore instances. The EMF framework allows
-            the use of other serialization formats also. The XMI
-            2.0 document production rules are used because of more
-            compact representation than XMI 1.2.</p><br />
-          </li>
-
-          <li>
-            <b><a name="std_umltools" id="std_umltools">Can I
-            create an EMF model using UML&#8482; modeling
-            tools?</a></b>
-
-            <p>EMF models can be defined using UML modeling tools
-            such as Rational Rose. You simply define a class model
-            with the packages, attributes, references, data types,
-            and operations. This class model can be imported into
-            EMF for additional code generation. Since many Java
-            developers are familiar with simple class modeling,
-            this serves as a 'gentle introduction' to UML class
-            modeling. In addition to UML class models, EMF models
-            can be created by using annotated Java interfaces or by
-            directly editing an XMI document using an XML editor.
-            This approach is used to allow the benefits of model
-            based code generation (one of the principles of the OMG
-            Model Driven Architecture - MDA) to not just users
-            familiar with UML, but also the larger community of
-            developers using Java and XML.</p><br />
-          </li>
-
-          <li>
-            <b><a name="std_createfromxmi" id=
-            "std_createfromxmi">Can I create an EMF model using OMG
-            XMI?</a></b>
-
-            <p>Yes. The XMI document that conforms to the EMF Ecore
-            model can be directly edited using your favorite text
-            or an XML editor. Alternately you can use a modeling
-            tool that can produce the XMI document from a UML
-            model. You can also use annotated Java interfaces to
-            define your input model.</p><br />
-          </li>
-
-          <li>
-            <b><a name="std_whatismda" id="std_whatismda">What is
-            Model Driven Architecture - MDA?</a></b>
-
-            <p>MDA is an industry architecture proposed by the OMG
-            that addresses full life cycle application development,
-            data, and application integration standards that work
-            with multiple centerware (CORBA, J2EE), languages, and
-            interchange formats. MDA unifies some of the industry
-            best practices in software architecture, modeling,
-            metadata management, and software transformation
-            technologies that allow a user to develop a modeling
-            specification once and target multiple technology
-            implementations by using precise
-            transformations/mappings.</p>
-
-            <p>An example of the use of MDA is to use a UML model
-            representation of a tool or application and to use this
-            model to automate (some or all) of the Java interface,
-            implementation, as well as any XML serialization for
-            the modeled objects. Many of the recent OMG standards
-            such as UML, MOF, and CWM were developed using MDA
-            principles of using abstract models (these are also
-            referred to as Platform Independent Models - PIM) which
-            can be mapped to Platform Specific Models (PSM). Please
-            note that 'platform independent' is a relative
-            term!</p>
-
-            <p>For more information on MDA and related MDA
-            specifications including UML, XMI, and MOF, please
-            visit <a href=
-            "http://www.omg.org/mda">www.omg.org/mda</a>.</p><br />
-          </li>
-
-          <li>
-            <b><a name="std_reltomda" id="std_reltomda">What is the
-            relationship of EMF to OMG&#8482; MDA&#8482;?</a></b>
-
-            <p>One of the key goals of EMF is to use simple visual
-            models to allow easy integration of Java and XML tools.
-            To accomplish this you can use a UML class model as
-            input to the EMF framework. This model is then used to
-            drive Java interface and implementation generation for
-            EMF instances. These Java interfaces define a
-            consistent programming model for tools built using EMF.
-            The same EMF model is also used to generate the XML
-            serialization (XMI 2.0 format) for EMF instances.
-            Essentially EMF supports the key MDA concept of using
-            models as input to development and integration tools
-            which produce multiple programming language (Java in
-            the case of Eclipse EMF itself) or data interchange
-            format (XML) representations. The code generation and
-            XML serialization is 'driven' from the same model.</p>
-
-            <p>EMF supports OMG XMI 2.0 XML serialization format
-            and the use of UML models for the analysis and design
-            of EMF models.</p><br />
-          </li>
-
-          <li>
-            <b><a name="std_reltojmi" id="std_reltojmi">What is the
-            relationship of EMF to JMI&#8482;?</a></b>
-
-            <p>JMI (Java&#8482; Metadata Interface) is a mapping of
-            the OMG MOF 1.4 to the Java language developed by the
-            Java Community Process. The JMI spec and the Eclipse
-            EMF model to Java mapping were developed in parallel
-            and are not the same. The Eclipse EMF Java mappings
-            have been optimized for in memory tool integration
-            using Java and XML while JMI has been optimized for
-            metadata repository usage scenarios. Eclipse EMF
-            designers are actively involved in the ongoing
-            development of MOF 2.0 and related mappings to XML and
-            Java that are expected to proceed in the OMG and Java
-            Community Process respectively.</p><br />
-          </li>
-        </ol>
-      </td>
-    </tr>
-
-    <tr>
-      <td class="c5" bgcolor="#777777"><b><a name="developer" id=
-      "developer">Developer</a></b></td>
-
-      <td bgcolor="#777777"><a class="c6" href="#toc"><img src=
-      "http://www.eclipse.org/eclipse/faq/up_nav.gif" width="16"
-      height="16" alt="Goto Top" border="0" />top</a></td>
-    </tr>
-
-    <tr>
-      <td colspan="2">
-        <ol>
-          <li>
-            <b><a name="dev_generate" id="dev_generate">Does it
-            matter what node in the genmodel tree I invoke Generate
-            from?</a></b>
-
-            <p>Definitely. To do a full generation, you need to
-            invoke "Generate" or "Generate EMF.Edit" from the root
-            node in the genmodel editor. If you invoke Generate
-            lower down, you'll only generate the files associated
-            with the selected subtree.</p><br />
-          </li>
-
-          <li>
-            <b><a name="dev_defaultpkg" id="dev_defaultpkg">Can
-            model classes be in the Java default package?</a></b>
-
-            <p>No. EMF does not allow model classes to be in the
-            default Java package because it would need to be
-            handled specially in the code generator, and since it's
-            not a good Java convention anyway, we don't think it is
-            worth supporting. Make sure that if you load your model
-            from annotated Java that all the interfaces and classes
-            with an @model tag also have an explicit package
-            declaration.</p><br />
-          </li>
-
-          <li>
-            <b><a name="dev_starimports" id="dev_starimports">Can
-            annotated Java files use * imports?</a></b>
-
-            <p>Currently no. Until our Java name lookup mechanisms
-            are improved, we really rely on explicit imports to
-            resolve names, i.e., two * imports would confuse the
-            code. It's best to entirely avoid * imports for the
-            time being. We will improve identifier lookup in the
-            coming weeks.</p><br />
-          </li>
-
-          <li>
-            <b><a name="dev_properties" id="dev_properties">Does
-            regeneration/merge work for properties and plugin.xml
-            files?</a></b>
-
-            <p>Not yet. The current generator does not support
-            merge for the plugin.properties and plugin.xml files,
-            so it will not overwrite them if they exist. If you
-            want to regenerate them, you'll need to remove or
-            rename them before regenerating. This will also be
-            improved in the future.</p><br />
-          </li>
-
-          <li>
-            <b><a name="dev_standalone" id="dev_standalone">Can EMF
-            be used in stand-alone applications?</a></b>
-
-            <p>An EMF model can be used without change in a
-            stand-alone application with one exception. The default
-            (XMI) serializer is not registered in the stand-alone
-            EMF environment, so you need to explicitly register it
-            with your model. For example, to register the XMI
-            serializer for the library model, you would add
-            something like this in your main:</p>
-            <pre>
-   Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("library", new XMIResourceFactoryImpl());
-</pre>
-
-            <p>For EMF.Edit, the following framework plugins
-            contain resources.jar files that need to be on the
-            CLASSPATH for stand-alone execution.</p>
-
-            <ol>
-              <li>
-              org.eclipse.emf.common.ui/runtime/common.ui.resources.jar</li>
-
-              <li>
-              org.eclipse.emf.common/runtime/common.resources.jar</li>
-
-              <li>
-              org.eclipse.emf.edit.ui/runtime/edit.ui.resources.jar</li>
-
-              <li>
-              org.eclipse.emf.edit/runtime/edit.resources.jar</li>
-            </ol>
-
-            <p>Also, to produce the right .jar file for stand-alone
-            execution of a generated project, you need to copy the
-            plugin.properties file and the icons directory to the
-            directory containing the EMF XyzPlugin for the project.
-            This will put the resources in just the right place to
-            be found by the generated XyzPlugin during stand-alone
-            execution. Such a project will work as both a plugin
-            and for stand-alone execution.</p><br />
-          </li>
-        </ol>
-      </td>
-    </tr>
-  </table>
 </body>
 </html>
