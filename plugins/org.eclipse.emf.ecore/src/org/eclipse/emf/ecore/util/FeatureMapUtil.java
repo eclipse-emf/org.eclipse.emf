@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.11 2004/06/14 12:21:35 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.12 2004/06/18 09:52:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -22,16 +22,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -1193,7 +1191,7 @@ public final class FeatureMapUtil
     boolean isValid(EStructuralFeature feature);
   }
 
-  public static class BasicValidator implements Validator, Adapter
+  public static class BasicValidator implements Validator
   {
     protected EClass containingClass;
     protected EStructuralFeature eStructuralFeature;
@@ -1283,52 +1281,6 @@ public final class FeatureMapUtil
 
       return false;
     }
-
-    public void notifyChanged(Notification notification)
-    {
-    }
-
-    public Notifier getTarget()
-    {
-      return eStructuralFeature;
-    }
-
-    public void setTarget(Notifier newTarget)
-    {
-    }
-
-    public boolean isAdapterForType(Object type)
-    {
-      return type == VALIDATOR_CLASS;
-    }
-  }
-
-  public static class ValidatorMap extends HashMap implements Adapter
-  {
-    protected EStructuralFeature eStructuralFeature;
-
-    public ValidatorMap(EStructuralFeature eStructuralFeature)
-    {
-      this.eStructuralFeature = eStructuralFeature;
-    }
-
-    public void notifyChanged(Notification notification)
-    {
-    }
-
-    public Notifier getTarget()
-    {
-      return eStructuralFeature;
-    }
-
-    public void setTarget(Notifier newTarget)
-    {
-    }
-
-    public boolean isAdapterForType(Object type)
-    {
-      return type == VALIDATOR_CLASS;
-    }
   }
 
   protected static Validator NULL_VALIDATOR = 
@@ -1348,25 +1300,23 @@ public final class FeatureMapUtil
     }
     else
     {
-      List adapters = eStructuralFeature.eAdapters();
-      ValidatorMap validatorMap = (ValidatorMap)EcoreUtil.getAdapter(adapters, VALIDATOR_CLASS);
-      if (validatorMap == null)
+      BasicExtendedMetaData.EStructuralFeatureExtendedMetaData.Holder holder = 
+        (BasicExtendedMetaData.EStructuralFeatureExtendedMetaData.Holder)eStructuralFeature;
+      BasicExtendedMetaData.EStructuralFeatureExtendedMetaData extendedMetaData = holder.getExtendedMetaData();
+      if (extendedMetaData == null)
       {
-        validatorMap = new ValidatorMap(eStructuralFeature);
-        BasicValidator validator = new BasicValidator(containingClass, eStructuralFeature);
-        validatorMap.put(containingClass, validator);
-        adapters.add(validatorMap);
-        return validator;
+        // For the extended meta data to be created.
+        //
+        ExtendedMetaData.INSTANCE.getName(eStructuralFeature);
+        extendedMetaData = holder.getExtendedMetaData();
       }
-      else
+      Map validatorMap = extendedMetaData.getValidatorMap();
+      Validator result = (Validator)validatorMap.get(containingClass);
+      if (result == null)
       {
-        Validator result = (Validator)validatorMap.get(containingClass);
-        if (result == null)
-        {
-          validatorMap.put(containingClass, result = new BasicValidator(containingClass, eStructuralFeature));
-        }
-        return result;
+        validatorMap.put(containingClass, result = new BasicValidator(containingClass, eStructuralFeature));
       }
+      return result;
     }
   }
 
