@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ResourceItemProvider.java,v 1.2 2004/04/05 18:35:39 davidms Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -75,21 +75,22 @@ public class ResourceItemProvider
   }
 
   /**
-   * This specifies how to implement {@link #getChildren} and 
-   * {@link org.eclipse.emf.edit.command.AddCommand} and 
-   * {@link org.eclipse.emf.edit.command.RemoveCommand} support in 
-   * {@link #createCommand}.
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenReferences(Object object)
+  public Collection getChildrenFeatures(Object object)
   {
-    if (childrenReferences == null)
+    if (childrenFeatures == null)
     {
-      super.getChildrenReferences(object);
+      super.getChildrenFeatures(object);
       // Resource resource = (Resource)object;
-      // childrenReferences.add(ResourcePackage.eINSTANCE.getResource_Contents());
+      // childrenFeatures.add(ResourcePackage.eINSTANCE.getResource_Contents());
     }
-    return childrenReferences;
+    return childrenFeatures;
   }
 
   /**
