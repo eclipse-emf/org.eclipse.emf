@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.8 2004/05/26 15:18:31 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.9 2004/05/28 19:34:49 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -320,7 +320,7 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 
 		// Initialize classes and features; add operations and parameters
     <%for (Iterator c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = (GenClass)c.next();%>
-		initEClass(<%=genClass.getClassifierInstanceName()%>, <%=genClass.getImportedInterfaceName()%>.class, "<%=genClass.getName()%>", <%=genClass.getAbstractFlag()%>, <%=genClass.getInterfaceFlag()%>);<%=genModel.getNonNLS()%>
+		initEClass(<%=genClass.getClassifierInstanceName()%>, <%=genClass.getImportedInterfaceName()%>.class, "<%=genClass.getName()%>", <%=genClass.getAbstractFlag()%>, <%=genClass.getInterfaceFlag()%>, <%=genClass.getGeneratedInstanceClassFlag()%>);<%=genModel.getNonNLS()%>
       <%for (Iterator f=genClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();%>
         <%if (genFeature.isReferenceType()) { GenFeature reverseGenFeature = genFeature.getReverse();%>
           <%String reverse = reverseGenFeature == null ? "null" : genPackage.getPackageInstanceVariable(reverseGenFeature.getGenPackage()) + ".get" + reverseGenFeature.getFeatureAccessorName() + "()";%>
@@ -365,7 +365,7 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 
 		// Initialize data types
     <%for (Iterator d=genPackage.getGenDataTypes().iterator(); d.hasNext();) { GenDataType genDataType = (GenDataType)d.next();%>
-		initEDataType(<%=genDataType.getClassifierInstanceName()%>, <%=genDataType.getImportedInstanceClassName()%>.class, "<%=genDataType.getName()%>", <%=genDataType.getSerializableFlag()%>);<%=genModel.getNonNLS()%>
+		initEDataType(<%=genDataType.getClassifierInstanceName()%>, <%=genDataType.getImportedInstanceClassName()%>.class, "<%=genDataType.getName()%>", <%=genDataType.getSerializableFlag()%>, <%=genDataType.getGeneratedInstanceClassFlag()%>);<%=genModel.getNonNLS()%>
     <%}%>
   <%}%>
   <%if (genPackage.getSuperGenPackage() == null) {%>
