@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeFactoryImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: TreeFactoryImpl.java,v 1.2 2004/03/11 23:40:59 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -20,9 +20,7 @@ package org.eclipse.emf.edit.tree.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.edit.tree.TreeFactory;
-import org.eclipse.emf.edit.tree.TreeNode;
-import org.eclipse.emf.edit.tree.TreePackage;
+import org.eclipse.emf.edit.tree.*;
 
 
 /**

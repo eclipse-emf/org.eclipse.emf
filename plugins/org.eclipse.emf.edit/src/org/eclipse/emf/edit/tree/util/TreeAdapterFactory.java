@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeAdapterFactory.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: TreeAdapterFactory.java,v 1.2 2004/03/11 23:40:59 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.util;
 
@@ -21,8 +21,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.edit.tree.TreeNode;
-import org.eclipse.emf.edit.tree.TreePackage;
+import org.eclipse.emf.edit.tree.*;
 
 
 /**
