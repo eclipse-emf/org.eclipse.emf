@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.31 2005/03/11 21:21:02 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.32 2005/03/14 14:19:10 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2542,11 +2542,16 @@ public class XSDEcoreBuilder extends MapBuilder
               int end = applicationInformation.lastIndexOf("</");
               String applicationInformationBody = applicationInformation.substring(start + 1, end);
 
+              String key = getEcoreAttribute(element, "key");
+              if (key == null)
+              {
+                key = "appinfo";
+              }
               EAnnotation eAnnotation = eModelElement.getEAnnotation(sourceURI);
               String existingApplicationInformation =
                 eAnnotation == null ?
                   null :
-                  (String)eAnnotation.getDetails().get("appinfo");
+                  (String)eAnnotation.getDetails().get(key);
 
               if (existingApplicationInformation != null)
               {
@@ -2561,7 +2566,7 @@ public class XSDEcoreBuilder extends MapBuilder
                 eModelElement.getEAnnotations().add(eAnnotation);
               }
 
-              eAnnotation.getDetails().put("appinfo", applicationInformationBody);
+              eAnnotation.getDetails().put(key, applicationInformationBody);
             }
             catch (UnsupportedEncodingException exception)
             {
