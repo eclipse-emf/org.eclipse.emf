@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: PropertyDescriptor.java,v 1.2 2004/04/01 21:34:59 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -170,7 +170,8 @@ public class PropertyDescriptor implements IPropertyDescriptor
     public void doSetValue(Object value)
     {
       String stringValue = eDataType.getEPackage().getEFactoryInstance().convertToString(eDataType, value);
-      super.doSetValue(stringValue == null ? "" : stringValue);
+      super.doSetValue(stringValue = (stringValue == null ? "" : stringValue));
+      valueChanged(true, isCorrect(stringValue));
     }
   }
 
