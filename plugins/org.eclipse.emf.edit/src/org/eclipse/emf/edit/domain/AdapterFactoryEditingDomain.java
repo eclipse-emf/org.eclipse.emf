@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.8 2004/06/18 15:21:09 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.9 2004/06/19 20:49:48 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -583,6 +583,19 @@ public class AdapterFactoryEditingDomain implements EditingDomain
           }
         }
       }
+    }
+    return object;
+  }
+
+  public static Object unwrap(Object object)
+  {
+    while (object instanceof IWrapperItemProvider)
+    {
+      object = ((IWrapperItemProvider)object).getValue();
+    }
+    if (object instanceof FeatureMap.Entry)
+    {
+      object = ((FeatureMap.Entry)object).getValue();
     }
     return object;
   }
