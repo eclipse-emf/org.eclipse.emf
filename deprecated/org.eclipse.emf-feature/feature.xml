@@ -152,4 +152,16 @@ http://www.eclipse.org/legal/cpl-v10.html
          install-size="0"
          version="2.1.0"/>
 
+   <plugin
+         id="org.eclipse.emf.mapping.ecore2xml"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"/>
+
+   <plugin
+         id="org.eclipse.emf.mapping.ecore2xml.ui"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"/>
+
 </feature>
