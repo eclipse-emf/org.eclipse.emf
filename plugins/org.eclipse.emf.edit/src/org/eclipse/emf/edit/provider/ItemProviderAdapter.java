@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ItemProviderAdapter.java,v 1.2 2004/03/31 19:46:39 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
 
 import java.net.URL;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.RandomAccess;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
@@ -34,23 +36,23 @@ import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationWrapper;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.CommandActionDelegate;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CopyCommand;
 import org.eclipse.emf.edit.command.CreateChildCommand;
@@ -95,8 +97,14 @@ public class ItemProviderAdapter
   protected List itemPropertyDescriptors;
 
   /**
-   * This is used to store all the children references.
-   * Derived classes should add references to this vector.
+   * This is used to store all the children features. Derived classes should add features to this vector.
+   */
+  protected List childrenFeatures;
+
+  /**
+   * This stored the children references, but attributes may now contribute children, too. It is still present to
+   * support existing subclasses.
+   * @deprecated As of EMF 2.0, replaced by {@link #childrenFeatures}.
    */
   protected List childrenReferences;
 
@@ -109,6 +117,25 @@ public class ItemProviderAdapter
    * This keeps track of all the targets to which this adapter is set.
    */
   protected Collection targets;
+
+  /**
+   * When {@link ChildrenStore}s are to be used to cache children (typically to hold wrappers for non-EObject
+   * children), this maps adapted objects to their corresponding stores. Stores should be accessed and created
+   * via {@link #getChildrenStore getChildrenStore} and {@link #createChildrenStore createChildrenStore}.
+   */
+  protected Map childrenStoreMap;
+
+  /**
+   * This holds children wrappers that are {@link #wrap created} by this item provider, so that they can be {@link
+   * #dispose disposed} with it.
+   */
+  protected Disposable wrappers;
+
+  /**
+   * This caches the result returned by {@link #isWrappingNeeded isWrappingNeeded} so that it need not be recomputed
+   * each time.
+   */
+  protected Boolean wrappingNeeded;
 
   /**
    * An instance is created from an adapter factory.
@@ -283,274 +310,66 @@ public class ItemProviderAdapter
   }
 
   /**
-   * This implements {@link ITreeItemContentProvider#getChildren ITreeItemContentProvider.getChildren} 
-   * by calling {@link #getChildrenReferences getChildrenReferences} and using those to collect the children.
+   * This implements {@link ITreeItemContentProvider#getChildren ITreeItemContentProvider.getChildren}. If children are
+   * already cached in a {@link ChildrenStore}, they are returned. Otherwise, children are collected from the features
+   * returned by {@link #getChildrenFeatures getChildrenFeatures}.  The collected children may or may not be cached,
+   * depending on the result of {@link #createChildrenStore createChildrenStore}; by default, no store is returned if
+   * {@link #getChildrenFeatures getChildrenFeatures} returns only containment references. All children are optionally
+   * {@link #wrap wrapped} before being cached and returned. Subclasses may override {@link #createWrapper
+   * createWrapper} to specify when and with what to wrap children.
    */
   public Collection getChildren(Object object)
   {
-    Collection result = new ArrayList();
-    for (Iterator childrenReferences = getChildrenReferences(object).iterator(); childrenReferences.hasNext(); )
+    ChildrenStore store = getChildrenStore(object);
+    if (store != null)
     {
-      EStructuralFeature childrenReference = (EStructuralFeature)childrenReferences.next();
-      if (childrenReference.getEType().getInstanceClass() == FeatureMap.Entry.class) 
-      {
-        result.addAll(wrapFeatureMapChildren(object, childrenReference, (List)((EObject)object).eGet(childrenReference)));
-      }
-      else if (childrenReference.isMany())
-      {
-        result.addAll((List)((EObject)object).eGet(childrenReference));
-      }
-      else 
-      {
-        Object child = ((EObject)object).eGet(childrenReference);
-        if (child != null)
-        {
-          result.add(child);
-        }
-      }
+      return store.getChildren();
     }
-    return result;
-  }
 
-  protected String getEncodedString(String stringValue)
-  {
-    StringBuffer encodedStringValue = new StringBuffer(stringValue.length());
-    for (int j = 0; j < stringValue.length(); ++j)
+    store = createChildrenStore(object);
+    List result = store != null ? null : new ArrayList();
+    EObject eObject = (EObject)object;
+
+    for (Iterator i = getAnyChildrenFeatures(object).iterator(); i.hasNext();)
     {
-      char character = stringValue.charAt(j);
-      switch (character)
+      EStructuralFeature feature = (EStructuralFeature)i.next();
+      if (feature.isMany())
       {
-        case '\\':
+        List children = (List)eObject.eGet(feature);
+        int index = 0;
+        for (Iterator ci = children.iterator(); ci.hasNext(); index++)
         {
-          encodedStringValue.append("\\\\");
-          break;
-        }
-        case '\n':
-        {
-          encodedStringValue.append("\\n");
-          break;
-        }
-        case '\r':
-        {
-          encodedStringValue.append("\\r");
-          break;
-        }
-        default:
-        {
-          if (character < ' ')
+          Object child = wrap(eObject, feature, ci.next(), index);
+          if (store != null)
           {
-            encodedStringValue.append("\\" + (int)character);
+            store.getList(feature).add(child);
           }
           else
           {
-            encodedStringValue.append(character);
-          }
-          break;
-        }
-      }
-    }
-    return encodedStringValue.toString();
-  }
-
-  protected Map wrappers;
-  protected Object getWrapper(Object object, EStructuralFeature eStructuralFeature, EStructuralFeature entryFeature, Object value)
-  {
-    if (wrappers == null)
-    {
-      wrappers = new HashMap();
-    }
-
-    ArrayList tuple = new ArrayList();
-    tuple.ensureCapacity(4);
-    tuple.add(object);
-    tuple.add(eStructuralFeature);
-    tuple.add(entryFeature);
-    tuple.add(value);
-    
-    Object result = wrappers.get(tuple);
-    if (result == null)
-    {
-      if (entryFeature instanceof EAttribute)
-      {
-        if (entryFeature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text())
-        {
-          result =
-            new ItemProvider
-              (getEncodedString(value.toString()),
-               EMFEditPlugin.INSTANCE.getImage("full/obj16/TextValue"), 
-               object);
-        }
-        else if (entryFeature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA())
-        {
-          result =
-            new ItemProvider
-              ("<![CDATA[" + getEncodedString(value.toString()) + "]]>",
-               EMFEditPlugin.INSTANCE.getImage("full/obj16/TextValue"), 
-               object);
-        }
-        else if (entryFeature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment())
-        {
-          result =
-            new ItemProvider
-              ("<!--" + getEncodedString(value.toString()) + "-->",
-               EMFEditPlugin.INSTANCE.getImage("full/obj16/TextValue"), 
-               object);
-        }
-        else if (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature) == ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE)
-        {
-          result =
-            new ItemProvider
-              (entryFeature.getName() + "='" + EcoreUtil.convertToString((EDataType)entryFeature.getEType(), value) + "'",
-               EMFEditPlugin.INSTANCE.getImage("full/obj16/GenericValue"), 
-               object);
-        }
-        else
-        {
-          if (value == null)
-          {
-            result =
-              new ItemProvider
-                ("<" + entryFeature.getName() + " xsi:nil=\"true\"/>",
-                 EMFEditPlugin.INSTANCE.getImage("full/obj16/GenericValue"), 
-                 object);
-          }
-          else
-          {
-            result =
-              new ItemProvider
-                ("<" + entryFeature.getName() + ">" + 
-                   getEncodedString(EcoreUtil.convertToString((EDataType)entryFeature.getEType(), value)) + 
-                   "</" + entryFeature.getName() + ">",
-                 EMFEditPlugin.INSTANCE.getImage("full/obj16/GenericValue"), 
-                 object);
+            result.add(child);
           }
         }
-      }
-      else if (value == null)
-      {
-        result =
-          new ItemProvider
-            ("<" + entryFeature.getName() + " xsi:nil=\"true\"/>",
-             EMFEditPlugin.INSTANCE.getImage("full/obj16/GenericValue"),
-             object);
       }
       else
       {
-        IChangeNotifier decoratedItemProvider = 
-          (IChangeNotifier)getRootAdapterFactory().adapt((EObject)value, IStructuredItemContentProvider.class);
-        class Wrapper 
-          extends ItemProviderDecorator 
-          implements 
-            ITreeItemContentProvider, 
-            IItemPropertySource, 
-            IEditingDomainItemProvider, 
-            IItemLabelProvider
+        Object child = eObject.eGet(feature);
+        if (child != null)
         {
-          protected Object parent;
-          protected EStructuralFeature feature;
-          protected EObject eObject;
-
-          public Wrapper(Object parent, AdapterFactory adapterFactory, EStructuralFeature feature, EObject eObject)
+          child = wrap(eObject, feature, child, CommandParameter.NO_INDEX);
+          if (store != null)
           {
-            super(adapterFactory);
-            this.parent = parent;
-            this.feature = feature;
-            this.eObject = eObject;
+            store.setValue(feature, child);
           }
-
-          public Object getParent(Object object)
+          else
           {
-            return parent;
-          }
-
-          public String getText(Object object)
-          {
-            return "<" + feature.getName() + "> " + super.getText(eObject);
-          }
-
-          public Object getImage(Object object)
-          {
-            return super.getImage(eObject);
-          }
-
-          public boolean hasChildren(Object object)
-          {
-            return super.hasChildren(eObject);
-          }
-
-          public Collection getChildren(Object object)
-          {
-            return super.getChildren(eObject);
-          }
-
-          public Collection getElements(Object object)
-          {
-            return super.getElements(eObject);
-          }
-
-          public List getPropertyDescriptors(Object object)
-          {
-            List result = new ArrayList();
-            for (Iterator i = super.getPropertyDescriptors(eObject).iterator(); i.hasNext(); )
-            {
-              IItemPropertyDescriptor itemPropertyDescriptor = (IItemPropertyDescriptor)i.next();
-              result.add(new ItemPropertyDescriptorDecorator(eObject, itemPropertyDescriptor));
-            }
-            return result;
-          }
-
-          public IItemPropertyDescriptor getPropertyDescriptor(Object object, Object propertyId)
-          {
-            IItemPropertyDescriptor itemPropertyDescriptor = super.getPropertyDescriptor(eObject, propertyId);
-            return new ItemPropertyDescriptorDecorator(eObject, itemPropertyDescriptor);
-          }
-
-          public Object getEditableValue(Object object) 
-          {
-            return eObject;
-          }
-
-          public Collection getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
-          {
-            return super.getNewChildDescriptors(eObject, editingDomain, sibling);
-          }
-
-          public Command createCommand(Object object, EditingDomain editingDomain, Class commandClass, CommandParameter commandParameter)
-          {
-           commandParameter.setOwner(eObject);
-           Command result = super.createCommand(eObject, editingDomain, commandClass, commandParameter);
-           return result;
-          }
-
-          public void fireNotifyChanged(Notification notification)
-          {
-            super.fireNotifyChanged(new NotificationWrapper(this, notification));
+            result.add(child);
           }
         }
-
-        Wrapper wrapper = new Wrapper(object, getRootAdapterFactory(), entryFeature, (EObject)value);
-        wrapper.setDecoratedItemProvider(decoratedItemProvider);
-        result = wrapper;
       }
-
-      wrappers.put(tuple, result);
     }
-    return result;
+    return store != null ? store.getChildren() : result;
   }
-
-  protected Collection wrapFeatureMapChildren(Object object, EStructuralFeature eStructuralFeature, List children)
-  {
-    List result = new ArrayList();
-    for (Iterator i = children.iterator(); i.hasNext(); )
-    {
-      FeatureMap.Entry entry = (FeatureMap.Entry)i.next();
-      EStructuralFeature entryFeature = entry.getEStructuralFeature();
-      Object value = entry.getValue();
-      result.add(getWrapper(object, eStructuralFeature, entryFeature, value));
-    }
-    return result;
-  }
-
+        
   /**
    * This implements {@link ITreeItemContentProvider#hasChildren ITreeItemContentProvider.hasChildren} 
    * by simply testing whether {@link #getChildren getChildren} returns any children.
@@ -563,9 +382,26 @@ public class ItemProviderAdapter
   }
 
   /**
-   * If this is defined to be something other than an empty list, it is used to implement {@link #getChildren getChildren} 
-   * and to deduce the EMF feature in the AddCommand and RemoveCommand in {@link #createCommand createCommand}.
-   * If you override those, then you don't need to implement this.
+   * If this is defined to be something other than an empty list, it is used to implement {@link #getChildren
+   * getChildren}, including in determining whether to cache children and, if so, in setting up the store. It is also
+   * used to deduce the appropriate feature for an <code>AddCommand</code>, <code>RemoveCommand</code> or
+   * <code>MoveCommand</code> in {@link #createCommand createCommand}. If you override those methods, then you don't
+   * need to implement this.
+   */
+  protected Collection getChildrenFeatures(Object object)
+  {
+    if (childrenFeatures == null)
+    {
+      childrenFeatures = new ArrayList();
+    }
+    return childrenFeatures;
+  }
+
+  /**
+   * This returned the children references, but it has been replaced since attributes may now contribute children,
+   * too. If the replacement method is not overridden to return a non-empty list, this method will still be called to
+   * provide backwards compatibility.
+   * @deprecated As of EMF 2.0, replaced by {@link #getChildrenFeatures getChildrenFeatures}.
    */
   protected Collection getChildrenReferences(Object object)
   {
@@ -577,19 +413,76 @@ public class ItemProviderAdapter
   }
 
   /**
-   * This method is called by {@link #factorRemoveCommand factorRemoveCommand} to retrieve the children objects
-   * of the references returned from {@link #getChildrenReferences getChildrenReferences}.
+   * This is a temporary way to get the structural features that contribute children. It first calls the new
+   * {link #getChildrenFeatues getChildrenFeatures} method and then, if the result is empty, tries the deprecated
+   * {@link #getChildrenReferences getChildrenReferences} method. It is used, instead of just the new method,
+   * throughout this class.
    */
-  protected Object getReferenceValue(EObject object, EStructuralFeature reference)
+  private Collection getAnyChildrenFeatures(Object object)
+  {
+    Collection result = getChildrenFeatures(object);
+    return result.isEmpty() ? getChildrenReferences(object) : result;
+  }
+
+  /**
+   * This method is called by {@link #factorRemoveCommand factorRemoveCommand} to retrieve the children objects of the
+   * features returned from {@link #getChildrenFeatures getChildrenFeatures}. For references, this default
+   * implementation calls the deprecated {@link #getReferenceValue getReferenceValue} to provide backwards
+   * compatibility.
+   */
+  protected Object getFeatureValue(EObject object, EStructuralFeature feature)
+  {
+    // Use an existing getReferenceValue() override.
+    //
+    if (feature instanceof EReference)
+    {
+      return getReferenceValue(object, (EReference)feature);
+    }
+
+    return object.eGet(feature);
+  }
+
+  /**
+   * This method returned the children objects of the given reference, but it has been replaced since attributes may
+   * now contribute children, too.  The replacement method still calls this method for references, to provide backwards
+   * compatibility.
+   * @deprecated As of EMF 2.0, replaced by {@link #getFeatureValue getFeatureValue}.
+   */
+  protected Object getReferenceValue(EObject object, EReference reference)
   {
     return object.eGet(reference);
   }
 
   /**
    * This returns the most appropriate feature of the object into which the given child could be added.
-   * This default implementation returns the first reference returned by {@link #getChildrenReferences getChildrenReferences} 
-   * that has a type compatible with the child.
-   * You can override this to return a better result or to compute it more efficiently.
+   * This default implementation first calls the deprecated {@link #getChildReference getChildReference}, for backwards
+   * compatibility. If that does not yield a non-null result, it returns the first feature returned by {@link
+   * #getChildrenFeatures getChildrenFeatures} that has a type compatible with the child. You can override this to
+   * return a better result or to compute it more efficiently.
+   */
+  protected EStructuralFeature getChildFeature(Object object, Object child)
+  {
+    // First, try an existing implementation of getChildReference().  This provides backwards compatibility if that
+    // method, now deprecated, was overridden.
+    //
+    EStructuralFeature oldFeature = getChildReference(object, child);
+    if (oldFeature != null) return oldFeature;
+    
+    for (Iterator features = getAnyChildrenFeatures(object).iterator(); features.hasNext(); )
+    {
+      EStructuralFeature feature = (EStructuralFeature)features.next();
+      if (feature.getEType().isInstance(child))
+      {
+        return feature;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * This returned the most appropriate reference for a given child, but has been replaced since attributes may now
+   * contribute children, too. The replacement first tries calling this method, for backwards compatibility.
+   * @deprecated As of EMF 2.0, replaced by {@link #getChildFeature getChildFeature}.
    */
   protected EReference getChildReference(Object object, Object child)
   {
@@ -601,14 +494,14 @@ public class ItemProviderAdapter
       //
       for (Iterator childrenReferences = getChildrenReferences(object).iterator(); childrenReferences.hasNext(); )
       {
-        EStructuralFeature eStructuralFeature = (EStructuralFeature)childrenReferences.next();
-        EClassifier eType = eStructuralFeature.getEType();
+        EReference eReference = (EReference)childrenReferences.next();
+        EClassifier eType = eReference.getEType();
 
         // If this object is compatible with this reference...
         //
         if (eType.isInstance(eChild))
         {
-          return (EReference)eStructuralFeature;
+          return eReference;
         }
       }
     }
@@ -651,7 +544,7 @@ public class ItemProviderAdapter
 
   /**
    * This implements {@link ITreeItemContentProvider#getParent
-   * ITreeItemContentProvider.getParent} by returning the MOF object's
+   * ITreeItemContentProvider.getParent} by returning the EMF object's
    * container.  This is used by certain commands to find an owner, where
    * none is specified, and by the viewers, when trying to locate an
    * arbitrary object within the view (i.e. during select and reveal
@@ -698,98 +591,110 @@ public class ItemProviderAdapter
 
   /**
    * This implements {@link IEditingDomainItemProvider#getNewChildDescriptors
-   * IEditingDomainItemProvider.getNewChildDescriptors}, returning
-   * {@link org.eclipse.emf.edit.command.CommandParameter}s to
-   * describe all the possible children that can be added to the specified
-   * <code>object</code>.
+   * IEditingDomainItemProvider.getNewChildDescriptors}, returning {@link
+   * org.eclipse.emf.edit.command.CommandParameter}s to describe all the possible children that can be added to the
+   * specified <code>object</code>.
    * 
-   * <p>This implementation invokes {@link #collectNewChildDescriptors},
-   * which should be overridden by derived classes, to build this
-   * collection.
+   * <p>This implementation invokes {@link #collectNewChildDescriptors collectNewChildDescriptors}, which should be
+   * overridden by derived classes, to build this collection.
    *
-   * <p>If <code>sibling</code> is non-null, an <code>index</code> is added
-   * to each <code>CommandParameter</code> with a multi-valued
-   * <code>reference</code>, to ensure that the new child object gets
-   * added in the right position.
+   * <p>If <code>sibling</code> is non-null, an <code>index</code> is added to each <code>CommandParameter</code> with
+   * a multi-valued <code>feature</code>, to ensure that the new child object gets added in the right position.
    */
   public Collection getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
-    EObject eObject = (EObject) object;
+    EObject eObject = (EObject)object;
 
-    // build the collection of new child descriptors
+    // Build the collection of new child descriptors.
+    //
     Collection newChildDescriptors = new ArrayList();
     collectNewChildDescriptors(newChildDescriptors, object);
 
-    // if a sibling has been specified, add the best index possible to
-    // each CommandParameter
+    // If a sibling has been specified, add the best index possible to each CommandParameter.
+    //
     if (sibling != null)
     {
-      // find the reference that contains sibling, its "index" in the
-      // collection, and, if it is multi-valued, the index of the sibling
-      // within it
-      EStructuralFeature siblingReference = null;
-      int siblingReferenceIndex = 0;
-      int siblingIndex = -1;
+      sibling = unwrap(sibling);
 
-      for (Iterator references = getChildrenReferences(object).iterator();
-           references.hasNext(); siblingReferenceIndex++)
+      // Find the index of a feature containing the sibling, or an equivalent value, in the collection of children
+      // features.
+      //
+      Collection childrenFeatures = getAnyChildrenFeatures(object);
+      int siblingFeatureIndex = -1;
+      int i = 0;
+
+      FEATURES_LOOP:
+      for (Iterator features = childrenFeatures.iterator(); features.hasNext(); i++)
       {
-        EStructuralFeature eStructuralFeature = (EStructuralFeature) references.next();
-        Object o = eObject.eGet(eStructuralFeature);
-        if (eStructuralFeature.isMany())
+        EStructuralFeature feature = (EStructuralFeature)features.next();
+        Object featureValue = eObject.eGet(feature);
+        if (feature.isMany())
         {
-          siblingIndex = ((List) o).indexOf(sibling);
-          if (siblingIndex > -1)
+          for (Iterator values = ((Collection)featureValue).iterator(); values.hasNext(); )
           {
-            siblingReference = eStructuralFeature;
-            break;
+            Object value = values.next();
+            if (isEquivalentValue(sibling, value))
+            {
+              siblingFeatureIndex = i;
+              break FEATURES_LOOP;
+            }
           }
         }
-        else if (o == sibling)
+        else if (isEquivalentValue(sibling, featureValue))
         {
-          siblingReference = eStructuralFeature;
-          break;
+          siblingFeatureIndex = i;
+          break FEATURES_LOOP;
         }
       }
-      
-      // for each CommandParameter with a non-null, multi-valued
-      // reference...
-      for (Iterator parameters = newChildDescriptors.iterator();
-           siblingReference != null && parameters.hasNext(); )
+
+      // For each CommandParameter with a non-null, multi-valued structural feature...
+      //
+      DESCRIPTORS_LOOP:
+      for (Iterator descriptors = newChildDescriptors.iterator(); descriptors.hasNext(); )
       {
-        Object p = parameters.next();
-        if (p instanceof CommandParameter)
+        Object d = descriptors.next();
+        if (d instanceof CommandParameter)
         {
-          CommandParameter parameter = (CommandParameter)p;
-          EReference childReference = parameter.getEReference();
-          if (childReference == null || !childReference.isMany())
+          CommandParameter parameter = (CommandParameter)d;
+          EStructuralFeature childFeature = parameter.getEStructuralFeature();
+          if (childFeature == null || !childFeature.isMany())
           {
-            continue;
+            continue DESCRIPTORS_LOOP;
           }
 
-          // find the index of the new child's reference, and compare it to
-          // that of the sibling...
-          int childReferenceIndex = 0;
-          for (Iterator references = getChildrenReferences(object).iterator();
-               references.hasNext(); childReferenceIndex++)
+          // Look for the sibling value or an equivalent in the new child's feature. If it is found, the child should
+          // immediately follow it.
+          //
+          i = 0;
+          for (Iterator values = ((Collection)eObject.eGet(childFeature)).iterator(); values.hasNext(); i++)
           {
-            EStructuralFeature eStructuralFeature = (EStructuralFeature)references.next();
-            if (eStructuralFeature == childReference)
+            Object v = values.next();
+            if (isEquivalentValue(sibling, v))
             {
-              if (childReferenceIndex < siblingReferenceIndex)
+              parameter.index = i + 1;
+              continue DESCRIPTORS_LOOP;
+            }
+          }
+
+          // Otherwise, if a sibling feature was found, iterate through the children features to find the index of
+          // the child feature... 
+          //
+          if (siblingFeatureIndex != -1)
+          {
+            i = 0;
+            for (Iterator features = childrenFeatures.iterator(); features.hasNext(); i++)
+            {
+              EStructuralFeature feature = (EStructuralFeature)features.next();
+            
+              if (feature == childFeature)
               {
-                // make child last in previous reference
-                parameter.index = ((List)eObject.eGet(eStructuralFeature)).size();
-              }
-              else if (childReferenceIndex > siblingReferenceIndex)
-              {
-                // make child first in following reference
-                parameter.index = 0;
-              }
-              else
-              {
-                // make child immediately following in same reference
-                parameter.index = siblingIndex + 1;
+                // If the child feature follows the sibling feature, the child should be first in its feature.
+                //
+                if (i > siblingFeatureIndex)
+                {
+                  parameter.index = 0;
+                }
+                continue DESCRIPTORS_LOOP;
               }
             }
           }
@@ -797,6 +702,29 @@ public class ItemProviderAdapter
       }
     }
     return newChildDescriptors;
+  }
+
+  /**
+   * Returns whether the given value is to be considered equivalent to the given reference value.
+   * This is true if it is the reference value or if it is a feature map entry whose value is the reference value.
+   */
+  protected boolean isEquivalentValue(Object value, Object referenceValue)
+  {
+    if (value == referenceValue)
+    {
+      return true;
+    }
+      
+    if (value instanceof FeatureMap.Entry)
+    {
+      Object entryValue = ((FeatureMap.Entry)value).getValue();
+      if (entryValue == referenceValue)
+      {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**
@@ -816,11 +744,19 @@ public class ItemProviderAdapter
   /**
    * This implements delegated command creation for the given object.
    */
-  public Command createCommand(final Object object, final EditingDomain domain, Class commandClass, CommandParameter commandParameter)
+  public Command createCommand(Object object, EditingDomain domain, Class commandClass, CommandParameter commandParameter)
   {
+    // Commands should operate on the values, not their wrappers.  If the command's values needed to be unwrapped,
+    // we'll back get a new CommandParameter.
+    //
+    CommandParameter oldCommandParameter = commandParameter;
+    commandParameter = unwrapCommandValues(commandParameter, commandClass);
+
+    Command result = UnexecutableCommand.INSTANCE;
+
     if (commandClass == SetCommand.class)
     {
-      return 
+      result =
         createSetCommand
           (domain, 
            commandParameter.getEOwner(), 
@@ -831,92 +767,91 @@ public class ItemProviderAdapter
     }
     else if (commandClass == CopyCommand.class)
     {
-      return createCopyCommand(domain, commandParameter.getEOwner(), (CopyCommand.Helper)commandParameter.getValue());
+      result = createCopyCommand(domain, commandParameter.getEOwner(), (CopyCommand.Helper)commandParameter.getValue());
     }
     else if (commandClass == CreateCopyCommand.class)
     {
-      return createCreateCopyCommand(domain, commandParameter.getEOwner(), (CopyCommand.Helper)commandParameter.getValue());
+      result = createCreateCopyCommand(domain, commandParameter.getEOwner(), (CopyCommand.Helper)commandParameter.getValue());
     }
     else if (commandClass == InitializeCopyCommand.class)
     {
-      return createInitializeCopyCommand(domain, commandParameter.getEOwner(), (CopyCommand.Helper)commandParameter.getValue());
+      result = createInitializeCopyCommand(domain, commandParameter.getEOwner(), (CopyCommand.Helper)commandParameter.getValue());
     }
     else if (commandClass == RemoveCommand.class)
     {
-      if (commandParameter.getEReference() != null)
+      if (commandParameter.getEStructuralFeature() != null)
       {
-        return createRemoveCommand(domain, commandParameter.getEOwner(), commandParameter.getEReference(), commandParameter.getCollection());
+        result = createRemoveCommand(domain, commandParameter.getEOwner(), commandParameter.getEStructuralFeature(), commandParameter.getCollection());
       }
       else
       {
-        return factorRemoveCommand(domain, commandParameter);
+        result = factorRemoveCommand(domain, commandParameter);
       }
     }
     else if (commandClass == AddCommand.class)
     {
-      if (commandParameter.getEReference() != null)
+      if (commandParameter.getEStructuralFeature() != null)
       {
-        return 
+        result = 
           createAddCommand
             (domain, 
              commandParameter.getEOwner(), 
-             commandParameter.getEReference(), 
+             commandParameter.getEStructuralFeature(), 
              commandParameter.getCollection(),
              commandParameter.getIndex());
       }
       else
       {
-        return factorAddCommand(domain, commandParameter);
+        result = factorAddCommand(domain, commandParameter);
       }
     }
     else if (commandClass == MoveCommand.class)
     {
-      if (commandParameter.getEReference() != null)
+      if (commandParameter.getEStructuralFeature() != null)
       {
-        return 
+        result = 
           createMoveCommand
             (domain, 
              commandParameter.getEOwner(), 
-             commandParameter.getEReference(), 
+             commandParameter.getEStructuralFeature(), 
              commandParameter.getEValue(), 
              commandParameter.getIndex());
       }
       else
       {
-        return factorMoveCommand(domain, commandParameter);
+        result = factorMoveCommand(domain, commandParameter);
       }
     }
     else if (commandClass == ReplaceCommand.class)
     {
-      return 
+      result = 
         createReplaceCommand
-          (domain, commandParameter.getEOwner(), commandParameter.getEReference(), (EObject)commandParameter.getValue(), commandParameter.getCollection());
+          (domain, commandParameter.getEOwner(), commandParameter.getEStructuralFeature(), (EObject)commandParameter.getValue(), commandParameter.getCollection());
     }
     else if (commandClass == DragAndDropCommand.class)
     {
       DragAndDropCommand.Detail detail = (DragAndDropCommand.Detail)commandParameter.getFeature();
-      return 
+      result = 
         createDragAndDropCommand
           (domain, commandParameter.getOwner(), detail.location, detail.operations, detail.operation, commandParameter.getCollection());
     }
     else if (commandClass == CreateChildCommand.class)
     {
-      CommandParameter newChildParameter = (CommandParameter) commandParameter.getValue();
-      return 
+      CommandParameter newChildParameter = (CommandParameter)commandParameter.getValue();
+      result = 
         createCreateChildCommand
           (domain,
            commandParameter.getEOwner(), 
-           newChildParameter.getEReference(), 
+           newChildParameter.getEStructuralFeature(), 
            newChildParameter.getEValue(),
            newChildParameter.getIndex(),
            commandParameter.getCollection());      
     }
-    else
-    {
-      return UnexecutableCommand.INSTANCE;
-    }
-  }
 
+    // If necessary, get a command that replaces unwrapped values by their wrappers in the result and affected objects.
+    //
+    return wrapCommand(result, object, commandClass, commandParameter, oldCommandParameter);
+  }
 
   /**
    * This creates a primitive {@link org.eclipse.emf.edit.command.SetCommand}.
@@ -953,18 +888,45 @@ public class ItemProviderAdapter
   /**
    * This creates a primitive {@link org.eclipse.emf.edit.command.RemoveCommand}.
    */
-  protected Command createRemoveCommand(EditingDomain domain, EObject owner, EReference feature, Collection collection) 
+  protected Command createRemoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection collection) 
   {
+    if (feature instanceof EReference)
+    {
+      return createRemoveCommand(domain, owner, (EReference)feature, collection);
+    }
     return new RemoveCommand(domain, owner, feature, collection);
   }
 
-  protected Command createRemoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection collection) 
+  /**
+   * This returned a primitive {@link org.eclipse.emf.edit.command.RemoveCommand}, but it has been replaced since
+   * this command is now used on attributes, too. The replacement method still calls this method for references, to
+   * provide backwards compatibility.
+   * @deprecated As of EMF 2.0, replaced by {@link #createRemoveCommand(EditingDomain, EObject, EStructuralFeature, Collection)
+   * createRemoveCommand}.
+   */
+  protected Command createRemoveCommand(EditingDomain domain, EObject owner, EReference feature, Collection collection) 
   {
     return new RemoveCommand(domain, owner, feature, collection);
   }
 
   /**
    * This creates a primitive {@link org.eclipse.emf.edit.command.ReplaceCommand}.
+   */
+  protected Command createReplaceCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, EObject value, Collection collection) 
+  {
+    if (feature instanceof EReference)
+    {
+      return createReplaceCommand(domain, owner, (EReference)feature, value, collection);
+    }
+    return new ReplaceCommand(domain, owner, feature, value, collection);
+  }
+
+  /**
+   * This returned a primitive {@link org.eclipse.emf.edit.command.ReplaceCommand}, but it has been replaced since
+   * this command is now used on attributes, too. The replacement method still calls this method for references, to
+   * provide backwards compatibility.
+   * @deprecated As of EMF 2.0, replaced by {@link #createReplaceCommand(EditingDomain, EObject, EStructuralFeature, EObject, Collection)
+   * createReplaceCommand}.
    */
   protected Command createReplaceCommand(EditingDomain domain, EObject owner, EReference feature, EObject value, Collection collection) 
   {
@@ -976,18 +938,45 @@ public class ItemProviderAdapter
    */
   protected Command createAddCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection collection, int index) 
   {
+    if (feature instanceof EReference)
+    {
+      return createAddCommand(domain, owner, (EReference)feature, collection, index);
+    }
+    return new AddCommand(domain, owner, feature, collection, index);
+  }
+
+  /**
+   * This returned a primitive {@link org.eclipse.emf.edit.command.AddCommand}, but it has been replaced since
+   * this command is now used on attributes, too. The replacement method still calls this method for references, to
+   * provide backwards compatibility.
+   * @deprecated As of EMF 2.0, replaced by {@link #createAddCommand(EditingDomain, EObject, EStructuralFeature, Collection, int)
+   * createAddCommand}.
+   */
+  protected Command createAddCommand(EditingDomain domain, EObject owner, EReference feature, Collection collection, int index) 
+  {
     return new AddCommand(domain, owner, feature, collection, index);
   }
 
   /**
    * This creates a primitive {@link org.eclipse.emf.edit.command.MoveCommand}.
    */
-  protected Command createMoveCommand(EditingDomain domain, EObject owner, EReference feature, EObject value, int index) 
+  protected Command createMoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value, int index) 
   {
+    if (feature instanceof EReference && value instanceof EObject)
+    {
+      return createMoveCommand(domain, owner, (EReference)feature, (EObject)value, index);
+    }
     return new MoveCommand(domain, owner, feature, value, index);
   }
 
-  protected Command createMoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, EObject value, int index) 
+  /**
+   * This returned a primitive {@link org.eclipse.emf.edit.command.MoveCommand}, but it has been replaced since
+   * this command is now used on attributes, too. The replacement method still calls this method for references, to
+   * provide backwards compatibility.
+   * @deprecated As of EMF 2.0, replaced by {@link #createMoveCommand(EditingDomain, EObject, EStructuralFeature, EObject, int)
+   * createMoveCommand}.
+   */
+  protected Command createMoveCommand(EditingDomain domain, EObject owner, EReference feature, EObject value, int index) 
   {
     return new MoveCommand(domain, owner, feature, value, index);
   }
@@ -1004,6 +993,22 @@ public class ItemProviderAdapter
   /**
    * This creates a primitive {@link org.eclipse.emf.edit.command.CreateChildCommand}.
    */
+  protected Command createCreateChildCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value, int index, Collection collection)
+  {
+    if (feature instanceof EReference && value instanceof EObject)
+    {
+      return createCreateChildCommand(domain, owner, (EReference)feature, (EObject)value, index, collection);
+    }
+    return new CreateChildCommand(domain, owner, feature, value, index, collection, this);
+  }
+
+  /**
+   * This returned a primitive {@link org.eclipse.emf.edit.command.CreateChildCommand}, but it has been replaced since
+   * this command is now used on attributes, too. The replacement method still calls this method for references, to
+   * provide backwards compatibility.
+   * @deprecated As of EMF 2.0, replaced by {@link #createCreateChildCommand(EditingDomain, EObject, EStructuralFeature, EObject, int, Collection)
+   * createCreateChildCommand}.
+   */
   protected Command createCreateChildCommand(EditingDomain domain, EObject owner, EReference feature, EObject value, int index, Collection collection)
   {
     return new CreateChildCommand(domain, owner, feature, value, index, collection, this);
@@ -1012,7 +1017,7 @@ public class ItemProviderAdapter
   /**
    * This method factors a {@link org.eclipse.emf.edit.command.RemoveCommand} for a collection of objects 
    * into one or more primitive remove commands, 
-   * i.e., one per unique reference.
+   * i.e., one per unique feature.
    */
   protected Command factorRemoveCommand(EditingDomain domain, CommandParameter commandParameter)
   {
@@ -1028,57 +1033,57 @@ public class ItemProviderAdapter
       
     // Iterator over all the child references to factor each child to the right reference.
     //
-    for (Iterator childrenReferences = getChildrenReferences(eObject).iterator(); childrenReferences.hasNext(); )
+    for (Iterator childrenFeatures = getAnyChildrenFeatures(eObject).iterator(); childrenFeatures.hasNext(); )
     {
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)childrenReferences.next();
+      EStructuralFeature feature = (EStructuralFeature)childrenFeatures.next();
 
       // If it is a list type value...
       // 
-      if (eStructuralFeature.isMany())
+      if (feature.isMany())
       {
-        List value = (List)getReferenceValue(eObject, eStructuralFeature);
+        List value = (List)getFeatureValue(eObject, feature);
 
-        // These will be the children beloging to this reference.
+        // These will be the children beloging to this feature.
         //
-        Collection childrenOfThisReference = new ArrayList();
+        Collection childrenOfThisFeature = new ArrayList();
         for (ListIterator objects = list.listIterator(); objects.hasNext(); )
         {
           Object o = objects.next();
 
-          // Is this object in this reference...
+          // Is this object in this feature...
           //
           if (value.contains(o))
           {
             // Add it to the list and remove it from the other list.
             //
-            childrenOfThisReference.add(o);
+            childrenOfThisFeature.add(o);
             objects.remove();
           }
         }
 
-        // If we have children to remove for this reference, create a command for it.
+        // If we have children to remove for this feature, create a command for it.
         //
-        if (!childrenOfThisReference.isEmpty())
+        if (!childrenOfThisFeature.isEmpty())
         {
-          removeCommand.append(createRemoveCommand(domain, eObject, eStructuralFeature, childrenOfThisReference));
+          removeCommand.append(createRemoveCommand(domain, eObject, feature, childrenOfThisFeature));
         }
       }
       else 
       {
         // It's just a single value
         //
-        final Object value = getReferenceValue(eObject, eStructuralFeature);
+        final Object value = getFeatureValue(eObject, feature);
         for (ListIterator objects = list.listIterator(); objects.hasNext(); )
         {
           Object o = objects.next();
 
-          // Is this object in this reference...
+          // Is this object in this feature...
           //
           if (o == value)
           {
             // Create a command to set this to null and remove the object from the other list.
             //
-            Command setCommand = createSetCommand(domain, eObject, eStructuralFeature, null);
+            Command setCommand = createSetCommand(domain, eObject, feature, null);
             removeCommand.append
               (new CommandWrapper(setCommand)
                {
@@ -1135,7 +1140,7 @@ public class ItemProviderAdapter
   /**
    * This method factors an {@link org.eclipse.emf.edit.command.AddCommand} for a collection of objects
    * into one or more primitive add command, 
-   * i.e., one per unique reference.
+   * i.e., one per unique feature.
    */
   protected Command factorAddCommand(EditingDomain domain, CommandParameter commandParameter)
   {
@@ -1154,20 +1159,20 @@ public class ItemProviderAdapter
     {
       Iterator children = list.listIterator();
       final Object firstChild = children.next();
-      EStructuralFeature childReference = getChildReference(eObject, firstChild);
+      EStructuralFeature childFeature = getChildFeature(eObject, firstChild);
 
-      if (childReference == null)
+      if (childFeature == null)
       {
         break;
       }
       // If it is a list type value...
       // 
-      else if (childReference.isMany())
+      else if (childFeature.isMany())
       {
-        // These will be the children belonging to this reference.
+        // These will be the children belonging to this feature.
         //
-        Collection childrenOfThisReference = new ArrayList();
-        childrenOfThisReference.add(firstChild);
+        Collection childrenOfThisFeature = new ArrayList();
+        childrenOfThisFeature.add(firstChild);
         children.remove();
 
         // Consume the rest of the appropriate children.
@@ -1176,33 +1181,33 @@ public class ItemProviderAdapter
         {
           Object child = children.next();
           
-          // Is this child in this reference...
+          // Is this child in this feature...
           //
-          if (getChildReference(eObject, child) == childReference)
+          if (getChildFeature(eObject, child) == childFeature)
           {
             // Add it to the list and remove it from the other list.
             //
-            childrenOfThisReference.add(child);
+            childrenOfThisFeature.add(child);
             children.remove();
           }
         }
 
-        // Create a command for this reference, 
+        // Create a command for this feature, 
         //
-        addCommand.append(createAddCommand(domain, eObject, childReference, childrenOfThisReference, index));
+        addCommand.append(createAddCommand(domain, eObject, childFeature, childrenOfThisFeature, index));
 
-        if (index >= childrenOfThisReference.size())
+        if (index >= childrenOfThisFeature.size())
         {
-          index -= childrenOfThisReference.size();
+          index -= childrenOfThisFeature.size();
         }
         else
         {
           index = CommandParameter.NO_INDEX;
         }
       }
-      else if (eObject.eGet(childReference) == null)
+      else if (eObject.eGet(childFeature) == null)
       {
-        Command setCommand = createSetCommand(domain, eObject, childReference, firstChild);
+        Command setCommand = createSetCommand(domain, eObject, childFeature, firstChild);
         addCommand.append
           (new CommandWrapper(setCommand)
            {
@@ -1263,37 +1268,37 @@ public class ItemProviderAdapter
   protected Command factorMoveCommand(EditingDomain domain, CommandParameter commandParameter)
   {
     final EObject eObject = commandParameter.getEOwner();
-    final EObject value = commandParameter.getEValue();
+    final Object value = commandParameter.getValue();
     int index = commandParameter.getIndex();
 
-    EStructuralFeature childReference = getChildReference(eObject, value);
+    EStructuralFeature childFeature = getChildFeature(eObject, value);
 
-    if (childReference != null && childReference.isMany())
+    if (childFeature != null && childFeature.isMany())
     {
       // Compute the relative index as best as possible.
       //
       Collection result = new ArrayList();
-      for (Iterator childrenReferences = getChildrenReferences(eObject).iterator(); childrenReferences.hasNext(); )
+      for (Iterator i = getAnyChildrenFeatures(eObject).iterator(); i.hasNext(); )
       {
-        EReference childrenReference = (EReference)childrenReferences.next();
-        if (childrenReference == childReference)
+        EStructuralFeature feature = (EStructuralFeature)i.next();
+        if (feature == childFeature)
         {
           break;
         } 
 
-        if (childrenReference.isMany())
+        if (feature.isMany())
         {
-          index -= ((List)(eObject).eGet(childrenReference)).size();
+          index -= ((List)(eObject).eGet(feature)).size();
         }
-        else if (eObject.eGet(childrenReference) != null)
+        else if (eObject.eGet(feature) != null)
         {
           index -= 1;
         }
       }
 
-      // Create a command for this reference, 
+      // Create a command for this feature,
       //
-      return createMoveCommand(domain, eObject, childReference, value, index);
+      return createMoveCommand(domain, eObject, childFeature, value, index);
     }
     else
     {
@@ -1324,7 +1329,8 @@ public class ItemProviderAdapter
   }
 
   /**
-   * This will remove this adapter from all its the targets.
+   * This will remove this adapter from all its the targets and dispose any
+   * remainging children wrappers in the children store.
    */
   public void dispose()
   {
@@ -1339,6 +1345,13 @@ public class ItemProviderAdapter
           otherTarget.eAdapters().remove(this);
         }
       }
+    }
+
+    // Dispose the child wrappers.
+    //
+    if (wrappers != null)
+    {
+      wrappers.dispose();
     }
   }
 
@@ -1426,16 +1439,16 @@ public class ItemProviderAdapter
    */
   public Object getCreateChildImage(Object owner, Object feature, Object child, Collection selection)
   {
-    String name = "full/ctool16/CreateChild";
-    
     if (feature instanceof EReference && child instanceof EObject)
     {
       EReference reference = (EReference)feature;
       EClass parentClass = reference.getEContainingClass();
       EClass childClass = ((EObject)child).eClass();
-      name = "full/ctool16/Create" + parentClass.getName() + "_" + reference.getName() + "_" + childClass.getName();
+      String name = "full/ctool16/Create" + parentClass.getName() + "_" + reference.getName() + "_" + childClass.getName();
+      return getResourceLocator().getImage(name);
     }
-    return getResourceLocator().getImage(name);
+
+    return EMFEditPlugin.INSTANCE.getImage("full/ctool16/CreateChild");
   }
 
   /**
@@ -1487,7 +1500,7 @@ public class ItemProviderAdapter
   /**
    * Get the resource locator from the adapter of the object, if possible.
    * it can be any object, 
-   * i.e., it may be not the type object for which this adapter is applicable.
+   * i.e., it may not the type object for which this adapter is applicable.
    */
   protected ResourceLocator getResourceLocator(Object anyObject)
   {
@@ -1569,5 +1582,1048 @@ public class ItemProviderAdapter
     ResourceLocator resourceLocator = getResourceLocator();
     return resourceLocator.getString
       (key, new Object[] { resourceLocator.getString(s0), resourceLocator.getString(s1) });
+  }
+
+  /**
+   * Returns the store for the children of the given object, or null if no such store is being maintained.
+   */
+  protected ChildrenStore getChildrenStore(Object object)
+  {
+    return childrenStoreMap == null ? null : (ChildrenStore)childrenStoreMap.get(object);
+  }
+
+  /**
+   * Consults {@link #isWrappingNeeded isWrappingNeeded} to decide whether to create a store for the children of the
+   * given object. If so, the new store is created, added to the collection being maintained, and returned. If not,
+   * null is returned.
+   */
+  protected ChildrenStore createChildrenStore(Object object)
+  {
+    ChildrenStore store = null;
+
+    if (isWrappingNeeded(object))
+    {
+      if (childrenStoreMap == null)
+      {
+        childrenStoreMap = new HashMap();
+      }
+      store = new ChildrenStore(getAnyChildrenFeatures(object));
+      childrenStoreMap.put(object, store);
+    }
+    return store;
+  }
+
+  /**
+   * A <code>ChildrenStore</code> stores a number of objects that are to be presented as the children of an object.
+   * Each of a set of {@link org.eclipse.emf.ecore.EStructuralFeature feature}s may have either one or any number
+   * of children objects associated with it, depending on its multiplicity. The objects associated with a
+   * multiplicity-many feature are accessed and manipulated as an {@link org.eclipse.emf.common.util.EList}, 
+   * typically mirroring the actual values of that feature, with some or all in wrappers, as necessary. The object
+   * associated with a multiplicity-1 feature is typically accessed and set directly, although a modifiable, singleton
+   * list view is available. This class provides a number of convenient methods for access by feature, as well as
+   * a method, {@link #getChildren getChildren} that returns the complete collection of children from all features as
+   * an unmodifiable list.
+   */
+  protected static class ChildrenStore
+  {
+    /**
+     * An <code>Entry</code> represents the children from a feature.
+     */
+    protected static class Entry
+    {
+      public EStructuralFeature feature;
+      public EList list;
+
+      public Entry(EStructuralFeature feature)
+      {
+        this.feature = feature;
+      }
+    }
+
+    protected Entry[] entries;
+
+    /**
+     * Creates a store for the children of the given features.
+     */
+    public ChildrenStore(Collection features)
+    {
+      entries = new Entry[features.size()];
+      int i = 0;
+      for (Iterator iter = features.iterator(); iter.hasNext(); )
+      {
+        entries[i++] = new Entry((EStructuralFeature)iter.next());
+      }
+    }
+
+    protected Entry getEntry(EStructuralFeature feature)
+    {
+      for (int i = 0; i < entries.length; i++)
+      {
+        if (entries[i].feature == feature) return entries[i];
+      }
+      return null;
+    }
+
+    /**
+     * Returns a list, either a full list implementation or a fixed-sized modifiable singleton list, depending
+     * on the multiplicity of the feature. Before accessing an entry's list, the store should always check if it is
+     * null and if so, allocate it using this method.
+     */
+    protected EList createList(EStructuralFeature feature)
+    {
+      return feature.isMany() ?
+        (EList)(new BasicEList()) :
+        (EList)(new ModifiableSingletonEList());
+    }
+
+    /**
+     * Returns whether the store handles children of the specified feature.
+     */
+    public boolean contains(EStructuralFeature feature)
+    {
+      return getEntry(feature) != null;
+    }
+
+    /**
+     * Returns the list view of the specified feature, or null if the store does not handle the feature.
+     */
+    public EList getList(EStructuralFeature feature)
+    {
+      Entry entry = getEntry(feature);
+      if (entry == null) return null;
+
+      if (entry.list == null)
+      {        
+        entry.list = createList(feature);
+      }
+      return entry.list;
+    }
+
+    /**
+     * Returns the value view of the specified feature. For a single-valued feature, this is the value itself, which
+     * may be null. For a multi-valued feature, it is just the whole list.
+     */
+    public Object getValue(EStructuralFeature feature)
+    {
+      Entry entry = getEntry(feature);
+      if (entry == null) return null;
+      Object result = null;
+
+      if (feature.isMany())
+      {
+        if (entry.list == null)
+        {
+          entry.list = createList(feature);
+        }
+        result = entry.list;
+      }
+      else if (entry.list != null)
+      {
+        result = entry.list.get(0);
+      }
+      return result;
+    }
+
+    /**
+     * Sets the value of the specified feature. For a multi-valued feature, the specified value is treated as a
+     * {@link java.util.Collection}, and all of its elements are added to the emptied list.
+     */
+    public boolean setValue(EStructuralFeature feature, Object value)
+    {
+      Entry entry = getEntry(feature);
+      if (entry == null) return false;
+
+      if (entry.list == null && value != null)
+      {
+        entry.list = createList(feature);
+      }
+
+      if (entry.list != null)
+      {
+        if (feature.isMany())
+        {
+          entry.list.clear();
+          if (value != null) entry.list.addAll((Collection)value);
+        }
+        else
+        {
+          entry.list.set(0, value);
+        }
+      }
+      return true;
+    }
+
+    /**
+     * Returns either a single element of the specified feature or, if index is -1, the value view.
+     */
+    public Object get(EStructuralFeature feature, int index)
+    {
+      if (index == -1) return getValue(feature);
+      EList list = getList(feature);
+      return list != null ? list.get(index) : null;
+    }
+
+    /**
+     * Sets either a single element of the specified feature or, if the index is -1, the value of the feature.
+     */
+    public boolean set(EStructuralFeature feature, int index, Object object)
+    {
+      if (index == -1) return setValue(feature, object);
+      EList list = getList(feature);
+
+      if (list != null)
+      {
+        list.set(index, object);
+        return true;
+      }
+      return false;
+    }
+
+    /**
+     * Returns a list containing all children of all features in the store. Null, single-valued features are excluded.
+     * The list can be freely modified without affecting the store.
+     */
+    public List getChildren()
+    {
+      int size = 0;
+      for (int i = 0; i < entries.length; i++)
+      {
+        if (entries[i].list != null)
+        {
+          size += entries[i].feature.isMany() ?
+            entries[i].list.size() :
+            entries[i].list.get(0) != null ? 1 : 0;
+        }
+      }
+      List result = new ArrayList(size);
+      for (int i = 0; i < entries.length; i++)
+      {
+        if (entries[i].list != null)
+        {
+          if (entries[i].feature.isMany())
+          {
+            result.addAll(entries[i].list);
+          }
+          else if (entries[i].list.get(0) != null)
+          {
+            result.add(entries[i].list.get(0));
+          }
+        }
+      }
+      return result;
+    }
+
+    /**
+     * Returns the offset in the list returned by {@link #getChildren getChildren} of given feature's children.
+     */
+    public int getOffset(EStructuralFeature feature)
+    {
+      for (int i = 0, offset = 0; i < entries.length; i++)
+      {
+        if (entries[i].feature == feature) return offset;
+        if (entries[i].list != null)
+        {
+          offset += entries[i].feature.isMany() ?
+            entries[i].list.size() :
+            entries[i].list.get(0) != null ? 1 : 0;
+        }
+      }
+      return -1;
+    }
+
+    /**
+     * Clears the children of all features in the store. Multi-valued features are cleared, and single-valued features
+     * are set to null.
+     */
+    public void clear()
+    {
+      for (int i = 0; i < entries.length; i++)
+      {
+        if (entries[i].list != null)
+        {
+          if (entries[i].feature.isMany())
+          {
+            entries[i].list.clear();
+          }
+          else
+          {
+            entries[i].list.set(0, null);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * A single-element implementation of {@link org.eclipse.emf.common.util.EList}. The element can be modified, but
+   * the size of the list may not be changed.
+   */
+  protected static class ModifiableSingletonEList extends AbstractList
+    implements EList, RandomAccess
+  {
+    private Object singleElement;
+
+    ModifiableSingletonEList()
+    {
+      singleElement = null;
+    }
+
+    ModifiableSingletonEList(Object element)
+    {
+      singleElement = element;
+    }
+
+    public int size()
+    {
+      return 1;
+    }
+
+    public Object get(int index)
+    {
+      if (index != 0)
+      {
+        throw new IndexOutOfBoundsException("index=" + index + ", size=1");
+      }
+      return singleElement;
+    }
+
+    public Object set(int index, Object element)
+    {
+      if (index != 0)
+      {
+        throw new IndexOutOfBoundsException("index=" + index + ", size=1");
+      }
+      Object oldElement = singleElement;
+      singleElement = element;
+      return oldElement;
+    }
+
+    public boolean contains(Object o)
+    {
+      return o == null ? singleElement == null : o.equals(singleElement);
+    }
+
+    public void move(int index, Object o)
+    {
+      if (index != 0 || !contains(o))
+      {
+        throw new IndexOutOfBoundsException("index=" + index + ", size=1");
+      }
+    }
+
+    public Object move(int targetIndex, int sourceIndex)
+    {
+      if (targetIndex != 0)
+      {
+        throw new IndexOutOfBoundsException("targetIndex=" + targetIndex + ", size=1");
+      }
+      if (sourceIndex != 0)
+      {
+        throw new IndexOutOfBoundsException("sourceIndex=" + sourceIndex + ", size=1");
+      }
+      return singleElement;
+    }
+  }
+
+  /**
+   * Wraps a value, if needed, and keeps the wrapper for disposal along with the item provider. This method actually
+   * calls {@link #createWrapper createWrapper} to determine if the given value, at the given index in the given
+   * feature of the given object, should be wrapped and to obtain the wrapper. If a wrapper is obtained, it is recorded
+   * and returned. Otherwise, the orginal value is returned. Subclasses may override {@link #createWrapper
+   * createWrapper} to specify when and with what to wrap values.
+   */
+  protected Object wrap(EObject object, EStructuralFeature feature, Object value, int index)
+  {
+    if (!feature.isMany() && index != CommandParameter.NO_INDEX)
+    {
+      System.out.println("Bad wrap index.");
+      System.out.println("  object: " + object);
+      System.out.println("  feature: " + feature);
+      System.out.println("  value: " + value);
+      System.out.println("  index: " + index);
+      (new IllegalArgumentException("Bad wrap index.")).printStackTrace();
+    }
+
+    Object wrapper = createWrapper(object, feature, value, index);
+    if (wrapper == null)
+    {
+      wrapper = value;
+    }
+    else if (wrapper != value)
+    {
+      if (wrappers == null)
+      {
+        wrappers = new Disposable();
+      }
+      wrappers.add(wrapper);
+    }
+    return wrapper;
+  }
+
+  /**
+   * Creates and returns a wrapper for the given value, at the given index in the given feature of the given object
+   * if such a wrapper is needed; otherwise, returns the original value. This implementation creates different wrappers
+   * that implement {@link IWrapperItemProvider} for feature maps, simple attributes, and cross references. Subclasses
+   * may override it to change this behaviour or to create their own specialized wrappers.
+   */
+  protected Object createWrapper(EObject object, EStructuralFeature feature, Object value, int index)
+  {
+    if (FeatureMapUtil.isFeatureMap(feature))
+    {
+      value = new FeatureMapEntryWrapperItemProvider((FeatureMap.Entry)value, object, (EAttribute)feature, index, adapterFactory);
+    }
+    else if (feature instanceof EAttribute)
+    {
+      value = new AttributeValueWrapperItemProvider(value, object, (EAttribute)feature, index, adapterFactory);
+    }
+    else if (!((EReference)feature).isContainment())
+    {
+      value = new DelegatingWrapperItemProvider(value, object, adapterFactory);
+    }
+
+    return value;
+  }
+
+  /**
+   * Returns whether this item provider may need to use wrappers for some or all of the values it returns as {@link
+   * #getChildren children}. This is used to determine whether to use a store to keep track of children and whether to
+   * use command wrappers that re-wrap results and affected objects.
+   * 
+   * <p>This implementation consults {@link #getChildrenFeatures getChildrenFeatures}, returning true if any attributes
+   * or non-containment references contribute children. This provides backwards compatibility with pre-2.0 subclasses
+   * and enables the more useful new default behaviour for these types of features. Subclasses may override this to
+   * immediately return <code>true</code> or <code>false</code>, as desired. It should return <code>true</code> if
+   * wrappers might be returned {@link #createWrapper createWrapper}.
+   */
+  protected boolean isWrappingNeeded(Object object)
+  {
+    if (wrappingNeeded == null)
+    {
+      wrappingNeeded = Boolean.FALSE;
+      
+      for (Iterator i = getAnyChildrenFeatures(object).iterator(); i.hasNext(); )
+      {
+        EStructuralFeature f = (EStructuralFeature)i.next();
+        if (f instanceof EAttribute || !((EReference)f).isContainment())
+        {
+          wrappingNeeded = Boolean.TRUE;
+        }
+      }
+    }
+    return wrappingNeeded.booleanValue();
+  }
+
+  /**
+   * If the given object implements {@link IWrapperItemProvider}, it is unwrapped by obtaining a value from {@link
+   * IWrapperItemProvider#getValue getValue}. The unwrapping continues until a non-wrapper value is returned. This
+   * iterative unwrapping is required because values may be repeatedly wrapped, as children of a delegating wrapper.
+   */
+  protected Object unwrap(Object object)
+  {
+    while (object instanceof IWrapperItemProvider)
+    {
+      object = ((IWrapperItemProvider)object).getValue();
+    }
+    return object;
+  }
+
+  /**
+   * If the given object implements {@link IWrapperItemProvider}, it is disposed by calling {@link
+   * IWrapperItemProvider#dispose dispose}. It is also removed from {@link #wrappers}, as it will longer need to be
+   * disposed along with this item provider.
+   */
+  protected void disposeWrapper(Object object)
+  {
+    if (object instanceof IWrapperItemProvider)
+    {
+      ((IWrapperItemProvider)object).dispose();
+      if (wrappers != null)
+      {
+        wrappers.remove(object);
+      }
+    }
+  }
+
+  /**
+   * Each element of the given list that implements {@link IWrapperItemProvider} is disposed by calling
+   * IWrapperItemProvider#dispose dispose} and is removed from {@link #wrappers}.
+   */
+  protected void disposeWrappers(List objects)
+  {
+    for (Iterator i = objects.iterator(); i.hasNext(); )
+    {
+      disposeWrapper(i.next());
+    }
+  }
+
+  /**
+   * If the given object implements {@link IWrapperItemProvider} and specifies an index, that index is adjusted by the
+   * given increment.
+   */
+  protected void adjustWrapperIndex(Object object, int increment)
+  {
+    if (object instanceof IWrapperItemProvider)
+    {
+      IWrapperItemProvider wrapper = (IWrapperItemProvider)object;
+      int index = wrapper.getIndex();
+
+      if (index != CommandParameter.NO_INDEX)
+      {
+        wrapper.setIndex(index + increment);
+      }
+    }
+  }
+
+  /**
+   * For each element of the given list, starting at <code>from</code>, that implements {@link IWrapperItemProvider}
+   * and specifies an index, that index is adjusted by the given increment.
+   */
+  protected void adjustWrapperIndices(List objects, int from, int increment)
+  {
+    for (Iterator i = objects.listIterator(from); i.hasNext(); )
+    {
+      adjustWrapperIndex(i.next(), increment);
+    }
+  }
+
+  /**
+   * For each element of the given list, between <code>from</code> and <code>to</code>, that implements {@link
+   * IWrapperItemProvider} and specifies an index, that index is adjusted by the given increment.
+   */
+  protected void adjustWrapperIndices(List objects, int from, int to, int increment)
+  {
+    for (Iterator i = objects.listIterator(from); from < to && i.hasNext(); from++)
+    {
+      adjustWrapperIndex(i.next(), increment);
+    }
+  }
+
+  /**
+   * Updates any cached children based on the given notification. If a {@link ChildrenStore} exists for its notifier,
+   * then the children of the specified feature are updated.
+   *
+   * <p>Existing children in the store that correspond to any set, removed or unset values are {@link
+   * #disposeWrapper disposed} before being removed from the store. When children are added to, removed from, or moved
+   * within a feature, the indices of any others affected are {@link #adjustWrapperIndex adjusted}. Since this method
+   * is typically called from {@link #notifyChanged notifyChanged}, which, in subclasses, is often invoked repeatedly
+   * up the inheritance chain, it can be safely called repeatedly for a single notification, and only the first such
+   * call will have an effect. Such repeated calls may not, however, safely be interleaved with calls for another
+   * notification.
+   */
+  protected void updateChildren(Notification notification)
+  {
+    EObject object = (EObject)notification.getNotifier();
+    ChildrenStore childrenStore = getChildrenStore(object);
+
+    if (childrenStore != null)
+    {
+      EStructuralFeature feature = (EStructuralFeature)notification.getFeature();
+      EList children = childrenStore.getList(feature);
+      if (children != null)
+      {
+        int index = notification.getPosition();
+
+        switch (notification.getEventType())
+        {
+          case Notification.SET:
+          case Notification.UNSET:
+          {
+            Object oldChild = childrenStore.get(feature, index);
+            Object newValue = notification.getNewValue();
+
+            if (unwrap(oldChild) != newValue)
+            {
+              if (feature.isMany() && index == Notification.NO_INDEX)
+              {
+                disposeWrappers((List)oldChild);
+              }
+              else
+              {
+                disposeWrapper(oldChild);
+              }
+              Object newChild = newValue == null && index == Notification.NO_INDEX ?
+                  null : wrap(object, feature, newValue, index);
+              childrenStore.set(feature, index, newChild);
+            }
+            break;
+          }
+          case Notification.ADD:
+          {
+            EList values = (EList)object.eGet(feature);
+
+            if (children.size() != values.size())
+            {
+              Object newValue = notification.getNewValue();
+              adjustWrapperIndices(children, index, 1);
+              children.add(index, wrap(object, feature, newValue, index));
+            }
+            break;
+          }
+          case Notification.REMOVE:
+          {
+            EList values = (EList)object.eGet(feature);
+
+            if (children.size() != values.size())
+            {
+              disposeWrapper(children.remove(index));
+              adjustWrapperIndices(children, index, -1);
+            }
+            break;
+          }
+          case Notification.ADD_MANY:
+          {
+            EList values = (EList)object.eGet(feature);
+
+            if (children.size() != values.size())
+            {
+              if (notification.getOldValue() != null)
+              {
+                throw new IllegalArgumentException("No old value expected");
+              }
+              List newValues = (List)notification.getNewValue();
+              List newChildren = new ArrayList(newValues.size());
+              int offset = 0;
+              for (Iterator i = newValues.iterator(); i.hasNext(); offset++)
+              {
+                newChildren.add(wrap(object, feature, i.next(), index+offset));
+              }
+              adjustWrapperIndices(children, index, offset);
+              children.addAll(index, newChildren);
+            }
+            break;
+          }
+          case Notification.REMOVE_MANY:
+          {
+            // No index specified when removing all elements.
+            //
+            if (index == Notification.NO_INDEX) index = 0;
+            EList values = (EList)object.eGet(feature);
+
+            if (children.size() != values.size())
+            {
+              if (notification.getNewValue() instanceof int[])
+              {
+                int[] indices = (int[])notification.getNewValue();
+                for (int i = indices.length - 1; i >= 0; i--)
+                {
+                  disposeWrapper(children.remove(indices[i]));
+                  adjustWrapperIndices(children, indices[i], -1);
+                }
+              }
+              else
+              {
+                int len = ((List)notification.getOldValue()).size();
+                List sl = children.subList(index, index + len);
+                disposeWrappers(sl);
+                sl.clear();
+                adjustWrapperIndices(children, index, -len);
+              }
+            }
+            break;
+          }
+          case Notification.MOVE:
+          {
+            int oldIndex = ((Integer)notification.getOldValue()).intValue();
+            EList values = (EList)object.eGet(feature);
+            boolean didMove = true;
+
+            for (int i = Math.min(oldIndex, index), end = Math.max(oldIndex, index); didMove && i <= end; i++)
+            {
+              didMove = unwrap(children.get(i)) == values.get(i);
+            }
+            
+            if (!didMove)
+            {
+              int delta = index - oldIndex;
+              if (delta < 0)
+              {
+                adjustWrapperIndices(children, index, oldIndex, 1);
+              }
+              children.move(index, oldIndex);
+              adjustWrapperIndex(children.get(index), delta);
+              if (delta > 0)
+              {
+                adjustWrapperIndices(children, oldIndex, index, -1);
+              }
+            }
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * If the given command parameter contains wrapped values that need to be unwrapped for the given command class to
+   * operate on, a new command parameter will be returned, with those values unwrapped; otherwise, the original one is
+   * returned. For most commands, any objects in the {@link org.eclipse.emf.edit.command.CommandParameter#getCollection
+   * collection} or in the {@link org.eclipse.emf.edit.command.CommandParameter#getValue value} that implement {@link
+   * IWrapperItemProvider} will be {@link #unwrap unwrapped}. {@link org.eclipse.emf.edit.command.DragAndDropCommand}
+   * and {@link org.eclipse.emf.edit.command.CreateChildCommand} are never unwrapped. 
+   */
+  protected CommandParameter unwrapCommandValues(CommandParameter commandParameter, Class commandClass)
+  {
+    // We need the wrapper, not the item provider, to handle a DragAndDropCommand; the move, add, remove, etc. commands
+    // that implement it will have their values unwrapped as usual. For CreateChildCommand, the value isn't wrapped to
+    // begin with, and the collection is used to hold the selection, and so it may include wrappers, but it isn't
+    // actually operated on by the command -- it's just directly returned as the affected objects.
+    //
+    if (commandClass == DragAndDropCommand.class || commandClass == CreateChildCommand.class)
+    {
+      return commandParameter;
+    }
+    
+    ArrayList newCollection = null;
+    Collection oldCollection = commandParameter.getCollection();
+    
+    // Unwrap collection.
+    //
+    if (oldCollection != null)
+    {
+      for (Iterator i = oldCollection.iterator(); i.hasNext(); )
+      {
+        Object oldValue = i.next();
+        Object newValue = unwrap(oldValue);
+
+        // If the first wrapped value is found...
+        //
+        if (newValue != oldValue && newCollection == null)
+        {
+          // Allocate the new collection, and populate it up to this point.
+          //
+          newCollection = new ArrayList(oldCollection.size());
+          for (Iterator j = oldCollection.iterator(); j.hasNext(); )
+          {
+            Object o = j.next();
+            if (o == oldValue) break;
+            newCollection.add(o);
+          }
+        }
+
+        // If a new collection was allocated, continue to populate it.
+        //
+        if (newCollection != null)
+        {
+          newCollection.add(newValue);
+        }
+      }
+    }
+
+    // Unwrap value.
+    //
+    Object oldValue = commandParameter.getValue();
+    Object newValue = unwrap(oldValue);
+
+    if (newCollection != null || newValue != oldValue)
+    {
+      commandParameter = new CommandParameter(
+        commandParameter.owner,
+        commandParameter.feature,
+        newValue,
+        newCollection,
+        commandParameter.index);
+    }
+
+    return commandParameter;
+  }
+
+  /**
+   * Returns a version of the given command that automatically re-wraps values that have been unwrapped when returning
+   * them as the command's result or affected objects. This is only done if {@link #isWrappingNeeded isWrappingNeeded}
+   * returns <code>true</code>, and never for a {@link org.eclipse.emf.edit.command.DragAndDropCommand}.
+   */
+  protected Command wrapCommand(Command command, Object object, Class commandClass, CommandParameter commandParameter, CommandParameter oldCommandParameter) 
+  {
+    if (isWrappingNeeded(object) && commandClass != DragAndDropCommand.class)
+    {
+      // Wrappers from the old command parameter must be considered in order for cut and paste to work.
+      //
+      Collection oldWrappers = commandParameter != oldCommandParameter ?
+        getWrappedValues(oldCommandParameter) : Collections.EMPTY_LIST;
+
+      command = command instanceof CommandActionDelegate ?
+        new ResultAndAffectedObjectsWrappingCommandActionDelegate((CommandActionDelegate)command, oldWrappers) :
+        new ResultAndAffectedObjectsWrappingCommand(command, oldWrappers);
+    }
+    return command;
+  }
+  
+  /**
+   * Returns a collection of any objects in the given command parameter's {@link
+   * org.eclipse.emf.edit.command.CommandParameter#getCollection collection} and {@link
+   * org.eclipse.emf.edit.command.CommandParameter#getValue value}, that implement {@link IWrapperItemProvider}.
+   */
+  protected Collection getWrappedValues(CommandParameter commandParameter)
+  {
+    Collection collection = commandParameter.getCollection();
+    Object value = commandParameter.getValue();
+
+    if (collection != null)
+    {
+      List result = new ArrayList(collection.size() + 1);
+      for (Iterator i = collection.iterator(); i.hasNext(); )
+      {
+        Object o = i.next();
+        if (o instanceof IWrapperItemProvider)
+        {
+          result.add(o);
+        }
+      }
+
+      if (value instanceof IWrapperItemProvider)
+      {
+        result.add(value);
+      }
+
+      return result;
+    } 
+    else if (value instanceof IWrapperItemProvider)
+    {
+      return Collections.singletonList(value);
+    }
+    return Collections.EMPTY_LIST;
+  }
+
+  /**
+   * A <code>ResultAndAffectedObjectsWrappingCommand</code> wraps another command to substitute {@link
+   * IWrapperItemProvider}s for their values in the command's result and affected objects. This is needed
+   * as the values have been unwrapped for the command to operate on properly.
+   * <p>
+   * A list of wrappers from which to substitute is formed by calling {@link #getChildren getChildren} on the command's
+   * owner(s). Additional wrappers to be considered for the result can by specified in the two-argument constructor.
+   * The first wrapper whose {@link IWrapperItemProvider#getValue value} matches a given value in the result or
+   * affected objects is substitued for it.
+   */
+  public class ResultAndAffectedObjectsWrappingCommand extends CommandWrapper
+  {
+    protected List owners;
+    protected Collection additionalWrappers;
+
+    public ResultAndAffectedObjectsWrappingCommand(Command command)
+    {
+      super(command);
+    }
+
+    public ResultAndAffectedObjectsWrappingCommand(Command command, Collection additionalResultWrappers)
+    {
+      super(command);
+      additionalWrappers = additionalResultWrappers;
+    }
+
+    public Collection getResult()
+    {
+      return wrapValues(super.getResult(), true);
+    }
+
+    public Collection getAffectedObjects()
+    {
+      return wrapValues(super.getAffectedObjects(), false);
+    }
+
+    protected Collection wrapValues(Collection unwrappedValues, boolean useAdditionalWrappers)
+    {
+      List result = new ArrayList(unwrappedValues);
+      List wrappers = new ArrayList();
+
+      // If the adapter factory is composeable, we'll adapt using the root.
+      //
+      AdapterFactory af = adapterFactory instanceof ComposeableAdapterFactory ?
+        ((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory() :
+        adapterFactory;
+
+      // Build list of wrapped children from the appropriate adapters.
+      //
+      for (Iterator i = getOwners().iterator(); i.hasNext(); )
+      {
+        Object owner = i.next();
+        Collection children = Collections.EMPTY_LIST;
+
+        // Either the IEditingDomainItemProvider or ITreeItemContentProvider item provider interface can give us
+        // the children.
+        //
+        Object adapter = af.adapt(owner, IEditingDomainItemProvider.class);
+        if (adapter instanceof IEditingDomainItemProvider)
+        {
+          children = ((IEditingDomainItemProvider)adapter).getChildren(owner);
+        }
+        else
+        {
+          adapter = af.adapt(owner, ITreeItemContentProvider.class);
+          if (adapter instanceof ITreeItemContentProvider)
+          {
+            children = ((ITreeItemContentProvider)adapter).getChildren(owner);
+          }
+        }
+
+        for (Iterator j = children.iterator(); j.hasNext(); )
+        {
+          Object child = j.next();
+          if (child instanceof IWrapperItemProvider)
+          {
+            wrappers.add(child);
+          }
+        }
+      }
+
+      // Add in additional wrappers to search.
+      //
+      if (useAdditionalWrappers && additionalWrappers != null)
+      {
+        wrappers.addAll(additionalWrappers);
+      }
+
+      // Look for each unwrapped object as a value of a wrapper, replacing it with the first one found.
+      //
+      for (ListIterator i = result.listIterator(); i.hasNext(); )
+      {
+        Object resultObject = i.next();
+
+        Iterator j = wrappers.iterator();
+        while (j.hasNext())
+        {
+          IWrapperItemProvider wrapper = (IWrapperItemProvider)j.next();
+
+          if (isEquivalentValue(unwrap(wrapper), resultObject))
+          {
+            i.set(wrapper);
+            break;
+          }
+        }
+      }
+      return result;
+    }
+
+    /**
+     * Returns any owners from the wrapped command. If it is a compound command, or a wrapped compound command, it may
+     * have multiple owners. This returns and caches a list of them.
+     */
+    public List getOwners()
+    {
+      if (owners == null)
+      {
+        owners = new UniqueEList();
+        addOwners(getCommand());
+      }
+      return owners;
+    }
+
+    /**
+     * Helper method that builds the list of owners, recursively for command wrappers and/or compound commands.
+     */
+    protected void addOwners(Command command)
+    {
+      if (command instanceof CommandWrapper)
+      {
+        addOwners(((CommandWrapper)command).getCommand());
+      }        
+      else if (command instanceof CompoundCommand)
+      {
+        CompoundCommand compoundCommand = (CompoundCommand)command;
+        List commandList = compoundCommand.getCommandList();
+        int resultIndex = compoundCommand.getResultIndex();
+
+        if (resultIndex == CompoundCommand.MERGE_COMMAND_ALL)
+        {
+          for (Iterator i = commandList.iterator(); i.hasNext(); )
+          {
+            addOwners((Command)i.next());
+          }
+        }
+        else
+        {
+          if (resultIndex == CompoundCommand.LAST_COMMAND_ALL)
+          {
+            resultIndex = commandList.size() - 1;
+          }
+        
+          if (resultIndex >= 0)
+          {
+            addOwners((Command)commandList.get(resultIndex));
+          }
+        }
+      }
+      else if (command instanceof AddCommand) 
+      {
+        owners.add(((AddCommand)command).getOwner());
+      }
+      else if (command instanceof CreateCopyCommand)
+      {
+        owners.add(((CreateCopyCommand)command).getOwner());
+      }
+      else if (command instanceof InitializeCopyCommand)
+      {
+        owners.add(((InitializeCopyCommand)command).getOwner());
+      }
+      else if (command instanceof MoveCommand)
+      {
+        owners.add(((MoveCommand)command).getOwner());
+      }
+      else if (command instanceof RemoveCommand)
+      {
+        owners.add(((RemoveCommand)command).getOwner());
+      }
+      else if (command instanceof ReplaceCommand)
+      {
+        owners.add(((ReplaceCommand)command).getOwner());
+      }
+      else if (command instanceof SetCommand)
+      {
+        owners.add(((SetCommand)command).getOwner());
+      }
+    }
+  }
+
+  /**
+   * A <code>ResultAndAffectedObjectsWrappingCommandActionDelegate</code> wraps another command that also implements
+   * <code>CommandActionDelegate</code>, to substitute {@link IWrapperItemProvider}s for its values, which have been
+   * unwrapped for the command to operate on properly. This substitution is performed exactly as by a
+   * <code>ResultAndAffectedObjectsWrappingComand</code>, and action delegate methods are delegated directly to the
+   * wrapped command.
+   */
+  public class ResultAndAffectedObjectsWrappingCommandActionDelegate extends ResultAndAffectedObjectsWrappingCommand
+    implements CommandActionDelegate
+  {
+    CommandActionDelegate commandActionDelegate;
+    
+    /**
+     * Returns a new <code>ResultAndAffectedObjectsWrappingCommandActionDelegate</code> for the given command.
+     * @exception ClassCastException If the specified command does not implement {@link org.eclipse.emf.common.command.Command}.
+     */
+    public ResultAndAffectedObjectsWrappingCommandActionDelegate(CommandActionDelegate command)
+    {
+      super((Command)command);
+      commandActionDelegate = command;
+    }
+
+    /**
+     * Returns a new <code>ResultAndAffectedObjectsWrappingCommandActionDelegate</code> for the given command and list
+     * of additional wrappers.
+     * @exception ClassCastException If the specified command does not implement {@link org.eclipse.emf.common.command.Command}.
+     */
+    public ResultAndAffectedObjectsWrappingCommandActionDelegate(CommandActionDelegate command, Collection additionalWrappers)
+    {
+      super((Command)command, additionalWrappers);
+      commandActionDelegate = command;
+    }
+
+    public Object getImage()
+    {
+      return commandActionDelegate.getImage();
+    }
+
+    public String getText()
+    {
+      return commandActionDelegate.getText();
+    }
+
+    public String getDescription()
+    {
+      return commandActionDelegate.getDescription();
+    }
+
+    public String getToolTipText()
+    {
+      return commandActionDelegate.getToolTipText();
+    }
   }
 }

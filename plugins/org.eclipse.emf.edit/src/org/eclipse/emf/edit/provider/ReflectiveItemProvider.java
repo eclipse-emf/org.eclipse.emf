@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.2 2004/03/31 19:46:39 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -169,11 +169,11 @@ public class ReflectiveItemProvider
 
   /**
    */
-  protected Collection getChildrenReferences(Object object)
+  protected Collection getChildrenFeatures(Object object)
   {
-    // if (childrenReferences == null)
+    // if (childrenFeatures == null)
     {
-      childrenReferences = new ArrayList();
+      childrenFeatures = new ArrayList();
       EObject eObject = (EObject)object;
       EClass eClass = eObject.eClass();
       if (ExtendedMetaData.INSTANCE.getContentKind(eClass) != ExtendedMetaData.MIXED_CONTENT)
@@ -183,7 +183,7 @@ public class ReflectiveItemProvider
           EReference eReference = (EReference)i.next();
           if (eReference.isContainment() && ExtendedMetaData.INSTANCE.getGroup(eReference) == null)
           {
-            childrenReferences.add(eReference);
+            childrenFeatures.add(eReference);
           }
         }
       }
@@ -193,11 +193,11 @@ public class ReflectiveItemProvider
         if (ExtendedMetaData.INSTANCE.getGroup(eAttribute) == null && 
               eAttribute.getEType().getInstanceClass() == FeatureMap.Entry.class)
         {
-          childrenReferences.add(eAttribute);
+          childrenFeatures.add(eAttribute);
         }
       }
     }
-    return childrenReferences;
+    return childrenFeatures;
   }
 
   /**
@@ -222,33 +222,37 @@ public class ReflectiveItemProvider
   {
     EObject eObject = (EObject)object;
     EClass eClass = eObject.eClass();
+    EStructuralFeature feature = getLabelFeature(eClass);
+    Object label = feature == null ? feature : eObject.eGet(feature);
+    return label == null ? eClass.getName() : eClass.getName() + " " + label.toString();
+  }
+
+  protected EStructuralFeature getLabelFeature(EClass eClass)
+  {
     EAttribute result = null;
     for (Iterator i = eClass.getEAllAttributes().iterator(); i.hasNext(); )
     {
       EAttribute eAttribute = (EAttribute)i.next();
-      if ("name".equalsIgnoreCase(eAttribute.getName()))
+      if (!eAttribute.isMany() && eAttribute.getEType().getInstanceClass() != FeatureMap.Entry.class)
       {
-        result = eAttribute;
-        break;
-      }
-      else if (result == null)
-      {
-        if (!eAttribute.isMany() && eAttribute.getEType().getInstanceClass() != FeatureMap.Entry.class)
+        if ("name".equalsIgnoreCase(eAttribute.getName()))
+        {
+          result = eAttribute;
+          break;
+        }
+        else if (result == null)
+        {
+          result = eAttribute;
+        }
+        else if (eAttribute.getEAttributeType().getInstanceClass() == String.class && 
+                 result.getEAttributeType().getInstanceClass() != String.class)
         {
           result = eAttribute;
         }
       }
-      else if (eAttribute.getEAttributeType().getInstanceClass() == String.class && 
-                 result.getEAttributeType().getInstanceClass() != String.class)
-      {
-        result = eAttribute;
-      }
     }
-
-    Object label = result == null ? result : eObject.eGet(result);
-    return label == null ? eClass.getName() : eClass.getName() + " " + label.toString();
+    return result;
   }
-
 
   /**
    */
@@ -308,35 +312,42 @@ public class ReflectiveItemProvider
    */
   protected String getTypeText(Object object)
   {
-    if (object instanceof EObject)
-    {
-      return ((EObject)object).eClass().getName();
-    }
-    else
-    {
-      return getString("_UI_Unknown_type");
-    }
+    return object instanceof EObject ?
+      ((EObject)object).eClass().getName() :
+      getString("_UI_Unknown_type");
   }
 
   /**
    */
   protected String getFeatureText(Object feature)
   {
-    if (feature instanceof EStructuralFeature)
-    {
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)feature;
-      return eStructuralFeature.getName();
-    }
-    else
-    {
-      return getResourceLocator().getString("_UI_Unknown_feature");
-    }
+    return feature instanceof EStructuralFeature ?
+      ((EStructuralFeature)feature).getName() :
+      getResourceLocator().getString("_UI_Unknown_feature");
   }
 
   /**
    */
   public void notifyChanged(Notification notification)
   {
-    fireNotifyChanged(notification);
+    updateChildren(notification);
+
+    EObject object = (EObject)notification.getNotifier();
+    EClass eClass = (EClass)object.eClass();
+    EStructuralFeature feature = (EStructuralFeature)notification.getFeature();
+
+    boolean label = feature == getLabelFeature(eClass);
+    boolean content =
+      (ExtendedMetaData.INSTANCE.getContentKind(eClass) == ExtendedMetaData.MIXED_CONTENT &&
+       feature.getEType().getInstanceClass() == FeatureMap.Entry.class &&
+       ExtendedMetaData.INSTANCE.getGroup(feature) == null) ||
+      (feature instanceof EReference &&
+       ((EReference)feature).isContainment() &&
+       ExtendedMetaData.INSTANCE.getGroup(feature) == null);
+
+    if (content || label)
+    {
+      fireNotifyChanged(new ViewerNotification(notification, object, content, label));
+    }
   }
 }
