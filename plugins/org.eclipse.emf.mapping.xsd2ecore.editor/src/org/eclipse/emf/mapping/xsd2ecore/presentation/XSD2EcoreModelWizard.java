@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreModelWizard.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSD2EcoreModelWizard.java,v 1.2 2004/07/20 16:21:18 marcelop Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.presentation;
 
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.MissingResourceException;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -65,6 +66,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreFactory;
 import org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePackage;
+import org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePlugin;
 
 
 /**
@@ -414,7 +416,7 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
           EClass eClass = (EClass)eClassifier;
           if (!eClass.isAbstract())
           {
-            eClasses.add(eClass.getName());
+            eClasses.add(getLabel(eClass));
           }
         }
       }
@@ -475,11 +477,47 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
      */
     public String getInitialEClassName()
     {
-      return
-        initialEClassName == null ?
-          initialObjectField.getText() :
-          initialEClassName;
+      if (initialEClassName != null)
+      {
+        return initialEClassName;
+      }
+      else
+      {
+        String label = initialObjectField.getText();
+        for (Iterator classifier = xsD2EcorePackage.getEClassifiers().iterator(); classifier.hasNext(); )
+        {
+          EClassifier eClassifier = (EClassifier)classifier.next();
+          if (eClassifier instanceof EClass)
+          {
+            EClass eClass = (EClass)eClassifier;
+            if (!eClass.isAbstract() && getLabel(eClass).equals(label))
+            {
+              return eClass.getName();
+            }
+          }
+        }
+        return label;
+      }
     }
+    
+    /**
+     * Returns the label of the specified element.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected String getLabel(EClass eClass)
+    {
+      String name = eClass.getName();
+      try
+      {
+        return XSD2EcorePlugin.INSTANCE.getString("_UI_" + name + "_type");
+      }
+      catch(MissingResourceException mre)
+      {
+      }
+      return name;
+    }    
   }
 
   /**
