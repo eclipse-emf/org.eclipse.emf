@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.22 2004/12/15 20:07:24 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.23 2004/12/16 16:46:19 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -139,19 +139,26 @@ public class ChangeRecorder implements Adapter
    */
   public void beginRecording(ChangeDescription changeDescription, Collection rootObjects)
   {
-    this.changeDescription = changeDescription == null ? createChangeDescription() : adjustChangeDescription(changeDescription);  
+    this.changeDescription = changeDescription == null ? 
+      createChangeDescription() 
+      : changeDescription;  
 
     initialTargetObjects.clear();
     initialTargetObjects.addAll(targetObjects);
 
     loadingTargets = true;
-    for (Iterator iter = rootObjects.iterator(); iter.hasNext();)
+    for (Iterator i = rootObjects.iterator(); i.hasNext();)
     {
-      Notifier notifier = (Notifier)iter.next();
+      Notifier notifier = (Notifier)i.next();
       addAdapter(notifier);
     }
     loadingTargets = false;
-
+    
+    if (changeDescription != null)
+    {
+      prepareChangeDescriptionForResume();
+    }
+    
     recording = true;
   }
   
@@ -189,15 +196,25 @@ public class ChangeRecorder implements Adapter
   }
   
   /**
-   * Adjusts the change description so it can be used in the 
-   * recording resume scenarios.
-   * @param changeDescription
-   * @return the change description to be used as starting point of the
-   * changes 
+   * Prepares this ChangeRecorder's {@link #changeDescription} for the scenarios where the user
+   * is resumming a previous recording.
    * @see #beginRecording(ChangeDescription, Collection)
+   * @since 2.1.0
    */
-  protected ChangeDescription adjustChangeDescription(ChangeDescription changeDescription)
+  protected void prepareChangeDescriptionForResume()
   {
+    loadingTargets = true;
+    for (Iterator i = changeDescription.getObjectsToAttach().iterator(); i.hasNext();)
+    {
+      Notifier notifier = (Notifier)i.next();
+      addAdapter(notifier);
+    }
+    loadingTargets = false;
+
+    initialTargetObjects.removeAll(changeDescription.getObjectsToDetach());
+    changeDescription.getObjectsToDetach().clear();
+    changeDescription.getObjectsToAttach().clear();
+    
     // Make sure that all the old values are cached.
     for (Iterator i = changeDescription.getObjectChanges().values().iterator(); i.hasNext(); )
     {
@@ -207,14 +224,12 @@ public class ChangeRecorder implements Adapter
         featureChange.getValue();
       }
     }
-    
+        
     for (Iterator i = changeDescription.getResourceChanges().iterator(); i.hasNext();)
     {
       ResourceChange resourceChange = (ResourceChange)i.next();
       resourceChange.getValue();
     }
-    
-    return changeDescription;
   }
   
   /**
