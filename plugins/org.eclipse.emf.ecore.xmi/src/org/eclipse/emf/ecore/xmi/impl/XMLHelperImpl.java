@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.2 2004/03/15 15:00:51 marcelop Exp $
+ * $Id: XMLHelperImpl.java,v 1.3 2004/03/29 21:29:56 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -77,6 +77,7 @@ public class XMLHelperImpl implements XMLHelper
   protected String processDanglingHREF;
   protected DanglingHREFException danglingHREFException;
   protected EMap prefixesToURIs;
+  protected NamespaceSupport namespaceSupport;
 
   public static String saveString(Map options, List contents, String encoding, XMLHelper helper) throws Exception
   {
@@ -102,6 +103,7 @@ public class XMLHelperImpl implements XMLHelper
     packages = new HashMap();
     featuresToKinds = new HashMap();
     prefixesToURIs = new BasicEMap();
+    namespaceSupport = new NamespaceSupport();
   }
 
   public XMLHelperImpl(XMLResource resource)
@@ -844,12 +846,24 @@ public class XMLHelperImpl implements XMLHelper
   {
     return relative.resolve(base);
   }
+  
+  public void pushContext()
+  {
+    namespaceSupport.pushContext();
+  }
+
+  public void popContext()
+  {
+    namespaceSupport.popContext();
+  }
 
   public void addPrefix(String prefix, String uri) 
   {
     if (!"xml".equals(prefix) && !"xmlns".equals(prefix))
     {
-      Object previousURI = prefixesToURIs.put(prefix, "".equals(uri) ? null : uri);
+      uri = (uri.length() == 0) ? null : uri;
+      Object previousURI = prefixesToURIs.put(prefix, uri);
+      namespaceSupport.declarePrefix(prefix, uri);
       if (previousURI != null)
       {
         int index = 1;
@@ -869,7 +883,7 @@ public class XMLHelperImpl implements XMLHelper
         "http://www.w3.org/XML/1998/namespace" : 
         "xmlns".equals(prefix) ? 
           "http://www.w3.org/2000/xmlns/" :
-          (String) prefixesToURIs.get(prefix);
+          namespaceSupport.getURI(prefix);
   }
 
   public EMap getPrefixToNamespaceMap()
@@ -903,5 +917,88 @@ public class XMLHelperImpl implements XMLHelper
       }
       prefixesToURIs.put(prefix, namespace);
     }
+  }
+  
+  /** 
+   * A helper to encode namespace prefix mappings.
+   */
+  protected static class NamespaceSupport
+  {
+    protected String[] namespace = new String [16 * 2];
+
+    protected int namespaceSize = 0;
+
+    protected int[] context = new int [8];
+
+    protected int currentContext = -1;
+
+    protected String[] prefixes = new String [16];
+
+    public void pushContext()
+    {
+      // extend the array, if necessary
+      if (currentContext + 1 == context.length)
+      {
+        int[] contextarray = new int [context.length * 2];
+        System.arraycopy(context, 0, contextarray, 0, context.length);
+        context = contextarray;
+      }
+
+      // push context
+      context[++currentContext] = namespaceSize;
+    } 
+
+    public void popContext()
+    {
+      namespaceSize = context[currentContext--];
+    } 
+
+    /**
+     * @param prefix prefix to declare
+     * @param uri uri that maps to the prefix
+     * @return true if the prefix existed in the current context and
+     * its uri has been remapped; false if prefix does not exist in the
+     * current context
+     */
+    public boolean declarePrefix(String prefix, String uri)
+    {
+      // see if prefix already exists in current context
+      for (int i = namespaceSize; i > context[currentContext]; i -= 2)
+      {
+        if (namespace[i - 2].equals(prefix))
+        {
+          namespace[i - 1] = uri;
+          return true;
+        }
+      }
+
+      // resize array, if needed
+      if (namespaceSize == namespace.length)
+      {
+        String[] namespacearray = new String [namespaceSize * 2];
+        System.arraycopy(namespace, 0, namespacearray, 0, namespaceSize);
+        namespace = namespacearray;
+      }
+
+      // bind prefix to uri in current context
+      namespace[namespaceSize++] = prefix;
+      namespace[namespaceSize++] = uri;
+      return false;
+    } 
+
+    public String getURI(String prefix)
+    {
+      // find prefix in current context
+      for (int i = namespaceSize; i > 0; i -= 2)
+      {
+        if (namespace[i - 2].equals(prefix))
+        {
+          return namespace[i - 1];
+        }
+      }
+
+      // prefix not found
+      return null;
+    } 
   }
 }

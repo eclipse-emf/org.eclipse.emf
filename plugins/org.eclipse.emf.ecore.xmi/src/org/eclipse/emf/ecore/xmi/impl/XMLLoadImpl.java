@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.2 2004/03/15 15:00:52 marcelop Exp $
+ * $Id: XMLLoadImpl.java,v 1.3 2004/03/29 21:29:56 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.ecore.xmi.impl;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,6 +35,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMIException;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
+import org.eclipse.emf.ecore.xmi.XMLParserPool;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
 
@@ -43,6 +45,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  */
 public class XMLLoadImpl implements XMLLoad
 {
+  protected static final String SAX_LEXICAL_PROPERTY = "http://xml.org/sax/properties/lexical-handler";
   protected static final int BUFFER_SIZE = 200;
   protected XMLResource resource;
   protected InputStream is;
@@ -63,12 +66,44 @@ public class XMLLoadImpl implements XMLLoad
     this.resource = resource;
     is = inputStream;
     this.options = options;
-
+    XMLParserPool pool = (XMLParserPool)options.get(XMLResource.OPTION_USE_PARSER_POOL);
+    Map parserFeatures = (Map) options.get(XMLResource.OPTION_PARSER_FEATURES);
+    Map parserProperties = (Map)options.get(XMLResource.OPTION_PARSER_PROPERTIES);
+    
+    // HACK: reading encoding
+    String encoding = getEncoding();
+    resource.setEncoding(encoding);
     try
     {
-      SAXParser parser = makeParser();
-      String encoding = getEncoding();
-      resource.setEncoding(encoding);
+      SAXParser parser;      
+
+      if (pool != null)
+      {
+        // use the pool to retrieve the parser
+        parser = pool.get(parserFeatures, parserProperties, Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)));
+      } 
+      else 
+      {
+        parser = makeParser();
+        // set features and properties
+        if (parserFeatures != null)
+        {
+          for (Iterator i = parserFeatures.keySet().iterator(); i.hasNext();)
+          {
+            String feature = (String) i.next();
+            parser.getXMLReader().setFeature(feature, ((Boolean) parserFeatures.get(feature)).booleanValue());
+          }
+        }
+        if (parserProperties !=null)
+        {
+          for (Iterator i = parserProperties.keySet().iterator(); i.hasNext();)
+          {
+            String property = (String) i.next();
+            parser.getXMLReader().setProperty(property, parserProperties.get(property));
+          }
+        }
+      }
+
       InputSource inputSource = new InputSource(is);
       if (resource.getURI() != null)
       {
@@ -77,12 +112,25 @@ public class XMLLoadImpl implements XMLLoad
         inputSource.setSystemId(resourceURI);
       }
 
-      DefaultHandler defaultHandler = makeDefaultHandler();
+      DefaultHandler defaultHandler = makeDefaultHandler(); 
+      
+      // set lexical handler
       if (options != null && Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)))
       {
-        parser.setProperty("http://xml.org/sax/properties/lexical-handler", defaultHandler);
+        if (parserProperties == null || parserProperties.get(SAX_LEXICAL_PROPERTY) == null) 
+        {
+          parser.setProperty(SAX_LEXICAL_PROPERTY, defaultHandler);
+        }
       }
+      
       parser.parse(inputSource, defaultHandler);
+      
+      // release parser back to the pool
+      if (pool != null)
+      {
+        pool.release(parser, parserFeatures, parserProperties, Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)));
+      }
+      
       helper = null;
       if (!resource.getErrors().isEmpty())
       {
@@ -122,7 +170,6 @@ public class XMLLoadImpl implements XMLLoad
   protected SAXParser makeParser() throws ParserConfigurationException, SAXException
   {
     SAXParserFactory f = SAXParserFactory.newInstance();
-    f.setValidating(false);
     return f.newSAXParser();
   }
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLResource.java,v 1.2 2004/03/29 21:29:56 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -34,6 +34,24 @@ import org.eclipse.emf.ecore.resource.Resource;
  */
 public interface XMLResource extends Resource
 {
+  /**
+   * Specify a parser pool to be used for loading XML documents.
+   * You should provide an XMLParserPool as the value of this option.
+   * @see org.eclipse.emf.ecore.xmi.XMLParserPool
+   */
+  String OPTION_USE_PARSER_POOL = "USE_PARSER_POOL";
+  
+  /**
+   * Specify parser features with their corresponding values, 
+   * i.e., <code>true</code> or <code>false</code> using {@link Map}.
+   */
+  String OPTION_PARSER_FEATURES = "PARSER_FEATURES";
+  
+  /**
+   * Specify parser properties with their corresponding values using a {@link Map}.
+   */
+  String OPTION_PARSER_PROPERTIES = "PARSER_PROPERTIES";
+  
   /**
    * Determines whether comments and CDATA will be preserved in any mixed text processing.
    */

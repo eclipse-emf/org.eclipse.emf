@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.2 2004/03/15 15:00:52 marcelop Exp $
+ * $Id: XMLHandler.java,v 1.3 2004/03/29 21:29:56 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -355,6 +355,7 @@ public abstract class XMLHandler
    */
   public void startElement(String uri, String localName, String name)
   {
+    helper.pushContext();
     if (text != null && mixedTargets.peek() != null)
     {
       handleMixedText();
@@ -711,6 +712,7 @@ public abstract class XMLHandler
    */
   public void endElement(String uri, String localName, String name)
   {
+    helper.popContext();
     elements.pop();
     Object type = types.pop();
     if (type == OBJECT_TYPE)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelper.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLHelper.java,v 1.2 2004/03/29 21:29:56 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -215,10 +215,35 @@ public interface XMLHelper
   DanglingHREFException getDanglingHREFException();
 
   URI resolve(URI relative, URI base);
-
+  
+  /** 
+   * Records the prefix to URI mapping while loading an XML document.
+   */
   void addPrefix(String prefix, String uri);
-
+  
+  /** 
+   * Returns the namespace prefix that's in effect while loading an XML document.
+   */
   String getURI(String prefix);
+
+  /**
+   * Starts a new namespace context while loading an XML document.
+   * <p>
+   * A new context should be pushed at the beginning of each XML element.
+   * The new context will automatically inherit the declarations of its parent context, 
+   * but it will also keep track of which declarations were made within this context.
+   * </p>
+   */
+  public void pushContext();
+
+  /**
+   * Reverts to the previous namespace context while loading XML document.
+   * <p>
+   * The context should be popped at the end of each XML element.  
+   * After popping the context, all namespace prefix mappings that were previously in scope are restored.
+   * </p>
+   */
+  public void popContext();
 
   EMap getPrefixToNamespaceMap();
   void setPrefixToNamespaceMap(EMap prefixToNamespaceMap);
