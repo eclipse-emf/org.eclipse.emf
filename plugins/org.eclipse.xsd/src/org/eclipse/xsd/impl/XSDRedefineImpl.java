@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineImpl.java,v 1.2 2004/03/17 13:05:18 emerks Exp $
+ * $Id: XSDRedefineImpl.java,v 1.3 2004/04/30 12:45:05 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -321,9 +321,33 @@ public class XSDRedefineImpl
   {
     if (getSchemaLocation() != null && getSchemaLocation().length() > 0)
     {
+      XSDSchemaImpl containingSchema = (XSDSchemaImpl)getContainer();
+      String oldPendingSchemaLocation = containingSchema.pendingSchemaLocation;
+      if (containingSchema.getSchemaLocation() != null)
+      {
+        containingSchema.pendingSchemaLocation = containingSchema.getSchemaLocation();
+      }
       resolve("", getSchemaLocation());
+      containingSchema.pendingSchemaLocation = oldPendingSchemaLocation;
+      super.patch();
+      if (oldPendingSchemaLocation == null)
+      {
+        for (Iterator i = containingSchema.getSchemasToRedefine().iterator(); i.hasNext(); )
+        {
+          XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
+          if (schemaToRedefine != containingSchema)
+          {
+            schemaToRedefine.patch();
+            schemaToRedefine.pendingSchemaLocation = null;
+          }
+        }
+        containingSchema.schemasToRedefine = null;
+      }
     }
-    super.patch();
+    else
+    {
+      super.patch();
+    }
   }
 
   protected void handleResolvedSchema(XSDSchema xsdSchema)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.3 2004/03/26 18:23:58 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.4 2004/04/30 12:45:05 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -39,6 +40,7 @@ import org.w3c.dom.events.MutationEvent;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -2821,6 +2823,17 @@ public class XSDSchemaImpl
     return pendingSchemaLocation;
   }
 
+  protected List schemasToRedefine;
+  public List getSchemasToRedefine()
+  {
+    if (schemasToRedefine == null)
+    {
+      schemasToRedefine = new UniqueEList();
+      schemasToRedefine.add(this);
+    }
+    return schemasToRedefine;
+  }
+
   protected Map redefinitionMap = new HashMap();
   public Map getRedefinitionMap()
   {
@@ -2885,9 +2898,25 @@ public class XSDSchemaImpl
       }
 
       XSDSchemaImpl redefinedSchema = (XSDSchemaImpl)cloneConcreteComponent(true, true);
+
+      // Change includes to redefines so that clones are created.
+      //
+      for (ListIterator i = redefinedSchema.getContents().listIterator(); i.hasNext(); )
+      {
+        Object component = i.next();
+        if (component instanceof XSDInclude)
+        {
+          redefinedSchema.isReconciling = true;
+          i.remove();
+          XSDRedefine xsdRedefineReplaced = XSDFactory.eINSTANCE.createXSDRedefine();
+          xsdRedefineReplaced.setSchemaLocation(((XSDInclude)component).getSchemaLocation());
+          i.add(xsdRedefineReplaced);
+          redefinedSchema.isReconciling = false;
+        }
+      }
+
       getIncorporatedVersions().add(redefinedSchema);
       redefinedSchema.pendingSchemaLocation = getSchemaLocation();
-
       redefinedSchema.incorporate(xsdRedefine);
       return redefinedSchema;
     }
@@ -2914,7 +2943,6 @@ public class XSDSchemaImpl
               XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)i.next();
               if (xsdSchemaDirective instanceof XSDInclude)
               {
-                // incorporatedVersion.getReferencingDirectives().add(xsdInclude);
                 incorporatedVersion.incorporate(xsdInclude);
                 return incorporatedVersion;
               }
@@ -2923,7 +2951,6 @@ public class XSDSchemaImpl
         }
         XSDSchemaImpl includedSchema = (XSDSchemaImpl)cloneConcreteComponent(true, true);
         getIncorporatedVersions().add(includedSchema);
-        includedSchema.pendingSchemaLocation = getSchemaLocation();
         includedSchema.incorporate(xsdInclude);
         return includedSchema;
       }
@@ -2967,11 +2994,15 @@ public class XSDSchemaImpl
           {
             XSDAttributeGroupDefinition redefinedAttributeGroupDefinition = 
               resolveAttributeGroupDefinition(xsdAttributeGroupDefinition.getName());
-            int index = getAttributeGroupDefinitions().indexOf(redefinedAttributeGroupDefinition);
-            if (index != -1)
+            for (Iterator i = getSchemasToRedefine().iterator(); i.hasNext(); )
             {
-              getAttributeGroupDefinitions().set(index, xsdAttributeGroupDefinition);
-              redefinitionMap.put(xsdAttributeGroupDefinition, redefinedAttributeGroupDefinition);
+              XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
+              int index = schemaToRedefine.getAttributeGroupDefinitions().indexOf(redefinedAttributeGroupDefinition);
+              if (index != -1)
+              {
+                schemaToRedefine.getAttributeGroupDefinitions().set(index, xsdAttributeGroupDefinition);
+                schemaToRedefine.redefinitionMap.put(xsdAttributeGroupDefinition, redefinedAttributeGroupDefinition);
+              }
             }
             return this;
           }
@@ -2979,11 +3010,15 @@ public class XSDSchemaImpl
           {
             XSDSimpleTypeDefinition redefinedSimpleTypeDefinition = 
               resolveSimpleTypeDefinition(xsdSimpleTypeDefinition.getName());
-            int index = getTypeDefinitions().indexOf(redefinedSimpleTypeDefinition);
-            if (index != -1)
+            for (Iterator i = getSchemasToRedefine().iterator(); i.hasNext(); )
             {
-              getTypeDefinitions().set(index, xsdSimpleTypeDefinition);
-              redefinitionMap.put(xsdSimpleTypeDefinition, redefinedSimpleTypeDefinition);
+              XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
+              int index = schemaToRedefine.getTypeDefinitions().indexOf(redefinedSimpleTypeDefinition);
+              if (index != -1)
+              {
+                schemaToRedefine.getTypeDefinitions().set(index, xsdSimpleTypeDefinition);
+                schemaToRedefine.redefinitionMap.put(xsdSimpleTypeDefinition, redefinedSimpleTypeDefinition);
+              }
             }
             return this;
           }
@@ -2991,11 +3026,15 @@ public class XSDSchemaImpl
           {
             XSDComplexTypeDefinition redefinedComplexTypeDefinition = 
               resolveComplexTypeDefinition(xsdComplexTypeDefinition.getName());
-            int index = getTypeDefinitions().indexOf(redefinedComplexTypeDefinition);
-            if (index != -1)
+            for (Iterator i = getSchemasToRedefine().iterator(); i.hasNext(); )
             {
-              getTypeDefinitions().set(index, xsdComplexTypeDefinition);
-              redefinitionMap.put(xsdComplexTypeDefinition, redefinedComplexTypeDefinition);
+              XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
+              int index = schemaToRedefine.getTypeDefinitions().indexOf(redefinedComplexTypeDefinition);
+              if (index != -1)
+              {
+                schemaToRedefine.getTypeDefinitions().set(index, xsdComplexTypeDefinition);
+                schemaToRedefine.redefinitionMap.put(xsdComplexTypeDefinition, redefinedComplexTypeDefinition);
+              }
             }
             return this;
           }
@@ -3003,11 +3042,15 @@ public class XSDSchemaImpl
           {
             XSDModelGroupDefinition redefinedModelGroupDefinition = 
               resolveModelGroupDefinition(xsdModelGroupDefinition.getName());
-            int index = getModelGroupDefinitions().indexOf(redefinedModelGroupDefinition);
-            if (index != -1)
+            for (Iterator i = getSchemasToRedefine().iterator(); i.hasNext(); )
             {
-              getModelGroupDefinitions().set(index, xsdModelGroupDefinition);
-              redefinitionMap.put(xsdModelGroupDefinition, redefinedModelGroupDefinition);
+              XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
+              int index = schemaToRedefine.getModelGroupDefinitions().indexOf(redefinedModelGroupDefinition);
+              if (index != -1)
+              {
+                schemaToRedefine.getModelGroupDefinitions().set(index, xsdModelGroupDefinition);
+                schemaToRedefine.redefinitionMap.put(xsdModelGroupDefinition, redefinedModelGroupDefinition);
+              }
             }
             return this;
           }
@@ -3021,11 +3064,15 @@ public class XSDSchemaImpl
 
     if (getPendingSchemaLocation() != null)
     {
-      setSchemaLocation(getPendingSchemaLocation());
-      pendingSchemaLocation = null;
+      if (((XSDSchemaImpl)redefiningSchema).getPendingSchemaLocation() != null)
+      {
+        ((XSDSchemaImpl)redefiningSchema).getSchemasToRedefine().addAll(getSchemasToRedefine());
+      }
     }
-
-    patch();
+    else
+    {
+      patch();
+    }
 
     propogateComponents(redefiningSchema);
   }
