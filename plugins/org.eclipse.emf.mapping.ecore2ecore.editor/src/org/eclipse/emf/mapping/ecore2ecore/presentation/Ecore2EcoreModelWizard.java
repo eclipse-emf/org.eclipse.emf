@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreModelWizard.java,v 1.3 2004/06/08 17:54:33 emerks Exp $
+ * $Id: Ecore2EcoreModelWizard.java,v 1.4 2004/06/17 11:02:29 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -153,8 +153,8 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
   {
     this.workbench = workbench;
     this.selection = selection;
-    setWindowTitle(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Wizard_label")); //$NON-NLS-1$
-    setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(Ecore2EcoreEditorPlugin.INSTANCE.getImage("full/wizban/NewEcore2Ecore"))); //$NON-NLS-1$
+    setWindowTitle(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Wizard_label"));
+    setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(Ecore2EcoreEditorPlugin.INSTANCE.getImage("full/wizban/NewEcore2Ecore")));
   }
 
   /**
@@ -272,7 +272,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
       }
       catch (PartInitException exception)
       {
-        MessageDialog.openError(workbenchWindow.getShell(), Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage()); //$NON-NLS-1$
+        MessageDialog.openError(workbenchWindow.getShell(), Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
         return false;
       }
 
@@ -324,11 +324,11 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
       {
         // Make sure the file ends in ".ecore2ecore".
         //
-        String requiredExt = Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameExtension"); //$NON-NLS-1$
+        String requiredExt = Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameExtension");
         String enteredExt = new Path(getFileName()).getFileExtension();
         if (enteredExt == null || !enteredExt.equals(requiredExt))
         {
-          setErrorMessage(Ecore2EcoreEditorPlugin.INSTANCE.getString("_WARN_FilenameExtension", new Object [] { requiredExt })); //$NON-NLS-1$
+          setErrorMessage(Ecore2EcoreEditorPlugin.INSTANCE.getString("_WARN_FilenameExtension", new Object [] { requiredExt }));
           return false;
         }
         else
@@ -377,9 +377,9 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
   public class Ecore2EcoreModelWizardInitialObjectCreationPage extends WizardPage
   {
     /**
-     * @generated
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @generated
      */
     protected String initialObjectName;
 
@@ -438,7 +438,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
 
       Label containerLabel = new Label(composite, SWT.LEFT);
       {
-        containerLabel.setText(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_ModelObject")); //$NON-NLS-1$
+        containerLabel.setText(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_ModelObject"));
 
         GridData data = new GridData();
         data.horizontalAlignment = GridData.FILL;
@@ -485,7 +485,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
 
       Label encodingLabel = new Label(composite, SWT.LEFT);
       {
-        encodingLabel.setText(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_XMLEncoding")); //$NON-NLS-1$
+        encodingLabel.setText(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_XMLEncoding"));
 
         GridData data = new GridData();
         data.horizontalAlignment = GridData.FILL;
@@ -576,10 +576,10 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
   {
     // Create a page, set the title, and the initial model file name.
     //
-    newFileCreationPage = new Ecore2EcoreModelWizardNewFileCreationPage("Whatever", selection); //$NON-NLS-1$
-    newFileCreationPage.setTitle(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreModelWizard_label")); //$NON-NLS-1$
-    newFileCreationPage.setDescription(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreModelWizard_description")); //$NON-NLS-1$
-    newFileCreationPage.setFileName(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameDefaultBase") + "." + Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameExtension")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    newFileCreationPage = new Ecore2EcoreModelWizardNewFileCreationPage("Whatever", selection);
+    newFileCreationPage.setTitle(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreModelWizard_label"));
+    newFileCreationPage.setDescription(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreModelWizard_description"));
+    newFileCreationPage.setFileName(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameDefaultBase") + "." + Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameExtension"));
     addPage(newFileCreationPage);
 
     // Try and get the resource selection to determine a current directory for the file dialog.
@@ -610,20 +610,20 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
 
           // Make up a unique new name here.
           //
-          String defaultModelBaseFilename = Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameDefaultBase"); //$NON-NLS-1$
-          String defaultModelFilenameExtension = Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameExtension"); //$NON-NLS-1$
-          String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension; //$NON-NLS-1$
+          String defaultModelBaseFilename = Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameDefaultBase");
+          String defaultModelFilenameExtension = Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameExtension");
+          String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension;
           for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i)
           {
-            modelFilename = defaultModelBaseFilename + i + "." + defaultModelFilenameExtension; //$NON-NLS-1$
+            modelFilename = defaultModelBaseFilename + i + "." + defaultModelFilenameExtension;
           }
           newFileCreationPage.setFileName(modelFilename);
         }
       }
     }
-    initialObjectCreationPage = new Ecore2EcoreModelWizardInitialObjectCreationPage("Whatever2"); //$NON-NLS-1$
-    initialObjectCreationPage.setTitle(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreModelWizard_label")); //$NON-NLS-1$
-    initialObjectCreationPage.setDescription(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Wizard_initial_object_description")); //$NON-NLS-1$
+    initialObjectCreationPage = new Ecore2EcoreModelWizardInitialObjectCreationPage("Whatever2");
+    initialObjectCreationPage.setTitle(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreModelWizard_label"));
+    initialObjectCreationPage.setDescription(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Wizard_initial_object_description"));
     addPage(initialObjectCreationPage);
   }
 
