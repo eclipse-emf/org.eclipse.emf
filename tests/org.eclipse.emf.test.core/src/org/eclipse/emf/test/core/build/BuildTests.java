@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.17 2004/07/14 20:32:04 marcelop Exp $
+ * $Id: BuildTests.java,v 1.18 2004/07/15 16:52:54 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -654,9 +654,10 @@ public class BuildTests extends TestCase
       }
     }
     
-    if(count != 3)
+    int expectedCount = 3;
+    if(count != expectedCount)
     {
-      problems.append("\nAt least one doc plugin is missing.");
+      problems.append("\nThe number of doc plugin is different than " + expectedCount + ".");
     }
     
     if(problems.length() > 0)
