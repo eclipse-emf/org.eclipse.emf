@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.2 2004/04/13 18:58:49 emerks Exp $
+ * $Id: JClassImpl.java,v 1.3 2004/10/20 15:18:58 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -24,6 +24,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.jdom.IDOMNode;
@@ -1272,7 +1273,7 @@ public class JClassImpl extends JMemberImpl implements JClass
   {
     if (jNode != null)
     {
-      Collection theSuperTypes = new ArrayList();
+      List theSuperTypes = new ArrayList();
       IDOMType iDOMType = (IDOMType)jNode;
       String superClass = iDOMType.getSuperclass();
       if (superClass != null)

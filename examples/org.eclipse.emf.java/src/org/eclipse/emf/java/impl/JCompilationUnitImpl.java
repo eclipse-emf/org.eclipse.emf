@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitImpl.java,v 1.1 2004/04/13 02:50:33 marcelop Exp $
+ * $Id: JCompilationUnitImpl.java,v 1.2 2004/10/20 15:18:58 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -490,8 +490,8 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
       }
       case JavaPackage.JCOMPILATION_UNIT__IMPORTS:
       {
-        Collection theImportedPackages = new ArrayList();
-        Collection theImportedTypes = new ArrayList();
+        List theImportedPackages = new ArrayList();
+        List theImportedTypes = new ArrayList();
         for (Iterator i = getImports().iterator(); i.hasNext(); )
         {
           String theImport = (String)i.next();
