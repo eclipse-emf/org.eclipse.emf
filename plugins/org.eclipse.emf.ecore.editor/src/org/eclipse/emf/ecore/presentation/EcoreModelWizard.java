@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.4 2004/06/08 18:29:04 emerks Exp $
+ * $Id: EcoreModelWizard.java,v 1.5 2004/06/17 11:15:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -339,9 +339,9 @@ public class EcoreModelWizard extends Wizard implements INewWizard
   public class EcoreModelWizardInitialObjectCreationPage extends WizardPage
   {
     /**
-     * @generated
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @generated
      */
     protected String initialObjectName;
 

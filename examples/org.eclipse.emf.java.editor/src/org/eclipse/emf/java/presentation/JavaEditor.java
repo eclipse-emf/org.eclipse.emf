@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.4 2004/06/13 12:21:04 emerks Exp $
+ * $Id: JavaEditor.java,v 1.5 2004/06/17 11:16:02 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -135,6 +135,8 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.java.JCompilationUnit;
 import org.eclipse.emf.java.provider.JavaItemProviderAdapterFactory;
 import java.util.HashMap;
+
+import org.eclipse.core.runtime.NullProgressMonitor;
 
 import org.eclipse.emf.java.util.JavaPackageResourceImpl;
 import org.eclipse.emf.java.util.JavaUtil;
@@ -802,7 +804,7 @@ public class JavaEditor
     {
       // Load the resource through the editing domain.
       //
-      Resource resource = 
+      Resource resource =
         editingDomain.loadResource
           (URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
     }
@@ -1195,7 +1197,10 @@ public class JavaEditor
       control.setFocus();
     }
 
-    handleContentOutlineSelection(contentOutlinePage.getSelection());
+    if (contentOutlinePage != null)
+    {
+      handleContentOutlineSelection(contentOutlinePage.getSelection());
+    }
   }
 
   /**
@@ -1418,9 +1423,8 @@ public class JavaEditor
     try
     {
       // This runs the options, and shows progress.
-      // (It appears to be a bad thing to fork this onto another thread.)
       //
-      new ProgressMonitorDialog(getSite().getShell()).run(false, false, operation);
+      new ProgressMonitorDialog(getSite().getShell()).run(true, false, operation);
 
       // Refresh the necessary state.
       //
@@ -1462,14 +1466,26 @@ public class JavaEditor
       IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
       if (file != null)
       {
-        ((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI
-          (URI.createPlatformResourceURI(file.getFullPath().toString()));
-        IFileEditorInput modelFile = new FileEditorInput(file);
-        setInput(modelFile);
-        setPartName(file.getName());
-        doSave(getActionBars().getStatusLineManager().getProgressMonitor());
+        doSaveAs(URI.createPlatformResourceURI(file.getFullPath().toString()), new FileEditorInput(file));
       }
     }
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void doSaveAs(URI uri, IEditorInput editorInput)
+  {
+    ((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
+    setInput(editorInput);
+    setPartName(editorInput.getName());
+    IProgressMonitor progressMonitor =
+      getActionBars().getStatusLineManager() != null ?
+        getActionBars().getStatusLineManager().getProgressMonitor() :
+        new NullProgressMonitor();
+    doSave(progressMonitor);
   }
 
   /**
@@ -1570,6 +1586,7 @@ public class JavaEditor
   public void setSelection(ISelection selection)
   {
     editorSelection = selection;
+
     for (Iterator listeners = selectionChangedListeners.iterator(); listeners.hasNext(); )
     {
       ISelectionChangedListener listener = (ISelectionChangedListener)listeners.next();
@@ -1586,37 +1603,40 @@ public class JavaEditor
   public void setStatusLineManager(ISelection selection)
   {
     IStatusLineManager statusLineManager = getActionBars().getStatusLineManager();
-    if (currentViewer == contentOutlineViewer)
+    if (statusLineManager != null)
     {
-      statusLineManager = contentOutlineStatusLineManager;
-    }
-
-    if (selection instanceof IStructuredSelection)
-    {
-      Collection collection = ((IStructuredSelection)selection).toList();
-      switch (collection.size())
+      if (currentViewer == contentOutlineViewer)
       {
-        case 0:
+        statusLineManager = contentOutlineStatusLineManager;
+      }
+  
+      if (selection instanceof IStructuredSelection)
+      {
+        Collection collection = ((IStructuredSelection)selection).toList();
+        switch (collection.size())
         {
-          statusLineManager.setMessage(getString("_UI_NoObjectSelected"));
-          break;
-        }
-        case 1:
-        {
-          String text = new AdapterFactoryItemDelegator(adapterFactory).getText(collection.iterator().next());
-          statusLineManager.setMessage(getString("_UI_SingleObjectSelected", text));
-          break;
-        }
-        default:
-        {
-          statusLineManager.setMessage(getString("_UI_MultiObjectSelected", Integer.toString(collection.size())));
-          break;
+          case 0:
+          {
+            statusLineManager.setMessage(getString("_UI_NoObjectSelected"));
+            break;
+          }
+          case 1:
+          {
+            String text = new AdapterFactoryItemDelegator(adapterFactory).getText(collection.iterator().next());
+            statusLineManager.setMessage(getString("_UI_SingleObjectSelected", text));
+            break;
+          }
+          default:
+          {
+            statusLineManager.setMessage(getString("_UI_MultiObjectSelected", Integer.toString(collection.size())));
+            break;
+          }
         }
       }
-    }
-    else
-    {
-      statusLineManager.setMessage("");
+      else
+      {
+        statusLineManager.setMessage("");
+      }
     }
   }
 

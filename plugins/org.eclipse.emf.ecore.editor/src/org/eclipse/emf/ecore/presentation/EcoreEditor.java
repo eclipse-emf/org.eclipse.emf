@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.10 2004/06/13 12:20:57 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.11 2004/06/17 11:15:59 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -105,6 +105,8 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import java.util.HashMap;
+
+import org.eclipse.core.runtime.NullProgressMonitor;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -812,7 +814,7 @@ public class EcoreEditor
     {
       // Load the resource through the editing domain.
       //
-      Resource resource = 
+      Resource resource =
         editingDomain.loadResource
           (URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
     }
@@ -934,7 +936,10 @@ public class EcoreEditor
       control.setFocus();
     }
 
-    handleContentOutlineSelection(contentOutlinePage.getSelection());
+    if (contentOutlinePage != null)
+    {
+      handleContentOutlineSelection(contentOutlinePage.getSelection());
+    }
   }
 
   /**
@@ -1157,9 +1162,8 @@ public class EcoreEditor
     try
     {
       // This runs the options, and shows progress.
-      // (It appears to be a bad thing to fork this onto another thread.)
       //
-      new ProgressMonitorDialog(getSite().getShell()).run(false, false, operation);
+      new ProgressMonitorDialog(getSite().getShell()).run(true, false, operation);
 
       // Refresh the necessary state.
       //
@@ -1230,6 +1234,23 @@ public class EcoreEditor
         doSave(getActionBars().getStatusLineManager().getProgressMonitor());
       }
     }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void doSaveAs(URI uri, IEditorInput editorInput)
+  {
+    ((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
+    setInput(editorInput);
+    setPartName(editorInput.getName());
+    IProgressMonitor progressMonitor =
+      getActionBars().getStatusLineManager() != null ?
+        getActionBars().getStatusLineManager().getProgressMonitor() :
+        new NullProgressMonitor();
+    doSave(progressMonitor);
   }
 
   /**
@@ -1330,6 +1351,7 @@ public class EcoreEditor
   public void setSelection(ISelection selection)
   {
     editorSelection = selection;
+
     for (Iterator listeners = selectionChangedListeners.iterator(); listeners.hasNext(); )
     {
       ISelectionChangedListener listener = (ISelectionChangedListener)listeners.next();
@@ -1346,37 +1368,40 @@ public class EcoreEditor
   public void setStatusLineManager(ISelection selection)
   {
     IStatusLineManager statusLineManager = getActionBars().getStatusLineManager();
-    if (currentViewer == contentOutlineViewer)
+    if (statusLineManager != null)
     {
-      statusLineManager = contentOutlineStatusLineManager;
-    }
-
-    if (selection instanceof IStructuredSelection)
-    {
-      Collection collection = ((IStructuredSelection)selection).toList();
-      switch (collection.size())
+      if (currentViewer == contentOutlineViewer)
       {
-        case 0:
+        statusLineManager = contentOutlineStatusLineManager;
+      }
+  
+      if (selection instanceof IStructuredSelection)
+      {
+        Collection collection = ((IStructuredSelection)selection).toList();
+        switch (collection.size())
         {
-          statusLineManager.setMessage(getString("_UI_NoObjectSelected"));
-          break;
-        }
-        case 1:
-        {
-          String text = new AdapterFactoryItemDelegator(adapterFactory).getText(collection.iterator().next());
-          statusLineManager.setMessage(getString("_UI_SingleObjectSelected", text));
-          break;
-        }
-        default:
-        {
-          statusLineManager.setMessage(getString("_UI_MultiObjectSelected", Integer.toString(collection.size())));
-          break;
+          case 0:
+          {
+            statusLineManager.setMessage(getString("_UI_NoObjectSelected"));
+            break;
+          }
+          case 1:
+          {
+            String text = new AdapterFactoryItemDelegator(adapterFactory).getText(collection.iterator().next());
+            statusLineManager.setMessage(getString("_UI_SingleObjectSelected", text));
+            break;
+          }
+          default:
+          {
+            statusLineManager.setMessage(getString("_UI_MultiObjectSelected", Integer.toString(collection.size())));
+            break;
+          }
         }
       }
-    }
-    else
-    {
-      statusLineManager.setMessage("");
+      else
+      {
+        statusLineManager.setMessage("");
+      }
     }
   }
 
