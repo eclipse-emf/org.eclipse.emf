@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.3 2004/05/28 22:21:01 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.4 2004/05/29 16:10:44 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -26,7 +27,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CompoundCommand;
@@ -212,16 +215,6 @@ public class AdapterFactoryEditingDomain implements EditingDomain
    * and {@link #getEditingDomainFor(org.eclipse.emf.ecore.EObject) getEditingDomainFor(EObject)}
    * An instance of this is created if needed in the constructor.
    * 
-          null;
-  }
-
-  /**
-   * This is an implementation of a context that knows about this editing domain.
-   * It is used to help implement 
-   * {@link #getEditingDomainFor(java.lang.Object) getEditingDomainFor(Object)}
-   * and {@link #getEditingDomainFor(org.eclipse.emf.ecore.EObject) getEditingDomainFor(EObject)}
-   * An instance of this is created if needed in the constructor.
-   * 
    */
   protected class AdapterFactoryEditingDomainResourceSet extends ResourceSetImpl implements IEditingDomainProvider
   {
@@ -264,6 +257,11 @@ public class AdapterFactoryEditingDomain implements EditingDomain
   protected boolean optimizeCopy = true;
 
   /**
+   * This controls whether the domain is read only.
+   */
+  protected Map resourceToReadOnlyMap;
+
+  /**
    * Create an instance from the adapter factory, and the specialized command stack.
    */
   public AdapterFactoryEditingDomain(AdapterFactory adapterFactory, CommandStack commandStack)
@@ -271,6 +269,17 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     this.adapterFactory = adapterFactory;
     this.commandStack = commandStack;
     this.resourceSet = new AdapterFactoryEditingDomainResourceSet();
+  }
+
+  /**
+   * Create an instance from the adapter factory, the specialized command stack, and the map used to maintain read only state.
+   */
+  public AdapterFactoryEditingDomain(AdapterFactory adapterFactory, CommandStack commandStack, Map resourceToReadOnlyMap)
+  {
+    this.adapterFactory = adapterFactory;
+    this.commandStack = commandStack;
+    this.resourceSet = new AdapterFactoryEditingDomainResourceSet();
+    this.resourceToReadOnlyMap = resourceToReadOnlyMap;
   }
 
   /**
@@ -548,6 +557,34 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     return result;
   }
 
+  public Object getWrapper(Object object)
+  {
+    if (object != null)
+    {
+      for (Iterator i = treeIterator(getRoot(object)); i.hasNext(); )
+      {
+        Object element = i.next();
+        if (element instanceof IWrapperItemProvider)
+        {
+          Object elementValue = ((IWrapperItemProvider)element).getValue();
+          if (elementValue == object)
+          {
+            return element;
+          }
+          else if (elementValue instanceof FeatureMap.Entry)
+          {
+            Object entryValue = ((FeatureMap.Entry)elementValue).getValue();
+            if (entryValue == object)
+            {
+              return element;
+            }
+          }
+        }
+      }
+    }
+    return object;
+  }
+
   /**
    * This delegates to 
    * {@link org.eclipse.emf.edit.provider.IEditingDomainItemProvider#getNewChildDescriptors IEditingDomainItemProvider.getNewChildDescriptors}.
@@ -604,6 +641,45 @@ public class AdapterFactoryEditingDomain implements EditingDomain
   public void setOptimizeCopy(boolean optimizeCopy)
   {
     this.optimizeCopy = optimizeCopy;
+  }
+
+  /**
+   * Returns the map of resource to a Boolean value indicating whether the resource is read only.
+   */
+  public Map getResourceToReadOnlyMap()
+  {
+    return resourceToReadOnlyMap;
+  }
+
+  /**
+   * Set the map of resource to a Boolean value indicating whether the resource is read only.
+   */
+  public void setResourceToReadOnlyMap(Map resourceToReadOnlyMap)
+  {
+    this.resourceToReadOnlyMap = resourceToReadOnlyMap;
+  }
+
+  /**
+   * This returns whether the resource is read only.
+   */
+  public boolean isReadOnly(Resource resource)
+  {
+    if (resourceToReadOnlyMap == null)
+    {
+      return false;
+    }
+    else
+    {
+      Object result = resourceToReadOnlyMap.get(resource);
+      if (result == null && resource != null)
+      {
+        URI uri = 
+          CommonPlugin.asLocalURI
+            ((resource.getResourceSet() == null ? resourceSet : resource.getResourceSet()).getURIConverter().normalize(resource.getURI()));
+        resourceToReadOnlyMap.put(resource, result = new File(uri.toFileString()).canWrite() ? Boolean.FALSE : Boolean.TRUE);
+      }
+      return Boolean.TRUE.equals(result);
+    }
   }
 
   /**
