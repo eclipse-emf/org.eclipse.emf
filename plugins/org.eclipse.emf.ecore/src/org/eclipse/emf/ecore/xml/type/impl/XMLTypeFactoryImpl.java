@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.2 2004/03/10 13:03:07 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.3 2004/04/01 16:15:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -786,6 +786,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public List createENTITIESBaseFromString(EDataType eDataType, String initialValue)
   {
+    if (initialValue == null) return null;
     List result = new ArrayList();
     for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
     {
@@ -802,6 +803,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertENTITIESBaseToString(EDataType eDataType, Object instanceValue)
   {
+    if (instanceValue == null) return null;
     List list = (List)instanceValue;
     if (list.isEmpty()) return "";
     StringBuffer result = new StringBuffer();
@@ -1140,6 +1142,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public List createIDREFSBaseFromString(EDataType eDataType, String initialValue)
   {
+    if (initialValue == null) return null;
     List result = new ArrayList();
     for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
     {
@@ -1156,6 +1159,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertIDREFSBaseToString(EDataType eDataType, Object instanceValue)
   {
+    if (instanceValue == null) return null;
     List list = (List)instanceValue;
     if (list.isEmpty()) return "";
     StringBuffer result = new StringBuffer();
@@ -1274,6 +1278,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public List createNMTOKENSBaseFromString(EDataType eDataType, String initialValue)
   {
+    if (initialValue == null) return null;
     List result = new ArrayList();
     for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
     {
@@ -1290,6 +1295,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertNMTOKENSBaseToString(EDataType eDataType, Object instanceValue)
   {
+    if (instanceValue == null) return null;
     List list = (List)instanceValue;
     if (list.isEmpty()) return "";
     StringBuffer result = new StringBuffer();

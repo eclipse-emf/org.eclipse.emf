@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EFactoryImpl.java,v 1.2 2004/04/01 16:15:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -215,6 +215,11 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
    */
   public Object createFromString(EDataType eDataType, String stringValue) 
   {
+    if (stringValue == null)
+    {
+      return null;
+    }
+
     if (getEPackage() != eDataType.getEPackage())
     {
       throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
@@ -363,6 +368,10 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     EDataType itemType = ExtendedMetaData.INSTANCE.getItemType(eDataType);
     if (itemType != null)
     {
+      if (objectValue == null)
+      {
+        return null;
+      }
       List list = (List)objectValue;
       if (list.isEmpty())
       {

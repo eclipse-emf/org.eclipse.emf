@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.3 2004/03/10 00:25:09 emerks Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.4 2004/04/01 16:15:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -325,7 +325,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Boolean createEBooleanObjectFromString(EDataType metaObject, String initialValue) 
   {
-    return Boolean.valueOf(initialValue);
+    return initialValue == null ? null : Boolean.valueOf(initialValue);
   }
 
   /**
@@ -345,6 +345,11 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Character createECharacterObjectFromString(EDataType metaObject, String initialValue) 
   {
+    if (initialValue == null)
+    {
+      return null;
+    }
+
     char charValue = 0;
     try
     {
@@ -392,6 +397,11 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Date createEDateFromString(EDataType eDataType, String initialValue)
   {
+    if (initialValue == null)
+    {
+      return null;
+    }
+
     Exception exception = null;
     for (int i = 0; i < EDATE_FORMATS.length; ++i)
     {
@@ -431,7 +441,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Double createEDoubleObjectFromString(EDataType metaObject, String initialValue) 
   {
-    return Double.valueOf(initialValue);
+    return initialValue == null ? null : Double.valueOf(initialValue);
   }
 
   /**
@@ -451,7 +461,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Float createEFloatObjectFromString(EDataType metaObject, String initialValue) 
   {
-    return Float.valueOf(initialValue);
+    return initialValue == null ? null : Float.valueOf(initialValue);
   }
 
   /**
@@ -471,7 +481,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Integer createEIntegerObjectFromString(EDataType metaObject, String initialValue) 
   {
-    return Integer.valueOf(initialValue);
+    return initialValue == null ? null : Integer.valueOf(initialValue);
   }
 
   /**
@@ -513,7 +523,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public BigDecimal createEBigDecimalFromString(EDataType eDataType, String initialValue)
   {
-    return new BigDecimal(initialValue);
+    return initialValue == null ? null : new BigDecimal(initialValue);
   }
 
   /**
@@ -533,7 +543,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public BigInteger createEBigIntegerFromString(EDataType eDataType, String initialValue)
   {
-    return new BigInteger(initialValue);
+    return initialValue == null ? null : new BigInteger(initialValue);
   }
 
   /**
@@ -611,7 +621,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Integer createEIntFromString(EDataType metaObject, String initialValue) 
   {
-    return Integer.valueOf(initialValue);
+    return initialValue == null ? null : Integer.valueOf(initialValue);
   }
 
   /**
@@ -631,7 +641,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Boolean createEBooleanFromString(EDataType metaObject, String initialValue) 
   {
-    return Boolean.valueOf(initialValue);
+    return initialValue == null ? null : Boolean.valueOf(initialValue);
   }
 
   /**
@@ -651,7 +661,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Byte createEByteObjectFromString(EDataType metaObject, String initialValue) 
   {
-    return Byte.valueOf(initialValue);
+    return initialValue == null ? null : Byte.valueOf(initialValue);
   }
 
   /**
@@ -671,7 +681,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Float createEFloatFromString(EDataType metaObject, String initialValue) 
   {
-    return Float.valueOf(initialValue);
+    return initialValue == null ? null : Float.valueOf(initialValue);
   }
 
   /**
@@ -691,6 +701,10 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Character createECharFromString(EDataType metaObject, String initialValue) 
   {
+    if (initialValue == null)
+    {
+      return null;
+    }
     char charValue = 0;
     try
     {
@@ -729,7 +743,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Long createELongFromString(EDataType metaObject, String initialValue) 
   {
-    return Long.valueOf(initialValue);
+    return initialValue == null ? null : Long.valueOf(initialValue);
   }
 
   /**
@@ -749,7 +763,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Double createEDoubleFromString(EDataType metaObject, String initialValue) 
   {
-    return Double.valueOf(initialValue);
+    return initialValue == null ? null : Double.valueOf(initialValue);
   }
 
   /**
@@ -769,7 +783,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Byte createEByteFromString(EDataType metaObject, String initialValue) 
   {
-    return Byte.valueOf(initialValue);
+    return initialValue == null ? null : Byte.valueOf(initialValue);
   }
 
   /**
@@ -790,6 +804,11 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public byte[] createEByteArrayFromString(EDataType eDataType, String initialValue)
   {
+    if (initialValue == null)
+    {
+      return null;
+    }
+
     int size = initialValue.length();
     int limit = (size + 1) / 2;
     byte [] result = new byte[limit];
@@ -885,7 +904,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Short createEShortFromString(EDataType metaObject, String initialValue) 
   {
-    return Short.valueOf(initialValue);
+    return initialValue == null ? null : Short.valueOf(initialValue);
   }
 
   /**
@@ -907,7 +926,8 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
   {
     try
     {
-      if ("boolean".equals(initialValue)) return boolean.class;
+      if (initialValue == null) return null;
+      else if ("boolean".equals(initialValue)) return boolean.class;
       else if ("byte".equals(initialValue)) return byte.class;
       else if ("char".equals(initialValue)) return char.class;
       else if ("double".equals(initialValue)) return double.class;
@@ -940,7 +960,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Long createELongObjectFromString(EDataType metaObject, String initialValue) 
   {
-    return Long.valueOf(initialValue);
+    return initialValue == null ? null : Long.valueOf(initialValue);
   }
 
   /**
@@ -960,7 +980,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public Short createEShortObjectFromString(EDataType metaObject, String initialValue) 
   {
-    return Short.valueOf(initialValue);
+    return initialValue == null ? null : Short.valueOf(initialValue);
   }
 
   /**

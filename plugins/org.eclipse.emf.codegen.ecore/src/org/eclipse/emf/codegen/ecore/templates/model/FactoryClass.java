@@ -66,7 +66,7 @@ public class FactoryClass
   protected final String TEXT_58 = ".eINSTANCE.createFromString(";
   protected final String TEXT_59 = ".eINSTANCE.get";
   protected final String TEXT_60 = "(), initialValue);";
-  protected final String TEXT_61 = NL + "\t\t";
+  protected final String TEXT_61 = NL + "\t\tif (initialValue == null) return null;" + NL + "\t\t";
   protected final String TEXT_62 = " result = new ";
   protected final String TEXT_63 = "();" + NL + "\t\tfor (";
   protected final String TEXT_64 = " stringTokenizer = new ";
@@ -91,7 +91,7 @@ public class FactoryClass
   protected final String TEXT_83 = ".eINSTANCE.convertToString(";
   protected final String TEXT_84 = ".eINSTANCE.get";
   protected final String TEXT_85 = "(), instanceValue);";
-  protected final String TEXT_86 = NL + "\t\t";
+  protected final String TEXT_86 = NL + "\t\tif (instanceValue == null) return null;" + NL + "\t\t";
   protected final String TEXT_87 = " list = (";
   protected final String TEXT_88 = ")instanceValue;" + NL + "\t\tif (list.isEmpty()) return \"\";" + NL + "\t\t";
   protected final String TEXT_89 = " result = new ";
