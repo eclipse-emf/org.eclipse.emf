@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.7 2004/06/22 12:10:01 marcelop Exp $
+ * $Id: JETCompiler.java,v 1.8 2004/08/11 20:46:13 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -297,6 +297,76 @@ public class JETCompiler implements JETParseEventListener
   }
 
   public void addCharDataGenerator(char[] chars) throws JETException
+  {
+    // An expression with more that 931 "+" will break Sun and IBM javac compilers.
+    //
+    if (chars.length > 500)
+    {
+      int nl = 0;
+      int lf = 0;
+
+      int start = 0;
+      LOOP:
+      for (int i = 0; i < chars.length; ++i)
+      {
+        switch (chars[i])
+        {
+          case '\n':
+          {
+            ++nl;
+            break;
+          }
+          case '\r':
+          {
+            ++lf;
+            break;
+          }
+          default:
+          {
+            continue;
+          }
+        }
+
+        if (lf > 400 || nl > 400)
+        {
+          for (++i; i < chars.length; ++i)
+          {
+            switch (chars[i])
+            {
+              case '\n':
+              case '\r':
+              {
+                continue;
+              }
+              default:
+              {
+                int size = i - start;
+                char [] block = new char [size];
+                System.arraycopy(chars, start, block, 0, size);
+                doAddCharDataGenerator(block);
+                start = i;
+                nl = 0;
+                lf = 0;
+                continue LOOP;
+              }
+            }
+          }
+        }
+      }
+      if (start != 0)
+      {
+        int size = chars.length - start;
+        char [] block = new char [size];
+        System.arraycopy(chars, start, block, 0, size);
+        doAddCharDataGenerator(block);
+        return;
+      }
+    }
+
+    doAddCharDataGenerator(chars);
+  }
+
+  public void doAddCharDataGenerator(char[] chars) throws JETException
   {
     if (fUseStaticFinalConstants)
     {
