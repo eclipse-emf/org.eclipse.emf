@@ -12,16 +12,21 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.4 2004/08/11 15:55:52 marcelop Exp $
+ * $Id: SimpleModelTest.java,v 1.5 2004/08/17 15:59:41 marcelop Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
+
+import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EFactory;
@@ -31,6 +36,13 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.test.core.EMFTestCorePlugin;
 
 
 public class SimpleModelTest extends TestCase
@@ -63,6 +75,8 @@ public class SimpleModelTest extends TestCase
     ts.addTest(new SimpleModelTest("testAttributes"));
     ts.addTest(new SimpleModelTest("testReference"));
     ts.addTest(new SimpleModelTest("testMetaData"));
+    ts.addTest(new SimpleModelTest("testSaveAndLoad"));
+    ts.addTest(new SimpleModelTest("testProxy"));
     return ts;
   }
 
@@ -113,6 +127,7 @@ public class SimpleModelTest extends TestCase
     companyPackage.setNsURI("http:///com.example.company.ecore");
     companyPackage.getEClassifiers().add(employeeClass);
     companyPackage.getEClassifiers().add(departmentClass);
+    EPackage.Registry.INSTANCE.put(companyPackage.getNsURI(), companyPackage);
   }
 
   /**
@@ -242,5 +257,136 @@ public class SimpleModelTest extends TestCase
     assertEquals(department2, employee1.eContainer());
     assertEquals(department1Employees.size(), department1.eContents().size());
     assertEquals(department2Employees.size(), department2.eContents().size());
+  }
+
+  public void testSaveAndLoad() throws Exception
+  {
+    //Instanciating the model
+    EFactory companyFactory = companyPackage.getEFactoryInstance();
+
+    EObject employee1 = companyFactory.create(employeeClass);
+    employee1.eSet(employeeName, "John");
+    EObject employee2 = companyFactory.create(employeeClass);
+    employee2.eSet(employeeName, "Jane");
+
+    EObject department = companyFactory.create(departmentClass);
+    department.eSet(departmentName, "ACME1");
+    List employeesList = (List)department.eGet(departmentEmployees);
+    employeesList.add(employee1);
+    employeesList.add(employee2);
+
+    URI departmentsURI = URI.createFileURI(EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/departments.xmi");
+    Resource departmentsResource = new XMIResourceFactoryImpl().createResource(departmentsURI);
+    departmentsResource.getContents().add(department);
+
+    //Saving
+    departmentsResource.save(Collections.EMPTY_MAP);
+    assertTrue(new File(departmentsURI.toFileString()).exists());
+
+    //Loading department in ResourceSet
+    ResourceSet resourceSet = new ResourceSetImpl();
+    Resource loadedResource = resourceSet.getResource(departmentsURI, true);
+    assertEquals(1, resourceSet.getResources().size());
+    assertEquals(1, loadedResource.getContents().size());
+    assertTrue(loadedResource.getContents().get(0) instanceof EObject);
+
+    EObject loadedDepartment = (EObject)loadedResource.getContents().get(0);
+    assertEquals(department.eClass(), loadedDepartment.eClass());
+    assertEquals(department.eGet(departmentName), loadedDepartment.eGet(departmentName));
+
+    //Get Employess
+    List loadedEmployees = (List)department.eGet(departmentEmployees);
+    assertEquals(2, loadedEmployees.size());
+    EObject loadedEmployee = (EObject)loadedEmployees.get(0);
+    assertEquals(employee1.eClass(), loadedEmployee.eClass());
+    assertEquals(employee1.eGet(employeeName), loadedEmployee.eGet(employeeName));
+    loadedEmployee = (EObject)loadedEmployees.get(1);
+    assertEquals(employee2.eClass(), loadedEmployee.eClass());
+    assertEquals(employee2.eGet(employeeName), loadedEmployee.eGet(employeeName));
+
+    //Deleting created files
+    new File(departmentsURI.toFileString()).delete();
+    assertFalse(new File(departmentsURI.toFileString()).exists());
+  }
+  
+  public void testProxy() throws Exception
+  {
+    EFactory companyFactory = companyPackage.getEFactoryInstance();
+    
+    //Adding a not-contained association
+    EReference associateDepartments = EcoreFactory.eINSTANCE.createEReference();
+    associateDepartments.setName("associateDepartments");
+    associateDepartments.setContainment(false);
+    associateDepartments.setEType(departmentClass);
+    associateDepartments.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    departmentClass.getEStructuralFeatures().add(associateDepartments);
+    
+    //Instanciating the model
+    EObject department = companyFactory.create(departmentClass);
+    department.eSet(departmentName, "ACME1");
+    List associateDepartmentsList = (List)department.eGet(associateDepartments);
+    URI departmentURI = URI.createFileURI(EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/department.xmi");
+    Resource departmentResource = new XMIResourceFactoryImpl().createResource(departmentURI);
+    departmentResource.getContents().add(department);
+    
+    EObject department1 = companyFactory.create(departmentClass);
+    department1.eSet(departmentName, "ACME1");
+    associateDepartmentsList.add(department1);
+    URI department1URI = URI.createFileURI(EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/department1.xmi");
+    Resource department1Resource = new XMIResourceFactoryImpl().createResource(department1URI);
+    department1Resource.getContents().add(department1);
+    
+    EObject department2 = companyFactory.create(departmentClass);
+    department2.eSet(departmentName, "ACME2");
+    associateDepartmentsList.add(department2);
+    URI department2URI = URI.createFileURI(EMFTestCorePlugin.getPlugin().getPluginDirectory() + "/department2.xmi");
+    Resource department2Resource = new XMIResourceFactoryImpl().createResource(department2URI);
+    department2Resource.getContents().add(department2);
+    
+    //Saving
+    departmentResource.save(Collections.EMPTY_MAP);
+    assertTrue(new File(departmentURI.toFileString()).exists());    
+    department1Resource.save(Collections.EMPTY_MAP);
+    assertTrue(new File(department1URI.toFileString()).exists());    
+    department2Resource.save(Collections.EMPTY_MAP);
+    assertTrue(new File(department2URI.toFileString()).exists());
+    
+    //Loading department into a resource set
+    ResourceSet resourceSet = new ResourceSetImpl();
+    Resource loadedResource = resourceSet.getResource(departmentURI, true);
+    assertEquals(1, loadedResource.getContents().size());
+    assertTrue(loadedResource.getContents().get(0) instanceof EObject);
+    
+    EObject loadedDepartment = (EObject)loadedResource.getContents().get(0);
+    BasicEList loadedAssociateDepartmentsList = (BasicEList)loadedDepartment.eGet(associateDepartments, false);
+    assertEquals(2, loadedAssociateDepartmentsList.size());
+    assertTrue(loadedAssociateDepartmentsList.basicGet(0) instanceof EObject);
+    assertTrue(loadedAssociateDepartmentsList.basicGet(1) instanceof EObject);
+    
+    EObject loadedDepartment1 = (EObject)loadedAssociateDepartmentsList.basicGet(0);
+    EObject loadedDepartment2 = (EObject)loadedAssociateDepartmentsList.basicGet(1);
+    
+    assertTrue(loadedDepartment1.eIsProxy());
+    assertEquals(department1URI.toFileString(), ((InternalEObject)loadedDepartment1).eProxyURI().toFileString());
+    assertNull(loadedDepartment1.eGet(departmentName));
+    assertTrue(loadedDepartment2.eIsProxy());
+    assertEquals(department2URI.toFileString(), ((InternalEObject)loadedDepartment2).eProxyURI().toFileString());
+    assertNull(loadedDepartment2.eGet(departmentName));
+    
+    //Resolving Proxy
+    loadedDepartment1 = EcoreUtil.resolve(loadedDepartment1, resourceSet);
+    assertFalse(loadedDepartment1.eIsProxy());
+    assertEquals(department1.eGet(departmentName), loadedDepartment1.eGet(departmentName));
+    loadedDepartment2 = EcoreUtil.resolve(loadedDepartment2, resourceSet);
+    assertFalse(loadedDepartment2.eIsProxy());
+    assertEquals(department2.eGet(departmentName), loadedDepartment2.eGet(departmentName));
+    
+    //Deleting created files
+    new File(departmentURI.toFileString()).delete();
+    assertFalse(new File(departmentURI.toFileString()).exists());
+    new File(department1URI.toFileString()).delete();
+    assertFalse(new File(department1URI.toFileString()).exists());
+    new File(department2URI.toFileString()).delete();
+    assertFalse(new File(department2URI.toFileString()).exists());
   }
 }
