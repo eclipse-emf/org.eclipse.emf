@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.4 2004/05/21 22:13:38 elena Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.5 2004/05/26 15:18:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -526,19 +526,18 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
   {
     if (isInited) return (XMLTypePackage)EPackage.Registry.INSTANCE.get(XMLTypePackage.eNS_URI);
 
-    // Obtain or create and register package.
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XMLTypePackageImpl());
+    // Obtain or create and register package
+    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XMLTypePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XMLTypePackageImpl());
 
     isInited = true;
 
-    // Obtain or create and register interdependencies
-
-    // Step 1: create meta-model objects
+    // Create package meta-data objects
     theXMLTypePackage.createPackageContents();
 
-    // Step 2: complete initialization
+    // Initialize created meta-data
     theXMLTypePackage.initializePackageContents();
 
+    // Register package validator
     EValidator.Registry.INSTANCE.put(theXMLTypePackage, XMLTypeValidator.INSTANCE);
 
     return theXMLTypePackage;
