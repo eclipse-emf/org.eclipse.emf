@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetImpl.java,v 1.3 2004/08/25 21:17:59 marcelop Exp $
+ * $Id: ResourceSetImpl.java,v 1.4 2004/08/26 12:08:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -58,6 +58,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <ul>
  *     <li>{@link #demandCreateResource(URI)}</li>
  *     <li>{@link #demandLoad(Resource)}</li>
+ *     <li>{@link #demandLoadHelper(Resource)}</li>
  *   </ul>
  * </ul> 
  * </p>
@@ -113,19 +114,24 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
   {
   }
   
+  /**
+   * Returns the map used to cache the resource {@link #getResource(URI, boolean) associated} with a specific URI.
+   * @return the map used to cache the resource associated with a specific URI.
+   * @see #setURIResourceMap
+   */
   public Map getURIResourceMap()
   {
     return uriResourceMap;
   }
 
-
   /**
    * Sets the map used to cache the resource associated with a specific URI.
-   * This cache is only activated if the map is not null.  The map will be lazily 
-   * loaded by the {@link #getResource(URI, boolean) getResource} method.
-   * It is up to the client to clear the cache when it becomes invalid, e.g., 
-   * when the URI of a previously mapped resource is changed.
-   * @param uriResourceMap the new map or null.
+   * This cache is only activated if the map is not <code>null</code>.  
+   * The map will be lazily loaded by the {@link #getResource(URI, boolean) getResource} method.
+   * It is up to the client to clear the cache when it becomes invalid, 
+   * e.g., when the URI of a previously mapped resource is changed.
+   * @param uriResourceMap the new map or <code>null</code>.
+   * @see #getURIResourceMap
    */
   public void setURIResourceMap(Map uriResourceMap)
   {
@@ -227,13 +233,14 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
 
   /**
    * Loads the given resource.
-   * It is called by {@link #getResource(URI, boolean) getResource(URI, boolean)} 
+   * It is called by {@link #demandLoadHelper(Resource) demandLoadHelper(Resource)} 
    * to perform a demand load.
    * This implementation simply calls <code>resource.</code>{@link Resource#load(Map) load}({@link #getLoadOptions() getLoadOptions}()).
    * Clients may extend this as appropriate.
    * @param resource  a resource that isn't loaded.
    * @exception IOException if there are serious problems loading the resource.
    * @see #getResource(URI, boolean)
+   * @see #demandLoadHelper(Resource)
    */
   protected void demandLoad(Resource resource) throws IOException
   {
@@ -241,8 +248,12 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
   }
   
   /**
-   * Helper version of {@link #demandLoad(Resource)} that only throws runtime exceptions. 
-   * @param resource
+   * Demand loads the given resource using {@link #demandLoad(Resource)} 
+   * and {@link WrappedException wraps} any {@link IOException} as a runtime exception. 
+   * It is called by {@link #getResource(URI, boolean) getResource(URI, boolean)} 
+   * to perform a demand load.
+   * @param resource a resource that isn't loaded.
+   * @see #demandLoad(Resource)
    */
   protected void demandLoadHelper(Resource resource)
   {
