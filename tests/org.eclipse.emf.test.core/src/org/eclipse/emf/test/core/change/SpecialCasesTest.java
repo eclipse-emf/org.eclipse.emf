@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.8 2005/01/05 20:42:49 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.9 2005/02/08 18:41:24 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -74,6 +74,7 @@ public class SpecialCasesTest  extends TestCase
     ts.addTest(new SpecialCasesTest("testCopyChangeDescriptionAndObject"));
     ts.addTest(new SpecialCasesTest("testChangeDescriptionWhenResumming1"));
     ts.addTest(new SpecialCasesTest("testChangeDescriptionWhenResumming2"));
+    ts.addTest(new SpecialCasesTest("testLoadChangeDescritpions"));
     return ts;
   }
 
@@ -766,4 +767,124 @@ public class SpecialCasesTest  extends TestCase
     assertEquals("0", mary.eGet(id));
     assertTrue(((List)john.eGet(friendsReference)).isEmpty());
   }
+  
+  public void testLoadChangeDescritpions() throws Exception
+  {
+    URI[] uris = new URI[]
+    {
+      URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithObjectsToDetach.xmi")
+      ,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithoutObjectsToDetach.xmi")
+    };
+    
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("http://www.eclipse.org/emf/test.core.change/testLoadChangeDescritpion");
+    
+    EClass family = EcoreFactory.eINSTANCE.createEClass();
+    family.setName("Family");
+    pack.getEClassifiers().add(family);
+
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    person.setName("Person");
+    pack.getEClassifiers().add(person);
+
+    EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
+    name.setName("name");
+    name.setEType(EcorePackage.eINSTANCE.getEString());
+    person.getEStructuralFeatures().add(name);
+    
+    EReference spouse1 = EcoreFactory.eINSTANCE.createEReference();
+    spouse1.setName("spouse1");
+    spouse1.setContainment(true);
+    spouse1.setEType(person);
+    family.getEStructuralFeatures().add(spouse1);
+
+    EReference spouse2 = EcoreFactory.eINSTANCE.createEReference();
+    spouse2.setName("spouse2");
+    spouse2.setContainment(true);
+    spouse2.setEType(person);
+    family.getEStructuralFeatures().add(spouse2);
+    
+    EReference children = EcoreFactory.eINSTANCE.createEReference();
+    children.setName("children");
+    children.setUpperBound(EReference.UNBOUNDED_MULTIPLICITY);
+    children.setContainment(true);
+    children.setEType(person);
+    family.getEStructuralFeatures().add(children);
+    
+    boolean createFile = false;
+    if (createFile)
+    {
+      EObject john = pack.getEFactoryInstance().create(person);
+      john.eSet(name, "John");
+      
+      EObject mary = pack.getEFactoryInstance().create(person);
+      mary.eSet(name, "Mary");
+
+      EObject paul = pack.getEFactoryInstance().create(person);
+      paul.eSet(name, "Paul");
+
+      EObject lisa = pack.getEFactoryInstance().create(person);
+      lisa.eSet(name, "Lisa");
+
+      EObject anna = pack.getEFactoryInstance().create(person);
+      anna.eSet(name, "Anna");
+      
+      EObject johnsFamily = pack.getEFactoryInstance().create(family);
+      johnsFamily.eSet(spouse1, john);
+      johnsFamily.eSet(spouse2, mary);
+      ((List)johnsFamily.eGet(children)).add(paul);
+            
+      Resource resource = new XMIResourceImpl(uris[1]);
+      resource.getContents().add(johnsFamily);
+      
+      ChangeRecorder changeRecorder = new ChangeRecorder(johnsFamily);
+      johnsFamily.eSet(spouse2, lisa);
+      ((List)johnsFamily.eGet(children)).add(anna);
+      ChangeDescription changeDescription = changeRecorder.endRecording();
+      resource.getContents().add(changeDescription);
+      
+      List objectsToDetach = changeDescription.getObjectsToDetach();
+      assertEquals(2, objectsToDetach.size());
+      assertTrue(objectsToDetach.contains(lisa));
+      assertTrue(objectsToDetach.contains(anna));
+      List objectsToAttach = changeDescription.getObjectsToAttach();
+      assertEquals(1, objectsToAttach.size());
+      assertTrue(objectsToAttach.contains(mary));
+      
+      resource.save(Collections.EMPTY_MAP);
+    }
+    
+    for (int i = 0; i < uris.length; i++)
+    {
+      String file = uris[i].toFileString();
+      assertTrue(file + " doesn't exist", new File(file).exists());
+      
+      ResourceSet resourceSet = new ResourceSetImpl();
+      resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+      resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
+      Resource resource = resourceSet.getResource(uris[i], true);
+      assertEquals(2, resource.getContents().size());
+      
+      EObject johnsFamily = (EObject)resource.getContents().get(0);
+      EObject john = (EObject)johnsFamily.eGet(spouse1);
+      assertEquals("John", john.eGet(name));
+      EObject lisa = (EObject)johnsFamily.eGet(spouse2);
+      assertEquals("Lisa", lisa.eGet(name));
+      EObject paul = (EObject)((List)johnsFamily.eGet(children)).get(0);
+      assertEquals("Paul", paul.eGet(name));
+      EObject anna = (EObject)((List)johnsFamily.eGet(children)).get(1);
+      assertEquals("Anna", anna.eGet(name));
+      
+      ChangeDescription changeDescription = (ChangeDescription)resource.getContents().get(1);
+      List objectsToDetach = changeDescription.getObjectsToDetach();
+      assertEquals(2, objectsToDetach.size());
+      assertTrue(objectsToDetach.contains(lisa));
+      assertTrue(objectsToDetach.contains(anna));
+      List objectsToAttach = changeDescription.getObjectsToAttach();
+      assertEquals(1, objectsToAttach.size());
+      EObject mary = (EObject)objectsToAttach.get(0);
+      assertEquals("Mary", mary.eGet(name));      
+    }    
+  }  
 }

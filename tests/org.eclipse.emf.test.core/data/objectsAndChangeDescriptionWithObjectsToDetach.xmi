@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.eclipse.org/emf/test.core.change/testLoadChangeDescritpion" xmlns:change="http://www.eclipse.org/emf/2003/Change">
+  <Family>
+    <spouse1 name="John"/>
+    <spouse2 name="Lisa"/>
+    <children name="Paul"/>
+    <children name="Anna"/>
+  </Family>
+  <change:ChangeDescription objectsToDetach="/0/@spouse2 /0/@children.1">
+    <objectChanges key="/0">
+      <value featureName="spouse2" referenceValue="/1/@objectsToAttach.0"/>
+      <value featureName="children">
+        <listChanges kind="REMOVE" index="1"/>
+      </value>
+    </objectChanges>
+    <objectsToAttach xsi:type="Person" name="Mary"/>
+  </change:ChangeDescription>
+</xmi:XMI>
