@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.5 2004/03/24 18:00:45 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.6 2004/05/08 21:18:10 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -53,6 +53,9 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EValidator;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -138,6 +141,8 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 import org.eclipse.ui.dialogs.SaveAsDialog;
 
+import org.eclipse.ui.ide.IGotoMarker;
+
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
@@ -163,7 +168,7 @@ import <%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>;
  */
 public class <%=genPackage.getEditorClassName()%>
 	extends MultiPageEditorPart
-	implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider
+	implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker
 {
 <%if (genModel.getCopyrightText() != null) {%>
 	/**
@@ -1114,6 +1119,10 @@ public class <%=genPackage.getEditorClassName()%>
 		{
 			return getPropertySheetPage();
 		}
+		else if (key.equals(IGotoMarker.class))
+		{
+			return this;
+		}
 		else
 		{
 			return super.getAdapter(key);
@@ -1375,6 +1384,26 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public void gotoMarker(IMarker marker)
 	{
+		try
+		{
+			if (marker.getType().equals(EValidator.MARKER))
+			{
+				String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
+				if (uriAttribute != null)
+				{
+					URI uri = URI.createURI(uriAttribute);
+					EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
+					if (eObject != null)
+					{
+					  setSelectionToViewer(Collections.singleton(eObject));
+					}
+				}
+			}
+		}
+		catch (CoreException exception)
+		{
+			<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
+		}
 	}
 
 	/**
