@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.9 2004/05/26 12:06:04 emerks Exp $
+ * $Id: XSDEditor.java,v 1.10 2004/06/04 13:09:55 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -2037,6 +2037,7 @@ public class XSDEditor
       // Refresh the necessary state.
       //
       ((BasicCommandStack)editingDomain.getCommandStack()).saveIsDone();
+      textEditor.doRevertToSaved();
       firePropertyChange(IEditorPart.PROP_DIRTY);
     }
     catch (Exception exception)
