@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.9 2004/11/17 15:46:08 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.10 2004/11/24 17:19:48 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -237,7 +237,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     if (valueString == null)
     {
       EStructuralFeature feature = getFeature();
-      if (!feature.isMany() && feature instanceof EAttribute)
+      if (feature instanceof EAttribute && !feature.isMany())
       {
         EDataType type = (EDataType)feature.getEType();
         valueString = EcoreUtil.convertToString(type, value);
