@@ -5,16 +5,22 @@
 <!-- Define the top level topics                                            -->
 <!-- ====================================================================== -->
 
-<toc label="XSD Documentation">
-	<topic label="XML Schema Infoset Model FAQ" href="references/faq.html"/>
-	<topic label="Article: Analyzing XML schemas with the Schema Infoset Model" href="references/articles/dwtip1-scpw/index.html"/>
-	<topic label="Diagrams and Animations" href="references/diagrams/diagrams.html"/>
-	<topic label="Javadoc" href="references/javadoc/index.html"/>
-
-	<topic label="Release Notes">
-		<topic label="What's New in v2.0.0" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=2.0.0" />
-		<topic label="What's New in v1.1.1" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=1.1.1" />
-		<topic label="What's New in v1.1.0" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=1.1.0" />
-		<topic label="What's New in v1.0" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=1.0" />
+<toc label="XSD Programmer&apos;s Guide">
+	<topic label="References">
+		<topic label="Article: Analyzing XML schemas with the Schema Infoset Model" href="references/articles/dwtip1-scpw/index.html"/>
+		<topic label="Diagrams and Animations" href="references/diagrams/diagrams.html"/>
 	</topic>
+
+	<topic label="Online Docs">
+		<topic label="Release Notes">
+			<topic label="What's New in v2.0.0" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=2.0.0" />
+			<topic label="What's New in v1.1.1" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=1.1.1" />
+			<topic label="What's New in v1.1.0" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=1.1.0" />
+			<topic label="What's New in v1.0" href="http://download.eclipse.org/technology/xsd/scripts/news-release-notes.php?ver=1.0" />
+		</topic>
+
+		<topic label="XSD FAQ" href="http://dev.eclipse.org/viewcvs/indextech.cgi/~checkout~/xsd-home/faq/index.html" />
+	</topic>
+
+	<topic label="Javadoc" href="references/javadoc/index.html"/>
 </toc>
