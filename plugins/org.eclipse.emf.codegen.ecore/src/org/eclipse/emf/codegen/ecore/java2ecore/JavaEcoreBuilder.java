@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.2 2004/03/10 12:19:14 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.3 2004/04/02 17:46:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -236,6 +236,7 @@ public class JavaEcoreBuilder
       Collection allGenModelFiles = new ArrayList();
       Collection allReferencedProjects = new ArrayList();
       getAllReferencedProjects(allReferencedProjects, project.getDescription().getReferencedProjects());
+      getAllReferencedProjects(allReferencedProjects, project.getDescription().getDynamicReferences());
       for (Iterator i = allReferencedProjects.iterator(); i.hasNext(); )
       {
         getAllGenModelFiles(allGenModelFiles, (IProject)i.next());
@@ -608,6 +609,7 @@ public class JavaEcoreBuilder
       {
         result.add(project);
         getAllReferencedProjects(result, project.getDescription().getReferencedProjects());
+        getAllReferencedProjects(result, project.getDescription().getDynamicReferences());
       }
     }
   }
@@ -1353,17 +1355,22 @@ public class JavaEcoreBuilder
   {
     if (comment != null)
     {
-      Matcher matcher = extendsAnnotationExpression.matcher(comment);
-      boolean found = matcher.find();
-      if (!found)
+      StringBuffer result = new StringBuffer();
+      Matcher extendsMatcher = extendsAnnotationExpression.matcher(comment);
+      while (extendsMatcher.find())
       {
-        matcher = implementsAnnotationExpression.matcher(comment);
-        found = matcher.find();
+        result.append(comment.substring(extendsMatcher.start(1), extendsMatcher.end(1)));
+        result.append(' ');
       }
-      if (found)
+
+      Matcher implementsMatcher = implementsAnnotationExpression.matcher(comment);
+      while (implementsMatcher.find())
       {
-        return comment.substring(matcher.start(1), matcher.end(1));
+        result.append(comment.substring(implementsMatcher.start(1), implementsMatcher.end(1)));
+        result.append(' ');
       }
+
+      return result.length() == 0 ? null : result.toString();
     }
 
     return null;
