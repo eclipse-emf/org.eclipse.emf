@@ -9,7 +9,7 @@
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>D:\sandbox\unpackage4\eclipse\plugins</foreignModel>
   <genPackages prefix="XSD2Ecore" basePackage="org.eclipse.emf.mapping" resource="XMI"
-      ecorePackage="XSD2Ecore.ecore#/">
+      disposableProviderFactory="true" ecorePackage="XSD2Ecore.ecore#/">
     <genClasses image="false" ecoreClass="XSD2Ecore.ecore#//XSD2EcoreMappingRoot"/>
   </genPackages>
 </genmodel:GenModel>

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreItemProviderAdapterFactory.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSD2EcoreItemProviderAdapterFactory.java,v 1.2 2004/10/24 22:13:42 davidms Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.provider;
 
@@ -27,6 +27,7 @@ import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
+import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -45,7 +46,7 @@ import org.eclipse.emf.mapping.xsd2ecore.util.XSD2EcoreAdapterFactory;
  * <!-- end-user-doc -->
  * @generated
  */
-public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier
+public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable
 {
   /**
    * This keeps track of the root adapter factory that delegates to this adapter factory.
@@ -208,6 +209,17 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
     {
       parentAdapterFactory.fireNotifyChanged(notification);
     }
+  }
+
+  /**
+   * This disposes all of the item providers created by this factory. 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void dispose()
+  {
+    if (xsD2EcoreMappingRootItemProvider != null) xsD2EcoreMappingRootItemProvider.dispose();
   }
 
 }
