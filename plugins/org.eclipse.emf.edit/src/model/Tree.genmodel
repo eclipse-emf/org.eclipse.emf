@@ -7,7 +7,8 @@
   <foreignModel>Tree.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>
-  <genPackages prefix="Tree" basePackage="org.eclipse.emf.edit" ecorePackage="Tree.ecore#/">
+  <genPackages prefix="Tree" basePackage="org.eclipse.emf.edit" disposableProviderFactory="true"
+      ecorePackage="Tree.ecore#/">
     <genClasses ecoreClass="Tree.ecore#//TreeNode">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Tree.ecore#//TreeNode/parent"/>
       <genFeatures property="None" children="true" createChild="false" ecoreFeature="ecore:EReference Tree.ecore#//TreeNode/children"/>

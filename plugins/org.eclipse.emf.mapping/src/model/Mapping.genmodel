@@ -9,7 +9,8 @@
   <foreignModel>Mapping.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>
-  <genPackages prefix="Mapping" basePackage="org.eclipse.emf" ecorePackage="Mapping.ecore#/">
+  <genPackages prefix="Mapping" basePackage="org.eclipse.emf" disposableProviderFactory="true"
+      ecorePackage="Mapping.ecore#/">
     <genClasses ecoreClass="Mapping.ecore#//MappingHelper">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//MappingHelper/mapper"/>
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//MappingHelper/helpedObject"/>
