@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.7 2005/02/15 16:11:14 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.8 2005/04/06 15:08:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -590,29 +589,35 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   public EObject getEObject(String uriFragment)
   {
-    if (uriFragment.startsWith("//"))
+    int length = uriFragment.length();
+    if (length > 0)
     {
-      ArrayList uriFragmentPath = new ArrayList();
-      uriFragmentPath.add("");
-      for (StringTokenizer stringTokenizer = new StringTokenizer(uriFragment.substring(2), "/"); stringTokenizer.hasMoreTokens(); )
+      if (uriFragment.charAt(0) == '/')
       {
-        uriFragmentPath.add(stringTokenizer.nextToken());
+        ArrayList uriFragmentPath = new ArrayList(4);
+        int start = 1;
+        for (int i = 1; i < length; ++i)
+        {
+          if (uriFragment.charAt(i) == '/')
+          {
+            uriFragmentPath.add(start == i ? "" : uriFragment.substring(start, i));
+            start = i + 1;
+          }
+        }
+        uriFragmentPath.add(uriFragment.substring(start));
+        return getEObject(uriFragmentPath);
       }
-      return getEObject(uriFragmentPath);
-    }
-    else if (uriFragment.startsWith("/"))
-    {
-      ArrayList uriFragmentPath = new ArrayList();
-      for (StringTokenizer stringTokenizer = new StringTokenizer(uriFragment, "/"); stringTokenizer.hasMoreTokens(); )
+      else if (uriFragment.charAt(length - 1) == '?')
       {
-        uriFragmentPath.add(stringTokenizer.nextToken());
+        int index = uriFragment.lastIndexOf('?', length - 2);
+        if (index > 0)
+        {
+          uriFragment = uriFragment.substring(0, index);
+        }
       }
-      return getEObject(uriFragmentPath);
     }
-    else
-    {
-      return getEObjectByID(uriFragment);
-    }
+    
+    return getEObjectByID(uriFragment);
   }
 
   /**
@@ -620,11 +625,11 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   protected EObject getEObject(List uriFragmentPath)
   {
-    Iterator fragments = uriFragmentPath.iterator();
-    EObject eObject = getEObjectForURIFragmentRootSegment(!fragments.hasNext() ? "" : (String)fragments.next());
-    while (fragments.hasNext() && eObject != null)
+    int size = uriFragmentPath.size();
+    EObject eObject = getEObjectForURIFragmentRootSegment(size == 0 ? "" : (String)uriFragmentPath.get(0));
+    for (int i = 1; i < size && eObject != null; ++i)
     {
-      eObject = ((InternalEObject)eObject).eObjectForURIFragmentSegment((String)fragments.next());
+      eObject = ((InternalEObject)eObject).eObjectForURIFragmentSegment((String)uriFragmentPath.get(i));
     }
 
     return eObject;
