@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddCommand.java,v 1.4 2004/09/24 04:10:57 davidms Exp $
+ * $Id: AddCommand.java,v 1.5 2004/10/20 23:09:39 davidms Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -328,6 +328,13 @@ public class AddCommand extends AbstractOverrideableCommand
           return false;
         }
 
+        // Check that the object isn't already in a unique list.
+        //
+        if (feature.isUnique() && ownerList.contains(object))
+        {
+          return false;
+        }
+
         // For feature maps, test that the entry feature is a valid type, that the entry value is an instance of it,
         // that there is not already something in a document root, and that there is not already something in a
         // single-valued entry feature.
@@ -404,9 +411,10 @@ public class AddCommand extends AbstractOverrideableCommand
 
   public void doUndo() 
   {
-    // Simple remove the collection from the list.
+    // Remove the collection from the list by index.
     //
-    ownerList.removeAll(collection);
+    int i = index != CommandParameter.NO_INDEX ? index : ownerList.size() - collection.size();
+    ownerList.subList(i, i + collection.size()).clear();    
   
     // We'd like the owner selected after this undo completes.
     //
