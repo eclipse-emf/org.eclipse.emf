@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CopyCommand.java,v 1.3 2004/05/22 19:07:05 marcelop Exp $
+ * $Id: CopyCommand.java,v 1.4 2004/12/29 18:31:41 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -128,6 +128,11 @@ public class CopyCommand extends StrictCompoundCommand
 
   protected boolean prepare()
   {
+    if (owner == null)
+    {
+      return false;
+    }
+    
     // Create commands to create the copy object(s).
     //
     CompoundCommand createCommand = new CompoundCommand(0);
