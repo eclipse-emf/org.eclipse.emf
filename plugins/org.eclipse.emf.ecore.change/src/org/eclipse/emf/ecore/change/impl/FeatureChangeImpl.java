@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.12 2004/12/20 13:05:22 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.13 2005/02/21 15:34:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -82,15 +82,6 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   protected static final String FEATURE_NAME_EDEFAULT = null;
 
   /**
-   * This is true if the Feature Name attribute has been set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  protected boolean featureNameESet = false;
-
-  /**
    * The default value of the '{@link #getDataValue() <em>Data Value</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -129,15 +120,6 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * @ordered
    */
   protected static final Object VALUE_EDEFAULT = null;
-
-  /**
-   * This is true if the Feature reference has been set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  protected boolean featureESet = false;
 
   /**
    * The cached value of the '{@link #getListChanges() <em>List Changes</em>}' containment reference list.
