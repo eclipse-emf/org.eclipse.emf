@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.2 2004/05/16 17:17:16 emerks Exp $
+ * $Id: EMFPlugin.java,v 1.3 2004/06/01 17:30:24 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -232,7 +232,13 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
         {
           if (resourceBundle == null)
           {
-            resourceBundle = ResourceBundle.getBundle(getClass().getPackage().getName() + ".plugin");
+            String packageName = getClass().getName();
+            int index = packageName.lastIndexOf(".");
+            if (index != -1)
+            {
+              packageName = packageName.substring(0, index);
+            }
+            resourceBundle = ResourceBundle.getBundle(packageName + ".plugin");
           }
           result = resourceBundle.getString(key);
         }
