@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.2 2004/03/10 13:00:24 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1300,7 +1300,15 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public void initialize(EPackage ePackage)
   {
-    setEcorePackage(ePackage);
+    if (ePackage != getEcorePackage())
+    {
+      setEcorePackage(ePackage);
+  
+      if (hasExtendedMetaData(ePackage))
+      {
+        setResource(GenResourceKind.XML_LITERAL);
+      }
+    }
 
     CLASSIFIER_LOOP:
     for (Iterator iter = ePackage.getEClassifiers().iterator(); iter.hasNext(); )
@@ -1371,11 +1379,6 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       GenPackage genPackage = ePackageGenModel().getGenModelFactory().createGenPackage();
       genPackage.initialize(nestedEPackage);
       getNestedGenPackages().add(genPackage);
-    }
-
-    if (hasExtendedMetaData(ePackage))
-    {
-      setResource(GenResourceKind.XML_LITERAL);
     }
   }
 
