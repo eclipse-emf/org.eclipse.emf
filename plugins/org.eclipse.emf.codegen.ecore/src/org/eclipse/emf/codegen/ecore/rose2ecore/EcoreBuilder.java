@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.4 2004/04/12 19:08:16 emerks Exp $
+ * $Id: EcoreBuilder.java,v 1.5 2004/05/05 19:47:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -646,6 +646,19 @@ public class EcoreBuilder implements RoseVisitor
 
       EcoreUtil.setDocumentation(eModelElement, documentation);
     }
+
+    String constraints = roseNode.getEcoreConstraints();
+    if (constraints != null)
+    {
+      List constraintList = new ArrayList();
+      for (StringTokenizer stringTokenizer = new StringTokenizer(constraints);
+           stringTokenizer.hasMoreTokens(); )
+      {
+        String constraint = stringTokenizer.nextToken();
+        constraintList.add(constraint);
+      }
+      EcoreUtil.setConstraints(eModelElement, constraintList);
+    }
   }
 
   protected void setEPackageProperties(RoseNode roseNode, EPackage ePackage, String tentativeName)
@@ -828,6 +841,26 @@ public class EcoreBuilder implements RoseVisitor
             (CodeGenEcorePlugin.INSTANCE.getString
                ("_UI_UnresolvedTypeNameFor_message", new Object [] { roseNode.getRoseSupplier(), eOperation.getName() }));
         }
+      }
+    }
+    String stereotype = roseNode.getStereotype();
+    if (stereotype != null)
+    {
+      if ("inv".equals(stereotype))
+      {
+        eOperation.setEType(EcorePackage.eINSTANCE.getEBoolean());
+
+        eOperation.getEParameters().clear();
+
+        EParameter eParameter = ecoreFactory.createEParameter();
+        eParameter.setName("diagnostics");
+        eParameter.setEType(EcorePackage.eINSTANCE.getEDiagnosticChain());
+        eOperation.getEParameters().add(eParameter);
+
+        eParameter = ecoreFactory.createEParameter();
+        eParameter.setName("context");
+        eParameter.setEType(EcorePackage.eINSTANCE.getEMap());
+        eOperation.getEParameters().add(eParameter);
       }
     }
   }
