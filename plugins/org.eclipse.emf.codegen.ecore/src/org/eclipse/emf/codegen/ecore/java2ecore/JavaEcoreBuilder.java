@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.19 2005/02/15 20:27:21 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.20 2005/03/01 18:13:51 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -1110,7 +1110,7 @@ public class JavaEcoreBuilder
           methodName.startsWith("get") && 
           methodName.length() > 3 && 
           Character.isUpperCase(methodName.charAt(3)) &&
-          !"boolean".equals(returnType))
+          !"boolean".equals(returnType) && !"void".equals(returnType))
     {
       // The feature name is extracted lower cased.
       //
@@ -1333,13 +1333,16 @@ public class JavaEcoreBuilder
       eTypedElementToTypeNameMap.put(eTypedElement, returnType);
     }
 
-    // Set the name, and remember method for import resolution later.
-    //
-    eTypedElement.setName(featureName);
-
-    // Process the annotations.
-    //
-    eTypedElement.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
+    if (eTypedElement != null)
+    {
+      // Set the name, and remember method for import resolution later.
+      //
+      eTypedElement.setName(featureName);
+  
+      // Process the annotations.
+      //
+      eTypedElement.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
+    }
 
     return eTypedElement;
   }
