@@ -10,15 +10,15 @@
 <body lang="EN-US" xml:lang="EN-US">
 <h1>Generating an EMF Model using XML Schema (XSD)</h1>
 
-<p>Last updated: June 9, 2004</p>
+<p>Last updated: June 29, 2004</p>
 
 <p>This tutorial provides a step-by-step description for creating an EMF model
 from an XML schema and then generating a simple model editor for it. Following
 this tutorial will show how easy EMF makes it to go from a simple model
 definition in an XML schema to a fully functioning editor for that model.</p>
 
-<p>The screenshots are based on version 3.0M9 of the Eclipse SDK and version 2.0
-(pre-release build I200405200923) of EMF.</p>
+<p>The screenshots are based on version 3.0 of the Eclipse SDK and version 2.0
+of EMF.</p>
 
 <p>The XML Schema file we use in this tutorial can be found here:
 <a  target="_code" href="images/../library.xsd">library.xsd</a>. Save it
@@ -174,8 +174,8 @@ in the main view.<br/>
 <p style="text-align: right"><a id="step2" name="step2">&nbsp;</a><a href="#top">contents</a></p>
 <h2>Step 2: Generate the EMF Model Code</h2>
 
-<p>The generator model shows a root object, representing the the whole model.
-This model object has children that represent its packages, whose children then
+<p>The generator model shows a root object, representing the whole model. This
+model object has children that represent its packages, whose children then
 represent classifiers (classes and datatypes, including enumerated types). The
 children of classes are class attributes, references, and operations; the
 children of enumerated types are enum literals.</p>
