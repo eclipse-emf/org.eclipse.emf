@@ -1,14 +1,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta name="generator" content="HTML Tidy, see www.w3.org" />
-<meta http-equiv="content-type"
-content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Generating an EMF Model</title>
+<link rel="stylesheet" href="images/../../../css/book.css" type="text/css" />
+<link rel="stylesheet" href="images/../../../css/emf-book.css" type="text/css" />
 </head>
-<body>
-<h2>Generating an EMF Model</h2>
+<body lang="EN-US" xml:lang="EN-US">
+
+<h1>Generating an EMF Model</h1>
+
+<blockquote>
+
+<b>Summary</b>
 
 <p>This tutorial is a step-by-step description of the process of
 creating an EMF model and generating a simple model editor for it.
@@ -16,23 +21,27 @@ Following this tutorial will show how easy EMF makes it to go from
 a simple model definition to a fully functioning editor for that
 model.</p>
 
-<p>The screenshots are based on version 2.1 of the Eclipse SDK and
-version 1.1.0 (build 20030501_0612VL) of EMF.</p>
+<p>The screenshots are based on version <a target="_req" href="http://download2.eclipse.org/downloads/drops/S-3.0M9-200405211200/index.php">3.0M9 of the Eclipse SDK </a> and
+version <a target="_req" href="http://download.eclipse.org/tools/emf/scripts/downloads-viewer.php?s=2.0/I200405200923">2.0.0 (build I200405200923) of the combined EMF, SDO, XSD SDKs</a>.</p>
 
 <p>The model we will generate looks like this in UML (see the
-"Eclipse Modeling Framework Overview" paper for a description of
+<a href="../../references/overview/EMF.html">Eclipse Modeling Framework Overview</a> paper for a description of
 this model):</p>
 
-<p><img src="images/libuml.gif" alt="Library UML model"
-height="273" width="425" /></p>
+<p><img src="images/libuml.gif" alt="Library UML model"  /></p>
 
 <p>We will show how an EMF model can be generated from either of
 two different sources: a Rational Rose model or a set of annotated
 Java interfaces and classes.</p>
 
-<h3>Contents</h3>
+<p>Last update: May 31, 2004.</p>
+</blockquote>
 
-<table summary="" border="0" cellspacing="2" cellpadding="2"
+<hr width="100%" />
+
+<h2>Contents</h2>
+
+<table border="0" cellspacing="2" cellpadding="2"
 width="100%">
 <tr>
 <td valign="top" width="60">Step 0:</td>
@@ -70,7 +79,7 @@ Model</a> </td>
 <p style="text-align: right"><a id="step0"
 name="step0">&nbsp;</a><a href="#top">contents</a></p>
 
-<h3>Step 0: Prerequisites</h3>
+<h2>Step 0: Prerequisites</h2>
 
 <p>The EMF Runtime package includes the EMF generator and a number
 of related plugins. After installing the package, verify that they
@@ -78,18 +87,15 @@ are available in your Eclipse environment:</p>
 
 <ul>
 <li>Bring up the "Help/About Eclipse Platform" dialog.<br />
- <img src="images/cg001.gif" alt="Help/About Eclipse Platform"
-height="123" width="168" /><br />
+ <img src="images/img001.gif" alt="Help/About Eclipse Platform"/><br />
 &nbsp;</li>
 
 <li>Click on "Plug-in Details".<br />
- <img src="images/cg002.gif" alt="Plug-in Details" height="332"
-width="464" /><br />
+ <img src="images/img002.gif" alt="Plug-in Details"/><br />
 &nbsp;</li>
 
-<li>Check that the highlighted set of plugins are present.<br />
- <img src="images/cg003.gif" alt="Check EMF plugins" height="437"
-width="595" /><br />
+<li>Check that the set of plugins (highlighted in blue) are present. If you also installed SDO, you will have the plugins highlighted in green. XSD plugins are highlighted in pink.<br />
+ <img src="images/img003.gif" alt="Check EMF plugins"/><br />
 &nbsp;</li>
 </ul>
 
@@ -97,64 +103,61 @@ width="595" /><br />
 <p style="text-align: right"><a id="step1a"
 name="step1a">&nbsp;</a><a href="#top">contents</a></p>
 
-<h3>Step 1a: Import the Model from Rose</h3>
+<h2>Step 1a: Import the Model from Rose</h2>
 
 <p>The Rose file for the library model can be found here: <a target="_code" 
 href="images/../library.mdl">library.mdl</a>. Save it
 somewhere on your workstation.</p>
 
-<p>Create a new Ecore model project in the workspace:</p>
+<h3>Create a new Ecore model project in the workspace:</h3>
 
 <ul>
-<li>Bring up the "File/New/Project..." dialog.<br />
- <img src="images/cg101.gif" alt="File/New/Project..." height="55"
-width="341" /><br />
+<li>Bring up the "File/New/Project..." dialog (by hitting CTRL-N or one of the following two ways:<br />
+ <img src="images/img004.gif" alt="File/New/Project..."/> or 
+ <img src="images/img004b.gif" alt="File/New/Project..."/>
+ <br />
 &nbsp;</li>
 
-<li>Select "Eclipse Modeling framework" and "EMF Project". Click
+<li>Select "Eclipse Modeling Framework" and "EMF Project". Click
 the "Next" button.<br />
- <img src="images/cg132.gif" alt="EMF Project" height="150"
-width="394" /><br />
+ <img src="images/img005.gif" alt="EMF Project" /><br />
 &nbsp;</li>
 
 <li>Give the project a name, say, "library". Then, click the "Next"
 button.<br />
- <img src="images/cg133.gif" alt="Name the project" height="203"
-width="294" /><br />
+ <img src="images/img006.gif" alt="Name the project"/><br />
 &nbsp;</li>
 
 <li>Select "Load from a Rose class model" and click the "Next"
 button.<br />
- <img src="images/cg138.gif" alt="Load from a Rose class model"
-height="200" width="255" /><br />
+ <img src="images/img007.gif" alt="Load from a Rose class model"/><br />
 &nbsp;</li>
 
 <li>Click on the "Browse" button and locate the Rose model
-file.<br />
- <img src="images/cg134.gif" alt="Browse for Rose file"
-height="161" width="500" /><br />
+file. The Rose model file will be examined, and a default GenModel
+name will be suggested. You can change the name in the entry box if
+you wish. <br/>
+ <img src="images/img008.gif" alt="Loading model"/><br />
 &nbsp;</li>
 
-<li>The Rose model file will be examined, and a default GenModel
-name will be suggested. You can change the name in the entry box if
-you wish. Then click the "Next" button.<br />
- <img src="images/cg135.gif" alt="Gen Model Name" height="500"
-width="500" /><br />
+<li>Then click the "Next" button.<br />
+ <img src="images/img009.gif" alt="Creating packages"/><br />
 &nbsp;</li>
 
 <li>In general, a Rose model may contain more than one package.
 Select the package for which you want to generate an EMF model --
 in this case, the only package, "library". Click the "Finish"
 button.<br />
- <img src="images/cg136.gif" alt="Select package" height="181"
-width="500" /><br />
+ <img src="images/img010.gif" alt="Select package"/><br />
 &nbsp;</li>
 
 <li>An Ecore model and a GenModel will be created. The GenModel,
 which controls code generation for the model, is opened in the main
-view.<br />
- <img src="images/cg137.gif" alt="Opened GenModel" height="130"
-width="450" /><br />
+view (initally collapsed, this is how it looks fully expanded).<br />
+ <img src="images/img011.gif" alt="Opened GenModel"/><br />
+&nbsp;</li>
+<li>The Ecore model looks like this when fully expanded:<br />
+ <img src="images/img011b.gif" alt="Opened Ecore model"/><br />
 &nbsp;</li>
 </ul>
 
@@ -162,7 +165,7 @@ width="450" /><br />
 <p style="text-align: right"><a id="step1b"
 name="step1b">&nbsp;</a><a href="#top">contents</a></p>
 
-<h3>Step 1b: Define the Model Using Annotated Java</h3>
+<h2>Step 1b: Define the Model Using Annotated Java</h2>
 
 <p>Instead of importing the model from a Rose diagram, we can start
 with a set of Java interfaces and classes that correspond to the
@@ -170,19 +173,18 @@ classes and enumerated types, respectively, in the library model.
 This code is the bare minimum required to illustrate the desired
 features. Based on it, an Ecore model and a GenModel will be
 constructed, which will then drive generation of the remaining
-code. The code is annotated with "@model" tags in javadoc comments,
+code. The code is annotated with "@model" tags in Javadoc comments,
 in order to specify any non-default values for the attributes and
 references of the Ecore objects.</p>
 
 <blockquote><b><a target="_code"
-href="images/../Library.java">Library.java</a></b><br />
+href="images/../Library.java">Library.java</a></b><a name="Library.java">&nbsp;</a><br />
 
 
-<table summary="" border="1" frame="box">
+<table border="1" frame="box">
 <tr>
 <td>
-<pre>
-<tt>package org.eclipse.example.library;
+<pre>package org.eclipse.example.library;
 import java.util.List;
 /**
  * @model
@@ -201,7 +203,7 @@ public interface Library
    * @model
    */
   String getName();
-}</tt>
+}
 </pre>
 </td>
 </tr>
@@ -209,14 +211,12 @@ public interface Library
 </blockquote>
 
 <blockquote><b><a target="_code"
-href="images/../Book.java">Book.java</a></b><br />
+href="images/../Book.java">Book.java</a></b><a name="Book.java">&nbsp;</a><br />
  
 
-<table summary="" border="1" frame="box">
+<table border="1" frame="box">
 <tr>
-<td>
-<pre>
-<tt>package org.eclipse.example.library;
+<td><pre>package org.eclipse.example.library;
 /**
  * @model
  */
@@ -238,22 +238,19 @@ public interface Book
    * @model
    */
   BookCategory getCategory();
-}</tt>
-</pre>
+}</pre>
 </td>
 </tr>
 </table>
 </blockquote>
 
 <blockquote><b><a target="_code"
-href="images/../Writer.java">Writer.java</a></b><br />
+href="images/../Writer.java">Writer.java</a></b><a name="Writer.java">&nbsp;</a><br />
  
 
-<table summary="" border="1" frame="box">
+<table border="1" frame="box">
 <tr>
-<td>
-<pre>
-<tt>package org.eclipse.example.library;
+<td><pre>package org.eclipse.example.library;
 /**
  * @model
  */
@@ -267,22 +264,19 @@ public interface Writer
    * @model type="Book" opposite="author"
    */
   java.util.List getBooks();
-}</tt>
-</pre>
+}</pre>
 </td>
 </tr>
 </table>
 </blockquote>
 
 <blockquote><b><a target="_code"
-href="images/../BookCategory.java">BookCategory.java</a></b><br />
+href="images/../BookCategory.java">BookCategory.java</a></b><a name="BookCategory.java">&nbsp;</a><br />
  
 
-<table summary="" border="1" frame="box">
+<table border="1" frame="box">
 <tr>
-<td>
-<pre>
-<tt>package org.eclipse.example.library;
+<td><pre>package org.eclipse.example.library;
 /**
  * @model
  */
@@ -300,154 +294,116 @@ public class BookCategory
    * @model name="Biography"
    */
   public static final int BIOGRAPHY = 2;
-}</tt>
-</pre>
+}</pre>
 </td>
 </tr>
 </table>
 </blockquote>
 
-<p>Create a new Java project in the workspace:</p>
+<h3>Create a new Java project in the workspace:</h3>
+
 
 <ul>
-<li>Bring up the "File/New/Project..." dialog.<br />
- <img src="images/cg101.gif" alt="File/New/Project..." height="55"
-width="341" /><br />
+<li>Bring up the "File/New/Project..." dialog (by hitting CTRL-N or one of the following two ways:<br />
+ <img src="images/img004.gif" alt="File/New/Project..."/> or 
+ <img src="images/img004b.gif" alt="File/New/Project..."/>
+ <br />
 &nbsp;</li>
 
 <li>Select "Java" and "Java Project". Click the "Next"
 button.<br />
- <img src="images/cg102.gif" alt="Java Project" height="182"
-width="359" /><br />
+ <img src="images/img012.gif" alt="Java Project"/><br />
 &nbsp;</li>
 
-<li>Give the project a name, say, "library". Then, click the "Next"
+<li>Give the project a name, say, "library2". Make sure you check the radio button for "Create separate source and output folders". By default, this creates a src/ and a bin/ folder within your project folder. Then, click the "Next"
 button.<br />
- <img src="images/cg103.gif" alt="Name the project" height="221"
-width="302" /><br />
-&nbsp;</li>
-
-<li>Click the "Add Folder" button.<br />
- <img src="images/cg104.gif" alt="Add folder" height="225"
-width="499" /><br />
-&nbsp;</li>
-
-<li>Click the "Create New Folder" button.<br />
- <img src="images/cg104_1.gif" alt="Create a new folder"
-height="422" width="346" /><br />
-&nbsp;</li>
-
-<li>Type "src" and click the "OK" button.<br />
- <img src="images/cg105.gif" alt="Name the folder" height="164"
-width="300" /><br />
-&nbsp;</li>
-
-<li>Click the "OK" button.<br />
- <img src="images/cg105_1.gif" alt="Done with new folder"
-height="422" width="346" /><br />
-&nbsp;</li>
-
-<li>When asked if you want to remove the project as source folder
-and update the build output folder to "library/bin", click the
-"Yes" button.<br />
- <img src="images/cg106.gif"
-alt="Do not update build output folder" height="139"
-width="441" /><br />
+ <img src="images/img013.gif" alt="Name the project"/><br />
 &nbsp;</li>
 
 <li>Specify "library/runtime" as the build default output folder.
 Click the "Finish" button.<br />
- <img src="images/cg107.gif" alt="Specify build output folder"
-height="500" width="500" /><br />
+ <img src="images/img014.gif" alt="Specify build output folder"/><br />
 &nbsp;</li>
 
 <li>The newly created Java project can be seen in the Package
 Explorer.<br />
- <img src="images/cg108.gif" alt="Library Java project"
-height="117" width="280" /><br />
+ <img src="images/img015.gif" alt="Library Java project"/><br />
 &nbsp;</li>
 </ul>
 
-<p>Create the first Java interface:</p>
+<h3>Create the first Java interface:</h3>
+
 
 <ul>
 <li>Right-click the "src" folder and select "New/Interface" from
 the pop-up menu.<br />
- <img src="images/cg109.gif" alt="New/Interface" height="152"
-width="402" /><br />
+ <img src="images/img016.gif" alt="New/Interface"/><br />
 &nbsp;</li>
 
 <li>Fill in the package and interface name. Click the "Finish"
 button.<br />
- <img src="images/cg110.gif" alt="Create new interface"
-height="460" width="500" /><br />
+ <img src="images/img017.gif" alt="Create new interface"/><br />
 &nbsp;</li>
 
 <li>A new Java interface file is created and opened in the main
 view.<br />
- <img src="images/cg111.gif" alt="Opened interface" height="200"
-width="506" /><br />
+ <img src="images/img018.gif" alt="Opened interface"/><br />
 &nbsp;</li>
 
-<li>Type (or paste) in the interface code, as shown earlier in this
-section. Pay special attention to the "@model" tags.<br />
- <img src="images/cg112.gif" alt="Enter interface code"
-height="355" width="412" /><br />
+<li>Type (or paste) in the interface code, as <a href="#Library.java">shown above</a>. Pay special attention to the "@model" tags. Right-click code and select "Save", or select "Save" from the "File" menu. Or, you can use CTRL-X-S to save.<br />
+ <img src="images/img019.gif" alt="Enter interface code"/><br />
 &nbsp;</li>
 
-<li>Select "Save" from the "File" menu to save library.java
-file.<br />
- <img src="images/cg113.gif" alt="File/Save" height="190"
-width="280" /><br />
+<li>Repeat the above steps for creating the other two interfaces, <a href="#Book.java">Book.java</a> and <a href="#Writer.java">Writer.java</a>, and the <a href="#BookCategory.java">BookCategory.java</a> class in the same way.
+Of course, to create the class, select "New/Class" from the pop-up
+menu, instead of "New/Interface". You can use CTRL-X, S to Save All open edited documents. 
+<br/>
+<img src="images/img020.gif" alt="New/Class" />
+<br/>
+&nbsp;
+</li>
+
+<li>Note also that if you right-click the package under the src folder, the wizard will prefill with that value so you don't need to enter it manually - only the Interface or Class name.
+<br/>
+<img src="images/img020b.gif" alt="New/Class - package prefilled" />
+<br/>
+&nbsp;</li>
+
+<li>When done, you should have this:
+<br/>
+<img src="images/img021.gif" alt="Package contents" />
+<br/>
 &nbsp;</li>
 </ul>
 
-<p>Create the other two interfaces and the class in the same way.
-Of course, to create the class, select "New/Class" from the pop-up
-menu, instead of "New/Interface".</p>
+<h3>Create the GenModel:</h3>
 
-<p>Create the GenModel:</p>
 
 <ul>
 <li>In the Package Explorer view, right-click the "src" folder and
-select "New/Other..." from the pop-up menu.<br />
- <img src="images/cg115.gif" alt="New/Other..." height="250"
-width="401" /><br />
-&nbsp;</li>
-
-<li>Select "Eclipse Modeling Framework" and "EMF Models". Click the
+select "New/Other..." from the pop-up menu (or just hit CTRL-N). Select "Eclipse Modeling Framework" and "EMF Models". Click the
 "Next" button.<br />
- <img src="images/cg116.gif" alt="New/Other..." height="200"
-width="400" /><br />
+ <img src="images/img022.gif" alt="New/Other..."/><br />
 &nbsp;</li>
 
-<li>Change the folder to "library/src/model".<br />
- <img src="images/cg117.gif" alt="Change the folder" height="220"
-width="400" /><br />
-&nbsp;</li>
-
-<li>Change the file name to "library.genmodel" and click the "Next"
+<li>Change the folder to "library/src/model", and the file name to "library.genmodel" and click the "Next"
 button.<br />
- <img src="images/cg118.gif" alt="Change the file name"
-height="135" width="350" /><br />
+ <img src="images/img023.gif" alt="Change the folder and file name"/><br />
 &nbsp;</li>
 
 <li>Select "Load from Java annotations" and click the "Next"
 button.<br />
- <img src="images/cg119.gif" alt="Load from Java annotations"
-height="210" width="259" /><br />
+ <img src="images/img024.gif" alt="Load from Java annotations"/><br />
 &nbsp;</li>
 
 <li>Select library package and click the "Finish" button.<br />
- <img src="images/cg119_1.gif" alt="Check library" height="570"
-width="500" /><br />
+ <img src="images/img025.gif" alt="Check library"/><br />
 &nbsp;</li>
 
 <li>An Ecore model and a GenModel will be created. The GenModel,
 which controls code generation for the model, is opened in the main
 view.<br />
- <img src="images/cg120.gif" alt="Opened GenModel" height="225"
-width="400" /><br />
+ <img src="images/img026.gif" alt="Opened GenModel"/><br />
 &nbsp;</li>
 </ul>
 
@@ -455,7 +411,7 @@ width="400" /><br />
 <p style="text-align: right"><a id="step2"
 name="step2">&nbsp;</a><a href="#top">contents</a></p>
 
-<h3>Step 2: Generate the EMF Model Code</h3>
+<h2>Step 2: Generate the EMF Model Code</h2>
 
 <p>The GenModel shows a root object, representing the the whole
 model. The model object has children that represent its packages,
@@ -466,30 +422,31 @@ types are enum literals.</p>
 
 <ul>
 <li>The GenModel can be expanded to see its various elements.<br />
- <img src="images/cg201.gif" alt="Expanded GenModel" height="200"
-width="320" /><br />
+ <img src="images/img011.gif" alt="Expanded GenModel"/><br />
 &nbsp;</li>
-
+<a name="showpropertiesview">&nbsp;</a>
 <li>There are properties associated with each object. If the
-Properties view isn't already showing, bring up "Window/Show
-View/Other..."<br />
- <img src="images/cg202.gif" alt="Window/Show View/Other..."
-height="257" width="378" /><br />
+Properties view isn't already showing, right-click and select "Show Properties View", or bring up "Window/Show
+View/Other..." <br />
+ <img src="images/img027.gif" alt="Show Properties View" /> or 
+ <img src="images/img027b.gif" alt="Window/Show View/Other..." /><br />
 &nbsp;</li>
 
 <li>Expand the "Basic" set of views and choose "Properties".<br />
- <img src="images/cg203.gif" alt="Chose Properties" height="164"
-width="153" /><br />
+ <img src="images/img028.gif" alt="Chose Properties"/><br />
 &nbsp;</li>
 
 <li>These properties control the behavior of the code
 generator.<br />
- <img src="images/cg204.gif" alt="GenModel properties" height="502"
-width="575" /><br />
+ <img src="images/img029.gif" alt="GenModel properties - tree view"/><br />
+&nbsp;</li>
+
+<li>Depending on preference, you can show them in diffent ways (tree or flat).<br />
+ <img src="images/img029b.gif" alt="GenModel properties - flat view"/><br />
 &nbsp;</li>
 </ul>
 
-<p>In most cases, the properites need not be changed from their
+<p>In most cases, the properties need not be changed from their
 default values, but these options can provide a great deal of
 control over the code that gets generated. This topic will be
 explored more fully in future tutorial material; for now, select
@@ -502,14 +459,8 @@ generate code for it.</p>
 
 <ul>
 <li>Right-click the "library" model object and select "Generate
-Model Code" from the pop-up menu.<br />
- <img src="images/cg207.gif" alt="Generate Model" height="238"
-width="213" /><br />
-&nbsp;</li>
-
-<li>Observe the generated files.<br />
- <img src="images/cg208.gif" alt="Generated model code"
-height="357" width="245" /><br />
+Model Code" from the pop-up menu. Observe the generated files.<br />
+ <img src="images/img030.gif" alt="Generated model code"/><br />
 <br />
 </li>
 </ul>
@@ -525,9 +476,9 @@ for the model plugin.</p>
 
 <p>If you define the model by using annotated Java, after
 generating code by selecting "Generate Model Code" pop-up menu, you
-will see the warning message "The import java.util.List is never
+may see the warning message "The import java.util.List is never
 used". This message is ok for you to continue to work on next
-step.</p>
+step (this warning used to appear in EMF 1.1 with Eclipse 2.1).</p>
 
 <p>If you change the model, you can regenerate it, and changes will
 be merged with any hand modifications that may have been made to
@@ -539,7 +490,7 @@ selecting "Generate Model Code" from the pop-up menu.</p>
 <p style="text-align: right"><a id="step3"
 name="step3">&nbsp;</a><a href="#top">contents</a></p>
 
-<h3>Step 3: Generate an Editor for the Model</h3>
+<h2>Step 3: Generate an Editor for the Model</h2>
 
 <p>A fully functional Eclipse editor can also be generated for any
 model. By default, it is split between two plugins: an "edit"
@@ -549,21 +500,13 @@ provides the UI for the editor and wizard.</p>
 
 <ul>
 <li>In the GenModel, right-click the "Library" model object and
-select "Generate Edit Code" from the pop-up menu.<br />
- <img src="images/cg301.gif" alt="Generate Edit Code" height="240"
-width="220" /><br />
-&nbsp;</li>
-
-<li>Right-click the model object and select "Generate Editor Code"
-from the pop-up menu.<br />
- <img src="images/cg304.gif" alt="Generate Editor Code"
-height="233" width="212" /><br />
+select "Generate Edit Code" from the pop-up menu, then repeat for "Generate Editor Code". Alternatively, you can also select "Generate All" to generate the model (again), edit, and editor code.<br />
+ <img src="images/img031.gif" alt="Generate Edit Code"/><br />
 &nbsp;</li>
 
 <li>Observe the generated projects, with "edit" and "editor"
-suffixes.<br />
- <img src="images/cg302.gif" alt="Edit and editor projects"
-height="37" width="118" /><br />
+suffixes. (In this workspace screenshot, library.* projects were based on importing a Rose model (<a href="#step1a">Step 1a</a>), and library2.* projects were based on annotated java (<a href="#step1b">Step 1b</a>), above.)<br />
+ <img src="images/img032.gif" alt="Edit and editor projects"/><br />
 &nbsp;</li>
 </ul>
 
@@ -578,21 +521,21 @@ compilation manually:</p>
 
 <ul>
 <li>Select "Rebuild All" from the "Project" menu.<br />
- <img src="images/cg303.gif" alt="Project/Rebuild All" height="110"
-width="377" /><br />
+ <img src="images/img033.gif" alt="Project/Rebuild All"/><br />
 &nbsp;</li>
 
 <li>There should no errors in the "library", "library.edit", and
-"library.editor" projects if you import the model from Rose.<br />
- <img src="images/cg305.gif" alt="No errors" height="72"
-width="247" /><br />
+"library.editor" projects if you import the model from Rose. <br />
+ <img src="images/img034.gif" alt="No errors"/><br />
 &nbsp;</li>
 
-<li>There is one warning message in the "library", "library.edit",
-and "library.editor" projects if you define the model using
+<li>There should be one warning message your projects if you define the model using
 Annotated Java.<br />
- <img src="images/cg305_1.gif" alt="One warning" height="80"
-width="450" /><br />
+ <img src="images/img034_error.gif" alt="One warning"/><br />
+&nbsp;</li>
+
+<li>This is due to the fact that the generated code will add <tt>import org.eclipse.emf.common.util.EList;</tt> into your imports, but will NOT remove the unused <tt>import java.util.List;</tt>. You will also notice that the return type of the generated code is EList, not List. To remove this warning, simply select "Organize Imports" from the "Source" menu, or hit CTRL-SHIFT-O. You can also right-click a package or file and "Orgainise Imports" on that file (or group of files).<br />
+ <img src="images/img034_error2.gif" alt="One warning - how to fix"/><br />
 &nbsp;</li>
 </ul>
 
@@ -600,39 +543,30 @@ width="450" /><br />
 <p style="text-align: right"><a id="step4"
 name="step4">&nbsp;</a><a href="#top">contents</a></p>
 
-<h3>Step 4: Run the Generated Editor</h3>
+<h2>Step 4: Run the Generated Editor</h2>
 
 <p>In order to run plugins in a runtime workbench, a lunch
 configuration must first be set up:</p>
 
 <ul>
 <li>Select "Run..." from the "Run" menu.<br />
- <img src="images/cg401.gif" alt="Run/Run..." height="168"
-width="375" /><br />
+ <img src="images/img035.gif" alt="Run/Run..."/><br />
 &nbsp;</li>
 
-<li>Select "Run-time Workbench" and click the "New" button.<br />
- <img src="images/cg402.gif" alt="New Run-time Workbench"
-height="329" width="615" /><br />
+<li>Select "Run-time Workbench" and click the "New" button. You can name your new configuration something meaningful. <br />
+ <img src="images/img036.gif" alt="New Run-time Workbench"/><br />
 &nbsp;</li>
 
-<li>You may want to change the configuration's name to something
-more recognizable. Then, switch to the "Plug-ins and Fragments"
-tab.<br />
- <img src="images/cg403.gif" alt="Name the configuration"
-height="245" width="575" /><br />
-&nbsp;</li>
-
-<li>Pick "Choose plugin-ins and fragments to launch from the list",
+<li> Then, switch to the "Plug-ins"
+tab. Pick "Choose plugin-ins and fragments to launch from the list",
 and then select the top-level "External Plug-ins".<br />
- <img src="images/cg404.gif" alt="Select all External Plugins"
-height="297" width="457" /><br />
+ <img src="images/img037.gif" alt="Select all External Plugins"/><br />
 &nbsp;</li>
 
 <li>Switch to the "Common" tab, select "Display in favorites menu:
-Run", and click the "Apply" button.<br />
- <img src="images/cg405.gif" alt="Display in favorites menu: Run"
-height="363" width="470" /><br />
+Run". You may want to change the configuration's name to something
+more recognizable. Click the "Apply" button.<br />
+ <img src="images/img038.gif" alt="Display in favorites menu: Run"/><br />
 &nbsp;</li>
 </ul>
 
@@ -644,16 +578,15 @@ the "Run" button on the toolbar.</p>
 <ul>
 <li>Select the new launch configuration from the "Run" button
 drop-down.<br />
- <img src="images/cg406.gif" alt="Library Configuration"
-height="124" width="355" /><br />
+ <img src="images/img039.gif" alt="Library Configuration - Run button"
+ /> or <img src="images/img039b.gif" alt="Library Configuration - Run menu"/><br />
 &nbsp;</li>
 
 <li>Wait for a second instance of the Eclipse platform to come up.
 Bring up the "Help/About Eclipse Platform" dialog, click on the
 "Plug-in Details" button, and verify that the generated plugins are
 there.<br />
- <img src="images/cg407.gif" alt="Plug-in Details" height="437"
-width="595" /><br />
+ <img src="images/img040.gif" alt="Plug-in Details"/><br />
 &nbsp;</li>
 </ul>
 
@@ -662,48 +595,36 @@ instance of the model.</p>
 
 <ul>
 <li>Bring up the "File/New/Project..." dialog.<br />
- <img src="images/cg101.gif" alt="File/New/Project..." height="55"
-width="341" /><br />
+ <img src="images/img041.gif" alt="File/New/Project..."/><br />
 &nbsp;</li>
 
 <li>Select "Simple" and "Project". Click the "Next" button.<br />
- <img src="images/cg408.gif" alt="Simple Project" height="91"
-width="333" /><br />
+ <img src="images/img042.gif" alt="Simple Project"/><br />
 &nbsp;</li>
 
 <li>Give the project a name and click the "Finish" button.<br />
- <img src="images/cg409.gif" alt="Name the project" height="126"
-width="213" /><br />
+ <img src="images/img043.gif" alt="Name the project"/><br />
 &nbsp;</li>
 
 <li>Right-click the project and select "New/Other..." from the
-pop-up menu.<br />
- <img src="images/cg410.gif" alt="New/Other..." height="178"
-width="387" /><br />
-&nbsp;</li>
-
-<li>Select "Example EMF Model Creation Wizards" and "Library
-Model". Click the "Next" button.<br />
- <img src="images/cg411.gif" alt="Library Model" height="500"
-width="500" /><br />
+pop-up menu (or CTRL-N). Select "Example EMF Model Creation Wizards" and "Library
+Model" (Rose model import, from <a href="#step1a">Step 1a</a>) or "Library2 Model" (annotated java, from <a href="#step1b">Step 1b</a>). Click the "Next" button.<br />
+ <img src="images/img044.gif" alt="Library Model"/><br />
 &nbsp;</li>
 
 <li>Enter a file name for the library model. Make sure it ends with
 a ".library" extension. Then click the "Next" button.<br />
- <img src="images/cg412.gif" alt="Name the library model file"
-height="46" width="146" /><br />
+ <img src="images/img045.gif" alt="Name the library model file"/><br />
 &nbsp;</li>
 
-<li>Select "Library" as the model object, and click the "Finish"
+<li>Select "Library" as the model object, and your preferred XML encoding (UTF-8 is the default). Click the "Finish"
 button.<br />
- <img src="images/cg413.gif" alt="Select the Model Object"
-height="238" width="498" /><br />
+ <img src="images/img046.gif" alt="Select the Model Object"/><br />
 &nbsp;</li>
 
 <li>The newly created library model is opened in the main
-view.<br />
- <img src="images/cg414.gif" alt="New library model" height="118"
-width="482" /><br />
+view. (To display the Properties view, right-click in the main view and select "<a href="#showpropertiesview">Show Properties View</a>.")<br />
+ <img src="images/img047.gif" alt="New library model"/><br />
 &nbsp;</li>
 </ul>
 
@@ -713,44 +634,54 @@ selected as the model object in the wizard.</p>
 
 <ul>
 <li>Expand the "platform:/resource/librarytest/My.library" resource
-to see the library object. Select it.<br />
- <img src="images/cg415.gif" alt="Expanded resource" height="242"
-width="592" /><br />
-&nbsp;</li>
-
-<li>In the Properties view, click on the "Value" column of the
+to see the library object. Select it (see above image). In the Properties view, click on the "Value" column of the
 "Name" property, and give a name to the library. The label in the
 main view will be updated when you hit Enter.<br />
- <img src="images/cg416.gif" alt="Name the library" height="105"
-width="646" /><br />
+ <img src="images/img048.gif" alt="Name the library"/><br />
 &nbsp;</li>
 
 <li>Right-click on the library and select "New Child/Writer" from
 the pop-up menu to add a new writer to the library.<br />
- <img src="images/cg417.gif" alt="New Child/Writer" height="240"
-width="332" /><br />
+ <img src="images/img049.gif" alt="New Child/Writer"/><br />
 &nbsp;</li>
 
 <li>Enter the name of the writer in the Properties view.<br />
- <img src="images/cg418.gif" alt="Name the writer" height="260"
-width="470" /><br />
+ <img src="images/img050.gif" alt="Name the writer"/><br />
 &nbsp;</li>
 
 <li>Similarly, a book can be added to the library.<br />
- <img src="images/cg419.gif" alt="New Child/Book" height="238"
-width="325" /><br />
+ <img src="images/img051.gif" alt="New Child/Book"/><br />
 &nbsp;</li>
 
 <li>All the book's attributes and references can edited in the
 Properties view.<br />
- <img src="images/cg420.gif" alt="Book properties" height="365"
-width="568" /><br />
+ <img src="images/img052.gif" alt="Book properties"/><br />
 &nbsp;</li>
 
 <li>You can save, close, and then re-open the model using the text
 editor if you wish to see the saved model in XMI format.<br />
- <img src="images/cg421.gif" alt="Open With/Text Editor"
-height="213" width="379" /><br />
+ <img src="images/img053.gif" alt="Open With/Text Editor"/><br />
+&nbsp;</li>
+
+<li>The XMI format of the ".library" file contains a Library object
+called "Skillz Center", a Book object with the value of title as
+"Fellowship of the Ring", and a Writer object with "JRR Tolkien"
+as the writer's name. (Line breaks added for formatting purposes.)<br />
+<pre class="code">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;org.eclipse.example.library:Library 
+	xmlns:org.eclipse.example.library="http:///org/eclipse/example/library.ecore" 
+	name="Skillz Center">
+  &lt;books 
+  	title="Fellowship Of The Ring" 
+  	pages="324" author="#//@writers.0" 
+  	category="ScienceFiction"/>
+  &lt;writers 
+  	name="JRR Tolkien" 
+  	books="#//@books.0"/>
+&lt;/org.eclipse.example.library:Library>
+</pre>
+<br />
 &nbsp;</li>
 </ul>
 
