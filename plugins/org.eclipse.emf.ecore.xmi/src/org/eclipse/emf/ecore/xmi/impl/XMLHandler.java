@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.24 2005/02/04 16:31:31 elena Exp $
+ * $Id: XMLHandler.java,v 1.25 2005/02/16 18:15:11 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -339,6 +339,13 @@ public abstract class XMLHandler
     }
     
     recordAnyTypeNSDecls = Boolean.TRUE.equals(options.get(XMLResource.OPTION_RECORD_ANY_TYPE_NAMESPACE_DECLARATIONS));
+    
+    hrefAttribute = XMLResource.HREF;
+    
+    if (Boolean.FALSE.equals(options.get(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE)))
+    {
+      hrefAttribute = null;
+    }
   }
 
   protected void setExtendedMetaDataOption(Object extendedMetaDataOption)

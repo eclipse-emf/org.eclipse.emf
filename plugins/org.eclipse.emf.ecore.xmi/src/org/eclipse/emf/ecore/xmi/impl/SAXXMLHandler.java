@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SAXXMLHandler.java,v 1.4 2004/11/01 21:02:46 elena Exp $
+ * $Id: SAXXMLHandler.java,v 1.5 2005/02/16 18:15:11 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -136,7 +136,7 @@ public class SAXXMLHandler extends XMLHandler
         {
           xmlResource.setID(internalEObject, attribs.getValue(i));
         }
-        else if (name.equals(XMLResource.HREF) && (!recordUnknownFeature || types.peek() != UNKNOWN_FEATURE_TYPE))
+        else if (name.equals(hrefAttribute) && (!recordUnknownFeature || types.peek() != UNKNOWN_FEATURE_TYPE))
         {
           handleProxy(internalEObject, attribs.getValue(i));
         }
