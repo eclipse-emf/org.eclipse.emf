@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.3 2004/04/06 22:19:00 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.4 2004/05/10 19:36:11 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -822,7 +822,12 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
     EditingDomain result = AdapterFactoryEditingDomain.getEditingDomainFor(eObject);
     if (result == null)
     {
-      if (adapterFactory instanceof ComposeableAdapterFactory)
+      if (adapterFactory instanceof IEditingDomainProvider)
+      {
+        result = ((IEditingDomainProvider)adapterFactory).getEditingDomain();
+      }
+
+      if (result == null && adapterFactory instanceof ComposeableAdapterFactory)
       {
         AdapterFactory rootAdapterFactory = ((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory();
         if (rootAdapterFactory instanceof IEditingDomainProvider)
