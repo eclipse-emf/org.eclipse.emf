@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.26 2005/03/14 22:15:58 marcelop Exp $
+ * $Id: AllSuites.java,v 1.27 2005/03/18 21:59:21 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -26,6 +26,7 @@ public class AllSuites extends TestSuite
   private static Test[] suites = new Test []{ 
      org.eclipse.emf.test.core.common.util.URITest.suite() 
     ,org.eclipse.emf.test.core.common.util.EqualityTest.suite()
+    ,org.eclipse.emf.test.core.common.util.ECollectionsTest.suite()
     ,org.eclipse.emf.test.core.dynamic.SimpleModelTest.suite()
     ,org.eclipse.emf.test.core.change.ChangeRecordTest.suite(false)
     ,org.eclipse.emf.test.core.change.ChangeRecordTest.suite(true)
