@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseNode.java,v 1.2 2004/05/05 19:47:14 emerks Exp $
+ * $Id: RoseNode.java,v 1.3 2004/11/15 14:56:27 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore.parser;
 
@@ -551,6 +551,29 @@ public class RoseNode
       }
     }
     return 0;
+  }
+
+  public static final int VISIBILITY_UNSPECIFIED = 0;
+  public static final int VISIBILITY_NONE = 1;
+  public static final int VISIBILITY_READ_ONLY = 2;
+  public static final int VISIBILITY_READ_WRITE = 3;
+  public static final int VISIBILITY_READ_ONLY_UNSETTABLE = 4;
+  public static final int VISIBILITY_READ_WRITE_UNSETTABLE = 5;
+
+  protected static final Pattern VISIBILITY_VALUE_PATTERN = Pattern.compile("\\s*\\(\\s*\"VisibilityKind\"\\s+([0-9]+)\\s*\\)");
+
+  public int getVisibility()
+  {
+    String attributeValue = getAttributeValue("Ecore", "visibility");
+    if (attributeValue != null)
+    {
+      Matcher matcher = VISIBILITY_VALUE_PATTERN.matcher(attributeValue);
+      if (matcher.matches())
+      {
+        return Integer.parseInt(matcher.group(1));
+      }
+    }
+    return VISIBILITY_UNSPECIFIED;
   }
 
   public String getAnnotation()

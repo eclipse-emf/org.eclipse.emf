@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.10 2004/11/01 22:36:26 davidms Exp $
+ * $Id: EcoreBuilder.java,v 1.11 2004/11/15 14:56:27 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -986,6 +986,8 @@ public class EcoreBuilder implements RoseVisitor
     eAttribute.setUnique(roseNode.isUnique());
     eAttribute.setUnsettable(roseNode.isUnsettable());
     eAttribute.setID(roseNode.isID());
+
+    setEStructuralFeatureVisibility(roseNode, eAttribute);
   }
 
   protected void setEReferenceProperties(RoseNode roseNode, EReference eReference)
@@ -1001,6 +1003,8 @@ public class EcoreBuilder implements RoseVisitor
     eReference.setChangeable(roseNode.isChangeable());
     eReference.setResolveProxies(roseNode.isResolveProxies());
     eReference.setUnsettable(roseNode.isUnsettable());
+
+    setEStructuralFeatureVisibility(roseNode, eReference);  
   }
 
   protected void setEStructuralFeatureProperties(RoseNode roseNode, EStructuralFeature eStructuralFeature)
@@ -1125,6 +1129,101 @@ public class EcoreBuilder implements RoseVisitor
                ("_UI_BadMultiplicityFor_message", new Object [] { multiplicity,  eStructuralFeature.getName() }));
         }
       }
+    }
+  }
+
+  /**
+   * Maps the single, user-friendly Rose setting into accessor method suppression, via EcoreUtil.
+   */
+  protected void setEStructuralFeatureVisibility(RoseNode roseNode, EStructuralFeature eStructuralFeature)
+  {
+    switch (roseNode.getVisibility())
+    {
+      case RoseNode.VISIBILITY_NONE:
+        EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.GET, true);
+
+        if (eStructuralFeature.isChangeable() && !eStructuralFeature.isMany())
+        {
+          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.SET, true);
+        }
+
+        if (eStructuralFeature.isChangeable() && eStructuralFeature.isUnsettable())
+        {
+          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET, true);
+          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, true);
+        }
+        break;
+      case RoseNode.VISIBILITY_READ_ONLY:
+        if (eStructuralFeature.isMany())
+        {
+          warning
+            (CodeGenEcorePlugin.INSTANCE.getString
+              ("_UI_InvalidReadOnlyVisibility_message", new Object [] { eStructuralFeature.getName() }));
+        }
+        else if (eStructuralFeature.isChangeable())
+        {
+          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.SET, true);
+        }
+
+        if (eStructuralFeature.isChangeable() && eStructuralFeature.isUnsettable())
+        {
+          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET, true);
+          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, true);
+        }
+        break;
+      case RoseNode.VISIBILITY_READ_WRITE:
+        if (!eStructuralFeature.isChangeable() && !eStructuralFeature.isMany())
+        {
+          warning
+            (CodeGenEcorePlugin.INSTANCE.getString
+              ("_UI_InvalidReadWriteVisibility_message", new Object [] { eStructuralFeature.getName() }));
+        }
+
+        if (eStructuralFeature.isChangeable() && eStructuralFeature.isUnsettable())
+        {
+          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET, true);
+          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, true);          
+        }
+        break;
+      case RoseNode.VISIBILITY_READ_ONLY_UNSETTABLE:
+        if (eStructuralFeature.isMany())
+        {
+          warning
+            (CodeGenEcorePlugin.INSTANCE.getString
+              ("_UI_InvalidReadOnlyVisibility_message", new Object [] { eStructuralFeature.getName() }));
+        }
+        else if (eStructuralFeature.isChangeable())
+        {
+          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.SET, true);
+        }
+
+        if (!eStructuralFeature.isUnsettable() || !eStructuralFeature.isChangeable())
+        {
+          warning
+            (CodeGenEcorePlugin.INSTANCE.getString
+              ("_UI_InvalidUnsettableVisibility_message", new Object [] { eStructuralFeature.getName() }));
+        }
+        else
+        {
+          EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, true);
+        }
+        break;
+      case RoseNode.VISIBILITY_READ_WRITE_UNSETTABLE:
+        if (!eStructuralFeature.isChangeable())
+        {
+          warning
+            (CodeGenEcorePlugin.INSTANCE.getString
+              ("_UI_InvalidReadWriteVisibility_message", new Object [] { eStructuralFeature.getName() }));
+        }
+        if (!eStructuralFeature.isUnsettable())
+        {
+          warning
+            (CodeGenEcorePlugin.INSTANCE.getString
+              ("_UI_InvalidUnsettableVisibility_message", new Object [] { eStructuralFeature.getName() }));
+        }
+        break;
+      default:
+        break;
     }
   }
 
