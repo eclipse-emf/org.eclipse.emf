@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementImpl.java,v 1.2 2004/06/11 22:14:52 emerks Exp $
+ * $Id: ETypedElementImpl.java,v 1.3 2004/08/12 15:03:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -171,6 +171,12 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
     super();
   }
 
+  public void freeze()
+  {
+    getEType();
+    super.freeze();
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -290,7 +296,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClassifier getEType()
+  public EClassifier getETypeGen()
   {
     if (eType != null && eType.eIsProxy())
     {
@@ -303,6 +309,11 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
       }
     }
     return eType;
+  }
+
+  public EClassifier getEType()
+  {
+    return isFrozen() ? eType : getETypeGen();
   }
 
   /**
