@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedMetaData.java,v 1.3 2004/06/18 09:50:56 emerks Exp $
+ * $Id: ExtendedMetaData.java,v 1.4 2004/10/03 23:56:38 davidms Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -55,6 +55,7 @@ public interface ExtendedMetaData
 
   String getName(EClassifier eClassifier);
   void setName(EClassifier eClassifier, String name);
+  boolean isAnonymous(EClassifier eClassifier);
 
   String getName(EStructuralFeature eStructuralFeature);
   void setName(EStructuralFeature eStructuralFeature, String name);

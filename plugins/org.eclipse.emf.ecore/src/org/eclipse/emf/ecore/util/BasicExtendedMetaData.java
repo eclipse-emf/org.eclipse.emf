@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.11 2004/08/20 23:49:41 marcelop Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.12 2004/10/03 23:56:38 davidms Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -278,6 +278,11 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     EAnnotation eAnnotation = getAnnotation(eClassifier, true);
     eAnnotation.getDetails().put("name", name);
     getExtendedMetaData(eClassifier).setName(name);
+  }
+
+  public boolean isAnonymous(EClassifier eClassifier)
+  {
+    return getExtendedMetaData(eClassifier).getName().indexOf("_._") != -1;
   }
 
   public String getName(EStructuralFeature eStructuralFeature)
