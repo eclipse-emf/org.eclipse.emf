@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: plugin.xml,v 1.2 2004/03/08 21:32:28 emerks Exp $
  */
 -->
 
@@ -51,7 +51,7 @@
       <action 
           id="compileTemplate" 
           class="org.eclipse.emf.codegen.action.CompileTemplateAction" 
-          menuPath="additions" 
+          menubarPath="additions" 
           label="%_UI_CompileTemplate_label" 
           enablesFor="*"/>
       <!-- <filter name="nature" value="org.eclipse.emf.codegen.jet.IJETNature"/> -->

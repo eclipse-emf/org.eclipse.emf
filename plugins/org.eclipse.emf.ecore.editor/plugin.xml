@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: plugin.xml,v 1.2 2004/03/08 21:32:52 emerks Exp $
  */
 -->
 
@@ -50,7 +50,6 @@
         name = "%_UI_EcoreModelWizard_label"
         class = "org.eclipse.emf.ecore.presentation.EcoreModelWizard"
         category = "org.eclipse.emf.ecore.Wizard.category.ID"
-        availableAsShortcut="true"
         icon = "icons/full/ctool16/NewEcore.gif">
       <description>%_UI_EcoreModelWizard_description</description>
       <selection class = "org.eclipse.core.resources.IResource" />

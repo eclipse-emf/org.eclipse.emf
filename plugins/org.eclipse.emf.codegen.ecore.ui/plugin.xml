@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: plugin.xml,v 1.2 2004/03/08 21:32:11 emerks Exp $
  */
 -->
 
@@ -62,7 +62,6 @@
         name = "%_UI_Wizard_Name"
         class = "org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelModelWizard"
         category = "org.eclipse.emf.codegen.ecore.ui.Wizard.category.ID"
-        availableAsShortcut="true"
         icon = "icons/full/ctool16/NewGenModel.gif">
       <description>%_UI_Wizard_Description</description>
       <selection class = "org.eclipse.core.resources.IResource" />

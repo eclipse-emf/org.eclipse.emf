@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETBuilder.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETBuilder.java,v 1.2 2004/03/08 21:32:08 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -100,10 +100,10 @@ public class JETBuilder extends IncrementalProjectBuilder
     JETNature nature = JETNature.getRuntime(getProject());
     if (nature != null) 
     {
-      if (delta.getKind() == delta.ADDED || 
-            delta.getKind() == delta.CHANGED || 
-            delta.getKind() == delta.CONTENT || 
-            delta.getKind() == delta.OPEN) 
+      if (delta.getKind() == IResourceDelta.ADDED || 
+            delta.getKind() == IResourceDelta.CHANGED || 
+            delta.getKind() == IResourceDelta.CONTENT || 
+            delta.getKind() == IResourceDelta.OPEN) 
       {
         JETCompileTemplateOperation compileTemplateOperation = 
           new JETCompileTemplateOperation(getProject(), nature.getTemplateContainers()); 

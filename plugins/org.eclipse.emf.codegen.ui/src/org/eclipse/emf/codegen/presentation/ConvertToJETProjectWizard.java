@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ConvertToJETProjectWizard.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: ConvertToJETProjectWizard.java,v 1.2 2004/03/08 21:32:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.presentation;
 
@@ -51,9 +51,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.ide.IDE;
 
 import org.eclipse.emf.codegen.jet.JETAddNatureOperation;
 import org.eclipse.emf.codegen.jet.JETNature;
@@ -109,7 +109,7 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
           } 
           catch (CoreException e) 
           {
-            CodeGenUIPlugin.getPlugin().write(e);
+            CodeGenUIPlugin.write(e);
           } 
         }
       };
@@ -120,11 +120,11 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
     } 
     catch (InterruptedException exception)
     {
-      CodeGenUIPlugin.getPlugin().write(exception);
+      CodeGenUIPlugin.write(exception);
     }
     catch (InvocationTargetException exception)
     {
-      CodeGenUIPlugin.getPlugin().write(exception);
+      CodeGenUIPlugin.write(exception);
     }
     return true;
   }
@@ -215,7 +215,7 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
          {
            public Image getImage(Object o)
            {
-             return workbench.getSharedImages().getImage(ISharedImages.IMG_OBJ_PROJECT);
+             return workbench.getSharedImages().getImage(IDE.SharedImages.IMG_OBJ_PROJECT);
            }
            
            public String getText(Object o)
