@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.4 2004/05/16 17:20:25 emerks Exp $
+ * $Id: GenPackageItemProvider.java,v 1.5 2004/05/23 04:13:49 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -76,6 +76,7 @@ public class GenPackageItemProvider
       addBasePackagePropertyDescriptor(object);
       addResourcePropertyDescriptor(object);
       addAdapterFactoryPropertyDescriptor(object);
+      addLoadInitializationPropertyDescriptor(object);
       addEcorePackagePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -158,6 +159,25 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Load Initialization feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addLoadInitializationPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new GenItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_GenPackage_loadInitialization_feature"),
+         getString("_UI_GenPackage_loadInitialization_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_LoadInitialization(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory")));
+  }
+
+  /**
    * This adds a property descriptor for the Ecore Package feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -211,9 +231,9 @@ public class GenPackageItemProvider
   public Object getImage(Object object)
   {
     GenPackage genPackage = (GenPackage)object;
-    return 
-      new UnderlayedImage
-        (getResourceLocator().getImage(genPackage.canGenerate() ? "full/obj16/EPackage" : "full/obj16/UsedGenPackage"));
+    String imageName = genPackage.eContainer() instanceof GenPackage || genPackage.canGenerate() ?
+      "full/obj16/EPackage" : "full/obj16/UsedGenPackage";
+    return new UnderlayedImage(getResourceLocator().getImage(imageName));
   }
 
   /**
