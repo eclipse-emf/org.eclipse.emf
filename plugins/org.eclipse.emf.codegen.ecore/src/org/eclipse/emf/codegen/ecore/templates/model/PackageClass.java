@@ -237,6 +237,8 @@ public class PackageClass
     stringBuffer.append(genPackage.getClassPackageName());
     stringBuffer.append(TEXT_5);
     genModel.markImportLocation(stringBuffer);
+    genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Registry");
+    genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Descriptor");
     stringBuffer.append(TEXT_6);
     stringBuffer.append(genPackage.getPackageClassName());
     stringBuffer.append(TEXT_7);
