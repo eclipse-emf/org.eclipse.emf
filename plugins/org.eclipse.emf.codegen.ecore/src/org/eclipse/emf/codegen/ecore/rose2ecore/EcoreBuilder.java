@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EcoreBuilder.java,v 1.2 2004/03/08 20:39:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -1725,6 +1725,7 @@ public class EcoreBuilder implements RoseVisitor
         eReference.setUpperBound(eAttribute.getUpperBound());
         eReference.setContainment(true);
         eReference.getEAnnotations().addAll(eAttribute.getEAnnotations());
+        eReference.setUnsettable(eAttribute.isUnsettable());
 
         eStructuralFeatures.set(eStructuralFeatures.indexOf(eAttribute), eReference);
 
@@ -1748,6 +1749,7 @@ public class EcoreBuilder implements RoseVisitor
         eAttribute.setLowerBound(eReference.getLowerBound());
         eAttribute.setUpperBound(eReference.getUpperBound());
         eAttribute.getEAnnotations().addAll(eReference.getEAnnotations());
+        eAttribute.setUnsettable(eReference.isUnsettable());
 
         eStructuralFeatures.set(eStructuralFeatures.indexOf(eReference), eAttribute);
 
