@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.2 2004/03/17 13:05:18 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -315,6 +315,13 @@ public abstract class XSDSchemaDirectiveImpl
 
   protected void changeAttribute(EAttribute eAttribute)
   {
+    // Try to resolve again if the schema location changes and we previously failed.
+    //
+    if (resolved && getResolvedSchema() == null && eAttribute == XSDPackage.eINSTANCE.getXSDSchemaDirective_SchemaLocation())
+    {
+      resolved = false;
+    }
+
     if (isReconciling)
     {
       return;
