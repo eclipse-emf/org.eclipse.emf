@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesPackageImpl.java,v 1.4 2004/07/29 13:54:09 marcelop Exp $
+ * $Id: TypesPackageImpl.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types.impl;
 

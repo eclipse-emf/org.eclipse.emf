@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StandAloneSuites.java,v 1.7 2004/11/03 16:04:15 marcelop Exp $
+ * $Id: StandAloneSuites.java,v 1.8 2004/11/03 23:07:10 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -26,10 +26,6 @@ public class StandAloneSuites extends TestSuite
   private static Test[] suites = new Test []{ 
     org.eclipse.emf.test.core.common.util.URITest.suite() 
     ,org.eclipse.emf.test.core.dynamic.SimpleModelTest.suite()
-    ,org.eclipse.emf.test.core.sdo.DataGraphTest.suite()
-    ,org.eclipse.emf.test.core.sdo.types.SDOUtilGetTest.suite()
-    ,org.eclipse.emf.test.core.sdo.types.SDOUtilSetTest.suite()
-    ,org.eclipse.emf.test.core.sdo.types.SDOUtilProtectedGetTest.suite()
     ,org.eclipse.emf.test.core.change.ChangeRecordTest.suite(false)
     ,org.eclipse.emf.test.core.change.ChangeRecordTest.suite(true)
     ,org.eclipse.emf.test.core.change.ChangeDescriptionTest.suite()

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: AThing.java,v 1.3 2004/07/09 05:29:33 marcelop Exp $
+ * $Id: AThing.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types;
 

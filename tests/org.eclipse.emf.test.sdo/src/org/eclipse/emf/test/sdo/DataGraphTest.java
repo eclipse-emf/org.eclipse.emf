@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.9 2004/10/29 18:18:03 bportier Exp $
+ * $Id: DataGraphTest.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
  */
-package org.eclipse.emf.test.core.sdo;
+package org.eclipse.emf.test.sdo;
 
 
 import java.io.ByteArrayInputStream;

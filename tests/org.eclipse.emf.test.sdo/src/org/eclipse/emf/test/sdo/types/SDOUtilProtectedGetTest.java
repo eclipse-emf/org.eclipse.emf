@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SDOUtilProtectedGetTest.java,v 1.3 2004/08/24 21:21:50 marcelop Exp $
+ * $Id: SDOUtilProtectedGetTest.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types;
 

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesFactory.java,v 1.1 2004/05/12 22:05:58 marcelop Exp $
+ * $Id: TypesFactory.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types;
 
