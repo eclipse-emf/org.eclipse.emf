@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateChildCommand.java,v 1.5 2004/07/29 13:33:00 marcelop Exp $
+ * $Id: CreateChildCommand.java,v 1.6 2004/09/24 04:11:46 davidms Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
@@ -200,6 +201,18 @@ public class CreateChildCommand extends CommandWrapper
     this.index = index;
     this.selection = selection == null ? Collections.EMPTY_LIST : selection;
     this.helper = helper == null ? defaultHelper : helper;
+
+    // If we're creating a child under an object in a feature map, the selection will be the feature map entry.
+    // We want to replace it with the model object.
+    //
+    if (this.selection.size() == 1)
+    {
+      Object selObject = this.selection.iterator().next();
+      if (selObject instanceof FeatureMap.Entry && ((FeatureMap.Entry)selObject).getValue() == owner)
+      {
+        this.selection = Collections.singletonList(owner);
+      }
+    }
 
     String text = this.helper.getCreateChildText(owner, feature, child, selection);
     setLabel(EMFEditPlugin.INSTANCE.getString(
