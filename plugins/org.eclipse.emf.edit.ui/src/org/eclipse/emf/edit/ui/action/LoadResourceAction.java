@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LoadResourceAction.java,v 1.4 2004/06/09 19:40:19 marcelop Exp $
+ * $Id: LoadResourceAction.java,v 1.5 2004/06/09 20:07:35 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -250,7 +250,7 @@ public class LoadResourceAction extends Action
     protected void okPressed()
     {
       resourceURIs = getResourceURIs();
-      if(domain != null)
+      if (domain != null)
       {
         for (Iterator i = getURIs().iterator(); i.hasNext();)
         {
