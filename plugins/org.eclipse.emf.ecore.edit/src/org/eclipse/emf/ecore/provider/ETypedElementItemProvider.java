@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.2 2004/03/16 14:03:53 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.3 2004/03/21 15:07:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -196,7 +196,7 @@ public class ETypedElementItemProvider
    * This adds a property descriptor for the EType feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected void addETypePropertyDescriptor(Object object)
   {
