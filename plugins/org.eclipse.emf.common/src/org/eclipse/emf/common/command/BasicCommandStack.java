@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicCommandStack.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: BasicCommandStack.java,v 1.2 2004/04/20 13:38:45 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -214,6 +214,7 @@ public class BasicCommandStack implements CommandStack
     commandList.clear();
     top = -1;
     notifyListeners();
+    mostRecentCommand = null;
   }
 
   /*
