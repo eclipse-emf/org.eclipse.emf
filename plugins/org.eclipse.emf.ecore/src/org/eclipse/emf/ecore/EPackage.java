@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackage.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EPackage.java,v 1.2 2004/06/21 13:51:41 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -67,7 +67,7 @@ public interface EPackage extends ENamedElement
      */
     EPackage getEPackage(String nsURI);
 
-    Registry INSTANCE = new org.eclipse.emf.ecore.impl.EPackageRegistryImpl();
+    Registry INSTANCE = org.eclipse.emf.ecore.impl.EPackageRegistryImpl.createGlobalRegistry();
   }
 
   /**
