@@ -1,0 +1,218 @@
+<table BORDER=0 CELLPADDING=2 WIDTH="100%" >
+<tr>
+  <td ALIGN=LEFT VALIGN=TOP BGCOLOR="#0070A0">
+    <b><font face="Arial,Helvetica" color="#FFFFFF">
+      <b><a name="emf_111">What's new in EMF 1.1.1?</a>
+    </font></b>
+  </td>
+</tr>
+
+<tr>
+<td>
+<ol>
+
+
+
+<li>
+<b><a name="emf_111a">Build 20030819_0612SL: Bug Fixes and Improvements</a></b>
+ 
+<p>  
+There are numerous bug fixes and improvements included with this build, some of which are described below. Where the description applies to a fix for a bug reported through Bugzilla, the Bugzilla number is included after the description.
+<br>
+&nbsp;
+
+<ul>
+
+<li>
+Better JET encoding support has been added. UTF-8 encoded templates are supported now.  
+(Bugzilla
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=38074">38074</a>,
+
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=38075">38075</a>,
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=38078">38078</a>,
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=41723">41723</a>)
+</li>
+
+<li>
+The org.eclipse.emf.codegen.jet.JETSkeleton.java class has been changed to generate code with platform-specific linefeeds.
+(Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=24371">24371</a>)
+</li>
+
+<li>
+The org.eclipse.emf.codegen.jmerge.JMerger.java class has been changed to accommodate platform-dependent line separator character(s).
+</li>
+
+<li>
+The org.eclipse.emf.common.util.BasicEMap.java class has been updated to fix a recursive cycle bug encountered when using the putEntry(Entry entry, Object value) method to put a new value to an existing key.
+</li>
+
+<li>
+The org.eclipse.emf.common.util.URI.java class has been updated to handle resolution of JAR-scheme URIs. Also, comparison of schemes has been made case-insensitive in all URI operations, including testing equality.
+</li>
+
+<li>
+Changes have been made to handle xsi:noNamespaceSchemaLocation in XML and XMI instance documents.
+(Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=39440">39440</a>)
+</li>
+
+<li>
+The setAttribValue(EObject object, String name, String value) in the org.eclipse.emf.ecore.xmi.impl.XMLHandler.java class has been changed to properly handle qualified attributes.
+
+</li>
+
+<li>
+The org.eclipse.emf.edit.ui.celleditor.FeatureEditorDialog.java class has been modified to make it more generally useful. A new constructor has been added that enables you to instantiate a FeatureEditorDialog that can be used to edit any set of values that are passed to it during construction, rather than the values of a specified feature of a specified EObject.  The new constructor is used by the createPropertyEditor(Composite composite) method in the org.eclipse.emf.edit.ui.provider.PropertyDescriptor.java class, which fixes a problem that can occur when using an ItemPropertyDescriptorDecorator to customize a multi-valued property.
+</li>
+
+<li>
+Drag and drop for the generated editor has been fixed on Linux. 
+(Bugzilla
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=39151">39151</a>)
+</li>
+
+<li>
+The next() method in the org.eclipse.emf.common.util.AbstractTreeIterator.java class has been changed so that it doesn't return the root if it's not
+supposed to, even if the hasNext() method hasn't been called. 
+(Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=39893">39893</a>)
+</li>
+
+ 
+</ul>
+ 
+</li>
+
+<br>
+<li>
+<b><a name="emf_111b">Build 20030913_1427WL: Bug Fixes and Improvements</a></b>
+ 
+<p>  
+There are bug fixes and improvements included with this build, some of which are described below.
+Where the description applies to a bug reported through Bugzilla, the Bugzilla number is included after the description.
+<br>
+
+&nbsp;
+
+<ul>
+<li>
+The eBasicSetContainer(InternalEObject newContainer, int newContainerFeatureID, NotificationChain msgs) method in the 
+org.eclipse.emf.ecore.impl.EObjectImpl.java class has been changed so that 
+eBasicSetContainer(newContainer, newContainerFeatureID) is called before newResource.attached(this). 
+(Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=41907">41907</a>)
+</li>
+
+<li>
+The painting problem with the ExtendedTableTreeViewer on Linux-GTK has been fixed.  
+(Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=39707">39707</a>)
+</li>
+
+<li>
+The version numbers for the plugins in the feature.xml files have been updated to 1.1.1.  
+Additionally, in the feature.xml file for the org.eclipse.emf feature, the following updates
+have been made in the requires element:
+
+
+<ul>
+  <li>
+     in the import element for the org.eclipse.core.resources plugin, the version has been changed to 2.1.1
+  </li>
+  <li>
+    in the import element for the org.apaches.xerces plugin, the version has been changed to 4.0.13
+  </li>
+</ul>
+</li>
+</ul>
+
+<br>
+<li>
+
+<b><a name="emf_111c">Build 20031020_1612WL: Bug Fixes and Improvements</a></b>
+ 
+<p>  
+There are bug fixes and improvements included with this build, some of which are described below.
+Where the description applies to a bug reported through Bugzilla, the Bugzilla number is included after the description.
+<br>
+&nbsp;
+
+<ul>
+<li>
+The org.eclipse.emf.ecore.util.EcontentAdapter.java class has been improved.  Included are the following changes:
+<ul>
+<li>REMOVING_ADAPTER notification is now used to remove children recursively.</li>
+
+(Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=43417">43417</a>)
+<li>super.setTarget(target) is now called during the setTarget(Notifier target) method.</li>
+(Bugzilla 
+<a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=43416">43416</a>)
+</ul>
+</li>
+
+<li>
+Importing a Rose model containing a reference from a class to another class that is stereotyped <<datatype>> is now supported. Previously, this would result in a ClassCastException.
+(Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=41993">41993</a>)
+
+</li>
+
+<li>
+EMF now avoids generating methods that collide with feature methods. 
+For example, suppose that you have an interface A, and that A extends an 
+interface containing a method with the signature Foo getFoo().  If A also 
+has an attribute named foo of type Foo,then the accessor method with the 
+signature Foo getFoo() would collide with the method from the parent interface. 
+In this case, the generated interface A will contain only one Foo getFoo() 
+method.  Further, the implementation of the Foo getFoo() method in the 
+generated AImpl.java class will be that for the accessor method.
+(Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=38602">38602</a>)
+</li>
+
+<li>
+ The package name resolution algorithm in the method resolve(EModelElement eModelElement, 
+ String typeName, boolean recordDemandCreatedEDataType) in the org.eclipse.emf.codegen.ecore.JavaEcoreBuilder.java 
+ class has been improved. 
+(Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=44080">44080</a>)
+</li>
+
+<li>
+ The braceLine attribute in the org.eclipse.emf.codegen.jmerge.JMerger.java class 
+ has been changed to escape the brace. 
+(Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=45182">45182</a>)
+
+</li>
+
+<li>
+EMF now throws a PackageNotFoundException if you try to reference a Resource 
+that references an unregistered package. 
+(Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=43123">43123</a>)
+</li>
+
+<li>
+The resetPropertyValue(Object object) method in the org.eclipse.emf.edit.provider.ItemPropertyDescriptior.java 
+class has now been implemented. 
+(Bugzilla <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=41706">41706</a>)
+</li>
+</li>
+</ul>
+
+
+<br>
+<li>
+<b><a name="emf_111d">Build 20031120_1149WL: Bug Fixes and Improvements</a></b>
+ 
+<p>  
+Only XSD has changed for this maintenance release.
+<br>
+</li>
+
+ 
+
+
+<!--- end of copy -->
+
+</td>
+</tr>
+</table>
+
