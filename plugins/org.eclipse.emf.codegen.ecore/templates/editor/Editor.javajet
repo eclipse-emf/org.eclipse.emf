@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.15 2004/07/16 16:25:18 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.16 2004/10/12 16:52:01 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -147,7 +147,6 @@ import org.eclipse.ui.IFileEditorInput;
 <%}%>
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PartInitException;
 
 <%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.ui.dialogs.SaveAsDialog;
@@ -408,7 +407,6 @@ public class <%=genPackage.getEditorClassName()%>
 		{
 			public void resourceChanged(IResourceChangeEvent event)
 			{
-				ResourceSet resourceSet = editingDomain.getResourceSet();
 				// Only listening to these.
 				// if (event.getType() == IResourceDelta.POST_CHANGE)
 				{
@@ -846,9 +844,7 @@ public class <%=genPackage.getEditorClassName()%>
 		try
 		{
 			// Load the resource through the editing domain.
-			Resource resource =
-				editingDomain.loadResource
-					(URI.createURI(getEditorInput().getName()).toString());
+			editingDomain.loadResource(URI.createURI(getEditorInput().getName()).toString());
 		}
 		catch (Exception exception)
 		{
@@ -863,9 +859,7 @@ public class <%=genPackage.getEditorClassName()%>
 		{
 			// Load the resource through the editing domain.
 			//
-			Resource resource =
-				editingDomain.loadResource
-					(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
+			editingDomain.loadResource(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
 		}
 		catch (Exception exception)
 		{
@@ -1495,7 +1489,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException
+	public void init(IEditorSite site, IEditorInput editorInput)
 	{
 		setSite(site);
 		setInput(editorInput);
