@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.7 2004/12/16 16:20:39 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.8 2005/03/16 18:41:34 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -666,7 +667,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public List getGenConstraints()
   {
-    List constraints = new ArrayList(super.getGenConstraints());
+    List constraints = new UniqueEList(super.getGenConstraints());
     ExtendedMetaData extendedMetaData = getExtendedMetaData();
     EDataType eDataType = getEcoreDataType();
     // White space is not a constraint; it should affect createFromString only.
@@ -693,7 +694,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     }
     if (extendedMetaData.getLengthFacet(eDataType) != -1)
     {
-      constraints.add("Length");
+      constraints.add("MinLength");
+      constraints.add("MaxLength");
     }
     if (extendedMetaData.getMinLengthFacet(eDataType) != -1)
     {
