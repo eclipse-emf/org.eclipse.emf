@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.10 2004/08/18 20:21:29 elena Exp $
+ * $Id: XMLResource.java,v 1.11 2004/08/19 11:06:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -47,7 +47,7 @@ public interface XMLResource extends Resource
    * @see org.eclipse.emf.ecore.EClass
    * @see org.eclipse.emf.ecore.EStructuralFeature
    */
-  String OPTION_USE_XMLNAME_TO_FEATURE_MAP = "USE_XMLNAME_TO_FEATURE_MAP";
+  String OPTION_USE_XML_NAME_TO_FEATURE_MAP = "USE_XML_NAME_TO_FEATURE_MAP";
   
   /**
    * Specify parser features with their corresponding values, 
