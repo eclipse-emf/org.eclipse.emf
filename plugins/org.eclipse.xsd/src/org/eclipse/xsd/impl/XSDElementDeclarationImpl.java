@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.2 2004/04/30 13:54:31 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.3 2004/05/25 17:55:47 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1010,7 +1010,7 @@ public class XSDElementDeclarationImpl
                !substitutionGroupExclusions.contains(XSDSubstitutionGroupExclusions.RESTRICTION_LITERAL));
           if (badTypeDefinition != null)
           {
-            if (XSDConstants.isURType(badTypeDefinition))
+            if (XSDConstants.isURType(badTypeDefinition) && substitutionGroupAffiliation.getTypeDefinition() != null)
             {
               createDiagnostic
                 (XSDDiagnosticSeverity.ERROR_LITERAL, "e-props-correct.3", substitutionGroupAffiliation.getTypeDefinition().getURI());
