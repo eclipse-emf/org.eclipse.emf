@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenEnumImpl.java,v 1.3 2004/08/04 11:43:04 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -344,7 +344,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
       }
     }
     //FB TBD if (literalName != null || getGenEnumLiterals().isEmpty()) report error?
-    return (GenEnumLiteral)getGenEnumLiterals().get(0);
+    return getGenEnumLiterals().isEmpty() ? null : (GenEnumLiteral)getGenEnumLiterals().get(0);
   }
 
   public List getUniqueValuedGenEnumLiterals()
@@ -490,7 +490,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   public String getStaticValue(String literal)
   {
     GenEnumLiteral genEnumLiteral = getGenEnumLiteral(literal);
-    return getImportedName() + "." + genEnumLiteral.getEnumLiteralID() + "_LITERAL";
+    return genEnumLiteral == null ? "null" : getImportedName() + "." + genEnumLiteral.getEnumLiteralID() + "_LITERAL";
   }
 
 } //GenEnumImpl
