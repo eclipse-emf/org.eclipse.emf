@@ -1,0 +1,67 @@
+<schema targetNamespace="http://www.example.com/myipo"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:ipo="http://www.example.com/myipo">
+
+  <include schemaLocation="myaddress.xsd"/>
+
+  <element name="purchaseOrder" type="ipo:PurchaseOrderType"/>
+
+  <complexType name="PurchaseOrderType">
+    <sequence>     
+      <element name="shipTo"    type="ipo:Address"/>
+      <element name="billTo"     type="ipo:Address"/>
+      <element name="items" type="ipo:itemType"/>
+      <element name="any" type="anyType"/>
+       <any minOccurs="0"/>     
+    </sequence>
+    <attribute name="orderDate" type="date"/>
+    <attribute name="code" type="int"/>
+    <attribute name="company" default="IBM" type="string"/>
+  </complexType>
+
+<complexType name="itemType" mixed="true">
+    <sequence>
+      
+      <element name="item" nillable="true"  minOccurs="0" maxOccurs="unbounded">
+        <complexType>
+          <sequence>
+            <element name="productName" type="string"/>
+            <element name="aliasName" nillable="true" minOccurs="0" type="string" maxOccurs="unbounded"/>
+            <element name="quantity">
+              <simpleType>
+                <restriction base="positiveInteger">
+                  <maxExclusive value="100"/>
+                </restriction>
+              </simpleType>
+            </element>
+            <element name="USPrice"    type="decimal"/> 
+            <element ref="ipo:euro" minOccurs="0"/>           
+            <element name="shipDate"   type="date" minOccurs="0"/>
+            <element name="weight" nillable="true" type="int" maxOccurs="unbounded"/>
+          </sequence>
+          <attribute name="partNum" type="ipo:SKU" use="required"/>
+        </complexType>
+      </element>
+    </sequence>
+  </complexType>
+
+  <element name="euro" nillable="true">
+  <complexType>
+    <simpleContent>
+      <extension base="decimal">
+        
+      </extension>
+    </simpleContent>
+  </complexType>
+  </element>
+  
+  
+
+  <simpleType name="SKU">
+    <restriction base="string">
+      <pattern value="\d{3}-[A-Z]{2}"/>
+    </restriction>
+  </simpleType>
+
+</schema>
+

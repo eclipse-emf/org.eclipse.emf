@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<ipo:purchaseOrder
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ipo="http://www.example.com/myipo"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xsi:schemaLocation="http://www.example.com/myipo myipo.xsd"
+  orderDate="1999-12-01">
+
+  <shipTo exportCode="1" xsi:type="ipo:UKAddress">
+    <name>Helen Zoe</name>
+    <street>47 Eden Street</street>
+    <city>Cambridge</city>
+    <postcode>CB1 1JR</postcode>
+  </shipTo>
+
+  <billTo xsi:type="ipo:USAddress">
+    <name>Robert Smith</name>
+    <street>8 Oak Avenue</street>
+    <city>Old Town</city>
+    <state>PA</state>
+    <zip>95819</zip>
+  </billTo>
+
+  
+  <items>
+     repeating item:
+    <item xsi:nil="true" partNum="998-BB"/>
+     ask for new order:
+    <item partNum="833-CC">
+      <productName>Lapis necklace</productName>
+      <aliasName>Necklace</aliasName>
+      <aliasName>Necklace Lapis</aliasName>
+      <quantity>1</quantity>
+      <USPrice>99.95</USPrice>
+      <ipo:euro>120</ipo:euro>
+      <shipDate>1999-12-05</shipDate>
+      <weight>100</weight>
+    </item>
+     
+    <item partNum="833-AA">
+      <productName>Lapis necklace</productName>
+      <aliasName xsi:nil="true"/>
+      <quantity>1</quantity>
+      <USPrice>99.95</USPrice>
+      <shipDate>1999-12-05</shipDate>
+      <weight xsi:nil="true"/>
+    </item>
+  </items>
+
+   <any xsi:type="ipo:UKAddress">
+    <name>Helen White</name>
+    <street>47 Eden Street</street>
+    <city>Cambridge</city>
+    <postcode>CB1 1JR</postcode>
+   </any>
+
+
+</ipo:purchaseOrder>
