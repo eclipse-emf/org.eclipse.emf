@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.5 2004/06/08 18:29:32 emerks Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.6 2005/02/16 22:06:11 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -215,6 +216,11 @@ public class EAnnotationItemProvider
   protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
   {
     // super.collectNewChildDescriptors(newChildDescriptors, object);
+
+    newChildDescriptors.add
+    (createChildParameter
+      (EcorePackage.eINSTANCE.getEAnnotation_Details(),
+       EcoreFactory.eINSTANCE.create(EcorePackage.eINSTANCE.getEStringToStringMapEntry())));
   }
 
   /**
