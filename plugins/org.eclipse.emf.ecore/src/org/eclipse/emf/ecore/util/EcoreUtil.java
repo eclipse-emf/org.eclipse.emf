@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.11 2004/10/14 19:07:07 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.12 2004/11/09 12:47:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -428,7 +428,16 @@ public class EcoreUtil
       {
         if (eReference.isMany())
         {
-          ((List)copyEObject.eGet(getTarget(eReference))).addAll(copyAll((List)eObject.eGet(eReference)));
+          List source = (List)eObject.eGet(eReference);
+          List target = (List)copyEObject.eGet(getTarget(eReference));
+          if (source.isEmpty())
+          {
+            target.clear();
+          }
+          else
+          {
+            target.addAll(copyAll(source));
+          }
         }
         else
         {
@@ -468,7 +477,16 @@ public class EcoreUtil
         }
         else if (eAttribute.isMany())
         {
-          ((List)copyEObject.eGet(getTarget(eAttribute))).addAll((List)eObject.eGet(eAttribute));
+          List source = (List)eObject.eGet(eAttribute);
+          List target = (List)copyEObject.eGet(getTarget(eAttribute));
+          if (source.isEmpty())
+          {
+            target.clear();
+          }
+          else
+          {
+            target.addAll(copyAll(source));
+          }
         }
         else
         {
