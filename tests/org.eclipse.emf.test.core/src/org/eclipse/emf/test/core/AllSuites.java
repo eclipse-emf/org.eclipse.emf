@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.13 2004/06/22 22:42:41 marcelop Exp $
+ * $Id: AllSuites.java,v 1.14 2004/06/30 21:11:29 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -40,6 +40,7 @@ public class AllSuites extends TestSuite
     //,org.eclipse.emf.test.core.xsdecore.XSD2EcoreTest.suite()
     //,org.eclipse.emf.test.core.xsdecore.XSDValidateTest.suite()
     ,org.eclipse.emf.test.core.jet.JETTest.suite()
+    ,com.example.simple.TestSDO.suite()
   };
 
   public static Test suite()
