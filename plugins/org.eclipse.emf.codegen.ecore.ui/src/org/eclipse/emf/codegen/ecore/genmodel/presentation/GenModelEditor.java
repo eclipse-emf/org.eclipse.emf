@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.7 2004/05/16 17:21:25 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.8 2004/06/13 12:20:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -176,7 +176,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ISelection editorSelection;
+  protected ISelection editorSelection = StructuredSelection.EMPTY;
 
   /**
    * This listens for when the outline becomes active

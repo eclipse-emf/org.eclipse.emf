@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.9 2004/06/08 18:29:04 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.10 2004/06/13 12:20:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -302,7 +302,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ISelection editorSelection;
+  protected ISelection editorSelection= StructuredSelection.EMPTY;
 
   /**
    * This listens for when the outline becomes active

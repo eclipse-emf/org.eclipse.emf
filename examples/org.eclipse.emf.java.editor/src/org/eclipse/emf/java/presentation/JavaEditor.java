@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.3 2004/06/08 18:23:14 emerks Exp $
+ * $Id: JavaEditor.java,v 1.4 2004/06/13 12:21:04 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -291,7 +291,7 @@ public class JavaEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ISelection editorSelection;
+  protected ISelection editorSelection= StructuredSelection.EMPTY;
 
   /**
    * This listens for when the outline becomes active

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingEditor.java,v 1.3 2004/05/16 16:52:12 emerks Exp $
+ * $Id: MappingEditor.java,v 1.4 2004/06/13 12:21:19 emerks Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -304,7 +304,7 @@ public abstract class MappingEditor
   /**
    * This keeps track of the selection of the editor as a whole.
    */
-  protected ISelection editorSelection;
+  protected ISelection editorSelection = StructuredSelection.EMPTY;
 
   /**
    * This listens for when the outline becomes active

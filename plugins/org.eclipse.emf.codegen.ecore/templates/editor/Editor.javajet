@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.9 2004/05/29 16:12:22 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.10 2004/06/13 12:20:33 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -329,7 +329,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ISelection editorSelection;
+	protected ISelection editorSelection = StructuredSelection.EMPTY;
 
 	/**
 	 * This listens for when the outline becomes active
