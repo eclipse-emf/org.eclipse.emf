@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URITest.java,v 1.1 2004/04/12 17:10:40 davidms Exp $
+ * $Id: URITest.java,v 1.2 2004/04/14 15:13:39 davidms Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -40,6 +40,7 @@ public class URITest extends TestCase
     suite.addTest(new URITest("testDeresolve"));
     suite.addTest(new URITest("testAuthorityParse"));
     suite.addTest(new URITest("testJARParse"));
+    suite.addTest(new URITest("testFragmentAppendAndTrim"));
     return suite;
   }
 
@@ -474,5 +475,36 @@ public class URITest extends TestCase
       {
       }
     }
+  }
+  
+  /**
+   * Parses a URI with a fragment, appends a fragment to a URI, replaces that fragment with another, then trims the
+   * three fragments, comparing the results to the base.
+   */
+  public void testFragmentAppendAndTrim()
+  {
+    String base = "http://download.eclipse.org/tools/emf/scripts/home.php";
+    String fragment1 = "top";
+    String fragment2 = "quicknav";
+    String fragment3 = "over2";
+
+    URI fragment1URI = URI.createURI(base + "#" + fragment1);
+    assertEquals("Bad URI parse", base + "#" + fragment1, fragment1URI.toString());
+
+    URI baseURI = URI.createURI(base);
+    URI fragment2URI = baseURI.appendFragment(fragment2);
+    assertEquals("Bad fragment append: " + fragment2, base + "#" + fragment2, fragment2URI.toString());
+
+    URI fragment3URI = fragment2URI.appendFragment(fragment3);
+    assertEquals("Bad fragment replace: " + fragment3, base + "#" + fragment3, fragment3URI.toString());
+
+    URI trimmedFragment1URI = fragment1URI.trimFragment();
+    assertEquals("Bad parsed fragment trim: " + fragment1URI, base, trimmedFragment1URI.toString());
+
+    URI trimmedFragment2URI = fragment2URI.trimFragment();
+    assertEquals("Bad appended fragment trim: " + fragment2URI, base, trimmedFragment2URI.toString());
+
+    URI trimmedFragment3URI = fragment3URI.trimFragment();
+    assertEquals("Bad replaced fragment trim: " + fragment3URI, base, trimmedFragment3URI.toString());
   }
 }

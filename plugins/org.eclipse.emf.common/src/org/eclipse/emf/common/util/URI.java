@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.4 2004/04/12 17:08:30 davidms Exp $
+ * $Id: URI.java,v 1.5 2004/04/14 15:13:45 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -20,7 +20,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A representation of a Uniform Resource Identifier (URI), as specified by
@@ -121,6 +123,12 @@ public final class URI
   private final boolean absolutePath;
   private final String[] segments; // empty last segment -> trailing separator
   private final String query;
+
+  // A cache of URIs, keyed by the strings from which they were created.
+  // The fragment of any URI is removed before caching it here, to minimize
+  // the size of the cache in the usual case where most URIs only differ by
+  // the fragment.
+  private static final Map uriCache = Collections.synchronizedMap(new HashMap());
 
   // Identifies a file-type absolute URI.
   private static final String SCHEME_FILE = "file";
@@ -292,7 +300,7 @@ public final class URI
    */
   public static URI createURI(String uri)
   {
-    return parseIntoURI(uri);
+    return createURIWithCache(uri); 
   }
 
   /**
@@ -314,7 +322,35 @@ public final class URI
    */
   public static URI createDeviceURI(String uri)
   {
-    return parseIntoURI(uri);
+    return createURIWithCache(uri);
+  }
+
+  // Uses a cache to speed up creation of a URI from a string.  The cache
+  // is consulted to see if the URI, less any fragment, has already been
+  // created.  If needed, the fragment is re-appended to the cached URI,
+  // which is considerably more efficient than creating the whole URI from
+  // scratch.  If the URI wasn't found in the cache, it is created using
+  // parseIntoURI() and then cached.  This method should always be used
+  // by string-parsing factory methods, instead of parseIntoURI() directly.
+  public static URI createURIWithCache(String uri)
+  {
+    int i = uri.indexOf(FRAGMENT_SEPARATOR);
+    String base = i == -1 ? uri : uri.substring(0, i);
+    String fragment = i == -1 ? null : uri.substring(i + 1);
+
+    URI result = (URI)uriCache.get(base);
+
+    if (result == null)
+    {
+      result = parseIntoURI(base);
+      uriCache.put(base, result);
+    }
+
+    if (fragment != null)
+    {
+      result = result.appendFragment(fragment);
+    }
+    return result;
   }
 
   // String-parsing implementation.
@@ -444,12 +480,12 @@ public final class URI
     }
     if (file.isAbsolute())
     {
-      URI result = parseIntoURI((uri.charAt(0) == SEGMENT_SEPARATOR ? "file:" : "file:/") + uri);
+      URI result = createURI((uri.charAt(0) == SEGMENT_SEPARATOR ? "file:" : "file:/") + uri);
       return result;
     }
     else
     {
-      URI result = parseIntoURI(uri);
+      URI result = createURI(uri);
       if (result.scheme() != null)
       {
         throw new IllegalArgumentException("invalid relative pathName: " + pathName);
@@ -481,7 +517,7 @@ public final class URI
    */
   public static URI createPlatformResourceURI(String pathName)
   {
-    URI result = parseIntoURI((pathName.charAt(0) == SEGMENT_SEPARATOR ? "platform:/resource" : "platform:/resource/") + pathName);
+    URI result = createURI((pathName.charAt(0) == SEGMENT_SEPARATOR ? "platform:/resource" : "platform:/resource/") + pathName);
     return result;
   }
 
@@ -683,7 +719,7 @@ public final class URI
     {
       try
       {
-        URI jarURI = parseIntoURI(value.substring(0, value.length() - 1));
+        URI jarURI = createURI(value.substring(0, value.length() - 1));
         return !jarURI.isRelative() && !jarURI.hasFragment();
       }
       catch (IllegalArgumentException e)
@@ -1257,7 +1293,11 @@ public final class URI
         "invalid fragment portion: " + fragment);
     }
     URI result = new URI(hierarchical, scheme, authority, device, absolutePath, segments, query, fragment); 
-    result.cachedTrimFragment = this;
+
+    if (!hasFragment())
+    {
+      result.cachedTrimFragment = this;
+    }
     return result;
   }
 
