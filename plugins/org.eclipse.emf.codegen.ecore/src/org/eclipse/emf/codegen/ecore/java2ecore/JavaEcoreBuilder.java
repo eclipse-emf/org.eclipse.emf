@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.18 2005/02/11 06:02:07 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.19 2005/02/15 20:27:21 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -64,6 +64,7 @@ import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
@@ -1836,11 +1837,51 @@ public class JavaEcoreBuilder
     {
       EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
 
-      // If the name isn't qualified, assume it's in the current package and use the nsPrefix as the qualified package name.
+      // If the name isn't qualified, it might be a primitive or from java.lang. Otherwise, assume it's in the current
+      // package and use the nsPrefix for the qualified package name.
       //
-      eDataType.setInstanceClassName(typeName.indexOf(".") == -1 ? ePackage.getNsPrefix() + '.' + typeName : typeName);
+      boolean primitive = false;
+      if (packageName.length() == 0)
+      {
+        // For arrays, consider the element type.
+        //
+        int i = typeName.indexOf('[');
+        String elementTypeName = i == -1 ? typeName : typeName.substring(0, i);
 
+        if (GenModelUtil.isJavaPrimitiveType(elementTypeName))
+        {
+          primitive = true;
+        }
+        else if (GenModelUtil.isJavaLangType(elementTypeName))
+        {
+          packageName = "java.lang";
+          typeName = packageName + "." + typeName;
+        }
+        else
+        {
+          packageName = ePackage.getNsPrefix();
+          typeName = packageName + '.' + typeName;
+        }
+        eDataType.setInstanceClassName(typeName);
+      }
+
+      // Even primitives should be represented by a data type with a conventional (i.e. capitalized) name.
+      //
       String name = baseName;
+      if (primitive && name.length() > 0)
+      {
+        name = name.substring(0, 1).toUpperCase() + name.substring(1);
+      }
+
+      // Make array names legal.
+      //
+      while (name.endsWith("[]"))
+      {
+        name = name.substring(0, name.length() - 2) + "Array";
+      }
+
+      // Avoid classifier name collisions.
+      //
       for (int j = 1; ePackage.getEClassifier(name) != null; ++j)
       {
         name = baseName + "_" + j;
