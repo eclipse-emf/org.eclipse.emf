@@ -48,7 +48,7 @@ http://www.eclipse.org/legal/cpl-v10.html
          id="org.eclipse.emf.codegen.ui"
          download-size="0"
          install-size="0"
-         version="2.0.0"/>
+         version="2.1.0"/>
 
    <plugin
          id="org.eclipse.emf.codegen.ecore"
@@ -72,7 +72,7 @@ http://www.eclipse.org/legal/cpl-v10.html
          id="org.eclipse.emf.common.ui"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.1.0"/>
 
    <plugin
          id="org.eclipse.emf.ecore"
@@ -90,7 +90,7 @@ http://www.eclipse.org/legal/cpl-v10.html
          id="org.eclipse.emf.ecore.editor"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.1.0"/>
 
    <plugin
          id="org.eclipse.emf.ecore.change"
@@ -132,7 +132,7 @@ http://www.eclipse.org/legal/cpl-v10.html
          id="org.eclipse.emf.mapping.ui"
          download-size="0"
          install-size="0"
-         version="2.0.0"/>
+         version="2.1.0"/>
 
    <plugin
          id="org.eclipse.emf.mapping.ecore2ecore"
