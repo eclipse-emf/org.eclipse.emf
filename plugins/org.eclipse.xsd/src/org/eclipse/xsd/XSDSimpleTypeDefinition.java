@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinition.java,v 1.2 2004/04/15 05:52:40 marcelop Exp $
+ * $Id: XSDSimpleTypeDefinition.java,v 1.3 2004/07/28 14:24:37 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -1004,7 +1004,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    *
    * <tr>
    * <td>base64Binary</td>
-   * <td>byte&nbsp;[]</td>
+   * <td>org.eclipse.xsd.util.XSDUtil.ByteSequence</td>
    * </tr>
    *
    * <td>boolean</td>
@@ -1056,7 +1056,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * </tr>
    *
    * <td>hexBinary</td>
-   * <td>byte&nbsp;[]</td>
+   * <td>org.eclipse.xsd.util.XSDUtil.ByteSequence</td>
    * </tr>
    *
    * <td>NOTATION</td>

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDUtil.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDUtil.java,v 1.2 2004/07/28 14:24:07 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -343,5 +343,13 @@ public final class XSDUtil extends XSDConstants
     {
       return new URICrossReferencer(emfObjectsToSearch).findAllURI(uris);
     }
+  }
+
+  /**
+   * This is a wrapper type for representing values of type hexBin or base64Binary.
+   */
+  public static interface ByteSequence
+  {
+    byte[] getBytes();
   }
 }

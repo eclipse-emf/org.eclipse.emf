@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnySimpleType.java,v 1.2 2004/05/22 19:05:58 marcelop Exp $
+ * $Id: XSDAnySimpleType.java,v 1.3 2004/07/28 14:24:22 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -23,11 +23,12 @@ import org.eclipse.emf.ecore.xml.type.internal.DataValue.Base64;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.HexBin;
 import org.eclipse.xsd.XSDPlugin;
 import org.eclipse.xsd.impl.XSDSimpleTypeDefinitionImpl;
+import org.eclipse.xsd.util.XSDUtil;
 
 
 public class XSDAnySimpleType 
 {
-  public static class ByteSequence
+  public static class ByteSequence implements XSDUtil.ByteSequence
   {
     protected final XSDAnySimpleType xsdAnySimpleType;
     protected final byte [] bytes;
