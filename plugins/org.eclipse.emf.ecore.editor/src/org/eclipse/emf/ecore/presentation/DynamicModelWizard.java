@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicModelWizard.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: DynamicModelWizard.java,v 1.2 2005/03/28 20:29:26 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -33,6 +33,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -189,9 +190,11 @@ public class DynamicModelWizard extends Wizard implements INewWizard
       //
       try
       {
-        page.openEditor
-          (new FileEditorInput(modelFile),
-           workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
+        IEditorDescriptor editorDescriptor = workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString());
+        if (editorDescriptor != null)
+        {
+          page.openEditor(new FileEditorInput(modelFile), editorDescriptor.getId());
+        }
       }
       catch (PartInitException exception)
       {
