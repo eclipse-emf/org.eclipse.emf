@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.4 2004/09/24 14:10:23 davidms Exp $
+ * $Id: SetCommand.java,v 1.5 2004/10/06 11:37:40 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -454,11 +454,11 @@ public class SetCommand extends AbstractOverrideableCommand
           {
             result = true;
           }
-          else if (value instanceof EList)
+          else if (value instanceof Collection)
           {
-            EList list = (EList)value;
+            Collection collection = (Collection)value;
             result = true;
-            for (Iterator objects = list.iterator(); objects.hasNext(); )
+            for (Iterator objects = collection.iterator(); objects.hasNext(); )
             {
               if (!eType.isInstance(objects.next()))
               {
