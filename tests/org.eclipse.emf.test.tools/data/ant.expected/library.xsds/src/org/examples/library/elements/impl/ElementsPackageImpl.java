@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsPackageImpl.java,v 1.2 2005/02/23 04:25:24 marcelop Exp $
+ * $Id: ElementsPackageImpl.java,v 1.3 2005/04/01 17:57:37 marcelop Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -36,6 +36,13 @@ import org.examples.library.impl.LibraryPackageImpl;
  */
 public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String copyright = "This is my code.";
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

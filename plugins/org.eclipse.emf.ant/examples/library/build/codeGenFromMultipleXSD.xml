@@ -17,7 +17,8 @@
 					genModel="${main.directory}/emf/@{genModelName}.genmodel"
 					modelProject="${main.directory}"
 					modelProjectFragmentPath="${source.directory}"
-					modelPluginID="@{genModelName}.model">
+					modelPluginID="@{genModelName}.model"
+					copyright="This is my code.">
 					<settings/>
 				</emf.XSD2Java>
 			</sequential>

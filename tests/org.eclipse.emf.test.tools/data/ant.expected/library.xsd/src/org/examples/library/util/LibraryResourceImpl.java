@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryResourceImpl.java,v 1.1 2005/02/10 22:11:11 marcelop Exp $
+ * $Id: LibraryResourceImpl.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
  */
 package org.examples.library.util;
 
@@ -19,6 +19,13 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  */
 public class LibraryResourceImpl extends XMLResourceImpl
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String copyright = "This is my code.";
+
   /**
    * Creates an instance of the resource.
    * <!-- begin-user-doc -->

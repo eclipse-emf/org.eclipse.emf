@@ -18,7 +18,8 @@
 					genModel="${main.directory}/emf/@{modelName}.genmodel"
 					modelProject="${main.directory}"
 					modelProjectFragmentPath="${source.directory}"
-					modelPluginID="@{modelName}.model">					
+					modelPluginID="@{modelName}.model"
+					copyright="This is my code.">					
 					<settings/>
 				</emf.Rose2Java>
 			</sequential>

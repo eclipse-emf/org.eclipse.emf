@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Book.java,v 1.1 2005/02/10 22:11:11 marcelop Exp $
+ * $Id: Book.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
  */
 package org.examples.library.elements;
 
@@ -29,6 +29,13 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Book extends EObject
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  String copyright = "This is my code.";
+
   /**
    * Returns the value of the '<em><b>Title</b></em>' attribute.
    * <!-- begin-user-doc -->

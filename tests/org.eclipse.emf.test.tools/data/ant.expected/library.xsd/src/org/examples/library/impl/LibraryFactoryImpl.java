@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryFactoryImpl.java,v 1.2 2005/03/31 04:57:31 marcelop Exp $
+ * $Id: LibraryFactoryImpl.java,v 1.3 2005/04/01 17:57:37 marcelop Exp $
  */
 package org.examples.library.impl;
 
@@ -22,6 +22,13 @@ import org.examples.library.*;
  */
 public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String copyright = "This is my code.";
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->

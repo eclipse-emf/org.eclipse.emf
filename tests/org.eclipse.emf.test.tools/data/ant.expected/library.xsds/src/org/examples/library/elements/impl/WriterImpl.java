@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: WriterImpl.java,v 1.1 2005/02/10 22:11:11 marcelop Exp $
+ * $Id: WriterImpl.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -39,6 +39,13 @@ import org.examples.library.elements.Writer;
  */
 public class WriterImpl extends EObjectImpl implements Writer
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String copyright = "This is my code.";
+
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->

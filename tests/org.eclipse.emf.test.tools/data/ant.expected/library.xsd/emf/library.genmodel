@@ -2,7 +2,7 @@
 <xmi:XMI xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel">
-  <genmodel:GenModel modelDirectory="@TEST_TOKEN@0/library.xsd/./src/."
+  <genmodel:GenModel copyrightText="This is my code." modelDirectory="@TEST_TOKEN@0/library.xsd/./src/."
       editDirectory="@TEST_TOKEN@0/library.xsd.edit/./src/."
       editorDirectory="@TEST_TOKEN@0/library.xsd.editor/./src/."
       modelPluginID="org.examples.library" runtimeJar="true" modelName="Library" editPluginClass="org.examples.library.provider.LibraryEditPlugin"

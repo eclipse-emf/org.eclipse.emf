@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsPackage.java,v 1.1 2005/02/10 22:11:11 marcelop Exp $
+ * $Id: ElementsPackage.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
  */
 package org.examples.library.elements;
 
@@ -28,6 +28,13 @@ import org.eclipse.emf.ecore.EPackage;
  */
 public interface ElementsPackage extends EPackage
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  String copyright = "This is my code.";
+
   /**
    * The package name.
    * <!-- begin-user-doc -->

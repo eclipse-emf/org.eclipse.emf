@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryPackageImpl.java,v 1.2 2005/02/23 04:24:07 marcelop Exp $
+ * $Id: LibraryPackageImpl.java,v 1.3 2005/04/01 17:57:37 marcelop Exp $
  */
 package org.examples.library.impl;
 
@@ -33,6 +33,13 @@ import org.examples.library.elements.impl.ElementsPackageImpl;
  */
 public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String copyright = "This is my code.";
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

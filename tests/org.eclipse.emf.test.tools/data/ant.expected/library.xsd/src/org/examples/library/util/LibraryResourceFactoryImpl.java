@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryResourceFactoryImpl.java,v 1.1 2005/02/10 22:11:11 marcelop Exp $
+ * $Id: LibraryResourceFactoryImpl.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
  */
 package org.examples.library.util;
 
@@ -25,6 +25,13 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
  */
 public class LibraryResourceFactoryImpl extends XMLResourceFactoryImpl
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String copyright = "This is my code.";
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BookCategory.java,v 1.1 2005/02/10 22:11:11 marcelop Exp $
+ * $Id: BookCategory.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
  */
 package org.examples.library;
 
@@ -23,6 +23,13 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  */
 public final class BookCategory extends AbstractEnumerator
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String copyright = "This is my code.";
+
   /**
    * The '<em><b>Mystery</b></em>' literal value.
    * <!-- begin-user-doc -->

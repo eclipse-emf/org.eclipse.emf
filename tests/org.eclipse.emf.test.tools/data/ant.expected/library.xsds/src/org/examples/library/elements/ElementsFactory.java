@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsFactory.java,v 1.1 2005/02/10 22:11:11 marcelop Exp $
+ * $Id: ElementsFactory.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
  */
 package org.examples.library.elements;
 
@@ -18,6 +18,13 @@ import org.eclipse.emf.ecore.EFactory;
  */
 public interface ElementsFactory extends EFactory
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  String copyright = "This is my code.";
+
   /**
    * The singleton instance of the factory.
    * <!-- begin-user-doc -->
