@@ -46,6 +46,7 @@
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="anyURI"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Base64Binary" instanceClassName="java.lang.Object">
@@ -55,6 +56,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="base64Binary"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Boolean" instanceClassName="boolean">
@@ -63,6 +65,7 @@
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="boolean"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="BooleanObject" instanceClassName="java.lang.Boolean">
@@ -74,6 +77,8 @@
   <eClassifiers xsi:type="ecore:EDataType" name="Byte" instanceClassName="byte">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="byte"/>
+      <details key="minInclusive" value="-128"/>
+      <details key="maxInclusive" value="127"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ByteObject" instanceClassName="java.lang.Byte">
@@ -89,6 +94,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="date"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="DateTime" instanceClassName="java.lang.Object">
@@ -98,6 +104,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="dateTime"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Decimal" instanceClassName="java.math.BigDecimal">
@@ -106,6 +113,7 @@
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="decimal"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Double" instanceClassName="double">
@@ -114,6 +122,7 @@
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="double"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="DoubleObject" instanceClassName="java.lang.Double">
@@ -129,6 +138,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="duration"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ENTITIES" instanceClassName="java.util.List">
@@ -138,6 +148,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ENTITIES"/>
       <details key="baseType" value="ENTITIES_._base"/>
+      <details key="minLength" value="1"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ENTITIESBase" instanceClassName="java.util.List">
@@ -158,6 +169,7 @@
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="float"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="FloatObject" instanceClassName="java.lang.Float">
@@ -173,6 +185,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gDay"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GMonth" instanceClassName="java.lang.Object">
@@ -182,6 +195,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gMonth"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GMonthDay" instanceClassName="java.lang.Object">
@@ -191,6 +205,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gMonthDay"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GYear" instanceClassName="java.lang.Object">
@@ -200,6 +215,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gYear"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GYearMonth" instanceClassName="java.lang.Object">
@@ -209,6 +225,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gYearMonth"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="HexBinary" instanceClassName="java.lang.Object">
@@ -218,6 +235,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="hexBinary"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ID" instanceClassName="java.lang.String">
@@ -239,6 +257,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="IDREFS"/>
       <details key="baseType" value="IDREFS_._base"/>
+      <details key="minLength" value="1"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="IDREFSBase" instanceClassName="java.util.List">
@@ -250,11 +269,15 @@
   <eClassifiers xsi:type="ecore:EDataType" name="Int" instanceClassName="int">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="int"/>
+      <details key="minInclusive" value="-2147483648"/>
+      <details key="maxInclusive" value="2147483647"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Integer" instanceClassName="java.math.BigInteger">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="integer"/>
+      <details key="fractionDigits" value="0"/>
+      <details key="pattern" value="[\-+]?[0-9]+"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="IntObject" instanceClassName="java.lang.Integer">
@@ -267,6 +290,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="language"/>
       <details key="baseType" value="token"/>
+      <details key="pattern" value="[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Long" instanceClassName="long">
@@ -275,6 +299,8 @@
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="long"/>
+      <details key="minInclusive" value="-9223372036854775808"/>
+      <details key="maxInclusive" value="9223372036854775807"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="LongObject" instanceClassName="java.lang.Long">
@@ -287,24 +313,28 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Name"/>
       <details key="baseType" value="token"/>
+      <details key="pattern" value="\i\c*"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="NCName" instanceClassName="java.lang.String">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="NCName"/>
       <details key="baseType" value="Name"/>
+      <details key="pattern" value="[\i-[:]][\c-[:]]*"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="NegativeInteger" instanceClassName="java.math.BigInteger">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="negativeInteger"/>
       <details key="baseType" value="nonPositiveInteger"/>
+      <details key="maxInclusive" value="-1"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="NMTOKEN" instanceClassName="java.lang.String">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="NMTOKEN"/>
       <details key="baseType" value="token"/>
+      <details key="pattern" value="\c+"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="NMTOKENS" instanceClassName="java.util.List">
@@ -314,6 +344,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="NMTOKENS"/>
       <details key="baseType" value="NMTOKENS_._base"/>
+      <details key="minLength" value="1"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="NMTOKENSBase" instanceClassName="java.util.List">
@@ -326,18 +357,21 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="nonNegativeInteger"/>
       <details key="baseType" value="integer"/>
+      <details key="minInclusive" value="0"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="NonPositiveInteger" instanceClassName="java.math.BigInteger">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="nonPositiveInteger"/>
       <details key="baseType" value="integer"/>
+      <details key="maxInclusive" value="0"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="NormalizedString" instanceClassName="java.lang.String">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="normalizedString"/>
       <details key="baseType" value="string"/>
+      <details key="whiteSpace" value="replace"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="NOTATION" instanceClassName="java.lang.Object">
@@ -347,12 +381,14 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="NOTATION"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="PositiveInteger" instanceClassName="java.math.BigInteger">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="positiveInteger"/>
       <details key="baseType" value="nonNegativeInteger"/>
+      <details key="minInclusive" value="1"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="QName" instanceClassName="java.lang.Object">
@@ -362,11 +398,14 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="QName"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Short" instanceClassName="short">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="short"/>
+      <details key="minInclusive" value="-32768"/>
+      <details key="maxInclusive" value="32767"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ShortObject" instanceClassName="java.lang.Short">
@@ -409,6 +448,7 @@
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="string"/>
+      <details key="whiteSpace" value="preserve"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Time" instanceClassName="java.lang.Object">
@@ -418,17 +458,20 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="time"/>
       <details key="baseType" value="anySimpleType"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Token" instanceClassName="java.lang.String">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="token"/>
       <details key="baseType" value="normalizedString"/>
+      <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="UnsignedByte" instanceClassName="short">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="unsignedByte"/>
+      <details key="maxInclusive" value="255"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="UnsignedByteObject" instanceClassName="java.lang.Short">
@@ -440,6 +483,7 @@
   <eClassifiers xsi:type="ecore:EDataType" name="UnsignedInt" instanceClassName="long">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="unsignedInt"/>
+      <details key="maxInclusive" value="4294967295"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="UnsignedIntObject" instanceClassName="java.lang.Long">
@@ -455,11 +499,13 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="unsignedLong"/>
       <details key="baseType" value="nonNegativeInteger"/>
+      <details key="maxInclusive" value="18446744073709551615"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="UnsignedShort" instanceClassName="int">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="unsignedShort"/>
+      <details key="maxInclusive" value="65535"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="UnsignedShortObject" instanceClassName="java.lang.Integer">
