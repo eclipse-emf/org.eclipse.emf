@@ -1,0 +1,657 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<!-- ZoneLabs Privacy Insertion -->
+<script language='javascript' src='http://127.0.0.1:1034/js.cgi?pcaw&r=5097'></script>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JET Tutorial Part 1 (Introduction to JET)</title>
+<link rel="stylesheet" href="images/../../../css/book.css" type="text/css" />
+<link rel="stylesheet" href="images/../../../css/emf-book.css" type="text/css" />
+</head>
+
+<body lang="EN-US" xml:lang="EN-US">
+
+<h1 align="CENTER">JET Tutorial Part 1 (Introduction to JET) </h1>
+<blockquote>
+<b>Summary</b>
+
+<br/>
+<p>
+  Generating source code can save you time in your projects and can reduce the 
+  amount of tedious redundant programming. Generating source code can be powerful, 
+  but the program that writes the code can quickly become very complex and hard 
+  to understand. One way to reduce complexity and increase readability is to use 
+  templates. </p>
+  <p> The Eclipse Modeling Framework (<a href="http://www.eclipse.org/emf/" target="_blank">EMF</a>) 
+    project contains two very powerful tools for generating source code: JET (Java 
+    Emitter Templates) and JMerge (Java Merge). With JET you can use a JSP-like 
+    syntax (actually a subset of the JSP syntax) that makes it easy to write templates 
+    that express the code you want to generate. JET is a generic template engine 
+    that can be used to generate SQL, XML, Java source code and other output from 
+    templates. It is located in the org.eclipse.emf.codegen plug-in as part of 
+    the EMF runtime download. </p>
+
+  <p>
+  In this article you will learn how to create JET templates, how to use the JET 
+  Nature and JET Builder to automatically translate templates into Java classes, 
+  and how to use these classes to generate source code. This article also provides 
+  a short reference to the JET syntax. 
+  </p>
+  <p>Contributed by Remko Popma, Azzurri Ltd., remko.popma at azzurri dot jp, 
+    July 30, 2003. Used with permission. Last update: May 31, 2004.</p>
+</blockquote>
+
+<hr width="100%" />
+
+<h2>Getting Started</h2>
+<p>Before creating our first template, you'll need the EMF plug-in. If you haven't 
+  installed it yet, install it now before continuing with this tutorial. I am 
+  using EMF version 2.0.0 Integration Build I200405200923. </p>
+
+<p>A JET template is a text file with a file name that ends with &quot;jet&quot;. 
+  I will follow the EMF convention of appending &quot;jet&quot; to whatever the 
+  file extension of the generated code would be, so <i>.javajet</i> implies that 
+  the template generates a .java file, <i>.xmljet</i> templates generate XML, 
+  templates that generate SQL have the <i>.sqljet</i> extension, and so on.</p>
+
+<h3> JET Nature and JET Builder </h3>
+
+<p>
+Let's follow tradition and start with a template that creates the message &quot;Hello, 
+world&quot;. We will create our first template using the following four step process: </p>
+<ol>
+  <li> Create a new Java project and give it a &quot;<i>src</i>&quot; source folder</li>
+
+  <li> Add the JET Nature to the project. This will create a folder called &quot;<i>templates</i>&quot; 
+    under the project root</li>
+
+  <li> Change the JET properties of the project to ensure that templates are translated 
+    into the &quot;<i>src</i>&quot; source folder of the project</li>
+  <li> Create a new file called &quot;<i>helloworld.txtjet</i>&quot; and save 
+    it in the <i>templates</i> folder</li>
+
+</ol>
+
+<h4> Step 1. Create a Project </h4>
+From the workbench menu, select File &gt; New &gt; Project to bring up the New 
+Project wizard. Create a new Java project and add a source folder to it named 
+<i>src</i>. 
+<h4> Step 2. Convert the Project to a JET Project</h4>
+<p>After creating the project, right-click on it in the Package Explorer or Hierarchy 
+  view and select New &gt; Other... &gt; Java Emitter Templates &gt; Convert Projects to JET Projects.  After pressing the Next button, select
+  the project you've created and click Finish.</p>
+
+<img src="images/jetWizard.gif"/>
+
+<p> The wizard adds the JET Nature to the project creating a <i>templates</i> folder 
+  under the project root as shown in the image below. Also, a JET Builder is added 
+  to the project that will automatically translate every file in the templates 
+  folder with a file name ending in &quot;jet&quot; to a Java class. </p>
+<p> <img src="images/newproject.gif" border="1"/></p>
+<h4> Step 3. Change JET Settings </h4>
+
+<p> Before creating our first template, let's make sure that the <i>src</i> source 
+  folder of the project is the destination folder of the translated templates. 
+  Right-click on the project and select &quot;Properties&quot; from the popup 
+  menu. In the Project Properties dialog, select JET Settings on the left-hand 
+  menu and enter &quot;src&quot; (the name of your source folder) in the &quot;Source 
+  Container&quot; text field. The image below shows the JET Settings properties 
+  page of the Project Properties dialog. </p>
+
+<p>
+
+<img src="images/projectProperties.gif"/> 
+</p>
+<p> <i><img src="images/tip.gif" width="62" height="13"/>Note: you can specify 
+  multiple folders in the Template Containers field, separated by a space or a 
+  semicolon. However, if templates in different folders have the same filename, 
+  only the template in the first folder will be translated automatically by the 
+  JET Builder. If you want all templates to be translated, make sure they have 
+  different file names.</i></p>
+<h4> Step 4. Create a JET Template File </h4>
+<p> The JET builder will now translate all templates to Java source files in the 
+  <i>src</i> folder of the project. Now we create our first template. From the 
+  workbench menu, select File &gt; New &gt; File to bring up the New File wizard. 
+  Select the <i>templates</i> directory as the parent folder, and call the file 
+  <i>helloworld.txtjet</i>. You will get the following error when you press the 
+  OK button: &quot;The jet directive is missing in 'helloworld.txtjet' at line 
+  1 column 1&quot;, as shown in the image below. </p>
+
+<p>
+<img src="images/missing_jet_directive.gif"/> 
+</p>
+<p> Fortunately, this does not mean that there is a real problem, just that the 
+  JET Builder tried to translate our template as soon as we created it, and discovered 
+  that it is still empty. Press Close to close the error dialog. Open the <i>helloworld.txtjet</i> file 
+  if it is not opened and type or cut-and-paste the following contents in the editor. </p>
+<pre class="code">
+ <span class="highlight">&lt;%@ jet package=&quot;hello&quot; class=&quot;HelloWorldTemplate&quot; %&gt;</span>
+
+ Hello, world!</pre>
+<p> When you save the template file, it will automatically be translated by the 
+  JET Builder. Because we specified package <i>hello</i> and class <i>HelloWorldTemplate</i> 
+  in the first line of the template, the builder creates a <i>hello</i> package 
+  in the <i>src</i> folder and saves a Java file <i>HelloWorldTemplate.java</i> 
+  in this package, as shown in the image below.</p>
+
+<p> <img src="images/compiledTemplate.gif" border="1"/> 
+</p>
+<p> This Java class is the result of translating the template and is called a 
+  <i>template implementation class</i>. This class has a method called <tt class="code">generate</tt>. 
+  This is the method that generates the code indicated in the template.</p>
+<p><img src="images/tryit.gif" width="61" height="13"/>We can create an instance 
+  of the <tt class="code">HelloWorldTemplate</tt> template implementation class and invoke 
+  its <tt class="code">generate</tt> method like this: </p>
+
+<pre class="code"> HelloWorldTemplate helloworld = new HelloWorldTemplate();
+ String result = helloworld.generate(null);
+ System.out.println(result);
+</pre>
+<p> The code above will print the words &quot;Hello, world!&quot; to the console. 
+  Yay!</p>
+<h3> Passing Arguments to the Template </h3>
+<p>To recap, we just created our first template and generated some code with it. 
+  The result may not have been very impressive, but now we are all set up and 
+  we can start to explore what JET can do for you. The next step is to pass an 
+  argument to the template. </p>
+<p><img src="images/tryit.gif" width="61" height="13"/>Add a new JET template file 
+  or change the existing one to the following content: </p>
+
+<pre class="code">
+
+ <span class="highlight">&lt;%@ jet package=&quot;hello&quot; class=&quot;GreetingTemplate&quot; %&gt;</span>
+ Hello, <span class="highlight">&lt;%=argument%&gt;</span>!
+</pre>
+<p> The JET Builder will translate this template to a class <tt class="code">GreetingTemplate</tt> 
+  in the <tt class="code">hello</tt> package. Again we create an instance of this template 
+  class, but this time we pass a string argument to the <tt class="code">generate</tt> method: 
+
+
+</p>
+<pre class="code"> GreetingTemplate sayHello = new GreetingTemplate();
+ String result = sayHello.generate(&quot;Tutorial Reader&quot;);
+ System.out.println(result);
+</pre>
+<p>
+The code above will print the words &quot;Hello, Tutorial Reader!&quot; to the 
+console. 
+</p>
+<h3> Importing Packages </h3>
+<p>The argument you pass to a template can be any object. In the previous example 
+  we passed a string as the argument to the generate method, but in your application 
+  you probably want to pass in your own model object. If the argument is not in 
+  the <tt class="code">java.lang</tt> package, or if your template uses any other classes not 
+  in the <tt class="code">java.lang</tt> package, you need to import these classes in the template 
+  <tt class="code">jet</tt> directive. A <tt class="code">jet</tt> directive with an <img src="images/tag_1.gif" width="24" height="13"/><i>imports</i> 
+  attribute looks like this: </p>
+
+<pre class="code">
+ &lt;%@ jet package=&quot;hello&quot; <b><img src="images/tag_1.gif" width="24" height="13"/>imports=&quot;java.util.*&quot;</b> class=&quot;ImportDemoTemplate&quot; %&gt;
+</pre>
+<p> The JET Syntax Reference section of this article gives more details on the 
+  <tt class="code">jet</tt> directive and its attributes.</p>
+
+<p> In the next example we will create a template that generates XML code. To 
+  stick to the EMF convention of appending &quot;jet&quot; to whatever the file 
+  extension of the generated code would be, we will save this template to a file 
+  called <i>importdemo.xmljet</i>. Note that we pass the template a <tt class="code">java.util.List</tt> 
+  object that contains the data to use when generating the XML.</p>
+<pre class="code">
+   <span class="highlight">&lt;%@ jet package=&quot;hello&quot; <img src="images/tag_1.gif" width="24" height="13"/><b>imports=&quot;java.util.*&quot;</b> class=&quot;XMLDemoTemplate&quot; %&gt;</span>
+
+<img src="images/tag_2.gif" width="24" height="13"/><b class="highlight">&lt;% List elementList = (List) argument; %&gt;</b>
+ <b>  </b>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ <b>  </b>&lt;demo&gt;
+   <span class="highlight">&lt;% for (Iterator i = elementList.iterator(); i.hasNext(); ) { %&gt;</span>
+
+     &lt;element&gt;<span class="highlight">&lt;%=i.next().toString()%&gt;</span>&lt;/element&gt;
+   <span class="highlight">&lt;% } %&gt;</span>
+ <b>  </b>&lt;/demo&gt;
+</pre>
+<p> The code below shows how to invoke the template instance. We create a <img src="images/tag_2.gif" width="24" height="13"/>list 
+  and <img src="images/tag_3.gif" width="24" height="13"/>pass it to the <tt class="code">generate</tt> 
+  method of the template implementation class:</p>
+
+<pre class="code"><img src="images/tag_2.gif" width="24" height="13"/>List data = new ArrayList();
+   data.add(&quot;first&quot;);
+   data.add(&quot;second&quot;);
+   data.add(&quot;third&quot;);
+ 
+   XMLDemoTemplate generateXml = new XMLDemoTemplate();
+   String result = generateXml.generate(<img src="images/tag_3.gif" width="24" height="13"/>data);
+   System.out.println(result);
+</pre>
+<p>
+This prints the following XML result to the console: 
+</p>
+<pre class="code">
+ &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+
+ &lt;demo&gt;
+   &lt;element&gt;first&lt;/element&gt;
+   &lt;element&gt;second&lt;/element&gt;
+   &lt;element&gt;third&lt;/element&gt;
+
+ &lt;/demo&gt;
+</pre>
+<p> This is a very simple example that creates very simple XML. Of course you 
+  can use JET to create more complex XML, using attributes and namespaces. When 
+  you do this, you may find it more convenient to create a special class that 
+  is a better model of an XML document than a <tt class="code">java.util.List</tt>. Generally, 
+  the more complex your JET template becomes, the more logic you will want to 
+  push into the model object that you pass to the template, to keep your templates 
+  readable. We will explore this further in Part 2 of this tutorial. </p>
+<h3> Changing Tags </h3>
+<p>A neat feature of JET is that you can change the tags that mark scriptlets 
+  in the template file. This is very convenient when the syntax of the code you 
+  generate is very similar to the default JET syntax, for example if you use JET 
+  to generate JSP pages. </p>
+<p>In the next example we will use JET to generate a simple JSP page. We will 
+  change the JET tags to use the &quot;&lt;$&quot; character sequence to start 
+  a template tag, and &quot;$&gt;&quot; to end a template tag. The template still 
+  contains &quot;&lt;%&quot; and &quot;%&gt;&quot; strings, but the JET engine 
+  will not see them as special anymore, and they will be written to the result 
+  like any other character sequence.</p>
+
+<p></p>
+<p> <img src="images/tryit.gif" width="61" height="13"/>To change the tag markers, 
+  add a <i><img src="images/tag_1.gif" width="24" height="13"/>startTag</i> and 
+  an <i><img src="images/tag_2.gif" width="24" height="13"/>endTag</i> attribute 
+  to the JET directive on the first line of the template, like in the example 
+  below. </p>
+<pre class="code">
+ <span class="highlight">&lt;%@ jet package=&quot;tags.demo&quot; class=&quot;JspTemplate&quot; <img src="images/tag_1.gif" width="24" height="13"/><b>startTag=&quot;&lt;$&quot; <img src="images/tag_2.gif" width="24" height="13"/>endTag=&quot;$&gt;&quot;</b> %&gt;</span>
+
+ <b><span class="highlight">&lt;$</span></b><span class="highlight"> String paramName = (String) argument; /* This is an executed scriptlet */ <b>$&gt;</b></span>
+ <b><span class="highlight">&lt;$</span></b><span class="highlight"> if (paramName != null) { <b>$&gt;</b></span>
+ <img src="images/tag_3.gif" width="24" height="13"/>  &lt;%= request.getParameter(&quot;<b><span class="highlight">&lt;$=</span></b><span class="highlight">paramName<b>$&gt;</b></span>&quot;) %&gt; &lt;!-- this is generated JSP --&gt;
+
+ <b><span class="highlight">&lt;$</span></b><span class="highlight"> } <b>$&gt;</b></span>
+</pre>
+<p> Again, we invoke this implementation class with a string argument, like below: 
+</p>
+<pre class="code"> System.out.println(new tags.demo.JspTemplate().generate(&quot;button&quot;));
+</pre>
+The following output will appear on the console. Note that the output contains 
+the intact JSP tag: the &quot;&lt;%&quot; and &quot;%&gt;&quot; character strings 
+are not interpreted as a JET scriptlet, but are simply inserted in the generated 
+code. 
+
+
+<pre class="code">
+ <img src="images/tag_3.gif" width="24" height="13"/>  &lt;%= request.getParameter(&quot;button&quot;) %&gt; &lt;!-- this is generated JSP --&gt;
+</pre>
+<h1> Under the Hood </h1>
+<p>In the previous section we have looked at creating JET templates, how to set up 
+the JET Nature to automatically translate templates into Java implementation classes, 
+and how to use these Java implementation classes to generate code. 
+</p>
+<p> In this section we will take a closer look at the Java implementation classes 
+  that are the result of translating a template. We will see why we can use the 
+  implicit objects <tt class="code">argument</tt> and <tt class="code">stringBuffer</tt> in a template, 
+  and also look at customizing the translated implementation class by providing 
+  a custom &quot;skeleton&quot;. </p>
+
+<h3> Translated Templates </h3>
+<p>A JET template is translated to a Java implementation class. There are some 
+  objects in the Java implementation class that can be referenced directly in 
+  the JET template. The following example demonstrates how the implicit objects 
+  <tt class="code">argument</tt> and <tt class="code">stringBuffer</tt> can be used in a template.</p>
+<pre class="code">
+ <span class="highlight">&lt;%@ jet package=&quot;hello&quot; class=&quot;TranslationDemoTemplate&quot; %&gt;</span>
+
+<img src="images/tag_1.gif" width="24" height="13"/> Hello, <span class="highlight">&lt;%=<b>argument</b>%&gt;</span>!
+<img src="images/tag_2.gif" width="24" height="13"/> <span class="highlight">&lt;% <b>stringBuffer.append(&quot;Hello again!&quot;);</b> %&gt;</span>
+</pre>
+<p> The template above is translated to a Java implementation class like below: 
+
+
+</p>
+<pre class="code">
+ package hello;
+ 
+ public class TranslationDemoTemplate
+ {
+   protected final String NL = System.getProperties().getProperty(&quot;line.separator&quot;);
+   protected final String TEXT_1 = &quot;Hello, &quot;;
+   protected final String TEXT_2 = &quot;!&quot;;
+ 
+   public String generate(Object <b>argument</b>)
+   {
+     StringBuffer <b>stringBuffer</b> = new StringBuffer();
+     stringBuffer.append(TEXT_1);
+<img src="images/tag_1.gif" width="24" height="13"/>  stringBuffer.append(<b>argument</b>);
+     stringBuffer.append(TEXT_2);
+
+
+<img src="images/tag_2.gif" width="24" height="13"/>  <b>stringBuffer.append(&quot;Hello again!&quot;);</b>
+     return stringBuffer.toString();
+   }
+ }
+</pre>
+<p> Notice that the <tt class="code">generate</tt> method of the Java implementation class 
+  takes an <tt class="code">Object</tt> parameter called <tt class="code">argument</tt>. This is the same 
+  object as the <tt class="code"><img src="images/tag_1.gif" width="24" height="13"/>argument</tt> 
+  in the second line of the template. Also, notice how the Java implementation 
+  class uses a <tt class="code">StringBuffer</tt> object to collect the resulting generated 
+  code. This object can be <img src="images/tag_2.gif" width="24" height="13"/>referenced 
+  directly in the template by its name <tt class="code">stringBuffer</tt>. </p>
+
+<h3> Changing the Skeleton of the Translated Implementation Class </h3>
+<p>The <tt class="code">generate</tt> method of the <tt class="code">TranslationDemoTemplate</tt> class 
+  above is said to be part of the implementation class &quot;skeleton&quot;. The 
+  default skeleton used by the JET engine looks like this: </p>
+<pre class="code">
+ public class CLASS
+ {
+   public String generate(Object argument)
+   {
+     return &quot;&quot;;
+   }
+ }
+
+
+</pre>
+<p> The skeleton definition looks almost like a normal Java class, except for 
+  the class name. The class name (<tt class="code">CLASS</tt>) will be replaced by the value 
+  of the <i>class</i> attribute in the <tt class="code">jet</tt> directive. Furthermore, the skeleton 
+  definition has the <tt class="code">generate</tt> method that we have seen earlier. By changing 
+  the skeleton you can customize a template implementation class, for example 
+  make it implement an interface, or change any other feature of the class.</p>
+<p> <img src="images/tryit.gif" width="61" height="13"/>For example, suppose you 
+  want all your template implementation classes to implement an interface. The 
+  interface could look something like this: </p>
+
+<pre class="code">
+ public interface IGenerator {
+     String generate(Object argument);
+ }</pre>
+<p>We can tell the JET engine that we want to use a custom skeleton by setting 
+  the <i>skeleton</i> attribute of the <tt class="code">jet</tt> directive on the first line of the 
+  template file. The value of the skeleton attribute is a URI that points to a 
+  file where the custom skeleton definition can be found. </p>
+<p>To try this, first create a new file <i>generator.skeleton</i> in the templates 
+  directory, as in the image below.</p>
+
+<p><img src="images/generator_skeleton.gif" border="1"/></p>
+<p>Open the <i>generator.skeleton</i> file in a text editor and type or cut-and-paste 
+  the following content in it: </p>
+<pre class="code">
+ public class CLASS <img src="images/tag_1.gif" width="24" height="13"/>implements IGenerator
+ {
+<img src="images/tag_2.gif" width="24" height="13"/>/* (non-javadoc)
+    * @see IGenerator#generate(Object)
+    */
+<img src="images/tag_3.gif" width="24" height="13"/>public String generate(Object argument)
+   {
+     return &quot;&quot;;
+   }
+ }
+</pre>
+<p> This file is our custom skeleton. All templates that use this skeleton will 
+  be translated to classes that implement the <tt class="code">IGenerator</tt> interface. To 
+  use this skeleton, add an attribute <i>skeleton</i> to the <tt class="code">jet</tt> directive of 
+  your template, like this: </p>
+
+<pre class="code">
+ <span class="highlight">&lt;%@ jet package=&quot;hello&quot; class=&quot;GreetingTemplate&quot; <b>skeleton=&quot;generator.skeleton&quot;</b> %&gt;</span>
+ Hello, <span class="highlight">&lt;%=argument%&gt;</span>!
+ The current time is <span class="highlight">&lt;%=new java.util.Date()%&gt;</span>.
+
+
+</pre>
+<p>
+After the JET Builder translates the template, the implementation class looks 
+like this: 
+</p>
+<pre class="code"><font color="#4444cc">
+</font> package hello;
+ 
+ public class GreetingTemplate <img src="images/tag_1.gif" width="24" height="13"/>implements IGenerator
+ {
+   protected final String NL = System.getProperties().getProperty(&quot;line.separator&quot;);
+   protected final String TEXT_1 = &quot;Hello, &quot;;
+   protected final String TEXT_2 = &quot;!&quot; + NL + &quot;The current time is &quot;;
+   protected final String TEXT_3 = &quot;.&quot;;
+   protected final String TEXT_4 = NL;
+ 
+
+
+<img src="images/tag_2.gif" width="24" height="13"/>/* (non-javadoc)
+    * @see IGenerator#generate(Object)
+    */
+<img src="images/tag_3.gif" width="24" height="13"/>public String generate(Object argument)
+   {
+     StringBuffer stringBuffer = new StringBuffer();
+     stringBuffer.append(TEXT_1);
+     stringBuffer.append(argument);
+     stringBuffer.append(TEXT_2);
+     stringBuffer.append(new java.util.Date());
+     stringBuffer.append(TEXT_3);
+     stringBuffer.append(TEXT_4);
+     return stringBuffer.toString();
+   }
+ }
+</pre>
+<p>Note that the translated template now <img src="images/tag_1.gif" width="24" height="13"/>implements 
+  the <tt class="code">IGenerator</tt> interface, and the <tt class="code"><img src="images/tag_3.gif" width="24" height="13"/>generate</tt> 
+  method now has <img src="images/tag_2.gif" width="24" height="13"/>the comments 
+  we specified in the <i>generator.skeleton</i> file. This is one example of how 
+  to customize a translated template with a skeleton definition. Skeleton definitions 
+  can also contain extra methods, inner classes, etc. You'll need to experiment 
+  a little to see what else is possible.</p>
+<h1> JET Syntax Reference </h1>
+
+<p>If you have used JSP technology before, the JET syntax will probably look very 
+  familiar to you. The JET syntax is a subset of the JSP syntax, so there may 
+  not be much new here for you.</p>
+<p>This section provides a semi-formal description and reference of the JET syntax. 
+</p>
+<h2> The JET Model</h2>
+<p>A JET template is translated into a Java implementation class. This implementation 
+  class has a method that can be called to obtain a result string. This method 
+  is usually called <tt class="code">generate</tt> (see also the <i>skeleton</i> attribute 
+  of the <tt class="code">jet</tt> directive). </p>
+
+<p> If no <i>skeleton</i> attribute is specified in the <tt class="code">jet</tt> directive, the Java 
+  implementation class has the following implicit objects, which can be referenced 
+  in the JET template: </p>
+<ul>
+  <li> <b>stringBuffer</b> the <tt class="code">java.lang.StringBuffer</tt> object 
+    used to build the result string when the <tt class="code">generate</tt> method is invoked</li>
+
+  <li> <b>argument</b> the <tt class="code">java.lang.Object</tt> passed to the <tt class="code">generate</tt> 
+    method</li>
+</ul>
+
+<h2> Directives </h2>
+
+<p>Directives are messages to the JET engine. Directives have this syntax: 
+</p><p>
+<i>&lt;%@ directive { attr=&quot;value&quot; }* %&gt;</i> 
+</p><p>
+There may be optional white space after the &quot;&lt;%@&quot; and before &quot;%&gt;&quot;. 
+</p><p>
+Directives affect how a template is translated, but do not produce any output 
+in the generated String when the template is invoked. 
+
+</p>
+
+<h3> Jet Directive </h3>
+<p>The <tt class="code">jet</tt> directive defines a number of attributes and communicates 
+  these to the JET engine. A JET template file must contain a <tt class="code">jet</tt> directive 
+  on the first line of the file, or the template file cannot be translated. Any 
+  subsequent <tt class="code">jet</tt> directives are ignored. Unrecognized attributes result 
+  in fatal translation errors. </p>
+<p> The following directive indicates that the template should be translated to 
+  a Java implementation class called <i>HelloWorldTemplate.java</i> in package 
+  <i>hello</i>. The implementation class should import the java.io.* and java.util.* 
+  packages. </p>
+
+<pre class="code">
+ &lt;%@ jet package=&quot;hello&quot; class=&quot;HelloWorldTemplate&quot; imports=&quot;java.io.* java.util.*&quot; %&gt;</pre>
+<p>The details of the attributes for the <tt class="code">jet</tt> directive are as follows: 
+
+
+</p>
+<table border="1" cellpadding="3" cellspacing="0">
+  <tr>
+    <td><b>Attribute</b></td>
+    <td><b>Value</b></td>
+  </tr>
+  <tr>
+    <td valign="top">package</td>
+
+    <td>The package name of the Java implementation class that the template is 
+      translated to. If this attribute is not present, the Java implementation 
+      class is created in the default package.</td>
+  </tr>
+  <tr>
+    <td height="40" valign="top">class</td>
+    <td height="40">The class name of the Java implementation class that the template 
+      is translated to. If not present, the Java implementation class is called 
+      <tt class="code">CLASS</tt>.</td>
+  </tr>
+
+  <tr>
+    <td valign="top">imports</td>
+    <td>A space-separated list of packages and/or classes to import in the Java 
+      template class</td>
+  </tr>
+  <tr>
+    <td valign="top">startTag</td>
+    <td>The string in a JET template that signals the beginning of a scriptlet, 
+      expression, or <tt class="code">include</tt> directive. The default is &quot;&lt;%&quot;. 
+      This attribute, and its cousin <i>endTag</i> can be very convenient when 
+      the syntax of the generated code is similar to the default JET syntax, for 
+      example if you use JET to generate JSP pages.</td>
+
+  </tr>
+  <tr>
+    <td valign="top">endTag</td>
+    <td>The string in a JET template that signals the end of a scriptlet, expression, 
+      or <tt class="code">include</tt> directive. The default is &quot;%&gt;&quot;. See also 
+      <i>startTag</i>.</td>
+
+  </tr>
+  <tr>
+    <td valign="top">skeleton</td>
+    <td>The URI of a file with a skeleton definition of the Java implementation 
+      class that the template is translated to. This URI will be resolved similar 
+      to the way the <i>file</i> attribute value is resolved in an <tt class="code">include</tt> 
+      directive. If no skeleton definition file is specified, the JET engine will 
+      use a default skeleton of the form &quot;<tt class="code">public class CLASS\n{\n public 
+      String generate(Object argument)\n {\n return \&quot;\&quot;;\n }\n}\n</tt>&quot;. 
+      The class name in this skeleton class definition must be <tt class="code">CLASS</tt>.</td>
+
+  </tr>
+  <tr>
+    <td valign="top">nlString</td>
+    <td>The newline string to use in the Java template class. The default is &quot;System.getProperties().getProperty(\&quot;line.separator\&quot;)&quot;</td>
+  </tr>
+</table>
+
+<h3> Include Directive </h3>
+<p>The <tt class="code">include</tt> directive is used to substitute text and/or code at template 
+  translation-time. The <tt class="code">&lt;%@ include file=&quot;urlSpec&quot; %&gt;</tt> 
+  directive inserts the text of the specified resource into the jet template file. 
+  The included file may have JET scripting elements which will also be processed. 
+</p>
+<p> This directive has one single attribute, <i>file</i>. The value of this attribute 
+  is the URI of the location of the file to include. This URI can be either an 
+  absolute path or a relative path. Relative URIs are always interpreted as relative 
+  to the folder of the template that contains the include directive.</p>
+
+<p>Example:</p>
+<p> The following example requests the inclusion, at translation time, of a copyright 
+  file. </p>
+<pre class="code">
+ &lt;%@ include file=&quot;copyright.jet&quot; %&gt;
+</pre>
+<p><i><img src="images/tip.gif" width="62" height="13"/>Note: JET supports the 
+  notion of overriding template paths. It is possible to configure the JET engine 
+  to use multiple Template Containers. In that case, the first container takes 
+  precedence over the second, the second over the third, and so on. This means 
+  that if template files or include files with the same file name exist in multiple 
+  Template Containers, the file in the first folder will be used, and the other(s) 
+  will be ignored. Clients of a JET-based application can use this mechanism to 
+  provide custom include files that override the original include files without 
+  modifying the templates of the original application.</i><br/>
+</p>
+
+<h2>JET Scripting Elements </h2>
+
+<p>JET has two scripting language elements: scriptlets and expressions. A scriptlet 
+is a statement fragment, and an expression is a complete Java expression. 
+</p><p>
+Each scripting element has a &quot;&lt;%&quot;-based syntax as follows: </p>
+<pre class="code">
+ &lt;% this is a scriptlet %&gt;
+ &lt;%= this is an expression %&gt;
+</pre>
+
+<p>White space is optional after &quot;&lt;%&quot;, and &quot;&lt;%=&quot;, and before 
+
+&quot;%&gt;&quot;. 
+</p><p>
+If you want to use the %&gt; character sequence as literal characters in a scriptlet, 
+rather than to end the scriptlet, you can escape them by typing %\&gt;. Similarly, 
+the &lt;% character sequence can be escaped by using &lt;\%. 
+</p>
+<h3> Scriptlets </h3>
+
+<p>Scriptlets can contain any valid Java code fragment. </p>
+<p> Scriptlets are executed at template invocation time. Whether or not they produce 
+  any output into the result String depends on the actual code in the scriptlet. 
+  Scriptlets can have side effects, modifying the objects visible in them. </p>
+
+<p> When all scriptlet fragments in a given translation unit are combined in the 
+  order they appear in the JET template, they should yield a valid Java statement 
+  or sequence of statements. </p>
+Example: 
+<pre class="code">
+ &lt;% if (Calendar.getInstance().get(Calendar.AM_PM) == Calendar.AM) {%&gt;
+ Good Morning
+ &lt;% } else { %&gt;
+
+ Good Afternoon
+ &lt;% } %&gt;
+</pre>
+
+<p> <b><i>Syntax</i></b> </p>
+<p> <i>&lt;% scriptlet %&gt;</i> </p>
+<h3> Expressions </h3>
+
+<p>A JET expression element is a Java expression that is evaluated and the result 
+  is appended to the <tt class="code">StringBuffer</tt> object returned by the <tt class="code">generate</tt> 
+  method. Expressions are evaluated at template invocation time. </p>
+
+<p> If the result of the expression cannot be appended to a <tt class="code">StringBuffer</tt> 
+  then a translation time error occurs. The content of a JET expression must be 
+  a complete Java expression. </p>
+<p> Side-effects in expressions are supported. They take effect when the JET expression 
+  is evaluated. JET expressions are evaluated left-to-right in the JET template.</p>
+
+<p>In the next example, the current date is appended to the <tt class="code">StringBuffer</tt> 
+  result.</p>
+<pre class="code">&lt;%= (new java.util.Date()).toLocaleString() %&gt; </pre>
+
+<p><b><i>Syntax</i></b> </p>
+<p><i>&lt;%= expression %&gt;</i> </p>
+<h2>Resources</h2>
+
+<p><a href="http://www.javaworld.com/javaworld/jw-11-2001/jw-1102-codegen.html" target="_blank">http://www.javaworld.com/javaworld/jw-11-2001/jw-1102-codegen.html</a> 
+</p>
+<p> <a href="http://www.eclipse.org/emf/" target="_blank">http://www.eclipse.org/emf/</a> 
+</p>
+<br />
+</body>
+
+</html>
+
+<!-- ZoneLabs Popup Blocking Insertion -->
+<script language='javascript'>postamble();</script>
