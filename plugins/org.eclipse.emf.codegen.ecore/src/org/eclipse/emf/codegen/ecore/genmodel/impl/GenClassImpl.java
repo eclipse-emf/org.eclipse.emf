@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenClassImpl.java,v 1.2 2004/03/30 15:33:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1111,7 +1111,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   protected GenClass getProviderExtendsGenClass()
   {
     GenClass baseClass = getClassExtendsGenClass();
-    while (baseClass != null && baseClass.getProvider() == GenProviderKind.NONE_LITERAL)
+    while (baseClass != null && 
+             (baseClass.getProvider() == GenProviderKind.NONE_LITERAL ||
+                !baseClass.getGenModel().hasEditSupport()))
     {
       baseClass = baseClass.getClassExtendsGenClass();
     }
