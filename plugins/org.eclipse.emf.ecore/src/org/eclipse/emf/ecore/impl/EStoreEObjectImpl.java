@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.2 2004/05/27 20:20:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -27,11 +27,13 @@ import java.util.Map;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.DelegatingEcoreEList;
 import org.eclipse.emf.ecore.util.DelegatingFeatureMap;
 import org.eclipse.emf.ecore.util.EcoreEList;
@@ -42,8 +44,95 @@ import org.eclipse.emf.ecore.util.FeatureMapUtil;
 /**
  * An implementation of '<em><b>EObject</b></em>' that delegates to a {@link org.eclipse.emf.ecore.InternalEObject.EStore store}.
  */
-public class EStoreEObjectImpl extends DynamicEObjectImpl
+public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature.Internal.DynamicValueHolder
 {
+  /**
+   * An internal class for holding less frequently members variables.
+   */
+  protected static class EStoreEPropertiesHolderImpl implements BasicEObjectImpl.EPropertiesHolder
+  {
+    protected EClass eClass;
+    protected URI eProxyURI;
+    protected Resource.Internal eResource;
+    protected EList eContents;
+    protected EList eCrossReferences;
+
+    public EClass getEClass()
+    {
+      return eClass;
+    }
+    
+    public void setEClass(EClass eClass)
+    {
+      this.eClass = eClass;
+    }
+
+    public URI getEProxyURI()
+    {
+      return eProxyURI;
+    }
+
+    public void setEProxyURI(URI eProxyURI)
+    {
+      this.eProxyURI = eProxyURI;
+    }
+
+    public Resource.Internal getEResource()
+    {
+      return eResource;
+    }
+
+    public void setEResource(Resource.Internal eResource)
+    {
+      this.eResource = eResource;
+    }
+
+    public EList getEContents()
+    {
+      return eContents;
+    }
+
+    public void setEContents(EList eContents)
+    {
+      this.eContents = eContents;
+    }
+
+    public EList getECrossReferences()
+    {
+      return eCrossReferences;
+    }
+
+    public void setECrossReferences(EList eCrossReferences)
+    {
+      this.eCrossReferences = eCrossReferences;
+    }
+
+    public boolean hasSettings()
+    {
+      throw new UnsupportedOperationException();
+    }
+
+    public void allocateSettings(int maximumDynamicFeatureID)
+    {
+      throw new UnsupportedOperationException();
+    }
+
+    public Object dynamicGet(int dynamicFeatureID)
+    {
+      throw new UnsupportedOperationException();
+    }
+
+    public void dynamicSet(int dynamicFeatureID, Object value)
+    {
+      throw new UnsupportedOperationException();
+    }
+
+    public void dynamicUnset(int dynamicFeatureID)
+    {
+      throw new UnsupportedOperationException();
+    }
+  }
+
   /**
    * A list that delegates to a eStore.
    */
@@ -171,6 +260,37 @@ public class EStoreEObjectImpl extends DynamicEObjectImpl
     protected Object[] delegateToArray(Object[] array)
     {
       return store.toArray(owner, eStructuralFeature, array);
+    }
+
+    protected boolean delegateEquals(Object object)
+    {
+      if (object == this)
+      {
+        return true;
+      }
+
+      if (!(object instanceof List))
+      {
+        return false;
+      }
+
+      List list = (List)object;
+      if (list.size() != delegateSize())
+      {
+        return false;
+      }
+
+
+      for (ListIterator i = list.listIterator(); i.hasNext(); )
+      {
+        Object element= i.next();
+        if (element == null ? get(i.previousIndex()) != null : !element.equals(get(i.previousIndex())))
+        {
+          return false;
+        }
+      }
+
+      return true;
     }
 
     protected String delegateToString()
@@ -338,17 +458,49 @@ public class EStoreEObjectImpl extends DynamicEObjectImpl
     }
   }
 
+  protected static final Object [] ENO_SETTINGS = new Object [0];
   protected static final InternalEObject EUNINITIALIZED_CONTAINER = new EObjectImpl();
 
+  protected Object [] eSettings;
   protected InternalEObject.EStore eStore;
 
   /**
-   * Creates a dynamic EObject.
+   * Creates a store-based EObject.
+   */
+  public EStoreEObjectImpl()
+  {
+    super();
+    eContainer = EUNINITIALIZED_CONTAINER;
+  }
+
+  /**
+   * Creates a store-based EObject.
+   */
+  public EStoreEObjectImpl(InternalEObject.EStore eStore) 
+  {
+    super();
+    eSetStore(eStore);
+    eContainer = EUNINITIALIZED_CONTAINER;
+  }
+
+  /**
+   * Creates a store-based EObject.
+   */
+  public EStoreEObjectImpl(EClass eClass)
+  {
+    super();
+    eSetClass(eClass);
+    eContainer = EUNINITIALIZED_CONTAINER;
+  }
+
+  /**
+   * Creates a store-based EObject.
    */
   public EStoreEObjectImpl(EClass eClass, InternalEObject.EStore eStore) 
   {
-    super(eClass);
-    this.eStore = eStore;
+    super();
+    eSetClass(eClass);
+    eSetStore(eStore);
     eContainer = EUNINITIALIZED_CONTAINER;
   }
 
@@ -375,7 +527,7 @@ public class EStoreEObjectImpl extends DynamicEObjectImpl
         }
         else
         {
-          result = eStore.get(this, eStructuralFeature, InternalEObject.EStore.NO_INDEX);
+          result = eStore().get(this, eStructuralFeature, InternalEObject.EStore.NO_INDEX);
           if (eIsCaching())
           {
             eSettings[dynamicFeatureID] = result;
@@ -395,7 +547,7 @@ public class EStoreEObjectImpl extends DynamicEObjectImpl
     }
     else
     {
-      eStore.set(this, eStructuralFeature, InternalEObject.EStore.NO_INDEX, value == NIL ? null : value);
+      eStore().set(this, eStructuralFeature, InternalEObject.EStore.NO_INDEX, value == NIL ? null : value);
       if (eIsCaching())
       {
         eSettings[dynamicFeatureID] = value;
@@ -405,7 +557,7 @@ public class EStoreEObjectImpl extends DynamicEObjectImpl
 
   public void dynamicUnset(int dynamicFeatureID)
   {
-    eStore.unset(this, eDynamicFeature(dynamicFeatureID));
+    eStore().unset(this, eDynamicFeature(dynamicFeatureID));
     eSettings[dynamicFeatureID] = null;
   }
 
@@ -414,17 +566,17 @@ public class EStoreEObjectImpl extends DynamicEObjectImpl
     return 
       eStructuralFeature.isTransient() ?
         super.eDynamicIsSet(eStructuralFeature) :
-        eStore.isSet(this, eStructuralFeature);
+        eStore().isSet(this, eStructuralFeature);
   }
 
   protected EList createList(EStructuralFeature eStructuralFeature)
   {
-    return new EStoreEList(this, eStructuralFeature, eStore);
+    return new EStoreEList(this, eStructuralFeature, eStore());
   }
 
   protected FeatureMap createFeatureMap(EStructuralFeature eStructuralFeature)
   {
-    return new EStoreFeatureMap(this, eStructuralFeature, eStore);
+    return new EStoreFeatureMap(this, eStructuralFeature, eStore());
   }
 
   public EObject eContainer()
@@ -449,10 +601,10 @@ public class EStoreEObjectImpl extends DynamicEObjectImpl
 
   protected void eInitializeContainer()
   {
-    eContainer = (InternalEObject)eStore.getContainer(this);
+    eContainer = (InternalEObject)eStore().getContainer(this);
     if (eContainer != null)
     {
-      EStructuralFeature eContainingFeature = eStore.getContainingFeature(this);
+      EStructuralFeature eContainingFeature = eStore().getContainingFeature(this);
       if (eContainingFeature instanceof EReference)
       {
         EReference eContainingReference = (EReference)eContainingFeature;
@@ -467,6 +619,61 @@ public class EStoreEObjectImpl extends DynamicEObjectImpl
       eContainerFeatureID = EOPPOSITE_FEATURE_BASE - eContainer.eClass().getEAllStructuralFeatures().indexOf(eContainingFeature);
     }
   }
+
+  public InternalEObject.EStore eStore()
+  {
+    return eStore;
+  }
+
+  public void eSetStore(InternalEObject.EStore store)
+  {
+    this.eStore = store;
+  }
+
+  protected int eStaticFeatureCount()
+  {
+    return 0;
+  }
+
+  public int eDerivedStructuralFeatureID(EStructuralFeature eStructuralFeature)
+  {
+    return eClass().getEAllStructuralFeatures().indexOf(eStructuralFeature);
+  }
+
+  protected BasicEObjectImpl.EPropertiesHolder eProperties()
+  {
+    if (eProperties == null)
+    {
+      eProperties = new EStoreEPropertiesHolderImpl();
+    }
+    return eProperties;
+  }
+
+  protected boolean eHasSettings()
+  {
+    return eSettings != null;
+  }
+
+  protected EStructuralFeature.Internal.DynamicValueHolder eSettings()
+  {
+    if (eSettings == null)
+    {
+      int size = eClass().getEAllStructuralFeatures().size() - eStaticFeatureCount();
+      eSettings = size == 0 ? ENO_SETTINGS : new Object [size];
+    }
+
+    return this;
+  }
+
+/*
+  public String toString()
+  {
+    String result = super.toString();
+    int index = result.indexOf("EStoreEObjectImpl");
+    return index == -1 ? result : result.substring(0, index) + result.substring(index + 6);
+  }
+*/
+
 
   /**
    *  This class is for testing purposes only and will be removed.
@@ -669,23 +876,4 @@ public class EStoreEObjectImpl extends DynamicEObjectImpl
       return result;
     }
   }
-
-  public InternalEObject.EStore eStore()
-  {
-    return eStore;
-  }
-
-  public void eSetStore(InternalEObject.EStore store)
-  {
-    this.eStore = store;
-  }
-
-/*
-  public String toString()
-  {
-    String result = super.toString();
-    int index = result.indexOf("EStoreEObjectImpl");
-    return index == -1 ? result : result.substring(0, index) + result.substring(index + 6);
-  }
-*/
 }
