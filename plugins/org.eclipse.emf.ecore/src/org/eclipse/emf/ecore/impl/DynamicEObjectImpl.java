@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicEObjectImpl.java,v 1.2 2004/03/20 21:50:34 emerks Exp $
+ * $Id: DynamicEObjectImpl.java,v 1.3 2004/05/27 20:18:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -119,6 +119,14 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
   protected Object [] eSettings;
 
   protected static final Object [] ENO_SETTINGS = new Object [0];
+
+  /**
+   * Creates a dynamic EObject.
+   */
+  public DynamicEObjectImpl()
+  {
+    super();
+  }
 
   /**
    * Creates a dynamic EObject.
