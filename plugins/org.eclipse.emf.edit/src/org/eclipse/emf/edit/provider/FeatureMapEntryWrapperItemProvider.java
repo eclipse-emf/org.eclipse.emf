@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryWrapperItemProvider.java,v 1.3 2004/09/24 04:20:58 davidms Exp $
+ * $Id: FeatureMapEntryWrapperItemProvider.java,v 1.4 2004/12/24 17:29:02 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -150,7 +150,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
     {
       text = "<!--" + encode(getEntryValue().toString()) + "-->";
     }
-    else if (ExtendedMetaData.INSTANCE.getFeatureKind(feature) == ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE)
+    else if (ExtendedMetaData.INSTANCE.getFeatureKind(feature) == ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE && isEntryAttribute())
     {
       text = getEntryFeature().getName() + "='" +
         EcoreUtil.convertToString((EDataType)getEntryFeature().getEType(), getEntryValue()) + "'";
