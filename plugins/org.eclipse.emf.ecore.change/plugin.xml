@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.6 2004/10/29 19:21:08 marcelop Exp $
+ * $Id: plugin.xml,v 1.7 2004/12/08 22:41:56 marcelop Exp $
  */
 -->
 
@@ -37,4 +37,9 @@
     </library>
   </runtime>
 
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package
+        uri = "http://www.eclipse.org/emf/2004/Change"
+        class = "org.eclipse.emf.ecore.change.ChangePackage" />
+  </extension>
 </plugin>
