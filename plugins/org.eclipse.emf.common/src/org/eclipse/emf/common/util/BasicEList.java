@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.5 2004/08/12 11:30:06 emerks Exp $
+ * $Id: BasicEList.java,v 1.6 2004/08/24 19:17:41 elena Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -63,7 +63,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   {
     if (initialCapacity < 0)
     {
-      throw new IllegalArgumentException("Illegal Capacity: "+ initialCapacity);  
+      throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);  
     }
 
     data = newData(initialCapacity); 
@@ -481,6 +481,21 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   }
 
   /**
+   * An IndexOutOfBoundsException that constructs a message from the argument data.
+   * Having this avoids having the byte code that computes the message repeated/inlined at the creation site.
+   */
+  protected static class BasicIndexOutOfBoundsException extends IndexOutOfBoundsException
+  {
+    /**
+     * Constructs an instance with a message based on the arguments.
+     */
+    public BasicIndexOutOfBoundsException(int index, int size)
+    {
+      super("index=" + index + ", size=" + size);
+    }
+  }
+  
+  /**
    * Returns the object at the index.
    * This implementation delegates to {@link #resolve resolve} 
    * so that clients may transform the fetched object.
@@ -493,7 +508,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   public Object get(int index) 
   {
     if (index >= size)
-      throw new IndexOutOfBoundsException("index=" + index + ", size=" + size);
+      throw new BasicIndexOutOfBoundsException(index, size);
 
     return resolve(index, data[index]);
   }
@@ -509,7 +524,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   public Object basicGet(int index) 
   {
     if (index >= size)
-      throw new IndexOutOfBoundsException("index=" + index + ", size=" + size);
+      throw new BasicIndexOutOfBoundsException(index, size);
 
     return data[index];
   }
@@ -529,7 +544,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   public Object set(int index, Object object) 
   {
     if (index >= size)
-      throw new IndexOutOfBoundsException("index=" + index + ", size=" + size);
+      throw new BasicIndexOutOfBoundsException(index, size);
 
     if (isUnique())
     {
@@ -619,7 +634,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   public void add(int index, Object object)
   {
     if (index > size)
-      throw new IndexOutOfBoundsException("index=" + index + ", size=" + size);
+      throw new BasicIndexOutOfBoundsException(index, size);
 
     if (isUnique() && contains(object))
     {
@@ -716,7 +731,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   public boolean addAll(int index, Collection collection) 
   {
     if (index > size)
-        throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
+      throw new BasicIndexOutOfBoundsException(index, size);
 
     if (isUnique())
     {
@@ -816,7 +831,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   public Object remove(int index) 
   {
     if (index >= size)
-      throw new IndexOutOfBoundsException("Index: "+index+", Size: "+size);
+      throw new BasicIndexOutOfBoundsException(index, size);
 
     ++modCount;
     Object oldObject = data[index];
@@ -1293,7 +1308,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   public ListIterator listIterator(int index) 
   {
     if (index < 0 || index > size())
-      throw new IndexOutOfBoundsException("index=" + index + ", size=" + size);
+      throw new BasicIndexOutOfBoundsException(index, size);
 
     return new EListIterator(index);
   }
@@ -1437,7 +1452,7 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   protected ListIterator basicListIterator(int index) 
   {
     if (index < 0 || index > size())
-      throw new IndexOutOfBoundsException("index=" + index + ", size=" + size);
+      throw new BasicIndexOutOfBoundsException(index, size);
 
     return new NonResolvingEListIterator(index);
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEList.java,v 1.2 2004/08/12 11:55:14 emerks Exp $
+ * $Id: EcoreEList.java,v 1.3 2004/08/24 19:17:42 elena Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -136,28 +136,32 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
 
   protected Object resolve(int index, Object object)
   {
-    if (isEObject() && hasProxies())
+    return
+      isEObject() && hasProxies() ?
+        resolve(index, (EObject)object):
+        object;
+  }
+  
+  protected EObject resolve(int index, EObject eObject)
+  {
+    EObject resolved = resolveProxy(eObject);
+    if (resolved != eObject)
     {
-      EObject resolved = resolveProxy((EObject)object);
-      if (resolved != object)
+      Object oldObject = data[index];
+      assign(index, validate(index, resolved));
+      didSet(index, resolved, oldObject);
+
+      if (isNotificationRequired())
       {
-        Object oldObject = data[index];
-        assign(index, validate(index, resolved));
-        didSet(index, resolved, oldObject);
-
-        // EATM turn into notification
-        //
-        // owner.resolved(getEStructuralFeature(), resolved);
-
-        if (isNotificationRequired())
-        {
-          owner.eNotify(createNotification(Notification.RESOLVE, object, resolved, index, false));
-        }
-
-        return resolved;
+        owner.eNotify(createNotification(Notification.RESOLVE, eObject, resolved, index, false));
       }
+
+      return resolved;
     }
-    return object;
+    else
+    {
+      return eObject;
+    }
   }
 
   protected EObject resolveProxy(EObject eObject)

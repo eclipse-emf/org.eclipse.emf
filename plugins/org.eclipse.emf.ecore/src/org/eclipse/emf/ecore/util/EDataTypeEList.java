@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EDataTypeEList.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EDataTypeEList.java,v 1.2 2004/08/24 19:17:42 elena Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -74,5 +74,10 @@ public class EDataTypeEList extends EcoreEList
   protected boolean isEObject()
   {
     return false;
+  }
+    
+  protected Object resolve(int index, Object object)
+  {
+    return object;
   }
 }

@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EObjectResolvingEList.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EObjectResolvingEList.java,v 1.2 2004/08/24 19:17:42 elena Exp $
  */
 package org.eclipse.emf.ecore.util;
 
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 
@@ -33,6 +34,11 @@ public class EObjectResolvingEList extends EObjectEList
     {
       return true;
     }
+    
+    protected Object resolve(int index, Object object)
+    {
+      return resolve(index, (EObject)object);
+    }
   }
 
   public EObjectResolvingEList(Class dataClass, InternalEObject owner, int featureID)
@@ -43,5 +49,10 @@ public class EObjectResolvingEList extends EObjectEList
   protected boolean hasProxies()
   {
     return true;
+  }
+  
+  protected Object resolve(int index, Object object)
+  {
+    return resolve(index, (EObject)object);
   }
 }
