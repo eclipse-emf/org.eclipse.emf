@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEList.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EcoreEList.java,v 1.2 2004/08/12 11:55:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -162,7 +162,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
 
   protected EObject resolveProxy(EObject eObject)
   {
-    return owner.eResolveProxy((InternalEObject)eObject);
+    return eObject.eIsProxy() ? owner.eResolveProxy((InternalEObject)eObject) : eObject;
   }
 
   public Object[] toArray()
