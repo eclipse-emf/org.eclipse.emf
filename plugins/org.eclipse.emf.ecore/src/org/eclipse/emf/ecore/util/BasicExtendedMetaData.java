@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.2 2004/03/16 17:33:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1070,6 +1070,10 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       ePackage = EcoreFactory.eINSTANCE.createEPackage();
       ePackage.setNsURI(namespace);
       setQualified(ePackage, namespace != null);
+      if (namespace != null)
+      {
+        ePackage.setNsPrefix("_");
+      }
       demandRegistry.put(namespace, ePackage);
 
       // demandDocumentRoot(ePackage);
