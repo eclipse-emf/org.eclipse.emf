@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeReportTest.java,v 1.8 2004/08/20 22:58:27 marcelop Exp $
+ * $Id: ChangeReportTest.java,v 1.9 2004/08/24 16:09:06 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -84,6 +84,7 @@ extends TestCase
     ts.addTest(new ChangeReportTest("testAddElementAndApply", callSummarize));
     ts.addTest(new ChangeReportTest("testMoveElementAndApply", callSummarize));
     ts.addTest(new ChangeReportTest("testApply", callSummarize));
+    ts.addTest(new ChangeReportTest("testApplyAndReverse", callSummarize));
     return ts;
   }
   
@@ -398,6 +399,51 @@ extends TestCase
     applyCheck(changeRecorder.endRecording(), beforeChange, true);
   }
   
+  public void testApplyAndReverse()
+  {
+    EClass eClass1 = EcoreFactory.eINSTANCE.createEClass();
+    eClass1.setName("testEClass1");
+    eAnnotation.getContents().add(eClass1);
+    
+    List beforeChange = new ArrayList(eAnnotation.getContents());
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(eAnnotation);
+    eAnnotation.getContents().add(EcoreFactory.eINSTANCE.createEClass());
+    eAnnotation.getContents().add(EcoreFactory.eINSTANCE.createEClass());
+    eAnnotation.getContents().move(0, 1);
+    eAnnotation.getContents().remove(0);
+    eAnnotation.getContents().add(EcoreFactory.eINSTANCE.createEClass());
+    eAnnotation.getContents().add(EcoreFactory.eINSTANCE.createEClass());
+    eAnnotation.getContents().remove(1);
+    eAnnotation.getContents().move(callSummarize?1:3, callSummarize?0:1);
+    eAnnotation.getContents().remove(callSummarize?1:3);
+    
+    ChangeDescription changeDescription = changeRecorder.endRecording();   
+    List afterChange = new ArrayList(eAnnotation.getContents());
+    
+    //current != before && current == after
+    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
+    assertTrue(EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+
+    changeDescription.applyAndReverse();
+    
+    //current == before && current != after
+    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
+    assertFalse(EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+    
+    changeDescription.applyAndReverse();
+
+    //current != before && current == after
+    assertFalse(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
+    assertTrue(EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+    
+    changeDescription.apply();
+    
+    //current == before && current != after
+    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
+    assertFalse(EMFTestCorePlugin.areEqual(afterChange, eAnnotation.getContents()));
+  }
+
   /*
    * bugzilla 68310
    */
