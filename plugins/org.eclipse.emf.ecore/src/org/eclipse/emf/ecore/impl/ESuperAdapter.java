@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ESuperAdapter.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: ESuperAdapter.java,v 1.2 2004/03/20 21:48:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -103,7 +103,7 @@ public class ESuperAdapter extends AdapterImpl
 
   public boolean isAdapterForType(Object type)
   {
-    return ESuperAdapter.class.equals(type);
+    return type == ESuperAdapter.class;
   }
 
   public void notifyChanged(Notification notification)
