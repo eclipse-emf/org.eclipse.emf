@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.6 2004/07/20 16:18:56 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.7 2004/08/12 15:03:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -473,6 +473,12 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     theEcorePackage.initializePackageContents();
 
     return theEcorePackage;
+  }
+
+  public static boolean internalBootstrap()
+  {
+    ((EPackageImpl)EcorePackage.eINSTANCE).freeze();
+    return true;
   }
 
   /**
