@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.4 2004/05/10 19:36:11 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.5 2004/05/11 12:59:59 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -411,7 +412,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
     {
       if (parentReferences != null)
       {
-        Collection result = new HashSet();
+        Collection result = new UniqueEList();
         for (int i = 0; i < parentReferences.length; ++i)
         {
           result.addAll(getReachableObjectsOfType((EObject)object, parentReferences[i].getEType()));
@@ -423,7 +424,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
         if (feature instanceof EReference)
         {
           Collection result = getReachableObjectsOfType((EObject)object, feature.getEType());
-          if (!feature.isMany())
+          if (!feature.isMany() && !result.contains(null))
           {
             result.add(null);
           }
@@ -451,7 +452,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
   static public Collection getReachableObjectsOfType(EObject object, EClassifier type)
   {
     Collection visited  = new HashSet();
-    Collection result = new HashSet();
+    Collection result = new ArrayList();
     Resource resource = object.eResource();
     if (resource != null)
     {
