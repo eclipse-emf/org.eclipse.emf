@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.19 2004/09/01 13:13:38 emerks Exp $
+ * $Id: ChangeRecorder.java,v 1.20 2004/12/08 14:31:40 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -270,9 +270,14 @@ public class ChangeRecorder implements Adapter
       return;
     }
     
-    List changes = getFeatureChanges(eObject);
-    FeatureChange change = getFeatureChange(changes, feature);
-
+    List changes = null;
+    FeatureChange change = null;
+    if (isRecording())
+    {
+      changes = getFeatureChanges(eObject);
+      change = getFeatureChange(changes, feature);      
+    }
+    
     int event = notification.getEventType();
     switch (event)
     {
@@ -408,8 +413,13 @@ public class ChangeRecorder implements Adapter
 
   protected void handleResource(Notification notification)
   {
-    Resource resource = (Resource)notification.getNotifier();
-    ResourceChange change = getResourceChange(resource);
+    Resource resource = null;
+    ResourceChange change = null;
+    if (isRecording())
+    {
+      resource = (Resource)notification.getNotifier();
+      change = getResourceChange(resource);
+    }
 
     int eventType = notification.getEventType();
     switch (eventType)
