@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.11 2005/03/08 20:41:51 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.12 2005/03/10 16:12:21 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -167,6 +167,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected String partNumValue;
 
+  protected String stringValue;
+
   //instance data (used in AccessorTest' set tests)
 
   protected DataObject newBillToAddress0;
@@ -225,9 +227,11 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(2000).setRepetitions(REPETITIONS_10));
 
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(2000).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(2000).setRepetitions(REPETITIONS_10));
+
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByName").setWarmUp(1000).setRepetitions(REPETITIONS_10));
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(1000).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(3000).setRepetitions(REPETITIONS_5));
@@ -653,6 +657,25 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
       {
         // TODO ideally, we'd want to call getBigDecimal for different features.
         usPriceValue = po.getBigDecimal("items/item[1]/uSPrice");
+      }
+    }
+    stopMeasuring();
+  }
+
+  public void getStringByName()
+  {
+    DataObject itemElement = this.itemElement;
+    String stringValue = this.stringValue;
+    String partNum0 = this.partNum0;
+
+    startMeasuring();
+    for (int i = 0; i < ITERATIONS_50K; i++)
+    {
+      // to use stringValue inside the loop.
+      if (stringValue != partNum0)
+      {
+        stringValue = itemElement.getString("productName");
+        stringValue = itemElement.getString("comment");
       }
     }
     stopMeasuring();
