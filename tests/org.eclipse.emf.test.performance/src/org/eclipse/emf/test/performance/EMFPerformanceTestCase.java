@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.13 2005/03/30 20:49:52 nickb Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.14 2005/03/30 23:12:15 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -134,7 +134,10 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
   {
     assertTrue("Iterations must be greater than 0", getRepetitions() > 0);
 
-	System.out.println(timeStamp() + " Warming up...");
+	String testMethodName = this.getClass().getName();
+	testMethodName = testMethodName.substring(testMethodName.lastIndexOf('.')+1) + "#" + this.getName();
+	System.out.println(timeStamp() + " Warming up "+testMethodName+ "() ...");
+	System.out.println();
     warmUp();
 	System.out.println(timeStamp() + " Warmed, starting...");
 
