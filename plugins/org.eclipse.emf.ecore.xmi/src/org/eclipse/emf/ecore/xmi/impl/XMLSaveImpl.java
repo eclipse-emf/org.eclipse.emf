@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.8 2004/04/22 16:47:32 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.9 2004/04/29 15:41:19 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -470,7 +470,7 @@ public class XMLSaveImpl implements XMLSave
       if (ePackage != noNamespacePackage && ePackage != XMLNamespacePackage.eINSTANCE)
       {
         String nsURI = extendedMetaData == null ? ePackage.getNsURI() : extendedMetaData.getNamespace(ePackage);
-        if (nsURI != null)
+        if (nsURI != null && !isDuplicateURI(nsURI))
         {
           List nsPrefixes = helper.getPrefixes(ePackage);
           for (Iterator j = nsPrefixes.iterator(); j.hasNext(); )
@@ -498,6 +498,11 @@ public class XMLSaveImpl implements XMLSave
     {
       doc.addAttribute(XSI_NO_NAMESPACE_SCHEMA_LOCATION, xsiNoNamespaceSchemaLocation);
     }
+  }
+  
+  public boolean isDuplicateURI(String nsURI)
+  {
+    return false;
   }
 
   public void write(OutputStreamWriter os) throws IOException

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMISaveImpl.java,v 1.3 2004/04/18 23:17:05 emerks Exp $
+ * $Id: XMISaveImpl.java,v 1.4 2004/04/29 15:41:19 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -92,5 +92,10 @@ public class XMISaveImpl extends XMLSaveImpl
     doc.addAttribute(XMI_VER_NS, XMIResource.VERSION_VALUE);
     doc.addAttribute(XMI_XMLNS, XMIResource.XMI_URI);
     super.addNamespaceDeclarations();
+  }
+  
+  public boolean isDuplicateURI(String nsURI)
+  {
+    return XMIResource.XMI_URI.equals(nsURI);
   }
 }
