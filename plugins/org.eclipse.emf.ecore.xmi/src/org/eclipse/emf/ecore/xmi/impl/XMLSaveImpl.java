@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.30 2005/03/15 16:25:10 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.31 2005/03/15 20:36:30 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1343,7 +1343,7 @@ public class XMLSaveImpl implements XMLSave
   protected void saveDataTypeSingle(EObject o, EStructuralFeature f)
   {  
     Object value = helper.getValue(o, f);
-    String svalue = getDatatypeValue(value, f); 
+    String svalue = getDatatypeValue(value, f, true); 
     if (svalue != null)
     {
       if (!toDOM)
@@ -2075,7 +2075,7 @@ public class XMLSaveImpl implements XMLSave
       else
       {
         Object value = entry.getValue();
-        String svalue = getDatatypeValue(value, entryFeature);
+        String svalue = getDatatypeValue(value, entryFeature, true);
         if (!toDOM)
         {
           doc.addAttribute(helper.getQName(entryFeature), svalue);
@@ -2143,7 +2143,7 @@ public class XMLSaveImpl implements XMLSave
       if (info != null && info.getXMLRepresentation() == XMLResource.XMLInfo.CONTENT)
       {
         Object value = helper.getValue(o, feature);
-        String svalue = getDatatypeValue(value, feature);
+        String svalue = getDatatypeValue(value, feature, false);
         if (toDOM)
         {            
           Node text = document.createTextNode(svalue);
@@ -2164,7 +2164,7 @@ public class XMLSaveImpl implements XMLSave
   protected String getDataTypeElementSingleSimple(EObject o, EStructuralFeature f)
   {
     Object value = helper.getValue(o, f);
-    String svalue = getDatatypeValue(value, f);
+    String svalue = getDatatypeValue(value, f, false);
     if (toDOM)
     {            
       Node text = document.createTextNode(svalue);
@@ -2450,7 +2450,7 @@ public class XMLSaveImpl implements XMLSave
     }
   }
 
-  protected String getDatatypeValue(Object value, EStructuralFeature f)
+  protected String getDatatypeValue(Object value, EStructuralFeature f, boolean isAttribute)
   {
     if (value == null) 
     {
@@ -2462,7 +2462,14 @@ public class XMLSaveImpl implements XMLSave
     String svalue = helper.convertToString(fac, d, value);
     if (escape != null)
     {
-      svalue = escape.convertText(svalue);
+      if (isAttribute)
+      {
+        svalue = escape.convert(svalue);
+      }
+      else
+      {
+        svalue = escape.convertText(svalue);
+      }
     }
     return svalue;
   }
@@ -2475,7 +2482,7 @@ public class XMLSaveImpl implements XMLSave
     }
     else
     {
-      String svalue =  getDatatypeValue(value, f);
+      String svalue =  getDatatypeValue(value, f, false);
       if (!toDOM)
       {
         doc.saveDataValueElement(helper.getQName(f), svalue);
