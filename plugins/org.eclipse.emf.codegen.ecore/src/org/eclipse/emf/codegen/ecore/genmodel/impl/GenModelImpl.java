@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.17 2005/01/24 13:44:07 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.18 2005/01/24 22:15:13 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1096,8 +1096,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     String theTemplateDirectory = getTemplateDirectory();
     templatePath[0] = 
-      theTemplateDirectory == null  || theTemplateDirectory.indexOf(":") == -1 ? 
-        URI.createPlatformResourceURI(theTemplateDirectory).toString() : 
+      theTemplateDirectory != null  && theTemplateDirectory.indexOf(":") == -1 ? 
+        URI.createPlatformResourceURI(theTemplateDirectory).toString() :
         theTemplateDirectory;
     templatePath[1] =  CodeGenEcorePlugin.INSTANCE.getBaseURL().toString() + "templates";
     return templatePath;
