@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.4 2004/09/29 16:54:02 emerks Exp $
+ * $Id: URIConverterImpl.java,v 1.5 2005/03/23 19:00:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -37,7 +37,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-
+import org.eclipse.emf.common.archive.ArchiveURLConnection;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -243,6 +243,17 @@ public class URIConverterImpl implements URIConverter
     //
     // workspaceRoot = null;
   }
+  
+  /**
+   * Returns whether the scheme is one that this implementation should treat as an archive.
+   * This implementation returns <code>true</code> which the schem is <code>"archive"</code>.
+   * @param scheme the scheme to consider.
+   * @return whether the scheme is one that this implementation treats as an archive.
+   */
+  protected boolean isArchiveScheme(String scheme)
+  {
+    return "archive".equals(scheme);
+  }
 
   /**
    * Creates an output stream for the URI and returns it.
@@ -277,19 +288,27 @@ public class URIConverterImpl implements URIConverter
       String filePath = converted.toFileString();
       return createFileOutputStream(filePath);
     }
-    else if ("platform".equals(converted.scheme()) && converted.segmentCount() > 1 && "resource".equals(converted.segment(0)))
+    else 
     {
-      StringBuffer platformResourcePath = new StringBuffer();
-      for (int i = 1, size = converted.segmentCount(); i < size; ++i)
+      String scheme = converted.scheme();
+      if (isArchiveScheme(scheme))
       {
-        platformResourcePath.append('/');
-        platformResourcePath.append(URI.decode(converted.segment(i)));
+        return createArchiveOutputStream(converted);  
       }
-      return createPlatformResourceOutputStream(platformResourcePath.toString());
-    }
-    else
-    {
-      return createURLOutputStream(converted);
+      else if ("platform".equals(scheme) && converted.segmentCount() > 1 && "resource".equals(converted.segment(0)))
+      {
+        StringBuffer platformResourcePath = new StringBuffer();
+        for (int i = 1, size = converted.segmentCount(); i < size; ++i)
+        {
+          platformResourcePath.append('/');
+          platformResourcePath.append(URI.decode(converted.segment(i)));
+        }
+        return createPlatformResourceOutputStream(platformResourcePath.toString());
+      }
+      else
+      {
+        return createURLOutputStream(converted);
+      }
     }
   }
 
@@ -311,6 +330,17 @@ public class URIConverterImpl implements URIConverter
     }
     OutputStream outputStream = new FileOutputStream(file);
     return outputStream;
+  }
+  
+  /**
+   * Creates an output stream for the archive access.
+   * </p>
+   * @return an open output stream.
+   * @exception IOException if there is a problem obtaining an open output stream.
+   */
+  protected OutputStream createArchiveOutputStream(URI archiveURI) throws IOException
+  {
+    return createArchive(archiveURI).getOutputStream();
   }
 
   /**
@@ -393,19 +423,28 @@ public class URIConverterImpl implements URIConverter
       String filePath = converted.toFileString();
       return createFileInputStream(filePath);
     }
-    else if ("platform".equals(converted.scheme()) && converted.segmentCount() > 1 && "resource".equals(converted.segment(0)))
-    {
-      StringBuffer platformResourcePath = new StringBuffer();
-      for (int i = 1, size = converted.segmentCount(); i < size; ++i)
-      {
-        platformResourcePath.append('/');
-        platformResourcePath.append(URI.decode(converted.segment(i)));
-      }
-      return createPlatformResourceInputStream(platformResourcePath.toString());
-    }
     else
     {
-      return createURLInputStream(converted);
+      String scheme = converted.scheme();
+      if (isArchiveScheme(scheme))
+      {
+        return createArchiveInputStream(converted);
+      }
+      else if ("platform".equals(scheme) && converted.segmentCount() > 1 && "resource".equals(converted.segment(0)))
+      {
+        
+        StringBuffer platformResourcePath = new StringBuffer();
+        for (int i = 1, size = converted.segmentCount(); i < size; ++i)
+        {
+          platformResourcePath.append('/');
+          platformResourcePath.append(URI.decode(converted.segment(i)));
+        }
+        return createPlatformResourceInputStream(platformResourcePath.toString());
+      }
+      else
+      {
+        return createURLInputStream(converted);
+      }
     }
   }
 
@@ -422,6 +461,54 @@ public class URIConverterImpl implements URIConverter
     File file = new File(filePath);
     InputStream inputStream = new FileInputStream(file);
     return inputStream;
+  }
+  
+  /**
+   * A specialized class for reading from an archive.
+   */
+  protected class Archive extends ArchiveURLConnection
+  {
+    public Archive(URI uri)
+    {
+      super(uri.toString());
+    }
+    
+    protected boolean emulateArchiveScheme()
+    {
+      return false;
+    }
+    
+    protected boolean useZipFile()
+    {
+      return true;
+    }
+    
+    protected InputStream createInputStream(String nestedURL) throws IOException
+    {
+      return URIConverterImpl.this.createInputStream(URI.createURI(nestedURL));
+    }
+    
+    protected OutputStream createOutputStream(String nestedURL) throws IOException
+    {
+      return URIConverterImpl.this.createOutputStream(URI.createURI(nestedURL));
+    }
+  }
+  
+  protected Archive createArchive(URI uri)
+  {
+    return new Archive(uri);
+  }
+  
+  /**
+   * Creates an input stream for the archive paths and returns it.
+   * It uses {@link ArchiveReader} to implement read access.
+   * </p>
+   * @return an open input stream.
+   * @exception IOException if there is a problem obtaining an open input stream.
+   */
+  protected InputStream createArchiveInputStream(URI archiveURI) throws IOException
+  {
+    return createArchive(archiveURI).getInputStream();
   }
 
   /**
