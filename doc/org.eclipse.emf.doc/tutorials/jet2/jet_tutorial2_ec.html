@@ -2,18 +2,29 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-
-<!-- ZoneLabs Privacy Insertion -->
-<script language='javascript' src='http://127.0.0.1:1034/js.cgi?pcaw&r=8909'></script>
-
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>JET Tutorial Part 2 (Write Code that Writes Code)</title>
-<link rel="stylesheet" href="images/../../../css/book.css" type="text/css" />
-<link rel="stylesheet" href="images/../../../css/emf-book.css" type="text/css" />
+<link rel="stylesheet" href="../default_style.css">
 </head>
 
 <body lang="EN-US" xml:lang="EN-US">
+
+<div align="right">&nbsp; <font face="Times New Roman, Times, serif" size="2">&copy; 
+  Copyright International Business Machines Corporation, 2004. All rights reserved</font> 
+  <br>
+  <font face="Times New Roman, Times, serif" size="2">&copy; Copyright Bjorn Freeman-Benson, 
+  2004. All rights reserved</font> 
+  <table border=0 cellspacing=0 cellpadding=2 width="100%">
+
+    <tr> 
+      <td align=LEFT valign=TOP colspan="2" bgcolor="#0080C0"><b><font face="Arial,Helvetica"><font color="#FFFFFF">&nbsp;Eclipse 
+        Corner Article</font></font></b></td>
+    </tr>
+  </table>
+</div>
+<div align="left"> 
+  <h1><img src="images/Idea.jpg" align=CENTER width="120" height="86"></h1>
+</div>
 
 <h1 align="center">JET Tutorial Part 2 (Write Code that Writes Code)</h1>
 
@@ -29,8 +40,7 @@
     on a JET template that can be distributed with the plug-in, allowing users 
     of the plug-in to customize the generated code by editing the template.</p>
 <p>This article also provides a short reference to the JET API.</p>
-  <p>Contributed by Remko Popma, Azzurri Ltd., remko.popma at azzurri dot jp, 
-    August 26, 2003. Used with permission. Last update: May 31, 2004.</p>
+  <p>Contributed by Remko Popma, Azzurri Ltd., remko.popma at azzurri dot jp, August 26, 2003. Used with permission. Last update: May 31, 2004.</p>
 
 </blockquote>
 
@@ -77,7 +87,6 @@
   1</a> of this tutorial introduced JET templates and explained how you can convert 
   a project to a JET project to have the JET Builder automatically 
   translate templates in your project to template implementation classes. </p>
-
 <p>In part 2 of this tutorial, we will focus on writing a plug-in that uses the 
   classes in the JET package to generate Java source code. A plug-in that generates 
   text from a JET template can no longer rely on the JET Nature and JET Builder 
@@ -131,7 +140,6 @@
   Following the <a href="http://www.joelonsoftware.com/articles/LeakyAbstractions.html" target="_blank">Law 
   of Leaky Abstractions</a>, we cannot always get away with this, and the <a href="#jetemitter_gotchas">JETEmitter 
   Gotchas</a> section below points to a few places where you have to be careful.</p>
-
 <p>JETEmitter is the class we will be using in our plug-in, so we will go into 
   a little more detail here.</p>
 
@@ -163,7 +171,6 @@
     to its classpath </li>
   <li>Translate the template to a template implementation Java source file in 
     the <i>.JETEmitters</i> project </li>
-
   <li>Build the project to compile the template implementation source code to 
     a Java <i>.class</i> file </li>
   <li>Call the <tt class="code">generate</tt> method on the translated Java template implementation 
@@ -189,7 +196,6 @@ translation.  This value can be changed by the <tt class="code">setProjectName</
   a workspace application. Any application using JET must minimally run as an 
   Eclipse &quot;headless&quot; application so that plug-in initialization takes 
   place. (The term headless refers to running Eclipse without the user interface.)</p>
-
 <p>This means that using JETEmitter from a simple standalone application (a standard 
   Java class with a <tt class="code">main</tt> method) <i>will not work</i>:</p>
 <pre class="code"> // This fails: cannot use JETEmitter from a standalone application
@@ -206,7 +212,6 @@ translation.  This value can be changed by the <tt class="code">setProjectName</
   classes in the <tt class="code">org.eclipse.emf.codegen</tt> plug-in have dependencies 
   on other plug-ins. The <a href="#appendix">Appendix</a> section below has more 
   details on using JET from standalone applications.</p>
-
 <p>In the rest of this article we will assume that our code is running from inside 
   a plug-in.</p>
 <h4>2. Classloader Issues </h4>
@@ -227,7 +232,6 @@ translation.  This value can be changed by the <tt class="code">setProjectName</
   of this subclass. (If you are using an older version of EMF, there are no constructors 
   that take a classloader argument and you will have no choice but to subclass 
   JETEmitter in your own project.)</p>
-
 <p>The example below shows an action class that translates and invokes a selected 
   template using JETEmitter. The example shows how a JETEmitter can be constructed 
   <img src="images/tag_1.gif" width="24" height="13"/>with a classloader parameter or by <img src="images/tag_2.gif" width="24" height="13"/>constructing 
@@ -275,7 +279,6 @@ public class EmitAction implements IActionDelegate {
  
     // saveGenerated method omitted
 }
-
 </pre>
 <h4>3. Classpath Issues </h4>
 <p>JETEmitter translates your templates to Java source files in the <i>.JETEmitters</i> 
@@ -285,7 +288,6 @@ public class EmitAction implements IActionDelegate {
   project, or the JavaBuilder cannot compile the template implementation source 
   files.  Fortunately, JETEmitter provides a simple way to do this through the method 
   <tt class="code">addVariable</tt> which adds a <i>Classpath Variable</i> to the <i>.JETEmiter</i> project.</p>
-
 <p>A <i>Classpath Variable</i> is a workspace-wide name that is used in Eclipse to refer to a jar file or
 directory.  The list of all such variables can be seen using the Window &gt; Preferences &gt; Java &gt; 
 Classpath Variables menua action.. Your program will need to add a classpath variable for each
@@ -293,7 +295,6 @@ Classpath Variables menua action.. Your program will need to add a classpath var
   
   
 <h2><a name="example_plugin"></a>A Plug-in that Generates Source Code </h2>
-
 <p>In this part of the JET Tutorial, we will write an Eclipse plug-in that uses 
   a JET template to generate Java source code for typesafe enumerations.</p>
 <p>Our plug-in has to perform the following tasks:</p>
@@ -308,7 +309,6 @@ Classpath Variables menua action.. Your program will need to add a classpath var
     user input values collected by the GUI</li>
   <li>Save the resulting generated source code to a location obtained from the 
     GUI</li>
-
 </ol>
 <p>In the following sections we will go through the steps above one by one.</p>
 <h3><a name="typesafe_enum_example"></a>Typesafe Enumerations</h3>
@@ -342,7 +342,6 @@ Classpath Variables menua action.. Your program will need to add a classpath var
          }
          // lookup failed:
          // we have no default Digit, so we throw an exception
-
 <img src="images/tag_4.gif" width="24" height="13"/>      throw new IllegalArgumentException("No digit exists for " + key);
      }
  
@@ -380,7 +379,6 @@ Classpath Variables menua action.. Your program will need to add a classpath var
   is customizable in a typesafe enumeration:</p>
 <ul>
   <li>package name </li>
-
   <li>class name </li>
 
   <li>attributes, where each attribute </li>
@@ -388,7 +386,6 @@ Classpath Variables menua action.. Your program will need to add a classpath var
     <li>has a type </li>
     <li>has a name </li>
     <li>may be a key attribute </li>
-
   </ul>
   <li>instances, where each instance </li>
 
@@ -396,7 +393,6 @@ Classpath Variables menua action.. Your program will need to add a classpath var
     <li>has a name </li>
     <li>has a value for every attribute </li>
     <li>may be the default instance to return for failed lookups</li>
-
   </ul>
 </ul>
 <h3><a name="typesafe_enum_model"></a>A Simple Typesafe Enumeration Model </h3>
@@ -409,7 +405,6 @@ Classpath Variables menua action.. Your program will need to add a classpath var
   <tr> 
     <td><tt class="code">TypesafeEnum</tt></td>
   </tr>
-
   <tr> 
     <td><tt class="code">getInstances() : Instance[]<br/>
       getAttributes() : Attribute[]<br/>
@@ -417,7 +412,6 @@ Classpath Variables menua action.. Your program will need to add a classpath var
 
       getDefaultInstance() : Instance<br/>
       getPackageName() : String<br/>
-
       getClassName() : String</tt></td>
   </tr>
   </tbody> 
@@ -429,7 +423,6 @@ Classpath Variables menua action.. Your program will need to add a classpath var
     <td><tt class="code">Instance</tt></td>
 
   </tr>
-
   <tr> 
     <td><tt class="code"> getName() : String<br/>
       getAttributeValues() : Properties<br/>
@@ -457,7 +450,6 @@ Classpath Variables menua action.. Your program will need to add a classpath var
 <p>In the next section we will use these classes to convert our Digit class to 
   a JET template for typesafe enumerations.</p>
 <h3><a name="typesafe_enum_template"></a>A Typesafe Enumeration Template </h3>
-
 <p>Now that we have a model, we can take our Digit class and replace all Digit-specific 
   code with JET scriptlets and expressions that call our model classes. The resulting 
   template could look something like this:</p>
@@ -578,7 +570,6 @@ public String constructorValues() {
 <p><img alt="GUI wizard page one: class, package and location of the typesafe enum" src="images/enum_gui_page1.gif"/> 
 </p>
 <p></p>
-
 <p>Our second page collects information on the attributes of the typesafe enum 
   class. Every attribute has a name and a type, and may be one of the key attributes. 
   Our second wizard page is shown below:</p>
@@ -593,7 +584,6 @@ public String constructorValues() {
   found for the specified key attribute values.</p>
 <p><img alt="GUI wizard page three: instances of the typesafe enum" src="images/enum_gui_page3.gif"/></p>
 <h3><a name="invoke_plugin_template"></a>Invoking the Template </h3>
-
 <p>Now that we have a GUI to populate our model, we can finally use what we learned 
   in the first part of this article, and generate source code with our template.</p>
 
@@ -611,7 +601,6 @@ public String constructorValues() {
      String pluginId = "org.eclipse.emf.examples.jet.article2";
      String base = Platform.getBundle(pluginId).getEntry("/").toString();
      String relativeUri = "templates/TypeSafeEnumeration.javajet";
-
 <img src="images/tag_1.gif" width="24" height="13"/>  JETEmitter emitter = new JETEmitter(base + relativeUri, getClass().getClassLoader());
 <img src="images/tag_2.gif" width="24" height="13"/>  emitter.addClasspathVariable("JET_TUTORIAL", pluginId);
  
@@ -630,7 +619,6 @@ public String constructorValues() {
 <p>Our final code snippet below shows the part of our <tt class="code">plugin.xml</tt> configuration 
   file where we register our wizard as a contribution to the workbench.</p>
 <pre class="code">   &lt;extension point="org.eclipse.ui.newWizards"&gt;
-
       &lt;wizard 
             name="Typesafe Enum"
             icon="icons/newenum_wiz.gif"
@@ -642,13 +630,11 @@ public String constructorValues() {
          &lt;class class="org.eclipse.emf.examples.jet.article2.ui.NewTypesafeEnumCreationWizard"&gt;
 <img src="images/tag_1.gif" width="24" height="13"/>         &lt;parameter name="javatype" value="true"/&gt;
          &lt;/class&gt;
-
       &lt;/wizard&gt;
    &lt;/extension&gt;
 </pre>
 <p>Now our wizard is activated when users select File &gt; New &gt; Other &gt; 
   Java &gt; Typesafe Enum from the workbench, as shown in the image below. </p>
-
 <p><img alt="Typesafe Enum wizard shows up in the New creation wizard" src="images/new_creation_wizard.gif"/> 
 </p>
 <p>Note that we set the <tt class="code"><img src="images/tag_1.gif" width="24" height="13"/>javatype</tt> 
@@ -663,7 +649,6 @@ public String constructorValues() {
 JET can be a great help for applications that need to generate text. Templates 
 are as much of an improvement to code generation as JSP pages were to old style 
 servlets. 
-
 <p>When using JET, you need to decide whether you want to distribute your templates 
   with your application, or distribute only the template implementation classes.</p>
 <p>If your goal is to simplify the text generation capabilities of your application, 
@@ -684,7 +669,6 @@ servlets.
 <h2><a name="appendix"></a>Appendix</h2>
 <h3><a name="jet_api_overview"></a>JET API Overview </h3>
 <b>Package org.eclipse.emf.codegen</b> 
-
 <p></p>
 <table border="1" cellspacing="0">
   <tbody> 
@@ -695,7 +679,6 @@ servlets.
 
   <tr> 
     <td valign="top"><tt class="code">CodeGen</tt></td>
-
     <td> 
       <p>The <tt class="code">CodeGen</tt> class can translate a JET template to Java source 
         code and optionally merge the template implementation Java source code 
@@ -705,7 +688,6 @@ servlets.
 
       <ul>
         <li> the uri of the template to translate </li>
-
         <li>the target path where the translation result should be saved </li>
         <li>an optional <tt class="code">JMerge</tt> control model file specifying how to merge 
           the new translation result with the source code of an existing Java 
@@ -716,7 +698,6 @@ servlets.
   </tr>
   <tr> 
     <td valign="top"><tt class="code">CodeGenPlugin</tt></td>
-
     <td>The plug-in class for the JET package.</td>
   </tr>
   </tbody>
@@ -729,7 +710,6 @@ servlets.
   <tbody> 
   <tr> 
     <td><b>Class</b></td>
-
     <td><b>Description</b></td>
   </tr>
   <tr> 
@@ -739,7 +719,6 @@ servlets.
       Defines some of the properties that a JET nature has. Implemented by <tt class="code">JETNature</tt>. 
       Used as a filter for project property pages by the <tt class="code">org.eclipse.emf.codegen.ui</tt> 
       plugin.</td>
-
   </tr>
   <tr> 
     <td valign="top"><tt class="code">JETAddNatureOperation</tt></td>
@@ -854,7 +833,6 @@ servlets.
           the JET templates to translate. </li>
         <li>Source Container - the target folder in which to save translated template 
           implementation Java classes. </li>
-
       </ul>
 
       <p>These properties are used by the JET Builder when performing a build.</p>
@@ -864,7 +842,6 @@ servlets.
     <td valign="top"><tt class="code">JETParseEventListener</tt></td>
     <td>Interface for objects that know how to process parts of a JET character 
       input stream.</td>
-
   </tr>
   <tr> 
     <td valign="top"><tt class="code">JETParser</tt></td>
@@ -876,7 +853,6 @@ servlets.
   </tr>
   <tr> 
     <td valign="top"><tt class="code">JETReader</tt></td>
-
     <td>An input buffer for the JET parser. Provides a <tt class="code">stackStream</tt> method 
       that others can call with the character stream to an include file. Also 
       provides many other convenience methods for the parser.</td>
@@ -886,7 +862,6 @@ servlets.
     <td valign="top"><tt class="code">JETScriptletGenerator</tt></td>
     <td>Responsible for a part of the template translation process. Translates 
       JET scriptlets (<tt class="code">&lt;% ... %&gt;</tt> stuff) to Java source code.</td>
-
   </tr>
   <tr> 
     <td valign="top"><tt class="code">JETSkeleton</tt></td>
@@ -901,7 +876,6 @@ servlets.
       in the <tt class="code">org.eclipse.jdt.core.jdom</tt> package.</td>
   </tr>
   </tbody>
-
 </table>
 <p></p>
 <b>Package org.eclipse.emf.codegen.jmerge</b> 
@@ -913,7 +887,6 @@ servlets.
 
     <td><b>Description</b></td>
   </tr>
-
   <tr> 
     <td valign="top"><tt class="code">JControlModel</tt></td>
     <td>A control model that provides dictionaries and rules to drive a merge 
@@ -925,7 +898,6 @@ servlets.
     <td>A class for merging Java source files. Uses classes in the <tt class="code">org.eclipse.jdt.core.jdom</tt> 
       package to parse the source code. This class can be used by application 
       code, but can also be run as an Eclipse headless application.</td>
-
   </tr>
   <tr> 
     <td valign="top"><tt class="code">JPatternDictionary</tt></td>
@@ -936,7 +908,6 @@ servlets.
     <td valign="top"><tt class="code">PropertyMerger</tt></td>
     <td>A class for merging property files. This class can be used by application 
       code, but can also be run as an Eclipse headless application.</td>
-
   </tr>
   </tbody>
 </table>
@@ -1062,6 +1033,3 @@ Microsystems, Inc. in the United States, other countries, or both.</small></p>
 <br/>
 </body>
 </html>
-
-<!-- ZoneLabs Popup Blocking Insertion -->
-<script language='javascript'>postamble();</script>
