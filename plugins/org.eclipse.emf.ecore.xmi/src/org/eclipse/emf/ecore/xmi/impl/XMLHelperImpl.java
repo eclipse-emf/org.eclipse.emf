@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.17 2004/12/23 19:32:59 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.18 2005/01/07 19:05:25 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -415,7 +415,12 @@ public class XMLHelperImpl implements XMLHelper
   
   public String getNamespaceURI(String prefix)
   {
-    return (String)prefixesToURIs.get(prefix);
+    String namespaceURI = namespaceSupport.getURI(prefix);
+    if (namespaceURI == null)
+    {
+      namespaceURI = (String)prefixesToURIs.get(prefix);
+    }
+    return namespaceURI;
   }
 
   protected String getPrefix(EPackage ePackage, boolean mustHavePrefix)
