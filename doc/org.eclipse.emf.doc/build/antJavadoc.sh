@@ -76,4 +76,5 @@ sed -e "s/\@copydocfiles\@/${copydocfiles}/g" $currentPath/javadoc.xml.template2
 ant	-f javadoc.xml \
 	-DdestDir="$destDir" \
 	-Dclasspath="$classpath" \
+	-DeclipseDir="$eclipseDir" \
 	-Doverview="$eclipseDir/plugins/org.eclipse.emf.doc/build/overview.html"
