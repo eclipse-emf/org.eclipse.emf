@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.7 2004/10/29 19:20:55 marcelop Exp $
+ * $Id: plugin.xml,v 1.8 2005/03/19 15:22:00 emerks Exp $
  */
 -->
 
@@ -29,7 +29,6 @@
 
   <requires>
     <import plugin="org.eclipse.core.runtime"/>
-    <import plugin="org.eclipse.core.resources"/>
     <import plugin="org.eclipse.emf.ecore" export="true"/>
   </requires>
 
