@@ -55,7 +55,6 @@
  	
 		<zip destfile="${build.result.folder}/doc.zip">
 			<zipfileset dir="references" prefix="references"/>
-			<zipfileset dir="news" prefix="news"/>
 			<zipfileset dir="images" prefix="images"/>
 			<zipfileset dir="tutorials" prefix="tutorials"/>
 		</zip>
