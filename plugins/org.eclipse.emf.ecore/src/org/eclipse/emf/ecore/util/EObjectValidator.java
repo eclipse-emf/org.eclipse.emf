@@ -12,15 +12,19 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.2 2004/05/08 13:49:12 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.3 2004/06/08 12:12:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
+
+import java.math.BigDecimal;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -41,6 +45,8 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
+
 
 /**
  * A validity checker for basic EObject constraints.
@@ -57,6 +63,11 @@ public class EObjectValidator implements EValidator
   public static final int EOBJECT__EVERY_PROXY_RESOLVES = 4;
   public static final int DATA_VALUE__VALUE_IN_RANGE = 5;
   public static final int DATA_VALUE__LENGTH_IN_RANGE = 6;
+  public static final int DATA_VALUE__TYPE_CORRECT = 7;
+  public static final int DATA_VALUE__VALUE_IN_ENUMERATION = 8;
+  public static final int DATA_VALUE__MATCHES_PATTERN = 9;
+  public static final int DATA_VALUE__TOTAL_DIGITS_IN_RANGE = 10;
+  public static final int DATA_VALUE__FRACTION_DIGITS_IN_RANGE = 11;
 
   public EObjectValidator()
   {
@@ -418,18 +429,48 @@ public class EObjectValidator implements EValidator
     return diagnostic;
   }
 
+  protected boolean validatePattern
+    (EDataType eDataType, Object value, PatternMatcher [][] patterns, DiagnosticChain diagnostics, Map context)
+  {
+    String literal = EcoreUtil.convertToString(eDataType, value);
+    for (int i = 0; i < patterns.length; ++i)
+    {
+      PatternMatcher [] children = patterns[i];
+      boolean matches = false;
+      for (int j = 0; j < children.length; ++j)
+      {
+        if (children[j].matches(literal))
+        {
+          matches = true;
+          break;
+        }
+      }
+      if (!matches)
+      {
+        if (diagnostics != null)
+        {
+          reportDataValuePatternViolation(eDataType, value, children, diagnostics, context);
+        }
+        return false;
+      }
+    }
+    return true;
+  }
+
   public class DynamicEDataTypeValidator
   {
     protected List effectiveEnumeration; 
-    protected List effectivePattern; 
-    protected int effectiveTotalDigits; 
-    protected int effectiveFractionDigits; 
-    protected int effectiveMinLength; 
-    protected int effectiveMaxLength; 
+    protected PatternMatcher [][] effectivePattern; 
+    protected int effectiveTotalDigits = -1; 
+    protected int effectiveFractionDigits = -1; 
+    protected int effectiveMinLength = -1; 
+    protected int effectiveMaxLength = -1; 
     protected Object effectiveMin; 
     protected boolean effectiveMinIsInclusive;
+    protected int effectiveTotalDigitsMin = -1; 
     protected Object effectiveMax; 
     protected boolean effectiveMaxIsInclusive;
+    protected int effectiveTotalDigitsMax = -1; 
     protected EDataType itemType;
     protected List memberTypes;
 
@@ -446,6 +487,8 @@ public class EObjectValidator implements EValidator
         }
       }
 
+      List patterns = null;
+
       for (;;)
       {
         if (effectiveEnumeration == null)
@@ -453,17 +496,30 @@ public class EObjectValidator implements EValidator
           List enumeration = extendedMetaData.getEnumerationFacet(eDataType);
           if (!enumeration.isEmpty())
           {
-            effectiveEnumeration = enumeration;
+            effectiveEnumeration = new ArrayList();
+            for (Iterator i = enumeration.iterator(); i.hasNext(); )
+            {
+              effectiveEnumeration.add(EcoreUtil.createFromString(eDataType, (String)i.next()));
+            }
           }
         }
-        if (effectivePattern == null)
+
+        List pattern = extendedMetaData.getPatternFacet(eDataType);
+        if (!pattern.isEmpty())
         {
-          List pattern = extendedMetaData.getPatternFacet(eDataType);
-          if (!pattern.isEmpty())
+          if (patterns == null)
           {
-            effectivePattern = pattern;
+            patterns = new ArrayList();
+          }
+          PatternMatcher [] children = new PatternMatcher [pattern.size()];
+          patterns.add(children);
+          for (ListIterator i = pattern.listIterator(); i.hasNext(); )
+          {
+            PatternMatcher patternMatcher = XMLTypeUtil.createPatternMatcher((String)i.next());
+            children[i.previousIndex()] = patternMatcher;
           }
         }
+
         if (effectiveTotalDigits == -1)
         {
           effectiveTotalDigits = extendedMetaData.getTotalDigitsFacet(eDataType);
@@ -538,6 +594,49 @@ public class EObjectValidator implements EValidator
           break;
         }
       }
+
+      if (patterns != null)
+      {
+        effectivePattern = new PatternMatcher [patterns.size()][];
+        patterns.toArray(effectivePattern);
+      }
+
+      if (effectiveTotalDigits != -1 && eDataType.getInstanceClassName() != "java.math.BigDecimal")
+      {
+        StringBuffer digits = new StringBuffer("1");
+        for (int i = effectiveTotalDigits; i > 0; --i)
+        {
+          digits.append("0");
+        }
+        Object upperBound = EcoreUtil.createFromString(eDataType, digits.toString());
+        Object lowerBound = EcoreUtil.createFromString(eDataType, "-" + digits.toString());
+
+        if (effectiveMin == null ||
+              (effectiveMinIsInclusive ? 
+                 ((Comparable)effectiveMin).compareTo(lowerBound) <= 0:
+                 ((Comparable)effectiveMin).compareTo(lowerBound) < 0))
+        {
+          effectiveMinIsInclusive = false;
+          effectiveMin = lowerBound;
+          effectiveTotalDigitsMin = effectiveTotalDigits;
+        }
+
+        if (effectiveMax == null ||
+              (effectiveMaxIsInclusive ? 
+                 ((Comparable)effectiveMax).compareTo(upperBound) >= 0:
+                 ((Comparable)effectiveMax).compareTo(upperBound) > 0))
+        {
+          effectiveMaxIsInclusive = false;
+          effectiveMax = upperBound;
+          effectiveTotalDigitsMax = effectiveTotalDigits;
+        }
+        effectiveTotalDigits = -1;
+      }
+
+      if (effectiveFractionDigits != -1 && eDataType.getInstanceClassName() != "java.math.BigDecimal")
+      {
+        effectiveFractionDigits = -1;
+      }
     }
 
     public boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map context)
@@ -547,17 +646,33 @@ public class EObjectValidator implements EValidator
       {
         if (!effectiveEnumeration.contains(value))
         {
-          // TODO diagnostic.
+          if (diagnostics != null) reportEnumerationViolation(eDataType, value, effectiveEnumeration, diagnostics, context);
+          result = false;
         }
+      }
+
+      if (effectivePattern != null)
+      {
+        result = validatePattern(eDataType, value, effectivePattern, diagnostics, context);
       }
 
       if (effectiveMin != null)
       {
         if (effectiveMinIsInclusive ? 
-              ((Comparable)effectiveMin).compareTo(value) < 0:
-              ((Comparable)effectiveMin).compareTo(value) <= 0)
+              ((Comparable)effectiveMin).compareTo(value) > 0:
+              ((Comparable)effectiveMin).compareTo(value) >= 0)
         {
-          if (diagnostics != null) reportMinViolation(eDataType, value, effectiveMin, effectiveMinIsInclusive, diagnostics, context);
+          if (diagnostics != null) 
+          { 
+            if (effectiveTotalDigitsMin != -1)
+            {
+              reportTotalDigitsViolation(eDataType, value, effectiveTotalDigitsMin, diagnostics, context);
+            }
+            else
+            {
+              reportMinViolation(eDataType, value, effectiveMin, effectiveMinIsInclusive, diagnostics, context);
+            }
+          }
           result = false;
         }
       }
@@ -565,10 +680,20 @@ public class EObjectValidator implements EValidator
       if (effectiveMax != null)
       {
         if (effectiveMaxIsInclusive ? 
-              ((Comparable)effectiveMax).compareTo(value) > 0:
-              ((Comparable)effectiveMax).compareTo(value) >= 0)
+              ((Comparable)effectiveMax).compareTo(value) < 0:
+              ((Comparable)effectiveMax).compareTo(value) <= 0)
         {
-          if (diagnostics != null) reportMaxViolation(eDataType, value, effectiveMax, effectiveMaxIsInclusive, diagnostics, context);
+          if (diagnostics != null) 
+          {
+            if (effectiveTotalDigitsMax != -1)
+            {
+              reportTotalDigitsViolation(eDataType, value, effectiveTotalDigitsMax, diagnostics, context);
+            }
+            else
+            {
+              reportMaxViolation(eDataType, value, effectiveMax, effectiveMaxIsInclusive, diagnostics, context);
+            }
+          }
           result = false;
         }
       }
@@ -583,7 +708,8 @@ public class EObjectValidator implements EValidator
                ((Collection)value).size();
         if (length < effectiveMinLength)
         {
-          // TODO Diagnostic
+          if (diagnostics != null) reportMinLengthViolation(eDataType, value, length, effectiveMinLength, diagnostics, context);
+          result = false;
         }
       }
 
@@ -597,14 +723,33 @@ public class EObjectValidator implements EValidator
                ((Collection)value).size();
         if (length < effectiveMaxLength)
         {
-          // TODO Diagnostic
+          if (diagnostics != null) reportMaxLengthViolation(eDataType, value, length, effectiveMaxLength, diagnostics, context);
+          result = false;
+        }
+      }
+
+      if (effectiveTotalDigits != -1)
+      {
+        if (value instanceof BigDecimal && ((BigDecimal)value).unscaledValue().abs().toString().length() > effectiveTotalDigits)
+        {
+          if (diagnostics != null) reportTotalDigitsViolation(eDataType, value, effectiveTotalDigits, diagnostics, context);
+          result = false;
+        }
+      }
+
+      if (effectiveFractionDigits != -1)
+      {
+        if (value instanceof BigDecimal && ((BigDecimal)value).scale() > effectiveFractionDigits)
+        {
+          if (diagnostics != null) reportFractionDigitsViolation(eDataType, value, effectiveFractionDigits, diagnostics, context);
+          result = false;
         }
       }
 
       if (itemType != null)
       {
         EValidator rootValidator = getRootEValidator(context);
-        for (Iterator i = ((List)value).iterator(); i.hasNext() && result || diagnostics != null; )
+        for (Iterator i = ((List)value).iterator(); i.hasNext() && (result || diagnostics != null); )
         {
           result &= rootValidator.validate(itemType, i.next(), diagnostics, context);
         }
@@ -642,8 +787,15 @@ public class EObjectValidator implements EValidator
   {
     if (!eDataType.isInstance(value))
     {
-      // TODO type violation.
-      return false;
+      if (value == null)
+      {
+        return true;
+      }
+      else
+      {
+        if (diagnostics != null) reportDataValueTypeViolation(eDataType, value, diagnostics, context);
+        return false;
+      }
     }
 
     if (eDataType.eContainer() == getEPackage()) 
@@ -713,7 +865,7 @@ public class EObjectValidator implements EValidator
                 Integer.toString(length),
                 Integer.toString(bound)
               }),
-         new Object [] { eDataType, value, new Integer(length), new Integer(bound) }));
+         new Object [] { value, eDataType, new Integer(length), new Integer(bound) }));
   }
 
   protected void reportMaxLengthViolation
@@ -732,6 +884,126 @@ public class EObjectValidator implements EValidator
                 Integer.toString(length),
                 Integer.toString(bound)
               }),
-         new Object [] { eDataType, value, new Integer(length), new Integer(bound) }));
+         new Object [] { value, eDataType, new Integer(length), new Integer(bound) }));
+  }
+
+  protected void reportTotalDigitsViolation
+    (EDataType eDataType, Object value, int totalDigits, DiagnosticChain diagnostics, Map context)
+  {
+    diagnostics.add
+      (new BasicDiagnostic
+        (Diagnostic.ERROR,
+         DIAGNOSTIC_SOURCE,
+         DATA_VALUE__TOTAL_DIGITS_IN_RANGE,
+         EcorePlugin.INSTANCE.getString
+           ("_UI_TotalDigitsConstraint_diagnostic",
+            new Object []
+              {
+                getValueLabel(eDataType, value, context),
+                new Integer(totalDigits)
+              }),
+         new Object [] { value, eDataType, new Integer(totalDigits) }));
+  }
+
+  protected void reportFractionDigitsViolation
+    (EDataType eDataType, Object value, int fractionDigits, DiagnosticChain diagnostics, Map context)
+  {
+    diagnostics.add
+      (new BasicDiagnostic
+        (Diagnostic.ERROR,
+         DIAGNOSTIC_SOURCE,
+         DATA_VALUE__TOTAL_DIGITS_IN_RANGE,
+         EcorePlugin.INSTANCE.getString
+           ("_UI_FractionDigitsConstraint_diagnostic",
+            new Object []
+              {
+                getValueLabel(eDataType, value, context),
+                new Integer(fractionDigits)
+              }),
+         new Object [] { value, eDataType, new Integer(fractionDigits) }));
+  }
+
+  protected void reportEnumerationViolation
+    (EDataType eDataType, Object value, Collection values, DiagnosticChain diagnostics, Map context)
+  {
+    String valueLiterals = "";
+    Iterator i = values.iterator();
+    if (i.hasNext())
+    {
+      valueLiterals = 
+        EcorePlugin.INSTANCE.getString("_UI_ListHead_composition", new Object [] { getValueLabel(eDataType, i.next(), context) });
+      while (i.hasNext())
+      {
+        valueLiterals = 
+          EcorePlugin.INSTANCE.getString
+            ("_UI_ListTail_composition", 
+             new Object [] { valueLiterals, getValueLabel(eDataType, i.next(), context) });
+      }
+    }
+    diagnostics.add
+      (new BasicDiagnostic
+        (Diagnostic.ERROR,
+         DIAGNOSTIC_SOURCE,
+         DATA_VALUE__VALUE_IN_ENUMERATION,
+         EcorePlugin.INSTANCE.getString
+           ("_UI_EnumerationConstraint_diagnostic",
+            new Object []
+              {
+                getValueLabel(eDataType, value, context),
+                valueLiterals
+              }),
+         new Object [] { value, eDataType, values }));
+  }
+
+  protected void reportDataValuePatternViolation
+    (EDataType eDataType, Object value, PatternMatcher [] patterns, DiagnosticChain diagnostics, Map context)
+  {
+    String patternLiterals = "";
+    if (patterns.length > 0)
+    {
+      patternLiterals = EcorePlugin.INSTANCE.getString("_UI_ListHead_composition", new Object [] { patterns[0] });
+      for (int i = 1; i < patterns.length; ++i)
+      {
+        patternLiterals = EcorePlugin.INSTANCE.getString("_UI_ListTail_composition", new Object [] { patternLiterals, patterns[i] });
+      }
+    }
+
+    diagnostics.add
+      (new BasicDiagnostic
+        (Diagnostic.ERROR,
+         DIAGNOSTIC_SOURCE,
+         DATA_VALUE__MATCHES_PATTERN,
+         EcorePlugin.INSTANCE.getString
+           ("_UI_PatternConstraint_diagnostic",
+            new Object []
+              {
+                getValueLabel(eDataType, value, context),
+                patternLiterals
+              }),
+         new Object [] { value, eDataType, patterns }));
+  }
+
+  protected void reportDataValueTypeViolation
+    (EDataType eDataType, Object value, DiagnosticChain diagnostics, Map context)
+  {
+    diagnostics.add
+      (new BasicDiagnostic
+        (Diagnostic.ERROR,
+         DIAGNOSTIC_SOURCE,
+         DATA_VALUE__TYPE_CORRECT,
+         EcorePlugin.INSTANCE.getString
+           ("_UI_BadDataValueType_diagnostic",
+            new Object []
+              {
+                getValueLabel(eDataType, value, context),
+                value == null ? "<null>" : value.getClass().getName(),
+                eDataType.getInstanceClass().getName()
+              }),
+         new Object [] { value, eDataType }));
+  }
+
+  protected static Collection wrapEnumerationValues(Object [] values)
+  {
+    return java.util.Arrays.asList(values);
   }
 }
