@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.15 2004/12/08 14:32:15 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.16 2004/12/08 15:41:54 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -47,15 +47,16 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
-import org.eclipse.jdt.core.jdom.DOMFactory;
-import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
-import org.eclipse.jdt.core.jdom.IDOMImport;
-import org.eclipse.jdt.core.jdom.IDOMNode;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.TextEdit;
@@ -1472,29 +1473,23 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
     public void addCompilationUnitImports(String compilationUnitContents)
     {   
-      DOMFactory jdomFactory = new DOMFactory();
-      IDOMCompilationUnit jdomCompilationUnit = jdomFactory.createCompilationUnit(compilationUnitContents, "Local");
-      for (IDOMNode child = jdomCompilationUnit.getFirstChild(); child != null; child = child.getNextNode())
+      ASTParser parser = ASTParser.newParser(AST.JLS3);
+      parser.setSource(compilationUnitContents.toCharArray());
+      CompilationUnit compilationUnit = (CompilationUnit)parser.createAST(new NullProgressMonitor());
+      for (Iterator i = compilationUnit.imports().iterator(); i.hasNext();)
       {
-        switch (child.getNodeType())
+        ImportDeclaration importDeclaration = (ImportDeclaration)i.next();
+        String qualifiedName = importDeclaration.getName().getFullyQualifiedName();
+        int lastDot = qualifiedName.lastIndexOf(".");
+        String shortName = qualifiedName.substring(lastDot + 1);
+        if (shortName.equals("*"))
         {
-          case IDOMNode.IMPORT:
-          {
-            IDOMImport jdomImport = (IDOMImport)child;
-            String qualifiedName = jdomImport.getName();
-            int lastDot = qualifiedName.lastIndexOf(".");
-            String shortName = qualifiedName.substring(lastDot + 1);
-            if (shortName.equals("*"))
-            {
-              String packageName = qualifiedName.substring(0, lastDot);
-              importedPackages.add(packageName);
-            }
-            else
-            {
-              shortNameToImportMap.put(shortName, qualifiedName);
-            }
-            break;
-          }
+          String packageName = qualifiedName.substring(0, lastDot);
+          importedPackages.add(packageName);
+        }
+        else
+        {
+          shortNameToImportMap.put(shortName, qualifiedName);
         }
       }
     }
