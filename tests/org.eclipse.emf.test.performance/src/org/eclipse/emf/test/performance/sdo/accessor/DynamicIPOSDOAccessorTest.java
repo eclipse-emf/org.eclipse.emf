@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.1 2005/02/16 23:02:12 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.2 2005/02/18 22:26:40 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -31,7 +31,6 @@ import junit.framework.TestSuite;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EPackage.Registry;
@@ -40,7 +39,6 @@ import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.impl.DynamicEDataObjectImpl;
 import org.eclipse.emf.ecore.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.test.performance.EMFPerformanceTestCase;
@@ -49,92 +47,128 @@ import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.impl.type.XSDDateType;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
+import com.example.sdo.ipo.IpoFactory;
+import com.example.sdo.ipo.USAddress;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 
 
 public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 {
-  private static final int REPETITIONS = 5;
+  protected static final int REPETITIONS = 5;
 
-  private static final int ITERATIONS = 40000;
+  protected static final int MICRO_REPETITIONS = 10;
 
-  private static final int WARMUP = 200;
+  protected static final int ITERATIONS = 40000;
 
-  private static final int PATH_WARMUP = 100;
+  protected static final int MICRO_ITERATIONS = 100000;
 
-  private static final String DATA = TestUtil.getPluginDirectory() + "/data/";
+  protected static final int WARMUP = 200;
 
-  private static final String DATA_URI = "file:///" + DATA;
+  protected static final int MICRO_WARMUP = 3000;
 
-  private IPOSDOAccessorTest accessorTest;
+  protected static final int PATH_WARMUP = 100;
 
-  // dynamic model
+  protected static final String DATA = TestUtil.getPluginDirectory() + "/data/";
 
-  private Property shipToProp;
+  protected static final String DATA_URI = "file:///" + DATA;
 
-  private Property billToProp;
+  protected static final int NUM_ITEMS = 1;
 
-  private Property commentProp;
+  protected IpoFactory ipoFactoryInstance = IpoFactory.eINSTANCE;
 
-  private Property itemsProp;
+  // model
 
-  private Property itemProp;
+  protected Property shipToProp;
 
-  private Property dateProp;
+  protected Property billToProp;
 
-  private Property productNameProp;
+  protected Property commentProp;
 
-  private Property quantityProp;
+  protected Property itemsProp;
 
-  private Property usPriceProp;
+  protected Property itemProp;
 
-  private Property itemCommentProp;
+  protected Property orderDateProp;
 
-  private Property shipDateProp;
+  protected Property productNameProp;
 
-  private Property partNumProp;
+  protected Property quantityProp;
 
-  private EClass usAddressEClass;
+  protected Property usPriceProp;
 
-  private EStructuralFeature usAddressNameFeat;
+  protected Property itemCommentProp;
 
-  private EStructuralFeature usAddressStreetFeat;
+  protected Property shipDateProp;
 
-  private EStructuralFeature usAddressCityFeat;
+  protected Property partNumProp;
 
-  private EStructuralFeature usAddressStateFeat;
+  protected EClass usAddressEClass;
 
-  private EStructuralFeature usAddressZipFeat;
+  protected EStructuralFeature usAddressNameFeat;
 
-  private ExtendedMetaData metaData;
+  protected EStructuralFeature usAddressStreetFeat;
 
-  private ResourceSet resourceSet;
+  protected EStructuralFeature usAddressCityFeat;
 
-  // the dynamic purchase order
-  private DataObject po;
+  protected EStructuralFeature usAddressStateFeat;
+
+  protected EStructuralFeature usAddressZipFeat;
+
+  protected ExtendedMetaData metaData;
+
+  protected ResourceSet resourceSet;
+
+  // the purchase order
+  protected DataObject po;
+
+  // instance data (used in the get tests)
+
+  protected DataObject billToValue;
+
+  protected DataObject shipToValue;
+
+  protected String orderCommentValue;
+
+  protected Object orderDateValue;
+
+  protected List itemsValue;
+
+  protected DataObject itemElementValue;
+
+  protected String productNameValue;
+
+  protected BigInteger quantityValue;
+
+  protected BigDecimal usPriceValue;
+
+  protected String itemCommentValue;
+
+  protected Object shipDateValue;
+
+  protected String partNumValue;
 
   //instance data (used in AccessorTest' set tests)
 
-  private EObject billToAddress;
+  protected DataObject newBillToAddress;
 
-  private EObject shipToAddress;
+  protected DataObject newShipToAddress;
 
-  private Object orderDate = new XSDDateType().getValue("2006-02-10");
+  protected Object orderDate = new XSDDateType().getValue("2006-02-10");
 
-  private String orderComment = "Another comment.";
+  protected String orderComment = "Another comment.";
 
-  private String productName = "The new Product.";
+  protected String productName = "The new Product.";
 
-  private BigInteger quantity = new BigInteger("5000");
+  protected BigInteger quantity = new BigInteger("5000");
 
-  private BigDecimal usPrice = new BigDecimal(4488);
+  protected BigDecimal usPrice = new BigDecimal(4488);
 
-  private String itemComment = "A comment on the item";
+  protected String itemComment = "A comment on the item";
 
-  private Object shipDate = new XSDDateType().getValue("2006-03-10");;
+  protected Object shipDate = new XSDDateType().getValue("2006-03-10");;
 
-  private String partNum = "part123456";
+  protected String partNum = "part123456";
 
   public DynamicIPOSDOAccessorTest(String name)
   {
@@ -147,12 +181,33 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
     TestSuite testSuite = new TestSuite();
 
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByPath").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    // the warmup number is the optimal one for consistency of results and best peformance.
+    // result: 22
+    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3000).setRepetitions(REPETITIONS));
+    // result: 30
+    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(1000).setRepetitions(REPETITIONS));
+      //TODO find optimal warmup number.
+    // result: 
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(1000).setRepetitions(REPETITIONS));
+    //TODO find optimal warmup number.
+    // result:
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(2000).setRepetitions(REPETITIONS));
+    
+    
+    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    //testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    //testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
+    
+    
+    // TODO find optimal warmup number.
+    // result: 518
+    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    // TODO find optimal warmup number.
+    // result:
+    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    //testSuite.addTest(new DynamicIPOSDOAccessorTest("getByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    //testSuite.addTest(new DynamicIPOSDOAccessorTest("setByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
 
     return testSuite;
   }
@@ -170,32 +225,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     // load the po DG from XML.
     initPO();
 
-    accessorTest = new IPOSDOAccessorTest(
-      ITERATIONS,
-      shipToProp,
-      billToProp,
-      commentProp,
-      itemsProp,
-      itemProp,
-      dateProp,
-      productNameProp,
-      quantityProp,
-      usPriceProp,
-      itemCommentProp,
-      shipDateProp,
-      partNumProp);
-
-    accessorTest.initInstanceData(
-      (DataObject)billToAddress,
-      (DataObject)shipToAddress,
-      orderComment,
-      orderDate,
-      productName,
-      quantity,
-      usPrice,
-      itemComment,
-      shipDate,
-      partNum);
+    initNewValues();
 
     // No need for EPackage Registry clean-up since working on resourceSet.
 
@@ -230,7 +260,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
         commentProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(2));
         itemsProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(3));
         itemProp = itemsProp.getType().getProperty("item");
-        dateProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(4));
+        orderDateProp = SDOUtil.adaptProperty((EStructuralFeature)features.get(4));
       }
       if ("ItemType".equals(eClassifier.getName()))
       {
@@ -259,7 +289,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     return new BasicExtendedMetaData(packageRegistry);
   }
 
-  private void initPO()
+  protected void initPO()
   {
     HashMap loadOptions = new HashMap();
     loadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, metaData);
@@ -272,24 +302,99 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
       inputStream.close();
       DataObject root = (DataObject)dataGraph.getERootObject();
       po = root.getDataObject("purchaseOrder");
-
-      // create new addresses used in set methods.
-      shipToAddress = EcoreUtil.create(usAddressEClass);
-      shipToAddress.eSet(usAddressCityFeat, "Toronto");
-      shipToAddress.eSet(usAddressNameFeat, "not the GTA one.");
-      shipToAddress.eSet(usAddressStreetFeat, "37 Jenner Way");
-      shipToAddress.eSet(usAddressZipFeat, new BigInteger("66524"));
-
-      billToAddress = EcoreUtil.create(usAddressEClass);
-      billToAddress.eSet(usAddressCityFeat, "New York City");
-      billToAddress.eSet(usAddressNameFeat, "Mr. Big Apple");
-      billToAddress.eSet(usAddressStreetFeat, "222 Manhattan ");
-      shipToAddress.eSet(usAddressZipFeat, new BigInteger("12345"));
     }
     catch (IOException e)
     {
-      e.printStackTrace();
     }
+  }
+
+  protected void initNewValues()
+  {
+    // create new addresses used in set methods.
+    // because ipo only has uni-directional references, the DO values to set to can be static DOs. (no difference with dynamic DOs since uni-directional). 
+
+    USAddress address1 = ipoFactoryInstance.createUSAddress();
+    address1.setCity("Toronto");
+    address1.setName("Mr. S. D. O.");
+    // leave state not set.
+    //address1.setState(USState.PA_LITERAL);
+    address1.setStreet("37 Jenner Way");
+    address1.setZip(new BigInteger("66524"));
+    newShipToAddress = (DataObject)address1;
+
+    address1 = ipoFactoryInstance.createUSAddress();
+    address1.setCity("New York City");
+    address1.setName("Mr. Big Apple");
+    // leave state not set
+    //address1.setState(USState.AL_LITERAL);
+    address1.setStreet("222 Manhattan ");
+    address1.setZip(new BigInteger("12345"));
+    newBillToAddress = (DataObject)address1;
+  }
+
+  public void getBigIntegerByProperty()
+  {
+    DataObject itemElement = (DataObject)po.getDataObject(itemsProp).getList(itemProp).get(0);
+    startMeasuring();
+    for (int i = 0; i < MICRO_ITERATIONS; i++)
+    {
+      quantityValue = itemElement.getBigInteger(quantityProp);
+    }
+    stopMeasuring();
+  }
+
+  public void getBigIntegerByIndex()
+  {
+    DataObject itemElement = (DataObject)po.getDataObject(itemsProp).getList(itemProp).get(0);
+    startMeasuring();
+    for (int i = 0; i < MICRO_ITERATIONS; i++)
+    {
+      quantityValue = itemElement.getBigInteger(1);
+    }
+    stopMeasuring();
+  }
+
+  // TODO is it fair to compare this to the previous two? No
+  public void getBigIntegerByPath()
+  {
+    startMeasuring();
+    for (int i = 0; i < MICRO_ITERATIONS; i++)
+    {
+      quantityValue = po.getBigInteger("items/item[1]/quantity");
+    }
+    stopMeasuring();
+  }
+
+  public void getBigDecimalByProperty()
+  {
+    DataObject itemElement = (DataObject)po.getDataObject(itemsProp).getList(itemProp).get(0);
+    startMeasuring();
+    for (int i = 0; i < MICRO_ITERATIONS; i++)
+    {
+      usPriceValue = itemElement.getBigDecimal(usPriceProp);
+    }
+    stopMeasuring();
+  }
+
+  public void getBigDecimalByIndex()
+  {
+    DataObject itemElement = (DataObject)po.getDataObject(itemsProp).getList(itemProp).get(0);
+    startMeasuring();
+    for (int i = 0; i < MICRO_ITERATIONS; i++)
+    {
+      usPriceValue = itemElement.getBigDecimal(2);
+    }
+    stopMeasuring();
+  }
+
+  public void getBigDecimalByPath()
+  {
+    startMeasuring();
+    for (int i = 0; i < MICRO_ITERATIONS; i++)
+    {
+      quantityValue = po.getBigInteger("items/item[1]/uSPrice");
+    }
+    stopMeasuring();
   }
 
   /**
@@ -306,7 +411,26 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void getByProperty()
   {
     startMeasuring();
-    accessorTest.getByProperty(po);
+    for (int i = 0; i < ITERATIONS; i++)
+    {
+      shipToValue = po.getDataObject(shipToProp);
+      billToValue = po.getDataObject(billToProp);
+      orderCommentValue = po.getString(commentProp);
+
+      itemsValue = po.getDataObject(itemsProp).getList(itemProp);
+      for (int j = 0; j < itemsValue.size(); j++)
+      {
+        itemElementValue = (DataObject)itemsValue.get(j);
+        productNameValue = itemElementValue.getString(productNameProp);
+        quantityValue = itemElementValue.getBigInteger(quantityProp);
+        usPriceValue = itemElementValue.getBigDecimal(usPriceProp);
+        itemCommentValue = itemElementValue.getString(itemCommentProp);
+        shipDateValue = itemElementValue.get(shipDateProp);
+        partNumValue = itemElementValue.getString(partNumProp);
+      }
+
+      orderDateValue = po.get(orderDateProp);
+    }
     stopMeasuring();
   }
 
@@ -324,7 +448,26 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void getByIndex()
   {
     startMeasuring();
-    accessorTest.getByIndex(po);
+    for (int i = 0; i < ITERATIONS; i++)
+    {
+      shipToValue = po.getDataObject(0);
+      billToValue = po.getDataObject(1);
+      orderCommentValue = po.getString(2);
+
+      itemsValue = po.getDataObject(3).getList(0);
+      for (int j = 0; j < itemsValue.size(); j++)
+      {
+        itemElementValue = (DataObject)itemsValue.get(j);
+        productNameValue = itemElementValue.getString(0);
+        quantityValue = itemElementValue.getBigInteger(1);
+        usPriceValue = itemElementValue.getBigDecimal(2);
+        itemCommentValue = itemElementValue.getString(3);
+        shipDateValue = itemElementValue.get(4);
+        partNumValue = itemElementValue.getString(5);
+      }
+
+      orderDateValue = po.get(4);
+    }
     stopMeasuring();
   }
 
@@ -342,7 +485,21 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void getByPath()
   {
     startMeasuring();
-    accessorTest.getByPath(po);
+    for (int i = 0; i < ITERATIONS; i++)
+    {
+      shipToValue = po.getDataObject("shipTo");
+      billToValue = po.getDataObject("billTo");
+      orderCommentValue = po.getString("comment");
+
+      productNameValue = po.getString("items/item[1]/productName");
+      quantityValue = po.getBigInteger("items/item[1]/quantity");
+      usPriceValue = po.getBigDecimal("items/item[1]/uSPrice");
+      itemCommentValue = po.getString("items/item[1]/comment");
+      shipDateValue = po.get("items/item[1]/shipDate");
+      partNumValue = po.getString("items/item[1]/partNum");
+
+      orderDateValue = po.get("orderDate");
+    }
     stopMeasuring();
   }
 
@@ -360,36 +517,27 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void setByProperty()
   {
     startMeasuring();
-    accessorTest.setByProperty(po);
+    for (int i = 0; i < ITERATIONS; i++)
+    {
+      po.setDataObject(shipToProp, newShipToAddress);
+      po.setDataObject(billToProp, newBillToAddress);
+      po.setString(commentProp, orderComment);
+
+      itemsValue = po.getDataObject(itemsProp).getList(itemProp);
+      for (int j = 0; j < NUM_ITEMS; j++)
+      {
+        itemElementValue = (DataObject)itemsValue.get(j);
+        itemElementValue.setString(productNameProp, productName);
+        itemElementValue.setBigInteger(quantityProp, quantity);
+        itemElementValue.setBigDecimal(usPriceProp, usPrice);
+        itemElementValue.setString(itemCommentProp, itemComment);
+        itemElementValue.set(shipDateProp, shipDate);
+        itemElementValue.setString(partNumProp, partNum);
+      }
+      po.set(orderDateProp, orderDate);
+    }
     stopMeasuring();
-    initPO();
   }
-
-  // difference with not calling accesorTest:
-  // calling accessorTest: 142ms
-  // doing all below: 150ms
-  /*public void setByProperty()
-   {
-   startMeasuring();
-   
-   for (int i = 0; i < ITERATIONS; i++)
-   {
-   po.set(shipToProp, shipToAddress);
-   po.set(billToProp, billToAddress);
-   po.set(commentProp, comment);
-
-   List items = (List)((DataObject)po.get(itemsProp)).get(itemProp);
-   for (int j = 0; j < 20; j++)
-   {
-   items.add(item);
-   }
-
-   po.set(dateProp, date);
-   }
-   
-   stopMeasuring();
-   initPO();
-   }*/
 
   /**
    * <p>
@@ -405,9 +553,32 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void setByIndex()
   {
     startMeasuring();
-    accessorTest.setByIndex(po);
+    for (int i = 0; i < ITERATIONS; i++)
+    {
+      // shipTo
+      po.set(0, newShipToAddress);
+      // billTo
+      po.set(1, newBillToAddress);
+      // comment
+      po.set(2, orderComment);
+
+      // items
+      itemsValue = po.getDataObject(3).getList(0);
+      for (int j = 0; j < NUM_ITEMS; j++)
+      {
+        itemElementValue = (DataObject)itemsValue.get(j);
+        itemElementValue.setString(0, productName);
+        itemElementValue.setBigInteger(1, quantity);
+        itemElementValue.setBigDecimal(2, usPrice);
+        itemElementValue.setString(3, itemComment);
+        itemElementValue.set(4, shipDate);
+        itemElementValue.setString(5, partNum);
+      }
+
+      // date
+      po.set(4, orderDate);
+    }
     stopMeasuring();
-    initPO();
   }
 
   /**
@@ -424,7 +595,21 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void setByPath()
   {
     startMeasuring();
-    accessorTest.setByPath(po);
+    for (int i = 0; i < ITERATIONS; i++)
+    {
+      po.set("shipTo", newShipToAddress);
+      po.set("billTo", newBillToAddress);
+      po.set("comment", orderComment);
+
+      po.setString("items/item[1]/productName", productName);
+      po.setBigInteger("items/item[1]/quantity", quantity);
+      po.setBigDecimal("items/item[1]/uSPrice", usPrice);
+      po.setString("items/item[1]/comment", orderComment);
+      po.set("items/item[1]/shipDate", shipDate);
+      po.setString("items/item[1]/partNum", partNum);
+
+      po.set("orderDate", orderDate);
+    }
     stopMeasuring();
     initPO();
   }

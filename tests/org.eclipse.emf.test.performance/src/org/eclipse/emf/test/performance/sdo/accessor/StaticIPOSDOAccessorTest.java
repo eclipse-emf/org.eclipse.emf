@@ -6,13 +6,13 @@
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.2 2005/02/17 17:46:04 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.3 2005/02/18 22:26:40 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -29,137 +29,34 @@ import junit.framework.TestSuite;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
-import org.eclipse.emf.test.performance.EMFPerformanceTestCase;
-import org.eclipse.emf.test.performance.TestUtil;
-import org.eclipse.xsd.impl.type.XSDDateType;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import com.example.sdo.ipo.Address;
 import com.example.sdo.ipo.DocumentRoot;
-import com.example.sdo.ipo.IpoFactory;
+import com.example.sdo.ipo.IpoPackage;
 import com.example.sdo.ipo.ItemType;
 import com.example.sdo.ipo.Items;
 import com.example.sdo.ipo.PurchaseOrderType;
 import com.example.sdo.ipo.USAddress;
 import com.example.sdo.ipo.USState;
+import com.example.sdo.ipo.util.IpoResourceFactoryImpl;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 
 
-public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
+public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 {
-  private static final int REPETITIONS = 5;
+  // values for get with generated code.
+  protected Address addressBillToValue;
 
-  private static final int ITERATIONS = 40000;
+  protected Address addressShipToValue;
 
-  private static final int WARMUP = 200;
-
-  private static final int TYPED_WARMUP = 3000;
-
-  private static final int PATH_WARMUP = 100;
-
-  private static final int NUM_ITEMS = 1;
-
-  private static final String DATA = TestUtil.getPluginDirectory() + "/data/";
-
-  private static final String DATA_URI = "file:///" + DATA;
-
-  private IPOSDOAccessorTest accessorTest;
-
-  // static model
-
-  private Property shipToProp;
-
-  private Property billToProp;
-
-  private Property commentProp;
-
-  private Property itemsProp;
-
-  private Property itemProp;
-
-  private Property orderDateProp;
-
-  private Property productNameProp;
-
-  private Property quantityProp;
-
-  private Property usPriceProp;
-
-  private Property itemCommentProp;
-
-  private Property shipDateProp;
-
-  private Property partNumProp;
-
-  private IpoFactory ipoFactoryInstance = IpoFactory.eINSTANCE;
-
-  // the static purchase order
-  private PurchaseOrderType po;
-
-  private Object orderDate = new XSDDateType().getValue("2005-02-10");
-
-  private Object shipDate = new XSDDateType().getValue("2005-02-20");
-
-  private USAddress shipToAddress;
-
-  private USAddress billToAddress;
-
-  private String orderComment = "My first purchase order.";
-
-  // instance data (used in the get tests)
-
-  private Address billToValue;
-
-  private Address shipToValue;
-
-  private String orderCommentValue;
-
-  private Object orderDateValue;
-
-  private List itemsValue;
-
-  private ItemType itemElementValue;
-
-  private String productNameValue;
-
-  private BigInteger quantityValue;
-
-  private BigDecimal usPriceValue;
-
-  private String itemCommentValue;
-
-  private Object shipDateValue;
-
-  private String partNumValue;
-
-  // instance data (used in set tests)
-
-  private ItemType itemElement;
-
-  private List item;
-
-  private Object newOrderDate = new XSDDateType().getValue("2006-02-10");
-
-  private String newOrderComment = "Another comment.";
-
-  private USAddress newShipToAddress;
-
-  private USAddress newBillToAddress;
-
-  private String productName = "The new Product.";
-
-  private BigInteger quantity = new BigInteger("5000");
-
-  private BigDecimal usPrice = new BigDecimal(4488);
-
-  private String itemComment = "A comment on the item";
-
-  private Object newShipDate = new XSDDateType().getValue("2006-03-10");;
-
-  private String partNum = "part123456";
+  protected ItemType itemTypeElementValue;
 
   public StaticIPOSDOAccessorTest(String name)
   {
@@ -168,18 +65,35 @@ public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   public static Test suite()
   {
-
     TestSuite testSuite = new TestSuite();
 
-    testSuite.addTest(new StaticIPOSDOAccessorTest("getByGenerated").setWarmUp(TYPED_WARMUP).setRepetitions(REPETITIONS));
+    // the warmup number is the optimal one for consistency of results and best peformance.
+    // result: 12
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(2000).setRepetitions(REPETITIONS));
+    // result: 16
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(2000).setRepetitions(REPETITIONS));
+
+    // result: 10/12
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(2000).setRepetitions(REPETITIONS));
+    // result: 14
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(2000).setRepetitions(REPETITIONS));
+    
+
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getByGenerated").setWarmUp(MICRO_WARMUP).setRepetitions(REPETITIONS));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("getByPath").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("setByGenerated").setWarmUp(TYPED_WARMUP).setRepetitions(REPETITIONS));
+    
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setByGenerated").setWarmUp(MICRO_WARMUP).setRepetitions(REPETITIONS));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("setByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    
 
+    // result: 484
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
+    
     return testSuite;
   }
 
@@ -191,48 +105,24 @@ public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
 
     initPO();
 
-    accessorTest = new IPOSDOAccessorTest(
-      ITERATIONS,
-      shipToProp,
-      billToProp,
-      commentProp,
-      itemsProp,
-      itemProp,
-      orderDateProp,
-      productNameProp,
-      quantityProp,
-      usPriceProp,
-      itemCommentProp,
-      shipDateProp,
-      partNumProp);
-
-    accessorTest.initInstanceData(
-      (DataObject)newShipToAddress,
-      (DataObject)newBillToAddress,
-      newOrderComment,
-      newOrderDate,
-      productName,
-      quantity,
-      usPrice,
-      itemComment,
-      newShipDate,
-      partNum);
-
     // serialize DG so that it can be deserialized by DynamicAccessorTest
-    serializeDataGraph();
+    //serializeDataGraph();
 
     assertNotNull(po);
+
+    initModel();
   }
 
-  private void initPO()
+  protected void initPO()
   {
     SDOFactory sdoFactoryInstance = SDOFactory.eINSTANCE;
     EDataGraph dataGraph = sdoFactoryInstance.createEDataGraph();
 
     DocumentRoot root = ipoFactoryInstance.createDocumentRoot();
-    po = ipoFactoryInstance.createPurchaseOrderType();
+    PurchaseOrderType po = ipoFactoryInstance.createPurchaseOrderType();
+    this.po = (DataObject)po;
 
-    shipToAddress = ipoFactoryInstance.createUSAddress();
+    USAddress shipToAddress = ipoFactoryInstance.createUSAddress();
     shipToAddress.setCity("Austin");
     shipToAddress.setName("The Address");
     shipToAddress.setState(USState.AR_LITERAL);
@@ -240,20 +130,12 @@ public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
     shipToAddress.setZip(new BigInteger("78741"));
     po.setShipTo(shipToAddress);
 
-    newShipToAddress = ipoFactoryInstance.createUSAddress();
-    newShipToAddress.setCity("Toronto");
-    newShipToAddress.setName("not the GTA one.");
-    // leave state not set.
-    //newShipToAddress.setState(USState.PA_LITERAL);
-    newShipToAddress.setStreet("37 Jenner Way");
-    newShipToAddress.setZip(new BigInteger("66524"));
-
     // leave comment not set.
     //po.setComment(orderComment);
 
     po.setOrderDate(orderDate);
 
-    billToAddress = ipoFactoryInstance.createUSAddress();
+    USAddress billToAddress = ipoFactoryInstance.createUSAddress();
     billToAddress.setCity("Paris");
     billToAddress.setName("One of many");
     billToAddress.setState(USState.AK_LITERAL);
@@ -261,20 +143,11 @@ public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
     billToAddress.setZip(new BigInteger("14665"));
     po.setBillTo(billToAddress);
 
-    newBillToAddress = ipoFactoryInstance.createUSAddress();
-    newBillToAddress.setCity("New York City");
-    newBillToAddress.setName("Mr. Big Apple");
-    // leave state not set
-    //newBillToAddress.setState(USState.AL_LITERAL);
-    newBillToAddress.setStreet("222 Manhattan ");
-    newBillToAddress.setZip(new BigInteger("12345"));
-
     Items items = ipoFactoryInstance.createItems();
     po.setItems(items);
-
     for (int i = 0; i < NUM_ITEMS; i++)
     {
-      itemElement = ipoFactoryInstance.createItemType();
+      ItemType itemElement = ipoFactoryInstance.createItemType();
       itemElement.setComment("comment " + i);
       itemElement.setPartNum("part num " + i + 10);
       itemElement.setProductName("The " + i + " name");
@@ -285,6 +158,13 @@ public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
       items.getItem().add(itemElement);
     }
 
+    root.setPurchaseOrder(po);
+    dataGraph.setERootObject((EObject)root);
+    dataGraph.setEChangeSummary(sdoFactoryInstance.createEChangeSummary());
+  }
+
+  private void initModel()
+  {
     List properties = ((DataObject)po).getType().getProperties();
     shipToProp = (Property)properties.get(0);
     billToProp = (Property)properties.get(1);
@@ -299,10 +179,13 @@ public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
     itemCommentProp = (Property)itemProperties.get(3);
     shipDateProp = (Property)itemProperties.get(4);
     partNumProp = (Property)itemProperties.get(5);
+  }
 
-    root.setPurchaseOrder(po);
-    dataGraph.setERootObject((EObject)root);
-    dataGraph.setEChangeSummary(sdoFactoryInstance.createEChangeSummary());
+  protected ExtendedMetaData registerModel(ResourceSet resourceSet)
+  {
+    IpoPackage ipoPackageInstance = IpoPackage.eINSTANCE;
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new IpoResourceFactoryImpl());
+    return new BasicExtendedMetaData(resourceSet.getPackageRegistry());
   }
 
   private void serializeDataGraph()
@@ -332,85 +215,29 @@ public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
    */
   public final void getByGenerated()
   {
+    PurchaseOrderType po = (PurchaseOrderType)this.po;
     startMeasuring();
 
     for (int i = 0; i < ITERATIONS; i++)
     {
-      billToValue = po.getBillTo();
+      addressBillToValue = po.getBillTo();
       orderCommentValue = po.getComment();
       orderDateValue = po.getOrderDate();
-      shipToValue = po.getShipTo();
+      addressShipToValue = po.getShipTo();
 
       itemsValue = po.getItems().getItem();
       for (int j = 0; j < itemsValue.size(); j++)
       {
-        itemElementValue = (ItemType)itemsValue.get(j);
-        productNameValue = itemElementValue.getProductName();
-        quantityValue = itemElementValue.getQuantity();
-        usPriceValue = itemElementValue.getUSPrice();
-        itemCommentValue = itemElementValue.getComment();
-        shipDateValue = itemElementValue.getShipDate();
-        partNumValue = itemElementValue.getPartNum();
+        itemTypeElementValue = (ItemType)itemsValue.get(j);
+        productNameValue = itemTypeElementValue.getProductName();
+        quantityValue = itemTypeElementValue.getQuantity();
+        usPriceValue = itemTypeElementValue.getUSPrice();
+        itemCommentValue = itemTypeElementValue.getComment();
+        shipDateValue = itemTypeElementValue.getShipDate();
+        partNumValue = itemTypeElementValue.getPartNum();
       }
     }
 
-    stopMeasuring();
-  }
-
-  /**
-   * <p>
-   * Uses the SDO reflective API to get the values of a DataObject whose model has been statically generated.
-   * Test details:
-   * <ul>
-   * <li>get/set: get</li>
-   * <li>model generation: static</li>
-   * <li>access API: reflective by Property</li>
-   * </ul>
-   * </p>
-   */
-  public void getByProperty()
-  {
-    DataObject poDataObject = (DataObject)po;
-    startMeasuring();
-    accessorTest.getByProperty(poDataObject);
-    stopMeasuring();
-  }
-
-  /**
-   * <p>
-   * Uses the SDO reflective API to get the values of a DataObject whose model has been statically generated.
-   * Test details:
-   * <ul>
-   * <li>get/set: get</li>
-   * <li>model generation: static</li>
-   * <li>access API: reflective by index</li>
-   * </ul>
-   * </p>
-   */
-  public void getByIndex()
-  {
-    DataObject poDataObject = (DataObject)po;
-    startMeasuring();
-    accessorTest.getByIndex(poDataObject);
-    stopMeasuring();
-  }
-
-  /**
-   * <p>
-   * Uses the SDO reflective API to get the values of a DataObject whose model has been statically generated.
-   * Test details:
-   * <ul>
-   * <li>get/set: get</li>
-   * <li>model generation: static</li>
-   * <li>access API: reflective by path</li>
-   * </ul>
-   * </p>
-   */
-  public void getByPath()
-  {
-    DataObject poDataObject = (DataObject)po;
-    startMeasuring();
-    accessorTest.getByPath(poDataObject);
     stopMeasuring();
   }
 
@@ -427,86 +254,31 @@ public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
    */
   public final void setByGenerated()
   {
+    PurchaseOrderType po = (PurchaseOrderType)this.po;
+    USAddress newShipToAddress = (USAddress)this.newShipToAddress;
+    USAddress newBillToAddress = (USAddress)this.newBillToAddress;
     startMeasuring();
 
     for (int i = 0; i < ITERATIONS; i++)
     {
+      po.setBillTo(newShipToAddress);
+      po.setComment(orderComment);
+      po.setOrderDate(orderDate);
+      po.setShipTo(newBillToAddress);
 
-      po.setBillTo(shipToAddress);
-      po.setComment(newOrderComment);
-      po.setOrderDate(newOrderDate);
-      po.setShipTo(billToAddress);
-
-      item = po.getItems().getItem();
+      itemsValue = po.getItems().getItem();
       for (int j = 0; j < NUM_ITEMS; j++)
       {
-        itemElement = (ItemType)item.get(j);
-        itemElement.setProductName(productName);
-        itemElement.setQuantity(quantity);
-        itemElement.setUSPrice(usPrice);
-        itemElement.setComment(itemComment);
-        itemElement.setShipDate(newShipDate);
-        itemElement.setPartNum(partNum);
+        itemTypeElementValue = (ItemType)itemsValue.get(j);
+        itemTypeElementValue.setProductName(productName);
+        itemTypeElementValue.setQuantity(quantity);
+        itemTypeElementValue.setUSPrice(usPrice);
+        itemTypeElementValue.setComment(itemComment);
+        itemTypeElementValue.setShipDate(shipDate);
+        itemTypeElementValue.setPartNum(partNum);
       }
     }
 
-    stopMeasuring();
-  }
-
-  /**
-   * <p>
-   * Uses the SDO reflective API to get the values of a DataObject whose model has been statically generated.
-   * Test details:
-   * <ul>
-   * <li>get/set: set</li>
-   * <li>model generation: static</li>
-   * <li>access API: reflective by Property</li>
-   * </ul>
-   * </p>
-   */
-  public void setByProperty()
-  {
-    DataObject poDataObject = (DataObject)po;
-    startMeasuring();
-    accessorTest.setByProperty(poDataObject);
-    stopMeasuring();
-  }
-
-  /**
-   * <p>
-   * Uses the SDO reflective API to set the values of a DataObject whose model has been statically generated.
-   * Test details:
-   * <ul>
-   * <li>get/set: set</li>
-   * <li>model generation: static</li>
-   * <li>access API: reflective by index</li>
-   * </ul>
-   * </p>
-   */
-  public void setByIndex()
-  {
-    DataObject poDataObject = (DataObject)po;
-    startMeasuring();
-    accessorTest.setByIndex(poDataObject);
-    stopMeasuring();
-  }
-
-  /**
-   * <p>
-   * Uses the SDO reflective API to get the values of a DataObject whose model has been statically generated.
-   * Test details:
-   * <ul>
-   * <li>get/set: set</li>
-   * <li>model generation: static</li>
-   * <li>access API: reflective by path</li>
-   * </ul>
-   * </p>
-   */
-  public void setByPath()
-  {
-    DataObject poDataObject = (DataObject)po;
-    startMeasuring();
-    accessorTest.setByPath(poDataObject);
     stopMeasuring();
   }
 
