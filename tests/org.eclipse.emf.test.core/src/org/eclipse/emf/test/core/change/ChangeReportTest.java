@@ -12,12 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ChangeReportTest.java,v 1.7 2004/08/11 18:08:33 marcelop Exp $
+ * $Id: ChangeReportTest.java,v 1.8 2004/08/20 22:58:27 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -45,6 +45,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.test.core.EMFTestCorePlugin;
 
 
 public class ChangeReportTest
@@ -171,7 +172,7 @@ extends TestCase
     eClass1.setName("testEClass1");
     eAnnotation.getContents().add(eClass1);
     
-    List beforeChange = Arrays.asList(eAnnotation.getContents().toArray());
+    List beforeChange = new ArrayList(eAnnotation.getContents());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(eAnnotation);
     if (callSummarize)
@@ -230,7 +231,7 @@ extends TestCase
     EClass eClass1 = EcoreFactory.eINSTANCE.createEClass();
     eClass1.setName("testEClass1");    
     
-    List beforeChange = Arrays.asList(eAnnotation.getContents().toArray());
+    List beforeChange = new ArrayList(eAnnotation.getContents());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(eAnnotation);
     if (callSummarize)
@@ -293,7 +294,7 @@ extends TestCase
     
     eAnnotation.getContents().add(eClass1);
     
-    List beforeChange = Arrays.asList(eAnnotation.getContents().toArray());
+    List beforeChange = new ArrayList(eAnnotation.getContents());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(eAnnotation);
     if (callSummarize)
@@ -365,7 +366,7 @@ extends TestCase
     eClass1.setName("testEClass1");
     eAnnotation.getContents().add(eClass1);
     
-    List beforeChange = Arrays.asList(eAnnotation.getContents().toArray());
+    List beforeChange = new ArrayList(eAnnotation.getContents());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(eAnnotation);
     if (callSummarize)
@@ -502,12 +503,12 @@ extends TestCase
     if (initialListAreDifferent)
     {
       //Tests if the lists are different
-      assertFalse(Arrays.equals(beforeChange.toArray(), eAnnotation.getContents().toArray()));
+      assertFalse(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));
     }
     else
     {
       //Tests if the lists are equal
-      assertTrue(Arrays.equals(beforeChange.toArray(), eAnnotation.getContents().toArray()));      
+      assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));      
     }
     
     changeDescription.apply(); 
@@ -517,6 +518,6 @@ extends TestCase
     assertEquals(0, changeDescription.getObjectsToAttach().size());
     
     //Tests if the list was rolled back
-    assertTrue(Arrays.equals(beforeChange.toArray(), eAnnotation.getContents().toArray()));        
+    assertTrue(EMFTestCorePlugin.areEqual(beforeChange, eAnnotation.getContents()));        
   }
 }

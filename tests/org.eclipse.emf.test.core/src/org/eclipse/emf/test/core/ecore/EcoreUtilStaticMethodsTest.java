@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtilStaticMethodsTest.java,v 1.2 2004/08/11 15:55:52 marcelop Exp $
+ * $Id: EcoreUtilStaticMethodsTest.java,v 1.3 2004/08/20 22:58:27 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -31,6 +30,7 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.test.core.EMFTestCorePlugin;
 
 public class EcoreUtilStaticMethodsTest extends TestCase
 {
@@ -147,28 +147,28 @@ public class EcoreUtilStaticMethodsTest extends TestCase
   {
     EList eList = new BasicEList();
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Empty list test", Arrays.equals(prototypeList.toArray(), eList.toArray()));
+    assertTrue("Empty list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
     
     eList = new BasicEList();
     eList.add(0, "String");
     eList.add(Boolean.FALSE);
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Smaller list test", Arrays.equals(prototypeList.toArray(), eList.toArray()));
+    assertTrue("Smaller list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
     
     eList = (EList)populateList(new BasicEList());
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Same list test", Arrays.equals(prototypeList.toArray(), eList.toArray()));
+    assertTrue("Same list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
 
     eList.remove(2);
     eList.add(3, this);
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Equal size list test", Arrays.equals(prototypeList.toArray(), eList.toArray()));
+    assertTrue("Equal size list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
 
     eList.add(0, "String");
     eList.add(2, Boolean.FALSE);
     eList.add(Boolean.FALSE);
     eList.add(this);
     EcoreUtil.setEList(eList, prototypeList);
-    assertTrue("Bigger list test", Arrays.equals(prototypeList.toArray(), eList.toArray()));
+    assertTrue("Bigger list test", EMFTestCorePlugin.areEqual(prototypeList, eList));
   }
 }
