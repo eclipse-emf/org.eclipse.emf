@@ -12,14 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.2 2004/11/15 22:26:41 marcelop Exp $
+ * $Id: ASTTest.java,v 1.3 2004/11/25 19:41:51 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.List;
 
 import junit.framework.Test;
@@ -62,8 +59,7 @@ import org.eclipse.emf.test.tools.EMFTestToolsPlugin;
 public class ASTTest extends TestCase
 {
   private static final File CLASS_FILE = 
-     new File(EMFTestToolsPlugin.getPluginDirectory()
-       + "/data/Example.java").getAbsoluteFile();
+     new File(EMFTestToolsPlugin.getPluginDirectory() + "/data/Example.java").getAbsoluteFile();
   
   /**
    * @param name
@@ -80,38 +76,6 @@ public class ASTTest extends TestCase
     return ts;
   }
   
-  private static String readFile(File file)
-  {    
-    StringBuffer stringBuffer = new StringBuffer();
-
-    try
-    {
-      BufferedReader in = new BufferedReader(new FileReader(file));
-      String str = null;
-      
-      try
-      {
-        while ((str = in.readLine()) != null)
-        {
-          stringBuffer.append(str).append("\n");
-        }
-      }
-      finally
-      {
-        if (in != null)
-        {
-          in.close();
-        }
-      }
-    }
-    catch(IOException exception)
-    {
-      throw new RuntimeException(exception);
-    }
-    
-    return stringBuffer.toString();
-  }
-  
   protected void setUp() throws Exception
   {
     assertTrue("Source code is not available - " + CLASS_FILE.getAbsolutePath(), CLASS_FILE.isFile());
@@ -119,7 +83,7 @@ public class ASTTest extends TestCase
   
   public void testRead()
   {
-    String content = readFile(CLASS_FILE);
+    String content = EMFTestToolsPlugin.readFile(CLASS_FILE);
     
     ASTParser astParser = ASTParser.newParser(AST.JLS3);
     astParser.setSource(content.toCharArray());
