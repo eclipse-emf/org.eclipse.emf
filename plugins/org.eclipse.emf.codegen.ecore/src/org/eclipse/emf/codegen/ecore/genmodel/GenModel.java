@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.4 2004/05/07 22:39:33 emerks Exp $
+ * $Id: GenModel.java,v 1.5 2004/05/16 17:30:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -66,6 +66,8 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureMapWrapperInterface <em>Feature Map Wrapper Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureMapWrapperInternalInterface <em>Feature Map Wrapper Internal Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureMapWrapperClass <em>Feature Map Wrapper Class</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRuntimeCompatibility <em>Runtime Compatibility</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichClientPlatform <em>Rich Client Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -823,6 +825,59 @@ public interface GenModel extends GenBase{
   void setFeatureMapWrapperClass(String value);
 
   /**
+   * Returns the value of the '<em><b>Runtime Compatibility</b></em>' attribute.
+   * The default value is <code>"true"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Runtime Compatibility</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Runtime Compatibility</em>' attribute.
+   * @see #setRuntimeCompatibility(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_RuntimeCompatibility()
+   * @model default="true"
+   * @generated
+   */
+  boolean isRuntimeCompatibility();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRuntimeCompatibility <em>Runtime Compatibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Runtime Compatibility</em>' attribute.
+   * @see #isRuntimeCompatibility()
+   * @generated
+   */
+  void setRuntimeCompatibility(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Rich Client Platform</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Rich Client Platform</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Rich Client Platform</em>' attribute.
+   * @see #setRichClientPlatform(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_RichClientPlatform()
+   * @model 
+   * @generated
+   */
+  boolean isRichClientPlatform();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichClientPlatform <em>Rich Client Platform</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Rich Client Platform</em>' attribute.
+   * @see #isRichClientPlatform()
+   * @generated
+   */
+  void setRichClientPlatform(boolean value);
+
+  /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
@@ -978,4 +1033,6 @@ public interface GenModel extends GenBase{
   String getXMLEncodingChoices();
 
   List getEffectiveModelPluginVariables();
+
+  boolean needsRuntimeCompatibility();
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.2 2004/03/31 16:19:31 davidms Exp $
+ * $Id: GenModelPackage.java,v 1.3 2004/05/16 17:30:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -375,13 +375,31 @@ public interface GenModelPackage extends EPackage{
   int GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS = GEN_BASE_FEATURE_COUNT + 29;
 
   /**
+   * The feature id for the '<em><b>Runtime Compatibility</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__RUNTIME_COMPATIBILITY = GEN_BASE_FEATURE_COUNT + 30;
+
+  /**
+   * The feature id for the '<em><b>Rich Client Platform</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__RICH_CLIENT_PLATFORM = GEN_BASE_FEATURE_COUNT + 31;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 30;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 32;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -390,7 +408,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 31;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 33;
 
   /**
    * The number of structural features of the the '<em>GenModel</em>' class.
@@ -399,7 +417,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 32;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 34;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -1286,6 +1304,28 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   EAttribute getGenModel_FeatureMapWrapperClass();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRuntimeCompatibility <em>Runtime Compatibility</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Runtime Compatibility</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRuntimeCompatibility()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_RuntimeCompatibility();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichClientPlatform <em>Rich Client Platform</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Rich Client Platform</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichClientPlatform()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_RichClientPlatform();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
