@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SimpleResourceFactoryImpl.java,v 1.1 2004/06/30 21:11:29 marcelop Exp $
+ * $Id: SimpleResourceFactoryImpl.java,v 1.2 2004/07/19 19:23:53 marcelop Exp $
  */
 package com.example.simple.util;
 
@@ -62,4 +62,5 @@ public class SimpleResourceFactoryImpl extends XMLResourceFactoryImpl
     result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
     return result;
   }
+
 } //SimpleResourceFactoryImpl

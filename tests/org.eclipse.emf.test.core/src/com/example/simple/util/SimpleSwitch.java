@@ -2,11 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SimpleSwitch.java,v 1.1 2004/06/30 21:11:29 marcelop Exp $
+ * $Id: SimpleSwitch.java,v 1.2 2004/07/19 19:23:53 marcelop Exp $
  */
 package com.example.simple.util;
 
 import com.example.simple.*;
+
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -24,8 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see com.example.simple.SimplePackage
  * @generated
  */
-public class SimpleSwitch
-{
+public class SimpleSwitch {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -57,22 +58,52 @@ public class SimpleSwitch
    */
   public Object doSwitch(EObject theEObject)
   {
-    EClass theEClass = theEObject.eClass();
+    return doSwitch(theEObject.eClass(), theEObject);
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  {
     if (theEClass.eContainer() == modelPackage)
     {
-      switch (theEClass.getClassifierID())
-      {
-        case SimplePackage.QUOTE:
-        {
-          Quote quote = (Quote)theEObject;
-          Object result = caseQuote(quote);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        default: return defaultCase(theEObject);
-      }
+      return doSwitch(theEClass.getClassifierID(), theEObject);
     }
-    return defaultCase(theEObject);
+    else
+    {
+      List eSuperTypes = theEClass.getESuperTypes();
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+    }
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(int classifierID, EObject theEObject)
+  {
+    switch (classifierID)
+    {
+      case SimplePackage.QUOTE:
+      {
+        Quote quote = (Quote)theEObject;
+        Object result = caseQuote(quote);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      default: return defaultCase(theEObject);
+    }
   }
 
   /**

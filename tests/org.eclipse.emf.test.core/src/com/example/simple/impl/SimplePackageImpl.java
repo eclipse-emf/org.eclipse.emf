@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SimplePackageImpl.java,v 1.1 2004/06/30 21:11:29 marcelop Exp $
+ * $Id: SimplePackageImpl.java,v 1.2 2004/07/19 19:23:53 marcelop Exp $
  */
 package com.example.simple.impl;
 
@@ -90,20 +90,18 @@ public class SimplePackageImpl extends EPackageImpl implements SimplePackage
   {
     if (isInited) return (SimplePackage)EPackage.Registry.INSTANCE.get(SimplePackage.eNS_URI);
 
-    // Obtain or create and register package.
-    SimplePackageImpl theSimplePackage = (SimplePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new SimplePackageImpl());
+    // Obtain or create and register package
+    SimplePackageImpl theSimplePackage = (SimplePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof SimplePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new SimplePackageImpl());
 
     isInited = true;
 
     // Initialize simple dependencies
     XMLTypePackageImpl.init();
 
-    // Obtain or create and register interdependencies
-
-    // Step 1: create meta-model objects
+    // Create package meta-data objects
     theSimplePackage.createPackageContents();
 
-    // Step 2: complete initialization
+    // Initialize created meta-data
     theSimplePackage.initializePackageContents();
 
     return theSimplePackage;
@@ -281,16 +279,16 @@ public class SimplePackageImpl extends EPackageImpl implements SimplePackage
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
-    initEClass(quoteEClass, Quote.class, "Quote", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getQuote_Symbol(), theXMLTypePackage.getString(), "symbol", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getQuote_CompanyName(), theXMLTypePackage.getString(), "companyName", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getQuote_Price(), theXMLTypePackage.getDecimal(), "price", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getQuote_Open1(), theXMLTypePackage.getDecimal(), "open1", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getQuote_High(), theXMLTypePackage.getDecimal(), "high", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getQuote_Low(), theXMLTypePackage.getDecimal(), "low", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getQuote_Volume(), theXMLTypePackage.getDouble(), "volume", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
-    initEAttribute(getQuote_Change1(), theXMLTypePackage.getDouble(), "change1", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
-    initEReference(getQuote_Quotes(), this.getQuote(), null, "quotes", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEClass(quoteEClass, Quote.class, "Quote", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getQuote_Symbol(), theXMLTypePackage.getString(), "symbol", null, 1, 1, Quote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getQuote_CompanyName(), theXMLTypePackage.getString(), "companyName", null, 1, 1, Quote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getQuote_Price(), theXMLTypePackage.getDecimal(), "price", null, 1, 1, Quote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getQuote_Open1(), theXMLTypePackage.getDecimal(), "open1", null, 1, 1, Quote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getQuote_High(), theXMLTypePackage.getDecimal(), "high", null, 1, 1, Quote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getQuote_Low(), theXMLTypePackage.getDecimal(), "low", null, 1, 1, Quote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getQuote_Volume(), theXMLTypePackage.getDouble(), "volume", null, 1, 1, Quote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getQuote_Change1(), theXMLTypePackage.getDouble(), "change1", null, 1, 1, Quote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getQuote_Quotes(), this.getQuote(), null, "quotes", null, 0, -1, Quote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Create resource
     createResource(eNS_URI);
@@ -390,4 +388,5 @@ public class SimplePackageImpl extends EPackageImpl implements SimplePackage
        "name", "quotes"
        });
   }
+
 } //SimplePackageImpl
