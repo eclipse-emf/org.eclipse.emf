@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.2 2004/03/26 11:32:01 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.3 2004/03/26 18:23:58 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2815,6 +2815,11 @@ public class XSDSchemaImpl
     isIncrementalUpdate = oldIsIncrementalUpdate;
   }
 
+  protected String pendingSchemaLocation;
+  public String getPendingSchemaLocation()
+  {
+    return pendingSchemaLocation;
+  }
 
   protected Map redefinitionMap = new HashMap();
   public Map getRedefinitionMap()
@@ -2881,7 +2886,7 @@ public class XSDSchemaImpl
 
       XSDSchemaImpl redefinedSchema = (XSDSchemaImpl)cloneConcreteComponent(true, true);
       getIncorporatedVersions().add(redefinedSchema);
-      redefinedSchema.setSchemaLocation(getSchemaLocation());
+      redefinedSchema.pendingSchemaLocation = getSchemaLocation();
 
       redefinedSchema.incorporate(xsdRedefine);
       return redefinedSchema;
@@ -2918,7 +2923,7 @@ public class XSDSchemaImpl
         }
         XSDSchemaImpl includedSchema = (XSDSchemaImpl)cloneConcreteComponent(true, true);
         getIncorporatedVersions().add(includedSchema);
-        includedSchema.setSchemaLocation(getSchemaLocation());
+        includedSchema.pendingSchemaLocation = getSchemaLocation();
         includedSchema.incorporate(xsdInclude);
         return includedSchema;
       }
@@ -2939,7 +2944,18 @@ public class XSDSchemaImpl
     if (getTargetNamespace() == null && redefiningSchema.getTargetNamespace() != null)
     {
       setTargetNamespace(redefiningSchema.getTargetNamespace());
-      patch();
+    }
+
+    if (getPendingSchemaLocation() != null)
+    {
+      for (Iterator i = getContents().iterator(); i.hasNext(); )
+      {
+        Object component = i.next();
+        if (component instanceof XSDSchemaDirective)
+        {
+          ((XSDConcreteComponentImpl)component).patch();
+        }
+      }
     }
 
     if (xsdSchemaCompositor instanceof XSDRedefine)
@@ -3001,6 +3017,12 @@ public class XSDSchemaImpl
       {
         xsdSwitch.doSwitch((XSDRedefineContent)contents.next());
       }
+    }
+
+    if (getPendingSchemaLocation() != null)
+    {
+      setSchemaLocation(getPendingSchemaLocation());
+      pendingSchemaLocation = null;
     }
 
     patch();

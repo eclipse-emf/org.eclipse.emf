@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.2 2004/03/17 13:05:18 emerks Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.3 2004/03/26 18:23:58 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -344,7 +344,9 @@ public abstract class XSDSchemaDirectiveImpl
     if (!resolved)
     {
       XSDSchema xsdSchema = getSchema();
-      if (xsdSchema != null && xsdSchema.getSchemaLocation() != null)
+      if (xsdSchema != null && 
+            (xsdSchema.getSchemaLocation() != null ||
+              ((XSDSchemaImpl)xsdSchema).getPendingSchemaLocation() != null))
       {
         Resource resource = xsdSchema.eResource();
         if (resource != null)
