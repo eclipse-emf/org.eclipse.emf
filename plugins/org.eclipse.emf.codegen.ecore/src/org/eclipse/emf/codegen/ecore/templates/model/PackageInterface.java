@@ -298,7 +298,7 @@ public class PackageInterface
     stringBuffer.append(genFeature.getFeatureKind());
     stringBuffer.append(TEXT_80);
     stringBuffer.append(genClass.getQualifiedInterfaceName());
-    if (!genClass.isMapEntry()) {
+    if (!genClass.isMapEntry() && !genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_81);
     stringBuffer.append(genFeature.getGetAccessor());
     }
@@ -310,7 +310,7 @@ public class PackageInterface
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_85);
     stringBuffer.append(genClass.getQualifiedInterfaceName());
-    if (!genClass.isMapEntry()) {
+    if (!genClass.isMapEntry() && !genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_86);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_87);

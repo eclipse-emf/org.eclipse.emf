@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.5 2004/09/24 04:09:14 davidms Exp $
+ * $Id: GenFeature.java,v 1.6 2004/11/15 14:54:43 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -329,6 +329,11 @@ public interface GenFeature extends GenBase
 
   String getCreateChildValueLiteral();
 
+  boolean isSuppressedGetVisibility();
+  boolean isSuppressedSetVisibility();
+  boolean isSuppressedIsSetVisibility();
+  boolean isSuppressedUnsetVisibility();
+  
   void initialize(EStructuralFeature eFeature);
 
   //

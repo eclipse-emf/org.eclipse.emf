@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.9 2004/10/22 17:27:53 davidms Exp $
+ * $Id: GenFeatureImpl.java,v 1.10 2004/11/15 14:54:43 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1305,6 +1305,26 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     return result;
   }
 
+  public boolean isSuppressedGetVisibility()
+  {
+    return EcoreUtil.isSuppressedVisibility(getEcoreFeature(), EcoreUtil.GET);
+  }
+
+  public boolean isSuppressedSetVisibility()
+  {
+    return EcoreUtil.isSuppressedVisibility(getEcoreFeature(), EcoreUtil.SET);
+  }
+
+  public boolean isSuppressedIsSetVisibility()
+  {
+    return EcoreUtil.isSuppressedVisibility(getEcoreFeature(), EcoreUtil.IS_SET);
+  }
+
+  public boolean isSuppressedUnsetVisibility()
+  {
+    return EcoreUtil.isSuppressedVisibility(getEcoreFeature(), EcoreUtil.UNSET);
+  }
+
   public void initialize(EStructuralFeature eFeature)
   {
     if (eFeature != getEcoreFeature())
@@ -1369,7 +1389,12 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
          mapGenClass.getGenPackage().getInterfacePackageName() + '.' + mapGenClass.getEcoreClass().getName());
 
       EReference eReference = (EReference) eStructuralFeature;
-      if (!qualified && !eReference.isContainer())
+
+      // We don't want keyType and valueType on a map type specification in a package interface.
+      // But, we also use qualified model information when defining a feature with suppressed get accessor
+      // on the interface, and we do want to include these properties in that case.
+      //
+      if ((!qualified || isSuppressedGetVisibility()) && !eReference.isContainer())
       {
         GenFeature keyFeature = mapGenClass.getMapEntryKeyFeature();
         appendModelSetting(result, false, "keyType", getType(keyFeature.getEcoreFeature().getEType(), false));
@@ -1494,6 +1519,23 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     if (!eStructuralFeature.isOrdered())
     {
       appendModelSetting(result, qualified, "ordered", "false");
+    }
+
+    if (isSuppressedGetVisibility())
+    {
+      appendModelSetting(result, qualified, "suppressedGetVisibility", "true");
+    }
+    if (isSuppressedSetVisibility())
+    {
+      appendModelSetting(result, qualified, "suppressedSetVisibility", "true");
+    }
+    if (isSuppressedIsSetVisibility())
+    {
+      appendModelSetting(result, qualified, "suppressedIsSetVisibility", "true");
+    }
+    if (isSuppressedUnsetVisibility())
+    {
+      appendModelSetting(result, qualified, "suppressedUnsetVisibility", "true");
     }
 
     return result.toString().trim();

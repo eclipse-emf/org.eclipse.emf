@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.16 2004/10/30 23:29:55 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.17 2004/11/15 14:54:43 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1088,18 +1088,34 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     {
       if (isInterface())
       {
-        result.append("interface=\"true\"");
+        appendModelSetting(result, "interface", "true");
       }
       if (isAbstract())
       {
-        if (result.length() > 0)
+        appendModelSetting(result, "abstract", "true");
+      }
+
+      StringBuffer suppressedNames = new StringBuffer();
+      StringBuffer suppressedInfo = new StringBuffer();
+      for (Iterator iter = getGenFeatures().iterator(); iter.hasNext(); )
+      {
+        GenFeature genFeature = (GenFeature)iter.next();
+        if (genFeature.isSuppressedGetVisibility())
         {
-          result.append(' ');
+          suppressedNames.append(genFeature.getName());
+          suppressedNames.append(' ');
+          suppressedInfo.append(genFeature.getQualifiedModelInfo());
+          suppressedInfo.append(' ');
         }
-        result.append("abstract=\"true\"");
+      }
+
+      if (suppressedNames.length() > 0)
+      {
+        appendModelSetting(result, "features", suppressedNames.toString().trim());
+        result.append(suppressedInfo);
       }
     }
-    return result.toString();
+    return result.toString().trim();
   }
 
   //
@@ -1176,7 +1192,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          {
            public boolean accept(GenFeature genFeature) 
            {
-             return !genFeature.isReferenceType() && !genFeature.isListType() && !genFeature.isMapType();
+             return !genFeature.isReferenceType() && !genFeature.isListType() && !genFeature.isMapType() && !genFeature.isSuppressedGetVisibility();
            }
          });
   }

@@ -92,48 +92,54 @@ public class Interface
   protected final String TEXT_84 = ".";
   protected final String TEXT_85 = NL + "\t * @see ";
   protected final String TEXT_86 = NL + "\t * @see #isSet";
-  protected final String TEXT_87 = "()" + NL + "\t * @see #unset";
-  protected final String TEXT_88 = "()";
-  protected final String TEXT_89 = NL + "\t * @see #";
-  protected final String TEXT_90 = "()" + NL + "\t * @generated" + NL + "\t */" + NL + "\tvoid set";
-  protected final String TEXT_91 = "(";
-  protected final String TEXT_92 = " value);" + NL;
-  protected final String TEXT_93 = NL + "\t/**" + NL + "\t * Unsets the value of the '{@link ";
-  protected final String TEXT_94 = "#";
-  protected final String TEXT_95 = " <em>";
-  protected final String TEXT_96 = "</em>}' ";
-  protected final String TEXT_97 = "." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see #isSet";
-  protected final String TEXT_98 = "()" + NL + "\t * @see #";
-  protected final String TEXT_99 = "()";
-  protected final String TEXT_100 = NL + "\t * @see #set";
-  protected final String TEXT_101 = "(";
-  protected final String TEXT_102 = ")";
-  protected final String TEXT_103 = NL + "\t * @generated" + NL + "\t */" + NL + "\tvoid unset";
-  protected final String TEXT_104 = "();" + NL + "" + NL + "\t/**" + NL + "\t * Returns whether the value of the '{@link ";
-  protected final String TEXT_105 = "#";
-  protected final String TEXT_106 = " <em>";
-  protected final String TEXT_107 = "</em>}' ";
-  protected final String TEXT_108 = " is set." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return whether the value of the '<em>";
-  protected final String TEXT_109 = "</em>' ";
-  protected final String TEXT_110 = " is set." + NL + "\t * @see #unset";
-  protected final String TEXT_111 = "()" + NL + "\t * @see #";
-  protected final String TEXT_112 = "()";
-  protected final String TEXT_113 = NL + "\t * @see #set";
-  protected final String TEXT_114 = "(";
-  protected final String TEXT_115 = ")";
-  protected final String TEXT_116 = NL + "\t * @generated" + NL + "\t */" + NL + "\tboolean isSet";
-  protected final String TEXT_117 = "();" + NL;
-  protected final String TEXT_118 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->";
-  protected final String TEXT_119 = NL + "\t * <!-- begin-model-doc -->" + NL + "\t * ";
-  protected final String TEXT_120 = NL + "\t * <!-- end-model-doc -->";
-  protected final String TEXT_121 = NL + "\t * @model ";
-  protected final String TEXT_122 = NL + "\t * @generated" + NL + "\t */" + NL + "\t";
-  protected final String TEXT_123 = " ";
-  protected final String TEXT_124 = "(";
-  protected final String TEXT_125 = ")";
-  protected final String TEXT_126 = ";" + NL;
-  protected final String TEXT_127 = NL + "} // ";
-  protected final String TEXT_128 = NL;
+  protected final String TEXT_87 = "()";
+  protected final String TEXT_88 = NL + "\t * @see #unset";
+  protected final String TEXT_89 = "()";
+  protected final String TEXT_90 = NL + "\t * @see #";
+  protected final String TEXT_91 = "()" + NL + "\t * @generated" + NL + "\t */" + NL + "\tvoid set";
+  protected final String TEXT_92 = "(";
+  protected final String TEXT_93 = " value);" + NL;
+  protected final String TEXT_94 = NL + "\t/**" + NL + "\t * Unsets the value of the '{@link ";
+  protected final String TEXT_95 = "#";
+  protected final String TEXT_96 = " <em>";
+  protected final String TEXT_97 = "</em>}' ";
+  protected final String TEXT_98 = "." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->";
+  protected final String TEXT_99 = NL + "\t * @see #isSet";
+  protected final String TEXT_100 = "()";
+  protected final String TEXT_101 = NL + "\t * @see #";
+  protected final String TEXT_102 = "()";
+  protected final String TEXT_103 = NL + "\t * @see #set";
+  protected final String TEXT_104 = "(";
+  protected final String TEXT_105 = ")";
+  protected final String TEXT_106 = NL + "\t * @generated" + NL + "\t */" + NL + "\tvoid unset";
+  protected final String TEXT_107 = "();" + NL;
+  protected final String TEXT_108 = NL + "\t/**" + NL + "\t * Returns whether the value of the '{@link ";
+  protected final String TEXT_109 = "#";
+  protected final String TEXT_110 = " <em>";
+  protected final String TEXT_111 = "</em>}' ";
+  protected final String TEXT_112 = " is set." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return whether the value of the '<em>";
+  protected final String TEXT_113 = "</em>' ";
+  protected final String TEXT_114 = " is set.";
+  protected final String TEXT_115 = NL + "\t * @see #unset";
+  protected final String TEXT_116 = "()";
+  protected final String TEXT_117 = NL + "\t * @see #";
+  protected final String TEXT_118 = "()";
+  protected final String TEXT_119 = NL + "\t * @see #set";
+  protected final String TEXT_120 = "(";
+  protected final String TEXT_121 = ")";
+  protected final String TEXT_122 = NL + "\t * @generated" + NL + "\t */" + NL + "\tboolean isSet";
+  protected final String TEXT_123 = "();" + NL;
+  protected final String TEXT_124 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->";
+  protected final String TEXT_125 = NL + "\t * <!-- begin-model-doc -->" + NL + "\t * ";
+  protected final String TEXT_126 = NL + "\t * <!-- end-model-doc -->";
+  protected final String TEXT_127 = NL + "\t * @model ";
+  protected final String TEXT_128 = NL + "\t * @generated" + NL + "\t */" + NL + "\t";
+  protected final String TEXT_129 = " ";
+  protected final String TEXT_130 = "(";
+  protected final String TEXT_131 = ")";
+  protected final String TEXT_132 = ";" + NL;
+  protected final String TEXT_133 = NL + "} // ";
+  protected final String TEXT_134 = NL;
 
   public String generate(Object argument)
   {
@@ -176,6 +182,7 @@ public class Interface
     if (!genClass.getGenFeatures().isEmpty()) {
     stringBuffer.append(TEXT_11);
     for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    if (!genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_12);
     stringBuffer.append(genClass.getQualifiedInterfaceName());
     stringBuffer.append(TEXT_13);
@@ -183,6 +190,7 @@ public class Interface
     stringBuffer.append(TEXT_14);
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_15);
+    }
     }
     stringBuffer.append(TEXT_16);
     }
@@ -210,6 +218,7 @@ public class Interface
     stringBuffer.append(TEXT_26);
     }
     for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    if (!genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_27);
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_28);
@@ -254,6 +263,7 @@ public class Interface
     stringBuffer.append(TEXT_46);
     }
     if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); 
+    if (!reverseGenFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_47);
     stringBuffer.append(reverseGenFeature.getGenClass().getQualifiedInterfaceName());
     stringBuffer.append(TEXT_48);
@@ -261,6 +271,7 @@ public class Interface
     stringBuffer.append(TEXT_49);
     stringBuffer.append(reverseGenFeature.getFormattedName());
     stringBuffer.append(TEXT_50);
+    }
     }
     stringBuffer.append(TEXT_51);
     if (!genFeature.hasDocumentation()) {
@@ -286,16 +297,18 @@ public class Interface
     stringBuffer.append(genFeature.getGenEnumType().getQualifiedName());
     }
     if (genFeature.isUnsettable()) {
+    if (!genFeature.isSuppressedIsSetVisibility()) {
     stringBuffer.append(TEXT_62);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_63);
-      if (genFeature.isChangeable()) {
+    }
+    if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {
     stringBuffer.append(TEXT_64);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_65);
-      }
     }
-    if (genFeature.isChangeable() && !genFeature.isListType()) {
+    }
+    if (genFeature.isChangeable() && !genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {
     stringBuffer.append(TEXT_66);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_67);
@@ -308,10 +321,12 @@ public class Interface
     stringBuffer.append(genFeature.getFeatureAccessorName());
     stringBuffer.append(TEXT_71);
     if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); 
+    if (!reverseGenFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_72);
     stringBuffer.append(reverseGenFeature.getGenClass().getQualifiedInterfaceName());
     stringBuffer.append(TEXT_73);
     stringBuffer.append(reverseGenFeature.getGetAccessor());
+    }
     }
     stringBuffer.append(TEXT_74);
     stringBuffer.append(genFeature.getModelInfo());
@@ -320,8 +335,9 @@ public class Interface
     stringBuffer.append(TEXT_76);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_77);
+    }
     if (genFeature.isChangeable()) {
-    if (!genFeature.isListType()) {
+    if (!genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {
     stringBuffer.append(TEXT_78);
     stringBuffer.append(genClass.getQualifiedInterfaceName());
     stringBuffer.append(TEXT_79);
@@ -340,96 +356,116 @@ public class Interface
     stringBuffer.append(genFeature.getGenEnumType().getQualifiedName());
     }
     if (genFeature.isUnsettable()) {
+    if (!genFeature.isSuppressedIsSetVisibility()) {
     stringBuffer.append(TEXT_86);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_87);
-    stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_88);
     }
-    stringBuffer.append(TEXT_89);
-    stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_90);
+    if (!genFeature.isSuppressedUnsetVisibility()) {
+    stringBuffer.append(TEXT_88);
     stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_89);
+    }
+    }
+    stringBuffer.append(TEXT_90);
+    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_91);
-    stringBuffer.append(genFeature.getImportedType());
+    stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_92);
+    stringBuffer.append(genFeature.getImportedType());
+    stringBuffer.append(TEXT_93);
     }
     if (genFeature.isUnsettable()) {
-    stringBuffer.append(TEXT_93);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    if (!genFeature.isSuppressedUnsetVisibility()) {
     stringBuffer.append(TEXT_94);
-    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(genClass.getQualifiedInterfaceName());
     stringBuffer.append(TEXT_95);
-    stringBuffer.append(genFeature.getFormattedName());
-    stringBuffer.append(TEXT_96);
-    stringBuffer.append(genFeature.getFeatureKind());
-    stringBuffer.append(TEXT_97);
-    stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_98);
     stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_96);
+    stringBuffer.append(genFeature.getFormattedName());
+    stringBuffer.append(TEXT_97);
+    stringBuffer.append(genFeature.getFeatureKind());
+    stringBuffer.append(TEXT_98);
+    if (!genFeature.isSuppressedIsSetVisibility()) {
     stringBuffer.append(TEXT_99);
-    if (!genFeature.isListType()) {
-    stringBuffer.append(TEXT_100);
     stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_101);
-    stringBuffer.append(genFeature.getImportedType());
-    stringBuffer.append(TEXT_102);
+    stringBuffer.append(TEXT_100);
     }
+    stringBuffer.append(TEXT_101);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_102);
+    if (!genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {
     stringBuffer.append(TEXT_103);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_104);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_105);
-    stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_106);
-    stringBuffer.append(genFeature.getFormattedName());
-    stringBuffer.append(TEXT_107);
-    stringBuffer.append(genFeature.getFeatureKind());
-    stringBuffer.append(TEXT_108);
-    stringBuffer.append(genFeature.getFormattedName());
-    stringBuffer.append(TEXT_109);
-    stringBuffer.append(genFeature.getFeatureKind());
-    stringBuffer.append(TEXT_110);
-    stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_111);
-    stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_112);
-    if (!genFeature.isListType()) {
-    stringBuffer.append(TEXT_113);
-    stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_114);
     stringBuffer.append(genFeature.getImportedType());
-    stringBuffer.append(TEXT_115);
+    stringBuffer.append(TEXT_105);
     }
-    stringBuffer.append(TEXT_116);
+    stringBuffer.append(TEXT_106);
     stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_107);
+    }
+    if (!genFeature.isSuppressedIsSetVisibility()) {
+    stringBuffer.append(TEXT_108);
+    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(TEXT_109);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_110);
+    stringBuffer.append(genFeature.getFormattedName());
+    stringBuffer.append(TEXT_111);
+    stringBuffer.append(genFeature.getFeatureKind());
+    stringBuffer.append(TEXT_112);
+    stringBuffer.append(genFeature.getFormattedName());
+    stringBuffer.append(TEXT_113);
+    stringBuffer.append(genFeature.getFeatureKind());
+    stringBuffer.append(TEXT_114);
+    if (!genFeature.isSuppressedUnsetVisibility()) {
+    stringBuffer.append(TEXT_115);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_116);
+    }
+    if (!genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_117);
+    stringBuffer.append(genFeature.getGetAccessor());
+    stringBuffer.append(TEXT_118);
+    }
+    if (!genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {
+    stringBuffer.append(TEXT_119);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_120);
+    stringBuffer.append(genFeature.getImportedType());
+    stringBuffer.append(TEXT_121);
+    }
+    stringBuffer.append(TEXT_122);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_123);
+    }
     }
     }
     }//for
     for (Iterator i=genClass.getGenOperations().iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();
-    stringBuffer.append(TEXT_118);
-    if (genOperation.hasDocumentation()) {
-    stringBuffer.append(TEXT_119);
-    stringBuffer.append(genOperation.getDocumentation(genModel.getIndentation(stringBuffer)));
-    stringBuffer.append(TEXT_120);
-    }
-    stringBuffer.append(TEXT_121);
-    stringBuffer.append(genOperation.getModelInfo());
-    stringBuffer.append(TEXT_122);
-    stringBuffer.append(genOperation.getImportedReturnType());
-    stringBuffer.append(TEXT_123);
-    stringBuffer.append(genOperation.getName());
     stringBuffer.append(TEXT_124);
-    stringBuffer.append(genOperation.getParameters());
+    if (genOperation.hasDocumentation()) {
     stringBuffer.append(TEXT_125);
-    stringBuffer.append(genOperation.getThrows());
+    stringBuffer.append(genOperation.getDocumentation(genModel.getIndentation(stringBuffer)));
     stringBuffer.append(TEXT_126);
-    }//for
+    }
     stringBuffer.append(TEXT_127);
+    stringBuffer.append(genOperation.getModelInfo());
+    stringBuffer.append(TEXT_128);
+    stringBuffer.append(genOperation.getImportedReturnType());
+    stringBuffer.append(TEXT_129);
+    stringBuffer.append(genOperation.getName());
+    stringBuffer.append(TEXT_130);
+    stringBuffer.append(genOperation.getParameters());
+    stringBuffer.append(TEXT_131);
+    stringBuffer.append(genOperation.getThrows());
+    stringBuffer.append(TEXT_132);
+    }//for
+    stringBuffer.append(TEXT_133);
     stringBuffer.append(genClass.getInterfaceName());
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_128);
+    stringBuffer.append(TEXT_134);
     return stringBuffer.toString();
   }
 }
