@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.12 2004/11/09 12:47:49 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.13 2004/11/09 17:22:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2288,13 +2288,23 @@ public class EcoreUtil
   public static void setDocumentation(EModelElement eModelElement, String documentation)
   {
     EAnnotation eAnnotation = eModelElement.getEAnnotation(GEN_MODEL_PACKAGE_NS_URI);
-    if (eAnnotation == null)
+    if (documentation == null)
     {
-      eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-      eAnnotation.setSource(GEN_MODEL_PACKAGE_NS_URI);
-      eModelElement.getEAnnotations().add(eAnnotation);
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("documentation");
+      }
     }
-    eAnnotation.getDetails().put("documentation", documentation);
+    else 
+    {
+      if (eAnnotation == null)
+      {
+        eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+        eAnnotation.setSource(GEN_MODEL_PACKAGE_NS_URI);
+        eModelElement.getEAnnotations().add(eAnnotation);
+      }
+      eAnnotation.getDetails().put("documentation", documentation);
+    }
   }
 
   public static List getConstraints(EModelElement eModelElement)
