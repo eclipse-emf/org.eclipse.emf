@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.7 2004/10/25 20:58:26 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.8 2004/11/03 16:07:02 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -498,7 +498,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   public void apply(EObject originalObject)
   {
     EStructuralFeature feature = getFeature();
-    if (feature != null)
+    if (feature != null  && feature.isChangeable())
     {
       if (!isSet())
       {
@@ -536,7 +536,9 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   public void applyAndReverse(EObject originalObject)
   {
     EStructuralFeature feature = getFeature();
-    if (feature != null)
+    boolean isEReference = feature instanceof EReference;
+    
+    if (feature != null && feature.isChangeable() && (!isEReference || !((EReference)feature).isContainer()))
     {
       if (!isSet())
       {
@@ -546,7 +548,14 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
           listChange.setKind(ChangeKind.ADD_LITERAL);
           listChange.setIndex(0);
           getListChanges().add(listChange);
-          listChange.getValues().addAll((EList)originalObject.eGet(feature));
+          if (isEReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
+          {
+            listChange.getValues().addAll((EList)getValue());
+          }
+          else
+          {
+            listChange.getValues().addAll((EList)originalObject.eGet(feature));
+          }
         }
         originalObject.eUnset(feature);
       }
@@ -554,7 +563,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       {
         if (listChanges != null)
         {
-          if (feature instanceof EReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
+          if (isEReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
           {
             // Bi-directional references need to use this less efficient approach because some
             //  or all of the changes may already have been made from the other end.
