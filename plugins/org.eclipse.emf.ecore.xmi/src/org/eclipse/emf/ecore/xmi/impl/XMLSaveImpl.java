@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,16 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.27 2005/01/27 12:00:55 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.28 2005/02/22 22:19:59 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
@@ -72,7 +69,10 @@ import org.w3c.dom.Node;
  */
 public class XMLSaveImpl implements XMLSave
 {
+  protected static final int INDEX_LOOKUP = 0;
+ 
   final StringBuffer buffer = new StringBuffer();
+  
   protected XMLHelper helper;
   protected XMLString doc;
   protected boolean declareXSI;
@@ -100,7 +100,8 @@ public class XMLSaveImpl implements XMLSave
   protected Document document;
   protected Node currentNode;
   protected NameInfo nameInfo;
-
+  protected boolean useCache;
+  
   protected static final int SKIP = 0;
   protected static final int SAME_DOC = 1;
   protected static final int CROSS_DOC = 2;
@@ -236,9 +237,6 @@ public class XMLSaveImpl implements XMLSave
       }
     }
 
-    featureTable = null;
-    doc = null;
-
     if (processDanglingHREF == null ||
         XMLResource.OPTION_PROCESS_DANGLING_HREF_THROW.equals(processDanglingHREF))
     {
@@ -251,11 +249,24 @@ public class XMLSaveImpl implements XMLSave
       }
     }
 
+    if (useCache)
+    {
+      ConfigurationCache.INSTANCE.releasePrinter(doc);
+      if (escape != null)
+      {
+        ConfigurationCache.INSTANCE.releaseEscape(escape);
+      }     
+    }
+    featureTable = null;
+    doc = null;
     helper = null;
   }
 
+  
   protected void init(XMLResource resource, Map options)
   {
+    useCache =  Boolean.TRUE.equals(options.get(XMLResource.OPTION_CONFIGURATION_CACHE));
+
     nameInfo = new NameInfoImpl();
     declareXSI = false;
     keepDefaults = Boolean.TRUE.equals(options.get(XMLResource.OPTION_KEEP_DEFAULT_CONTENT));
@@ -291,8 +302,7 @@ public class XMLSaveImpl implements XMLSave
     // set serialization options
     if (!toDOM)
     {
-      declareXML = !Boolean.FALSE.equals(options.get(XMLResource.OPTION_DECLARE_XML));
-      Integer lineWidth = (Integer)options.get(XMLResource.OPTION_LINE_WIDTH);
+      declareXML = !Boolean.FALSE.equals(options.get(XMLResource.OPTION_DECLARE_XML));     
 
       if (options.get(XMLResource.OPTION_FLUSH_THRESHOLD) instanceof Integer)
       {
@@ -311,28 +321,32 @@ public class XMLSaveImpl implements XMLSave
           // If we can't create a temp file then we have to ignore the option.
         }
       }
+      
+      Integer lineWidth = (Integer)options.get(XMLResource.OPTION_LINE_WIDTH);
       int effectiveLineWidth = lineWidth == null ? Integer.MAX_VALUE : lineWidth.intValue();
-      if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_SAVE_DOCTYPE)))
+      String publicId = null, systemId = null;
+      if (resource != null && Boolean.TRUE.equals(options.get(XMLResource.OPTION_SAVE_DOCTYPE)))
       {
-        if (resource != null)
-        {
-          doc = new XMLString(effectiveLineWidth, resource.getPublicId(), resource.getSystemId(), temporaryFileName);
-        }
-        else
-        {
-          doc = new XMLString(effectiveLineWidth, null, null, temporaryFileName);
-        }
+        publicId = resource.getPublicId();
+        systemId = resource.getSystemId();
+      }
+      if (useCache)
+      {       
+        doc = ConfigurationCache.INSTANCE.getPrinter();
+        doc.reset(publicId, systemId, effectiveLineWidth, temporaryFileName);
+        escape = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SKIP_ESCAPE)) ? null : ConfigurationCache.INSTANCE.getEscape();
       }
       else
       {
-        doc = new XMLString(effectiveLineWidth, temporaryFileName);
+        doc = new XMLString(effectiveLineWidth, publicId, systemId, temporaryFileName);
+        escape = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SKIP_ESCAPE)) ? null : new Escape();
       }
 
       if (Boolean.FALSE.equals(options.get(XMLResource.OPTION_FORMATTED)))
       {
         doc.setUnformatted(true);
       }
-      escape = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SKIP_ESCAPE)) ? null : new Escape();
+      
 
       escapeURI = Boolean.FALSE.equals(options.get(XMLResource.OPTION_SKIP_ESCAPE_URI)) ? escape : null;
 
@@ -366,7 +380,6 @@ public class XMLSaveImpl implements XMLSave
         idAttributeName = map.getIDAttributeName();
       }
     }
-
 
     if (resource != null)
     {
@@ -407,12 +420,12 @@ public class XMLSaveImpl implements XMLSave
       // caching turned on by the user
       if (lookup.isEmpty())
       {
-        featureTable = new Lookup(map, extendedMetaData);       
+        featureTable = new Lookup(map, extendedMetaData); 
         lookup.add(featureTable);
       }
       else
       {
-        featureTable = (Lookup)lookup.get(0);
+        featureTable = (Lookup)lookup.get(INDEX_LOOKUP);
       }
     }
     else
@@ -420,7 +433,6 @@ public class XMLSaveImpl implements XMLSave
       //no caching
       featureTable = new Lookup(map, extendedMetaData);
     }
-
   }
 
   public void traverse(List contents)
@@ -712,114 +724,13 @@ public class XMLSaveImpl implements XMLSave
 
   public void write(OutputStreamWriter os) throws IOException
   {
-    int count = 0;
-    final int BUFFER_SIZE = 8192;
-    char[] buffer = new char[BUFFER_SIZE];
-    int pos = 0;
-    for (Iterator i = doc.iterator(); i.hasNext(); )
-    {
-      String s = (String)i.next();
-      int slen = s.length();
-      if (slen+pos >= buffer.length)
-      {
-        os.write(buffer, 0, pos);
-        pos = 0;
-        if (slen > buffer.length) {
-            buffer = new char[slen];
-        }
-      }
-      s.getChars(0, slen, buffer, pos);
-      pos += slen;
-      count += slen;
-      if (count > flushThreshold)
-      {
-        os.flush();
-        count = 0;
-      }
-    }
-    os.write(buffer, 0, pos);
-
-    String temporaryFileName = doc.getTemporaryFileName();
-    if (temporaryFileName != null)
-    {
-      InputStreamReader reader = new InputStreamReader(new FileInputStream(temporaryFileName), "UTF8");
-      for (int length = reader.read(buffer, 0, BUFFER_SIZE); length > 0; length = reader.read(buffer, 0, BUFFER_SIZE))
-      {
-        os.write(buffer, 0, length);
-        count += length;
-        if (count > flushThreshold)
-        {
-          os.flush();
-          count = 0;
-        }
-      }
-      reader.close();
-      new File(temporaryFileName).delete();
-    }
-
+    doc.write(os, flushThreshold);
     os.flush();
   }
 
   public void writeAscii(OutputStream os) throws IOException
   {
-    int count = 0;
-    final int BUFFER_SIZE = 8192;
-    char[] buffer = new char[BUFFER_SIZE];
-    byte[] bytes = new byte[BUFFER_SIZE];
-    int pos = 0;
-    for (Iterator i = doc.iterator(); i.hasNext(); )
-    {
-      String s = (String) i.next();
-      int slen = s.length();
-      if (slen + pos >= buffer.length)
-      {
-        for (int x = 0; x < pos; x++)
-        {
-          bytes[x] = (byte) (buffer[x] & 0xFF);
-        }
-        os.write(bytes, 0, pos);
-        pos = 0;
-        if (slen > buffer.length)
-        {
-          buffer = new char[slen];
-          bytes = new byte[slen];
-        }
-      }
-      s.getChars(0, slen, buffer, pos);
-      pos += slen;
-      count += slen;
-      if (count > flushThreshold)
-      {
-        os.flush();
-        count = 0;
-      }
-    }
-
-    for (int x = 0; x < pos; x++)
-    {
-      bytes[x] = (byte) (buffer[x] & 0xFF);
-    }
-
-    os.write(bytes, 0, pos);
-
-    String temporaryFileName = doc.getTemporaryFileName();
-    if (temporaryFileName != null)
-    {
-      InputStream inputStream = new FileInputStream(temporaryFileName);
-      for (int length = inputStream.read(bytes, 0, BUFFER_SIZE); length > 0; length = inputStream.read(bytes, 0, BUFFER_SIZE))
-      {
-        os.write(bytes, 0, length);
-        count += length;
-        if (count > flushThreshold)
-        {
-          os.flush();
-          count = 0;
-        }
-      }
-      inputStream.close();
-      new File(temporaryFileName).delete();
-    }
-
+    doc.writeAscii(os, flushThreshold);
     os.flush();
   }
 
@@ -1464,10 +1375,7 @@ public class XMLSaveImpl implements XMLSave
   protected void saveNil(EStructuralFeature f)
   {
     declareXSI = true;
-    String name = helper.getQName(f);
-    doc.startElement(name);
-    doc.addAttribute(XSI_NIL, "true");
-    doc.endEmptyElement();
+    doc.saveNilElement(helper.getQName(f));
   }
   
   protected void saveManyEmpty(EObject o, EStructuralFeature f)
@@ -1514,14 +1422,13 @@ public class XMLSaveImpl implements XMLSave
             declareXSI = true;
           }
           else
-          {
-            doc.startElement(name);
+          {        
             String svalue = helper.convertToString(fac, d, value);
             if (escape != null)
             {
               svalue = escape.convert(svalue);
             }
-            doc.endContentElement(svalue);
+            doc.saveDataValueElement(name, svalue);
           }
         }
       }
@@ -1842,8 +1749,7 @@ public class XMLSaveImpl implements XMLSave
   {
     String name = helper.getQName(f);
     String id = helper.getIDREF(target);
-    doc.startElement(name);
-    doc.endContentElement(id);
+    doc.saveDataValueElement(name, id);
   }
 
   protected void saveElementIDRefSingle(EObject o, EStructuralFeature f)
@@ -2297,7 +2203,7 @@ public class XMLSaveImpl implements XMLSave
       features = new EStructuralFeature[SIZE][];
       featureKinds = new int[SIZE][];
     }
-
+    
     public EStructuralFeature[] getFeatures(EClass cls)
     {
       int index = getIndex(cls);
@@ -2556,8 +2462,7 @@ public class XMLSaveImpl implements XMLSave
       String svalue =  getDatatypeValue(value, f);
       if (!toDOM)
       {
-        doc.startElement(helper.getQName(f));
-        doc.endContentElement(svalue);
+        doc.saveDataValueElement(helper.getQName(f), svalue);
       }
       else
       {

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.20 2005/02/04 16:31:30 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.21 2005/02/22 22:19:59 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -101,6 +101,14 @@ public class XMLHelperImpl implements XMLHelper
     XMLSaveImpl save = new XMISaveImpl(options, helper, encoding);
     ((XMLHelperImpl)helper).processDanglingHREF = (String)options.get(XMLResource.OPTION_PROCESS_DANGLING_HREF);
     save.traverse(contents);
+    if (save.useCache)
+    {
+      ConfigurationCache.INSTANCE.releasePrinter(save.doc);
+      if (save.escape != null)
+      {
+        ConfigurationCache.INSTANCE.releaseEscape(save.escape);
+      } 
+    }
     char[] chars = save.toChar();
     return new String(chars);
   }

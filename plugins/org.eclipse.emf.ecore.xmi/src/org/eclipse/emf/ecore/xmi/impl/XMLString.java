@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.4 2004/09/01 20:11:47 emerks Exp $
+ * $Id: XMLString.java,v 1.5 2005/02/22 22:19:59 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -34,53 +34,106 @@ import org.eclipse.emf.common.util.BasicEList;
 public class XMLString extends StringSegment
 {
   protected List elementNames;
+
   protected List mixed;
+
   protected boolean isUnformatted;
+
   protected boolean isMixed;
+
   protected List indents;
+
   protected int depth;
+
   protected int lineWidth;
+
   protected int markedLineWidth;
+
   protected int currentLineWidth;
+
   protected boolean lastElementIsStart;
+
   protected Object firstElementMark;
+
   protected boolean seenRoot;
+
   protected boolean saveDoctype;
+
   protected String publicId;
+
   protected String systemId;
 
-  public XMLString(int lineWidth) 
+  public XMLString()
+  {
+    this(80);
+  }
+
+  public XMLString(int lineWidth)
   {
     this(lineWidth, null);
   }
 
-  public XMLString(int lineWidth, String temporaryFileName) 
+  public XMLString(int lineWidth, String temporaryFileName)
   {
     super(temporaryFileName);
 
     this.lineWidth = lineWidth;
-
     elementNames = new BasicEList();
     mixed = new BasicEList();
     indents = new BasicEList();
     indents.add("");
   }
-  
-  public XMLString(int lineWidth, String publicId, String systemId) 
+
+  public XMLString(int lineWidth, String publicId, String systemId)
   {
     this(lineWidth, publicId, systemId, null);
   }
 
-  public XMLString(int lineWidth, String publicId, String systemId, String temporaryFileName) 
+  public XMLString(int lineWidth, String publicId, String systemId, String temporaryFileName)
   {
     this(lineWidth, temporaryFileName);
-
-    saveDoctype = true;
-    this.publicId = publicId;
-    this.systemId = systemId;   
+    if (publicId != null || systemId != null)
+    {
+      saveDoctype = true;
+      this.publicId = publicId;
+      this.systemId = systemId;
+    }
   }
 
-  public void startElement(String name) 
+  public void setLineWidth(int lineWidth)
+  {
+    this.lineWidth = lineWidth;
+  }
+
+  public void reset(String publicId, String systemId, int lineWidth, String temporaryFileName)
+  {
+    super.reset();
+    setTemporaryFileName(temporaryFileName);
+    elementNames.clear();
+    mixed.clear();
+    indents.clear();
+    indents.add("");
+    if (publicId != null || systemId != null)
+    {
+      saveDoctype = true;
+      this.publicId = publicId;
+      this.systemId = systemId;
+    }
+    else
+    {
+      saveDoctype = false;
+    }
+    seenRoot = false;
+    lastElementIsStart = false;
+    isMixed = false;
+    isUnformatted = false;
+    depth = 0;
+    markedLineWidth = 0;
+    currentLineWidth = lineWidth;
+    firstElementMark = null;
+  }
+
+  public void startElement(String name)
   {
     if (lastElementIsStart)
     {
@@ -89,37 +142,7 @@ public class XMLString extends StringSegment
     elementNames.add(name);
     if (name != null)
     {
-      if (!seenRoot)
-      {
-        seenRoot = true;
-        // write doctype
-        if (saveDoctype)
-        {
-          add("<!DOCTYPE ");
-          add(name);         
-          if (publicId !=null)
-          {
-            add(" PUBLIC \"");
-            add(publicId);
-            add("\" ");
-            add("\"");
-            add(systemId);
-            add("\">");
-          }
-          else if (systemId != null)
-          {
-            add(" SYSTEM \"");
-            add(systemId);
-            add("\">");
-          }
-          else
-          {
-            add(">");
-          }
-          
-          addLine();
-        }
-      }
+      saveDoctype(name);
       ++depth;
       if (!isMixed)
       {
@@ -142,6 +165,114 @@ public class XMLString extends StringSegment
     isMixed = isUnformatted;
   }
 
+  public void saveNilElement(String name)
+  {
+    if (lastElementIsStart)
+    {
+      closeStartElement();
+    }
+    saveDoctype(name);
+
+    ++depth;
+    if (!isMixed)
+    {
+      add(getElementIndent());
+    }
+    add("<");
+    add(name);
+    if (firstElementMark == null)
+    {
+      firstElementMark = mark();
+    }
+    if (currentLineWidth > lineWidth)
+    {
+      addLine();
+      add(getAttributeIndent());
+    }
+    else
+    {
+      add(" ");
+    }
+    add("xsi:nil=\"true\"/>");
+
+    --depth;
+
+    if (!isUnformatted)
+    {
+      addLine();
+    }
+    lastElementIsStart = false;
+  }
+
+  public void saveDataValueElement(String name, String content)
+  {
+    if (lastElementIsStart)
+    {
+      closeStartElement();
+    }
+    saveDoctype(name);
+
+    ++depth;
+    if (!isMixed)
+    {
+      add(getElementIndent());
+    }
+    add("<");
+    add(name);
+    if (firstElementMark == null)
+    {
+      firstElementMark = mark();
+    }
+
+    add(">");
+    add(content);
+    add("</");
+
+    --depth;
+    add(name);
+    add(">");
+    if (!isUnformatted)
+    {
+      addLine();
+    }
+    lastElementIsStart = false;
+  }
+
+  final protected void saveDoctype(String name)
+  {
+    if (!seenRoot)
+    {
+      seenRoot = true;
+      // write doctype
+      if (saveDoctype)
+      {
+        add("<!DOCTYPE ");
+        add(name);
+        if (publicId != null)
+        {
+          add(" PUBLIC \"");
+          add(publicId);
+          add("\" ");
+          add("\"");
+          add(systemId);
+          add("\">");
+        }
+        else if (systemId != null)
+        {
+          add(" SYSTEM \"");
+          add(systemId);
+          add("\">");
+        }
+        else
+        {
+          add(">");
+        }
+
+        addLine();
+      }
+    }
+  }
+
   public void setMixed(boolean isMixed)
   {
     this.isMixed = isMixed;
@@ -152,7 +283,7 @@ public class XMLString extends StringSegment
     this.isUnformatted = isUnformatted;
   }
 
-  public void addAttribute(String name, String value) 
+  public void addAttribute(String name, String value)
   {
     if (currentLineWidth > lineWidth)
     {
@@ -169,7 +300,7 @@ public class XMLString extends StringSegment
     add("\"");
   }
 
-  public void addAttributeNS(String prefix, String localName, String value) 
+  public void addAttributeNS(String prefix, String localName, String value)
   {
     if (currentLineWidth > lineWidth)
     {
@@ -213,7 +344,7 @@ public class XMLString extends StringSegment
     add("\"");
   }
 
-  protected void closeStartElement() 
+  protected void closeStartElement()
   {
     add(">");
     if (!isMixed)
@@ -223,7 +354,7 @@ public class XMLString extends StringSegment
     lastElementIsStart = false;
   }
 
-  public void endEmptyElement() 
+  public void endEmptyElement()
   {
     removeLast();
     add("/>");
@@ -234,7 +365,7 @@ public class XMLString extends StringSegment
     lastElementIsStart = false;
   }
 
-  public void endContentElement(String content) 
+  public void endContentElement(String content)
   {
     add(">");
     add(content);
@@ -248,8 +379,8 @@ public class XMLString extends StringSegment
     }
     lastElementIsStart = false;
   }
-  
-  public void endElement() 
+
+  public void endElement()
   {
     if (lastElementIsStart)
     {
@@ -268,7 +399,7 @@ public class XMLString extends StringSegment
         add("</");
         add(name);
         add(">");
-  
+
         if (!isMixed)
         {
           addLine();
@@ -277,7 +408,7 @@ public class XMLString extends StringSegment
     }
   }
 
-  protected String removeLast() 
+  protected String removeLast()
   {
     int end = elementNames.size();
     isMixed = ((Boolean)mixed.remove(end - 1)).booleanValue();
@@ -289,14 +420,14 @@ public class XMLString extends StringSegment
     return result;
   }
 
-  protected String getElementIndent() 
+  protected String getElementIndent()
   {
     return getElementIndent(0);
   }
 
-  protected String getElementIndent(int extra) 
+  protected String getElementIndent(int extra)
   {
-    int nesting = depth + extra - 1; 
+    int nesting = depth + extra - 1;
     for (int i = indents.size() - 1; i < nesting; ++i)
     {
       indents.add(indents.get(i) + "  ");
@@ -304,9 +435,9 @@ public class XMLString extends StringSegment
     return (String)indents.get(nesting);
   }
 
-  protected String getAttributeIndent() 
+  protected String getAttributeIndent()
   {
-    int nesting = depth + 1; 
+    int nesting = depth + 1;
     for (int i = indents.size() - 1; i < nesting; ++i)
     {
       indents.add(indents.get(i) + "  ");
@@ -321,7 +452,7 @@ public class XMLString extends StringSegment
       closeStartElement();
     }
 
-    if (lineWidth  != Integer.MAX_VALUE)
+    if (lineWidth != Integer.MAX_VALUE)
     {
       currentLineWidth += newString.length();
       LOOP: for (int i = newString.length() - 1; i >= 0; --i)
@@ -349,7 +480,7 @@ public class XMLString extends StringSegment
     }
 
     add("<![CDATA[");
-    if (lineWidth  != Integer.MAX_VALUE)
+    if (lineWidth != Integer.MAX_VALUE)
     {
       currentLineWidth += newString.length();
       LOOP: for (int i = newString.length() - 1; i >= 0; --i)
@@ -382,7 +513,7 @@ public class XMLString extends StringSegment
       addLine();
     }
     add("<!--");
-    if (lineWidth  != Integer.MAX_VALUE)
+    if (lineWidth != Integer.MAX_VALUE)
     {
       currentLineWidth += newString.length();
       LOOP: for (int i = newString.length() - 1; i >= 0; --i)
