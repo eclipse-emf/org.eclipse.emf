@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.16 2004/06/08 12:04:18 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.17 2004/06/08 15:33:49 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2119,11 +2119,16 @@ public class XSDEcoreBuilder extends MapBuilder
     else
     {
       Element element = xsdConcreteComponent.getElement();
-      return 
-        element != null && element.hasAttributeNS(EcorePackage.eNS_URI, attribute) ?
-          element.getAttributeNS(EcorePackage.eNS_URI, attribute) :
-          null;
+      return getEcoreAttribute(element, attribute);
     }
+  }
+
+  protected String getEcoreAttribute(Element element, String attribute)
+  {
+    return 
+      element != null && element.hasAttributeNS(EcorePackage.eNS_URI, attribute) ?
+        element.getAttributeNS(EcorePackage.eNS_URI, attribute) :
+        null;
   }
 
   protected XSDTypeDefinition getEcoreTypeQNameAttribute(XSDConcreteComponent xsdConcreteComponent, String attribute)
@@ -2312,12 +2317,12 @@ public class XSDEcoreBuilder extends MapBuilder
     for (Iterator i = xsdAnnotations.iterator(); i.hasNext(); )
     {
       XSDAnnotation xsdAnnotation = (XSDAnnotation)i.next();
-      if (xsdAnnotation != null)
+      if (xsdAnnotation != null && !"true".equals(getEcoreAttribute(xsdAnnotation, "ignore")))
       {
         for (Iterator j = xsdAnnotation.getUserInformation().iterator(); j.hasNext(); )
         {
           Element element = (Element)j.next();
-          if (element.getFirstChild() != null)
+          if (element.getFirstChild() != null && !"true".equals(getEcoreAttribute(element, "ignore")))
           {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             XSDResourceImpl.serialize(byteArrayOutputStream, element, "UTF-8");
@@ -2345,7 +2350,7 @@ public class XSDEcoreBuilder extends MapBuilder
         for (Iterator j = xsdAnnotation.getApplicationInformation().iterator(); j.hasNext(); )
         {
           Element element = (Element)j.next();
-          if (element.getFirstChild() != null)
+          if (element.getFirstChild() != null && !"true".equals(getEcoreAttribute(element, "ignore")))
           {
             String sourceURI = element.hasAttributeNS(null, "source") ? element.getAttributeNS(null, "source") : null;
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
