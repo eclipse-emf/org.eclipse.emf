@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.3 2004/03/30 00:13:01 elena Exp $
+ * $Id: AllSuites.java,v 1.4 2004/03/30 00:47:38 elena Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -26,7 +26,7 @@ public class AllSuites extends TestSuite
   public static String pkgName = "EMF Core JUnit Test Suite";
 
   private static Test[] suites = new Test []{ 
-    org.eclipse.emf.test.core.xmi.NamespaceTest.suite(),
+    //org.eclipse.emf.test.core.xmi.NamespaceTest.suite(),
     org.eclipse.emf.test.core.dynamic.SimpleModelTest.suite(),
     org.eclipse.emf.test.core.build.BuildTests.suite()
   };
