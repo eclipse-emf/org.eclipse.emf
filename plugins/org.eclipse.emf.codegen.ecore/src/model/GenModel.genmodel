@@ -62,6 +62,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/runtimeCompatibility"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/richClientPlatform"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/reflectiveDelegation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/codeFormatting"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.6 2004/10/19 01:59:53 davidms Exp $
+ * $Id: GenModelItemProvider.java,v 1.7 2004/11/01 21:10:20 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -102,6 +102,7 @@ public class GenModelItemProvider
       addRuntimeCompatibilityPropertyDescriptor(object);
       addRichClientPlatformPropertyDescriptor(object);
       addReflectiveDelegationPropertyDescriptor(object);
+      addCodeFormattingPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -677,6 +678,26 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Code Formatting feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addCodeFormattingPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_codeFormatting_feature"),
+         getString("_UI_GenModel_codeFormatting_description"),
+         GenModelPackage.eINSTANCE.getGenModel_CodeFormatting(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_JETPropertyCategory")));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -770,6 +791,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__RUNTIME_COMPATIBILITY:
       case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
       case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
+      case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
