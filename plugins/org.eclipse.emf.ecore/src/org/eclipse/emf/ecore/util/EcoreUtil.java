@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.19 2005/03/09 15:37:32 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.20 2005/03/11 14:32:01 bportier Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1438,7 +1438,7 @@ public class EcoreUtil
    * </p>
    * <p>An eObject directly or indirectly referenced by eObject1 or eObject2 can only be equal to
    *  exactly one eObject directly or indirectly referenced by eObject2 or eObject1, respectively.
-   * This ensures that eObject1 and eObject2 are equal if the graph formed by all their referenced
+   * This ensures that eObject1 and eObject2 are equal if the graphs formed by all their referenced
    *  eObjects have the same shape (eObject1 and eObject2 are structurally-equal).
    * For example, it is possible that two eObjects referenced by eObject1 and eObject2 refer
    *  to the same (==) eObject but are not {@link #equal(EObject, EObject) equal}
