@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtilStaticMethodsTest.java,v 1.9 2005/03/18 21:57:37 marcelop Exp $
+ * $Id: EcoreUtilStaticMethodsTest.java,v 1.10 2005/04/01 17:42:08 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -24,6 +24,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -51,6 +52,7 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testGenerateUUID"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testCopyUnsettableSetEmptyList"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testCopy"));
+    testSuite.addTest(new EcoreUtilStaticMethodsTest("testGetConstraints"));
     return testSuite;
   }
   
@@ -175,5 +177,41 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     assertTrue(TestUtil.areEqual((List)o1.eGet(multiAtt), (List)cpO1.eGet(multiAtt)));
     assertEquals(o1.eGet(singleRef), cpO1.eGet(singleRef));
     assertTrue(TestUtil.areEqual((List)o1.eGet(multiRef), (List)cpO1.eGet(multiRef)));
+  }
+  
+  /*
+   * Bugzilla 89978 
+   */
+  public void testGetConstraints()
+  {
+    EAnnotation constraintAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+    constraintAnnotation.setSource(EcorePackage.eNS_URI);
+    constraintAnnotation.getDetails().put("constraints", "c1 c2");
+    constraintAnnotation.getDetails().put("foo", "bar");
+    
+    EClass aClass = EcoreFactory.eINSTANCE.createEClass();
+    aClass.getEAnnotations().add(constraintAnnotation);
+    
+    List constraints = EcoreUtil.getConstraints(aClass);
+    assertEquals(2, constraints.size());
+    assertTrue(constraints.contains("c1"));
+    assertTrue(constraints.contains("c2"));
+    
+    EAnnotation ecoreAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+    ecoreAnnotation.setSource(EcorePackage.eNS_URI);
+    ecoreAnnotation.getDetails().put("foo", "bar");
+    
+    aClass.getEAnnotations().add(ecoreAnnotation);
+    
+    constraints = EcoreUtil.getConstraints(aClass);
+    assertEquals(2, constraints.size());
+    assertTrue(constraints.contains("c1"));
+    assertTrue(constraints.contains("c2"));
+    
+    aClass.getEAnnotations().clear();
+    aClass.getEAnnotations().add(ecoreAnnotation);
+
+    constraints = EcoreUtil.getConstraints(aClass);
+    assertTrue(constraints.isEmpty());
   }
 }

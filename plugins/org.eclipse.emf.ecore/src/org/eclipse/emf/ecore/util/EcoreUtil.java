@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.22 2005/03/28 13:19:58 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.23 2005/04/01 17:42:10 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2597,20 +2597,21 @@ public class EcoreUtil
   public static List getConstraints(EModelElement eModelElement)
   {
     EAnnotation eAnnotation = eModelElement.getEAnnotation(EcorePackage.eNS_URI);
-    if (eAnnotation == null)
+    if (eAnnotation != null)
     {
-      return Collections.EMPTY_LIST;
-    }
-    else
-    {
-      List result = new ArrayList();
-      for (StringTokenizer stringTokenizer = new StringTokenizer((String)eAnnotation.getDetails().get("constraints")); stringTokenizer.hasMoreTokens();)
+      String constraints = (String)eAnnotation.getDetails().get("constraints");
+      if (constraints != null)
       {
-        String constraint = stringTokenizer.nextToken();
-        result.add(constraint);
+        List result = new ArrayList();
+        for (StringTokenizer stringTokenizer = new StringTokenizer(constraints); stringTokenizer.hasMoreTokens();)
+        {
+          String constraint = stringTokenizer.nextToken();
+          result.add(constraint);
+        }
+        return result;
       }
-      return result;
     }
+    return Collections.EMPTY_LIST;
   }
 
   public static void setConstraints(EModelElement eModelElement, List constraints)
