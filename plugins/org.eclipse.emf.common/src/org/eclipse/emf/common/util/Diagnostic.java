@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostic.java,v 1.1 2004/04/02 21:43:06 emerks Exp $
+ * $Id: Diagnostic.java,v 1.2 2004/10/13 20:22:56 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -89,4 +89,11 @@ public interface Diagnostic
   Diagnostic OK_INSTANCE = 
     new BasicDiagnostic
       (OK, "org.eclipse.emf.common", 0, org.eclipse.emf.common.CommonPlugin.INSTANCE.getString("_UI_OK_diagnostic_0"), null);
+
+  /**
+   * A diagnostic indicating that the diagnosis was canceled.
+   */
+  Diagnostic CANCEL_INSTANCE = 
+    new BasicDiagnostic
+      (CANCEL, "org.eclipse.emf.common", 0, org.eclipse.emf.common.CommonPlugin.INSTANCE.getString("_UI_Cancel_diagnostic_0"), null);
 }
