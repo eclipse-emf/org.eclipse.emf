@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelperItemProvider.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
+ * $Id: MappingHelperItemProvider.java,v 1.3 2004/04/06 22:53:50 davidms Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -124,16 +124,16 @@ public class MappingHelperItemProvider
   }
 
   /**
-   * This specifies how to implement {@link #getChildren} 
-   * and {@link org.eclipse.emf.edit.command.AddCommand} and {@link org.eclipse.emf.edit.command.RemoveCommand} 
-   * support in {@link #createCommand}.
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Collection getChildrenReferences(Object object)
+  public Collection getChildrenFeatures(Object object)
   {
-    return super.getChildrenReferences(object);
+    return super.getChildrenFeatures(object);
   }
 
   public Collection getChildren(Object object)

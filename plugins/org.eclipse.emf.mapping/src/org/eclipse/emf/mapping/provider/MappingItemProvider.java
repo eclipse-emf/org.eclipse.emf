@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingItemProvider.java,v 1.3 2004/03/12 22:39:54 emerks Exp $
+ * $Id: MappingItemProvider.java,v 1.4 2004/04/06 22:53:50 davidms Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -34,7 +34,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -237,11 +236,11 @@ public class MappingItemProvider
   }
 
   /**
-   * This specifies how to implement {@link #getChildren} and 
-   * {@link org.eclipse.emf.edit.command.AddCommand} and 
-   * {@link RemoveCommand} support in {@link #createCommand}.
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    */
-  public Collection getChildrenReferences(Object object)
+  public Collection getChildrenFeatures(Object object)
   {
     Mapping mapping = (Mapping)object;
     MappingRoot mappingRoot = mapping.getMappingRoot();
@@ -262,7 +261,7 @@ public class MappingItemProvider
     return result;
   }
 
-  protected EReference getChildReference(Object object, Object child)
+  protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     Mapping mapping = (Mapping)object;
     MappingRoot mappingRoot = mapping.getMappingRoot();
@@ -291,7 +290,7 @@ public class MappingItemProvider
       }
     }
 
-    return super.getChildReference(object, child);
+    return super.getChildFeature(object, child);
   }
 
   public EStructuralFeature getSetFeature(Object object, Object value)
@@ -774,7 +773,7 @@ public class MappingItemProvider
     return new TypeMatchMappingCommand(domain, mapping);
   }
 
-  protected Command createRemoveCommand(final EditingDomain domain, EObject owner, final EReference feature, Collection collection)
+  protected Command createRemoveCommand(final EditingDomain domain, EObject owner, final EStructuralFeature feature, Collection collection)
   {
     final Mapping mappingOwner = (Mapping)owner;
     final MappingRoot mappingRoot = mappingOwner.getMappingRoot();
@@ -979,7 +978,7 @@ public class MappingItemProvider
     return UnexecutableCommand.INSTANCE;
   }
 
-  protected Command createAddCommand(EditingDomain domain, EObject owner, EReference feature, Collection collection, int index)
+  protected Command createAddCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection collection, int index)
   {
     final Mapping mappingOwner = (Mapping)owner;
     final MappingRoot mappingRoot = mappingOwner.getMappingRoot();
@@ -1069,7 +1068,7 @@ public class MappingItemProvider
   /**
    * This creates a primitive {@link com.ibm.etools.emf.edit.command.MoveCommand}.
    */
-  protected Command createMoveCommand(EditingDomain domain, EObject owner, EReference feature, EObject value, int index)
+  protected Command createMoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, EObject value, int index)
   {
     final Mapping mappingOwner = (Mapping)owner;
     if (feature == MappingPackage.eINSTANCE.getMapping_Inputs() || 
@@ -1105,7 +1104,7 @@ public class MappingItemProvider
     if (feature == MappingPackage.eINSTANCE.getMapping_Inputs() || 
           feature == MappingPackage.eINSTANCE.getMapping_Outputs())
     {
-      return createAddCommand(domain, owner, (EReference)feature, Collections.singleton(value), Notification.NO_INDEX);
+      return createAddCommand(domain, owner, feature, Collections.singleton(value), Notification.NO_INDEX);
     }
     else
     {
