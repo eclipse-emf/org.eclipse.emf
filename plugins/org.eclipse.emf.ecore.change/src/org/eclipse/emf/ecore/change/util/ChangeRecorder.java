@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.7 2004/06/18 13:34:40 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.8 2004/06/18 18:37:51 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -550,7 +550,7 @@ public class ChangeRecorder implements Adapter
       Object newObject = objects.next();
       if (oldList.size() <= index)
       {
-        createAddListChanges(oldList, changesList, newObject, index, -1);
+        createAddListChange(oldList, changesList, newObject, index, -1);
       }
       else
       {
@@ -567,7 +567,7 @@ public class ChangeRecorder implements Adapter
               int targetIndex = EcoreUtil.indexOf(newList, targetObject, index);
               if (targetIndex == -1)
               {
-                createRemoveListChanges(oldList, changesList, newObject, index, targetIndex);
+                createRemoveListChange(oldList, changesList, newObject, index, targetIndex);
                 done = false;
               }
               else if (targetIndex > position)
@@ -576,12 +576,12 @@ public class ChangeRecorder implements Adapter
                 {
                   targetIndex = oldList.size() - 1;
                 }
-                createMoveListChanges(oldList, changesList, newObject, index, targetIndex);
+                createMoveListChange(oldList, changesList, newObject, index, targetIndex);
                 done = false;
               }
               else
               {
-                createAddListChanges(oldList, changesList, newObject, index, targetIndex);
+                createAddListChange(oldList, changesList, newObject, index, targetIndex);
               }
             }
             else
@@ -594,7 +594,7 @@ public class ChangeRecorder implements Adapter
     }
     for (int i = oldList.size(); i > index;)
     {
-      createRemoveListChanges(oldList, changesList, null, --i, -1);
+      createRemoveListChange(oldList, changesList, null, --i, -1);
     }
   }
   
@@ -603,7 +603,7 @@ public class ChangeRecorder implements Adapter
    * for the scenario in which an element was added to the monitored list.
    * @see #createListChanges(EList, EList, EList) 
    */
-  protected void createAddListChanges(EList oldList, EList changesList, Object newObject, int index, int targetIndex)
+  protected void createAddListChange(EList oldList, EList changesList, Object newObject, int index, int targetIndex)
   {
     ListChange listChange = createListChange(changesList, ChangeKind.ADD_LITERAL, index);
     listChange.getValues().add(newObject);
@@ -615,7 +615,7 @@ public class ChangeRecorder implements Adapter
    * for the scenario in which an element was removed from the monitored list.
    * @see #createListChanges(EList, EList, EList) 
    */
-  protected void createRemoveListChanges(EList oldList, EList changesList, Object newObject, int index, int targetIndex)
+  protected void createRemoveListChange(EList oldList, EList changesList, Object newObject, int index, int targetIndex)
   {
     ListChange listChange = createListChange(changesList, ChangeKind.REMOVE_LITERAL, index);
     oldList.remove(index);
@@ -626,7 +626,7 @@ public class ChangeRecorder implements Adapter
    * for the scenario in which an element was moved in the monitored list.
    * @see #createListChanges(EList, EList, EList) 
    */
-  protected void createMoveListChanges(EList oldList, EList changesList, Object newObject, int index, int targetIndex)
+  protected void createMoveListChange(EList oldList, EList changesList, Object newObject, int index, int targetIndex)
   {
     ListChange listChange = createListChange(changesList, ChangeKind.MOVE_LITERAL, index);
     listChange.setMoveToIndex(targetIndex);
