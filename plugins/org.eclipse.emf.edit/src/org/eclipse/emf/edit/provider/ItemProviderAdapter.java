@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.11 2004/09/24 04:15:11 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.12 2004/10/04 21:53:10 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -114,7 +114,7 @@ public class ItemProviderAdapter
   /**
    * This keeps track of all the targets to which this adapter is set.
    */
-  protected Collection targets;
+  protected List targets;
 
   /**
    * When {@link ChildrenStore}s are to be used to cache children (typically to hold wrappers for non-EObject
@@ -1371,6 +1371,25 @@ public class ItemProviderAdapter
     }
   }
 
+  public void unsetTarget(Notifier target)
+  {
+    if (target == this.target)
+    {
+      if (targets == null || targets.isEmpty())
+      {
+        super.setTarget(null);
+      }
+      else
+      {
+        super.setTarget((Notifier)targets.remove(targets.size() - 1));
+      }
+    }
+    else if (targets != null)
+    {
+      targets.remove(target);
+    }
+  }
+
   /**
    * This will remove this adapter from all its the targets and dispose any
    * remainging children wrappers in the children store.
@@ -1380,13 +1399,14 @@ public class ItemProviderAdapter
     if (target != null)
     {
       target.eAdapters().remove(this);
-      if (targets != null)
+    }
+
+    if (targets != null)
+    {
+      for (Iterator i = targets.iterator(); i.hasNext(); )
       {
-        for (Iterator i = targets.iterator(); i.hasNext(); )
-        {
-          Notifier otherTarget = (Notifier)i.next();
-          otherTarget.eAdapters().remove(this);
-        }
+        Notifier otherTarget = (Notifier)i.next();
+        otherTarget.eAdapters().remove(this);
       }
     }
 
