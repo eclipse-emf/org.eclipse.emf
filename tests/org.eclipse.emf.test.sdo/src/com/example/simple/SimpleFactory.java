@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SimpleFactory.java,v 1.1 2004/06/30 21:11:29 marcelop Exp $
+ * $Id: SimpleFactory.java,v 1.1 2004/11/04 05:22:54 marcelop Exp $
  */
 package com.example.simple;
 

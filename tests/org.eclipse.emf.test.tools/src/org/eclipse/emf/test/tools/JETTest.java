@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: JETTest.java,v 1.4 2004/08/24 21:21:50 marcelop Exp $
+ * $Id: JETTest.java,v 1.1 2004/11/04 05:23:03 marcelop Exp $
  */
-package org.eclipse.emf.test.core.jet;
+package org.eclipse.emf.test.tools;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,11 +37,10 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
 import org.eclipse.emf.codegen.jet.JETEmitter;
-import org.eclipse.emf.test.core.EMFTestCorePlugin;
 
 public class JETTest extends TestCase
 {
-  protected static final File TEMPLATE_FILE = new File(EMFTestCorePlugin.getPluginDirectory(), "aTemplate.javajet");
+  protected static final File TEMPLATE_FILE = new File(EMFTestToolsPlugin.getPluginDirectory(), "aTemplate.javajet");
   
   /**
    * @param name
@@ -130,7 +129,7 @@ public class JETTest extends TestCase
   protected StringBuffer templateHeader(String lineSeparator)
   {
     StringBuffer text = new StringBuffer();
-    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.4 2004/08/24 21:21:50 marcelop Exp $\"%>").append(lineSeparator);
+    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.1 2004/11/04 05:23:03 marcelop Exp $\"%>").append(lineSeparator);
     
     text.append("<%").append(lineSeparator);
     text.append("/**").append(lineSeparator);

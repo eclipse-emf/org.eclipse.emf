@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SimplePackageImpl.java,v 1.3 2004/07/29 13:54:09 marcelop Exp $
+ * $Id: SimplePackageImpl.java,v 1.1 2004/11/04 05:22:54 marcelop Exp $
  */
 package com.example.simple.impl;
 
@@ -13,7 +13,6 @@ import com.example.simple.SimplePackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -103,6 +102,9 @@ public class SimplePackageImpl extends EPackageImpl implements SimplePackage
 
     // Initialize created meta-data
     theSimplePackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theSimplePackage.freeze();
 
     return theSimplePackage;
   }

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SimpleSwitch.java,v 1.3 2004/07/29 13:32:30 marcelop Exp $
+ * $Id: SimpleSwitch.java,v 1.1 2004/11/04 05:22:54 marcelop Exp $
  */
 package com.example.simple.util;
 
@@ -26,7 +26,8 @@ import org.eclipse.emf.ecore.EObject;
  * @see com.example.simple.SimplePackage
  * @generated
  */
-public class SimpleSwitch {
+public class SimpleSwitch
+{
   /**
    * The cached model package
    * <!-- begin-user-doc -->

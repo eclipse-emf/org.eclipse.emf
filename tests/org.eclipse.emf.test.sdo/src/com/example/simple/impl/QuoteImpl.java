@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: QuoteImpl.java,v 1.1 2004/06/30 21:11:29 marcelop Exp $
+ * $Id: QuoteImpl.java,v 1.1 2004/11/04 05:22:54 marcelop Exp $
  */
 package com.example.simple.impl;
 
@@ -15,14 +15,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;

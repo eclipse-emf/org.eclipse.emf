@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.2 2004/11/03 23:30:47 marcelop Exp $
+ * $Id: AllSuites.java,v 1.3 2004/11/04 05:22:54 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -28,6 +28,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.sdo.types.SDOUtilGetTest.suite()
     ,org.eclipse.emf.test.sdo.types.SDOUtilSetTest.suite()
     ,org.eclipse.emf.test.sdo.types.SDOUtilProtectedGetTest.suite()
+    ,com.example.simple.TestSDO.suite()
   };
 
   public static Test suite()

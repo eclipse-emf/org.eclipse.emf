@@ -2,14 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SimplePackage.java,v 1.1 2004/06/30 21:11:29 marcelop Exp $
+ * $Id: SimplePackage.java,v 1.1 2004/11/04 05:22:54 marcelop Exp $
  */
 package com.example.simple;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.EReference;
 
 /**
@@ -26,7 +25,8 @@ import org.eclipse.emf.ecore.EReference;
  * @see com.example.simple.SimpleFactory
  * @generated
  */
-public interface SimplePackage extends EPackage{
+public interface SimplePackage extends EPackage
+{
   /**
    * The package name.
    * <!-- begin-user-doc -->

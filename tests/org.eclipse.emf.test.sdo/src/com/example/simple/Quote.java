@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Quote.java,v 1.1 2004/06/30 21:11:29 marcelop Exp $
+ * $Id: Quote.java,v 1.1 2004/11/04 05:22:54 marcelop Exp $
  */
 package com.example.simple;
 
@@ -303,7 +303,7 @@ public interface Quote
    * The list contents are of type {@link com.example.simple.Quote}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Quotes</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Quotes</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
