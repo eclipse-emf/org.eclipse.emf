@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.9 2004/06/12 12:07:17 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.10 2004/06/18 09:51:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -401,7 +401,10 @@ public class XMLHelperImpl implements XMLHelper
   {
     if (extendedMetaData != null)
     {
-      return extendedMetaData.getName(obj);
+      return 
+        obj instanceof EStructuralFeature ? 
+            extendedMetaData.getName((EStructuralFeature)obj) : 
+              extendedMetaData.getName((EClassifier)obj);
     }
     
     if (xmlMap != null)

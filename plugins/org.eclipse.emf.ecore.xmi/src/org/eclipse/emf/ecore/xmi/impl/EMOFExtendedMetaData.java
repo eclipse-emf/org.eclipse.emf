@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EMOFExtendedMetaData.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EMOFExtendedMetaData.java,v 1.2 2004/06/18 09:51:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -70,9 +69,9 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
     return EMOF_PACKAGE_NS_URI.equals(namespace) ? EcorePackage.eINSTANCE : super.getPackage(namespace);
   }
 
-  public String getName(ENamedElement eNamedElement)
+  public String getName(EClassifier eClassifier)
   {
-    XMLResource.XMLInfo info = xmlMap.getInfo(eNamedElement);
+    XMLResource.XMLInfo info = xmlMap.getInfo(eClassifier);
     if (info != null)
     {
       String name = info.getName();
@@ -81,7 +80,21 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
         return info.getName();
       }
     }
-    return super.getName(eNamedElement);
+    return super.getName(eClassifier);
+  }
+  
+  public String getName(EStructuralFeature eStructuralFeature)
+  {
+    XMLResource.XMLInfo info = xmlMap.getInfo(eStructuralFeature);
+    if (info != null)
+    {
+      String name = info.getName();
+      if (name != null)
+      {
+        return info.getName();
+      }
+    }
+    return super.getName(eStructuralFeature);
   }
 
   public EClassifier getType(EPackage ePackage, String name)
