@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.2 2004/03/20 21:46:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -134,9 +134,9 @@ public class EcoreUtil
    */
   public static Adapter getAdapter(List adapters, Object type)
   {
-    for (Iterator iter = adapters.iterator(); iter.hasNext(); )
+    for (int i = 0, size = adapters.size(); i < size; ++i)
     {
-      Adapter adapter = (Adapter)iter.next();
+      Adapter adapter = (Adapter)adapters.get(i);
       if (adapter.isAdapterForType(type))
       {
         return adapter;
