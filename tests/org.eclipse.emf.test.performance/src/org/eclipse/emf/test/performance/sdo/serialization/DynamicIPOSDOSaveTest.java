@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOSaveTest.java,v 1.3 2005/02/21 22:34:17 bportier Exp $
+ * $Id: DynamicIPOSDOSaveTest.java,v 1.4 2005/03/03 22:00:50 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.serialization;
 
@@ -82,7 +82,7 @@ public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
   protected void setUp() throws Exception
   {
     super.setUp();
-    tagAsSummary("Performance Results for " + getClass().getPackage().getName(), TIME_DIMENSIONS);
+    tagAsSummary("Performance Results for " + getClass().getName(), TIME_DIMENSIONS);
 
     resourceSet = SDOUtil.createResourceSet();
     options = new HashMap();
