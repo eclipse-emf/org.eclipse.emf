@@ -277,7 +277,7 @@ public class PackageClass
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -301,6 +301,7 @@ public class PackageClass
     genModel.markImportLocation(stringBuffer);
     genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Registry");
     genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Descriptor");
+    for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) genModel.addPseudoImport(genPackage.getQualifiedPackageInterfaceName() + "." + genPackage.getClassifierID((GenClassifier)i.next()));
     stringBuffer.append(TEXT_6);
     stringBuffer.append(genPackage.getPackageClassName());
     stringBuffer.append(TEXT_7);
@@ -837,7 +838,7 @@ public class PackageClass
     stringBuffer.append(TEXT_242);
     stringBuffer.append(genPackage.getAnnotatedModelElementAccessor(eAnnotation));
     stringBuffer.append(TEXT_243);
-    for (Iterator k = eAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);
+    for (Iterator k = eAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey()); String value = Literals.toStringLiteral((String)detail.getValue());
     stringBuffer.append(TEXT_244);
     stringBuffer.append(key);
     stringBuffer.append(TEXT_245);
