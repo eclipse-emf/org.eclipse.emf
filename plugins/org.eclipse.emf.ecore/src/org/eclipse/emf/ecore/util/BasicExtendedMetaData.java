@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.5 2004/05/05 19:38:01 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.6 2004/05/25 19:18:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1008,12 +1008,19 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         }
 
         String namespace = getNamespace(eStructuralFeature);
-        for (Iterator i = getAllElements(eClass).iterator(); i.hasNext(); )
+        if (XMLTypePackage.eNS_URI.equals(namespace))
         {
-          EStructuralFeature result = (EStructuralFeature)i.next();
-          if (matches(getWildcards(result), namespace))
+          return getMixedFeature(eClass);
+        }
+        else
+        {
+          for (Iterator i = getAllElements(eClass).iterator(); i.hasNext(); )
           {
-            return result;
+            EStructuralFeature result = (EStructuralFeature)i.next();
+            if (matches(getWildcards(result), namespace))
+            {
+              return result;
+            }
           }
         }
         return null;
