@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryFactoryImpl.java,v 1.1 2005/02/10 22:11:11 marcelop Exp $
+ * $Id: LibraryFactoryImpl.java,v 1.2 2005/03/31 04:57:31 marcelop Exp $
  */
 package org.examples.library.impl;
 
@@ -23,7 +23,7 @@ import org.examples.library.*;
 public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
