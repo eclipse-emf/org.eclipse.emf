@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.3 2004/03/29 21:29:56 elena Exp $
+ * $Id: XMLLoadImpl.java,v 1.4 2004/04/16 14:01:21 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.ecore.xmi.impl;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -69,6 +70,8 @@ public class XMLLoadImpl implements XMLLoad
     XMLParserPool pool = (XMLParserPool)options.get(XMLResource.OPTION_USE_PARSER_POOL);
     Map parserFeatures = (Map) options.get(XMLResource.OPTION_PARSER_FEATURES);
     Map parserProperties = (Map)options.get(XMLResource.OPTION_PARSER_PROPERTIES);
+    parserFeatures = (parserFeatures == null)?Collections.EMPTY_MAP:parserFeatures;
+    parserProperties = (parserProperties == null)?Collections.EMPTY_MAP:parserProperties;
     
     // HACK: reading encoding
     String encoding = getEncoding();
