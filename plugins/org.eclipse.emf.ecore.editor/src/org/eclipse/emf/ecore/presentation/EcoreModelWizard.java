@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EcoreModelWizard.java,v 1.2 2004/03/10 00:18:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -139,7 +139,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
    */
   EObject createInitialModel()
   {
-    EClass eClass = (EClass)ecorePackage.getEClassifier(initialObjectCreationPage.getInitialEClassName());
+    EClass eClass = (EClass)ecorePackage.getEClassifier(initialObjectCreationPage.getInitialObjectName());
     EObject rootObject = ecoreFactory.create(eClass);
     return rootObject;
   }
@@ -343,7 +343,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      */
-    protected String initialEClassName;
+    protected String initialObjectName;
 
     /**
      * <!-- begin-user-doc -->
@@ -415,7 +415,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
         initialObjectField.setLayoutData(data);
       }
 
-      List eClasses = new ArrayList();
+      List objectNames = new ArrayList();
       for (Iterator classifier = ecorePackage.getEClassifiers().iterator(); classifier.hasNext(); )
       {
         EClassifier eClassifier = (EClassifier)classifier.next();
@@ -424,16 +424,16 @@ public class EcoreModelWizard extends Wizard implements INewWizard
           EClass eClass = (EClass)eClassifier;
           if (!eClass.isAbstract())
           {
-            eClasses.add(eClass.getName());
+            objectNames.add(eClass.getName());
           }
         }
       }
 
-      Collections.sort(eClasses, java.text.Collator.getInstance());
-      for (Iterator i = eClasses.iterator(); i.hasNext(); )
+      Collections.sort(objectNames, java.text.Collator.getInstance());
+      for (Iterator i = objectNames.iterator(); i.hasNext(); )
       {
-        String eClassName = (String)i.next();
-        initialObjectField.add(eClassName);
+        String objectName = (String)i.next();
+        initialObjectField.add(objectName);
       }
 
       initialObjectField.addSelectionListener
@@ -496,7 +496,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
      */
     public boolean performFinish()
     {
-      initialEClassName = getInitialEClassName();
+      initialObjectName = getInitialObjectName();
       encoding = getEncoding();
       return true;
     }
@@ -506,12 +506,12 @@ public class EcoreModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
-    public String getInitialEClassName()
+    public String getInitialObjectName()
     {
       return
-        initialEClassName == null ?
+        initialObjectName == null ?
           initialObjectField.getText() :
-          initialEClassName;
+          initialObjectName;
     }
 
     /**

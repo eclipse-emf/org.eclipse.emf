@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.2 2004/03/08 20:14:01 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.3 2004/03/10 00:18:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -46,6 +46,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -54,11 +55,13 @@ import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableTreeViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.TableTree;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
@@ -68,6 +71,8 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
@@ -375,7 +380,7 @@ public class EcoreEditor
           {
             class ResourceDeltaVisitor implements IResourceDeltaVisitor
             {
-              protected ResourceSet resourceSet = editingDomain.getResourceSet();
+              protected ResourceSet resourceSet =	editingDomain.getResourceSet();
               protected Collection changedResources = new ArrayList();
               protected Collection removedResources = new ArrayList();
 
@@ -424,11 +429,11 @@ public class EcoreEditor
               getSite().getShell().getDisplay().asyncExec
                 (new Runnable()
                  {
-                    public void run()
-                    {
+                 	public void run()
+                 	{
                     getSite().getPage().closeEditor(EcoreEditor.this, false);
                     EcoreEditor.this.dispose();
-                    }
+                 	}
                  });
             }
 
@@ -620,7 +625,7 @@ public class EcoreEditor
 
   /**
    * This returns the editing domain as required by the {@link IEditingDomainProvider} interface.
-   * This is important for implementing the static methods of {@link AdapterFactoryEditingDomain}   
+   * This is important for implementing the static methods of {@link AdapterFactoryEditingDomain}	
    * and for supporting {@link org.eclipse.emf.edit.ui.action.CommandAction}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -822,181 +827,16 @@ public class EcoreEditor
       int pageIndex = addPage(viewerPane.getControl());
       setPageText(pageIndex, getString("_UI_SelectionPage_label"));
     }
-/*
-
-    // Create a page for the parent tree view.
-    //
+    
+    ColumnWeightData junk1 = null;
+    TableLayout junk2 = null;
+    TableTree junk3 = null;
+    Table junk4 = null;
+    TableColumn junk5 = null;
+    if (junk1 == null && junk2 == null && junk3 == null && junk4 == null && junk5 == null)
     {
-      ViewerPane viewerPane =
-        new ViewerPane(getSite().getPage(), EcoreEditor.this)
-        {
-          public Viewer createViewer(Composite composite)
-          {
-            Tree tree = new Tree(composite, SWT.MULTI);
-            TreeViewer newTreeViewer = new TreeViewer(tree);
-            return newTreeViewer;
-          }
-          public void requestActivation()
-          {
-            super.requestActivation();
-            setCurrentViewerPane(this);
-          }
-        };
-      viewerPane.createControl(getContainer());
-
-      parentViewer = (TreeViewer)viewerPane.getViewer();
-      parentViewer.setAutoExpandLevel(30);
-      parentViewer.setContentProvider(new ReverseAdapterFactoryContentProvider(adapterFactory));
-      parentViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-
-      createContextMenuFor(parentViewer);
-      int pageIndex = addPage(viewerPane.getControl());
-      setPageText(pageIndex, getString("_UI_ParentPage_label"));
+      // The compiler is happy that we used all the imports and the junky variables too.
     }
-
-    // This is the page for the list viewer
-    //
-    {
-      ViewerPane viewerPane =
-        new ViewerPane(getSite().getPage(), EcoreEditor.this)
-        {
-          public Viewer createViewer(Composite composite)
-          {
-            return new ListViewer(composite);
-          }
-          public void requestActivation()
-          {
-            super.requestActivation();
-            setCurrentViewerPane(this);
-          }
-        };
-      viewerPane.createControl(getContainer());
-      listViewer = (ListViewer)viewerPane.getViewer();
-      listViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-      listViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-
-      createContextMenuFor(listViewer);
-      int pageIndex = addPage(viewerPane.getControl());
-      setPageText(pageIndex, getString("_UI_ListPage_label"));
-    }
-
-    // This is the page for the tree viewer
-    //
-    {
-      ViewerPane viewerPane =
-        new ViewerPane(getSite().getPage(), EcoreEditor.this)
-        {
-          public Viewer createViewer(Composite composite)
-          {
-            return new TreeViewer(composite);
-          }
-          public void requestActivation()
-          {
-            super.requestActivation();
-            setCurrentViewerPane(this);
-          }
-        };
-      viewerPane.createControl(getContainer());
-      treeViewer = (TreeViewer)viewerPane.getViewer();
-      treeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-      treeViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-
-      new AdapterFactoryTreeEditor(treeViewer.getTree(), adapterFactory);
-
-      createContextMenuFor(treeViewer);
-      int pageIndex = addPage(viewerPane.getControl());
-      setPageText(pageIndex, getString("_UI_TreePage_label"));
-    }
-
-    // This is the page for the table viewer.
-    //
-    {
-      ViewerPane viewerPane =
-        new ViewerPane(getSite().getPage(), EcoreEditor.this)
-        {
-          public Viewer createViewer(Composite composite)
-          {
-            return new TableViewer(composite);
-          }
-          public void requestActivation()
-          {
-            super.requestActivation();
-            setCurrentViewerPane(this);
-          }
-        };
-      viewerPane.createControl(getContainer());
-      tableViewer = (TableViewer)viewerPane.getViewer();
-
-      Table table = tableViewer.getTable();
-      TableLayout layout = new TableLayout();
-      table.setLayout(layout);
-      table.setHeaderVisible(true);
-      table.setLinesVisible(true);
-
-      TableColumn objectColumn = new TableColumn(table, SWT.NONE);
-      layout.addColumnData(new ColumnWeightData(3, 100, true));
-      objectColumn.setText(getString("_UI_ObjectColumn_label"));
-      objectColumn.setResizable(true);
-
-      TableColumn selfColumn = new TableColumn(table, SWT.NONE);
-      layout.addColumnData(new ColumnWeightData(2, 100, true));
-      selfColumn.setText(getString("_UI_SelfColumn_label"));
-      selfColumn.setResizable(true);
-
-      tableViewer.setColumnProperties(new String [] {"a", "b"});
-      tableViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-      tableViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-
-      createContextMenuFor(tableViewer);
-      int pageIndex = addPage(viewerPane.getControl());
-      setPageText(pageIndex, getString("_UI_TablePage_label"));
-    }
-
-    // This is the page for the table tree viewer.
-    //
-    {
-      ViewerPane viewerPane =
-        new ViewerPane(getSite().getPage(), EcoreEditor.this)
-        {
-          public Viewer createViewer(Composite composite)
-          {
-            return new TableTreeViewer(composite);
-          }
-          public void requestActivation()
-          {
-            super.requestActivation();
-            setCurrentViewerPane(this);
-          }
-        };
-      viewerPane.createControl(getContainer());
-
-      tableTreeViewer = (TableTreeViewer)viewerPane.getViewer();
-
-      TableTree tableTree = tableTreeViewer.getTableTree();
-      TableLayout layout = new TableLayout();
-      tableTree.getTable().setLayout(layout);
-      tableTree.getTable().setHeaderVisible(true);
-      tableTree.getTable().setLinesVisible(true);
-
-      TableColumn objectColumn = new TableColumn(tableTree.getTable(), SWT.NONE);
-      layout.addColumnData(new ColumnWeightData(3, 100, true));
-      objectColumn.setText(getString("_UI_ObjectColumn_label"));
-      objectColumn.setResizable(true);
-
-      TableColumn selfColumn = new TableColumn(tableTree.getTable(), SWT.NONE);
-      layout.addColumnData(new ColumnWeightData(2, 100, true));
-      selfColumn.setText(getString("_UI_SelfColumn_label"));
-      selfColumn.setResizable(true);
-
-      tableTreeViewer.setColumnProperties(new String [] {"a", "b"});
-      tableTreeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-      tableTreeViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-
-      createContextMenuFor(tableTreeViewer);
-      int pageIndex = addPage(viewerPane.getControl());
-      setPageText(pageIndex, getString("_UI_TableTreePage_label"));
-    }
-*/
 
     setActivePage(0);
 
@@ -1371,7 +1211,7 @@ public class EcoreEditor
     {
       setSite(site);
       setInput(editorInput);
-      setTitle(((IFileEditorInput)editorInput).getFile().getName());    
+      setTitle(((IFileEditorInput)editorInput).getFile().getName());	
       site.setSelectionProvider(this);
       site.getPage().addPartListener(partListener);
       ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
