@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.4 2004/04/16 14:01:21 elena Exp $
+ * $Id: XMLLoadImpl.java,v 1.5 2005/02/16 17:44:12 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -127,6 +127,12 @@ public class XMLLoadImpl implements XMLLoad
       }
       
       parser.parse(inputSource, defaultHandler);
+      
+      // avoid memory leak bug #85141
+      if (defaultHandler instanceof SAXWrapper)
+      {
+        ((SAXWrapper)defaultHandler).handler = null;
+      }
       
       // release parser back to the pool
       if (pool != null)
