@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.9 2005/02/22 05:17:50 marcelop Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.10 2005/02/28 22:48:21 bportier Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -133,6 +133,13 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     assertTrue("Iterations must be greater than 0", getRepetitions() > 0); 
     
     warmUp();
+
+    if (!TestUtil.isRunningUnderEclipse())
+    {
+      System.out.print("Hit Enter after starting the profiler and clearing profiling data");
+      System.in.read();
+    }
+
     for (int i=0, maxi=getRepetitions(); i<maxi; i++)
     {
       super.runTest();
