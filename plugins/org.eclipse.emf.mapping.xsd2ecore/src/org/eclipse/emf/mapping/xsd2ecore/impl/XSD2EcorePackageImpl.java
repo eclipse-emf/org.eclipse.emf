@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePackageImpl.java,v 1.3 2004/06/08 17:53:14 emerks Exp $
+ * $Id: XSD2EcorePackageImpl.java,v 1.4 2004/07/20 16:18:13 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
@@ -94,10 +94,10 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
    */
   public static XSD2EcorePackage init()
   {
-    if (isInited) return (XSD2EcorePackage)EPackage.Registry.INSTANCE.get(XSD2EcorePackage.eNS_URI);
+    if (isInited) return (XSD2EcorePackage)EPackage.Registry.INSTANCE.getEPackage(XSD2EcorePackage.eNS_URI);
 
     // Obtain or create and register package
-    XSD2EcorePackageImpl theXSD2EcorePackage = (XSD2EcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XSD2EcorePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XSD2EcorePackageImpl());
+    XSD2EcorePackageImpl theXSD2EcorePackage = (XSD2EcorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof XSD2EcorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new XSD2EcorePackageImpl());
 
     isInited = true;
 

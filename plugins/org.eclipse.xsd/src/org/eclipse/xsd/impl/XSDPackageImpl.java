@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackageImpl.java,v 1.4 2004/06/19 18:33:56 emerks Exp $
+ * $Id: XSDPackageImpl.java,v 1.5 2004/07/20 16:18:22 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -4714,10 +4714,10 @@ public class XSDPackageImpl
    */
   public static XSDPackage init()
   {
-    if (isInited) return (XSDPackage)EPackage.Registry.INSTANCE.get(XSDPackage.eNS_URI);
+    if (isInited) return (XSDPackage)EPackage.Registry.INSTANCE.getEPackage(XSDPackage.eNS_URI);
 
     // Obtain or create and register package
-    XSDPackageImpl theXSDPackage = (XSDPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XSDPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XSDPackageImpl());
+    XSDPackageImpl theXSDPackage = (XSDPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof XSDPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new XSDPackageImpl());
 
     isInited = true;
 
