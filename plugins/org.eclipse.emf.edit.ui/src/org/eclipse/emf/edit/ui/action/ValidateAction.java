@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.8 2004/10/13 20:25:42 davidms Exp $
+ * $Id: ValidateAction.java,v 1.9 2005/01/31 15:37:58 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -289,21 +289,23 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
   protected void handleDiagnostic(final Diagnostic diagnostic)
   {
+    int result = 
+      ErrorDialog.openError
+        (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_title"),
+         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_message"),
+         BasicDiagnostic.toIStatus(diagnostic));
+
+    // No error dialog is displayed if the status severity is OK; pop up a dialog so the user knows something happened.
+    //
     if (diagnostic.getSeverity() == Diagnostic.OK)
     {
       MessageDialog.openInformation
         (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
          EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationOK_title"),
          EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationOK_message"));
-      return;
+      result = Dialog.CANCEL;
     }
-
-    final int result = 
-      ErrorDialog.openError
-        (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_title"),
-         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_message"),
-         BasicDiagnostic.toIStatus(diagnostic));
 
     if (Platform.getBundle("org.eclipse.core.resources") != null)
     {
