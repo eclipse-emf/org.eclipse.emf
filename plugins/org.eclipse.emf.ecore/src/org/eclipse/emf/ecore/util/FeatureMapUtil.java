@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.13 2004/08/26 16:25:09 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.14 2005/02/03 21:16:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -61,6 +61,16 @@ public final class FeatureMapUtil
     featureMap.add(index, XMLTypeFeatures.TEXT, text);
   }
 
+  public static boolean isText(FeatureMap.Entry entry)
+  {
+    return entry.getEStructuralFeature() == XMLTypeFeatures.TEXT;
+  }
+
+  public static boolean isText(EStructuralFeature eStructuralFeature)
+  {
+    return eStructuralFeature == XMLTypeFeatures.TEXT;
+  }
+
   public static void addCDATA(FeatureMap featureMap, String cdata)
   {
     featureMap.add(XMLTypeFeatures.CDATA, cdata);
@@ -71,6 +81,16 @@ public final class FeatureMapUtil
     featureMap.add(index, XMLTypeFeatures.CDATA, cdata);
   }
 
+  public static boolean isCDATA(FeatureMap.Entry entry)
+  {
+    return entry.getEStructuralFeature() == XMLTypeFeatures.CDATA;
+  }
+
+  public static boolean isCDATA(EStructuralFeature eStructuralFeature)
+  {
+    return eStructuralFeature == XMLTypeFeatures.CDATA;
+  }
+
   public static void addComment(FeatureMap featureMap, String comment)
   {
     featureMap.add(XMLTypeFeatures.COMMENT, comment);
@@ -79,6 +99,16 @@ public final class FeatureMapUtil
   public static void addComment(FeatureMap featureMap, int index, String comment)
   {
     featureMap.add(index, XMLTypeFeatures.COMMENT, comment);
+  }
+
+  public static boolean isComment(FeatureMap.Entry entry)
+  {
+    return entry.getEStructuralFeature() == XMLTypeFeatures.COMMENT;
+  }
+
+  public static boolean isComment(EStructuralFeature eStructuralFeature)
+  {
+    return eStructuralFeature == XMLTypeFeatures.COMMENT;
   }
 
   public static boolean isFeatureMap(EStructuralFeature eStructuralFeature)
