@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationImpl.java,v 1.2 2004/07/29 13:32:37 marcelop Exp $
+ * $Id: NotificationImpl.java,v 1.3 2004/08/11 15:08:58 marcelop Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -519,7 +519,7 @@ public class NotificationImpl implements Notification, NotificationChain
       switch (primitiveType)
       {
         case PRIMITIVE_TYPE_BOOLEAN:
-          oldValue = new Boolean(getOldBooleanValue());
+          oldValue = getOldBooleanValue() ? Boolean.TRUE : Boolean.FALSE;
           break;
         case PRIMITIVE_TYPE_BYTE:
           oldValue = new Byte(getOldByteValue());
@@ -554,7 +554,7 @@ public class NotificationImpl implements Notification, NotificationChain
       switch (primitiveType)
       {
         case PRIMITIVE_TYPE_BOOLEAN:
-          newValue = new Boolean(getNewBooleanValue());
+          newValue = getNewBooleanValue() ? Boolean.TRUE : Boolean.FALSE;
           break;
         case PRIMITIVE_TYPE_BYTE:
           newValue = new Byte(getNewByteValue());

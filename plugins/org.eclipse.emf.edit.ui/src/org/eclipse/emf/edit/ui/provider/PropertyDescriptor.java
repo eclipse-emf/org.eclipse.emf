@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.4 2004/08/06 11:41:03 emerks Exp $
+ * $Id: PropertyDescriptor.java,v 1.5 2004/08/11 15:09:01 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -369,7 +369,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
           {
             result = 
               new ExtendedComboBoxCellEditor
-                (composite, Arrays.asList(new Object [] { new Boolean(false), new Boolean(true) }), getLabelProvider(), true);
+                (composite, Arrays.asList(new Object [] { Boolean.FALSE, Boolean.TRUE }), getLabelProvider(), true);
           }
           else
           {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.9 2004/06/18 18:20:18 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.10 2004/08/11 15:08:51 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -871,7 +871,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
         case EcorePackage.EBOOLEAN:
         case EcorePackage.EBOOLEAN_OBJECT:
         {
-          return new Boolean(false);
+          return Boolean.FALSE;
         }
         case EcorePackage.EBYTE:
         case EcorePackage.EBYTE_OBJECT:

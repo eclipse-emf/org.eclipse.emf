@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Rose2GenModel.java,v 1.5 2004/05/16 17:31:01 emerks Exp $
+ * $Id: Rose2GenModel.java,v 1.6 2004/08/11 15:09:00 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -194,7 +194,7 @@ public class Rose2GenModel extends Generator
                   {
                     int start = index;
                     List packageInformation = new ArrayList(5);
-                    packageInformation.add(new Boolean(arguments[index].equalsIgnoreCase("-package")));
+                    packageInformation.add(arguments[index].equalsIgnoreCase("-package") ? Boolean.TRUE : Boolean.FALSE);
                     if (index + 1 < arguments.length && !arguments[index + 1].startsWith("-"))
                     {
                       String name = arguments[++index];
