@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.22 2005/03/24 22:47:10 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.23 2005/04/04 19:22:38 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -214,6 +214,12 @@ public class JavaEcoreBuilder
     this(genModelFile);
     this.oldGenModelVersion = oldGenModelVersion;
   }
+  
+  public JavaEcoreBuilder(IFile genModelFile, GenModel oldGenModelVersion, GenModel genModel)
+  {
+    this(genModelFile, oldGenModelVersion);
+    this.genModel = genModel;
+  }
 
   /**
    * Invokes the builder.
@@ -235,7 +241,10 @@ public class JavaEcoreBuilder
 
       // Create a gen model now so that it's utilities are available during traversal analysis.
       //
-      genModel = GenModelFactory.eINSTANCE.createGenModel();
+      if (genModel == null)
+      {
+        genModel = GenModelFactory.eINSTANCE.createGenModel();
+      }
       genModel.getForeignModel().add("@model");
 
       Collection allGenModelFiles = new ArrayList();
