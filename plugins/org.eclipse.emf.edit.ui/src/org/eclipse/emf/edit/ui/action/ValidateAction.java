@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.2 2004/05/08 13:37:02 emerks Exp $
+ * $Id: ValidateAction.java,v 1.3 2004/05/08 13:49:49 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -98,7 +98,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
       {
         public String getObjectLabel(EObject eObject)
         {
-          if (adapterFactory != null)
+          if (adapterFactory != null && !eObject.eIsProxy())
           {
             IItemLabelProvider itemLabelProvider = (IItemLabelProvider)adapterFactory.adapt(eObject, IItemLabelProvider.class);
             if (itemLabelProvider != null)
