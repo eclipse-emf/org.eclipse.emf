@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+<!-- ====================================================================== -->
+<!-- Define topics for the main guide                                       -->
+<!-- ====================================================================== -->
+<toc label="Tutorials">
+	<topic label="Generating an EMF Model" href="doc/tutorials/clibmod/clibmod.html"/>
+	<topic label="Generating an Extended EMF Model" href="doc/tutorials/slibmod/slibmod.html"/>
+	<topic label="Creating an EMF Model using a Graphical Editor" href="doc/tutorials/glibmod/glibmod.html"/>
+	<topic label="Generating an EMF Model using XML Schema" href="doc/tutorials/xlibmod/xlibmod.html"/>
+	<topic label="Specifying Package Information in Rose" href="doc/tutorials/rosepkg/rosepkg.html"/>
+</toc>
