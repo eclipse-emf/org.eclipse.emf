@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.11 2004/11/04 19:32:32 nickb Exp $
+ * $Id: BuildTests.java,v 1.12 2004/11/04 20:54:03 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -53,7 +53,7 @@ import org.eclipse.osgi.service.environment.Constants;
 public class BuildTests extends TestCase
 {
   
-  public boolean debug = true;
+  public boolean debug = false;
   
   private List copyrightExcludeDirectories;
 
@@ -852,7 +852,7 @@ public class BuildTests extends TestCase
         if (debug) { System.out.println("zip filename = "+fileName); } 
         for (int j = 0; j < BUILD_GENERATED_ZIP_FILES_PREFIX.length; j++)
         {
-          System.out.println("Prefix: BUILD_GENERATED_ZIP_FILES_PREFIX["+j+"] = "+BUILD_GENERATED_ZIP_FILES_PREFIX[j]);
+          if (debug) { System.out.println("Prefix: BUILD_GENERATED_ZIP_FILES_PREFIX["+j+"] = "+BUILD_GENERATED_ZIP_FILES_PREFIX[j]); }
           if (fileName.startsWith(BUILD_GENERATED_ZIP_FILES_PREFIX[j]))
           {
             if (debug) { System.out.println("adding zip: "+file.getAbsolutePath()); } 
@@ -861,7 +861,7 @@ public class BuildTests extends TestCase
         }
       }
     }
-    System.out.println("zipFiles.size() = "+zipFiles.size());
+    if (debug) { System.out.println("zipFiles.size() = "+zipFiles.size()); }
     return (String[])zipFiles.toArray(new String [zipFiles.size()]);
   }
 
