@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.13 2005/03/23 23:24:50 emerks Exp $
+ * $Id: URI.java,v 1.14 2005/03/31 12:25:01 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -78,7 +78,7 @@ import java.util.StringTokenizer;
  * form used for files within archives, such as the JAR scheme, defined
  * for the Java Platform in the documentation for {@link
  * java.net.JarURLConnection}. By default, this support is enabled for
- * absolute URIs with scheme equal to "jar" or "zip" (ignoring case), and
+ * absolute URIs with scheme equal to "jar", "zip", or "archive" (ignoring case), and
  * is implemented by a hierarchical URI, whose authority includes the
  * entire URI of the archive, up to and including the <code>!</code>
  * character.  The URI of the archive must have no fragment.  The whole
@@ -165,6 +165,7 @@ public final class URI
   private static final String SCHEME_FILE = "file";
   private static final String SCHEME_JAR = "jar";
   private static final String SCHEME_ZIP = "zip";
+  private static final String SCHEME_ARCHIVE = "archive";
 
   // Special segment values interpreted at resolve and resolve time.
   private static final String SEGMENT_EMPTY = "";
@@ -241,6 +242,7 @@ public final class URI
     {
       set.add(SCHEME_JAR);
       set.add(SCHEME_ZIP);
+      set.add(SCHEME_ARCHIVE);
     }
     else
     { 
@@ -1307,7 +1309,7 @@ public final class URI
 
   // Returns true if the given value is an archive scheme, as defined by
   // the org.eclipse.emf.common.util.URI.archiveSchemes system property.
-  // By default, "jar" and "zip" are considered archives.
+  // By default, "jar", "zip", and "archive" are considered archives.
   private static boolean isArchiveScheme(String value)
   {
     return value != null && archiveSchemes.contains(value.toLowerCase());
