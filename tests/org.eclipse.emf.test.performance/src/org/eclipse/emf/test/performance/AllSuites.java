@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.12 2005/03/19 04:18:07 bportier Exp $
+ * $Id: AllSuites.java,v 1.13 2005/03/19 04:40:34 bportier Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -26,9 +26,9 @@ public class AllSuites extends TestSuite
   private static Test[] suites = new Test []
   {
   //org.eclipse.emf.test.performance.serialization.AttributeTest.suite(),  
-
-      org.eclipse.emf.test.performance.serialization.DynamicIpo.suite(),
-      org.eclipse.emf.test.performance.serialization.StaticIpo.suite(),
+//
+//      org.eclipse.emf.test.performance.serialization.DynamicIpo.suite(),
+//      org.eclipse.emf.test.performance.serialization.StaticIpo.suite(),
 //  
 //      org.eclipse.emf.test.performance.deserialization.DynamicIpoLoad.suite(),
 //      org.eclipse.emf.test.performance.deserialization.StaticIpoLoad.suite(),
@@ -40,10 +40,10 @@ public class AllSuites extends TestSuite
 //      org.eclipse.emf.test.performance.sdo.deserialization.StaticIPOSDOLoadTest.suite(),
   //
 //  org.eclipse.emf.test.performance.sdo.extendedMetaData.OpenContentTest.suite(),
-  //
-//      org.eclipse.emf.test.performance.sdo.accessor.StaticSequenceTest.suite(),
+  
+      org.eclipse.emf.test.performance.sdo.accessor.StaticSequenceTest.suite(),
 //  
-//      org.eclipse.emf.test.performance.sdo.accessor.StaticBidirectionalTest.suite()
+      org.eclipse.emf.test.performance.sdo.accessor.StaticBidirectionalTest.suite()
   //
 //      org.eclipse.emf.test.performance.sdo.accessor.DynamicIPOSDOAccessorTest.suite(),
 //      org.eclipse.emf.test.performance.sdo.accessor.StaticIPOSDOAccessorTest.suite()
