@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.10 2005/03/03 21:56:31 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.11 2005/03/04 17:16:08 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -80,7 +80,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     TestSuite testSuite = new TestSuite();
 
     testSuite.addTest(new StaticIPOSDOAccessorTest("getFromMap").setWarmUp(500).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("putInMap").setWarmUp(2000).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setInMap").setWarmUp(2000).setRepetitions(REPETITIONS_10));
 
     testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByGenerated").setWarmUp(3000).setRepetitions(REPETITIONS_10));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByGenerated").setWarmUp(1000).setRepetitions(REPETITIONS_10));
@@ -295,10 +295,9 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   /**
    * Tests HashMap (not EMF) access time. 
    */
-  public void putInMap()
+  public void setInMap()
   {
     HashMap hashMap = this.hashMap;
-    Object objectValue = this.objectValue;
     Property itemCommentProp = this.itemCommentProp;
     Property partNumProp = this.partNumProp;
 
@@ -307,16 +306,13 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     startMeasuring();
     for (int i = 0; i < ITERATIONS_50K; i++)
     {
-      // like get
-      if (objectValue != this)
-      {
-        hashMap.put(itemCommentProp, "comment x");
-        // to alternate the feature to set.
-        hashMap.put(partNumProp, "part num x");
-        // to set to a new value each time.
-        hashMap.put(itemCommentProp, "comment y");
-        hashMap.put(partNumProp, "part num y");
-      }
+      hashMap.put(itemCommentProp, "comment x");
+      // to alternate the feature to set.
+      hashMap.put(partNumProp, "part num x");
+      // to set to a new value each time.
+      hashMap.put(itemCommentProp, "comment y");
+      hashMap.put(partNumProp, "part num y");
+
     }
     stopMeasuring();
   }
@@ -343,20 +339,15 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   public void setBigIntegerByGenerated()
   {
     ItemType itemElement = (ItemType)this.itemElement;
-    BigInteger quantityValue = this.quantityValue;
     BigInteger quantity0 = this.quantity0;
     BigInteger quantity1 = this.quantity1;
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_400K; i++)
     {
-      // like get
-      if (quantityValue != quantity0)
-      {
-        itemElement.setQuantity(quantity0);
-        // TODO ideally, we'd want to alternate the feature to set.
-        itemElement.setQuantity(quantity1);
-      }
+      itemElement.setQuantity(quantity0);
+      // TODO ideally, we'd want to alternate the feature to set.
+      itemElement.setQuantity(quantity1);
     }
     stopMeasuring();
   }

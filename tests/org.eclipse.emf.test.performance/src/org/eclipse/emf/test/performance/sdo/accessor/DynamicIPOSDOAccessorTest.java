@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.9 2005/03/03 21:56:31 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.10 2005/03/04 17:16:08 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -60,7 +60,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected static final int REPETITIONS_10 = 10;
 
-  // less iterations for slower tests.
   protected static final int ITERATIONS_300 = 300;
 
   protected static final int ITERATIONS_2_5K = 2500;
@@ -411,23 +410,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigInteger quantity1 = this.quantity1;
     BigDecimal usPrice0 = this.usPrice0;
     BigDecimal usPrice1 = this.usPrice1;
-    Object objectValue = this.objectValue;
     EStructuralFeature quantityFeat = this.quantityFeat;
     EStructuralFeature usPriceFeat = this.usPriceFeat;
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_50K; i++)
     {
-      // like get
-      if (objectValue != this)
-      {
-        itemElement.eSet(quantityFeat, quantity0);
-        // to alternate the feature to set.
-        itemElement.eSet(usPriceFeat, usPrice0);
-        // to set to a new value each time.
-        itemElement.eSet(quantityFeat, quantity1);
-        itemElement.eSet(usPriceFeat, usPrice1);
-      }
+      itemElement.eSet(quantityFeat, quantity0);
+      // to alternate the feature to set.
+      itemElement.eSet(usPriceFeat, usPrice0);
+      // to set to a new value each time.
+      itemElement.eSet(quantityFeat, quantity1);
+      itemElement.eSet(usPriceFeat, usPrice1);
     }
     stopMeasuring();
   }
@@ -459,23 +453,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigInteger quantity1 = this.quantity1;
     BigDecimal usPrice0 = this.usPrice0;
     BigDecimal usPrice1 = this.usPrice1;
-    Object objectValue = this.objectValue;
     Property quantityProp = this.quantityProp;
     Property usPriceProp = this.usPriceProp;
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_50K; i++)
     {
-      //    like get
-      if (objectValue != this)
-      {
-        itemElement.set(quantityProp, quantity0);
-        // to alternate the feature to set.
-        itemElement.set(usPriceProp, usPrice0);
-        // to set to a new value each time.
-        itemElement.set(quantityProp, quantity1);
-        itemElement.set(usPriceProp, usPrice1);
-      }
+      itemElement.set(quantityProp, quantity0);
+      // to alternate the feature to set.
+      itemElement.set(usPriceProp, usPrice0);
+      // to set to a new value each time.
+      itemElement.set(quantityProp, quantity1);
+      itemElement.set(usPriceProp, usPrice1);
     }
     stopMeasuring();
   }
@@ -504,21 +493,16 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigInteger quantity1 = this.quantity1;
     BigDecimal usPrice0 = this.usPrice0;
     BigDecimal usPrice1 = this.usPrice1;
-    Object objectValue = this.objectValue;
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_50K; i++)
     {
-      // like get
-      if (objectValue != this)
-      {
-        itemElement.set(1, quantity0);
-        // to alternate the feature to set.
-        itemElement.set(2, usPrice0);
-        // to set to a new value each time.
-        itemElement.set(1, quantity1);
-        itemElement.set(2, usPrice1);
-      }
+      itemElement.set(1, quantity0);
+      // to alternate the feature to set.
+      itemElement.set(2, usPrice0);
+      // to set to a new value each time.
+      itemElement.set(1, quantity1);
+      itemElement.set(2, usPrice1);
     }
     stopMeasuring();
   }
@@ -548,19 +532,14 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     DataObject itemElement = this.itemElement;
     BigInteger quantity0 = this.quantity0;
     BigInteger quantity1 = this.quantity1;
-    BigInteger quantityValue = this.quantityValue;
     Property quantityProp = this.quantityProp;
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_100K; i++)
     {
-      // like get
-      if (quantityValue != quantity0)
-      {
-        itemElement.setBigInteger(quantityProp, quantity0);
-        // TODO ideally, we'd want to alternate the feature to set.
-        itemElement.setBigInteger(quantityProp, quantity1);
-      }
+      itemElement.setBigInteger(quantityProp, quantity0);
+      // TODO ideally, we'd want to alternate the feature to set.
+      itemElement.setBigInteger(quantityProp, quantity1);
     }
     stopMeasuring();
   }
@@ -587,20 +566,15 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void setBigIntegerByIndex()
   {
     DataObject itemElement = this.itemElement;
-    BigInteger quantityValue = this.quantityValue;
     BigInteger quantity0 = this.quantity0;
     BigInteger quantity1 = this.quantity1;
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_100K; i++)
     {
-      // like get
-      if (quantityValue != quantity0)
-      {
-        itemElement.setBigInteger(1, quantity0);
-        // TODO ideally, we'd want to alternate the feature to set.
-        itemElement.setBigInteger(1, quantity1);
-      }
+      itemElement.setBigInteger(1, quantity0);
+      // TODO ideally, we'd want to alternate the feature to set.
+      itemElement.setBigInteger(1, quantity1);
     }
     stopMeasuring();
   }
@@ -709,23 +683,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     DataObject newShipToAddress1 = this.newShipToAddress1;
     DataObject newBillToAddress0 = this.newBillToAddress0;
     DataObject newBillToAddress1 = this.newBillToAddress1;
-    DataObject shipToValue = this.shipToValue;
     Property shipToProp = this.shipToProp;
     Property billToProp = this.billToProp;
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_5K; i++)
     {
-      // like get
-      if (shipToValue != this)
-      {
-        po.setDataObject(shipToProp, newShipToAddress0);
-        // to alternate the feature to set.
-        po.setDataObject(billToProp, newBillToAddress0);
-        // to set to a new value each time.
-        po.setDataObject(shipToProp, newShipToAddress1);
-        po.setDataObject(billToProp, newBillToAddress1);
-      }
+      po.setDataObject(shipToProp, newShipToAddress0);
+      // to alternate the feature to set.
+      po.setDataObject(billToProp, newBillToAddress0);
+      // to set to a new value each time.
+      po.setDataObject(shipToProp, newShipToAddress1);
+      po.setDataObject(billToProp, newBillToAddress1);
     }
     stopMeasuring();
   }
