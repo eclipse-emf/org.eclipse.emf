@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.2 2004/03/15 16:39:24 emerks Exp $
+ * $Id: XSDParticleImpl.java,v 1.3 2004/03/29 15:34:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1415,7 +1415,7 @@ public class XSDParticleImpl
         {
           StateImpl state = (StateImpl)states.get(i);
           List stateTransitions = state.getTransitions();
-          for (int j = 0; j < stateTransitions.size(); ++j)
+          for (int j = 0, jSize = stateTransitions.size(); j < jSize; ++j)
           {
             Transition transition = (Transition)stateTransitions.get(j);
             if (transition.getParticle() == null)
@@ -1428,12 +1428,13 @@ public class XSDParticleImpl
                   state.setAccepting(true);
                 }
                 List otherStateTransitions = otherState.getTransitions();
-                for (int k = 0; k < otherStateTransitions.size(); ++k)
+                for (int k = 0, kSize = otherStateTransitions.size(); k < kSize; ++k)
                 {
                   Transition t = (Transition)otherStateTransitions.get(k);
-                  if (state.getTransitions().add(t))
+                  if (t.getParticle() != null && stateTransitions.add(t))
                   {
                     closed = false;
+                    ++jSize;
                   }
                 }
               }
