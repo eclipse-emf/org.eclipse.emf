@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.5 2004/05/11 15:40:04 elena Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.6 2004/05/16 17:12:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -504,7 +504,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Integer createIntObjectFromString(EDataType eDataType, String initialValue)
   {
@@ -514,7 +514,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertIntObjectToString(EDataType eDataType, Object instanceValue)
   {
@@ -1118,7 +1118,6 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createIDFromString(EDataType eDataType, String initialValue)
   {
-    // TODO ID is not validated
     return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNCName(), initialValue);
   }
 
@@ -1583,7 +1582,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Short createUnsignedByteObjectFromString(EDataType eDataType, String initialValue)
   {
@@ -1593,7 +1592,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertUnsignedByteObjectToString(EDataType eDataType, Object instanceValue)
   {
@@ -1620,7 +1619,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   {
     return XMLTypePackage.eINSTANCE;
   }
-  
+
   protected Boolean booleanValueOf(String initialValue)
   {
     if ("true".equals(initialValue) || "1".equals(initialValue))
