@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.9 2004/05/28 19:33:33 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.10 2004/05/31 16:55:15 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1377,10 +1377,28 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           {
             labelFeature = feature;
           }
-          else if (featureName.toLowerCase().endsWith("name")) 
+          else if (featureName.equalsIgnoreCase("id")) 
           {
             if (labelFeature == null || !labelFeature.getName().toLowerCase().endsWith("name"))
+            {
               labelFeature = feature;
+            }
+          }
+          else if (featureName.toLowerCase().endsWith("name")) 
+          {
+            if (labelFeature == null || 
+                 !labelFeature.getName().toLowerCase().endsWith("name") && !labelFeature.getName().equalsIgnoreCase("id"))
+            {
+              labelFeature = feature;
+            }
+          }
+          else if (featureName.toLowerCase().indexOf("name") != -1)
+          {
+            if (labelFeature == null || 
+                  labelFeature.getName().toLowerCase().indexOf("name") == -1 && !labelFeature.getName().equalsIgnoreCase("id"))
+            {
+              labelFeature = feature;
+            }
           }
           else if (labelFeature == null) 
           {
