@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.7 2004/05/16 17:24:09 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.8 2004/06/08 12:15:50 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -169,7 +169,7 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
         <%if (j.hasNext()) {%>
 		try
 		{
-			Object result = (<%=genDataType.getObjectInstanceClassName()%>)<%=genMemberType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), initialValue);
+			<%=genDataType.getObjectInstanceClassName()%> result = (<%=genDataType.getObjectInstanceClassName()%>)<%=genMemberType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), initialValue);
 			if (result != null)
 			{
 				return result;
