@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaFactoryImpl.java,v 1.2 2004/04/13 18:58:49 emerks Exp $
+ * $Id: JavaFactoryImpl.java,v 1.3 2004/06/08 18:26:51 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -75,7 +75,11 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
     switch (eDataType.getClassifierID())
     {
       case JavaPackage.JVISIBILITY:
-        return JVisibility.get(initialValue);
+      {
+        JVisibility result = JVisibility.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case JavaPackage.JAVA_PACKAGE:
         return createJavaPackageFromString(eDataType, initialValue);
       default:
@@ -218,4 +222,5 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
   {
     return JavaPackage.eINSTANCE;
   }
+
 } //JavaFactoryImpl

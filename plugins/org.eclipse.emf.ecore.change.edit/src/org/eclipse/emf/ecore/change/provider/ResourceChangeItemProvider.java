@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceChangeItemProvider.java,v 1.3 2004/05/16 17:10:08 emerks Exp $
+ * $Id: ResourceChangeItemProvider.java,v 1.4 2004/06/08 18:30:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -82,6 +82,7 @@ public class ResourceChangeItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ResourceChange_resourceURI_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ResourceChange_resourceURI_feature", "_UI_ResourceChange_type"),
          ChangePackage.eINSTANCE.getResourceChange_ResourceURI(),
@@ -100,6 +101,7 @@ public class ResourceChangeItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ResourceChange_resource_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ResourceChange_resource_feature", "_UI_ResourceChange_type"),
          ChangePackage.eINSTANCE.getResourceChange_Resource(),
@@ -118,6 +120,7 @@ public class ResourceChangeItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ResourceChange_value_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ResourceChange_value_feature", "_UI_ResourceChange_type"),
          ChangePackage.eINSTANCE.getResourceChange_Value(),

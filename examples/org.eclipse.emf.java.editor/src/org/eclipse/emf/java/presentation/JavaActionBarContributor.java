@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaActionBarContributor.java,v 1.2 2004/04/13 18:58:42 emerks Exp $
+ * $Id: JavaActionBarContributor.java,v 1.3 2004/06/08 18:23:49 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -32,6 +32,9 @@ import org.eclipse.ui.PartInitException;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+
+import org.eclipse.emf.edit.ui.action.LoadResourceAction;
+import org.eclipse.emf.edit.ui.action.ValidateAction;
 
 //import java.util.Collection;
 //import java.util.Iterator;
@@ -73,7 +76,7 @@ public class JavaActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected IAction showPropertiesViewAction = 
+  protected IAction showPropertiesViewAction =
     new Action(JavaEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))
     {
       public void run()
@@ -82,7 +85,7 @@ public class JavaActionBarContributor
         {
           getPage().showView("org.eclipse.ui.views.PropertySheet");
         }
-        catch(PartInitException exception)
+        catch (PartInitException exception)
         {
           JavaEditorPlugin.INSTANCE.log(exception);
         }
@@ -91,19 +94,19 @@ public class JavaActionBarContributor
 
   /**
    * This action refreshes the viewer of the current editor if the editor
-   * implements {@link IViewerProvider}.
+   * implements {@link org.eclipse.emf.common.ui.viewer.IViewerProvider}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected IAction refreshViewerAction = 
+  protected IAction refreshViewerAction =
     new Action(JavaEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item"))
     {
       public boolean isEnabled()
       {
         return activeEditorPart instanceof IViewerProvider;
       }
-      
+
       public void run()
       {
         if (activeEditorPart instanceof IViewerProvider)
@@ -125,6 +128,8 @@ public class JavaActionBarContributor
    */
   public JavaActionBarContributor()
   {
+    loadResourceAction = new LoadResourceAction();
+    validateAction = new ValidateAction();
   }
 
   /**
@@ -159,12 +164,12 @@ public class JavaActionBarContributor
 
     // Add your contributions.
     // Ensure that you remove @generated or mark it @generated NOT
+
+    addGlobalActions(submenuManager);
   }
 
   /**
-   * When the active editor changes,
-   * this remembers the change,
-   * and registers with it as a selection provider.
+   * When the active editor changes, this remembers the change and registers with it as a selection provider.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -199,8 +204,8 @@ public class JavaActionBarContributor
   }
 
   /**
-   * This implements {@link ISelectionChangedListener},
-   * handling {@link SelectionChangedEvents} by querying for the children and siblings
+   * This implements {@link org.eclipse.jface.viewers.ISelectionChangedListener},
+   * handling {@link org.eclipse.jface.viewers.SelectionChangedEvents} by querying for the children and siblings
    * that can be added to the selected object and updating the menus accordingly.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -210,6 +215,34 @@ public class JavaActionBarContributor
   {
     // Add your contributions.
     // Ensure that you remove @generated or mark it @generated NOT
+  }
+
+  /**
+   * This populates the pop-up menu before it appears.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void menuAboutToShow(IMenuManager menuManager)
+  {
+    super.menuAboutToShow(menuManager);
+  }
+
+  /**
+   * This inserts global actions before the "additions-end" separator.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addGlobalActions(IMenuManager menuManager)
+  {
+    menuManager.insertAfter("additions-end", new Separator("ui-actions"));
+    menuManager.insertAfter("ui-actions", showPropertiesViewAction);
+
+    refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());		
+    menuManager.insertAfter("ui-actions", refreshViewerAction);
+
+    super.addGlobalActions(menuManager);
   }
 
 }

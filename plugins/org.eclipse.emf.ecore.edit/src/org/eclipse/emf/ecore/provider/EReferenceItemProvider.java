@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.3 2004/05/16 17:09:32 emerks Exp $
+ * $Id: EReferenceItemProvider.java,v 1.4 2004/06/08 18:29:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -90,6 +90,7 @@ public class EReferenceItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EReference_containment_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_containment_feature", "_UI_EReference_type"),
          EcorePackage.eINSTANCE.getEReference_Containment(),
@@ -108,6 +109,7 @@ public class EReferenceItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EReference_container_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_container_feature", "_UI_EReference_type"),
          EcorePackage.eINSTANCE.getEReference_Container(),
@@ -126,6 +128,7 @@ public class EReferenceItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EReference_resolveProxies_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_resolveProxies_feature", "_UI_EReference_type"),
          EcorePackage.eINSTANCE.getEReference_ResolveProxies(),
@@ -144,6 +147,7 @@ public class EReferenceItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EReference_eOpposite_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_eOpposite_feature", "_UI_EReference_type"),
          EcorePackage.eINSTANCE.getEReference_EOpposite(),
@@ -161,6 +165,7 @@ public class EReferenceItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EReference_eReferenceType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_eReferenceType_feature", "_UI_EReference_type"),
          EcorePackage.eINSTANCE.getEReference_EReferenceType(),

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryItemProvider.java,v 1.3 2004/05/16 17:10:08 emerks Exp $
+ * $Id: EObjectToChangesMapEntryItemProvider.java,v 1.4 2004/06/08 18:30:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -94,6 +94,7 @@ public class EObjectToChangesMapEntryItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EObjectToChangesMapEntry_key_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EObjectToChangesMapEntry_key_feature", "_UI_EObjectToChangesMapEntry_type"),
          ChangePackage.eINSTANCE.getEObjectToChangesMapEntry_Key(),

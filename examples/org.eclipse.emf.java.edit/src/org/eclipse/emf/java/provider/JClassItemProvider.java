@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassItemProvider.java,v 1.2 2004/04/13 18:58:37 emerks Exp $
+ * $Id: JClassItemProvider.java,v 1.3 2004/06/08 18:25:28 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -101,6 +101,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_abstract_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_abstract_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Abstract(),
@@ -119,6 +120,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_final_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_final_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Final(),
@@ -137,6 +139,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_interface_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_interface_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Interface(),
@@ -155,6 +158,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_throwable_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_throwable_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Throwable(),
@@ -173,6 +177,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_javaClass_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_javaClass_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_JavaClass(),
@@ -191,6 +196,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_fields_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_fields_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Fields(),
@@ -208,6 +214,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_methods_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_methods_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Methods(),
@@ -225,6 +232,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_superTypes_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_superTypes_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_SuperTypes(),
@@ -242,6 +250,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_allSuperTypes_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_allSuperTypes_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_AllSuperTypes(),
@@ -259,6 +268,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_members_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_members_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Members(),
@@ -276,6 +286,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_componentType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_componentType_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_ComponentType(),
@@ -293,6 +304,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_unit_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_unit_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Unit(),
@@ -310,6 +322,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_allMethods_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_allMethods_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_AllMethods(),
@@ -327,6 +340,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_allFields_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_allFields_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_AllFields(),
@@ -344,6 +358,7 @@ public class JClassItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JClass_package_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_package_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Package(),
@@ -381,7 +396,6 @@ public class JClassItemProvider
 
     return super.getChildFeature(object, child);
   }
-
 
   /**
    * This returns JClass.gif.
@@ -493,4 +507,5 @@ public class JClassItemProvider
   {
     return JavaEditPlugin.INSTANCE;
   }
+
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionItemProvider.java,v 1.3 2004/05/16 17:10:08 emerks Exp $
+ * $Id: ChangeDescriptionItemProvider.java,v 1.4 2004/06/08 18:30:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -92,6 +92,7 @@ public class ChangeDescriptionItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ChangeDescription_objectsToDetach_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ChangeDescription_objectsToDetach_feature", "_UI_ChangeDescription_type"),
          ChangePackage.eINSTANCE.getChangeDescription_ObjectsToDetach(),

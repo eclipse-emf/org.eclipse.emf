@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.6 2004/05/16 17:09:32 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.7 2004/06/08 18:29:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -97,6 +97,7 @@ public class ETypedElementItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ETypedElement_ordered_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_ordered_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_Ordered(),
@@ -115,6 +116,7 @@ public class ETypedElementItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ETypedElement_unique_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_unique_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_Unique(),
@@ -133,6 +135,7 @@ public class ETypedElementItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ETypedElement_lowerBound_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_lowerBound_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_LowerBound(),
@@ -151,6 +154,7 @@ public class ETypedElementItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ETypedElement_upperBound_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_upperBound_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_UpperBound(),
@@ -169,6 +173,7 @@ public class ETypedElementItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ETypedElement_many_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_many_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_Many(),
@@ -187,6 +192,7 @@ public class ETypedElementItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ETypedElement_required_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_required_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_Required(),

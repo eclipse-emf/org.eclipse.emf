@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodItemProvider.java,v 1.1 2004/04/13 02:50:25 marcelop Exp $
+ * $Id: JMethodItemProvider.java,v 1.2 2004/06/08 18:25:28 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -97,6 +97,7 @@ public class JMethodItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMethod_abstract_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_abstract_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Abstract(),
@@ -115,6 +116,7 @@ public class JMethodItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMethod_final_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_final_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Final(),
@@ -133,6 +135,7 @@ public class JMethodItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMethod_native_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_native_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Native(),
@@ -151,6 +154,7 @@ public class JMethodItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMethod_synchronized_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_synchronized_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Synchronized(),
@@ -169,6 +173,7 @@ public class JMethodItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMethod_javaMethod_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_javaMethod_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_JavaMethod(),
@@ -187,6 +192,7 @@ public class JMethodItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMethod_constructor_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_constructor_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Constructor(),
@@ -205,6 +211,7 @@ public class JMethodItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMethod_javaConstructor_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_javaConstructor_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_JavaConstructor(),
@@ -223,6 +230,7 @@ public class JMethodItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMethod_body_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_body_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Body(),
@@ -241,6 +249,7 @@ public class JMethodItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMethod_parameters_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_parameters_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Parameters(),
@@ -258,6 +267,7 @@ public class JMethodItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMethod_exceptions_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_exceptions_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Exceptions(),
@@ -275,6 +285,7 @@ public class JMethodItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMethod_returnType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_returnType_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_ReturnType(),
@@ -298,7 +309,6 @@ public class JMethodItemProvider
     }
     return childrenFeatures;
   }
-
 
   /**
    * This returns JMethod.gif.
@@ -389,4 +399,5 @@ public class JMethodItemProvider
   {
     return JavaEditPlugin.INSTANCE;
   }
+
 }

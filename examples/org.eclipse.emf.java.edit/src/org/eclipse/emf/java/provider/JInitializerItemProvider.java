@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JInitializerItemProvider.java,v 1.1 2004/04/13 02:50:25 marcelop Exp $
+ * $Id: JInitializerItemProvider.java,v 1.2 2004/06/08 18:25:28 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -84,13 +84,13 @@ public class JInitializerItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JInitializer_body_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JInitializer_body_feature", "_UI_JInitializer_type"),
          JavaPackage.eINSTANCE.getJInitializer_Body(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
   }
-
 
   /**
    * This returns JInitializer.gif.
@@ -142,4 +142,5 @@ public class JInitializerItemProvider
   {
     return JavaEditPlugin.INSTANCE;
   }
+
 }

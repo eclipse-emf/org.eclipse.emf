@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditPlugin.java,v 1.3 2004/05/16 17:19:19 emerks Exp $
+ * $Id: GenModelEditPlugin.java,v 1.4 2004/06/08 18:31:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -95,7 +95,6 @@ public final class GenModelEditPlugin extends EMFPlugin
      * Creates an instance.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param descriptor the description of the plugin.
      * @generated
      */
     public Implementation()

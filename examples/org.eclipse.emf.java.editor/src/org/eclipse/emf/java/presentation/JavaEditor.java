@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.2 2004/04/13 18:58:42 emerks Exp $
+ * $Id: JavaEditor.java,v 1.3 2004/06/08 18:23:14 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -91,6 +91,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.ide.IGotoMarker;
+
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
@@ -111,6 +113,8 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EValidator;
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -130,6 +134,8 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.java.JCompilationUnit;
 import org.eclipse.emf.java.provider.JavaItemProviderAdapterFactory;
+import java.util.HashMap;
+
 import org.eclipse.emf.java.util.JavaPackageResourceImpl;
 import org.eclipse.emf.java.util.JavaUtil;
 
@@ -145,7 +151,7 @@ import org.eclipse.emf.java.util.JavaUtil;
  */
 public class JavaEditor 
   extends MultiPageEditorPart
-  implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider
+  implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker
 {
   /**
    * This keeps track of the editing domain that is used to track all changes to the model.
@@ -372,7 +378,7 @@ public class JavaEditor
           {
             class ResourceDeltaVisitor implements IResourceDeltaVisitor
             {
-              protected ResourceSet resourceSet =	editingDomain.getResourceSet();
+              protected ResourceSet resourceSet = editingDomain.getResourceSet();
               protected Collection changedResources = new ArrayList();
               protected Collection removedResources = new ArrayList();
 
@@ -421,11 +427,11 @@ public class JavaEditor
               getSite().getShell().getDisplay().asyncExec
                 (new Runnable()
                  {
-                 	public void run()
-                 	{
+                  public void run()
+                  {
                     getSite().getPage().closeEditor(JavaEditor.this, false);
                     JavaEditor.this.dispose();
-                 	}
+                  }
                  });
             }
 
@@ -446,6 +452,17 @@ public class JavaEditor
    */
   protected void handleActivate()
   {
+    // Recompute the read only state.
+    //
+    if (editingDomain.getResourceToReadOnlyMap() != null)
+    {
+      editingDomain.getResourceToReadOnlyMap().clear();
+
+      // Refresh any actions that may become enabled or disabled.
+      //
+      setSelection(getSelection());
+    }
+
     if (!removedResources.isEmpty())
     {
       if (handleDirtyConflict())
@@ -567,7 +584,7 @@ public class JavaEditor
 
     // Create the editing domain with a special command stack.
     //
-    editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
+    editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap());
   }
 
   /**
@@ -618,7 +635,7 @@ public class JavaEditor
 
   /**
    * This returns the editing domain as required by the {@link IEditingDomainProvider} interface.
-   * This is important for implementing the static methods of {@link AdapterFactoryEditingDomain}	
+   * This is important for implementing the static methods of {@link AdapterFactoryEditingDomain}
    * and for supporting {@link org.eclipse.emf.edit.ui.action.CommandAction}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -735,7 +752,7 @@ public class JavaEditor
       setSelection(currentViewer == null ? StructuredSelection.EMPTY : currentViewer.getSelection());
     }
   }
-  
+
   /**
    * This returns the viewer as required by the {@link IViewerProvider} interface.
    * <!-- begin-user-doc -->
@@ -767,6 +784,32 @@ public class JavaEditor
     Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
     viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
     viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
+  }
+
+  /**
+   * This is the method called to load a resource into the editing domain's resource set based on the editor's input.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void createModel()
+  {
+    // I assume that the input is a file object.
+    //
+    IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
+
+    try
+    {
+      // Load the resource through the editing domain.
+      //
+      Resource resource = 
+        editingDomain.loadResource
+          (URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
+    }
+    catch (Exception exception)
+    {
+      JavaEditorPlugin.INSTANCE.log(exception);
+    }
   }
 
   /**
@@ -1151,7 +1194,7 @@ public class JavaEditor
       control.setVisible(true);
       control.setFocus();
     }
-    
+
     handleContentOutlineSelection(contentOutlinePage.getSelection());
   }
 
@@ -1170,6 +1213,10 @@ public class JavaEditor
     else if (key.equals(IPropertySheetPage.class))
     {
       return getPropertySheetPage();
+    }
+    else if (key.equals(IGotoMarker.class))
+    {
+      return this;
     }
     else
     {
@@ -1351,7 +1398,7 @@ public class JavaEditor
       {
         // This is the method that gets invoked when the operation runs.
         //
-        protected void execute(IProgressMonitor monitor) throws CoreException
+        public void execute(IProgressMonitor monitor)
         {
           try
           {
@@ -1419,7 +1466,7 @@ public class JavaEditor
           (URI.createPlatformResourceURI(file.getFullPath().toString()));
         IFileEditorInput modelFile = new FileEditorInput(file);
         setInput(modelFile);
-        setTitle(file.getName());
+        setPartName(file.getName());
         doSave(getActionBars().getStatusLineManager().getProgressMonitor());
       }
     }
@@ -1432,6 +1479,26 @@ public class JavaEditor
    */
   public void gotoMarker(IMarker marker)
   {
+    try
+    {
+      if (marker.getType().equals(EValidator.MARKER))
+      {
+        String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
+        if (uriAttribute != null)
+        {
+          URI uri = URI.createURI(uriAttribute);
+          EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
+          if (eObject != null)
+          {
+            setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
+          }
+        }
+      }
+    }
+    catch (CoreException exception)
+    {
+      JavaEditorPlugin.INSTANCE.log(exception);
+    }
   }
 
   /**
@@ -1442,19 +1509,12 @@ public class JavaEditor
    */
   public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException, PartInitException, PartInitException, PartInitException, PartInitException
   {
-    if (editorInput instanceof IFileEditorInput)
-    {
-      setSite(site);
-      setInput(editorInput);
-      setTitle(((IFileEditorInput)editorInput).getFile().getName());	
-      site.setSelectionProvider(this);
-      site.getPage().addPartListener(partListener);
-      ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
-    }
-    else
-    {
-      throw new PartInitException("Invalid Input: Must be IFileEditorInput.");
-    }
+    setSite(site);
+    setInput(editorInput);
+    setPartName(editorInput.getName());
+    site.setSelectionProvider(this);
+    site.getPage().addPartListener(partListener);
+    ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
   }
 
   /**
@@ -1636,7 +1696,10 @@ public class JavaEditor
 
     adapterFactory.dispose();
 
-    getActionBarContributor().setActiveEditor(null);
+    if (getActionBarContributor().getActiveEditor() == this)
+    {
+      getActionBarContributor().setActiveEditor(null);
+    }
 
     if (propertySheetPage != null)
     {

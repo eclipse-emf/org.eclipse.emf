@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryItemProvider.java,v 1.3 2004/05/16 17:09:32 emerks Exp $
+ * $Id: EFactoryItemProvider.java,v 1.4 2004/06/08 18:29:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -86,6 +86,7 @@ public class EFactoryItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EFactory_ePackage_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EFactory_ePackage_feature", "_UI_EFactory_type"),
          EcorePackage.eINSTANCE.getEFactory_EPackage(),

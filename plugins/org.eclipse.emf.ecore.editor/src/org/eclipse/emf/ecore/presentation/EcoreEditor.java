@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.8 2004/05/16 17:08:18 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.9 2004/06/08 18:29:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -104,6 +104,8 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
+import java.util.HashMap;
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -460,6 +462,17 @@ public class EcoreEditor
    */
   protected void handleActivate()
   {
+    // Recompute the read only state.
+    //
+    if (editingDomain.getResourceToReadOnlyMap() != null)
+    {
+      editingDomain.getResourceToReadOnlyMap().clear();
+
+      // Refresh any actions that may become enabled or disabled.
+      //
+      setSelection(getSelection());
+    }
+
     if (!removedResources.isEmpty())
     {
       if (handleDirtyConflict())
@@ -581,7 +594,7 @@ public class EcoreEditor
 
     // Create the editing domain with a special command stack.
     //
-    editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
+    editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap());
   }
 
   /**
@@ -1237,7 +1250,7 @@ public class EcoreEditor
           EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
           if (eObject != null)
           {
-            setSelectionToViewer(Collections.singleton(eObject));
+            setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
           }
         }
       }

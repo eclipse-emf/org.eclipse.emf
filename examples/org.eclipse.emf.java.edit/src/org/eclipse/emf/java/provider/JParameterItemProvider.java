@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JParameterItemProvider.java,v 1.1 2004/04/13 02:50:25 marcelop Exp $
+ * $Id: JParameterItemProvider.java,v 1.2 2004/06/08 18:25:28 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -86,6 +86,7 @@ public class JParameterItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JParameter_final_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JParameter_final_feature", "_UI_JParameter_type"),
          JavaPackage.eINSTANCE.getJParameter_Final(),
@@ -104,6 +105,7 @@ public class JParameterItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JParameter_method_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JParameter_method_feature", "_UI_JParameter_type"),
          JavaPackage.eINSTANCE.getJParameter_Method(),
@@ -121,12 +123,12 @@ public class JParameterItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JParameter_type_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JParameter_type_feature", "_UI_JParameter_type"),
          JavaPackage.eINSTANCE.getJParameter_Type(),
          true));
   }
-
 
   /**
    * This returns JParameter.gif.
@@ -182,4 +184,5 @@ public class JParameterItemProvider
   {
     return JavaEditPlugin.INSTANCE;
   }
+
 }

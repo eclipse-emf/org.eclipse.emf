@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMemberItemProvider.java,v 1.1 2004/04/13 02:50:25 marcelop Exp $
+ * $Id: JMemberItemProvider.java,v 1.2 2004/06/08 18:25:28 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -87,6 +87,7 @@ public class JMemberItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMember_static_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_static_feature", "_UI_JMember_type"),
          JavaPackage.eINSTANCE.getJMember_Static(),
@@ -105,6 +106,7 @@ public class JMemberItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMember_visibility_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_visibility_feature", "_UI_JMember_type"),
          JavaPackage.eINSTANCE.getJMember_Visibility(),
@@ -123,6 +125,7 @@ public class JMemberItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMember_comment_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_comment_feature", "_UI_JMember_type"),
          JavaPackage.eINSTANCE.getJMember_Comment(),
@@ -141,12 +144,12 @@ public class JMemberItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JMember_containingType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_containingType_feature", "_UI_JMember_type"),
          JavaPackage.eINSTANCE.getJMember_ContainingType(),
          true));
   }
-
 
   /**
    * This returns the label text for the adapted class.
@@ -194,4 +197,5 @@ public class JMemberItemProvider
   {
     return JavaEditPlugin.INSTANCE;
   }
+
 }

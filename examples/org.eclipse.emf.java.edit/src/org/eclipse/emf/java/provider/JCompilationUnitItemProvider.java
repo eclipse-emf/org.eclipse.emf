@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitItemProvider.java,v 1.2 2004/04/13 18:58:37 emerks Exp $
+ * $Id: JCompilationUnitItemProvider.java,v 1.3 2004/06/08 18:25:28 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -90,6 +90,7 @@ public class JCompilationUnitItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JCompilationUnit_imports_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_imports_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.eINSTANCE.getJCompilationUnit_Imports(),
@@ -108,6 +109,7 @@ public class JCompilationUnitItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JCompilationUnit_package_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_package_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.eINSTANCE.getJCompilationUnit_Package(),
@@ -132,7 +134,6 @@ public class JCompilationUnitItemProvider
     return childrenFeatures;
   }
 
-
   /**
    * This adds a property descriptor for the Comment feature.
    * <!-- begin-user-doc -->
@@ -144,6 +145,7 @@ public class JCompilationUnitItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JCompilationUnit_comment_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_comment_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.eINSTANCE.getJCompilationUnit_Comment(),
@@ -162,6 +164,7 @@ public class JCompilationUnitItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JCompilationUnit_types_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_types_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.eINSTANCE.getJCompilationUnit_Types(),
@@ -179,6 +182,7 @@ public class JCompilationUnitItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JCompilationUnit_importedPackages_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_importedPackages_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.eINSTANCE.getJCompilationUnit_ImportedPackages(),
@@ -196,6 +200,7 @@ public class JCompilationUnitItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JCompilationUnit_importedTypes_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_importedTypes_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.eINSTANCE.getJCompilationUnit_ImportedTypes(),
@@ -258,4 +263,5 @@ public class JCompilationUnitItemProvider
   {
     return JavaEditPlugin.INSTANCE;
   }
+
 }

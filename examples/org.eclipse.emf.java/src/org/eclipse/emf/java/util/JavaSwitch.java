@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: JavaSwitch.java,v 1.2 2004/04/13 18:58:49 emerks Exp $
+ * $Id: JavaSwitch.java,v 1.3 2004/06/08 18:26:51 emerks Exp $
  */
 package org.eclipse.emf.java.util;
 
+
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -67,75 +69,105 @@ public class JavaSwitch {
    */
   public Object doSwitch(EObject theEObject)
   {
-    EClass theEClass = theEObject.eClass();
+    return doSwitch(theEObject.eClass(), theEObject);
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  {
     if (theEClass.eContainer() == modelPackage)
     {
-      switch (theEClass.getClassifierID())
-      {
-        case JavaPackage.JCLASS:
-        {
-          JClass jClass = (JClass)theEObject;
-          Object result = caseJClass(jClass);
-          if (result == null) result = caseJMember(jClass);
-          if (result == null) result = caseJModelElement(jClass);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case JavaPackage.JCOMPILATION_UNIT:
-        {
-          JCompilationUnit jCompilationUnit = (JCompilationUnit)theEObject;
-          Object result = caseJCompilationUnit(jCompilationUnit);
-          if (result == null) result = caseJModelElement(jCompilationUnit);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case JavaPackage.JFIELD:
-        {
-          JField jField = (JField)theEObject;
-          Object result = caseJField(jField);
-          if (result == null) result = caseJMember(jField);
-          if (result == null) result = caseJModelElement(jField);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case JavaPackage.JINITIALIZER:
-        {
-          JInitializer jInitializer = (JInitializer)theEObject;
-          Object result = caseJInitializer(jInitializer);
-          if (result == null) result = caseJMember(jInitializer);
-          if (result == null) result = caseJModelElement(jInitializer);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case JavaPackage.JMETHOD:
-        {
-          JMethod jMethod = (JMethod)theEObject;
-          Object result = caseJMethod(jMethod);
-          if (result == null) result = caseJMember(jMethod);
-          if (result == null) result = caseJModelElement(jMethod);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case JavaPackage.JPACKAGE:
-        {
-          JPackage jPackage = (JPackage)theEObject;
-          Object result = caseJPackage(jPackage);
-          if (result == null) result = caseJModelElement(jPackage);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case JavaPackage.JPARAMETER:
-        {
-          JParameter jParameter = (JParameter)theEObject;
-          Object result = caseJParameter(jParameter);
-          if (result == null) result = caseJModelElement(jParameter);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        default: return defaultCase(theEObject);
-      }
+      return doSwitch(theEClass.getClassifierID(), theEObject);
     }
-    return defaultCase(theEObject);
+    else
+    {
+      List eSuperTypes = theEClass.getESuperTypes();
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+    }
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected Object doSwitch(int classifierID, EObject theEObject)
+  {
+    switch (classifierID)
+    {
+      case JavaPackage.JCLASS:
+      {
+        JClass jClass = (JClass)theEObject;
+        Object result = caseJClass(jClass);
+        if (result == null) result = caseJMember(jClass);
+        if (result == null) result = caseJModelElement(jClass);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case JavaPackage.JCOMPILATION_UNIT:
+      {
+        JCompilationUnit jCompilationUnit = (JCompilationUnit)theEObject;
+        Object result = caseJCompilationUnit(jCompilationUnit);
+        if (result == null) result = caseJModelElement(jCompilationUnit);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case JavaPackage.JFIELD:
+      {
+        JField jField = (JField)theEObject;
+        Object result = caseJField(jField);
+        if (result == null) result = caseJMember(jField);
+        if (result == null) result = caseJModelElement(jField);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case JavaPackage.JINITIALIZER:
+      {
+        JInitializer jInitializer = (JInitializer)theEObject;
+        Object result = caseJInitializer(jInitializer);
+        if (result == null) result = caseJMember(jInitializer);
+        if (result == null) result = caseJModelElement(jInitializer);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case JavaPackage.JMETHOD:
+      {
+        JMethod jMethod = (JMethod)theEObject;
+        Object result = caseJMethod(jMethod);
+        if (result == null) result = caseJMember(jMethod);
+        if (result == null) result = caseJModelElement(jMethod);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case JavaPackage.JPACKAGE:
+      {
+        JPackage jPackage = (JPackage)theEObject;
+        Object result = caseJPackage(jPackage);
+        if (result == null) result = caseJModelElement(jPackage);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case JavaPackage.JPARAMETER:
+      {
+        JParameter jParameter = (JParameter)theEObject;
+        Object result = caseJParameter(jParameter);
+        if (result == null) result = caseJModelElement(jParameter);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      default: return defaultCase(theEObject);
+    }
   }
 
   /**

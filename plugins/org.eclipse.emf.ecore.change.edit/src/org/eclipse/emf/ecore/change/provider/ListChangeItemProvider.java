@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeItemProvider.java,v 1.3 2004/05/16 17:10:08 emerks Exp $
+ * $Id: ListChangeItemProvider.java,v 1.4 2004/06/08 18:30:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -93,6 +93,7 @@ public class ListChangeItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ListChange_kind_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_kind_feature", "_UI_ListChange_type"),
          ChangePackage.eINSTANCE.getListChange_Kind(),
@@ -111,6 +112,7 @@ public class ListChangeItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ListChange_index_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_index_feature", "_UI_ListChange_type"),
          ChangePackage.eINSTANCE.getListChange_Index(),
@@ -129,6 +131,7 @@ public class ListChangeItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ListChange_moveToIndex_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_moveToIndex_feature", "_UI_ListChange_type"),
          ChangePackage.eINSTANCE.getListChange_MoveToIndex(),
@@ -147,6 +150,7 @@ public class ListChangeItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ListChange_values_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_values_feature", "_UI_ListChange_type"),
          ChangePackage.eINSTANCE.getListChange_Values(),

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageItemProvider.java,v 1.3 2004/05/16 17:09:32 emerks Exp $
+ * $Id: EPackageItemProvider.java,v 1.4 2004/06/08 18:29:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -90,6 +90,7 @@ public class EPackageItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EPackage_nsURI_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EPackage_nsURI_feature", "_UI_EPackage_type"),
          EcorePackage.eINSTANCE.getEPackage_NsURI(),
@@ -108,6 +109,7 @@ public class EPackageItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EPackage_nsPrefix_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EPackage_nsPrefix_feature", "_UI_EPackage_type"),
          EcorePackage.eINSTANCE.getEPackage_NsPrefix(),
@@ -126,6 +128,7 @@ public class EPackageItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EPackage_eFactoryInstance_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EPackage_eFactoryInstance_feature", "_UI_EPackage_type"),
          EcorePackage.eINSTANCE.getEPackage_EFactoryInstance(),

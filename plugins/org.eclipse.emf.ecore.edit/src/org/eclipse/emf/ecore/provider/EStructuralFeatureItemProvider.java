@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureItemProvider.java,v 1.3 2004/05/16 17:09:32 emerks Exp $
+ * $Id: EStructuralFeatureItemProvider.java,v 1.4 2004/06/08 18:29:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -95,6 +95,7 @@ public class EStructuralFeatureItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EStructuralFeature_changeable_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_changeable_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_Changeable(),
@@ -113,6 +114,7 @@ public class EStructuralFeatureItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EStructuralFeature_volatile_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_volatile_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_Volatile(),
@@ -131,6 +133,7 @@ public class EStructuralFeatureItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EStructuralFeature_transient_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_transient_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_Transient(),
@@ -149,6 +152,7 @@ public class EStructuralFeatureItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EStructuralFeature_defaultValueLiteral_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_defaultValueLiteral_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_DefaultValueLiteral(),
@@ -167,6 +171,7 @@ public class EStructuralFeatureItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EStructuralFeature_defaultValue_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_defaultValue_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_DefaultValue(),
@@ -185,6 +190,7 @@ public class EStructuralFeatureItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EStructuralFeature_unsettable_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_unsettable_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_Unsettable(),
@@ -203,6 +209,7 @@ public class EStructuralFeatureItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EStructuralFeature_derived_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_derived_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_Derived(),
@@ -221,6 +228,7 @@ public class EStructuralFeatureItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_EStructuralFeature_eContainingClass_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_eContainingClass_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_EContainingClass(),

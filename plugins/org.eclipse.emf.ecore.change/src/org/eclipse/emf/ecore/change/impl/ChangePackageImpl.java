@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.2 2004/05/16 17:10:58 emerks Exp $
+ * $Id: ChangePackageImpl.java,v 1.3 2004/06/08 18:30:18 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -140,20 +140,18 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
   {
     if (isInited) return (ChangePackage)EPackage.Registry.INSTANCE.get(ChangePackage.eNS_URI);
 
-    // Obtain or create and register package.
-    ChangePackageImpl theChangePackage = (ChangePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ChangePackageImpl());
+    // Obtain or create and register package
+    ChangePackageImpl theChangePackage = (ChangePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ChangePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ChangePackageImpl());
 
     isInited = true;
 
     // Initialize simple dependencies
     EcorePackageImpl.init();
 
-    // Obtain or create and register interdependencies
-
-    // Step 1: create meta-model objects
+    // Create package meta-data objects
     theChangePackage.createPackageContents();
 
-    // Step 2: complete initialization
+    // Initialize created meta-data
     theChangePackage.initializePackageContents();
 
     return theChangePackage;
@@ -557,7 +555,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
-    initEClass(changeDescriptionEClass, ChangeDescription.class, "ChangeDescription", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(changeDescriptionEClass, ChangeDescription.class, "ChangeDescription", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getChangeDescription_ObjectChanges(), this.getEObjectToChangesMapEntry(), null, "objectChanges", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getChangeDescription_ObjectsToDetach(), theEcorePackage.getEObject(), null, "objectsToDetach", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getChangeDescription_ObjectsToAttach(), theEcorePackage.getEObject(), null, "objectsToAttach", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -567,11 +565,11 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
 
     addEOperation(changeDescriptionEClass, null, "applyAndReverse");
 
-    initEClass(eObjectToChangesMapEntryEClass, Map.Entry.class, "EObjectToChangesMapEntry", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(eObjectToChangesMapEntryEClass, Map.Entry.class, "EObjectToChangesMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
     initEReference(getEObjectToChangesMapEntry_Key(), theEcorePackage.getEObject(), null, "key", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEObjectToChangesMapEntry_Value(), this.getFeatureChange(), null, "value", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(featureChangeEClass, FeatureChange.class, "FeatureChange", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(featureChangeEClass, FeatureChange.class, "FeatureChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getFeatureChange_FeatureName(), ecorePackage.getEString(), "featureName", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getFeatureChange_DataValue(), ecorePackage.getEString(), "dataValue", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getFeatureChange_Set(), ecorePackage.getEBoolean(), "set", "true", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -586,7 +584,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     op = addEOperation(featureChangeEClass, null, "applyAndReverse");
     addEParameter(op, theEcorePackage.getEObject(), "originalObject");
 
-    initEClass(listChangeEClass, ListChange.class, "ListChange", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(listChangeEClass, ListChange.class, "ListChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getListChange_Kind(), this.getChangeKind(), "kind", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getListChange_DataValues(), ecorePackage.getEString(), "dataValues", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getListChange_Index(), ecorePackage.getEInt(), "index", "-1", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -601,7 +599,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     op = addEOperation(listChangeEClass, null, "applyAndReverse");
     addEParameter(op, theEcorePackage.getEEList(), "originalList");
 
-    initEClass(resourceChangeEClass, ResourceChange.class, "ResourceChange", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(resourceChangeEClass, ResourceChange.class, "ResourceChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getResourceChange_ResourceURI(), ecorePackage.getEString(), "resourceURI", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getResourceChange_Resource(), theEcorePackage.getEResource(), "resource", null, 0, 1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getResourceChange_Value(), theEcorePackage.getEEList(), "value", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackageImpl.java,v 1.2 2004/05/16 17:13:02 emerks Exp $
+ * $Id: XMLNamespacePackageImpl.java,v 1.3 2004/06/08 18:31:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -114,20 +114,18 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
   {
     if (isInited) return (XMLNamespacePackage)EPackage.Registry.INSTANCE.get(XMLNamespacePackage.eNS_URI);
 
-    // Obtain or create and register package.
-    XMLNamespacePackageImpl theXMLNamespacePackage = (XMLNamespacePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XMLNamespacePackageImpl());
+    // Obtain or create and register package
+    XMLNamespacePackageImpl theXMLNamespacePackage = (XMLNamespacePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XMLNamespacePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XMLNamespacePackageImpl());
 
     isInited = true;
 
     // Initialize simple dependencies
     XMLTypePackageImpl.init();
 
-    // Obtain or create and register interdependencies
-
-    // Step 1: create meta-model objects
+    // Create package meta-data objects
     theXMLNamespacePackage.createPackageContents();
 
-    // Step 2: complete initialization
+    // Initialize created meta-data
     theXMLNamespacePackage.initializePackageContents();
 
     return theXMLNamespacePackage;
@@ -298,7 +296,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
-    initEClass(xmlNamespaceDocumentRootEClass, XMLNamespaceDocumentRoot.class, "XMLNamespaceDocumentRoot", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xmlNamespaceDocumentRootEClass, XMLNamespaceDocumentRoot.class, "XMLNamespaceDocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXMLNamespaceDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXMLNamespaceDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXMLNamespaceDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -312,7 +310,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     addEEnumLiteral(spaceTypeEEnum, SpaceType.PRESERVE_LITERAL);
 
     // Initialize data types
-    initEDataType(spaceTypeObjectEDataType, SpaceType.class, "SpaceTypeObject", IS_SERIALIZABLE);
+    initEDataType(spaceTypeObjectEDataType, SpaceType.class, "SpaceTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);

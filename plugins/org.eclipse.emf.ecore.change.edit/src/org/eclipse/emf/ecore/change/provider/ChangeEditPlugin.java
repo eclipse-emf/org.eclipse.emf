@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeEditPlugin.java,v 1.2 2004/05/16 17:09:54 emerks Exp $
+ * $Id: ChangeEditPlugin.java,v 1.3 2004/06/08 18:30:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -95,7 +95,6 @@ public final class ChangeEditPlugin extends EMFPlugin
      * Creates an instance.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param descriptor the description of the plugin.
      * @generated
      */
     public Implementation()

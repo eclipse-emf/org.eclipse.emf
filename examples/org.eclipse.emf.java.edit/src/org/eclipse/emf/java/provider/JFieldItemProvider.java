@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JFieldItemProvider.java,v 1.1 2004/04/13 02:50:25 marcelop Exp $
+ * $Id: JFieldItemProvider.java,v 1.2 2004/06/08 18:25:28 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -89,6 +89,7 @@ public class JFieldItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JField_final_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_final_feature", "_UI_JField_type"),
          JavaPackage.eINSTANCE.getJField_Final(),
@@ -107,6 +108,7 @@ public class JFieldItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JField_transient_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_transient_feature", "_UI_JField_type"),
          JavaPackage.eINSTANCE.getJField_Transient(),
@@ -125,6 +127,7 @@ public class JFieldItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JField_volatile_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_volatile_feature", "_UI_JField_type"),
          JavaPackage.eINSTANCE.getJField_Volatile(),
@@ -143,6 +146,7 @@ public class JFieldItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JField_javaField_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_javaField_feature", "_UI_JField_type"),
          JavaPackage.eINSTANCE.getJField_JavaField(),
@@ -161,6 +165,7 @@ public class JFieldItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JField_initializer_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_initializer_feature", "_UI_JField_type"),
          JavaPackage.eINSTANCE.getJField_Initializer(),
@@ -179,12 +184,12 @@ public class JFieldItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JField_type_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_type_feature", "_UI_JField_type"),
          JavaPackage.eINSTANCE.getJField_Type(),
          true));
   }
-
 
   /**
    * This returns JField.gif.
@@ -245,4 +250,5 @@ public class JFieldItemProvider
   {
     return JavaEditPlugin.INSTANCE;
   }
+
 }

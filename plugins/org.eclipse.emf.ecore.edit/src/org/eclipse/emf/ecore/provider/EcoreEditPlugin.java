@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditPlugin.java,v 1.2 2004/05/16 17:09:09 emerks Exp $
+ * $Id: EcoreEditPlugin.java,v 1.3 2004/06/08 18:29:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -95,7 +95,6 @@ public final class EcoreEditPlugin extends EMFPlugin
      * Creates an instance.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param descriptor the description of the plugin.
      * @generated
      */
     public Implementation()

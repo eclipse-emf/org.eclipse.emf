@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JModelElementItemProvider.java,v 1.1 2004/04/13 02:50:25 marcelop Exp $
+ * $Id: JModelElementItemProvider.java,v 1.2 2004/06/08 18:25:28 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -86,6 +86,7 @@ public class JModelElementItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JModelElement_name_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JModelElement_name_feature", "_UI_JModelElement_type"),
          JavaPackage.eINSTANCE.getJModelElement_Name(),
@@ -104,13 +105,13 @@ public class JModelElementItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JModelElement_jNode_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JModelElement_jNode_feature", "_UI_JModelElement_type"),
          JavaPackage.eINSTANCE.getJModelElement_JNode(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
   }
-
 
   /**
    * This returns the label text for the adapted class.
@@ -157,4 +158,5 @@ public class JModelElementItemProvider
   {
     return JavaEditPlugin.INSTANCE;
   }
+
 }

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.3 2004/05/16 17:07:48 emerks Exp $
+ * $Id: EcoreModelWizard.java,v 1.4 2004/06/08 18:29:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -30,12 +30,12 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -350,7 +350,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
-    protected CCombo initialObjectField;
+    protected Combo initialObjectField;
 
     /**
      * @generated
@@ -364,7 +364,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
-    protected CCombo encodingField;
+    protected Combo encodingField;
 
     /**
      * Pass in the selection.
@@ -407,7 +407,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
         containerLabel.setLayoutData(data);
       }
 
-      initialObjectField = new CCombo(composite, SWT.BORDER);
+      initialObjectField = new Combo(composite, SWT.BORDER);
       {
         GridData data = new GridData();
         data.horizontalAlignment = GridData.FILL;
@@ -453,7 +453,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
         data.horizontalAlignment = GridData.FILL;
         encodingLabel.setLayoutData(data);
       }
-      encodingField = new CCombo(composite, SWT.BORDER);
+      encodingField = new Combo(composite, SWT.BORDER);
       {
         GridData data = new GridData();
         data.horizontalAlignment = GridData.FILL;

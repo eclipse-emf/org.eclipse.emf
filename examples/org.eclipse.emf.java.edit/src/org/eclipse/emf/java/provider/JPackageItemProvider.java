@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPackageItemProvider.java,v 1.2 2004/04/13 18:58:37 emerks Exp $
+ * $Id: JPackageItemProvider.java,v 1.3 2004/06/08 18:25:28 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -86,6 +86,7 @@ public class JPackageItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JPackage_javaPackage_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JPackage_javaPackage_feature", "_UI_JPackage_type"),
          JavaPackage.eINSTANCE.getJPackage_JavaPackage(),
@@ -104,6 +105,7 @@ public class JPackageItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_JPackage_types_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JPackage_types_feature", "_UI_JPackage_type"),
          JavaPackage.eINSTANCE.getJPackage_Types(),
@@ -127,7 +129,6 @@ public class JPackageItemProvider
     }
     return childrenFeatures;
   }
-
 
   /**
    * This returns JPackage.gif.
@@ -182,4 +183,5 @@ public class JPackageItemProvider
   {
     return JavaEditPlugin.INSTANCE;
   }
+
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreePackageImpl.java,v 1.2 2004/05/16 17:00:41 emerks Exp $
+ * $Id: TreePackageImpl.java,v 1.3 2004/06/08 18:27:09 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -96,20 +96,18 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
   {
     if (isInited) return (TreePackage)EPackage.Registry.INSTANCE.get(TreePackage.eNS_URI);
 
-    // Obtain or create and register package.
-    TreePackageImpl theTreePackage = (TreePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new TreePackageImpl());
+    // Obtain or create and register package
+    TreePackageImpl theTreePackage = (TreePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof TreePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new TreePackageImpl());
 
     isInited = true;
 
     // Initialize simple dependencies
     EcorePackageImpl.init();
 
-    // Obtain or create and register interdependencies
-
-    // Step 1: create meta-model objects
+    // Create package meta-data objects
     theTreePackage.createPackageContents();
 
-    // Step 2: complete initialization
+    // Initialize created meta-data
     theTreePackage.initializePackageContents();
 
     return theTreePackage;
@@ -221,7 +219,7 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
-    initEClass(treeNodeEClass, TreeNode.class, "TreeNode", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(treeNodeEClass, TreeNode.class, "TreeNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getTreeNode_Parent(), this.getTreeNode(), this.getTreeNode_Children(), "parent", null, 0, 1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getTreeNode_Children(), this.getTreeNode(), this.getTreeNode_Parent(), "children", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getTreeNode_Data(), theEcorePackage.getEObject(), null, "data", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

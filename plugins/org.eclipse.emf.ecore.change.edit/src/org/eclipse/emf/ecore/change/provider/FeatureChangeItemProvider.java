@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeItemProvider.java,v 1.3 2004/05/16 17:10:08 emerks Exp $
+ * $Id: FeatureChangeItemProvider.java,v 1.4 2004/06/08 18:30:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -92,6 +92,7 @@ public class FeatureChangeItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_FeatureChange_set_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureChange_set_feature", "_UI_FeatureChange_type"),
          ChangePackage.eINSTANCE.getFeatureChange_Set(),
@@ -110,6 +111,7 @@ public class FeatureChangeItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_FeatureChange_value_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureChange_value_feature", "_UI_FeatureChange_type"),
          ChangePackage.eINSTANCE.getFeatureChange_Value(),
@@ -128,6 +130,7 @@ public class FeatureChangeItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_FeatureChange_feature_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureChange_feature_feature", "_UI_FeatureChange_type"),
          ChangePackage.eINSTANCE.getFeatureChange_Feature(),
