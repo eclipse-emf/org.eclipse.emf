@@ -6,7 +6,8 @@
       editDirectory="@TEST_TOKEN@0/library.rose.edit/./src/."
       editorDirectory="@TEST_TOKEN@0/library.rose.editor/./src/."
       modelPluginID="library.model" runtimeJar="true" modelName="Library" editPluginClass="library.model.provider.LibraryEditPlugin"
-      editorPluginClass="library.model.presentation.LibraryEditorPlugin" runtimeCompatibility="false">
+      editorPluginClass="library.model.presentation.LibraryEditorPlugin" runtimeCompatibility="false"
+      testSuiteClass="library.model.tests.LibraryAllTests">
     <foreignModel>@TEST_TOKEN@1</foreignModel>
     <genPackages prefix="Library" basePackage="org.examples" disposableProviderFactory="true"
         ecorePackage="library.ecore#/">

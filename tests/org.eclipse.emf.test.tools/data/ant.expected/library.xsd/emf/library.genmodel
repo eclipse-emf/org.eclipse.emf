@@ -6,7 +6,8 @@
       editDirectory="@TEST_TOKEN@0/library.xsd.edit/./src/."
       editorDirectory="@TEST_TOKEN@0/library.xsd.editor/./src/."
       modelPluginID="org.examples.library" runtimeJar="true" modelName="Library" editPluginClass="org.examples.library.provider.LibraryEditPlugin"
-      editorPluginClass="org.examples.library.presentation.LibraryEditorPlugin" runtimeCompatibility="false">
+      editorPluginClass="org.examples.library.presentation.LibraryEditorPlugin" runtimeCompatibility="false"
+      testSuiteClass="org.examples.library.tests.LibraryAllTests">
     <foreignModel>file:@TEST_TOKEN@1@TEST_TOKEN@0/library.xsd/model/library.xsd</foreignModel>
     <genPackages prefix="Library" basePackage="org.examples" resource="XML" disposableProviderFactory="true"
         ecorePackage="org.examples.library.ecore#/">
