@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.12 2004/03/30 19:52:39 marcelop Exp $
+ * $Id: BuildTests.java,v 1.13 2004/05/14 19:28:13 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -41,7 +41,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.eclipse.core.boot.BootLoader;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.environment.Constants;
 
@@ -690,7 +689,7 @@ public class BuildTests extends TestCase
   private String[] locateBuildGeneratedZipFiles()
   {
     // String to use when running as an automated test.
-    String installDir = BootLoader.getInstallURL().getPath() + File.separator + ".." + File.separator + "..";
+    String installDir = Platform.getInstanceLocation().getURL().getPath() + File.separator + ".." + File.separator + "..";
 
     // String to use when running in Eclipse
     // String installDir = BootLoader.getInstallURL().getPath() + "..";
@@ -817,7 +816,7 @@ public class BuildTests extends TestCase
    */
   private String getExcludeErrors()
   {
-    String os = BootLoader.getOS();
+    String os = Platform.getOS();
     String fileName;
     if (os.equals(Constants.OS_WIN32))
     {
@@ -962,7 +961,7 @@ public class BuildTests extends TestCase
     assertNotNull(getExec());
 
     // Autoamted Test
-    logFileName = BootLoader.getInstallURL().getPath() + ".." + File.separator + ".." + File.separator + "results" + File.separator
+    logFileName = Platform.getInstanceLocation().getURL().getPath() + ".." + File.separator + ".." + File.separator + "results" + File.separator
         + "chkpii"; // A
     // tad
     // bogus
@@ -979,7 +978,7 @@ public class BuildTests extends TestCase
     // results
     // from!
 
-    sourceDirectoryName = BootLoader.getInstallURL().getPath() + ".." + File.separator + ".." + File.separator + ".." + File.separator
+    sourceDirectoryName = Platform.getInstanceLocation().getURL().getPath() + ".." + File.separator + ".." + File.separator + ".." + File.separator
         + ".." + File.separator + "src";
     // Runtime Workbench - TODI Put me back to Automated status
     //      logFileName = "d:\\results";
@@ -1000,13 +999,13 @@ public class BuildTests extends TestCase
     {
     }
 
-    System.setProperty("PLUGIN_PATH", adjustPath(BootLoader.getInstallURL().getPath()) + "plugins");
+    System.setProperty("PLUGIN_PATH", adjustPath(Platform.getInstanceLocation().getURL().getPath()) + "plugins");
   }
 
   public void testFeatureFiles()
   {
     List result = new ArrayList();
-    String installDir = BootLoader.getInstallURL().getPath();
+    String installDir = Platform.getInstanceLocation().getURL().getPath();
     File featureDir = new File(installDir, "features");
     File[] features = featureDir.listFiles();
     for (int i = 0; i < features.length; i++)
@@ -1053,7 +1052,7 @@ public class BuildTests extends TestCase
   public void testPluginFiles()
   {
     List result = new ArrayList();
-    String installDir = BootLoader.getInstallURL().getPath();
+    String installDir = Platform.getInstanceLocation().getURL().getPath();
     File pluginDir = new File(installDir, "plugins");
     File[] plugins = pluginDir.listFiles();
     for (int i = 0; i < plugins.length; i++)

@@ -12,14 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EMFTestCorePlugin.java,v 1.5 2004/03/25 06:42:49 marcelop Exp $
+ * $Id: EMFTestCorePlugin.java,v 1.6 2004/05/14 19:28:14 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
 import java.io.IOException;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 
@@ -31,9 +29,9 @@ extends Plugin
     /**
      * @param descriptor
      */
-    public EMFTestCorePlugin(IPluginDescriptor descriptor)
+    public EMFTestCorePlugin()
     {
-        super(descriptor);
+        super();
         instance = this;
     }
 
@@ -42,27 +40,11 @@ extends Plugin
         return instance;
     }
 
-    /**
-     * @see org.eclipse.ui.plugin.AbstractUIPlugin#startup()
-     */
-    public void startup() throws CoreException
-    {
-        super.startup();
-    }
-    
-    /**
-     * @see org.eclipse.ui.plugin.AbstractUIPlugin#shutdown()
-     */
-    public void shutdown() throws CoreException
-    {
-        super.shutdown();
-    }
-    
     public String getPluginDirectory()
     {
       try
       {
-        return new java.io.File(Platform.asLocalURL(getDescriptor().getInstallURL()).getFile()).toString();
+        return new java.io.File(Platform.asLocalURL(getBundle().getEntry("/")).getFile()).toString();
       }
       catch (IOException e)
       {

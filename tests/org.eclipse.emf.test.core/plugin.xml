@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.4 2004/05/12 22:05:58 marcelop Exp $
+ * $Id: plugin.xml,v 1.5 2004/05/14 19:28:14 marcelop Exp $
  */
 -->
 
@@ -28,7 +28,7 @@
    class="org.eclipse.emf.test.core.EMFTestCorePlugin">
 
    <requires>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
+      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="org.eclipse.emf.ecore.sdo"/>
