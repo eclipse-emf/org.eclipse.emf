@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/06/07 19:34:40 marcelop Exp $
+ * $Id: plugin.xml,v 1.6 2004/06/09 20:06:24 marcelop Exp $
  */
 -->
 
@@ -127,10 +127,4 @@
           class="org.eclipse.emf.mapping.action.RemoveMappingAction"/>
     </editorContribution>
   </extension>
-
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding
-      activityId="org.eclipse.EMF"
-      pattern="org\.eclipse\.emf\.mapping\.xsd2ecore\.editor/.*"/>
-  </extension> 
 </plugin>
