@@ -15,8 +15,8 @@
  *
  * </copyright>
  *
- * plugins/org.eclipse.xsd/plugin.xml, xsd, org.eclipse.111, 20030819_0612SL
- * @version 1.14 8/19/03
+ * plugins/org.eclipse.xsd/plugin.xml, xsd, org.eclipse.111, 20030913_1427WL
+ * @version 1.14 9/13/03
  */
 -->
 
@@ -25,7 +25,7 @@
     id = "org.eclipse.xsd"
     version = "1.1.1"
     provider-name = "%providerName"
-    class = "org.eclipse.xsd.XSDPlugin$Implementation"> <!-- build-level = "20030819_0612SL" -->
+    class = "org.eclipse.xsd.XSDPlugin$Implementation"> <!-- build-level = "20030913_1427WL" -->
 
   <requires>
     <import plugin="org.eclipse.emf.ecore" export="true"/>
