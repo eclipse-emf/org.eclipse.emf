@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.5 2004/04/22 22:21:55 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.6 2004/05/06 20:23:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -45,10 +45,45 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
-public class FeatureMapUtil
+public final class FeatureMapUtil
 {
+  protected static final Class VALIDATOR_CLASS = Validator.class;
+  protected static final EStructuralFeature TEXT = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text();
+  protected static final EStructuralFeature CDATA = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA();
+  protected static final EStructuralFeature COMMENT = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment();
+
   private FeatureMapUtil()
   {
+  }
+
+  public static void addText(FeatureMap featureMap, String text)
+  {
+    featureMap.add(TEXT, text);
+  }
+
+  public static void addText(FeatureMap featureMap, int index, String text)
+  {
+    featureMap.add(index, TEXT, text);
+  }
+
+  public static void addCDATA(FeatureMap featureMap, String cdata)
+  {
+    featureMap.add(CDATA, cdata);
+  }
+
+  public static void addCDATA(FeatureMap featureMap, int index, String cdata)
+  {
+    featureMap.add(index, CDATA, cdata);
+  }
+
+  public static void addComment(FeatureMap featureMap, String comment)
+  {
+    featureMap.add(COMMENT, comment);
+  }
+
+  public static void addComment(FeatureMap featureMap, int index, String comment)
+  {
+    featureMap.add(index, COMMENT, comment);
   }
 
   public static boolean isFeatureMap(EStructuralFeature eStructuralFeature)
@@ -1249,7 +1284,7 @@ public class FeatureMapUtil
 
     public boolean isAdapterForType(Object type)
     {
-      return type == Validator.class;
+      return type == VALIDATOR_CLASS;
     }
   }
 
@@ -1277,14 +1312,14 @@ public class FeatureMapUtil
 
     public boolean isAdapterForType(Object type)
     {
-      return type == ValidatorMap.class;
+      return type == VALIDATOR_CLASS;
     }
   }
 
   public static Validator getValidator(EClass containingClass, EStructuralFeature eStructuralFeature)
   {
     List adapters = eStructuralFeature.eAdapters();
-    ValidatorMap validatorMap = (ValidatorMap)EcoreUtil.getAdapter(adapters, ValidatorMap.class);
+    ValidatorMap validatorMap = (ValidatorMap)EcoreUtil.getAdapter(adapters, VALIDATOR_CLASS);
     if (validatorMap == null)
     {
       validatorMap = new ValidatorMap(eStructuralFeature);
