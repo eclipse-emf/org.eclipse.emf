@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelper.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: MappingHelper.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 
-//import com.ibm.etools.emf.ref.RefObject;
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Helper</b></em>'.

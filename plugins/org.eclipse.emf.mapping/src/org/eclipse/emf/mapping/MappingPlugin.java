@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingPlugin.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: MappingPlugin.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -22,9 +22,10 @@ import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
+// import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 
 /**
- * This is the central singleton for the Mapping model plugin.
+ * This is the central singleton for the Mapping edit plugin.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -51,7 +52,7 @@ public final class MappingPlugin extends EMFPlugin
    * Create the instance.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public MappingPlugin()
   {

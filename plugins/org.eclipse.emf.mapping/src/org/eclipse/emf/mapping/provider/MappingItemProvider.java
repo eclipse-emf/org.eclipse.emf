@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: MappingItemProvider.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.common.command.StrictCompoundCommand;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -62,6 +63,8 @@ import org.eclipse.emf.mapping.command.NameMatchMappingCommand;
 import org.eclipse.emf.mapping.command.RemoveMappingCommand;
 import org.eclipse.emf.mapping.command.TypeMatchMappingCommand;
 import org.eclipse.emf.mapping.domain.MappingDomain;
+
+// import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 
 /**
@@ -730,6 +733,17 @@ public class MappingItemProvider
     {
       super.notifyChanged(msg);
     }
+  }
+
+  /**
+   * Return the resource locator for this item provider's resources.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ResourceLocator getResourceLocator()
+  {
+    return MappingPlugin.INSTANCE;
   }
 
   public Command createCommand(Object object, EditingDomain editingDomain, Class commandClass, CommandParameter commandParameter)

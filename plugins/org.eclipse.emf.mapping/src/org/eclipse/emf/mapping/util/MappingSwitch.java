@@ -12,21 +12,13 @@
  *
  * </copyright>
  *
- * $Id: MappingSwitch.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: MappingSwitch.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
  */
 package org.eclipse.emf.mapping.util;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.mapping.ComplexTypeConverter;
-import org.eclipse.emf.mapping.FunctionNamePair;
-import org.eclipse.emf.mapping.FunctionPair;
-import org.eclipse.emf.mapping.Mapping;
-import org.eclipse.emf.mapping.MappingHelper;
-import org.eclipse.emf.mapping.MappingPackage;
-import org.eclipse.emf.mapping.MappingRoot;
-import org.eclipse.emf.mapping.MappingStrategy;
-import org.eclipse.emf.mapping.TypeConverter;
+import org.eclipse.emf.mapping.*;
 
 
 /**

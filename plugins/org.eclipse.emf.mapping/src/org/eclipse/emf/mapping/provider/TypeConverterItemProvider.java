@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TypeConverterItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: TypeConverterItemProvider.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -21,11 +21,13 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.mapping.MappingPlugin;
 import org.eclipse.emf.mapping.MappingPackage;
 
 
@@ -66,10 +68,32 @@ public class TypeConverterItemProvider
   }
 
   /**
+   * This returns the label text for the adapted class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String getText(Object object)
+  {
+    return super.getText(object);
+  }
+
+  /**
    * This handles notification by delegating to {@link #fireNotifyChanged fireNotifyChanged}.
    */
   public void notifyChanged(Notification msg) 
   {
     super.notifyChanged(msg);
+  }
+
+  /**
+   * Return the resource locator for this item provider's resources.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ResourceLocator getResourceLocator()
+  {
+    return MappingPlugin.INSTANCE;
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FunctionNamePairItemProvider.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: FunctionNamePairItemProvider.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -109,5 +110,16 @@ public class FunctionNamePairItemProvider
       return;
     }
     super.notifyChanged(msg);
+  }
+  
+  /**
+   * Return the resource locator for this item provider's resources.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ResourceLocator getResourceLocator()
+  {
+    return MappingPlugin.INSTANCE;
   }
 }
