@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilderTests.java,v 1.1 2005/01/25 21:07:04 elena Exp $
+ * $Id: XSDEcoreBuilderTests.java,v 1.2 2005/01/27 15:26:41 elena Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -60,7 +60,7 @@ public class XSDEcoreBuilderTests extends TestCase
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite("DynamicXSD2EcoreTest");
+    TestSuite ts = new TestSuite("XSDEcoreBuilderTests");
     ts.addTest(new XSDEcoreBuilderTests("testMyIPO"));
     return ts;
   }
