@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.6 2004/05/25 19:18:35 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.7 2004/05/25 19:47:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1085,8 +1085,9 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         wildcard.startsWith("!##") ?
            namespace == null ? 
              wildcard.length() != 3 : 
-             !wildcard.endsWith(namespace) || wildcard.length() != namespace.length() + 3 :
-           wildcard.equals("##any") || wildcard.equals(namespace);
+             (!wildcard.endsWith(namespace) || wildcard.length() != namespace.length() + 3) && 
+               !XMLTypePackage.eNS_URI.equals(namespace) :
+           wildcard.equals("##any") && !XMLTypePackage.eNS_URI.equals(namespace) || wildcard.equals(namespace);
   }
 
   public int getWhiteSpaceFacet(EDataType eDataType)
