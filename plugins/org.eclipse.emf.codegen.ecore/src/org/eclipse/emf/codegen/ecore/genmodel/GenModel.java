@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.13 2005/03/16 20:52:48 khussey Exp $
+ * $Id: GenModel.java,v 1.14 2005/04/04 19:21:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -1214,5 +1214,15 @@ public interface GenModel extends GenBase{
   CodeFormatter createCodeFormatter();
 
   boolean isBooleanFlagsEnabled();
+
+  GenModel createGenModel();
+  GenPackage createGenPackage();
+  GenClass createGenClass();
+  GenFeature createGenFeature();
+  GenEnum createGenEnum();
+  GenEnumLiteral createGenEnumLiteral();
+  GenDataType createGenDataType();
+  GenOperation createGenOperation();
+  GenParameter createGenParameter();
 
 }
