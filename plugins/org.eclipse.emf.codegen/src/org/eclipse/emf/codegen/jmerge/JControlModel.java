@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JControlModel.java,v 1.2 2004/03/12 20:15:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -377,6 +377,7 @@ public class JControlModel
   protected String redirect;
   protected boolean standardBraceStyle;
   protected Pattern blockPattern;
+  protected Pattern noImportPattern;
 
   /**
    * This creates an instance.
@@ -419,6 +420,11 @@ public class JControlModel
   public Pattern getBlockPattern()
   {
     return blockPattern;
+  }
+
+  public Pattern getNoImportPattern()
+  {
+    return noImportPattern;
   }
 
   public List getDictionaryPatterns()
@@ -496,6 +502,11 @@ public class JControlModel
       if (element.hasAttributeNS(null, "block"))
       {
         blockPattern = Pattern.compile(element.getAttributeNS(null, "block"), Pattern.MULTILINE | Pattern.DOTALL); 
+      }
+
+      if (element.hasAttributeNS(null, "noImport"))
+      {
+        noImportPattern = Pattern.compile(element.getAttributeNS(null, "noImport"), Pattern.MULTILINE | Pattern.DOTALL); 
       }
 
       for (Node child = element.getFirstChild(); child != null; child = child.getNextSibling())

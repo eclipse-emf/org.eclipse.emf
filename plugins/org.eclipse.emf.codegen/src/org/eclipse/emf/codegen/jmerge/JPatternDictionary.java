@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JPatternDictionary.java,v 1.2 2004/03/12 20:15:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -50,6 +50,7 @@ public class JPatternDictionary
   protected Map fieldMap = new HashMap();
   protected Map methodMap = new HashMap();
   protected Map markupMap = new HashMap();
+  protected Collection noImportSet = new HashSet();
 
   /**
    * This creates an instance.
@@ -63,6 +64,16 @@ public class JPatternDictionary
   protected void analyzeCompilationUnit(IDOMCompilationUnit compilationUnit)
   {
     this.compilationUnit = compilationUnit;
+
+    if (options.getNoImportPattern() != null)
+    {
+      Matcher matcher = options.getNoImportPattern().matcher(compilationUnit.getContents());
+      while (matcher.find())
+      {
+        noImportSet.add(matcher.group(1));
+      }
+    }
+
     match(compilationUnit);
     for (IDOMNode child = compilationUnit.getFirstChild(); child != null; child = child.getNextNode())
     {
@@ -414,5 +425,10 @@ public class JPatternDictionary
       }
       return false;
     }
+  }
+
+  public boolean isNoImport(IDOMImport domImport)
+  {
+    return noImportSet.contains(getQualifiedName(domImport));
   }
 }

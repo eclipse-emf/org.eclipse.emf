@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JMerger.java,v 1.2 2004/03/12 20:15:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -884,7 +884,7 @@ public class JMerger implements IPlatformRunnable
 
   protected void pushSourceImport(IDOMImport sourceImport)
   {
-    if (!sourceToTargetMap.containsKey(sourceImport))
+    if (!sourceToTargetMap.containsKey(sourceImport) && !targetPatternDictionary.isNoImport(sourceImport))
     {
       insertClone(sourceImport);
     }
