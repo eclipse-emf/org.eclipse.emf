@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.14 2004/08/18 20:21:29 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.15 2004/11/03 16:05:17 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -445,7 +445,9 @@ public class XMLHelperImpl implements XMLHelper
   {
     if (!XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD.equals(processDanglingHREF))
     {
-      DanglingHREFException exception = new DanglingHREFException("The object '" + object + "' is not contained in a resource.", resource.getURI().toString(), 0, 0);
+      DanglingHREFException exception = new DanglingHREFException(
+        "The object '" + object + "' is not contained in a resource.", 
+        resource.getURI() == null ? "unknown" : resource.getURI().toString(), 0, 0);
  
       if (danglingHREFException == null)
       {
