@@ -12,18 +12,18 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.21 2004/11/07 18:02:03 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.22 2004/11/16 22:40:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -337,8 +337,27 @@ public class XMLSaveImpl implements XMLSave
         }
       }
     }
+    
+    List lookup = (List)options.get(XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE);
+    if (lookup != null)
+    {
+      // caching turned on by the user
+      if (lookup.isEmpty())
+      {
+        featureTable = new Lookup(map, extendedMetaData);       
+        lookup.add(featureTable);
+      }
+      else
+      {
+        featureTable = (Lookup)lookup.get(0);
+      }
+    }
+    else
+    {
+      //no caching
+      featureTable = new Lookup(map, extendedMetaData);
+    }
 
-    featureTable = new Lookup(map, extendedMetaData);
   }
 
   public void traverse(List contents)
@@ -1818,7 +1837,10 @@ public class XMLSaveImpl implements XMLSave
 
   protected static class Lookup
   {
-    protected static final int SIZE = 4095;  // 2^N-1
+    protected static final int SHIFT = 10;
+    protected static final int SIZE = 1 << SHIFT; // 2^N
+    protected static final int MASK = SIZE - 1; // 2^N-1    
+  
     protected EClass[] classes;
     protected EStructuralFeature[][] features;
     protected int[][] featureKinds;
@@ -1834,14 +1856,14 @@ public class XMLSaveImpl implements XMLSave
     {
       this.map = map;
       this.extendedMetaData = extendedMetaData;
-      classes = new EClass[SIZE + 1];
-      features = new EStructuralFeature[SIZE + 1][];
-      featureKinds = new int[SIZE + 1][];
+      classes = new EClass[SIZE];
+      features = new EStructuralFeature[SIZE][];
+      featureKinds = new int[SIZE][];
     }
 
     public EStructuralFeature[] getFeatures(EClass cls)
     {
-      int index = cls.hashCode() & SIZE;
+      int index = getIndex(cls);
       EClass c = classes[index];
 
       if (c == cls)
@@ -1861,7 +1883,7 @@ public class XMLSaveImpl implements XMLSave
 
     public int[] getKinds(EClass cls, EStructuralFeature[] featureList)
     {
-      int index = cls.hashCode() & SIZE;
+      int index = getIndex(cls);
       EClass c = classes[index];
 
       if (c == cls)
@@ -1877,6 +1899,21 @@ public class XMLSaveImpl implements XMLSave
         featureKinds[index] = kindsList;
       }
       return kindsList;
+    }
+    
+    protected int getIndex(EClass cls)
+    {
+      String name = cls.getInstanceClassName();
+      int index = 0;
+      if (name != null)
+      {
+        index = name.hashCode() & MASK;
+      }
+      else
+      {
+        index = cls.hashCode() >> SHIFT & MASK;
+      }
+      return index;
     }
 
     protected EStructuralFeature[] listFeatures(EClass cls)

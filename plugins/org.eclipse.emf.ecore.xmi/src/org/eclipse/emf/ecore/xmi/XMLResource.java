@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.17 2004/11/07 18:02:03 elena Exp $
+ * $Id: XMLResource.java,v 1.18 2004/11/16 22:40:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -48,6 +48,11 @@ public interface XMLResource extends Resource
    * @see org.eclipse.emf.ecore.EStructuralFeature
    */
   String OPTION_USE_XML_NAME_TO_FEATURE_MAP = "USE_XML_NAME_TO_FEATURE_MAP";
+  
+  /**
+   * Specify a place holder {@link List} for caching information during the subsequent saving of XML documents.
+   */
+  String OPTION_USE_CACHED_LOOKUP_TABLE = "USE_CACHED_LOOKUP_TABLE";
   
   /**
    * Force type information (xsi:type/xmi:type) to be serialized for references 
