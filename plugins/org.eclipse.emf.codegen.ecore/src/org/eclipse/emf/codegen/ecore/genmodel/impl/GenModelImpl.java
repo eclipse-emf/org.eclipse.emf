@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.7 2004/05/17 13:12:28 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.8 2004/05/20 12:10:55 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -50,6 +50,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -1395,7 +1396,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       GenPackage genPackage = (GenPackage)i.next();
       EPackage ePackage = genPackage.getEcorePackage();
-      extendedMetaData.putPackage(ePackage.getNsURI(), ePackage);
+      if (!EcorePackage.eNS_URI.equals(ePackage.getNsURI()) && ! GenModelPackage.eNS_URI.equals(ePackage.getNsURI()))
+      {
+        extendedMetaData.putPackage(ePackage.getNsURI(), ePackage);
+      }
       populateExtendedMetaData(genPackage.getSubGenPackages());
     }
   }
