@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.1 2004/05/05 19:29:53 emerks Exp $
+ * $Id: ValidateAction.java,v 1.2 2004/05/08 13:37:02 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -141,11 +141,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     IFile file = getFile();
     try
     {
-      IMarker [] oldMarkers = file.findMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
-      for (int i = 0; i < oldMarkers.length; ++i)
-      {
-        oldMarkers[i].delete();
-      }
+      file.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
     }
     catch (CoreException exception)
     {
@@ -180,11 +176,11 @@ public class ValidateAction extends Action implements ISelectionChangedListener
       {
         IMarker marker = file.createMarker(EValidator.MARKER);
         int severity = diagnostic.getSeverity();
-        if (severity < Diagnostic.INFO)
+        if (severity < Diagnostic.WARNING)
         {
           marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
         }
-        else if (severity < Diagnostic.WARNING)
+        else if (severity < Diagnostic.ERROR)
         {
           marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
         }
@@ -193,7 +189,10 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
         }
         marker.setAttribute(IMarker.MESSAGE, diagnostic.getMessage());
-        marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
+        if (eObject != null)
+        {
+          marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
+        }
       }
       catch (CoreException exception)
       {
@@ -202,7 +201,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     }
     else
     {
-      String parentMessage = diagnostic.getMessage() + "; ";
+      String parentMessage = diagnostic.getMessage() + ". ";
       for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
       {
         Diagnostic childDiagnostic = (Diagnostic)i.next();
@@ -210,11 +209,11 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         {
           IMarker marker = file.createMarker(EValidator.MARKER);
           int severity = childDiagnostic.getSeverity();
-          if (severity < Diagnostic.INFO)
+          if (severity < Diagnostic.WARNING)
           {
             marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
           }
-          else if (severity < Diagnostic.WARNING)
+          else if (severity < Diagnostic.ERROR)
           {
             marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
           }
@@ -223,7 +222,10 @@ public class ValidateAction extends Action implements ISelectionChangedListener
             marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
           }
           marker.setAttribute(IMarker.MESSAGE, parentMessage + childDiagnostic.getMessage());
-          marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
+          if (eObject != null)
+          {
+            marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
+          }
         }
         catch (CoreException exception)
         {
