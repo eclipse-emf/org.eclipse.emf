@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.12 2004/06/22 23:13:06 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.13 2004/06/23 15:25:55 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -149,9 +149,6 @@ public class ChangeRecorder implements Adapter
 
   public void notifyChanged(Notification notification)
   {
-    if (!recording)
-      return;
-
     Object notifier = notification.getNotifier();
     if (notifier instanceof EObject)
     {
@@ -213,8 +210,9 @@ public class ChangeRecorder implements Adapter
     switch (event)
     {
       case Notification.SET:
-      case Notification.UNSET: {
-        if (change == null)
+      case Notification.UNSET:
+      {
+        if (change == null && recording)
         {
           if (feature.isMany())
           {
@@ -243,8 +241,9 @@ public class ChangeRecorder implements Adapter
         }
         break;
       }
-      case Notification.ADD: {
-        if (change == null)
+      case Notification.ADD:
+      {
+        if (change == null && recording)
         {
           List oldValue = new BasicEList((Collection)eObject.eGet(feature));
           oldValue.remove(notification.getPosition());
@@ -258,8 +257,9 @@ public class ChangeRecorder implements Adapter
         }
         break;
       }
-      case Notification.ADD_MANY: {
-        if (change == null)
+      case Notification.ADD_MANY:
+      {
+        if (change == null && recording)
         {
           List oldValue = new BasicEList((Collection)eObject.eGet(feature));
           int position = notification.getPosition();
@@ -281,8 +281,9 @@ public class ChangeRecorder implements Adapter
         }
         break;
       }
-      case Notification.REMOVE: {
-        if (change == null)
+      case Notification.REMOVE:
+      {
+        if (change == null && recording)
         {
           List oldValue = new BasicEList((Collection)eObject.eGet(feature));
 
@@ -299,8 +300,9 @@ public class ChangeRecorder implements Adapter
         }
         break;
       }
-      case Notification.REMOVE_MANY: {
-        if (change == null)
+      case Notification.REMOVE_MANY:
+      {
+        if (change == null && recording)
         {
           List removedValues = (List)notification.getOldValue();
           List oldValue = new BasicEList((Collection)eObject.eGet(feature));
@@ -321,8 +323,9 @@ public class ChangeRecorder implements Adapter
         }
         break;
       }
-      case Notification.MOVE: {
-        if (change == null)
+      case Notification.MOVE:
+      {
+        if (change == null && recording)
         {
           EList oldValue = new BasicEList((Collection)eObject.eGet(feature));
           int position = notification.getPosition();
@@ -344,8 +347,9 @@ public class ChangeRecorder implements Adapter
     int eventType = notification.getEventType();
     switch (eventType)
     {
-      case Notification.ADD: {
-        if (change == null)
+      case Notification.ADD:
+      {
+        if (change == null && recording)
         {
           EList oldValue = new BasicEList(resource.getContents());
           oldValue.remove(notification.getPosition());
@@ -356,8 +360,9 @@ public class ChangeRecorder implements Adapter
         addAdapter(newValue);
         break;
       }
-      case Notification.ADD_MANY: {
-        if (change == null)
+      case Notification.ADD_MANY:
+      {
+        if (change == null && recording)
         {
           EList oldValue = new BasicEList(resource.getContents());
           int position = notification.getPosition();
@@ -376,8 +381,9 @@ public class ChangeRecorder implements Adapter
         }
         break;
       }
-      case Notification.REMOVE: {
-        if (change == null)
+      case Notification.REMOVE:
+      {
+        if (change == null && recording)
         {
           EList oldValue = new BasicEList(resource.getContents());
 
@@ -394,8 +400,9 @@ public class ChangeRecorder implements Adapter
         }
         break;
       }
-      case Notification.REMOVE_MANY: {
-        if (change == null)
+      case Notification.REMOVE_MANY:
+      {
+        if (change == null && recording)
         {
           List removedValues = (List)notification.getOldValue();
           EList oldValue = new BasicEList(resource.getContents());
@@ -416,8 +423,9 @@ public class ChangeRecorder implements Adapter
         }
         break;
       }
-      case Notification.MOVE: {
-        if (change == null)
+      case Notification.MOVE:
+      {
+        if (change == null && recording)
         {
           EList oldValue = new BasicEList(resource.getContents());
           int position = notification.getPosition();
