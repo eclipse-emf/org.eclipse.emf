@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.13 2005/03/15 20:05:28 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.14 2005/03/17 20:09:35 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -177,7 +177,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByName").setWarmUp(1000).setRepetitions(REPETITIONS_10));
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(3000).setRepetitions(REPETITIONS_5));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(3000).setRepetitions(REPETITIONS_10));
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
@@ -602,7 +602,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property billToProp = model.getBillToProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_2_5K; i++)
+    for (int i = 0; i < ITERATIONS_5K; i++)
     {
       po.setDataObject(shipToProp, newShipToAddress0);
       // to alternate the feature to set.
