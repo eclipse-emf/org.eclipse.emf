@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.14 2004/10/01 20:08:26 elena Exp $
+ * $Id: XMLResource.java,v 1.15 2004/10/21 16:12:02 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -261,20 +261,28 @@ public interface XMLResource extends Resource
 
   /**
    * Returns the Map with IDs as keys and EObjects as values.
+   * @deprecated since 2.1.0 This map should not be manipulated directly.  
+   * Use {@link #setID(EObject, String)} and {@link #getID(EObject)} or 
+   * {@link Resource#getEObject(String)} instead.  This method may be removed from
+   * this interface.
    */
   Map getIDToEObjectMap();
 
   /**
    * Returns the Map of EObjects as keys and IDs as values.
+   * @deprecated since 2.1.0 This map should not be manipulated directly.  
+   * Use {@link #setID(EObject, String)} and {@link #getID(EObject)} or 
+   * {@link Resource#getEObject(String)} instead.  This method may be removed from
+   * this interface.
    */
   Map getEObjectToIDMap();
 
   /**
-   * Returns the ID if there is one for the given object; if there is
+   * Returns the ID that was assigned with {@link #setID(EObject, String)}; if there is
    * no ID, it returns null.
    */
   String getID(EObject eObject);
-
+  
   /**
    * Sets the ID for the given object. If you are storing the ID
    * with the object itself, you should override this method.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.3 2004/04/18 23:15:22 emerks Exp $
+ * $Id: XMLResourceImpl.java,v 1.4 2004/10/21 16:12:02 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -254,12 +254,17 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
    */
   public void setID(EObject eObject, String id)
   {
-    Object oldID = getEObjectToIDMap().put(eObject, id);
+    Object oldID = id != null ? getEObjectToIDMap().put(eObject, id) : getEObjectToIDMap().remove(eObject);
+    
     if (oldID != null)
     {
       getIDToEObjectMap().remove(oldID);
     }
-    getIDToEObjectMap().put(id, eObject);
+    
+    if (id != null)
+    {
+      getIDToEObjectMap().put(id, eObject);
+    }
   }
 
   /*
@@ -297,86 +302,51 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   {
     return uriFragment.startsWith("/");
   }
-
-  /*
-   * Javadoc copied from interface.
-   */
-  public void attached(EObject eObject)
+  
+  protected boolean isAttachedDetachedHelperRequired()
   {
-    if (useIDs())
-    {
-      attachedHelper(eObject);
-      for (Iterator tree = eObject.eAllContents(); tree.hasNext(); )
-      {
-        EObject child = (EObject)tree.next();
-        attachedHelper(child);
-      }
-    }
-    else
-    {
-      super.attached(eObject);
-    }
+    return useIDs() || super.isAttachedDetachedHelperRequired();
   }
 
   protected void attachedHelper(EObject eObject)
   {
-    if (modificationTrackingAdapter != null)
-    {
-      eObject.eAdapters().add(modificationTrackingAdapter);
-    }
-
-    String id = getID(eObject);
-    if (useUUIDs() && id == null)
-    {
-      id = (String)DETACHED_EOBJECT_TO_ID_MAP.remove(eObject);
-      if (id == null)
-      {
-        id = EcoreUtil.generateUUID();
-      }
-      setID(eObject, id);
-    }
-    else if (id != null)
-    {
-      getIDToEObjectMap().put(id, eObject);
-    }
-  }
-
-  /*
-   * Javadoc copied from interface.
-   */
-  public void detached(EObject eObject)
-  {
+    super.attachedHelper(eObject);
+    
     if (useIDs())
     {
-      detachedHelper(eObject);
-      for (Iterator tree = eObject.eAllContents(); tree.hasNext(); )
+      String id = getID(eObject);
+      if (useUUIDs() && id == null)
       {
-        EObject child = (EObject)tree.next();
-        detachedHelper(child);
+        id = (String)DETACHED_EOBJECT_TO_ID_MAP.remove(eObject);
+        if (id == null)
+        {
+          id = EcoreUtil.generateUUID();
+        }
+        setID(eObject, id);
       }
-    }
-    else
-    {
-      super.detached(eObject);
+      else if (id != null)
+      {
+        getIDToEObjectMap().put(id, eObject);
+      }
     }
   }
 
   protected void detachedHelper(EObject eObject)
   {
-    if (modificationTrackingAdapter != null)
+    if (useIDs())
     {
-      eObject.eAdapters().remove(modificationTrackingAdapter);
-    }
+      if (useUUIDs())
+      {
+        DETACHED_EOBJECT_TO_ID_MAP.put(eObject, getID(eObject));
+      }
 
-    if (useUUIDs())
-    {
-      DETACHED_EOBJECT_TO_ID_MAP.put(eObject, getID(eObject));
+      if (idToEObjectMap != null && eObjectToIDMap != null)
+      {
+        setID(eObject, null);
+      }
     }
-
-    if (idToEObjectMap != null && eObjectToIDMap != null)
-    {
-      idToEObjectMap.remove(eObjectToIDMap.remove(eObject));
-    }
+    
+    super.detachedHelper(eObject);
   }
 
   /**
