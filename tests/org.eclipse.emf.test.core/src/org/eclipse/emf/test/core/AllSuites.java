@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.16 2004/07/21 14:25:49 marcelop Exp $
+ * $Id: AllSuites.java,v 1.17 2004/08/11 17:20:29 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 
 public class AllSuites extends TestSuite
 {
-  public static String pkgName = "EMF Core JUnit Test Suite";
+  public final static String PKG_NAME = "EMF Core JUnit Test Suite";
 
   private static Test[] suites = new Test []{ 
     org.eclipse.emf.test.core.common.util.URITest.suite() 
@@ -33,7 +33,8 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.core.sdo.types.SDOUtilGetTest.suite()
     ,org.eclipse.emf.test.core.sdo.types.SDOUtilSetTest.suite()
     ,org.eclipse.emf.test.core.sdo.types.SDOUtilProtectedGetTest.suite()
-    ,org.eclipse.emf.test.core.change.ChangeReportTest.suite()
+    ,org.eclipse.emf.test.core.change.ChangeReportTest.suite(false)
+    ,org.eclipse.emf.test.core.change.ChangeReportTest.suite(true)
     ,org.eclipse.emf.test.core.change.MultivalueAttributeTest.suite()
     ,org.eclipse.emf.test.core.ecore.EcoreUtilStaticMethodsTest.suite()
     ,org.eclipse.emf.test.core.xmi.NamespaceTest.suite()
@@ -47,7 +48,7 @@ public class AllSuites extends TestSuite
 
   public static Test suite()
   {
-    return new AllSuites(pkgName);
+    return new AllSuites(PKG_NAME);
   }
 
   public AllSuites()
