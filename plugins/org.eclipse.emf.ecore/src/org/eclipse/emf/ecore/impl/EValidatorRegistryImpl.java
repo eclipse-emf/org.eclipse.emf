@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EValidatorRegistryImpl.java,v 1.1 2004/05/05 19:51:42 emerks Exp $
+ * $Id: EValidatorRegistryImpl.java,v 1.2 2004/06/17 10:38:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -43,8 +43,15 @@ public class EValidatorRegistryImpl extends HashMap implements EValidator.Regist
 
   public Object get(Object key)
   {
-    EValidator eValidator = (EValidator)super.get(key);
-    if (eValidator != null)
+    Object eValidator = super.get(key);
+    if (eValidator instanceof EValidator.Descriptor)
+    {
+      EValidator.Descriptor eValidatorDescriptor = (EValidator.Descriptor)eValidator;
+      eValidator = eValidatorDescriptor.getEValidator();
+      put(key, eValidator);
+      return eValidator;
+    }
+    else if (eValidator != null)
     {
       return eValidator;
     }

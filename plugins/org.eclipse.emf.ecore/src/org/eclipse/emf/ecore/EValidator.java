@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EValidator.java,v 1.2 2004/06/08 12:13:47 emerks Exp $
+ * $Id: EValidator.java,v 1.3 2004/06/17 10:38:17 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -38,6 +38,18 @@ public interface EValidator
    * @see org.eclipse.emf.ecore.util.EcoreUtil#getURI
    */
   String URI_ATTRIBUTE = "uri";
+
+  /**
+   * An <code>EValidator</code> wrapper that is used by the {@link EValidator.Registry}.
+   */
+  public interface Descriptor
+  {
+    /**
+     * Returns the validator.
+     * @return the validator.
+     */
+    EValidator getEValidator();
+  }
 
   /**
    * A map from {@link org.eclipse.emf.ecore.EPackage EPackage} to {@link EValidator}.
