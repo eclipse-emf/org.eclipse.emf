@@ -5,7 +5,7 @@
     creationCommands="false" editDirectory="/org.eclipse.emf.java.edit/src" editorDirectory="/org.eclipse.emf.java.editor/src"
     modelPluginID="org.eclipse.emf.java" runtimeJar="true" modelName="Java" modelPluginClass="org.eclipse.emf.java.JavaPlugin"
     editPluginClass="org.eclipse.emf.java.provider.JavaEditPlugin" editorPluginClass="org.eclipse.emf.java.presentation.JavaEditorPlugin"
-    updateClasspath="false">
+    updateClasspath="false" runtimeCompatibility="false">
   <foreignModel>Java.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>

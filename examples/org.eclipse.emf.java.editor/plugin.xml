@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.4 2004/05/22 19:06:32 marcelop Exp $
+ * $Id: plugin.xml,v 1.5 2004/06/08 18:21:20 emerks Exp $
  */
 -->
 
@@ -28,7 +28,7 @@
     class = "org.eclipse.emf.java.presentation.JavaEditorPlugin$Implementation">
 
   <requires>
-    <import plugin="org.eclipse.core.runtime.compatibility"/>
+    <import plugin="org.eclipse.core.runtime"/>
     <import plugin="org.eclipse.core.resources"/>
     <import plugin="org.eclipse.ui.ide"/>
     <import plugin="org.eclipse.emf.java.edit" export="true"/>
