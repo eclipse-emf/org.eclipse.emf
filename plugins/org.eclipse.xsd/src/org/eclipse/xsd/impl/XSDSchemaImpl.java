@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.8 2004/10/07 12:17:41 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.9 2004/11/04 20:29:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2937,7 +2937,11 @@ public class XSDSchemaImpl
           for (Iterator i = incorporatedVersion.getReferencingDirectives().iterator(); i.hasNext(); )
           {
             XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)i.next();
-            if (xsdRedefine.getSchema().getOriginalVersion() == xsdSchemaDirective.getSchema())
+            // This was commented out to fix 72109, i.e., to prevent stack overflow.
+            // There really does need to be some kind of guard here in the general case.
+            // But it's very challenging to fix this, so it's better to not overflow 
+            // and to have some other unreported corner case be wrong.
+            // if (xsdRedefine.getSchema().getOriginalVersion() == xsdSchemaDirective.getSchema())
             {
               ((XSDSchemaImpl)incorporatedVersion).incorporate(xsdRedefine);
               return incorporatedVersion;
