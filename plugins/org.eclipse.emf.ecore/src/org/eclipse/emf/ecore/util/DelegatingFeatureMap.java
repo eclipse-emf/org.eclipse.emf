@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.12 2005/02/08 13:51:04 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.13 2005/02/16 15:38:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1089,12 +1089,35 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         Entry entry = (Entry)delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          doSet(i, FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
+          if (shouldUnset(feature, object))
+          {
+            remove(i);
+          }
+          else
+          {
+            doSet(i, FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
+          }
           return;
         }
       }
   
-      doAdd(FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
+      if (!shouldUnset(feature, object))
+      {
+        doAdd(FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
+      }
+    }
+  }
+
+  protected boolean shouldUnset(EStructuralFeature feature, Object value)
+  {
+    if (!feature.isUnsettable())
+    {
+      Object defaultValue = feature.getDefaultValue();
+      return defaultValue == null ? value == null : defaultValue.equals(value);
+    }
+    else
+    {
+      return false;
     }
   }
 
@@ -1402,6 +1425,18 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
   public NotificationChain basicAdd(EStructuralFeature feature, Object object, NotificationChain notifications)
   {
+    if (object == null)
+    {
+      for (int i = 0, size = delegateSize(); i < size; ++i)
+      {
+        Entry entry = (Entry)delegateGet(i);
+        if (entry.getEStructuralFeature() == feature)
+        {
+          return super.basicRemove(entry, notifications);
+        }
+      }
+    }
+
     Entry entry = FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object);
 
     notifications = basicAdd(entry, notifications);
