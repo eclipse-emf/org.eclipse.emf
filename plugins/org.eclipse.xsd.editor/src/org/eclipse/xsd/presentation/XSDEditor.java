@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.10 2004/06/04 13:09:55 emerks Exp $
+ * $Id: XSDEditor.java,v 1.11 2004/06/13 12:21:01 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -273,7 +273,7 @@ public class XSDEditor
   /**
    * This keeps track of the selection of the editor as a whole.
    */
-  protected ISelection editorSelection;
+  protected ISelection editorSelection = StructuredSelection.EMPTY;
 
   /**
    * This is the outline action to select the next unresolved component.
