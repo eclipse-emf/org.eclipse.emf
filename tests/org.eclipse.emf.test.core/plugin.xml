@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.10 2004/09/24 20:26:25 davidms Exp $
+ * $Id: plugin.xml,v 1.11 2004/10/29 19:20:57 marcelop Exp $
  */
 -->
 
@@ -42,7 +42,6 @@
    <runtime>
       <library name="test.core.jar">
          <export name="*"/>
-         <packages prefixes="org.eclipse.emf.test.core"/>
       </library>
    </runtime>
    

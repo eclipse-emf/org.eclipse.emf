@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.6 2004/07/16 17:25:32 marcelop Exp $
+ * $Id: plugin.xml,v 1.7 2004/10/29 19:21:00 marcelop Exp $
  */
 -->
 
@@ -39,7 +39,6 @@
   <runtime>
     <library name="runtime/java.editor.jar">
       <export name="*"/>
-      <packages prefixes="org.eclipse.emf.java.presentation"/>
     </library>
   </runtime>
 

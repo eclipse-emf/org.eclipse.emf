@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.8 2004/10/22 19:27:46 davidms Exp $
+ * $Id: plugin.xml,v 1.9 2004/10/29 19:20:43 marcelop Exp $
  */
 -->
 
@@ -40,7 +40,6 @@
   <runtime>
     <library name="runtime/codegen.ecore.ui.jar">
       <export name="*"/>
-      <packages prefixes="org.eclipse.emf.codegen.ecore.genmodel"/>
     </library>
   </runtime>
 

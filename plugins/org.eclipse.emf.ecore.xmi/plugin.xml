@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.7 2004/10/14 16:47:02 marcelop Exp $
+ * $Id: plugin.xml,v 1.8 2004/10/29 19:20:51 marcelop Exp $
  */
 -->
 
@@ -35,7 +35,6 @@
   <runtime>
     <library name="runtime/ecore.xmi.jar">
       <export name="*"/>
-      <packages prefixes="org.eclipse.emf.ecore.xmi"/>
     </library>
   </runtime>
 

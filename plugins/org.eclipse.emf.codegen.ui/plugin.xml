@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.6 2004/06/09 20:06:23 marcelop Exp $
+ * $Id: plugin.xml,v 1.7 2004/10/29 19:21:14 marcelop Exp $
  */
 -->
 
@@ -40,7 +40,6 @@
   <runtime>
     <library name="runtime/codegen.ui.jar">
       <export name="*"/>
-      <packages prefixes="org.eclipse.emf.codegen.action,org.eclipse.emf.codegen.presentation"/>
     </library>
   </runtime>
 

@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.4 2004/10/22 19:27:48 davidms Exp $
+ * $Id: plugin.xml,v 1.5 2004/10/29 19:21:05 marcelop Exp $
  */
 -->
 
@@ -36,7 +36,6 @@
   <runtime>
     <library name="runtime/ecore.edit.jar">
       <export name="*"/>
-      <packages prefixes="org.eclipse.emf.ecore.provider"/>
     </library>
   </runtime>
 

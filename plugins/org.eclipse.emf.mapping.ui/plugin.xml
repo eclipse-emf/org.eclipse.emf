@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.3 2004/05/16 16:50:42 emerks Exp $
+ * $Id: plugin.xml,v 1.4 2004/10/29 19:20:56 marcelop Exp $
  */
 -->
 
@@ -40,7 +40,6 @@
    <runtime>
       <library name="runtime/mapping.ui.jar">
          <export name="*"/>
-         <packages prefixes="org.eclipse.emf.mapping.action,org.eclipse.emf.mapping.presentation"/>
       </library>
    </runtime>
 

@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/10/07 18:08:59 marcelop Exp $
+ * $Id: plugin.xml,v 1.6 2004/10/29 19:20:59 marcelop Exp $
  */
 -->
 
@@ -34,7 +34,6 @@
   <runtime>
     <library name="runtime/common.jar">
       <export name="*"/>
-      <packages prefixes="org.eclipse.emf.common"/>
     </library>
   </runtime>
   

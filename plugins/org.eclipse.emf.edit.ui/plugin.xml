@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.7 2004/09/24 20:25:32 davidms Exp $
+ * $Id: plugin.xml,v 1.8 2004/10/29 19:21:04 marcelop Exp $
  */
 -->
 
@@ -40,7 +40,6 @@
   <runtime>
     <library name="runtime/edit.ui.jar">
       <export name="*"/>
-      <packages prefixes="org.eclipse.emf.edit.ui"/>
     </library>
   </runtime>
 </plugin>
