@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.2 2004/03/15 16:43:42 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1196,43 +1196,45 @@ public class XSDComplexTypeDefinitionImpl
             newContentTypeCategory = complexBaseTypeDefinition.getContentTypeCategory();
             newContentType = complexBaseTypeDefinition.getContentType();
           }
-
-          XSDComplexTypeContent baseContentType = complexBaseTypeDefinition.getContentType();
-          if (baseContentType instanceof XSDParticle)
+          else
           {
-            if (extensionParticle == null)
+            XSDComplexTypeContent baseContentType = complexBaseTypeDefinition.getContentType();
+            if (baseContentType instanceof XSDParticle)
             {
-              extensionParticle = getXSDFactory().createXSDParticle();
-              setSyntheticParticle(extensionParticle);
-              extensionParticle.setMinOccurs(1);
-              extensionParticle.setMaxOccurs(1);
-              XSDModelGroup xsdModelGroup = getXSDFactory().createXSDModelGroup();
-              xsdModelGroup.setCompositor(XSDCompositor.SEQUENCE_LITERAL);
-              extensionParticle.setContent(xsdModelGroup);
-            }
+              if (extensionParticle == null)
+              {
+                extensionParticle = getXSDFactory().createXSDParticle();
+                setSyntheticParticle(extensionParticle);
+                extensionParticle.setMinOccurs(1);
+                extensionParticle.setMaxOccurs(1);
+                XSDModelGroup xsdModelGroup = getXSDFactory().createXSDModelGroup();
+                xsdModelGroup.setCompositor(XSDCompositor.SEQUENCE_LITERAL);
+                extensionParticle.setContent(xsdModelGroup);
+              }
 
-            XSDModelGroup extensionGroup = (XSDModelGroup)extensionParticle.getTerm();
-            List newParticles = new ArrayList();
-            newParticles.add(baseContentType);
-            if (getContent() != null)
-            {
-              newParticles.add(getContent());
-            }
-            List remainingParticles = new ArrayList(extensionGroup.getParticles());
-            remainingParticles.removeAll(newParticles);
-            if (remainingParticles.isEmpty())
-            {
-              extensionGroup.getParticles().removeAll(remainingParticles);
-            }
-            setListContentAndOrder(extensionGroup.getParticles(), newParticles);
-  
-            if (isEmptyContent((XSDParticle)baseContentType))
-            {
-              newContentType = getContent();
-            }
-            else
-            {
-              newContentType = extensionParticle;
+              XSDModelGroup extensionGroup = (XSDModelGroup)extensionParticle.getTerm();
+              List newParticles = new ArrayList();
+              newParticles.add(baseContentType);
+              if (getContent() != null)
+              {
+                newParticles.add(getContent());
+              }
+              List remainingParticles = new ArrayList(extensionGroup.getParticles());
+              remainingParticles.removeAll(newParticles);
+              if (remainingParticles.isEmpty())
+              {
+                extensionGroup.getParticles().removeAll(remainingParticles);
+              }
+              setListContentAndOrder(extensionGroup.getParticles(), newParticles);
+    
+              if (isEmptyContent((XSDParticle)baseContentType))
+              {
+                newContentType = getContent();
+              }
+              else
+              {
+                newContentType = extensionParticle;
+              }
             }
           }
         }
