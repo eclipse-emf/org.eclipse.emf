@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPatternFacetImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDPatternFacetImpl.java,v 1.2 2004/05/22 19:07:19 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -32,6 +32,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.xml.type.internal.RegEx.ParseException;
+import org.eclipse.emf.ecore.xml.type.internal.RegEx.RegularExpression;
 
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDConcreteComponent;
@@ -42,8 +44,6 @@ import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDPatternFacet;
 import org.eclipse.xsd.XSDPlugin;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.impl.type.RegEx.ParseException;
-import org.eclipse.xsd.impl.type.RegEx.RegularExpression;
 import org.eclipse.xsd.util.XSDConstants;
 
 

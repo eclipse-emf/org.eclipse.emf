@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.2 2004/05/22 19:07:19 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -3846,7 +3846,7 @@ public class XSDSimpleTypeDefinitionImpl
         }
         case XSDVariety.LIST:
         {
-          XSDSimpleTypeDefinition theItemTypeDefinition = (XSDSimpleTypeDefinition)getItemTypeDefinition();
+          XSDSimpleTypeDefinition theItemTypeDefinition = getItemTypeDefinition();
           if (theItemTypeDefinition != null)
           {
             List list = new ArrayList();

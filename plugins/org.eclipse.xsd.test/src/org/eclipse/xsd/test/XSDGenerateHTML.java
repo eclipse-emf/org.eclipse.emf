@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGenerateHTML.java,v 1.2 2004/05/16 16:43:32 emerks Exp $
+ * $Id: XSDGenerateHTML.java,v 1.3 2004/05/22 19:07:54 marcelop Exp $
  */
 package org.eclipse.xsd.test;
 
@@ -387,7 +387,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
           {
             if (grandChild.getNodeType() == Node.ELEMENT_NODE)
             {
-              transformer.transform(new DOMSource((Element)grandChild), new StreamResult(out));
+              transformer.transform(new DOMSource(grandChild), new StreamResult(out));
             }
           }
           String serialization = out.toString();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.10 2004/05/13 13:40:09 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.11 2004/05/22 19:07:19 marcelop Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -413,7 +413,7 @@ public class XSDEcoreBuilder extends MapBuilder
             if (xsdSimpleTypeDefinition.getVariety() == XSDVariety.LIST_LITERAL)
             {
               EDataType itemEDataType = getEDataType(xsdSimpleTypeDefinition.getItemTypeDefinition());
-              extendedMetaData.setItemType(eDataType, (EDataType)itemEDataType);
+              extendedMetaData.setItemType(eDataType, itemEDataType);
               eDataType.setInstanceClassName("java.util.List");
             }
             else
@@ -790,7 +790,7 @@ public class XSDEcoreBuilder extends MapBuilder
         for (Iterator i = particleInformation.iterator(); i.hasNext(); )
         {
           EffectiveOccurrence effectiveOccurrence = (EffectiveOccurrence)i.next();
-          XSDParticle xsdParticle = (XSDParticle)effectiveOccurrence.xsdParticle;
+          XSDParticle xsdParticle = effectiveOccurrence.xsdParticle;
           EStructuralFeature group = (EStructuralFeature)groups.get(effectiveOccurrence.xsdModelGroup);
           XSDTerm xsdTerm = xsdParticle.getTerm();
           EStructuralFeature eStructuralFeature;
