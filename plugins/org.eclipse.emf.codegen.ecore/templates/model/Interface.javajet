@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" version="$Id: Interface.javajet,v 1.2 2004/03/09 20:44:49 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" version="$Id: Interface.javajet,v 1.3 2004/04/02 17:45:25 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -45,6 +45,9 @@ package <%=genPackage.getInterfacePackageName()%>;
  *
  * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genClass.getClassifierAccessorName()%>()
  * @model <%=genClass.getModelInfo()%>
+<%if (genClass.needsRootExtendsInterfaceExtendsTag()) {%>
+ * @extends <%=genModel.getImportedName(genModel.getRootExtendsInterface())%>
+<%}%>
  * @generated
  */
 public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends()%>
