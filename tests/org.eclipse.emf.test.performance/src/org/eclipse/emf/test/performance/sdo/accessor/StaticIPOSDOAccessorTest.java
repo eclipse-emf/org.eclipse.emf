@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.1 2005/02/16 23:02:12 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.2 2005/02/17 17:46:04 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -171,11 +171,11 @@ public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
 
     TestSuite testSuite = new TestSuite();
 
-    testSuite.addTest(new StaticIPOSDOAccessorTest("getStronglyTyped").setWarmUp(TYPED_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getByGenerated").setWarmUp(TYPED_WARMUP).setRepetitions(REPETITIONS));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByPath").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("setStronglyTyped").setWarmUp(TYPED_WARMUP).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setByGenerated").setWarmUp(TYPED_WARMUP).setRepetitions(REPETITIONS));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByProperty").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByIndex").setWarmUp(WARMUP).setRepetitions(REPETITIONS));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByPath").setWarmUp(PATH_WARMUP).setRepetitions(REPETITIONS));
@@ -330,7 +330,7 @@ public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
    * </ul>
    * </p>
    */
-  public final void getStronglyTyped()
+  public final void getByGenerated()
   {
     startMeasuring();
 
@@ -425,7 +425,7 @@ public class StaticIPOSDOAccessorTest extends EMFPerformanceTestCase
    * </ul>
    * </p>
    */
-  public final void setStronglyTyped()
+  public final void setByGenerated()
   {
     startMeasuring();
 
