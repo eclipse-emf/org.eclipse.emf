@@ -10,7 +10,7 @@
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>
   <genPackages prefix="Ecore2Ecore" basePackage="org.eclipse.emf.mapping" resource="XMI"
-      ecorePackage="Ecore2Ecore.ecore#/">
+      disposableProviderFactory="true" ecorePackage="Ecore2Ecore.ecore#/">
     <genClasses image="false" ecoreClass="Ecore2Ecore.ecore#//Ecore2EcoreMappingRoot"/>
   </genPackages>
 </genmodel:GenModel>

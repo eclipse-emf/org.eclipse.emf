@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreItemProviderAdapterFactory.java,v 1.1 2004/04/28 18:58:51 davidms Exp $
+ * $Id: Ecore2EcoreItemProviderAdapterFactory.java,v 1.2 2004/10/24 22:13:39 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.provider;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
+import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -43,7 +44,7 @@ import org.eclipse.emf.mapping.ecore2ecore.util.Ecore2EcoreAdapterFactory;
  * <!-- end-user-doc -->
  * @generated
  */
-public class Ecore2EcoreItemProviderAdapterFactory extends Ecore2EcoreAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier
+public class Ecore2EcoreItemProviderAdapterFactory extends Ecore2EcoreAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable
 {
   /**
    * This keeps track of the root adapter factory that delegates to this adapter factory.
@@ -206,6 +207,17 @@ public class Ecore2EcoreItemProviderAdapterFactory extends Ecore2EcoreAdapterFac
     {
       parentAdapterFactory.fireNotifyChanged(notification);
     }
+  }
+
+  /**
+   * This disposes all of the item providers created by this factory. 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void dispose()
+  {
+    if (ecore2EcoreMappingRootItemProvider != null) ecore2EcoreMappingRootItemProvider.dispose();
   }
 
 }
