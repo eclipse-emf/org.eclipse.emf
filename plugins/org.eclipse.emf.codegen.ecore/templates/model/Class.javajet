@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.5 2004/05/16 17:24:09 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.6 2004/05/27 20:18:07 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -58,9 +58,10 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	public static final <%=genModel.getImportedName("java.lang.String")%> mofDriverNumber = "<%=genModel.getDriverNumber()%>";<%=genModel.getNonNLS()%>
 
 <%}%>
-<%for (Iterator i=genClass.getImplementedGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
-  <%if (!genFeature.isVolatile() && !genFeature.isContainer()) {%>
-    <%if (genFeature.isListType() || genFeature.isReferenceType()) {%>
+<%if (!genModel.isReflectiveDelegation()) {%>
+  <%for (Iterator i=genClass.getImplementedGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+    <%if (!genFeature.isVolatile() && !genFeature.isContainer()) {%>
+      <%if (genFeature.isListType() || genFeature.isReferenceType()) {%>
 	/**
 	 * The cached value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
 	 * <!-- begin-user-doc -->
@@ -71,7 +72,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 */
 	protected <%=genFeature.getImportedInternalType()%> <%=genFeature.getSafeName()%> = null;
 
-    <%} else {%>
+      <%} else {%>
 	/**
 	 * The default value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
 	 * <!-- begin-user-doc -->
@@ -80,15 +81,15 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 * @generated
 	 * @ordered
 	 */
-      <%if (genFeature.getStaticDefaultValue() != null) {%>
+        <%if (genFeature.getStaticDefaultValue() != null) {%>
 	protected static final <%=genFeature.getImportedType()%> <%=genFeature.getUpperName()%>_EDEFAULT = <%=genFeature.getStaticDefaultValue()%>;<%=genModel.getNonNLS(genFeature.getStaticDefaultValue())%>
-      <%} else { GenDataType genDataType = genFeature.getGenDataTypeType(); GenPackage typeGenPackage = genFeature.getTypeGenPackage();%>
-        <%if (genDataType != null && typeGenPackage != null) {%>
+        <%} else { GenDataType genDataType = genFeature.getGenDataTypeType(); GenPackage typeGenPackage = genFeature.getTypeGenPackage();%>
+          <%if (genDataType != null && typeGenPackage != null) {%>
 	protected static final <%=genFeature.getImportedType()%> <%=genFeature.getUpperName()%>_EDEFAULT = <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)<%=typeGenPackage.getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=typeGenPackage.getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getName()%>(), <%=genFeature.getDefaultValue()%>)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getType()%>Value()<%}%>;<%=genModel.getNonNLS(genFeature.getDefaultValue())%>
-        <%} else {%>
+          <%} else {%>
 	protected static final <%=genFeature.getImportedType()%> <%=genFeature.getUpperName()%>_EDEFAULT = null;
+          <%}%>
         <%}%>
-      <%}%>
 
 	/**
 	 * The cached value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
@@ -100,8 +101,8 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 */
 	protected <%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = <%=genFeature.getUpperName()%>_EDEFAULT;
 
-    <%}%>
-    <%if (!genFeature.isListType() && genFeature.isUnsettable() && genFeature.isChangeable()) {%>
+      <%}%>
+      <%if (!genFeature.isListType() && genFeature.isUnsettable() && genFeature.isChangeable()) {%>
 	/**
 	 * This is true if the <%=genFeature.getFormattedName()%> <%=genFeature.getFeatureKind()%> has been set.
 	 * <!-- begin-user-doc -->
@@ -111,6 +112,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 */
 	protected boolean <%=genFeature.getUncapName()%>ESet = false;
 
+      <%}%>
     <%}%>
   <%}%>
 <%}%>
@@ -142,7 +144,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 */
 	public <%=genFeature.getImportedType()%> <%=genFeature.getGetAccessor()%>()
 	{
-<%if (!genFeature.isVolatile()) {%>
+<%if (genModel.isReflectiveDelegation()) {%>
+		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)eGet(<%=genFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genFeature.getFeatureAccessorName()%>(), true)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
+<%} else if (!genFeature.isVolatile()) {%>
   <%if (genFeature.isListType()) { String unsettable = genFeature.isUnsettable() ? ".Unsettable" : ""; %>
 		if (<%=genFeature.getSafeName()%> == null)
 		{
@@ -228,7 +232,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
       <%}%>
     <%} else {%>
       <%if (delegateFeature.isFeatureMapWrapped()) {%>
-		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)((<%=delegateFeature.getImportedEffectiveFeatureMapWrapperInternalInterface()%>)get<%=delegateFeature.getAccessorName()%>()).featureMap().get(<%=genFeature.getQualifiedFeatureAccessorName()%>(),true)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
+		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)((<%=delegateFeature.getImportedEffectiveFeatureMapWrapperInternalInterface()%>)get<%=delegateFeature.getAccessorName()%>()).featureMap().get(<%=genFeature.getQualifiedFeatureAccessorName()%>(), true)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
       <%} else {%>
 		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)get<%=delegateFeature.getAccessorName()%>().get(<%=genFeature.getQualifiedFeatureAccessorName()%>(), true)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
       <%}%>
@@ -241,7 +245,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 <%}%>
 	}
 
-<%if (genFeature.isResolveProxies() && !genFeature.isListType()) {%>
+<%if (!genModel.isReflectiveDelegation() && genFeature.isResolveProxies() && !genFeature.isListType()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -267,7 +271,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 
 <%}%>
 <%if (!genFeature.isListType()) {%>
-<%if (genFeature.isBidirectional() && !genFeature.isContainer() && !genFeature.isVolatile() || genFeature.isContains()) {%>
+<%if (!genModel.isReflectiveDelegation() && (genFeature.isBidirectional() && !genFeature.isContainer() && !genFeature.isVolatile() || genFeature.isContains())) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -317,7 +321,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 */
 	public void set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%> new<%=genFeature.getCapName()%>)
 	{
-<%if (!genFeature.isVolatile()) {%>
+<%if (genModel.isReflectiveDelegation()) {%>
+		eSet(<%=genFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genFeature.getFeatureAccessorName()%>(), <%if (genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType()%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()) {%>)<%}%>);
+<%} else if (!genFeature.isVolatile()) {%>
   <%if (genFeature.isContainer()) { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
 		if (new<%=genFeature.getCapName()%> != eContainer || (eContainerFeatureID != <%=genClass.getQualifiedFeatureID(genFeature)%> && new<%=genFeature.getCapName()%> != null))
 		{
@@ -433,7 +439,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 */
 	public void unset<%=genFeature.getAccessorName()%>()
 	{
-<%if (!genFeature.isVolatile()) {%>
+<%if (genModel.isReflectiveDelegation()) {%>
+		eUnset(<%=genFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genFeature.getFeatureAccessorName()%>());
+<%} else if (!genFeature.isVolatile()) {%>
 <%if (genFeature.isListType()) {%>
 		((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList")%>.Unsettable)get<%=genFeature.getAccessorName()%>()).unset();
 <%} else if (genFeature.isBidirectional() || genFeature.isContains()) {%>
@@ -491,7 +499,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 */
 	public boolean isSet<%=genFeature.getAccessorName()%>()
 	{
-<%if (!genFeature.isVolatile()) {%>
+<%if (genModel.isReflectiveDelegation()) {%>
+		return eIsSet(<%=genFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genFeature.getFeatureAccessorName()%>());
+<%} else if (!genFeature.isVolatile()) {%>
 <%if (genFeature.isListType()) {%>
 		return <%=genFeature.getSafeName()%> != null && ((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList")%>.Unsettable)<%=genFeature.getSafeName()%>).isSet();
 <%} else {%>
@@ -534,7 +544,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	}
 
 <%}//for%>
-<%if (!genClass.getEInverseAddGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && !genClass.getEInverseAddGenFeatures().isEmpty()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -578,7 +588,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	}
 
 <%}%>
-<%if (!genClass.getEInverseRemoveGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && !genClass.getEInverseRemoveGenFeatures().isEmpty()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -616,7 +626,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	}
 
 <%}%>
-<%if (!genClass.getEBasicRemoveFromContainerGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && !genClass.getEBasicRemoveFromContainerGenFeatures().isEmpty()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -641,7 +651,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	}
 
 <%}%>
-<%if (!genClass.getAllGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && !genClass.getAllGenFeatures().isEmpty()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -675,7 +685,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	}
 
 <%}%>
-<%if (!genClass.getESetGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && !genClass.getESetGenFeatures().isEmpty()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -744,7 +754,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	}
 
 <%}%>
-<%if (!genClass.getAllGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && !genClass.getAllGenFeatures().isEmpty()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -853,7 +863,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	}
 
 <%}%>
-<%if (!genClass.getToStringGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && !genClass.getToStringGenFeatures().isEmpty()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
