@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.6 2004/08/24 15:54:54 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.7 2004/08/31 13:24:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2066,7 +2066,14 @@ public class XSDSchemaImpl
       XSDSchema resolvedSchema = (XSDSchema)resolvedSchemas.next();
       XSDNamedComponent xsdNamedComponent = 
         XSDNamedComponentImpl.findInSortedList
-          ((List)resolvedSchema.eGet(namedComponentsRefReference), resolvedSchema.getTargetNamespace(), localName);
+          ((List)resolvedSchema.eGet(namedComponentsRefReference), namespace, localName);
+      if (xsdNamedComponent == null && namespace == null && resolvedSchema == this && getTargetNamespace() != null)
+      {
+         xsdNamedComponent = 
+           XSDNamedComponentImpl.findInSortedList
+             ((List)resolvedSchema.eGet(namedComponentsRefReference), getTargetNamespace(), localName);
+        
+      }
       if (xsdNamedComponent != null)
       {
         return xsdNamedComponent;
@@ -2907,6 +2914,7 @@ public class XSDSchemaImpl
 
       if (redefinedSchema.getTargetNamespace() == null && redefiningSchema.getTargetNamespace() != null)
       {
+        redefinedSchema.patch();
         redefinedSchema.setTargetNamespace(redefiningSchema.getTargetNamespace());
         redefinedSchema.patch();
       }
@@ -2927,8 +2935,8 @@ public class XSDSchemaImpl
         }
       }
 
-      getIncorporatedVersions().add(redefinedSchema);
       redefinedSchema.pendingSchemaLocation = getSchemaLocation();
+      getIncorporatedVersions().add(redefinedSchema);
       redefinedSchema.incorporate(xsdRedefine);
       return redefinedSchema;
     }
@@ -2962,6 +2970,7 @@ public class XSDSchemaImpl
           }
         }
         XSDSchemaImpl includedSchema = (XSDSchemaImpl)cloneConcreteComponent(true, true);
+        includedSchema.patch();
         includedSchema.setTargetNamespace(includingSchema.getTargetNamespace());
         includedSchema.patch();
         getIncorporatedVersions().add(includedSchema);
