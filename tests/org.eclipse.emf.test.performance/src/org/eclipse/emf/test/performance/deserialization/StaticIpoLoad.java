@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIpoLoad.java,v 1.1 2005/02/04 22:11:08 elena Exp $
+ * $Id: StaticIpoLoad.java,v 1.2 2005/02/18 18:17:01 bportier Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.test.performance.deserialization;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -38,7 +37,6 @@ public class StaticIpoLoad extends DynamicIpoLoad
   public StaticIpoLoad(String name)
   {
     super(name);
-    EPackage.Registry.INSTANCE.clear();
   }
 
   public static Test suite()

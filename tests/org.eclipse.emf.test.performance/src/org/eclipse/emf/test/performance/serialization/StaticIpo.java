@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIpo.java,v 1.2 2005/02/04 22:11:08 elena Exp $
+ * $Id: StaticIpo.java,v 1.3 2005/02/18 18:17:27 bportier Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.test.performance.serialization;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -38,7 +37,6 @@ public class StaticIpo extends DynamicIpo
   public StaticIpo(String name)
   {
     super(name);
-    EPackage.Registry.INSTANCE.clear();
   }
 
   public static Test suite()
