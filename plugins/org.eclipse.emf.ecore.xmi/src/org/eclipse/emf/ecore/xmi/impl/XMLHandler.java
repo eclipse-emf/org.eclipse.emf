@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.16 2004/08/17 14:58:18 emerks Exp $
+ * $Id: XMLHandler.java,v 1.17 2004/08/18 20:21:29 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -330,6 +330,12 @@ public abstract class XMLHandler
     }
     
     helper.setAnySimpleType(anySimpleType);
+    
+    eClassFeatureNamePairToEStructuralFeatureMap = (HashMap)options.get(XMLResource.OPTION_USE_XMLNAME_TO_FEATURE_MAP);
+    if (eClassFeatureNamePairToEStructuralFeatureMap == null)
+    {
+      eClassFeatureNamePairToEStructuralFeatureMap = new HashMap();
+    }
   }
 
   protected void setExtendedMetaDataOption(Object extendedMetaDataOption)
@@ -1949,7 +1955,7 @@ public abstract class XMLHandler
   {
     public EClass eClass;
     public String featureName;
-    public String prefix;
+    public String namespaceURI;
     public boolean isElement;
 
     public boolean equals(Object that)
@@ -1958,17 +1964,17 @@ public abstract class XMLHandler
       return  
         typedThat.eClass == eClass && 
           typedThat.featureName == featureName &&
-          typedThat.prefix == prefix &&
+          typedThat.namespaceURI == namespaceURI &&
           typedThat.isElement == isElement;
     }
 
     public int hashCode()
     {
-      return eClass.hashCode() ^ featureName.hashCode() ^ (prefix == null ? 0 : prefix.hashCode()) + (isElement ? 0 : 1);
+      return eClass.hashCode() ^ featureName.hashCode() ^ (namespaceURI == null ? 0 : namespaceURI.hashCode()) + (isElement ? 0 : 1);
     }
   }
 
-  Map eClassFeatureNamePairToEStructuralFeatureMap = new HashMap();
+  Map eClassFeatureNamePairToEStructuralFeatureMap = null;
   EClassFeatureNamePair eClassFeatureNamePair = new  EClassFeatureNamePair();
 
   /**
@@ -1992,15 +1998,15 @@ public abstract class XMLHandler
    */
   protected EStructuralFeature getFeature(EObject object, String prefix, String name, boolean isElement)
   {
+    String namespace = helper.getURI(prefix);
     EClass eClass = object.eClass();
     eClassFeatureNamePair.eClass = eClass;
     eClassFeatureNamePair.featureName = name;
-    eClassFeatureNamePair.prefix = prefix;
+    eClassFeatureNamePair.namespaceURI = namespace;
     eClassFeatureNamePair.isElement = isElement;
     EStructuralFeature result = (EStructuralFeature)eClassFeatureNamePairToEStructuralFeatureMap.get(eClassFeatureNamePair);
     if (result == null)
     {
-      String namespace = helper.getURI(prefix);
       result = helper.getFeature(eClass, namespace, name, isElement);
 
       if (result == null)
@@ -2036,7 +2042,7 @@ public abstract class XMLHandler
       EClassFeatureNamePair entry = new EClassFeatureNamePair();
       entry.eClass = eClass;
       entry.featureName = name;
-      entry.prefix = prefix;
+      entry.namespaceURI = namespace;
       entry.isElement = isElement;
       eClassFeatureNamePairToEStructuralFeatureMap.put(entry, result);
     }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.13 2004/06/23 17:04:44 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.14 2004/08/18 20:21:29 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -899,7 +899,7 @@ public class XMLHelperImpl implements XMLHelper
   {
     if (!"xml".equals(prefix) && !"xmlns".equals(prefix))
     {
-      uri = (uri.length() == 0) ? null : uri;
+      uri = (uri.length() == 0) ? null : uri.intern();
       namespaceSupport.declarePrefix(prefix, uri);
       
       Object originalURI = null;

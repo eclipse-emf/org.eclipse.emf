@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.9 2004/08/06 20:06:41 emerks Exp $
+ * $Id: XMLResource.java,v 1.10 2004/08/18 20:21:29 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -40,6 +40,14 @@ public interface XMLResource extends Resource
    * @see org.eclipse.emf.ecore.xmi.XMLParserPool
    */
   String OPTION_USE_PARSER_POOL = "USE_PARSER_POOL";
+  
+  /**
+   * Specify a map {@link Map} to be used during the subsequent loading of XML documents.
+   * This is a mapping between XML name, namespace and an EClass to the corresponding EStructuralFeature.
+   * @see org.eclipse.emf.ecore.EClass
+   * @see org.eclipse.emf.ecore.EStructuralFeature
+   */
+  String OPTION_USE_XMLNAME_TO_FEATURE_MAP = "USE_XMLNAME_TO_FEATURE_MAP";
   
   /**
    * Specify parser features with their corresponding values, 
