@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.5 2004/11/04 07:25:56 marcelop Exp $
+ * $Id: BuildTests.java,v 1.6 2004/11/04 17:08:22 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -134,8 +134,8 @@ public class BuildTests extends TestCase
     }
     catch (FileNotFoundException e)
     {
-      System.out.println("Could not open log file: " + string);
-      result = true;
+      System.out.println("**WARNING** Could not open log file: " + string);
+      result = false; // if no file, no errors!
     }
     catch (IOException e)
     {
@@ -611,13 +611,17 @@ public class BuildTests extends TestCase
   {
     String[] zipFiles = locateBuildGeneratedZipFiles();
     String sniffFolder = Platform.getInstanceLocation().getURL().getFile();
+    
+    System.out("sniffFolder = "+sniffFolder);
+    
     FileTool.IZipFilter zipFilter = getTrueFilter();
 
     for (int i = 0; i < zipFiles.length; i++)
     {
       try
       {
-        FileTool.unzip(zipFilter, new ZipFile(zipFiles[i]), new File(sniffFolder));
+            System.out("Unzipping: "+zipFiles[i]);
+            FileTool.unzip(zipFilter, new ZipFile(zipFiles[i]), new File(sniffFolder));
       }
       catch (IOException e)
       {
@@ -767,11 +771,15 @@ public class BuildTests extends TestCase
       {
       }
       aProcess.waitFor();
-      Thread.sleep(5000);
+      Thread.sleep(1000);
     }
-    catch (Exception e)
+    catch (IOException e)
     {
       e.printStackTrace();
+      return false;
+    }
+    catch (InterruptedException e)
+    {
       return false;
     }
     return !hasErrors(getOutputFile(type));
