@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesPackageImpl.java,v 1.1 2004/05/12 22:05:58 marcelop Exp $
+ * $Id: TypesPackageImpl.java,v 1.2 2004/06/07 19:46:46 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types.impl;
 
@@ -67,6 +67,27 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
   private EDataType myDateEDataType = null;
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EDataType myNumberEDataType = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EDataType myObjectEDataType = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EDataType myThreadEDataType = null;
+
+  /**
    * Creates an instance of the model <b>Package</b>, registered with
    * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
    * package URI value.
@@ -119,20 +140,18 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
   {
     if (isInited) return (TypesPackage)EPackage.Registry.INSTANCE.get(TypesPackage.eNS_URI);
 
-    // Obtain or create and register package.
-    TypesPackageImpl theTypesPackage = (TypesPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new TypesPackageImpl());
+    // Obtain or create and register package
+    TypesPackageImpl theTypesPackage = (TypesPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof TypesPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new TypesPackageImpl());
 
     isInited = true;
 
     // Initialize simple dependencies
     XMLTypePackageImpl.init();
 
-    // Obtain or create and register interdependencies
-
-    // Step 1: create meta-model objects
+    // Create package meta-data objects
     theTypesPackage.createPackageContents();
 
-    // Step 2: complete initialization
+    // Initialize created meta-data
     theTypesPackage.initializePackageContents();
 
     return theTypesPackage;
@@ -203,6 +222,36 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getAThing_ANumber()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(13);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_AObject()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(14);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_AThread()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(15);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EDataType getMyBytes()
   {
     return myBytesEDataType;
@@ -236,6 +285,36 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
   public EDataType getMyDate()
   {
     return myDateEDataType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EDataType getMyNumber()
+  {
+    return myNumberEDataType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EDataType getMyObject()
+  {
+    return myObjectEDataType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EDataType getMyThread()
+  {
+    return myThreadEDataType;
   }
 
   /**
@@ -362,12 +441,18 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
     createEAttribute(aThingEClass, ATHING__ACHAR);
     createEAttribute(aThingEClass, ATHING__ADATE);
     createEAttribute(aThingEClass, ATHING__ABYTES);
+    createEAttribute(aThingEClass, ATHING__ANUMBER);
+    createEAttribute(aThingEClass, ATHING__AOBJECT);
+    createEAttribute(aThingEClass, ATHING__ATHREAD);
 
     // Create data types
     myBytesEDataType = createEDataType(MY_BYTES);
     myCharEDataType = createEDataType(MY_CHAR);
     myCharObjectEDataType = createEDataType(MY_CHAR_OBJECT);
     myDateEDataType = createEDataType(MY_DATE);
+    myNumberEDataType = createEDataType(MY_NUMBER);
+    myObjectEDataType = createEDataType(MY_OBJECT);
+    myThreadEDataType = createEDataType(MY_THREAD);
   }
 
   /**
@@ -400,7 +485,7 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
-    initEClass(aThingEClass, AThing.class, "AThing", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(aThingEClass, AThing.class, "AThing", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getAThing_ABoolean(), theXMLTypePackage.getBoolean(), "aBoolean", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getAThing_AByte(), theXMLTypePackage.getByte(), "aByte", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getAThing_ADecimal(), theXMLTypePackage.getDecimal(), "aDecimal", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -414,12 +499,18 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
     initEAttribute(getAThing_AChar(), this.getMyChar(), "aChar", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getAThing_ADate(), this.getMyDate(), "aDate", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getAThing_ABytes(), this.getMyBytes(), "aBytes", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ANumber(), this.getMyNumber(), "aNumber", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_AObject(), this.getMyObject(), "aObject", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_AThread(), this.getMyThread(), "aThread", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize data types
-    initEDataType(myBytesEDataType, byte[].class, "MyBytes", IS_SERIALIZABLE);
-    initEDataType(myCharEDataType, char.class, "MyChar", IS_SERIALIZABLE);
-    initEDataType(myCharObjectEDataType, Character.class, "MyCharObject", IS_SERIALIZABLE);
-    initEDataType(myDateEDataType, Date.class, "MyDate", IS_SERIALIZABLE);
+    initEDataType(myBytesEDataType, byte[].class, "MyBytes", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(myCharEDataType, char.class, "MyChar", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(myCharObjectEDataType, Character.class, "MyCharObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(myDateEDataType, Date.class, "MyDate", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(myNumberEDataType, Number.class, "MyNumber", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(myObjectEDataType, Object.class, "MyObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(myThreadEDataType, Thread.class, "MyThread", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);
@@ -551,6 +642,30 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
        "name", "aBytes"
        });		
     addAnnotation
+      (getAThing_ANumber(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "aNumber"
+       });		
+    addAnnotation
+      (getAThing_AObject(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "aObject"
+       });		
+    addAnnotation
+      (getAThing_AThread(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "aThread"
+       });		
+    addAnnotation
       (myBytesEDataType, 
        source, 
        new String[] 
@@ -578,6 +693,28 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
        new String[] 
        {
        "name", "myDate"
+       });		
+    addAnnotation
+      (myNumberEDataType, 
+       source, 
+       new String[] 
+       {
+       "name", "myNumber"
+       });		
+    addAnnotation
+      (myObjectEDataType, 
+       source, 
+       new String[] 
+       {
+       "name", "myObject"
+       });		
+    addAnnotation
+      (myThreadEDataType, 
+       source, 
+       new String[] 
+       {
+       "name", "myThread"
        });
   }
+
 } //TypesPackageImpl

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesResourceFactoryImpl.java,v 1.1 2004/05/12 22:05:58 marcelop Exp $
+ * $Id: TypesResourceFactoryImpl.java,v 1.2 2004/06/07 19:46:46 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types.util;
 
@@ -62,4 +62,5 @@ public class TypesResourceFactoryImpl extends XMLResourceFactoryImpl
     result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
     return result;
   }
+
 } //TypesResourceFactoryImpl

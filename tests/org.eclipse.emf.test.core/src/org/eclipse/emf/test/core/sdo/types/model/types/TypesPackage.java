@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesPackage.java,v 1.1 2004/05/12 22:05:58 marcelop Exp $
+ * $Id: TypesPackage.java,v 1.2 2004/06/07 19:46:46 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types;
 
@@ -186,13 +186,40 @@ public interface TypesPackage extends EPackage{
   int ATHING__ABYTES = 12;
 
   /**
+   * The feature id for the '<em><b>ANumber</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ATHING__ANUMBER = 13;
+
+  /**
+   * The feature id for the '<em><b>AObject</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ATHING__AOBJECT = 14;
+
+  /**
+   * The feature id for the '<em><b>AThread</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ATHING__ATHREAD = 15;
+
+  /**
    * The number of structural features of the the '<em>AThing</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ATHING_FEATURE_COUNT = 13;
+  int ATHING_FEATURE_COUNT = 16;
 
 
   /**
@@ -232,6 +259,37 @@ public interface TypesPackage extends EPackage{
    * @generated
    */
   int MY_DATE = 4;
+
+
+  /**
+   * The meta object id for the '<em>My Number</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see java.lang.Number
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesPackageImpl#getMyNumber()
+   * @generated
+   */
+  int MY_NUMBER = 5;
+
+  /**
+   * The meta object id for the '<em>My Object</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see java.lang.Object
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesPackageImpl#getMyObject()
+   * @generated
+   */
+  int MY_OBJECT = 6;
+
+  /**
+   * The meta object id for the '<em>My Thread</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see java.lang.Thread
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.impl.TypesPackageImpl#getMyThread()
+   * @generated
+   */
+  int MY_THREAD = 7;
 
 
   /**
@@ -300,6 +358,39 @@ public interface TypesPackage extends EPackage{
   EAttribute getAThing_ABytes();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getANumber <em>ANumber</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>ANumber</em>'.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getANumber()
+   * @see #getAThing()
+   * @generated
+   */
+  EAttribute getAThing_ANumber();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAObject <em>AObject</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>AObject</em>'.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAObject()
+   * @see #getAThing()
+   * @generated
+   */
+  EAttribute getAThing_AObject();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAThread <em>AThread</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>AThread</em>'.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAThread()
+   * @see #getAThing()
+   * @generated
+   */
+  EAttribute getAThing_AThread();
+
+  /**
    * Returns the meta object for data type '<em>My Bytes</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -340,6 +431,39 @@ public interface TypesPackage extends EPackage{
    * @generated
    */
   EDataType getMyDate();
+
+  /**
+   * Returns the meta object for data type '{@link java.lang.Number <em>My Number</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for data type '<em>My Number</em>'.
+   * @see java.lang.Number
+   * @model instanceClass="java.lang.Number"
+   * @generated
+   */
+  EDataType getMyNumber();
+
+  /**
+   * Returns the meta object for data type '{@link java.lang.Object <em>My Object</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for data type '<em>My Object</em>'.
+   * @see java.lang.Object
+   * @model instanceClass="java.lang.Object"
+   * @generated
+   */
+  EDataType getMyObject();
+
+  /**
+   * Returns the meta object for data type '{@link java.lang.Thread <em>My Thread</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for data type '<em>My Thread</em>'.
+   * @see java.lang.Thread
+   * @model instanceClass="java.lang.Thread"
+   * @generated
+   */
+  EDataType getMyThread();
 
   /**
    * Returns the meta object for the attribute '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAFloat <em>AFloat</em>}'.

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: AThingImpl.java,v 1.1 2004/05/12 22:05:58 marcelop Exp $
+ * $Id: AThingImpl.java,v 1.2 2004/06/07 19:46:46 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types.impl;
 
@@ -43,6 +43,9 @@ import org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage;
  *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getAChar <em>AChar</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getADate <em>ADate</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getABytes <em>ABytes</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getANumber <em>ANumber</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getAObject <em>AObject</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.impl.AThingImpl#getAThread <em>AThread</em>}</li>
  * </ul>
  * </p>
  *
@@ -383,6 +386,66 @@ public class AThingImpl extends EDataObjectImpl implements AThing
   protected byte[] aBytes = ABYTES_EDEFAULT;
 
   /**
+   * The default value of the '{@link #getANumber() <em>ANumber</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getANumber()
+   * @generated
+   * @ordered
+   */
+  protected static final Number ANUMBER_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getANumber() <em>ANumber</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getANumber()
+   * @generated
+   * @ordered
+   */
+  protected Number aNumber = ANUMBER_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getAObject() <em>AObject</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getAObject()
+   * @generated
+   * @ordered
+   */
+  protected static final Object AOBJECT_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getAObject() <em>AObject</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getAObject()
+   * @generated
+   * @ordered
+   */
+  protected Object aObject = AOBJECT_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getAThread() <em>AThread</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getAThread()
+   * @generated
+   * @ordered
+   */
+  protected static final Thread ATHREAD_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getAThread() <em>AThread</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getAThread()
+   * @generated
+   * @ordered
+   */
+  protected Thread aThread = ATHREAD_EDEFAULT;
+
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -569,6 +632,75 @@ public class AThingImpl extends EDataObjectImpl implements AThing
     aBytes = newABytes;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__ABYTES, oldABytes, aBytes));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Number getANumber()
+  {
+    return aNumber;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setANumber(Number newANumber)
+  {
+    Number oldANumber = aNumber;
+    aNumber = newANumber;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__ANUMBER, oldANumber, aNumber));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Object getAObject()
+  {
+    return aObject;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setAObject(Object newAObject)
+  {
+    Object oldAObject = aObject;
+    aObject = newAObject;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__AOBJECT, oldAObject, aObject));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Thread getAThread()
+  {
+    return aThread;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setAThread(Thread newAThread)
+  {
+    Thread oldAThread = aThread;
+    aThread = newAThread;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, TypesPackage.ATHING__ATHREAD, oldAThread, aThread));
   }
 
   /**
@@ -952,6 +1084,12 @@ public class AThingImpl extends EDataObjectImpl implements AThing
         return getADate();
       case TypesPackage.ATHING__ABYTES:
         return getABytes();
+      case TypesPackage.ATHING__ANUMBER:
+        return getANumber();
+      case TypesPackage.ATHING__AOBJECT:
+        return getAObject();
+      case TypesPackage.ATHING__ATHREAD:
+        return getAThread();
     }
     return eDynamicGet(eFeature, resolve);
   }
@@ -1003,6 +1141,15 @@ public class AThingImpl extends EDataObjectImpl implements AThing
         return;
       case TypesPackage.ATHING__ABYTES:
         setABytes((byte[])newValue);
+        return;
+      case TypesPackage.ATHING__ANUMBER:
+        setANumber((Number)newValue);
+        return;
+      case TypesPackage.ATHING__AOBJECT:
+        setAObject((Object)newValue);
+        return;
+      case TypesPackage.ATHING__ATHREAD:
+        setAThread((Thread)newValue);
         return;
     }
     eDynamicSet(eFeature, newValue);
@@ -1056,6 +1203,15 @@ public class AThingImpl extends EDataObjectImpl implements AThing
       case TypesPackage.ATHING__ABYTES:
         setABytes(ABYTES_EDEFAULT);
         return;
+      case TypesPackage.ATHING__ANUMBER:
+        setANumber(ANUMBER_EDEFAULT);
+        return;
+      case TypesPackage.ATHING__AOBJECT:
+        setAObject(AOBJECT_EDEFAULT);
+        return;
+      case TypesPackage.ATHING__ATHREAD:
+        setAThread(ATHREAD_EDEFAULT);
+        return;
     }
     eDynamicUnset(eFeature);
   }
@@ -1095,6 +1251,12 @@ public class AThingImpl extends EDataObjectImpl implements AThing
         return ADATE_EDEFAULT == null ? aDate != null : !ADATE_EDEFAULT.equals(aDate);
       case TypesPackage.ATHING__ABYTES:
         return ABYTES_EDEFAULT == null ? aBytes != null : !ABYTES_EDEFAULT.equals(aBytes);
+      case TypesPackage.ATHING__ANUMBER:
+        return ANUMBER_EDEFAULT == null ? aNumber != null : !ANUMBER_EDEFAULT.equals(aNumber);
+      case TypesPackage.ATHING__AOBJECT:
+        return AOBJECT_EDEFAULT == null ? aObject != null : !AOBJECT_EDEFAULT.equals(aObject);
+      case TypesPackage.ATHING__ATHREAD:
+        return ATHREAD_EDEFAULT == null ? aThread != null : !ATHREAD_EDEFAULT.equals(aThread);
     }
     return eDynamicIsSet(eFeature);
   }
@@ -1135,6 +1297,12 @@ public class AThingImpl extends EDataObjectImpl implements AThing
     result.append(aDate);
     result.append(", aBytes: ");
     result.append(aBytes);
+    result.append(", aNumber: ");
+    result.append(aNumber);
+    result.append(", aObject: ");
+    result.append(aObject);
+    result.append(", aThread: ");
+    result.append(aThread);
     result.append(')');
     return result.toString();
   }

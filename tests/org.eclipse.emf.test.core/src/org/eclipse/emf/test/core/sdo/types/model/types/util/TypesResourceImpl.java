@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesResourceImpl.java,v 1.1 2004/05/12 22:05:58 marcelop Exp $
+ * $Id: TypesResourceImpl.java,v 1.2 2004/06/07 19:46:47 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types.util;
 
@@ -30,4 +30,5 @@ public class TypesResourceImpl extends XMLResourceImpl
   {
     super(uri);
   }
+
 } //TypesResourceFactoryImpl

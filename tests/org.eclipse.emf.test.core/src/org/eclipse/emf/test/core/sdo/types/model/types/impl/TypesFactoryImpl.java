@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesFactoryImpl.java,v 1.2 2004/05/13 14:13:39 marcelop Exp $
+ * $Id: TypesFactoryImpl.java,v 1.3 2004/06/07 19:46:46 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types.impl;
 
@@ -67,6 +67,12 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
         return createMyCharObjectFromString(eDataType, initialValue);
       case TypesPackage.MY_DATE:
         return createMyDateFromString(eDataType, initialValue);
+      case TypesPackage.MY_NUMBER:
+        return createMyNumberFromString(eDataType, initialValue);
+      case TypesPackage.MY_OBJECT:
+        return createMyObjectFromString(eDataType, initialValue);
+      case TypesPackage.MY_THREAD:
+        return createMyThreadFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -89,6 +95,12 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
         return convertMyCharObjectToString(eDataType, instanceValue);
       case TypesPackage.MY_DATE:
         return convertMyDateToString(eDataType, instanceValue);
+      case TypesPackage.MY_NUMBER:
+        return convertMyNumberToString(eDataType, instanceValue);
+      case TypesPackage.MY_OBJECT:
+        return convertMyObjectToString(eDataType, instanceValue);
+      case TypesPackage.MY_THREAD:
+        return convertMyThreadToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -190,6 +202,66 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public Number createMyNumberFromString(EDataType eDataType, String initialValue)
+  {
+    return (Number)super.createFromString(eDataType, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertMyNumberToString(EDataType eDataType, Object instanceValue)
+  {
+    return super.convertToString(eDataType, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Object createMyObjectFromString(EDataType eDataType, String initialValue)
+  {
+    return (Object)super.createFromString(eDataType, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertMyObjectToString(EDataType eDataType, Object instanceValue)
+  {
+    return super.convertToString(eDataType, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Thread createMyThreadFromString(EDataType eDataType, String initialValue)
+  {
+    return (Thread)super.createFromString(eDataType, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertMyThreadToString(EDataType eDataType, Object instanceValue)
+  {
+    return super.convertToString(eDataType, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public TypesPackage getTypesPackage()
   {
     return (TypesPackage)getEPackage();
@@ -205,4 +277,5 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
   {
     return TypesPackage.eINSTANCE;
   }
+
 } //TypesFactoryImpl

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SDOUtilSetTest.java,v 1.1 2004/05/12 22:05:58 marcelop Exp $
+ * $Id: SDOUtilSetTest.java,v 1.2 2004/06/07 19:46:46 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types;
 
@@ -173,6 +173,63 @@ public class SDOUtilSetTest extends TestCase
     SDOUtil.setBigDecimal((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
+    //Object
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    assertEquals(value, thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    assertEquals(value, thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setBigDecimal((EObject)thing, "aObject", value);
+    assertEquals(value, thing.getAObject());
+    thing.setAObject("");
+    //Number
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    assertEquals(value, thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    assertEquals(value, thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setBigDecimal((EObject)thing, "aNumber", value);
+    assertEquals(value, thing.getANumber());
+    thing.setANumber(null);
+    //Thread
+    Thread thread = new Thread();
+    boolean classCastExceptionHappened = false;
+    thing.setAThread(thread);
+    try
+    {
+      SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      classCastExceptionHappened = false;
+    }
+    catch(ClassCastException e)
+    {
+      classCastExceptionHappened = true;
+    }
+    assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		  SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		    SDOUtil.setBigDecimal((EObject)thing, "aThread", value);
+		    classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
   }
 
   public void testSetBigInteger() throws Exception
@@ -295,6 +352,63 @@ public class SDOUtilSetTest extends TestCase
     SDOUtil.setBigInteger((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
+    //Object
+    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    assertEquals(value, thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    assertEquals(value, thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setBigInteger((EObject)thing, "aObject", value);
+    assertEquals(value, thing.getAObject());
+    thing.setAObject("");
+    //Number
+    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    assertEquals(value, thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    assertEquals(value, thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setBigInteger((EObject)thing, "aNumber", value);
+    assertEquals(value, thing.getANumber());
+    thing.setANumber(null);
+    //Thread
+    Thread thread = new Thread();
+    boolean classCastExceptionHappened = false;
+    thing.setAThread(thread);
+    try
+    {
+      SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      classCastExceptionHappened = false;
+    }
+    catch(ClassCastException e)
+    {
+      classCastExceptionHappened = true;
+    }
+    assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		  SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		    SDOUtil.setBigInteger((EObject)thing, "aThread", value);
+		    classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
   }
 
   public void testSetByte() throws Exception
@@ -377,6 +491,63 @@ public class SDOUtilSetTest extends TestCase
     SDOUtil.setByte((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
+    //Object
+    SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    assertEquals(new Byte(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    assertEquals(new Byte(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setByte((EObject)thing, "aObject", value);
+    assertEquals(new Byte(value), thing.getAObject());
+    thing.setAObject("");
+    //Number
+    SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    assertEquals(new Byte(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    assertEquals(new Byte(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setByte((EObject)thing, "aNumber", value);
+    assertEquals(new Byte(value), thing.getANumber());
+    thing.setANumber(null);
+    //Thread
+    Thread thread = new Thread();
+    boolean classCastExceptionHappened = false;
+    thing.setAThread(thread);
+    try
+    {
+      SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      classCastExceptionHappened = false;
+    }
+    catch(ClassCastException e)
+    {
+      classCastExceptionHappened = true;
+    }
+    assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		  SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		    SDOUtil.setByte((EObject)thing, "aThread", value);
+		    classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
   }
   
   public void testSetBoolean() throws Exception
@@ -470,6 +641,53 @@ public class SDOUtilSetTest extends TestCase
     SDOUtil.setChar((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString(null);
+    //Object
+    SDOUtil.setChar((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    assertEquals(new Character(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setChar((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    assertEquals(new Character(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setChar((EObject)thing, "aObject", value);
+    assertEquals(new Character(value), thing.getAObject());
+    thing.setAObject("");
+    //Thread
+    Thread thread = new Thread();
+    boolean classCastExceptionHappened = false;
+    thing.setAThread(thread);
+    try
+    {
+      SDOUtil.setChar((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      classCastExceptionHappened = false;
+    }
+    catch(ClassCastException e)
+    {
+      classCastExceptionHappened = true;
+    }
+    assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		  SDOUtil.setChar((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		    SDOUtil.setChar((EObject)thing, "aThread", value);
+		    classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
   }
   
   public void testSetDate() throws Exception
@@ -603,6 +821,63 @@ public class SDOUtilSetTest extends TestCase
     SDOUtil.setDouble((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
+    //Object
+    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    assertEquals(new Double(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    assertEquals(new Double(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setDouble((EObject)thing, "aObject", value);
+    assertEquals(new Double(value), thing.getAObject());
+    thing.setAObject("");
+    //Number
+    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    assertEquals(new Double(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    assertEquals(new Double(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setDouble((EObject)thing, "aNumber", value);
+    assertEquals(new Double(value), thing.getANumber());
+    thing.setANumber(null);
+    //Thread
+    Thread thread = new Thread();
+    boolean classCastExceptionHappened = false;
+    thing.setAThread(thread);
+    try
+    {
+      SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      classCastExceptionHappened = false;
+    }
+    catch(ClassCastException e)
+    {
+      classCastExceptionHappened = true;
+    }
+    assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		  SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		    SDOUtil.setDouble((EObject)thing, "aThread", value);
+		    classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
   }
 
   public void testSetFloat() throws Exception
@@ -627,13 +902,13 @@ public class SDOUtilSetTest extends TestCase
     thing.setADecimal(null);
     //BigInteger
     SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__AINTEGER, value);
-    assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
+    assertEquals(BigInteger.valueOf(new Float(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInteger"), value);
-    assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
+    assertEquals(BigInteger.valueOf(new Float(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     SDOUtil.setFloat((EObject)thing, "aInteger", value);
-    assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
+    assertEquals(BigInteger.valueOf(new Float(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     //byte
     SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__ABYTE, value);
@@ -705,6 +980,63 @@ public class SDOUtilSetTest extends TestCase
     SDOUtil.setFloat((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
+    //Object
+    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    assertEquals(new Float(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    assertEquals(new Float(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setFloat((EObject)thing, "aObject", value);
+    assertEquals(new Float(value), thing.getAObject());
+    thing.setAObject("");
+    //Number
+    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    assertEquals(new Float(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    assertEquals(new Float(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setFloat((EObject)thing, "aNumber", value);
+    assertEquals(new Float(value), thing.getANumber());
+    thing.setANumber(null);
+    //Thread
+    Thread thread = new Thread();
+    boolean classCastExceptionHappened = false;
+    thing.setAThread(thread);
+    try
+    {
+      SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      classCastExceptionHappened = false;
+    }
+    catch(ClassCastException e)
+    {
+      classCastExceptionHappened = true;
+    }
+    assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		  SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		    SDOUtil.setFloat((EObject)thing, "aThread", value);
+		    classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
   }
 
   public void testSetInt() throws Exception
@@ -807,6 +1139,63 @@ public class SDOUtilSetTest extends TestCase
     SDOUtil.setInt((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
+    //Object
+    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    assertEquals(new Integer(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    assertEquals(new Integer(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setInt((EObject)thing, "aObject", value);
+    assertEquals(new Integer(value), thing.getAObject());
+    thing.setAObject("");
+    //Number
+    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    assertEquals(new Integer(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    assertEquals(new Integer(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setInt((EObject)thing, "aNumber", value);
+    assertEquals(new Integer(value), thing.getANumber());
+    thing.setANumber(null);
+    //Thread
+    Thread thread = new Thread();
+    boolean classCastExceptionHappened = false;
+    thing.setAThread(thread);
+    try
+    {
+      SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      classCastExceptionHappened = false;
+    }
+    catch(ClassCastException e)
+    {
+      classCastExceptionHappened = true;
+    }
+    assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		  SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		    SDOUtil.setInt((EObject)thing, "aThread", value);
+		    classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
   }
 
   public void testSetLong() throws Exception
@@ -921,6 +1310,63 @@ public class SDOUtilSetTest extends TestCase
     SDOUtil.setLong((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
+    //Object
+    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    assertEquals(new Long(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    assertEquals(new Long(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setLong((EObject)thing, "aObject", value);
+    assertEquals(new Long(value), thing.getAObject());
+    thing.setAObject("");
+    //Number
+    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    assertEquals(new Long(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    assertEquals(new Long(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setLong((EObject)thing, "aNumber", value);
+    assertEquals(new Long(value), thing.getANumber());
+    thing.setANumber(null);
+    //Thread
+    Thread thread = new Thread();
+    boolean classCastExceptionHappened = false;
+    thing.setAThread(thread);
+    try
+    {
+      SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      classCastExceptionHappened = false;
+    }
+    catch(ClassCastException e)
+    {
+      classCastExceptionHappened = true;
+    }
+    assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		  SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		    SDOUtil.setLong((EObject)thing, "aThread", value);
+		    classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
   }
 
   public void testSetShort() throws Exception
@@ -1003,6 +1449,63 @@ public class SDOUtilSetTest extends TestCase
     SDOUtil.setShort((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
+    //Object
+    SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    assertEquals(new Short(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    assertEquals(new Short(value), thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setShort((EObject)thing, "aObject", value);
+    assertEquals(new Short(value), thing.getAObject());
+    thing.setAObject("");
+    //Number
+    SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    assertEquals(new Short(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    assertEquals(new Short(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setShort((EObject)thing, "aNumber", value);
+    assertEquals(new Short(value), thing.getANumber());
+    thing.setANumber(null);
+    //Thread
+    Thread thread = new Thread();
+    boolean classCastExceptionHappened = false;
+    thing.setAThread(thread);
+    try
+    {
+      SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      classCastExceptionHappened = false;
+    }
+    catch(ClassCastException e)
+    {
+      classCastExceptionHappened = true;
+    }
+    assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		  SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		    SDOUtil.setShort((EObject)thing, "aThread", value);
+		    classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
   }
 
   public void testSetString() throws Exception
@@ -1157,5 +1660,62 @@ public class SDOUtilSetTest extends TestCase
     SDOUtil.setString((EObject)thing, "aString", value);
     assertEquals(value, thing.getAString());
     thing.setAString("");
+    //Object
+    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    assertEquals(value, thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    assertEquals(value, thing.getAObject());
+    thing.setAObject("");
+    SDOUtil.setString((EObject)thing, "aObject", value);
+    assertEquals(value, thing.getAObject());
+    thing.setAObject("");
+    //Number
+    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    assertEquals(new Double(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    assertEquals(new Double(value), thing.getANumber());
+    thing.setANumber(null);
+    SDOUtil.setString((EObject)thing, "aNumber", value);
+    assertEquals(new Double(value), thing.getANumber());
+    thing.setANumber(null);
+    //Thread
+    Thread thread = new Thread();
+    boolean classCastExceptionHappened = false;
+    thing.setAThread(thread);
+    try
+    {
+      SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      classCastExceptionHappened = false;
+    }
+    catch(ClassCastException e)
+    {
+      classCastExceptionHappened = true;
+    }
+    assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		  SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
+    try
+    {
+		    SDOUtil.setString((EObject)thing, "aThread", value);
+		    classCastExceptionHappened = false;
+		}
+		catch(ClassCastException e)
+		{
+		  classCastExceptionHappened = true;
+		}
+		assertTrue(classCastExceptionHappened);
+    assertEquals(thread, thing.getAThread());
   }
 }

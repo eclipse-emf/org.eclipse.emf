@@ -18,6 +18,9 @@
     <genDataTypes ecoreDataType="com.example.types.ecore#//MyChar"/>
     <genDataTypes ecoreDataType="com.example.types.ecore#//MyCharObject"/>
     <genDataTypes ecoreDataType="com.example.types.ecore#//MyDate"/>
+    <genDataTypes ecoreDataType="com.example.types.ecore#//MyNumber"/>
+    <genDataTypes ecoreDataType="com.example.types.ecore#//MyObject"/>
+    <genDataTypes ecoreDataType="com.example.types.ecore#//MyThread"/>
     <genClasses ecoreClass="com.example.types.ecore#//AThing">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/aBoolean"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/aByte"/>
@@ -32,6 +35,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/aChar"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/aDate"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/aBytes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/aNumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/aObject"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/aThread"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

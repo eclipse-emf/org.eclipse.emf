@@ -20,6 +20,21 @@
 	    </xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:simpleType name="myNumber" ecore:instanceClass="java.lang.Number">
+	    <xsd:restriction base="xsd:string">
+	    </xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="myObject" ecore:instanceClass="java.lang.Object">
+	    <xsd:restriction base="xsd:string">
+	    </xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="myThread" ecore:instanceClass="java.lang.Thread">
+	    <xsd:restriction base="xsd:string">
+	    </xsd:restriction>
+	</xsd:simpleType>
+
    <xsd:complexType name="AThing">
        <xsd:sequence>
           <xsd:element name="aBoolean" type="xsd:boolean"/>
@@ -36,6 +51,10 @@
           <xsd:element name="aChar" type="types:myChar"/>
           <xsd:element name="aDate" type="types:myDate"/>
           <xsd:element name="aBytes" type="types:myBytes"/>
+
+          <xsd:element name="aNumber" type="types:myNumber"/>
+          <xsd:element name="aObject" type="types:myObject"/>
+          <xsd:element name="aThread" type="types:myThread"/>
        </xsd:sequence>
    </xsd:complexType>
 </xsd:schema>

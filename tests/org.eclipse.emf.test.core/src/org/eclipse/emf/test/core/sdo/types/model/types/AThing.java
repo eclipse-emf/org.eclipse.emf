@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: AThing.java,v 1.1 2004/05/12 22:05:58 marcelop Exp $
+ * $Id: AThing.java,v 1.2 2004/06/07 19:46:46 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types;
 
@@ -32,6 +32,9 @@ import java.util.Date;
  *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAChar <em>AChar</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getADate <em>ADate</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getABytes <em>ABytes</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getANumber <em>ANumber</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAObject <em>AObject</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAThread <em>AThread</em>}</li>
  * </ul>
  * </p>
  *
@@ -224,6 +227,84 @@ public interface AThing
    * @generated
    */
   void setABytes(byte[] value);
+
+  /**
+   * Returns the value of the '<em><b>ANumber</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>ANumber</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>ANumber</em>' attribute.
+   * @see #setANumber(Number)
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ANumber()
+   * @model unique="false" dataType="org.eclipse.emf.test.core.sdo.types.model.types.MyNumber" required="true"
+   * @generated
+   */
+  Number getANumber();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getANumber <em>ANumber</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>ANumber</em>' attribute.
+   * @see #getANumber()
+   * @generated
+   */
+  void setANumber(Number value);
+
+  /**
+   * Returns the value of the '<em><b>AObject</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>AObject</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>AObject</em>' attribute.
+   * @see #setAObject(Object)
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_AObject()
+   * @model unique="false" dataType="org.eclipse.emf.test.core.sdo.types.model.types.MyObject" required="true"
+   * @generated
+   */
+  Object getAObject();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAObject <em>AObject</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>AObject</em>' attribute.
+   * @see #getAObject()
+   * @generated
+   */
+  void setAObject(Object value);
+
+  /**
+   * Returns the value of the '<em><b>AThread</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>AThread</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>AThread</em>' attribute.
+   * @see #setAThread(Thread)
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_AThread()
+   * @model unique="false" dataType="org.eclipse.emf.test.core.sdo.types.model.types.MyThread" required="true"
+   * @generated
+   */
+  Thread getAThread();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAThread <em>AThread</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>AThread</em>' attribute.
+   * @see #getAThread()
+   * @generated
+   */
+  void setAThread(Thread value);
 
   /**
    * Returns the value of the '<em><b>AFloat</b></em>' attribute.
