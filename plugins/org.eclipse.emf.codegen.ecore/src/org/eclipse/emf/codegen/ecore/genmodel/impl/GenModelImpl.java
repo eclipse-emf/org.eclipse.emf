@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.5 2004/05/07 22:39:33 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.6 2004/05/16 17:29:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -102,6 +102,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFeatureMapWrapperInterface <em>Feature Map Wrapper Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFeatureMapWrapperInternalInterface <em>Feature Map Wrapper Internal Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFeatureMapWrapperClass <em>Feature Map Wrapper Class</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRuntimeCompatibility <em>Runtime Compatibility</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRichClientPlatform <em>Rich Client Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -682,6 +684,46 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String featureMapWrapperClass = FEATURE_MAP_WRAPPER_CLASS_EDEFAULT;
 
   /**
+   * The default value of the '{@link #isRuntimeCompatibility() <em>Runtime Compatibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isRuntimeCompatibility()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean RUNTIME_COMPATIBILITY_EDEFAULT = true;
+
+  /**
+   * The cached value of the '{@link #isRuntimeCompatibility() <em>Runtime Compatibility</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isRuntimeCompatibility()
+   * @generated
+   * @ordered
+   */
+  protected boolean runtimeCompatibility = RUNTIME_COMPATIBILITY_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isRichClientPlatform() <em>Rich Client Platform</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isRichClientPlatform()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean RICH_CLIENT_PLATFORM_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isRichClientPlatform() <em>Rich Client Platform</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isRichClientPlatform()
+   * @generated
+   * @ordered
+   */
+  protected boolean richClientPlatform = RICH_CLIENT_PLATFORM_EDEFAULT;
+
+  /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -930,6 +972,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public void initialize(Collection ePackages)
   {
+    if (getGenPackages().isEmpty())
+    {
+      setRuntimeCompatibility(false);
+    }
+
     LOOP:
     for (Iterator iter = ePackages.iterator(); iter.hasNext(); )
     {
@@ -1219,7 +1266,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     MultiStatus status =
       new MultiStatus
-        (CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+        (CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
          0,
          CodeGenEcorePlugin.INSTANCE.getString("_UI_ProblemsEncounteredInTheModel_message"),
          null);
@@ -1247,7 +1294,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
         MultiStatus nestedStatus =
           new MultiStatus
-            (CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+            (CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
              0,
              CodeGenEcorePlugin.INSTANCE.getString
                ("_UI_UnableToResolveProxy_message", new Object [] { EcoreUtil.getURI(unresolvedProxy) }),
@@ -1259,7 +1306,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           nestedStatus.add
             (new Status
               (IStatus.ERROR,
-               CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+                  CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
                0,
                CodeGenEcorePlugin.INSTANCE.getString
                  ("_UI_ItsUseIsBy_message", new Object [] { EcoreUtil.getURI(setting.getEObject()) }),
@@ -1303,7 +1350,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           status.add
             (new Status
               (IStatus.ERROR,
-               CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+                  CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
                0,
                CodeGenEcorePlugin.INSTANCE.getString("_UI_ThePackageIsNeeded_message", new Object [] { EcoreUtil.getURI(ePackage) }),
                null));
@@ -1313,7 +1360,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           status.add
             (new Status
               (IStatus.ERROR,
-               CodeGenEcorePlugin.getPlugin().getDescriptor().getUniqueIdentifier(),
+                  CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
                0,
                CodeGenEcorePlugin.INSTANCE.getString
                  ("_UI_ThePackageHasTheSameNamespaceURI", 
@@ -2527,6 +2574,57 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isRuntimeCompatibility()
+  {
+    return runtimeCompatibility;
+  }
+
+  public boolean needsRuntimeCompatibility()
+  {
+    return isRuntimeCompatibility() && !isRichClientPlatform();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setRuntimeCompatibility(boolean newRuntimeCompatibility)
+  {
+    boolean oldRuntimeCompatibility = runtimeCompatibility;
+    runtimeCompatibility = newRuntimeCompatibility;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__RUNTIME_COMPATIBILITY, oldRuntimeCompatibility, runtimeCompatibility));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isRichClientPlatform()
+  {
+    return richClientPlatform;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setRichClientPlatform(boolean newRichClientPlatform)
+  {
+    boolean oldRichClientPlatform = richClientPlatform;
+    richClientPlatform = newRichClientPlatform;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM, oldRichClientPlatform, richClientPlatform));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getGenPackages()
   {
     if (genPackages == null)
@@ -2692,6 +2790,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getFeatureMapWrapperInternalInterface();
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS:
         return getFeatureMapWrapperClass();
+      case GenModelPackage.GEN_MODEL__RUNTIME_COMPATIBILITY:
+        return isRuntimeCompatibility() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
+        return isRichClientPlatform() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -2769,6 +2871,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE_EDEFAULT == null ? featureMapWrapperInternalInterface != null : !FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE_EDEFAULT.equals(featureMapWrapperInternalInterface);
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS:
         return FEATURE_MAP_WRAPPER_CLASS_EDEFAULT == null ? featureMapWrapperClass != null : !FEATURE_MAP_WRAPPER_CLASS_EDEFAULT.equals(featureMapWrapperClass);
+      case GenModelPackage.GEN_MODEL__RUNTIME_COMPATIBILITY:
+        return runtimeCompatibility != RUNTIME_COMPATIBILITY_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
+        return richClientPlatform != RICH_CLIENT_PLATFORM_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -2878,6 +2984,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS:
         setFeatureMapWrapperClass((String)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__RUNTIME_COMPATIBILITY:
+        setRuntimeCompatibility(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
+        setRichClientPlatform(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -2990,6 +3102,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS:
         setFeatureMapWrapperClass(FEATURE_MAP_WRAPPER_CLASS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__RUNTIME_COMPATIBILITY:
+        setRuntimeCompatibility(RUNTIME_COMPATIBILITY_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
+        setRichClientPlatform(RICH_CLIENT_PLATFORM_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -3070,6 +3188,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(featureMapWrapperInternalInterface);
     result.append(", featureMapWrapperClass: ");
     result.append(featureMapWrapperClass);
+    result.append(", runtimeCompatibility: ");
+    result.append(runtimeCompatibility);
+    result.append(", richClientPlatform: ");
+    result.append(richClientPlatform);
     result.append(')');
     return result.toString();
   }
@@ -3417,7 +3539,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public List getModelRequiredPlugins()
   {
     List result = new UniqueEList();
-    result.add("org.eclipse.core.runtime.compatibility");
+    result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
     result.add("org.eclipse.emf.ecore");
     result.addAll(getEffectiveModelPluginIDs());
     for (Iterator i = getGenPackages().iterator(); i.hasNext(); )
@@ -3440,7 +3562,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public List getEditRequiredPlugins()
   {
     List result = new UniqueEList();
-    result.add("org.eclipse.core.runtime.compatibility");
+    result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
 
     if (!sameModelEditProject())
     {
@@ -3473,7 +3595,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public List getEditorRequiredPlugins()
   {
     List result = new UniqueEList();
-    result.add("org.eclipse.core.runtime.compatibility");
+    result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
+    if (!isRichClientPlatform())
+    {
+      result.add("org.eclipse.core.resources");
+    }
     
     if (!sameEditEditorProject())
     {
@@ -3493,6 +3619,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     result.add("org.eclipse.emf.ecore.xmi");
     result.add("org.eclipse.emf.edit.ui");
+    if (!isRichClientPlatform())
+    {
+      result.add("org.eclipse.ui.ide");
+    }
     for (Iterator i = getUsedGenPackages().iterator(); i.hasNext(); )
     {
       GenPackage genPackage = (GenPackage)i.next();
@@ -3582,6 +3712,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setFeatureMapWrapperInterface(oldGenModelVersion.getFeatureMapWrapperInterface());
     setFeatureMapWrapperInternalInterface(oldGenModelVersion.getFeatureMapWrapperInternalInterface());
     setFeatureMapWrapperClass(oldGenModelVersion.getFeatureMapWrapperClass());
+
+    setRuntimeCompatibility(oldGenModelVersion.isRuntimeCompatibility());
+    setRichClientPlatform(oldGenModelVersion.isRichClientPlatform());
   }
 
   public boolean reconcile()

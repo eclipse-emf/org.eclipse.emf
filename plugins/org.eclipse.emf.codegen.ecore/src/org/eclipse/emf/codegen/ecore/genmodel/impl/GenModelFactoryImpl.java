@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelFactoryImpl.java,v 1.2 2004/03/18 18:11:59 emerks Exp $
+ * $Id: GenModelFactoryImpl.java,v 1.3 2004/05/16 17:29:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -76,11 +76,23 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
     switch (eDataType.getClassifierID())
     {
       case GenModelPackage.GEN_PROVIDER_KIND:
-        return GenProviderKind.get(initialValue);
+      {
+        GenProviderKind result = GenProviderKind.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case GenModelPackage.GEN_PROPERTY_KIND:
-        return GenPropertyKind.get(initialValue);
+      {
+        GenPropertyKind result = GenPropertyKind.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       case GenModelPackage.GEN_RESOURCE_KIND:
-        return GenResourceKind.get(initialValue);
+      {
+        GenResourceKind result = GenResourceKind.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+      }
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -225,4 +237,5 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
   {
     return GenModelPackage.eINSTANCE;
   }
+
 } //GenModelFactoryImpl

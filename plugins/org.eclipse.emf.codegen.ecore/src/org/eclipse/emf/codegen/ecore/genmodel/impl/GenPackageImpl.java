@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.4 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.5 2004/05/16 17:29:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -30,7 +30,6 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
@@ -78,6 +77,7 @@ import org.eclipse.emf.ecore.util.EcoreSwitch;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.osgi.framework.Bundle;
 
 
 /**
@@ -1729,13 +1729,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   protected void generateXSD(String type)
   {
-    Plugin xsdPlugin = Platform.getPlugin("org.eclipse.xsd");
+    Bundle xsdPlugin = Platform.getBundle("org.eclipse.xsd");
     if (xsdPlugin != null)
     {
       try
       {
         Class theGeneratorClass = 
-          xsdPlugin.getClass().getClassLoader().loadClass
+          xsdPlugin.loadClass
             ("org.eclipse.xsd.ecore.Ecore" + type + "SchemaBuilder");
 
         try
@@ -1744,17 +1744,17 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
           // Set the mapper to build an XSD2EcoreMappingRoot, if available.
           //
-          Plugin xsd2ecorePlugin = Platform.getPlugin("org.eclipse.emf.mapping.xsd2ecore");
+          Bundle xsd2ecorePlugin = Platform.getBundle("org.eclipse.emf.mapping.xsd2ecore");
           if (xsd2ecorePlugin != null)
           {
             try
             {
               Class theMapperInterface = 
-                xsdPlugin.getClass().getClassLoader().loadClass
+                xsdPlugin.loadClass
                   ("org.eclipse.xsd.ecore.MapBuilder$Mapper");
 
               Class theMapperClass = 
-                xsd2ecorePlugin.getClass().getClassLoader().loadClass
+                xsd2ecorePlugin.loadClass
                   ("org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMapper");
   
               Object mapper = theMapperClass.newInstance();
@@ -2119,17 +2119,20 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
            getEditorClassName(), 
            getGenModel().getEditorEmitter());
   
-        progressMonitor.subTask
-          (CodeGenEcorePlugin.INSTANCE.getString
-             ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedModelWizardClassName() }));
-        generate
-          (new SubProgressMonitor(progressMonitor, 1), 
-           Generator.EMF_EDITOR_PROJECT_STYLE,
-           getGenModel().getEffectiveModelPluginVariables(),
-           getGenModel().getEditorDirectory(),
-           getPresentationPackageName(), 
-           getModelWizardClassName(), 
-           getGenModel().getModelWizardEmitter());
+        if (!getGenModel().isRichClientPlatform())
+        {
+          progressMonitor.subTask
+            (CodeGenEcorePlugin.INSTANCE.getString
+               ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedModelWizardClassName() }));
+          generate
+            (new SubProgressMonitor(progressMonitor, 1), 
+             Generator.EMF_EDITOR_PROJECT_STYLE,
+             getGenModel().getEffectiveModelPluginVariables(),
+             getGenModel().getEditorDirectory(),
+             getPresentationPackageName(), 
+             getModelWizardClassName(), 
+             getGenModel().getModelWizardEmitter());
+        }
   
         progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
