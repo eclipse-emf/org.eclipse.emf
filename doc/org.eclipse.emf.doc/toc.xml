@@ -2,25 +2,30 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="EMF Programmer&apos;s Guide">
-	<topic label="EMF Framework Overview" href="references/overview/EMF.html" />
-	<topic label="EMF.Edit Framework Overview" href="references/overview/EMF.Edit.html" />
-	<topic label="EMF FAQ" href="references/faq.html" />
-	<topic label="EMF v1.0 User&apos;s Guide" href="references/UG/EMF_v1.0_Users_Guide.html" />
+	<topic label="Overviews">
+		<topic label="EMF Framework Overview" href="references/overview/EMF.html" />
+		<topic label="EMF.Edit Framework Overview" href="references/overview/EMF.Edit.html" />
+	</topic>
 
 	<topic label="Tutorials">
 		<topic label="Generating an EMF Model" href="tutorials/clibmod/clibmod.html" />
 		<topic label="Generating an Extended EMF Model" href="tutorials/slibmod/slibmod.html" />
-		<topic label="Creating an EMF Model using a Graphical Editor" href="tutorials/glibmod/glibmod.html" />
 		<topic label="Generating an EMF Model using XML Schema" href="tutorials/xlibmod/xlibmod.html" />
+		<topic label="JET Tutorial Part 1 (Introduction to JET)" href="tutorials/jet1/jet_tutorial1.html" />
+		<topic label="JET Tutorial Part 2 (Write Code that Writes Code)" href="tutorials/jet2/jet_tutorial2.html" />
 		<topic label="Specifying Package Information in Rose" href="tutorials/rosepkg/rosepkg.html" />
 	</topic>
 
-	<topic label="Release Notes">
-		<topic label="What's New in v2.0.0" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=2.0.0" />
-		<topic label="What's New in v1.1.1" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.1.1" />
-		<topic label="What's New in v1.1.0" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.1.0" />
-		<topic label="What's New in v1.0.2" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.2" />
-		<topic label="What's New in v1.0.1" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.1" />
+	<topic label="Online Docs">
+		<topic label="Release Notes">
+			<topic label="What's New in v2.0.0" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=2.0.0" />
+			<topic label="What's New in v1.1.1" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.1.1" />
+			<topic label="What's New in v1.1.0" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.1.0" />
+			<topic label="What's New in v1.0.2" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.2" />
+			<topic label="What's New in v1.0.1" href="http://download.eclipse.org/tools/emf/scripts/news-release-notes.php?ver=1.0.1" />
+		</topic>
+
+		<topic label="EMF FAQ" href="http://download.eclipse.org/tools/emf/scripts/docs.php?doc=docs/../faq/index.html" />
 	</topic>
 
 	<topic label="Javadoc" href="references/javadoc/index.html"/>
