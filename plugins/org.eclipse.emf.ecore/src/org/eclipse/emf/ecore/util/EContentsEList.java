@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentsEList.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EContentsEList.java,v 1.2 2004/04/22 16:47:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -203,6 +203,11 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
   public Object move(int newPosition, int oldPosition)
   {
     throw new UnsupportedOperationException();
+  }
+
+  public Object basicGet(int index)
+  {
+    return basicList().get(index);
   }
 
   public List basicList()

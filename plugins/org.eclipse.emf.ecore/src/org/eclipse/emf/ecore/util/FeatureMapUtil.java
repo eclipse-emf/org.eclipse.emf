@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.3 2004/03/20 21:46:34 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.4 2004/04/22 16:47:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -494,6 +494,11 @@ public class FeatureMapUtil
       return featureMap.subList(getEStructuralFeature(), from, to);
     }
 */
+
+    public Object basicGet(int index)
+    {
+      return featureMap.basicGet(index);
+    }
 
     public List basicList()
     {

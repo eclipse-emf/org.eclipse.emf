@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.7 2004/04/22 14:29:13 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.8 2004/04/22 16:47:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1239,7 +1239,7 @@ public class XMLSaveImpl implements XMLSave
     int size = values.size();
     for (int i = 0; i < size; i++)
     {
-      saveElementReference((EObject)values.get(i), f);
+      saveElementReference((EObject)values.basicGet(i), f);
     }
   }
 
@@ -1256,7 +1256,7 @@ public class XMLSaveImpl implements XMLSave
     int size = values.size();
     for (int i = 0; i < size; i++)
     {
-      result.append(helper.getHREF(((EObject)values.get(i))));
+      result.append(helper.getHREF(((EObject)values.basicGet(i))));
       result.append(' ');
     }
     return result.substring(0, result.length() - 1);
@@ -1285,7 +1285,7 @@ public class XMLSaveImpl implements XMLSave
     int size = values.size();
     for (int i = 0; i < size; i++)
     {
-      saveElementIDRef((EObject)values.get(i), f);
+      saveElementIDRef((EObject)values.basicGet(i), f);
     }
   }
 
@@ -1301,7 +1301,7 @@ public class XMLSaveImpl implements XMLSave
     StringBuffer result = new StringBuffer();
     for (int i = 0, size = values.size(); i < size; i++)
     {
-      result.append(helper.getIDREF((EObject)values.get(i)));
+      result.append(helper.getIDREF((EObject)values.basicGet(i)));
       result.append(' ');
     }
     return result.substring(0, result.length() - 1);
@@ -1370,7 +1370,7 @@ public class XMLSaveImpl implements XMLSave
     int size = values.size();
     for (int i = 0; i < size; i++)
     {
-      saveHref((EObject)values.get(i), f);
+      saveHref((EObject)values.basicGet(i), f);
     }
   }
 

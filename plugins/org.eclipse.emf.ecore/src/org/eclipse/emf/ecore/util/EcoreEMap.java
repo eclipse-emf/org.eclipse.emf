@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEMap.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EcoreEMap.java,v 1.2 2004/04/22 16:47:41 emerks Exp $
  */
 package  org.eclipse.emf.ecore.util;
 
@@ -100,6 +100,11 @@ public class EcoreEMap extends BasicEMap implements InternalEList, EStructuralFe
     entry.setKey(key);
     entry.setValue(value);
     return entry;
+  }
+
+  public Object basicGet(int index)
+  {
+    return ((InternalEList)delegateEList).basicGet(index);
   }
 
   public List basicList()
