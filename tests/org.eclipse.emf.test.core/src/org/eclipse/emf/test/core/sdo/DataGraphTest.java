@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.4 2004/08/11 15:55:52 marcelop Exp $
+ * $Id: DataGraphTest.java,v 1.5 2004/08/18 14:45:44 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo;
 
@@ -64,6 +64,7 @@ public class DataGraphTest extends TestCase
     ts.addTest(new DataGraphTest("testSave"));
     ts.addTest(new DataGraphTest("testLoad"));
     ts.addTest(new DataGraphTest("testOldContainer"));
+    ts.addTest(new DataGraphTest("testMultivalueXPathAccess"));
     return ts;
   }
   
@@ -171,5 +172,18 @@ public class DataGraphTest extends TestCase
     assertNull(((EChangeSummary)changeSummary).getOldContainer(rootObject));
     assertEquals(changeSummary, childObject.getContainer());
     assertEquals(rootObject.getDataObject("child.0"), ((EChangeSummary)changeSummary).getOldContainer(childObject));
+  }
+  
+  // bugzilla 70563
+  public void testMultivalueXPathAccess()
+  {
+    DataObject rootObject = eDataGraph.getRootObject();
+    assertNotNull(rootObject);
+   
+    DataObject parentObject = rootObject.getDataObject("child[name=Parent]");
+    assertNotNull(parentObject);
+    assertEquals("Parent", parentObject.getString("name"));
+    
+    assertNull(rootObject.getDataObject("child[name=Unknown]"));
   }
 }
