@@ -13,8 +13,8 @@
 
 	<topic label="Online Docs">
 		<topic label="Release Notes">
-			<topic label="What's New in v2.1" href="http://www.eclipse.org/emf/news/release-notes.php?product=xsd&version=2.1" />
-			<topic label="What's New in v2.0" href="http://www.eclipse.org/emf/news/release-notes.php?product=xsd&version=2.0" />
+			<topic label="What's New in v2.1" href="http://www.eclipse.org/emf/news/release-notes.php?version=2.1" />
+			<topic label="What's New in v2.0" href="http://www.eclipse.org/emf/news/release-notes.php?version=2.0" />
 			<topic label="What's New in v1.x" href="http://www.eclipse.org/emf/news/release-notes-1.x.php" />
 		</topic>
 
