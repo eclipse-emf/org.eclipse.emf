@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.8 2004/06/15 10:57:36 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.9 2004/06/18 18:20:18 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -933,10 +933,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor
     if (feature instanceof EAttribute)
     {
       EAttribute attribute = (EAttribute)feature;
-      Object result = 
-        attribute.isMany() || eObject.eIsSet(attribute) || !attribute.isChangeable() ? 
-          eObject.eGet(attribute) : 
-          attribute.getDefaultValue();
+      Object result =  eObject.eGet(attribute);
       if (result == null)
       {
         return getDefaultValue(attribute.getEType());
