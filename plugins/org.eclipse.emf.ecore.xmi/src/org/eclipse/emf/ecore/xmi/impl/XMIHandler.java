@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIHandler.java,v 1.3 2004/04/18 23:15:59 emerks Exp $
+ * $Id: XMIHandler.java,v 1.4 2004/06/08 20:00:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -48,6 +48,7 @@ public abstract class XMIHandler extends XMLHandler
   {
     super(xmiResource, helper, options);
 
+    hrefAttribute = XMLResource.HREF;
     notFeatures.add(VERSION_ATTRIB);
     notFeatures.add(XMI_TYPE_ATTRIB);
     notFeatures.add(UUID_ATTRIB);
