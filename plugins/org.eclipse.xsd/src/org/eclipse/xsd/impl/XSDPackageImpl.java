@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackageImpl.java,v 1.2 2004/05/16 16:47:39 emerks Exp $
+ * $Id: XSDPackageImpl.java,v 1.3 2004/06/08 17:51:32 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -4245,21 +4245,21 @@ public class XSDPackageImpl
     xsdxPathDefinitionEClass.getESuperTypes().add(this.getXSDComponent());
 
     // Initialize classes and features; add operations and parameters
-    initEClass(xsdAnnotationEClass, XSDAnnotation.class, "XSDAnnotation", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdAnnotationEClass, XSDAnnotation.class, "XSDAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDAnnotation_ApplicationInformation(), this.getDOMElement(), "applicationInformation", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDAnnotation_UserInformation(), this.getDOMElement(), "userInformation", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDAnnotation_Attributes(), this.getDOMAttr(), "attributes", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdAttributeDeclarationEClass, XSDAttributeDeclaration.class, "XSDAttributeDeclaration", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdAttributeDeclarationEClass, XSDAttributeDeclaration.class, "XSDAttributeDeclaration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDAttributeDeclaration_AttributeDeclarationReference(), ecorePackage.getEBoolean(), "attributeDeclarationReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDAttributeDeclaration_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDAttributeDeclaration_AnonymousTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "anonymousTypeDefinition", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDAttributeDeclaration_TypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "typeDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDAttributeDeclaration_ResolvedAttributeDeclaration(), this.getXSDAttributeDeclaration(), null, "resolvedAttributeDeclaration", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdAttributeGroupContentEClass, XSDAttributeGroupContent.class, "XSDAttributeGroupContent", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdAttributeGroupContentEClass, XSDAttributeGroupContent.class, "XSDAttributeGroupContent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdAttributeGroupDefinitionEClass, XSDAttributeGroupDefinition.class, "XSDAttributeGroupDefinition", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdAttributeGroupDefinitionEClass, XSDAttributeGroupDefinition.class, "XSDAttributeGroupDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDAttributeGroupDefinition_AttributeGroupDefinitionReference(), ecorePackage.getEBoolean(), "attributeGroupDefinitionReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDAttributeGroupDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDAttributeGroupDefinition_Contents(), this.getXSDAttributeGroupContent(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4269,7 +4269,7 @@ public class XSDPackageImpl
     initEReference(getXSDAttributeGroupDefinition_ResolvedAttributeGroupDefinition(), this.getXSDAttributeGroupDefinition(), null, "resolvedAttributeGroupDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDAttributeGroupDefinition_SyntheticWildcard(), this.getXSDWildcard(), null, "syntheticWildcard", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdAttributeUseEClass, XSDAttributeUse.class, "XSDAttributeUse", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdAttributeUseEClass, XSDAttributeUse.class, "XSDAttributeUse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDAttributeUse_Required(), ecorePackage.getEBoolean(), "required", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDAttributeUse_Value(), this.getValue(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDAttributeUse_Constraint(), this.getXSDConstraint(), "constraint", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4278,15 +4278,15 @@ public class XSDPackageImpl
     initEReference(getXSDAttributeUse_AttributeDeclaration(), this.getXSDAttributeDeclaration(), null, "attributeDeclaration", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDAttributeUse_Content(), this.getXSDAttributeDeclaration(), null, "content", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdBoundedFacetEClass, XSDBoundedFacet.class, "XSDBoundedFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdBoundedFacetEClass, XSDBoundedFacet.class, "XSDBoundedFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDBoundedFacet_Value(), ecorePackage.getEBoolean(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdCardinalityFacetEClass, XSDCardinalityFacet.class, "XSDCardinalityFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdCardinalityFacetEClass, XSDCardinalityFacet.class, "XSDCardinalityFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDCardinalityFacet_Value(), this.getXSDCardinality(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdComplexTypeContentEClass, XSDComplexTypeContent.class, "XSDComplexTypeContent", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdComplexTypeContentEClass, XSDComplexTypeContent.class, "XSDComplexTypeContent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdComplexTypeDefinitionEClass, XSDComplexTypeDefinition.class, "XSDComplexTypeDefinition", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdComplexTypeDefinitionEClass, XSDComplexTypeDefinition.class, "XSDComplexTypeDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDComplexTypeDefinition_DerivationMethod(), this.getXSDDerivationMethod(), "derivationMethod", "restriction", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDComplexTypeDefinition_Final(), this.getXSDComplexFinal(), "final", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDComplexTypeDefinition_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4307,18 +4307,18 @@ public class XSDPackageImpl
     initEReference(getXSDComplexTypeDefinition_SyntheticParticle(), this.getXSDParticle(), null, "syntheticParticle", null, 0, 1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDComplexTypeDefinition_SyntheticWildcard(), this.getXSDWildcard(), null, "syntheticWildcard", null, 0, 1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdComponentEClass, XSDComponent.class, "XSDComponent", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdComponentEClass, XSDComponent.class, "XSDComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdConcreteComponentEClass, XSDConcreteComponent.class, "XSDConcreteComponent", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdConcreteComponentEClass, XSDConcreteComponent.class, "XSDConcreteComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDConcreteComponent_Element(), this.getDOMElement(), "element", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDConcreteComponent_Container(), this.getXSDConcreteComponent(), null, "container", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDConcreteComponent_RootContainer(), this.getXSDConcreteComponent(), null, "rootContainer", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDConcreteComponent_Schema(), this.getXSDSchema(), null, "schema", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDConcreteComponent_Diagnostics(), this.getXSDDiagnostic(), null, "diagnostics", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdConstrainingFacetEClass, XSDConstrainingFacet.class, "XSDConstrainingFacet", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdConstrainingFacetEClass, XSDConstrainingFacet.class, "XSDConstrainingFacet", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdDiagnosticEClass, XSDDiagnostic.class, "XSDDiagnostic", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdDiagnosticEClass, XSDDiagnostic.class, "XSDDiagnostic", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDDiagnostic_Severity(), this.getXSDDiagnosticSeverity(), "severity", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDDiagnostic_Message(), ecorePackage.getEString(), "message", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDDiagnostic_LocationURI(), ecorePackage.getEString(), "locationURI", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4329,7 +4329,7 @@ public class XSDPackageImpl
     initEReference(getXSDDiagnostic_Components(), this.getXSDConcreteComponent(), null, "components", null, 1, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDDiagnostic_PrimaryComponent(), this.getXSDConcreteComponent(), null, "primaryComponent", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdElementDeclarationEClass, XSDElementDeclaration.class, "XSDElementDeclaration", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdElementDeclarationEClass, XSDElementDeclaration.class, "XSDElementDeclaration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDElementDeclaration_Nillable(), ecorePackage.getEBoolean(), "nillable", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDElementDeclaration_DisallowedSubstitutions(), this.getXSDDisallowedSubstitutions(), "disallowedSubstitutions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDElementDeclaration_SubstitutionGroupExclusions(), this.getXSDSubstitutionGroupExclusions(), "substitutionGroupExclusions", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4346,17 +4346,17 @@ public class XSDPackageImpl
     initEReference(getXSDElementDeclaration_SubstitutionGroupAffiliation(), this.getXSDElementDeclaration(), null, "substitutionGroupAffiliation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDElementDeclaration_SubstitutionGroup(), this.getXSDElementDeclaration(), null, "substitutionGroup", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdEnumerationFacetEClass, XSDEnumerationFacet.class, "XSDEnumerationFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdEnumerationFacetEClass, XSDEnumerationFacet.class, "XSDEnumerationFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDEnumerationFacet_Value(), this.getValue(), "value", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdFacetEClass, XSDFacet.class, "XSDFacet", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdFacetEClass, XSDFacet.class, "XSDFacet", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDFacet_LexicalValue(), ecorePackage.getEString(), "lexicalValue", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDFacet_FacetName(), ecorePackage.getEString(), "facetName", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDFacet_EffectiveValue(), this.getValue(), "effectiveValue", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDFacet_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDFacet_SimpleTypeDefinition(), this.getXSDSimpleTypeDefinition(), null, "simpleTypeDefinition", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdFeatureEClass, XSDFeature.class, "XSDFeature", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdFeatureEClass, XSDFeature.class, "XSDFeature", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDFeature_Value(), this.getValue(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDFeature_Constraint(), this.getXSDConstraint(), "constraint", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDFeature_Form(), this.getXSDForm(), "form", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4367,68 +4367,68 @@ public class XSDPackageImpl
     initEReference(getXSDFeature_ResolvedFeature(), this.getXSDFeature(), null, "resolvedFeature", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDFeature_Type(), this.getXSDTypeDefinition(), null, "type", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdFixedFacetEClass, XSDFixedFacet.class, "XSDFixedFacet", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdFixedFacetEClass, XSDFixedFacet.class, "XSDFixedFacet", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDFixedFacet_Fixed(), ecorePackage.getEBoolean(), "fixed", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdFractionDigitsFacetEClass, XSDFractionDigitsFacet.class, "XSDFractionDigitsFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdFractionDigitsFacetEClass, XSDFractionDigitsFacet.class, "XSDFractionDigitsFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDFractionDigitsFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdFundamentalFacetEClass, XSDFundamentalFacet.class, "XSDFundamentalFacet", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdFundamentalFacetEClass, XSDFundamentalFacet.class, "XSDFundamentalFacet", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdIdentityConstraintDefinitionEClass, XSDIdentityConstraintDefinition.class, "XSDIdentityConstraintDefinition", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdIdentityConstraintDefinitionEClass, XSDIdentityConstraintDefinition.class, "XSDIdentityConstraintDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDIdentityConstraintDefinition_IdentityConstraintCategory(), this.getXSDIdentityConstraintCategory(), "identityConstraintCategory", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDIdentityConstraintDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDIdentityConstraintDefinition_ReferencedKey(), this.getXSDIdentityConstraintDefinition(), null, "referencedKey", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDIdentityConstraintDefinition_Selector(), this.getXSDXPathDefinition(), null, "selector", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDIdentityConstraintDefinition_Fields(), this.getXSDXPathDefinition(), null, "fields", null, 1, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdImportEClass, XSDImport.class, "XSDImport", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdImportEClass, XSDImport.class, "XSDImport", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDImport_Namespace(), ecorePackage.getEString(), "namespace", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDImport_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdIncludeEClass, XSDInclude.class, "XSDInclude", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdIncludeEClass, XSDInclude.class, "XSDInclude", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getXSDInclude_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdLengthFacetEClass, XSDLengthFacet.class, "XSDLengthFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdLengthFacetEClass, XSDLengthFacet.class, "XSDLengthFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDLengthFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdMaxExclusiveFacetEClass, XSDMaxExclusiveFacet.class, "XSDMaxExclusiveFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdMaxExclusiveFacetEClass, XSDMaxExclusiveFacet.class, "XSDMaxExclusiveFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdMaxFacetEClass, XSDMaxFacet.class, "XSDMaxFacet", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdMaxFacetEClass, XSDMaxFacet.class, "XSDMaxFacet", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDMaxFacet_Value(), this.getValue(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDMaxFacet_Inclusive(), ecorePackage.getEBoolean(), "inclusive", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDMaxFacet_Exclusive(), ecorePackage.getEBoolean(), "exclusive", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdMaxInclusiveFacetEClass, XSDMaxInclusiveFacet.class, "XSDMaxInclusiveFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdMaxInclusiveFacetEClass, XSDMaxInclusiveFacet.class, "XSDMaxInclusiveFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdMaxLengthFacetEClass, XSDMaxLengthFacet.class, "XSDMaxLengthFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdMaxLengthFacetEClass, XSDMaxLengthFacet.class, "XSDMaxLengthFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDMaxLengthFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdMinExclusiveFacetEClass, XSDMinExclusiveFacet.class, "XSDMinExclusiveFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdMinExclusiveFacetEClass, XSDMinExclusiveFacet.class, "XSDMinExclusiveFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdMinFacetEClass, XSDMinFacet.class, "XSDMinFacet", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdMinFacetEClass, XSDMinFacet.class, "XSDMinFacet", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDMinFacet_Value(), this.getValue(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDMinFacet_Inclusive(), ecorePackage.getEBoolean(), "inclusive", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDMinFacet_Exclusive(), ecorePackage.getEBoolean(), "exclusive", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdMinInclusiveFacetEClass, XSDMinInclusiveFacet.class, "XSDMinInclusiveFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdMinInclusiveFacetEClass, XSDMinInclusiveFacet.class, "XSDMinInclusiveFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdMinLengthFacetEClass, XSDMinLengthFacet.class, "XSDMinLengthFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdMinLengthFacetEClass, XSDMinLengthFacet.class, "XSDMinLengthFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDMinLengthFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdModelGroupEClass, XSDModelGroup.class, "XSDModelGroup", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdModelGroupEClass, XSDModelGroup.class, "XSDModelGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDModelGroup_Compositor(), this.getXSDCompositor(), "compositor", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDModelGroup_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDModelGroup_Contents(), this.getXSDParticle(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDModelGroup_Particles(), this.getXSDParticle(), null, "particles", null, 1, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdModelGroupDefinitionEClass, XSDModelGroupDefinition.class, "XSDModelGroupDefinition", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdModelGroupDefinitionEClass, XSDModelGroupDefinition.class, "XSDModelGroupDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDModelGroupDefinition_ModelGroupDefinitionReference(), ecorePackage.getEBoolean(), "modelGroupDefinitionReference", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDModelGroupDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDModelGroupDefinition_ModelGroup(), this.getXSDModelGroup(), null, "modelGroup", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDModelGroupDefinition_ResolvedModelGroupDefinition(), this.getXSDModelGroupDefinition(), null, "resolvedModelGroupDefinition", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdNamedComponentEClass, XSDNamedComponent.class, "XSDNamedComponent", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdNamedComponentEClass, XSDNamedComponent.class, "XSDNamedComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDNamedComponent_Name(), ecorePackage.getEString(), "name", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDNamedComponent_TargetNamespace(), ecorePackage.getEString(), "targetNamespace", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDNamedComponent_AliasName(), ecorePackage.getEString(), "aliasName", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4436,41 +4436,41 @@ public class XSDPackageImpl
     initEAttribute(getXSDNamedComponent_AliasURI(), ecorePackage.getEString(), "aliasURI", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDNamedComponent_QName(), ecorePackage.getEString(), "qName", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdNotationDeclarationEClass, XSDNotationDeclaration.class, "XSDNotationDeclaration", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdNotationDeclarationEClass, XSDNotationDeclaration.class, "XSDNotationDeclaration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDNotationDeclaration_SystemIdentifier(), ecorePackage.getEString(), "systemIdentifier", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDNotationDeclaration_PublicIdentifier(), ecorePackage.getEString(), "publicIdentifier", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDNotationDeclaration_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdNumericFacetEClass, XSDNumericFacet.class, "XSDNumericFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdNumericFacetEClass, XSDNumericFacet.class, "XSDNumericFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDNumericFacet_Value(), ecorePackage.getEBoolean(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdOrderedFacetEClass, XSDOrderedFacet.class, "XSDOrderedFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdOrderedFacetEClass, XSDOrderedFacet.class, "XSDOrderedFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDOrderedFacet_Value(), this.getXSDOrdered(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdParticleEClass, XSDParticle.class, "XSDParticle", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdParticleEClass, XSDParticle.class, "XSDParticle", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDParticle_MinOccurs(), ecorePackage.getEInt(), "minOccurs", "1", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDParticle_MaxOccurs(), ecorePackage.getEInt(), "maxOccurs", "1", 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDParticle_Content(), this.getXSDParticleContent(), null, "content", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDParticle_Term(), this.getXSDTerm(), null, "term", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdParticleContentEClass, XSDParticleContent.class, "XSDParticleContent", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdParticleContentEClass, XSDParticleContent.class, "XSDParticleContent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdPatternFacetEClass, XSDPatternFacet.class, "XSDPatternFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdPatternFacetEClass, XSDPatternFacet.class, "XSDPatternFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDPatternFacet_Value(), ecorePackage.getEString(), "value", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdRedefinableComponentEClass, XSDRedefinableComponent.class, "XSDRedefinableComponent", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdRedefinableComponentEClass, XSDRedefinableComponent.class, "XSDRedefinableComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDRedefinableComponent_Circular(), ecorePackage.getEBoolean(), "circular", null, 0, 1, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdRedefineContentEClass, XSDRedefineContent.class, "XSDRedefineContent", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdRedefineContentEClass, XSDRedefineContent.class, "XSDRedefineContent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdRedefineEClass, XSDRedefine.class, "XSDRedefine", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdRedefineEClass, XSDRedefine.class, "XSDRedefine", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getXSDRedefine_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDRedefine_Contents(), this.getXSDRedefineContent(), null, "contents", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdRepeatableFacetEClass, XSDRepeatableFacet.class, "XSDRepeatableFacet", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdRepeatableFacetEClass, XSDRepeatableFacet.class, "XSDRepeatableFacet", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getXSDRepeatableFacet_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdSchemaEClass, XSDSchema.class, "XSDSchema", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdSchemaEClass, XSDSchema.class, "XSDSchema", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDSchema_Document(), this.getDOMDocument(), "document", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDSchema_SchemaLocation(), ecorePackage.getEString(), "schemaLocation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDSchema_TargetNamespace(), ecorePackage.getEString(), "targetNamespace", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4495,18 +4495,18 @@ public class XSDPackageImpl
     initEReference(getXSDSchema_IncorporatedVersions(), this.getXSDSchema(), null, "incorporatedVersions", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDSchema_SchemaForSchema(), this.getXSDSchema(), null, "schemaForSchema", null, 1, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdSchemaCompositorEClass, XSDSchemaCompositor.class, "XSDSchemaCompositor", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdSchemaCompositorEClass, XSDSchemaCompositor.class, "XSDSchemaCompositor", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getXSDSchemaCompositor_IncorporatedSchema(), this.getXSDSchema(), null, "incorporatedSchema", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdSchemaContentEClass, XSDSchemaContent.class, "XSDSchemaContent", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdSchemaContentEClass, XSDSchemaContent.class, "XSDSchemaContent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdSchemaDirectiveEClass, XSDSchemaDirective.class, "XSDSchemaDirective", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdSchemaDirectiveEClass, XSDSchemaDirective.class, "XSDSchemaDirective", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDSchemaDirective_SchemaLocation(), ecorePackage.getEString(), "schemaLocation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDSchemaDirective_ResolvedSchema(), this.getXSDSchema(), null, "resolvedSchema", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdScopeEClass, XSDScope.class, "XSDScope", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdScopeEClass, XSDScope.class, "XSDScope", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdSimpleTypeDefinitionEClass, XSDSimpleTypeDefinition.class, "XSDSimpleTypeDefinition", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdSimpleTypeDefinitionEClass, XSDSimpleTypeDefinition.class, "XSDSimpleTypeDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDSimpleTypeDefinition_Variety(), this.getXSDVariety(), "variety", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDSimpleTypeDefinition_Final(), this.getXSDSimpleFinal(), "final", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDSimpleTypeDefinition_LexicalFinal(), this.getXSDSimpleFinal(), "lexicalFinal", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4550,12 +4550,12 @@ public class XSDPackageImpl
     initEReference(getXSDSimpleTypeDefinition_EffectiveMinFacet(), this.getXSDMinFacet(), null, "effectiveMinFacet", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDSimpleTypeDefinition_SyntheticFacets(), this.getXSDFacet(), null, "syntheticFacets", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdTermEClass, XSDTerm.class, "XSDTerm", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdTermEClass, XSDTerm.class, "XSDTerm", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(xsdTotalDigitsFacetEClass, XSDTotalDigitsFacet.class, "XSDTotalDigitsFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdTotalDigitsFacetEClass, XSDTotalDigitsFacet.class, "XSDTotalDigitsFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDTotalDigitsFacet_Value(), ecorePackage.getEInt(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdTypeDefinitionEClass, XSDTypeDefinition.class, "XSDTypeDefinition", IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdTypeDefinitionEClass, XSDTypeDefinition.class, "XSDTypeDefinition", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getXSDTypeDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDTypeDefinition_DerivationAnnotation(), this.getXSDAnnotation(), null, "derivationAnnotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDTypeDefinition_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4564,10 +4564,10 @@ public class XSDPackageImpl
     initEReference(getXSDTypeDefinition_SimpleType(), this.getXSDSimpleTypeDefinition(), null, "simpleType", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDTypeDefinition_ComplexType(), this.getXSDParticle(), null, "complexType", null, 0, 1, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdWhiteSpaceFacetEClass, XSDWhiteSpaceFacet.class, "XSDWhiteSpaceFacet", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdWhiteSpaceFacetEClass, XSDWhiteSpaceFacet.class, "XSDWhiteSpaceFacet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDWhiteSpaceFacet_Value(), this.getXSDWhiteSpace(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdWildcardEClass, XSDWildcard.class, "XSDWildcard", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdWildcardEClass, XSDWildcard.class, "XSDWildcard", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDWildcard_NamespaceConstraintCategory(), this.getXSDNamespaceConstraintCategory(), "namespaceConstraintCategory", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDWildcard_NamespaceConstraint(), ecorePackage.getEString(), "namespaceConstraint", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDWildcard_ProcessContents(), this.getXSDProcessContents(), "processContents", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4575,7 +4575,7 @@ public class XSDPackageImpl
     initEReference(getXSDWildcard_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDWildcard_Annotations(), this.getXSDAnnotation(), null, "annotations", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(xsdxPathDefinitionEClass, XSDXPathDefinition.class, "XSDXPathDefinition", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsdxPathDefinitionEClass, XSDXPathDefinition.class, "XSDXPathDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDXPathDefinition_Variety(), this.getXSDXPathVariety(), "variety", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDXPathDefinition_Value(), ecorePackage.getEString(), "value", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDXPathDefinition_Annotation(), this.getXSDAnnotation(), null, "annotation", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -4680,11 +4680,11 @@ public class XSDPackageImpl
     addEEnumLiteral(xsdxPathVarietyEEnum, XSDXPathVariety.FIELD_LITERAL);
 
     // Initialize data types
-    initEDataType(domAttrEDataType, Attr.class, "DOMAttr", IS_SERIALIZABLE);
-    initEDataType(domDocumentEDataType, Document.class, "DOMDocument", IS_SERIALIZABLE);
-    initEDataType(domElementEDataType, Element.class, "DOMElement", IS_SERIALIZABLE);
-    initEDataType(domNodeEDataType, Node.class, "DOMNode", IS_SERIALIZABLE);
-    initEDataType(valueEDataType, Object.class, "Value", IS_SERIALIZABLE);
+    initEDataType(domAttrEDataType, Attr.class, "DOMAttr", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(domDocumentEDataType, Document.class, "DOMDocument", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(domElementEDataType, Element.class, "DOMElement", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(domNodeEDataType, Node.class, "DOMNode", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(valueEDataType, Object.class, "Value", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);
@@ -4716,17 +4716,15 @@ public class XSDPackageImpl
   {
     if (isInited) return (XSDPackage)EPackage.Registry.INSTANCE.get(XSDPackage.eNS_URI);
 
-    // Obtain or create and register package.
-    XSDPackageImpl theXSDPackage = (XSDPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XSDPackageImpl());
+    // Obtain or create and register package
+    XSDPackageImpl theXSDPackage = (XSDPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XSDPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XSDPackageImpl());
 
     isInited = true;
 
-    // Obtain or create and register interdependencies
-
-    // Step 1: create meta-model objects
+    // Create package meta-data objects
     theXSDPackage.createPackageContents();
 
-    // Step 2: complete initialization
+    // Initialize created meta-data
     theXSDPackage.initializePackageContents();
 
     return theXSDPackage;

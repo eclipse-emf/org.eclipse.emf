@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePackageImpl.java,v 1.2 2004/05/16 16:49:34 emerks Exp $
+ * $Id: XSD2EcorePackageImpl.java,v 1.3 2004/06/08 17:53:14 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
@@ -96,8 +96,8 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
   {
     if (isInited) return (XSD2EcorePackage)EPackage.Registry.INSTANCE.get(XSD2EcorePackage.eNS_URI);
 
-    // Obtain or create and register package.
-    XSD2EcorePackageImpl theXSD2EcorePackage = (XSD2EcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XSD2EcorePackageImpl());
+    // Obtain or create and register package
+    XSD2EcorePackageImpl theXSD2EcorePackage = (XSD2EcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XSD2EcorePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XSD2EcorePackageImpl());
 
     isInited = true;
 
@@ -105,12 +105,10 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
     MappingPackageImpl.init();
     EcorePackageImpl.init();
 
-    // Obtain or create and register interdependencies
-
-    // Step 1: create meta-model objects
+    // Create package meta-data objects
     theXSD2EcorePackage.createPackageContents();
 
-    // Step 2: complete initialization
+    // Initialize created meta-data
     theXSD2EcorePackage.initializePackageContents();
 
     return theXSD2EcorePackage;
@@ -190,7 +188,7 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
     xsD2EcoreMappingRootEClass.getESuperTypes().add(theMappingPackage.getMappingRoot());
 
     // Initialize classes and features; add operations and parameters
-    initEClass(xsD2EcoreMappingRootEClass, XSD2EcoreMappingRoot.class, "XSD2EcoreMappingRoot", !IS_ABSTRACT, !IS_INTERFACE);
+    initEClass(xsD2EcoreMappingRootEClass, XSD2EcoreMappingRoot.class, "XSD2EcoreMappingRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);
