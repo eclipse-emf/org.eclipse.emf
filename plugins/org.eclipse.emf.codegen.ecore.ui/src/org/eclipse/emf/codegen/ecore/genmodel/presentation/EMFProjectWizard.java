@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.2 2004/03/10 16:30:59 emerks Exp $
+ * $Id: EMFProjectWizard.java,v 1.3 2004/04/06 23:08:36 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -2489,7 +2489,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
                genPackageItemProvider = 
                  new GenPackageItemProvider(this)
                  {
-                   public Collection getChildrenReferences(Object object)
+                   public Collection getChildrenFeatures(Object object)
                    {
                      return Collections.EMPTY_LIST;
                    }
