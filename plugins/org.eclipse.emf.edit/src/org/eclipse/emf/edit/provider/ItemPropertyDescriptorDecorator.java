@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptorDecorator.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ItemPropertyDescriptorDecorator.java,v 1.2 2004/09/24 04:14:41 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -148,5 +148,13 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor
   public Collection getChoiceOfValues(Object thisObject)
   {
     return itemPropertyDescriptor.getChoiceOfValues(object);
+  }
+
+  /**
+   * This does the delegated job of determing whether the  property represents multiple values.
+   */
+  public boolean isMany(Object thisObject)
+  {
+    return itemPropertyDescriptor.isMany(thisObject);
   }
 }
