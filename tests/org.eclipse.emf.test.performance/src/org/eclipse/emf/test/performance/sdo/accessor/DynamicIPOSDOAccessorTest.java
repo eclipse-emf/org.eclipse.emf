@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.6 2005/02/24 18:09:36 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.7 2005/02/24 19:03:23 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -169,6 +169,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   protected DataObject newShipToAddress1;
 
   protected Object orderDate0 = new XSDDateType().getValue("2006-02-10");
+
+  protected Object orderDate1 = new XSDDateType().getValue("2006-02-11");
 
   protected String orderComment0 = "Another comment0.";
 
@@ -666,12 +668,14 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
         shipToValue = po.getDataObject(shipToProp);
         billToValue = po.getDataObject(billToProp);
         orderCommentValue = po.getString(commentProp);
+        orderDateValue = po.get(orderDateProp);
       }
       else
       {
         shipToValue = po.getDataObject(shipToProp);
         billToValue = po.getDataObject(billToProp);
         orderCommentValue = po.getString(commentProp);
+        orderDateValue = po.get(orderDateProp);
       }
 
       itemsValue = po.getDataObject(itemsProp).getList(itemProp);
@@ -685,8 +689,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
         shipDateValue = itemElementValue.get(shipDateProp);
         partNumValue = itemElementValue.getString(partNumProp);
       }
-
-      orderDateValue = po.get(orderDateProp);
     }
     stopMeasuring();
   }
@@ -712,12 +714,14 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
         po.setDataObject(shipToProp, newShipToAddress0);
         po.setDataObject(billToProp, newBillToAddress0);
         po.setString(commentProp, orderComment0);
+        po.set(orderDateProp, orderDate0);
       }
       else
       {
         po.setDataObject(shipToProp, newShipToAddress1);
         po.setDataObject(billToProp, newBillToAddress1);
         po.setString(commentProp, orderComment1);
+        po.set(orderDateProp, orderDate1);
       }
 
       itemsValue = po.getDataObject(itemsProp).getList(itemProp);
@@ -731,7 +735,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
         itemElementValue.set(shipDateProp, shipDate0);
         itemElementValue.setString(partNumProp, partNum0);
       }
-      po.set(orderDateProp, orderDate0);
     }
     stopMeasuring();
   }
@@ -757,12 +760,14 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
         shipToValue = po.getDataObject(0);
         billToValue = po.getDataObject(1);
         orderCommentValue = po.getString(2);
+        orderDateValue = po.get(4);
       }
       else
       {
         shipToValue = po.getDataObject(0);
         billToValue = po.getDataObject(1);
         orderCommentValue = po.getString(2);
+        orderDateValue = po.get(4);
       }
 
       itemsValue = po.getDataObject(3).getList(0);
@@ -776,8 +781,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
         shipDateValue = itemElementValue.get(4);
         partNumValue = itemElementValue.getString(5);
       }
-
-      orderDateValue = po.get(4);
     }
     stopMeasuring();
   }
@@ -803,12 +806,14 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
         po.setDataObject(0, newShipToAddress0);
         po.setDataObject(1, newBillToAddress0);
         po.set(2, orderComment0);
+        po.set(4, orderDate0);
       }
       else
       {
         po.setDataObject(0, newShipToAddress1);
         po.setDataObject(1, newBillToAddress1);
         po.set(2, orderComment1);
+        po.set(4, orderDate1);
       }
 
       // items
@@ -823,9 +828,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
         itemElementValue.set(4, shipDate0);
         itemElementValue.setString(5, partNum0);
       }
-
-      // date
-      po.set(4, orderDate0);
     }
     stopMeasuring();
   }
@@ -852,12 +854,14 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
         shipToValue = po.getDataObject("shipTo");
         billToValue = po.getDataObject("billTo");
         orderCommentValue = po.getString("comment");
+        orderDateValue = po.get("orderDate");
       }
       else
       {
         shipToValue = po.getDataObject("shipTo");
         billToValue = po.getDataObject("billTo");
         orderCommentValue = po.getString("comment");
+        orderDateValue = po.get("orderDate");
       }
 
       productNameValue = po.getString("items/item[1]/productName");
@@ -866,8 +870,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
       itemCommentValue = po.getString("items/item[1]/comment");
       shipDateValue = po.get("items/item[1]/shipDate");
       partNumValue = po.getString("items/item[1]/partNum");
-
-      orderDateValue = po.get("orderDate");
     }
     stopMeasuring();
   }
@@ -894,12 +896,14 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
         po.setDataObject("shipTo", newShipToAddress0);
         po.setDataObject("billTo", newBillToAddress0);
         po.set("comment", orderComment0);
+        po.set("orderDate", orderDate0);
       }
       else
       {
         po.setDataObject("shipTo", newShipToAddress1);
         po.setDataObject("billTo", newBillToAddress1);
         po.set("comment", orderComment1);
+        po.set("orderDate", orderDate1);
       }
 
       po.setString("items/item[1]/productName", productName0);
@@ -908,8 +912,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
       po.setString("items/item[1]/comment", orderComment0);
       po.set("items/item[1]/shipDate", shipDate0);
       po.setString("items/item[1]/partNum", partNum0);
-
-      po.set("orderDate", orderDate0);
     }
     stopMeasuring();
     initPO();
