@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.9 2004/07/29 13:33:22 marcelop Exp $
+ * $Id: EPackageImpl.java,v 1.10 2004/08/12 15:02:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -160,6 +160,11 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       ecorePackage = EcorePackage.eINSTANCE;
       ecoreFactory = EcoreFactory.eINSTANCE;
     }
+  }
+
+  public void freeze()
+  {
+    super.freeze();
   }
 
   /**
