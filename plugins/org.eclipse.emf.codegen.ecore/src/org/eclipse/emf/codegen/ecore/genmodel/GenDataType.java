@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataType.java,v 1.3 2004/06/08 12:34:36 emerks Exp $
+ * $Id: GenDataType.java,v 1.4 2004/06/11 16:10:46 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -99,6 +99,9 @@ public interface GenDataType extends GenClassifier {
   String getWhiteSpace();
 
   List /*List of String*/ getPatterns();
+
+  boolean isXMLCalendar();
+  boolean isXMLDuration();
 
   String getStaticValue(String literal);
 

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.3 2004/06/08 12:32:30 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.4 2004/06/11 16:09:55 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -306,8 +306,16 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 		if (!<%=result%> && <%=diagnostics%> != null) 
 			reportMinViolation(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), new <%=genDataType.getObjectInstanceClassName()%>(<%=genDataType.getSafeUncapName()%>), new <%=genDataType.getObjectInstanceClassName()%>(<%=constant%>__VALUE), <%=genDataType.isMinInclusive() ? "true" : "false"%>, <%=diagnostics%>, <%=context%>);
 		return <%=result%>;
+<%} else { String comparison = "comparison".equals(genClassifier.getSafeUncapName()) ? "theComparison" : "comparison";%>
+<%if (genDataType.isXMLCalendar()) {%>
+		int <%=comparison%> = <%=genModel.getImportedName("org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil")%>.compareCalendar(<%=genDataType.getSafeUncapName()%>, <%=constant%>__VALUE);
+		boolean <%=result%> = <%if (genDataType.isMinInclusive()) {%><%=comparison%> == 0 || <%}%><%=comparison%> == 1;
+<%} else if (genDataType.isXMLDuration()) {%>
+		int <%=comparison%> = <%=genModel.getImportedName("org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil")%>.compareDuration(<%=genDataType.getSafeUncapName()%>, <%=constant%>__VALUE);
+		boolean <%=result%> = <%if (genDataType.isMinInclusive()) {%><%=comparison%> == 0 || <%}%><%=comparison%> == 1;
 <%} else {%>
 		boolean <%=result%> = <%=genDataType.getSafeUncapName()%>.compareTo(<%=constant%>__VALUE) <%=genDataType.isMinInclusive() ? ">=" : ">"%> 0;
+<%}%>
 		if (!<%=result%> && <%=diagnostics%> != null) 
 			reportMinViolation(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), <%=genDataType.getSafeUncapName()%>, <%=constant%>__VALUE, <%=genDataType.isMinInclusive() ? "true" : "false"%>, <%=diagnostics%>, <%=context%>);
 		return <%=result%>; 
@@ -318,8 +326,16 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 		if (!<%=result%> && <%=diagnostics%> != null) 
 			reportMaxViolation(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), new <%=genDataType.getObjectInstanceClassName()%>(<%=genDataType.getSafeUncapName()%>), new <%=genDataType.getObjectInstanceClassName()%>(<%=constant%>__VALUE), <%=genDataType.isMaxInclusive() ? "true" : "false"%>, <%=diagnostics%>, <%=context%>);
 		return <%=result%>; 
+<%} else { String comparison = "comparison".equals(genClassifier.getSafeUncapName()) ? "theComparison" : "comparison";%>
+<%if (genDataType.isXMLCalendar()) {%>
+		int <%=comparison%> = <%=genModel.getImportedName("org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil")%>.compareCalendar(<%=genDataType.getSafeUncapName()%>, <%=constant%>__VALUE);
+		boolean <%=result%> = <%if (genDataType.isMaxInclusive()) {%><%=comparison%> == 0 || <%}%><%=comparison%> == -1;
+<%} else if (genDataType.isXMLDuration()) {%>
+		int <%=comparison%> = <%=genModel.getImportedName("org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil")%>.compareDuration(<%=genDataType.getSafeUncapName()%>, <%=constant%>__VALUE);
+		boolean <%=result%> = <%if (genDataType.isMaxInclusive()) {%><%=comparison%> == 0 || <%}%><%=comparison%> == -1;
 <%} else {%>
 		boolean <%=result%> = <%=genDataType.getSafeUncapName()%>.compareTo(<%=constant%>__VALUE) <%=genDataType.isMaxInclusive() ? "<=" : "<"%> 0;
+<%}%>
 		if (!<%=result%> && <%=diagnostics%> != null) 
 			reportMaxViolation(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), <%=genDataType.getSafeUncapName()%>, <%=constant%>__VALUE, <%=genDataType.isMaxInclusive() ? "true" : "false"%>, <%=diagnostics%>, <%=context%>);
 		return <%=result%>; 
