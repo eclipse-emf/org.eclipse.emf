@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.6 2004/08/24 19:17:41 elena Exp $
+ * $Id: BasicEList.java,v 1.7 2004/11/16 19:09:35 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -1000,10 +1000,17 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   private synchronized void writeObject(ObjectOutputStream objectOutputStream) throws IOException
   {
     objectOutputStream.defaultWriteObject();
-    objectOutputStream.writeInt(data.length);
-    for (int i = 0; i < size; ++i)
+    if (data == null)
     {
-      objectOutputStream.writeObject(data[i]);
+      objectOutputStream.writeInt(0);
+    }
+    else
+    {
+      objectOutputStream.writeInt(data.length);
+      for (int i = 0; i < size; ++i)
+      {
+        objectOutputStream.writeObject(data[i]);
+      }
     }
   }
 
