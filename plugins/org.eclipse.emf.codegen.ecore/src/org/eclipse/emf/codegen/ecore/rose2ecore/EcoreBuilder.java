@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.15 2005/02/11 06:02:07 davidms Exp $
+ * $Id: EcoreBuilder.java,v 1.16 2005/03/10 22:58:12 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -40,6 +40,7 @@ import org.eclipse.emf.codegen.ecore.rose2ecore.parser.RoseNode;
 import org.eclipse.emf.codegen.ecore.rose2ecore.parser.Util;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -1341,10 +1342,10 @@ public class EcoreBuilder implements RoseVisitor
       if (subObject instanceof EClass)
       {
         EClass eClass = (EClass)subObject;
-        List extend = new ArrayList();
-        List unspecified = new ArrayList();
-        List mixin = new ArrayList();
-        List nonClass = new ArrayList();
+        List extend = new UniqueEList();
+        List unspecified = new UniqueEList();
+        List mixin = new UniqueEList();
+        List nonClass = new UniqueEList();
         for (Iterator j = ((List)roseUtil.superTable.get(eClass)).iterator(); j.hasNext(); )
         {
           String quid = (String)j.next();
@@ -1420,7 +1421,7 @@ public class EcoreBuilder implements RoseVisitor
       Collections.sort(collections[0], eClassComparator);
       Collections.sort(collections[1], eClassComparator);
       Collections.sort(collections[2], eClassComparator);
-      List combined = new ArrayList(collections[0]);
+      List combined = new UniqueEList(collections[0]);
       combined.addAll(collections[1]);
       combined.addAll(collections[2]);
       EList eSuper = eClass.getESuperTypes();
