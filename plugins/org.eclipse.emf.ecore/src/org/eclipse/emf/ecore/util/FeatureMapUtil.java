@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.10 2004/06/09 18:21:38 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.11 2004/06/14 12:21:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1331,26 +1331,42 @@ public final class FeatureMapUtil
     }
   }
 
+  protected static Validator NULL_VALIDATOR = 
+    new Validator()
+    {
+      public boolean isValid(EStructuralFeature eStructuralFeature)
+      {
+        return true;
+      }
+    };
+
   public static Validator getValidator(EClass containingClass, EStructuralFeature eStructuralFeature)
   {
-    List adapters = eStructuralFeature.eAdapters();
-    ValidatorMap validatorMap = (ValidatorMap)EcoreUtil.getAdapter(adapters, VALIDATOR_CLASS);
-    if (validatorMap == null)
+    if (eStructuralFeature == null)
     {
-      validatorMap = new ValidatorMap(eStructuralFeature);
-      BasicValidator validator = new BasicValidator(containingClass, eStructuralFeature);
-      validatorMap.put(containingClass, validator);
-      adapters.add(validatorMap);
-      return validator;
+      return NULL_VALIDATOR;
     }
     else
     {
-      Validator result = (Validator)validatorMap.get(containingClass);
-      if (result == null)
+      List adapters = eStructuralFeature.eAdapters();
+      ValidatorMap validatorMap = (ValidatorMap)EcoreUtil.getAdapter(adapters, VALIDATOR_CLASS);
+      if (validatorMap == null)
       {
-        validatorMap.put(containingClass, result = new BasicValidator(containingClass, eStructuralFeature));
+        validatorMap = new ValidatorMap(eStructuralFeature);
+        BasicValidator validator = new BasicValidator(containingClass, eStructuralFeature);
+        validatorMap.put(containingClass, validator);
+        adapters.add(validatorMap);
+        return validator;
       }
-      return result;
+      else
+      {
+        Validator result = (Validator)validatorMap.get(containingClass);
+        if (result == null)
+        {
+          validatorMap.put(containingClass, result = new BasicValidator(containingClass, eStructuralFeature));
+        }
+        return result;
+      }
     }
   }
 
