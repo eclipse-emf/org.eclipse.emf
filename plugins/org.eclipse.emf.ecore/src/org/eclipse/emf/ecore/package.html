@@ -1,8 +1,10 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
-<!--
+<meta name="generator" content="HTML Tidy, see www.w3.org" />
+<meta http-equiv="Content-Type"
+content="text/html; charset=ISO-8859-1" /><!--
 /**
  * <copyright>
  *
@@ -17,155 +19,184 @@
  *
  * </copyright>
  *
- * $Id: package.html,v 1.3 2004/03/25 09:45:06 marcelop Exp $
+ * $Id: package.html,v 1.4 2004/04/08 10:51:02 nickb Exp $
  */
 -->
+<title></title>
 </head>
 <body>
+<p><a id="package_description" name="package_description"></a>
+Provides an <a href="#details">API</a> for the Ecore dialect of
+UML.</p>
 
+<h2>Ecore Components</h2>
 
-<p>
-<a name="package_description"></a>
-Provides an <a href="#details">API</a> for the Ecore dialect of UML.
-</p>
+<p>The Ecore components are related according to this
+hierarchy:</p>
 
-<a name="details"><h2>Ecore Components</h2></a>
+<p><img src="doc-files/EcoreHierarchy.gif" usemap="#EcoreHierarchy"
+border="0" alt="Diagram of the Ecore Component Hierarchy" /></p>
 
-<p>
-The Ecore components are related according to this hierarchy: 
-</p>
+<p>The Ecore Components have the following relations, attributes,
+and operations:</p>
 
-<p>
-
-<IMG SRC="doc-files/EcoreHierarchy.gif" USEMAP="#EcoreHierarchy" BORDER=0 alt="Diagram of the Ecore Component Hierarchy">
-</p>
-
-<p>
-The Ecore Components have the following relations, attributes, and operations:
-</p>
-<p>
-
-<IMG SRC="doc-files/EcoreRelations.gif" USEMAP="#EcoreRelations" BORDER=0 alt="Diagram of the Ecore Compnents Relations, Attributes, and Operations">
-</p>
-
+<p><img src="doc-files/EcoreRelations.gif" usemap="#EcoreRelations"
+border="0"
+alt="Diagram of the Ecore Compnents Relations, Attributes, and Operations" /></p>
 
 <h2>EObject</h2>
-<p>
-All participants in the Ecore Modeling Framework implement the EObject's interface:
-</p>
-<p>
 
+<p>All participants in the Ecore Modeling Framework implement the
+EObject's interface:</p>
 
-<IMG SRC="doc-files/EObjectOperations.gif" USEMAP="#EObjectOperations" BORDER=0 alt="Diagram of EObject Operations"> 
-</p>
-
+<p><img src="doc-files/EObjectOperations.gif"
+usemap="#EObjectOperations" border="0"
+alt="Diagram of EObject Operations" /></p>
 
 <h2>Java Language Types</h2>
-<p>
-Ecore defines the datatypes for the following Java language types:
-</p>
-<p>
 
-<IMG SRC="doc-files/JavaLanguageTypes.gif" USEMAP="#JavaLanguageTypes" BORDER=0 alt="Diagram of the Java Language Types"> 
-</p>
+<p>Ecore defines the datatypes for the following Java language
+types:</p>
 
+<p><img src="doc-files/JavaLanguageTypes.gif"
+usemap="#JavaLanguageTypes" border="0"
+alt="Diagram of the Java Language Types" /></p>
 
 <h2>External Types</h2>
-<p>
-Ecore defines following additional datatypes:
-</p>
-<p>
 
-<IMG SRC="doc-files/ExternalTypes.gif" USEMAP="#ExternalTypes" BORDER=0 alt="Diagram of the External Types"> 
-</p>
+<p>Ecore defines following additional datatypes:</p>
 
+<p><img src="doc-files/ExternalTypes.gif" usemap="#ExternalTypes"
+border="0" alt="Diagram of the External Types" /></p>
 
-<MAP NAME="EcoreHierarchy">
-<AREA SHAPE=RECT COORDS="209,3,271,38" HREF="EObject.html">
-<AREA SHAPE=RECT COORDS="189,74,293,107" HREF="EModelElement.html">
-<AREA SHAPE=RECT COORDS="64,150,132,185" HREF="EFactory.html">
-<AREA SHAPE=RECT COORDS="189,151,302,186" HREF="ENamedElement.html">
-<AREA SHAPE=RECT COORDS="3,242,81,278" HREF="EPackage.html">
-<AREA SHAPE=RECT COORDS="115,241,208,277" HREF="EClassifier.html">
-<AREA SHAPE=RECT COORDS="244,243,337,275" HREF="EEnumLiteral.html">
-<AREA SHAPE=RECT COORDS="374,242,485,279" HREF="ETypedElement.html">
-<AREA SHAPE=RECT COORDS="13,332,71,366" HREF="EClass.html">
-<AREA SHAPE=RECT COORDS="118,329,204,368" HREF="EDataType.html">
-<AREA SHAPE=RECT COORDS="234,329,365,367" HREF="EStructuralFeature.html">
-<AREA SHAPE=RECT COORDS="398,333,479,364" HREF="EOperation.html">
-<AREA SHAPE=RECT COORDS="516,332,599,366" HREF="EParameter.html">
-<AREA SHAPE=RECT COORDS="129,410,191,445" HREF="EEnum.html">
-<AREA SHAPE=RECT COORDS="222,409,297,445" HREF="EAttribute.html">
-<AREA SHAPE=RECT COORDS="329,410,410,446" HREF="EReference.html">
-<AREA SHAPE=RECT COORDS="371,152,456,187" HREF="EAnnotation.html">
-</MAP>
-
-
-<MAP NAME="EcoreRelations">
-<AREA SHAPE=RECT COORDS="208,6,496,66" HREF="EModelElement.html">
-<AREA SHAPE=RECT COORDS="5,109,223,184" HREF="EAnnotation.html">
-<AREA SHAPE=RECT COORDS="247,117,360,175" HREF="ENamedElement.html">
-<AREA SHAPE=RECT COORDS="385,113,859,203" HREF="EFactory.html">
-<AREA SHAPE=RECT COORDS="16,235,179,375" HREF="ETypedElement.html">
-<AREA SHAPE=RECT COORDS="266,232,541,355" HREF="EClassifier.html">
-<AREA SHAPE=RECT COORDS="617,240,884,331" HREF="EPackage.html">
-<AREA SHAPE=RECT COORDS="190,414,278,454" HREF="EParameter.html">
-<AREA SHAPE=RECT COORDS="26,414,107,453" HREF="EOperation.html">
-<AREA SHAPE=RECT COORDS="316,440,709,563" HREF="EClass.html">
-<AREA SHAPE=RECT COORDS="731,443,911,502" HREF="EDataType.html">
-<AREA SHAPE=RECT COORDS="7,615,225,804" HREF="EStructuralFeature.html">
-<AREA SHAPE=RECT COORDS="275,779,416,845" HREF="EAttribute.html">
-<AREA SHAPE=RECT COORDS="272,646,476,738" HREF="EReference.html">
-<AREA SHAPE=RECT COORDS="811,536,970,610" HREF="EEnumLiteral.html">
-<AREA SHAPE=RECT COORDS="676,701,967,778" HREF="EEnum.html">
-</MAP>
-
-
-<MAP NAME="EObjectOperations">
-<AREA SHAPE=RECT COORDS="8,10,413,261" HREF="EObject.html">
-<AREA SHAPE=RECT COORDS="15,343,292,422" HREF="EAnnotation.html">
-<AREA SHAPE=RECT COORDS="19,446,191,542" HREF="EcorePackage.html#getEStringToStringMapEntry()">
-</MAP>
-
-
-
-<MAP NAME="JavaLanguageTypes">
-<AREA SHAPE=RECT COORDS="11,11,167,71" HREF="EcorePackage.html#getEBoolean()">
-<AREA SHAPE=RECT COORDS="200,12,335,73" HREF="EcorePackage.html#getEByte()">
-<AREA SHAPE=RECT COORDS="367,10,505,72" HREF="EcorePackage.html#getEChar()">
-<AREA SHAPE=RECT COORDS="541,10,689,71" HREF="EcorePackage.html#getEDouble()">
-<AREA SHAPE=RECT COORDS="13,92,147,152" HREF="EcorePackage.html#getEFloat()">
-<AREA SHAPE=RECT COORDS="203,90,330,153" HREF="EcorePackage.html#getEInt()">
-<AREA SHAPE=RECT COORDS="371,91,505,152" HREF="EcorePackage.html#getELong()">
-<AREA SHAPE=RECT COORDS="548,93,687,152" HREF="EcorePackage.html#getEShort()">
-<AREA SHAPE=RECT COORDS="5,192,205,253" HREF="EcorePackage.html#getEString()">
-<AREA SHAPE=RECT COORDS="242,189,446,251" HREF="EcorePackage.html#getEJavaObject()">
-<AREA SHAPE=RECT COORDS="492,190,691,253" HREF="EcorePackage.html#getEJavaClass()">
-<AREA SHAPE=RECT COORDS="3,285,215,344" HREF="EcorePackage.html#getEBooleanObject()">
-<AREA SHAPE=RECT COORDS="249,285,440,346" HREF="EcorePackage.html#getEByteObject()">
-<AREA SHAPE=RECT COORDS="475,291,695,350" HREF="EcorePackage.html#getECharacterObject()">
-<AREA SHAPE=RECT COORDS="5,367,212,429" HREF="EcorePackage.html#getEDoubleObject()">
-<AREA SHAPE=RECT COORDS="250,369,444,429" HREF="EcorePackage.html#getEFloatObject()">
-<AREA SHAPE=RECT COORDS="486,372,690,433" HREF="EcorePackage.html#getEIntegerObject()">
-<AREA SHAPE=RECT COORDS="10,448,206,509" HREF="EcorePackage.html#getELongObject()">
-<AREA SHAPE=RECT COORDS="247,448,443,510" HREF="EcorePackage.html#getEShortObject()">
-<AREA SHAPE=RECT COORDS="5,534,154,594" HREF="EcorePackage.html#getEByteArray()">
-</MAP>
-
-
-<MAP NAME="ExternalTypes">
-<AREA SHAPE=RECT COORDS="7,98,356,159" HREF="resource/Resource.html">
-<AREA SHAPE=RECT COORDS="444,287,752,349" HREF="../../../../../../../org.eclipse.emf.common/doc/javadoc/org/eclipse/emf/common/util/EList.html">
-<AREA SHAPE=RECT COORDS="11,287,353,347" HREF="../../../../../../../org.eclipse.emf.common/doc/javadoc/org/eclipse/emf/common/util/TreeIterator.html">
-<AREA SHAPE=RECT COORDS="7,376,351,437" HREF="../../../../../../../org.eclipse.emf.common/doc/javadoc/org/eclipse/emf/common/util/Enumerator.html">
-<AREA SHAPE=RECT COORDS="7,183,375,262" HREF="util/FeatureMap.Entry.html">
-<AREA SHAPE=RECT COORDS="9,8,195,72" HREF="EcorePackage.html#getEDate()">
-<AREA SHAPE=RECT COORDS="248,9,477,72" HREF="EcorePackage.html#getEBigInteger()">
-<AREA SHAPE=RECT COORDS="515,9,751,70" HREF="EcorePackage.html#getEBigDecimal()">
-<AREA SHAPE=RECT COORDS="384,99,750,161" HREF="resource/ResourceSet.html">
-<AREA SHAPE=RECT COORDS="422,190,751,249" HREF="util/FeatureMap.html">
-</MAP>
-
-
+<map id="EcoreHierarchy" name="EcoreHierarchy">
+<area shape="RECT" coords="209,3,271,38" href="EObject.html" />
+<area shape="RECT" coords="189,74,293,107"
+href="EModelElement.html" />
+<area shape="RECT" coords="64,150,132,185" href="EFactory.html" />
+<area shape="RECT" coords="189,151,302,186"
+href="ENamedElement.html" />
+<area shape="RECT" coords="3,242,81,278" href="EPackage.html" />
+<area shape="RECT" coords="115,241,208,277"
+href="EClassifier.html" />
+<area shape="RECT" coords="244,243,337,275"
+href="EEnumLiteral.html" />
+<area shape="RECT" coords="374,242,485,279"
+href="ETypedElement.html" />
+<area shape="RECT" coords="13,332,71,366" href="EClass.html" />
+<area shape="RECT" coords="118,329,204,368"
+href="EDataType.html" />
+<area shape="RECT" coords="234,329,365,367"
+href="EStructuralFeature.html" />
+<area shape="RECT" coords="398,333,479,364"
+href="EOperation.html" />
+<area shape="RECT" coords="516,332,599,366"
+href="EParameter.html" />
+<area shape="RECT" coords="129,410,191,445" href="EEnum.html" />
+<area shape="RECT" coords="222,409,297,445"
+href="EAttribute.html" />
+<area shape="RECT" coords="329,410,410,446"
+href="EReference.html" />
+<area shape="RECT" coords="371,152,456,187"
+href="EAnnotation.html" />
+</map> <map id="EcoreRelations" name="EcoreRelations">
+<area shape="RECT" coords="208,6,496,66"
+href="EModelElement.html" />
+<area shape="RECT" coords="5,109,223,184"
+href="EAnnotation.html" />
+<area shape="RECT" coords="247,117,360,175"
+href="ENamedElement.html" />
+<area shape="RECT" coords="385,113,859,203" href="EFactory.html" />
+<area shape="RECT" coords="16,235,179,375"
+href="ETypedElement.html" />
+<area shape="RECT" coords="266,232,541,355"
+href="EClassifier.html" />
+<area shape="RECT" coords="617,240,884,331" href="EPackage.html" />
+<area shape="RECT" coords="190,414,278,454"
+href="EParameter.html" />
+<area shape="RECT" coords="26,414,107,453"
+href="EOperation.html" />
+<area shape="RECT" coords="316,440,709,563" href="EClass.html" />
+<area shape="RECT" coords="731,443,911,502"
+href="EDataType.html" />
+<area shape="RECT" coords="7,615,225,804"
+href="EStructuralFeature.html" />
+<area shape="RECT" coords="275,779,416,845"
+href="EAttribute.html" />
+<area shape="RECT" coords="272,646,476,738"
+href="EReference.html" />
+<area shape="RECT" coords="811,536,970,610"
+href="EEnumLiteral.html" />
+<area shape="RECT" coords="676,701,967,778" href="EEnum.html" />
+</map> <map id="EObjectOperations" name="EObjectOperations">
+<area shape="RECT" coords="8,10,413,261" href="EObject.html" />
+<area shape="RECT" coords="15,343,292,422"
+href="EAnnotation.html" />
+<area shape="RECT" coords="19,446,191,542"
+href="EcorePackage.html#getEStringToStringMapEntry()" />
+</map> <map id="JavaLanguageTypes" name="JavaLanguageTypes">
+<area shape="RECT" coords="11,11,167,71"
+href="EcorePackage.html#getEBoolean()" />
+<area shape="RECT" coords="200,12,335,73"
+href="EcorePackage.html#getEByte()" />
+<area shape="RECT" coords="367,10,505,72"
+href="EcorePackage.html#getEChar()" />
+<area shape="RECT" coords="541,10,689,71"
+href="EcorePackage.html#getEDouble()" />
+<area shape="RECT" coords="13,92,147,152"
+href="EcorePackage.html#getEFloat()" />
+<area shape="RECT" coords="203,90,330,153"
+href="EcorePackage.html#getEInt()" />
+<area shape="RECT" coords="371,91,505,152"
+href="EcorePackage.html#getELong()" />
+<area shape="RECT" coords="548,93,687,152"
+href="EcorePackage.html#getEShort()" />
+<area shape="RECT" coords="5,192,205,253"
+href="EcorePackage.html#getEString()" />
+<area shape="RECT" coords="242,189,446,251"
+href="EcorePackage.html#getEJavaObject()" />
+<area shape="RECT" coords="492,190,691,253"
+href="EcorePackage.html#getEJavaClass()" />
+<area shape="RECT" coords="3,285,215,344"
+href="EcorePackage.html#getEBooleanObject()" />
+<area shape="RECT" coords="249,285,440,346"
+href="EcorePackage.html#getEByteObject()" />
+<area shape="RECT" coords="475,291,695,350"
+href="EcorePackage.html#getECharacterObject()" />
+<area shape="RECT" coords="5,367,212,429"
+href="EcorePackage.html#getEDoubleObject()" />
+<area shape="RECT" coords="250,369,444,429"
+href="EcorePackage.html#getEFloatObject()" />
+<area shape="RECT" coords="486,372,690,433"
+href="EcorePackage.html#getEIntegerObject()" />
+<area shape="RECT" coords="10,448,206,509"
+href="EcorePackage.html#getELongObject()" />
+<area shape="RECT" coords="247,448,443,510"
+href="EcorePackage.html#getEShortObject()" />
+<area shape="RECT" coords="5,534,154,594"
+href="EcorePackage.html#getEByteArray()" />
+</map> <map id="ExternalTypes" name="ExternalTypes">
+<area shape="RECT" coords="7,98,356,159"
+href="resource/Resource.html" />
+<area shape="RECT" coords="444,287,752,349"
+href="../../../../../../../org.eclipse.emf.common/doc/javadoc/org/eclipse/emf/common/util/EList.html" />
+<area shape="RECT" coords="11,287,353,347"
+href="../../../../../../../org.eclipse.emf.common/doc/javadoc/org/eclipse/emf/common/util/TreeIterator.html" />
+<area shape="RECT" coords="7,376,351,437"
+href="../../../../../../../org.eclipse.emf.common/doc/javadoc/org/eclipse/emf/common/util/Enumerator.html" />
+<area shape="RECT" coords="7,183,375,262"
+href="util/FeatureMap.Entry.html" />
+<area shape="RECT" coords="9,8,195,72"
+href="EcorePackage.html#getEDate()" />
+<area shape="RECT" coords="248,9,477,72"
+href="EcorePackage.html#getEBigInteger()" />
+<area shape="RECT" coords="515,9,751,70"
+href="EcorePackage.html#getEBigDecimal()" />
+<area shape="RECT" coords="384,99,750,161"
+href="resource/ResourceSet.html" />
+<area shape="RECT" coords="422,190,751,249"
+href="util/FeatureMap.html" />
+</map>
 </body>
 </html>
+
