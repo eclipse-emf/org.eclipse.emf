@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.8 2004/11/04 18:17:08 nickb Exp $
+ * $Id: BuildTests.java,v 1.9 2004/11/04 18:53:15 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -845,18 +845,22 @@ public class BuildTests extends TestCase
     {
       File file = files[i];
       String fileName = file.getName();
-      if (debug) { System.out.println("zip filename = "+fileName); } 
-
+      if (debug) { System.out.println("filename["+i+"] = "+fileName); } 
 
       if (fileName.endsWith(".zip"))
       {
-        for (int j = 0; j < BUILD_GENERATED_ZIP_FILES_SUFFIX.length; j++)
+        if (debug) { System.out.println("zip filename = "+fileName); } 
+        for (int j = 0; j < BUILD_GENERATED_ZIP_FILES_PREFIX.length; j++)
         {
-          if (fileName.startsWith(BUILD_GENERATED_ZIP_FILES_SUFFIX[j]))
+          if (fileName.startsWith(BUILD_GENERATED_ZIP_FILES_PREFIX[j]))
+          {
+            if (debug) { System.out.println("adding zip: "+file.getAbsolutePath()); } 
             zipFiles.add(file.getAbsolutePath());
+          }
         }
       }
     }
+    System.out.println("zipFiles.size() = "+zipFiles.size());
     return (String[])zipFiles.toArray(new String [zipFiles.size()]);
   }
 
@@ -1037,7 +1041,7 @@ public class BuildTests extends TestCase
     return false;
   }
 
-  public static final String[] BUILD_GENERATED_ZIP_FILES_SUFFIX = { "emf-runtime", "emf-source", "emf-doc", "xsd-runtime", "xsd-source",
+  public static final String[] BUILD_GENERATED_ZIP_FILES_PREFIX = { "emf-runtime", "emf-source", "emf-doc", "xsd-runtime", "xsd-source",
       "xsd-doc", "sdo-runtime", "sdo-source", "sdo-doc", "emf-xsd-sdo-SDK" };
 
   public static final String[] REQUIRED_FEATURE_FILES = { "cpl-v10.html", "feature.properties", "feature.xml", "license.html" };
