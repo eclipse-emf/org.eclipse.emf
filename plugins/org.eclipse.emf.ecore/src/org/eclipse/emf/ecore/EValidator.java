@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EValidator.java,v 1.3 2004/06/17 10:38:17 emerks Exp $
+ * $Id: EValidator.java,v 1.4 2004/09/27 14:12:12 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -33,8 +33,8 @@ public interface EValidator
   String MARKER = "org.eclipse.emf.ecore.diagnostic";
 
   /**
-   * This is the string for encoding the {@link org.eclipse.emf.ecore.util.EcoreUtil#getURI URI} 
-   * of the object that is the target of a marker.
+   * This is the name of the marker attribute to hold the String reprsentation of the 
+   * {@link org.eclipse.emf.ecore.util.EcoreUtil#getURI URI} of the object that is the target of the marker.
    * @see org.eclipse.emf.ecore.util.EcoreUtil#getURI
    */
   String URI_ATTRIBUTE = "uri";
