@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeDocumentRootImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLTypeDocumentRootImpl.java,v 1.2 2004/03/10 13:03:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -154,7 +154,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    */
   public String getText()
   {
-    return (String)((FeatureMap.Internal)getMixed()).get(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text(), -1, true);
+    return (String)getMixed().get(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text(), true);
   }
 
   /**
@@ -198,7 +198,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    */
   public String getCDATA()
   {
-    return (String)((FeatureMap.Internal)getMixed()).get(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), -1, true);
+    return (String)getMixed().get(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), true);
   }
 
   /**
@@ -218,7 +218,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    */
   public String getComment()
   {
-    return (String)((FeatureMap.Internal)getMixed()).get(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment(), -1, true);
+    return (String)getMixed().get(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment(), true);
   }
 
   /**

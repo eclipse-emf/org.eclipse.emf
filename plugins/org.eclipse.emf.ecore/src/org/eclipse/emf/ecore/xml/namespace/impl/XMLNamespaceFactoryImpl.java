@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceFactoryImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLNamespaceFactoryImpl.java,v 1.2 2004/03/10 13:03:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -20,10 +20,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.xml.namespace.SpaceType;
-import org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot;
-import org.eclipse.emf.ecore.xml.namespace.XMLNamespaceFactory;
-import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
+import org.eclipse.emf.ecore.xml.namespace.*;
+
 
 /**
  * <!-- begin-user-doc -->

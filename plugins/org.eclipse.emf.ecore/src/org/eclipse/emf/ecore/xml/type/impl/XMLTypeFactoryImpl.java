@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.2 2004/03/10 13:03:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -27,11 +27,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.xml.type.AnyType;
-import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
-import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.emf.ecore.xml.type.*;
 
 
 /**
