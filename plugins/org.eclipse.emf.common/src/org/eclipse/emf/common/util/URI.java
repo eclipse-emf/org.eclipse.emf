@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.2 2004/04/07 13:08:40 emerks Exp $
+ * $Id: URI.java,v 1.3 2004/04/07 16:18:26 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -438,7 +438,7 @@ public final class URI
     String uri = File.separatorChar != '/' ? pathName.replace(File.separatorChar, SEGMENT_SEPARATOR) : pathName;
     if (uri.indexOf(' ') != -1)
     {
-      uri = uri.replaceAll(" ", "%20%");
+      uri = uri.replaceAll(" ", "%20");
     }
     if (file.isAbsolute())
     {
@@ -1835,9 +1835,9 @@ public final class URI
       result.append(segments[i]);
     }
 
-    for (int i = result.indexOf("%20%"); i != -1; i = result.indexOf("%20%", i))
+    for (int i = result.indexOf("%20"); i != -1; i = result.indexOf("%20", i))
     {
-      result.replace(i, i + 4, " ");
+      result.replace(i, i + 3, " ");
     }
 
     return result.toString();
