@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.25 2004/12/24 17:30:47 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.26 2005/01/19 15:15:47 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -108,6 +108,7 @@ public class XSDEcoreBuilder extends MapBuilder
   protected Map targetNamespaceToEPackageMap = new HashMap();
   protected ExtendedMetaData extendedMetaData;
   protected Map eReferenceToOppositeNameMap = new HashMap();
+  protected Map typeToTypeObjectMap = new HashMap();
 
   public XSDEcoreBuilder()
   {
@@ -515,6 +516,8 @@ public class XSDEcoreBuilder extends MapBuilder
       extendedMetaData.setName(eDataTypeObject, extendedMetaData.getName(eDataType) + ":Object");
       addToSortedList(eDataType.getEPackage().getEClassifiers(), eDataTypeObject);
       extendedMetaData.setBaseType(eDataTypeObject, eDataType);
+
+      typeToTypeObjectMap.put(eDataType, eDataTypeObject);
     }
   }
 
@@ -1404,7 +1407,7 @@ public class XSDEcoreBuilder extends MapBuilder
             {
               if (!canSupportNull((EDataType)type))
               {
-                eAttribute.setEType(type = extendedMetaData.getType(type.getEPackage(), extendedMetaData.getName(type) + ":Object"));
+                eAttribute.setEType(type = (EDataType)typeToTypeObjectMap.get(type));
               }
               if (maxOccurs == 1)
               {
@@ -1460,7 +1463,7 @@ public class XSDEcoreBuilder extends MapBuilder
 
           if (xsdElementDeclaration.isNillable() && !canSupportNull((EDataType)type))
           {
-            eAttribute.setEType(type = extendedMetaData.getType(type.getEPackage(), extendedMetaData.getName(type) + ":Object"));
+            eAttribute.setEType(type = (EDataType)typeToTypeObjectMap.get(type));
             if (maxOccurs == 1)
             {
               eAttribute.setUnsettable(true);
@@ -1767,11 +1770,9 @@ public class XSDEcoreBuilder extends MapBuilder
             {
               ++index;
             }
-
-            EClassifier objectType = extendedMetaData.getType(eClassifier.getEPackage(), extendedMetaData.getName(eClassifier) + ":Object");
-            
             extendedMetaData.setName(eClassifier, baseName + "_._" + index + "_._type");
 
+            EDataType objectType = (EDataType)typeToTypeObjectMap.get(eClassifier);
             if (objectType != null)
             {
               extendedMetaData.setName(objectType, baseName + "_._" + index + "_._type:Object");
