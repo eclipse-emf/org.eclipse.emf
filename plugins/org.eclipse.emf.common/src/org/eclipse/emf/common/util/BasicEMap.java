@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEMap.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: BasicEMap.java,v 1.2 2004/04/30 11:10:33 emerks Exp $
  */
 package  org.eclipse.emf.common.util;
 
@@ -1180,7 +1180,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       for (; cursor < BasicEMap.this.entryData.length; ++cursor)
       {
         BasicEList eList = BasicEMap.this.entryData[cursor];
-        if (eList != null)
+        if (eList != null && !eList.isEmpty())
         {
           entryCursor = 0;
           return;
