@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtilStaticMethodsTest.java,v 1.5 2004/11/04 05:52:10 marcelop Exp $
+ * $Id: EcoreUtilStaticMethodsTest.java,v 1.6 2004/11/09 12:48:49 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -31,6 +31,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.test.core.EMFTestCorePlugin;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDFactory;
 
 public class EcoreUtilStaticMethodsTest extends TestCase
 {
@@ -45,7 +47,17 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testGenerateUUID"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testIndexOf"));
     testSuite.addTest(new EcoreUtilStaticMethodsTest("testSetEList"));
+    testSuite.addTest(new EcoreUtilStaticMethodsTest("testCopyUnsettableSetEmptyList"));
     return testSuite;
+  }
+  
+  public void testCopyUnsettableSetEmptyList()
+  {
+    XSDComplexTypeDefinition xsdComplexTypeDefinition = XSDFactory.eINSTANCE.createXSDComplexTypeDefinition();
+    xsdComplexTypeDefinition.getLexicalFinal().clear();
+    assertTrue(xsdComplexTypeDefinition.isSetLexicalFinal());
+    XSDComplexTypeDefinition xsdComplexTypeDefinitionCopy = (XSDComplexTypeDefinition)EcoreUtil.copy(xsdComplexTypeDefinition);
+    assertTrue(xsdComplexTypeDefinitionCopy.isSetLexicalFinal());
   }
   
   public void testIndexOf()
@@ -62,62 +74,61 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     assertSetEList(populateList(new UniqueEList()));
   }
   
-	public void testGenerateUUID()
-	{
-		final Collection set = new HashSet();
-		
-		set.add(EcoreUtil.generateUUID());
-		set.add(EcoreUtil.generateUUID());
-		set.add(EcoreUtil.generateUUID());
-		assertEquals(3, set.size());
-		
-		Runnable runnable = new Runnable()
-		{
-			public void run()
-			{
-				set.add(EcoreUtil.generateUUID());
+  public void testGenerateUUID()
+  {
+    final Collection set = new HashSet();
+    
+    set.add(EcoreUtil.generateUUID());
+    set.add(EcoreUtil.generateUUID());
+    set.add(EcoreUtil.generateUUID());
+    assertEquals(3, set.size());
+    
+    Runnable runnable = new Runnable()
+    {
+      public void run()
+      {
+        set.add(EcoreUtil.generateUUID());
 
-				try
-				{
-					Thread.sleep(100);
-				}
-				catch (InterruptedException e)
-				{
-				}
-				
-				set.add(EcoreUtil.generateUUID());
-				set.add(EcoreUtil.generateUUID());				
-			}
-		};
-		
-		Thread thread1 = new Thread(runnable);
-		Thread thread2 = new Thread(runnable);
-		Thread thread3 = new Thread(runnable);
-		
-		try
-		{
-			thread1.start(); thread1.join();
-			thread2.start(); thread2.join();
-			thread3.start(); thread3.join();
-		}
-		catch (InterruptedException e)
-		{
-		}		
-		assertEquals(12, set.size());
-	}  
-  
+        try
+        {
+          Thread.sleep(100);
+        }
+        catch (InterruptedException e)
+        {
+        }
+        
+        set.add(EcoreUtil.generateUUID());
+        set.add(EcoreUtil.generateUUID());        
+      }
+    };
+    
+    Thread thread1 = new Thread(runnable);
+    Thread thread2 = new Thread(runnable);
+    Thread thread3 = new Thread(runnable);
+    
+    try
+    {
+      thread1.start(); thread1.join();
+      thread2.start(); thread2.join();
+      thread3.start(); thread3.join();
+    }
+    catch (InterruptedException e)
+    {
+    }    
+    assertEquals(12, set.size());
+  }  
   
   protected List populateList(List list)
   {
-    list.add(null); 					//0
-    list.add(Boolean.FALSE);	//1
-    list.add(new Integer(1));	//2
-    list.add(new Integer(2));	//3
-    list.add(null);						//4
-    list.add("String");				//5
-    list.add(new Integer(1));	//6
-    list.add("String");				//7
-    list.add(Boolean.FALSE);	//8
+    list.add(null);            //0
+    list.add(Boolean.FALSE);   //1
+    list.add(new Integer(1));  //2
+    list.add(new Integer(2));  //3
+    list.add(null);            //4
+    list.add("String");        //5
+    list.add(new Integer(1));  //6
+    list.add("String");        //7
+    list.add(Boolean.FALSE);   //8
 
     return list;
   }
