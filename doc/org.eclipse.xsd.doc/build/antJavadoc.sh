@@ -24,7 +24,7 @@ for pluginDir in $pluginDirs; do
 	pluginDir=`echo $pluginDir | sed -e 's/\/runtime$//g'`
 	srcDir=$pluginDir/src
 	if [ -d $srcDir ]; then
-		packagesets=$packagesets"<packageset dir=\"$srcDir\"><exclude name=\"**/doc-files/**\"/></packageset>"
+		packagesets=$packagesets"<packageset dir=\"$srcDir\"><exclude name=\"$srcDir/**/doc-files/**\"/></packageset>"
 	fi
 done
 
