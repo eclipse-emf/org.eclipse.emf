@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.4 2004/12/16 21:54:04 emerks Exp $
+ * $Id: JClassImpl.java,v 1.5 2005/03/18 21:57:39 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -32,6 +32,7 @@ import org.eclipse.jdt.core.jdom.IDOMType;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -1304,7 +1305,7 @@ public class JClassImpl extends JMemberImpl implements JClass
         }
       }
 
-      EcoreUtil.setEList(getSuperTypes(), theSuperTypes);
+      ECollections.setEList(getSuperTypes(), theSuperTypes);
     }
 
     for (Iterator i = getMembers().iterator(); i.hasNext(); )

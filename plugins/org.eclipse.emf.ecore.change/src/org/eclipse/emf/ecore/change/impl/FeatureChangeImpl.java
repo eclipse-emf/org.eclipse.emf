@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.14 2005/02/22 16:15:12 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.15 2005/03/18 21:57:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -492,7 +492,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
             // Bi-directional references need to use this less efficient approach because some
             //  or all of the changes may already have been made from the other end.
             //
-            EcoreUtil.setEList((EList)originalObject.eGet(feature), (EList)getValue());
+            ECollections.setEList((EList)originalObject.eGet(feature), (EList)getValue());
           }
           else
           {
@@ -547,7 +547,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
             // Bi-directional references need to use this less efficient approach because some
             //  or all of the changes may already have been made from the other end.
             //
-            EcoreUtil.setEList((EList)originalObject.eGet(feature), (EList)getValue());
+            ECollections.setEList((EList)originalObject.eGet(feature), (EList)getValue());
           }
           else
           {

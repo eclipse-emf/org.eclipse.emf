@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitImpl.java,v 1.2 2004/10/20 15:18:58 marcelop Exp $
+ * $Id: JCompilationUnitImpl.java,v 1.3 2005/03/18 21:57:39 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -29,6 +29,7 @@ import org.eclipse.jdt.core.jdom.IDOMPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -39,7 +40,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.java.JClass;
 import org.eclipse.emf.java.JCompilationUnit;
@@ -505,8 +505,8 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
           }
         }
 
-        EcoreUtil.setEList(getImportedPackages(), theImportedPackages);
-        EcoreUtil.setEList(getImportedTypes(), theImportedTypes);
+        ECollections.setEList(getImportedPackages(), theImportedPackages);
+        ECollections.setEList(getImportedTypes(), theImportedTypes);
 
         break;
       }

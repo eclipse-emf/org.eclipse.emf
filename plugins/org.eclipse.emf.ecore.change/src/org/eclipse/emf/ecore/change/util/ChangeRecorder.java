@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.25 2005/02/11 17:58:11 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.26 2005/03/18 21:57:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -27,6 +27,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -720,10 +721,10 @@ public class ChangeRecorder implements Adapter
           Object targetObject = oldList.get(index);
           if (targetObject == null ? newObject != null : !targetObject.equals(newObject))
           {
-            int position = EcoreUtil.indexOf(oldList, newObject, index);
+            int position = ECollections.indexOf(oldList, newObject, index);
             if (position != -1)
             {
-              int targetIndex = EcoreUtil.indexOf(newList, targetObject, index);
+              int targetIndex = ECollections.indexOf(newList, targetObject, index);
               if (targetIndex == -1)
               {
                 createRemoveListChange(oldList, changesList, newObject, index);
