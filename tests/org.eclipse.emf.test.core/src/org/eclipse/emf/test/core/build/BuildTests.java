@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.16 2004/07/14 15:17:52 marcelop Exp $
+ * $Id: BuildTests.java,v 1.17 2004/07/14 20:32:04 marcelop Exp $
  */
 package org.eclipse.emf.test.core.build;
 
@@ -638,17 +638,25 @@ public class BuildTests extends TestCase
     File pluginDir = new File(installDir, "plugins");
     File[] plugins = pluginDir.listFiles();
     StringBuffer problems = new StringBuffer();
+    
+    int count = 0;
     for (int i = 0; i < plugins.length; i++)
     {
       File aPlugin = plugins[i];
       if(aPlugin.getName().indexOf(".emf.doc") > 0 || aPlugin.getName().indexOf(".xsd.doc") > 0 || aPlugin.getName().indexOf(".sdo.doc") > 0)
       {
+        count++;
         String problem  = docPluginTest(aPlugin);
         if(problem != null)
         {
           problems.append("\n").append(problem);
         }
       }
+    }
+    
+    if(count != 3)
+    {
+      problems.append("\nAt least one doc plugin is missing.");
     }
     
     if(problems.length() > 0)
