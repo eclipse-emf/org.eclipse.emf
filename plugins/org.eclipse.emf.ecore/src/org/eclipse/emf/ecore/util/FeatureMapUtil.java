@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.2 2004/03/15 16:54:41 marcelop Exp $
+ * $Id: FeatureMapUtil.java,v 1.3 2004/03/20 21:46:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -53,8 +53,7 @@ public class FeatureMapUtil
 
   public static boolean isFeatureMap(EStructuralFeature eStructuralFeature)
   {
-    EClassifier eClassifier = eStructuralFeature.getEType();
-    return eClassifier !=null && isFeatureMapEntry(eClassifier);
+    return ((EStructuralFeature.Internal)eStructuralFeature).isFeatureMap();
   }
 
   public static boolean isFeatureMapEntry(EClassifier eClassifier)

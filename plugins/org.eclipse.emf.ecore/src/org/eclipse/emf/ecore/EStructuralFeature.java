@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EStructuralFeature.java,v 1.2 2004/03/20 21:45:41 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -451,5 +451,11 @@ public interface EStructuralFeature extends ETypedElement
      * @param settingDelegate the specialized delegate.
      */
     void setSettingDelegate(SettingDelegate settingDelegate);
+
+    /**
+     * Returns whether the type is a feature map.
+     * @return whether the type is a feature map.
+     */
+    boolean isFeatureMap();
   }
 }

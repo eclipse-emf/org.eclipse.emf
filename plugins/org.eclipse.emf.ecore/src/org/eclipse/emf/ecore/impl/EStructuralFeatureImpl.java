@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.2 2004/03/20 21:46:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2572,5 +2572,18 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         list.clear();
       }
     }
+  }
+
+  protected EClassifier cachedEType;
+  protected boolean cachedIsFeatureMap;
+
+  public boolean isFeatureMap()
+  {
+    if (cachedEType != eType)
+    {
+      cachedEType = getEType();
+      cachedIsFeatureMap = eType != null && eType.getInstanceClassName() == "org.eclipse.emf.ecore.util.FeatureMap$Entry";
+    }
+    return cachedIsFeatureMap;
   }
 }
