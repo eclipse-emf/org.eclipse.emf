@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.6 2004/06/14 23:50:19 marcelop Exp $
+ * $Id: ValidateAction.java,v 1.7 2004/06/19 20:50:35 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -231,7 +231,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   {
     EObject eObject = (EObject)selectedObjects.iterator().next();
     int count = 0;
-    for (Iterator i = ((EObject)selectedObjects.iterator().next()).eAllContents(); i.hasNext(); i.next())
+    for (Iterator i = eObject.eAllContents(); i.hasNext(); i.next())
     {
       ++count;
     }
@@ -297,46 +297,46 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
     if (Platform.getBundle("org.eclipse.core.resources") != null)
     {
-	    final IFile file = getFile();
-	
-	    try
-	    {
-	      file.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
-	    }
-	    catch (CoreException exception)
-	    {
-	      EMFEditUIPlugin.INSTANCE.log(exception);
-	    }
-	  
-	    if (result == Dialog.OK)
-	    {
-	      if (!diagnostic.getChildren().isEmpty())
-	      {
-	        List data = ((Diagnostic)diagnostic.getChildren().get(0)).getData();
-	        if (!data.isEmpty() && data.get(0) instanceof EObject)
-	        {
-	          Object part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
-	          if (part instanceof ISetSelectionTarget)
-	          {
-	            ((ISetSelectionTarget)part).selectReveal(new StructuredSelection(data.get(0)));
-	          }
-	          else if (part instanceof IViewerProvider)
-	          {
-	            Viewer viewer = ((IViewerProvider)part).getViewer();
-	            if (viewer != null)
-	            {
-	              viewer.setSelection(new StructuredSelection(data.get(0)), true);
-	            }
-	          }
-	        }
-	      }
-	  
-	      for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
-	      {
-	        Diagnostic childDiagnostic = (Diagnostic)i.next();
-	        createMarkers(file, childDiagnostic);
-	      }
-	    }
+      final IFile file = getFile();
+  
+      try
+      {
+        file.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
+      }
+      catch (CoreException exception)
+      {
+        EMFEditUIPlugin.INSTANCE.log(exception);
+      }
+    
+      if (result == Dialog.OK)
+      {
+        if (!diagnostic.getChildren().isEmpty())
+        {
+          List data = ((Diagnostic)diagnostic.getChildren().get(0)).getData();
+          if (!data.isEmpty() && data.get(0) instanceof EObject)
+          {
+            Object part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
+            if (part instanceof ISetSelectionTarget)
+            {
+              ((ISetSelectionTarget)part).selectReveal(new StructuredSelection(data.get(0)));
+            }
+            else if (part instanceof IViewerProvider)
+            {
+              Viewer viewer = ((IViewerProvider)part).getViewer();
+              if (viewer != null)
+              {
+                viewer.setSelection(new StructuredSelection(data.get(0)), true);
+              }
+            }
+          }
+        }
+    
+        for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
+        {
+          Diagnostic childDiagnostic = (Diagnostic)i.next();
+          createMarkers(file, childDiagnostic);
+        }
+      }
     }
   }
   
@@ -385,7 +385,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     selectedObjects = new ArrayList();
     for (Iterator objects = selection.iterator(); objects.hasNext(); )
     {
-      selectedObjects.add(objects.next());
+      selectedObjects.add(AdapterFactoryEditingDomain.unwrap(objects.next()));
     }
 
     return 
