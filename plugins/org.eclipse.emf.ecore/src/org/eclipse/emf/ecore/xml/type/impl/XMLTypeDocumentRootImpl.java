@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeDocumentRootImpl.java,v 1.2 2004/03/10 13:03:07 emerks Exp $
+ * $Id: XMLTypeDocumentRootImpl.java,v 1.3 2004/06/13 11:53:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -84,6 +84,36 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * @ordered
    */
   protected EMap xSISchemaLocation = null;
+
+  /**
+   * The default value of the '{@link #getCDATA() <em>CDATA</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getCDATA()
+   * @generated
+   * @ordered
+   */
+  protected static final String CDATA_EDEFAULT = null;
+
+  /**
+   * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getComment()
+   * @generated
+   * @ordered
+   */
+  protected static final String COMMENT_EDEFAULT = null;
+
+  /**
+   * The default value of the '{@link #getText() <em>Text</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getText()
+   * @generated
+   * @ordered
+   */
+  protected static final String TEXT_EDEFAULT = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -309,13 +339,13 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
         getXSISchemaLocation().clear();
         return;
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
-        setCDATA((String)null);
+        setCDATA(CDATA_EDEFAULT);
         return;
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
-        setComment((String)null);
+        setComment(COMMENT_EDEFAULT);
         return;
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
-        setText((String)null);
+        setText(TEXT_EDEFAULT);
         return;
     }
     eDynamicUnset(eFeature);
@@ -337,11 +367,11 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
         return xSISchemaLocation != null && !xSISchemaLocation.isEmpty();
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
-        return getCDATA() != null;
+        return CDATA_EDEFAULT == null ? getCDATA() != null : !CDATA_EDEFAULT.equals(getCDATA());
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
-        return getComment() != null;
+        return COMMENT_EDEFAULT == null ? getComment() != null : !COMMENT_EDEFAULT.equals(getComment());
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
-        return getText() != null;
+        return TEXT_EDEFAULT == null ? getText() != null : !TEXT_EDEFAULT.equals(getText());
     }
     return eDynamicIsSet(eFeature);
   }

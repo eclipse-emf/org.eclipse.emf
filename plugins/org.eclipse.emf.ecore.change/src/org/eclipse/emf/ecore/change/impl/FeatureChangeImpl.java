@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.2 2004/03/15 15:01:26 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.3 2004/06/13 11:53:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -67,6 +67,35 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
 {
   /**
+   * The default value of the '{@link #getFeatureName() <em>Feature Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFeatureName()
+   * @generated
+   * @ordered
+   */
+  protected static final String FEATURE_NAME_EDEFAULT = null;
+
+  /**
+   * This is true if the Feature Name attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean featureNameESet = false;
+
+  /**
+   * The default value of the '{@link #getDataValue() <em>Data Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDataValue()
+   * @generated
+   * @ordered
+   */
+  protected static final String DATA_VALUE_EDEFAULT = null;
+
+  /**
    * The default value of the '{@link #isSet() <em>Set</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -85,6 +114,25 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * @ordered
    */
   protected boolean set = SET_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getValue()
+   * @generated
+   * @ordered
+   */
+  protected static final Object VALUE_EDEFAULT = null;
+
+  /**
+   * This is true if the Feature reference has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean featureESet = false;
 
   /**
    * The cached value of the '{@link #getListChanges() <em>List Changes</em>}' containment reference list.
@@ -632,7 +680,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
         unsetFeatureName();
         return;
       case ChangePackage.FEATURE_CHANGE__DATA_VALUE:
-        setDataValue((String)null);
+        setDataValue(DATA_VALUE_EDEFAULT);
         return;
       case ChangePackage.FEATURE_CHANGE__SET:
         setSet(SET_EDEFAULT);
@@ -662,11 +710,11 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       case ChangePackage.FEATURE_CHANGE__FEATURE_NAME:
         return isSetFeatureName();
       case ChangePackage.FEATURE_CHANGE__DATA_VALUE:
-        return getDataValue() != null;
+        return DATA_VALUE_EDEFAULT == null ? getDataValue() != null : !DATA_VALUE_EDEFAULT.equals(getDataValue());
       case ChangePackage.FEATURE_CHANGE__SET:
         return set != SET_EDEFAULT;
       case ChangePackage.FEATURE_CHANGE__VALUE:
-        return getValue() != null;
+        return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
       case ChangePackage.FEATURE_CHANGE__FEATURE:
         return isSetFeature();
       case ChangePackage.FEATURE_CHANGE__REFERENCE_VALUE:

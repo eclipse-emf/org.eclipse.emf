@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceChangeImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ResourceChangeImpl.java,v 1.2 2004/06/13 11:53:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -85,6 +85,16 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * @ordered
    */
   protected Resource resource = RESOURCE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getValue()
+   * @generated
+   * @ordered
+   */
+  protected static final EList VALUE_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getListChanges() <em>List Changes</em>}' containment reference list.
@@ -377,7 +387,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
       case ChangePackage.RESOURCE_CHANGE__RESOURCE:
         return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
       case ChangePackage.RESOURCE_CHANGE__VALUE:
-        return getValue() != null;
+        return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
       case ChangePackage.RESOURCE_CHANGE__LIST_CHANGES:
         return listChanges != null && !listChanges.isEmpty();
     }

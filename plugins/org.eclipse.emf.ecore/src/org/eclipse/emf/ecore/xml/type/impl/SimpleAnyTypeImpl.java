@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleAnyTypeImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: SimpleAnyTypeImpl.java,v 1.2 2004/06/13 11:53:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -49,6 +49,26 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  */
 public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
 {
+  /**
+   * The default value of the '{@link #getRawValue() <em>Raw Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRawValue()
+   * @generated
+   * @ordered
+   */
+  protected static final String RAW_VALUE_EDEFAULT = null;
+
+  /**
+   * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getValue()
+   * @generated
+   * @ordered
+   */
+  protected static final Object VALUE_EDEFAULT = null;
+
   /**
    * The cached value of the '{@link #getInstanceType() <em>Instance Type</em>}' reference.
    * <!-- begin-user-doc -->
@@ -257,10 +277,10 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
         getAnyAttribute().clear();
         return;
       case XMLTypePackage.SIMPLE_ANY_TYPE__RAW_VALUE:
-        setRawValue((String)null);
+        setRawValue(RAW_VALUE_EDEFAULT);
         return;
       case XMLTypePackage.SIMPLE_ANY_TYPE__VALUE:
-        setValue((Object)null);
+        setValue(VALUE_EDEFAULT);
         return;
       case XMLTypePackage.SIMPLE_ANY_TYPE__INSTANCE_TYPE:
         setInstanceType((EDataType)null);
@@ -285,9 +305,9 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
       case XMLTypePackage.SIMPLE_ANY_TYPE__ANY_ATTRIBUTE:
         return anyAttribute != null && !anyAttribute.isEmpty();
       case XMLTypePackage.SIMPLE_ANY_TYPE__RAW_VALUE:
-        return getRawValue() != null;
+        return RAW_VALUE_EDEFAULT == null ? getRawValue() != null : !RAW_VALUE_EDEFAULT.equals(getRawValue());
       case XMLTypePackage.SIMPLE_ANY_TYPE__VALUE:
-        return getValue() != null;
+        return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
       case XMLTypePackage.SIMPLE_ANY_TYPE__INSTANCE_TYPE:
         return instanceType != null;
     }
