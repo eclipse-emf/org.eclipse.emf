@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaCompositorImpl.java,v 1.3 2004/12/11 12:14:14 emerks Exp $
+ * $Id: XSDSchemaCompositorImpl.java,v 1.4 2004/12/26 13:34:50 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -70,9 +70,10 @@ public abstract class XSDSchemaCompositorImpl
   public void reset()
   {
     super.reset();
-    if (incorporatedSchema != resolvedSchema && incorporatedSchema != null)
+    if (incorporatedSchema != resolvedSchema && incorporatedSchema != null && incorporatedSchema.eContainer() != null)
     {
       EcoreUtil.remove(incorporatedSchema);
+      incorporatedSchema.reset();
     }
   }
 
