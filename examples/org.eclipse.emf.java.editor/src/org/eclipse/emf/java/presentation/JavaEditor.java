@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.5 2004/06/17 11:16:02 emerks Exp $
+ * $Id: JavaEditor.java,v 1.6 2004/07/16 16:26:06 marcelop Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -1602,14 +1602,11 @@ public class JavaEditor
    */
   public void setStatusLineManager(ISelection selection)
   {
-    IStatusLineManager statusLineManager = getActionBars().getStatusLineManager();
+    IStatusLineManager statusLineManager = currentViewer != null && currentViewer == contentOutlineViewer ?
+      contentOutlineStatusLineManager : getActionBars().getStatusLineManager();
+  
     if (statusLineManager != null)
     {
-      if (currentViewer == contentOutlineViewer)
-      {
-        statusLineManager = contentOutlineStatusLineManager;
-      }
-  
       if (selection instanceof IStructuredSelection)
       {
         Collection collection = ((IStructuredSelection)selection).toList();

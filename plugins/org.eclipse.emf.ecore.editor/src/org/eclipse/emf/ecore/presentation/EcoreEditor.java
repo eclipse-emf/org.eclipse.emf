@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.11 2004/06/17 11:15:59 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.12 2004/07/16 16:25:59 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1367,14 +1367,11 @@ public class EcoreEditor
    */
   public void setStatusLineManager(ISelection selection)
   {
-    IStatusLineManager statusLineManager = getActionBars().getStatusLineManager();
+    IStatusLineManager statusLineManager = currentViewer != null && currentViewer == contentOutlineViewer ?
+      contentOutlineStatusLineManager : getActionBars().getStatusLineManager();
+  
     if (statusLineManager != null)
     {
-      if (currentViewer == contentOutlineViewer)
-      {
-        statusLineManager = contentOutlineStatusLineManager;
-      }
-  
       if (selection instanceof IStructuredSelection)
       {
         Collection collection = ((IStructuredSelection)selection).toList();
