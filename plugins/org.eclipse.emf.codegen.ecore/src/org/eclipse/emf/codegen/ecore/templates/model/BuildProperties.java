@@ -10,11 +10,13 @@ public class BuildProperties
   protected final String TEXT_3 = "Id";
   protected final String TEXT_4 = NL + " */" + NL + "-->";
   protected final String TEXT_5 = NL + "bin.includes =\tplugin.xml,\\" + NL + "\t\t\t\t";
-  protected final String TEXT_6 = ",\\" + NL + "\t\t\t\tplugin.properties" + NL + "jars.compile.order = ";
-  protected final String TEXT_7 = NL + "source.";
-  protected final String TEXT_8 = " = src/" + NL + "output.";
-  protected final String TEXT_9 = " = bin/";
-  protected final String TEXT_10 = NL + "bin.includes =\tplugin.xml,\\" + NL + "\t\t\t\tplugin.properties";
+  protected final String TEXT_6 = ",\\";
+  protected final String TEXT_7 = NL + "\t\t\t\ticons/,\\";
+  protected final String TEXT_8 = NL + "\t\t\t\tplugin.properties" + NL + "jars.compile.order = ";
+  protected final String TEXT_9 = NL + "source.";
+  protected final String TEXT_10 = " = src/" + NL + "output.";
+  protected final String TEXT_11 = " = bin/";
+  protected final String TEXT_12 = NL + "bin.includes =\tplugin.xml,\\" + NL + "\t\t\t\tplugin.properties";
 
   public String generate(Object argument)
   {
@@ -47,14 +49,18 @@ public class BuildProperties
     stringBuffer.append(TEXT_5);
     stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_6);
-    stringBuffer.append(jarFile);
+    if (genModel.sameModelEditProject() || genModel.sameModelEditorProject()) {
     stringBuffer.append(TEXT_7);
-    stringBuffer.append(jarFile);
+    }
     stringBuffer.append(TEXT_8);
     stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_9);
-    } else {
+    stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_10);
+    stringBuffer.append(jarFile);
+    stringBuffer.append(TEXT_11);
+    } else {
+    stringBuffer.append(TEXT_12);
     }
     return stringBuffer.toString();
   }

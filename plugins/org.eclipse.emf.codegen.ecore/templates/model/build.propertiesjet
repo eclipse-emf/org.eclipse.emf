@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.1 2004/05/26 15:22:01 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.2 2004/06/15 20:11:41 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -23,6 +23,9 @@
 <%String jarFile = "runtime/"+genModel.getModelPluginID()+".jar";%>
 bin.includes =	plugin.xml,\
 				<%=jarFile%>,\
+<%if (genModel.sameModelEditProject() || genModel.sameModelEditorProject()) {%>
+				icons/,\
+<%}%>
 				plugin.properties
 jars.compile.order = <%=jarFile%>
 source.<%=jarFile%> = src/
