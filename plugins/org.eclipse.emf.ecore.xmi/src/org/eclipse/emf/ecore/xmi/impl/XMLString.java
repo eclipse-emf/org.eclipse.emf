@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.3 2004/03/30 00:00:20 elena Exp $
+ * $Id: XMLString.java,v 1.4 2004/09/01 20:11:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -51,7 +51,12 @@ public class XMLString extends StringSegment
 
   public XMLString(int lineWidth) 
   {
-    super();
+    this(lineWidth, null);
+  }
+
+  public XMLString(int lineWidth, String temporaryFileName) 
+  {
+    super(temporaryFileName);
 
     this.lineWidth = lineWidth;
 
@@ -63,7 +68,12 @@ public class XMLString extends StringSegment
   
   public XMLString(int lineWidth, String publicId, String systemId) 
   {
-    this(lineWidth);
+    this(lineWidth, publicId, systemId, null);
+  }
+
+  public XMLString(int lineWidth, String publicId, String systemId, String temporaryFileName) 
+  {
+    this(lineWidth, temporaryFileName);
 
     saveDoctype = true;
     this.publicId = publicId;
