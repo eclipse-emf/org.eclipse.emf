@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.19 2005/01/25 18:45:01 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.20 2005/02/04 16:31:30 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1043,7 +1043,7 @@ public class XMLHelperImpl implements XMLHelper
   {
     if (!"xml".equals(prefix) && !"xmlns".equals(prefix))
     {
-      uri = (uri.length() == 0) ? null : uri.intern();
+      uri = (uri.length() == 0) ? null : uri;
       namespaceSupport.declarePrefix(prefix, uri);
       allPrefixToURI.add(prefix);
       allPrefixToURI.add(uri);
@@ -1240,9 +1240,9 @@ public class XMLHelperImpl implements XMLHelper
       // find uri in current context
       for (int i = namespaceSize; i > 0; i -= 2) 
       {
-        if (namespace[i - 1] == uri) 
+        if (namespace[i - 1].equals(uri)) 
         {
-          if (getURI(namespace[i - 2]) == uri)
+          if (getURI(namespace[i - 2]).equals(uri))
             return namespace[i - 2];
         }
       }

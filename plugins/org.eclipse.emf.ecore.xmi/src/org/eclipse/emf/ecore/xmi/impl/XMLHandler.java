@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.23 2004/11/09 17:50:47 emerks Exp $
+ * $Id: XMLHandler.java,v 1.24 2005/02/04 16:31:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -427,8 +427,8 @@ public abstract class XMLHandler
     localName = name;
     if (index != -1)
     {
-      prefix    = name.substring(0, index).intern();
-      localName = name.substring(index + 1).intern();
+      prefix    = name.substring(0, index);
+      localName = name.substring(index + 1);
     }
 
     processElement(name, prefix, localName);
@@ -917,7 +917,7 @@ public abstract class XMLHandler
   {
     // Handle namespaces
     int index = attrib.indexOf(":");
-    String prefix = index == -1 ? "" : attrib.substring(index + 1).intern();
+    String prefix = index == -1 ? "" : attrib.substring(index + 1);
     helper.addPrefix(prefix, value);
   }
 
@@ -1793,8 +1793,8 @@ public abstract class XMLHandler
     String localName = name;
     if (index != -1)
     {
-      prefix    = name.substring(0, index).intern();
-      localName = name.substring(index + 1).intern();
+      prefix    = name.substring(0, index);
+      localName = name.substring(index + 1);
     }
 
     EStructuralFeature feature = getFeature(object, prefix, localName, false);
@@ -1999,9 +1999,9 @@ public abstract class XMLHandler
       EClassFeatureNamePair typedThat = (EClassFeatureNamePair)that;
       return  
         typedThat.eClass == eClass && 
-          typedThat.featureName == featureName &&
-          typedThat.namespaceURI == namespaceURI &&
-          typedThat.isElement == isElement;
+        typedThat.isElement == isElement &&
+        typedThat.featureName.equals(featureName) &&
+        (typedThat.namespaceURI != null)? typedThat.namespaceURI.equals(namespaceURI): namespaceURI == null;         
     }
 
     public int hashCode()
