@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.14 2004/07/08 08:19:37 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.15 2004/09/24 04:09:14 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -20,10 +20,12 @@ package org.eclipse.emf.codegen.ecore.genmodel.impl;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -35,6 +37,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -4038,5 +4041,58 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return ((GenPackage)getGenPackages().get(0)).getEcorePackage();
   }
- } //GenModelImpl
 
+  public List/*GenFeature*/ getAllGenFeatures()
+  {
+    List result = new ArrayList();
+
+    // Any features from one package that delegate to features in another.
+    //
+    List delegated = new ArrayList();
+
+    for (Iterator iter = getAllGenAndUsedGenPackagesWithClassifiers().iterator(); iter.hasNext(); )
+    {
+      GenPackage genPackage = (GenPackage)iter.next();
+      if (genPackage.getGenModel() == this || !genPackage.getGenModel().hasEditSupport())
+      {
+        for (Iterator fIter = genPackage.getAllGenFeatures().iterator(); fIter.hasNext(); )
+        {
+          GenFeature genFeature = (GenFeature)fIter.next();
+          List addTo = genFeature.getGenPackage() == genPackage ? result : delegated;
+          addTo.add(genFeature);
+        }
+      }
+    }
+
+    // If there are features delegating across packages, add only those that aren't already being generated.
+    //
+    if (!delegated.isEmpty())
+    {
+      addNonDuplicates(result, delegated, null);
+    }
+    return result;
+  }
+
+  public List/*GenFeature*/ getFilteredAllGenFeatures()
+  {
+    ArrayList result = new ArrayList();
+
+    // We need to filer out duplicates in the unlikely event that we have two
+    // features with the same class-qualifed name. We'll only generate one property
+    // string in that case and let the user add the second one mannually, if necessary.
+    //
+    Set noDupSet = new HashSet();
+    for (Iterator iter = getAllGenFeatures().iterator(); iter.hasNext(); )
+    {
+      GenFeature genFeature = (GenFeature)iter.next();
+      if (isCreationCommands() || genFeature.isProperty())
+      {
+        if (noDupSet.add(genFeature.getGenClass().getName() + "_" + genFeature.getName()))
+        {
+          result.add(genFeature);
+        }
+      }
+    }
+    return result;
+  }
+} //GenModelImpl

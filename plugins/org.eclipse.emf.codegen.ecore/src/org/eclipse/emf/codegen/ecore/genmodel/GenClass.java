@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.5 2004/06/19 17:44:43 emerks Exp $
+ * $Id: GenClass.java,v 1.6 2004/09/24 04:09:14 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -295,6 +295,7 @@ public interface GenClass extends GenClassifier{
   boolean isProviderSingleton();
 
   String getProviderBaseClassName();
+  List/*of GenClass*/ getProviderImplementedGenClasses();
 
   List/*of GenFeature*/ getLabelFeatureCandidates();
   List/*of GenFeature*/ getPropertyFeatures();
@@ -311,6 +312,7 @@ public interface GenClass extends GenClassifier{
   List/*of GenFeature*/ getAllCreateChildFeatures();
   List/*of GenFeature*/ getCrossPackageCreateChildFeatures();
   List/*of GenFeature*/ getSharedClassCreateChildFeatures();
+  boolean hasFeatureMapCreateChildFeatures();
 
   List/*of GenClass*/ getChildrenClasses(GenFeature genFeature);
   List/*of GenClass*/ getCrossPackageChildrenClasses(GenFeature genFeature);
@@ -323,4 +325,5 @@ public interface GenClass extends GenClassifier{
   GenOperation getInvariantOperation(String constraint);
 
   boolean isDocumentRoot();
+  GenFeature getMixedGenFeature();
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.5 2004/07/05 03:16:50 marcelop Exp $
+ * $Id: GenPackage.java,v 1.6 2004/09/24 04:09:14 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -458,7 +458,7 @@ public interface GenPackage extends GenBase{
   String getImportedEditorPluginClassName();
 
   // String getCapPackageID();
-  List/*GenFeature*/ getAllGenFeatures();
+  List/*GenFeature*/ getAllGenFeatures(); // Includes features in other packages that delegate to those in this one.
 
   List/*GenPackage*/ getAdapterDelegatePackages();
   List/*GenClass*/ getAdapterDelegateSuperClasses();

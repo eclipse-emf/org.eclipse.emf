@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.10 2004/08/25 20:44:04 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.11 2004/09/24 04:09:14 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -33,6 +33,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -2176,5 +2177,22 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   protected ExtendedMetaData getExtendedMetaData()
   {
     return eContainer() == null ? ExtendedMetaData.INSTANCE : ((GenBaseImpl)eContainer()).getExtendedMetaData();
+  }
+
+  protected void addNonDuplicates(Collection target, Collection source, Set noDupSet)
+  {
+    if (noDupSet == null)
+    {
+      noDupSet = new HashSet(target);
+    }
+
+    for (Iterator iter = source.iterator(); iter.hasNext(); )
+    {
+      Object o = iter.next();
+      if (noDupSet.add(o))
+      {
+        target.add(o);
+      }
+    }
   }
 }

@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.4 2004/06/19 17:45:19 emerks Exp $
+ * $Id: GenFeature.java,v 1.5 2004/09/24 04:09:14 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
+
+import java.util.List;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -277,10 +279,12 @@ public interface GenFeature extends GenBase
   String getStaticDefaultValue();
 
   boolean isEnumType();
+  boolean isEnumBasedType();
   GenEnum getGenEnumType();
   GenDataType getGenDataTypeType();
   boolean isBooleanType();
   boolean isStringType();
+  boolean isStringBasedType();
   boolean isListType();
   boolean isMapType();
   boolean isFeatureMapType();
@@ -315,10 +319,15 @@ public interface GenFeature extends GenBase
   boolean isUnsettable();
   boolean isID();
   boolean isUnique();
+  boolean isDerived();
   boolean isResolveProxies();
 
   boolean hasDelegateFeature();
   GenFeature getDelegateFeature();
+
+  List/*of GenFeature*/ getDelegatedFeatures();
+
+  String getCreateChildValueLiteral();
 
   void initialize(EStructuralFeature eFeature);
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.8 2004/06/14 23:51:17 marcelop Exp $
+ * $Id: GenModel.java,v 1.9 2004/09/24 04:09:14 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -1068,4 +1068,7 @@ public interface GenModel extends GenBase{
   List getEffectiveModelPluginVariables();
 
   boolean needsRuntimeCompatibility();
+  
+  List/*of GenFeature*/ getAllGenFeatures();
+  List/*of GenFeature*/ getFilteredAllGenFeatures(); // Filtered for property keys to remove duplicates.
 }

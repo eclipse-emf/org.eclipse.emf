@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.11 2004/08/18 19:11:35 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.12 2004/09/24 04:09:14 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2253,6 +2253,34 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   }
 
   public List/*GenFeature*/ getAllGenFeatures()
+  {
+    List result = new ArrayList();
+
+    // Any features that delegate to features in this package.
+    //
+    List delegated = new ArrayList();
+
+    for (Iterator iter = getGenClasses().iterator(); iter.hasNext(); )
+    {
+      GenClass genClass = (GenClass)iter.next();
+      for (Iterator fIter = genClass.getGenFeatures().iterator(); fIter.hasNext(); )
+      {
+        GenFeature genFeature = (GenFeature)fIter.next();
+        result.add(genFeature);
+        delegated.addAll(genFeature.getDelegatedFeatures());
+      }
+    }
+
+    // If there are delegated features, add only those that aren't already in this package to the end of the list.
+    //
+    if (!delegated.isEmpty())
+    {
+      addNonDuplicates(result, delegated, null);
+    }
+    return result;
+  }
+
+  public List/*GenFeature*/ getFilteredAllGenFeatures()
   {
     ArrayList result = new ArrayList();
 

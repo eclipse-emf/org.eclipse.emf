@@ -12,13 +12,13 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.13 2004/07/08 13:54:26 fbudinsky Exp $
+ * $Id: GenClassImpl.java,v 1.14 2004/09/24 04:09:14 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -30,7 +30,6 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
-
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
@@ -53,6 +52,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -1137,7 +1137,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return baseClass != null ?  baseClass.getImportedProviderClassName() : null;
   }
 
-  protected List getProviderImplementedGenClasses()
+  public List getProviderImplementedGenClasses()
   {
     List allBases = getAllBaseGenClasses();
     GenClass extendedBase = getProviderExtendsGenClass();
@@ -1261,16 +1261,31 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List/*of GenFeature*/ getCreateChildFeatures()
   {
-    return collectGenFeatures(getProviderImplementedGenClasses(), null,
-      new GenFeatureFilter()
-      {
-        public boolean accept(GenFeature genFeature) 
-        {
-          return genFeature.isCreateChild();
-        }
-      });
-  }
+    List result = new ArrayList();
 
+    // If this is class has mixed content, the mixed feature should always be included, even if inherited, and come first.
+    //
+    final GenFeature mixed = getMixedGenFeature();
+
+    if (mixed != null && mixed.isCreateChild())
+    {
+      result.add(mixed);
+    }
+
+    // Add all other create child features that this item provider is responsible for.
+    //
+    result.addAll(collectGenFeatures(getProviderImplementedGenClasses(), null,
+        new GenFeatureFilter()
+        {
+          public boolean accept(GenFeature genFeature)
+          {
+            return genFeature.isCreateChild() && genFeature != mixed;
+          }
+        }));
+
+    return result;
+  }
+  
   public List/*of GenFeature*/ getAllCreateChildFeatures()
   {
     return collectGenFeatures(getAllBaseGenClasses(), getGenFeatures(),
@@ -1283,14 +1298,44 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       });
   }
 
+  protected List getAllCreateChildFeaturesIncludingDelegation()
+  {
+    return collectGenFeatures(getAllBaseGenClasses(), getGenFeatures(),
+      new GenFeatureFilter()
+      {
+        public boolean accept(GenFeature genFeature)
+        {
+          while (genFeature != null)
+          {
+            if (genFeature.isCreateChild()) return true;
+            genFeature = genFeature.getDelegateFeature();
+          }
+          return false;
+        }
+      });
+  }
+
   public List getCrossPackageCreateChildFeatures()
   {
     GenClass base = getProviderExtendsGenClass();
 
-    // create child features handled by a provider base class from outside of
-    // this package, that has already been generated
-    return base == null || base.getGenPackage() == getGenPackage() || getGenModel().getAllGenPackagesWithClassifiers().contains(base.getGenPackage()) ?
-      Collections.EMPTY_LIST : base.getAllCreateChildFeatures();
+    // If there is a provider base class from outside this class that has already been generated, get the create
+    // child references from it. We'll check for any type-compatible classes introduced in this package.
+    //
+    if (base == null || base.getGenPackage() == getGenPackage() ||
+        getGenModel().getAllGenPackagesWithClassifiers().contains(base.getGenPackage()))
+    {
+      return Collections.EMPTY_LIST;
+    }
+
+    return collectGenFeatures(base.getProviderImplementedGenClasses(), null,
+      new GenFeatureFilter()
+      {
+        public boolean accept(GenFeature genFeature)
+        {
+          return genFeature.isCreateChild() && genFeature.isReferenceType();
+        }
+      });
   }
 
   public List getSharedClassCreateChildFeatures()
@@ -1302,19 +1347,25 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     List packages = getGenModel().getAllGenAndUsedGenPackagesWithClassifiers();
     for (Iterator iter = childrenFeatures.iterator(); iter.hasNext(); )
     {
-      GenFeature genFeature = (GenFeature)iter.next();
-      List genClasses = getTypeGenClasses(genFeature.getEcoreFeature().getEType(), null, packages, -1);
+      GenFeature f = (GenFeature)iter.next();
 
-      for (Iterator cIter = genClasses.iterator(); cIter.hasNext(); )
+      List fl = f.isFeatureMapType() ? f.getDelegatedFeatures() : Collections.singletonList(f);
+      for (Iterator fIter = fl.iterator(); fIter.hasNext(); )
       {
-        GenClass genClass = (GenClass)cIter.next();
-        List genFeatures = (List)classToFeatureMap.get(genClass);
-        if (genFeatures == null)
+        GenFeature genFeature = (GenFeature)fIter.next();
+        List genClasses = getTypeGenClasses(genFeature.getEcoreFeature().getEType(), null, packages, -1);
+
+        for (Iterator cIter = genClasses.iterator(); cIter.hasNext(); )
         {
-          genFeatures = new ArrayList(5);
-          classToFeatureMap.put(genClass, genFeatures);
+          GenClass genClass = (GenClass)cIter.next();
+          List genFeatures = (List)classToFeatureMap.get(genClass);
+          if (genFeatures == null)
+          {
+            genFeatures = new ArrayList(5);
+            classToFeatureMap.put(genClass, genFeatures);
+          }
+          genFeatures.add(genFeature);
         }
-        genFeatures.add(genFeature);
       }
     }
 
@@ -1326,6 +1377,16 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       if (genFeatures.size() > 1) result.addAll(genFeatures);
     }
     return result;
+  }
+
+  public boolean hasFeatureMapCreateChildFeatures()
+  {
+    for (Iterator iter = getAllCreateChildFeatures().iterator(); iter.hasNext(); )
+    {
+      GenFeature genFeature = (GenFeature)iter.next();
+      if (genFeature.isFeatureMapType()) return true;
+    }
+    return false;
   }
 
   public List getChildrenClasses(GenFeature genFeature)
@@ -1673,7 +1734,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
       if (getGenModel().isCreationCommands())
       {
-        for (Iterator iter = getAllCreateChildFeatures().iterator(); iter.hasNext(); )
+        for (Iterator iter = getAllCreateChildFeaturesIncludingDelegation().iterator(); iter.hasNext(); )
         {
           GenFeature feature = (GenFeature)iter.next();
           for (Iterator cIter = getChildrenClasses(feature).iterator(); cIter.hasNext(); )
@@ -1877,5 +1938,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public boolean isDocumentRoot()
   {
     return getExtendedMetaData().getDocumentRoot(getEcoreClass().getEPackage()) == getEcoreClass();
+  }
+
+  protected boolean isMixed()
+  {
+    return ExtendedMetaData.INSTANCE.getContentKind(getEcoreClass()) == ExtendedMetaData.MIXED_CONTENT;
+  }
+
+  public GenFeature getMixedGenFeature()
+  {
+    if (!isMixed()) return null;
+    EAttribute mixedFeature = getExtendedMetaData().getMixedFeature(getEcoreClass());
+    return mixedFeature != null ? findGenFeature(mixedFeature) : null;
   }
 }

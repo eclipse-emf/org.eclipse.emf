@@ -12,12 +12,15 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.7 2004/06/19 21:34:40 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.8 2004/09/24 04:09:14 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
@@ -40,6 +43,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
 /**
@@ -327,8 +332,7 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   {
     if (!isSetCreateChildGen())
     {
-      boolean value = (isChildren() || (!isChildren() && hasDelegateFeature())) && !isFeatureMapType();
-      setCreateChild(value);
+      setCreateChild(isChildren());
     }
   }
 
@@ -918,6 +922,11 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     return !isListType() && getEcoreFeature().getEType() instanceof EEnum;
   }
 
+  public boolean isEnumBasedType()
+  {
+    return getEcoreFeature().getEType() instanceof EEnum;
+  }
+
   public GenEnum getGenEnumType()
   {
     EClassifier eType = getEcoreFeature().getEType();
@@ -942,6 +951,13 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
       getInstanceClass(getEcoreFeature().getEType()) == java.lang.String.class;
   }
 
+  // Like isStringType(), but still returns true even if multiplicity-many.
+  //
+  public boolean isStringBasedType()
+  {
+    return getInstanceClass(getEcoreFeature().getEType()) == java.lang.String.class;
+  }
+  
   public boolean isListType()
   {
     return getEcoreFeature().isMany() || isFeatureMapType();
@@ -1166,6 +1182,11 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     return getEcoreFeature().isUnique();
   }
 
+  public boolean isDerived()
+  {
+    return getEcoreFeature().isDerived();
+  }
+
   public boolean hasDelegateFeature()
   {
     EStructuralFeature ecoreFeature = getEcoreFeature();
@@ -1195,6 +1216,95 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     }
   }
 
+  /**
+   * This is incomplete.  It only does mixed types and model groups.  It doesn't search for substitution groups or
+   * wildcards yet.
+   */
+  public List/*of GenFeature*/ getDelegatedFeatures()
+  {
+    if (!isFeatureMapType()) return Collections.EMPTY_LIST;
+
+    GenClass genClass = getGenClass();
+    List delegated = new ArrayList();
+
+    if (genClass.getMixedGenFeature() == this)
+    {
+       delegated.add(findGenFeature(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment()));
+       delegated.add(findGenFeature(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text()));
+
+       if (!genClass.isDocumentRoot())
+       {
+         delegated.add(findGenFeature(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA()));
+       }
+
+       for (Iterator iter = genClass.getGenFeatures().iterator(); iter.hasNext(); )
+       {
+         GenFeature otherFeature = (GenFeature)iter.next();
+         if (otherFeature != this && otherFeature.isDerived() &&
+             ExtendedMetaData.INSTANCE.getGroup(otherFeature.getEcoreFeature()) == null)
+         {
+           delegated.add(otherFeature);
+         }
+       }
+    }
+    else if (ExtendedMetaData.INSTANCE.getFeatureKind(getEcoreFeature()) == ExtendedMetaData.GROUP_FEATURE)
+    {
+      for (Iterator iter = genClass.getGenFeatures().iterator(); iter.hasNext(); )
+      {
+        GenFeature otherFeature = (GenFeature)iter.next();
+        if (otherFeature != this && otherFeature.isDerived() && otherFeature.isChangeable() &&
+            ExtendedMetaData.INSTANCE.getGroup(otherFeature.getEcoreFeature()) == getEcoreFeature())
+        {
+          delegated.add(otherFeature);
+        }
+      }
+    }
+
+    List result = new ArrayList();
+    for (Iterator iter = delegated.iterator(); iter.hasNext(); )
+    {
+      GenFeature feature = (GenFeature)iter.next();
+      if (feature.isFeatureMapType())
+      {
+        result.addAll(feature.getDelegatedFeatures());
+      }
+      else
+      {
+        result.add(feature);
+      }
+    }
+    return result;
+  }
+
+  public String getCreateChildValueLiteral()
+  {
+    String result = getDefaultValue();
+
+    if (result == null)
+    {
+      Class c = getEcoreFeature().getEType().getInstanceClass();
+
+      if (c == Boolean.TYPE || c == Boolean.class)
+      {
+        result = "\"false\"";
+      }
+      else if (c == String.class)
+      {
+        result = "\"\"";
+      }
+      else if (c == Character.class)
+      {
+        result = "\"0\"";
+      }
+      else if (c == Byte.TYPE || c == Short.TYPE || c == Integer.TYPE || c == Long.TYPE || c == Float.TYPE || c == Double.TYPE ||
+               (c != null && Number.class.isAssignableFrom(c)))
+      {
+        result = "\"0\"";
+      }
+    }
+    return result;
+  }
+
   public void initialize(EStructuralFeature eFeature)
   {
     if (eFeature != getEcoreFeature())
@@ -1213,14 +1323,14 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
           setProperty(GenPropertyKind.NONE_LITERAL);
         }
         setChildren(eReference.isContainment() && !hasDelegateFeature());
-        setCreateChild(eReference.isContainment() && isChangeable());
+        setCreateChild(isChildren() && isChangeable());
         setNotify(isChildren());
       }
       else if (isFeatureMapType())
       {
         setProperty(GenPropertyKind.NONE_LITERAL);
         setChildren(!hasDelegateFeature());
-        setCreateChild(false);
+        setCreateChild(isChildren() && isChangeable());
         setNotify(isChildren());
       }
       else
@@ -1447,14 +1557,8 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   {
     setProperty(oldGenFeatureVersion.getProperty());
     setNotify(oldGenFeatureVersion.isNotify());
-
-    if ((hasDelegateFeature() && oldGenFeatureVersion.hasDelegateFeature()) ||
-        (isContains() && oldGenFeatureVersion.isContains()) ||
-        (!hasDelegateFeature() && !isContains()))
-    {
-      setChildren(oldGenFeatureVersion.isChildren());
-      setCreateChild(oldGenFeatureVersion.isCreateChild());
-    }
+    setChildren(oldGenFeatureVersion.isChildren());
+    setCreateChild(oldGenFeatureVersion.isCreateChild());
   }
 
   public boolean reconcile()
