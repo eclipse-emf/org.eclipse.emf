@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.2 2004/03/29 21:29:56 elena Exp $
+ * $Id: XMLResource.java,v 1.3 2004/03/30 00:00:20 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -93,7 +93,16 @@ public interface XMLResource extends Resource
    * <?xml version="1.0" encoding="encoding"?>
    */
   String OPTION_DECLARE_XML = "DECLARE_XML";
-
+  
+  /** 
+   * Save a doctype declaration using systemId and publicId values specified on the resource
+   * @see #getSystemId() 
+   * @see #getPublicId() 
+   * @see XMLResource#setDoctypeInfo(String,String)
+   *  
+   */
+  String OPTION_SAVE_DOCTYPE = "SAVE_DOCTYPE";
+  
   /**
    * Skip processing for values that contain characters special to XML
    * Faster for large computer-generated files
@@ -156,6 +165,22 @@ public interface XMLResource extends Resource
    * are used to to control load behavior.
    */
   Map getDefaultLoadOptions();
+  /**
+   * Returns <a href='http://www.w3.org/TR/2004/REC-xml-20040204/#NT-PubidLiteral'>public identifier</a> specified on the doctype.
+   * @return
+   */
+  String getPublicId();
+  /**
+   * Returns <a href='http://www.w3.org/TR/2004/REC-xml-20040204/#NT-SystemLiteral'>system identifier</a> specified on the doctype. 
+   */
+  String getSystemId();
+  /**
+   * Sets the values of <a href='http://www.w3.org/TR/2004/REC-xml-20040204/#NT-SystemLiteral'>system</a> and 
+   * <a href='http://www.w3.org/TR/2004/REC-xml-20040204/#NT-PubidLiteral'>public</a> identifiers on this resource.
+   * @param publicId
+   * @param systemId
+   */
+  void setDoctypeInfo(String publicId, String systemId);
 
   /**
    * Get the XML encoding for this resource. The default is

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.3 2004/03/15 15:00:51 marcelop Exp $
+ * $Id: XMLSaveImpl.java,v 1.4 2004/03/30 00:00:20 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -193,7 +193,21 @@ public class XMLSaveImpl implements XMLSave
     declareXML = !Boolean.FALSE.equals(options.get(XMLResource.OPTION_DECLARE_XML));
     declareSchemaLocation = Boolean.TRUE.equals(options.get(XMLResource.OPTION_SCHEMA_LOCATION));
     Integer lineWidth = (Integer)options.get(XMLResource.OPTION_LINE_WIDTH);
-    doc = new XMLString(lineWidth == null ? Integer.MAX_VALUE : lineWidth.intValue());
+    if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_SAVE_DOCTYPE)))
+    {
+      if (resource != null)
+      {
+        doc = new XMLString (lineWidth == null ? Integer.MAX_VALUE : lineWidth.intValue(), resource.getPublicId(), resource.getSystemId());
+      }
+      else
+      {
+        doc = new XMLString (lineWidth == null ? Integer.MAX_VALUE : lineWidth.intValue(), null, null);
+      }
+    }
+    else 
+    {
+      doc = new XMLString(lineWidth == null ? Integer.MAX_VALUE : lineWidth.intValue());
+    }
     if (Boolean.FALSE.equals(options.get(XMLResource.OPTION_FORMATTED)))
     {
       doc.setUnformatted(true);

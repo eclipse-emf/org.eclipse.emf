@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.3 2004/03/29 21:29:56 elena Exp $
+ * $Id: XMLHandler.java,v 1.4 2004/03/30 00:00:20 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -829,6 +829,11 @@ public abstract class XMLHandler
     {
       handleCDATA();
     }
+  }
+  
+  public void startDTD(String name, String publicId, String systemId)
+  {
+    xmlResource.setDoctypeInfo(publicId, systemId);
   }
 
   protected void handleXMLNSAttribute(String attrib, String value)

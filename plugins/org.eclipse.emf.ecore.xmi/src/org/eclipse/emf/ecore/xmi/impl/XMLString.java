@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.2 2004/03/11 23:40:15 emerks Exp $
+ * $Id: XMLString.java,v 1.3 2004/03/30 00:00:20 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -44,6 +44,10 @@ public class XMLString extends StringSegment
   protected int currentLineWidth;
   protected boolean lastElementIsStart;
   protected Object firstElementMark;
+  protected boolean seenRoot;
+  protected boolean saveDoctype;
+  protected String publicId;
+  protected String systemId;
 
   public XMLString(int lineWidth) 
   {
@@ -56,6 +60,15 @@ public class XMLString extends StringSegment
     indents = new BasicEList();
     indents.add("");
   }
+  
+  public XMLString(int lineWidth, String publicId, String systemId) 
+  {
+    this(lineWidth);
+
+    saveDoctype = true;
+    this.publicId = publicId;
+    this.systemId = systemId;   
+  }
 
   public void startElement(String name) 
   {
@@ -66,6 +79,37 @@ public class XMLString extends StringSegment
     elementNames.add(name);
     if (name != null)
     {
+      if (!seenRoot)
+      {
+        seenRoot = true;
+        // write doctype
+        if (saveDoctype)
+        {
+          add("<!DOCTYPE ");
+          add(name);         
+          if (publicId !=null)
+          {
+            add(" PUBLIC \"");
+            add(publicId);
+            add("\" ");
+            add("\"");
+            add(systemId);
+            add("\">");
+          }
+          else if (systemId != null)
+          {
+            add(" SYSTEM \"");
+            add(systemId);
+            add("\">");
+          }
+          else
+          {
+            add(">");
+          }
+          
+          addLine();
+        }
+      }
       ++depth;
       if (!isMixed)
       {

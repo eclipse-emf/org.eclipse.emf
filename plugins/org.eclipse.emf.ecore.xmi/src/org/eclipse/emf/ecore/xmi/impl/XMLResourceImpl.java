@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLResourceImpl.java,v 1.2 2004/03/30 00:00:20 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -60,6 +60,8 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
 
   protected String encoding;
   protected boolean useZip;
+  protected String publicId;
+  protected String systemId;
 
   /**
    * The map from {@link EObject} to {@link #getID ID}. It is used to store
@@ -171,6 +173,20 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   public void setUseZip(boolean useZip)
   {
     this.useZip = useZip;
+  }
+  
+  public String getPublicId()
+  {
+    return publicId;
+  }
+  public String getSystemId()
+  {
+    return systemId;
+  }
+  public void setDoctypeInfo(String publicId, String systemId)
+  {
+    this.publicId = publicId;
+    this.systemId = systemId;
   }
 
   public String getEncoding()

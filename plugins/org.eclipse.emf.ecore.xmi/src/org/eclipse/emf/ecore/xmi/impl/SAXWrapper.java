@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SAXWrapper.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: SAXWrapper.java,v 1.2 2004/03/30 00:00:20 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -137,6 +137,7 @@ public class SAXWrapper extends DefaultHandler implements LexicalHandler
 
   public void startDTD(java.lang.String name, java.lang.String publicId, java.lang.String systemId)
   {
+    handler.startDTD(name, publicId, systemId);
   }
 
   public void endDTD()
