@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AttributeTest.java,v 1.5 2005/02/17 18:55:49 marcelop Exp $
+ * $Id: AttributeTest.java,v 1.6 2005/02/23 04:36:41 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -115,7 +115,7 @@ public class AttributeTest extends EMFPerformanceTestCase
     oneAttribute.eSet((EAttribute)aEClass.getEAttributes().get(0), attributeValue);
     
     halfAttributes = pack.getEFactoryInstance().create(aEClass);
-    for (int i=0, maxi=(int)(numberOfAttributes/2); i < maxi; i++)
+    for (int i=0, maxi=(numberOfAttributes/2); i < maxi; i++)
     {
       halfAttributes.eSet((EAttribute)aEClass.getEAttributes().get(i), attributeValue);
     }
