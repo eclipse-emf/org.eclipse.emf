@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryImpl.java,v 1.4 2004/05/16 17:10:58 emerks Exp $
+ * $Id: EObjectToChangesMapEntryImpl.java,v 1.5 2004/08/11 21:18:49 elena Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -53,6 +53,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEMap.Entry
 {
   /**
+   * The bit of {@link #eFlags} that is used to represent if key is a proxy.
+   */
+  protected static final int EPROXY_KEY = ELAST_EOBJECT_FLAG << 1;
+  
+  /**
    * The cached value of the '{@link #getTypedKey() <em>Key</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -91,13 +96,13 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
   {
     return ChangePackage.eINSTANCE.getEObjectToChangesMapEntry();
   }
-
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public EObject getTypedKey()
+  public EObject getTypedKeyGen()
   {
     if (key != null && key.eIsProxy())
     {
@@ -107,6 +112,25 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
       {
         if (eNotificationRequired())
           eNotify(new ENotificationImpl(this, Notification.RESOLVE, ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY__KEY, oldKey, key));
+      }
+    }
+    return key;
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public EObject getTypedKey()
+  {
+    if ((eFlags & EPROXY_KEY) != 0)
+    {
+      EObject oldKey = key;
+      EObject newKey = getTypedKeyGen();
+      if (newKey != oldKey)
+      {
+        eFlags &= ~EPROXY_KEY;
       }
     }
     return key;
@@ -121,18 +145,36 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
   {
     return key;
   }
-
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setTypedKey(EObject newKey)
+  public void setTypedKeyGen(EObject newKey)
   {
     EObject oldKey = key;
     key = newKey;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY__KEY, oldKey, key));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void setTypedKey(EObject newKey)
+  {
+    setTypedKeyGen(newKey);
+    if (key != null && key.eIsProxy())
+    {
+      eFlags |= EPROXY_KEY;
+    }
+    else
+    {
+      eFlags &= ~EPROXY_KEY;
+    }
   }
 
   /**

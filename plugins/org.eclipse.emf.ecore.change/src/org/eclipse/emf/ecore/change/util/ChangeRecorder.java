@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.17 2004/08/11 18:08:32 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.18 2004/08/11 21:18:49 elena Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -37,9 +37,12 @@ import org.eclipse.emf.ecore.change.ChangeKind;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.ResourceChange;
+import org.eclipse.emf.ecore.change.impl.FeatureChangeImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 
 /**
@@ -258,9 +261,6 @@ public class ChangeRecorder implements Adapter
 
   protected void handleFeature(EStructuralFeature feature, EReference containment, Notification notification, EObject eObject)
   {
-    if (!feature.isChangeable())
-      return;
-
     List changes = getFeatureChanges(eObject);
     FeatureChange change = getFeatureChange(changes, feature);
 
@@ -287,7 +287,7 @@ public class ChangeRecorder implements Adapter
             Object oldValue = notification.getOldValue();
             change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
           }
-          changes.add(change);
+          ((InternalEList)changes).addUnique(change);
         }
         if (containment != null)
         {
@@ -306,7 +306,7 @@ public class ChangeRecorder implements Adapter
           List oldValue = new BasicEList((Collection)eObject.eGet(feature));
           oldValue.remove(notification.getPosition());
           change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
-          changes.add(change);
+          ((InternalEList)changes).addUnique(change);
         }
         if (containment != null)
         {
@@ -326,7 +326,7 @@ public class ChangeRecorder implements Adapter
             oldValue.remove(position);
           }
           change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
-          changes.add(change);
+          ((InternalEList)changes).addUnique(change);
         }
         if (containment != null)
         {
@@ -354,7 +354,7 @@ public class ChangeRecorder implements Adapter
           }
           oldValue.add(position, notification.getOldValue());
           change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
-          changes.add(change);
+          ((InternalEList)changes).addUnique(change);
         }
         break;
       }
@@ -377,7 +377,7 @@ public class ChangeRecorder implements Adapter
             }
           }
           change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
-          changes.add(change);
+          ((InternalEList)changes).addUnique(change);
         }
         break;
       }
@@ -390,7 +390,7 @@ public class ChangeRecorder implements Adapter
           int oldPosition = ((Integer)notification.getOldValue()).intValue();
           oldValue.move(oldPosition, position);
           change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
-          changes.add(change);
+          ((InternalEList)changes).addUnique(change);
         }
         break;
       }
@@ -598,9 +598,10 @@ public class ChangeRecorder implements Adapter
 
   protected FeatureChange getFeatureChange(List featureChanges, EStructuralFeature eStructuralFeature)
   {
-    for (int i = 0, size = featureChanges.size(); i < size;)
+    EObjectContainmentEList changes = (EObjectContainmentEList)featureChanges;
+    for (int i = 0, size = changes.size(); i < size;)
     {
-      FeatureChange featureChange = (FeatureChange)featureChanges.get(i++);
+      FeatureChangeImpl featureChange = (FeatureChangeImpl)changes.get(i++);
       if (featureChange.getFeature() == eStructuralFeature)
       {
         return featureChange;

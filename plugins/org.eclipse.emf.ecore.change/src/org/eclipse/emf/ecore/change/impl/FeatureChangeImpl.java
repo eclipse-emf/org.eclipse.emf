@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.3 2004/06/13 11:53:35 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.4 2004/08/11 21:18:49 elena Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -66,6 +66,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
 {
+  /**
+   * The bit of {@link #eFlags} that is used to represent if feature is a proxy.
+   */
+  protected static final int EPROXY_FEATURECHANGE = ELAST_EOBJECT_FLAG << 1;
+  
   /**
    * The default value of the '{@link #getFeatureName() <em>Feature Name</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -143,10 +148,14 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * @ordered
    */
   protected EList listChanges = null;
+  
+  protected EStructuralFeature feature = null;
+  
+  protected String featureName = null;
 
-  protected Object featureField = null;
-
-  protected Object valueField = null;
+  protected Object value = null;
+  
+  protected String valueString = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -161,7 +170,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   protected FeatureChangeImpl(EStructuralFeature feature, Object value, boolean isSet)
   {
     this();
-    this.featureField = feature;
+    this.feature = feature;
     setValue(value);
     this.set = isSet;
   }
@@ -183,12 +192,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   public String getFeatureName()
   {
-    return
-      featureField == null ? 
-        null :
-        featureField instanceof String ?
-          (String)featureField :
-          ((EStructuralFeature)featureField).getName();
+    return feature == null ? featureName : feature.getName();
   }
 
   /**
@@ -198,7 +202,9 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   public void setFeatureName(String newFeatureName)
   {
-    featureField = newFeatureName;
+    featureName = newFeatureName;
+    feature = null;
+    eFlags &= ~EPROXY_FEATURECHANGE; 
   }
 
   /**
@@ -218,7 +224,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   public boolean isSetFeatureName()
   {
-    return featureField != null && eContainer() instanceof EObjectToChangesMapEntryImpl;
+    return (feature != null || featureName != null) && eContainer() instanceof EObjectToChangesMapEntryImpl;
   }
 
   /**
@@ -228,10 +234,16 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   public String getDataValue()
   {
-    return 
-      valueField instanceof String ?
-        (String)valueField :
-        null;
+    if (valueString == null)
+    {
+      EStructuralFeature feature = getFeature();
+      if (feature instanceof EAttribute)
+      {
+        EDataType type = (EDataType)feature.getEType();
+        valueString = EcoreUtil.convertToString(type, value);
+      }
+    }
+    return valueString;
   }
 
   /**
@@ -242,7 +254,8 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   public void setDataValue(String newDataValue)
   {
     String oldDataValue = getDataValue();
-    valueField = newDataValue;
+    valueString = newDataValue;
+    value = null;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, ChangePackage.FEATURE_CHANGE__DATA_VALUE, oldDataValue, newDataValue));
   }
@@ -277,31 +290,23 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   public EStructuralFeature getFeature()
   {
-    EStructuralFeature feature;
-    if (featureField instanceof String)
+    if (feature == null)
     {
       if (eContainer() instanceof EObjectToChangesMapEntryImpl)
       {
-        featureField = feature = ((EObject)((Map.Entry)eContainer()).getKey()).eClass().getEStructuralFeature((String)featureField);
-      }
-      else
-      {
-        feature = null;
+        feature = ((EObject)((Map.Entry)eContainer()).getKey()).eClass().getEStructuralFeature((String)featureName);
       }
     }
-    else
+    else if ((eFlags & EPROXY_FEATURECHANGE) !=0)
     {
-      feature = (EStructuralFeature)featureField;
-      if (feature != null && feature.eIsProxy())
+      EStructuralFeature oldFeature = feature;
+      feature = (EStructuralFeature)EcoreUtil.resolve(feature, this);
+      if (feature != oldFeature)
       {
-        EStructuralFeature oldFeature = feature;
-        feature = (EStructuralFeature)EcoreUtil.resolve(feature, this);
-        if (feature != oldFeature)
-        {
-          if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.RESOLVE, ChangePackage.FEATURE_CHANGE__FEATURE, oldFeature, feature));
-        }
+        if (eNotificationRequired())
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, ChangePackage.FEATURE_CHANGE__FEATURE, oldFeature, feature));
       }
+      eFlags &= ~ EPROXY_FEATURECHANGE;
     }
     return feature;
   }
@@ -313,11 +318,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   public EStructuralFeature basicGetFeature()
   {
-    if (featureField instanceof EStructuralFeature)
-    {
-      return (EStructuralFeature)featureField;
-    }
-    return null;
+    return feature;
   }
 
   /**
@@ -328,7 +329,12 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   public void setFeature(EStructuralFeature newFeature)
   {
     EStructuralFeature oldFeature = basicGetFeature();
-    featureField = newFeature;
+    feature = newFeature;
+    featureName = null;
+    if (feature != null && feature.eIsProxy())
+      eFlags |= EPROXY_FEATURECHANGE;
+    else 
+      eFlags &= ~EPROXY_FEATURECHANGE;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, ChangePackage.FEATURE_CHANGE__FEATURE, oldFeature, newFeature));
   }
@@ -350,7 +356,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   public boolean isSetFeature()
   {
-    return featureField instanceof EStructuralFeature && !(eContainer() instanceof EObjectToChangesMapEntryImpl);
+    return feature != null && !(eContainer() instanceof EObjectToChangesMapEntryImpl);
   }
 
   /**
@@ -382,8 +388,8 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   public EObject basicGetReferenceValue()
   {
     return 
-      valueField instanceof EObject ?
-        (EObject)valueField :
+      value instanceof EObject ?
+        (EObject)value :
         null;
   }
 
@@ -395,7 +401,8 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   public void setReferenceValue(EObject newReferenceValue)
   {
     EObject oldReferenceValue = basicGetReferenceValue();
-    valueField = newReferenceValue;
+    value = newReferenceValue;
+    valueString = null;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, ChangePackage.FEATURE_CHANGE__REFERENCE_VALUE, oldReferenceValue, newReferenceValue));
   }
@@ -424,32 +431,33 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     EStructuralFeature feature = getFeature();
     if (feature.isMany())
     {
-      if (valueField == null && eContainer() instanceof EObjectToChangesMapEntryImpl)
+      if (value == null && eContainer() instanceof EObjectToChangesMapEntryImpl)
       {
-        valueField = getListValue((EList)((EObject)((Map.Entry)eContainer()).getKey()).eGet(feature));
+        value = getListValue((EList)((EObject)((Map.Entry)eContainer()).getKey()).eGet(feature));
       }
-      return valueField;
     }
-    else
+    else if (value == null)
     {
       if (feature instanceof EAttribute)
       {
         EDataType type = (EDataType)feature.getEType();
-        return EcoreUtil.createFromString(type, getDataValue());
+        value = EcoreUtil.createFromString(type, valueString);
       }
       else
       {
-        return getReferenceValue();
+        value = getReferenceValue();
       }
     }
+    return value;
   }
 
   protected void setValue(Object value)
   {
     EStructuralFeature feature = getFeature();
-    if (feature.isMany())
+    if (!eNotificationRequired() || feature.isMany())
     {
-      valueField = value;
+      valueString = null;
+      this.value = value;
     }
     else
     {
@@ -457,25 +465,26 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       {
         EDataType type = (EDataType)feature.getEType();
         setDataValue(EcoreUtil.convertToString(type, value));
+        this.value = value;
       }
       else
       {
         setReferenceValue((EObject)value);
       }
-    }
+    }    
   }
 
   protected EList getListValue(EList originalList)
   {
     if (isSet() && getFeature().isMany())
     {
-      if (valueField instanceof EList) // cached already?
+      if (value instanceof EList) // cached already?
       {
-        return (EList)valueField;
+        return (EList)value;
       }
       EList changedList = new BasicEList(originalList);
       apply(changedList);
-      valueField = changedList; // cache result
+      value = changedList; // cache result
       return changedList;
     }
     return ECollections.EMPTY_ELIST;
