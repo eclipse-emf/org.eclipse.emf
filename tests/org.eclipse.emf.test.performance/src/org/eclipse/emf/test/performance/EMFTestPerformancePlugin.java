@@ -12,12 +12,9 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.9 2005/02/17 18:12:27 marcelop Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.10 2005/02/17 18:55:50 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
-
-import java.util.Iterator;
-import java.util.Map;
 
 import org.eclipse.core.runtime.Plugin;
 
@@ -37,22 +34,13 @@ extends Plugin
           {
             System.out.println("*** Derby is in the classpath.");
             System.setProperty("test.target", "performance");
-            System.setProperty("eclipse.perf.dbloc", "net://localhost:1527/;dbuser=app;dbpasswd=app");
+            System.setProperty("eclipse.perf.dbloc", "net://localhost;dbuser=app;dbpasswd=app");
             System.setProperty("eclipse.perf.config" ,"build=fromJava");
           }
         }
         catch (ClassNotFoundException e)
         {
         }
-
-        System.out.println("EMFTestPerformancePlugin() - debug start");
-        Map properties = System.getProperties(); 
-        for (Iterator i = properties.entrySet().iterator(); i.hasNext();)
-        {
-          Map.Entry entry = (Map.Entry)i.next();
-          System.out.println("key:'" + entry.getKey() + "' - value:'" + entry.getValue() + "'");
-        }
-        System.out.println("EMFTestPerformancePlugin() - debug end");  
     }
 
     public static EMFTestPerformancePlugin getPlugin()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AttributeTest.java,v 1.4 2005/02/15 20:19:27 bportier Exp $
+ * $Id: AttributeTest.java,v 1.5 2005/02/17 18:55:49 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -89,7 +89,7 @@ public class AttributeTest extends EMFPerformanceTestCase
     assertNotNull("loadOptions cannot be null", loadOptions);
     
     // Tagging these tests
-    tagAsSummary("Performance Results for " + getClass().getPackage().getName(), TIME_DIMENSIONS);
+    //tagAsSummary("Performance Results for " + getClass().getPackage().getName(), TIME_DIMENSIONS);
     
     // Builing up the model
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
