@@ -6,13 +6,13 @@
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.14 2005/03/17 20:09:35 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.15 2005/03/17 23:28:31 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -21,12 +21,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
@@ -37,6 +41,7 @@ import org.eclipse.emf.test.performance.TestUtil;
 import org.eclipse.emf.test.performance.sdo.DynamicIPOModel;
 import org.eclipse.emf.test.performance.sdo.IPOModel;
 import org.eclipse.xsd.impl.type.XSDDateType;
+import org.osgi.framework.Bundle;
 
 import com.example.sdo.ipo.IpoFactory;
 import com.example.sdo.ipo.USAddress;
@@ -51,18 +56,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   protected static final int REPETITIONS_10 = 10;
 
   protected static final int ITERATIONS_300 = 300;
-
-  protected static final int ITERATIONS_2_5K = 2500;
-
-  protected static final int ITERATIONS_5K = 5000;
-
-  protected static final int ITERATIONS_10K = 10000;
-
-  protected static final int ITERATIONS_50K = 50000;
-
-  protected static final int ITERATIONS_100K = 100000;
-
-  protected static final int ITERATIONS_200K = 200000;
 
   protected static final String DATA = TestUtil.getPluginDirectory() + "/data/";
 
@@ -146,15 +139,36 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected String partNum0 = "part1234560";
 
+  protected static Properties props = new Properties();
+  protected static int iterations;
+
+  /**
+   * By calculating the value of iterations based on the value in the accompanying iterations.properties file,
+   * changing the values of the iterations can be done all in one place instead of throughout this file.
+   * Additionally, static fields are no longer required to define ITERATIONS_* constants.
+   * @param name
+   */
   public DynamicIPOSDOAccessorTest(String name)
   {
     super(name);
+	int it = Integer.parseInt("0"+props.getProperty(StaticIPOSDOAccessorTest.class.getName()+"."+name));
+	iterations = it > 0 ? it : 1;
   }
 
   public static Test suite()
   {
 
     TestSuite testSuite = new TestSuite();
+
+	try {
+		Bundle bundle = Platform.getBundle("org.eclipse.emf.test.performance");
+		URL url = Platform.find(bundle, new Path("iterations.properties"));
+		props.load(url.openStream());
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	//props.list(System.out);
+	testSuite.addTest(new DynamicIPOSDOAccessorTest("testGetIterationsCount"));
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(1000).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectWithESet").setWarmUp(1000).setRepetitions(REPETITIONS_5));
@@ -240,7 +254,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   protected void initNewValues()
   {
     // create new addresses used in set methods.
-    // because ipo only has uni-directional references, the DO values to set to can be static DOs. (no difference with dynamic DOs since uni-directional). 
+    // because ipo only has uni-directional references, the DO values to set to can be static DOs. (no difference with dynamic DOs since uni-directional).
 
     USAddress address1 = ipoFactoryInstance.createUSAddress();
     address1.setCity("Toronto");
@@ -287,7 +301,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     EStructuralFeature usPriceFeat = model.getUsPriceFeat();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       // to use objectValue inside the loop.
       if (objectValue != this)
@@ -310,7 +324,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     EStructuralFeature usPriceFeat = model.getUsPriceFeat();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_50K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       itemElement.eSet(quantityFeat, quantity0);
       // to alternate the feature to set.
@@ -330,7 +344,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property usPriceProp = model.getUsPriceProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       // to use objectValue inside the loop.
       if (objectValue != this)
@@ -353,7 +367,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property usPriceProp = model.getUsPriceProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_50K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       itemElement.set(quantityProp, quantity0);
       // to alternate the feature to set.
@@ -371,7 +385,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Object objectValue = this.objectValue;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       // to use objectValue inside the loop.
       if (objectValue != this)
@@ -391,7 +405,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigDecimal usPrice1 = this.usPrice1;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_50K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       itemElement.set(1, quantity0);
       // to alternate the feature to set.
@@ -411,12 +425,12 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property quantityProp = model.getQuantityProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       // to use quantityValue inside the loop.
       if (quantityValue != quantity0)
       {
-        // TODO ideally, we'd want to call getBigInteger for different features. 
+        // TODO ideally, we'd want to call getBigInteger for different features.
         quantityValue = itemElement.getBigInteger(quantityProp);
       }
     }
@@ -431,7 +445,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property quantityProp = model.getQuantityProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       itemElement.setBigInteger(quantityProp, quantity0);
       // TODO ideally, we'd want to alternate the feature to set.
@@ -447,7 +461,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigInteger quantity0 = this.quantity0;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       // to use quantityValue inside the loop.
       if (quantityValue != quantity0)
@@ -466,7 +480,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigInteger quantity1 = this.quantity1;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       itemElement.setBigInteger(1, quantity0);
       // TODO ideally, we'd want to alternate the feature to set.
@@ -482,7 +496,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigInteger quantity0 = this.quantity0;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_2_5K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       // to use quantityValue inside the loop.
       if (bigIntegerValue != quantity0)
@@ -502,12 +516,12 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property usPriceProp = model.getUsPriceProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       // to use usPriceValue inside the loop.
       if (usPriceValue != usPrice0)
       {
-        // TODO ideally, we'd want to call getBigDecimal for different features. 
+        // TODO ideally, we'd want to call getBigDecimal for different features.
         usPriceValue = itemElement.getBigDecimal(usPriceProp);
       }
     }
@@ -521,7 +535,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigDecimal usPrice0 = this.usPrice0;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       // to use usPriceValue inside the loop.
       if (usPriceValue != usPrice0)
@@ -540,7 +554,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     BigDecimal usPrice0 = this.usPrice0;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_5K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       // to use usPriceValue inside the loop.
       if (usPriceValue != usPrice0)
@@ -559,7 +573,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     String partNum0 = this.partNum0;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_50K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       // to use stringValue inside the loop.
       if (stringValue != partNum0)
@@ -579,7 +593,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property billToProp = model.getBillToProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       // to use dataObjectValue inside the loop.
       if (dataObjectValue != this)
@@ -602,7 +616,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Property billToProp = model.getBillToProp();
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_5K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       po.setDataObject(shipToProp, newShipToAddress0);
       // to alternate the feature to set.
@@ -628,7 +642,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void getByProperty()
   {
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_10K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       if (i % 2 == 0)
       { // like set.
@@ -674,7 +688,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void setByProperty()
   {
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_5K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       if (i % 2 == 0)
       { // to set to a new value each time.
@@ -720,7 +734,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void getByIndex()
   {
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_10K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       if (i % 2 == 0)
       { // like set.
@@ -766,7 +780,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void setByIndex()
   {
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_5K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       if (i % 2 == 0)
       { // to set to a new value each time.
@@ -882,6 +896,11 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     }
     stopMeasuring();
     initPO();
+  }
+
+  public void testGetIterationsCount()
+  {
+	  System.out.println("testGetIterationsCount: "+iterations);
   }
 
 }

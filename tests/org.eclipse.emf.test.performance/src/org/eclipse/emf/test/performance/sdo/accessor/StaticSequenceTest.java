@@ -12,19 +12,24 @@
  *
  * </copyright>
  *
- * $Id: StaticSequenceTest.java,v 1.3 2005/03/17 16:10:54 bportier Exp $
+ * $Id: StaticSequenceTest.java,v 1.4 2005/03/17 23:28:31 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
 
+import java.net.URL;
 import java.util.List;
+import java.util.Properties;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.EProperty;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
+import org.osgi.framework.Bundle;
 
 import com.example.sdo.epo.PurchaseOrder;
 import com.example.sdo.epo.Supplier;
@@ -36,14 +41,36 @@ import commonj.sdo.Sequence;
 public class StaticSequenceTest extends DynamicSequenceTest
 {
 
+  protected static Properties props = new Properties();
+  protected static int iterations;
+
+  /**
+   * By calculating the value of iterations based on the value in the accompanying iterations.properties file,
+   * changing the values of the iterations can be done all in one place instead of throughout this file.
+   * Additionally, static fields are no longer required to define ITERATIONS_* constants.
+   * @param name
+   */
   public StaticSequenceTest(String name)
   {
     super(name);
+	int it = Integer.parseInt("0"+props.getProperty(StaticIPOSDOAccessorTest.class.getName()+"."+name));
+	iterations = it > 0 ? it : 1;
   }
 
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite();
+
+	try {
+		Bundle bundle = Platform.getBundle("org.eclipse.emf.test.performance");
+		URL url = Platform.find(bundle, new Path("iterations.properties"));
+		props.load(url.openStream());
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	//props.list(System.out);
+	testSuite.addTest(new DynamicIPOSDOAccessorTest("testGetIterationsCount"));
+
     // TODO tune warmup.
 
     testSuite.addTest(new StaticSequenceTest("getSequenceByGenerated").setWarmUp(1000).setRepetitions(REPETITIONS));
@@ -104,7 +131,7 @@ public class StaticSequenceTest extends DynamicSequenceTest
     Sequence ordersValue = this.sequenceValue;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_1000K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       if (ordersValue != this)
       {
@@ -121,7 +148,7 @@ public class StaticSequenceTest extends DynamicSequenceTest
     List derivedValue = this.derivedValue;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       if (derivedValue != this)
       {
@@ -130,6 +157,11 @@ public class StaticSequenceTest extends DynamicSequenceTest
       }
     }
     stopMeasuring();
+  }
+
+  public void testGetIterationsCount()
+  {
+	  System.out.println("testGetIterationsCount: "+iterations);
   }
 
 }

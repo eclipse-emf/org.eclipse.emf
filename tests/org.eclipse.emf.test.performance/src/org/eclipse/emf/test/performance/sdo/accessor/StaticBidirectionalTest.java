@@ -12,18 +12,23 @@
  *
  * </copyright>
  *
- * $Id: StaticBidirectionalTest.java,v 1.1 2005/03/11 22:29:57 bportier Exp $
+ * $Id: StaticBidirectionalTest.java,v 1.2 2005/03/17 23:28:31 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
 
+import java.net.URL;
 import java.util.List;
+import java.util.Properties;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.sdo.EProperty;
+import org.osgi.framework.Bundle;
 
 import com.example.sdo.library.Book;
 import com.example.sdo.library.Writer;
@@ -34,14 +39,35 @@ import commonj.sdo.Property;
 public class StaticBidirectionalTest extends DynamicBidirectionalTest
 {
 
+  protected static Properties props = new Properties();
+  protected static int iterations;
+
+  /**
+   * By calculating the value of iterations based on the value in the accompanying iterations.properties file,
+   * changing the values of the iterations can be done all in one place instead of throughout this file.
+   * Additionally, static fields are no longer required to define ITERATIONS_* constants.
+   * @param name
+   */
   public StaticBidirectionalTest(String name)
   {
     super(name);
+	int it = Integer.parseInt("0"+props.getProperty(StaticIPOSDOAccessorTest.class.getName()+"."+name));
+	iterations = it > 0 ? it : 1;
   }
 
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite();
+
+	try {
+		Bundle bundle = Platform.getBundle("org.eclipse.emf.test.performance");
+		URL url = Platform.find(bundle, new Path("iterations.properties"));
+		props.load(url.openStream());
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	//props.list(System.out);
+	testSuite.addTest(new DynamicIPOSDOAccessorTest("testGetIterationsCount"));
 
     testSuite.addTest(new StaticBidirectionalTest("setAdaptedByGenerated").setWarmUp(0).setRepetitions(REPETITIONS_10));
     // TODO tune warmup
@@ -116,7 +142,7 @@ public class StaticBidirectionalTest extends DynamicBidirectionalTest
     Writer writer1 = (Writer)this.writer1;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_25K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       book0.setAuthor(writer1);
       book0.setAuthor(writer0);
@@ -136,12 +162,17 @@ public class StaticBidirectionalTest extends DynamicBidirectionalTest
     ((Notifier)writer1).eAdapters().add(adapter);
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_8K; i++)
+    for (int i = 0; i < iterations; i++)
     {
       book0.setAuthor(writer1);
       book0.setAuthor(writer0);
     }
     stopMeasuring();
+  }
+
+  public void testGetIterationsCount()
+  {
+	  System.out.println("testGetIterationsCount: "+iterations);
   }
 
 }
