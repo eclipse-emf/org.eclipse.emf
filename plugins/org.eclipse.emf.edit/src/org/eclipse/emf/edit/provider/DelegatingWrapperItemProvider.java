@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingWrapperItemProvider.java,v 1.3 2004/08/05 15:42:11 marcelop Exp $
+ * $Id: DelegatingWrapperItemProvider.java,v 1.4 2004/09/24 04:20:58 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -33,10 +33,14 @@ import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.CommandActionDelegate;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.DragAndDropCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor.OverrideableCommandOwner;
 
 
 /**
@@ -83,11 +87,12 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
    * Creates an instance for the given value. A decorator for the object's item provider is created, and
    * set up to repeat notifications, decorating them, so that they will update this wrapper, rather than the model
    * object they originate from.
+   * 
    * @exception IllegalArgumentException If the specified value is null.
    */
-  public DelegatingWrapperItemProvider(Object value, Object owner, AdapterFactory adapterFactory)
+  public DelegatingWrapperItemProvider(Object value, Object owner, EStructuralFeature feature, int index, AdapterFactory adapterFactory)
   {
-    super(value, owner, adapterFactory);
+    super(value, owner, feature, index, adapterFactory);
 
     if (value == null)
     {
@@ -103,6 +108,19 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
         ((IChangeNotifier)delegateItemProvider).addListener(this);
       }
     }
+  }
+
+  /**
+   * Creates an instance for the given value, when the feature and index that specify the value are unknown. 
+   * 
+   * @exception IllegalArgumentException If the specified value is null.
+   * 
+   * @deprecated As of EMF 2.0.1, replaced by {@link #DelegatingWrapperItemProvider(Object, EObject, EStructuralFeature, int, AdapterFactory)
+   * this form}. This constructor will be removed as public API, but remain available as a protected method.
+   */
+  public DelegatingWrapperItemProvider(Object value, Object owner, AdapterFactory adapterFactory)
+  {
+    this(value, owner, null, CommandParameter.NO_INDEX, adapterFactory);
   }
 
   /**
@@ -170,6 +188,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   {
     if (delegateItemProvider instanceof ITreeItemContentProvider)
     {
+      boolean changed = false;
       Set oldDelegateChildren = delegateChildren != null ? new HashSet(delegateChildren) : Collections.EMPTY_SET;
       delegateChildren = ((ITreeItemContentProvider)delegateItemProvider).getChildren(getDelegateValue());
 
@@ -188,20 +207,36 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
         {
           IWrapperItemProvider wrapper = createWrapper(child, this, adapterFactory);
           childrenMap.put(child, wrapper);
+          changed = true;
         }
         oldDelegateChildren.remove(child);
       }
 
       // Remove and dispose any wrappers for remaining old children.
       //
-      for (Iterator i = oldDelegateChildren.iterator(); i.hasNext(); )
+      if (!oldDelegateChildren.isEmpty())
       {
-        Object child = i.next();
+        changed = true;
 
-        IWrapperItemProvider wrapper = (IWrapperItemProvider)childrenMap.remove(child);
-        if (wrapper != null)
+        for (Iterator i = oldDelegateChildren.iterator(); i.hasNext(); )
         {
-          wrapper.dispose();
+          Object child = i.next();
+
+          IWrapperItemProvider wrapper = (IWrapperItemProvider)childrenMap.remove(child);
+          if (wrapper != null)
+          {
+            wrapper.dispose();
+          }
+        }
+      }
+
+      // If any children were added or removed, reset the indices.
+      if (changed)
+      {
+        int index = 0;
+        for (Iterator i = delegateChildren.iterator(); i.hasNext(); index++)
+        {
+          ((IWrapperItemProvider)childrenMap.get(i.next())).setIndex(index);
         }
       }
     }
@@ -218,7 +253,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   {
     return new DelegatingWrapperItemProvider(value, owner, adapterFactory);
   }
-  
+
   /**
    * Uses the delegate item provider to test whether the delegate vlaue has children.
    */
@@ -264,7 +299,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
         for (Iterator i = l.iterator(); i.hasNext(); )
         {
           IItemPropertyDescriptor desc = (IItemPropertyDescriptor)i.next();
-          propertyDescriptors.add(new ItemPropertyDescriptorDecorator(getDelegateValue(), desc));
+          propertyDescriptors.add(new DelegatingWrapperItemPropertyDescriptor(getDelegateValue(), desc));
         }
       }
       else
@@ -310,9 +345,29 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
     
     if (delegateItemProvider instanceof IEditingDomainItemProvider)
     {
-      commandParameter.setOwner(getDelegateValue());
-      Command result = ((IEditingDomainItemProvider)delegateItemProvider).createCommand(
-        getDelegateValue(), domain, commandClass, commandParameter);
+      Object commandOwner = getDelegateValue();
+      Command result = null;
+
+      // A SetCommand needs to go through SetCommand.create() to ensure it can execute and undo.
+      //
+      if (commandClass == SetCommand.class)
+      {
+        Object feature = commandParameter.getFeature();
+        result = SetCommand.create(domain, commandOwner, feature, commandParameter.getValue(), commandParameter.getIndex());
+
+        // A set command without a feature sets the value of this wrapper, hence replacing it with a new wrapper. So,
+        // we need a special command wrapper that selects this new wrapper as the affected object.
+        //
+        if (feature == null)
+        {
+          return new ReplacementAffectedObjectCommand(result);          
+        }
+      }
+      else
+      {
+        commandParameter.setOwner(commandOwner);
+        result = ((IEditingDomainItemProvider)delegateItemProvider).createCommand(commandOwner, domain, commandClass, commandParameter);        
+      }
       return wrapCommand(result, commandClass);
     }
     return UnexecutableCommand.INSTANCE;
@@ -335,7 +390,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
    * An <code>AffectedObjectsWrappingCommand</code> wraps another command to substitue this wrapper for its value
    * and child wrappers for their corresonding child values, whenever they appear in the affected objects.
    */
-  public class AffectedObjectsWrappingCommand extends CommandWrapper
+  protected class AffectedObjectsWrappingCommand extends CommandWrapper
   {
     public AffectedObjectsWrappingCommand(Command command)
     {
@@ -374,7 +429,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
    * corresonding child values, whenever they appear in the affected objects. Action delegate methods are delegated
    * directly to the wrapped command.
    */
-  public class AffectedObjectsWrappingCommandActionDelegate extends AffectedObjectsWrappingCommand
+  protected class AffectedObjectsWrappingCommandActionDelegate extends AffectedObjectsWrappingCommand
     implements CommandActionDelegate
   {
     CommandActionDelegate commandActionDelegate;
@@ -488,5 +543,80 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   protected Notification wrapNotification(Notification notification)
   {
     return ViewerNotification.wrapNotification(notification, this);
+  }
+
+  /**
+   * A <code>DelegatingWrapperItemPropertyDescriptor</code> decorates an <code>ItemPropertyDescriptor</code> and
+   * manages a command owner override. If its command owner is non-null, it ensures that the decorated descriptor,
+   * if it also implements <code>OverrideableCommandOwner</code>, will have its command owner set to the same object
+   * when {@link #resetPropertyValue resetPropertyValue} or {@link #setPropertyValue setPropertyValue} is called.
+   * If its command owner is null, then the decorated descriptors's command owner will be set to this wrapper item
+   * provider.
+   */
+  protected class DelegatingWrapperItemPropertyDescriptor extends ItemPropertyDescriptorDecorator
+    implements OverrideableCommandOwner
+  {
+    protected Object commandOwner;
+    
+    public DelegatingWrapperItemPropertyDescriptor(Object object, IItemPropertyDescriptor itemPropertyDescriptor)
+    {
+      super(object, itemPropertyDescriptor);
+    }
+
+    /**
+     * Sets the override command owner and, if the decorated descriptor also implements {@link
+     * IItemPropertyDescriptor.OverrideableCommandOwner OverrideableCommandOwner}, updates its command owner.
+     */
+    public void setCommandOwner(Object commandOwner)
+    {
+      this.commandOwner = commandOwner;
+      if (itemPropertyDescriptor instanceof OverrideableCommandOwner)
+      {
+        ((OverrideableCommandOwner)itemPropertyDescriptor).setCommandOwner(commandOwner);
+      }
+    }
+
+    /**
+     * Returns the override command owner.
+     */
+    public Object getCommandOwner()
+    {
+      return commandOwner;
+    }
+
+    /**
+     * Updates the decorated descriptor's command owner and invokes <code>resetPropertyValue</code> on it.
+     */
+    public void resetPropertyValue(Object thisObject)
+    {
+      boolean hasCommandOwner = commandOwner != null;
+      if (!hasCommandOwner)
+      {
+        setCommandOwner(DelegatingWrapperItemProvider.this);
+      }
+      itemPropertyDescriptor.resetPropertyValue(object);
+      if (!hasCommandOwner)
+      {
+        setCommandOwner(null);
+      }
+    }
+
+    /**
+     * Updates the decorated descriptor's command owner and invokes <code>setPropertyValue</code> on it.
+
+     */
+    public void setPropertyValue(Object thisObject, Object value)
+    {
+      boolean hasCommandOwner = commandOwner != null;
+      if (!hasCommandOwner)
+      {
+        setCommandOwner(DelegatingWrapperItemProvider.this);
+      }
+      itemPropertyDescriptor.setPropertyValue(object, value);
+      if (!hasCommandOwner)
+      {
+        setCommandOwner(null);
+      }
+    }
   }
 }

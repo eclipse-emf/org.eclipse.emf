@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryWrapperItemProvider.java,v 1.2 2004/04/01 02:15:39 davidms Exp $
+ * $Id: FeatureMapEntryWrapperItemProvider.java,v 1.3 2004/09/24 04:20:58 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -22,7 +22,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -35,6 +37,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CopyCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 
@@ -49,21 +52,37 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemProvider
 {
   /**
-   * The attribute through which the feature map entry can be set and retreived.
+   * The resource locator from the owner's item provider.
    */
-  protected EAttribute attribute;
+  protected ResourceLocator resourceLocator;
 
-  /**
-   * The index within the attribute at which the feature map entry is located.
-   */
-  protected int index;
-  
   /**
    * Creates an instance for the feature map entry. If the entry's feature is a reference, a delegate item provider
    * is created and set up to repeat notifications, decorating them, so that they will update this wrapper, rather
    * than the model object they originate from. If the entry's feature is an attribute or a null reference, no delegate
    * will be created.
+   * 
    * @exception IllegalArgumentException If the specified feature map entry is null.
+   */
+  public FeatureMapEntryWrapperItemProvider(
+      FeatureMap.Entry entry,
+      EObject owner,
+      EAttribute attribute,
+      int index,
+      AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator)
+  {
+    super(entry, owner, attribute, index, adapterFactory);   
+  }
+
+  /**
+   * Creates an instance for the feature map entry. If the entry's feature is not a reference, the item property
+   * descriptor that will be created for the value should get a resource. So, this constructor has been deprecated.
+   * 
+   * @exception IllegalArgumentException If the specified feature map entry is null.
+   * 
+   * @deprecated As of EMF 2.0.1, replaced by {@link #FeatureMapEntryWrapperItemProvider(FeatureMap.Entry, EObject, EAttribute, int index, AdapterFactory, ResourceLocator)
+   * this form}.
    */
   public FeatureMapEntryWrapperItemProvider(
       FeatureMap.Entry entry,
@@ -72,9 +91,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
       int index,
       AdapterFactory adapterFactory)
   {
-    super(entry, owner, adapterFactory);   
-    this.attribute = attribute;
-    this.index = index;
+    this(entry, owner, attribute, index, adapterFactory, null);
   }
 
   /**
@@ -111,22 +128,6 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
   }
 
   /**
-   * Returns the index within the attribute at which the feature map entry is located.
-   */
-  public int getIndex()
-  {
-    return index;
-  }
-
-  /**
-   * Sets the index.
-   */
-  public void setIndex(int index)
-  {
-    this.index = index;
-  }
-
-  /**
    * Returns the appropriate text for the entry value. If the entry represents XML text, CDATA, or comment, it is
    * appropriately decorated and {@link #encode encoded} to remove non-printable characters. Otherwise, the feature
    * name is prepended to the text returned by the item provider decorator, for a reference value, or the factory
@@ -149,7 +150,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
     {
       text = "<!--" + encode(getEntryValue().toString()) + "-->";
     }
-    else if (ExtendedMetaData.INSTANCE.getFeatureKind(attribute) == ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE)
+    else if (ExtendedMetaData.INSTANCE.getFeatureKind(feature) == ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE)
     {
       text = getEntryFeature().getName() + "='" +
         EcoreUtil.convertToString((EDataType)getEntryFeature().getEType(), getEntryValue()) + "'";
@@ -220,6 +221,11 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
       char c = s.charAt(i);
       switch (c)
       {
+        case '\\':
+        {
+          result.append("\\\\");
+          break;
+        }
         case '\b':
         {
           result.append("\\b");
@@ -247,15 +253,79 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
         }
         default:
         {
-          if (c < ' ')
+          result.append(c);
+          break;
+        }
+      }
+    }
+    return result.toString();
+  }
+
+  /**
+   * Decodes the given string by replacing any occurences Java escape sequences to actual characters.
+   */
+  protected String decode(String s)
+  {
+    StringBuffer result = new StringBuffer(s.length());
+    for (int i = 0, len = s.length(); i < len; i++)
+    {
+      char c = s.charAt(i);
+      switch (c)
+      {
+        case '\\':
+        {
+          if (++i < len)
           {
-            result.append('\\');
-            result.append((int)c);
+            c = s.charAt(i);
+            switch (c)
+            {
+              case '\\':
+              {
+                result.append('\\');
+                break;
+              }
+              case 'b':
+              {
+                result.append('\b');
+                break;
+              }
+              case 't':
+              {
+                result.append('\t');
+                break;
+              }
+              case 'n':
+              {
+                result.append('\n');
+                break;
+              }
+              case 'f':
+              {
+                result.append('\f');
+                break;
+              }
+              case '\r':
+              {
+                result.append('\r');
+                break;
+              }
+              default:
+              {
+                result.append('\\');
+                --i;
+                break;
+              }
+            }
           }
           else
           {
             result.append(c);
           }
+          break;
+        }
+        default:
+        {
+          result.append(c);
           break;
         }
       }
@@ -265,9 +335,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
 
   /**
    * Uses the delegate item provider for a reference value or creates a single property descriptor for an attribute
-   * value, calling out to {@link #getPropertyName getPropertyName}, {@link #getPropertyDescription
-   * getPropertyDescription}, {@link #isPropertySettable isPropertySettable}, and {@link #getPropertyImage
-   * getPropertyImage}.
+   * value.
    */
   public List getPropertyDescriptors(Object object)
   {
@@ -275,17 +343,49 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
     {
       if (propertyDescriptors == null)
       {
-        IItemPropertyDescriptor descriptor = new ItemPropertyDescriptor(
-          getRootAdapterFactory(),
-          getPropertyName(),
-          getPropertyDescription(),
-          getEntryFeature(),
-          isPropertySettable(),
-          getPropertyImage());
-        descriptor = new ItemPropertyDescriptorDecorator(owner, descriptor);
-        propertyDescriptors = Collections.singletonList(descriptor);
-      }
+        propertyDescriptors = Collections.singletonList(
+          new WrapperItemPropertyDescriptor(resourceLocator, getEntryFeature())
+          {
+            protected Object getValue(EObject object, EStructuralFeature feature)
+            {
+              // When the value is changed, the property sheet page doesn't update the property sheet viewer input
+              // before refreshing, and this gets called on the obsolete wrapper. So, we need to read directly from the
+              // model object.
+              //
+              //return needsEncoding(feature) ? encode((String)getEntryValue()) : getEntryValue();
 
+              FeatureMap featureMap = (FeatureMap)((EObject)owner).eGet(FeatureMapEntryWrapperItemProvider.this.feature);
+              Object result = index >= 0 && index < featureMap.size() ? featureMap.getValue(index) : getEntryValue();
+              return needsEncoding(feature) ? encode((String)result) : result;
+            }
+            
+            protected void setValue(EObject object, EStructuralFeature feature, Object value)
+            {
+              if (needsEncoding(feature))
+              {
+                value = decode((String)value);
+              }
+              ((FeatureMap)((EObject)owner).eGet(FeatureMapEntryWrapperItemProvider.this.feature)).setValue(index, value);
+            }
+
+            protected Command createSetCommand(EditingDomain domain, Object owner, Object feature, Object value)
+            {
+              if (needsEncoding(feature))
+              {
+                value = decode((String)value);
+              }
+              return SetCommand.create(domain, getCommandOwner(FeatureMapEntryWrapperItemProvider.this), null, value);
+            }
+
+            protected boolean needsEncoding(Object feature)
+            {
+              return
+                feature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text() ||
+                feature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA() ||
+                feature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment();
+            }
+          });
+      }
       return propertyDescriptors;
     }
     else
@@ -303,11 +403,11 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
   }
 
   /**
-   * Returns false, since the property descriptor decorator cannot properly set the feature map entry value.
+   * Returns whether the entry attribute is changeable.
    */
   protected boolean isPropertySettable()
   {
-    return false;
+    return getEntryFeature().isChangeable();
   }
 
   /**
@@ -347,11 +447,27 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
         {
           Iterator i = getCommand().getResult().iterator();
           return new FeatureMapEntryWrapperItemProvider(
-            FeatureMapUtil.createEntry(getEntryFeature(), i.next()), (EObject)owner, attribute, index, adapterFactory);
+            FeatureMapUtil.createEntry(getEntryFeature(), i.next()), (EObject)owner, (EAttribute)feature, index, adapterFactory);
         }
       };
     }
     return super.wrapCommand(command, commandClass);
+  }
+
+  /**
+   * Returns a wrapped set command that returns as its affected object the replacement wrapper for the value.
+   * A feature map entry is also created for the value, and used as the value of the set command.
+   */
+  protected Command createSetCommand(EditingDomain domain, Object owner, Object feature, Object value, int index) 
+  {
+    // Check that the value is type compatible with the entry feature.
+    //
+    if (getEntryFeature().getEType().isInstance(value))
+    {
+      FeatureMap.Entry entry = FeatureMapUtil.createEntry(getEntryFeature(), value);
+      return new ReplacementAffectedObjectCommand(SetCommand.create(domain, this.owner, this.feature, entry, this.index));
+    }
+    return UnexecutableCommand.INSTANCE;
   }
 
   /**
@@ -381,7 +497,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
         return new FeatureMapEntryWrapperItemProvider(
           FeatureMapUtil.createEntry(getEntryFeature(), entryValueCopy),
           (EObject)FeatureMapEntryWrapperItemProvider.this.owner,
-          attribute,
+          (EAttribute)feature,
           index,
           adapterFactory);
       }

@@ -1,4 +1,4 @@
-/**b
+/**
  * <copyright> 
  *
  * Copyright (c) 2004 IBM Corporation and others.
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AttributeValueWrapperItemProvider.java,v 1.1 2004/03/31 19:50:25 davidms Exp $
+ * $Id: AttributeValueWrapperItemProvider.java,v 1.2 2004/09/24 04:20:58 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -22,12 +22,14 @@ import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CopyCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 
@@ -43,55 +45,55 @@ public class AttributeValueWrapperItemProvider extends WrapperItemProvider
     IEditingDomainItemProvider
 {
   /**
-   * The attribute through which the value can be set and retrieved.
+   * The resource locator from the owner's item provider.
    */
-  protected EAttribute attribute;
-
-  /**
-   * The index within the feature at which the value is located.
-   */
-  protected int index;
+  protected ResourceLocator resourceLocator;
 
   /**
    * The single property descriptor for the value is cached here as a singleton list.
    */
   protected List propertyDescriptors;
 
-
   /**
    * Creates an instance for a single-valued attribute.
    */
-  public AttributeValueWrapperItemProvider(Object value, EObject owner, EAttribute attribute, AdapterFactory adapterFactory)
+  public AttributeValueWrapperItemProvider(Object value, EObject owner, EAttribute attribute, AdapterFactory adapterFactory, ResourceLocator resourceLocator)
   {
-    super(value, owner, adapterFactory);
-    this.attribute = attribute;
-    this.index = CommandParameter.NO_INDEX;
+    super(value, owner, attribute, CommandParameter.NO_INDEX, adapterFactory);
+    this.resourceLocator = resourceLocator;
   }
 
   /**
    * Creates an instance for a value within a multi-valued attribute.
    */
+  public AttributeValueWrapperItemProvider(Object value, EObject owner, EAttribute attribute, int index, AdapterFactory adapterFactory, ResourceLocator resourceLocator)
+  {
+    super(value, owner, attribute, index, adapterFactory);
+    this.resourceLocator = resourceLocator;
+  }
+
+  /**
+   * Creates an instance for a single-valued attribute. Because the item property descriptor that will be created for
+   * the value should get a resource locator, this constructor has been deprecated. 
+   * 
+   * @deprecated As of EMF 2.0.1, replaced by {@link #AttributeValueWrapperItemProvider(Object, EObject, EAttribute, AdapterFactory, ResourceLocator)
+   * this form}.
+   */
+  public AttributeValueWrapperItemProvider(Object value, EObject owner, EAttribute attribute, AdapterFactory adapterFactory)
+  {
+    this(value, owner, attribute, adapterFactory, null);
+  }
+
+  /**
+   * Creates an instance for a value within a multi-valued attribute.  Because the item property descriptor that will be
+   * created for the value should get a resource locator, this constructor has been deprecated.
+   * 
+   * @deprecated As of EMF 2.0.1, replaced by {@link #AttributeValueWrapperItemProvider(Object, EObject, EAttribute, int, AdapterFactory, ResourceLocator)
+   * this form}.
+   */
   public AttributeValueWrapperItemProvider(Object value, EObject owner, EAttribute attribute, int index, AdapterFactory adapterFactory)
   {
-    super(value, owner, adapterFactory);
-    this.attribute = attribute;
-    this.index = index;
-  }
-
-  /**
-   * Returns the index within the attribute at which the value is located.
-   */
-  public int getIndex()
-  {
-    return index;
-  }
-
-  /**
-   * Sets the index.
-   */
-  public void setIndex(int index)
-  {
-    this.index = index;
+    this(value, owner, attribute, index, adapterFactory, null);
   }
 
   /**
@@ -99,47 +101,27 @@ public class AttributeValueWrapperItemProvider extends WrapperItemProvider
    */
   public String getText(Object object)
   {
-    return value != null ? EcoreUtil.convertToString(attribute.getEAttributeType(), value) : "null";
+    return value != null ? EcoreUtil.convertToString(((EAttribute)feature).getEAttributeType(), value) : "null";
   }
 
   /**
-   * Creates, caches and returns a property descriptor decorator for the attribute of the owner. Calls out to {@link
-   * #getPropertyName getPropertyName}, {@link #getPropertyDescription getPropertyDescription}, {@link
-   * #isPropertySettable isPropertySettable}, and {@link #getPropertyImage getPropertyImage}, giving subclasses an
-   * opportunity to override them and control these aspects of the property.
+   * Creates, caches and returns an item property descriptor for the value.
    */
   public List getPropertyDescriptors(Object object)
   {
     if (propertyDescriptors == null)
     {
-      IItemPropertyDescriptor descriptor = new ItemPropertyDescriptor(
-        getRootAdapterFactory(),
-        getPropertyName(),
-        getPropertyDescription(),
-        attribute,
-        isPropertySettable(),
-        getPropertyImage());
-      descriptor = new ItemPropertyDescriptorDecorator(owner, descriptor);
-      propertyDescriptors = Collections.singletonList(descriptor);
+      propertyDescriptors = Collections.singletonList(new WrapperItemPropertyDescriptor(resourceLocator, feature));
     }
     return propertyDescriptors;
   }
 
   /**
-   * Returns whether the attribute is {@link org.eclipse.emf.ecore.EStructuralFeature#isChangeable changeable}.
+   * Returns a wrapped set command that returns as its affected object the replacement wrapper for the value.
    */
-  protected boolean isPropertySettable()
+  protected Command createSetCommand(EditingDomain domain, Object owner, Object feature, Object value, int index) 
   {
-    return attribute.isChangeable();
-  }
-
-  /**
-   * Calls {@link WrapperItemProvider#getPropertyImage(Class) getPropertyImage} to obtain the property image for
-   * the attribute's type.
-   */
-  protected Object getPropertyImage()
-  {
-    return getPropertyImage(attribute.getEType().getInstanceClass());
+    return new ReplacementAffectedObjectCommand(SetCommand.create(domain, this.owner, this.feature, value, this.index));
   }
 
   /**
@@ -156,7 +138,7 @@ public class AttributeValueWrapperItemProvider extends WrapperItemProvider
         
         if (value != null)
         {
-          EDataType dataType = attribute.getEAttributeType();
+          EDataType dataType = ((EAttribute)feature).getEAttributeType();
           String serialization = EcoreUtil.convertToString(dataType, value);
           valueCopy = EcoreUtil.createFromString(dataType, serialization);
           if (serialization == value && serialization == valueCopy)
@@ -165,7 +147,7 @@ public class AttributeValueWrapperItemProvider extends WrapperItemProvider
           }
         }
         return new AttributeValueWrapperItemProvider(
-          valueCopy, (EObject)AttributeValueWrapperItemProvider.this.owner, attribute, index, adapterFactory);
+          valueCopy, (EObject)AttributeValueWrapperItemProvider.this.owner, (EAttribute)feature, index, adapterFactory);
       }
     };
   }

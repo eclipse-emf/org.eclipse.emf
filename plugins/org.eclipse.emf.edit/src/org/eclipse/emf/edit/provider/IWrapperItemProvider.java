@@ -12,9 +12,11 @@
  *
  * </copyright>
  *
- * $Id: IWrapperItemProvider.java,v 1.2 2004/07/29 17:56:15 marcelop Exp $
+ * $Id: IWrapperItemProvider.java,v 1.3 2004/09/24 04:20:58 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
+
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 
 /**
@@ -28,8 +30,19 @@ public interface IWrapperItemProvider extends IDisposable
   Object getValue();
 
   /**
-   * Returns the index within a feature at which the value is located, or {@link
-   * org.eclipse.emf.edit.command.CommandParameter#NO_INDEX} if the index isn't known to the wrapper.
+   * Returns the object that owns the value.
+   */
+  Object getOwner();
+
+  /**
+   * Returns the structural feature through which the value can be set and retrieved, or null if the feature is
+   * unknown or not applicable.
+   */
+  EStructuralFeature getFeature();
+
+  /**
+   * The index at which the value is located, or {@link org.eclipse.emf.edit.command.CommandParameter#NO_INDEX} if the
+   * index isn't known to the wrapper. If {@link #feature} is non-null, this index is within that feature. 
    */
   int getIndex();
 
