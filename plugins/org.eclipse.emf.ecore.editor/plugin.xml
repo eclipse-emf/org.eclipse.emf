@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/06/07 19:32:20 marcelop Exp $
+ * $Id: plugin.xml,v 1.6 2004/06/09 20:06:15 marcelop Exp $
  */
 -->
 
@@ -129,30 +129,5 @@
       </action>
 
     </objectContribution>
-  </extension>
-
-  <extension point="org.eclipse.ui.activities">
-    <activity 
-      id="org.eclipse.emf.reflectiveEditing"
-      description="%_UI_Activity_ReflectiveEditing_description"
-      name="%_UI_Activity_ReflectiveEditing_name"/>
-         
-    <categoryActivityBinding 
-      activityId="org.eclipse.emf.reflectiveEditing"
-      categoryId="org.eclipse.categories.modelingCategory"/>
-
-    <activityPatternBinding
-      activityId="org.eclipse.emf.reflectiveEditing"
-      pattern="org\.eclipse\.emf\.ecore\.editor/.Open*"/>
-    <activityPatternBinding
-      activityId="org.eclipse.emf.reflectiveEditing"
-      pattern="org\.eclipse\.emf\.ecore\.editor/.*Reflective.*"/>
-    <activityPatternBinding
-      activityId="org.eclipse.emf.reflectiveEditing"
-      pattern="org\.eclipse\.emf\.ecore\.editor/.*CreateDynamic.*"/>
-
-    <activityPatternBinding
-      activityId="org.eclipse.EMF"
-      pattern="org\.eclipse\.emf\.ecore\.editor/.*Ecore.*"/>
   </extension>
 </plugin>

@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/06/07 19:32:19 marcelop Exp $
+ * $Id: plugin.xml,v 1.6 2004/06/09 20:06:13 marcelop Exp $
  */
 -->
 
@@ -96,13 +96,5 @@
           enablesFor="1">
       </action>
     </objectContribution>
-  </extension>
-
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding
-      activityId="org.eclipse.EMF"
-      pattern="org\.eclipse\.emf\.codegen\.ecore\.ui/.*"/>
-      
-    <defaultEnablement id="org.eclipse.EMF"/>
   </extension>
 </plugin>

@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.4 2004/06/07 19:34:02 marcelop Exp $
+ * $Id: plugin.xml,v 1.5 2004/06/09 20:06:21 marcelop Exp $
  */
 -->
 
@@ -43,20 +43,4 @@
       <packages prefixes="org.eclipse.emf.edit.ui"/>
     </library>
   </runtime>
-
-  <extension point="org.eclipse.ui.activities">
-    <category
-      id="org.eclipse.categories.modelingCategory"
-      description="%_UI_Category_Modeling_description"
-      name="%_UI_Category_Modeling_name"/>
-
-    <activity 
-      id="org.eclipse.EMF"
-      description="%_UI_Activity_EMF_description"
-      name="%_UI_Activity_EMF_name"/>
-         
-    <categoryActivityBinding 
-      activityId="org.eclipse.EMF"
-      categoryId="org.eclipse.categories.modelingCategory"/>
-  </extension>
 </plugin>

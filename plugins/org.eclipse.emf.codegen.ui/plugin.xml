@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/06/07 19:32:20 marcelop Exp $
+ * $Id: plugin.xml,v 1.6 2004/06/09 20:06:23 marcelop Exp $
  */
 -->
 
@@ -85,25 +85,4 @@
       <filter name="nature" value="org.eclipse.emf.codegen.jet.IJETNature"/>
     </page>
   </extension>
-
-	<extension point="org.eclipse.ui.activities">
-   		<activity 
-			id="org.eclipse.emf.activities.JET"
-      		description="%_UI_Activity_JET_description"
-   			name="%_UI_Activity_JET_name"/>
-   			
-		<activityRequirementBinding
-			activityId="org.eclipse.emf.activities.JET"
-			requiredActivityId="org.eclipse.javaDevelopment"/>
-
-		<categoryActivityBinding 
- 			activityId="org.eclipse.emf.activities.JET"
-   			categoryId="org.eclipse.categories.developmentCategory"/>
-
-		<activityPatternBinding
-            		activityId="org.eclipse.emf.activities.JET"
-            		pattern="org\.eclipse\.emf\.codegen\.ui/.*"/>
-            		
-	  	<defaultEnablement id="org.eclipse.emf.activities.JET"/>	
-	</extension>
 </plugin>
