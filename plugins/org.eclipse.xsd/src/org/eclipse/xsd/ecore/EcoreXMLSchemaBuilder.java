@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreXMLSchemaBuilder.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: EcoreXMLSchemaBuilder.java,v 1.2 2004/03/21 16:22:54 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -87,6 +87,7 @@ public class EcoreXMLSchemaBuilder extends MapBuilder
   protected EPackage ePackage;
   protected Map ecoreToSchemaName;
   protected Map ePackageToXSDSchemaMap = new HashMap();
+  protected Map ePackageToNsPrefixMap = new HashMap();
   protected QNameMap qNameMap;
 
   protected boolean minimizedXMI;
@@ -96,6 +97,9 @@ public class EcoreXMLSchemaBuilder extends MapBuilder
 
   public EcoreXMLSchemaBuilder()
   {
+    // Make sure the xsd prefix isn't used by a package.
+    //
+    ePackageToNsPrefixMap.put(null, "xsd");
   }
 
   public Collection generate(EPackage ePackage)
@@ -135,6 +139,25 @@ public class EcoreXMLSchemaBuilder extends MapBuilder
     return result;
   }
 
+  protected String getUniqueNsPrefix(EPackage ePackage)
+  {
+    if (ePackageToNsPrefixMap.containsKey(ePackage))
+    {
+      return (String)ePackageToNsPrefixMap.get(ePackage);
+    }
+    else
+    {
+      String nsPrefix = ePackage.getNsPrefix();
+      String uniqueNsPrefix = nsPrefix;
+      for (int i = 1; ePackageToNsPrefixMap.values().contains(uniqueNsPrefix); ++i)
+      {
+        uniqueNsPrefix = nsPrefix + "_" + i;
+      }
+      ePackageToNsPrefixMap.put(ePackage, uniqueNsPrefix);
+      return uniqueNsPrefix;
+    }
+  }
+
   protected void createSchema()
   {
     xsdSchema = XSDFactory.eINSTANCE.createXSDSchema();
@@ -145,7 +168,7 @@ public class EcoreXMLSchemaBuilder extends MapBuilder
     xsdSchema.setSchemaForSchemaQNamePrefix("xsd");
 
     Map namespaces = xsdSchema.getQNamePrefixToNamespaceMap();
-    namespaces.put(ePackage.getNsPrefix(), xsdSchema.getTargetNamespace());
+    namespaces.put(getUniqueNsPrefix(ePackage), xsdSchema.getTargetNamespace());
     namespaces.put(xsdSchema.getSchemaForSchemaQNamePrefix(), XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
 
     map(xsdSchema, ePackage);
@@ -185,9 +208,10 @@ public class EcoreXMLSchemaBuilder extends MapBuilder
     EPackage typePkg = classifier.getEPackage();
     Map namespaces = xsdSchema.getQNamePrefixToNamespaceMap();
 
-    if (namespaces.get(typePkg.getNsPrefix()) == null)
+    String nsPrefix = getUniqueNsPrefix(typePkg);
+    if (namespaces.get(nsPrefix) == null)
     {
-      namespaces.put(typePkg.getNsPrefix(), typePkg.getNsURI());
+      namespaces.put(nsPrefix, typePkg.getNsURI());
       addImport(typePkg.getNsURI(), getName(typePkg) + ".xsd");
       createOtherSchema(typePkg);
     }
@@ -212,7 +236,7 @@ public class EcoreXMLSchemaBuilder extends MapBuilder
     otherSchema.setSchemaForSchemaQNamePrefix("xsd");
 
     Map namespaces = otherSchema.getQNamePrefixToNamespaceMap();
-    namespaces.put(ePackage.getNsPrefix(), otherSchema.getTargetNamespace());
+    namespaces.put(getUniqueNsPrefix(ePackage), otherSchema.getTargetNamespace());
     namespaces.put(otherSchema.getSchemaForSchemaQNamePrefix(), XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
 
     ePackageToXSDSchemaMap.put(ePackage, otherSchema);
