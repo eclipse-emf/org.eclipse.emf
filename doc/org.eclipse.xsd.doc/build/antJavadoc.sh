@@ -12,13 +12,35 @@ if [ -d $destDir ]; then
 	exit
 fi
 
+function groupPackage
+{
+	plugin=$1
+	hasToken=`grep "@$plugin@" $currentPath/javadoc.xml.template`
+	if [ "x$hasToken" != "x"  ]; then
+		srcDir=$eclipseDir/plugins/$plugin/src
+		if [ -d $srcDir ]; then
+			packages=`find $srcDir -type f -name '*.java' -exec grep -e '^package .*;' {} \; | sed -e 's/^package *\(.*\);/\1/' | sort | uniq | xargs | sed -e 's/ /:/g'`
+			packages=`echo $packages | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
+		
+			sed -e "s/\@${plugin}\@/${packages}/g" $currentPath/javadoc.xml.template > javadoc.xml.template.tmp
+	
+			mv javadoc.xml.template.tmp javadoc.xml.template
+		fi
+	fi
+}
+groupPackage org.eclipse.xsd
+groupPackage org.eclipse.xsd.edit
+groupPackage org.eclipse.xsd.editor
+groupPackage org.eclipse.xsd.test
+groupPackage org.eclipse.emf.mapping.xsd2ecore
+groupPackage org.eclipse.emf.mapping.xsd2ecore.editor
+
 # The directory of the xsd plugins in the order they were built 
 pluginDirs=`find $eclipseDir/plugins -name *.jar -printf '%T@ %p\n' | sort -n | grep -v resources.jar | egrep -e 'org.eclipse.xsd|org.eclipse.emf.mapping.xsd2ecore' | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
 
 # All the jars in the pluigins directory
 classpath=`find $eclipseDir/plugins -name *.jar -print | grep -v org.eclipse.xsd | grep -v org.eclipse.emf.mapping.xsd2ecore | tr '\n' ';'`
 
-# Calculates the packagesets
 # Calculates the packagesets and the calls to copyDocFiles
 packagesets=""
 copydocfiles=""
