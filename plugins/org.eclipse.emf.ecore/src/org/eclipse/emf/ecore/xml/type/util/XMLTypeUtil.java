@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.3 2004/06/11 16:09:29 emerks Exp $
+ * $Id: XMLTypeUtil.java,v 1.4 2004/06/17 14:13:38 elena Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
 
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue;
+import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.emf.ecore.xml.type.internal.RegEx;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.emf.ecore.xml.type.internal.XMLDuration;
@@ -133,6 +134,55 @@ public final class XMLTypeUtil
   public static EValidator.PatternMatcher createPatternMatcher(String pattern)
   {
     return new PatternMatcherImpl(pattern);
+  }
+  
+  /**
+   * Creates a new QName object with the specified values
+   * @param namespaceUri namespace uri value or null
+   * @param localPart localPart (not null)
+   * @param prefix prefix value or null
+   * @return
+   */
+  public static Object createQName(String namespaceUri, String localPart, String prefix)
+  {
+    return new QName(namespaceUri, localPart, prefix);
+  }
+  
+  /**
+   * Sets the QName object values to the specified onces
+   * @param namespaceUri namespace uri value or null
+   * @param localPart localPart (not null)
+   * @param prefix prefix value or null
+   */
+  public static void setQNameValues(Object qname, String namespaceUri, String localPart, String prefix)
+  {
+      QName qn = (QName)qname;
+      qn.setLocalPart(localPart);
+      qn.setNamespaceURI(namespaceUri);
+      qn.setPrefix(prefix);
+  }
+  
+  /**
+   * Returns the namespaceURI of a QName.
+   */
+  public static String getQNameNamespaceURI(Object qname)
+  {
+    return ((QName)qname).getNamespaceURI();
+  }
+  /**
+   * Returns the localPart of a QName.
+   */
+  public static String getQNameLocalPart(Object qname)
+  {
+    return ((QName)qname).getLocalPart();
+  }
+  
+  /**
+   * Returns the prefix of a QName.
+   */
+  public static String getQNamePrefix(Object qname)
+  {
+    return ((QName)qname).getPrefix();
   }
 
   private static class PatternMatcherImpl implements EValidator.PatternMatcher
