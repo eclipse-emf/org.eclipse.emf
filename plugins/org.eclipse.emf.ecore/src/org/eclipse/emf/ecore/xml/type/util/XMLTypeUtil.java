@@ -12,14 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.1 2004/06/08 12:11:36 emerks Exp $
+ * $Id: XMLTypeUtil.java,v 1.2 2004/06/08 13:21:25 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
 
-import org.apache.xerces.impl.xpath.regex.RegularExpression;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue;
+import org.eclipse.emf.ecore.xml.type.internal.RegEx;
 
 
 /**
@@ -121,11 +121,11 @@ public final class XMLTypeUtil
 
   private static class PatternMatcherImpl implements EValidator.PatternMatcher
   {
-    protected RegularExpression regularExpression;
+    protected RegEx.RegularExpression regularExpression;
 
     public PatternMatcherImpl(String pattern)
     {
-      regularExpression =  new RegularExpression(pattern, "X");
+      regularExpression =  new RegEx.RegularExpression(pattern, "X");
     }
 
     public boolean matches(String value)
