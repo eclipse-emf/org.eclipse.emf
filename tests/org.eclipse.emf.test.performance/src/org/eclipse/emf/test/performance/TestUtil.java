@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.3 2005/02/21 18:17:22 marcelop Exp $
+ * $Id: TestUtil.java,v 1.4 2005/02/21 20:07:30 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -29,7 +29,7 @@ public class TestUtil
   private static class Foo{};
   private static int runningUnderEclipseFlag = -1;
   
-  public static String getPluginDirectory()
+  public final static String getPluginDirectory()
   {
     try
     {
@@ -49,7 +49,7 @@ public class TestUtil
   }
   
   
-  public static boolean isRunningUnderEclipse()
+  public final static boolean isRunningUnderEclipse()
   {
     if (runningUnderEclipseFlag == -1)
     {
