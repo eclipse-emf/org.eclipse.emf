@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.12 2004/10/29 19:31:06 marcelop Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.13 2005/01/21 20:08:11 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -45,6 +45,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -731,6 +732,20 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
           }
           return enumerators;
         }
+        else 
+        {
+          EDataType eDataType = (EDataType)feature.getEType();
+          List enumeration = ExtendedMetaData.INSTANCE.getEnumerationFacet(eDataType);
+          if (!enumeration.isEmpty())
+          {
+            List enumerators = new ArrayList();
+            for (Iterator i = enumeration.iterator(); i.hasNext();)
+            {
+              enumerators.add(EcoreUtil.createFromString(eDataType, (String)i.next()));
+            }
+            return enumerators;
+          }
+        }
       }
     }
 
@@ -976,6 +991,15 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
     else if (eType instanceof EEnum)
     {
       return ((EEnumLiteral)((EEnum)eType).getELiterals().get(0)).getInstance();
+    }
+    else if (eType instanceof EDataType)
+    {
+      EDataType eDataType = (EDataType)eType;
+      List enumeration = ExtendedMetaData.INSTANCE.getEnumerationFacet(eDataType);
+      if (!enumeration.isEmpty())
+      {
+        return EcoreUtil.createFromString(eDataType, (String)enumeration.get(0));
+      }
     }
 
     return null;
