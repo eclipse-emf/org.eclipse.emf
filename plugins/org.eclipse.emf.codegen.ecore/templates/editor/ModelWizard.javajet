@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.8 2004/06/17 10:56:16 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.9 2004/07/19 19:22:54 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.StringTokenizer;
 
 import org.eclipse.emf.common.util.URI;
@@ -88,6 +89,7 @@ import org.eclipse.ui.part.ISetSelectionTarget;
 <%}%>
 import <%=genPackage.getQualifiedFactoryInterfaceName()%>;
 import <%=genPackage.getQualifiedPackageInterfaceName()%>;
+import <%=genPackage.getQualifiedEditPluginClassName()%>;
 
 
 <%genModel.markImportLocation(stringBuffer);%>
@@ -585,7 +587,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 					EClass eClass = (EClass)eClassifier;
 					if (!eClass.isAbstract())
 					{
-						objectNames.add(eClass.getName());
+						objectNames.add(getLabel(eClass));
 					}
 				}
 			}
@@ -599,8 +601,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 					EClass eClass = (EClass)eClassifier;
 					if (!eClass.isAbstract())
 					{
-						// objectNames.add(eClass.getName());
-						objectNames.add(eStructuralFeature.getName());
+						objectNames.add(getLabel(eStructuralFeature));
 					}
 				}
 			}
@@ -692,10 +693,43 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		 */
 		public String getInitialObjectName()
 		{
-			return
-				initialObjectName == null ?
-					initialObjectField.getText() :
-					initialObjectName;
+			if (initialObjectName != null)
+			{
+				return initialObjectName;
+			}
+			else
+			{
+				String label = initialObjectField.getText();
+<%if (!genPackage.hasDocumentRoot()) {%>
+				for (Iterator classifier = <%=genPackage.getUncapPackageInterfaceName()%>.getEClassifiers().iterator(); classifier.hasNext(); )
+				{
+					EClassifier eClassifier = (EClassifier)classifier.next();
+					if (eClassifier instanceof EClass)
+					{
+						EClass eClass = (EClass)eClassifier;
+						if (!eClass.isAbstract() && getLabel(eClass).equals(label))
+						{
+							return eClass.getName();
+						}
+					}
+				}
+<%} else {%>
+				for (Iterator elements = <%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getAllElements(<%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getDocumentRoot(<%=genPackage.getUncapPackageInterfaceName()%>)).iterator(); elements.hasNext(); )
+				{
+					<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%> eStructuralFeature = (<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>)elements.next();
+					EClassifier eClassifier = eStructuralFeature.getEType();
+					if (eClassifier instanceof EClass)
+					{
+						EClass eClass = (EClass)eClassifier;
+						if (!eClass.isAbstract() && getLabel(eStructuralFeature).equals(label))
+						{
+							return eStructuralFeature.getName();
+						}
+					}
+				}
+<%}%>
+				return label;
+			}
 		}
 
 		/**
@@ -734,6 +768,39 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 				fileField.selectAll();
 				fileField.setFocus();
 			}
+		}		
+<%}%>
+		/**
+		 * Returns the label of the specified element.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+<%if (!genPackage.hasDocumentRoot()) {%>
+		protected String getLabel(EClass eClass)
+		{
+			String name = eClass.getName();
+			try
+			{
+				return <%=genPackage.getEditPluginClassName()%>.INSTANCE.getString("_UI_" + name + "_type");
+			}
+			catch(MissingResourceException mre)
+			{
+			}
+			return name;
+		}
+<%} else {%>
+		protected String getLabel(EStructuralFeature eStructuralFeature)
+		{
+			String name = eStructuralFeature.getName();
+			try
+			{
+				return <%=genPackage.getEditPluginClassName()%>.INSTANCE.getString("_UI_" + name + "_feature");
+			}
+			catch(MissingResourceException mre)
+			{
+			}
+			return name;
 		}
 <%}%>
 	}
