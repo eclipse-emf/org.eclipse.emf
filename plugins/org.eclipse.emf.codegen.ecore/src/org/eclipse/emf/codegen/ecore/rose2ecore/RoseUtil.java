@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseUtil.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: RoseUtil.java,v 1.2 2004/04/12 19:08:16 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -66,6 +66,7 @@ public class RoseUtil
        null);
 
   EcoreBuilder ecoreBuilder = new EcoreBuilder(this);
+  boolean needsUTF8;
 
   public UnitTreeNode createRoseUnitTreeAndTable(String fileNameNodeValue, UnitTreeNode topNode) throws Exception
   {
@@ -471,5 +472,15 @@ public class RoseUtil
   public MultiStatus getStatus()
   {
     return status;
+  }
+
+  public boolean needsUTF8()
+  {
+    return needsUTF8;
+  }
+
+  public void setNeedsUTF8(boolean needsUTF8)
+  {
+    this.needsUTF8 = needsUTF8;
   }
 }

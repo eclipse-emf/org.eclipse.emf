@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: Rose2GenModel.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: Rose2GenModel.java,v 1.2 2004/04/12 19:08:16 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -45,6 +44,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 
 
 /**
@@ -370,10 +370,16 @@ public class Rose2GenModel extends Generator
                   System.err.println("The EPackage '" + ePackage.getName() + "' is used, but there's no GenPackage for it.");
                 }
 
+
+                Map options = new HashMap();
+                if (roseUtil.needsUTF8())
+                {
+                  options.put(XMLResource.OPTION_ENCODING, "UTF-8");
+                }
                 for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext(); )
                 {
                   Resource resource = (Resource)resources.next();
-                  resource.save(Collections.EMPTY_MAP);
+                  resource.save(options);
                 }
               }
             }
