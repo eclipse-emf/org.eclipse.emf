@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.5 2004/04/29 17:06:46 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.6 2004/05/11 15:16:03 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -166,6 +166,7 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 		return result;
     <%} else if (!genDataType.getMemberTypes().isEmpty()) {%>
       <%for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();%>
+        <%if (j.hasNext()) {%>
 		try
 		{
 			Object result = (<%=genDataType.getObjectInstanceClassName()%>)<%=genMemberType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), initialValue);
@@ -177,8 +178,10 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 		catch (RuntimeException exception)
 		{
 		}
+        <%} else {%>
+		return (<%=genDataType.getObjectInstanceClassName()%>)<%=genMemberType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), initialValue);
+        <%}%>
       <%}%>
-		return null;
     <%} else {%>
 		return (<%=genDataType.getObjectInstanceClassName()%>)super.createFromString(eDataType, initialValue);
     <%}%>
