@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.2 2004/03/08 20:13:54 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.3 2004/03/08 20:29:03 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -39,6 +39,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -397,10 +398,10 @@ public class GenModelEditor
     validate();
 
     Map options = JavaCore.getOptions();
-    String tabSize = (String)options.get(JavaCore.FORMATTER_TAB_SIZE);
-    String braceStyle = (String)options.get(JavaCore.FORMATTER_NEWLINE_OPENING_BRACE);
-    String tabCharacter = (String)options.get(JavaCore.FORMATTER_TAB_CHAR);
-    if ("tab".equals(tabCharacter))
+    String tabSize = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
+    String braceStyle = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION);
+    String tabCharacter = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
+    if (JavaCore.TAB.equals(tabCharacter))
     {
        genModel.getJControlModel().setLeadingTabReplacement("\t");
     }
@@ -413,7 +414,7 @@ public class GenModelEditor
       }
       genModel.getJControlModel().setLeadingTabReplacement(spaces);
     }
-    genModel.getJControlModel().setConvertToStandardBraceStyle("do not insert".equals(braceStyle));
+    genModel.getJControlModel().setConvertToStandardBraceStyle(DefaultCodeFormatterConstants.END_OF_LINE.equals(braceStyle));
   }
 
   /**
