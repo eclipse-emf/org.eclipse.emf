@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootItemProvider.java,v 1.2 2004/03/12 22:34:47 emerks Exp $
+ * $Id: MappingRootItemProvider.java,v 1.3 2004/03/12 22:39:54 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -132,17 +132,6 @@ public class MappingRootItemProvider
     super.notifyChanged(msg);
   }
 
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ResourceLocator getResourceLocator()
-  {
-    return MappingPlugin.INSTANCE;
-  }
-  
   public Command createCommand(Object object, EditingDomain editingDomain, Class commandClass, CommandParameter commandParameter)
   {
     if (editingDomain instanceof MappingDomain) // && commandParameter instanceof MappingCommandParameter)
@@ -202,4 +191,14 @@ public class MappingRootItemProvider
     return new RestoreInitialStateCommand(domain);
   }
 
+  /**
+   * Return the resource locator for this item provider's resources.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ResourceLocator getResourceLocator()
+  {
+    return MappingPlugin.INSTANCE;
+  }
 }
