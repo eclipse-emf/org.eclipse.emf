@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.9 2004/11/04 20:29:34 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.10 2004/11/30 11:34:39 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1450,12 +1450,16 @@ public class XSDSchemaImpl
   {
     if (!isReconciling && isIncrementalUpdate)
     {
+      isReconciling = true;
       patch();
+      isReconciling = false;
     }
   }
 
   protected void patch()
   {
+    incorporatingSchemas = null;
+    
     if (XSDConstants.isSchemaForSchemaNamespace(getTargetNamespace()))
     {
       XSDSchema magicSchemaForSchema = getMagicSchemaForSchema(getTargetNamespace());
@@ -1477,14 +1481,51 @@ public class XSDSchemaImpl
     }
 
     super.patch();
+    
+    List schemasToPatch = new ArrayList();
+    schemasToPatch.add(this);
+    for (int i = 0; i < schemasToPatch.size(); ++i)
+    {
+      XSDSchema xsdSchema = (XSDSchema)schemasToPatch.get(i); 
+      for (Iterator j = xsdSchema.getContents().iterator(); j.hasNext(); )
+      {
+        XSDConcreteComponent content = (XSDConcreteComponent)j.next();
+        if (content instanceof XSDSchemaDirective)
+        {
+          if (content instanceof XSDSchemaCompositor)
+          {
+            XSDSchemaCompositor xsdSchemaCompositor = (XSDSchemaCompositor)content;
+            XSDSchemaImpl xsdIncorporatedSchema =  (XSDSchemaImpl)xsdSchemaCompositor.getIncorporatedSchema();
+            if (xsdIncorporatedSchema != null && !schemasToPatch.contains(xsdIncorporatedSchema))
+            {
+              schemasToPatch.add(xsdIncorporatedSchema);
+              xsdIncorporatedSchema.patchContents();
+            }
+          }
+        }
+        else if (!(content instanceof XSDAnnotation))
+        {
+          break;
+        }
+      }
+    }
+    
+    //*/
     analyze();
+  }
+  
+  protected void patchContents()
+  {
+    super.patch();
   }
 
   protected void traverseToRootForAnalysis()
   {
     if (!isReconciling && isIncrementalUpdate)
     {
+      isReconciling = true;
       analyze();
+      isReconciling = false;
     }
   }
 
@@ -2006,6 +2047,8 @@ public class XSDSchemaImpl
     return simpleTypeIdMap;
   }
 
+  protected List incorporatingSchemas;
+  
   /**
    * This returns set of schemas with the given namespace as it's target namespace.
    */
@@ -2018,7 +2061,31 @@ public class XSDSchemaImpl
 
     if (namespace == null ? getTargetNamespace() == null || hasRetargetedNamespace() : namespace.equals(getTargetNamespace()))
     {
-      return Collections.singleton(this);
+      if (incorporatingSchemas == null)
+      {
+        List visited = new ArrayList();
+        visited.add(this);
+        incorporatingSchemas = new ArrayList();
+        incorporatingSchemas.add(this);
+        for (int i = 0; i < visited.size(); ++i)
+        {
+          XSDSchemaImpl xsdSchema = (XSDSchemaImpl)visited.get(i);
+          for (Iterator j = xsdSchema.getReferencingDirectives().iterator(); j.hasNext(); )
+          {
+            XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)j.next(); 
+            if (xsdSchemaDirective instanceof XSDSchemaCompositor && ((XSDSchemaCompositor)xsdSchemaDirective).getIncorporatedSchema() == xsdSchema)
+            {
+              XSDSchema incorporatingSchema = xsdSchemaDirective.getSchema();
+              if (!visited.contains(incorporatingSchema))
+              {
+                visited.add(incorporatingSchema);
+                incorporatingSchemas.add(incorporatingSchema);
+              }
+            }
+          }
+        }
+      }
+      return incorporatingSchemas;
     }
     else if (XSDConstants.isSchemaInstanceNamespace(namespace))
     {
@@ -2061,13 +2128,14 @@ public class XSDSchemaImpl
    */
   protected XSDNamedComponent resolveNamedComponent(EReference namedComponentsRefReference, String namespace, String localName)
   {
-    for (Iterator resolvedSchemas = resolveSchema(namespace).iterator(); resolvedSchemas.hasNext(); )
+    Collection resolvedSchemas = resolveSchema(namespace);
+    for (Iterator i = resolveSchema(namespace).iterator(); i.hasNext(); )
     {
-      XSDSchema resolvedSchema = (XSDSchema)resolvedSchemas.next();
+      XSDSchema resolvedSchema = (XSDSchema)i.next();
       XSDNamedComponent xsdNamedComponent = 
         XSDNamedComponentImpl.findInSortedList
           ((List)resolvedSchema.eGet(namedComponentsRefReference), namespace, localName);
-      if (xsdNamedComponent == null && namespace == null && resolvedSchema == this && getTargetNamespace() != null)
+      if (xsdNamedComponent == null && namespace == null && resolvedSchemas.contains(this) && resolvedSchema.getTargetNamespace() != null)
       {
          xsdNamedComponent = 
            XSDNamedComponentImpl.findInSortedList
