@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.22 2005/02/23 18:31:41 marcelop Exp $
+ * $Id: XMLHelperImpl.java,v 1.23 2005/03/03 00:05:51 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -86,6 +86,7 @@ public class XMLHelperImpl implements XMLHelper
   protected boolean seenEmptyStringMapping;
   protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
   protected List allPrefixToURI;
+  protected boolean checkForDuplicates;
 
   public static String saveString(Map options, List contents, String encoding, XMLHelper helper) throws Exception
   {
@@ -99,6 +100,12 @@ public class XMLHelperImpl implements XMLHelper
       options.put(XMLResource.OPTION_DECLARE_XML, Boolean.FALSE);
     }
     XMLSaveImpl save = new XMISaveImpl(options, helper, encoding);
+    
+    if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_DEFER_IDREF_RESOLUTION)))
+    {
+      ((XMLHelperImpl)helper).checkForDuplicates = true;
+    }
+    
     ((XMLHelperImpl)helper).processDanglingHREF = (String)options.get(XMLResource.OPTION_PROCESS_DANGLING_HREF);
     save.traverse(contents);
     if (save.useCache)
@@ -934,6 +941,18 @@ public class XMLHelperImpl implements XMLHelper
         {
           list.clear();
         }
+        else if (checkForDuplicates)
+        {
+          int index = list.indexOf(value);
+          if (index == -1)
+          {
+            list.addUnique(position, value);
+          }
+          else
+          {
+            list.move(position, index);
+          }
+        }
         else if (kind == IS_MANY_ADD)
         {
           list.addUnique(position, value);
@@ -1020,6 +1039,11 @@ public class XMLHelperImpl implements XMLHelper
     {
       return xmiExceptions;
     }
+  }
+
+  public void setCheckForDuplicates(boolean checkForDuplicates)
+  {
+    this.checkForDuplicates = checkForDuplicates;
   }
 
   public void setProcessDanglingHREF(String value)

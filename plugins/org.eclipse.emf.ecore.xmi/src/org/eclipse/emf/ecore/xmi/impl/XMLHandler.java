@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.25 2005/02/16 18:15:11 elena Exp $
+ * $Id: XMLHandler.java,v 1.26 2005/03/03 00:05:51 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -262,6 +262,7 @@ public abstract class XMLHandler
   protected Map eObjectToExtensionMap;
   protected EStructuralFeature contextFeature;
   protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
+  protected boolean deferIDREFResolution;
 
   /**
    */
@@ -345,6 +346,11 @@ public abstract class XMLHandler
     if (Boolean.FALSE.equals(options.get(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE)))
     {
       hrefAttribute = null;
+    }
+    
+    if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_DEFER_IDREF_RESOLUTION)))
+    {
+      helper.setCheckForDuplicates(deferIDREFResolution = true);
     }
   }
 
@@ -1833,7 +1839,7 @@ public abstract class XMLHandler
     StringTokenizer st = new StringTokenizer(ids);
 
     boolean isFirstID = true;
-    boolean mustAdd = false;
+    boolean mustAdd = deferIDREFResolution;
     boolean mustAddOrNotOppositeIsMany = false;
 
     int size = 0;
@@ -1876,25 +1882,28 @@ public abstract class XMLHandler
         continue;
       }
 
-      if (isFirstID)
+      if (!deferIDREFResolution)
       {
-        EReference eOpposite = eReference.getEOpposite();
-        mustAdd = eOpposite == null || eOpposite.isTransient() || eReference.isMany();
-        mustAddOrNotOppositeIsMany = mustAdd || !eOpposite.isMany();
-        isFirstID = false;
-      }
-
-      if (mustAddOrNotOppositeIsMany)
-      {
-        EObject resolvedEObject = xmlResource.getEObject(id);
-        if (resolvedEObject != null)
+        if (isFirstID)
         {
-          setFeatureValue(object, eReference, resolvedEObject);
-          qName = null;
-          ++position;
-          continue;
+          EReference eOpposite = eReference.getEOpposite();
+          mustAdd = eOpposite == null || eOpposite.isTransient() || eReference.isMany();
+          mustAddOrNotOppositeIsMany = mustAdd || !eOpposite.isMany();
+          isFirstID = false;
         }
-      }
+  
+        if (mustAddOrNotOppositeIsMany)
+        {
+          EObject resolvedEObject = xmlResource.getEObject(id);
+          if (resolvedEObject != null)
+          {
+            setFeatureValue(object, eReference, resolvedEObject);
+            qName = null;
+            ++position;
+            continue;
+          }
+        }
+      } 
 
       if (mustAdd)
       {

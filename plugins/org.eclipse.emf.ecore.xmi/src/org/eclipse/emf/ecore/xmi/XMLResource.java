@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.21 2005/02/22 22:19:59 elena Exp $
+ * $Id: XMLResource.java,v 1.22 2005/03/03 00:05:51 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -127,7 +127,6 @@ public interface XMLResource extends Resource
    */
   String OPTION_LINE_WIDTH = "LINE_WIDTH";
 
-
   /**
    * Begin a save with this line:
    * <?xml version="1.0" encoding="encoding"?>
@@ -220,6 +219,11 @@ public interface XMLResource extends Resource
    */
   String OPTION_USE_FILE_BUFFER = "USE_FILE_BUFFER";
 
+  /**
+   * Defer resolution of same document references until the end of the document is reached.
+   */
+  String OPTION_DEFER_IDREF_RESOLUTION = "DEFER_IDREF_RESOLUTION";
+  
   String HREF = "href";
   String NIL = "nil";
   String TYPE = "type";

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelper.java,v 1.6 2004/12/23 19:32:59 elena Exp $
+ * $Id: XMLHelper.java,v 1.7 2005/03/03 00:05:51 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -252,6 +252,8 @@ public interface XMLHelper
 
   List setManyReference(ManyReference reference, String location);
 
+  void setCheckForDuplicates(boolean checkForDuplicates);
+  
   void setProcessDanglingHREF(String value);
 
   DanglingHREFException getDanglingHREFException();
