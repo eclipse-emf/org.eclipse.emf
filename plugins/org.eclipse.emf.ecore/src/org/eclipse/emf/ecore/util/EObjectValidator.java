@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.7 2005/03/16 18:48:48 marcelop Exp $
+ * $Id: EObjectValidator.java,v 1.8 2005/03/19 05:35:17 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -787,7 +787,7 @@ public class EObjectValidator implements EValidator
              value instanceof Object[] ?
                ((Object[])value).length :
                ((Collection)value).size();
-        if (length < effectiveMaxLength)
+        if (length > effectiveMaxLength)
         {
           if (diagnostics != null) reportMaxLengthViolation(eDataType, value, length, effectiveMaxLength, diagnostics, context);
           result = false;
