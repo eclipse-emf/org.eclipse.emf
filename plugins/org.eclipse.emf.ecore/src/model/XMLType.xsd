@@ -37,7 +37,7 @@
   </xs:complexType>
 
   <xs:simpleType ecore:instanceClass="java.lang.String" name="string" id="string">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="length"/>
         <hfp:hasFacet name="minLength"/>
@@ -59,7 +59,7 @@
   </xs:simpleType>
 
   <xs:simpleType ecore:instanceClass="boolean" name="boolean" id="boolean">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
         <hfp:hasFacet name="whiteSpace"/>
@@ -78,7 +78,7 @@
   </xs:simpleType>
 
   <xs:simpleType ecore:instanceClass="float" name="float" id="float">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
         <hfp:hasFacet name="enumeration"/>
@@ -102,7 +102,7 @@
   </xs:simpleType>
 
   <xs:simpleType ecore:instanceClass="double" name="double" id="double">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
         <hfp:hasFacet name="enumeration"/>
@@ -126,7 +126,7 @@
   </xs:simpleType>
 
   <xs:simpleType ecore:instanceClass="java.math.BigDecimal" name="decimal" id="decimal">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="totalDigits"/>
         <hfp:hasFacet name="fractionDigits"/>
@@ -153,7 +153,7 @@
    </xs:simpleType>
 
    <xs:simpleType name="duration" id="duration">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
         <hfp:hasFacet name="enumeration"/>
@@ -178,7 +178,7 @@
    </xs:simpleType>
 
  <xs:simpleType name="dateTime" id="dateTime">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
     <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
         <hfp:hasFacet name="enumeration"/>
@@ -203,7 +203,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="time" id="time">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
     <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
         <hfp:hasFacet name="enumeration"/>
@@ -228,7 +228,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="date" id="date">
-   <xs:annotation>
+   <xs:annotation ecore:ignore="true">
     <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
         <hfp:hasFacet name="enumeration"/>
@@ -253,7 +253,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="gYearMonth" id="gYearMonth">
-   <xs:annotation>
+   <xs:annotation ecore:ignore="true">
     <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
         <hfp:hasFacet name="enumeration"/>
@@ -278,7 +278,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="gYear" id="gYear">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
     <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
         <hfp:hasFacet name="enumeration"/>
@@ -303,7 +303,7 @@
   </xs:simpleType>
 
  <xs:simpleType name="gMonthDay" id="gMonthDay">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
         <hfp:hasFacet name="enumeration"/>
@@ -328,7 +328,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="gDay" id="gDay">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
   <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
         <hfp:hasFacet name="enumeration"/>
@@ -353,7 +353,7 @@
   </xs:simpleType>
 
  <xs:simpleType name="gMonth" id="gMonth">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
   <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
         <hfp:hasFacet name="enumeration"/>
@@ -378,7 +378,7 @@
   </xs:simpleType>
 
    <xs:simpleType ecore:instanceClass="byte[]" name="hexBinary" id="hexBinary">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="length"/>
         <hfp:hasFacet name="minLength"/>
@@ -402,7 +402,7 @@
    </xs:simpleType>
 
  <xs:simpleType ecore:instanceClass="byte[]" name="base64Binary" id="base64Binary">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="length"/>
         <hfp:hasFacet name="minLength"/>
@@ -426,7 +426,7 @@
    </xs:simpleType>
 
    <xs:simpleType ecore:instanceClass="java.lang.String" name="anyURI" id="anyURI">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="length"/>
         <hfp:hasFacet name="minLength"/>
@@ -450,7 +450,7 @@
    </xs:simpleType>
 
   <xs:simpleType name="QName" id="QName">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
         <xs:appinfo>
         <hfp:hasFacet name="length"/>
         <hfp:hasFacet name="minLength"/>
@@ -474,7 +474,7 @@
   </xs:simpleType>
 
    <xs:simpleType name="NOTATION" id="NOTATION">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
         <xs:appinfo>
         <hfp:hasFacet name="length"/>
         <hfp:hasFacet name="minLength"/>
@@ -498,7 +498,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="normalizedString" id="normalizedString">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#normalizedString"/>
     </xs:annotation>
@@ -509,7 +509,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="token" id="token">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#token"/>
     </xs:annotation>
@@ -519,7 +519,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="language" id="language">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#language"/>
     </xs:annotation>
@@ -527,7 +527,7 @@
       <xs:pattern
         value="[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"
                 id="language.pattern">
-        <xs:annotation>
+        <xs:annotation ecore:ignore="true">
           <xs:documentation
                 source="http://www.w3.org/TR/REC-xml#NT-LanguageID">
             pattern specifies the content of section 2.12 of XML 1.0e2
@@ -539,7 +539,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="IDREFS" id="IDREFS">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="length"/>
         <hfp:hasFacet name="minLength"/>
@@ -564,7 +564,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="ENTITIES" id="ENTITIES">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="length"/>
         <hfp:hasFacet name="minLength"/>
@@ -589,13 +589,13 @@
   </xs:simpleType>
 
   <xs:simpleType name="NMTOKEN" id="NMTOKEN">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#NMTOKEN"/>
     </xs:annotation>
     <xs:restriction base="xs.ecore:token">
       <xs:pattern value="\c+" id="NMTOKEN.pattern">
-        <xs:annotation>
+        <xs:annotation ecore:ignore="true">
           <xs:documentation
                 source="http://www.w3.org/TR/REC-xml#NT-Nmtoken">
             pattern matches production 7 from the XML spec
@@ -606,7 +606,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="NMTOKENS" id="NMTOKENS">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="length"/>
         <hfp:hasFacet name="minLength"/>
@@ -631,13 +631,13 @@
   </xs:simpleType>
 
   <xs:simpleType name="Name" id="Name">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#Name"/>
     </xs:annotation>
     <xs:restriction base="xs.ecore:token">
       <xs:pattern value="\i\c*" id="Name.pattern">
-        <xs:annotation>
+        <xs:annotation ecore:ignore="true">
           <xs:documentation
                         source="http://www.w3.org/TR/REC-xml#NT-Name">
             pattern matches production 5 from the XML spec
@@ -648,13 +648,13 @@
   </xs:simpleType>
 
   <xs:simpleType name="NCName" id="NCName">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#NCName"/>
     </xs:annotation>
     <xs:restriction base="xs.ecore:Name">
       <xs:pattern value="[\i-[:]][\c-[:]]*" id="NCName.pattern">
-        <xs:annotation>
+        <xs:annotation ecore:ignore="true">
           <xs:documentation
                 source="http://www.w3.org/TR/REC-xml-names/#NT-NCName">
             pattern matches production 4 from the Namespaces in XML spec
@@ -665,7 +665,7 @@
   </xs:simpleType>
 
    <xs:simpleType name="ID" id="ID">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#ID"/>
     </xs:annotation>
@@ -673,7 +673,7 @@
    </xs:simpleType>
 
    <xs:simpleType name="IDREF" id="IDREF">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#IDREF"/>
     </xs:annotation>
@@ -681,7 +681,7 @@
    </xs:simpleType>
 
    <xs:simpleType name="ENTITY" id="ENTITY">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#ENTITY"/>
     </xs:annotation>
@@ -689,18 +689,18 @@
    </xs:simpleType>
 
   <xs:simpleType ecore:instanceClass="java.math.BigInteger" name="integer" id="integer">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#integer"/>
     </xs:annotation>
     <xs:restriction base="xs.ecore:decimal">
-      <xs:fractionDigits value="0" fixed="true" id="integer.fractionDigits"/>
-      <xs:pattern value="[\-+]?[0-9]+"/>
+      <xs:fractionDigits value="0" fixed="true" id="integer.fractionDigits" ecore:ignore="true"/>
+      <xs:pattern value="[\-+]?[0-9]+" ecore:ignore="true"/>
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="nonPositiveInteger" id="nonPositiveInteger">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#nonPositiveInteger"/>
     </xs:annotation>
@@ -710,7 +710,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="negativeInteger" id="negativeInteger">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#negativeInteger"/>
     </xs:annotation>
@@ -720,7 +720,7 @@
   </xs:simpleType>
 
   <xs:simpleType ecore:instanceClass="long" name="long" id="long">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasProperty name="bounded" value="true"/>
         <hfp:hasProperty name="cardinality" value="finite"/>
@@ -729,46 +729,46 @@
         source="http://www.w3.org/TR/xmlschema-2/#long"/>
     </xs:annotation>
     <xs:restriction base="xs.ecore:integer">
-      <xs:minInclusive value="-9223372036854775808" id="long.minInclusive"/>
-      <xs:maxInclusive value="9223372036854775807" id="long.maxInclusive"/>
+      <xs:minInclusive value="-9223372036854775808" id="long.minInclusive" ecore:ignore="true"/>
+      <xs:maxInclusive value="9223372036854775807" id="long.maxInclusive" ecore:ignore="true"/>
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType ecore:instanceClass="int" name="int" id="int">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#int"/>
     </xs:annotation>
     <xs:restriction base="xs.ecore:long">
-      <xs:minInclusive value="-2147483648" id="int.minInclusive"/>
-      <xs:maxInclusive value="2147483647" id="int.maxInclusive"/>
+      <xs:minInclusive value="-2147483648" id="int.minInclusive" ecore:ignore="true"/>
+      <xs:maxInclusive value="2147483647" id="int.maxInclusive" ecore:ignore="true"/>
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType ecore:instanceClass="short" name="short" id="short">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#short"/>
     </xs:annotation>
     <xs:restriction base="xs.ecore:int">
-      <xs:minInclusive value="-32768" id="short.minInclusive"/>
-      <xs:maxInclusive value="32767" id="short.maxInclusive"/>
+      <xs:minInclusive value="-32768" id="short.minInclusive" ecore:ignore="true"/>
+      <xs:maxInclusive value="32767" id="short.maxInclusive" ecore:ignore="true"/>
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType ecore:instanceClass="byte" name="byte" id="byte">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#byte"/>
     </xs:annotation>
     <xs:restriction base="xs.ecore:short">
-      <xs:minInclusive value="-128" id="byte.minInclusive"/>
-      <xs:maxInclusive value="127" id="byte.maxInclusive"/>
+      <xs:minInclusive value="-128" id="byte.minInclusive" ecore:ignore="true"/>
+      <xs:maxInclusive value="127" id="byte.maxInclusive" ecore:ignore="true"/>
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="nonNegativeInteger" id="nonNegativeInteger">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#nonNegativeInteger"/>
     </xs:annotation>
@@ -778,7 +778,7 @@
   </xs:simpleType>
 
   <xs:simpleType name="unsignedLong" id="unsignedLong">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasProperty name="bounded" value="true"/>
         <hfp:hasProperty name="cardinality" value="finite"/>
@@ -789,43 +789,47 @@
     <xs:restriction base="xs.ecore:nonNegativeInteger">
       <xs:maxInclusive value="18446744073709551615"
         id="unsignedLong.maxInclusive"/>
+      <xs:minInclusive value="0"/>
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType ecore:instanceClass="long" name="unsignedInt" id="unsignedInt">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#unsignedInt"/>
     </xs:annotation>
     <xs:restriction base="xs.ecore:unsignedLong">
       <xs:maxInclusive value="4294967295"
         id="unsignedInt.maxInclusive"/>
+      <xs:minInclusive value="0"/>
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType ecore:instanceClass="int" name="unsignedShort" id="unsignedShort">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#unsignedShort"/>
     </xs:annotation>
     <xs:restriction base="xs.ecore:unsignedInt">
       <xs:maxInclusive value="65535"
         id="unsignedShort.maxInclusive"/>
+      <xs:minInclusive value="0"/>
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType ecore:instanceClass="short" name="unsignedByte" id="unsignedByte">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#unsignedByte"/>
     </xs:annotation>
     <xs:restriction base="xs.ecore:unsignedShort">
       <xs:maxInclusive value="255" id="unsignedByte.maxInclusive"/>
+      <xs:minInclusive value="0"/>
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="positiveInteger" id="positiveInteger">
-    <xs:annotation>
+    <xs:annotation ecore:ignore="true">
       <xs:documentation
         source="http://www.w3.org/TR/xmlschema-2/#positiveInteger"/>
     </xs:annotation>
@@ -834,4 +838,3 @@
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>
-

@@ -41,27 +41,18 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="AnyURI" instanceClassName="java.lang.String">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;length&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="anyURI"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Base64Binary" instanceClassName="byte[]">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;length&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="base64Binary"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Boolean" instanceClassName="boolean">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;finite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="boolean"/>
       <details key="whiteSpace" value="collapse"/>
@@ -76,8 +67,6 @@
   <eClassifiers xsi:type="ecore:EDataType" name="Byte" instanceClassName="byte">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="byte"/>
-      <details key="minInclusive" value="-128"/>
-      <details key="maxInclusive" value="127"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ByteObject" instanceClassName="java.lang.Byte">
@@ -87,9 +76,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Date" instanceClassName="java.lang.Object">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;partial&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="date"/>
       <details key="baseType" value="anySimpleType"/>
@@ -97,9 +83,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="DateTime" instanceClassName="java.lang.Object">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;partial&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="dateTime"/>
       <details key="baseType" value="anySimpleType"/>
@@ -107,18 +90,12 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Decimal" instanceClassName="java.math.BigDecimal">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;totalDigits&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;fractionDigits&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;total&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;true&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="decimal"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Double" instanceClassName="double">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;total&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;true&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;finite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;true&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="double"/>
       <details key="whiteSpace" value="collapse"/>
@@ -131,9 +108,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Duration" instanceClassName="java.lang.Object">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;partial&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="duration"/>
       <details key="baseType" value="anySimpleType"/>
@@ -141,9 +115,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ENTITIES" instanceClassName="java.util.List">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;length&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ENTITIES"/>
       <details key="baseType" value="ENTITIES_._base"/>
@@ -163,9 +134,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Float" instanceClassName="float">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;total&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;true&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;finite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;true&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="float"/>
       <details key="whiteSpace" value="collapse"/>
@@ -178,9 +146,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GDay" instanceClassName="java.lang.Object">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;partial&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gDay"/>
       <details key="baseType" value="anySimpleType"/>
@@ -188,9 +153,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GMonth" instanceClassName="java.lang.Object">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;partial&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gMonth"/>
       <details key="baseType" value="anySimpleType"/>
@@ -198,9 +160,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GMonthDay" instanceClassName="java.lang.Object">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;partial&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gMonthDay"/>
       <details key="baseType" value="anySimpleType"/>
@@ -208,9 +167,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GYear" instanceClassName="java.lang.Object">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;partial&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gYear"/>
       <details key="baseType" value="anySimpleType"/>
@@ -218,9 +174,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GYearMonth" instanceClassName="java.lang.Object">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;partial&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gYearMonth"/>
       <details key="baseType" value="anySimpleType"/>
@@ -228,9 +181,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="HexBinary" instanceClassName="byte[]">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;length&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="hexBinary"/>
       <details key="whiteSpace" value="collapse"/>
@@ -249,9 +199,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="IDREFS" instanceClassName="java.util.List">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;length&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="IDREFS"/>
       <details key="baseType" value="IDREFS_._base"/>
@@ -267,15 +214,11 @@
   <eClassifiers xsi:type="ecore:EDataType" name="Int" instanceClassName="int">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="int"/>
-      <details key="minInclusive" value="-2147483648"/>
-      <details key="maxInclusive" value="2147483647"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Integer" instanceClassName="java.math.BigInteger">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="integer"/>
-      <details key="fractionDigits" value="0"/>
-      <details key="pattern" value="[\-+]?[0-9]+"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="IntObject" instanceClassName="java.lang.Integer">
@@ -292,13 +235,8 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Long" instanceClassName="long">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;true&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;finite&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="long"/>
-      <details key="minInclusive" value="-9223372036854775808"/>
-      <details key="maxInclusive" value="9223372036854775807"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="LongObject" instanceClassName="java.lang.Long">
@@ -336,9 +274,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="NMTOKENS" instanceClassName="java.util.List">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;length&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="NMTOKENS"/>
       <details key="baseType" value="NMTOKENS_._base"/>
@@ -373,9 +308,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="NOTATION" instanceClassName="java.lang.Object">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;length&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="NOTATION"/>
       <details key="baseType" value="anySimpleType"/>
@@ -390,9 +322,6 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="QName" instanceClassName="java.lang.Object">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;length&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="QName"/>
       <details key="baseType" value="anySimpleType"/>
@@ -402,8 +331,6 @@
   <eClassifiers xsi:type="ecore:EDataType" name="Short" instanceClassName="short">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="short"/>
-      <details key="minInclusive" value="-32768"/>
-      <details key="maxInclusive" value="32767"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ShortObject" instanceClassName="java.lang.Short">
@@ -441,18 +368,12 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;length&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxLength&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="string"/>
       <details key="whiteSpace" value="preserve"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Time" instanceClassName="java.lang.Object">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;pattern&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;enumeration&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;whiteSpace&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;maxExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minInclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasFacet xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;minExclusive&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;ordered&quot; value=&quot;partial&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;false&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;countably infinite&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;numeric&quot; value=&quot;false&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="time"/>
       <details key="baseType" value="anySimpleType"/>
@@ -470,6 +391,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="unsignedByte"/>
       <details key="maxInclusive" value="255"/>
+      <details key="minInclusive" value="0"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="UnsignedByteObject" instanceClassName="java.lang.Short">
@@ -482,6 +404,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="unsignedInt"/>
       <details key="maxInclusive" value="4294967295"/>
+      <details key="minInclusive" value="0"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="UnsignedIntObject" instanceClassName="java.lang.Long">
@@ -491,19 +414,18 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="UnsignedLong" instanceClassName="java.math.BigInteger">
-    <eAnnotations>
-      <details key="appinfo" value="&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;bounded&quot; value=&quot;true&quot;/>&#xD;&#xA;        &lt;hfp:hasProperty xmlns:hfp=&quot;http://www.w3.org/2001/XMLSchema-hasFacetAndProperty&quot; name=&quot;cardinality&quot; value=&quot;finite&quot;/>&#xD;&#xA;      "/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="unsignedLong"/>
       <details key="baseType" value="nonNegativeInteger"/>
       <details key="maxInclusive" value="18446744073709551615"/>
+      <details key="minInclusive" value="0"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="UnsignedShort" instanceClassName="int">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="unsignedShort"/>
       <details key="maxInclusive" value="65535"/>
+      <details key="minInclusive" value="0"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="UnsignedShortObject" instanceClassName="java.lang.Integer">
@@ -526,7 +448,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="xMLNSPrefixMap" unique="false"
         upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
-        transient="true" containment="true">
+        transient="true" containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
         <details key="name" value="xmlns:prefix"/>
@@ -534,7 +456,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="xSISchemaLocation" unique="false"
         upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
-        transient="true" containment="true">
+        transient="true" containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
         <details key="name" value="xsi:schemaLocation"/>
