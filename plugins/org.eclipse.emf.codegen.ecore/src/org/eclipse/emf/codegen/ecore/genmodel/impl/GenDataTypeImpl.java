@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.3 2004/05/28 19:33:33 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.4 2004/06/08 12:34:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -317,6 +318,20 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return itemType == null ? null : (GenDataType)findGenClassifier(itemType);
   }
 
+  public GenDataType getEffectiveItemType()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      EDataType itemType = getExtendedMetaData().getItemType(eDataType);
+      if (itemType != null)
+      {
+        return (GenDataType)findGenClassifier(itemType);
+      }
+    }
+    return null;
+  }
+
   public List /*GenDataType*/ getMemberTypes()
   {
     List result = new ArrayList();
@@ -326,6 +341,25 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       result.add(findGenClassifier(memberType));
     }
     return result;
+  }
+
+  public List /*GenDataType*/ getEffectiveMemberTypes()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      List result = new ArrayList();
+      for (Iterator i = getExtendedMetaData().getMemberTypes(eDataType).iterator(); i.hasNext(); )
+      {
+        EDataType memberType = (EDataType)i.next();
+        result.add(findGenClassifier(memberType));
+      }
+      if (result.isEmpty())
+      {
+        return result;
+      }
+    }
+    return null;
   }
 
   public String getMinLiteral()
@@ -458,6 +492,82 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return -1;
   }
 
+  public int getTotalDigits()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      int totalDigits = extendedMetaData.getTotalDigitsFacet(eDataType);
+      if (totalDigits != -1)
+      {
+        return totalDigits;
+      }
+    }
+    return -1;
+  }
+
+  public int getFractionDigits()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      int fractionDigits = extendedMetaData.getFractionDigitsFacet(eDataType);
+      if (fractionDigits != -1)
+      {
+        return fractionDigits;
+      }
+    }
+    return -1;
+  }
+
+  public List getEnumerationLiterals()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      List literals = extendedMetaData.getEnumerationFacet(eDataType);
+      if (!literals.isEmpty())
+      {
+        return literals;
+      }
+    }
+    return Collections.EMPTY_LIST;
+  }
+
+  public String getWhiteSpace()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      int whiteSpace = extendedMetaData.getWhiteSpaceFacet(eDataType);
+      if (whiteSpace != ExtendedMetaData.UNSPECIFIED_WHITE_SPACE)
+      {
+        return ExtendedMetaData.WHITE_SPACE_KINDS[whiteSpace];
+      }
+    }
+    return ExtendedMetaData.WHITE_SPACE_KINDS[ExtendedMetaData.UNSPECIFIED_WHITE_SPACE];
+  }
+
+  public List getPatterns()
+  {
+    List result = new ArrayList();
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      List patterns = extendedMetaData.getPatternFacet(eDataType);
+      if (!patterns.isEmpty())
+      {
+        List literals = new ArrayList();
+        for (Iterator i = patterns.iterator(); i.hasNext(); )
+        {
+          literals.add(Literals.toLiteral(i.next()));
+        }
+        result.add(literals);
+      }
+    }
+    return result;
+  }
+
   public void initialize(EDataType eDataType)
   {
     setEcoreDataType(eDataType);
@@ -540,15 +650,30 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     {
       constraints.add("Max");
     }
+    if (getItemType() != null)
+    {
+      constraints.add("ItemType");
+    }
+    if (!getMemberTypes().isEmpty())
+    {
+      constraints.add("MemberTypes");
+    }
     return constraints;
   }
 
   public List getAllGenConstraints()
   {
     List allBaseTypes = new ArrayList();
-    for (GenDataType baseType = getBaseType(); baseType != null; baseType = baseType.getBaseType())
+    if (getExtendedMetaData().getEnumerationFacet(getEcoreDataType()).isEmpty())
     {
-      allBaseTypes.add(baseType);
+      for (GenDataType baseType = getBaseType(); baseType != null; baseType = baseType.getBaseType())
+      {
+        allBaseTypes.add(baseType);
+        if (!getExtendedMetaData().getEnumerationFacet(baseType.getEcoreDataType()).isEmpty())
+        {
+          break;
+        }
+      }
     }
     return collectGenConstraints(allBaseTypes, getGenConstraints(), null);
   }

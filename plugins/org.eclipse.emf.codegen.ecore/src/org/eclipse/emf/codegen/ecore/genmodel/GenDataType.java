@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataType.java,v 1.2 2004/05/05 19:45:47 emerks Exp $
+ * $Id: GenDataType.java,v 1.3 2004/06/08 12:34:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -90,6 +90,15 @@ public interface GenDataType extends GenClassifier {
   String getLengthAccessorFunction();
   int getMinLength();
   int getMaxLength();
+
+  int getTotalDigits();
+  int getFractionDigits();
+
+  List getEnumerationLiterals();
+
+  String getWhiteSpace();
+
+  List /*List of String*/ getPatterns();
 
   String getStaticValue(String literal);
 
