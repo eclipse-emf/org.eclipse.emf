@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.6 2004/05/22 19:05:17 marcelop Exp $
+ * $Id: XSDEditor.java,v 1.7 2004/05/25 17:18:32 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -101,7 +101,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
-import org.eclipse.ui.editors.text.IEncodingSupport;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -937,6 +936,11 @@ public class XSDEditor
               xsdSchema.validate();
             }
 
+            if (determineEncoding() != null)
+            {
+              file.setCharset(determineEncoding());
+            }
+
             progressMonitor.worked(1);
             progressMonitor.subTask(XSDEditorPlugin.INSTANCE.getString("_UI_ReportingErrors_message"));
 
@@ -1127,22 +1131,14 @@ public class XSDEditor
           }
         };
 
-      IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-      int pageIndex = addPage(textEditor, modelFile);
-
       createModel();
 
-      String encoding = determineEncoding();
-      IEncodingSupport encodingSupport = (IEncodingSupport)textEditor.getAdapter(IEncodingSupport.class);
-      if (encodingSupport != null && encoding != null)
-      {
-        encodingSupport.setEncoding(encoding);
-      }
+      IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
+      int pageIndex = addPage(textEditor, modelFile);
 
       setPageText(pageIndex, "Source");
 
       IDocument document = textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
-
 
       document.addDocumentListener
         (new IDocumentListener()
