@@ -120,7 +120,7 @@ public class FactoryClass
   protected final String TEXT_112 = "()" + NL + "\t{" + NL + "\t\treturn (";
   protected final String TEXT_113 = ")getEPackage();" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @deprecated" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static ";
   protected final String TEXT_114 = " getPackage()" + NL + "\t{" + NL + "\t\treturn ";
-  protected final String TEXT_115 = ".eINSTANCE;" + NL + "\t}" + NL + "} //";
+  protected final String TEXT_115 = ".eINSTANCE;" + NL + "\t}" + NL + "" + NL + "} //";
   protected final String TEXT_116 = NL;
 
   public String generate(Object argument)

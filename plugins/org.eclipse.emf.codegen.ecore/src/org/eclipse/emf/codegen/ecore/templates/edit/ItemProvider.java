@@ -53,11 +53,11 @@ public class ItemProvider
   protected final String TEXT_45 = NL + "\t\t}" + NL + "\t\treturn childrenFeatures;" + NL + "\t}" + NL;
   protected final String TEXT_46 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected ";
   protected final String TEXT_47 = " getChildFeature(Object object, Object child)" + NL + "\t{" + NL + "\t\t// Check the type of the specified child object and return the proper feature to use for" + NL + "\t\t// adding (see {@link AddCommand}) it as a child." + NL + "" + NL + "\t\treturn super.getChildFeature(object, child);" + NL + "\t}" + NL;
-  protected final String TEXT_48 = NL + NL + "\t/**" + NL + "\t * This returns ";
+  protected final String TEXT_48 = NL + "\t/**" + NL + "\t * This returns ";
   protected final String TEXT_49 = ".gif." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Object getImage(Object object)" + NL + "\t{" + NL + "\t\treturn getResourceLocator().getImage(\"full/obj16/";
   protected final String TEXT_50 = "\");";
-  protected final String TEXT_51 = NL + "\t}";
-  protected final String TEXT_52 = NL + NL + "\t/**" + NL + "\t * This returns the label text for the adapted class." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic String getText(Object object)" + NL + "\t{";
+  protected final String TEXT_51 = NL + "\t}" + NL;
+  protected final String TEXT_52 = NL + "\t/**" + NL + "\t * This returns the label text for the adapted class." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic String getText(Object object)" + NL + "\t{";
   protected final String TEXT_53 = NL + "\t\t";
   protected final String TEXT_54 = " ";
   protected final String TEXT_55 = " = (";
@@ -100,8 +100,8 @@ public class ItemProvider
   protected final String TEXT_92 = NL + "\t\t\t\tfireNotifyChanged(new ";
   protected final String TEXT_93 = "(notification, notification.getNotifier(), true, true));" + NL + "\t\t\t\treturn;";
   protected final String TEXT_94 = NL + "\t\t}";
-  protected final String TEXT_95 = NL + "\t\tsuper.notifyChanged(notification);" + NL + "\t}";
-  protected final String TEXT_96 = NL + NL + "\t/**" + NL + "\t * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s" + NL + "\t * describing all of the children that can be created under this object." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected void collectNewChildDescriptors(";
+  protected final String TEXT_95 = NL + "\t\tsuper.notifyChanged(notification);" + NL + "\t}" + NL;
+  protected final String TEXT_96 = NL + "\t/**" + NL + "\t * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s" + NL + "\t * describing all of the children that can be created under this object." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected void collectNewChildDescriptors(";
   protected final String TEXT_97 = " newChildDescriptors, Object object)" + NL + "\t{" + NL + "\t\tsuper.collectNewChildDescriptors(newChildDescriptors, object);";
   protected final String TEXT_98 = NL + NL + "\t\tnewChildDescriptors.add" + NL + "\t\t\t(createChildParameter" + NL + "\t\t\t\t(";
   protected final String TEXT_99 = ".eINSTANCE.get";
@@ -123,16 +123,16 @@ public class ItemProvider
   protected final String TEXT_115 = NL + "\t\t\t\t ";
   protected final String TEXT_116 = ".eINSTANCE.create";
   protected final String TEXT_117 = "()));";
-  protected final String TEXT_118 = NL + "\t}";
-  protected final String TEXT_119 = NL + NL + "\t/**" + NL + "\t * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic String getCreateChildText(Object owner, Object feature, Object child, ";
+  protected final String TEXT_118 = NL + "\t}" + NL;
+  protected final String TEXT_119 = NL + "\t/**" + NL + "\t * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic String getCreateChildText(Object owner, Object feature, Object child, ";
   protected final String TEXT_120 = " selection)" + NL + "\t{" + NL + "\t\tboolean qualify =";
   protected final String TEXT_121 = NL + "\t\t\tfeature == ";
   protected final String TEXT_122 = ".eINSTANCE.get";
   protected final String TEXT_123 = "()";
   protected final String TEXT_124 = NL + "\t\treturn getString(" + NL + "\t\t\tqualify ? \"_UI_CreateChild_text2\" : \"_UI_CreateChild_text\",";
-  protected final String TEXT_125 = NL + "\t\t\tnew Object[] { getTypeText(child), getFeatureText(feature), getTypeText(owner) });" + NL + "\t}";
-  protected final String TEXT_126 = NL + NL + "\t/**" + NL + "\t * Return the resource locator for this item provider's resources." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ResourceLocator getResourceLocator()" + NL + "\t{" + NL + "\t\treturn ";
-  protected final String TEXT_127 = ".INSTANCE;" + NL + "\t}" + NL + "}";
+  protected final String TEXT_125 = NL + "\t\t\tnew Object[] { getTypeText(child), getFeatureText(feature), getTypeText(owner) });" + NL + "\t}" + NL;
+  protected final String TEXT_126 = NL + "\t/**" + NL + "\t * Return the resource locator for this item provider's resources." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ResourceLocator getResourceLocator()" + NL + "\t{" + NL + "\t\treturn ";
+  protected final String TEXT_127 = ".INSTANCE;" + NL + "\t}" + NL + "" + NL + "}";
   protected final String TEXT_128 = NL;
 
   public String generate(Object argument)

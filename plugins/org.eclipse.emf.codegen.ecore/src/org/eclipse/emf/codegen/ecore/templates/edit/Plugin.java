@@ -24,8 +24,12 @@ public class Plugin
   protected final String TEXT_16 = "()" + NL + "\t{" + NL + "\t\tsuper" + NL + "\t\t  (new ResourceLocator [] " + NL + "\t\t   {";
   protected final String TEXT_17 = NL + "\t\t     ";
   protected final String TEXT_18 = ".INSTANCE,";
-  protected final String TEXT_19 = NL + "\t\t   });" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Returns the singleton instance of the Eclipse plugin." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the singleton instance." + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ResourceLocator getPluginResourceLocator()" + NL + "\t{" + NL + "\t\treturn plugin;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Returns the singleton instance of the Eclipse plugin." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the singleton instance." + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static Implementation getPlugin()" + NL + "\t{" + NL + "\t\treturn plugin;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * The actual implementation of the Eclipse <b>Plugin</b>." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static class Implementation extends EclipsePlugin" + NL + "\t{" + NL + "\t\t/**" + NL + "\t\t * Creates an instance." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @param descriptor the description of the plugin." + NL + "\t\t * @generated" + NL + "\t\t */" + NL + "\t\tpublic Implementation(IPluginDescriptor descriptor)" + NL + "\t\t{" + NL + "\t\t\tsuper(descriptor);" + NL + "" + NL + "\t\t\t// Remember the static instance." + NL + "\t\t\t//" + NL + "\t\t\tplugin = this;" + NL + "\t\t}" + NL + "\t}" + NL + "}";
-  protected final String TEXT_20 = NL;
+  protected final String TEXT_19 = NL + "\t\t   });" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Returns the singleton instance of the Eclipse plugin." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the singleton instance." + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ResourceLocator getPluginResourceLocator()" + NL + "\t{" + NL + "\t\treturn plugin;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Returns the singleton instance of the Eclipse plugin." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the singleton instance." + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static Implementation getPlugin()" + NL + "\t{" + NL + "\t\treturn plugin;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * The actual implementation of the Eclipse <b>Plugin</b>." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static class Implementation extends EclipsePlugin" + NL + "\t{" + NL + "\t\t/**" + NL + "\t\t * Creates an instance." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @param descriptor the description of the plugin." + NL + "\t\t * @generated" + NL + "\t\t */" + NL + "\t\tpublic Implementation(";
+  protected final String TEXT_20 = " descriptor";
+  protected final String TEXT_21 = ")" + NL + "\t\t{" + NL + "\t\t\tsuper(";
+  protected final String TEXT_22 = "descriptor";
+  protected final String TEXT_23 = ");" + NL + "" + NL + "\t\t\t// Remember the static instance." + NL + "\t\t\t//" + NL + "\t\t\tplugin = this;" + NL + "\t\t}" + NL + "\t}" + NL + "" + NL + "}";
+  protected final String TEXT_24 = NL;
 
   public String generate(Object argument)
   {
@@ -55,8 +59,6 @@ public class Plugin
     stringBuffer.append(TEXT_4);
     stringBuffer.append(genModel.getEditPluginPackageName());
     stringBuffer.append(TEXT_5);
-    genModel.markImportLocation(stringBuffer);
-    genModel.addImport("org.eclipse.core.runtime.IPluginDescriptor");
     genModel.addImport("org.eclipse.emf.common.EMFPlugin");
     genModel.addImport("org.eclipse.emf.common.util.ResourceLocator");
     genModel.markImportLocation(stringBuffer);
@@ -87,8 +89,17 @@ public class Plugin
     stringBuffer.append(TEXT_18);
     }
     stringBuffer.append(TEXT_19);
-    genModel.emitSortedImports();
+    if (genModel.needsRuntimeCompatibility()) {
+    stringBuffer.append(genModel.getImportedName("org.eclipse.core.runtime.IPluginDescriptor"));
     stringBuffer.append(TEXT_20);
+    }
+    stringBuffer.append(TEXT_21);
+    if (genModel.needsRuntimeCompatibility()) {
+    stringBuffer.append(TEXT_22);
+    }
+    stringBuffer.append(TEXT_23);
+    genModel.emitSortedImports();
+    stringBuffer.append(TEXT_24);
     return stringBuffer.toString();
   }
 }

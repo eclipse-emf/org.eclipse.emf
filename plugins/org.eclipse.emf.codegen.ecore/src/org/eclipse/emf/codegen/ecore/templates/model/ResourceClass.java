@@ -20,7 +20,7 @@ public class ResourceClass
   protected final String TEXT_13 = NL;
   protected final String TEXT_14 = NL + "\t/**" + NL + "\t * Creates an instance of the resource." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @param uri the URI of the new resource." + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
   protected final String TEXT_15 = "(URI uri)" + NL + "\t{" + NL + "\t\tsuper(uri);";
-  protected final String TEXT_16 = NL + "\t}" + NL + "} //";
+  protected final String TEXT_16 = NL + "\t}" + NL + "" + NL + "} //";
   protected final String TEXT_17 = NL;
 
   public String generate(Object argument)

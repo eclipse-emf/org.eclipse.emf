@@ -137,7 +137,7 @@ public class ActionBarContributor
   protected final String TEXT_130 = "(\"ui-actions\"));";
   protected final String TEXT_131 = NL + "\t\tmenuManager.insertAfter(\"ui-actions\", showPropertiesViewAction);";
   protected final String TEXT_132 = NL + NL + "\t\trefreshViewerAction.setEnabled(refreshViewerAction.isEnabled());\t\t" + NL + "\t\tmenuManager.insertAfter(\"ui-actions\", refreshViewerAction);";
-  protected final String TEXT_133 = NL + NL + "\t\tsuper.addGlobalActions(menuManager);" + NL + "\t}" + NL + "}";
+  protected final String TEXT_133 = NL + NL + "\t\tsuper.addGlobalActions(menuManager);" + NL + "\t}" + NL + "" + NL + "}";
   protected final String TEXT_134 = NL;
 
   public String generate(Object argument)

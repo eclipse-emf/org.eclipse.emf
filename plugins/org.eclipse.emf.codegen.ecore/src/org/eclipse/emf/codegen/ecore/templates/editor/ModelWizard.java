@@ -97,7 +97,7 @@ public class ModelWizard
   protected final String TEXT_90 = "_label\"));";
   protected final String TEXT_91 = NL + "\t\tinitialObjectCreationPage.setDescription(";
   protected final String TEXT_92 = ".INSTANCE.getString(\"_UI_Wizard_initial_object_description\"));";
-  protected final String TEXT_93 = NL + "\t\taddPage(initialObjectCreationPage);" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Get the file from the page." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic IFile getModelFile()" + NL + "\t{" + NL + "\t\treturn newFileCreationPage.getModelFile();" + NL + "\t}" + NL + "}";
+  protected final String TEXT_93 = NL + "\t\taddPage(initialObjectCreationPage);" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Get the file from the page." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic IFile getModelFile()" + NL + "\t{" + NL + "\t\treturn newFileCreationPage.getModelFile();" + NL + "\t}" + NL + "" + NL + "}";
   protected final String TEXT_94 = NL;
 
   public String generate(Object argument)

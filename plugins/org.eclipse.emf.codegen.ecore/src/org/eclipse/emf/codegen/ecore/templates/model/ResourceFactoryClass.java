@@ -50,7 +50,7 @@ public class ResourceFactoryClass
   protected final String TEXT_43 = ".OPTION_XML_MAP, xmlMap);";
   protected final String TEXT_44 = NL + "\t\tResource result = new ";
   protected final String TEXT_45 = "(uri);";
-  protected final String TEXT_46 = NL + "\t\treturn result;" + NL + "\t}" + NL + "} //";
+  protected final String TEXT_46 = NL + "\t\treturn result;" + NL + "\t}" + NL + "" + NL + "} //";
   protected final String TEXT_47 = NL;
 
   public String generate(Object argument)

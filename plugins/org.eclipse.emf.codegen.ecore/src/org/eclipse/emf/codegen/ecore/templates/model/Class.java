@@ -764,7 +764,7 @@ public class Class
   protected final String TEXT_756 = NL + "\t\treturn oldValue;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
   protected final String TEXT_757 = " getEMap()" + NL + "\t{" + NL + "\t\t";
   protected final String TEXT_758 = " container = eContainer();" + NL + "\t\treturn container == null ? null : (";
-  protected final String TEXT_759 = ")container.eGet(eContainmentFeature());" + NL + "\t}";
+  protected final String TEXT_759 = ")container.eGet(eContainmentFeature());" + NL + "\t}" + NL;
   protected final String TEXT_760 = NL + "} //";
   protected final String TEXT_761 = NL;
 

@@ -198,8 +198,8 @@ public class PackageClass
   protected final String TEXT_188 = NL + "\t\t// ";
   protected final String TEXT_189 = NL + "\t\tcreate";
   protected final String TEXT_190 = "Annotations();";
-  protected final String TEXT_191 = NL + "\t}";
-  protected final String TEXT_192 = NL + NL + "\t/**" + NL + "\t * Initializes the annotations for <b>";
+  protected final String TEXT_191 = NL + "\t}" + NL;
+  protected final String TEXT_192 = NL + "\t/**" + NL + "\t * Initializes the annotations for <b>";
   protected final String TEXT_193 = "</b>." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected void create";
   protected final String TEXT_194 = "Annotations()" + NL + "\t{" + NL + "\t\tString source = ";
   protected final String TEXT_195 = "null;";
@@ -211,7 +211,7 @@ public class PackageClass
   protected final String TEXT_201 = NL + "\t\t\t ";
   protected final String TEXT_202 = ", ";
   protected final String TEXT_203 = NL + "\t\t   });";
-  protected final String TEXT_204 = NL + "\t}";
+  protected final String TEXT_204 = NL + "\t}" + NL;
   protected final String TEXT_205 = NL + "} //";
   protected final String TEXT_206 = NL;
 
