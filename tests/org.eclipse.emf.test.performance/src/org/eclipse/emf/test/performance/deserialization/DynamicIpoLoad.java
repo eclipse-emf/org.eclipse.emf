@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpoLoad.java,v 1.3 2005/02/17 16:14:07 bportier Exp $
+ * $Id: DynamicIpoLoad.java,v 1.4 2005/02/17 16:26:22 bportier Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -183,7 +183,7 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
     for (int i = 0; i < iter; i++)
     {
       rs.getResources().clear();
-      Resource resource = rs.createResource(getXMLInstanceURI());
+      resource = rs.createResource(getXMLInstanceURI());
       resource.load(loadOptions);
     }
   }
