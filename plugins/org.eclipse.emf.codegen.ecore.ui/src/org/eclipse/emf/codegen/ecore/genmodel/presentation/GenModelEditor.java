@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.3 2004/03/08 20:29:03 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.4 2004/03/18 20:08:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -115,7 +115,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
  * This is an example of a GenModel model editor.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
- * @generated
+ * @generated NOT
  */
 public class GenModelEditor
   extends MultiPageEditorPart

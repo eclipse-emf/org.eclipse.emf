@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelModelWizard.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenModelModelWizard.java,v 1.2 2004/03/18 20:08:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -34,6 +34,7 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 
 /**
  * This is a simple wizard for creating a new model file.
+ * @generated NOT
  */
 public class GenModelModelWizard extends EMFProjectWizard 
 {
