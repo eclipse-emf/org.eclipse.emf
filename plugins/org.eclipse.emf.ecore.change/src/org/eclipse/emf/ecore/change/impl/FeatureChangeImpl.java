@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.11 2004/12/19 04:02:57 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.12 2004/12/20 13:05:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -438,15 +438,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     }
     else if (feature instanceof EReference)
     {
-      EObject referenceValue = getReferenceValue();
-      if (referenceValue == null || referenceValue.eIsProxy())
-      {
-        return referenceValue;
-      }
-      else
-      {
-        value = referenceValue;
-      }
+      return getReferenceValue();
     }
     else if (value == null) // feature is instance of EAttribute
     {
