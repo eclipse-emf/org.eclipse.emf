@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.2 2004/03/21 15:20:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1401,6 +1401,21 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             break;
           }
         }
+      }
+    }
+
+    public void addPseudoImport(String qualifiedName)
+    {
+      int lastDot = qualifiedName.lastIndexOf(".");
+      String shortName = qualifiedName.substring(lastDot + 1);
+      if (shortName.equals("*"))
+      {
+        String packageName = qualifiedName.substring(0, lastDot);
+        importedPackages.add(packageName);
+      }
+      else
+      {
+        shortNameToImportMap.put(shortName, qualifiedName);
       }
     }
 

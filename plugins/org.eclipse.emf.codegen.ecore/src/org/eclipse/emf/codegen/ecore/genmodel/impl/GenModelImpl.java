@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.2 2004/03/20 20:57:44 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.3 2004/03/21 15:20:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -842,6 +842,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public void addImport(String qualifiedName)
   {
     importManager.addImport(qualifiedName);
+  }
+
+  public void addPseudoImport(String qualifiedName)
+  {
+    importManager.addPseudoImport(qualifiedName);
   }
 
   protected ImportManager getImportManager()
