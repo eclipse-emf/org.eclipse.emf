@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.24 2005/03/19 15:21:06 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.25 2005/04/01 15:20:37 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2147,12 +2147,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   // Tests generation
   //
   
-  protected String testCaseTemplateName = "tests/TestCase.javajet";
-  protected String modelTestSuiteTemplateName = "tests/ModelTestSuite.javajet";
-  protected String packageTestSuiteTemplateName = "tests/PackageTestSuite.javajet";
-  protected String testsPluginXMLTemplateName = "tests/plugin.xmljet";
-  protected String testsPluginPropertiesTemplateName = "tests/plugin.propertiesjet";
-  protected String testsBuildPropertiesTemplateName = "tests/build.propertiesjet";
+  protected String testCaseTemplateName = "model.tests/TestCase.javajet";
+  protected String modelTestSuiteTemplateName = "model.tests/ModelTestSuite.javajet";
+  protected String packageTestSuiteTemplateName = "model.tests/PackageTestSuite.javajet";
+  protected String testsPluginXMLTemplateName = "model.tests/plugin.xmljet";
+  protected String testsPluginPropertiesTemplateName = "model.tests/plugin.propertiesjet";
+  protected String testsBuildPropertiesTemplateName = "model.tests/build.propertiesjet";
 
   protected JETEmitter testCaseEmitter = null;
   protected JETEmitter modelTestSuiteEmitter = null;
