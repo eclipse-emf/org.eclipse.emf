@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.23 2005/03/16 20:52:48 khussey Exp $
+ * $Id: GenModelImpl.java,v 1.24 2005/03/19 15:21:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1203,10 +1203,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         public void initialize(IProgressMonitor progressMonitor) throws JETException
         {
-          addVariable("EMF_CODEGEN", "org.eclipse.emf.codegen");
-          addVariable("EMF_CODEGEN_ECORE", "org.eclipse.emf.codegen.ecore");
-          addVariable("EMF_COMMON", "org.eclipse.emf.common");
-          addVariable("EMF_ECORE", "org.eclipse.emf.ecore");
+          if (getClasspathEntries().isEmpty())
+          {
+            addVariable("EMF_CODEGEN", "org.eclipse.emf.codegen");
+            addVariable("EMF_CODEGEN_ECORE", "org.eclipse.emf.codegen.ecore");
+            addVariable("EMF_COMMON", "org.eclipse.emf.common");
+            addVariable("EMF_ECORE", "org.eclipse.emf.ecore");
+          }
           super.initialize(progressMonitor);
         }
       };
