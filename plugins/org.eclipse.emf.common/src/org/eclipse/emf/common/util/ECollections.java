@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: ECollections.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: ECollections.java,v 1.2 2005/03/18 21:58:58 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
 
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -46,7 +48,153 @@ public class ECollections
       list.move(i, last);
     }
   }
+  
+  /**
+   * Searches for the first occurence of the given argument in list starting from
+   * a specified index.  The equality is tested using the operator <tt>==<tt> and
+   * the <tt>equals</tt> method. 
+   * @param list
+   * @param o an object (can be null)
+   * @param fromIndex 
+   * @return the index of the first occurrence of the argument in this
+   *         list (where index>=fromIndex); returns <tt>-1</tt> if the 
+   *         object is not found.
+   * @since 2.1.0
+   */
+  public static int indexOf(List list, Object o, int fromIndex)
+  {
+    if (fromIndex < 0)
+    {
+      fromIndex = 0;
+    }
 
+    int size = list.size();
+    for (int i = fromIndex; i < size; i++)
+    {
+      Object element = list.get(i);
+      if (o == null)
+      {
+        if (element == null)
+        {
+          return i;
+        }
+      }
+      else if (o == element || o.equals(element))
+      {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Sorts the specified list.  Use this method instead of 
+   * {@link Collections#sort(java.util.List)} to 
+   * avoid errors when sorting unique lists.
+   * @since 2.1.0
+  */
+  public static void sort(EList list)
+  {
+    Object[] listAsArray = list.toArray();
+    Arrays.sort(listAsArray);   
+    for (int i=0; i < listAsArray.length; i++)
+    {
+      int oldIndex = indexOf(list, listAsArray[i], i);
+      if (i != oldIndex)
+      {
+        list.move(i, oldIndex);
+      }
+    }    
+  }
+  
+  /**
+   * Sorts the specified list based on the order defined by the
+   * specified comparator.  Use this method instead of 
+   * {@link Collections#sort(java.util.List, java.util.Comparator)} to 
+   * avoid errors when sorting unique lists.
+   * @since 2.1.0
+   */
+  public static void sort(EList list, Comparator comparator)
+  {
+    Object[] listAsArray = list.toArray();
+    Arrays.sort(listAsArray, comparator);
+    for (int i=0; i < listAsArray.length; i++)
+    {
+      int oldIndex = indexOf(list, listAsArray[i], i);
+      if (i != oldIndex)
+      {
+        list.move(i, oldIndex);
+      }
+    }    
+  }
+  
+  /** 
+   * Sets the <code>eList</code>'s contents and order to be exactly that of the <code>prototype</code> list.
+   * This implementation mimimizes the number of notifications the operation will produce.
+   * Objects already in the list will be moved, missing objects will be added, and extra objects will be removed.
+   * If <code>eList</code>'s contents and order are already exactly that of the <code>prototype</code> list,
+   * no change will be made.
+   * @param eList the list to set.
+   * @param prototypeList the list representing the desired content and order.
+   */
+  public static void setEList(EList eList, List prototypeList)
+  {
+    int index = 0;
+    for (Iterator objects = prototypeList.iterator(); objects.hasNext(); ++index)
+    {
+      Object prototypeObject = objects.next();
+      if (eList.size() <= index)
+      {
+        eList.add(prototypeObject);
+      }
+      else
+      {
+        boolean done;
+        do
+        {
+          done = true;
+          Object targetObject = eList.get(index);
+          if (targetObject == null ? prototypeObject != null : !targetObject.equals(prototypeObject))
+          {
+            int position = indexOf(eList, prototypeObject, index);
+            if (position != -1)
+            {
+              int targetIndex = indexOf(prototypeList, targetObject, index);
+              if (targetIndex == -1)
+              {
+                eList.remove(index);
+                done = false;
+              }
+              else if (targetIndex > position)
+              {
+                if (eList.size() <= targetIndex)
+                {
+                  targetIndex = eList.size() - 1;
+                }
+                eList.move(targetIndex, index);
+
+                done = false;
+              }
+              else
+              {
+                eList.move(index, position);
+              }
+            }
+            else
+            {
+              eList.add(index, prototypeObject);
+            }
+          }
+        }
+        while (!done);
+      }
+    }
+    for (int i = eList.size(); i > index;)
+    {
+      eList.remove(--i);
+    }
+  }
+  
   /**
    * Returns an unmodifiable view of the list.
    * @return an unmodifiable view of the list.
