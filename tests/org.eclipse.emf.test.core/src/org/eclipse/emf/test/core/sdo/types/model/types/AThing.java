@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: AThing.java,v 1.2 2004/06/07 19:46:46 marcelop Exp $
+ * $Id: AThing.java,v 1.3 2004/07/09 05:29:33 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types;
 
@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import java.util.Date;
+
+import java.util.List;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,6 +37,22 @@ import java.util.Date;
  *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getANumber <em>ANumber</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAObject <em>AObject</em>}</li>
  *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getAThread <em>AThread</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyBoolean <em>Many Boolean</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyByte <em>Many Byte</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyDecimal <em>Many Decimal</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyFloat <em>Many Float</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyDouble <em>Many Double</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyInt <em>Many Int</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyInteger <em>Many Integer</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyLong <em>Many Long</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyShort <em>Many Short</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyString <em>Many String</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyChar <em>Many Char</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyDate <em>Many Date</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyBytes <em>Many Bytes</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyNumber <em>Many Number</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyObject <em>Many Object</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.core.sdo.types.model.types.AThing#getManyThread <em>Many Thread</em>}</li>
  * </ul>
  * </p>
  *
@@ -305,6 +323,262 @@ public interface AThing
    * @generated
    */
   void setAThread(Thread value);
+
+  /**
+   * Returns the value of the '<em><b>Many Boolean</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Boolean}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Boolean</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Boolean</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyBoolean()
+   * @model type="boolean" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+   * @generated
+   */
+  List getManyBoolean();
+
+  /**
+   * Returns the value of the '<em><b>Many Byte</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Byte}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Byte</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Byte</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyByte()
+   * @model type="byte" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Byte" required="true"
+   * @generated
+   */
+  List getManyByte();
+
+  /**
+   * Returns the value of the '<em><b>Many Decimal</b></em>' attribute list.
+   * The list contents are of type {@link java.math.BigDecimal}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Decimal</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Decimal</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyDecimal()
+   * @model type="java.math.BigDecimal" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   * @generated
+   */
+  List getManyDecimal();
+
+  /**
+   * Returns the value of the '<em><b>Many Float</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Float}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Float</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Float</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyFloat()
+   * @model type="float" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Float" required="true"
+   * @generated
+   */
+  List getManyFloat();
+
+  /**
+   * Returns the value of the '<em><b>Many Double</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Double}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Double</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Double</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyDouble()
+   * @model type="double" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+   * @generated
+   */
+  List getManyDouble();
+
+  /**
+   * Returns the value of the '<em><b>Many Int</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Integer}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Int</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Int</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyInt()
+   * @model type="int" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+   * @generated
+   */
+  List getManyInt();
+
+  /**
+   * Returns the value of the '<em><b>Many Integer</b></em>' attribute list.
+   * The list contents are of type {@link java.math.BigInteger}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Integer</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Integer</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyInteger()
+   * @model type="java.math.BigInteger" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Integer" required="true"
+   * @generated
+   */
+  List getManyInteger();
+
+  /**
+   * Returns the value of the '<em><b>Many Long</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Long}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Long</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Long</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyLong()
+   * @model type="long" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Long" required="true"
+   * @generated
+   */
+  List getManyLong();
+
+  /**
+   * Returns the value of the '<em><b>Many Short</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Short}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Short</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Short</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyShort()
+   * @model type="short" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Short" required="true"
+   * @generated
+   */
+  List getManyShort();
+
+  /**
+   * Returns the value of the '<em><b>Many String</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many String</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many String</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyString()
+   * @model type="java.lang.String" unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @generated
+   */
+  List getManyString();
+
+  /**
+   * Returns the value of the '<em><b>Many Char</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Character}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Char</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Char</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyChar()
+   * @model type="char" unique="false" dataType="org.eclipse.emf.test.core.sdo.types.model.types.MyChar" required="true"
+   * @generated
+   */
+  List getManyChar();
+
+  /**
+   * Returns the value of the '<em><b>Many Date</b></em>' attribute list.
+   * The list contents are of type {@link java.util.Date}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Date</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Date</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyDate()
+   * @model type="java.util.Date" unique="false" dataType="org.eclipse.emf.test.core.sdo.types.model.types.MyDate" required="true"
+   * @generated
+   */
+  List getManyDate();
+
+  /**
+   * Returns the value of the '<em><b>Many Bytes</b></em>' attribute list.
+   * The list contents are of type {@link byte[]}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Bytes</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Bytes</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyBytes()
+   * @model type="byte[]" unique="false" dataType="org.eclipse.emf.test.core.sdo.types.model.types.MyBytes" required="true"
+   * @generated
+   */
+  List getManyBytes();
+
+  /**
+   * Returns the value of the '<em><b>Many Number</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Number}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Number</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Number</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyNumber()
+   * @model type="java.lang.Number" unique="false" dataType="org.eclipse.emf.test.core.sdo.types.model.types.MyNumber" required="true"
+   * @generated
+   */
+  List getManyNumber();
+
+  /**
+   * Returns the value of the '<em><b>Many Object</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Object}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Object</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Object</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyObject()
+   * @model type="java.lang.Object" unique="false" dataType="org.eclipse.emf.test.core.sdo.types.model.types.MyObject" required="true"
+   * @generated
+   */
+  List getManyObject();
+
+  /**
+   * Returns the value of the '<em><b>Many Thread</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.Thread}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Many Thread</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Many Thread</em>' attribute list.
+   * @see org.eclipse.emf.test.core.sdo.types.model.types.TypesPackage#getAThing_ManyThread()
+   * @model type="java.lang.Thread" unique="false" dataType="org.eclipse.emf.test.core.sdo.types.model.types.MyThread" required="true"
+   * @generated
+   */
+  List getManyThread();
 
   /**
    * Returns the value of the '<em><b>AFloat</b></em>' attribute.

@@ -38,6 +38,22 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/aNumber"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/aObject"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/aThread"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyBoolean"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyByte"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyDecimal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyFloat"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyDouble"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyInt"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyInteger"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyLong"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyShort"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyString"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyChar"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyBytes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyNumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyObject"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute com.example.types.ecore#//AThing/manyThread"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesPackageImpl.java,v 1.2 2004/06/07 19:46:46 marcelop Exp $
+ * $Id: TypesPackageImpl.java,v 1.3 2004/07/09 05:29:33 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types.model.types.impl;
 
@@ -252,6 +252,166 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getAThing_ManyBoolean()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(16);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyByte()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(17);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyDecimal()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(18);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyFloat()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(19);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyDouble()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(20);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyInt()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(21);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyInteger()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(22);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyLong()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(23);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyShort()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(24);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyString()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(25);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyChar()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(26);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyDate()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(27);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyBytes()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(28);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyNumber()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(29);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyObject()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(30);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getAThing_ManyThread()
+  {
+    return (EAttribute)aThingEClass.getEStructuralFeatures().get(31);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EDataType getMyBytes()
   {
     return myBytesEDataType;
@@ -444,6 +604,22 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
     createEAttribute(aThingEClass, ATHING__ANUMBER);
     createEAttribute(aThingEClass, ATHING__AOBJECT);
     createEAttribute(aThingEClass, ATHING__ATHREAD);
+    createEAttribute(aThingEClass, ATHING__MANY_BOOLEAN);
+    createEAttribute(aThingEClass, ATHING__MANY_BYTE);
+    createEAttribute(aThingEClass, ATHING__MANY_DECIMAL);
+    createEAttribute(aThingEClass, ATHING__MANY_FLOAT);
+    createEAttribute(aThingEClass, ATHING__MANY_DOUBLE);
+    createEAttribute(aThingEClass, ATHING__MANY_INT);
+    createEAttribute(aThingEClass, ATHING__MANY_INTEGER);
+    createEAttribute(aThingEClass, ATHING__MANY_LONG);
+    createEAttribute(aThingEClass, ATHING__MANY_SHORT);
+    createEAttribute(aThingEClass, ATHING__MANY_STRING);
+    createEAttribute(aThingEClass, ATHING__MANY_CHAR);
+    createEAttribute(aThingEClass, ATHING__MANY_DATE);
+    createEAttribute(aThingEClass, ATHING__MANY_BYTES);
+    createEAttribute(aThingEClass, ATHING__MANY_NUMBER);
+    createEAttribute(aThingEClass, ATHING__MANY_OBJECT);
+    createEAttribute(aThingEClass, ATHING__MANY_THREAD);
 
     // Create data types
     myBytesEDataType = createEDataType(MY_BYTES);
@@ -486,22 +662,38 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(aThingEClass, AThing.class, "AThing", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getAThing_ABoolean(), theXMLTypePackage.getBoolean(), "aBoolean", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_AByte(), theXMLTypePackage.getByte(), "aByte", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_ADecimal(), theXMLTypePackage.getDecimal(), "aDecimal", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_AFloat(), theXMLTypePackage.getFloat(), "aFloat", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_ADouble(), theXMLTypePackage.getDouble(), "aDouble", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_AInt(), theXMLTypePackage.getInt(), "aInt", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_AInteger(), theXMLTypePackage.getInteger(), "aInteger", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_ALong(), theXMLTypePackage.getLong(), "aLong", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_AShort(), theXMLTypePackage.getShort(), "aShort", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_AString(), theXMLTypePackage.getString(), "aString", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_AChar(), this.getMyChar(), "aChar", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_ADate(), this.getMyDate(), "aDate", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_ABytes(), this.getMyBytes(), "aBytes", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_ANumber(), this.getMyNumber(), "aNumber", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_AObject(), this.getMyObject(), "aObject", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAThing_AThread(), this.getMyThread(), "aThread", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ABoolean(), theXMLTypePackage.getBoolean(), "aBoolean", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_AByte(), theXMLTypePackage.getByte(), "aByte", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ADecimal(), theXMLTypePackage.getDecimal(), "aDecimal", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_AFloat(), theXMLTypePackage.getFloat(), "aFloat", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ADouble(), theXMLTypePackage.getDouble(), "aDouble", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_AInt(), theXMLTypePackage.getInt(), "aInt", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_AInteger(), theXMLTypePackage.getInteger(), "aInteger", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ALong(), theXMLTypePackage.getLong(), "aLong", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_AShort(), theXMLTypePackage.getShort(), "aShort", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_AString(), theXMLTypePackage.getString(), "aString", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_AChar(), this.getMyChar(), "aChar", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ADate(), this.getMyDate(), "aDate", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ABytes(), this.getMyBytes(), "aBytes", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ANumber(), this.getMyNumber(), "aNumber", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_AObject(), this.getMyObject(), "aObject", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_AThread(), this.getMyThread(), "aThread", null, 1, 1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyBoolean(), theXMLTypePackage.getBoolean(), "manyBoolean", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyByte(), theXMLTypePackage.getByte(), "manyByte", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyDecimal(), theXMLTypePackage.getDecimal(), "manyDecimal", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyFloat(), theXMLTypePackage.getFloat(), "manyFloat", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyDouble(), theXMLTypePackage.getDouble(), "manyDouble", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyInt(), theXMLTypePackage.getInt(), "manyInt", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyInteger(), theXMLTypePackage.getInteger(), "manyInteger", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyLong(), theXMLTypePackage.getLong(), "manyLong", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyShort(), theXMLTypePackage.getShort(), "manyShort", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyString(), theXMLTypePackage.getString(), "manyString", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyChar(), this.getMyChar(), "manyChar", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyDate(), this.getMyDate(), "manyDate", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyBytes(), this.getMyBytes(), "manyBytes", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyNumber(), this.getMyNumber(), "manyNumber", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyObject(), this.getMyObject(), "manyObject", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAThing_ManyThread(), this.getMyThread(), "manyThread", null, 1, -1, AThing.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize data types
     initEDataType(myBytesEDataType, byte[].class, "MyBytes", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -664,6 +856,134 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage
        {
        "kind", "element",
        "name", "aThread"
+       });		
+    addAnnotation
+      (getAThing_ManyBoolean(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyBoolean"
+       });		
+    addAnnotation
+      (getAThing_ManyByte(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyByte"
+       });		
+    addAnnotation
+      (getAThing_ManyDecimal(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyDecimal"
+       });		
+    addAnnotation
+      (getAThing_ManyFloat(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyFloat"
+       });		
+    addAnnotation
+      (getAThing_ManyDouble(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyDouble"
+       });		
+    addAnnotation
+      (getAThing_ManyInt(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyInt"
+       });		
+    addAnnotation
+      (getAThing_ManyInteger(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyInteger"
+       });		
+    addAnnotation
+      (getAThing_ManyLong(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyLong"
+       });		
+    addAnnotation
+      (getAThing_ManyShort(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyShort"
+       });		
+    addAnnotation
+      (getAThing_ManyString(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyString"
+       });		
+    addAnnotation
+      (getAThing_ManyChar(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyChar"
+       });		
+    addAnnotation
+      (getAThing_ManyDate(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyDate"
+       });		
+    addAnnotation
+      (getAThing_ManyBytes(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyBytes"
+       });		
+    addAnnotation
+      (getAThing_ManyNumber(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyNumber"
+       });		
+    addAnnotation
+      (getAThing_ManyObject(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyObject"
+       });		
+    addAnnotation
+      (getAThing_ManyThread(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "manyThread"
        });		
     addAnnotation
       (myBytesEDataType, 

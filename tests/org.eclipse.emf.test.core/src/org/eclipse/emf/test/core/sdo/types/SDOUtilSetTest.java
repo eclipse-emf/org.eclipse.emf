@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SDOUtilSetTest.java,v 1.2 2004/06/07 19:46:46 marcelop Exp $
+ * $Id: SDOUtilSetTest.java,v 1.3 2004/07/09 05:29:33 marcelop Exp $
  */
 package org.eclipse.emf.test.core.sdo.types;
 
@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -52,7 +53,193 @@ public class SDOUtilSetTest extends TestCase
   {
     thing = TypesFactory.eINSTANCE.createAThing();
   }
+  
+  /*
+   * [69029]
+   */
+  public void testSetManyBoolean() throws Exception
+  {
+    List list = thing.getManyBoolean();
+    String pathWithNoIndex = "manyBoolean";
+
+    int size = (int)(Math.random()*50)+1;
+    int index = (int)(Math.random()*size);
+    for (int i=0; i<size; i++)
+    {
+      list.add(Boolean.FALSE);
+    }
+
+    String path = pathWithNoIndex + "." + index;
     
+    SDOUtil.set((EObject)thing, path, Boolean.TRUE);
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, true, ((Boolean)list.get(index)).booleanValue());   
+
+    SDOUtil.setBoolean((EObject)thing, path, false);
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, false, ((Boolean)list.get(index)).booleanValue());   
+  }
+  
+  /*
+   * [69029]
+   */
+  public void testSetManyByte() throws Exception
+  {
+    List list = thing.getManyByte();
+    String pathWithNoIndex = "manyByte";
+
+    int size = (int)(Math.random()*50)+1;
+    int index = (int)(Math.random()*size);
+    for (int i=0; i<size; i++)
+    {
+      list.add(new Byte((byte)i));
+    }
+    
+    String path = pathWithNoIndex + "." + index;
+    
+    SDOUtil.set((EObject)thing, path, new Byte(Byte.MAX_VALUE));
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, Byte.MAX_VALUE, ((Number)list.get(index)).byteValue());   
+
+    SDOUtil.setInt((EObject)thing, path, Byte.MIN_VALUE);
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, Byte.MIN_VALUE, ((Number)list.get(index)).byteValue());   
+  }
+  
+  /*
+   * [69029]
+   */
+  public void testSetManyBytes() throws Exception
+  {
+    List list = thing.getManyBytes();
+    String pathWithNoIndex = "manyBytes";
+
+    int size = (int)(Math.random()*50)+1;
+    int index = (int)(Math.random()*size);
+    for (int i=0; i<size; i++)
+    {
+      list.add(new byte[]{(byte)i});
+    }
+    
+    String path = pathWithNoIndex + "." + index;
+    
+    SDOUtil.set((EObject)thing, path, "emf & sdo".getBytes());
+    assertEquals(size, list.size());
+    assertTrue("size=" + size + " index=" + index, Arrays.equals("emf & sdo".getBytes(), (byte[])list.get(index)));   
+
+    SDOUtil.setBytes((EObject)thing, path, "FEDMNEB".getBytes());
+    assertEquals(size, list.size());
+    assertTrue("size=" + size + " index=" + index, Arrays.equals("FEDMNEB".getBytes(), (byte[])list.get(index)));   
+  }
+
+  /*
+   * [69029]
+   */
+  public void testSetManyDecimal() throws Exception
+  {
+    List list = thing.getManyDecimal();
+    String pathWithNoIndex = "manyDecimal";
+
+    int size = (int)(Math.random()*50)+1;
+    int index = (int)(Math.random()*size);
+    for (int i=0; i<size; i++)
+    {
+      list.add(new BigDecimal(Integer.toString(i)));
+    }
+    
+    String path = pathWithNoIndex + "." + index;
+    
+    SDOUtil.set((EObject)thing, path, new BigDecimal(Long.MAX_VALUE));
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, new BigDecimal(Long.MAX_VALUE), list.get(index));   
+
+    SDOUtil.setBigDecimal((EObject)thing, path, new BigDecimal(Integer.MIN_VALUE));
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, new BigDecimal(Integer.MIN_VALUE), list.get(index));   
+
+    SDOUtil.setBigDecimal((EObject)thing, path, null);
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, null, list.get(index));   
+  }
+
+  /*
+   * [69029]
+   */
+  public void testSetManyInt() throws Exception
+  {
+    List list = thing.getManyInt();
+    String pathWithNoIndex = "manyInt";
+
+    int size = (int)(Math.random()*50)+1;
+    int index = (int)(Math.random()*size);
+    for (int i=0; i<size; i++)
+    {
+      list.add(new Integer(i));
+    }
+
+    String path = pathWithNoIndex + "." + index;
+    
+    SDOUtil.set((EObject)thing, path, new Integer(Integer.MAX_VALUE));
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, Integer.MAX_VALUE, ((Number)list.get(index)).intValue());   
+
+    SDOUtil.setInt((EObject)thing, path, Integer.MIN_VALUE);
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, Integer.MIN_VALUE, ((Number)list.get(index)).intValue());   
+  }
+
+  /*
+   * [69029]
+   */
+  public void testSetManyLong() throws Exception
+  {
+    List list = thing.getManyLong();
+    String pathWithNoIndex = "manyLong";
+
+    int size = (int)(Math.random()*50)+1;
+    int index = (int)(Math.random()*size);
+    for (int i=0; i<size; i++)
+    {
+      list.add(new Long(i));
+    }
+
+    String path = pathWithNoIndex + "." + index;
+    
+    SDOUtil.set((EObject)thing, path, new Long(Long.MAX_VALUE));
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, Long.MAX_VALUE, ((Number)list.get(index)).longValue());   
+
+    SDOUtil.setLong((EObject)thing, path, Long.MIN_VALUE);
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, Long.MIN_VALUE, ((Number)list.get(index)).longValue());   
+  }
+
+  /*
+   * [69029]
+   */
+  public void testSetManyString() throws Exception
+  {
+    List list = thing.getManyString();
+    String pathWithNoIndex = "manyString";
+
+    int size = (int)(Math.random()*50)+1;
+    int index = (int)(Math.random()*size);
+    for (int i=0; i<size; i++)
+    {
+      list.add(Integer.toString(i));
+    }
+
+    String path = pathWithNoIndex + "." + index;
+    
+    SDOUtil.set((EObject)thing, path, "emf & sdo");
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, "emf & sdo", list.get(index));   
+
+    SDOUtil.setString((EObject)thing, path, "FEDMNEB");
+    assertEquals(size, list.size());
+    assertEquals("size=" + size + " index=" + index, "FEDMNEB", list.get(index));   
+  }
+
   public void testSetBigDecimal() throws Exception
   {
     bigDecimalTest(new BigDecimal(Double.MAX_VALUE));
