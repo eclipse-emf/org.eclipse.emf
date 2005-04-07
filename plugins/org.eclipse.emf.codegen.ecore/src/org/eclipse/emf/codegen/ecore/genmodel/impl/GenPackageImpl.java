@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.18 2005/04/04 19:23:14 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.19 2005/04/07 13:39:27 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2896,14 +2896,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getImportedResourceFactoryBaseClassName()
   {
-    switch (getResource().getValue())
-    {
-      case GenResourceKind.XML:
-        return getGenModel().getImportedName("org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl");
-      case GenResourceKind.XMI:
-      default:
-        return getGenModel().getImportedName("org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl");
-    }
+    return getGenModel().getImportedName("org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl");
   }
 
   public boolean hasDocumentRoot()
