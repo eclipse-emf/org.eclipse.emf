@@ -10,11 +10,11 @@ import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
+import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
+
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import org.eclipse.emf.ecore.xmi.XMLResource;
-
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
  * @see org.examples.library.util.LibraryResourceImpl
  * @generated
  */
-public class LibraryResourceFactoryImpl extends XMLResourceFactoryImpl
+public class LibraryResourceFactoryImpl extends ResourceFactoryImpl
 {
   /**
    * <!-- begin-user-doc -->

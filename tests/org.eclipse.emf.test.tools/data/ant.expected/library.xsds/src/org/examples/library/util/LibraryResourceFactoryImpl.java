@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryResourceFactoryImpl.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
+ * $Id: LibraryResourceFactoryImpl.java,v 1.3 2005/04/07 13:41:57 davidms Exp $
  */
 package org.examples.library.util;
 
@@ -10,11 +10,11 @@ import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
+import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
+
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import org.eclipse.emf.ecore.xmi.XMLResource;
-
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
  * @see org.examples.library.util.LibraryResourceImpl
  * @generated
  */
-public class LibraryResourceFactoryImpl extends XMLResourceFactoryImpl
+public class LibraryResourceFactoryImpl extends ResourceFactoryImpl
 {
   /**
    * <!-- begin-user-doc -->
