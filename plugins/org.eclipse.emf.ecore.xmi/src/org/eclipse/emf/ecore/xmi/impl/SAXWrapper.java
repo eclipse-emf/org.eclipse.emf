@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SAXWrapper.java,v 1.2 2004/03/30 00:00:20 elena Exp $
+ * $Id: SAXWrapper.java,v 1.3 2005/04/07 22:06:11 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -61,12 +61,10 @@ public class SAXWrapper extends DefaultHandler implements LexicalHandler
 
   public void startPrefixMapping(String prefix, String uri) throws SAXException
   {
-    handler.startPrefixMapping(prefix, uri);
   }
 
   public void endPrefixMapping(String prefix) throws SAXException
   {
-    handler.endPrefixMapping(prefix);
   }
 
   public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
