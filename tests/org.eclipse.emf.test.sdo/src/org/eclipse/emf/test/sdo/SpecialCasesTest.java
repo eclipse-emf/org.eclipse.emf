@@ -1,8 +1,18 @@
-/*
- * Created on Dec 10, 2004
+/**
+ * <copyright>
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Copyright (c) 2005 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: SpecialCasesTest.java,v 1.3 2005/04/07 16:25:43 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
