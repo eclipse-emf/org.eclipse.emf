@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.32 2005/03/19 15:25:37 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.33 2005/04/08 19:44:13 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -491,7 +491,7 @@ public class XMLSaveImpl implements XMLSave
     EClass eClass = top.eClass();
     if (!toDOM)
     {
-      if (extendedMetaData == null || extendedMetaData.getDocumentRoot(eClass.getEPackage()) != eClass)
+      if (extendedMetaData == null || featureTable.getDocumentRoot(eClass.getEPackage()) != eClass)
       {
         String name = helper.getQName(eClass);
         doc.startElement(name);
@@ -2210,6 +2210,7 @@ public class XMLSaveImpl implements XMLSave
     protected int[][] featureKinds;
     protected XMLResource.XMLMap map;
     protected ExtendedMetaData extendedMetaData;
+    protected ArrayList docRoots = new ArrayList();
 
     public Lookup(XMLResource.XMLMap map)
     {
@@ -2223,6 +2224,21 @@ public class XMLSaveImpl implements XMLSave
       classes = new EClass[SIZE];
       features = new EStructuralFeature[SIZE][];
       featureKinds = new int[SIZE][];
+    }
+    
+    public EClass getDocumentRoot(EPackage epackage)
+    {
+      for (int i = 0; i < docRoots.size(); i += 2)
+      {
+        if (docRoots.get(i) == epackage)
+        {
+          return (EClass)docRoots.get(++i);
+        }
+      }
+      docRoots.add(epackage);
+      EClass docRoot = extendedMetaData.getDocumentRoot(epackage);
+      docRoots.add(docRoot);
+      return docRoot;
     }
     
     public EStructuralFeature[] getFeatures(EClass cls)

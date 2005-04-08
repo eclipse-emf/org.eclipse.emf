@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.24 2005/04/06 15:08:57 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.25 2005/04/08 19:44:13 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -87,6 +87,8 @@ public class XMLHelperImpl implements XMLHelper
   protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
   protected List allPrefixToURI;
   protected boolean checkForDuplicates;
+  private EPackage previousPackage;
+  private String previousNS;
 
   public static String saveString(Map options, List contents, String encoding, XMLHelper helper) throws Exception
   {
@@ -294,12 +296,22 @@ public class XMLHelperImpl implements XMLHelper
       {
         // There really must be a package.
         //
-        EPackage ePackage = extendedMetaData.getPackage(namespace);
-        if (ePackage == null)
+        EPackage ePackage;
+        if (namespace.equals(previousNS))
         {
-          ePackage = extendedMetaData.demandPackage(namespace);
+          ePackage = previousPackage;
         }
-
+        else
+        {
+          ePackage = extendedMetaData.getPackage(namespace);
+          if (ePackage == null)
+          {
+            ePackage = extendedMetaData.demandPackage(namespace);
+          }
+          previousPackage = ePackage;
+          previousNS = namespace;
+        }
+        
         result = getQName(ePackage, name);
 
         // We must have a qualifier for an attribute that needs qualified.
