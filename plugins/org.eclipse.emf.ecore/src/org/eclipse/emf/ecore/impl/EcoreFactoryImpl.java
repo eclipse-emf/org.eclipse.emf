@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.6 2004/10/06 21:49:54 davidms Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.7 2005/04/08 12:02:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
