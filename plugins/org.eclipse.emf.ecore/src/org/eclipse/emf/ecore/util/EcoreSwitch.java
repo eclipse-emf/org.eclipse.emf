@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSwitch.java,v 1.6 2005/04/06 15:10:19 emerks Exp $
+ * $Id: EcoreSwitch.java,v 1.7 2005/04/08 12:00:16 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -255,6 +255,13 @@ public class EcoreSwitch
         Object result = caseETypedElement(eTypedElement);
         if (result == null) result = caseENamedElement(eTypedElement);
         if (result == null) result = caseEModelElement(eTypedElement);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY:
+      {
+        Map.Entry eStringToStringMapEntry = (Map.Entry)theEObject;
+        Object result = caseEStringToStringMapEntry(eStringToStringMapEntry);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
