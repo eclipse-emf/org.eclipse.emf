@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.16 2004/10/12 16:52:01 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.17 2005/04/08 12:05:54 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -458,21 +458,27 @@ public class <%=genPackage.getEditorClassName()%>
 						ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
 						delta.accept(visitor);
 
-						removedResources.addAll(visitor.getRemovedResources());
-						if (!visitor.getRemovedResources().isEmpty() && !isDirty())
+						if (!visitor.getRemovedResources().isEmpty())
 						{
-							getSite().getShell().getDisplay().asyncExec
-								(new Runnable()
-								 {
-									public void run()
-									{
-										getSite().getPage().closeEditor(<%=genPackage.getEditorClassName()%>.this, false);
-										<%=genPackage.getEditorClassName()%>.this.dispose();
-									}
-								 });
-						}
+							removedResources.addAll(visitor.getRemovedResources());
+							if (!isDirty())
+ 							{
+ 								getSite().getShell().getDisplay().asyncExec
+ 									(new Runnable()
+ 								 	{
+ 										public void run()
+ 										{
+ 											getSite().getPage().closeEditor(<%=genPackage.getEditorClassName()%>.this, false);
+ 											<%=genPackage.getEditorClassName()%>.this.dispose();
+ 										}
+ 								 	});
+ 							}
+ 						}
 
-						changedResources.addAll(visitor.getChangedResources());
+						if (!visitor.getChangedResources().isEmpty())
+						{
+							changedResources.addAll(visitor.getChangedResources());
+						}
 					}
 					catch (CoreException exception)
 					{

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.10 2004/07/16 16:27:26 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.11 2005/04/08 12:06:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -296,21 +296,27 @@ public class GenModelEditor
             ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
             delta.accept(visitor);
 
-            removedResources.addAll(visitor.getRemovedResources());
-            if (!visitor.getRemovedResources().isEmpty() && !isDirty())
+            if (!visitor.getRemovedResources().isEmpty())
             {
-              getSite().getShell().getDisplay().asyncExec
-                (new Runnable()
-                 {
-                   public void run()
+              removedResources.addAll(visitor.getRemovedResources());
+              if (!isDirty())
+              {
+                getSite().getShell().getDisplay().asyncExec
+                  (new Runnable()
                    {
-                     getSite().getPage().closeEditor(GenModelEditor.this, false);
-                     GenModelEditor.this.dispose();
-                   }
-                 });
+                     public void run()
+                     {
+                       getSite().getPage().closeEditor(GenModelEditor.this, false);
+                       GenModelEditor.this.dispose();
+                     }
+                   });
+              }
             }
 
-            changedResources.addAll(visitor.getChangedResources());
+            if (!visitor.getChangedResources().isEmpty())
+            {
+              changedResources.addAll(visitor.getChangedResources());
+            }
           }
           catch (CoreException exception)
           {
