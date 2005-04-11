@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.33 2005/04/08 19:44:13 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.34 2005/04/11 17:38:35 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -485,6 +485,12 @@ public class XMLSaveImpl implements XMLSave
     }
     addNamespaceDeclarations();
   }
+  /*
+   * INTERNAL: this is a specialized method to add attributes for a top/root element
+   */
+  protected void writeTopAttributes(EObject top)
+  {    
+  }
 
   protected Object writeTopObject(EObject top)
   {
@@ -495,6 +501,7 @@ public class XMLSaveImpl implements XMLSave
       {
         String name = helper.getQName(eClass);
         doc.startElement(name);
+        writeTopAttributes(top);
         Object mark = doc.mark();
         saveElementID(top);
         return mark;
@@ -511,9 +518,17 @@ public class XMLSaveImpl implements XMLSave
       if (extendedMetaData == null || extendedMetaData.getDocumentRoot(eClass.getEPackage()) != eClass)
       {
         helper.populateNameInfo(nameInfo, eClass);
-        currentNode = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
-        document.appendChild(currentNode);
+        if (document.getLastChild() == null)
+        {
+          currentNode = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+          currentNode = document.appendChild(currentNode);
+        }
+        else
+        {
+          currentNode = currentNode.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
+        }
         handler.recordValues(currentNode, null, null, top);
+        writeTopAttributes(top);
         saveElementID(top);
         return null;
       }

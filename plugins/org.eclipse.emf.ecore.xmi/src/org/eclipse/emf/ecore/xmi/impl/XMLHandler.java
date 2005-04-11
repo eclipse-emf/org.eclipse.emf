@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.26 2005/03/03 00:05:51 elena Exp $
+ * $Id: XMLHandler.java,v 1.27 2005/04/11 17:38:35 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -657,28 +657,7 @@ public abstract class XMLHandler
       if (extent.size() == 1)
       {
         EObject root = (EObject)extent.get(0);
-        EClass eClass = root.eClass();
-
-        EReference xmlnsPrefixMapFeature = extendedMetaData.getXMLNSPrefixMapFeature(eClass);
-        if (xmlnsPrefixMapFeature != null)
-        {
-          EMap xmlnsPrefixMap = (EMap)root.eGet(xmlnsPrefixMapFeature);
-          xmlnsPrefixMap.putAll(helper.getPrefixToNamespaceMap());
-        }
-
-        if (urisToLocations != null)
-        {
-          EReference xsiSchemaLocationMapFeature = extendedMetaData.getXSISchemaLocationMapFeature(eClass);
-          if (xsiSchemaLocationMapFeature != null)
-          {
-            EMap xsiSchemaLocationMap = (EMap)root.eGet(xsiSchemaLocationMapFeature);
-            for (Iterator i = urisToLocations.entrySet().iterator(); i.hasNext(); )
-            {
-              Map.Entry entry = (Map.Entry)i.next();
-              xsiSchemaLocationMap.put(entry.getKey(), entry.getValue().toString());
-            }
-          }
-        }
+        recordNamespacesSchemaLocations(root);     
       }
 
       if (DEBUG_DEMANDED_PACKAGES)
@@ -694,6 +673,33 @@ public abstract class XMLHandler
         extent.addAll(demandedPackages);
       }
     }
+  }
+  
+  protected EMap recordNamespacesSchemaLocations(EObject root)
+  {
+    EClass eClass = root.eClass();
+    EReference xmlnsPrefixMapFeature = extendedMetaData.getXMLNSPrefixMapFeature(eClass);
+    EMap xmlnsPrefixMap = null;
+    if (xmlnsPrefixMapFeature != null)
+    {
+      xmlnsPrefixMap = (EMap)root.eGet(xmlnsPrefixMapFeature);
+      xmlnsPrefixMap.putAll(helper.getPrefixToNamespaceMap());
+    }
+
+    if (urisToLocations != null)
+    {
+      EReference xsiSchemaLocationMapFeature = extendedMetaData.getXSISchemaLocationMapFeature(eClass);
+      if (xsiSchemaLocationMapFeature != null)
+      {
+        EMap xsiSchemaLocationMap = (EMap)root.eGet(xsiSchemaLocationMapFeature);
+        for (Iterator i = urisToLocations.entrySet().iterator(); i.hasNext(); )
+        {
+          Map.Entry entry = (Map.Entry)i.next();
+          xsiSchemaLocationMap.put(entry.getKey(), entry.getValue().toString());
+        }
+      }
+    }
+    return xmlnsPrefixMap;
   }
 
   /**

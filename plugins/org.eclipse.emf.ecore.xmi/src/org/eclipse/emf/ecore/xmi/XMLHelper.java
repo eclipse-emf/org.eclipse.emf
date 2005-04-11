@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelper.java,v 1.7 2005/03/03 00:05:51 elena Exp $
+ * $Id: XMLHelper.java,v 1.8 2005/04/11 17:38:35 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -307,4 +307,11 @@ public interface XMLHelper
 
   EMap getPrefixToNamespaceMap();
   void setPrefixToNamespaceMap(EMap prefixToNamespaceMap);
+  
+  /**
+   * Specify if qualified names must have a prefix or could use default namespace (if possible)
+   * @param mustHavePrefix
+   */
+  void setMustHavePrefix(boolean mustHavePrefix);
+
 }

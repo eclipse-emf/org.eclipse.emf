@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.25 2005/04/08 19:44:13 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.26 2005/04/11 17:38:35 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -87,9 +87,11 @@ public class XMLHelperImpl implements XMLHelper
   protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
   protected List allPrefixToURI;
   protected boolean checkForDuplicates;
+  protected boolean mustHavePrefix;
+  
   private EPackage previousPackage;
   private String previousNS;
-
+  
   public static String saveString(Map options, List contents, String encoding, XMLHelper helper) throws Exception
   {
     if (helper == null)
@@ -391,7 +393,7 @@ public class XMLHelperImpl implements XMLHelper
   
   protected String getQName(NameInfo nameInfo, EPackage ePackage, String name)
   {
-    String qname = getQName(nameInfo, ePackage, name, false);
+    String qname = getQName(nameInfo, ePackage, name, mustHavePrefix);
     nameInfo.setQualifiedName(qname);
     return qname;
   }
@@ -416,7 +418,7 @@ public class XMLHelperImpl implements XMLHelper
 
   protected String getQName(EPackage ePackage, String name)
   {
-    return getQName(ePackage, name, false);
+    return getQName(ePackage, name, mustHavePrefix);
   }
 
   protected String getQName(EPackage ePackage, String name, boolean mustHavePrefix)
@@ -438,7 +440,7 @@ public class XMLHelperImpl implements XMLHelper
 
   public String getPrefix(EPackage ePackage)
   {
-    return getPrefix(ePackage, false);
+    return getPrefix(ePackage, mustHavePrefix);
   }
   
   public String getNamespaceURI(String prefix)
@@ -1446,4 +1448,10 @@ public class XMLHelperImpl implements XMLHelper
       prefixesToURIs.put(prefix + "_" + index, uri);
     }
   }
+
+  public void setMustHavePrefix(boolean mustHavePrefix)
+  {
+    this.mustHavePrefix = mustHavePrefix;
+  }
+  
 }
