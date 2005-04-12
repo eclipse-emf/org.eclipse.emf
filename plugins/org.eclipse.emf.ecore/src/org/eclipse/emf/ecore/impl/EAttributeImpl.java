@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeImpl.java,v 1.4 2004/12/16 21:33:53 emerks Exp $
+ * $Id: EAttributeImpl.java,v 1.5 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -59,15 +59,20 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
   protected static final boolean ID_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isID() <em>ID</em>}' attribute.
+   * The flag representing the value of the '{@link #isID() <em>ID</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isID()
    * @generated
    * @ordered
    */
-  protected boolean iD = ID_EDEFAULT;
+  protected static final int ID_EFLAG = 1 << 15;
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   protected EAttributeImpl()
   {
     super();
@@ -90,7 +95,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    */
   public boolean isID()
   {
-    return iD;
+    return (eFlags & ID_EFLAG) != 0;
   }
 
   protected byte effectiveIsMany;
@@ -153,10 +158,10 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    */
   public void setID(boolean newID)
   {
-    boolean oldID = iD;
-    iD = newID;
+    boolean oldID = (eFlags & ID_EFLAG) != 0;
+    if (newID) eFlags |= ID_EFLAG; else eFlags &= ~ID_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EATTRIBUTE__ID, oldID, iD));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EATTRIBUTE__ID, oldID, newID));
   }
 
   /**
@@ -314,9 +319,9 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
       case EcorePackage.EATTRIBUTE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case EcorePackage.EATTRIBUTE__ORDERED:
-        return ordered != ORDERED_EDEFAULT;
+        return ((eFlags & ORDERED_EFLAG) != 0) != ORDERED_EDEFAULT;
       case EcorePackage.EATTRIBUTE__UNIQUE:
-        return unique != UNIQUE_EDEFAULT;
+        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
       case EcorePackage.EATTRIBUTE__LOWER_BOUND:
         return lowerBound != LOWER_BOUND_EDEFAULT;
       case EcorePackage.EATTRIBUTE__UPPER_BOUND:
@@ -328,23 +333,23 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
       case EcorePackage.EATTRIBUTE__ETYPE:
         return eType != null;
       case EcorePackage.EATTRIBUTE__CHANGEABLE:
-        return changeable != CHANGEABLE_EDEFAULT;
+        return ((eFlags & CHANGEABLE_EFLAG) != 0) != CHANGEABLE_EDEFAULT;
       case EcorePackage.EATTRIBUTE__VOLATILE:
-        return volatile_ != VOLATILE_EDEFAULT;
+        return ((eFlags & VOLATILE_EFLAG) != 0) != VOLATILE_EDEFAULT;
       case EcorePackage.EATTRIBUTE__TRANSIENT:
-        return transient_ != TRANSIENT_EDEFAULT;
+        return ((eFlags & TRANSIENT_EFLAG) != 0) != TRANSIENT_EDEFAULT;
       case EcorePackage.EATTRIBUTE__DEFAULT_VALUE_LITERAL:
         return DEFAULT_VALUE_LITERAL_EDEFAULT == null ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
       case EcorePackage.EATTRIBUTE__DEFAULT_VALUE:
         return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
       case EcorePackage.EATTRIBUTE__UNSETTABLE:
-        return unsettable != UNSETTABLE_EDEFAULT;
+        return ((eFlags & UNSETTABLE_EFLAG) != 0) != UNSETTABLE_EDEFAULT;
       case EcorePackage.EATTRIBUTE__DERIVED:
-        return derived != DERIVED_EDEFAULT;
+        return ((eFlags & DERIVED_EFLAG) != 0) != DERIVED_EDEFAULT;
       case EcorePackage.EATTRIBUTE__ECONTAINING_CLASS:
         return getEContainingClass() != null;
       case EcorePackage.EATTRIBUTE__ID:
-        return iD != ID_EDEFAULT;
+        return ((eFlags & ID_EFLAG) != 0) != ID_EDEFAULT;
       case EcorePackage.EATTRIBUTE__EATTRIBUTE_TYPE:
         return basicGetEAttributeType() != null;
     }
@@ -473,7 +478,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (iD: ");
-    result.append(iD);
+    result.append((eFlags & ID_EFLAG) != 0);
     result.append(')');
     return result.toString();
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumImpl.java,v 1.4 2004/12/16 21:33:53 emerks Exp $
+ * $Id: EEnumImpl.java,v 1.5 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -58,6 +58,11 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    */
   protected EList eLiterals = null;
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   protected EEnumImpl()
   {
     super();
@@ -216,7 +221,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
       case EcorePackage.EENUM__EPACKAGE:
         return getEPackage() != null;
       case EcorePackage.EENUM__SERIALIZABLE:
-        return serializable != SERIALIZABLE_EDEFAULT;
+        return ((eFlags & SERIALIZABLE_EFLAG) != 0) != SERIALIZABLE_EDEFAULT;
       case EcorePackage.EENUM__ELITERALS:
         return eLiterals != null && !eLiterals.isEmpty();
     }

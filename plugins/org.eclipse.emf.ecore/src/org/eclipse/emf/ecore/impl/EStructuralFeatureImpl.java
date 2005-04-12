@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.8 2005/02/23 18:31:46 marcelop Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.9 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -78,9 +78,15 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   protected int featureID = -1;
   protected Class containerClass;
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   protected EStructuralFeatureImpl()
   {
     super();
+    eFlags |= CHANGEABLE_EFLAG;
   }
 
   /**
@@ -167,7 +173,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    */
   public boolean isUnsettable()
   {
-    return unsettable;
+    return (eFlags & UNSETTABLE_EFLAG) != 0;
   }
 
   /**
@@ -177,10 +183,10 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    */
   public void setUnsettable(boolean newUnsettable)
   {
-    boolean oldUnsettable = unsettable;
-    unsettable = newUnsettable;
+    boolean oldUnsettable = (eFlags & UNSETTABLE_EFLAG) != 0;
+    if (newUnsettable) eFlags |= UNSETTABLE_EFLAG; else eFlags &= ~UNSETTABLE_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE, oldUnsettable, unsettable));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE, oldUnsettable, newUnsettable));
   }
 
   /**
@@ -190,7 +196,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    */
   public boolean isDerived()
   {
-    return derived;
+    return (eFlags & DERIVED_EFLAG) != 0;
   }
 
   /**
@@ -200,10 +206,10 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    */
   public void setDerived(boolean newDerived)
   {
-    boolean oldDerived = derived;
-    derived = newDerived;
+    boolean oldDerived = (eFlags & DERIVED_EFLAG) != 0;
+    if (newDerived) eFlags |= DERIVED_EFLAG; else eFlags &= ~DERIVED_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ESTRUCTURAL_FEATURE__DERIVED, oldDerived, derived));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ESTRUCTURAL_FEATURE__DERIVED, oldDerived, newDerived));
   }
 
   /**
@@ -228,14 +234,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   protected static final boolean CHANGEABLE_EDEFAULT = true;
 
   /**
-   * The cached value of the '{@link #isChangeable() <em>Changeable</em>}' attribute.
+   * The flag representing the value of the '{@link #isChangeable() <em>Changeable</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isChangeable()
    * @generated
    * @ordered
    */
-  protected boolean changeable = CHANGEABLE_EDEFAULT;
+  protected static final int CHANGEABLE_EFLAG = 1 << 10;
 
   /**
    * The default value of the '{@link #isVolatile() <em>Volatile</em>}' attribute.
@@ -248,14 +254,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   protected static final boolean VOLATILE_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isVolatile() <em>Volatile</em>}' attribute.
+   * The flag representing the value of the '{@link #isVolatile() <em>Volatile</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isVolatile()
    * @generated
    * @ordered
    */
-  protected boolean volatile_ = VOLATILE_EDEFAULT;
+  protected static final int VOLATILE_EFLAG = 1 << 11;
 
   /**
    * The default value of the '{@link #isTransient() <em>Transient</em>}' attribute.
@@ -268,14 +274,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   protected static final boolean TRANSIENT_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isTransient() <em>Transient</em>}' attribute.
+   * The flag representing the value of the '{@link #isTransient() <em>Transient</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isTransient()
    * @generated
    * @ordered
    */
-  protected boolean transient_ = TRANSIENT_EDEFAULT;
+  protected static final int TRANSIENT_EFLAG = 1 << 12;
 
   /**
    * The default value of the '{@link #getDefaultValueLiteral() <em>Default Value Literal</em>}' attribute.
@@ -318,14 +324,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   protected static final boolean UNSETTABLE_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isUnsettable() <em>Unsettable</em>}' attribute.
+   * The flag representing the value of the '{@link #isUnsettable() <em>Unsettable</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isUnsettable()
    * @generated
    * @ordered
    */
-  protected boolean unsettable = UNSETTABLE_EDEFAULT;
+  protected static final int UNSETTABLE_EFLAG = 1 << 13;
 
   /**
    * The default value of the '{@link #isDerived() <em>Derived</em>}' attribute.
@@ -338,14 +344,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   protected static final boolean DERIVED_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isDerived() <em>Derived</em>}' attribute.
+   * The flag representing the value of the '{@link #isDerived() <em>Derived</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isDerived()
    * @generated
    * @ordered
    */
-  protected boolean derived = DERIVED_EDEFAULT;
+  protected static final int DERIVED_EFLAG = 1 << 14;
 
   /**
    * <!-- begin-user-doc -->
@@ -409,9 +415,9 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       case EcorePackage.ESTRUCTURAL_FEATURE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case EcorePackage.ESTRUCTURAL_FEATURE__ORDERED:
-        return ordered != ORDERED_EDEFAULT;
+        return ((eFlags & ORDERED_EFLAG) != 0) != ORDERED_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__UNIQUE:
-        return unique != UNIQUE_EDEFAULT;
+        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__LOWER_BOUND:
         return lowerBound != LOWER_BOUND_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__UPPER_BOUND:
@@ -423,19 +429,19 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
         return eType != null;
       case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
-        return changeable != CHANGEABLE_EDEFAULT;
+        return ((eFlags & CHANGEABLE_EFLAG) != 0) != CHANGEABLE_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
-        return volatile_ != VOLATILE_EDEFAULT;
+        return ((eFlags & VOLATILE_EFLAG) != 0) != VOLATILE_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT:
-        return transient_ != TRANSIENT_EDEFAULT;
+        return ((eFlags & TRANSIENT_EFLAG) != 0) != TRANSIENT_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL:
         return DEFAULT_VALUE_LITERAL_EDEFAULT == null ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
       case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE:
         return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
       case EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE:
-        return unsettable != UNSETTABLE_EDEFAULT;
+        return ((eFlags & UNSETTABLE_EFLAG) != 0) != UNSETTABLE_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__DERIVED:
-        return derived != DERIVED_EDEFAULT;
+        return ((eFlags & DERIVED_EFLAG) != 0) != DERIVED_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
         return getEContainingClass() != null;
     }
@@ -554,7 +560,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    */
   public boolean isTransient()
   {
-    return transient_;
+    return (eFlags & TRANSIENT_EFLAG) != 0;
   }
 
   /**
@@ -564,10 +570,10 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    */
   public void setTransient(boolean newTransient)
   {
-    boolean oldTransient = transient_;
-    transient_ = newTransient;
+    boolean oldTransient = (eFlags & TRANSIENT_EFLAG) != 0;
+    if (newTransient) eFlags |= TRANSIENT_EFLAG; else eFlags &= ~TRANSIENT_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT, oldTransient, transient_));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT, oldTransient, newTransient));
   }
 
   /**
@@ -577,7 +583,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    */
   public boolean isVolatile()
   {
-    return volatile_;
+    return (eFlags & VOLATILE_EFLAG) != 0;
   }
 
   /**
@@ -587,10 +593,10 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    */
   public void setVolatile(boolean newVolatile)
   {
-    boolean oldVolatile = volatile_;
-    volatile_ = newVolatile;
+    boolean oldVolatile = (eFlags & VOLATILE_EFLAG) != 0;
+    if (newVolatile) eFlags |= VOLATILE_EFLAG; else eFlags &= ~VOLATILE_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE, oldVolatile, volatile_));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE, oldVolatile, newVolatile));
   }
 
   /**
@@ -600,7 +606,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    */
   public boolean isChangeable()
   {
-    return changeable;
+    return (eFlags & CHANGEABLE_EFLAG) != 0;
   }
 
   /**
@@ -610,10 +616,10 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    */
   public void setChangeable(boolean newChangeable)
   {
-    boolean oldChangeable = changeable;
-    changeable = newChangeable;
+    boolean oldChangeable = (eFlags & CHANGEABLE_EFLAG) != 0;
+    if (newChangeable) eFlags |= CHANGEABLE_EFLAG; else eFlags &= ~CHANGEABLE_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE, oldChangeable, changeable));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE, oldChangeable, newChangeable));
   }
 
   /**
@@ -637,17 +643,17 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (changeable: ");
-    result.append(changeable);
+    result.append((eFlags & CHANGEABLE_EFLAG) != 0);
     result.append(", volatile: ");
-    result.append(volatile_);
+    result.append((eFlags & VOLATILE_EFLAG) != 0);
     result.append(", transient: ");
-    result.append(transient_);
+    result.append((eFlags & TRANSIENT_EFLAG) != 0);
     result.append(", defaultValueLiteral: ");
     result.append(defaultValueLiteral);
     result.append(", unsettable: ");
-    result.append(unsettable);
+    result.append((eFlags & UNSETTABLE_EFLAG) != 0);
     result.append(", derived: ");
-    result.append(derived);
+    result.append((eFlags & DERIVED_EFLAG) != 0);
     result.append(')');
     return result.toString();
   }

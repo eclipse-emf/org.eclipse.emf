@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EDataTypeImpl.java,v 1.4 2004/12/16 21:33:53 emerks Exp $
+ * $Id: EDataTypeImpl.java,v 1.5 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -56,18 +56,24 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
   protected static final boolean SERIALIZABLE_EDEFAULT = true;
 
   /**
-   * The cached value of the '{@link #isSerializable() <em>Serializable</em>}' attribute.
+   * The flag representing the value of the '{@link #isSerializable() <em>Serializable</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isSerializable()
    * @generated
    * @ordered
    */
-  protected boolean serializable = SERIALIZABLE_EDEFAULT;
+  protected static final int SERIALIZABLE_EFLAG = 1 << 8;
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   protected EDataTypeImpl()
   {
     super();
+    eFlags |= SERIALIZABLE_EFLAG;
   }
 
   protected Object defaultValue = null;
@@ -151,7 +157,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    */
   public boolean isSerializable()
   {
-    return serializable;
+    return (eFlags & SERIALIZABLE_EFLAG) != 0;
   }
 
   /**
@@ -161,10 +167,10 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    */
   public void setSerializable(boolean newSerializable)
   {
-    boolean oldSerializable = serializable;
-    serializable = newSerializable;
+    boolean oldSerializable = (eFlags & SERIALIZABLE_EFLAG) != 0;
+    if (newSerializable) eFlags |= SERIALIZABLE_EFLAG; else eFlags &= ~SERIALIZABLE_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EDATA_TYPE__SERIALIZABLE, oldSerializable, serializable));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EDATA_TYPE__SERIALIZABLE, oldSerializable, newSerializable));
   }
 
   /**
@@ -273,7 +279,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (serializable: ");
-    result.append(serializable);
+    result.append((eFlags & SERIALIZABLE_EFLAG) != 0);
     result.append(')');
     return result.toString();
   }
@@ -300,7 +306,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
       case EcorePackage.EDATA_TYPE__EPACKAGE:
         return getEPackage() != null;
       case EcorePackage.EDATA_TYPE__SERIALIZABLE:
-        return serializable != SERIALIZABLE_EDEFAULT;
+        return ((eFlags & SERIALIZABLE_EFLAG) != 0) != SERIALIZABLE_EDEFAULT;
     }
     return eDynamicIsSet(eFeature);
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementImpl.java,v 1.3 2004/08/12 15:03:56 emerks Exp $
+ * $Id: ETypedElementImpl.java,v 1.4 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -62,14 +62,14 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
   protected static final boolean ORDERED_EDEFAULT = true;
 
   /**
-   * The cached value of the '{@link #isOrdered() <em>Ordered</em>}' attribute.
+   * The flag representing the value of the '{@link #isOrdered() <em>Ordered</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isOrdered()
    * @generated
    * @ordered
    */
-  protected boolean ordered = ORDERED_EDEFAULT;
+  protected static final int ORDERED_EFLAG = 1 << 8;
 
   /**
    * The default value of the '{@link #isUnique() <em>Unique</em>}' attribute.
@@ -82,14 +82,14 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
   protected static final boolean UNIQUE_EDEFAULT = true;
 
   /**
-   * The cached value of the '{@link #isUnique() <em>Unique</em>}' attribute.
+   * The flag representing the value of the '{@link #isUnique() <em>Unique</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isUnique()
    * @generated
    * @ordered
    */
-  protected boolean unique = UNIQUE_EDEFAULT;
+  protected static final int UNIQUE_EFLAG = 1 << 9;
 
   /**
    * The default value of the '{@link #getLowerBound() <em>Lower Bound</em>}' attribute.
@@ -169,6 +169,8 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
   protected ETypedElementImpl()
   {
     super();
+    eFlags |= ORDERED_EFLAG;
+    eFlags |= UNIQUE_EFLAG;
   }
 
   public void freeze()
@@ -194,7 +196,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    */
   public boolean isOrdered()
   {
-    return ordered;
+    return (eFlags & ORDERED_EFLAG) != 0;
   }
 
   /**
@@ -204,10 +206,10 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    */
   public void setOrdered(boolean newOrdered)
   {
-    boolean oldOrdered = ordered;
-    ordered = newOrdered;
+    boolean oldOrdered = (eFlags & ORDERED_EFLAG) != 0;
+    if (newOrdered) eFlags |= ORDERED_EFLAG; else eFlags &= ~ORDERED_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ETYPED_ELEMENT__ORDERED, oldOrdered, ordered));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ETYPED_ELEMENT__ORDERED, oldOrdered, newOrdered));
   }
 
   /**
@@ -217,7 +219,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    */
   public boolean isUnique()
   {
-    return unique;
+    return (eFlags & UNIQUE_EFLAG) != 0;
   }
 
   /**
@@ -227,10 +229,10 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    */
   public void setUnique(boolean newUnique)
   {
-    boolean oldUnique = unique;
-    unique = newUnique;
+    boolean oldUnique = (eFlags & UNIQUE_EFLAG) != 0;
+    if (newUnique) eFlags |= UNIQUE_EFLAG; else eFlags &= ~UNIQUE_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ETYPED_ELEMENT__UNIQUE, oldUnique, unique));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ETYPED_ELEMENT__UNIQUE, oldUnique, newUnique));
   }
 
   /**
@@ -427,9 +429,9 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
       case EcorePackage.ETYPED_ELEMENT__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case EcorePackage.ETYPED_ELEMENT__ORDERED:
-        return ordered != ORDERED_EDEFAULT;
+        return ((eFlags & ORDERED_EFLAG) != 0) != ORDERED_EDEFAULT;
       case EcorePackage.ETYPED_ELEMENT__UNIQUE:
-        return unique != UNIQUE_EDEFAULT;
+        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
       case EcorePackage.ETYPED_ELEMENT__LOWER_BOUND:
         return lowerBound != LOWER_BOUND_EDEFAULT;
       case EcorePackage.ETYPED_ELEMENT__UPPER_BOUND:
@@ -455,9 +457,9 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (ordered: ");
-    result.append(ordered);
+    result.append((eFlags & ORDERED_EFLAG) != 0);
     result.append(", unique: ");
-    result.append(unique);
+    result.append((eFlags & UNIQUE_EFLAG) != 0);
     result.append(", lowerBound: ");
     result.append(lowerBound);
     result.append(", upperBound: ");

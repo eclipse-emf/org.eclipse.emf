@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterImpl.java,v 1.3 2004/12/16 21:33:53 emerks Exp $
+ * $Id: EParameterImpl.java,v 1.4 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -191,9 +191,9 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
       case EcorePackage.EPARAMETER__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case EcorePackage.EPARAMETER__ORDERED:
-        return ordered != ORDERED_EDEFAULT;
+        return ((eFlags & ORDERED_EFLAG) != 0) != ORDERED_EDEFAULT;
       case EcorePackage.EPARAMETER__UNIQUE:
-        return unique != UNIQUE_EDEFAULT;
+        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
       case EcorePackage.EPARAMETER__LOWER_BOUND:
         return lowerBound != LOWER_BOUND_EDEFAULT;
       case EcorePackage.EPARAMETER__UPPER_BOUND:

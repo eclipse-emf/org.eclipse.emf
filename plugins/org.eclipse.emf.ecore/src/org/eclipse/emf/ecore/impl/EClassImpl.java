@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.8 2004/12/16 21:33:53 emerks Exp $
+ * $Id: EClassImpl.java,v 1.9 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -94,6 +94,11 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   protected Map eNameToFeatureMap;
   protected ESuperAdapter eSuperAdapter;
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   protected EClassImpl()
   {
     super();
@@ -681,14 +686,14 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   protected static final boolean ABSTRACT_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
+   * The flag representing the value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isAbstract()
    * @generated
    * @ordered
    */
-  protected boolean abstract_ = ABSTRACT_EDEFAULT;
+  protected static final int ABSTRACT_EFLAG = 1 << 8;
 
   /**
    * The default value of the '{@link #isInterface() <em>Interface</em>}' attribute.
@@ -701,14 +706,14 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   protected static final boolean INTERFACE_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isInterface() <em>Interface</em>}' attribute.
+   * The flag representing the value of the '{@link #isInterface() <em>Interface</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isInterface()
    * @generated
    * @ordered
    */
-  protected boolean interface_ = INTERFACE_EDEFAULT;
+  protected static final int INTERFACE_EFLAG = 1 << 9;
 
   /**
    * The cached value of the '{@link #getESuperTypes() <em>ESuper Types</em>}' reference list.
@@ -767,7 +772,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    */
   public boolean isAbstract()
   {
-    return abstract_;
+    return (eFlags & ABSTRACT_EFLAG) != 0;
   }
 
   /**
@@ -777,10 +782,10 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    */
   public void setAbstract(boolean newAbstract)
   {
-    boolean oldAbstract = abstract_;
-    abstract_ = newAbstract;
+    boolean oldAbstract = (eFlags & ABSTRACT_EFLAG) != 0;
+    if (newAbstract) eFlags |= ABSTRACT_EFLAG; else eFlags &= ~ABSTRACT_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ECLASS__ABSTRACT, oldAbstract, abstract_));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ECLASS__ABSTRACT, oldAbstract, newAbstract));
   }
 
   /**
@@ -790,7 +795,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    */
   public boolean isInterface()
   {
-    return interface_;
+    return (eFlags & INTERFACE_EFLAG) != 0;
   }
 
   /**
@@ -800,10 +805,10 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    */
   public void setInterface(boolean newInterface)
   {
-    boolean oldInterface = interface_;
-    interface_ = newInterface;
+    boolean oldInterface = (eFlags & INTERFACE_EFLAG) != 0;
+    if (newInterface) eFlags |= INTERFACE_EFLAG; else eFlags &= ~INTERFACE_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ECLASS__INTERFACE, oldInterface, interface_));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ECLASS__INTERFACE, oldInterface, newInterface));
   }
 
   /**
@@ -881,9 +886,9 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       case EcorePackage.ECLASS__EPACKAGE:
         return getEPackage() != null;
       case EcorePackage.ECLASS__ABSTRACT:
-        return abstract_ != ABSTRACT_EDEFAULT;
+        return ((eFlags & ABSTRACT_EFLAG) != 0) != ABSTRACT_EDEFAULT;
       case EcorePackage.ECLASS__INTERFACE:
-        return interface_ != INTERFACE_EDEFAULT;
+        return ((eFlags & INTERFACE_EFLAG) != 0) != INTERFACE_EDEFAULT;
       case EcorePackage.ECLASS__ESUPER_TYPES:
         return eSuperTypes != null && !eSuperTypes.isEmpty();
       case EcorePackage.ECLASS__EOPERATIONS:
@@ -1001,9 +1006,9 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (abstract: ");
-    result.append(abstract_);
+    result.append((eFlags & ABSTRACT_EFLAG) != 0);
     result.append(", interface: ");
-    result.append(interface_);
+    result.append((eFlags & INTERFACE_EFLAG) != 0);
     result.append(')');
     return result.toString();
   }

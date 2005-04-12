@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.11 2004/12/16 21:33:53 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.12 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -102,7 +102,10 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   protected Map eNameToEClassifierMap; 
 
   /**
+   * <!-- begin-user-doc -->
    * Creates an instance.
+   * <!-- end-user-doc -->
+   * @generated NOT
    */
   protected EPackageImpl()
   {

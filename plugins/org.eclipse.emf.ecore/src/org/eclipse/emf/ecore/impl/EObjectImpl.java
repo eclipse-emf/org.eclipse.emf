@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectImpl.java,v 1.5 2004/08/12 11:49:01 emerks Exp $
+ * $Id: EObjectImpl.java,v 1.6 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -94,7 +94,7 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
    * <!-- begin-user-doc -->
    * Creates an EObject.
    * <!-- end-user-doc -->
-   * @generated modifiable
+   * @generated
    */
   protected EObjectImpl() 
   {

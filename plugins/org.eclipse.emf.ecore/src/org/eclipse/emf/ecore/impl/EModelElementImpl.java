@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.2 2004/08/12 15:02:02 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.3 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -60,6 +60,11 @@ public abstract class EModelElementImpl extends EObjectImpl implements EModelEle
    */
   protected EList eAnnotations = null;
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   protected EModelElementImpl()
   {
     super();

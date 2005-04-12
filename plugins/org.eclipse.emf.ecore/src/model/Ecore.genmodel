@@ -5,7 +5,7 @@
     editDirectory="/org.eclipse.emf.ecore.edit/src" editorDirectory="/org.eclipse.emf.ecore.editor/src"
     modelPluginID="org.eclipse.emf.ecore" runtimeJar="true" modelName="Ecore" editPluginClass="org.eclipse.emf.ecore.provider.EcoreEditPlugin"
     editorPluginClass="org.eclipse.emf.ecore.presentation.EcoreEditorPlugin" updateClasspath="false"
-    runtimeCompatibility="false">
+    runtimeCompatibility="false" booleanFlagsField="eFlags" booleanFlagsReservedBits="8">
   <foreignModel>Ecore.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>

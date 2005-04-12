@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.3 2004/12/16 21:33:53 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.4 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -70,6 +70,11 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    */
   protected EList eExceptions = null;
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   protected EOperationImpl()
   {
     super();
@@ -247,9 +252,9 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
       case EcorePackage.EOPERATION__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case EcorePackage.EOPERATION__ORDERED:
-        return ordered != ORDERED_EDEFAULT;
+        return ((eFlags & ORDERED_EFLAG) != 0) != ORDERED_EDEFAULT;
       case EcorePackage.EOPERATION__UNIQUE:
-        return unique != UNIQUE_EDEFAULT;
+        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
       case EcorePackage.EOPERATION__LOWER_BOUND:
         return lowerBound != LOWER_BOUND_EDEFAULT;
       case EcorePackage.EOPERATION__UPPER_BOUND:

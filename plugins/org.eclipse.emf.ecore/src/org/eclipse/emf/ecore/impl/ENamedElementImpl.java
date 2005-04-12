@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ENamedElementImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: ENamedElementImpl.java,v 1.2 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -64,6 +64,11 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    */
   protected String name = NAME_EDEFAULT;
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   protected ENamedElementImpl()
   {
     super();

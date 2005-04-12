@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralImpl.java,v 1.2 2004/12/16 21:33:53 emerks Exp $
+ * $Id: EEnumLiteralImpl.java,v 1.3 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -88,6 +88,11 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    */
   protected Enumerator instance = INSTANCE_EDEFAULT;
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
   protected EEnumLiteralImpl()
   {
     super();

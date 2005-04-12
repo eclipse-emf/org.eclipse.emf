@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceImpl.java,v 1.3 2004/12/16 21:33:53 emerks Exp $
+ * $Id: EReferenceImpl.java,v 1.4 2005/04/12 20:03:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -60,14 +60,14 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
   protected static final boolean CONTAINMENT_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isContainment() <em>Containment</em>}' attribute.
+   * The flag representing the value of the '{@link #isContainment() <em>Containment</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isContainment()
    * @generated
    * @ordered
    */
-  protected boolean containment = CONTAINMENT_EDEFAULT;
+  protected static final int CONTAINMENT_EFLAG = 1 << 15;
 
   /**
    * The default value of the '{@link #isContainer() <em>Container</em>}' attribute.
@@ -90,14 +90,14 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
   protected static final boolean RESOLVE_PROXIES_EDEFAULT = true;
 
   /**
-   * The cached value of the '{@link #isResolveProxies() <em>Resolve Proxies</em>}' attribute.
+   * The flag representing the value of the '{@link #isResolveProxies() <em>Resolve Proxies</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isResolveProxies()
    * @generated
    * @ordered
    */
-  protected boolean resolveProxies = RESOLVE_PROXIES_EDEFAULT;
+  protected static final int RESOLVE_PROXIES_EFLAG = 1 << 16;
 
   /**
    * The cached value of the '{@link #getEOpposite() <em>EOpposite</em>}' reference.
@@ -109,11 +109,16 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    */
   protected EReference eOpposite = null;
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   protected EReferenceImpl()
   {
     super();
+    eFlags |= RESOLVE_PROXIES_EFLAG;
   }
-
 
   /**
    * <!-- begin-user-doc -->
@@ -205,9 +210,9 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       case EcorePackage.EREFERENCE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case EcorePackage.EREFERENCE__ORDERED:
-        return ordered != ORDERED_EDEFAULT;
+        return ((eFlags & ORDERED_EFLAG) != 0) != ORDERED_EDEFAULT;
       case EcorePackage.EREFERENCE__UNIQUE:
-        return unique != UNIQUE_EDEFAULT;
+        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
       case EcorePackage.EREFERENCE__LOWER_BOUND:
         return lowerBound != LOWER_BOUND_EDEFAULT;
       case EcorePackage.EREFERENCE__UPPER_BOUND:
@@ -219,27 +224,27 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       case EcorePackage.EREFERENCE__ETYPE:
         return eType != null;
       case EcorePackage.EREFERENCE__CHANGEABLE:
-        return changeable != CHANGEABLE_EDEFAULT;
+        return ((eFlags & CHANGEABLE_EFLAG) != 0) != CHANGEABLE_EDEFAULT;
       case EcorePackage.EREFERENCE__VOLATILE:
-        return volatile_ != VOLATILE_EDEFAULT;
+        return ((eFlags & VOLATILE_EFLAG) != 0) != VOLATILE_EDEFAULT;
       case EcorePackage.EREFERENCE__TRANSIENT:
-        return transient_ != TRANSIENT_EDEFAULT;
+        return ((eFlags & TRANSIENT_EFLAG) != 0) != TRANSIENT_EDEFAULT;
       case EcorePackage.EREFERENCE__DEFAULT_VALUE_LITERAL:
         return DEFAULT_VALUE_LITERAL_EDEFAULT == null ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
       case EcorePackage.EREFERENCE__DEFAULT_VALUE:
         return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
       case EcorePackage.EREFERENCE__UNSETTABLE:
-        return unsettable != UNSETTABLE_EDEFAULT;
+        return ((eFlags & UNSETTABLE_EFLAG) != 0) != UNSETTABLE_EDEFAULT;
       case EcorePackage.EREFERENCE__DERIVED:
-        return derived != DERIVED_EDEFAULT;
+        return ((eFlags & DERIVED_EFLAG) != 0) != DERIVED_EDEFAULT;
       case EcorePackage.EREFERENCE__ECONTAINING_CLASS:
         return getEContainingClass() != null;
       case EcorePackage.EREFERENCE__CONTAINMENT:
-        return containment != CONTAINMENT_EDEFAULT;
+        return ((eFlags & CONTAINMENT_EFLAG) != 0) != CONTAINMENT_EDEFAULT;
       case EcorePackage.EREFERENCE__CONTAINER:
         return isContainer() != CONTAINER_EDEFAULT;
       case EcorePackage.EREFERENCE__RESOLVE_PROXIES:
-        return resolveProxies != RESOLVE_PROXIES_EDEFAULT;
+        return ((eFlags & RESOLVE_PROXIES_EFLAG) != 0) != RESOLVE_PROXIES_EDEFAULT;
       case EcorePackage.EREFERENCE__EOPPOSITE:
         return eOpposite != null;
       case EcorePackage.EREFERENCE__EREFERENCE_TYPE:
@@ -378,7 +383,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    */
   public boolean isContainment()
   {
-    return containment;
+    return (eFlags & CONTAINMENT_EFLAG) != 0;
   }
 
   /**
@@ -388,10 +393,10 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    */
   public void setContainment(boolean newContainment)
   {
-    boolean oldContainment = containment;
-    containment = newContainment;
+    boolean oldContainment = (eFlags & CONTAINMENT_EFLAG) != 0;
+    if (newContainment) eFlags |= CONTAINMENT_EFLAG; else eFlags &= ~CONTAINMENT_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EREFERENCE__CONTAINMENT, oldContainment, containment));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EREFERENCE__CONTAINMENT, oldContainment, newContainment));
   }
 
   /**
@@ -412,7 +417,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    */
   public boolean isResolveProxies()
   {
-    return resolveProxies;
+    return (eFlags & RESOLVE_PROXIES_EFLAG) != 0;
   }
 
   /**
@@ -422,10 +427,10 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    */
   public void setResolveProxies(boolean newResolveProxies)
   {
-    boolean oldResolveProxies = resolveProxies;
-    resolveProxies = newResolveProxies;
+    boolean oldResolveProxies = (eFlags & RESOLVE_PROXIES_EFLAG) != 0;
+    if (newResolveProxies) eFlags |= RESOLVE_PROXIES_EFLAG; else eFlags &= ~RESOLVE_PROXIES_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EREFERENCE__RESOLVE_PROXIES, oldResolveProxies, resolveProxies));
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EREFERENCE__RESOLVE_PROXIES, oldResolveProxies, newResolveProxies));
   }
 
   /**
@@ -570,9 +575,9 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (containment: ");
-    result.append(containment);
+    result.append((eFlags & CONTAINMENT_EFLAG) != 0);
     result.append(", resolveProxies: ");
-    result.append(resolveProxies);
+    result.append((eFlags & RESOLVE_PROXIES_EFLAG) != 0);
     result.append(')');
     return result.toString();
   }
