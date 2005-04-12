@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.1 2004/11/03 23:07:10 marcelop Exp $
+ * $Id: DataGraphTest.java,v 1.2 2005/04/12 18:37:12 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -87,7 +87,7 @@ public class DataGraphTest extends TestCase
     expectedXML = "<sdo:datagraph xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\"><testClass name=\"Root\"><child name=\"Parent\"><child name=\"Child\"/></child></testClass></sdo:datagraph>"
       + System.getProperties().getProperty("line.separator");
 
-    modifiedXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\"><changeSummary><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges></changeSummary><testClass name=\"Root2\"><child name=\"Parent\"><child name=\"Child\"/></child></testClass></sdo:datagraph>"
+    modifiedXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\"><changeSummary xmlns=\"\"><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges></changeSummary><testClass name=\"Root2\"><child name=\"Parent\"><child name=\"Child\"/></child></testClass></sdo:datagraph>"
       + System.getProperties().getProperty("line.separator");
 
     finalXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\"><changeSummary><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges><objectChanges key=\"#//@eRootObject/@child.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\"><listChanges index=\"0\" referenceValues=\"#//@eChangeSummary/@objectsToAttach.0\"/></value></objectChanges><objectChanges key=\"#//@eChangeSummary/@objectsToAttach.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Child\"/><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\" set=\"false\"/></objectChanges><objectsToAttach xsi:type=\"testClass\"/></changeSummary><testClass name=\"Root2\"><child name=\"Parent\"/></testClass></sdo:datagraph>"
