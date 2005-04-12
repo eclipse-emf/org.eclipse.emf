@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.15 2004/12/21 20:55:19 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.16 2005/04/12 20:05:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.ecore.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -51,6 +52,8 @@ public class BasicExtendedMetaData implements ExtendedMetaData
   protected String annotationURI;
   protected EPackage.Registry registry;
   protected EPackage.Registry demandRegistry;
+  protected Map extendedMetaDataHolderCache;
+  protected Map annotationMap;
 
   public BasicExtendedMetaData()
   {
@@ -64,22 +67,46 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   public BasicExtendedMetaData(String annotationURI, EPackage.Registry registry)
   {
-    this.annotationURI = annotationURI;
-    this.registry = registry;
-    this.demandRegistry = new org.eclipse.emf.ecore.impl.EPackageRegistryImpl();
-    // init();
+    this(annotationURI, registry, null);
   }
 
+  public BasicExtendedMetaData(String annotationURI, EPackage.Registry registry, Map annotationMap)
+  {
+    this.annotationURI = annotationURI.intern();
+    this.registry = registry;
+    this.demandRegistry = new org.eclipse.emf.ecore.impl.EPackageRegistryImpl();
+    this.annotationMap = annotationMap;
+    
+    if (annotationURI != ANNOTATION_URI)
+    {
+      extendedMetaDataHolderCache = new HashMap();
+    }
+  }
+  
   protected EAnnotation getAnnotation(EModelElement eModelElement, boolean demandCreate)
   {
-    EAnnotation result = eModelElement.getEAnnotation(annotationURI);
-    if (result == null && demandCreate)
+    if (annotationMap != null)
     {
-      result = EcoreFactory.eINSTANCE.createEAnnotation();
-      result.setSource(annotationURI);
-      eModelElement.getEAnnotations().add(result);
+      EAnnotation result = (EAnnotation)annotationMap.get(eModelElement);
+      if (result == null && demandCreate)
+      {
+        result = EcoreFactory.eINSTANCE.createEAnnotation();
+        result.setSource(annotationURI);
+        annotationMap.put(eModelElement, result);
+      }
+      return result;
     }
-    return result;
+    else
+    {
+      EAnnotation result = eModelElement.getEAnnotation(annotationURI);
+      if (result == null && demandCreate)
+      {
+        result = EcoreFactory.eINSTANCE.createEAnnotation();
+        result.setSource(annotationURI);
+        eModelElement.getEAnnotations().add(result);
+      }
+      return result;
+    } 
   }
 
   public EClassifier getType(EPackage ePackage, String name)
@@ -1877,13 +1904,25 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   protected EPackageExtendedMetaData getExtendedMetaData(EPackage ePackage)
   {
-    EPackageExtendedMetaData.Holder holder = (EPackageExtendedMetaData.Holder)ePackage;
-    EPackageExtendedMetaData result = holder.getExtendedMetaData();
-    if (result == null)
+    if (extendedMetaDataHolderCache != null)
     {
-      holder.setExtendedMetaData(result = createEPackageExtendedMetaData(ePackage));
+      EPackageExtendedMetaData result = (EPackageExtendedMetaData)extendedMetaDataHolderCache.get(ePackage);
+      if (result == null)
+      {
+        extendedMetaDataHolderCache.put(ePackage, result = createEPackageExtendedMetaData(ePackage));
+      }
+      return result;
     }
-    return result;
+    else
+    {
+      EPackageExtendedMetaData.Holder holder = (EPackageExtendedMetaData.Holder)ePackage;
+      EPackageExtendedMetaData result = holder.getExtendedMetaData();
+      if (result == null)
+      {
+        holder.setExtendedMetaData(result = createEPackageExtendedMetaData(ePackage));
+      }
+      return result;
+    } 
   }
 
   protected EPackageExtendedMetaData createEPackageExtendedMetaData(EPackage ePackage)
@@ -2444,13 +2483,25 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   protected EClassifierExtendedMetaData getExtendedMetaData(EClassifier eClassifier)
   {
-    EClassifierExtendedMetaData.Holder holder = (EClassifierExtendedMetaData.Holder)eClassifier;
-    EClassifierExtendedMetaData result = holder.getExtendedMetaData();
-    if (result == null)
+    if (extendedMetaDataHolderCache != null)
     {
-      holder.setExtendedMetaData(result = createEClassifierExtendedMetaData(eClassifier));
+      EClassifierExtendedMetaData result = (EClassifierExtendedMetaData)extendedMetaDataHolderCache.get(eClassifier);
+      if (result == null)
+      {
+        extendedMetaDataHolderCache.put(eClassifier, result = createEClassifierExtendedMetaData(eClassifier));
+      }
+      return result;
     }
-    return result;
+    else
+    {
+      EClassifierExtendedMetaData.Holder holder = (EClassifierExtendedMetaData.Holder)eClassifier;
+      EClassifierExtendedMetaData result = holder.getExtendedMetaData();
+      if (result == null)
+      {
+        holder.setExtendedMetaData(result = createEClassifierExtendedMetaData(eClassifier));
+      }
+      return result;
+    }  
   }
 
   protected EClassifierExtendedMetaData createEClassifierExtendedMetaData(EClassifier eClassifier)
@@ -2624,13 +2675,25 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   protected EStructuralFeatureExtendedMetaData getExtendedMetaData(EStructuralFeature eStructuralFeature)
   {
-    EStructuralFeatureExtendedMetaData.Holder holder = (EStructuralFeatureExtendedMetaData.Holder)eStructuralFeature;
-    EStructuralFeatureExtendedMetaData result = holder.getExtendedMetaData();
-    if (result == null)
+    if (extendedMetaDataHolderCache != null)
     {
-      holder.setExtendedMetaData(result = createEStructuralFeatureExtendedMetaData(eStructuralFeature));
+      EStructuralFeatureExtendedMetaData result = (EStructuralFeatureExtendedMetaData)extendedMetaDataHolderCache.get(eStructuralFeature);
+      if (result == null)
+      {
+        extendedMetaDataHolderCache.put(eStructuralFeature, result = createEStructuralFeatureExtendedMetaData(eStructuralFeature));
+      }
+      return result;
     }
-    return result;
+    else
+    {
+      EStructuralFeatureExtendedMetaData.Holder holder = (EStructuralFeatureExtendedMetaData.Holder)eStructuralFeature;
+      EStructuralFeatureExtendedMetaData result = holder.getExtendedMetaData();
+      if (result == null)
+      {
+        holder.setExtendedMetaData(result = createEStructuralFeatureExtendedMetaData(eStructuralFeature));
+      }
+      return result;
+    }
   }
 
   protected EStructuralFeatureExtendedMetaData createEStructuralFeatureExtendedMetaData(EStructuralFeature eStructuralFeature)
