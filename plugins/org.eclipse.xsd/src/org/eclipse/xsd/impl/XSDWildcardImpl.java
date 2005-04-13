@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.2 2005/04/05 16:32:21 emerks Exp $
+ * $Id: XSDWildcardImpl.java,v 1.3 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -124,13 +124,13 @@ public class XSDWildcardImpl
   protected XSDProcessContents processContents = PROCESS_CONTENTS_EDEFAULT;
 
   /**
-   * This is true if the Process Contents attribute has been set.
+   * The flag representing whether the Process Contents attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean processContentsESet = false;
+  protected static final int PROCESS_CONTENTS_ESETFLAG = 1 << 8;
 
   /**
    * The cached value of the '{@link #getLexicalNamespaceConstraint() <em>Lexical Namespace Constraint</em>}' attribute list.
@@ -178,7 +178,12 @@ public class XSDWildcardImpl
     return null;
   }
 
-  protected XSDWildcardImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDWildcardImpl()
   {
     super();
   }
@@ -249,8 +254,8 @@ public class XSDWildcardImpl
   {
     XSDProcessContents oldProcessContents = processContents;
     processContents = newProcessContents == null ? PROCESS_CONTENTS_EDEFAULT : newProcessContents;
-    boolean oldProcessContentsESet = processContentsESet;
-    processContentsESet = true;
+    boolean oldProcessContentsESet = (eFlags & PROCESS_CONTENTS_ESETFLAG) != 0;
+    eFlags |= PROCESS_CONTENTS_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_WILDCARD__PROCESS_CONTENTS, oldProcessContents, processContents, !oldProcessContentsESet));
   }
@@ -263,9 +268,9 @@ public class XSDWildcardImpl
   public void unsetProcessContents()
   {
     XSDProcessContents oldProcessContents = processContents;
-    boolean oldProcessContentsESet = processContentsESet;
+    boolean oldProcessContentsESet = (eFlags & PROCESS_CONTENTS_ESETFLAG) != 0;
     processContents = PROCESS_CONTENTS_EDEFAULT;
-    processContentsESet = false;
+    eFlags &= ~PROCESS_CONTENTS_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_WILDCARD__PROCESS_CONTENTS, oldProcessContents, PROCESS_CONTENTS_EDEFAULT, oldProcessContentsESet));
   }
@@ -277,7 +282,7 @@ public class XSDWildcardImpl
    */
   public boolean isSetProcessContents()
   {
-    return processContentsESet;
+    return (eFlags & PROCESS_CONTENTS_ESETFLAG) != 0;
   }
 
   /**
@@ -561,7 +566,7 @@ public class XSDWildcardImpl
     result.append(", namespaceConstraint: ");
     result.append(namespaceConstraint);
     result.append(", processContents: ");
-    if (processContentsESet) result.append(processContents); else result.append("<unset>");
+    if ((eFlags & PROCESS_CONTENTS_ESETFLAG) != 0) result.append(processContents); else result.append("<unset>");
     result.append(", lexicalNamespaceConstraint: ");
     result.append(lexicalNamespaceConstraint);
     result.append(')');

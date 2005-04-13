@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.6 2004/11/09 17:05:15 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.7 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -171,13 +171,13 @@ public class XSDSimpleTypeDefinitionImpl
   protected XSDVariety variety = VARIETY_EDEFAULT;
 
   /**
-   * This is true if the Variety attribute has been set.
+   * The flag representing whether the Variety attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean varietyESet = false;
+  protected static final int VARIETY_ESETFLAG = 1 << 8;
 
   /**
    * The cached value of the '{@link #getFinal() <em>Final</em>}' attribute list.
@@ -315,7 +315,12 @@ public class XSDSimpleTypeDefinitionImpl
     return null;
   }
 
-  protected XSDSimpleTypeDefinitionImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDSimpleTypeDefinitionImpl()
   {
     super();
   }
@@ -349,8 +354,8 @@ public class XSDSimpleTypeDefinitionImpl
   {
     XSDVariety oldVariety = variety;
     variety = newVariety == null ? VARIETY_EDEFAULT : newVariety;
-    boolean oldVarietyESet = varietyESet;
-    varietyESet = true;
+    boolean oldVarietyESet = (eFlags & VARIETY_ESETFLAG) != 0;
+    eFlags |= VARIETY_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__VARIETY, oldVariety, variety, !oldVarietyESet));
   }
@@ -363,9 +368,9 @@ public class XSDSimpleTypeDefinitionImpl
   public void unsetVariety()
   {
     XSDVariety oldVariety = variety;
-    boolean oldVarietyESet = varietyESet;
+    boolean oldVarietyESet = (eFlags & VARIETY_ESETFLAG) != 0;
     variety = VARIETY_EDEFAULT;
-    varietyESet = false;
+    eFlags &= ~VARIETY_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__VARIETY, oldVariety, VARIETY_EDEFAULT, oldVarietyESet));
   }
@@ -377,7 +382,7 @@ public class XSDSimpleTypeDefinitionImpl
    */
   public boolean isSetVariety()
   {
-    return varietyESet;
+    return (eFlags & VARIETY_ESETFLAG) != 0;
   }
 
   /**
@@ -2814,7 +2819,7 @@ public class XSDSimpleTypeDefinitionImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (variety: ");
-    if (varietyESet) result.append(variety); else result.append("<unset>");
+    if ((eFlags & VARIETY_ESETFLAG) != 0) result.append(variety); else result.append("<unset>");
     result.append(", final: ");
     result.append(final_);
     result.append(", lexicalFinal: ");

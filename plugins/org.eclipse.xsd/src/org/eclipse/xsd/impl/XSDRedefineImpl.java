@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineImpl.java,v 1.6 2004/12/24 15:18:30 emerks Exp $
+ * $Id: XSDRedefineImpl.java,v 1.7 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -100,11 +100,15 @@ public class XSDRedefineImpl
     return null;
   }
 
-  protected XSDRedefineImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDRedefineImpl()
   {
     super();
   }
-
 
   /**
    * <!-- begin-user-doc -->

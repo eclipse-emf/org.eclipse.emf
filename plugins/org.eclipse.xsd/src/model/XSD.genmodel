@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.xsd/src"
     editDirectory="/org.eclipse.xsd.edit/src" editorDirectory="/org.eclipse.xsd.editor/src"
     modelPluginID="org.eclipse.xsd" runtimeJar="true" modelName="XSD" updateClasspath="false"
-    runtimeCompatibility="false">
+    runtimeCompatibility="false" booleanFlagsField="eFlags" booleanFlagsReservedBits="8">
   <foreignModel>XSD.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>

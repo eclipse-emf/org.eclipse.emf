@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDAttributeUseImpl.java,v 1.2 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -83,14 +83,14 @@ public class XSDAttributeUseImpl
   protected static final boolean REQUIRED_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isRequired() <em>Required</em>}' attribute.
+   * The flag representing the value of the '{@link #isRequired() <em>Required</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isRequired()
    * @generated
    * @ordered
    */
-  protected boolean required = REQUIRED_EDEFAULT;
+  protected static final int REQUIRED_EFLAG = 1 << 8;
 
   /**
    * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -133,13 +133,13 @@ public class XSDAttributeUseImpl
   protected XSDConstraint constraint = CONSTRAINT_EDEFAULT;
 
   /**
-   * This is true if the Constraint attribute has been set.
+   * The flag representing whether the Constraint attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean constraintESet = false;
+  protected static final int CONSTRAINT_ESETFLAG = 1 << 9;
 
   /**
    * The default value of the '{@link #getUse() <em>Use</em>}' attribute.
@@ -162,13 +162,13 @@ public class XSDAttributeUseImpl
   protected XSDAttributeUseCategory use = USE_EDEFAULT;
 
   /**
-   * This is true if the Use attribute has been set.
+   * The flag representing whether the Use attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean useESet = false;
+  protected static final int USE_ESETFLAG = 1 << 10;
 
   /**
    * The default value of the '{@link #getLexicalValue() <em>Lexical Value</em>}' attribute.
@@ -260,7 +260,12 @@ public class XSDAttributeUseImpl
     return Arrays.asList(objects);
   }
 
-  protected XSDAttributeUseImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDAttributeUseImpl()
   {
     super();
   }
@@ -282,7 +287,7 @@ public class XSDAttributeUseImpl
    */
   public boolean isRequired()
   {
-    return required;
+    return (eFlags & REQUIRED_EFLAG) != 0;
   }
 
   /**
@@ -292,10 +297,10 @@ public class XSDAttributeUseImpl
    */
   public void setRequired(boolean newRequired)
   {
-    boolean oldRequired = required;
-    required = newRequired;
+    boolean oldRequired = (eFlags & REQUIRED_EFLAG) != 0;
+    if (newRequired) eFlags |= REQUIRED_EFLAG; else eFlags &= ~REQUIRED_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ATTRIBUTE_USE__REQUIRED, oldRequired, required));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ATTRIBUTE_USE__REQUIRED, oldRequired, newRequired));
   }
 
   /**
@@ -340,8 +345,8 @@ public class XSDAttributeUseImpl
   {
     XSDConstraint oldConstraint = constraint;
     constraint = newConstraint == null ? CONSTRAINT_EDEFAULT : newConstraint;
-    boolean oldConstraintESet = constraintESet;
-    constraintESet = true;
+    boolean oldConstraintESet = (eFlags & CONSTRAINT_ESETFLAG) != 0;
+    eFlags |= CONSTRAINT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ATTRIBUTE_USE__CONSTRAINT, oldConstraint, constraint, !oldConstraintESet));
   }
@@ -354,9 +359,9 @@ public class XSDAttributeUseImpl
   public void unsetConstraint()
   {
     XSDConstraint oldConstraint = constraint;
-    boolean oldConstraintESet = constraintESet;
+    boolean oldConstraintESet = (eFlags & CONSTRAINT_ESETFLAG) != 0;
     constraint = CONSTRAINT_EDEFAULT;
-    constraintESet = false;
+    eFlags &= ~CONSTRAINT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_ATTRIBUTE_USE__CONSTRAINT, oldConstraint, CONSTRAINT_EDEFAULT, oldConstraintESet));
   }
@@ -368,7 +373,7 @@ public class XSDAttributeUseImpl
    */
   public boolean isSetConstraint()
   {
-    return constraintESet;
+    return (eFlags & CONSTRAINT_ESETFLAG) != 0;
   }
 
   /**
@@ -390,8 +395,8 @@ public class XSDAttributeUseImpl
   {
     XSDAttributeUseCategory oldUse = use;
     use = newUse == null ? USE_EDEFAULT : newUse;
-    boolean oldUseESet = useESet;
-    useESet = true;
+    boolean oldUseESet = (eFlags & USE_ESETFLAG) != 0;
+    eFlags |= USE_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ATTRIBUTE_USE__USE, oldUse, use, !oldUseESet));
   }
@@ -404,9 +409,9 @@ public class XSDAttributeUseImpl
   public void unsetUse()
   {
     XSDAttributeUseCategory oldUse = use;
-    boolean oldUseESet = useESet;
+    boolean oldUseESet = (eFlags & USE_ESETFLAG) != 0;
     use = USE_EDEFAULT;
-    useESet = false;
+    eFlags &= ~USE_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_ATTRIBUTE_USE__USE, oldUse, USE_EDEFAULT, oldUseESet));
   }
@@ -418,7 +423,7 @@ public class XSDAttributeUseImpl
    */
   public boolean isSetUse()
   {
-    return useESet;
+    return (eFlags & USE_ESETFLAG) != 0;
   }
 
   /**
@@ -675,7 +680,7 @@ public class XSDAttributeUseImpl
       case XSDPackage.XSD_ATTRIBUTE_USE__DIAGNOSTICS:
         return diagnostics != null && !diagnostics.isEmpty();
       case XSDPackage.XSD_ATTRIBUTE_USE__REQUIRED:
-        return required != REQUIRED_EDEFAULT;
+        return ((eFlags & REQUIRED_EFLAG) != 0) != REQUIRED_EDEFAULT;
       case XSDPackage.XSD_ATTRIBUTE_USE__VALUE:
         return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
       case XSDPackage.XSD_ATTRIBUTE_USE__CONSTRAINT:
@@ -703,13 +708,13 @@ public class XSDAttributeUseImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (required: ");
-    result.append(required);
+    result.append((eFlags & REQUIRED_EFLAG) != 0);
     result.append(", value: ");
     result.append(value);
     result.append(", constraint: ");
-    if (constraintESet) result.append(constraint); else result.append("<unset>");
+    if ((eFlags & CONSTRAINT_ESETFLAG) != 0) result.append(constraint); else result.append("<unset>");
     result.append(", use: ");
-    if (useESet) result.append(use); else result.append("<unset>");
+    if ((eFlags & USE_ESETFLAG) != 0) result.append(use); else result.append("<unset>");
     result.append(", lexicalValue: ");
     result.append(lexicalValue);
     result.append(')');

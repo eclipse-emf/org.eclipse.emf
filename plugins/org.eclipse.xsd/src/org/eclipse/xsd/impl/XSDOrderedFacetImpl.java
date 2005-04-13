@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDOrderedFacetImpl.java,v 1.2 2004/06/13 11:52:17 emerks Exp $
+ * $Id: XSDOrderedFacetImpl.java,v 1.3 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -72,7 +72,12 @@ public class XSDOrderedFacetImpl
    */
   protected XSDOrdered value = VALUE_EDEFAULT;
 
-  protected XSDOrderedFacetImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDOrderedFacetImpl()
   {
     super();
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDLengthFacetImpl.java,v 1.3 2004/07/28 14:25:04 emerks Exp $
+ * $Id: XSDLengthFacetImpl.java,v 1.4 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -95,7 +95,12 @@ public class XSDLengthFacetImpl
     return null;
   }
 
-  protected XSDLengthFacetImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDLengthFacetImpl()
   {
     super();
   }

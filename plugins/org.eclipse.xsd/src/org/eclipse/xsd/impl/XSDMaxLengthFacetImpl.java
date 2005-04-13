@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMaxLengthFacetImpl.java,v 1.3 2004/07/28 14:25:04 emerks Exp $
+ * $Id: XSDMaxLengthFacetImpl.java,v 1.4 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -92,7 +92,12 @@ public class XSDMaxLengthFacetImpl
     return null;
   }
 
-  protected XSDMaxLengthFacetImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDMaxLengthFacetImpl()
   {
     super();
   }

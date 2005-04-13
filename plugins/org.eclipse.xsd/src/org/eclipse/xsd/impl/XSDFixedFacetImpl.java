@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFixedFacetImpl.java,v 1.2 2004/06/13 11:52:17 emerks Exp $
+ * $Id: XSDFixedFacetImpl.java,v 1.3 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -70,23 +70,23 @@ public abstract class XSDFixedFacetImpl
   protected static final boolean FIXED_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isFixed() <em>Fixed</em>}' attribute.
+   * The flag representing the value of the '{@link #isFixed() <em>Fixed</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isFixed()
    * @generated
    * @ordered
    */
-  protected boolean fixed = FIXED_EDEFAULT;
+  protected static final int FIXED_EFLAG = 1 << 8;
 
   /**
-   * This is true if the Fixed attribute has been set.
+   * The flag representing whether the Fixed attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean fixedESet = false;
+  protected static final int FIXED_ESETFLAG = 1 << 9;
 
   public static XSDFixedFacet createFixedFacet(Node node)
   {
@@ -137,7 +137,12 @@ public abstract class XSDFixedFacetImpl
     return null;
   }
 
-  protected XSDFixedFacetImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDFixedFacetImpl()
   {
     super();
   }
@@ -159,7 +164,7 @@ public abstract class XSDFixedFacetImpl
    */
   public boolean isFixed()
   {
-    return fixed;
+    return (eFlags & FIXED_EFLAG) != 0;
   }
 
   /**
@@ -169,12 +174,12 @@ public abstract class XSDFixedFacetImpl
    */
   public void setFixed(boolean newFixed)
   {
-    boolean oldFixed = fixed;
-    fixed = newFixed;
-    boolean oldFixedESet = fixedESet;
-    fixedESet = true;
+    boolean oldFixed = (eFlags & FIXED_EFLAG) != 0;
+    if (newFixed) eFlags |= FIXED_EFLAG; else eFlags &= ~FIXED_EFLAG;
+    boolean oldFixedESet = (eFlags & FIXED_ESETFLAG) != 0;
+    eFlags |= FIXED_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_FIXED_FACET__FIXED, oldFixed, fixed, !oldFixedESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_FIXED_FACET__FIXED, oldFixed, newFixed, !oldFixedESet));
   }
 
   /**
@@ -184,10 +189,10 @@ public abstract class XSDFixedFacetImpl
    */
   public void unsetFixed()
   {
-    boolean oldFixed = fixed;
-    boolean oldFixedESet = fixedESet;
-    fixed = FIXED_EDEFAULT;
-    fixedESet = false;
+    boolean oldFixed = (eFlags & FIXED_EFLAG) != 0;
+    boolean oldFixedESet = (eFlags & FIXED_ESETFLAG) != 0;
+    if (FIXED_EDEFAULT) eFlags |= FIXED_EFLAG; else eFlags &= ~FIXED_EFLAG;
+    eFlags &= ~FIXED_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_FIXED_FACET__FIXED, oldFixed, FIXED_EDEFAULT, oldFixedESet));
   }
@@ -199,7 +204,7 @@ public abstract class XSDFixedFacetImpl
    */
   public boolean isSetFixed()
   {
-    return fixedESet;
+    return (eFlags & FIXED_ESETFLAG) != 0;
   }
 
   /**
@@ -362,7 +367,7 @@ public abstract class XSDFixedFacetImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (fixed: ");
-    if (fixedESet) result.append(fixed); else result.append("<unset>");
+    if ((eFlags & FIXED_ESETFLAG) != 0) result.append((eFlags & FIXED_EFLAG) != 0); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }

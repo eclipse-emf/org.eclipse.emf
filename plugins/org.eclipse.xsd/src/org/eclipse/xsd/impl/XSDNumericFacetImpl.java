@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNumericFacetImpl.java,v 1.2 2004/06/13 11:52:18 emerks Exp $
+ * $Id: XSDNumericFacetImpl.java,v 1.3 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -62,16 +62,21 @@ public class XSDNumericFacetImpl
   protected static final boolean VALUE_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isValue() <em>Value</em>}' attribute.
+   * The flag representing the value of the '{@link #isValue() <em>Value</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isValue()
    * @generated
    * @ordered
    */
-  protected boolean value = VALUE_EDEFAULT;
+  protected static final int VALUE_EFLAG = 1 << 8;
 
-  protected XSDNumericFacetImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDNumericFacetImpl()
   {
     super();
   }
@@ -93,7 +98,7 @@ public class XSDNumericFacetImpl
    */
   public boolean isValue()
   {
-    return value;
+    return (eFlags & VALUE_EFLAG) != 0;
   }
 
   /**
@@ -103,10 +108,10 @@ public class XSDNumericFacetImpl
    */
   public void setValue(boolean newValue)
   {
-    boolean oldValue = value;
-    value = newValue;
+    boolean oldValue = (eFlags & VALUE_EFLAG) != 0;
+    if (newValue) eFlags |= VALUE_EFLAG; else eFlags &= ~VALUE_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_NUMERIC_FACET__VALUE, oldValue, value));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_NUMERIC_FACET__VALUE, oldValue, newValue));
   }
 
   /**
@@ -253,7 +258,7 @@ public class XSDNumericFacetImpl
       case XSDPackage.XSD_NUMERIC_FACET__SIMPLE_TYPE_DEFINITION:
         return getSimpleTypeDefinition() != null;
       case XSDPackage.XSD_NUMERIC_FACET__VALUE:
-        return value != VALUE_EDEFAULT;
+        return ((eFlags & VALUE_EFLAG) != 0) != VALUE_EDEFAULT;
     }
     return eDynamicIsSet(eFeature);
   }
@@ -269,7 +274,7 @@ public class XSDNumericFacetImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (value: ");
-    result.append(value);
+    result.append((eFlags & VALUE_EFLAG) != 0);
     result.append(')');
     return result.toString();
   }

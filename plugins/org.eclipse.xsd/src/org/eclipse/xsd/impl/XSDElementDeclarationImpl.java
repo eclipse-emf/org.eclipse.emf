@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.7 2005/02/24 12:48:25 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.8 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -107,23 +107,23 @@ public class XSDElementDeclarationImpl
   protected static final boolean NILLABLE_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isNillable() <em>Nillable</em>}' attribute.
+   * The flag representing the value of the '{@link #isNillable() <em>Nillable</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isNillable()
    * @generated
    * @ordered
    */
-  protected boolean nillable = NILLABLE_EDEFAULT;
+  protected static final int NILLABLE_EFLAG = 1 << 10;
 
   /**
-   * This is true if the Nillable attribute has been set.
+   * The flag representing whether the Nillable attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean nillableESet = false;
+  protected static final int NILLABLE_ESETFLAG = 1 << 11;
 
   /**
    * The cached value of the '{@link #getDisallowedSubstitutions() <em>Disallowed Substitutions</em>}' attribute list.
@@ -156,23 +156,23 @@ public class XSDElementDeclarationImpl
   protected static final boolean ABSTRACT_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
+   * The flag representing the value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isAbstract()
    * @generated
    * @ordered
    */
-  protected boolean abstract_ = ABSTRACT_EDEFAULT;
+  protected static final int ABSTRACT_EFLAG = 1 << 12;
 
   /**
-   * This is true if the Abstract attribute has been set.
+   * The flag representing whether the Abstract attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean abstractESet = false;
+  protected static final int ABSTRACT_ESETFLAG = 1 << 13;
 
   /**
    * The cached value of the '{@link #getLexicalFinal() <em>Lexical Final</em>}' attribute list.
@@ -298,7 +298,12 @@ public class XSDElementDeclarationImpl
 
   protected int analysisState;
 
-  protected XSDElementDeclarationImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected XSDElementDeclarationImpl()
   {
     super();
     this.resolvedElementDeclaration = this;
@@ -322,7 +327,7 @@ public class XSDElementDeclarationImpl
    */
   public boolean isNillable()
   {
-    return nillable;
+    return (eFlags & NILLABLE_EFLAG) != 0;
   }
 
   /**
@@ -332,12 +337,12 @@ public class XSDElementDeclarationImpl
    */
   public void setNillable(boolean newNillable)
   {
-    boolean oldNillable = nillable;
-    nillable = newNillable;
-    boolean oldNillableESet = nillableESet;
-    nillableESet = true;
+    boolean oldNillable = (eFlags & NILLABLE_EFLAG) != 0;
+    if (newNillable) eFlags |= NILLABLE_EFLAG; else eFlags &= ~NILLABLE_EFLAG;
+    boolean oldNillableESet = (eFlags & NILLABLE_ESETFLAG) != 0;
+    eFlags |= NILLABLE_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ELEMENT_DECLARATION__NILLABLE, oldNillable, nillable, !oldNillableESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ELEMENT_DECLARATION__NILLABLE, oldNillable, newNillable, !oldNillableESet));
   }
 
   /**
@@ -347,10 +352,10 @@ public class XSDElementDeclarationImpl
    */
   public void unsetNillable()
   {
-    boolean oldNillable = nillable;
-    boolean oldNillableESet = nillableESet;
-    nillable = NILLABLE_EDEFAULT;
-    nillableESet = false;
+    boolean oldNillable = (eFlags & NILLABLE_EFLAG) != 0;
+    boolean oldNillableESet = (eFlags & NILLABLE_ESETFLAG) != 0;
+    if (NILLABLE_EDEFAULT) eFlags |= NILLABLE_EFLAG; else eFlags &= ~NILLABLE_EFLAG;
+    eFlags &= ~NILLABLE_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_ELEMENT_DECLARATION__NILLABLE, oldNillable, NILLABLE_EDEFAULT, oldNillableESet));
   }
@@ -362,7 +367,7 @@ public class XSDElementDeclarationImpl
    */
   public boolean isSetNillable()
   {
-    return nillableESet;
+    return (eFlags & NILLABLE_ESETFLAG) != 0;
   }
 
   /**
@@ -400,7 +405,7 @@ public class XSDElementDeclarationImpl
    */
   public boolean isAbstract()
   {
-    return abstract_;
+    return (eFlags & ABSTRACT_EFLAG) != 0;
   }
 
   /**
@@ -410,12 +415,12 @@ public class XSDElementDeclarationImpl
    */
   public void setAbstract(boolean newAbstract)
   {
-    boolean oldAbstract = abstract_;
-    abstract_ = newAbstract;
-    boolean oldAbstractESet = abstractESet;
-    abstractESet = true;
+    boolean oldAbstract = (eFlags & ABSTRACT_EFLAG) != 0;
+    if (newAbstract) eFlags |= ABSTRACT_EFLAG; else eFlags &= ~ABSTRACT_EFLAG;
+    boolean oldAbstractESet = (eFlags & ABSTRACT_ESETFLAG) != 0;
+    eFlags |= ABSTRACT_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ELEMENT_DECLARATION__ABSTRACT, oldAbstract, abstract_, !oldAbstractESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ELEMENT_DECLARATION__ABSTRACT, oldAbstract, newAbstract, !oldAbstractESet));
   }
 
   /**
@@ -425,10 +430,10 @@ public class XSDElementDeclarationImpl
    */
   public void unsetAbstract()
   {
-    boolean oldAbstract = abstract_;
-    boolean oldAbstractESet = abstractESet;
-    abstract_ = ABSTRACT_EDEFAULT;
-    abstractESet = false;
+    boolean oldAbstract = (eFlags & ABSTRACT_EFLAG) != 0;
+    boolean oldAbstractESet = (eFlags & ABSTRACT_ESETFLAG) != 0;
+    if (ABSTRACT_EDEFAULT) eFlags |= ABSTRACT_EFLAG; else eFlags &= ~ABSTRACT_EFLAG;
+    eFlags &= ~ABSTRACT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_ELEMENT_DECLARATION__ABSTRACT, oldAbstract, ABSTRACT_EDEFAULT, oldAbstractESet));
   }
@@ -440,7 +445,7 @@ public class XSDElementDeclarationImpl
    */
   public boolean isSetAbstract()
   {
-    return abstractESet;
+    return (eFlags & ABSTRACT_ESETFLAG) != 0;
   }
 
   /**
@@ -2245,13 +2250,13 @@ public class XSDElementDeclarationImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (nillable: ");
-    if (nillableESet) result.append(nillable); else result.append("<unset>");
+    if ((eFlags & NILLABLE_ESETFLAG) != 0) result.append((eFlags & NILLABLE_EFLAG) != 0); else result.append("<unset>");
     result.append(", disallowedSubstitutions: ");
     result.append(disallowedSubstitutions);
     result.append(", substitutionGroupExclusions: ");
     result.append(substitutionGroupExclusions);
     result.append(", abstract: ");
-    if (abstractESet) result.append(abstract_); else result.append("<unset>");
+    if ((eFlags & ABSTRACT_ESETFLAG) != 0) result.append((eFlags & ABSTRACT_EFLAG) != 0); else result.append("<unset>");
     result.append(", lexicalFinal: ");
     result.append(lexicalFinal);
     result.append(", block: ");

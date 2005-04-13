@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDScopeImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDScopeImpl.java,v 1.2 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -44,10 +44,16 @@ public abstract class XSDScopeImpl
   extends XSDComponentImpl 
   implements XSDScope
 {
-  protected XSDScopeImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDScopeImpl()
   {
     super();
   }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

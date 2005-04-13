@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMaxFacetImpl.java,v 1.3 2004/08/11 15:08:55 marcelop Exp $
+ * $Id: XSDMaxFacetImpl.java,v 1.4 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -102,7 +102,12 @@ public abstract class XSDMaxFacetImpl
    */
   protected static final boolean EXCLUSIVE_EDEFAULT = false;
 
-  protected XSDMaxFacetImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDMaxFacetImpl()
   {
     super();
   }

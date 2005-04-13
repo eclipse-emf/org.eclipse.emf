@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.5 2005/03/26 01:04:25 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.6 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -176,7 +176,12 @@ public class XSDAttributeGroupDefinitionImpl
 
   protected int analysisState;
 
-  protected XSDAttributeGroupDefinitionImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected XSDAttributeGroupDefinitionImpl()
   {
     super();
     this.resolvedAttributeGroupDefinition = this;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.13 2005/03/12 17:18:18 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.14 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -211,13 +211,13 @@ public class XSDSchemaImpl
   protected XSDForm attributeFormDefault = ATTRIBUTE_FORM_DEFAULT_EDEFAULT;
 
   /**
-   * This is true if the Attribute Form Default attribute has been set.
+   * The flag representing whether the Attribute Form Default attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean attributeFormDefaultESet = false;
+  protected static final int ATTRIBUTE_FORM_DEFAULT_ESETFLAG = 1 << 8;
 
   /**
    * The default value of the '{@link #getElementFormDefault() <em>Element Form Default</em>}' attribute.
@@ -240,13 +240,13 @@ public class XSDSchemaImpl
   protected XSDForm elementFormDefault = ELEMENT_FORM_DEFAULT_EDEFAULT;
 
   /**
-   * This is true if the Element Form Default attribute has been set.
+   * The flag representing whether the Element Form Default attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean elementFormDefaultESet = false;
+  protected static final int ELEMENT_FORM_DEFAULT_ESETFLAG = 1 << 9;
 
   /**
    * The cached value of the '{@link #getFinalDefault() <em>Final Default</em>}' attribute list.
@@ -766,7 +766,12 @@ public class XSDSchemaImpl
 
   protected boolean hasRetargetedNamespace = false;
 
-  protected XSDSchemaImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDSchemaImpl()
   {
     super();
   }
@@ -869,8 +874,8 @@ public class XSDSchemaImpl
   {
     XSDForm oldAttributeFormDefault = attributeFormDefault;
     attributeFormDefault = newAttributeFormDefault == null ? ATTRIBUTE_FORM_DEFAULT_EDEFAULT : newAttributeFormDefault;
-    boolean oldAttributeFormDefaultESet = attributeFormDefaultESet;
-    attributeFormDefaultESet = true;
+    boolean oldAttributeFormDefaultESet = (eFlags & ATTRIBUTE_FORM_DEFAULT_ESETFLAG) != 0;
+    eFlags |= ATTRIBUTE_FORM_DEFAULT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_SCHEMA__ATTRIBUTE_FORM_DEFAULT, oldAttributeFormDefault, attributeFormDefault, !oldAttributeFormDefaultESet));
   }
@@ -883,9 +888,9 @@ public class XSDSchemaImpl
   public void unsetAttributeFormDefault()
   {
     XSDForm oldAttributeFormDefault = attributeFormDefault;
-    boolean oldAttributeFormDefaultESet = attributeFormDefaultESet;
+    boolean oldAttributeFormDefaultESet = (eFlags & ATTRIBUTE_FORM_DEFAULT_ESETFLAG) != 0;
     attributeFormDefault = ATTRIBUTE_FORM_DEFAULT_EDEFAULT;
-    attributeFormDefaultESet = false;
+    eFlags &= ~ATTRIBUTE_FORM_DEFAULT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_SCHEMA__ATTRIBUTE_FORM_DEFAULT, oldAttributeFormDefault, ATTRIBUTE_FORM_DEFAULT_EDEFAULT, oldAttributeFormDefaultESet));
   }
@@ -897,7 +902,7 @@ public class XSDSchemaImpl
    */
   public boolean isSetAttributeFormDefault()
   {
-    return attributeFormDefaultESet;
+    return (eFlags & ATTRIBUTE_FORM_DEFAULT_ESETFLAG) != 0;
   }
 
   /**
@@ -919,8 +924,8 @@ public class XSDSchemaImpl
   {
     XSDForm oldElementFormDefault = elementFormDefault;
     elementFormDefault = newElementFormDefault == null ? ELEMENT_FORM_DEFAULT_EDEFAULT : newElementFormDefault;
-    boolean oldElementFormDefaultESet = elementFormDefaultESet;
-    elementFormDefaultESet = true;
+    boolean oldElementFormDefaultESet = (eFlags & ELEMENT_FORM_DEFAULT_ESETFLAG) != 0;
+    eFlags |= ELEMENT_FORM_DEFAULT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_SCHEMA__ELEMENT_FORM_DEFAULT, oldElementFormDefault, elementFormDefault, !oldElementFormDefaultESet));
   }
@@ -933,9 +938,9 @@ public class XSDSchemaImpl
   public void unsetElementFormDefault()
   {
     XSDForm oldElementFormDefault = elementFormDefault;
-    boolean oldElementFormDefaultESet = elementFormDefaultESet;
+    boolean oldElementFormDefaultESet = (eFlags & ELEMENT_FORM_DEFAULT_ESETFLAG) != 0;
     elementFormDefault = ELEMENT_FORM_DEFAULT_EDEFAULT;
-    elementFormDefaultESet = false;
+    eFlags &= ~ELEMENT_FORM_DEFAULT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_SCHEMA__ELEMENT_FORM_DEFAULT, oldElementFormDefault, ELEMENT_FORM_DEFAULT_EDEFAULT, oldElementFormDefaultESet));
   }
@@ -947,7 +952,7 @@ public class XSDSchemaImpl
    */
   public boolean isSetElementFormDefault()
   {
-    return elementFormDefaultESet;
+    return (eFlags & ELEMENT_FORM_DEFAULT_ESETFLAG) != 0;
   }
 
   /**
@@ -2799,9 +2804,9 @@ public class XSDSchemaImpl
     result.append(", targetNamespace: ");
     result.append(targetNamespace);
     result.append(", attributeFormDefault: ");
-    if (attributeFormDefaultESet) result.append(attributeFormDefault); else result.append("<unset>");
+    if ((eFlags & ATTRIBUTE_FORM_DEFAULT_ESETFLAG) != 0) result.append(attributeFormDefault); else result.append("<unset>");
     result.append(", elementFormDefault: ");
-    if (elementFormDefaultESet) result.append(elementFormDefault); else result.append("<unset>");
+    if ((eFlags & ELEMENT_FORM_DEFAULT_ESETFLAG) != 0) result.append(elementFormDefault); else result.append("<unset>");
     result.append(", finalDefault: ");
     result.append(finalDefault);
     result.append(", blockDefault: ");

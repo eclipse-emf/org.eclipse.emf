@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationImpl.java,v 1.6 2005/02/24 12:48:25 emerks Exp $
+ * $Id: XSDAttributeDeclarationImpl.java,v 1.7 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -133,13 +133,17 @@ public class XSDAttributeDeclarationImpl
     return null;
   }
 
-  protected XSDAttributeDeclarationImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected XSDAttributeDeclarationImpl()
   {
     super();
     this.resolvedAttributeDeclaration = this;
     // this.setResolvedAttributeDeclaration = true;
   }
-
 
   /**
    * <!-- begin-user-doc -->

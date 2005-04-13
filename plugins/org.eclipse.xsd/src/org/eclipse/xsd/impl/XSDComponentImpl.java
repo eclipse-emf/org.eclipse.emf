@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComponentImpl.java,v 1.1 2004/03/06 18:00:10 marcelop Exp $
+ * $Id: XSDComponentImpl.java,v 1.2 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -44,10 +44,16 @@ public abstract class XSDComponentImpl
   extends XSDConcreteComponentImpl 
   implements XSDComponent
 {
-  protected XSDComponentImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDComponentImpl()
   {
     super();
   }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

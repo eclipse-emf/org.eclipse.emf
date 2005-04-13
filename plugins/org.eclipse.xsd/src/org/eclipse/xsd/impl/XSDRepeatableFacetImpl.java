@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRepeatableFacetImpl.java,v 1.2 2004/06/13 11:52:17 emerks Exp $
+ * $Id: XSDRepeatableFacetImpl.java,v 1.3 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -80,11 +80,16 @@ public abstract class XSDRepeatableFacetImpl
     return null;
   }
 
-  protected XSDRepeatableFacetImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDRepeatableFacetImpl()
   {
     super();
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

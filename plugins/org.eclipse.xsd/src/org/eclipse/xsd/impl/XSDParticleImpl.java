@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.3 2004/03/29 15:34:20 emerks Exp $
+ * $Id: XSDParticleImpl.java,v 1.4 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -107,13 +107,13 @@ public class XSDParticleImpl
   protected int minOccurs = MIN_OCCURS_EDEFAULT;
 
   /**
-   * This is true if the Min Occurs attribute has been set.
+   * The flag representing whether the Min Occurs attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean minOccursESet = false;
+  protected static final int MIN_OCCURS_ESETFLAG = 1 << 8;
 
   /**
    * The default value of the '{@link #getMaxOccurs() <em>Max Occurs</em>}' attribute.
@@ -136,13 +136,13 @@ public class XSDParticleImpl
   protected int maxOccurs = MAX_OCCURS_EDEFAULT;
 
   /**
-   * This is true if the Max Occurs attribute has been set.
+   * The flag representing whether the Max Occurs attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean maxOccursESet = false;
+  protected static final int MAX_OCCURS_ESETFLAG = 1 << 9;
 
   /**
    * The cached value of the '{@link #getContent() <em>Content</em>}' containment reference.
@@ -178,11 +178,15 @@ public class XSDParticleImpl
     return null;
   }
 
-  protected XSDParticleImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDParticleImpl()
   {
     super();
   }
-
 
   /**
    * <!-- begin-user-doc -->
@@ -213,8 +217,8 @@ public class XSDParticleImpl
   {
     int oldMinOccurs = minOccurs;
     minOccurs = newMinOccurs;
-    boolean oldMinOccursESet = minOccursESet;
-    minOccursESet = true;
+    boolean oldMinOccursESet = (eFlags & MIN_OCCURS_ESETFLAG) != 0;
+    eFlags |= MIN_OCCURS_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_PARTICLE__MIN_OCCURS, oldMinOccurs, minOccurs, !oldMinOccursESet));
   }
@@ -227,9 +231,9 @@ public class XSDParticleImpl
   public void unsetMinOccurs()
   {
     int oldMinOccurs = minOccurs;
-    boolean oldMinOccursESet = minOccursESet;
+    boolean oldMinOccursESet = (eFlags & MIN_OCCURS_ESETFLAG) != 0;
     minOccurs = MIN_OCCURS_EDEFAULT;
-    minOccursESet = false;
+    eFlags &= ~MIN_OCCURS_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_PARTICLE__MIN_OCCURS, oldMinOccurs, MIN_OCCURS_EDEFAULT, oldMinOccursESet));
   }
@@ -241,7 +245,7 @@ public class XSDParticleImpl
    */
   public boolean isSetMinOccurs()
   {
-    return minOccursESet;
+    return (eFlags & MIN_OCCURS_ESETFLAG) != 0;
   }
 
   /**
@@ -263,8 +267,8 @@ public class XSDParticleImpl
   {
     int oldMaxOccurs = maxOccurs;
     maxOccurs = newMaxOccurs;
-    boolean oldMaxOccursESet = maxOccursESet;
-    maxOccursESet = true;
+    boolean oldMaxOccursESet = (eFlags & MAX_OCCURS_ESETFLAG) != 0;
+    eFlags |= MAX_OCCURS_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_PARTICLE__MAX_OCCURS, oldMaxOccurs, maxOccurs, !oldMaxOccursESet));
   }
@@ -277,9 +281,9 @@ public class XSDParticleImpl
   public void unsetMaxOccurs()
   {
     int oldMaxOccurs = maxOccurs;
-    boolean oldMaxOccursESet = maxOccursESet;
+    boolean oldMaxOccursESet = (eFlags & MAX_OCCURS_ESETFLAG) != 0;
     maxOccurs = MAX_OCCURS_EDEFAULT;
-    maxOccursESet = false;
+    eFlags &= ~MAX_OCCURS_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_PARTICLE__MAX_OCCURS, oldMaxOccurs, MAX_OCCURS_EDEFAULT, oldMaxOccursESet));
   }
@@ -291,7 +295,7 @@ public class XSDParticleImpl
    */
   public boolean isSetMaxOccurs()
   {
-    return maxOccursESet;
+    return (eFlags & MAX_OCCURS_ESETFLAG) != 0;
   }
 
   /**
@@ -523,9 +527,9 @@ public class XSDParticleImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (minOccurs: ");
-    if (minOccursESet) result.append(minOccurs); else result.append("<unset>");
+    if ((eFlags & MIN_OCCURS_ESETFLAG) != 0) result.append(minOccurs); else result.append("<unset>");
     result.append(", maxOccurs: ");
-    if (maxOccursESet) result.append(maxOccurs); else result.append("<unset>");
+    if ((eFlags & MAX_OCCURS_ESETFLAG) != 0) result.append(maxOccurs); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }

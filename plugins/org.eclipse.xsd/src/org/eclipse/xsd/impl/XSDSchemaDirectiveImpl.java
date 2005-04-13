@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.5 2004/10/07 12:19:04 emerks Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.6 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -95,7 +95,12 @@ public abstract class XSDSchemaDirectiveImpl
    */
   protected XSDSchema resolvedSchema = null;
 
-  protected XSDSchemaDirectiveImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDSchemaDirectiveImpl()
   {
     super();
   }

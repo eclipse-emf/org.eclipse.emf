@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFactoryImpl.java,v 1.3 2004/05/16 16:47:39 emerks Exp $
+ * $Id: XSDFactoryImpl.java,v 1.4 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -39,7 +39,7 @@ import org.eclipse.xsd.*;
 public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

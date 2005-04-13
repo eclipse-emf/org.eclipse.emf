@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFeatureImpl.java,v 1.3 2004/08/11 15:08:54 marcelop Exp $
+ * $Id: XSDFeatureImpl.java,v 1.4 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -111,13 +111,13 @@ public abstract class XSDFeatureImpl
   protected XSDConstraint constraint = CONSTRAINT_EDEFAULT;
 
   /**
-   * This is true if the Constraint attribute has been set.
+   * The flag representing whether the Constraint attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean constraintESet = false;
+  protected static final int CONSTRAINT_ESETFLAG = 1 << 8;
 
   /**
    * The default value of the '{@link #getForm() <em>Form</em>}' attribute.
@@ -140,13 +140,13 @@ public abstract class XSDFeatureImpl
   protected XSDForm form = FORM_EDEFAULT;
 
   /**
-   * This is true if the Form attribute has been set.
+   * The flag representing whether the Form attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean formESet = false;
+  protected static final int FORM_ESETFLAG = 1 << 9;
 
   /**
    * The default value of the '{@link #getLexicalValue() <em>Lexical Value</em>}' attribute.
@@ -188,7 +188,12 @@ public abstract class XSDFeatureImpl
    */
   protected static final boolean FEATURE_REFERENCE_EDEFAULT = false;
 
-  protected XSDFeatureImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDFeatureImpl()
   {
     super();
   }
@@ -245,8 +250,8 @@ public abstract class XSDFeatureImpl
   {
     XSDConstraint oldConstraint = constraint;
     constraint = newConstraint == null ? CONSTRAINT_EDEFAULT : newConstraint;
-    boolean oldConstraintESet = constraintESet;
-    constraintESet = true;
+    boolean oldConstraintESet = (eFlags & CONSTRAINT_ESETFLAG) != 0;
+    eFlags |= CONSTRAINT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_FEATURE__CONSTRAINT, oldConstraint, constraint, !oldConstraintESet));
   }
@@ -259,9 +264,9 @@ public abstract class XSDFeatureImpl
   public void unsetConstraint()
   {
     XSDConstraint oldConstraint = constraint;
-    boolean oldConstraintESet = constraintESet;
+    boolean oldConstraintESet = (eFlags & CONSTRAINT_ESETFLAG) != 0;
     constraint = CONSTRAINT_EDEFAULT;
-    constraintESet = false;
+    eFlags &= ~CONSTRAINT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_FEATURE__CONSTRAINT, oldConstraint, CONSTRAINT_EDEFAULT, oldConstraintESet));
   }
@@ -273,7 +278,7 @@ public abstract class XSDFeatureImpl
    */
   public boolean isSetConstraint()
   {
-    return constraintESet;
+    return (eFlags & CONSTRAINT_ESETFLAG) != 0;
   }
 
   /**
@@ -295,8 +300,8 @@ public abstract class XSDFeatureImpl
   {
     XSDForm oldForm = form;
     form = newForm == null ? FORM_EDEFAULT : newForm;
-    boolean oldFormESet = formESet;
-    formESet = true;
+    boolean oldFormESet = (eFlags & FORM_ESETFLAG) != 0;
+    eFlags |= FORM_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_FEATURE__FORM, oldForm, form, !oldFormESet));
   }
@@ -309,9 +314,9 @@ public abstract class XSDFeatureImpl
   public void unsetForm()
   {
     XSDForm oldForm = form;
-    boolean oldFormESet = formESet;
+    boolean oldFormESet = (eFlags & FORM_ESETFLAG) != 0;
     form = FORM_EDEFAULT;
-    formESet = false;
+    eFlags &= ~FORM_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_FEATURE__FORM, oldForm, FORM_EDEFAULT, oldFormESet));
   }
@@ -323,7 +328,7 @@ public abstract class XSDFeatureImpl
    */
   public boolean isSetForm()
   {
-    return formESet;
+    return (eFlags & FORM_ESETFLAG) != 0;
   }
 
   /**
@@ -536,9 +541,9 @@ public abstract class XSDFeatureImpl
     result.append(" (value: ");
     result.append(value);
     result.append(", constraint: ");
-    if (constraintESet) result.append(constraint); else result.append("<unset>");
+    if ((eFlags & CONSTRAINT_ESETFLAG) != 0) result.append(constraint); else result.append("<unset>");
     result.append(", form: ");
-    if (formESet) result.append(form); else result.append("<unset>");
+    if ((eFlags & FORM_ESETFLAG) != 0) result.append(form); else result.append("<unset>");
     result.append(", lexicalValue: ");
     result.append(lexicalValue);
     result.append(')');

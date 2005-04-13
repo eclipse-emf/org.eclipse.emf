@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.5 2004/10/07 12:15:37 emerks Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.6 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -120,7 +120,12 @@ public class XSDModelGroupDefinitionImpl
 
   protected int analysisState;
 
-  protected XSDModelGroupDefinitionImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected XSDModelGroupDefinitionImpl()
   {
     super();
     this.resolvedModelGroupDefinition = this;

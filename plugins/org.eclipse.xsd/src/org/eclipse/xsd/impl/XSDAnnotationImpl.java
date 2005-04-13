@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnnotationImpl.java,v 1.2 2005/03/15 19:22:06 emerks Exp $
+ * $Id: XSDAnnotationImpl.java,v 1.3 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -106,7 +106,12 @@ public class XSDAnnotationImpl
     return null;
   }
 
-  protected XSDAnnotationImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDAnnotationImpl()
   {
     super();
   }

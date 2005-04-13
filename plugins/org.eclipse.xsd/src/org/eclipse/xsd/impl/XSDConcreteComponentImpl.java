@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.4 2004/10/07 12:18:29 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.5 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -140,7 +140,12 @@ public abstract class XSDConcreteComponentImpl
   protected boolean forceResolve; 
   protected EList xsdContents;
 
-  protected XSDConcreteComponentImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDConcreteComponentImpl()
   {
     super();
   }

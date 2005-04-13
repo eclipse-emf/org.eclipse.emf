@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWhiteSpaceFacetImpl.java,v 1.2 2004/06/13 11:52:18 emerks Exp $
+ * $Id: XSDWhiteSpaceFacetImpl.java,v 1.3 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -94,7 +94,12 @@ public class XSDWhiteSpaceFacetImpl
     return null;
   }
 
-  protected XSDWhiteSpaceFacetImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDWhiteSpaceFacetImpl()
   {
     super();
   }

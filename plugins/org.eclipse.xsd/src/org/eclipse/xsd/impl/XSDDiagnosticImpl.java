@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticImpl.java,v 1.2 2005/02/23 18:31:37 marcelop Exp $
+ * $Id: XSDDiagnosticImpl.java,v 1.3 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -217,7 +217,12 @@ public class XSDDiagnosticImpl
    */
   protected EList components = null;
 
-  protected XSDDiagnosticImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDDiagnosticImpl()
   {
     super();
   }

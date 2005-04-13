@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineContentImpl.java,v 1.1 2004/03/06 18:00:11 marcelop Exp $
+ * $Id: XSDRedefineContentImpl.java,v 1.2 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -74,10 +74,16 @@ public abstract class XSDRedefineContentImpl
     return null;
   }
 
-  protected XSDRedefineContentImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDRedefineContentImpl()
   {
     super();
   }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

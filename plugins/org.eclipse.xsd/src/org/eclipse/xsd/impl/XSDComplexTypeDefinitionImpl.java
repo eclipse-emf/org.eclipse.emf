@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.8 2005/02/22 16:23:20 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.9 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -132,13 +132,13 @@ public class XSDComplexTypeDefinitionImpl
   protected XSDDerivationMethod derivationMethod = DERIVATION_METHOD_EDEFAULT;
 
   /**
-   * This is true if the Derivation Method attribute has been set.
+   * The flag representing whether the Derivation Method attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean derivationMethodESet = false;
+  protected static final int DERIVATION_METHOD_ESETFLAG = 1 << 8;
 
   /**
    * The cached value of the '{@link #getFinal() <em>Final</em>}' attribute list.
@@ -161,23 +161,23 @@ public class XSDComplexTypeDefinitionImpl
   protected static final boolean ABSTRACT_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
+   * The flag representing the value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isAbstract()
    * @generated
    * @ordered
    */
-  protected boolean abstract_ = ABSTRACT_EDEFAULT;
+  protected static final int ABSTRACT_EFLAG = 1 << 9;
 
   /**
-   * This is true if the Abstract attribute has been set.
+   * The flag representing whether the Abstract attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean abstractESet = false;
+  protected static final int ABSTRACT_ESETFLAG = 1 << 10;
 
   /**
    * The default value of the '{@link #getContentTypeCategory() <em>Content Type Category</em>}' attribute.
@@ -240,23 +240,23 @@ public class XSDComplexTypeDefinitionImpl
   protected static final boolean MIXED_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isMixed() <em>Mixed</em>}' attribute.
+   * The flag representing the value of the '{@link #isMixed() <em>Mixed</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isMixed()
    * @generated
    * @ordered
    */
-  protected boolean mixed = MIXED_EDEFAULT;
+  protected static final int MIXED_EFLAG = 1 << 11;
 
   /**
-   * This is true if the Mixed attribute has been set.
+   * The flag representing whether the Mixed attribute has been set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected boolean mixedESet = false;
+  protected static final int MIXED_ESETFLAG = 1 << 12;
 
   /**
    * The cached value of the '{@link #getContentAnnotation() <em>Content Annotation</em>}' containment reference.
@@ -370,11 +370,15 @@ public class XSDComplexTypeDefinitionImpl
    return null;
   }
 
-  protected XSDComplexTypeDefinitionImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDComplexTypeDefinitionImpl()
   {
     super();
   }
-
 
   /**
    * <!-- begin-user-doc -->
@@ -405,8 +409,8 @@ public class XSDComplexTypeDefinitionImpl
   {
     XSDDerivationMethod oldDerivationMethod = derivationMethod;
     derivationMethod = newDerivationMethod == null ? DERIVATION_METHOD_EDEFAULT : newDerivationMethod;
-    boolean oldDerivationMethodESet = derivationMethodESet;
-    derivationMethodESet = true;
+    boolean oldDerivationMethodESet = (eFlags & DERIVATION_METHOD_ESETFLAG) != 0;
+    eFlags |= DERIVATION_METHOD_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__DERIVATION_METHOD, oldDerivationMethod, derivationMethod, !oldDerivationMethodESet));
   }
@@ -419,9 +423,9 @@ public class XSDComplexTypeDefinitionImpl
   public void unsetDerivationMethod()
   {
     XSDDerivationMethod oldDerivationMethod = derivationMethod;
-    boolean oldDerivationMethodESet = derivationMethodESet;
+    boolean oldDerivationMethodESet = (eFlags & DERIVATION_METHOD_ESETFLAG) != 0;
     derivationMethod = DERIVATION_METHOD_EDEFAULT;
-    derivationMethodESet = false;
+    eFlags &= ~DERIVATION_METHOD_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__DERIVATION_METHOD, oldDerivationMethod, DERIVATION_METHOD_EDEFAULT, oldDerivationMethodESet));
   }
@@ -433,7 +437,7 @@ public class XSDComplexTypeDefinitionImpl
    */
   public boolean isSetDerivationMethod()
   {
-    return derivationMethodESet;
+    return (eFlags & DERIVATION_METHOD_ESETFLAG) != 0;
   }
 
   /**
@@ -457,7 +461,7 @@ public class XSDComplexTypeDefinitionImpl
    */
   public boolean isAbstract()
   {
-    return abstract_;
+    return (eFlags & ABSTRACT_EFLAG) != 0;
   }
 
   /**
@@ -467,12 +471,12 @@ public class XSDComplexTypeDefinitionImpl
    */
   public void setAbstract(boolean newAbstract)
   {
-    boolean oldAbstract = abstract_;
-    abstract_ = newAbstract;
-    boolean oldAbstractESet = abstractESet;
-    abstractESet = true;
+    boolean oldAbstract = (eFlags & ABSTRACT_EFLAG) != 0;
+    if (newAbstract) eFlags |= ABSTRACT_EFLAG; else eFlags &= ~ABSTRACT_EFLAG;
+    boolean oldAbstractESet = (eFlags & ABSTRACT_ESETFLAG) != 0;
+    eFlags |= ABSTRACT_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ABSTRACT, oldAbstract, abstract_, !oldAbstractESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ABSTRACT, oldAbstract, newAbstract, !oldAbstractESet));
   }
 
   /**
@@ -482,10 +486,10 @@ public class XSDComplexTypeDefinitionImpl
    */
   public void unsetAbstract()
   {
-    boolean oldAbstract = abstract_;
-    boolean oldAbstractESet = abstractESet;
-    abstract_ = ABSTRACT_EDEFAULT;
-    abstractESet = false;
+    boolean oldAbstract = (eFlags & ABSTRACT_EFLAG) != 0;
+    boolean oldAbstractESet = (eFlags & ABSTRACT_ESETFLAG) != 0;
+    if (ABSTRACT_EDEFAULT) eFlags |= ABSTRACT_EFLAG; else eFlags &= ~ABSTRACT_EFLAG;
+    eFlags &= ~ABSTRACT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ABSTRACT, oldAbstract, ABSTRACT_EDEFAULT, oldAbstractESet));
   }
@@ -497,7 +501,7 @@ public class XSDComplexTypeDefinitionImpl
    */
   public boolean isSetAbstract()
   {
-    return abstractESet;
+    return (eFlags & ABSTRACT_ESETFLAG) != 0;
   }
 
   /**
@@ -612,7 +616,7 @@ public class XSDComplexTypeDefinitionImpl
    */
   public boolean isMixed()
   {
-    return mixed;
+    return (eFlags & MIXED_EFLAG) != 0;
   }
 
   /**
@@ -622,12 +626,12 @@ public class XSDComplexTypeDefinitionImpl
    */
   public void setMixed(boolean newMixed)
   {
-    boolean oldMixed = mixed;
-    mixed = newMixed;
-    boolean oldMixedESet = mixedESet;
-    mixedESet = true;
+    boolean oldMixed = (eFlags & MIXED_EFLAG) != 0;
+    if (newMixed) eFlags |= MIXED_EFLAG; else eFlags &= ~MIXED_EFLAG;
+    boolean oldMixedESet = (eFlags & MIXED_ESETFLAG) != 0;
+    eFlags |= MIXED_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__MIXED, oldMixed, mixed, !oldMixedESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__MIXED, oldMixed, newMixed, !oldMixedESet));
   }
 
   /**
@@ -637,10 +641,10 @@ public class XSDComplexTypeDefinitionImpl
    */
   public void unsetMixed()
   {
-    boolean oldMixed = mixed;
-    boolean oldMixedESet = mixedESet;
-    mixed = MIXED_EDEFAULT;
-    mixedESet = false;
+    boolean oldMixed = (eFlags & MIXED_EFLAG) != 0;
+    boolean oldMixedESet = (eFlags & MIXED_ESETFLAG) != 0;
+    if (MIXED_EDEFAULT) eFlags |= MIXED_EFLAG; else eFlags &= ~MIXED_EFLAG;
+    eFlags &= ~MIXED_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__MIXED, oldMixed, MIXED_EDEFAULT, oldMixedESet));
   }
@@ -652,7 +656,7 @@ public class XSDComplexTypeDefinitionImpl
    */
   public boolean isSetMixed()
   {
-    return mixedESet;
+    return (eFlags & MIXED_ESETFLAG) != 0;
   }
 
   /**
@@ -3255,11 +3259,11 @@ public class XSDComplexTypeDefinitionImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (derivationMethod: ");
-    if (derivationMethodESet) result.append(derivationMethod); else result.append("<unset>");
+    if ((eFlags & DERIVATION_METHOD_ESETFLAG) != 0) result.append(derivationMethod); else result.append("<unset>");
     result.append(", final: ");
     result.append(final_);
     result.append(", abstract: ");
-    if (abstractESet) result.append(abstract_); else result.append("<unset>");
+    if ((eFlags & ABSTRACT_ESETFLAG) != 0) result.append((eFlags & ABSTRACT_EFLAG) != 0); else result.append("<unset>");
     result.append(", contentTypeCategory: ");
     result.append(contentTypeCategory);
     result.append(", prohibitedSubstitutions: ");
@@ -3269,7 +3273,7 @@ public class XSDComplexTypeDefinitionImpl
     result.append(", block: ");
     result.append(block);
     result.append(", mixed: ");
-    if (mixedESet) result.append(mixed); else result.append("<unset>");
+    if ((eFlags & MIXED_ESETFLAG) != 0) result.append((eFlags & MIXED_EFLAG) != 0); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }

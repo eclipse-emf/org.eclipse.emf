@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaCompositorImpl.java,v 1.4 2004/12/26 13:34:50 emerks Exp $
+ * $Id: XSDSchemaCompositorImpl.java,v 1.5 2005/04/13 19:19:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -62,7 +62,12 @@ public abstract class XSDSchemaCompositorImpl
    */
   protected XSDSchema incorporatedSchema = null;
 
-  protected XSDSchemaCompositorImpl() 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected XSDSchemaCompositorImpl()
   {
     super();
   }
