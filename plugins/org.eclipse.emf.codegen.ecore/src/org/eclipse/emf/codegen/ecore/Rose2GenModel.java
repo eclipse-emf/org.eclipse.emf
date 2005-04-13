@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Rose2GenModel.java,v 1.13 2005/04/01 17:54:38 marcelop Exp $
+ * $Id: Rose2GenModel.java,v 1.14 2005/04/13 13:56:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -41,6 +41,7 @@ import org.eclipse.emf.codegen.ecore.rose2ecore.RoseUtil;
 import org.eclipse.emf.codegen.ecore.rose2ecore.UnitTreeNode;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -449,6 +450,31 @@ public class Rose2GenModel extends Generator
     {
       EPackage ePackage = (EPackage)i.next();
       System.err.println("The EPackage '" + ePackage.getName() + "' is used, but there's no GenPackage for it.");
+    }
+
+    // Special case for a reference to Ecore to ensure that flag settings are respected and are set only for Ecore itself.
+    //
+    for (Iterator i = referencedGenModel.getGenPackages().iterator(); i.hasNext(); )
+    {
+      GenPackage genPackage = (GenPackage)i.next();
+      if (EcorePackage.eNS_URI.equals(genPackage.getNSURI()))
+      {
+        if (referencedGenModel.getGenPackages().size() == 1)
+        {
+          referencedGenModel.setBooleanFlagsField("eFlags");
+          referencedGenModel.setBooleanFlagsReservedBits(8);
+        }
+        else
+        {
+          GenModel ecoreGenModel = GenModelFactory.eINSTANCE.createGenModel();
+          genModelResource.getContents().add(ecoreGenModel);
+          ecoreGenModel.getGenPackages().add(genPackage);
+          ecoreGenModel.setBooleanFlagsField("eFlags");
+          ecoreGenModel.setBooleanFlagsReservedBits(8);
+          ecoreGenModel.getForeignModel().addAll(generatedGenModel.getForeignModel());
+        }
+        break;
+      }
     }
 
     if (sdo)
