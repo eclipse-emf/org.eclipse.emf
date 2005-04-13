@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.24 2005/04/04 19:23:46 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.25 2005/04/13 16:02:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -615,7 +615,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     if (genFeature.isFlag())
     {
-      String flagsField = getGenModel().getBooleanFlagsField();
+      String flagsField = genFeature.getGenModel().getBooleanFlagsField();
       if (!isBlank(flagsField))
       {
         int flagIndex = getFlagIndex(genFeature);
@@ -633,7 +633,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     if (genFeature.isFlag())
     {
-      int reservedBooleanFlags = getGenModel().getBooleanFlagsReservedBits();
+      int reservedBooleanFlags = genFeature.getGenModel().getBooleanFlagsReservedBits();
       int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
 
       for (Iterator otherGenFeatures = getAllGenFeatures().iterator(); otherGenFeatures.hasNext();)
@@ -659,7 +659,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     if (genFeature.isESetFlag())
     {
-      String isSetFlagsField = getGenModel().getBooleanFlagsField();
+      String isSetFlagsField = genFeature.getGenModel().getBooleanFlagsField();
       if (!isBlank(isSetFlagsField))
       {
         int isSetFlagIndex = getESetFlagIndex(genFeature);
@@ -677,7 +677,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     if (genFeature.isESetFlag())
     {
-      int reservedBooleanFlags = getGenModel().getBooleanFlagsReservedBits();
+      int reservedBooleanFlags = genFeature.getGenModel().getBooleanFlagsReservedBits();
       int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
 
       for (Iterator otherGenFeatures = getAllGenFeatures().iterator(); otherGenFeatures.hasNext();)
