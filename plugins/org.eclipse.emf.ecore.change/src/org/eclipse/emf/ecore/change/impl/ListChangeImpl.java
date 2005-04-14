@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.4 2004/07/29 13:54:07 marcelop Exp $
+ * $Id: ListChangeImpl.java,v 1.5 2005/04/14 21:15:15 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -454,7 +454,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
         {
           getValues().add(originalList.get(getIndex()));
         }
-        int removeCount = getValues().isEmpty() ? 1 : getValues().size();
+        int removeCount = getValues().size();
         for (int i = 0; i < removeCount; ++i)
         {
           originalList.remove(index);
