@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.34 2005/04/11 17:38:35 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.35 2005/04/14 15:10:15 khussey Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2732,7 +2732,7 @@ public class XMLSaveImpl implements XMLSave
 
     public boolean shouldSaveType(EClass objectType, EClassifier featureType, EStructuralFeature feature)
     {
-      return objectType != featureType || objectType != anyType;
+      return objectType != featureType && objectType != anyType;
     }
 
     public boolean shouldSaveType(EClass objectType, EClass featureType, EStructuralFeature feature)
