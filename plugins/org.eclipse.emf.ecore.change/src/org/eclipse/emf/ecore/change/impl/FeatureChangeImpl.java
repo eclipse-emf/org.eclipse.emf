@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.15 2005/03/18 21:57:41 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.16 2005/04/14 19:28:40 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -523,10 +523,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       {
         if (feature.isMany())
         {
-          ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
-          listChange.setKind(ChangeKind.ADD_LITERAL);
-          listChange.setIndex(0);
-          getListChanges().add(listChange);
+          ListChange listChange = createListChange(getListChanges(), ChangeKind.ADD_LITERAL, 0);
           if (isEReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
           {
             listChange.getValues().addAll((EList)getValue());
@@ -755,5 +752,13 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     result.append(')');
     return result.toString();
   }
-
+  
+  protected ListChange createListChange(EList changesList, ChangeKind kind, int index)
+  {
+    ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
+    listChange.setKind(kind);
+    listChange.setIndex(index);
+    changesList.add(listChange);
+    return listChange;
+  }
 } //FeatureChangeImpl
