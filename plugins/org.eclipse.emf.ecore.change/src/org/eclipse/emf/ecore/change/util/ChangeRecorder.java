@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.26 2005/03/18 21:57:41 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.27 2005/04/14 19:16:31 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -42,7 +42,6 @@ import org.eclipse.emf.ecore.change.impl.FeatureChangeImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
