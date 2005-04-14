@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.21 2005/04/04 19:25:54 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.22 2005/04/14 20:29:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -753,7 +753,9 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     List parsedName = new ArrayList();
 
-    if (prefix != null && name.startsWith(prefix))
+    if (prefix != null && 
+          name.startsWith(prefix) && 
+          name.length() > prefix.length() && Character.isUpperCase(name.charAt(prefix.length())))
     {
       name = name.substring(prefix.length());
       if (includePrefix)
