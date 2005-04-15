@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.13 2005/01/21 20:08:11 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.14 2005/04/15 12:14:16 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1011,7 +1011,14 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
    */
   protected Object getValue(EObject object, EStructuralFeature feature)
   {
-    return object.eGet(feature);
+    try
+    {
+      return object.eGet(feature);
+    }
+    catch (Throwable exception)
+    {
+      return null;
+    }
   }
 
   /**
@@ -1075,12 +1082,19 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
     }
     else
     {
-      return 
-        feature instanceof EAttribute ? 
-          feature.isMany() ?
-            !((List)eObject.eGet(feature)).isEmpty() : 
-            eObject.eIsSet(feature) : 
-          eObject.eGet(feature) != null;
+      try
+      {
+        return 
+          feature instanceof EAttribute ? 
+            feature.isMany() ?
+              !((List)eObject.eGet(feature)).isEmpty() : 
+              eObject.eIsSet(feature) : 
+            eObject.eGet(feature) != null;
+      }
+      catch (Throwable exception)
+      {
+        return false;
+      }
     }
   }
 
