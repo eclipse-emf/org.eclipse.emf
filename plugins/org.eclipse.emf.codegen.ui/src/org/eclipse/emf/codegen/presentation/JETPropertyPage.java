@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETPropertyPage.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETPropertyPage.java,v 1.2 2005/04/18 12:08:45 emerks Exp $
  */
 package org.eclipse.emf.codegen.presentation;
 
@@ -47,7 +47,9 @@ public class JETPropertyPage extends PropertyPage implements Listener
   protected Text javaSourceField;
 
   protected List oldTemplateContainers;
+  protected List oldTemplateSourceContainers;
   protected List newTemplateContainers;
+  protected List newTemplateSourceContainers;
   protected IContainer oldJavaSoureContainer;
   protected IContainer newJavaSourceContainer;
 
@@ -78,7 +80,8 @@ public class JETPropertyPage extends PropertyPage implements Listener
         templateContainerField.setLayoutData(data);
 
         oldTemplateContainers = jetNature.getTemplateContainers();
-        templateContainerField.setText(JETNature.getContainers(project, oldTemplateContainers));
+        oldTemplateSourceContainers = jetNature.getTemplateSourceContainers();
+        templateContainerField.setText(JETNature.getContainers(project, oldTemplateContainers, oldTemplateSourceContainers));
         templateContainerField.addListener(SWT.Modify, this);
 
         // New Template Container Label
@@ -152,6 +155,7 @@ public class JETPropertyPage extends PropertyPage implements Listener
         try 
         {
           newTemplateContainers = JETNature.getContainers(getJETProject(), templateContainerField.getText());
+          newTemplateSourceContainers = JETNature.getContainers(getJETProject(), templateContainerField.getText(), true);
           // jetNature.setTemplateContainers(newTemplateContainers);
           setErrorMessage(null);
         } 
@@ -198,7 +202,8 @@ public class JETPropertyPage extends PropertyPage implements Listener
     {
       if (newTemplateContainers != null)
       {
-        jetNature.setTemplateContainers(newTemplateContainers);
+        jetNature.setTemplateContainers
+          (newTemplateContainers, newTemplateSourceContainers == null ? newTemplateContainers : newTemplateSourceContainers);
       }
       if (newJavaSourceContainer != null)
       {
