@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.11 2005/03/31 19:55:10 davidms Exp $
+ * $Id: JETCompiler.java,v 1.12 2005/04/18 12:06:24 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -139,8 +139,8 @@ public class JETCompiler implements JETParseEventListener
 
     this.templateURIPath = templateURIPath;
     this.templateURI = relativeTemplateURI;
-    String actualTemplateURI = find(templateURIPath, relativeTemplateURI);
-    this.reader = new JETReader(relativeTemplateURI, openStream(actualTemplateURI), encoding);
+    String[] actualTemplateURI = findLocation(templateURIPath, 0, relativeTemplateURI);
+    this.reader = new JETReader(actualTemplateURI[1], relativeTemplateURI, openStream(actualTemplateURI[0]), encoding);
   }
 
   public String getResolvedTemplateURI()
@@ -157,10 +157,35 @@ public class JETCompiler implements JETParseEventListener
       {
         String currentURI = start.getFile();
         String[] resolvedFileURI = resolveLocation(templateURIPath, currentURI, fileURI);
+        if (resolvedFileURI[0].equals(currentURI))
+        {
+          boolean loop = true;
+          if (templateURIPath != null)
+          {
+            String baseURI = start.getBaseURI();
+            if (baseURI != null)
+            {
+              for (int i = 0; i < templateURIPath.length; ++i)
+              {
+                if (baseURI.equals(templateURIPath[i]))
+                {
+                  resolvedFileURI = resolveLocation(templateURIPath, i + 1, currentURI, fileURI);
+                  loop = false;
+                }
+              }
+            }
+          }
+          if (loop)
+          {
+            // Break the cycle.
+            //
+            return;
+          } 
+        }
         try
         {
           BufferedInputStream bufferedInputStream = new BufferedInputStream(openStream(resolvedFileURI[1]));
-          reader.stackStream(resolvedFileURI[0], bufferedInputStream, null);
+          reader.stackStream(resolvedFileURI[2], resolvedFileURI[0], bufferedInputStream, null);
 
           // The include succeeded, so if there is an alternative and we're not skippping, we need to start.
           //
@@ -643,7 +668,12 @@ public class JETCompiler implements JETParseEventListener
 
   protected static String[] resolveLocation(String[] templateURIPath, String baseLocationURI, String locationURI)
   {
-    String[] result = new String []{ locationURI, locationURI };
+     return resolveLocation(templateURIPath, 0, baseLocationURI, locationURI);
+  }
+  
+  protected static String[] resolveLocation(String[] templateURIPath, int start, String baseLocationURI, String locationURI)
+  {
+    String[] result = new String []{ locationURI, locationURI, null};
     try
     {
       String file;
@@ -671,7 +701,9 @@ public class JETCompiler implements JETParseEventListener
         result[0] = resolvedLocation;
         if (templateURIPath != null)
         {
-          resolvedLocation = find(templateURIPath, resolvedLocation);
+          String [] location =  findLocation(templateURIPath, start, resolvedLocation);
+          resolvedLocation = location[0];
+          result[2] = location[1];
         }
         if (resolvedLocation != null)
         {
@@ -686,38 +718,44 @@ public class JETCompiler implements JETParseEventListener
     return result;
   }
 
-  public static String find(String[] locationURIPath, String relativeLocationURI)
+  public static String[] findLocation(String[] locationURIPath, int start, String relativeLocationURI)
   {
-    String result = null;
-    for (int i = 0; i < locationURIPath.length; ++i)
+    String[] result = { null, null};
+    for (int i = start; i < locationURIPath.length; ++i)
     {
-      result = locationURIPath[i];
+      result[0] = locationURIPath[i];
+      result[1] = locationURIPath[i];
 
-      if (result != null)
+      if (result[0] != null)
       {
         try
         {
-          if (!result.endsWith("/"))
+          if (!result[0].endsWith("/"))
           {
-            result += "/";
+            result[0] += "/";
           }
-          result += relativeLocationURI;
+          result[0] += relativeLocationURI;
   
-          InputStream inputStream = openStream(result);
+          InputStream inputStream = openStream(result[0]);
           inputStream.close();
           break;
         }
         catch (JETException exception)
         {
-          result = null;
+          result[0] = null;
         }
         catch (IOException exception)
         {
-          result = null;
+          result[0] = null;
         }
       }
     }
     return result;
+  }
+  
+  public static String find(String[] locationURIPath, String relativeLocationURI)
+  {
+    return findLocation(locationURIPath, 0, relativeLocationURI)[0];
   }
 
   public static InputStream openStream(String locationURI) throws JETException
