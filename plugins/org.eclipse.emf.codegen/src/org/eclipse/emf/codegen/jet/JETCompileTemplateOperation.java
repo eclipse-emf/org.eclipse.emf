@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompileTemplateOperation.java,v 1.2 2004/06/30 20:31:15 marcelop Exp $
+ * $Id: JETCompileTemplateOperation.java,v 1.3 2005/04/18 12:07:09 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -207,6 +207,7 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
       IWorkspaceRoot workspaceRoot =  ResourcesPlugin.getWorkspace().getRoot();
       Collection jetProjects = new HashSet();
 
+      HashSet visitedRelativePaths = new HashSet();
       for (Iterator i = files.iterator(); i.hasNext(); )
       {
         Object file = i.next();
@@ -219,6 +220,7 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
 
         IPath filePath = file instanceof IFile ? ((IFile)file).getFullPath() : new Path(file.toString());
         List templateContainers = nature.getTemplateContainers();
+        List templateSourceContainers = nature.getTemplateSourceContainers();
 
         String [] containerLocations = new String [templateContainers.size()];
         for (ListIterator j = templateContainers.listIterator(); j.hasNext(); )
@@ -234,71 +236,72 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
           }
         }
 
-        for (Iterator j = templateContainers.iterator(); j.hasNext(); )
+        for (Iterator j = templateSourceContainers.iterator(); j.hasNext(); )
         {
           Object container = j.next();
           IPath containerPath = container instanceof IContainer ? ((IContainer)container).getFullPath() : new Path(container.toString());
           if (containerPath.isPrefixOf(filePath))
           {
-            JETCompiler compiler = 
-              new JETCompiler
-                (containerLocations, 
-                 filePath.removeFirstSegments(containerPath.segmentCount()).setDevice(null).toString());
-            compiler.parse();
-
-            ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-            compiler.generate(arrayOutputStream);
-
-            JETSkeleton skeleton = compiler.getSkeleton();
-            if (skeleton.getClassName().equals("")) 
+            String relativePath = filePath.removeFirstSegments(containerPath.segmentCount()).setDevice(null).toString();
+            if (visitedRelativePaths.add(relativePath))
             {
-              skeleton.setClassName(fileName.substring(0, fileName.indexOf('.')));
-            }
-            if (skeleton.getPackageName() != null) 
-            {
-              directory = getPackageContainer(directory, skeleton.getPackageName(), new SubProgressMonitor(progressMonitor, 1));
-            }
-            else
-            {
+              JETCompiler compiler =  new JETCompiler(containerLocations, relativePath);
+              compiler.parse();
+  
+              ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
+              compiler.generate(arrayOutputStream);
+  
+              JETSkeleton skeleton = compiler.getSkeleton();
+              if (skeleton.getClassName().equals("")) 
+              {
+                skeleton.setClassName(fileName.substring(0, fileName.indexOf('.')));
+              }
+              if (skeleton.getPackageName() != null) 
+              {
+                directory = getPackageContainer(directory, skeleton.getPackageName(), new SubProgressMonitor(progressMonitor, 1));
+              }
+              else
+              {
+                progressMonitor.worked(1);
+              }
+  
+              IFile outputFile = 
+                workspaceRoot.getFile(directory.getFullPath().append(skeleton.getClassName() + ".java"));
+  
+              progressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_JETUpdate_message", new Object [] { fileName }));
+  
+              if (!outputFile.exists()) 
+              {
+                outputFile.create(new ByteArrayInputStream(arrayOutputStream.toByteArray()), true, progressMonitor);
+              } 
+              else 
+              {
+                boolean changed = true;
+                byte [] newBytes = arrayOutputStream.toByteArray();
+                try
+                {
+                  InputStream inputStream = outputFile.getContents();
+                  byte [] oldBytes =  new byte[inputStream.available()];
+                  inputStream.read(oldBytes);
+                  inputStream.close();
+                  changed = !Arrays.equals(oldBytes, newBytes);
+                }
+                catch (IOException exception) 
+                {
+                }
+  
+                if (changed)
+                {
+                  outputFile.setContents(new ByteArrayInputStream(arrayOutputStream.toByteArray()), true, true, progressMonitor);
+                }
+              }
+  
+              jetProjects.add(outputFile.getProject());
+  
               progressMonitor.worked(1);
+  
+              break;
             }
-
-            IFile outputFile = 
-              workspaceRoot.getFile(directory.getFullPath().append(skeleton.getClassName() + ".java"));
-
-            progressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_JETUpdate_message", new Object [] { fileName }));
-
-            if (!outputFile.exists()) 
-            {
-              outputFile.create(new ByteArrayInputStream(arrayOutputStream.toByteArray()), true, progressMonitor);
-            } 
-            else 
-            {
-              boolean changed = true;
-              byte [] newBytes = arrayOutputStream.toByteArray();
-              try
-              {
-                InputStream inputStream = outputFile.getContents();
-                byte [] oldBytes =  new byte[inputStream.available()];
-                inputStream.read(oldBytes);
-                inputStream.close();
-                changed = !Arrays.equals(oldBytes, newBytes);
-              }
-              catch (IOException exception) 
-              {
-              }
-
-              if (changed)
-              {
-                outputFile.setContents(new ByteArrayInputStream(arrayOutputStream.toByteArray()), true, true, progressMonitor);
-              }
-            }
-
-            jetProjects.add(outputFile.getProject());
-
-            progressMonitor.worked(1);
-
-            break;
           }
         }
       }
