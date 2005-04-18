@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETMark.java,v 1.2 2004/07/29 13:32:47 marcelop Exp $
+ * $Id: JETMark.java,v 1.3 2005/04/18 12:07:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -199,6 +199,11 @@ public final class JETMark
   public String getFile() 
   {
     return reader.getFile(fileid);
+  }
+  
+  public String getBaseURI() 
+  {
+    return reader.getBaseURI(fileid);
   }
 
   public String getLocalFile() 

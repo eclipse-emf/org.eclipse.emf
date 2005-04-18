@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETReader.java,v 1.4 2005/03/31 19:52:21 davidms Exp $
+ * $Id: JETReader.java,v 1.5 2005/04/18 12:07:59 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -42,25 +42,41 @@ public class JETReader
   protected JETMark current  = null;
   protected String master = null;
   protected List sourceFiles = new ArrayList();
+  protected List baseURIs = new ArrayList();
   protected int size = 0;
   protected boolean trimExtraNewLine = true;
 
+  public JETReader(String baseURI, String locationURI, InputStream inputStream, String encoding) throws JETException
+  {
+    stackStream(baseURI, locationURI, inputStream, encoding);
+  }
+  
   public JETReader(String locationURI, InputStream inputStream, String encoding) throws JETException
   {
-    stackStream(locationURI, inputStream, encoding);
+    this(null, locationURI, inputStream, encoding);
   }
 
   public String getFile(int fileid) 
   {
     return (String) sourceFiles.get(fileid);
   }
+  
+  public String getBaseURI(int fileid) 
+  {
+    return (String) baseURIs.get(fileid);
+  }
 
+  public void stackStream(String locationURI, InputStream iStream, String encoding) throws JETException
+  {
+    stackStream(null, locationURI, iStream, encoding);
+  }
+  
   /**
    * Stack a stream for parsing
    * @param iStream Stream ready to parse
    * @param encoding Optional encoding to read the file.
    */
-  public void stackStream(String locationURI, InputStream iStream, String encoding) throws JETException
+  public void stackStream(String baseURI, String locationURI, InputStream iStream, String encoding) throws JETException
   {
     InputStreamReader reader = null;
     try
@@ -75,6 +91,7 @@ public class JETReader
       // Register the file, and read its content:
       //
       int fileid    = registerSourceFile(locationURI);
+      registerBaseURI(baseURI);
       reader = new InputStreamReader(iStream, encoding);
       CharArrayWriter writer   = new CharArrayWriter();
       char            buf[] = new char[1024];
@@ -153,6 +170,17 @@ public class JETReader
     sourceFiles.add(file);
     ++this.size;
     return sourceFiles.size() - 1;
+  }
+  
+  /**
+   * Register a new baseURI.
+   * This method is used to implement file inclusion. Each included file
+   * gets a uniq identifier (which is the index in the array of base URIs).
+   * @return The index of the now registered file.
+   */
+  protected void registerBaseURI(String baseURI) 
+  {
+    baseURIs.add(baseURI);
   }
 
   /**
@@ -258,6 +286,7 @@ public class JETReader
   {
     int cur_cursor = current.cursor;
     int len = current.stream.length;
+    if (cur_cursor == len) return "";
     char ch;
 
     // pure obsfuscated genius!
