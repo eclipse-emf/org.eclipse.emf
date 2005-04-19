@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.27 2005/04/11 17:38:35 elena Exp $
+ * $Id: XMLHandler.java,v 1.28 2005/04/19 12:09:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2023,7 +2023,7 @@ public abstract class XMLHandler
         typedThat.eClass == eClass && 
         typedThat.isElement == isElement &&
         typedThat.featureName.equals(featureName) &&
-        (typedThat.namespaceURI != null)? typedThat.namespaceURI.equals(namespaceURI): namespaceURI == null;         
+        (typedThat.namespaceURI != null ? typedThat.namespaceURI.equals(namespaceURI): namespaceURI == null);         
     }
 
     public int hashCode()
