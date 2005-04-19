@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.28 2005/04/19 12:09:53 emerks Exp $
+ * $Id: XMLHandler.java,v 1.29 2005/04/19 16:29:40 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -333,7 +333,7 @@ public abstract class XMLHandler
     
     helper.setAnySimpleType(anySimpleType);
     
-    eClassFeatureNamePairToEStructuralFeatureMap = (HashMap)options.get(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP);
+    eClassFeatureNamePairToEStructuralFeatureMap = (Map)options.get(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP);
     if (eClassFeatureNamePairToEStructuralFeatureMap == null)
     {
       eClassFeatureNamePairToEStructuralFeatureMap = new HashMap();
