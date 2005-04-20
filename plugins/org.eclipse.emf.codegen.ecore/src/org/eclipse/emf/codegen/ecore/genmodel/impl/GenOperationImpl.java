@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.7 2005/04/04 19:23:46 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.8 2005/04/20 18:47:55 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -426,16 +426,43 @@ public class GenOperationImpl extends GenBaseImpl implements GenOperation
 
   public String getParameterTypes(String separator)
   {
+    return getParameterTypes(separator, true);
+  }
+
+  public String getParameterTypes(String separator, boolean qualified)
+  {
     StringBuffer parameterTypes = new StringBuffer();
+
     for (Iterator genParameters = getGenParameters().iterator(); genParameters.hasNext();)
     {
       GenParameter genParameter = (GenParameter)genParameters.next();
-      parameterTypes.append(genParameter.getImportedType());
+      String type = genParameter.getType();
+
+      if (!qualified)
+      {
+        int firstBracket = type.indexOf("[");
+        if (firstBracket != -1)
+        {
+          type = type.substring(0, firstBracket);
+        }
+
+        type = type.substring(type.lastIndexOf(".") + 1);
+
+        int firstDollar = type.indexOf("$");
+        if (firstDollar != -1)
+        {
+          type = type.substring(0, firstDollar);
+        }
+      }
+
+      parameterTypes.append(type);
+
       if (genParameters.hasNext())
       {
         parameterTypes.append(separator);
       }
     }
+
     return parameterTypes.toString();
   }
 

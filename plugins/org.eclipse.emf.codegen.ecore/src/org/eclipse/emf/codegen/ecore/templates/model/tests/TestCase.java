@@ -280,7 +280,7 @@ public class TestCase
     stringBuffer.append(TEXT_64);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_65);
-    stringBuffer.append(genFeature.getImportedType());
+    stringBuffer.append(genFeature.getType());
     stringBuffer.append(TEXT_66);
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_67);
@@ -288,7 +288,7 @@ public class TestCase
     stringBuffer.append(TEXT_68);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_69);
-    stringBuffer.append(genFeature.getImportedType());
+    stringBuffer.append(genFeature.getType());
     stringBuffer.append(TEXT_70);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_71);
@@ -355,7 +355,7 @@ public class TestCase
     stringBuffer.append(genOperation.getParameterTypes(", "));
     stringBuffer.append(TEXT_99);
     stringBuffer.append(genModel.capName(genOperation.getName()));
-    stringBuffer.append(genOperation.getGenParameters().size() == 0 ? "" : "__" + genOperation.getParameterTypes("_"));
+    stringBuffer.append(genOperation.getGenParameters().size() == 0 ? "" : "__" + genOperation.getParameterTypes("_", false));
     stringBuffer.append(TEXT_100);
     stringBuffer.append(TEXT_101);
     //TestCase/implementedGenOperation.todo.override.javajetinc

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.4 2005/03/07 21:26:06 khussey Exp $
+ * $Id: GenOperation.java,v 1.5 2005/04/20 18:47:55 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -127,6 +127,7 @@ public interface GenOperation extends GenBase
 
   String getParameters();
   String getParameterTypes(String separator);
+  String getParameterTypes(String separator, boolean qualified);
 
   String getImportedMetaType();
 

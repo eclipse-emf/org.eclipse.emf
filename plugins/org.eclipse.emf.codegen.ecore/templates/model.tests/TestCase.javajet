@@ -193,10 +193,10 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 <%@ start %>
 
 	/**
-	 * Tests the '{@link <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>) <em><%=genFeature.getFormattedName()%></em>}' feature setter.
+	 * Tests the '{@link <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#set<%=genFeature.getAccessorName()%>(<%=genFeature.getType()%>) <em><%=genFeature.getFormattedName()%></em>}' feature setter.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
+	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#set<%=genFeature.getAccessorName()%>(<%=genFeature.getType()%>)
 	 * @generated
 	 */
 	public void testSet<%=genFeature.getAccessorName()%>()
@@ -269,7 +269,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * @see <%=genOperation.getGenClass().getQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>)
 	 * @generated
 	 */
-	public void test<%=genModel.capName(genOperation.getName())%><%=genOperation.getGenParameters().size() == 0 ? "" : "__" + genOperation.getParameterTypes("_")%>()
+	public void test<%=genModel.capName(genOperation.getName())%><%=genOperation.getGenParameters().size() == 0 ? "" : "__" + genOperation.getParameterTypes("_", false)%>()
 	{
 <%@ include file="TestCase/implementedGenOperation.TODO.override.javajetinc" fail="alternative" %>
 <%@ start %>
