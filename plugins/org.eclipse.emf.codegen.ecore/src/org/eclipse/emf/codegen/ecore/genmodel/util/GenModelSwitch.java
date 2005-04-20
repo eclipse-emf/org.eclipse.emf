@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelSwitch.java,v 1.6 2004/07/29 13:32:42 marcelop Exp $
+ * $Id: GenModelSwitch.java,v 1.7 2005/04/20 02:48:54 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -139,6 +139,13 @@ public class GenModelSwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case GenModelPackage.GEN_BASE:
+      {
+        GenBase genBase = (GenBase)theEObject;
+        Object result = caseGenBase(genBase);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case GenModelPackage.GEN_ENUM:
       {
         GenEnum genEnum = (GenEnum)theEObject;
@@ -154,6 +161,14 @@ public class GenModelSwitch {
         GenEnumLiteral genEnumLiteral = (GenEnumLiteral)theEObject;
         Object result = caseGenEnumLiteral(genEnumLiteral);
         if (result == null) result = caseGenBase(genEnumLiteral);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case GenModelPackage.GEN_CLASSIFIER:
+      {
+        GenClassifier genClassifier = (GenClassifier)theEObject;
+        Object result = caseGenClassifier(genClassifier);
+        if (result == null) result = caseGenBase(genClassifier);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -187,13 +202,13 @@ public class GenModelSwitch {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>GenModel</em>'.
+   * Returns the result of interpretting the object as an instance of '<em>Gen Model</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>GenModel</em>'.
+   * @return the result of interpretting the object as an instance of '<em>Gen Model</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
