@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeFactoryImpl.java,v 1.3 2004/05/16 17:00:41 emerks Exp $
+ * $Id: TreeFactoryImpl.java,v 1.4 2005/04/20 03:20:26 davidms Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -32,7 +32,7 @@ import org.eclipse.emf.edit.tree.*;
 public class TreeFactoryImpl extends EFactoryImpl implements TreeFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

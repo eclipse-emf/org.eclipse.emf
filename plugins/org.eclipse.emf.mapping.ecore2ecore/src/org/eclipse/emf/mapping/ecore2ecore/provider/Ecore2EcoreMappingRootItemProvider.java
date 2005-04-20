@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreMappingRootItemProvider.java,v 1.2 2004/05/16 16:53:41 emerks Exp $
+ * $Id: Ecore2EcoreMappingRootItemProvider.java,v 1.3 2005/04/20 03:20:29 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.provider;
 
@@ -33,7 +33,7 @@ import org.eclipse.emf.mapping.provider.MappingRootItemProvider;
 
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.mapping.ecore2ecore.Ecore2EcoreMappingRoot} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.mapping.ecore2ecore.Ecore2EcoreMappingRoot} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

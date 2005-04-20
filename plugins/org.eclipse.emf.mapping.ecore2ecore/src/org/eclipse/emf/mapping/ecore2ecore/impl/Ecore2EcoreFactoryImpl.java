@@ -8,7 +8,7 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcoreFactoryImpl.java,v 1.3 2004/06/17 11:03:06 emerks Exp $
+ * $Id: Ecore2EcoreFactoryImpl.java,v 1.4 2005/04/20 03:20:29 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
@@ -30,7 +30,7 @@ import org.eclipse.emf.mapping.ecore2ecore.*;
 public class Ecore2EcoreFactoryImpl extends EFactoryImpl implements Ecore2EcoreFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

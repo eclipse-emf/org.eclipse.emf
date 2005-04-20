@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingFactoryImpl.java,v 1.3 2004/05/16 16:56:25 emerks Exp $
+ * $Id: MappingFactoryImpl.java,v 1.4 2005/04/20 03:20:25 davidms Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -32,7 +32,7 @@ import org.eclipse.emf.mapping.*;
 public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
