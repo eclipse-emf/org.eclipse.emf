@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreMappingRootItemProvider.java,v 1.3 2004/05/16 16:49:21 emerks Exp $
+ * $Id: XSD2EcoreMappingRootItemProvider.java,v 1.4 2005/04/20 03:22:43 davidms Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.provider;
 
@@ -33,7 +33,7 @@ import org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePlugin;
 // import org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMappingRoot;
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMappingRoot} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMappingRoot} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

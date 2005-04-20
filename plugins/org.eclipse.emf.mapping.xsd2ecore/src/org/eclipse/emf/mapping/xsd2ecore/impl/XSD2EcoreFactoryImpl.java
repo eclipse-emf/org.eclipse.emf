@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreFactoryImpl.java,v 1.3 2004/05/16 16:49:34 emerks Exp $
+ * $Id: XSD2EcoreFactoryImpl.java,v 1.4 2005/04/20 03:22:43 davidms Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
@@ -32,7 +32,7 @@ import org.eclipse.emf.mapping.xsd2ecore.*;
 public class XSD2EcoreFactoryImpl extends EFactoryImpl implements XSD2EcoreFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
