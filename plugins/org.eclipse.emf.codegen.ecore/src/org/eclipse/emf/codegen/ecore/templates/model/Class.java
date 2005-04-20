@@ -987,6 +987,7 @@ public class Class
     stringBuffer.append(TEXT_60);
     }
     }
+    }
     if (genFeature.isESetField()) {
     if (genFeature.isESetFlag()) {
     if (genClass.getESetFlagIndex(genFeature) > 31 && genClass.getESetFlagIndex(genFeature) % 32 == 0) {
@@ -1011,7 +1012,6 @@ public class Class
     stringBuffer.append(TEXT_70);
     stringBuffer.append(genFeature.getUncapName());
     stringBuffer.append(TEXT_71);
-    }
     }
     }
     }
