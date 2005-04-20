@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" version="$Id: Interface.javajet,v 1.6 2004/12/16 16:24:07 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" version="$Id: Interface.javajet,v 1.7 2005/04/20 15:17:16 khussey Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -70,98 +70,107 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 
 <%}%>
 <%for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
-<%if (!genFeature.isSuppressedGetVisibility()) {%>
+<%@ include file="Interface/genFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
+  <%if (genFeature.isGet() && !genFeature.isSuppressedGetVisibility()) {%>
+<%@ include file="Interface/getGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
 	/**
 	 * Returns the value of the '<em><b><%=genFeature.getFormattedName()%></b></em>' <%=genFeature.getFeatureKind()%>.
-<%if (genFeature.isListType()) {%>
-  <%if (genFeature.isMapType()) { GenFeature keyFeature = genFeature.getMapGenClass().getMapEntryKeyFeature(); GenFeature valueFeature = genFeature.getMapGenClass().getMapEntryValueFeature(); %>
+    <%if (genFeature.isListType()) {%>
+      <%if (genFeature.isMapType()) { GenFeature keyFeature = genFeature.getMapGenClass().getMapEntryKeyFeature(); GenFeature valueFeature = genFeature.getMapGenClass().getMapEntryValueFeature(); %>
 	 * The key is of type <%if (keyFeature.isListType()) {%>list of {@link <%=keyFeature.getQualifiedListItemType()%>}<%} else {%>{@link <%=keyFeature.getType()%>}<%}%>,
 	 * and the value is of type <%if (valueFeature.isListType()) {%>list of {@link <%=valueFeature.getQualifiedListItemType()%>}<%} else {%>{@link <%=valueFeature.getType()%>}<%}%>,
-  <%} else {%>
+      <%} else {%>
 	 * The list contents are of type {@link <%=genFeature.getQualifiedListItemType()%>}.
-  <%}%>
-<%} else if (genFeature.isSetDefaultValue()) {%>
+      <%}%>
+    <%} else if (genFeature.isSetDefaultValue()) {%>
 	 * The default value is <code><%=genFeature.getDefaultValue()%></code>.
-<%}%>
-<%if (genFeature.getGenEnumType() != null) {%>
+    <%}%>
+    <%if (genFeature.getGenEnumType() != null) {%>
 	 * The literals are from the enumeration {@link <%=genFeature.getGenEnumType().getQualifiedName()%>}.
-<%}%>
-<%if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); %>
-  <%if (!reverseGenFeature.isSuppressedGetVisibility()) {%>
+    <%}%>
+    <%if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); %>
+      <%if (!reverseGenFeature.isSuppressedGetVisibility()) {%>
 	 * It is bidirectional and its opposite is '{@link <%=reverseGenFeature.getGenClass().getQualifiedInterfaceName()%>#<%=reverseGenFeature.getGetAccessor()%> <em><%=reverseGenFeature.getFormattedName()%></em>}'.
-  <%}%>
-<%}%>
+      <%}%>
+    <%}%>
 	 * <!-- begin-user-doc -->
-<%if (!genFeature.hasDocumentation()) {%>
+    <%if (!genFeature.hasDocumentation()) {%>
 	 * <p>
 	 * If the meaning of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%> isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
-<%}%>
+    <%}%>
 	 * <!-- end-user-doc -->
-<%if (genFeature.hasDocumentation()) {%>
+    <%if (genFeature.hasDocumentation()) {%>
 	 * <!-- begin-model-doc -->
 	 * <%=genFeature.getDocumentation(genModel.getIndentation(stringBuffer))%>
 	 * <!-- end-model-doc -->
-<%}%>
+    <%}%>
 	 * @return the value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
-<%if (genFeature.getGenEnumType() != null) {%>
+    <%if (genFeature.getGenEnumType() != null) {%>
 	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
-<%}%>
-<%if (genFeature.isUnsettable()) {%>
-  <%if (!genFeature.isSuppressedIsSetVisibility()) {%>
+    <%}%>
+    <%if (genFeature.isUnsettable()) {%>
+      <%if (!genFeature.isSuppressedIsSetVisibility()) {%>
 	 * @see #isSet<%=genFeature.getAccessorName()%>()
-  <%}%>
-  <%if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {%>
+      <%}%>
+      <%if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {%>
 	 * @see #unset<%=genFeature.getAccessorName()%>()
-  <%}%>
-<%}%>
-<%if (genFeature.isChangeable() && !genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
+      <%}%>
+    <%}%>
+    <%if (genFeature.isChangeable() && !genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
 	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
-<%}%>
+    <%}%>
 	 * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genFeature.getFeatureAccessorName()%>()
-<%if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); %>
-  <%if (!reverseGenFeature.isSuppressedGetVisibility()) {%>
+    <%if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); %>
+      <%if (!reverseGenFeature.isSuppressedGetVisibility()) {%>
 	 * @see <%=reverseGenFeature.getGenClass().getQualifiedInterfaceName()%>#<%=reverseGenFeature.getGetAccessor()%>
-  <%}%>
-<%}%>
-<%{boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genFeature.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+      <%}%>
+    <%}%>
+    <%{boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genFeature.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
 	 * @model <%=modelInfo%>
-<%} else {%>
+    <%} else {%>
 	 *        <%=modelInfo%>
-<%}} if (first) {%>
+    <%}} if (first) {%>
 	 * @model
-<%}}%>
+    <%}}%>
 	 * @generated
 	 */
 	<%=genFeature.getImportedType()%> <%=genFeature.getGetAccessor()%>();
 
-<%}%>
-<%if (genFeature.isChangeable() && !genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
+<%@ end %><%//Interface/getGenFeature.override.javajetinc%>
+  <%}%>
+  <%if (genFeature.isSet() && !genFeature.isSuppressedSetVisibility()) {%>
+<%@ include file="Interface/setGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
 	/**
 	 * Sets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
-<%if (genFeature.isEnumType()) {%>
+    <%if (genFeature.isEnumType()) {%>
 	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
-<%}%>
-<%if (genFeature.isUnsettable()) {%>
-  <%if (!genFeature.isSuppressedIsSetVisibility()) {%>
+    <%}%>
+    <%if (genFeature.isUnsettable()) {%>
+      <%if (!genFeature.isSuppressedIsSetVisibility()) {%>
 	 * @see #isSet<%=genFeature.getAccessorName()%>()
-  <%}%>
-  <%if (!genFeature.isSuppressedUnsetVisibility()) {%>
+      <%}%>
+      <%if (!genFeature.isSuppressedUnsetVisibility()) {%>
 	 * @see #unset<%=genFeature.getAccessorName()%>()
-  <%}%>
-<%}%>
+      <%}%>
+    <%}%>
 	 * @see #<%=genFeature.getGetAccessor()%>()
 	 * @generated
 	 */
 	void set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%> value);
 
-<%}%>
-<%if (genFeature.isUnsettable()) {%>
-<%if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {%>
+<%@ end %><%//Interface/setGenFeature.override.javajetinc%>
+  <%}%>
+  <%if (genFeature.isUnset() && !genFeature.isSuppressedUnsetVisibility()) {%>
+<%@ include file="Interface/unsetGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
 	/**
 	 * Unsets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
 	 * <!-- begin-user-doc -->
@@ -170,54 +179,64 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	 * @see #isSet<%=genFeature.getAccessorName()%>()
   <%}%>
 	 * @see #<%=genFeature.getGetAccessor()%>()
-<%if (!genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
+  <%if (!genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
 	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
-<%}%>
+  <%}%>
 	 * @generated
 	 */
 	void unset<%=genFeature.getAccessorName()%>();
 
-<%}%>
-<%if (!genFeature.isSuppressedIsSetVisibility()) {%>
+<%@ end %><%//Interface/unsetGenFeature.override.javajetinc%>
+  <%}%>
+  <%if (genFeature.isIsSet() && !genFeature.isSuppressedIsSetVisibility()) {%>
+<%@ include file="Interface/isSetGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
 	/**
 	 * Returns whether the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%> is set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return whether the value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%> is set.
-  <%if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {%>
+    <%if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {%>
 	 * @see #unset<%=genFeature.getAccessorName()%>()
-  <%}%>
+    <%}%>
 	 * @see #<%=genFeature.getGetAccessor()%>()
-<%if (!genFeature.isListType() && genFeature.isChangeable() && !genFeature.isSuppressedSetVisibility()) {%>
+    <%if (!genFeature.isListType() && genFeature.isChangeable() && !genFeature.isSuppressedSetVisibility()) {%>
 	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
-<%}%>
+    <%}%>
 	 * @generated
 	 */
 	boolean isSet<%=genFeature.getAccessorName()%>();
 
-<%}%>
-<%}%>
+<%@ end %><%//Interface/isSetGenFeature.override.javajetinc%>
+  <%}%>
+<%@ include file="Interface/genFeature.insert.javajetinc" fail="silent" %>
+<%@ end %><%//Interface/genFeature.override.javajetinc%>
 <%}//for%>
 <%for (Iterator i=genClass.getGenOperations().iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();%>
+<%@ include file="Interface/genOperation.override.javajetinc" fail="alternative" %>
+<%@ start %>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-<%if (genOperation.hasDocumentation()) {%>
+  <%if (genOperation.hasDocumentation()) {%>
 	 * <!-- begin-model-doc -->
 	 * <%=genOperation.getDocumentation(genModel.getIndentation(stringBuffer))%>
 	 * <!-- end-model-doc -->
-<%}%>
-<%{boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genOperation.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+  <%}%>
+  <%{boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genOperation.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
 	 * @model <%=modelInfo%>
-<%} else {%>
+  <%} else {%>
 	 *        <%=modelInfo%>
-<%}} if (first) {%>
+  <%}} if (first) {%>
 	 * @model
-<%}}%>
+  <%}}%>
 	 * @generated
 	 */
 	<%=genOperation.getImportedReturnType()%> <%=genOperation.getName()%>(<%=genOperation.getParameters()%>)<%=genOperation.getThrows()%>;
 
+<%@ include file="Interface/genOperation.insert.javajetinc" fail="silent" %>
+<%@ end %><%//Interface/genOperation.override.javajetinc%>
 <%}//for%>
+<%@ include file="Interface/insert.javajetinc" fail="silent" %>
 } // <%=genClass.getInterfaceName()%>
 <%genModel.emitSortedImports();%>

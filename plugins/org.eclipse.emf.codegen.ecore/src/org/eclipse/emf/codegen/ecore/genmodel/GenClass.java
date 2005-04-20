@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.10 2005/03/16 20:52:48 khussey Exp $
+ * $Id: GenClass.java,v 1.11 2005/04/20 15:17:16 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -340,4 +340,7 @@ public interface GenClass extends GenClassifier
 
   boolean isDocumentRoot();
   GenFeature getMixedGenFeature();
+  
+  String getListConstructor(GenFeature genFeature);
+
 }

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.13 2005/03/16 20:52:49 khussey Exp $
+ * $Id: GenFeatureImpl.java,v 1.14 2005/04/20 15:17:16 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1715,4 +1715,51 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
       return true;
     }
   }
+
+  public boolean isField()
+  {
+    return !isContainer() && !isVolatile();
+  }
+
+  public boolean isESetField()
+  {
+    return !isContainer() && !isListType() && isUnsettable() && !isVolatile();
+  }
+
+  public boolean isGet()
+  {
+    return true;
+  }
+
+  public boolean isBasicGet()
+  {
+    return !getGenModel().isReflectiveDelegation() && isResolveProxies() && !isListType();
+  }
+
+  public boolean isBasicSet()
+  {
+    return !getGenModel().isReflectiveDelegation() && !isListType()
+      && (isBidirectional() && !isContainer() && !isVolatile() || isContains());
+  }
+
+  public boolean isSet()
+  {
+    return !isListType() && isChangeable();
+  }
+
+  public boolean isBasicUnset()
+  {
+    return isUnsettable() && isChangeable() && !isListType() && isReferenceType() && (isBidirectional() || isContains());
+  }
+
+  public boolean isUnset()
+  {
+    return isUnsettable() && isChangeable();
+  }
+
+  public boolean isIsSet()
+  {
+    return isUnsettable();
+  }
+
 } //GenFeatureImpl

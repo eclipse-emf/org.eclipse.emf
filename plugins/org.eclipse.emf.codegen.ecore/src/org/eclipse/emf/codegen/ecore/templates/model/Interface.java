@@ -155,7 +155,7 @@ public class Interface
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -233,7 +233,7 @@ public class Interface
     stringBuffer.append(TEXT_29);
     }
     for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
-    if (!genFeature.isSuppressedGetVisibility()) {
+    if (genFeature.isGet() && !genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_30);
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_31);
@@ -357,8 +357,9 @@ public class Interface
     stringBuffer.append(TEXT_81);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_82);
+    //Interface/getGenFeature.override.javajetinc
     }
-    if (genFeature.isChangeable() && !genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {
+    if (genFeature.isSet() && !genFeature.isSuppressedSetVisibility()) {
     stringBuffer.append(TEXT_83);
     stringBuffer.append(genClass.getQualifiedInterfaceName());
     stringBuffer.append(TEXT_84);
@@ -395,9 +396,9 @@ public class Interface
     stringBuffer.append(TEXT_97);
     stringBuffer.append(genFeature.getImportedType());
     stringBuffer.append(TEXT_98);
+    //Interface/setGenFeature.override.javajetinc
     }
-    if (genFeature.isUnsettable()) {
-    if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {
+    if (genFeature.isUnset() && !genFeature.isSuppressedUnsetVisibility()) {
     stringBuffer.append(TEXT_99);
     stringBuffer.append(genClass.getQualifiedInterfaceName());
     stringBuffer.append(TEXT_100);
@@ -425,8 +426,9 @@ public class Interface
     stringBuffer.append(TEXT_111);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_112);
+    //Interface/unsetGenFeature.override.javajetinc
     }
-    if (!genFeature.isSuppressedIsSetVisibility()) {
+    if (genFeature.isIsSet() && !genFeature.isSuppressedIsSetVisibility()) {
     stringBuffer.append(TEXT_113);
     stringBuffer.append(genClass.getQualifiedInterfaceName());
     stringBuffer.append(TEXT_114);
@@ -458,8 +460,9 @@ public class Interface
     stringBuffer.append(TEXT_127);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_128);
+    //Interface/isSetGenFeature.override.javajetinc
     }
-    }
+    //Interface/genFeature.override.javajetinc
     }//for
     for (Iterator i=genClass.getGenOperations().iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();
     stringBuffer.append(TEXT_129);
@@ -486,6 +489,7 @@ public class Interface
     stringBuffer.append(TEXT_138);
     stringBuffer.append(genOperation.getThrows());
     stringBuffer.append(TEXT_139);
+    //Interface/genOperation.override.javajetinc
     }//for
     stringBuffer.append(TEXT_140);
     stringBuffer.append(genClass.getInterfaceName());

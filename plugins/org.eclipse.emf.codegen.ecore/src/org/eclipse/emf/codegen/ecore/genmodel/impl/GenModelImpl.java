@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.26 2005/04/04 19:25:19 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.27 2005/04/20 15:17:16 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1189,7 +1189,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       try
       {
-        Class emitterClass = Class.forName(className);
+        Class emitterClass = getClass().getClassLoader().loadClass(className);
         Method emitterMethod = emitterClass.getDeclaredMethod("generate", OBJECT_ARGUMENT);
         jetEmitter.setMethod(emitterMethod);
       }

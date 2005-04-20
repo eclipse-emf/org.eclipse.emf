@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.9 2005/02/21 20:13:27 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.10 2005/04/20 15:17:16 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -364,5 +364,6 @@ public class <%=genClass.getProviderClassName()%>
 		return <%=genPackage.getImportedEditPluginClassName()%>.INSTANCE;
 	}
 
+<%@ include file="ItemProvider/insert.javajetinc" fail="silent" %>
 }
 <%genModel.emitSortedImports();%>

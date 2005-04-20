@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.25 2005/04/13 16:02:19 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.26 2005/04/20 15:17:16 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2161,4 +2161,131 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     EAttribute mixedFeature = getExtendedMetaData().getMixedFeature(getEcoreClass());
     return mixedFeature != null ? findGenFeature(mixedFeature) : null;
   }
+
+  public String getListConstructor(GenFeature genFeature)
+  {
+    StringBuffer sb = new StringBuffer();
+
+    String unsettable = genFeature.isUnsettable() ? ".Unsettable" : "";
+
+    if (genFeature.isMapType())
+    {
+      GenClass mapGenClass = genFeature.getMapGenClass();
+      sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EcoreEMap"));
+      sb.append("(");
+      sb.append(mapGenClass.getGenPackage().getImportedPackageInterfaceName());
+      sb.append(".eINSTANCE.get");
+      sb.append(mapGenClass.getName());
+      sb.append("(), ");
+      sb.append(genFeature.getMapItemType());
+      sb.append(".class, this, ");
+      sb.append(getQualifiedFeatureID(genFeature));
+      sb.append(")");
+    }
+    else if (genFeature.isContains())
+    {
+      if (genFeature.isBidirectional())
+      {
+        GenFeature reverseFeature = genFeature.getReverse();
+        sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList"));
+        sb.append(unsettable);
+        sb.append("(");
+        sb.append(genFeature.getListItemType());
+        sb.append(".class, this, ");
+        sb.append(getQualifiedFeatureID(genFeature));
+        sb.append(", ");
+        sb.append(reverseFeature.getGenClass().getQualifiedFeatureID(reverseFeature));
+        sb.append(")");
+      }
+      else
+      {
+        sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EObjectContainmentEList"));
+        sb.append(unsettable);
+        sb.append("(");
+        sb.append(genFeature.getListItemType());
+        sb.append(".class, this, ");
+        sb.append(getQualifiedFeatureID(genFeature));
+        sb.append(")");
+      }
+    }
+    else if (genFeature.isReferenceType())
+    {
+      if (genFeature.isBidirectional())
+      {
+        GenFeature reverseFeature = genFeature.getReverse();
+        if (genFeature.isResolveProxies())
+        {
+          sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList"));
+        }
+        else
+        {
+          sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EObjectWithInverseEList"));
+        }
+        sb.append(unsettable);
+        if (reverseFeature.isListType())
+        {
+          sb.append(".ManyInverse");
+        }
+        sb.append("(");
+        sb.append(genFeature.getListItemType());
+        sb.append(".class, this, ");
+        sb.append(getQualifiedFeatureID(genFeature));
+        sb.append(", ");
+        sb.append(reverseFeature.getGenClass().getQualifiedFeatureID(reverseFeature));
+        sb.append(")");
+      }
+      else
+      {
+        if (genFeature.isResolveProxies())
+        {
+          sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EObjectResolvingEList"));
+        }
+        else
+        {
+          sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EObjectEList"));
+        }
+        sb.append(unsettable);
+        sb.append("(");
+        sb.append(genFeature.getListItemType());
+        sb.append(".class, this, ");
+        sb.append(getQualifiedFeatureID(genFeature));
+        sb.append(")");
+      }
+    }
+    else if (genFeature.isFeatureMapType())
+    {
+      if (genFeature.isFeatureMapWrapped())
+      {
+        sb.append(genFeature.getImportedEffectiveFeatureMapWrapperClass());
+        sb.append("(new ");
+      }
+      sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.BasicFeatureMap"));
+      sb.append("(this, ");
+      sb.append(getQualifiedFeatureID(genFeature));
+      sb.append(")");
+      if (genFeature.isFeatureMapWrapped())
+      {
+        sb.append(")");
+      }
+    }
+    else
+    { //datatype
+      if (genFeature.isUnique())
+      {
+        sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EDataTypeUniqueEList"));
+      }
+      else
+      {
+        sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EDataTypeEList"));
+      }
+      sb.append(unsettable);
+      sb.append("(");
+      sb.append(genFeature.getListItemType());
+      sb.append(".class, this, ");
+      sb.append(getQualifiedFeatureID(genFeature));
+      sb.append(")");
+    }
+    return sb.toString();
+  }
+
 }

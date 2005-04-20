@@ -179,8 +179,9 @@ public class ItemProvider
   protected final String TEXT_171 = NL + NL + "\t\tif (qualify)" + NL + "\t\t{" + NL + "\t\t\treturn getString" + NL + "\t\t\t\t(\"_UI_CreateChild_text2\",";
   protected final String TEXT_172 = NL + "\t\t\t\t new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });" + NL + "\t\t}" + NL + "\t\treturn super.getCreateChildText(owner, feature, child, selection);" + NL + "\t}" + NL;
   protected final String TEXT_173 = NL + "\t/**" + NL + "\t * Return the resource locator for this item provider's resources." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ResourceLocator getResourceLocator()" + NL + "\t{" + NL + "\t\treturn ";
-  protected final String TEXT_174 = ".INSTANCE;" + NL + "\t}" + NL + "" + NL + "}";
-  protected final String TEXT_175 = NL;
+  protected final String TEXT_174 = ".INSTANCE;" + NL + "\t}" + NL;
+  protected final String TEXT_175 = NL + "}";
+  protected final String TEXT_176 = NL;
 
   public String generate(Object argument)
   {
@@ -605,8 +606,9 @@ public class ItemProvider
     stringBuffer.append(TEXT_173);
     stringBuffer.append(genPackage.getImportedEditPluginClassName());
     stringBuffer.append(TEXT_174);
-    genModel.emitSortedImports();
     stringBuffer.append(TEXT_175);
+    genModel.emitSortedImports();
+    stringBuffer.append(TEXT_176);
     return stringBuffer.toString();
   }
 }

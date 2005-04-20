@@ -163,8 +163,12 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	}
 <%}%>
 <%for (Iterator genFeatures=genClass.getImplementedGenFeatures().iterator(); genFeatures.hasNext();) { GenFeature genFeature = (GenFeature)genFeatures.next();%>
+<%@ include file="TestCase/implementedGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
   <%if (genFeature.isVolatile() || genFeature.isDerived()) {%>
-    <%if (!genFeature.isSuppressedGetVisibility()) {%>
+    <%if (genFeature.isGet() && !genFeature.isSuppressedGetVisibility()) {%>
+<%@ include file="TestCase/getGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
 
 	/**
 	 * Tests the '{@link <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' feature getter.
@@ -175,12 +179,18 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 */
 	public void test<%=genModel.capName(genFeature.getGetAccessor())%>()
 	{
+<%@ include file="TestCase.getGenFeature.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
 		// TODO: implement this feature getter test method
 		// Ensure that you remove @generated or mark it @generated NOT
 		fail();
+<%@ end %><%//TestCase/getGenFeature.todo.override.javajetinc%>
 	}
+<%@ end %><%//TestCase/getGenFeature.override.javajetinc%>
     <%}%>
-    <%if (!genFeature.isListType() && genFeature.isChangeable() && !genFeature.isSuppressedSetVisibility()) {%>
+    <%if (genFeature.isSet() && !genFeature.isSuppressedSetVisibility()) {%>
+<%@ include file="TestCase/setGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
 
 	/**
 	 * Tests the '{@link <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>) <em><%=genFeature.getFormattedName()%></em>}' feature setter.
@@ -191,13 +201,18 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 */
 	public void testSet<%=genFeature.getAccessorName()%>()
 	{
+<%@ include file="TestCase/setGenFeature.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
 		// TODO: implement this feature setter test method
 		// Ensure that you remove @generated or mark it @generated NOT
 		fail();
+<%@ end %><%//TestCase/setGenFeature.todo.override.javajetinc%>
 	}
+<%@ end %><%//TestCase/setGenFeature.override.javajetinc%>
     <%}%>
-    <%if (genFeature.isUnsettable()) {%>
-      <%if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {%>
+    <%if (genFeature.isUnset() && !genFeature.isSuppressedUnsetVisibility()) {%>
+<%@ include file="TestCase/unsetGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
 
 	/**
 	 * Tests the '{@link <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#unset<%=genFeature.getAccessorName()%>() <em>unset<%=genFeature.getAccessorName()%>()</em>}' method.
@@ -208,12 +223,18 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 */
 	public void testUnset<%=genFeature.getAccessorName()%>()
 	{
+<%@ include file="TestCase/unsetGenFeature.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
 		// TODO: implement this test method
 		// Ensure that you remove @generated or mark it @generated NOT
 		fail();
+<%@ end %><%//TestCase/unsetGenFeature.todo.override.javajetinc%>
 	}
-      <%}%>
-      <%if (!genFeature.isSuppressedIsSetVisibility()) {%>
+<%@ end %><%//TestCase/unsetGenFeature.override.javajetinc%>
+    <%}%>
+    <%if (genFeature.isIsSet() && !genFeature.isSuppressedIsSetVisibility()) {%>
+<%@ include file="TestCase/isSetGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
 
 	/**
 	 * Tests the '{@link <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#isSet<%=genFeature.getAccessorName()%>() <em>isSet<%=genFeature.getAccessorName()%>()</em>}' method.
@@ -224,15 +245,22 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 */
 	public void testIsSet<%=genFeature.getAccessorName()%>()
 	{
+<%@ include file="TestCase/isSetGenFeature.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
 		// TODO: implement this test method
 		// Ensure that you remove @generated or mark it @generated NOT
 		fail();
+<%@ end %><%//TestCase/isSetGenFeature.todo.override.javajetinc%>
 	}
-      <%}%>
+<%@ end %><%//TestCase/isSetGenFeature.override.javajetinc%>
     <%}%>
   <%}%>
+<%@ include file="TestCase/implementedGenFeature.insert.javajetinc" fail="silent" %>
+<%@ end %><%//TestCase/implementedGenFeature.override.javajetinc%>
 <%}%>
 <%for (Iterator genOperations = genClass.getImplementedGenOperations().iterator(); genOperations.hasNext();) { GenOperation genOperation = (GenOperation)genOperations.next();%>
+<%@ include file="TestCase/implementedGenOperation.override.javajetinc" fail="alternative" %>
+<%@ start %>
 
 	/**
 	 * Tests the '{@link <%=genOperation.getGenClass().getQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>) <em><%=genOperation.getFormattedName()%></em>}' operation.
@@ -243,11 +271,17 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 */
 	public void test<%=genModel.capName(genOperation.getName())%><%=genOperation.getGenParameters().size() == 0 ? "" : "__" + genOperation.getParameterTypes("_")%>()
 	{
+<%@ include file="TestCase/implementedGenOperation.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
 		// TODO: implement this operation test method
 		// Ensure that you remove @generated or mark it @generated NOT
 		fail();
+<%@ end %><%//TestCase/implementedGenOperation.todo.override.javajetinc%>
 	}
+<%@ include file="TestCase/implementedGenOperation.insert.javajetinc" fail="silent" %>
+<%@ end %><%//TestCase/implementedGenOperation.override.javajetinc%>
 <%}%>
 
+<%@ include file="TestCase/insert.javajetinc" fail="silent" %>
 } //<%=genClass.getTestCaseClassName()%>
 <%genModel.emitSortedImports();%>
