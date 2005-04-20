@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.1 2005/03/18 21:04:26 khussey Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.2 2005/04/20 20:25:12 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -438,21 +438,27 @@ public class Ecore2XMLEditor
             ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
             delta.accept(visitor);
 
-            removedResources.addAll(visitor.getRemovedResources());
-            if (!visitor.getRemovedResources().isEmpty() && !isDirty())
+            if (!visitor.getRemovedResources().isEmpty())
             {
-              getSite().getShell().getDisplay().asyncExec
-                (new Runnable()
-                 {
-                  public void run()
-                  {
-                    getSite().getPage().closeEditor(Ecore2XMLEditor.this, false);
-                    Ecore2XMLEditor.this.dispose();
-                  }
-                 });
-            }
+              removedResources.addAll(visitor.getRemovedResources());
+              if (!isDirty())
+ 							{
+ 								getSite().getShell().getDisplay().asyncExec
+ 									(new Runnable()
+ 								 	{
+ 										public void run()
+ 										{
+ 											getSite().getPage().closeEditor(Ecore2XMLEditor.this, false);
+ 											Ecore2XMLEditor.this.dispose();
+ 										}
+ 								 	});
+ 							}
+ 						}
 
-            changedResources.addAll(visitor.getChangedResources());
+            if (!visitor.getChangedResources().isEmpty())
+            {
+              changedResources.addAll(visitor.getChangedResources());
+            }
           }
           catch (CoreException exception)
           {

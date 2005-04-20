@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLActionBarContributor.java,v 1.1 2005/03/18 21:04:26 khussey Exp $
+ * $Id: Ecore2XMLActionBarContributor.java,v 1.2 2005/04/20 20:25:12 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -268,7 +268,7 @@ public class Ecore2XMLActionBarContributor
 
   /**
    * This implements {@link org.eclipse.jface.viewers.ISelectionChangedListener},
-   * handling {@link org.eclipse.jface.viewers.SelectionChangedEvents} by querying for the children and siblings
+   * handling {@link org.eclipse.jface.viewers.SelectionChangedEvent}s by querying for the children and siblings
    * that can be added to the selected object and updating the menus accordingly.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

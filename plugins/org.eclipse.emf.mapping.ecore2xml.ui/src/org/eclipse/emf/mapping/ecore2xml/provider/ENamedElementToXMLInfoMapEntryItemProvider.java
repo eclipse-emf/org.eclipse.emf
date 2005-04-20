@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: ENamedElementToXMLInfoMapEntryItemProvider.java,v 1.1 2005/03/18 21:04:26 khussey Exp $
+ * $Id: ENamedElementToXMLInfoMapEntryItemProvider.java,v 1.2 2005/04/20 20:25:12 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -44,7 +44,7 @@ import org.eclipse.emf.mapping.ecore2xml.XMLInfo;
 import org.eclipse.emf.mapping.ecore2xml.ui.Ecore2XMLUIPlugin;
 
 /**
- * This is the item provider adpater for a {@link java.util.Map.Entry} object.
+ * This is the item provider adapter for a {@link java.util.Map.Entry} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

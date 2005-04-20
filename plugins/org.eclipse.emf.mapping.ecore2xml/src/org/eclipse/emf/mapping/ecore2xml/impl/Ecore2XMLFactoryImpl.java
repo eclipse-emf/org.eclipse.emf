@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLFactoryImpl.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: Ecore2XMLFactoryImpl.java,v 1.2 2005/04/20 20:25:13 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -35,7 +35,7 @@ public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFacto
 {
 
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
    * @generated
