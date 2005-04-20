@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelFactoryImpl.java,v 1.3 2004/05/16 17:29:58 emerks Exp $
+ * $Id: GenModelFactoryImpl.java,v 1.4 2005/04/20 02:49:24 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

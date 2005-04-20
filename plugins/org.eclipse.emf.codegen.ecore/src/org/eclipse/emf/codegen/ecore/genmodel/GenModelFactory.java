@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelFactory.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenModelFactory.java,v 1.2 2005/04/20 02:49:24 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
  * @generated
  */
-public interface GenModelFactory extends EFactory {
+public interface GenModelFactory extends EFactory{
   /**
    * The singleton instance of the factory.
    * @generated
@@ -36,10 +36,10 @@ public interface GenModelFactory extends EFactory {
   GenModelFactory eINSTANCE = new org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelFactoryImpl();
 
   /**
-   * Returns a new object of class '<em>GenModel</em>'.
+   * Returns a new object of class '<em>Gen Model</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>GenModel</em>'.
+   * @return a new object of class '<em>Gen Model</em>'.
    * @generated
    */
   GenModel createGenModel();

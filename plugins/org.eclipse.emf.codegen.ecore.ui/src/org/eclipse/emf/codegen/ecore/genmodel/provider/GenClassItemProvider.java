@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassItemProvider.java,v 1.6 2004/05/22 19:06:58 marcelop Exp $
+ * $Id: GenClassItemProvider.java,v 1.7 2005/04/20 02:49:19 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -43,7 +43,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.codegen.ecore.genmodel.GenClass} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.codegen.ecore.genmodel.GenClass} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

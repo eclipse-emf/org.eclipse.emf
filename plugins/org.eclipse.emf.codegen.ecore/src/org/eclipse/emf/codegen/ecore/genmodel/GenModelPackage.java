@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.9 2005/03/16 20:52:48 khussey Exp $
+ * $Id: GenModelPackage.java,v 1.10 2005/04/20 02:49:24 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -95,7 +95,7 @@ public interface GenModelPackage extends EPackage{
   int GEN_BASE_FEATURE_COUNT = 0;
 
   /**
-   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl <em>GenModel</em>}' class.
+   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl <em>Gen Model</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl
@@ -456,7 +456,7 @@ public interface GenModelPackage extends EPackage{
   int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 38;
 
   /**
-   * The number of structural features of the the '<em>GenModel</em>' class.
+   * The number of structural features of the the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1029,10 +1029,10 @@ public interface GenModelPackage extends EPackage{
 
 
   /**
-   * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel <em>GenModel</em>}'.
+   * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel <em>Gen Model</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>GenModel</em>'.
+   * @return the meta object for class '<em>Gen Model</em>'.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel
    * @generated
    */
