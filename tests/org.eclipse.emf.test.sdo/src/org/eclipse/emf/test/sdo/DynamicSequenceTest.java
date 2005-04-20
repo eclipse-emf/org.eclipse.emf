@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicSequenceTest.java,v 1.2 2005/02/04 14:16:53 bportier Exp $
+ * $Id: DynamicSequenceTest.java,v 1.3 2005/04/20 16:40:27 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -61,6 +61,10 @@ public class DynamicSequenceTest extends TestCase
    */
   protected void setUp() throws Exception
   {
+    if (epoPackage == null)
+    {
+      epoPackage = getEPOPackage();
+    }
     super.setUp();
   }
 
@@ -113,7 +117,7 @@ public class DynamicSequenceTest extends TestCase
 
   static EReference standardRef;
 
-  static EPackage epoPackage = getEPOPackage();
+  static EPackage epoPackage;
 
   static String supplierName = "Mr. Supplier";
 
