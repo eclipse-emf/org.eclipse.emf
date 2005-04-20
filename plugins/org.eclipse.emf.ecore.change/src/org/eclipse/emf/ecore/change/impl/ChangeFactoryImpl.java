@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeFactoryImpl.java,v 1.3 2004/05/16 17:10:58 emerks Exp $
+ * $Id: ChangeFactoryImpl.java,v 1.4 2005/04/20 03:00:26 davidms Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

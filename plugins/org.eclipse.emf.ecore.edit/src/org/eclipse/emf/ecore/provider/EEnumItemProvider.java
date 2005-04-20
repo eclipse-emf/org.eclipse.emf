@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumItemProvider.java,v 1.3 2004/05/16 17:09:32 emerks Exp $
+ * $Id: EEnumItemProvider.java,v 1.4 2005/04/20 03:00:23 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -36,7 +36,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.ecore.EEnum} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.ecore.EEnum} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

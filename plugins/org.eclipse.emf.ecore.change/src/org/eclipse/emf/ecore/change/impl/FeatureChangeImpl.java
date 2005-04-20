@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.16 2005/04/14 19:28:40 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.17 2005/04/20 03:00:26 davidms Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -752,7 +752,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     result.append(')');
     return result.toString();
   }
-  
+
   protected ListChange createListChange(EList changesList, ChangeKind kind, int index)
   {
     ListChange listChange = ChangeFactory.eINSTANCE.createListChange();

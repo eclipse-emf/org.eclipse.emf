@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralItemProvider.java,v 1.4 2004/06/08 18:29:32 emerks Exp $
+ * $Id: EEnumLiteralItemProvider.java,v 1.5 2005/04/20 03:00:23 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -37,7 +37,7 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.ecore.EEnumLiteral} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.ecore.EEnumLiteral} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
