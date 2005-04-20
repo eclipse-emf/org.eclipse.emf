@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.15 2005/04/20 14:11:19 bportier Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.16 2005/04/20 14:53:09 bportier Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -135,20 +135,22 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     String testMethodName = this.getClass().getName();
     testMethodName = testMethodName.substring(testMethodName.lastIndexOf('.') + 1) + "#" + this.getName();
     long t1 = System.currentTimeMillis();
-    System.out.println(timeStamp() + " Warming up " + testMethodName + "() ...");
+    System.out.println(timeStamp() + " Warming up " + testMethodName + "()...");
     System.out.println();
 
     warmUp();
 
+    System.out.println(timeStamp() + " Warmed. GC and sleep...");
     System.gc();
-
-    System.out.println(timeStamp() + " Warmed, starting...");
+    Thread.sleep(1000);
 
     if (!TestUtil.isRunningUnderEclipse())
     {
       System.out.print("Hit Enter after starting the profiler and clearing profiling data");
       System.in.read();
     }
+
+    System.out.println(timeStamp() + " Starting...");
 
     for (int i = 0, maxi = getRepetitions(); i < maxi; i++)
     {
