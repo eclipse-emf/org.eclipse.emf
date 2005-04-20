@@ -12,14 +12,16 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.14 2005/03/30 23:12:15 nickb Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.15 2005/04/20 14:11:19 bportier Exp $
  */
 package org.eclipse.emf.test.performance;
+
 
 import java.util.Calendar;
 
 import org.eclipse.test.performance.Dimension;
 import org.eclipse.test.performance.PerformanceTestCase;
+
 
 /**
  * <p>
@@ -42,31 +44,27 @@ import org.eclipse.test.performance.PerformanceTestCase;
  */
 public class EMFPerformanceTestCase extends PerformanceTestCase
 {
-  public static final Dimension[] TIME_DIMENSIONS = new Dimension[] {
-    Dimension.CPU_TIME
-    ,Dimension.ELAPSED_PROCESS
-    ,Dimension.KERNEL_TIME
-  };
+  public static final Dimension[] TIME_DIMENSIONS = new Dimension []{ Dimension.CPU_TIME, Dimension.ELAPSED_PROCESS, Dimension.KERNEL_TIME };
 
-  public static final Dimension[] MEMORY_DIMENSIONS = new Dimension[] {
-    Dimension.COMITTED
-    ,Dimension.USED_JAVA_HEAP
-    ,Dimension.WORKING_SET
-    ,Dimension.WORKING_SET_PEAK
-  };
+  public static final Dimension[] MEMORY_DIMENSIONS = new Dimension []{
+    Dimension.COMITTED,
+    Dimension.USED_JAVA_HEAP,
+    Dimension.WORKING_SET,
+    Dimension.WORKING_SET_PEAK };
 
-  public static final Dimension[] ALL_DIMENSIONS = new Dimension[] {
-    Dimension.COMITTED
-    ,Dimension.CPU_TIME
-    ,Dimension.ELAPSED_PROCESS
-    ,Dimension.KERNEL_TIME
-    ,Dimension.USED_JAVA_HEAP
-    ,Dimension.WORKING_SET
-    ,Dimension.WORKING_SET_PEAK
-  };
+  public static final Dimension[] ALL_DIMENSIONS = new Dimension []{
+    Dimension.COMITTED,
+    Dimension.CPU_TIME,
+    Dimension.ELAPSED_PROCESS,
+    Dimension.KERNEL_TIME,
+    Dimension.USED_JAVA_HEAP,
+    Dimension.WORKING_SET,
+    Dimension.WORKING_SET_PEAK };
 
   private int repetitions = 1;
+
   private int warmUp = 0;
+
   private boolean warmingUp = false;
 
   public EMFPerformanceTestCase(String name)
@@ -134,12 +132,17 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
   {
     assertTrue("Iterations must be greater than 0", getRepetitions() > 0);
 
-	String testMethodName = this.getClass().getName();
-	testMethodName = testMethodName.substring(testMethodName.lastIndexOf('.')+1) + "#" + this.getName();
-	System.out.println(timeStamp() + " Warming up "+testMethodName+ "() ...");
-	System.out.println();
+    String testMethodName = this.getClass().getName();
+    testMethodName = testMethodName.substring(testMethodName.lastIndexOf('.') + 1) + "#" + this.getName();
+    long t1 = System.currentTimeMillis();
+    System.out.println(timeStamp() + " Warming up " + testMethodName + "() ...");
+    System.out.println();
+
     warmUp();
-	System.out.println(timeStamp() + " Warmed, starting...");
+
+    System.gc();
+
+    System.out.println(timeStamp() + " Warmed, starting...");
 
     if (!TestUtil.isRunningUnderEclipse())
     {
@@ -147,11 +150,11 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
       System.in.read();
     }
 
-    for (int i=0, maxi=getRepetitions(); i<maxi; i++)
+    for (int i = 0, maxi = getRepetitions(); i < maxi; i++)
     {
       super.runTest();
     }
-	System.out.println(timeStamp() + " Done.");
+    System.out.println(timeStamp() + " Done.");
   }
 
   protected void warmUp() throws Throwable
@@ -159,7 +162,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     warmingUp = true;
     try
     {
-      for (int i=0, maxi=getWarmUp(); i<maxi; i++)
+      for (int i = 0, maxi = getWarmUp(); i < maxi; i++)
       {
         super.runTest();
       }
@@ -212,14 +215,11 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     }
   }
 
-	protected static String timeStamp() {
-		Calendar cal = Calendar.getInstance();
-		return "[" +
-		cal.get(Calendar.HOUR_OF_DAY) + ":" +
-		cal.get(Calendar.MINUTE) + ":" +
-		cal.get(Calendar.SECOND) + "." +
-		cal.get(Calendar.MILLISECOND) +
-		"]";
-	}
+  protected static String timeStamp()
+  {
+    Calendar cal = Calendar.getInstance();
+    return "[" + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND) + "."
+      + cal.get(Calendar.MILLISECOND) + "]";
+  }
 
 }
