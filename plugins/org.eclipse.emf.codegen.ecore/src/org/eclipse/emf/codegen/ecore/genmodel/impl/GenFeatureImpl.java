@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.15 2005/04/20 17:39:01 khussey Exp $
+ * $Id: GenFeatureImpl.java,v 1.16 2005/04/20 18:22:58 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1723,7 +1723,7 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
 
   public boolean isESetField()
   {
-    return !isListType() && isUnsettable() && !isVolatile();
+    return !isContainer() && !isListType() && isUnsettable() && !isVolatile();
   }
 
   public boolean isGet()
