@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.15 2005/04/20 15:17:16 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.16 2005/04/20 18:05:16 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -133,9 +133,10 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 
         <%}%>
       <%}%>
-      <%if (genFeature.isESetField()) {%>
-        <%if (genFeature.isESetFlag()) {%>
-            <%if (genClass.getESetFlagIndex(genFeature) > 31 && genClass.getESetFlagIndex(genFeature) % 32 == 0) {%>
+    <%}%>
+    <%if (genFeature.isESetField()) {%>
+      <%if (genFeature.isESetFlag()) {%>
+        <%if (genClass.getESetFlagIndex(genFeature) > 31 && genClass.getESetFlagIndex(genFeature) % 32 == 0) {%>
 	/**
 	 * An additional set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
 	 * <!-- begin-user-doc -->
@@ -145,7 +146,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 */
 	protected int <%=genClass.getESetFlagsField(genFeature)%> = 0;
 
-            <%}%>
+        <%}%>
 	/**
 	 * The flag representing whether the <%=genFeature.getFormattedName()%> <%=genFeature.getFeatureKind()%> has been set.
 	 * <!-- begin-user-doc -->
@@ -155,7 +156,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 */
 	protected static final int <%=genFeature.getUpperName()%>_ESETFLAG = 1 <%="<< " + genClass.getESetFlagIndex(genFeature) % 32 %>;
 
-        <%} else {%>
+      <%} else {%>
 	/**
 	 * This is true if the <%=genFeature.getFormattedName()%> <%=genFeature.getFeatureKind()%> has been set.
 	 * <!-- begin-user-doc -->
@@ -165,7 +166,6 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	 */
 	protected boolean <%=genFeature.getUncapName()%>ESet = false;
 
-        <%}%>
       <%}%>
     <%}%>
   <%}%>
