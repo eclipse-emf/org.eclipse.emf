@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EqualityTest.java,v 1.3 2005/02/22 16:13:33 marcelop Exp $
+ * $Id: EqualityTest.java,v 1.4 2005/04/20 16:17:16 marcelop Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -70,7 +70,7 @@ public class EqualityTest extends TestCase
 
   private static CreditInfo credit2;
   
-  private static EPackage employeePackage = getEmployeePackage();
+  private static EPackage employeePackage;
 
   private static EClass employeeClass;
 
@@ -91,6 +91,11 @@ public class EqualityTest extends TestCase
    */
   protected void setUp() throws Exception
   {
+    if (employeePackage == null)
+    {
+      employeePackage = getEmployeePackage();
+    }
+    
     supplierFactoryInstance = SupplierFactory.eINSTANCE;
     po1 = supplierFactoryInstance.createPurchaseOrder();
     po2 = supplierFactoryInstance.createPurchaseOrder();
