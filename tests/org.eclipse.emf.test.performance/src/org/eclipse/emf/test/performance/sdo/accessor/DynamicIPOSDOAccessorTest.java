@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.26 2005/04/04 18:18:26 nickb Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.27 2005/04/21 23:19:25 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -68,10 +68,10 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected static final int ITERATIONS_1_2M = 960000000;
   protected static final int ITERATIONS_500K = 400000000;
-  protected static final int ITERATIONS_400K = 320000000;
+  protected static final int ITERATIONS_400K = 80000000;
   protected static final int ITERATIONS_300K = 240000000;
-  protected static final int ITERATIONS_120K = 96000000;
-  protected static final int ITERATIONS_80K = 64000000;
+  protected static final int ITERATIONS_120K = 48000000;
+  protected static final int ITERATIONS_80K = 32000000;
 
   protected static final String DATA = TestUtil.getPluginDirectory() + "/data/";
 
@@ -172,11 +172,13 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 //    testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
 //    testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
 //    testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-//
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
+
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(4).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(3).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(3).setRepetitions(REPETITIONS_10));
+    
+    // Note: couldn't avoid JIT quicking in even with 5 warmup reps.
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));

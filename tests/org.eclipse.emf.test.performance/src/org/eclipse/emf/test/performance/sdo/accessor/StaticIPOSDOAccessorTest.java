@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.25 2005/04/04 18:18:26 nickb Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.26 2005/04/21 23:19:25 nickb Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -79,13 +79,14 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 //    testSuite.addTest(new StaticIPOSDOAccessorTest("getFromMap").setWarmUp(500).setRepetitions(REPETITIONS_10));
 //    testSuite.addTest(new StaticIPOSDOAccessorTest("setInMap").setWarmUp(2000).setRepetitions(REPETITIONS_10));
 //
+//    not tested for JIT (20 minute warmup on build machine)
     testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByGenerated").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByGenerated").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByGenerated").setWarmUp(3).setRepetitions(REPETITIONS_10));
 
-    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectWithESet").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(3).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectWithESet").setWarmUp(3).setRepetitions(REPETITIONS_10));
 
-    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByProperty").setWarmUp(3).setRepetitions(REPETITIONS_10));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByProperty").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByIndex").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByIndex").setWarmUp(REPETITIONS_2).setRepetitions(REPETITIONS_10));
@@ -313,7 +314,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     BigInteger quantity0 = this.quantity0;
 
     startMeasuring();
-    for (int j = 0; j < REPETITIONS_10; j++)
+    for (int j = 0; j < 5; j++)
     {
 	    for (int i = 0; i < ITERATIONS_1_6M; i++)
 	    {
