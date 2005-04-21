@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.13 2005/02/22 16:13:33 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.14 2005/04/21 18:39:32 elena Exp $
  */
 package org.eclipse.emf.test.core.change;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +35,8 @@ import junit.framework.TestSuite;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -46,6 +50,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
@@ -75,6 +80,7 @@ public class SpecialCasesTest  extends TestCase
     ts.addTest(new SpecialCasesTest("testChangeDescriptionWhenResumming1"));
     ts.addTest(new SpecialCasesTest("testChangeDescriptionWhenResumming2"));
     ts.addTest(new SpecialCasesTest("testLoadChangeDescritpions"));
+    ts.addTest(new SpecialCasesTest("testEnumeration"));
     return ts;
   }
 
@@ -898,5 +904,97 @@ public class SpecialCasesTest  extends TestCase
       EObject mary = (EObject)changeDescription.getObjectsToAttach().get(0);
       assertEquals(file, "Mary", mary.eGet(name));      
     }    
-  }  
+  }
+  
+  public void testEnumeration() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("http://www.eclipse.org/emf/pack");
+    EPackage.Registry.INSTANCE.put(pack.getNsURI(), pack);
+    
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    person.setName("Person");
+    pack.getEClassifiers().add(person);
+
+    EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
+    name.setName("name");
+    name.setEType(EcorePackage.eINSTANCE.getEString());
+    person.getEStructuralFeatures().add(name);
+
+    EEnum maritalStatusEnum = EcoreFactory.eINSTANCE.createEEnum();
+    pack.getEClassifiers().add(maritalStatusEnum);
+    EEnumLiteral single = EcoreFactory.eINSTANCE.createEEnumLiteral();
+    single.setName("single");
+    single.setValue(0);
+    maritalStatusEnum.getELiterals().add(single);
+    EEnumLiteral married = EcoreFactory.eINSTANCE.createEEnumLiteral();
+    married.setName("married");
+    single.setValue(1);
+    maritalStatusEnum.getELiterals().add(married);
+    
+    EAttribute maritalStatus = EcoreFactory.eINSTANCE.createEAttribute();
+    maritalStatus.setName("maritalStatus");
+    maritalStatus.setEType(maritalStatusEnum);
+    person.getEStructuralFeatures().add(maritalStatus);
+    
+    EObject john = pack.getEFactoryInstance().create(person);
+    john.eSet(name, "John");
+    john.eSet(maritalStatus, married);
+    EObject mary = pack.getEFactoryInstance().create(person);
+    mary.eSet(name, "Mary");
+    
+    //State 0
+    assertEquals(married, john.eGet(maritalStatus));
+    assertEquals(single, mary.eGet(maritalStatus));
+
+    ChangeRecorder changeRecorder = new ChangeRecorder(Arrays.asList(new Object[]{john, mary}));
+    john.eSet(maritalStatus, single);
+    mary.eSet(maritalStatus, married);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    //State 1
+    assertEquals(single, john.eGet(maritalStatus));
+    assertEquals(married, mary.eGet(maritalStatus));
+    
+    changeDescription.applyAndReverse();
+
+    //State 0
+    assertEquals(married, john.eGet(maritalStatus));
+    assertEquals(single, mary.eGet(maritalStatus));
+
+    changeDescription.applyAndReverse();
+
+    //State 1
+    assertEquals(single, john.eGet(maritalStatus));
+    assertEquals(married, mary.eGet(maritalStatus));
+    
+    XMIResource resource = new XMIResourceImpl(URI.createFileURI("foo"));
+    resource.getContents().add(john);
+    resource.getContents().add(mary);
+    resource.getContents().add(changeDescription);
+    
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    resource.save(baos, null);
+    
+    resource = new XMIResourceImpl(URI.createFileURI("foo"));
+    resource.load(new ByteArrayInputStream(baos.toByteArray()), null);
+    
+    EObject loadedJohn =  (EObject)resource.getContents().get(0);
+    assertEquals("John", loadedJohn.eGet(name));
+    EObject loadedMary =  (EObject)resource.getContents().get(1);
+    assertEquals("Mary", loadedMary.eGet(name));
+
+    //State 1
+    assertEquals(single, loadedJohn.eGet(maritalStatus));
+    assertEquals(married, loadedMary.eGet(maritalStatus));
+    
+    ChangeDescription loadedChangeDescription = (ChangeDescription)resource.getContents().get(2);
+    
+    loadedChangeDescription.applyAndReverse();
+    
+    //State 0
+    assertEquals(married, loadedJohn.eGet(maritalStatus));
+    assertEquals(single, loadedMary.eGet(maritalStatus));    
+  }
 }
