@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.26 2005/04/20 15:17:16 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.27 2005/04/21 16:57:02 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1051,6 +1051,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       {
         setLabelFeature(null);
       }
+
+      setImage(!eClass.isAbstract());
     }
 
     int localFeatureIndex = 0;
