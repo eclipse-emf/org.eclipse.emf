@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.14 2005/04/15 12:14:16 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.15 2005/04/22 14:37:15 khussey Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -46,6 +46,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -803,30 +805,44 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
         result.add(object);
       }
 
-      EClass metaObject = object.eClass();
-      Collection eReferenceList = metaObject.getEAllReferences();
-      if (eReferenceList != null)
+      EClass eClass = object.eClass();
+      for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
       {
-        for (Iterator eReferences = eReferenceList.iterator(); eReferences.hasNext(); )
+        EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+        if (!eStructuralFeature.isDerived())
         {
-          EReference eReference = (EReference)eReferences.next();
-          if (eReference.isMany())
+          if (eStructuralFeature instanceof EReference)
           {
-            for (Iterator referencedObjects = ((List)object.eGet(eReference)).iterator(); referencedObjects.hasNext(); )
+            EReference eReference = (EReference)eStructuralFeature;
+            if (eReference.isMany())
             {
-              Object referencedObject = referencedObjects.next();
+              for (Iterator referencedObjects = ((List)object.eGet(eReference)).iterator(); referencedObjects.hasNext(); )
+              {
+                Object referencedObject = referencedObjects.next();
+                if (referencedObject instanceof EObject)
+                {
+                  collectReachableObjectsOfType(visited, result, (EObject)referencedObject, type);
+                }
+              }
+            }
+            else
+            {
+              Object referencedObject = object.eGet(eReference);
               if (referencedObject instanceof EObject)
               {
                 collectReachableObjectsOfType(visited, result, (EObject)referencedObject, type);
               }
             }
           }
-          else
+          else if (FeatureMapUtil.isFeatureMap(eStructuralFeature))
           {
-            Object referencedObject = object.eGet(eReference);
-            if (referencedObject instanceof EObject)
+            for (Iterator j = ((List)object.eGet(eStructuralFeature)).iterator(); j.hasNext(); )
             {
-              collectReachableObjectsOfType(visited, result, (EObject)referencedObject, type);
+              FeatureMap.Entry entry = (FeatureMap.Entry)j.next();
+              if (entry.getEStructuralFeature() instanceof EReference && entry.getValue() != null)
+              {
+                collectReachableObjectsOfType(visited, result, (EObject)entry.getValue(), type);
+              }
             }
           }
         }

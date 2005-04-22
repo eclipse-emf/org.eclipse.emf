@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
                 }
  * are made available under the terms of the Common Public License v1.0
@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.7 2005/03/09 14:24:51 emerks Exp $
+ * $Id: PropertyDescriptor.java,v 1.8 2005/04/22 14:37:13 khussey Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -117,6 +117,11 @@ public class PropertyDescriptor implements IPropertyDescriptor
           return ExtendedImageRegistry.getInstance().getImage(itemLabelProvider.getImage(object));
         }
       };
+  }
+
+  protected ILabelProvider getEditLabelProvider()
+  {
+    return getLabelProvider();
   }
 
   public boolean isCompatibleWith(IPropertyDescriptor anotherProperty) 
@@ -284,11 +289,13 @@ public class PropertyDescriptor implements IPropertyDescriptor
     CellEditor result = null;
 
     Object genericFeature = itemPropertyDescriptor.getFeature(object);
-    if (genericFeature instanceof EReference [])
+    if (genericFeature instanceof EReference[])
     {
-      result = 
-        new ExtendedComboBoxCellEditor
-          (composite, new ArrayList(itemPropertyDescriptor.getChoiceOfValues(object)), getLabelProvider(), true);
+      result = new ExtendedComboBoxCellEditor(
+        composite,
+        new ArrayList(itemPropertyDescriptor.getChoiceOfValues(object)),
+        getEditLabelProvider(),
+        true);
     }
     else if (genericFeature instanceof EStructuralFeature)
     {
@@ -300,7 +307,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
         if (itemPropertyDescriptor.isMany(object))
         {
           boolean valid = true;
-          for (Iterator i = choiceOfValues.iterator(); i.hasNext(); )
+          for (Iterator i = choiceOfValues.iterator(); i.hasNext();)
           {
             Object choice = i.next();
             if (!eType.isInstance(choice))
@@ -312,20 +319,18 @@ public class PropertyDescriptor implements IPropertyDescriptor
 
           if (valid)
           {
-            result = 
-              new ExtendedDialogCellEditor(composite, getLabelProvider())
+            result = new ExtendedDialogCellEditor(composite, getEditLabelProvider())
               {
                 protected Object openDialogBox(Control cellEditorWindow)
                 {
-                  FeatureEditorDialog dialog = 
-                    new FeatureEditorDialog
-                      (cellEditorWindow.getShell(), 
-                       getLabelProvider(),
-                       object, 
-                       feature.getEType(), 
-                       (List)((IItemPropertySource)itemPropertyDescriptor.getPropertyValue(object)).getEditableValue(object), 
-                       getDisplayName(),
-                       new ArrayList(choiceOfValues));
+                  FeatureEditorDialog dialog = new FeatureEditorDialog(
+                    cellEditorWindow.getShell(),
+                    getEditLabelProvider(),
+                    object,
+                    feature.getEType(),
+                    (List)((IItemPropertySource)itemPropertyDescriptor.getPropertyValue(object)).getEditableValue(object),
+                    getDisplayName(),
+                    new ArrayList(choiceOfValues));
                   dialog.open();
                   return dialog.getResult();
                 }
@@ -335,9 +340,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
 
         if (result == null)
         {
-          result = 
-            new ExtendedComboBoxCellEditor
-              (composite, new ArrayList(choiceOfValues), getLabelProvider(), true);
+          result = new ExtendedComboBoxCellEditor(composite, new ArrayList(choiceOfValues), getEditLabelProvider(), true);
         }
       }
       else if (eType instanceof EDataType)
@@ -345,22 +348,20 @@ public class PropertyDescriptor implements IPropertyDescriptor
         EDataType eDataType = (EDataType)eType;
         if (eDataType.isSerializable())
         {
-          if (itemPropertyDescriptor.isMany(object)) 
+          if (itemPropertyDescriptor.isMany(object))
           {
-            result = 
-              new ExtendedDialogCellEditor(composite, getLabelProvider())
+            result = new ExtendedDialogCellEditor(composite, getEditLabelProvider())
               {
                 protected Object openDialogBox(Control cellEditorWindow)
                 {
-                  FeatureEditorDialog dialog = 
-                    new FeatureEditorDialog
-                      (cellEditorWindow.getShell(), 
-                       getLabelProvider(),
-                       object, 
-                       feature.getEType(), 
-                       (List)((IItemPropertySource)itemPropertyDescriptor.getPropertyValue(object)).getEditableValue(object), 
-                       getDisplayName(),
-                       null);
+                  FeatureEditorDialog dialog = new FeatureEditorDialog(
+                    cellEditorWindow.getShell(),
+                    getEditLabelProvider(),
+                    object,
+                    feature.getEType(),
+                    (List)((IItemPropertySource)itemPropertyDescriptor.getPropertyValue(object)).getEditableValue(object),
+                    getDisplayName(),
+                    null);
                   dialog.open();
                   return dialog.getResult();
                 }
@@ -368,9 +369,11 @@ public class PropertyDescriptor implements IPropertyDescriptor
           }
           else if (eDataType.getInstanceClass() == Boolean.class || eDataType.getInstanceClass() == Boolean.TYPE)
           {
-            result = 
-              new ExtendedComboBoxCellEditor
-                (composite, Arrays.asList(new Object [] { Boolean.FALSE, Boolean.TRUE }), getLabelProvider(), true);
+            result = new ExtendedComboBoxCellEditor(
+              composite,
+              Arrays.asList(new Object []{ Boolean.FALSE, Boolean.TRUE }),
+              getEditLabelProvider(),
+              true);
           }
           else
           {
