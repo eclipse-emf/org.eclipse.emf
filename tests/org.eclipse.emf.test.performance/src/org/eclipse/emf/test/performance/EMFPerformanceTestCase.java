@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.16 2005/04/20 14:53:09 bportier Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.17 2005/04/22 15:22:53 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -152,11 +152,19 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
 
     System.out.println(timeStamp() + " Starting...");
 
-    for (int i = 0, maxi = getRepetitions(); i < maxi; i++)
+    try
     {
-      super.runTest();
+      for (int i = 0, maxi = getRepetitions(); i < maxi; i++)
+      {
+        super.runTest();
+      }
+      System.out.println(timeStamp() + " Done.");
     }
-    System.out.println(timeStamp() + " Done.");
+    catch (Exception e)
+    {
+      e.printStackTrace();
+      throw new Throwable(e);
+    }
   }
 
   protected void warmUp() throws Throwable
@@ -177,11 +185,19 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
 
   protected void tearDown() throws Exception
   {
-    if (TestUtil.isRunningUnderEclipse())
+    try
     {
-      commitMeasurements();
-      assertPerformance();
-      super.tearDown();
+      if (TestUtil.isRunningUnderEclipse())
+      {
+        commitMeasurements();
+        assertPerformance();
+        super.tearDown();
+      }
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+      throw new Exception(e);
     }
   }
 
