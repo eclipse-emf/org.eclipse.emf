@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.11 2005/04/20 15:17:16 khussey Exp $
+ * $Id: GenClass.java,v 1.12 2005/04/22 15:01:59 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -342,5 +342,7 @@ public interface GenClass extends GenClassifier
   GenFeature getMixedGenFeature();
   
   String getListConstructor(GenFeature genFeature);
+
+  boolean isModelRoot();
 
 }

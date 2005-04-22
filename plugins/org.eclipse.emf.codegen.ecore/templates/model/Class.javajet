@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.16 2005/04/20 18:05:16 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.17 2005/04/22 15:01:59 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -58,7 +58,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	public static final <%=genModel.getImportedName("java.lang.String")%> mofDriverNumber = "<%=genModel.getDriverNumber()%>";<%=genModel.getNonNLS()%>
 
 <%}%>
-<%if ((genClass.getClassExtendsGenClass() == null || genClass.getClassExtendsGenClass().getGenModel() != genModel) && genModel.isBooleanFlagsEnabled() && genModel.getBooleanFlagsReservedBits() == -1) {%>
+<%if (genClass.isModelRoot() && genModel.isBooleanFlagsEnabled() && genModel.getBooleanFlagsReservedBits() == -1) {%>
 	/**
 	 * A set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
 	 * <!-- begin-user-doc -->

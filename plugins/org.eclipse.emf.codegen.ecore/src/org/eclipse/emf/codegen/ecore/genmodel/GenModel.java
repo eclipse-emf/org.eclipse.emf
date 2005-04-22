@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.14 2005/04/04 19:21:58 emerks Exp $
+ * $Id: GenModel.java,v 1.15 2005/04/22 15:01:59 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -41,6 +41,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getCopyrightText <em>Copyright Text</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelDirectory <em>Model Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCreationCommands <em>Creation Commands</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCreationIcons <em>Creation Icons</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditDirectory <em>Edit Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorDirectory <em>Editor Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelPluginID <em>Model Plugin ID</em>}</li>
@@ -159,6 +160,33 @@ public interface GenModel extends GenBase{
    * @generated
    */
   void setCreationCommands(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Creation Icons</b></em>' attribute.
+   * The default value is <code>"true"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Creation Icons</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Creation Icons</em>' attribute.
+   * @see #setCreationIcons(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_CreationIcons()
+   * @model default="true"
+   * @generated
+   */
+  boolean isCreationIcons();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCreationIcons <em>Creation Icons</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Creation Icons</em>' attribute.
+   * @see #isCreationIcons()
+   * @generated
+   */
+  void setCreationIcons(boolean value);
 
   /**
    * Returns the value of the '<em><b>Edit Directory</b></em>' attribute.

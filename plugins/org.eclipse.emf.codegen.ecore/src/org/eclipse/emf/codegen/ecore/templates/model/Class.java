@@ -906,7 +906,7 @@ public class Class
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_25);
     }
-    if ((genClass.getClassExtendsGenClass() == null || genClass.getClassExtendsGenClass().getGenModel() != genModel) && genModel.isBooleanFlagsEnabled() && genModel.getBooleanFlagsReservedBits() == -1) {
+    if (genClass.isModelRoot() && genModel.isBooleanFlagsEnabled() && genModel.getBooleanFlagsReservedBits() == -1) {
     stringBuffer.append(TEXT_26);
     stringBuffer.append(genModel.getBooleanFlagsField());
     stringBuffer.append(TEXT_27);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.11 2005/04/20 02:49:19 davidms Exp $
+ * $Id: GenModelItemProvider.java,v 1.12 2005/04/22 15:01:44 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -75,6 +75,7 @@ public class GenModelItemProvider
       addCopyrightTextPropertyDescriptor(object);
       addModelDirectoryPropertyDescriptor(object);
       addCreationCommandsPropertyDescriptor(object);
+      addCreationIconsPropertyDescriptor(object);
       addEditDirectoryPropertyDescriptor(object);
       addEditorDirectoryPropertyDescriptor(object);
       addModelPluginIDPropertyDescriptor(object);
@@ -163,6 +164,25 @@ public class GenModelItemProvider
          getString("_UI_GenModel_creationCommands_feature"),
          getString("_UI_GenModel_creationCommands_description"),
          GenModelPackage.eINSTANCE.getGenModel_CreationCommands(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory")));
+  }
+
+  /**
+   * This adds a property descriptor for the Creation Icons feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addCreationIconsPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new GenItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_GenModel_creationIcons_feature"),
+         getString("_UI_GenModel_creationIcons_description"),
+         GenModelPackage.eINSTANCE.getGenModel_CreationIcons(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory")));
@@ -462,7 +482,7 @@ public class GenModelItemProvider
   protected void addStaticPackagesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_staticPackages_feature"),
          getString("_UI_GenModel_staticPackages_description"),
@@ -481,7 +501,7 @@ public class GenModelItemProvider
   protected void addModelPluginVariablesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_modelPluginVariables_feature"),
          getString("_UI_GenModel_modelPluginVariables_description"),
@@ -500,7 +520,7 @@ public class GenModelItemProvider
   protected void addRootExtendsInterfacePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_rootExtendsInterface_feature"),
          getString("_UI_GenModel_rootExtendsInterface_description"),
@@ -519,7 +539,7 @@ public class GenModelItemProvider
   protected void addRootExtendsClassPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_rootExtendsClass_feature"),
          getString("_UI_GenModel_rootExtendsClass_description"),
@@ -538,7 +558,7 @@ public class GenModelItemProvider
   protected void addRootImplementsInterfacePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_rootImplementsInterface_feature"),
          getString("_UI_GenModel_rootImplementsInterface_description"),
@@ -557,7 +577,7 @@ public class GenModelItemProvider
   protected void addSuppressEMFTypesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_suppressEMFTypes_feature"),
          getString("_UI_GenModel_suppressEMFTypes_description"),
@@ -576,7 +596,7 @@ public class GenModelItemProvider
   protected void addFeatureMapWrapperInterfacePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_featureMapWrapperInterface_feature"),
          getString("_UI_GenModel_featureMapWrapperInterface_description"),
@@ -595,7 +615,7 @@ public class GenModelItemProvider
   protected void addFeatureMapWrapperInternalInterfacePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_featureMapWrapperInternalInterface_feature"),
          getString("_UI_GenModel_featureMapWrapperInternalInterface_description"),
@@ -614,7 +634,7 @@ public class GenModelItemProvider
   protected void addFeatureMapWrapperClassPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_featureMapWrapperClass_feature"),
          getString("_UI_GenModel_featureMapWrapperClass_description"),
@@ -633,7 +653,7 @@ public class GenModelItemProvider
   protected void addRuntimeCompatibilityPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_runtimeCompatibility_feature"),
          getString("_UI_GenModel_runtimeCompatibility_description"),
@@ -652,7 +672,7 @@ public class GenModelItemProvider
   protected void addRichClientPlatformPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_richClientPlatform_feature"),
          getString("_UI_GenModel_richClientPlatform_description"),
@@ -671,7 +691,7 @@ public class GenModelItemProvider
   protected void addReflectiveDelegationPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_reflectiveDelegation_feature"),
          getString("_UI_GenModel_reflectiveDelegation_description"),
@@ -690,9 +710,8 @@ public class GenModelItemProvider
   protected void addCodeFormattingPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         getResourceLocator(),
          getString("_UI_GenModel_codeFormatting_feature"),
          getString("_UI_GenModel_codeFormatting_description"),
          GenModelPackage.eINSTANCE.getGenModel_CodeFormatting(),
@@ -710,9 +729,8 @@ public class GenModelItemProvider
   protected void addTestsDirectoryPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         getResourceLocator(),
          getString("_UI_GenModel_testsDirectory_feature"),
          getString("_UI_GenModel_testsDirectory_description"),
          GenModelPackage.eINSTANCE.getGenModel_TestsDirectory(),
@@ -730,9 +748,8 @@ public class GenModelItemProvider
   protected void addTestSuiteClassPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         getResourceLocator(),
          getString("_UI_GenModel_testSuiteClass_feature"),
          getString("_UI_GenModel_testSuiteClass_description"),
          GenModelPackage.eINSTANCE.getGenModel_TestSuiteClass(),
@@ -750,9 +767,8 @@ public class GenModelItemProvider
   protected void addBooleanFlagsFieldPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         getResourceLocator(),
          getString("_UI_GenModel_booleanFlagsField_feature"),
          getString("_UI_GenModel_booleanFlagsField_description"),
          GenModelPackage.eINSTANCE.getGenModel_BooleanFlagsField(),
@@ -770,9 +786,8 @@ public class GenModelItemProvider
   protected void addBooleanFlagsReservedBitsPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         getResourceLocator(),
          getString("_UI_GenModel_booleanFlagsReservedBits_feature"),
          getString("_UI_GenModel_booleanFlagsReservedBits_description"),
          GenModelPackage.eINSTANCE.getGenModel_BooleanFlagsReservedBits(),
@@ -845,6 +860,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__COPYRIGHT_TEXT:
       case GenModelPackage.GEN_MODEL__MODEL_DIRECTORY:
       case GenModelPackage.GEN_MODEL__CREATION_COMMANDS:
+      case GenModelPackage.GEN_MODEL__CREATION_ICONS:
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
       case GenModelPackage.GEN_MODEL__EDITOR_DIRECTORY:
       case GenModelPackage.GEN_MODEL__MODEL_PLUGIN_ID:

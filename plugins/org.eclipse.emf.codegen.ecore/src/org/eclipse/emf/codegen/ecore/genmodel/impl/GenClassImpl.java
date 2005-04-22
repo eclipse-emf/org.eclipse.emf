@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.27 2005/04/21 16:57:02 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.28 2005/04/22 15:01:59 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1901,7 +1901,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
            getName());
       }
 
-      if (getGenModel().isCreationCommands())
+      if (getGenModel().isCreationCommands() && getGenModel().isCreationIcons())
       {
         for (Iterator iter = getAllCreateChildFeaturesIncludingDelegation().iterator(); iter.hasNext(); )
         {
@@ -2288,6 +2288,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       sb.append(")");
     }
     return sb.toString();
+  }
+
+  public boolean isModelRoot()
+  {
+    return getClassExtendsGenClass() == null || getClassExtendsGenClass().getGenModel() != getGenModel();
   }
 
 }

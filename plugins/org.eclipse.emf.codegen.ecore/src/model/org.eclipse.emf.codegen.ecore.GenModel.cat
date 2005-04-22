@@ -48,6 +48,11 @@
 		    type       	"boolean"
 		    initv      	"true"
 		    exportControl 	"Public")
+		(object ClassAttribute "creationIcons"
+		    quid       	"4267E0150195"
+		    type       	"boolean"
+		    initv      	"true"
+		    exportControl 	"Public")
 		(object ClassAttribute "editDirectory"
 		    quid       	"3C6AAB1D01A3"
 		    type       	"String"

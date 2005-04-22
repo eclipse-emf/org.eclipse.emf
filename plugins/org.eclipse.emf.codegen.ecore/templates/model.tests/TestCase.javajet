@@ -57,7 +57,7 @@ package <%=genPackage.getTestsPackageName()%>;
 <%}%>
  * @generated
  */
-public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCaseClassName()%> extends <%=genClass.getClassExtendsGenClass() == null || genClass.getClassExtendsGenClass().getGenModel() != genModel ? genModel.getImportedName("junit.framework.TestCase") : genClass.getClassExtendsGenClass().getImportedTestCaseClassName()%>
+public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCaseClassName()%> extends <%=genClass.isModelRoot() ? genModel.getImportedName("junit.framework.TestCase") : genClass.getClassExtendsGenClass().getImportedTestCaseClassName()%>
 {
 <%if (genModel.getCopyrightText() != null) {%>
 
@@ -77,7 +77,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 */
 	public static final <%=genModel.getImportedName("java.lang.String")%> mofDriverNumber = "<%=genModel.getDriverNumber()%>";<%=genModel.getNonNLS()%>
 <%}%>
-<%if (genClass.getClassExtendsGenClass() == null || genClass.getClassExtendsGenClass().getGenModel() != genModel) {%>
+<%if (genClass.isModelRoot()) {%>
 
 	/**
 	 * The fixture for this <%=genClass.getFormattedName()%> test case.
@@ -110,7 +110,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	{
 		super(name);
 	}
-<%if (genClass.getClassExtendsGenClass() == null || genClass.getClassExtendsGenClass().getGenModel() != genModel) {%>
+<%if (genClass.isModelRoot()) {%>
 
 	/**
 	 * Sets the fixture for this <%=genClass.getFormattedName()%> test case.
@@ -132,7 +132,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 */
 	private <%=genClass.getImportedInterfaceName()%> getFixture()
 	{
-<%if (genClass.getClassExtendsGenClass() == null || genClass.getClassExtendsGenClass().getGenModel() != genModel) {%>
+<%if (genClass.isModelRoot()) {%>
 		return fixture;
 <%} else {%>
 		return (<%=genClass.getImportedInterfaceName()%>)fixture;

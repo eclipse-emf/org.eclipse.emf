@@ -32,6 +32,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/copyrightText"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/modelDirectory"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/creationCommands"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/creationIcons"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editDirectory"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editorDirectory"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/modelPluginID"/>

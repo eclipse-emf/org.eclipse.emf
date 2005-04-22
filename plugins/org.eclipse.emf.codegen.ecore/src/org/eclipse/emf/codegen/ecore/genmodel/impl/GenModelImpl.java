@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.27 2005/04/20 15:17:16 khussey Exp $
+ * $Id: GenModelImpl.java,v 1.28 2005/04/22 15:01:59 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -87,6 +87,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getCopyrightText <em>Copyright Text</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getModelDirectory <em>Model Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCreationCommands <em>Creation Commands</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCreationIcons <em>Creation Icons</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEditDirectory <em>Edit Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEditorDirectory <em>Editor Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getModelPluginID <em>Model Plugin ID</em>}</li>
@@ -189,6 +190,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean creationCommands = CREATION_COMMANDS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isCreationIcons() <em>Creation Icons</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCreationIcons()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean CREATION_ICONS_EDEFAULT = true;
+
+  /**
+   * The cached value of the '{@link #isCreationIcons() <em>Creation Icons</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCreationIcons()
+   * @generated
+   * @ordered
+   */
+  protected boolean creationIcons = CREATION_ICONS_EDEFAULT;
 
   /**
    * The default value of the '{@link #getEditDirectory() <em>Edit Directory</em>}' attribute.
@@ -949,6 +970,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     creationCommands = newCreationCommands;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__CREATION_COMMANDS, oldCreationCommands, creationCommands));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isCreationIcons()
+  {
+    return creationIcons;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setCreationIcons(boolean newCreationIcons)
+  {
+    boolean oldCreationIcons = creationIcons;
+    creationIcons = newCreationIcons;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__CREATION_ICONS, oldCreationIcons, creationIcons));
   }
 
   protected ImportManager importManager;
@@ -3248,6 +3292,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getModelDirectory();
       case GenModelPackage.GEN_MODEL__CREATION_COMMANDS:
         return isCreationCommands() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__CREATION_ICONS:
+        return isCreationIcons() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
         return getEditDirectory();
       case GenModelPackage.GEN_MODEL__EDITOR_DIRECTORY:
@@ -3339,6 +3385,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return MODEL_DIRECTORY_EDEFAULT == null ? modelDirectory != null : !MODEL_DIRECTORY_EDEFAULT.equals(modelDirectory);
       case GenModelPackage.GEN_MODEL__CREATION_COMMANDS:
         return creationCommands != CREATION_COMMANDS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__CREATION_ICONS:
+        return creationIcons != CREATION_ICONS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
         return EDIT_DIRECTORY_EDEFAULT == null ? editDirectory != null : !EDIT_DIRECTORY_EDEFAULT.equals(editDirectory);
       case GenModelPackage.GEN_MODEL__EDITOR_DIRECTORY:
@@ -3432,6 +3480,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__CREATION_COMMANDS:
         setCreationCommands(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__CREATION_ICONS:
+        setCreationIcons(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
         setEditDirectory((String)newValue);
@@ -3568,6 +3619,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CREATION_COMMANDS:
         setCreationCommands(CREATION_COMMANDS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__CREATION_ICONS:
+        setCreationIcons(CREATION_ICONS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
         setEditDirectory(EDIT_DIRECTORY_EDEFAULT);
         return;
@@ -3696,6 +3750,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(modelDirectory);
     result.append(", creationCommands: ");
     result.append(creationCommands);
+    result.append(", creationIcons: ");
+    result.append(creationIcons);
     result.append(", editDirectory: ");
     result.append(editDirectory);
     result.append(", editorDirectory: ");
@@ -4401,6 +4457,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setCopyrightText(oldGenModelVersion.getCopyrightText());
     setModelDirectory(oldGenModelVersion.getModelDirectory());
     setCreationCommands(oldGenModelVersion.isCreationCommands());
+    setCreationIcons(oldGenModelVersion.isCreationIcons());
     setEditDirectory(oldGenModelVersion.getEditDirectory());
     setEditorDirectory(oldGenModelVersion.getEditorDirectory());
     setModelPluginID(oldGenModelVersion.getModelPluginID());

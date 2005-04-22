@@ -189,7 +189,7 @@ public class TestCase
     stringBuffer.append(TEXT_23);
     stringBuffer.append(genClass.getTestCaseClassName());
     stringBuffer.append(TEXT_24);
-    stringBuffer.append(genClass.getClassExtendsGenClass() == null || genClass.getClassExtendsGenClass().getGenModel() != genModel ? genModel.getImportedName("junit.framework.TestCase") : genClass.getClassExtendsGenClass().getImportedTestCaseClassName());
+    stringBuffer.append(genClass.isModelRoot() ? genModel.getImportedName("junit.framework.TestCase") : genClass.getClassExtendsGenClass().getImportedTestCaseClassName());
     stringBuffer.append(TEXT_25);
     if (genModel.getCopyrightText() != null) {
     stringBuffer.append(TEXT_26);
@@ -207,7 +207,7 @@ public class TestCase
     stringBuffer.append(TEXT_31);
     stringBuffer.append(genModel.getNonNLS());
     }
-    if (genClass.getClassExtendsGenClass() == null || genClass.getClassExtendsGenClass().getGenModel() != genModel) {
+    if (genClass.isModelRoot()) {
     stringBuffer.append(TEXT_32);
     stringBuffer.append(genClass.getFormattedName());
     stringBuffer.append(TEXT_33);
@@ -226,7 +226,7 @@ public class TestCase
     stringBuffer.append(TEXT_39);
     stringBuffer.append(genClass.getTestCaseClassName());
     stringBuffer.append(TEXT_40);
-    if (genClass.getClassExtendsGenClass() == null || genClass.getClassExtendsGenClass().getGenModel() != genModel) {
+    if (genClass.isModelRoot()) {
     stringBuffer.append(TEXT_41);
     stringBuffer.append(genClass.getFormattedName());
     stringBuffer.append(TEXT_42);
@@ -238,7 +238,7 @@ public class TestCase
     stringBuffer.append(TEXT_45);
     stringBuffer.append(genClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_46);
-    if (genClass.getClassExtendsGenClass() == null || genClass.getClassExtendsGenClass().getGenModel() != genModel) {
+    if (genClass.isModelRoot()) {
     stringBuffer.append(TEXT_47);
     } else {
     stringBuffer.append(TEXT_48);

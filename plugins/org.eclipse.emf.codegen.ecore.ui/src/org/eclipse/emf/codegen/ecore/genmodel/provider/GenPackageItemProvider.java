@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.8 2005/04/20 02:49:19 davidms Exp $
+ * $Id: GenPackageItemProvider.java,v 1.9 2005/04/22 15:01:44 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -149,9 +149,8 @@ public class GenPackageItemProvider
   protected void addDisposableProviderFactoryPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new GenItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         getResourceLocator(),
          getString("_UI_GenPackage_disposableProviderFactory_feature"),
          getString("_UI_GenPackage_disposableProviderFactory_description"),
          GenModelPackage.eINSTANCE.getGenPackage_DisposableProviderFactory(),
