@@ -98,6 +98,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/notify"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/children"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/createChild"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/category"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/filterFlags"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenFeature/genClass"/>
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenFeature/ecoreFeature"/>
     </genClasses>

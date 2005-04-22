@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.11 2005/04/22 15:01:59 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.12 2005/04/22 19:46:37 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -95,18 +95,34 @@ public class <%=genClass.getProviderClassName()%>
 	protected void add<%=genFeature.getCapName()%>PropertyDescriptor(Object object)
 	{
 		itemPropertyDescriptors.add
-			(new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.ItemPropertyDescriptor")%>
+			(createItemPropertyDescriptor
 				(((<%=genModel.getImportedName("org.eclipse.emf.edit.provider.ComposeableAdapterFactory")%>)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_feature"),<%=genModel.getNonNLS()%>
 				 getString("_UI_PropertyDescriptor_description", "_UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_feature", "_UI_<%=genFeature.getGenClass().getName()%>_type"),<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%>
 				 <%=genFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genFeature.getFeatureAccessorName()%>(),
-<%if (genFeature.isReferenceType()) {%>
-				 <%=genFeature.getProperty() == GenPropertyKind.EDITABLE_LITERAL ? "true" : "false"%>));
-<%} else {%>
 				 <%=genFeature.getProperty() == GenPropertyKind.EDITABLE_LITERAL ? "true" : "false"%>,
-				 <%=genModel.getImportedName("org.eclipse.emf.edit.provider.ItemPropertyDescriptor")%>.<%=genFeature.getPropertyImageName()%>));
-<%}%>
+  <%if (genFeature.isReferenceType()) {%>
+				 null,
+  <%} else {%>
+				 <%=genModel.getImportedName("org.eclipse.emf.edit.provider.ItemPropertyDescriptor")%>.<%=genFeature.getPropertyImageName()%>,
+  <%}%>
+  <%if (genFeature.getCategory() == null || genFeature.getCategory().length() == 0) {%>
+				 null,
+  <%} else {%>
+				 getString("<%=genFeature.getCategory()%>"),<%=genModel.getNonNLS()%>
+  <%}%>
+  <%if (genFeature.getFilterFlags().isEmpty()) {%>
+				 null));
+  <%} else {%>
+				 new String[] {
+    <%for (Iterator j = genFeature.getFilterFlags().iterator(); j.hasNext();) { String filterFlag = (String)j.next();%>
+      <%if (filterFlag != null && filterFlag.length() > 0) {%>
+					"<%=filterFlag%>"<%if (j.hasNext()) {%>,<%}%><%=genModel.getNonNLS()%>
+      <%}%>
+    <%}%>
+				 }));
+  <%}%>
 	}
 
 <%}%>

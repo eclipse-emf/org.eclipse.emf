@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.14 2005/04/22 15:01:59 khussey Exp $
+ * $Id: GenModelPackageImpl.java,v 1.15 2005/04/22 19:46:37 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -897,9 +897,29 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getGenFeature_Category()
+  {
+    return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getGenFeature_FilterFlags()
+  {
+    return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getGenFeature_GenClass()
   {
-    return (EReference)genFeatureEClass.getEStructuralFeatures().get(4);
+    return (EReference)genFeatureEClass.getEStructuralFeatures().get(6);
   }
 
   /**
@@ -909,7 +929,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    */
   public EReference getGenFeature_EcoreFeature()
   {
-    return (EReference)genFeatureEClass.getEStructuralFeatures().get(5);
+    return (EReference)genFeatureEClass.getEStructuralFeatures().get(7);
   }
 
   /**
@@ -1222,6 +1242,8 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genFeatureEClass, GEN_FEATURE__NOTIFY);
     createEAttribute(genFeatureEClass, GEN_FEATURE__CHILDREN);
     createEAttribute(genFeatureEClass, GEN_FEATURE__CREATE_CHILD);
+    createEAttribute(genFeatureEClass, GEN_FEATURE__CATEGORY);
+    createEAttribute(genFeatureEClass, GEN_FEATURE__FILTER_FLAGS);
     createEReference(genFeatureEClass, GEN_FEATURE__GEN_CLASS);
     createEReference(genFeatureEClass, GEN_FEATURE__ECORE_FEATURE);
 
@@ -1366,6 +1388,8 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenFeature_Notify(), ecorePackage.getEBoolean(), "notify", "true", 0, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenFeature_Children(), ecorePackage.getEBoolean(), "children", null, 0, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenFeature_CreateChild(), ecorePackage.getEBoolean(), "createChild", null, 0, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenFeature_Category(), ecorePackage.getEString(), "category", null, 0, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenFeature_FilterFlags(), ecorePackage.getEString(), "filterFlags", null, 0, -1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenFeature_GenClass(), this.getGenClass(), this.getGenClass_GenFeatures(), "genClass", null, 1, 1, GenFeature.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenFeature_EcoreFeature(), theEcorePackage.getEStructuralFeature(), null, "ecoreFeature", null, 1, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

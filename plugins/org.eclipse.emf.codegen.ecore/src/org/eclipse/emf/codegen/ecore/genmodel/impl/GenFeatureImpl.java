@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.16 2005/04/20 18:22:58 khussey Exp $
+ * $Id: GenFeatureImpl.java,v 1.17 2005/04/22 19:46:37 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
+
+import java.util.Collection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +36,8 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -44,6 +48,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -60,6 +65,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isNotify <em>Notify</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isChildren <em>Children</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isCreateChild <em>Create Child</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getCategory <em>Category</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getFilterFlags <em>Filter Flags</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getGenClass <em>Gen Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getEcoreFeature <em>Ecore Feature</em>}</li>
  * </ul>
@@ -157,6 +164,36 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
    * @ordered
    */
   protected boolean createChildESet = false;
+
+  /**
+   * The default value of the '{@link #getCategory() <em>Category</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getCategory()
+   * @generated
+   * @ordered
+   */
+  protected static final String CATEGORY_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getCategory() <em>Category</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getCategory()
+   * @generated
+   * @ordered
+   */
+  protected String category = CATEGORY_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getFilterFlags() <em>Filter Flags</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFilterFlags()
+   * @generated
+   * @ordered
+   */
+  protected EList filterFlags = null;
 
   /**
    * The cached value of the '{@link #getEcoreFeature() <em>Ecore Feature</em>}' reference.
@@ -330,6 +367,43 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     return createChildESet;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getCategory()
+  {
+    return category;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setCategory(String newCategory)
+  {
+    String oldCategory = category;
+    category = newCategory;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__CATEGORY, oldCategory, category));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList getFilterFlags()
+  {
+    if (filterFlags == null)
+    {
+      filterFlags = new EDataTypeUniqueEList(String.class, this, GenModelPackage.GEN_FEATURE__FILTER_FLAGS);
+    }
+    return filterFlags;
+  }
+
   protected void autoSetCreateChild()
   {
     if (!isSetCreateChildGen())
@@ -501,6 +575,10 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
         return isChildren() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
         return isCreateChild() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_FEATURE__CATEGORY:
+        return getCategory();
+      case GenModelPackage.GEN_FEATURE__FILTER_FLAGS:
+        return getFilterFlags();
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         return getGenClass();
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
@@ -527,6 +605,10 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
         return children != CHILDREN_EDEFAULT;
       case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
         return isSetCreateChild();
+      case GenModelPackage.GEN_FEATURE__CATEGORY:
+        return CATEGORY_EDEFAULT == null ? category != null : !CATEGORY_EDEFAULT.equals(category);
+      case GenModelPackage.GEN_FEATURE__FILTER_FLAGS:
+        return filterFlags != null && !filterFlags.isEmpty();
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         return getGenClass() != null;
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
@@ -555,6 +637,13 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
         return;
       case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
         setCreateChild(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_FEATURE__CATEGORY:
+        setCategory((String)newValue);
+        return;
+      case GenModelPackage.GEN_FEATURE__FILTER_FLAGS:
+        getFilterFlags().clear();
+        getFilterFlags().addAll((Collection)newValue);
         return;
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         setGenClass((GenClass)newValue);
@@ -587,6 +676,12 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
         unsetCreateChild();
         return;
+      case GenModelPackage.GEN_FEATURE__CATEGORY:
+        setCategory(CATEGORY_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_FEATURE__FILTER_FLAGS:
+        getFilterFlags().clear();
+        return;
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         setGenClass((GenClass)null);
         return;
@@ -615,6 +710,10 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     result.append(children);
     result.append(", createChild: ");
     if (createChildESet) result.append(createChild); else result.append("<unset>");
+    result.append(", category: ");
+    result.append(category);
+    result.append(", filterFlags: ");
+    result.append(filterFlags);
     result.append(')');
     return result.toString();
   }
@@ -1701,6 +1800,9 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     setNotify(oldGenFeatureVersion.isNotify());
     setChildren(oldGenFeatureVersion.isChildren());
     setCreateChild(oldGenFeatureVersion.isCreateChild());
+    setCategory(oldGenFeatureVersion.getCategory());
+
+    getFilterFlags().addAll(oldGenFeatureVersion.getFilterFlags());
   }
 
   public boolean reconcile()

@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.9 2005/04/20 15:17:16 khussey Exp $
+ * $Id: GenFeature.java,v 1.10 2005/04/22 19:46:37 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
+
+import org.eclipse.emf.common.util.EList;
 
 import java.util.List;
 
@@ -34,6 +36,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isNotify <em>Notify</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isChildren <em>Children</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isCreateChild <em>Create Child</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getCategory <em>Category</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getFilterFlags <em>Filter Flags</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getGenClass <em>Gen Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getEcoreFeature <em>Ecore Feature</em>}</li>
  * </ul>
@@ -43,8 +47,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @model
  * @generated
  */
-public interface GenFeature extends GenBase
-{
+public interface GenFeature extends GenBase{
   /**
    * Returns the value of the '<em><b>Property</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind}.
@@ -181,6 +184,48 @@ public interface GenFeature extends GenBase
    * @generated
    */
   boolean isSetCreateChild();
+
+  /**
+   * Returns the value of the '<em><b>Category</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Category</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Category</em>' attribute.
+   * @see #setCategory(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature_Category()
+   * @model
+   * @generated
+   */
+  String getCategory();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getCategory <em>Category</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Category</em>' attribute.
+   * @see #getCategory()
+   * @generated
+   */
+  void setCategory(String value);
+
+  /**
+   * Returns the value of the '<em><b>Filter Flags</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Filter Flags</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Filter Flags</em>' attribute list.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature_FilterFlags()
+   * @model type="java.lang.String"
+   * @generated
+   */
+  EList getFilterFlags();
 
   /**
    * Returns the value of the '<em><b>Gen Class</b></em>' container reference.

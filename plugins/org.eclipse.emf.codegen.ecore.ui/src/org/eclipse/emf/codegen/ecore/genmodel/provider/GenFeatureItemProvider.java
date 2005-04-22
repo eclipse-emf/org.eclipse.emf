@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureItemProvider.java,v 1.6 2005/04/20 02:49:19 davidms Exp $
+ * $Id: GenFeatureItemProvider.java,v 1.7 2005/04/22 19:46:38 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -77,6 +77,8 @@ public class GenFeatureItemProvider
       addNotifyPropertyDescriptor(object);
       addChildrenPropertyDescriptor(object);
       addCreateChildPropertyDescriptor(object);
+      addCategoryPropertyDescriptor(object);
+      addFilterFlagsPropertyDescriptor(object);
       addEcoreFeaturePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -155,6 +157,44 @@ public class GenFeatureItemProvider
          GenModelPackage.eINSTANCE.getGenFeature_CreateChild(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory")));
+  }
+
+  /**
+   * This adds a property descriptor for the Category feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addCategoryPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new GenItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_GenFeature_category_feature"),
+         getString("_UI_GenFeature_category_description"),
+         GenModelPackage.eINSTANCE.getGenFeature_Category(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory")));
+  }
+
+  /**
+   * This adds a property descriptor for the Filter Flags feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addFilterFlagsPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new GenItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getString("_UI_GenFeature_filterFlags_feature"),
+         getString("_UI_GenFeature_filterFlags_description"),
+         GenModelPackage.eINSTANCE.getGenFeature_FilterFlags(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory")));
   }
 
@@ -284,6 +324,8 @@ public class GenFeatureItemProvider
       case GenModelPackage.GEN_FEATURE__NOTIFY:
       case GenModelPackage.GEN_FEATURE__CHILDREN:
       case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
+      case GenModelPackage.GEN_FEATURE__CATEGORY:
+      case GenModelPackage.GEN_FEATURE__FILTER_FLAGS:
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;

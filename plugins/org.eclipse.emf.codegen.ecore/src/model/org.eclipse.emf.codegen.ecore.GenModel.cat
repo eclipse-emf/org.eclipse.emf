@@ -278,6 +278,15 @@
 			    value      	TRUE))
 		    quid       	"4032897A01A1"
 		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "category"
+		    quid       	"4269179902C4"
+		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "filterFlags"
+		    quid       	"426917AF0044"
+		    stereotype 	"0..*"
+		    type       	"String"
 		    exportControl 	"Public")))
 	(object Class "GenBase"
 	    quid       	"3C176A0701D7"

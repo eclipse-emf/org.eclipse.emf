@@ -24,6 +24,7 @@ public class PluginProperties
   protected final String TEXT_16 = "_";
   protected final String TEXT_17 = "_literal = ";
   protected final String TEXT_18 = NL;
+  protected final String TEXT_19 = " = ";
 
   public String generate(Object argument)
   {
@@ -32,7 +33,7 @@ public class PluginProperties
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -91,7 +92,16 @@ public class PluginProperties
     }
     }
     }
+    {Set categories = new HashSet();
+    for (Iterator i=genModel.getFilteredAllGenFeatures().iterator(); i.hasNext();) { String category = ((GenFeature)i.next()).getCategory();
+    if (category != null && category.length() > 0 && categories.add(category)) {
     stringBuffer.append(TEXT_18);
+    stringBuffer.append(category);
+    stringBuffer.append(TEXT_19);
+    stringBuffer.append(category);
+    }
+    }
+    }
     return stringBuffer.toString();
   }
 }

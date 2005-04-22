@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.13 2004/10/19 21:15:23 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.14 2005/04/22 19:46:31 khussey Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -2523,6 +2523,33 @@ public class ItemProviderAdapter
     return Collections.EMPTY_LIST;
   }
 
+  /**
+   * This creates an item provider descriptor that uses a resource locator; specifies a static image, a category, and filter flags;
+   * and determines the cell editor from the type of the structural feature. 
+   */
+  protected ItemPropertyDescriptor createItemPropertyDescriptor(
+    AdapterFactory adapterFactory,
+    ResourceLocator resourceLocator,
+    String displayName,
+    String description,
+    EStructuralFeature feature,
+    boolean isSettable,
+    Object staticImage,
+    String category,
+    String[] filterFlags)
+  {
+    return new ItemPropertyDescriptor(
+      adapterFactory,
+      resourceLocator,
+      displayName,
+      description,
+      feature,
+      isSettable,
+      staticImage,
+      category,
+      filterFlags);
+  }
+  
   /**
    * A <code>ResultAndAffectedObjectsWrappingCommand</code> wraps another command to substitute {@link
    * IWrapperItemProvider}s for their values in the command's result and affected objects. This is needed
