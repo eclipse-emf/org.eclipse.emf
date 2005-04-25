@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.9 2004/08/20 23:49:41 marcelop Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.10 2005/04/25 21:46:57 elena Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -888,11 +888,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createNameFromString(EDataType eDataType, String initialValue)
   {
-    if (initialValue == null) return null;
-    if (!XMLChar.isValidName(initialValue))
-    {
-      throw new InvalidDatatypeValueException("Invalid Name value: '" + initialValue + "'");
-    }
+    // do not validate on load. Check validity using Diagnostician.
     return initialValue;
   }
 
@@ -913,12 +909,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createNCNameFromString(EDataType eDataType, String initialValue)
   {
-    if (initialValue == null) return null;
-    if (!XMLChar.isValidNCName(initialValue))
-    {
-      throw new InvalidDatatypeValueException("Invalid NCName value: '" + initialValue + "'");
-    }
-    return initialValue;  
+    // do not validate on load. Check validity using Diagnostician.
+    return initialValue;
   }
 
   /**
