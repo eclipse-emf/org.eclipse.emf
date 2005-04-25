@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.18 2005/04/21 18:38:47 elena Exp $
+ * $Id: FeatureChangeImpl.java,v 1.19 2005/04/25 21:01:11 elena Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -29,7 +29,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -71,7 +70,6 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * The bit of {@link #eFlags} that is used to represent if feature is a proxy.
    */
   protected static final int EPROXY_FEATURECHANGE = ELAST_EOBJECT_FLAG << 1;
-  protected static final int REFVALUE_FEATURECHANGE = ELAST_EOBJECT_FLAG << 2;
   
   /**
    * The default value of the '{@link #getFeatureName() <em>Feature Name</em>}' attribute.
@@ -371,7 +369,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   public EObject basicGetReferenceValue()
   {
-    return (eFlags & REFVALUE_FEATURECHANGE) != 0 ? (EObject)value : null;
+    return (feature instanceof EReference && !feature.isMany()) ? (EObject)value : null;
   }
 
   /**
@@ -383,14 +381,6 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   {
     EObject oldReferenceValue = basicGetReferenceValue();
     value = newReferenceValue;
-    if (value instanceof EEnumLiteral)
-    {
-      eFlags &= ~REFVALUE_FEATURECHANGE;
-    }
-    else
-    {
-      eFlags |= REFVALUE_FEATURECHANGE;
-    }
     valueString = null;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, ChangePackage.FEATURE_CHANGE__REFERENCE_VALUE, oldReferenceValue, newReferenceValue));
@@ -443,15 +433,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     if (!eNotificationRequired() || feature.isMany())
     {
       valueString = null;
-      this.value = value; 
-      if (value instanceof EObject && !(value instanceof EEnumLiteral))
-      {
-        eFlags |= REFVALUE_FEATURECHANGE;
-      }
-      else
-      {
-        eFlags &= ~REFVALUE_FEATURECHANGE;
-      }
+      this.value = value;
     }
     else
     {
@@ -460,13 +442,12 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
         EDataType type = (EDataType)feature.getEType();
         setDataValue(EcoreUtil.convertToString(type, value));
         this.value = value;
-        eFlags &= ~REFVALUE_FEATURECHANGE;
       }
       else
       {
         setReferenceValue((EObject)value);
       }
-    } 
+    }    
   }
 
   protected EList getListValue(EList originalList)
