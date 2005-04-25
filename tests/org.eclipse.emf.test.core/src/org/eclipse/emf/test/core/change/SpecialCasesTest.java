@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.14 2005/04/21 18:39:32 elena Exp $
+ * $Id: SpecialCasesTest.java,v 1.15 2005/04/25 21:02:28 elena Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -52,6 +52,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.test.core.TestUtil;
@@ -906,6 +907,9 @@ public class SpecialCasesTest  extends TestCase
     }    
   }
   
+  /*
+   * Bugzilla 92271
+   */
   public void testEnumeration() throws Exception
   {
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
@@ -922,6 +926,7 @@ public class SpecialCasesTest  extends TestCase
     name.setEType(EcorePackage.eINSTANCE.getEString());
     person.getEStructuralFeatures().add(name);
 
+    //Attribute enumeration
     EEnum maritalStatusEnum = EcoreFactory.eINSTANCE.createEEnum();
     pack.getEClassifiers().add(maritalStatusEnum);
     EEnumLiteral single = EcoreFactory.eINSTANCE.createEEnumLiteral();
@@ -937,39 +942,81 @@ public class SpecialCasesTest  extends TestCase
     maritalStatus.setName("maritalStatus");
     maritalStatus.setEType(maritalStatusEnum);
     person.getEStructuralFeatures().add(maritalStatus);
+
+    //Reference enumeration
+    EEnum rankEnum = EcoreFactory.eINSTANCE.createEEnum();
+    pack.getEClassifiers().add(rankEnum);
+    EEnumLiteral beginner = EcoreFactory.eINSTANCE.createEEnumLiteral();
+    beginner.setName("beginner");
+    beginner.setValue(0);
+    rankEnum.getELiterals().add(beginner);
+    EEnumLiteral intermediate = EcoreFactory.eINSTANCE.createEEnumLiteral();
+    intermediate.setName("intermediate");
+    intermediate.setValue(1);
+    rankEnum.getELiterals().add(intermediate);
+    EEnumLiteral advanced = EcoreFactory.eINSTANCE.createEEnumLiteral();
+    advanced.setName("advanced");
+    advanced.setValue(2);
+    rankEnum.getELiterals().add(advanced);
+    
+    EReference emfKnowledge = EcoreFactory.eINSTANCE.createEReference();
+    emfKnowledge.setName("emfKnowledge");
+    emfKnowledge.setEType(EcorePackage.eINSTANCE.getEEnumLiteral());
+    person.getEStructuralFeatures().add(emfKnowledge);
     
     EObject john = pack.getEFactoryInstance().create(person);
     john.eSet(name, "John");
     john.eSet(maritalStatus, married);
+    john.eSet(emfKnowledge, intermediate);
     EObject mary = pack.getEFactoryInstance().create(person);
     mary.eSet(name, "Mary");
+    mary.eSet(emfKnowledge, beginner);
     
     //State 0
     assertEquals(married, john.eGet(maritalStatus));
+    assertEquals(intermediate, john.eGet(emfKnowledge));
     assertEquals(single, mary.eGet(maritalStatus));
+    assertEquals(beginner, mary.eGet(emfKnowledge));
 
     ChangeRecorder changeRecorder = new ChangeRecorder(Arrays.asList(new Object[]{john, mary}));
     john.eSet(maritalStatus, single);
+    john.eSet(emfKnowledge, beginner);
     mary.eSet(maritalStatus, married);
+    mary.eSet(emfKnowledge, advanced);
     ChangeDescription changeDescription = changeRecorder.endRecording();
     
     //State 1
     assertEquals(single, john.eGet(maritalStatus));
+    assertEquals(beginner, john.eGet(emfKnowledge));
     assertEquals(married, mary.eGet(maritalStatus));
+    assertEquals(advanced, mary.eGet(emfKnowledge));
     
     changeDescription.applyAndReverse();
 
     //State 0
     assertEquals(married, john.eGet(maritalStatus));
+    assertEquals(intermediate, john.eGet(emfKnowledge));
     assertEquals(single, mary.eGet(maritalStatus));
+    assertEquals(beginner, mary.eGet(emfKnowledge));
 
     changeDescription.applyAndReverse();
 
     //State 1
     assertEquals(single, john.eGet(maritalStatus));
+    assertEquals(beginner, john.eGet(emfKnowledge));
     assertEquals(married, mary.eGet(maritalStatus));
+    assertEquals(advanced, mary.eGet(emfKnowledge));
     
-    XMIResource resource = new XMIResourceImpl(URI.createFileURI("foo"));
+    // Prepare for serialization
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
+    
+    Resource ecore = resourceSet.createResource(URI.createFileURI("my.ecore"));
+    ecore.getContents().add(pack);
+    
+    Resource resource = resourceSet.createResource(URI.createFileURI("foo.xmi"));
     resource.getContents().add(john);
     resource.getContents().add(mary);
     resource.getContents().add(changeDescription);
@@ -977,7 +1024,8 @@ public class SpecialCasesTest  extends TestCase
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     resource.save(baos, null);
     
-    resource = new XMIResourceImpl(URI.createFileURI("foo"));
+    // Load resource
+    resource.unload();
     resource.load(new ByteArrayInputStream(baos.toByteArray()), null);
     
     EObject loadedJohn =  (EObject)resource.getContents().get(0);
@@ -987,7 +1035,9 @@ public class SpecialCasesTest  extends TestCase
 
     //State 1
     assertEquals(single, loadedJohn.eGet(maritalStatus));
+    assertEquals(beginner, loadedJohn.eGet(emfKnowledge));
     assertEquals(married, loadedMary.eGet(maritalStatus));
+    assertEquals(advanced, loadedMary.eGet(emfKnowledge));
     
     ChangeDescription loadedChangeDescription = (ChangeDescription)resource.getContents().get(2);
     
@@ -995,6 +1045,8 @@ public class SpecialCasesTest  extends TestCase
     
     //State 0
     assertEquals(married, loadedJohn.eGet(maritalStatus));
-    assertEquals(single, loadedMary.eGet(maritalStatus));    
+    assertEquals(intermediate, loadedJohn.eGet(emfKnowledge));
+    assertEquals(single, loadedMary.eGet(maritalStatus));
+    assertEquals(beginner, loadedMary.eGet(emfKnowledge));
   }
 }
