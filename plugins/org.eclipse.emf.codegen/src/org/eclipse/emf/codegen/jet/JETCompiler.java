@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.12 2005/04/18 12:06:24 emerks Exp $
+ * $Id: JETCompiler.java,v 1.13 2005/04/26 21:50:24 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -189,7 +189,7 @@ public class JETCompiler implements JETParseEventListener
 
           // The include succeeded, so if there is an alternative and we're not skippping, we need to start.
           //
-          if ("alternative".equals((String)attributes.get("fail")))
+          if ("alternative".equals(attributes.get("fail")))
           {
             skipSections.push(new SkipSection(sectionDepth + 1, !skipping));
           }
