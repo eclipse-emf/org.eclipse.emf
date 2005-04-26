@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.35 2005/04/14 15:10:15 khussey Exp $
+ * $Id: XMLSaveImpl.java,v 1.36 2005/04/26 17:37:46 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -86,6 +86,7 @@ public class XMLSaveImpl implements XMLSave
   protected Lookup featureTable;
   protected String encoding;
   protected String idAttributeName = "id";
+  protected String idAttributeNS = null;
   protected String processDanglingHREF;
   protected boolean declareSchemaLocation;
   protected boolean declareSchemaLocationImplementation;
@@ -2205,7 +2206,7 @@ public class XMLSaveImpl implements XMLSave
       }
       else
       {
-        Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+        Attr attr = document.createAttributeNS(idAttributeNS, idAttributeName);
         attr.setNodeValue(id);      
         ((Element)currentNode).setAttributeNodeNS(attr);
         handler.recordValues(attr, o, null, o);

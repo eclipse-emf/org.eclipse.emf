@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMISaveImpl.java,v 1.7 2005/03/19 15:25:37 emerks Exp $
+ * $Id: XMISaveImpl.java,v 1.8 2005/04/26 17:37:46 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -44,6 +44,7 @@ public class XMISaveImpl extends XMLSaveImpl
   {
     super(helper);
     idAttributeName = XMI_ID_NS;
+    idAttributeNS = XMIResource.XMI_NS;
   }
 
   public XMISaveImpl(Map options, XMLHelper helper, String encoding)
@@ -51,6 +52,7 @@ public class XMISaveImpl extends XMLSaveImpl
     super(options, helper, encoding);
     this.xmiType = Boolean.TRUE.equals(options.get(XMIResource.OPTION_USE_XMI_TYPE));
     idAttributeName = XMI_ID_NS;
+    idAttributeNS = XMIResource.XMI_NS;
   }
 
   protected void init(XMLResource resource, Map options)
