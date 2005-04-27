@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Util.java,v 1.2 2005/02/10 22:11:51 marcelop Exp $
+ * $Id: Util.java,v 1.3 2005/04/27 02:41:21 marcelop Exp $
  */
 package org.eclipse.emf.ant.util;
 
@@ -67,6 +67,11 @@ public class Util
    */
   public static void writeFile(File file, String content) throws IOException
   {
+    if (!file.getParentFile().isDirectory())
+    {
+      file.getParentFile().mkdirs();
+    }
+    
     BufferedWriter out = null;
     try
     {
