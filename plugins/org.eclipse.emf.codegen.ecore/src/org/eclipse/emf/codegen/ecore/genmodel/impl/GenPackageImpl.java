@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.19 2005/04/07 13:39:27 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.20 2005/04/27 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -974,7 +974,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getUncapPackageInterfaceName()
   {
-    return uncapPrefixedName(getPackageInterfaceName());
+    return uncapPrefixedName(getPackageInterfaceName(), true);
   }
 
   public String getPackageClassName()
@@ -1009,7 +1009,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getUncapFactoryInterfaceName()
   {
-    return uncapPrefixedName(getFactoryInterfaceName());
+    return uncapPrefixedName(getFactoryInterfaceName(), true);
   }
 
   public String getFactoryClassName()
@@ -1044,7 +1044,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getUncapAdapterFactoryClassName()
   {
-    return uncapPrefixedName(getAdapterFactoryClassName());
+    return uncapPrefixedName(getAdapterFactoryClassName(), true);
   }
 
   public String getSwitchClassName()
@@ -2284,7 +2284,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getUncapAdapterFactoryDelegateName(GenPackage genDelegate)
   {
-    return uncapPrefixedName(getAdapterFactoryDelegateName(genDelegate));
+    return uncapPrefixedName(getAdapterFactoryDelegateName(genDelegate), true);
   }
 
   //
