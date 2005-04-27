@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureItemProvider.java,v 1.9 2005/04/27 20:48:05 khussey Exp $
+ * $Id: GenFeatureItemProvider.java,v 1.10 2005/04/27 21:28:22 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -89,7 +89,7 @@ public class GenFeatureItemProvider
    * This adds a property descriptor for the Property feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addPropertyPropertyDescriptor(Object object)
   {
@@ -110,7 +110,7 @@ public class GenFeatureItemProvider
    * This adds a property descriptor for the Notify feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addNotifyPropertyDescriptor(Object object)
   {
@@ -131,7 +131,7 @@ public class GenFeatureItemProvider
    * This adds a property descriptor for the Children feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addChildrenPropertyDescriptor(Object object)
   {
@@ -149,10 +149,10 @@ public class GenFeatureItemProvider
   }
 
   /**
-   * This adds a property descriptor for the Children feature.
+   * This adds a property descriptor for the Create Child feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addCreateChildPropertyDescriptor(Object object)
   {
@@ -173,7 +173,7 @@ public class GenFeatureItemProvider
    * This adds a property descriptor for the Property Category feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addPropertyCategoryPropertyDescriptor(Object object)
   {
@@ -194,7 +194,7 @@ public class GenFeatureItemProvider
    * This adds a property descriptor for the Property Filter Flags feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addPropertyFilterFlagsPropertyDescriptor(Object object)
   {
@@ -215,7 +215,7 @@ public class GenFeatureItemProvider
    * This adds a property descriptor for the Property Description feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addPropertyDescriptionPropertyDescriptor(Object object)
   {
@@ -236,7 +236,7 @@ public class GenFeatureItemProvider
    * This adds a property descriptor for the Ecore Feature feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addEcoreFeaturePropertyDescriptor(Object object)
   {

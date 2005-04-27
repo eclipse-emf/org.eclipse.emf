@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.9 2005/04/22 15:01:44 khussey Exp $
+ * $Id: GenPackageItemProvider.java,v 1.10 2005/04/27 21:28:22 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -87,132 +87,147 @@ public class GenPackageItemProvider
    * This adds a property descriptor for the Prefix feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addPrefixPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenPackage_prefix_feature"),
          getString("_UI_GenPackage_prefix_description"),
          GenModelPackage.eINSTANCE.getGenPackage_Prefix(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_AllPropertyCategory")));
+         getString("_UI_AllPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Base Package feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addBasePackagePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenPackage_basePackage_feature"),
          getString("_UI_GenPackage_basePackage_description"),
          GenModelPackage.eINSTANCE.getGenPackage_BasePackage(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_AllPropertyCategory")));
+         getString("_UI_AllPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Resource feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addResourcePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenPackage_resource_feature"),
          getString("_UI_GenPackage_resource_description"),
          GenModelPackage.eINSTANCE.getGenPackage_Resource(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_ModelPropertyCategory")));
+         getString("_UI_ModelPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Disposable Provider Factory feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addDisposableProviderFactoryPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenPackage_disposableProviderFactory_feature"),
          getString("_UI_GenPackage_disposableProviderFactory_description"),
          GenModelPackage.eINSTANCE.getGenPackage_DisposableProviderFactory(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Adapter Factory feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addAdapterFactoryPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenPackage_adapterFactory_feature"),
          getString("_UI_GenPackage_adapterFactory_description"),
          GenModelPackage.eINSTANCE.getGenPackage_AdapterFactory(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_ModelPropertyCategory")));
+         getString("_UI_ModelPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Load Initialization feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addLoadInitializationPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenPackage_loadInitialization_feature"),
          getString("_UI_GenPackage_loadInitialization_description"),
          GenModelPackage.eINSTANCE.getGenPackage_LoadInitialization(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_ModelPropertyCategory")));
+         getString("_UI_ModelPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Ecore Package feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addEcorePackagePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenPackage_ecorePackage_feature"),
          getString("_UI_GenPackage_ecorePackage_description"),
          GenModelPackage.eINSTANCE.getGenPackage_EcorePackage(),
          false,
-         getString("_UI_EcorePropertyCategory")));
+         null,
+         getString("_UI_EcorePropertyCategory"),
+         null));
   }
 
   /**

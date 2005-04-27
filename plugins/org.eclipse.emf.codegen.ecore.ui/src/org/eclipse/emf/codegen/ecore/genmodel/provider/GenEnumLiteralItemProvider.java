@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralItemProvider.java,v 1.6 2005/04/27 20:39:10 khussey Exp $
+ * $Id: GenEnumLiteralItemProvider.java,v 1.7 2005/04/27 21:28:22 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -79,7 +79,7 @@ public class GenEnumLiteralItemProvider
    * This adds a property descriptor for the Ecore Enum Literal feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addEcoreEnumLiteralPropertyDescriptor(Object object)
   {
@@ -95,7 +95,6 @@ public class GenEnumLiteralItemProvider
          getString("_UI_EcorePropertyCategory"),
          null));
   }
-
 
   /**
    */

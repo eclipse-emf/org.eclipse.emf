@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.12 2005/04/22 15:01:44 khussey Exp $
+ * $Id: GenModelItemProvider.java,v 1.13 2005/04/27 21:28:22 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -116,684 +116,756 @@ public class GenModelItemProvider
    * This adds a property descriptor for the Copyright Text feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addCopyrightTextPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_copyrightText_feature"),
          getString("_UI_GenModel_copyrightText_description"),
          GenModelPackage.eINSTANCE.getGenModel_CopyrightText(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_AllPropertyCategory")));
+         getString("_UI_AllPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Model Directory feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addModelDirectoryPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_modelDirectory_feature"),
          getString("_UI_GenModel_modelDirectory_description"),
          GenModelPackage.eINSTANCE.getGenModel_ModelDirectory(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_ModelPropertyCategory")));
+         getString("_UI_ModelPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Creation Commands feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addCreationCommandsPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_creationCommands_feature"),
          getString("_UI_GenModel_creationCommands_description"),
          GenModelPackage.eINSTANCE.getGenModel_CreationCommands(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Creation Icons feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addCreationIconsPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_creationIcons_feature"),
          getString("_UI_GenModel_creationIcons_description"),
          GenModelPackage.eINSTANCE.getGenModel_CreationIcons(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Edit Directory feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addEditDirectoryPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_editDirectory_feature"),
          getString("_UI_GenModel_editDirectory_description"),
          GenModelPackage.eINSTANCE.getGenModel_EditDirectory(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Editor Directory feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addEditorDirectoryPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_editorDirectory_feature"),
          getString("_UI_GenModel_editorDirectory_description"),
          GenModelPackage.eINSTANCE.getGenModel_EditorDirectory(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_EditorPropertyCategory")));
+         getString("_UI_EditorPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Model Plugin ID feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addModelPluginIDPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_modelPluginID_feature"),
          getString("_UI_GenModel_modelPluginID_description"),
          GenModelPackage.eINSTANCE.getGenModel_ModelPluginID(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_AllPropertyCategory")));
+         getString("_UI_AllPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Template Directory feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addTemplateDirectoryPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_templateDirectory_feature"),
          getString("_UI_GenModel_templateDirectory_description"),
          GenModelPackage.eINSTANCE.getGenModel_TemplateDirectory(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_JETPropertyCategory")));
+         getString("_UI_JETPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Runtime Jar feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addRuntimeJarPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_runtimeJar_feature"),
          getString("_UI_GenModel_runtimeJar_description"),
          GenModelPackage.eINSTANCE.getGenModel_RuntimeJar(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_JETPropertyCategory")));
+         getString("_UI_JETPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Dynamic Templates feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addDynamicTemplatesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_dynamicTemplates_feature"),
          getString("_UI_GenModel_dynamicTemplates_description"),
          GenModelPackage.eINSTANCE.getGenModel_DynamicTemplates(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_JETPropertyCategory")));
+         getString("_UI_JETPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Redirection feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addRedirectionPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_redirection_feature"),
          getString("_UI_GenModel_redirection_description"),
          GenModelPackage.eINSTANCE.getGenModel_Redirection(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_JETPropertyCategory")));
+         getString("_UI_JETPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Force Overwrite feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addForceOverwritePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_forceOverwrite_feature"),
          getString("_UI_GenModel_forceOverwrite_description"),
          GenModelPackage.eINSTANCE.getGenModel_ForceOverwrite(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_JETPropertyCategory")));
+         getString("_UI_JETPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Model Name feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addModelNamePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_modelName_feature"),
          getString("_UI_GenModel_modelName_description"),
          GenModelPackage.eINSTANCE.getGenModel_ModelName(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_AllPropertyCategory")));
+         getString("_UI_AllPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Model Plugin Class feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addModelPluginClassPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_modelPluginClass_feature"),
          getString("_UI_GenModel_modelPluginClass_description"),
          GenModelPackage.eINSTANCE.getGenModel_ModelPluginClass(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_ModelPropertyCategory")));
+         getString("_UI_ModelPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Edit Plugin Class feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addEditPluginClassPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_editPluginClass_feature"),
          getString("_UI_GenModel_editPluginClass_description"),
          GenModelPackage.eINSTANCE.getGenModel_EditPluginClass(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Editor Plugin Class feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addEditorPluginClassPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_editorPluginClass_feature"),
          getString("_UI_GenModel_editorPluginClass_description"),
          GenModelPackage.eINSTANCE.getGenModel_EditorPluginClass(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_EditorPropertyCategory")));
+         getString("_UI_EditorPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Update Classpath feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addUpdateClasspathPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_updateClasspath_feature"),
          getString("_UI_GenModel_updateClasspath_description"),
          GenModelPackage.eINSTANCE.getGenModel_UpdateClasspath(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_JETPropertyCategory")));
+         getString("_UI_JETPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Generate Schema feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addGenerateSchemaPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_generateSchema_feature"),
          getString("_UI_GenModel_generateSchema_description"),
          GenModelPackage.eINSTANCE.getGenModel_GenerateSchema(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_ModelPropertyCategory")));
+         getString("_UI_ModelPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Non NLS Markers feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addNonNLSMarkersPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_nonNLSMarkers_feature"),
          getString("_UI_GenModel_nonNLSMarkers_description"),
          GenModelPackage.eINSTANCE.getGenModel_NonNLSMarkers(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_AllPropertyCategory")));
+         getString("_UI_AllPropertyCategory"),
+         null));
   }
 
   /**
-   * This adds a property descriptor for the Static Package UR Is feature.
+   * This adds a property descriptor for the Static Packages feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addStaticPackagesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_staticPackages_feature"),
          getString("_UI_GenModel_staticPackages_description"),
          GenModelPackage.eINSTANCE.getGenModel_StaticPackages(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_ModelClassPropertyCategory")));
+         getString("_UI_ModelClassPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Model Plugin Variables feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addModelPluginVariablesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_modelPluginVariables_feature"),
          getString("_UI_GenModel_modelPluginVariables_description"),
          GenModelPackage.eINSTANCE.getGenModel_ModelPluginVariables(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_ModelPropertyCategory")));
+         getString("_UI_ModelPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Root Extends Interface feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addRootExtendsInterfacePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_rootExtendsInterface_feature"),
          getString("_UI_GenModel_rootExtendsInterface_description"),
          GenModelPackage.eINSTANCE.getGenModel_RootExtendsInterface(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_ModelClassPropertyCategory")));
+         getString("_UI_ModelClassPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Root Extends Class feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addRootExtendsClassPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_rootExtendsClass_feature"),
          getString("_UI_GenModel_rootExtendsClass_description"),
          GenModelPackage.eINSTANCE.getGenModel_RootExtendsClass(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_ModelClassPropertyCategory")));
+         getString("_UI_ModelClassPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Root Implements Interface feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addRootImplementsInterfacePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_rootImplementsInterface_feature"),
          getString("_UI_GenModel_rootImplementsInterface_description"),
          GenModelPackage.eINSTANCE.getGenModel_RootImplementsInterface(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_ModelClassPropertyCategory")));
+         getString("_UI_ModelClassPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Suppress EMF Types feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addSuppressEMFTypesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_suppressEMFTypes_feature"),
          getString("_UI_GenModel_suppressEMFTypes_description"),
          GenModelPackage.eINSTANCE.getGenModel_SuppressEMFTypes(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_ModelFeaturePropertyCategory")));
+         getString("_UI_ModelFeaturePropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Feature Map Wrapper Interface feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addFeatureMapWrapperInterfacePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_featureMapWrapperInterface_feature"),
          getString("_UI_GenModel_featureMapWrapperInterface_description"),
          GenModelPackage.eINSTANCE.getGenModel_FeatureMapWrapperInterface(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_ModelFeaturePropertyCategory")));
+         getString("_UI_ModelFeaturePropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Feature Map Wrapper Internal Interface feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addFeatureMapWrapperInternalInterfacePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_featureMapWrapperInternalInterface_feature"),
          getString("_UI_GenModel_featureMapWrapperInternalInterface_description"),
          GenModelPackage.eINSTANCE.getGenModel_FeatureMapWrapperInternalInterface(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_ModelFeaturePropertyCategory")));
+         getString("_UI_ModelFeaturePropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Feature Map Wrapper Class feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addFeatureMapWrapperClassPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_featureMapWrapperClass_feature"),
          getString("_UI_GenModel_featureMapWrapperClass_description"),
          GenModelPackage.eINSTANCE.getGenModel_FeatureMapWrapperClass(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_ModelFeaturePropertyCategory")));
+         getString("_UI_ModelFeaturePropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Runtime Compatibility feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addRuntimeCompatibilityPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_runtimeCompatibility_feature"),
          getString("_UI_GenModel_runtimeCompatibility_description"),
          GenModelPackage.eINSTANCE.getGenModel_RuntimeCompatibility(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_AllPropertyCategory")));
+         getString("_UI_AllPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Rich Client Platform feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addRichClientPlatformPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_richClientPlatform_feature"),
          getString("_UI_GenModel_richClientPlatform_description"),
          GenModelPackage.eINSTANCE.getGenModel_RichClientPlatform(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_EditorPropertyCategory")));
+         getString("_UI_EditorPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Reflective Delegation feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addReflectiveDelegationPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_reflectiveDelegation_feature"),
          getString("_UI_GenModel_reflectiveDelegation_description"),
          GenModelPackage.eINSTANCE.getGenModel_ReflectiveDelegation(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_ModelPropertyCategory")));
+         getString("_UI_ModelPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Code Formatting feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addCodeFormattingPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_codeFormatting_feature"),
          getString("_UI_GenModel_codeFormatting_description"),
          GenModelPackage.eINSTANCE.getGenModel_CodeFormatting(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_JETPropertyCategory")));
+         getString("_UI_JETPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Tests Directory feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addTestsDirectoryPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_testsDirectory_feature"),
          getString("_UI_GenModel_testsDirectory_description"),
          GenModelPackage.eINSTANCE.getGenModel_TestsDirectory(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_TestsPropertyCategory")));
+         getString("_UI_TestsPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Test Suite Class feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addTestSuiteClassPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_testSuiteClass_feature"),
          getString("_UI_GenModel_testSuiteClass_description"),
          GenModelPackage.eINSTANCE.getGenModel_TestSuiteClass(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_TestsPropertyCategory")));
+         getString("_UI_TestsPropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Boolean Flags Field feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addBooleanFlagsFieldPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_booleanFlagsField_feature"),
          getString("_UI_GenModel_booleanFlagsField_description"),
          GenModelPackage.eINSTANCE.getGenModel_BooleanFlagsField(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_ModelFeaturePropertyCategory")));
+         getString("_UI_ModelFeaturePropertyCategory"),
+         null));
   }
 
   /**
    * This adds a property descriptor for the Boolean Flags Reserved Bits feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   protected void addBooleanFlagsReservedBitsPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenModel_booleanFlagsReservedBits_feature"),
          getString("_UI_GenModel_booleanFlagsReservedBits_description"),
          GenModelPackage.eINSTANCE.getGenModel_BooleanFlagsReservedBits(),
          true,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-         getString("_UI_ModelFeaturePropertyCategory")));
+         getString("_UI_ModelFeaturePropertyCategory"),
+         null));
   }
 
   /**
