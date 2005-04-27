@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureItemProvider.java,v 1.8 2005/04/27 20:39:10 khussey Exp $
+ * $Id: GenFeatureItemProvider.java,v 1.9 2005/04/27 20:48:05 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -203,7 +203,7 @@ public class GenFeatureItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_GenFeature_propertyFilterFlags_feature"),
-         getString("_UI_GenFeature_filterFlags_description"),
+         getString("_UI_GenFeature_propertyFilterFlags_description"),
          GenModelPackage.eINSTANCE.getGenFeature_PropertyFilterFlags(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
