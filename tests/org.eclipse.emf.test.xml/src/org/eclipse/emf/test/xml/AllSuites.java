@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.5 2005/02/22 23:08:09 marcelop Exp $
+ * $Id: AllSuites.java,v 1.6 2005/04/27 18:22:36 elena Exp $
  */
 package org.eclipse.emf.test.xml;
 
 
 import org.eclipse.emf.test.xml.xmi.CrossResourceReferencesTest;
 import org.eclipse.emf.test.xml.xsdecore.XSDEcoreBuilderTests;
+import org.eclipse.emf.test.xml.xsdecore.XSDTests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -35,6 +36,7 @@ public class AllSuites extends TestSuite
     ,XSDEcoreBuilderTests.suite()
     ,org.eclipse.emf.test.xml.xsdecore.XSD2EcoreTest.suite()
     ,org.eclipse.emf.test.xml.xsdecore.XSDValidateTest.suite()
+    ,XSDTests.suite()
   };
 
   public static Test suite()

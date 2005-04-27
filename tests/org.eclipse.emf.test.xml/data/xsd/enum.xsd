@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+   <xs:simpleType name="C1">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="ALRT"/>
+         <xs:enumeration value="CLNTRL"/>
+         
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="C2">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="CNOD"/>
+         <xs:enumeration value="DGIMG"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="C">
+      <xs:union memberTypes="C1 C2 "/>
+   </xs:simpleType>
+
+   <xs:element name="enum" type="C1"/> 
+
+   <xs:element name="root">
+     <xs:complexType>
+   	<xs:sequence>
+          <xs:element name="enum" type="C"/> 
+   	</xs:sequence>
+     </xs:complexType>
+   </xs:element>   
+ 
+</xs:schema>

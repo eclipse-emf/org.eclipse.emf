@@ -209,7 +209,7 @@
     <eLiterals name="AL" value="1"/>
     <eLiterals name="AR" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="USStateObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="USStateObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="USState:Object"/>
       <details key="baseType" value="USState"/>
