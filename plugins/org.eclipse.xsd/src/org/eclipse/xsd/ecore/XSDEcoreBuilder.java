@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.32 2005/03/14 14:19:10 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.33 2005/04/27 18:22:37 elena Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -445,7 +445,7 @@ public class XSDEcoreBuilder extends MapBuilder
                 String memberInstanceClassName = memberEDataType.getInstanceClassName();
                 if (memberInstanceClassName == null && memberEDataType instanceof EEnum)
                 {
-                  memberInstanceClassName = "org.eclipse.emf.common.util.AbstractEnumerator";
+                  memberInstanceClassName = "org.eclipse.emf.common.util.Enumerator";
                 }
                 if (instanceClassName == null)
                 {
@@ -467,7 +467,7 @@ public class XSDEcoreBuilder extends MapBuilder
             String instanceClassName = baseEDataType.getInstanceClassName();
             eDataType.setInstanceClassName
               (instanceClassName == null ? 
-                 "org.eclipse.emf.common.util.AbstractEnumerator" : 
+                 "org.eclipse.emf.common.util.Enumerator" : 
                  instanceClassName);
           }
 
@@ -526,7 +526,7 @@ public class XSDEcoreBuilder extends MapBuilder
       }
       else
       {
-        eDataTypeObject.setInstanceClassName("org.eclipse.emf.common.util.AbstractEnumerator");
+        eDataTypeObject.setInstanceClassName("org.eclipse.emf.common.util.Enumerator");
       }
       extendedMetaData.setName(eDataTypeObject, extendedMetaData.getName(eDataType) + ":Object");
       addToSortedList(eDataType.getEPackage().getEClassifiers(), eDataTypeObject);
