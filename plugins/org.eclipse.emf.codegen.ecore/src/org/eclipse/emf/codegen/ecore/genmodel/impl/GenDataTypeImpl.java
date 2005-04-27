@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.8 2005/03/16 18:41:34 marcelop Exp $
+ * $Id: GenDataTypeImpl.java,v 1.9 2005/04/27 19:36:20 elena Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -213,7 +213,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     String name = getEcoreDataType().getInstanceClassName();
     if (name == null) name = "java.lang.Object";
 
-    if (name.equals("org.eclipse.emf.common.util.AbstractEnumerator"))
+    if (name.equals("org.eclipse.emf.common.util.Enumerator"))
     {
       EDataType baseType = getExtendedMetaData().getBaseType(getEcoreDataType());
       if (baseType instanceof EEnum)
