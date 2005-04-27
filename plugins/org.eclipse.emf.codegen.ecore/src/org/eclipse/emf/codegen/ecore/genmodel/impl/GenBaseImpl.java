@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.22 2005/04/14 20:29:19 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.23 2005/04/27 18:31:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -158,6 +158,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   public String uncapPrefixedName(String name)
   {
+    return uncapPrefixedName(name, false);
+    
+  }
+  
+  public String uncapPrefixedName(String name, boolean forceDifferent)
+  {
     // lower all except the last upper case character if there are
     // more than one upper case characters in the beginning.
     // e.g. XSDElementContent -> xsdElementContent
@@ -183,7 +189,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       {
         --i;
       }
-      return name.substring(0, i).toLowerCase() + name.substring(i);
+      String prefix = name.substring(0, i);
+      String lowerCasePrefix = prefix.toLowerCase();
+      if (forceDifferent && lowerCasePrefix.equals(prefix))
+      {
+        lowerCasePrefix = "_" + lowerCasePrefix;
+      }
+      return lowerCasePrefix + name.substring(i);
     }
   }
 
