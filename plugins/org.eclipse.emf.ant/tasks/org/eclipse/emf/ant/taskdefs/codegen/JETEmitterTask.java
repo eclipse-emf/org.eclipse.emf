@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitterTask.java,v 1.2 2005/02/10 22:11:51 marcelop Exp $
+ * $Id: JETEmitterTask.java,v 1.3 2005/04/27 02:57:44 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.ant.taskdefs.EMFTask;
 import org.eclipse.emf.ant.util.Util;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
+import org.eclipse.emf.common.util.URI;
 
 
 /**
@@ -147,6 +148,30 @@ public class JETEmitterTask extends EMFTask
   {
     this.argumentClass = argumentClass;
   }
+  
+  protected String getTemplateURIAsString()
+  {
+    if (templateURI != null)
+    {
+      return templateURI.toString();
+    }
+    else if (templateFile != null)
+    {
+      try
+      {
+        templateFile = templateFile.getCanonicalFile();
+      }
+      catch (IOException e)
+      {
+      }
+      URI uri = templateFile.isFile() ? URI.createFileURI(templateFile.toString()) : URI.createURI(templateFile.toString());
+      return uri.toString();
+    }
+    else
+    {
+      return null;
+    }
+  }
 
   protected void checkAttributes() throws BuildException
   {
@@ -161,8 +186,8 @@ public class JETEmitterTask extends EMFTask
 
   protected JETEmitter createJETEmitter() throws JETException
   {
-    JETEmitter emitter = templateURI != null ? new JETEmitter(templateURI) : new JETEmitter(templateFile.getAbsolutePath());
-
+    JETEmitter emitter = new JETEmitter(getTemplateURIAsString());
+    
     if (project != null)
     {
       emitter.setProjectName(project);
