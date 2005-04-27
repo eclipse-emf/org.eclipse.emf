@@ -46,7 +46,7 @@
     <eLiterals name="Biography" value="2"/>
     <eLiterals name="IT" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="BookCategoryObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="BookCategoryObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="BookCategory:Object"/>
       <details key="baseType" value="BookCategory"/>
