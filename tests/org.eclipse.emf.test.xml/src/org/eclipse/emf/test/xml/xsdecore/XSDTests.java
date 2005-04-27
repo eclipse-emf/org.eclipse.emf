@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTests.java,v 1.1 2005/04/27 18:22:36 elena Exp $
+ * $Id: XSDTests.java,v 1.2 2005/04/27 20:32:50 elena Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -60,8 +60,8 @@ public class XSDTests extends TestCase
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite("XSDEcoreBuilderTests");
-    ts.addTest (new XSDTests("testEnumLoad"));
+    TestSuite ts = new TestSuite("XSDTests");
+    ts.addTest(new XSDTests("testEnumLoad"));
     //ts.addTest(new XSDTests("testEnumSave"));
     return ts;
   }
@@ -88,17 +88,17 @@ public class XSDTests extends TestCase
 
   public void testEnumLoad() throws Exception
   {
-    testHelper(BASE_XSD_URI+"enum.xsd", BASE_XSD_URI+"enum.xml");
+    testHelper(BASE_XSD_URI + "enum.xsd", BASE_XSD_URI + "enum.xml");
   }
-  
+
   public void testEnumSave() throws Exception
   {
-    testHelper(BASE_XSD_URI+"enum.xsd", BASE_XSD_URI+"enum-single.xml");
+    testHelper(BASE_XSD_URI + "enum.xsd", BASE_XSD_URI + "enum-single.xml");
   }
-  
+
   protected void testHelper(String schema, String xml) throws Exception
   {
-//  SET SCHEMA URI
+    //  SET SCHEMA URI
     Collection packageList = xsdEcoreBuilder.generate(URI.createURI(schema));
 
     HashMap options = new HashMap();
@@ -125,6 +125,5 @@ public class XSDTests extends TestCase
     // SERIALIZE
     resource.save(new ByteArrayOutputStream(2064), options);
   }
-  
 
 }

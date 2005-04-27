@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema targetNamespace="http://enum.tests" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://enum.tests"
+           elementFormDefault="qualified">
 
    <xs:simpleType name="C1">
       <xs:restriction base="xs:string">
