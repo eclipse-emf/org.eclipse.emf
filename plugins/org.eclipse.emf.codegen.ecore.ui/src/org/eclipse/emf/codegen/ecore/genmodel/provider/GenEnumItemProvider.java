@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumItemProvider.java,v 1.6 2005/04/20 02:49:19 davidms Exp $
+ * $Id: GenEnumItemProvider.java,v 1.7 2005/04/27 20:39:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -85,13 +85,16 @@ public class GenEnumItemProvider
   protected void addEcoreEnumPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenEnum_ecoreEnum_feature"),
          getString("_UI_GenEnum_ecoreEnum_description"),
          GenModelPackage.eINSTANCE.getGenEnum_EcoreEnum(),
          false,
-         getString("_UI_EcorePropertyCategory")));
+         null,
+         getString("_UI_EcorePropertyCategory"),
+         null));
   }
 
   /**

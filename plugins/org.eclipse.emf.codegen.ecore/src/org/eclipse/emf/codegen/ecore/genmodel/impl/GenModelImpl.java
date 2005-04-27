@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.28 2005/04/22 15:01:59 khussey Exp $
+ * $Id: GenModelImpl.java,v 1.29 2005/04/27 20:39:06 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -4717,4 +4717,19 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return GenModelFactory.eINSTANCE.createGenParameter();
   }
   
+  public Set getPropertyCategories()
+  {
+    Set categories = new HashSet();
+    for (Iterator i = getFilteredAllGenFeatures().iterator(); i.hasNext();)
+    {
+      String category = ((GenFeature)i.next()).getPropertyCategory();
+
+      if (!isBlank(category))
+      {
+        categories.add(category);
+      }
+    }
+    return categories;
+  }
+
 } //GenModelImpl

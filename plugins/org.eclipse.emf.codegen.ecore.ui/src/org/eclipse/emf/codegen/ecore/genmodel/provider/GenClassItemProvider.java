@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassItemProvider.java,v 1.7 2005/04/20 02:49:19 davidms Exp $
+ * $Id: GenClassItemProvider.java,v 1.8 2005/04/27 20:39:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -93,14 +93,16 @@ public class GenClassItemProvider
   protected void addProviderPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenClass_provider_feature"),
          getString("_UI_GenClass_provider_description"),
          GenModelPackage.eINSTANCE.getGenClass_Provider(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
@@ -112,14 +114,16 @@ public class GenClassItemProvider
   protected void addImagePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenClass_image_feature"),
          getString("_UI_GenClass_image_description"),
          GenModelPackage.eINSTANCE.getGenClass_Image(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
@@ -131,13 +135,16 @@ public class GenClassItemProvider
   protected void addEcoreClassPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenClass_ecoreClass_feature"),
          getString("_UI_GenClass_ecoreClass_description"),
          GenModelPackage.eINSTANCE.getGenClass_EcoreClass(),
          false,
-         getString("_UI_EcorePropertyCategory")));
+         null,
+         getString("_UI_EcorePropertyCategory"),
+         null));
   }
 
   /**

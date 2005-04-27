@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureItemProvider.java,v 1.7 2005/04/22 19:46:38 khussey Exp $
+ * $Id: GenFeatureItemProvider.java,v 1.8 2005/04/27 20:39:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -77,8 +77,9 @@ public class GenFeatureItemProvider
       addNotifyPropertyDescriptor(object);
       addChildrenPropertyDescriptor(object);
       addCreateChildPropertyDescriptor(object);
-      addCategoryPropertyDescriptor(object);
-      addFilterFlagsPropertyDescriptor(object);
+      addPropertyCategoryPropertyDescriptor(object);
+      addPropertyFilterFlagsPropertyDescriptor(object);
+      addPropertyDescriptionPropertyDescriptor(object);
       addEcoreFeaturePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -93,14 +94,16 @@ public class GenFeatureItemProvider
   protected void addPropertyPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenFeature_property_feature"),
          getString("_UI_GenFeature_property_description"),
          GenModelPackage.eINSTANCE.getGenFeature_Property(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
@@ -112,14 +115,16 @@ public class GenFeatureItemProvider
   protected void addNotifyPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenFeature_notify_feature"),
          getString("_UI_GenFeature_notify_description"),
          GenModelPackage.eINSTANCE.getGenFeature_Notify(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
@@ -131,14 +136,16 @@ public class GenFeatureItemProvider
   protected void addChildrenPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenFeature_children_feature"),
          getString("_UI_GenFeature_children_description"),
          GenModelPackage.eINSTANCE.getGenFeature_Children(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
@@ -150,52 +157,79 @@ public class GenFeatureItemProvider
   protected void addCreateChildPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenFeature_createChild_feature"),
          getString("_UI_GenFeature_createChild_description"),
          GenModelPackage.eINSTANCE.getGenFeature_CreateChild(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
-   * This adds a property descriptor for the Category feature.
+   * This adds a property descriptor for the Property Category feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected void addCategoryPropertyDescriptor(Object object)
+  protected void addPropertyCategoryPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         getString("_UI_GenFeature_category_feature"),
-         getString("_UI_GenFeature_category_description"),
-         GenModelPackage.eINSTANCE.getGenFeature_Category(),
+         getResourceLocator(),
+         getString("_UI_GenFeature_propertyCategory_feature"),
+         getString("_UI_GenFeature_propertyCategory_description"),
+         GenModelPackage.eINSTANCE.getGenFeature_PropertyCategory(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
-   * This adds a property descriptor for the Filter Flags feature.
+   * This adds a property descriptor for the Property Filter Flags feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected void addFilterFlagsPropertyDescriptor(Object object)
+  protected void addPropertyFilterFlagsPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         getString("_UI_GenFeature_filterFlags_feature"),
+         getResourceLocator(),
+         getString("_UI_GenFeature_propertyFilterFlags_feature"),
          getString("_UI_GenFeature_filterFlags_description"),
-         GenModelPackage.eINSTANCE.getGenFeature_FilterFlags(),
+         GenModelPackage.eINSTANCE.getGenFeature_PropertyFilterFlags(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_EditPropertyCategory")));
+         getString("_UI_EditPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Property Description feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addPropertyDescriptionPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenFeature_propertyDescription_feature"),
+         getString("_UI_GenFeature_propertyDescription_description"),
+         GenModelPackage.eINSTANCE.getGenFeature_PropertyDescription(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory"),
+         null));
   }
 
   /**
@@ -207,13 +241,16 @@ public class GenFeatureItemProvider
   protected void addEcoreFeaturePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new GenItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_GenFeature_ecoreFeature_feature"),
          getString("_UI_GenFeature_ecoreFeature_description"),
          GenModelPackage.eINSTANCE.getGenFeature_EcoreFeature(),
          false,
-         getString("_UI_EcorePropertyCategory")));
+         null,
+         getString("_UI_EcorePropertyCategory"),
+         null));
   }
 
   /**
@@ -324,8 +361,9 @@ public class GenFeatureItemProvider
       case GenModelPackage.GEN_FEATURE__NOTIFY:
       case GenModelPackage.GEN_FEATURE__CHILDREN:
       case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
-      case GenModelPackage.GEN_FEATURE__CATEGORY:
-      case GenModelPackage.GEN_FEATURE__FILTER_FLAGS:
+      case GenModelPackage.GEN_FEATURE__PROPERTY_CATEGORY:
+      case GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS:
+      case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;

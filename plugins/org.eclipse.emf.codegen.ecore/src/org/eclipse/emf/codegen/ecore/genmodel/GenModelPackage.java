@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.12 2005/04/22 19:46:37 khussey Exp $
+ * $Id: GenModelPackage.java,v 1.13 2005/04/27 20:39:06 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -766,22 +766,31 @@ public interface GenModelPackage extends EPackage{
   int GEN_FEATURE__CREATE_CHILD = GEN_BASE_FEATURE_COUNT + 3;
 
   /**
-   * The feature id for the '<em><b>Category</b></em>' attribute.
+   * The feature id for the '<em><b>Property Category</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__CATEGORY = GEN_BASE_FEATURE_COUNT + 4;
+  int GEN_FEATURE__PROPERTY_CATEGORY = GEN_BASE_FEATURE_COUNT + 4;
 
   /**
-   * The feature id for the '<em><b>Filter Flags</b></em>' attribute list.
+   * The feature id for the '<em><b>Property Filter Flags</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__FILTER_FLAGS = GEN_BASE_FEATURE_COUNT + 5;
+  int GEN_FEATURE__PROPERTY_FILTER_FLAGS = GEN_BASE_FEATURE_COUNT + 5;
+
+  /**
+   * The feature id for the '<em><b>Property Description</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_FEATURE__PROPERTY_DESCRIPTION = GEN_BASE_FEATURE_COUNT + 6;
 
   /**
    * The feature id for the '<em><b>Gen Class</b></em>' container reference.
@@ -790,7 +799,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__GEN_CLASS = GEN_BASE_FEATURE_COUNT + 6;
+  int GEN_FEATURE__GEN_CLASS = GEN_BASE_FEATURE_COUNT + 7;
 
   /**
    * The feature id for the '<em><b>Ecore Feature</b></em>' reference.
@@ -799,7 +808,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__ECORE_FEATURE = GEN_BASE_FEATURE_COUNT + 7;
+  int GEN_FEATURE__ECORE_FEATURE = GEN_BASE_FEATURE_COUNT + 8;
 
   /**
    * The number of structural features of the the '<em>Gen Feature</em>' class.
@@ -808,7 +817,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 8;
+  int GEN_FEATURE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 9;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl <em>Gen Data Type</em>}' class.
@@ -1789,26 +1798,37 @@ public interface GenModelPackage extends EPackage{
   EAttribute getGenFeature_CreateChild();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getCategory <em>Category</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyCategory <em>Property Category</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Category</em>'.
-   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getCategory()
+   * @return the meta object for the attribute '<em>Property Category</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyCategory()
    * @see #getGenFeature()
    * @generated
    */
-  EAttribute getGenFeature_Category();
+  EAttribute getGenFeature_PropertyCategory();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getFilterFlags <em>Filter Flags</em>}'.
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyFilterFlags <em>Property Filter Flags</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute list '<em>Filter Flags</em>'.
-   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getFilterFlags()
+   * @return the meta object for the attribute list '<em>Property Filter Flags</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyFilterFlags()
    * @see #getGenFeature()
    * @generated
    */
-  EAttribute getGenFeature_FilterFlags();
+  EAttribute getGenFeature_PropertyFilterFlags();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyDescription <em>Property Description</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Property Description</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyDescription()
+   * @see #getGenFeature()
+   * @generated
+   */
+  EAttribute getGenFeature_PropertyDescription();
 
   /**
    * Returns the meta object for the container reference '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getGenClass <em>Gen Class</em>}'.

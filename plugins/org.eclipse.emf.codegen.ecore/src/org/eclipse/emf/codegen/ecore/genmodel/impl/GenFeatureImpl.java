@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.17 2005/04/22 19:46:37 khussey Exp $
+ * $Id: GenFeatureImpl.java,v 1.18 2005/04/27 20:39:06 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -65,8 +65,9 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isNotify <em>Notify</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isChildren <em>Children</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isCreateChild <em>Create Child</em>}</li>
- *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getCategory <em>Category</em>}</li>
- *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getFilterFlags <em>Filter Flags</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getPropertyCategory <em>Property Category</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getPropertyFilterFlags <em>Property Filter Flags</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getPropertyDescription <em>Property Description</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getGenClass <em>Gen Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getEcoreFeature <em>Ecore Feature</em>}</li>
  * </ul>
@@ -166,34 +167,54 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   protected boolean createChildESet = false;
 
   /**
-   * The default value of the '{@link #getCategory() <em>Category</em>}' attribute.
+   * The default value of the '{@link #getPropertyCategory() <em>Property Category</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getCategory()
+   * @see #getPropertyCategory()
    * @generated
    * @ordered
    */
-  protected static final String CATEGORY_EDEFAULT = null;
+  protected static final String PROPERTY_CATEGORY_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getCategory() <em>Category</em>}' attribute.
+   * The cached value of the '{@link #getPropertyCategory() <em>Property Category</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getCategory()
+   * @see #getPropertyCategory()
    * @generated
    * @ordered
    */
-  protected String category = CATEGORY_EDEFAULT;
+  protected String propertyCategory = PROPERTY_CATEGORY_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getFilterFlags() <em>Filter Flags</em>}' attribute list.
+   * The cached value of the '{@link #getPropertyFilterFlags() <em>Property Filter Flags</em>}' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getFilterFlags()
+   * @see #getPropertyFilterFlags()
    * @generated
    * @ordered
    */
-  protected EList filterFlags = null;
+  protected EList propertyFilterFlags = null;
+
+  /**
+   * The default value of the '{@link #getPropertyDescription() <em>Property Description</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPropertyDescription()
+   * @generated
+   * @ordered
+   */
+  protected static final String PROPERTY_DESCRIPTION_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getPropertyDescription() <em>Property Description</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPropertyDescription()
+   * @generated
+   * @ordered
+   */
+  protected String propertyDescription = PROPERTY_DESCRIPTION_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getEcoreFeature() <em>Ecore Feature</em>}' reference.
@@ -372,9 +393,9 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getCategory()
+  public String getPropertyCategory()
   {
-    return category;
+    return propertyCategory;
   }
 
   /**
@@ -382,12 +403,12 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setCategory(String newCategory)
+  public void setPropertyCategory(String newPropertyCategory)
   {
-    String oldCategory = category;
-    category = newCategory;
+    String oldPropertyCategory = propertyCategory;
+    propertyCategory = newPropertyCategory;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__CATEGORY, oldCategory, category));
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__PROPERTY_CATEGORY, oldPropertyCategory, propertyCategory));
   }
 
   /**
@@ -395,13 +416,36 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getFilterFlags()
+  public EList getPropertyFilterFlags()
   {
-    if (filterFlags == null)
+    if (propertyFilterFlags == null)
     {
-      filterFlags = new EDataTypeUniqueEList(String.class, this, GenModelPackage.GEN_FEATURE__FILTER_FLAGS);
+      propertyFilterFlags = new EDataTypeUniqueEList(String.class, this, GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS);
     }
-    return filterFlags;
+    return propertyFilterFlags;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getPropertyDescription()
+  {
+    return propertyDescription;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setPropertyDescription(String newPropertyDescription)
+  {
+    String oldPropertyDescription = propertyDescription;
+    propertyDescription = newPropertyDescription;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION, oldPropertyDescription, propertyDescription));
   }
 
   protected void autoSetCreateChild()
@@ -575,10 +619,12 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
         return isChildren() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
         return isCreateChild() ? Boolean.TRUE : Boolean.FALSE;
-      case GenModelPackage.GEN_FEATURE__CATEGORY:
-        return getCategory();
-      case GenModelPackage.GEN_FEATURE__FILTER_FLAGS:
-        return getFilterFlags();
+      case GenModelPackage.GEN_FEATURE__PROPERTY_CATEGORY:
+        return getPropertyCategory();
+      case GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS:
+        return getPropertyFilterFlags();
+      case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
+        return getPropertyDescription();
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         return getGenClass();
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
@@ -605,10 +651,12 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
         return children != CHILDREN_EDEFAULT;
       case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
         return isSetCreateChild();
-      case GenModelPackage.GEN_FEATURE__CATEGORY:
-        return CATEGORY_EDEFAULT == null ? category != null : !CATEGORY_EDEFAULT.equals(category);
-      case GenModelPackage.GEN_FEATURE__FILTER_FLAGS:
-        return filterFlags != null && !filterFlags.isEmpty();
+      case GenModelPackage.GEN_FEATURE__PROPERTY_CATEGORY:
+        return PROPERTY_CATEGORY_EDEFAULT == null ? propertyCategory != null : !PROPERTY_CATEGORY_EDEFAULT.equals(propertyCategory);
+      case GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS:
+        return propertyFilterFlags != null && !propertyFilterFlags.isEmpty();
+      case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
+        return PROPERTY_DESCRIPTION_EDEFAULT == null ? propertyDescription != null : !PROPERTY_DESCRIPTION_EDEFAULT.equals(propertyDescription);
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         return getGenClass() != null;
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
@@ -638,12 +686,15 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
         setCreateChild(((Boolean)newValue).booleanValue());
         return;
-      case GenModelPackage.GEN_FEATURE__CATEGORY:
-        setCategory((String)newValue);
+      case GenModelPackage.GEN_FEATURE__PROPERTY_CATEGORY:
+        setPropertyCategory((String)newValue);
         return;
-      case GenModelPackage.GEN_FEATURE__FILTER_FLAGS:
-        getFilterFlags().clear();
-        getFilterFlags().addAll((Collection)newValue);
+      case GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS:
+        getPropertyFilterFlags().clear();
+        getPropertyFilterFlags().addAll((Collection)newValue);
+        return;
+      case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
+        setPropertyDescription((String)newValue);
         return;
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         setGenClass((GenClass)newValue);
@@ -676,11 +727,14 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
         unsetCreateChild();
         return;
-      case GenModelPackage.GEN_FEATURE__CATEGORY:
-        setCategory(CATEGORY_EDEFAULT);
+      case GenModelPackage.GEN_FEATURE__PROPERTY_CATEGORY:
+        setPropertyCategory(PROPERTY_CATEGORY_EDEFAULT);
         return;
-      case GenModelPackage.GEN_FEATURE__FILTER_FLAGS:
-        getFilterFlags().clear();
+      case GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS:
+        getPropertyFilterFlags().clear();
+        return;
+      case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
+        setPropertyDescription(PROPERTY_DESCRIPTION_EDEFAULT);
         return;
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         setGenClass((GenClass)null);
@@ -710,10 +764,12 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     result.append(children);
     result.append(", createChild: ");
     if (createChildESet) result.append(createChild); else result.append("<unset>");
-    result.append(", category: ");
-    result.append(category);
-    result.append(", filterFlags: ");
-    result.append(filterFlags);
+    result.append(", propertyCategory: ");
+    result.append(propertyCategory);
+    result.append(", propertyFilterFlags: ");
+    result.append(propertyFilterFlags);
+    result.append(", propertyDescription: ");
+    result.append(propertyDescription);
     result.append(')');
     return result.toString();
   }
@@ -1800,9 +1856,10 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     setNotify(oldGenFeatureVersion.isNotify());
     setChildren(oldGenFeatureVersion.isChildren());
     setCreateChild(oldGenFeatureVersion.isCreateChild());
-    setCategory(oldGenFeatureVersion.getCategory());
+    setPropertyCategory(oldGenFeatureVersion.getPropertyCategory());
+    setPropertyDescription(oldGenFeatureVersion.getPropertyDescription());
 
-    getFilterFlags().addAll(oldGenFeatureVersion.getFilterFlags());
+    getPropertyFilterFlags().addAll(oldGenFeatureVersion.getPropertyFilterFlags());
   }
 
   public boolean reconcile()

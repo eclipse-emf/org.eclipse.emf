@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseItemProvider.java,v 1.4 2005/04/20 02:49:19 davidms Exp $
+ * $Id: GenBaseItemProvider.java,v 1.5 2005/04/27 20:39:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -161,6 +161,18 @@ public class GenBaseItemProvider
     return false;
   }
 
+  protected ItemPropertyDescriptor createItemPropertyDescriptor(AdapterFactory adapterFactory, ResourceLocator resourceLocator, String displayName, String description, EStructuralFeature feature, boolean isSettable, Object staticImage, String category, String[] filterFlags)
+  {
+    return new GenItemPropertyDescriptor(
+      adapterFactory,
+      displayName,
+      description,
+      feature,
+      isSettable,
+      staticImage,
+      category);
+  }
+
   /**
    * A simple extension of ItemPropertyDescriptor that forbids editing of
    * items that will not be persisted.
@@ -191,4 +203,5 @@ public class GenBaseItemProvider
       return isSettable && canEdit(object);
     }
   }
+
 }

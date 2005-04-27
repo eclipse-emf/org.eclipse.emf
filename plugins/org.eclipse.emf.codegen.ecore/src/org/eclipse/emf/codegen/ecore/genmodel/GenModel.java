@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.15 2005/04/22 15:01:59 khussey Exp $
+ * $Id: GenModel.java,v 1.16 2005/04/27 20:39:06 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.codegen.ecore.genmodel;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IStatus;
 
@@ -1253,4 +1254,6 @@ public interface GenModel extends GenBase{
   GenOperation createGenOperation();
   GenParameter createGenParameter();
 
+  Set getPropertyCategories();
+  
 }
