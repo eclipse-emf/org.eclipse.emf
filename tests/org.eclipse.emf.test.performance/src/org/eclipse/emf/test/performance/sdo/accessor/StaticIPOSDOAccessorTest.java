@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.28 2005/04/25 15:36:42 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.29 2005/04/27 21:50:24 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -87,7 +87,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 
     testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByProperty").setWarmUp(3).setRepetitions(REPETITIONS_10));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByProperty").setWarmUp(3).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByIndex").setWarmUp(3).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByIndex").setWarmUp(4).setRepetitions(REPETITIONS_10));
 
 //    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(5).setRepetitions(REPETITIONS_10));
