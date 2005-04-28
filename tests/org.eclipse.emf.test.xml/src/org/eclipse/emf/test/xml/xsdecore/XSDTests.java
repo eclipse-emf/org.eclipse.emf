@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTests.java,v 1.2 2005/04/27 20:32:50 elena Exp $
+ * $Id: XSDTests.java,v 1.3 2005/04/28 18:46:57 elena Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -62,6 +62,7 @@ public class XSDTests extends TestCase
   {
     TestSuite ts = new TestSuite("XSDTests");
     ts.addTest(new XSDTests("testEnumLoad"));
+    ts.addTest(new XSDTests("testEnumUnion"));
     //ts.addTest(new XSDTests("testEnumSave"));
     return ts;
   }
@@ -84,6 +85,13 @@ public class XSDTests extends TestCase
    */
   protected void tearDown() throws Exception
   {
+  }
+  /*
+   * Bug #83463
+   */
+  public void testEnumUnion() throws Exception
+  {
+    testHelper(BASE_XSD_URI + "unionEnum.xsd", BASE_XSD_URI + "unionEnum.xml");
   }
 
   public void testEnumLoad() throws Exception

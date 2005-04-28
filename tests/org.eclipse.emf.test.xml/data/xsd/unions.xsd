@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:simpleType name="cs">      
+      <xs:restriction base="xs:token">
+         <xs:pattern value="[^\s]*"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="my">
+      <xs:restriction base="cs">
+         <xs:enumeration value="HELLO"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+
+ <xs:simpleType name="Lena">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+	     <xs:union memberTypes="xs:boolean my "/>
+   </xs:simpleType>
+
+
+   <xs:simpleType name="A">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+	     <xs:union memberTypes="B C "/>
+   </xs:simpleType>
+   <xs:simpleType name="C">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+	      <xs:union memberTypes="C1 C2 C3 C4 "/>
+   </xs:simpleType>
+   <xs:simpleType name="C1">
+      <xs:restriction base="cs">
+         <xs:enumeration value="ALRT"/>
+         <xs:enumeration value="CLNTRL"/>
+         <xs:enumeration value="CNOD"/>
+         <xs:enumeration value="DGIMG"/>
+         <xs:enumeration value="INVSTG"/>
+         <xs:enumeration value="SPCOBS"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="C3">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:union memberTypes="C31 "/>
+   </xs:simpleType>
+   <xs:simpleType name="C31">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:union memberTypes="C311 "/>
+   </xs:simpleType>
+   <xs:simpleType name="C311">
+      <xs:restriction base="cs">
+         <xs:enumeration value="OUTB"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="C4">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:union memberTypes="C41 "/>
+   </xs:simpleType>
+   <xs:simpleType name="C41">
+      <xs:restriction base="cs">
+         <xs:enumeration value="OBSCOR"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="C2">
+      <xs:restriction base="cs">
+         <xs:enumeration value="ROIOVL"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="B">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:union memberTypes="B1 B2 B3 B4 B5 "/>
+   </xs:simpleType>
+   <xs:simpleType name="B1">
+      <xs:restriction base="cs">
+         <xs:enumeration value="FOLDER"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="B2">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:union memberTypes="B21 "/>
+   </xs:simpleType>
+   <xs:simpleType name="B21">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:union memberTypes="B211 "/>
+   </xs:simpleType>
+   <xs:simpleType name="B211">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:union memberTypes="B2111 "/>
+   </xs:simpleType>
+   <xs:simpleType name="B2111">
+      <xs:restriction base="cs">
+         <xs:enumeration value="CDALVLONE"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="B3">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:union memberTypes="B31 "/>
+   </xs:simpleType>
+   <xs:simpleType name="B31">
+      <xs:restriction base="cs">
+         <xs:enumeration value="BATTERY"/>
+         <xs:enumeration value="CLUSTER"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="B4">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:union memberTypes="B41 "/>
+   </xs:simpleType>
+   <xs:simpleType name="B41">
+      <xs:restriction base="cs">
+         <xs:enumeration value="EHR"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="B5">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:union memberTypes="B51 "/>
+   </xs:simpleType>
+   <xs:simpleType name="B51">
+      <xs:restriction base="cs">
+         <xs:enumeration value="CATEGORY"/>
+         <xs:enumeration value="DOCBODY"/>
+         <xs:enumeration value="DOCSECT"/>
+         <xs:enumeration value="TOPIC"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>
