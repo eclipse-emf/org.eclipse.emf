@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema targetNamespace="http://unionenum.com"  xmlns="http://unionenum.com"
+xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
    <xs:simpleType name="cs">      
       <xs:restriction base="xs:token">
          <xs:pattern value="[^\s]*"/>

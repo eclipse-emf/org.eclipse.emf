@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="unionEnum.xsd">
+<root xmlns="http://unionenum.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://unionenum.com unionEnum.xsd">
   <elem classCode="OUTB"/>
 </root>
