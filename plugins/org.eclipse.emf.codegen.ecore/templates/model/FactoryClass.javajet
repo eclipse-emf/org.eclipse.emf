@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.9 2005/03/30 19:26:59 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.10 2005/04/28 18:40:10 elena Exp $" %>
 <%
 /**
  * <copyright>
@@ -215,10 +215,17 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
       <%for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();%>
 		if (<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>().isInstance(instanceValue))
 		{
-			return <%=genMemberType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.convertToString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), instanceValue);
+			try
+			{
+				String value = <%=genMemberType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.convertToString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), instanceValue);
+				if (value != null) return value;
+			}
+			catch (Exception e)
+			{
+			}
 		}
       <%}%>
-		return null;
+		throw new IllegalArgumentException("Invalid value: '"+instanceValue+"' for datatype :"+eDataType.getName());
     <%} else {%>
 		return super.convertToString(eDataType, instanceValue);
     <%}%>

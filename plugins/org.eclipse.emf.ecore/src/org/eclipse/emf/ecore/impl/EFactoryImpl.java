@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.9 2005/04/12 20:03:13 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.10 2005/04/28 18:40:09 elena Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -443,10 +443,20 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
         EDataType memberType = (EDataType)i.next();
         if (memberType.isInstance(objectValue))
         {
-          return EcoreUtil.convertToString(memberType, objectValue);
+          try
+          {
+            String result = EcoreUtil.convertToString(memberType, objectValue);
+            if (result != null)
+            {
+              return result;
+            }
+          }
+          catch (Exception e)
+          {
+          }
         }
       }
-      return null;
+      throw new IllegalArgumentException("Invalid value: '"+objectValue+"' for datatype :"+eDataType.getName());
     }
 
     if (objectValue instanceof Character)

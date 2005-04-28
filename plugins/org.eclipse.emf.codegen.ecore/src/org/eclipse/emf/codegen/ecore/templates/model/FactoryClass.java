@@ -109,11 +109,11 @@ public class FactoryClass
   protected final String TEXT_101 = "(), i.next()));" + NL + "\t\t\tresult.append(' ');" + NL + "\t\t}" + NL + "\t\treturn result.substring(0, result.length() - 1);";
   protected final String TEXT_102 = NL + "\t\tif (";
   protected final String TEXT_103 = ".eINSTANCE.get";
-  protected final String TEXT_104 = "().isInstance(instanceValue))" + NL + "\t\t{" + NL + "\t\t\treturn ";
+  protected final String TEXT_104 = "().isInstance(instanceValue))" + NL + "\t\t{" + NL + "\t\t\ttry" + NL + "\t\t\t{" + NL + "\t\t\t\tString value = ";
   protected final String TEXT_105 = ".eINSTANCE.convertToString(";
   protected final String TEXT_106 = ".eINSTANCE.get";
-  protected final String TEXT_107 = "(), instanceValue);" + NL + "\t\t}";
-  protected final String TEXT_108 = NL + "\t\treturn null;";
+  protected final String TEXT_107 = "(), instanceValue);" + NL + "\t\t\t\tif (value != null) return value;" + NL + "\t\t\t}" + NL + "\t\t\tcatch (Exception e)" + NL + "\t\t\t{" + NL + "\t\t\t}" + NL + "\t\t}";
+  protected final String TEXT_108 = NL + "\t\tthrow new IllegalArgumentException(\"Invalid value: '\"+instanceValue+\"' for datatype :\"+eDataType.getName());";
   protected final String TEXT_109 = NL + "\t\treturn super.convertToString(eDataType, instanceValue);";
   protected final String TEXT_110 = NL + "\t}";
   protected final String TEXT_111 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
