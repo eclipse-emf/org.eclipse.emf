@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.30 2005/04/27 22:32:51 nickb Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.31 2005/04/28 16:02:19 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -87,8 +87,8 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 
 //    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByProperty").setWarmUp(3).setRepetitions(REPETITIONS_10));
 //    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByProperty").setWarmUp(3).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
-//    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByIndex").setWarmUp(4).setRepetitions(REPETITIONS_10));
+//    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByIndex").setWarmUp(30).setRepetitions(REPETITIONS_100));
+    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByIndex").setWarmUp(40).setRepetitions(REPETITIONS_100));
 
 //    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(5).setRepetitions(REPETITIONS_10));
 
@@ -101,7 +101,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 	//    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByProperty").setWarmUp(2000).setRepetitions(REPETITIONS_10));
 	//    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByProperty").setWarmUp(2000).setRepetitions(REPETITIONS_10));
 	//    testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByIndex").setWarmUp(3000).setRepetitions(REPETITIONS_10));
-	//    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByIndex").setWarmUp(500).setRepetitions(REPETITIONS_10));
+//	    testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByIndex").setWarmUp(500).setRepetitions(REPETITIONS_10));
 	//
 	//    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(2000).setRepetitions(REPETITIONS_5));
 
