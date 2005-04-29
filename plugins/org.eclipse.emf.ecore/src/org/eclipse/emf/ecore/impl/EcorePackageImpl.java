@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.7 2004/08/12 15:03:00 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.8 2005/04/29 18:09:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1890,8 +1890,13 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     EOperation op = addEOperation(eClassEClass, ecorePackage.getEBoolean(), "isSuperTypeOf");
     addEParameter(op, this.getEClass(), "someClass");
 
+    addEOperation(eClassEClass, ecorePackage.getEInt(), "getFeatureCount");
+
     op = addEOperation(eClassEClass, this.getEStructuralFeature(), "getEStructuralFeature");
     addEParameter(op, ecorePackage.getEInt(), "featureID");
+
+    op = addEOperation(eClassEClass, ecorePackage.getEInt(), "getFeatureID");
+    addEParameter(op, this.getEStructuralFeature(), "feature");
 
     op = addEOperation(eClassEClass, this.getEStructuralFeature(), "getEStructuralFeature");
     addEParameter(op, ecorePackage.getEString(), "featureName");

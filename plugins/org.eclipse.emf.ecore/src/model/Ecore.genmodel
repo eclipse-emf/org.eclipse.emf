@@ -72,8 +72,12 @@
       <genOperations ecoreOperation="Ecore.ecore#//EClass/isSuperTypeOf">
         <genParameters ecoreParameter="Ecore.ecore#//EClass/isSuperTypeOf/someClass"/>
       </genOperations>
+      <genOperations ecoreOperation="Ecore.ecore#//EClass/getFeatureCount"/>
       <genOperations ecoreOperation="Ecore.ecore#//EClass/getEStructuralFeature">
         <genParameters ecoreParameter="Ecore.ecore#//EClass/getEStructuralFeature/featureID"/>
+      </genOperations>
+      <genOperations ecoreOperation="Ecore.ecore#//EClass/getFeatureID">
+        <genParameters ecoreParameter="Ecore.ecore#//EClass/getFeatureID/feature"/>
       </genOperations>
       <genOperations ecoreOperation="Ecore.ecore#//EClass/getEStructuralFeature.1">
         <genParameters ecoreParameter="Ecore.ecore#//EClass/getEStructuralFeature.1/featureName"/>
