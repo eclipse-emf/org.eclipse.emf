@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClass.java,v 1.3 2004/12/16 21:33:53 emerks Exp $
+ * $Id: EClass.java,v 1.4 2005/04/29 18:07:39 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -310,6 +310,16 @@ public interface EClass extends EClassifier
 
   /**
    * <!-- begin-user-doc -->
+   * Returns the number of features.
+   * @return the number of features.
+   * <!-- end-user-doc -->
+   * @model parameters=""
+   * @generated
+   */
+  int getFeatureCount();
+
+  /**
+   * <!-- begin-user-doc -->
    * Returns the feature with this ID.
    * @return the feature with this ID.
    * <!-- end-user-doc -->
@@ -327,5 +337,15 @@ public interface EClass extends EClassifier
    * @generated
    */
   EStructuralFeature getEStructuralFeature(String featureName);
+
+  /**
+   * <!-- begin-user-doc -->
+   * Returns the ID of the feature relative to this class, or -1 if the feature is not in this class.
+   * @return the ID of the feature relative to this class, or -1 if the feature is not in this class.
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  int getFeatureID(EStructuralFeature feature);
 
 }
