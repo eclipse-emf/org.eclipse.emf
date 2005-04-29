@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.9 2005/04/12 20:03:13 emerks Exp $
+ * $Id: EClassImpl.java,v 1.10 2005/04/29 18:15:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -88,6 +88,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   protected BasicEList eAllAttributes;
   protected BasicEList eAllReferences;
   protected BasicEList eAllStructuralFeatures;
+  protected EStructuralFeature[] eAllStructuralFeaturesData;
   protected BasicEList eAllContainments;  
   protected BasicEList eAllOperations;
   protected BasicEList eAllSuperTypes;
@@ -475,12 +476,19 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
       result.shrink();
       eAllStructuralFeatures = new EAllStructuralFeaturesList(result);
+      eAllStructuralFeaturesData = (EStructuralFeature[])result.data();
+      if (eAllStructuralFeaturesData == null)
+      {
+        eAllStructuralFeaturesData = NO_EALL_STRUCTURE_FEATURES_DATA;
+      }
 
       eNameToFeatureMap = null; 
     }
 
     return eAllStructuralFeatures;
   }
+  
+  private static final EStructuralFeature[] NO_EALL_STRUCTURE_FEATURES_DATA = {};
 
   public EList getEAllStructuralFeatures()
   {
@@ -577,15 +585,6 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
-  public EStructuralFeature getEStructuralFeature(int featureID) 
-  {
-    List features = getEAllStructuralFeatures();
-    return 
-      featureID >= 0 && featureID < features.size() ? 
-        (EStructuralFeature)features.get(featureID) : 
-        null;
-  }
-
   public EList getEAllContainmentsGen()
   {
     ESuperAdapter a = getESuperAdapter();
@@ -631,7 +630,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
   public EStructuralFeature getEStructuralFeature(String name)
   {
-    getEAllStructuralFeatures();
+    getFeatureCount();
     if (eNameToFeatureMap == null)
     {
       Map result = new HashMap(3 * eAllStructuralFeatures.size() / 2 + 1);
@@ -643,6 +642,77 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       eNameToFeatureMap = result;
     }
     return (EStructuralFeature)eNameToFeatureMap.get(name);
+  }
+
+  protected EStructuralFeature[] getEAllStructuralFeaturesData()
+  {
+    if (eAllStructuralFeaturesData == null)
+    {
+      getEAllStructuralFeatures();
+    }
+    return eAllStructuralFeaturesData;
+  }
+  
+  private static final boolean BEFORE = false;
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getFeatureCount()
+  {
+    if (BEFORE)
+    {
+      return getEAllStructuralFeatures().size();
+    }
+    
+    return getEAllStructuralFeaturesData().length;
+  }
+  
+  public EStructuralFeature getEStructuralFeature(int featureID) 
+  {
+    if (BEFORE)
+    {
+      List features = getEAllStructuralFeatures();
+      return 
+        featureID >= 0 && featureID < features.size() ? 
+          (EStructuralFeature)features.get(featureID) : 
+          null;
+    }
+    
+    EStructuralFeature [] eAllStructuralFeaturesData  = getEAllStructuralFeaturesData();
+    return 
+      featureID >= 0 && featureID < eAllStructuralFeaturesData.length ? 
+        eAllStructuralFeaturesData[featureID] : 
+        null;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public int getFeatureID(EStructuralFeature feature)
+  {
+    if (BEFORE)
+    {
+      return getEAllStructuralFeatures().indexOf(feature);
+    }
+    
+    EStructuralFeature [] eAllStructuralFeaturesData  = getEAllStructuralFeaturesData();
+    int index = feature.getFeatureID();
+    if (index != -1)
+    {
+      for (int last = eAllStructuralFeaturesData.length; index < last; ++index)
+      {
+        if (eAllStructuralFeaturesData[index] == feature)
+        {
+          return index;
+        }
+      }
+    }
+    return -1;
   }
 
   /**
@@ -1114,7 +1184,18 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   {
     if (eSuperAdapter == null)
     {
-      eSuperAdapter = new ESuperAdapter();
+      eSuperAdapter = 
+        new ESuperAdapter()
+        {
+          void setFlags(int featureId)
+          {
+            super.setFlags(featureId);
+            if (isAllStructuralFeaturesCollectionModified())
+            {
+              eAllStructuralFeaturesData = null;
+            }
+          }
+        };
       eAdapters().add(0, eSuperAdapter);
     }
     return eSuperAdapter;
