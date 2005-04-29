@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.10 2005/02/23 18:31:40 marcelop Exp $
+ * $Id: ValidateAction.java,v 1.11 2005/04/29 11:32:57 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -162,7 +162,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   protected List selectedObjects;
   protected EditingDomain domain;
   protected EclipseResourcesUtil eclipseResourcesUtil = 
-    Platform.getBundle("org.eclipse.core.resources") != null? 
+    Platform.getBundle("org.eclipse.core.resources") != null ? 
       new EclipseResourcesUtil() : null;
 
   /**
@@ -287,7 +287,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     return diagnostician.validate(eObject);
   }
 
-  protected void handleDiagnostic(final Diagnostic diagnostic)
+  protected void handleDiagnostic(Diagnostic diagnostic)
   {
     int result = 
       ErrorDialog.openError
@@ -310,14 +310,16 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     if (Platform.getBundle("org.eclipse.core.resources") != null)
     {
       final IFile file = getFile();
-  
-      try
+      if (file != null)
       {
-        file.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
-      }
-      catch (CoreException exception)
-      {
-        EMFEditUIPlugin.INSTANCE.log(exception);
+        try
+        {
+          file.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
+        }
+        catch (CoreException exception)
+        {
+          EMFEditUIPlugin.INSTANCE.log(exception);
+        }
       }
     
       if (result == Window.OK)
