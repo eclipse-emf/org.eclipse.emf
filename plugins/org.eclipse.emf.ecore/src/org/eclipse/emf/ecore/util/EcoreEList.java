@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEList.java,v 1.3 2004/08/24 19:17:42 elena Exp $
+ * $Id: EcoreEList.java,v 1.4 2005/04/29 18:12:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -231,7 +231,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
         return 
           internalEObject.eInverseAdd
             (owner, 
-             internalEObject.eClass().getEAllStructuralFeatures().indexOf(getInverseEReference()),
+             internalEObject.eClass().getFeatureID(getInverseEReference()),
              null,
              notifications);
       }
@@ -266,7 +266,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
         return 
           internalEObject.eInverseRemove
             (owner, 
-             internalEObject.eClass().getEAllStructuralFeatures().indexOf(getInverseEReference()),
+             internalEObject.eClass().getFeatureID(getInverseEReference()),
              null,
              notifications);
       }
@@ -551,7 +551,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
         {
           // This forces the feature ids to be assigned.
           //
-          inverseEReference.getEContainingClass().getEAllStructuralFeatures();
+          inverseEReference.getEContainingClass().getFeatureCount();
           result |= HAS_NAVIGABLE_INVERSE;
           if (inverseEReference.isMany())
           {

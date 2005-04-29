@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.9 2005/04/12 20:03:13 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.10 2005/04/29 18:10:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -779,11 +779,11 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     if (settingDelegate == null)
     {
       EClass eClass  = getEContainingClass();
-      eClass.getEAllStructuralFeatures();
+      eClass.getFeatureCount();
       EReference eOpposite = getEOpposite();
       if (eOpposite != null)
       {
-        eOpposite.getEContainingClass().getEAllStructuralFeatures();
+        eOpposite.getEContainingClass().getFeatureCount();
       }
 
       EClassifier eType = getEType();
@@ -1666,7 +1666,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       }
 
       EObject eContainer = owner.eContainer();
-      int featureID = owner.eClass().getEAllStructuralFeatures().indexOf(feature);
+      int featureID = owner.eClass().getFeatureID(feature);
       if (newValue != eContainer || (owner.eContainerFeatureID() != featureID && newValue != null))
       {
         if (EcoreUtil.isAncestor(owner, (EObject)newValue))
@@ -1683,7 +1683,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         {
           notifications = 
             internalEObject.eInverseAdd
-              (owner, internalEObject.eClass().getEAllStructuralFeatures().indexOf(inverseFeature), null, notifications);
+              (owner, internalEObject.eClass().getFeatureID(inverseFeature), null, notifications);
         }
 
         notifications = owner.eBasicSetContainer(internalEObject, featureID, notifications);
@@ -1706,7 +1706,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         {
           notifications = owner.eBasicRemoveFromContainer(notifications);
         }
-        int featureID = owner.eClass().getEAllStructuralFeatures().indexOf(feature);
+        int featureID = owner.eClass().getFeatureID(feature);
         notifications = owner.eBasicSetContainer(null, featureID, notifications);
         if (notifications != null) notifications.dispatch();
       }
@@ -1719,7 +1719,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
     public boolean dynamicIsSet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index)
     {
-      int featureID = owner.eClass().getEAllStructuralFeatures().indexOf(feature);
+      int featureID = owner.eClass().getFeatureID(feature);
       return owner.eContainer() != null && owner.eContainerFeatureID() == featureID;
     }
 
@@ -1730,7 +1730,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       {
         notifications = owner.eBasicRemoveFromContainer(notifications);
       }
-      int featureID = owner.eClass().getEAllStructuralFeatures().indexOf(feature);
+      int featureID = owner.eClass().getFeatureID(feature);
       return owner.eBasicSetContainer(otherEnd, featureID, notifications);
     }
 
@@ -1741,7 +1741,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       {
         notifications = owner.eBasicRemoveFromContainer(notifications);
       }
-      int featureID = owner.eClass().getEAllStructuralFeatures().indexOf(feature);
+      int featureID = owner.eClass().getFeatureID(feature);
       return owner.eBasicSetContainer(null, featureID, notifications);
     }
   }
@@ -2157,7 +2157,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
             notifications = 
               internalEObject.eInverseRemove
                 (owner,
-                 internalEObject.eClass().getEAllStructuralFeatures().indexOf(inverseFeature),
+                 internalEObject.eClass().getFeatureID(inverseFeature),
                  null,
                  notifications);
           }
@@ -2167,7 +2167,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
             notifications =
               internalEObject.eInverseAdd
                 (owner,
-                 internalEObject.eClass().getEAllStructuralFeatures().indexOf(inverseFeature),
+                 internalEObject.eClass().getFeatureID(inverseFeature),
                  null,
                  notifications);
           }
@@ -2251,7 +2251,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           notifications = 
             internalEObject.eInverseRemove
               (owner,
-               internalEObject.eClass().getEAllStructuralFeatures().indexOf(inverseFeature),
+               internalEObject.eClass().getFeatureID(inverseFeature),
                null,
                notifications);
         }
@@ -2331,7 +2331,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           notifications = 
             internalEObject.eInverseRemove
               (owner,
-               internalEObject.eClass().getEAllStructuralFeatures().indexOf(inverseFeature),
+               internalEObject.eClass().getFeatureID(inverseFeature),
                null,
                notifications);
         }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.13 2005/03/08 23:20:59 marcelop Exp $
+ * $Id: BasicFeatureMap.java,v 1.14 2005/04/29 18:12:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -231,7 +231,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
           notifications = 
             internalEObject.eInverseAdd
               (owner,
-               internalEObject.eClass().getEAllStructuralFeatures().indexOf(eOpposite),
+               internalEObject.eClass().getFeatureID(eOpposite),
                null,
                notifications);
         }
@@ -242,7 +242,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         if (internalEObject != null)
         {
           InternalEObject oldValue = (InternalEObject)internalEObject.eContainer();
-          int containmentFeatureID = owner.eClass().getEAllStructuralFeatures().indexOf(eReference);
+          int containmentFeatureID = owner.eClass().getFeatureID(eReference);
           notifications =
             internalEObject.eInverseAdd
               (owner,
@@ -308,7 +308,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
           notifications = 
             internalEObject.eInverseRemove
               (owner,
-               internalEObject.eClass().getEAllStructuralFeatures().indexOf(eOpposite),
+               internalEObject.eClass().getFeatureID(eOpposite),
                null,
                notifications);
         }
@@ -318,7 +318,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         InternalEObject internalEObject = (InternalEObject)entry.getValue();
         if (internalEObject != null)
         {
-          int containmentFeatureID = owner.eClass().getEAllStructuralFeatures().indexOf(eReference);
+          int containmentFeatureID = owner.eClass().getFeatureID(eReference);
           notifications =
             internalEObject.eInverseRemove
               (owner,
@@ -2205,7 +2205,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 
     public NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain notifications)
     {
-      EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEAllStructuralFeatures().get(featureID);
+      EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
       if (feature.isMany())
       {
         return featureMap.basicAdd(feature, otherEnd, notifications);
@@ -2220,7 +2220,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         if (oldValue != null)
         {
           notifications = oldValue.eInverseRemove
-            (this, oldValue.eClass().getEAllStructuralFeatures().indexOf(((EReference)feature).getEOpposite()), null, notifications);
+            (this, oldValue.eClass().getFeatureID(((EReference)feature).getEOpposite()), null, notifications);
           notifications = featureMap.basicRemove(feature, oldValue, notifications);
         }
 
@@ -2230,7 +2230,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 
     public NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain notifications)
     {
-      EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEAllStructuralFeatures().get(featureID);
+      EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
       if (feature instanceof EReference && ((EReference)feature).isContainer())
       {
         return eSettingDelegate(feature).dynamicInverseRemove(this, null, -1, otherEnd, notifications);

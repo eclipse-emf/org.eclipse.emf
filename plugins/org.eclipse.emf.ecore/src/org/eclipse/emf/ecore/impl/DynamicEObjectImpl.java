@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicEObjectImpl.java,v 1.3 2004/05/27 20:18:50 emerks Exp $
+ * $Id: DynamicEObjectImpl.java,v 1.4 2005/04/29 18:09:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -144,7 +144,7 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
 
   public int eDerivedStructuralFeatureID(EStructuralFeature eStructuralFeature)
   {
-    return eClass().getEAllStructuralFeatures().indexOf(eStructuralFeature);
+    return eClass().getFeatureID(eStructuralFeature);
   }
 
   protected BasicEObjectImpl.EPropertiesHolder eProperties()
@@ -165,7 +165,7 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
   {
     if (eSettings == null)
     {
-      int size = eClass().getEAllStructuralFeatures().size() - eStaticFeatureCount();
+      int size = eClass().getFeatureCount() - eStaticFeatureCount();
       eSettings = size == 0 ? ENO_SETTINGS : new Object [size];
     }
 

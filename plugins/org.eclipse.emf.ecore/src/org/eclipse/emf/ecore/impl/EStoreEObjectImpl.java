@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.3 2005/02/23 18:31:46 marcelop Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.4 2005/04/29 18:10:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -611,12 +611,12 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
         EReference eOpposite = eContainingReference.getEOpposite();
         if (eOpposite != null)
         {
-          eContainerFeatureID = eClass().getEAllStructuralFeatures().indexOf(eOpposite);
+          eContainerFeatureID = eClass().getFeatureID(eOpposite);
           return;
         }
       }
 
-      eContainerFeatureID = EOPPOSITE_FEATURE_BASE - eContainer.eClass().getEAllStructuralFeatures().indexOf(eContainingFeature);
+      eContainerFeatureID = EOPPOSITE_FEATURE_BASE - eContainer.eClass().getFeatureID(eContainingFeature);
     }
   }
 
@@ -637,7 +637,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
 
   public int eDerivedStructuralFeatureID(EStructuralFeature eStructuralFeature)
   {
-    return eClass().getEAllStructuralFeatures().indexOf(eStructuralFeature);
+    return eClass().getFeatureID(eStructuralFeature);
   }
 
   protected BasicEObjectImpl.EPropertiesHolder eProperties()
@@ -658,7 +658,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
   {
     if (eSettings == null)
     {
-      int size = eClass().getEAllStructuralFeatures().size() - eStaticFeatureCount();
+      int size = eClass().getFeatureCount() - eStaticFeatureCount();
       eSettings = size == 0 ? ENO_SETTINGS : new Object [size];
     }
 

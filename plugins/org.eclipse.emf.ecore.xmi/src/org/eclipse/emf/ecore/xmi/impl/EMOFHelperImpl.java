@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.3 2005/01/26 18:42:06 elena Exp $
+ * $Id: EMOFHelperImpl.java,v 1.4 2005/04/29 18:12:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -103,9 +103,9 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
       return EcorePackage.eINSTANCE.getEAnnotation_References();
     }
 
-    for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+    for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
     {
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+      EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
       if (name.equals(extendedMetaData.getName(eStructuralFeature)) &&
             (namespaceURI == null ? 
              extendedMetaData.getNamespace(eStructuralFeature) == null : 

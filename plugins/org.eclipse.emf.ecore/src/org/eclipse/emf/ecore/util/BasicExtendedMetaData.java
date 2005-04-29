@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.16 2005/04/12 20:05:56 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.17 2005/04/29 18:11:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -702,9 +702,9 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     }
     else
     {
-      for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+      for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
       {
-        EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+        EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
         switch (getFeatureKind(eStructuralFeature))
         {
           case UNSPECIFIED_FEATURE:
@@ -754,9 +754,9 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     }
     else
     {
-      for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+      for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
       {
-        EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+        EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
         switch (getFeatureKind(eStructuralFeature))
         {
           case UNSPECIFIED_FEATURE:
@@ -807,9 +807,9 @@ public class BasicExtendedMetaData implements ExtendedMetaData
   {
     if (getContentKind(eClass) == SIMPLE_CONTENT)
     {
-      for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+      for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
       {
-        EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+        EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
         if (getFeatureKind(eStructuralFeature) == ExtendedMetaData.SIMPLE_FEATURE)
         {
           return eStructuralFeature;
@@ -1160,8 +1160,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   public EStructuralFeature getAffiliation(EClass eClass, EStructuralFeature eStructuralFeature)
   {
-    List eAllStructuralFeatures = eClass.getEAllStructuralFeatures();
-    if (eAllStructuralFeatures.contains(eStructuralFeature))
+    if (eClass.getFeatureID(eStructuralFeature) >= 0) 
     {
       return eStructuralFeature;
     }

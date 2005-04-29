@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.16 2005/03/09 03:12:56 marcelop Exp $
+ * $Id: FeatureMapUtil.java,v 1.17 2005/04/29 18:12:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1276,9 +1276,9 @@ public final class FeatureMapUtil
         isElement = true;
         wildcards = null;
         groupMembers = new ArrayList();
-        for (Iterator i = containingClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+        for (int i = 0, size = containingClass.getFeatureCount(); i < size; ++i)
         {
-          EStructuralFeature feature = (EStructuralFeature)i.next();
+          EStructuralFeature feature = containingClass.getEStructuralFeature(i);
           for (EStructuralFeature group = ExtendedMetaData.INSTANCE.getGroup(feature); 
                group != null; 
                group = ExtendedMetaData.INSTANCE.getGroup(group))
@@ -1363,7 +1363,7 @@ public final class FeatureMapUtil
     if (upperBound == ETypedElement.UNSPECIFIED_MULTIPLICITY)
     {
       EClass eclass = owner.eClass();
-      if (eclass.getEAllStructuralFeatures().contains(feature))
+      if (eclass.getFeatureID(feature) >= 0)
       {
         return false;
       }

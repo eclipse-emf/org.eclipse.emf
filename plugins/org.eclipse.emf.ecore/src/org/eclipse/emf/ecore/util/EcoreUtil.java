@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.23 2005/04/01 17:42:10 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.24 2005/04/29 18:12:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -358,9 +358,10 @@ public class EcoreUtil
     {
       EObject copyEObject = createCopy(eObject);
       put(eObject, copyEObject);
-      for (Iterator i = eObject.eClass().getEAllStructuralFeatures().iterator(); i.hasNext();)
+      EClass eClass = eObject.eClass();
+      for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
       {
-        EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+        EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
         if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived())
         {
           if (eStructuralFeature instanceof EAttribute)
@@ -506,9 +507,9 @@ public class EcoreUtil
         EObject eObject = (EObject)entry.getKey();
         EObject copyEObject = (EObject)entry.getValue();
         EClass eClass = eObject.eClass();
-        for (Iterator j = eClass.getEAllStructuralFeatures().iterator(); j.hasNext();)
+        for (int j = 0, size = eClass.getFeatureCount(); j < size; ++j)
         {
-          EStructuralFeature eStructuralFeature = (EStructuralFeature)j.next();
+          EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(j);
           if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived())
           {
             if (eStructuralFeature instanceof EReference)

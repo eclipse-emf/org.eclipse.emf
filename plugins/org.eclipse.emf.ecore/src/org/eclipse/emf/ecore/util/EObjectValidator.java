@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.9 2005/03/21 12:58:25 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.10 2005/04/29 18:12:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -194,9 +194,10 @@ public class EObjectValidator implements EValidator
   public boolean validate_EveryMultiplicityConforms(EObject eObject, DiagnosticChain diagnostics, Map context)
   {
     boolean result = true;
-    for (Iterator i = eObject.eClass().getEAllStructuralFeatures().iterator(); i.hasNext(); )
+    EClass eClass = eObject.eClass();
+    for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
     {
-      result &= validate_MultiplicityConforms(eObject, (EStructuralFeature)i.next(), diagnostics, context);
+      result &= validate_MultiplicityConforms(eObject, eClass.getEStructuralFeature(i), diagnostics, context);
       if (!result && diagnostics == null)
       {
         return false;

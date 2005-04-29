@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLMapImpl.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: XMLMapImpl.java,v 1.2 2005/04/29 18:12:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -224,9 +224,9 @@ public class XMLMapImpl implements XMLResource.XMLMap
 
   public EStructuralFeature getFeature(EClass eClass, String namespaceURI, String name)
   {
-    for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+    for (int i = 0, size = eClass.getFeatureCount(); i < size;  ++i)
     {
-      EStructuralFeature feature = (EStructuralFeature) i.next();
+      EStructuralFeature feature = eClass.getEStructuralFeature(i);
       XMLResource.XMLInfo info = getInfo(feature);
 
       if (info != null)

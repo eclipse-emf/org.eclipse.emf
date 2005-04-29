@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.13 2005/04/13 19:05:34 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.14 2005/04/29 18:10:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1332,7 +1332,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       //
       Class containerClass = ExtendedMetaData.INSTANCE.getDocumentRoot(this) == eClass ? null : eClass.getInstanceClass();
 
-      int id = eClass.getEAllStructuralFeatures().indexOf(features.get(0));
+      int id = eClass.getFeatureID((EStructuralFeature)features.get(0));
       
       for (Iterator i = features.iterator(); i.hasNext(); )
       {

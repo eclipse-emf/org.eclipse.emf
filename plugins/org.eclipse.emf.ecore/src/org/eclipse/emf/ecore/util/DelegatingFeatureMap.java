@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.13 2005/02/16 15:38:09 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.14 2005/04/29 18:12:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -46,7 +46,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
   public DelegatingFeatureMap(InternalEObject owner, int featureID)
   {
     super(owner);
-    this.eStructuralFeature = (EStructuralFeature)owner.eClass().getEAllStructuralFeatures().get(featureID);
+    this.eStructuralFeature = owner.eClass().getEStructuralFeature(featureID);
     featureMapValidator = FeatureMapUtil.getValidator(owner.eClass(), getEStructuralFeature());
   }
 
@@ -273,7 +273,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
           notifications = 
             internalEObject.eInverseAdd
               (owner,
-               internalEObject.eClass().getEAllStructuralFeatures().indexOf(eOpposite),
+               internalEObject.eClass().getFeatureID(eOpposite),
                null,
                notifications);
         }
@@ -284,7 +284,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         if (internalEObject != null)
         {
           InternalEObject oldValue = (InternalEObject)internalEObject.eContainer();
-          int containmentFeatureID = owner.eClass().getEAllStructuralFeatures().indexOf(eReference);
+          int containmentFeatureID = owner.eClass().getFeatureID(eReference);
           notifications =
             internalEObject.eInverseAdd
               (owner,
@@ -350,7 +350,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
           notifications = 
             internalEObject.eInverseRemove
               (owner,
-               internalEObject.eClass().getEAllStructuralFeatures().indexOf(eOpposite),
+               internalEObject.eClass().getFeatureID(eOpposite),
                null,
                notifications);
         }
@@ -360,7 +360,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         InternalEObject internalEObject = (InternalEObject)entry.getValue();
         if (internalEObject != null)
         {
-          int containmentFeatureID = owner.eClass().getEAllStructuralFeatures().indexOf(eReference);
+          int containmentFeatureID = owner.eClass().getFeatureID(eReference);
           notifications =
             internalEObject.eInverseRemove
               (owner,
@@ -2215,7 +2215,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
     public NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain notifications)
     {
-      EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEAllStructuralFeatures().get(featureID);
+      EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
       if (feature.isMany())
       {
         return featureMap.basicAdd(feature, otherEnd, notifications);
@@ -2230,7 +2230,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         if (oldValue != null)
         {
           notifications = oldValue.eInverseRemove
-            (this, oldValue.eClass().getEAllStructuralFeatures().indexOf(((EReference)feature).getEOpposite()), null, notifications);
+            (this, oldValue.eClass().getFeatureID(((EReference)feature).getEOpposite()), null, notifications);
           notifications = featureMap.basicRemove(feature, oldValue, notifications);
         }
 
@@ -2240,7 +2240,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
     public NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain notifications)
     {
-      EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEAllStructuralFeatures().get(featureID);
+      EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
       if (feature instanceof EReference && ((EReference)feature).isContainer())
       {
         return eSettingDelegate(feature).dynamicInverseRemove(this, null, -1, otherEnd, notifications);

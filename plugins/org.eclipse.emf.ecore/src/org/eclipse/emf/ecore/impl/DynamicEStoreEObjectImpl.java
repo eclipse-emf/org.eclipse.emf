@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicEStoreEObjectImpl.java,v 1.2 2005/02/23 18:31:46 marcelop Exp $
+ * $Id: DynamicEStoreEObjectImpl.java,v 1.3 2005/04/29 18:09:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -181,12 +181,12 @@ public class DynamicEStoreEObjectImpl extends DynamicEObjectImpl
         EReference eOpposite = eContainingReference.getEOpposite();
         if (eOpposite != null)
         {
-          eContainerFeatureID = eClass().getEAllStructuralFeatures().indexOf(eOpposite);
+          eContainerFeatureID = eClass().getFeatureID(eOpposite);
           return;
         }
       }
 
-      eContainerFeatureID = EOPPOSITE_FEATURE_BASE - eContainer.eClass().getEAllStructuralFeatures().indexOf(eContainingFeature);
+      eContainerFeatureID = EOPPOSITE_FEATURE_BASE - eContainer.eClass().getFeatureID(eContainingFeature);
     }
   }
 

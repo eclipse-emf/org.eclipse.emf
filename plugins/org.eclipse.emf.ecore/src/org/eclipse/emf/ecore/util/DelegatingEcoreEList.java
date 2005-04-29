@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.4 2004/08/12 12:16:24 emerks Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.5 2005/04/29 18:12:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -335,7 +335,7 @@ public abstract class DelegatingEcoreEList
         return 
           internalEObject.eInverseAdd
             (owner, 
-             internalEObject.eClass().getEAllStructuralFeatures().indexOf(getInverseEReference()),
+             internalEObject.eClass().getFeatureID(getInverseEReference()),
              null,
              notifications);
       }
@@ -370,7 +370,7 @@ public abstract class DelegatingEcoreEList
         return 
           internalEObject.eInverseRemove
             (owner, 
-             internalEObject.eClass().getEAllStructuralFeatures().indexOf(getInverseEReference()),
+             internalEObject.eClass().getFeatureID(getInverseEReference()),
              null,
              notifications);
       }

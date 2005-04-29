@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.4 2004/10/18 13:19:37 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.5 2005/04/29 18:08:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -174,7 +174,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   protected int eStaticFeatureCount()
   {
-    return eStaticClass().getEAllStructuralFeatures().size();
+    return eStaticClass().getFeatureCount();
   }
 
   protected EPropertiesHolder eProperties()
@@ -203,7 +203,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   {
     if (!eHasSettings())
     {
-      int size =  eClass().getEAllStructuralFeatures().size() - eStaticFeatureCount();
+      int size =  eClass().getFeatureCount() - eStaticFeatureCount();
       eProperties().allocateSettings(size);
     }
 
@@ -212,12 +212,12 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   protected int eDynamicFeatureID(EStructuralFeature eStructuralFeature)
   {
-    return eClass().getEAllStructuralFeatures().indexOf(eStructuralFeature) - eStaticFeatureCount();
+    return eClass().getFeatureID(eStructuralFeature) - eStaticFeatureCount();
   }
 
   protected EStructuralFeature eDynamicFeature(int dynamicFeatureID)
   {
-    return (EStructuralFeature)eClass().getEAllStructuralFeatures().get(dynamicFeatureID + eStaticFeatureCount());
+    return eClass().getEStructuralFeature(dynamicFeatureID + eStaticFeatureCount());
   }
 
   public String eURIFragmentSegment(EStructuralFeature eStructuralFeature, EObject eObject)
@@ -386,8 +386,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       int eContainerFeatureID = eContainerFeatureID();
       if (eContainerFeatureID <= EOPPOSITE_FEATURE_BASE)
       {
-        EStructuralFeature eFeature = 
-          (EStructuralFeature)eContainer.eClass().getEAllStructuralFeatures().get(EOPPOSITE_FEATURE_BASE - eContainerFeatureID);
+        EStructuralFeature eFeature =  eContainer.eClass().getEStructuralFeature(EOPPOSITE_FEATURE_BASE - eContainerFeatureID);
         if (eFeature instanceof EReference)
         {
           return (EReference)eFeature;
@@ -415,7 +414,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       }
       else
       {
-        return ((EReference)eClass().getEAllStructuralFeatures().get(eContainerFeatureID)).getEOpposite();
+        return ((EReference)eClass().getEStructuralFeature(eContainerFeatureID)).getEOpposite();
       }
     }
   }
@@ -432,8 +431,8 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       int eContainerFeatureID = eContainerFeatureID();
       return
         eContainerFeatureID <= EOPPOSITE_FEATURE_BASE ?
-          (EStructuralFeature)eContainer.eClass().getEAllStructuralFeatures().get(EOPPOSITE_FEATURE_BASE - eContainerFeatureID) :
-          ((EReference)eClass().getEAllStructuralFeatures().get(eContainerFeatureID)).getEOpposite();
+          eContainer.eClass().getEStructuralFeature(EOPPOSITE_FEATURE_BASE - eContainerFeatureID) :
+          ((EReference)eClass().getEStructuralFeature(eContainerFeatureID)).getEOpposite();
     }
   }
 
@@ -698,7 +697,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public NotificationChain eDynamicBasicRemoveFromContainer(NotificationChain msgs)
   {
-    EReference inverseFeature = ((EReference)eClass().getEAllStructuralFeatures().get(eContainerFeatureID())).getEOpposite();
+    EReference inverseFeature = ((EReference)eClass().getEStructuralFeature(eContainerFeatureID())).getEOpposite();
     return eInternalContainer().eInverseRemove(this, inverseFeature.getFeatureID(), inverseFeature.getContainerClass(), msgs);
   }
 
@@ -720,7 +719,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain msgs)
   {
-    EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEAllStructuralFeatures().get(featureID);
+    EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
     return 
       feature.getSettingDelegate().dynamicInverseAdd
         (this, eSettings(), featureID - eStaticFeatureCount(), otherEnd, msgs);
@@ -741,7 +740,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain msgs)
   {
-    EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEAllStructuralFeatures().get(featureID);
+    EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
     return feature.getSettingDelegate().dynamicInverseRemove
       (this, eSettings(), featureID - eStaticFeatureCount(), otherEnd, msgs);
   }
@@ -781,7 +780,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     Class containerClass = eStructuralFeature.getContainerClass();
     return 
       containerClass == null ? 
-        eClass().getEAllStructuralFeatures().indexOf(eStructuralFeature) : 
+        eClass().getFeatureID(eStructuralFeature) : 
         eDerivedStructuralFeatureID(eStructuralFeature.getFeatureID(), containerClass);
   }
 
@@ -825,7 +824,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public EStructuralFeature.Setting eSetting(final EStructuralFeature eFeature)
   {
-    int index = eClass().getEAllStructuralFeatures().indexOf(eFeature);
+    int index = eClass().getFeatureID(eFeature);
     int dynamicIndex = eStaticFeatureCount();
     if (index >= dynamicIndex)
     {
