@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTests.java,v 1.3 2005/04/28 18:46:57 elena Exp $
+ * $Id: XSDTests.java,v 1.4 2005/04/30 14:18:08 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -63,7 +63,7 @@ public class XSDTests extends TestCase
     TestSuite ts = new TestSuite("XSDTests");
     ts.addTest(new XSDTests("testEnumLoad"));
     ts.addTest(new XSDTests("testEnumUnion"));
-    //ts.addTest(new XSDTests("testEnumSave"));
+    ts.addTest(new XSDTests("testEnumSave"));
     return ts;
   }
 
