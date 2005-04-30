@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.14 2005/04/29 18:12:02 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.15 2005/04/30 11:44:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1082,7 +1082,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 
   protected boolean shouldUnset(EStructuralFeature feature, Object value)
   {
-    if (!feature.isUnsettable())
+    if (feature.getUpperBound() != EStructuralFeature.UNSPECIFIED_MULTIPLICITY && !feature.isUnsettable())
     {
       Object defaultValue = feature.getDefaultValue();
       return defaultValue == null ? value == null : defaultValue.equals(value);
