@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.15 2005/04/30 11:44:42 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.16 2005/04/30 12:08:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1369,12 +1369,11 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         for (Iterator i = collection.iterator(); i.hasNext(); )
         {
           Object object = i.next();
-          if (contains(feature, object))
+          if (!contains(feature, object))
           {
-            throw new IllegalArgumentException("The 'no duplicates' constraint is violated");
+            Entry entry = createEntry(feature, object);
+            entryCollection.add(entry);
           }
-          Entry entry = createEntry(feature, object);
-          entryCollection.add(entry);
         }
       }
       else if (!isFeatureMap)
