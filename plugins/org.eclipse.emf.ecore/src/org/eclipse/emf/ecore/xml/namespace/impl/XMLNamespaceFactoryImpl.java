@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceFactoryImpl.java,v 1.3 2004/05/16 17:13:02 emerks Exp $
+ * $Id: XMLNamespaceFactoryImpl.java,v 1.4 2005/05/02 13:06:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.xml.namespace.*;
 public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespaceFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

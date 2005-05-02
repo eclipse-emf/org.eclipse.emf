@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.10 2005/04/25 21:46:57 elena Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.11 2005/05/02 13:06:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -41,7 +41,7 @@ import org.eclipse.emf.ecore.xml.type.internal.DataValue.*;
 public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
