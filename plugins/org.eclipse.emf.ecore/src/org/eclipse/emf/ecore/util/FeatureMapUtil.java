@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.17 2005/04/29 18:12:02 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.18 2005/05/02 20:36:51 bportier Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
@@ -113,7 +114,7 @@ public final class FeatureMapUtil
 
   public static boolean isFeatureMap(EStructuralFeature eStructuralFeature)
   {
-    return ((EStructuralFeature.Internal)eStructuralFeature).isFeatureMap();
+    return ((EStructuralFeatureImpl)eStructuralFeature).isFeatureMap();
   }
 
   public static boolean isFeatureMapEntry(EClassifier eClassifier)

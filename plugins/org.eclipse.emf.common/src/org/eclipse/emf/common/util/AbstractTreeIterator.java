@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractTreeIterator.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: AbstractTreeIterator.java,v 1.2 2005/05/02 20:36:52 bportier Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -82,20 +82,32 @@ public abstract class AbstractTreeIterator extends BasicEList implements TreeIte
    */
   public boolean hasNext()
   {
-    if (!includeRoot && data == null)
+    if (data == null && !includeRoot)
     {
-      nextPruneIterator = getChildren(object);
-      add(nextPruneIterator);
-      return nextPruneIterator.hasNext();
+      return hasAnyChildren();
     }
     else
     {
-      // We don't create an iterator stack until the root mapping itself has been returned by next once.
-      // After that the stack should be non-empty and the top iterator should yield true for hasNext.
-      //
-      return data == null || !isEmpty() && ((Iterator)data[size - 1]).hasNext();
+      return hasMoreChildren();
     }
   }
+
+  private boolean hasAnyChildren()
+  {
+    Iterator nextPruneIterator = this.nextPruneIterator;
+
+    nextPruneIterator = getChildren(object);
+    add(nextPruneIterator);
+    return nextPruneIterator.hasNext();
+  }
+
+  private boolean hasMoreChildren()
+  {
+    // We don't create an iterator stack until the root mapping itself has been returned by next once.
+    // After that the stack should be non-empty and the top iterator should yield true for hasNext.
+    return data == null || !isEmpty() && ((Iterator)data[size - 1]).hasNext();
+  }
+
 
   /**
    * Returns the next object and advances the iterator.

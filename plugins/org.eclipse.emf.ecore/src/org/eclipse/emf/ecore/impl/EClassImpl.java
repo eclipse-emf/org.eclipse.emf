@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.10 2005/04/29 18:15:07 emerks Exp $
+ * $Id: EClassImpl.java,v 1.11 2005/05/02 20:36:51 bportier Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -641,7 +641,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       }
       eNameToFeatureMap = result;
     }
-    return (EStructuralFeature)eNameToFeatureMap.get(name);
+    return (EStructuralFeatureImpl)eNameToFeatureMap.get(name);
   }
 
   protected EStructuralFeature[] getEAllStructuralFeaturesData()
