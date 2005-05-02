@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.14 2005/03/31 12:25:01 emerks Exp $
+ * $Id: URI.java,v 1.15 2005/05/02 21:59:25 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -766,12 +766,46 @@ public final class URI
    * <p>This scheme supports relocatable projects in Eclipse and in
    * stand-alone EMF.
    *
-   * <p>If the <code>org.eclipse.emf.common.util.URI.encodePlatformResourceURIs</code> 
-   * system property is set to "true", the path is automatically encoded to
-   * escape all spaces, <code>#</code> characters, and other characters
-   * disallowed in URIs, as well as <code>?</code>, which would delimit a
-   * path from a query.  Decoding can be performed with the static {@link
-   * #decode(String) decode} method.
+   * <p>Path encoding is performed only if the
+   * <code>org.eclipse.emf.common.util.URI.encodePlatformResourceURIs</code> 
+   * system property is set to "true". Decoding can be performed with the
+   * static {@link #decode(String) decode} method.
+   * 
+   * @exception java.lang.IllegalArgumentException if any component parsed
+   * from the path is not valid according to {@link #validDevice validDevice},
+   * {@link #validSegments validSegments}, {@link #validQuery validQuery}, or
+   * {@link #validFragment validFragment}.
+   *
+   * @see org.eclipse.core.runtime.Platform#resolve
+   * @see #createPlatformResourceURI(String, boolean)
+   */
+  public static URI createPlatformResourceURI(String pathName)
+  {
+    return createPlatformResourceURI(pathName, ENCODE_PLATFORM_RESOURCE_URIS);
+  }
+
+  /**
+   * Static factory method based on parsing a platform-relative path string,
+   * with an option to encode the created URI.
+   *
+   * <p>The <code>pathName</code> must be of the form:
+   * <pre>
+   *   /project-name/path</pre>
+   *
+   * <p>If not included, the leading path separator will be added.  The
+   * result will be of this form, which is parsed using {@link #createURI
+   * createURI}:
+   * <pre>
+   *   platform:/resource/project-name/path</pre>
+   *
+   * <p>This scheme supports relocatable projects in Eclipse and in
+   * stand-alone EMF.
+   *
+   * <p>Depending on the <code>encode</code> argument, the path may be
+   * automatically encoded to escape all spaces, <code>#</code> characters,
+   * and other characters disallowed in URIs, as well as <code>?</code>,
+   * which would delimit a path from a query.  Decoding can be performed with
+   * the static {@link #decode(String) decode} method.
    * 
    * @exception java.lang.IllegalArgumentException if any component parsed
    * from the path is not valid according to {@link #validDevice validDevice},
@@ -780,16 +814,16 @@ public final class URI
    *
    * @see org.eclipse.core.runtime.Platform#resolve
    */
-  public static URI createPlatformResourceURI(String pathName)
+  public static URI createPlatformResourceURI(String pathName, boolean encode)
   {
-    if (ENCODE_PLATFORM_RESOURCE_URIS)
+    if (encode)
     {
       pathName = encode(pathName, PATH_CHAR_HI, PATH_CHAR_LO, false);
     }
     URI result = createURI((pathName.charAt(0) == SEGMENT_SEPARATOR ? "platform:/resource" : "platform:/resource/") + pathName);
     return result;
   }
-
+  
   // Private constructor for use of static factory methods.
   private URI(boolean hierarchical, String scheme, String authority,
               String device, boolean absolutePath, String[] segments,
