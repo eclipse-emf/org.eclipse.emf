@@ -10,7 +10,7 @@
     <eLiterals name="default"/>
     <eLiterals name="preserve" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="SpaceTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="SpaceTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="space_._type:Object"/>
       <details key="baseType" value="space_._type"/>
