@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.6 2004/11/09 19:45:01 emerks Exp $
+ * $Id: CommonPlugin.java,v 1.7 2005/05/03 17:33:42 davidms Exp $
  */
 package org.eclipse.emf.common;
 
@@ -129,20 +129,48 @@ public final class CommonPlugin extends EMFPlugin
      */
     protected static URI resolve(URI uri)
     {
+      String fragment = uri.fragment();
+      URI uriWithoutFragment = uri.trimFragment();
+      String uriWithoutFragmentToString = uri.trimFragment().toString();
+      
+      URL url = null;
       try
       {
-        String fragment = uri.fragment();
-        URL url = Platform.resolve(new URL(uri.trimFragment().toString()));
-        return fix(url, fragment);
+        url = Platform.resolve(new URL(uriWithoutFragmentToString));
       }
-      catch (IOException exception)
+      catch (IOException exception1)
       {
+        // Platform.resolve() doesn't work if the project is encoded.
+        //
+        try
+        {
+          uriWithoutFragmentToString = URI.decode(uriWithoutFragmentToString);
+          url = Platform.resolve(new URL(uriWithoutFragmentToString));
+        }
+        catch (IOException exception2)
+        {
+        }
       }
+      if (url != null)
+      {
+        try
+        {
+          return fix(url, fragment);
+        }
+        catch (IOException exception)
+        {
+        }
+      }
+      
       return uri;
     }
 
     protected static URI fix(URL url, String fragment) throws IOException
     {
+      // Only file-scheme URIs will be re-encoded. If a URI was decoded in the workaround
+      // above, and Platform.resolve() didn't return a file-scheme URI, then this will return
+      // an decoded URI.
+      //
       URI result = 
         "file".equalsIgnoreCase(url.getProtocol()) ?
           URI.createFileURI(URI.decode(url.getFile())) :
