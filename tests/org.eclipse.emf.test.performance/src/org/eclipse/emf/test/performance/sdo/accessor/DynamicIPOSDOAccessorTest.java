@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.36 2005/05/02 19:38:32 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.37 2005/05/03 14:12:46 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -62,7 +62,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected static final int ITERATIONS_10K = 2500000;
 
-  protected static final int ITERATIONS_12M = 200000;
+  protected static final int ITERATIONS_12M = 2000000;
 
   protected static final int ITERATIONS_50K = 25000000;
 
@@ -82,9 +82,9 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected static final int ITERATIONS_300K = 80000000;
 
-  protected static final int ITERATIONS_120K = 1600000;
+  protected static final int ITERATIONS_120K = 16000000;
 
-  protected static final int ITERATIONS_8M = 8000000;
+  protected static final int ITERATIONS_8M = 20000000;
 
   protected static final int ITERATIONS_80K = 32000000;
 
@@ -189,9 +189,9 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     //    testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
     //
     //    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
-          testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(50).setRepetitions(REPETITIONS_100));
+          testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(5).setRepetitions(REPETITIONS_100));
     //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(4).setRepetitions(REPETITIONS_50));
-          testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(30).setRepetitions(REPETITIONS_100));
+          testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
     //OK      testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(10).setRepetitions(REPETITIONS_50));
 
     //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
@@ -201,7 +201,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     //  testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByName").setWarmUp(12).setRepetitions(REPETITIONS_50));
     //
     //  testSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_50));
-    testSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(150).setRepetitions(REPETITIONS_500));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(15).setRepetitions(REPETITIONS_500));
 
     //    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
     //    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
