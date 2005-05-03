@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.24 2005/04/29 18:12:02 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.25 2005/05/03 12:07:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -157,9 +157,9 @@ public class EcoreUtil
    */
   public static AdapterFactory getAdapterFactory(List adapterFactories, Object type)
   {
-    for (Iterator iter = adapterFactories.iterator(); iter.hasNext();)
+    for (int i = 0, size = adapterFactories.size(); i < size; ++i)
     {
-      AdapterFactory factory = (AdapterFactory)iter.next();
+      AdapterFactory factory = (AdapterFactory)adapterFactories.get(i);
       if (factory.isFactoryForType(type))
       {
         return factory;
@@ -462,13 +462,12 @@ public class EcoreUtil
         if (FeatureMapUtil.isFeatureMap(eAttribute))
         {
           FeatureMap featureMap = (FeatureMap)eObject.eGet(eAttribute);
-          for (Iterator i = featureMap.iterator(); i.hasNext();)
+          for (int i = 0, size = featureMap.size(); i < size; ++i)
           {
-            FeatureMap.Entry entry = (FeatureMap.Entry)i.next();
-            EStructuralFeature feature = entry.getEStructuralFeature();
+            EStructuralFeature feature = featureMap.getEStructuralFeature(i);
             if (feature instanceof EReference && ((EReference)feature).isContainment())
             {
-              Object value = entry.getValue();
+              Object value = featureMap.getValue(i);
               if (value != null)
               {
                 copy((EObject)value);
@@ -524,19 +523,18 @@ public class EcoreUtil
             {
               FeatureMap featureMap = (FeatureMap)eObject.eGet(eStructuralFeature);
               FeatureMap copyFeatureMap = (FeatureMap)copyEObject.eGet(getTarget(eStructuralFeature));
-              for (Iterator k = featureMap.iterator(); k.hasNext();)
+              for (int k = 0, featureMapSize = featureMap.size(); k < featureMapSize; ++k)
               {
-                FeatureMap.Entry featureMapEntry = (FeatureMap.Entry)k.next();
-                EStructuralFeature feature = featureMapEntry.getEStructuralFeature();
+                EStructuralFeature feature = featureMap.getEStructuralFeature(k);
                 if (feature instanceof EReference)
                 {
-                  Object referencedEObject = featureMapEntry.getValue();
+                  Object referencedEObject = featureMap.getValue(k);
                   Object copyReferencedEObject = get(referencedEObject);
                   copyFeatureMap.add(feature, copyReferencedEObject == null ? referencedEObject : copyReferencedEObject);
                 }
                 else
                 {
-                  copyFeatureMap.add(featureMapEntry);
+                  copyFeatureMap.add(featureMap.get(k));
                 }
               }
             }
@@ -1409,9 +1407,10 @@ public class EcoreUtil
   }
 
   /**
-   * Returns true if eObject1 and eObject2 are equal, false otherwise.
-   * @return true if eObject1 and eObject2 are equal, false otherwise.
-   * Refer to {@link EqualityHelper} for the definition of {@link EObject} equality.
+   * Returns <code>true</code> if <code>eObject1</code> and <code>eObject2</code> are {@link EqualityHelper equal}, 
+   * <code>false</code> otherwise.
+   * @return whether <code>eObject1</code> and <code>eObject2</code> are equal.
+   * @see EqualityHelper
    * @since 2.1.0
    */
   public static boolean equals(EObject eObject1, EObject eObject2)
@@ -1421,320 +1420,150 @@ public class EcoreUtil
   }
 
   /**
-   * <p>A helper for determining whether two {@link EObject eObjects} are equal.
+   * <p>
+   * A helper for determining whether two {@link EObject}s are <em>structurally equal</em>.
+   * Two EObjects, <code>eObject1</code> and <code>eObject2</code>, are structurally equal 
+   * if their {@link EObject.eClass() classes} are the same,
+   * and if, for each {@link EStructuralFeature#isDerived non-derived} {@link EStructuralFeature feature} of the class, 
+   * the {@link EObject.eIsSet(EStructuralFeature) isSet} states are the same
+   * and the corresponding {@link EObject#eGet(EStructuralFeature) values} are structurally equal 
+   * as appropriate for the type of feature.
+   * For {@link FeatureMapUtil.isFeatureMap() feature map} features, 
+   * the positionally corresponding {@link FeatureMap.Entry entries}
+   * must have the same {@link FeatureMap.Entry#getEStructuralFeature() entry feature}s
+   * and must have structurally equal {@link FeatureMap.Entry#getValue() value}s
+   * as appropriate for the type of entry's feature.
+   * For {@link EReference reference} features, 
+   * the corresponding values must recursively be structurally equal according to this definition.
+   * For {@link EAttribute attribute} features, 
+   * the corresponding values must be equal according to Java equality.
+   * Note that container references are derived and hence are ignored.
    * </p>
-   * <p>Two <code>EObject</code>s are (deep-)equal if they are shallow-equal,
-   *  and all their {@link org.eclipse.emf.ecore.EClass#getEAllReferences references},
-   *  except the one to their {@link EReference#isContainer container}, are equal.
-   * <br/>Two eObject are shallow-equal if
-   *  they have the same {@link EObject#eClass eClass},
-   *  and their {@link EClass#getEAllAttributes attributes} are equal. 
-   * <br/>Two attributes are equal if they are both not
-   *  {@link EObject#eIsSet(EStructuralFeature) set}, or set to an equal value.
-   * <br/>Two references are equal if they are both not
-   *  {@link EObject#eIsSet(EStructuralFeature) set}, or all the eObjects
-   *  they refer to are {@link #equals(EObject, EObject) equal} in the context of eObject1 and eObject2.
-   * <br/>Note that {@link EReference#isContainer container} references are not compared,
-   *  which means two eObjects can be equal even if their container is not equal.
-   * </p>
-   * <p>An eObject directly or indirectly referenced by eObject1 or eObject2 can only be equal to
-   *  exactly one eObject directly or indirectly referenced by eObject2 or eObject1, respectively.
-   * This ensures that eObject1 and eObject2 are equal if the graphs formed by all their referenced
-   *  eObjects have the same shape (eObject1 and eObject2 are structurally-equal).
-   * For example, it is possible that two eObjects referenced by eObject1 and eObject2 refer
-   *  to the same (==) eObject but are not {@link #equal(EObject, EObject) equal}
-   *  because the eObject they refer to is already shallow-equal to another eObject.  
+   * <p>
+   * During the recursive process of determining {@link EcoreUtil#equals(EObject,EObject) equality},
+   * the helper instance is populated as a two way map 
+   * such that a given <code>eObject1</code> is considered to be equal to at most one other <code>eObject2</code>,
+   * i.e., <code>get(eObject1) == eObject2 && get(eObject2) == eObject1</code>.
+   * While their features are being compared, the two objects are assumed to be equal:
+   *<pre> 
+   *  put(eObject1, eObject2); 
+   *  put(eObject2, eObject1);
+   *</pre>
+   * Once that correspondence is established, an <code>eObject1</code> considered equal to a different <code>eObject2</code>
+   * will not even be considered equal to itself.
+   * This ensures that two objects are structurally equal only if the graphs formed by all their referenced objects 
+   * have the same topology.
    * </p> 
-   * <p>Use {@link EcoreUtil#equal(EObject, EObject)} to determine whether two eObjects are equal.
-   * </p>
-   * <p>EqualityHelper is a Map that contains all the eObjects
-   *  that have already been found to be shallow-equal since it has been instantiated.
-   * </p>
+   * @see EcoreUtil#equals(EObject, EObject)
+   * @see EqualityHelper#equals(EObject, EObject)
    */
   public static class EqualityHelper extends HashMap
   {
-
     /**
-     * @return true if eObject1 and eObject2 are {@link #equal(EObject, EObject) equal}
-     *  in the context of this instance of EqualityHelper, false otherwise.
-     * Refer to {@link EcoreUtil.EqualityHelper} for the definition of {@link EObject} equality.
+     * Returns whether <code>eObject1</code> and <code>eObject2</code> are {@link EqualityHelper equal}
+     * in the context of this helper instance.
+     * @return whether <code>eObject1</code> and <code>eObject2</code> are equal.
      * @since 2.1.0
      */
-    protected boolean equals(EObject eObject1, EObject eObject2)
+    public boolean equals(EObject eObject1, EObject eObject2)
     {
-      // if both eObject1 and eObject2 are null return true.
-      // if only one of eObject1 and eObject2 is null, return false.
+      // If the first object is null, the second object must be null.
+      //
       if (eObject1 == null)
       {
-        if (eObject2 == null)
-        {
-          return true;
-        }
-        return false;
+        return eObject2 == null;
       }
+      
+      // We know the first object isn't null, so if the second one is, it can't be equal.
+      //
       if (eObject2 == null)
       {
         return false;
       }
 
-      // eObject1 and eObject2 are both not null.
-      // have eObject1 and eObject2 been compared already?
-
+      // Both eObject1 and eObject2 are not null.
+      // If eObject1 has been compared already...
+      //
       Object eObject1MappedValue = get(eObject1);
       if (eObject1MappedValue != null)
       {
-        // eObject1 has been compared already.
-        // eObject1 can only have one shallow-equal eObject.
-        if (eObject1MappedValue == eObject2)
-        {
-          return true;
-        }
-        return false;
+        // Then eObject2 must be that previous match.
+        //
+        return eObject1MappedValue == eObject2;
       }
 
+      // If eObject2 has been compared already...
+      //
       Object eObject2MappedValue = get(eObject2);
       if (eObject2MappedValue != null)
       {
-        // eObject2 has been compared already.
-        // eObject2 can only have one shallow-equal eObject.
-        if (eObject2MappedValue == eObject1)
-        {
-          return true;
-        }
-        return false;
+        // Then eObject1 must be that match.
+        //
+        return eObject2MappedValue == eObject1;
       }
 
-      // eObject1, eObject2 haven't been compared yet.
+      // Neither eObject1 nor eObject2 have been compared yet.
 
-      // are eObject1 and eObject2 the same Object?
+      // If eObject1 and eObject2 are the same instance...
+      //
       if (eObject1 == eObject2)
-      { // eObject1 and eObject2 are shallow-equal, add them to the map.
+      { 
+        // Match them and return true.
+        //
         put(eObject1, eObject2);
         put(eObject2, eObject1);
         return true;
       }
 
-      // do eObject1 and eObject2 have the same metadata?
-      if (eObject1.eClass() != eObject2.eClass())
+      // If they don't have the same class, they can't be equal.
+      //
+      EClass eClass = eObject1.eClass();
+      if (eClass != eObject2.eClass())
       {
         return false;
       }
 
-      // (perf: try to do eIsSetEqual test here on all EStructuralFeatures,
-      // and not in the attribute or reference equality test.)
-
-      // are eObject1 and eObject2 shallow-equal?
-      if (!haveEqualAttributes(eObject1, eObject2))
-      {
-        return false;
-      }
-
-      // eObject1 and eObject2 are shallow-equal, add them to the map.
+      // Assume from now on that they match.
+      //
       put(eObject1, eObject2);
       put(eObject2, eObject1);
 
-      // are eObject1 and eObject2 deep-equal?
-      if (!haveEqualReferences(eObject1, eObject2))
+      
+      // Check all the values.
+      //
+      for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
       {
-        return false;
+        // Ignore derived features.
+        //
+        EStructuralFeature feature = eClass.getEStructuralFeature(i);
+        if (!feature.isDerived())
+        {
+          // If the set states aren't the same, or the values of the feature are not the structurally equal, they aren't equal.
+          //
+          boolean eIsSet = eObject1.eIsSet(feature);
+          if (eIsSet != eObject2.eIsSet(feature) ||
+                (feature instanceof EReference ?
+                  !haveEqualReference(eObject1, eObject2, (EReference)feature) :
+                  !haveEqualAttribute(eObject1, eObject2, (EAttribute)feature)))
+          {
+            return false;
+          }
+        }
       }
-
+      
+      // There's no reason they aren't equal, so they are.
+      //
       return true;
     }
 
     /**
-     * @return true if attributes are not {@link EObject#eIsSet(EStructuralFeature) set} or set to the same value for eObject1 and eObject2, false otherwise.
-     * (It is assumed that eObject1 and eObject2 have the same {@link EObject#eClass EClass}.)
+     * Returns whether <code>list1</code> and <code>list2</code> contain 
+     * {@link #equals(EObject, EObject) equal} {@link EObject}s at the same index.
+     * It is assumed that list1 and list2 only contain EObjects.
+     * @return whether <code>list1</code> and <code>list2</code> contain equal objects.
      * @since 2.1.0
      */
-    protected boolean haveEqualAttributes(EObject eObject1, EObject eObject2)
-    {
-      List attributes = eObject1.eClass().getEAllAttributes();
-      // (perf: try to remove all iterators in EqualityHelper.)
-      for (Iterator i = attributes.iterator(); i.hasNext();)
-      {
-        EAttribute attribute = (EAttribute)i.next();
-        if (!attribute.isDerived())
-        {
-          if (!haveEqualAttribute(eObject1, eObject2, attribute))
-          {
-            return false;
-          }
-        }
-      }
-      return true;
-    }
-
-    /**
-     * @return true if attribute is not {@link EObject#eIsSet(EStructuralFeature) set} or set to the same value for eObject1 and eObject2, false otherwise.
-     * (It is assumed that attribute is part of eObject1 and eObject2's {@link EClass#getEAllAttributes attributes}.)
-     * @since 2.1.0
-     */
-    protected boolean haveEqualAttribute(EObject eObject1, EObject eObject2, EAttribute attribute)
-    {
-      boolean featureIsSet = eObject1.eIsSet(attribute);
-      if (featureIsSet != eObject2.eIsSet(attribute))
-      {
-        return false;
-      }
-
-      if (!featureIsSet)
-      { // the feature is not set for eObject1 and eObject2.
-        return true;
-      }
-
-      // attribute is set for eObject1 and eObject2.
-      Object value1 = eObject1.eGet(attribute);
-      Object value2 = eObject2.eGet(attribute);
-
-      // return true if both values are null, false if only one is null.
-      if (value1 == null)
-      {
-        if (value2 == null)
-        {
-          return true;
-        }
-        return false;
-      }
-      if (value2 == null)
-      {
-        return false;
-      }
-
-      // handle the FeatureMap special case.
-      if (FeatureMapUtil.isFeatureMap(attribute))
-      {
-        FeatureMap featureMap1 = (FeatureMap)value1;
-        FeatureMap featureMap2 = (FeatureMap)value2;
-        return haveEqualFeatureMap(eObject1, eObject2, featureMap1, featureMap2);
-      }
-
-      // if not FeatureMap, use Object equals.
-      return value1.equals(value2);
-    }
-
-    /**
-     * @return true if featureMap1 and featureMap2 are equal.
-     * @since 2.1.0
-     */
-    protected boolean haveEqualFeatureMap(EObject eObject1, EObject eObject2, FeatureMap featureMap1, FeatureMap featureMap2)
-    {
-      int size = featureMap1.size();
-
-      if (size != featureMap2.size())
-      {
-        return false;
-      }
-
-      // cross-feature order is important. compare each entry in order.
-      for (int i = 0; i < size; i++)
-      {
-        FeatureMap.Entry entry1 = (FeatureMap.Entry)featureMap1.get(i);
-        FeatureMap.Entry entry2 = (FeatureMap.Entry)featureMap2.get(i);
-
-        EStructuralFeature feature = entry1.getEStructuralFeature();
-        // do both entries at this index have the same feature?
-        if (feature != entry2.getEStructuralFeature())
-        {
-          return false;
-        }
-
-        Object value1 = entry1.getValue();
-        Object value2 = entry2.getValue();
-
-        if (feature instanceof EReference)
-        { // isContainer() == false.
-          if (!equals((EObject)value1, (EObject)value2))
-          {
-            return false;
-          }
-        }
-        else
-        { // value1 and value2 are attributes.
-          // return false if only one is value is null.
-          if (value1 == null)
-          {
-            if (value2 != null)
-            {
-              // an entry may have a null value for a multiplicity-one feature.
-              return false;
-            }
-          }
-          else if (value2 == null)
-          {
-            return false;
-          }
-
-          // none of value1 and value2 is null.
-          // eIsSet() is true on that attribute because there is an entry.
-          // a FeatureMap.Entry can not have a FeatureMap value.
-          // use Object equals.
-          else if (!value1.equals(value2))
-          {
-            return false;
-          }
-        }
-      }
-
-      return true;
-    }
-
-    /**
-     * @return true if refrences are not {@link EObject#eIsSet(EStructuralFeature) set} or refer to equal EObjects for eObject1 and eObject2 are equal, false otherwise.
-     * (It is assumed that eObject1 and eObject2 have the same {@link EObject#eClass EClass}.)
-     * @since 2.1.0
-     */
-    protected boolean haveEqualReferences(EObject eObject1, EObject eObject2)
-    {
-      List references = eObject1.eClass().getEAllReferences();
-      for (Iterator i = references.iterator(); i.hasNext();)
-      {
-        EReference reference = (EReference)i.next();
-        if (!reference.isContainer() && !reference.isDerived())
-        {
-          if (!haveEqualReference(eObject1, eObject2, reference))
-          {
-            return false;
-          }
-        }
-      }
-      return true;
-    }
-
-    /**
-     * @return true if reference is not {@link EObject#eIsSet(EStructuralFeature) set} or set to equal EObjects for eObject1 and eObject2, false otherwise.
-     * (It is assumed that reference is part of eObject1 and eObject2's {@link EClass#getEAllReferences references}.)
-     * @since 2.1.0
-     */
-    protected boolean haveEqualReference(EObject eObject1, EObject eObject2, EReference reference)
-    {
-      boolean featureIsSet = eObject1.eIsSet(reference);
-      if (featureIsSet != eObject2.eIsSet(reference))
-      {
-        return false;
-      }
-
-      if (!featureIsSet)
-      { // the feature is not set for eObject1 and eObject2.
-        return true;
-      }
-
-      Object value1 = eObject1.eGet(reference);
-      Object value2 = eObject2.eGet(reference);
-
-      if (reference.isMany())
-      {
-        return equals((List)value1, (List)value2);
-      }
-      return equals((EObject)value1, (EObject)value2);
-    }
-
-    /**
-     * @return true if list1 and list2 contain equal EObjects at the same index.
-     * (It is assumed that list1 and list2 only contain EObjects.)
-     * @since 2.1.0
-     */
-    protected boolean equals(List list1, List list2)
+    public boolean equals(List list1, List list2)
     {
       int size = list1.size();
       if (size != list2.size())
@@ -1755,6 +1584,119 @@ public class EcoreUtil
       return true;
     }
 
+    /**
+     * Returns whether the two objects have {@link EqualityHelper equal} {@link EObject#eGet(EStructuralFeature) value}s for the reference.
+     * @return whether the two objects have equal values for the reference.
+     * @since 2.1.0
+     * @see #equals(EObject, EObject)
+     * @see #equals(List, List)
+     */
+    protected boolean haveEqualReference(EObject eObject1, EObject eObject2, EReference reference)
+    {
+      Object value1 = eObject1.eGet(reference);
+      Object value2 = eObject2.eGet(reference);
+
+      return 
+        reference.isMany() ?
+          equals((List)value1, (List)value2) :
+          equals((EObject)value1, (EObject)value2);
+    }
+
+
+    /**
+     * Returns whether the two objects have {@link EqualityHelper equal} {@link EObject#eGet(EStructuralFeature) value}s for the attribute.
+     * @return whether the two objects have equal values for the attribute.
+     * @since 2.1.0
+     * @see #equalFeatureMaps(FeatureMap, FeatureMap)
+     */
+    protected boolean haveEqualAttribute(EObject eObject1, EObject eObject2, EAttribute attribute)
+    {
+      Object value1 = eObject1.eGet(attribute);
+      Object value2 = eObject2.eGet(attribute);
+
+      // If the first value is null, the second value must be null.
+      //
+      if (value1 == null)
+      {
+        return value2 == null;
+      }
+      
+      // Since the first value isn't null, if the second one is, they aren't equal.
+      //
+      if (value2 == null)
+      {
+        return false;
+      }
+
+      // If this is a feature map...
+      //
+      if (FeatureMapUtil.isFeatureMap(attribute))
+      {
+        // The feature maps must be equal.
+        //
+        FeatureMap featureMap1 = (FeatureMap)value1;
+        FeatureMap featureMap2 = (FeatureMap)value2;
+        return equalFeatureMaps(featureMap1, featureMap2);
+      }
+      else
+      {
+        // The values must be Java equal.
+        //
+        return value1.equals(value2);
+      }
+    }
+
+    /**
+     * Returns whether the two feature maps are {@link EqualityHelper equal}.
+     * @return whether the two feature maps are equal.
+     * @since 2.1.0
+     */
+    protected boolean equalFeatureMaps(FeatureMap featureMap1, FeatureMap featureMap2)
+    {
+      // If they don't have the same size, the feature maps aren't equal.
+      //
+      int size = featureMap1.size();
+      if (size != featureMap2.size())
+      {
+        return false;
+      }
+
+      // Compare entries in order.
+      //
+      for (int i = 0; i < size; i++)
+      {
+        // If entries don't have the same feature, the feature maps aren't equal.
+        //
+        EStructuralFeature feature = featureMap1.getEStructuralFeature(i);
+        if (feature != featureMap2.getEStructuralFeature(i))
+        {
+          return false;
+        }
+
+        Object value1 = featureMap1.getValue(i);
+        Object value2 = featureMap2.getValue(i);
+
+        if (feature instanceof EReference)
+        { 
+          // If the referenced EObjects aren't equal, the feature maps aren't equal.
+          //
+          if (!equals((EObject)value1, (EObject)value2))
+          {
+            return false;
+          }
+        }
+        // If the values aren't Java equal, the feature maps aren't equal.
+        //
+        else if (value1 == null ? value2 != null : !value1.equals(value2))
+        { 
+          return false;
+        }
+      }
+
+      // There is no reason they aren't equals.
+      //
+      return true;
+    }
   } // EqualityHelper
 
   /**
@@ -3167,5 +3109,5 @@ public class EcoreUtil
    }
    }
    */
-            }
+}
 
