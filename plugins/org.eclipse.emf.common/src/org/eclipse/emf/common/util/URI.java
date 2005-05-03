@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.15 2005/05/02 21:59:25 davidms Exp $
+ * $Id: URI.java,v 1.16 2005/05/03 18:40:54 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -757,7 +757,8 @@ public final class URI
    * <pre>
    *   /project-name/path</pre>
    *
-   * <p>If not included, the leading path separator will be added.  The
+   * <p>Platform-specific path separators will be converterted to slashes.
+   * If not included, the leading path separator will be added.  The
    * result will be of this form, which is parsed using {@link #createURI
    * createURI}:
    * <pre>
@@ -792,7 +793,8 @@ public final class URI
    * <pre>
    *   /project-name/path</pre>
    *
-   * <p>If not included, the leading path separator will be added.  The
+   * <p>Platform-specific path separators will be converterted to slashes.
+   * If not included, the leading path separator will be added.  The
    * result will be of this form, which is parsed using {@link #createURI
    * createURI}:
    * <pre>
@@ -816,6 +818,11 @@ public final class URI
    */
   public static URI createPlatformResourceURI(String pathName, boolean encode)
   {
+    if (File.separatorChar != SEGMENT_SEPARATOR)
+    {
+      pathName = pathName.replace(File.separatorChar, SEGMENT_SEPARATOR);
+    }
+
     if (encode)
     {
       pathName = encode(pathName, PATH_CHAR_HI, PATH_CHAR_LO, false);
