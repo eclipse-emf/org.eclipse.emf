@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractTreeIterator.java,v 1.2 2005/05/02 20:36:52 bportier Exp $
+ * $Id: AbstractTreeIterator.java,v 1.3 2005/05/05 16:02:49 bportier Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -107,7 +107,6 @@ public abstract class AbstractTreeIterator extends BasicEList implements TreeIte
     // After that the stack should be non-empty and the top iterator should yield true for hasNext.
     return data == null || !isEmpty() && ((Iterator)data[size - 1]).hasNext();
   }
-
 
   /**
    * Returns the next object and advances the iterator.
