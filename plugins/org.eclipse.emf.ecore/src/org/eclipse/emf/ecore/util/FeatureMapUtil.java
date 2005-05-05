@@ -12,8 +12,9 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.18 2005/05/02 20:36:51 bportier Exp $
+ * $Id: FeatureMapUtil.java,v 1.19 2005/05/05 16:10:05 bportier Exp $
  */
+
 package org.eclipse.emf.ecore.util;
 
 

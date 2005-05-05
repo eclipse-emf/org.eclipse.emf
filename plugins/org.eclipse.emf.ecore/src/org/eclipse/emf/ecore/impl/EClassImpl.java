@@ -12,8 +12,9 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.11 2005/05/02 20:36:51 bportier Exp $
+ * $Id: EClassImpl.java,v 1.12 2005/05/05 16:10:05 bportier Exp $
  */
+
 package org.eclipse.emf.ecore.impl;
 
 
