@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.41 2005/05/04 20:22:10 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.42 2005/05/05 13:56:15 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -74,15 +74,15 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected static final int ITERATIONS_20M = 20000000;
 
-  protected static final int ITERATIONS_1_2M = 320000000;
+  protected static final int ITERATIONS_1_2M = 32000000;
 
-  protected static final int ITERATIONS_500K = 120000000;
+  protected static final int ITERATIONS_500K = 12000000;
 
   protected static final int ITERATIONS_400K = 80000000;
 
   protected static final int ITERATIONS_300K = 80000000;
 
-  protected static final int ITERATIONS_80M = 80000000;
+  protected static final int ITERATIONS_80M = 8000000;
 
   protected static final int ITERATIONS_120K = 16000000;
 

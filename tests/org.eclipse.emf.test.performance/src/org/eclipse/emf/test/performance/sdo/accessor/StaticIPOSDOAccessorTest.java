@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.38 2005/05/04 20:22:10 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.39 2005/05/05 13:56:15 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -59,11 +59,11 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 
   protected static final int ITERATIONS_600K = 160000000;
 
-  protected static final int ITERATIONS_1_2M = 32000000;
+  protected static final int ITERATIONS_1_2M = 320000000;
 
   protected static final int ITERATIONS_500K = 12000000;
 
-  protected static final int ITERATIONS_80M = 8000000;
+  protected static final int ITERATIONS_80M = 80000000;
 
   // values for get with generated code.
   protected Address addressBillToValue;
