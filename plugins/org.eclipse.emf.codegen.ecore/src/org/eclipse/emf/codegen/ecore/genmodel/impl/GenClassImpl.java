@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.28 2005/04/22 15:01:59 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.29 2005/05/06 20:20:03 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -851,7 +851,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          {
            public boolean accept(GenOperation genOperation) 
            {
-             if (genOperation.getName().startsWith("get") && genOperation.getGenParameters().isEmpty())
+             if ((genOperation.getName().startsWith("get") || genOperation.getName().startsWith("is")) && genOperation.getGenParameters().isEmpty())
              {
                for (Iterator i = allGenFeatures.iterator(); i.hasNext(); )
                {
