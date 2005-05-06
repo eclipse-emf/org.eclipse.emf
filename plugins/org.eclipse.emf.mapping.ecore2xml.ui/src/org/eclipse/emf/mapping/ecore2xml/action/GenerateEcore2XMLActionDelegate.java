@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: GenerateEcore2XMLActionDelegate.java,v 1.1 2005/03/18 21:04:26 khussey Exp $
+ * $Id: GenerateEcore2XMLActionDelegate.java,v 1.2 2005/05/06 15:03:19 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.action;
 
@@ -69,7 +69,7 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
       if (ECORE2ECORE_FILE_EXTENSION.equals(file.getFullPath().getFileExtension()))
       {
         return (Ecore2EcoreMappingRoot)EcoreUtil.getObjectByType(new ResourceSetImpl().getResource(
-          URI.createPlatformResourceURI(file.getFullPath().toString()),
+          URI.createPlatformResourceURI(file.getFullPath().toString(), true),
           true).getContents(), Ecore2EcorePackage.eINSTANCE.getEcore2EcoreMappingRoot());
       }
     }

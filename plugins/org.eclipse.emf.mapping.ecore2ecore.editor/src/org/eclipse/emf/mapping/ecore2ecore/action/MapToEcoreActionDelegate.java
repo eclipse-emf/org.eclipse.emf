@@ -1,5 +1,7 @@
-/*
- * Copyright (c) 2004 IBM Corporation and others.
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,7 +10,9 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: MapToEcoreActionDelegate.java,v 1.1 2004/04/28 18:59:02 davidms Exp $
+ * </copyright>
+ *
+ * $Id: MapToEcoreActionDelegate.java,v 1.2 2005/05/06 15:03:18 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.action;
 
@@ -64,9 +68,9 @@ public class MapToEcoreActionDelegate extends ActionDelegate
 
       if (ECORE_FILE_EXTENSION.equals(file.getFullPath().getFileExtension()))
       {
-        return (EPackage)EcoreUtil.getObjectByType(
-          new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toString()), true).getContents(),
-          EcorePackage.eINSTANCE.getEPackage());
+        return (EPackage)EcoreUtil.getObjectByType(new ResourceSetImpl().getResource(
+          URI.createPlatformResourceURI(file.getFullPath().toString(), true),
+          true).getContents(), EcorePackage.eINSTANCE.getEPackage());
       }
     }
 
@@ -115,7 +119,7 @@ public class MapToEcoreActionDelegate extends ActionDelegate
                   if (resource.getType() == IResource.FILE && ECORE_FILE_EXTENSION.equals(resource.getFullPath().getFileExtension()))
                   {
                     Resource outputResource = inputResource.getResourceSet().getResource(
-                      URI.createPlatformResourceURI(resource.getFullPath().toString()),
+                      URI.createPlatformResourceURI(resource.getFullPath().toString(), true),
                       true);
                     EPackage outputEPackage = (EPackage)EcoreUtil.getObjectByType(
                       outputResource.getContents(),

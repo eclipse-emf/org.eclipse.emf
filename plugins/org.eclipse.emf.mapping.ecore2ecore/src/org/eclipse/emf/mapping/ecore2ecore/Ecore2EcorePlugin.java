@@ -1,5 +1,7 @@
-/*
- * Copyright (c) 2004 IBM Corporation and others.
+/**
+ * <copyright>
+ * 
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,7 +10,9 @@
  * Contributors:
  *   IBM - Initial API and implementation
  *
- * $Id: Ecore2EcorePlugin.java,v 1.3 2004/06/08 18:20:43 emerks Exp $
+ * </copyright>
+ *
+ * $Id: Ecore2EcorePlugin.java,v 1.4 2005/05/06 15:03:21 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore;
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLModelWizard.java,v 1.2 2005/04/20 20:25:12 khussey Exp $
+ * $Id: Ecore2XMLModelWizard.java,v 1.3 2005/05/06 15:03:19 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -63,9 +63,6 @@ import org.eclipse.swt.SWT;
 
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.ModifyEvent;
-
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
