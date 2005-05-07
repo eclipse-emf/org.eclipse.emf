@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGen.java,v 1.3 2005/04/05 21:58:03 emerks Exp $
+ * $Id: CodeGen.java,v 1.4 2005/05/07 09:49:25 davidms Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -103,6 +103,26 @@ public class CodeGen implements IPlatformRunnable
         printStream.println(">>  " + name);
       }
       super.subTask(name);
+    }
+  }
+
+  /**
+   * This is used to print text via a progress monitor, by delegating to {@link IProgressMonitor#subTask subTask}.
+   * It can be safely passed around among short-running methods, instead of SubProgressMonitors, without worrying
+   * about beginning, ending, or counting ticks.
+   */
+  public static class ProgressMonitorPrinter
+  {
+    protected IProgressMonitor progressMonitor;
+    
+    public ProgressMonitorPrinter(IProgressMonitor progressMonitor)
+    {
+      this.progressMonitor = progressMonitor;
+    }
+
+    public void print(String message)
+    {
+      progressMonitor.subTask(message);
     }
   }
 
