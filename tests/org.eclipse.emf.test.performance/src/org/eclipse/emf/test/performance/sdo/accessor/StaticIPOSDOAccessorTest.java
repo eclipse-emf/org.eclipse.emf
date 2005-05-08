@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.41 2005/05/07 15:08:43 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.42 2005/05/08 03:30:45 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -99,12 +99,12 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByGenerated").setWarmUp(4).setRepetitions(REPETITIONS_50));
 //    testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
 //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(5).setRepetitions(REPETITIONS_100));
-      testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(4).setRepetitions(REPETITIONS_100));
+//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(4).setRepetitions(REPETITIONS_100));
 //    testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(2000).setRepetitions(REPETITIONS_5));
 //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(10).setRepetitions(REPETITIONS_50));
 
-      testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(3).setRepetitions(REPETITIONS_100));
-      testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
+//OK testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(3).setRepetitions(REPETITIONS_100));
+//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
 //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(3).setRepetitions(REPETITIONS_50));
 //
 //    testSuite.addTest(new StaticIPOSDOAccessorTest("getStringByName").setWarmUp(2000).setRepetitions(REPETITIONS_50));
