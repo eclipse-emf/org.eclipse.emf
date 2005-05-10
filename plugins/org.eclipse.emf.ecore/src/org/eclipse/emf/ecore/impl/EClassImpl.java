@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.12 2005/05/05 16:10:05 bportier Exp $
+ * $Id: EClassImpl.java,v 1.13 2005/05/10 11:16:55 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -654,34 +654,18 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return eAllStructuralFeaturesData;
   }
   
-  private static final boolean BEFORE = false;
-  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public int getFeatureCount()
   {
-    if (BEFORE)
-    {
-      return getEAllStructuralFeatures().size();
-    }
-    
     return getEAllStructuralFeaturesData().length;
   }
   
   public EStructuralFeature getEStructuralFeature(int featureID) 
   {
-    if (BEFORE)
-    {
-      List features = getEAllStructuralFeatures();
-      return 
-        featureID >= 0 && featureID < features.size() ? 
-          (EStructuralFeature)features.get(featureID) : 
-          null;
-    }
-    
     EStructuralFeature [] eAllStructuralFeaturesData  = getEAllStructuralFeaturesData();
     return 
       featureID >= 0 && featureID < eAllStructuralFeaturesData.length ? 
@@ -696,11 +680,6 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    */
   public int getFeatureID(EStructuralFeature feature)
   {
-    if (BEFORE)
-    {
-      return getEAllStructuralFeatures().indexOf(feature);
-    }
-    
     EStructuralFeature [] eAllStructuralFeaturesData  = getEAllStructuralFeaturesData();
     int index = feature.getFeatureID();
     if (index != -1)
