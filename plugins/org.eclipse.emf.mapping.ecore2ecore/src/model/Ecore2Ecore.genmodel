@@ -2,10 +2,9 @@
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.mapping.ecore2ecore/src"
     creationCommands="false" editDirectory="/org.eclipse.emf.mapping.ecore2ecore/src"
-    editorDirectory="/org.eclipse.emf.mapping.ecore2ecore.editor/src" modelPluginID="org.eclipse.emf.mapping.ecore2ecore"
-    runtimeJar="true" modelName="Ecore2Ecore" editPluginClass="org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePlugin"
-    editorPluginClass="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorPlugin"
-    runtimeCompatibility="false" usedGenPackages="../../../org.eclipse.emf.mapping/src/model/Mapping.genmodel#//mapping ../../../org.eclipse.emf.ecore/src/model/Ecore.genmodel#//ecore">
+    modelPluginID="org.eclipse.emf.mapping.ecore2ecore" runtimeJar="true" modelName="Ecore2Ecore"
+    editPluginClass="org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePlugin" runtimeCompatibility="false"
+    testsDirectory="" importerID="org.eclipse.emf.importer.rose" usedGenPackages="../../../org.eclipse.emf.mapping/src/model/Mapping.genmodel#//mapping ../../../org.eclipse.emf.ecore/src/model/Ecore.genmodel#//ecore">
   <foreignModel>Ecore2Ecore.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>
