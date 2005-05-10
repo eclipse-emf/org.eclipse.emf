@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.13 2005/04/27 21:28:22 khussey Exp $
+ * $Id: GenModelItemProvider.java,v 1.14 2005/05/10 21:28:32 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -967,6 +967,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_FIELD:
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
+      case GenModelPackage.GEN_MODEL__IMPORTER_ID:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
