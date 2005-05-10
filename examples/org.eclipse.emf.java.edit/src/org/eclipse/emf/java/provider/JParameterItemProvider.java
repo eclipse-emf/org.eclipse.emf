@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JParameterItemProvider.java,v 1.2 2004/06/08 18:25:28 emerks Exp $
+ * $Id: JParameterItemProvider.java,v 1.3 2005/05/10 11:38:08 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -35,7 +35,7 @@ import org.eclipse.emf.java.JavaPackage;
 
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.java.JParameter} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.java.JParameter} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -84,14 +84,16 @@ public class JParameterItemProvider
   protected void addFinalPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JParameter_final_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JParameter_final_feature", "_UI_JParameter_type"),
          JavaPackage.eINSTANCE.getJParameter_Final(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -103,13 +105,16 @@ public class JParameterItemProvider
   protected void addMethodPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JParameter_method_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JParameter_method_feature", "_UI_JParameter_type"),
          JavaPackage.eINSTANCE.getJParameter_Method(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -121,13 +126,16 @@ public class JParameterItemProvider
   protected void addTypePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JParameter_type_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JParameter_type_feature", "_UI_JParameter_type"),
          JavaPackage.eINSTANCE.getJParameter_Type(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodItemProvider.java,v 1.2 2004/06/08 18:25:28 emerks Exp $
+ * $Id: JMethodItemProvider.java,v 1.3 2005/05/10 11:38:08 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.java.JavaPackage;
 
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.java.JMethod} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.java.JMethod} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -95,14 +95,16 @@ public class JMethodItemProvider
   protected void addAbstractPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMethod_abstract_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_abstract_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Abstract(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -114,14 +116,16 @@ public class JMethodItemProvider
   protected void addFinalPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMethod_final_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_final_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Final(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -133,14 +137,16 @@ public class JMethodItemProvider
   protected void addNativePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMethod_native_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_native_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Native(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -152,14 +158,16 @@ public class JMethodItemProvider
   protected void addSynchronizedPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMethod_synchronized_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_synchronized_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Synchronized(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -171,14 +179,16 @@ public class JMethodItemProvider
   protected void addJavaMethodPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMethod_javaMethod_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_javaMethod_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_JavaMethod(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -190,14 +200,16 @@ public class JMethodItemProvider
   protected void addConstructorPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMethod_constructor_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_constructor_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Constructor(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -209,14 +221,16 @@ public class JMethodItemProvider
   protected void addJavaConstructorPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMethod_javaConstructor_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_javaConstructor_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_JavaConstructor(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -228,14 +242,16 @@ public class JMethodItemProvider
   protected void addBodyPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMethod_body_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_body_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Body(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -247,13 +263,16 @@ public class JMethodItemProvider
   protected void addParametersPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMethod_parameters_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_parameters_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Parameters(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -265,13 +284,16 @@ public class JMethodItemProvider
   protected void addExceptionsPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMethod_exceptions_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_exceptions_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_Exceptions(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -283,13 +305,16 @@ public class JMethodItemProvider
   protected void addReturnTypePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMethod_returnType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_returnType_feature", "_UI_JMethod_type"),
          JavaPackage.eINSTANCE.getJMethod_ReturnType(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**

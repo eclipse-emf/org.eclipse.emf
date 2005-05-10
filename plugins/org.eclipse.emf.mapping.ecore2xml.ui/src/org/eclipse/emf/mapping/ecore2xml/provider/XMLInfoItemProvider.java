@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfoItemProvider.java,v 1.2 2005/04/20 20:25:12 khussey Exp $
+ * $Id: XMLInfoItemProvider.java,v 1.3 2005/05/10 11:42:26 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -22,9 +22,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -34,10 +32,8 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage;
 import org.eclipse.emf.mapping.ecore2xml.XMLInfo;
-
 import org.eclipse.emf.mapping.ecore2xml.ui.Ecore2XMLUIPlugin;
 
 /**
@@ -94,14 +90,16 @@ public class XMLInfoItemProvider
   protected void addNamePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_XMLInfo_name_feature"), //$NON-NLS-1$
          getString("_UI_PropertyDescriptor_description", "_UI_XMLInfo_name_feature", "_UI_XMLInfo_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          Ecore2XMLPackage.eINSTANCE.getXMLInfo_Name(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -113,14 +111,16 @@ public class XMLInfoItemProvider
   protected void addTargetNamespacePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_XMLInfo_targetNamespace_feature"), //$NON-NLS-1$
          getString("_UI_PropertyDescriptor_description", "_UI_XMLInfo_targetNamespace_feature", "_UI_XMLInfo_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          Ecore2XMLPackage.eINSTANCE.getXMLInfo_TargetNamespace(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -132,14 +132,16 @@ public class XMLInfoItemProvider
   protected void addXMLRepresentationPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_XMLInfo_xMLRepresentation_feature"), //$NON-NLS-1$
          getString("_UI_PropertyDescriptor_description", "_UI_XMLInfo_xMLRepresentation_feature", "_UI_XMLInfo_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          Ecore2XMLPackage.eINSTANCE.getXMLInfo_XMLRepresentation(),
          true,
-         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE));
+         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**

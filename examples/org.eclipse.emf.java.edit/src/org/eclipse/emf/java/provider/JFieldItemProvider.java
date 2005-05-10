@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JFieldItemProvider.java,v 1.2 2004/06/08 18:25:28 emerks Exp $
+ * $Id: JFieldItemProvider.java,v 1.3 2005/05/10 11:38:08 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -35,7 +35,7 @@ import org.eclipse.emf.java.JavaPackage;
 
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.java.JField} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.java.JField} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -87,14 +87,16 @@ public class JFieldItemProvider
   protected void addFinalPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JField_final_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_final_feature", "_UI_JField_type"),
          JavaPackage.eINSTANCE.getJField_Final(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -106,14 +108,16 @@ public class JFieldItemProvider
   protected void addTransientPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JField_transient_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_transient_feature", "_UI_JField_type"),
          JavaPackage.eINSTANCE.getJField_Transient(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -125,14 +129,16 @@ public class JFieldItemProvider
   protected void addVolatilePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JField_volatile_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_volatile_feature", "_UI_JField_type"),
          JavaPackage.eINSTANCE.getJField_Volatile(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -144,14 +150,16 @@ public class JFieldItemProvider
   protected void addJavaFieldPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JField_javaField_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_javaField_feature", "_UI_JField_type"),
          JavaPackage.eINSTANCE.getJField_JavaField(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -163,14 +171,16 @@ public class JFieldItemProvider
   protected void addInitializerPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JField_initializer_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_initializer_feature", "_UI_JField_type"),
          JavaPackage.eINSTANCE.getJField_Initializer(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -182,13 +192,16 @@ public class JFieldItemProvider
   protected void addTypePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JField_type_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_type_feature", "_UI_JField_type"),
          JavaPackage.eINSTANCE.getJField_Type(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**

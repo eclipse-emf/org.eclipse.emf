@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JModelElementItemProvider.java,v 1.2 2004/06/08 18:25:28 emerks Exp $
+ * $Id: JModelElementItemProvider.java,v 1.3 2005/05/10 11:38:08 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -36,7 +36,7 @@ import org.eclipse.emf.java.JavaPackage;
 
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.java.JModelElement} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.java.JModelElement} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -84,14 +84,16 @@ public class JModelElementItemProvider
   protected void addNamePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JModelElement_name_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JModelElement_name_feature", "_UI_JModelElement_type"),
          JavaPackage.eINSTANCE.getJModelElement_Name(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -103,14 +105,16 @@ public class JModelElementItemProvider
   protected void addJNodePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JModelElement_jNode_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JModelElement_jNode_feature", "_UI_JModelElement_type"),
          JavaPackage.eINSTANCE.getJModelElement_JNode(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMemberItemProvider.java,v 1.2 2004/06/08 18:25:28 emerks Exp $
+ * $Id: JMemberItemProvider.java,v 1.3 2005/05/10 11:38:08 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -35,7 +35,7 @@ import org.eclipse.emf.java.JavaPackage;
 
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.java.JMember} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.java.JMember} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -85,14 +85,16 @@ public class JMemberItemProvider
   protected void addStaticPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMember_static_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_static_feature", "_UI_JMember_type"),
          JavaPackage.eINSTANCE.getJMember_Static(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -104,14 +106,16 @@ public class JMemberItemProvider
   protected void addVisibilityPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMember_visibility_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_visibility_feature", "_UI_JMember_type"),
          JavaPackage.eINSTANCE.getJMember_Visibility(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -123,14 +127,16 @@ public class JMemberItemProvider
   protected void addCommentPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMember_comment_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_comment_feature", "_UI_JMember_type"),
          JavaPackage.eINSTANCE.getJMember_Comment(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -142,13 +148,16 @@ public class JMemberItemProvider
   protected void addContainingTypePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JMember_containingType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_containingType_feature", "_UI_JMember_type"),
          JavaPackage.eINSTANCE.getJMember_ContainingType(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**

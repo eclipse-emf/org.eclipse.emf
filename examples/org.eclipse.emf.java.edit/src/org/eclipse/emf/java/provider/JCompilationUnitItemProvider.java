@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitItemProvider.java,v 1.3 2004/06/08 18:25:28 emerks Exp $
+ * $Id: JCompilationUnitItemProvider.java,v 1.4 2005/05/10 11:38:08 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -36,7 +36,7 @@ import org.eclipse.emf.java.JavaPackage;
 
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.java.JCompilationUnit} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.java.JCompilationUnit} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -88,14 +88,16 @@ public class JCompilationUnitItemProvider
   protected void addImportsPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JCompilationUnit_imports_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_imports_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.eINSTANCE.getJCompilationUnit_Imports(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -107,13 +109,16 @@ public class JCompilationUnitItemProvider
   protected void addPackagePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JCompilationUnit_package_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_package_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.eINSTANCE.getJCompilationUnit_Package(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -143,14 +148,16 @@ public class JCompilationUnitItemProvider
   protected void addCommentPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JCompilationUnit_comment_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_comment_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.eINSTANCE.getJCompilationUnit_Comment(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -162,13 +169,16 @@ public class JCompilationUnitItemProvider
   protected void addTypesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JCompilationUnit_types_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_types_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.eINSTANCE.getJCompilationUnit_Types(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -180,13 +190,16 @@ public class JCompilationUnitItemProvider
   protected void addImportedPackagesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JCompilationUnit_importedPackages_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_importedPackages_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.eINSTANCE.getJCompilationUnit_ImportedPackages(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -198,13 +211,16 @@ public class JCompilationUnitItemProvider
   protected void addImportedTypesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JCompilationUnit_importedTypes_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_importedTypes_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.eINSTANCE.getJCompilationUnit_ImportedTypes(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassItemProvider.java,v 1.3 2004/06/08 18:25:28 emerks Exp $
+ * $Id: JClassItemProvider.java,v 1.4 2005/05/10 11:38:08 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.java.JavaPackage;
 
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.java.JClass} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.java.JClass} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -99,14 +99,16 @@ public class JClassItemProvider
   protected void addAbstractPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_abstract_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_abstract_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Abstract(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -118,14 +120,16 @@ public class JClassItemProvider
   protected void addFinalPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_final_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_final_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Final(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -137,14 +141,16 @@ public class JClassItemProvider
   protected void addInterfacePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_interface_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_interface_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Interface(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -156,14 +162,16 @@ public class JClassItemProvider
   protected void addThrowablePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_throwable_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_throwable_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Throwable(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -175,14 +183,16 @@ public class JClassItemProvider
   protected void addJavaClassPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_javaClass_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_javaClass_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_JavaClass(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -194,13 +204,16 @@ public class JClassItemProvider
   protected void addFieldsPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_fields_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_fields_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Fields(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -212,13 +225,16 @@ public class JClassItemProvider
   protected void addMethodsPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_methods_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_methods_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Methods(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -230,13 +246,16 @@ public class JClassItemProvider
   protected void addSuperTypesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_superTypes_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_superTypes_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_SuperTypes(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -248,13 +267,16 @@ public class JClassItemProvider
   protected void addAllSuperTypesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_allSuperTypes_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_allSuperTypes_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_AllSuperTypes(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -266,13 +288,16 @@ public class JClassItemProvider
   protected void addMembersPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_members_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_members_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Members(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -284,13 +309,16 @@ public class JClassItemProvider
   protected void addComponentTypePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_componentType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_componentType_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_ComponentType(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -302,13 +330,16 @@ public class JClassItemProvider
   protected void addUnitPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_unit_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_unit_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Unit(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -320,13 +351,16 @@ public class JClassItemProvider
   protected void addAllMethodsPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_allMethods_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_allMethods_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_AllMethods(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -338,13 +372,16 @@ public class JClassItemProvider
   protected void addAllFieldsPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_allFields_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_allFields_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_AllFields(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -356,13 +393,16 @@ public class JClassItemProvider
   protected void addPackagePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JClass_package_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_package_feature", "_UI_JClass_type"),
          JavaPackage.eINSTANCE.getJClass_Package(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**

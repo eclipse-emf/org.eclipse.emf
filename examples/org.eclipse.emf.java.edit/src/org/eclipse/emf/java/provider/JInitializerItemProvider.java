@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JInitializerItemProvider.java,v 1.2 2004/06/08 18:25:28 emerks Exp $
+ * $Id: JInitializerItemProvider.java,v 1.3 2005/05/10 11:38:08 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -35,7 +35,7 @@ import org.eclipse.emf.java.JavaPackage;
 
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.java.JInitializer} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.java.JInitializer} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -82,14 +82,16 @@ public class JInitializerItemProvider
   protected void addBodyPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_JInitializer_body_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JInitializer_body_feature", "_UI_JInitializer_type"),
          JavaPackage.eINSTANCE.getJInitializer_Body(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
