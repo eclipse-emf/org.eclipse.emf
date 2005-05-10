@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationItemProvider.java,v 1.5 2005/04/20 03:00:23 davidms Exp $
+ * $Id: EOperationItemProvider.java,v 1.6 2005/05/10 11:24:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -35,10 +35,8 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-
-
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.ecore.EOperation} object.
@@ -88,13 +86,16 @@ public class EOperationItemProvider
   protected void addEExceptionsPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EOperation_eExceptions_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EOperation_eExceptions_feature", "_UI_EOperation_type"),
          EcorePackage.eINSTANCE.getEOperation_EExceptions(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceChangeItemProvider.java,v 1.5 2005/04/20 03:00:18 davidms Exp $
+ * $Id: ResourceChangeItemProvider.java,v 1.6 2005/05/10 11:19:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -80,14 +80,16 @@ public class ResourceChangeItemProvider
   protected void addResourceURIPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ResourceChange_resourceURI_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ResourceChange_resourceURI_feature", "_UI_ResourceChange_type"),
          ChangePackage.eINSTANCE.getResourceChange_ResourceURI(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -99,14 +101,16 @@ public class ResourceChangeItemProvider
   protected void addResourcePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ResourceChange_resource_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ResourceChange_resource_feature", "_UI_ResourceChange_type"),
          ChangePackage.eINSTANCE.getResourceChange_Resource(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -118,14 +122,16 @@ public class ResourceChangeItemProvider
   protected void addValuePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ResourceChange_value_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ResourceChange_value_feature", "_UI_ResourceChange_type"),
          ChangePackage.eINSTANCE.getResourceChange_Value(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**

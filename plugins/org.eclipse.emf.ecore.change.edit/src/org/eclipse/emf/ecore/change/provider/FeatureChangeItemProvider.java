@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeItemProvider.java,v 1.5 2005/04/20 03:00:18 davidms Exp $
+ * $Id: FeatureChangeItemProvider.java,v 1.6 2005/05/10 11:19:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -90,14 +90,16 @@ public class FeatureChangeItemProvider
   protected void addSetPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_FeatureChange_set_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureChange_set_feature", "_UI_FeatureChange_type"),
          ChangePackage.eINSTANCE.getFeatureChange_Set(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -109,14 +111,16 @@ public class FeatureChangeItemProvider
   protected void addValuePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_FeatureChange_value_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureChange_value_feature", "_UI_FeatureChange_type"),
          ChangePackage.eINSTANCE.getFeatureChange_Value(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -128,13 +132,16 @@ public class FeatureChangeItemProvider
   protected void addFeaturePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_FeatureChange_feature_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureChange_feature_feature", "_UI_FeatureChange_type"),
          ChangePackage.eINSTANCE.getFeatureChange_Feature(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**

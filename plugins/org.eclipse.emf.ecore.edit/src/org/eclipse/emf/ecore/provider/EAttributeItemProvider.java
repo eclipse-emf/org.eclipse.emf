@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeItemProvider.java,v 1.5 2005/04/20 03:00:23 davidms Exp $
+ * $Id: EAttributeItemProvider.java,v 1.6 2005/05/10 11:24:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -85,14 +85,16 @@ public class EAttributeItemProvider
   protected void addIDPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EAttribute_iD_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EAttribute_iD_feature", "_UI_EAttribute_type"),
          EcorePackage.eINSTANCE.getEAttribute_ID(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -104,13 +106,16 @@ public class EAttributeItemProvider
   protected void addEAttributeTypePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EAttribute_eAttributeType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EAttribute_eAttributeType_feature", "_UI_EAttribute_type"),
          EcorePackage.eINSTANCE.getEAttribute_EAttributeType(),
-         false));
+         false,
+         null,
+         null,
+         null));
   }
 
   /**

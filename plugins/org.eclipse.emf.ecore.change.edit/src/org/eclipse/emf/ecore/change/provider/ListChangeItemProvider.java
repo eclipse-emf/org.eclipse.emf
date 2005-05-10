@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeItemProvider.java,v 1.5 2005/04/20 03:00:18 davidms Exp $
+ * $Id: ListChangeItemProvider.java,v 1.6 2005/05/10 11:19:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -91,14 +91,16 @@ public class ListChangeItemProvider
   protected void addKindPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ListChange_kind_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_kind_feature", "_UI_ListChange_type"),
          ChangePackage.eINSTANCE.getListChange_Kind(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -110,14 +112,16 @@ public class ListChangeItemProvider
   protected void addIndexPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ListChange_index_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_index_feature", "_UI_ListChange_type"),
          ChangePackage.eINSTANCE.getListChange_Index(),
          true,
-         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE));
+         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -129,14 +133,16 @@ public class ListChangeItemProvider
   protected void addMoveToIndexPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ListChange_moveToIndex_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_moveToIndex_feature", "_UI_ListChange_type"),
          ChangePackage.eINSTANCE.getListChange_MoveToIndex(),
          true,
-         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE));
+         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -148,14 +154,16 @@ public class ListChangeItemProvider
   protected void addValuesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ListChange_values_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_values_feature", "_UI_ListChange_type"),
          ChangePackage.eINSTANCE.getListChange_Values(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageItemProvider.java,v 1.5 2005/04/20 03:00:23 davidms Exp $
+ * $Id: EPackageItemProvider.java,v 1.6 2005/05/10 11:24:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -88,14 +88,16 @@ public class EPackageItemProvider
   protected void addNsURIPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EPackage_nsURI_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EPackage_nsURI_feature", "_UI_EPackage_type"),
          EcorePackage.eINSTANCE.getEPackage_NsURI(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -107,14 +109,16 @@ public class EPackageItemProvider
   protected void addNsPrefixPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EPackage_nsPrefix_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EPackage_nsPrefix_feature", "_UI_EPackage_type"),
          EcorePackage.eINSTANCE.getEPackage_NsPrefix(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -126,13 +130,16 @@ public class EPackageItemProvider
   protected void addEFactoryInstancePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EPackage_eFactoryInstance_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EPackage_eFactoryInstance_feature", "_UI_EPackage_type"),
          EcorePackage.eINSTANCE.getEPackage_EFactoryInstance(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**

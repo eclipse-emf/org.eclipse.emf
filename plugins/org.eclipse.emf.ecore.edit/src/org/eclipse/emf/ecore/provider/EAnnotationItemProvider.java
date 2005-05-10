@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.8 2005/04/20 03:00:23 davidms Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.9 2005/05/10 11:24:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -86,14 +86,16 @@ public class EAnnotationItemProvider
   protected void addSourcePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EAnnotation_source_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EAnnotation_source_feature", "_UI_EAnnotation_type"),
          EcorePackage.eINSTANCE.getEAnnotation_Source(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -105,13 +107,16 @@ public class EAnnotationItemProvider
   protected void addReferencesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EAnnotation_references_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EAnnotation_references_feature", "_UI_EAnnotation_type"),
          EcorePackage.eINSTANCE.getEAnnotation_References(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryItemProvider.java,v 1.6 2005/04/20 03:00:23 davidms Exp $
+ * $Id: EStringToStringMapEntryItemProvider.java,v 1.7 2005/05/10 11:24:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -90,14 +90,16 @@ public class EStringToStringMapEntryItemProvider
   protected void addKeyPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStringToStringMapEntry_key_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStringToStringMapEntry_key_feature", "_UI_EStringToStringMapEntry_type"),
          EcorePackage.eINSTANCE.getEStringToStringMapEntry_Key(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -109,14 +111,16 @@ public class EStringToStringMapEntryItemProvider
   protected void addValuePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStringToStringMapEntry_value_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStringToStringMapEntry_value_feature", "_UI_EStringToStringMapEntry_type"),
          EcorePackage.eINSTANCE.getEStringToStringMapEntry_Value(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**

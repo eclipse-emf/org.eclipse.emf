@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.8 2005/04/20 03:00:23 davidms Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.9 2005/05/10 11:24:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -95,14 +95,16 @@ public class ETypedElementItemProvider
   protected void addOrderedPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ETypedElement_ordered_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_ordered_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_Ordered(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -114,14 +116,16 @@ public class ETypedElementItemProvider
   protected void addUniquePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ETypedElement_unique_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_unique_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_Unique(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -133,14 +137,16 @@ public class ETypedElementItemProvider
   protected void addLowerBoundPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ETypedElement_lowerBound_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_lowerBound_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_LowerBound(),
          true,
-         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE));
+         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -152,14 +158,16 @@ public class ETypedElementItemProvider
   protected void addUpperBoundPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ETypedElement_upperBound_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_upperBound_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_UpperBound(),
          true,
-         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE));
+         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -171,14 +179,16 @@ public class ETypedElementItemProvider
   protected void addManyPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ETypedElement_many_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_many_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_Many(),
          false,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -190,14 +200,16 @@ public class ETypedElementItemProvider
   protected void addRequiredPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ETypedElement_required_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_required_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_Required(),
          false,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**

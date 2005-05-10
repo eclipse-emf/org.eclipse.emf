@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.6 2005/04/20 03:00:23 davidms Exp $
+ * $Id: EReferenceItemProvider.java,v 1.7 2005/05/10 11:24:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -95,14 +95,16 @@ public class EReferenceItemProvider
   protected void addContainmentPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EReference_containment_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_containment_feature", "_UI_EReference_type"),
          EcorePackage.eINSTANCE.getEReference_Containment(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -114,14 +116,16 @@ public class EReferenceItemProvider
   protected void addContainerPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EReference_container_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_container_feature", "_UI_EReference_type"),
          EcorePackage.eINSTANCE.getEReference_Container(),
          false,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -133,14 +137,16 @@ public class EReferenceItemProvider
   protected void addResolveProxiesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EReference_resolveProxies_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_resolveProxies_feature", "_UI_EReference_type"),
          EcorePackage.eINSTANCE.getEReference_ResolveProxies(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -251,13 +257,16 @@ public class EReferenceItemProvider
   protected void addEReferenceTypePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EReference_eReferenceType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_eReferenceType_feature", "_UI_EReference_type"),
          EcorePackage.eINSTANCE.getEReference_EReferenceType(),
-         false));
+         false,
+         null,
+         null,
+         null));
   }
 
   /**

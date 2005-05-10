@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierItemProvider.java,v 1.5 2005/04/20 03:00:23 davidms Exp $
+ * $Id: EClassifierItemProvider.java,v 1.6 2005/05/10 11:24:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -85,14 +85,16 @@ public class EClassifierItemProvider
   protected void addInstanceClassNamePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClassifier_instanceClassName_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EClassifier_instanceClassName_feature", "_UI_EClassifier_type"),
          EcorePackage.eINSTANCE.getEClassifier_InstanceClassName(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -104,14 +106,16 @@ public class EClassifierItemProvider
   protected void addDefaultValuePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClassifier_defaultValue_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EClassifier_defaultValue_feature", "_UI_EClassifier_type"),
          EcorePackage.eINSTANCE.getEClassifier_DefaultValue(),
          false,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**

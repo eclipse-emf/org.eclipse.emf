@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureItemProvider.java,v 1.5 2005/04/20 03:00:23 davidms Exp $
+ * $Id: EStructuralFeatureItemProvider.java,v 1.6 2005/05/10 11:24:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -93,14 +93,16 @@ public class EStructuralFeatureItemProvider
   protected void addChangeablePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_changeable_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_changeable_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_Changeable(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -112,14 +114,16 @@ public class EStructuralFeatureItemProvider
   protected void addVolatilePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_volatile_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_volatile_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_Volatile(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -131,14 +135,16 @@ public class EStructuralFeatureItemProvider
   protected void addTransientPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_transient_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_transient_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_Transient(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -150,14 +156,16 @@ public class EStructuralFeatureItemProvider
   protected void addDefaultValueLiteralPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_defaultValueLiteral_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_defaultValueLiteral_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_DefaultValueLiteral(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -169,14 +177,16 @@ public class EStructuralFeatureItemProvider
   protected void addDefaultValuePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_defaultValue_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_defaultValue_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_DefaultValue(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -188,14 +198,16 @@ public class EStructuralFeatureItemProvider
   protected void addUnsettablePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_unsettable_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_unsettable_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_Unsettable(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -207,14 +219,16 @@ public class EStructuralFeatureItemProvider
   protected void addDerivedPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_derived_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_derived_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_Derived(),
          true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -226,13 +240,16 @@ public class EStructuralFeatureItemProvider
   protected void addEContainingClassPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_eContainingClass_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_eContainingClass_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.eINSTANCE.getEStructuralFeature_EContainingClass(),
-         false));
+         false,
+         null,
+         null,
+         null));
   }
 
   /**

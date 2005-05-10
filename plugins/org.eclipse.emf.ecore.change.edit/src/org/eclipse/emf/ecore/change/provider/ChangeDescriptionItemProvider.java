@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionItemProvider.java,v 1.5 2005/04/20 03:00:18 davidms Exp $
+ * $Id: ChangeDescriptionItemProvider.java,v 1.6 2005/05/10 11:19:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -33,7 +33,6 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 import org.eclipse.emf.edit.provider.ViewerNotification;
@@ -90,13 +89,16 @@ public class ChangeDescriptionItemProvider
   protected void addObjectsToDetachPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ChangeDescription_objectsToDetach_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ChangeDescription_objectsToDetach_feature", "_UI_ChangeDescription_type"),
          ChangePackage.eINSTANCE.getChangeDescription_ObjectsToDetach(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
