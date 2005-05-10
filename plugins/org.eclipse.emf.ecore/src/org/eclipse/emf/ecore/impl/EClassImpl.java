@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.13 2005/05/10 11:16:55 emerks Exp $
+ * $Id: EClassImpl.java,v 1.14 2005/05/10 11:46:20 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -21,7 +21,6 @@ package org.eclipse.emf.ecore.impl;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
