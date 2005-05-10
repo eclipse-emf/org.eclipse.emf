@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.13 2004/12/16 21:52:48 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.14 2005/05/10 11:28:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -45,7 +45,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.viewers.ColumnWeightData;
+//import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -54,13 +54,13 @@ import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.jface.viewers.TableLayout;
+//import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableTreeViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.TableTree;
+//import org.eclipse.swt.custom.TableTree;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
@@ -70,8 +70,8 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
+//import org.eclipse.swt.widgets.Table;
+//import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
@@ -433,21 +433,27 @@ public class EcoreEditor
             ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
             delta.accept(visitor);
 
-            removedResources.addAll(visitor.getRemovedResources());
-            if (!visitor.getRemovedResources().isEmpty() && !isDirty())
+            if (!visitor.getRemovedResources().isEmpty())
             {
-              getSite().getShell().getDisplay().asyncExec
-                (new Runnable()
-                 {
-                  public void run()
-                  {
-                    getSite().getPage().closeEditor(EcoreEditor.this, false);
-                    EcoreEditor.this.dispose();
-                  }
-                 });
-            }
+              removedResources.addAll(visitor.getRemovedResources());
+              if (!isDirty())
+ 							{
+ 								getSite().getShell().getDisplay().asyncExec
+ 									(new Runnable()
+ 								 	{
+ 										public void run()
+ 										{
+ 											getSite().getPage().closeEditor(EcoreEditor.this, false);
+ 											EcoreEditor.this.dispose();
+ 										}
+ 								 	});
+ 							}
+ 						}
 
-            changedResources.addAll(visitor.getChangedResources());
+            if (!visitor.getChangedResources().isEmpty())
+            {
+              changedResources.addAll(visitor.getChangedResources());
+            }
           }
           catch (CoreException exception)
           {
@@ -865,16 +871,6 @@ public class EcoreEditor
       setPageText(pageIndex, getString("_UI_SelectionPage_label"));
     }
     
-    ColumnWeightData junk1 = null;
-    TableLayout junk2 = null;
-    TableTree junk3 = null;
-    Table junk4 = null;
-    TableColumn junk5 = null;
-    if (junk1 == null && junk2 == null && junk3 == null && junk4 == null && junk5 == null)
-    {
-      // The compiler is happy that we used all the imports and the junky variables too.
-    }
-
     setActivePage(0);
 
     getContainer().addControlListener
