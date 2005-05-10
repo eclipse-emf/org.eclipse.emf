@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2005 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: plugin.xml,v 1.1 2005/05/10 17:41:37 davidms Exp $
+ */
+-->
+
+<plugin
+	name = "%pluginName"
+    id = "org.eclipse.xsd.ecore.importer"
+    version = "2.1.0" 
+    provider-name = "%providerName"
+    class = "org.eclipse.xsd.ecore.importer.XSDImporterPlugin$Implementation">
+    
+	<requires>
+	    <import plugin="org.eclipse.core.runtime"/>
+	    <import plugin="org.eclipse.core.resources"/>
+	    <import plugin="org.eclipse.xsd"/>
+   	    <import plugin="org.eclipse.emf.importer"/>
+	    <import plugin="org.eclipse.emf.mapping.xsd2ecore" optional="true"/>
+	    <import plugin="org.eclipse.emf.codegen.ecore.ui" optional="true"/>
+	    <import plugin="org.apache.ant" optional="true"/>
+	    <import plugin="org.eclipse.emf.ant" optional="true"/>
+	</requires>
+
+	<runtime>
+		<library name="runtime/xsd.ecore.importer.jar">
+			<export name="*"/>
+		</library>
+	</runtime>
+
+	<extension id="XSD2GenModel" point="org.eclipse.core.runtime.applications">
+		<application>
+			<run class="org.eclipse.xsd.ecore.importer.XSDImporterApplication"/>
+		</application>
+	</extension>
+	
+	<extension point="org.eclipse.emf.importer.modelImporterDescriptors">
+		<modelImporterDescriptor
+			id="org.eclipse.xsd.ecore.importer"
+			name="%_UI_XSDImporter_label"
+			icon="icons/XSDModelFile.gif"
+			extensions="xsd,wsdl"
+			wizard="org.eclipse.xsd.ecore.importer.ui.XSDImporterWizard"/>
+	</extension>	
+  
+	<extension point="org.eclipse.ant.core.extraClasspathEntries">
+		<extraClasspathEntry library="runtime/xsd.ecore.importer.tasks.jar"/>
+	</extension>   
+    
+	<extension point="org.eclipse.ant.core.antTasks">
+		<antTask
+            library="runtime/xsd.ecore.importer.tasks.jar"
+            name="emf.XSD2Java"
+            headless="true"
+            class="org.eclipse.xsd.ecore.importer.taskdefs.XSDGeneratorTask">
+		</antTask>
+	</extension>  
+</plugin>
+
+
+
