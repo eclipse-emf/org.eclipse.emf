@@ -12,13 +12,18 @@
  *
  * </copyright>
  *
- * $Id: GenModelUtil.java,v 1.1 2005/02/15 20:26:33 davidms Exp $
+ * $Id: GenModelUtil.java,v 1.2 2005/05/10 21:22:59 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+
+import org.eclipse.jdt.core.JavaConventions;
 
 /**
  * This class contains convenient static methods for EMF code generation.
@@ -233,4 +238,258 @@ public class GenModelUtil
   {
     return getJavaDefaultTypes().contains(s) && Character.isLowerCase(s.charAt(0));
   }
+  
+  // Interprets escaped characters within the string according to Java
+  // literal rules, with two exceptions: an unescaped " does not terminate
+  // the string, and a \ not followed by b, t, n, f, r, ", ', u, or an octal
+  // digit is taken literally, not as an error
+  public static String parseString(String s)
+  {
+    if (s == null) return null;
+
+    int len = s.length();
+    StringBuffer result = new StringBuffer(len);
+    for (int i = 0; i < len; i++)
+    {
+      char c = s.charAt(i);
+      if (c == '\\' && len > i + 1)
+      {
+        if ("btnfr\"\'\\".indexOf(s.charAt(i + 1)) != -1)
+        {
+          c = parseChar(s.substring(i, i + 2));
+          i++;
+        }
+        else if (s.charAt(i + 1) == 'u' && len > i + 5)
+        {
+          c = parseChar(s.substring(i, i + 6));
+          i += 5;
+        }
+        else
+        {
+          int j;  // will point at the character after 0 to 3 octal digits
+          for (j = i + 1; j < len && j - i < 4; j++)
+          {
+            char digit = s.charAt(j);
+            if  (digit < '0' || digit > '7') break;
+          }
+          c = parseChar(s.substring(i, j));
+          i = j - 1;
+        }
+      }
+      result.append(c);
+    }
+    return result.toString();
+  }
+  
+  // Interprets escaped characters according to Java literal rules, with one
+  // exception: a single \ is taken literally, not as an error.
+  public static char parseChar(String c)
+  {
+    if (c == null) throw new IllegalArgumentException("null");
+
+    if ("\\b".equals(c)) return '\b';
+    if ("\\t".equals(c)) return '\t';
+    if ("\\n".equals(c)) return '\n';
+    if ("\\f".equals(c)) return '\f';
+    if ("\\r".equals(c)) return '\r';
+    if ("\\\"".equals(c)) return '\"';
+    if ("\\\'".equals(c)) return '\'';
+    if ("\\\\".equals(c)) return '\\';
+
+    if (c.startsWith("\\u") && c.length() == 6)
+    {
+      int i = Integer.parseInt(c.substring(2), 16);
+      if (i >= Character.MIN_VALUE && i <= Character.MAX_VALUE)
+      {
+        return (char)i;
+      }
+    }
+    else if (c.length() >= 2 && c.length() <= 4 && c.charAt(0) == '\\')
+    {
+      int i = Integer.parseInt(c.substring(1), 8);
+      if (i >= Character.MIN_VALUE && i <= Character.MAX_VALUE)
+      {
+        return (char)i;
+      }
+    }
+
+    if (c.length() != 1) throw new IllegalArgumentException(c);
+    return c.charAt(0);
+  }
+  
+  public static String validJavaIdentifier(String name)
+  {
+    if (name == null || name.length() == 0)
+    {
+      return name;
+    }
+    else if (JavaConventions.validateIdentifier(name).isOK())
+    {
+      return name;
+    }
+
+    StringBuffer result = new StringBuffer();
+    if (Character.isJavaIdentifierStart(name.charAt(0)))
+    {
+      result.append(name.charAt(0));
+    }
+    else
+    {
+      result.append('_');
+      if (Character.isJavaIdentifierPart(name.charAt(0)))
+      {
+        result.append(name.charAt(0));
+      }
+    }
+    for (int i = 1; i < name.length(); ++ i)
+    {
+      if (Character.isJavaIdentifierPart(name.charAt(i)))
+      {
+        result.append(name.charAt(i));
+      }
+    }
+
+    return result.length() == 0 ? "_" : result.toString();
+  }
+  
+  public static String capName(String name)
+  {
+    if (name.length() == 0)
+      return name;
+    else
+      return name.substring(0,1).toUpperCase() + name.substring(1);
+  }
+
+  public static String uncapName(String name)
+  {
+    if (name.length() == 0)
+      return name;
+    else
+      return name.substring(0,1).toLowerCase() + name.substring(1);
+  }
+
+  public static String uncapPrefixedName(String name, boolean forceDifferent)
+  {
+    // lower all except the last upper case character if there are
+    // more than one upper case characters in the beginning.
+    // e.g. XSDElementContent -> xsdElementContent
+    // However if the whole string is uppercase, the whole string
+    // is turned into lower case.
+    // e.g. CPU -> cpu
+    if (name.length() == 0)
+    {
+      return name;
+    }
+    else 
+    {
+      String lowerName = name.toLowerCase();
+      int i;
+      for (i = 0; i < name.length(); i++) 
+      {
+        if (name.charAt(i) == lowerName.charAt(i)) 
+        {
+          break;
+        }
+      }
+      if (i > 1 && i < name.length()) 
+      {
+        --i;
+      }
+      String prefix = name.substring(0, i);
+      String lowerCasePrefix = prefix.toLowerCase();
+      if (forceDifferent && lowerCasePrefix.equals(prefix))
+      {
+        lowerCasePrefix = "_" + lowerCasePrefix;
+      }
+      return lowerCasePrefix + name.substring(i);
+    }
+  }
+
+  public static String safeName(String name)
+  {
+    if (GenModelUtil.isJavaReservedWord(name)) return name + "_";
+    return name;
+  }
+  
+  public static String format(String name, char separator, String prefix, boolean includePrefix)
+  {
+    List parsedName = new ArrayList();
+
+    if (prefix != null && 
+          name.startsWith(prefix) && 
+          name.length() > prefix.length() && Character.isUpperCase(name.charAt(prefix.length())))
+    {
+      name = name.substring(prefix.length());
+      if (includePrefix)
+      {
+        parsedName = parseName(prefix, '_');
+      }
+    }
+
+    if (name.length() != 0) parsedName.addAll(parseName(name, '_'));
+
+    StringBuffer result = new StringBuffer();
+
+    for (Iterator nameIter = parsedName.iterator(); nameIter.hasNext(); )
+    {
+      String nameComponent = (String)nameIter.next();
+      result.append(nameComponent);
+
+      if (nameIter.hasNext() && nameComponent.length() > 1)
+      {
+        result.append(separator);
+      }
+    }
+
+    return result.length() == 0 && prefix != null ? prefix : result.toString();
+  }
+
+  /**
+   * This method breaks sourceName into words delimited by sourceSeparator and/or mixed-case naming.
+   */
+  public static List parseName(String sourceName, char sourceSeparator)
+  {
+    List result = new ArrayList();
+    StringBuffer currentWord = new StringBuffer();
+
+    int length = sourceName.length();
+    boolean lastIsLower = false;
+
+    for (int index=0; index<length; index++)
+    {
+      char curChar = sourceName.charAt(index);
+      if (Character.isUpperCase(curChar) || (!lastIsLower && Character.isDigit(curChar)) || curChar == sourceSeparator)
+      {
+        if (lastIsLower || curChar == sourceSeparator)
+        {
+          result.add(currentWord.toString());
+          currentWord = new StringBuffer();
+        }
+        lastIsLower = false;
+      }
+      else
+      {
+        if (!lastIsLower)
+        {
+          int currentWordLength = currentWord.length();
+          if (currentWordLength > 1)
+          {
+            char lastChar = currentWord.charAt(--currentWordLength);
+            currentWord.setLength(currentWordLength);
+            result.add(currentWord.toString());
+            currentWord = new StringBuffer();
+            currentWord.append(lastChar);
+          }
+        }
+        lastIsLower = true;
+      }
+      if (curChar != sourceSeparator)
+      {
+        currentWord.append(curChar);
+      }
+    }
+
+    result.add(currentWord.toString());
+    return result;
+  }  
 }

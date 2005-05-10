@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.16 2005/04/27 20:39:06 khussey Exp $
+ * $Id: GenModel.java,v 1.17 2005/05/10 21:22:59 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -77,6 +77,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestSuiteClass <em>Test Suite Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getBooleanFlagsField <em>Boolean Flags Field</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getBooleanFlagsReservedBits <em>Boolean Flags Reserved Bits</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getImporterID <em>Importer ID</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -117,8 +118,7 @@ public interface GenModel extends GenBase{
    * Returns the value of the '<em><b>Model Directory</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Model Directory</em>' attribute isn't clear, 
-   * there really should be more of a description here...
+   * When unset, this attribute takes a default value based on {@link modelPluginID #getModelPluginID}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Model Directory</em>' attribute.
@@ -193,14 +193,15 @@ public interface GenModel extends GenBase{
    * Returns the value of the '<em><b>Edit Directory</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Edit Directory</em>' attribute isn't clear, 
-   * there really should be more of a description here...
+   * When unset, this attribute takes a default value based on {@link modelDirectory #getModelDirectory}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Edit Directory</em>' attribute.
+   * @see #isSetEditDirectory()
+   * @see #unsetEditDirectory()
    * @see #setEditDirectory(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditDirectory()
-   * @model
+   * @model unsettable="true"
    * @generated
    */
   String getEditDirectory();
@@ -210,23 +211,49 @@ public interface GenModel extends GenBase{
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Edit Directory</em>' attribute.
+   * @see #isSetEditDirectory()
+   * @see #unsetEditDirectory()
    * @see #getEditDirectory()
    * @generated
    */
   void setEditDirectory(String value);
 
   /**
+   * Unsets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditDirectory <em>Edit Directory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetEditDirectory()
+   * @see #getEditDirectory()
+   * @see #setEditDirectory(String)
+   * @generated
+   */
+  void unsetEditDirectory();
+
+  /**
+   * Returns whether the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditDirectory <em>Edit Directory</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Edit Directory</em>' attribute is set.
+   * @see #unsetEditDirectory()
+   * @see #getEditDirectory()
+   * @see #setEditDirectory(String)
+   * @generated
+   */
+  boolean isSetEditDirectory();
+
+  /**
    * Returns the value of the '<em><b>Editor Directory</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Editor Directory</em>' attribute isn't clear, 
-   * there really should be more of a description here...
+   * When unset, this attribute takes a default value based on {@link modelDirectory #getModelDirectory}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Editor Directory</em>' attribute.
+   * @see #isSetEditorDirectory()
+   * @see #unsetEditorDirectory()
    * @see #setEditorDirectory(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditorDirectory()
-   * @model
+   * @model unsettable="true"
    * @generated
    */
   String getEditorDirectory();
@@ -236,17 +263,42 @@ public interface GenModel extends GenBase{
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Editor Directory</em>' attribute.
+   * @see #isSetEditorDirectory()
+   * @see #unsetEditorDirectory()
    * @see #getEditorDirectory()
    * @generated
    */
   void setEditorDirectory(String value);
 
   /**
+   * Unsets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorDirectory <em>Editor Directory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetEditorDirectory()
+   * @see #getEditorDirectory()
+   * @see #setEditorDirectory(String)
+   * @generated
+   */
+  void unsetEditorDirectory();
+
+  /**
+   * Returns whether the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorDirectory <em>Editor Directory</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Editor Directory</em>' attribute is set.
+   * @see #unsetEditorDirectory()
+   * @see #getEditorDirectory()
+   * @see #setEditorDirectory(String)
+   * @generated
+   */
+  boolean isSetEditorDirectory();
+
+  /**
    * Returns the value of the '<em><b>Model Plugin ID</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Model Plugin ID</em>' attribute isn't clear, 
-   * there really should be more of a description here...
+   * This attribute is unsettable for the benefit of other attributes, whose
+   * default values are based on it. If it is unset, they will be, too.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Model Plugin ID</em>' attribute.
@@ -488,14 +540,16 @@ public interface GenModel extends GenBase{
    * Returns the value of the '<em><b>Edit Plugin Class</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Edit Plugin Class</em>' attribute isn't clear,
-   * there really should be more of a description here...
+   * When unset, this attribute takes a default value based on {@link modelName #getModelName},
+   * and the first of the {@link genPackages #getGenPackages}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Edit Plugin Class</em>' attribute.
+   * @see #isSetEditPluginClass()
+   * @see #unsetEditPluginClass()
    * @see #setEditPluginClass(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditPluginClass()
-   * @model
+   * @model unsettable="true"
    * @generated
    */
   String getEditPluginClass();
@@ -505,23 +559,50 @@ public interface GenModel extends GenBase{
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Edit Plugin Class</em>' attribute.
+   * @see #isSetEditPluginClass()
+   * @see #unsetEditPluginClass()
    * @see #getEditPluginClass()
    * @generated
    */
   void setEditPluginClass(String value);
 
   /**
+   * Unsets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditPluginClass <em>Edit Plugin Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetEditPluginClass()
+   * @see #getEditPluginClass()
+   * @see #setEditPluginClass(String)
+   * @generated
+   */
+  void unsetEditPluginClass();
+
+  /**
+   * Returns whether the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditPluginClass <em>Edit Plugin Class</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Edit Plugin Class</em>' attribute is set.
+   * @see #unsetEditPluginClass()
+   * @see #getEditPluginClass()
+   * @see #setEditPluginClass(String)
+   * @generated
+   */
+  boolean isSetEditPluginClass();
+
+  /**
    * Returns the value of the '<em><b>Editor Plugin Class</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Editor Plugin Class</em>' attribute isn't clear,
-   * there really should be more of a description here...
+   * When unset, this attribute takes a default value based on {@link modelName #getModelName},
+   * and the first of the {@link genPackages #getGenPackages}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Editor Plugin Class</em>' attribute.
+   * @see #isSetEditorPluginClass()
+   * @see #unsetEditorPluginClass()
    * @see #setEditorPluginClass(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditorPluginClass()
-   * @model
+   * @model unsettable="true"
    * @generated
    */
   String getEditorPluginClass();
@@ -531,10 +612,35 @@ public interface GenModel extends GenBase{
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Editor Plugin Class</em>' attribute.
+   * @see #isSetEditorPluginClass()
+   * @see #unsetEditorPluginClass()
    * @see #getEditorPluginClass()
    * @generated
    */
   void setEditorPluginClass(String value);
+
+  /**
+   * Unsets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorPluginClass <em>Editor Plugin Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetEditorPluginClass()
+   * @see #getEditorPluginClass()
+   * @see #setEditorPluginClass(String)
+   * @generated
+   */
+  void unsetEditorPluginClass();
+
+  /**
+   * Returns whether the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorPluginClass <em>Editor Plugin Class</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Editor Plugin Class</em>' attribute is set.
+   * @see #unsetEditorPluginClass()
+   * @see #getEditorPluginClass()
+   * @see #setEditorPluginClass(String)
+   * @generated
+   */
+  boolean isSetEditorPluginClass();
 
   /**
    * Returns the value of the '<em><b>Update Classpath</b></em>' attribute.
@@ -943,14 +1049,15 @@ public interface GenModel extends GenBase{
    * Returns the value of the '<em><b>Tests Directory</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Tests Directory</em>' attribute isn't clear,
-   * there really should be more of a description here...
+   * By default, this attribute is set to null.  When unset, it takes a default value based on {@link modelDirectory #getModelDirectory}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Tests Directory</em>' attribute.
+   * @see #isSetTestsDirectory()
+   * @see #unsetTestsDirectory()
    * @see #setTestsDirectory(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TestsDirectory()
-   * @model
+   * @model unsettable="true"
    * @generated
    */
   String getTestsDirectory();
@@ -960,23 +1067,50 @@ public interface GenModel extends GenBase{
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Tests Directory</em>' attribute.
+   * @see #isSetTestsDirectory()
+   * @see #unsetTestsDirectory()
    * @see #getTestsDirectory()
    * @generated
    */
   void setTestsDirectory(String value);
 
   /**
+   * Unsets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsDirectory <em>Tests Directory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetTestsDirectory()
+   * @see #getTestsDirectory()
+   * @see #setTestsDirectory(String)
+   * @generated
+   */
+  void unsetTestsDirectory();
+
+  /**
+   * Returns whether the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsDirectory <em>Tests Directory</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Tests Directory</em>' attribute is set.
+   * @see #unsetTestsDirectory()
+   * @see #getTestsDirectory()
+   * @see #setTestsDirectory(String)
+   * @generated
+   */
+  boolean isSetTestsDirectory();
+
+  /**
    * Returns the value of the '<em><b>Test Suite Class</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Test Suite Class</em>' attribute isn't clear,
-   * there really should be more of a description here...
+   * When unset, this attribute takes a default value based on {@link modelName #getModelName},
+   * and the first of the {@link genPackages #getGenPackages}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Test Suite Class</em>' attribute.
+   * @see #isSetTestSuiteClass()
+   * @see #unsetTestSuiteClass()
    * @see #setTestSuiteClass(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TestSuiteClass()
-   * @model
+   * @model unsettable="true"
    * @generated
    */
   String getTestSuiteClass();
@@ -986,10 +1120,35 @@ public interface GenModel extends GenBase{
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Test Suite Class</em>' attribute.
+   * @see #isSetTestSuiteClass()
+   * @see #unsetTestSuiteClass()
    * @see #getTestSuiteClass()
    * @generated
    */
   void setTestSuiteClass(String value);
+
+  /**
+   * Unsets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestSuiteClass <em>Test Suite Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetTestSuiteClass()
+   * @see #getTestSuiteClass()
+   * @see #setTestSuiteClass(String)
+   * @generated
+   */
+  void unsetTestSuiteClass();
+
+  /**
+   * Returns whether the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestSuiteClass <em>Test Suite Class</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Test Suite Class</em>' attribute is set.
+   * @see #unsetTestSuiteClass()
+   * @see #getTestSuiteClass()
+   * @see #setTestSuiteClass(String)
+   * @generated
+   */
+  boolean isSetTestSuiteClass();
 
   /**
    * Returns the value of the '<em><b>Boolean Flags Field</b></em>' attribute.
@@ -1043,6 +1202,32 @@ public interface GenModel extends GenBase{
    * @generated
    */
   void setBooleanFlagsReservedBits(int value);
+
+  /**
+   * Returns the value of the '<em><b>Importer ID</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Importer ID</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Importer ID</em>' attribute.
+   * @see #setImporterID(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ImporterID()
+   * @model
+   * @generated
+   */
+  String getImporterID();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getImporterID <em>Importer ID</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Importer ID</em>' attribute.
+   * @see #getImporterID()
+   * @generated
+   */
+  void setImporterID(String value);
 
   /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.

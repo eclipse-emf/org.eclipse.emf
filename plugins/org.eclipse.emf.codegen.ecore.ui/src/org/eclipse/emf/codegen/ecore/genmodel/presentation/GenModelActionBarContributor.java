@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.10 2005/03/07 21:25:52 khussey Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.11 2005/05/10 21:22:40 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -20,10 +20,13 @@ package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
@@ -38,17 +41,10 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
-
-import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
-import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
-import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
-
+//
 //import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 //import org.eclipse.emf.edit.ui.action.ValidateAction;
 // import java.util.LinkedList;
@@ -142,27 +138,6 @@ public class GenModelActionBarContributor
    * This is the menu manager for the "Generate" menu.
    */
   protected IMenuManager generateMenuManager;
-
-  protected class ReloadAction extends Action
-  {
-    public ReloadAction()
-    {
-      super(GenModelEditPlugin.INSTANCE.getString("_UI_GenModel_Reload"));
-    }
-
-    public void run()
-    {
-      IFile file = ((IFileEditorInput)activeEditorPart.getEditorInput()).getFile();
-      EMFProjectWizard emfProjectWizard = new EMFProjectWizard(file);
-      WizardDialog wizardDialog = new WizardDialog(activeEditorPart.getEditorSite().getShell(), emfProjectWizard);
-      wizardDialog.create();
-      wizardDialog.getShell().setSize(540, 580);
-      int result = wizardDialog.open();
-      ((GenModelEditor)activeEditorPart).handleActivate();
-    }
-  }
-
-  protected IAction reloadAction = new ReloadAction();
 
   protected IAction generateAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateModel_menu_item"))
   {
@@ -355,7 +330,6 @@ public class GenModelActionBarContributor
     generateMenuManager.add(generateSchemaAction);    
     
     generateMenuManager.add(new Separator("global-actions"));
-    generateMenuManager.add(reloadAction);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.29 2005/04/27 20:39:06 khussey Exp $
+ * $Id: GenModelImpl.java,v 1.30 2005/05/10 21:22:59 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -48,6 +48,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
@@ -122,6 +123,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestSuiteClass <em>Test Suite Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getBooleanFlagsField <em>Boolean Flags Field</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getBooleanFlagsReservedBits <em>Boolean Flags Reserved Bits</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getImporterID <em>Importer ID</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -232,6 +234,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String editDirectory = EDIT_DIRECTORY_EDEFAULT;
 
   /**
+   * This is true if the Edit Directory attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean editDirectoryESet = false;
+
+  /**
    * The default value of the '{@link #getEditorDirectory() <em>Editor Directory</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -250,6 +261,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected String editorDirectory = EDITOR_DIRECTORY_EDEFAULT;
+
+  /**
+   * This is true if the Editor Directory attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean editorDirectoryESet = false;
 
   /**
    * The default value of the '{@link #getModelPluginID() <em>Model Plugin ID</em>}' attribute.
@@ -462,6 +482,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String editPluginClass = EDIT_PLUGIN_CLASS_EDEFAULT;
 
   /**
+   * This is true if the Edit Plugin Class attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean editPluginClassESet = false;
+
+  /**
    * The default value of the '{@link #getEditorPluginClass() <em>Editor Plugin Class</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -480,6 +509,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected String editorPluginClass = EDITOR_PLUGIN_CLASS_EDEFAULT;
+
+  /**
+   * This is true if the Editor Plugin Class attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean editorPluginClassESet = false;
 
   /**
    * The default value of the '{@link #isUpdateClasspath() <em>Update Classpath</em>}' attribute.
@@ -802,6 +840,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String testsDirectory = TESTS_DIRECTORY_EDEFAULT;
 
   /**
+   * This is true if the Tests Directory attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean testsDirectoryESet = false;
+
+  /**
    * The default value of the '{@link #getTestSuiteClass() <em>Test Suite Class</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -820,6 +867,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected String testSuiteClass = TEST_SUITE_CLASS_EDEFAULT;
+
+  /**
+   * This is true if the Test Suite Class attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean testSuiteClassESet = false;
 
   /**
    * The default value of the '{@link #getBooleanFlagsField() <em>Boolean Flags Field</em>}' attribute.
@@ -860,6 +916,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected int booleanFlagsReservedBits = BOOLEAN_FLAGS_RESERVED_BITS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getImporterID() <em>Importer ID</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getImporterID()
+   * @generated
+   * @ordered
+   */
+  protected static final String IMPORTER_ID_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getImporterID() <em>Importer ID</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getImporterID()
+   * @generated
+   * @ordered
+   */
+  protected String importerID = IMPORTER_ID_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -926,12 +1002,28 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__COPYRIGHT_TEXT, oldCopyrightText, copyrightText));
   }
 
+  protected String getSourceFragmentPath()
+  {
+    return "src";
+  }
+
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public String getModelDirectory()
+  {
+    return modelDirectory;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getModelDirectoryGen()
   {
     return modelDirectory;
   }
@@ -2276,17 +2368,23 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return testsBuildPropertiesEmitter;
   }
 
-  /*
-  public boolean isGenerateEditPlugin()
+  protected String getPluginDirectory(boolean isSet, String baseDirectory, String suffix)
   {
-    return getEditDirectory() != null;
+    if (!isSet)
+    {
+      String modelProject = getModelProject();
+      if (modelProject != null)
+      {
+        return new StringBuffer("/").append(modelProject).append(suffix).append(getSourceFragmentPath()).toString();
+      }
+    }
+    return baseDirectory;
   }
-
-  public boolean isGenerateEditorPlugin()
+  
+  public String getEditDirectory()
   {
-    return getEditorDirectory() != null;
+    return getPluginDirectory(isSetEditDirectory(), getEditDirectoryGen(), ".edit/");
   }
- */
 
   /**
    * <!-- begin-user-doc -->
@@ -2298,18 +2396,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editDirectory;
   }
 
-  public String getEditDirectory()
-  {
-    if (getEditDirectoryGen() != null)
-    {
-      return getEditDirectoryGen();
-    }
-    else
-    {
-      return getModelDirectory();
-    }
-  }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2319,8 +2405,40 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     String oldEditDirectory = editDirectory;
     editDirectory = newEditDirectory;
+    boolean oldEditDirectoryESet = editDirectoryESet;
+    editDirectoryESet = true;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__EDIT_DIRECTORY, oldEditDirectory, editDirectory));
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__EDIT_DIRECTORY, oldEditDirectory, editDirectory, !oldEditDirectoryESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetEditDirectory()
+  {
+    String oldEditDirectory = editDirectory;
+    boolean oldEditDirectoryESet = editDirectoryESet;
+    editDirectory = EDIT_DIRECTORY_EDEFAULT;
+    editDirectoryESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_MODEL__EDIT_DIRECTORY, oldEditDirectory, EDIT_DIRECTORY_EDEFAULT, oldEditDirectoryESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetEditDirectory()
+  {
+    return editDirectoryESet;
+  }
+
+  public String getEditorDirectory()
+  {
+    return getPluginDirectory(isSetEditorDirectory(), getEditorDirectoryGen(), ".editor/");
   }
 
   /**
@@ -2333,18 +2451,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editorDirectory;
   }
 
-  public String getEditorDirectory()
-  {
-    if (getEditorDirectoryGen() != null)
-    {
-      return getEditorDirectoryGen();
-    }
-    else
-    {
-      return getEditDirectory();
-    }
-  }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2354,8 +2460,35 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     String oldEditorDirectory = editorDirectory;
     editorDirectory = newEditorDirectory;
+    boolean oldEditorDirectoryESet = editorDirectoryESet;
+    editorDirectoryESet = true;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__EDITOR_DIRECTORY, oldEditorDirectory, editorDirectory));
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__EDITOR_DIRECTORY, oldEditorDirectory, editorDirectory, !oldEditorDirectoryESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetEditorDirectory()
+  {
+    String oldEditorDirectory = editorDirectory;
+    boolean oldEditorDirectoryESet = editorDirectoryESet;
+    editorDirectory = EDITOR_DIRECTORY_EDEFAULT;
+    editorDirectoryESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_MODEL__EDITOR_DIRECTORY, oldEditorDirectory, EDITOR_DIRECTORY_EDEFAULT, oldEditorDirectoryESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetEditorDirectory()
+  {
+    return editorDirectoryESet;
   }
 
   /**
@@ -2549,30 +2682,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getModelNameGen()
-  {
-    return modelName;
-  }
-
   public String getModelName()
   {
-    String result = getModelNameGen();
-    if (result == null)
-    {
-      result = getModelPluginID();
-      if (result != null)
-      {
-        int index = result.lastIndexOf(".");
-        if (index != -1)
-        {
-          result = result.substring(index + 1);
-        }
-
-        result = capName(result);
-      }
-    }
-
-    return result;
+    return modelName;
   }
 
   /**
@@ -2598,6 +2710,25 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return modelPluginClass;
   }
 
+  protected String getPluginClass(boolean isSet, String baseName, String packageSuffix, String classSuffix)
+  {
+    if (!isSet)
+    {
+      String modelName = getModelName();
+      if (!isBlank(modelName))
+      {
+        String mainPackage = getMainPackage();
+        if (mainPackage != null)
+        {
+          return new StringBuffer(mainPackage).append(".").append(packageSuffix).append(".").
+            append(GenModelUtil.validJavaIdentifier(modelName)).
+            append(classSuffix).toString();
+        }
+      }
+    }
+    return baseName;    
+  }
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2611,14 +2742,44 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__MODEL_PLUGIN_CLASS, oldModelPluginClass, modelPluginClass));
   }
 
+  public String getEditPluginClass()
+  {
+    return getPluginClass(isSetEditPluginClass(), getEditPluginClassGen(), "provider", "EditPlugin");
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getEditPluginClass()
+  public String getEditPluginClassGen()
   {
     return editPluginClass;
+  }
+
+  protected String getModelProject()
+  {
+    String modelDirectory = getModelDirectory();
+    if (!isBlank(modelDirectory))
+    {
+      return URI.createURI(modelDirectory).segment(0);
+    }
+    return null;
+  }
+
+  protected String getMainPackage()
+  {
+    String result = getModelDirectory();
+    if (!getGenPackages().isEmpty())
+    {
+      GenPackage genPackage = (GenPackage)getGenPackages().get(0);
+      while (genPackage.getGenClassifiers().isEmpty() && !genPackage.getNestedGenPackages().isEmpty())
+      {
+        genPackage = (GenPackage)genPackage.getNestedGenPackages().get(0);
+      }
+      result = genPackage.getInterfacePackageName();
+    }
+    return result;
   }
 
   /**
@@ -2630,8 +2791,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     String oldEditPluginClass = editPluginClass;
     editPluginClass = newEditPluginClass;
+    boolean oldEditPluginClassESet = editPluginClassESet;
+    editPluginClassESet = true;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__EDIT_PLUGIN_CLASS, oldEditPluginClass, editPluginClass));
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__EDIT_PLUGIN_CLASS, oldEditPluginClass, editPluginClass, !oldEditPluginClassESet));
   }
 
   /**
@@ -2639,7 +2802,37 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public void unsetEditPluginClass()
+  {
+    String oldEditPluginClass = editPluginClass;
+    boolean oldEditPluginClassESet = editPluginClassESet;
+    editPluginClass = EDIT_PLUGIN_CLASS_EDEFAULT;
+    editPluginClassESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_MODEL__EDIT_PLUGIN_CLASS, oldEditPluginClass, EDIT_PLUGIN_CLASS_EDEFAULT, oldEditPluginClassESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetEditPluginClass()
+  {
+    return editPluginClassESet;
+  }
+
   public String getEditorPluginClass()
+  {
+    return getPluginClass(isSetEditorPluginClass(), getEditorPluginClassGen(), "presentation", "EditorPlugin");
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getEditorPluginClassGen()
   {
     return editorPluginClass;
   }
@@ -2653,8 +2846,35 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     String oldEditorPluginClass = editorPluginClass;
     editorPluginClass = newEditorPluginClass;
+    boolean oldEditorPluginClassESet = editorPluginClassESet;
+    editorPluginClassESet = true;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_CLASS, oldEditorPluginClass, editorPluginClass));
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_CLASS, oldEditorPluginClass, editorPluginClass, !oldEditorPluginClassESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetEditorPluginClass()
+  {
+    String oldEditorPluginClass = editorPluginClass;
+    boolean oldEditorPluginClassESet = editorPluginClassESet;
+    editorPluginClass = EDITOR_PLUGIN_CLASS_EDEFAULT;
+    editorPluginClassESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_CLASS, oldEditorPluginClass, EDITOR_PLUGIN_CLASS_EDEFAULT, oldEditorPluginClassESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetEditorPluginClass()
+  {
+    return editorPluginClassESet;
   }
 
   /**
@@ -3084,12 +3304,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__CODE_FORMATTING, oldCodeFormatting, codeFormatting));
   }
 
+  public String getTestsDirectory()
+  {
+    return getPluginDirectory(isSetTestsDirectory(), getTestsDirectoryGen(), ".tests/");
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getTestsDirectory()
+  public String getTestsDirectoryGen()
   {
     return testsDirectory;
   }
@@ -3103,8 +3328,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     String oldTestsDirectory = testsDirectory;
     testsDirectory = newTestsDirectory;
+    boolean oldTestsDirectoryESet = testsDirectoryESet;
+    testsDirectoryESet = true;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__TESTS_DIRECTORY, oldTestsDirectory, testsDirectory));
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__TESTS_DIRECTORY, oldTestsDirectory, testsDirectory, !oldTestsDirectoryESet));
   }
 
   /**
@@ -3112,7 +3339,37 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public void unsetTestsDirectory()
+  {
+    String oldTestsDirectory = testsDirectory;
+    boolean oldTestsDirectoryESet = testsDirectoryESet;
+    testsDirectory = TESTS_DIRECTORY_EDEFAULT;
+    testsDirectoryESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_MODEL__TESTS_DIRECTORY, oldTestsDirectory, TESTS_DIRECTORY_EDEFAULT, oldTestsDirectoryESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetTestsDirectory()
+  {
+    return testsDirectoryESet;
+  }
+
   public String getTestSuiteClass()
+  {
+    return getPluginClass(isSetTestSuiteClass(), getTestSuiteClassGen(), "tests", "AllTests");
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getTestSuiteClassGen()
   {
     return testSuiteClass;
   }
@@ -3126,8 +3383,35 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     String oldTestSuiteClass = testSuiteClass;
     testSuiteClass = newTestSuiteClass;
+    boolean oldTestSuiteClassESet = testSuiteClassESet;
+    testSuiteClassESet = true;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS, oldTestSuiteClass, testSuiteClass));
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS, oldTestSuiteClass, testSuiteClass, !oldTestSuiteClassESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetTestSuiteClass()
+  {
+    String oldTestSuiteClass = testSuiteClass;
+    boolean oldTestSuiteClassESet = testSuiteClassESet;
+    testSuiteClass = TEST_SUITE_CLASS_EDEFAULT;
+    testSuiteClassESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS, oldTestSuiteClass, TEST_SUITE_CLASS_EDEFAULT, oldTestSuiteClassESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetTestSuiteClass()
+  {
+    return testSuiteClassESet;
   }
 
   /**
@@ -3174,6 +3458,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     booleanFlagsReservedBits = newBooleanFlagsReservedBits;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS, oldBooleanFlagsReservedBits, booleanFlagsReservedBits));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getImporterID()
+  {
+    return importerID;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setImporterID(String newImporterID)
+  {
+    String oldImporterID = importerID;
+    importerID = newImporterID;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__IMPORTER_ID, oldImporterID, importerID));
   }
 
   /**
@@ -3362,6 +3669,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getBooleanFlagsField();
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
         return new Integer(getBooleanFlagsReservedBits());
+      case GenModelPackage.GEN_MODEL__IMPORTER_ID:
+        return getImporterID();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3388,9 +3697,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CREATION_ICONS:
         return creationIcons != CREATION_ICONS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
-        return EDIT_DIRECTORY_EDEFAULT == null ? editDirectory != null : !EDIT_DIRECTORY_EDEFAULT.equals(editDirectory);
+        return isSetEditDirectory();
       case GenModelPackage.GEN_MODEL__EDITOR_DIRECTORY:
-        return EDITOR_DIRECTORY_EDEFAULT == null ? editorDirectory != null : !EDITOR_DIRECTORY_EDEFAULT.equals(editorDirectory);
+        return isSetEditorDirectory();
       case GenModelPackage.GEN_MODEL__MODEL_PLUGIN_ID:
         return MODEL_PLUGIN_ID_EDEFAULT == null ? modelPluginID != null : !MODEL_PLUGIN_ID_EDEFAULT.equals(modelPluginID);
       case GenModelPackage.GEN_MODEL__TEMPLATE_DIRECTORY:
@@ -3412,9 +3721,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__MODEL_PLUGIN_CLASS:
         return MODEL_PLUGIN_CLASS_EDEFAULT == null ? modelPluginClass != null : !MODEL_PLUGIN_CLASS_EDEFAULT.equals(modelPluginClass);
       case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_CLASS:
-        return EDIT_PLUGIN_CLASS_EDEFAULT == null ? editPluginClass != null : !EDIT_PLUGIN_CLASS_EDEFAULT.equals(editPluginClass);
+        return isSetEditPluginClass();
       case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_CLASS:
-        return EDITOR_PLUGIN_CLASS_EDEFAULT == null ? editorPluginClass != null : !EDITOR_PLUGIN_CLASS_EDEFAULT.equals(editorPluginClass);
+        return isSetEditorPluginClass();
       case GenModelPackage.GEN_MODEL__UPDATE_CLASSPATH:
         return updateClasspath != UPDATE_CLASSPATH_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GENERATE_SCHEMA:
@@ -3448,13 +3757,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
         return codeFormatting != CODE_FORMATTING_EDEFAULT;
       case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
-        return TESTS_DIRECTORY_EDEFAULT == null ? testsDirectory != null : !TESTS_DIRECTORY_EDEFAULT.equals(testsDirectory);
+        return isSetTestsDirectory();
       case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
-        return TEST_SUITE_CLASS_EDEFAULT == null ? testSuiteClass != null : !TEST_SUITE_CLASS_EDEFAULT.equals(testSuiteClass);
+        return isSetTestSuiteClass();
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_FIELD:
         return BOOLEAN_FLAGS_FIELD_EDEFAULT == null ? booleanFlagsField != null : !BOOLEAN_FLAGS_FIELD_EDEFAULT.equals(booleanFlagsField);
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
         return booleanFlagsReservedBits != BOOLEAN_FLAGS_RESERVED_BITS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__IMPORTER_ID:
+        return IMPORTER_ID_EDEFAULT == null ? importerID != null : !IMPORTER_ID_EDEFAULT.equals(importerID);
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3589,6 +3900,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
         setBooleanFlagsReservedBits(((Integer)newValue).intValue());
         return;
+      case GenModelPackage.GEN_MODEL__IMPORTER_ID:
+        setImporterID((String)newValue);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         getGenPackages().addAll((Collection)newValue);
@@ -3623,10 +3937,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         setCreationIcons(CREATION_ICONS_EDEFAULT);
         return;
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
-        setEditDirectory(EDIT_DIRECTORY_EDEFAULT);
+        unsetEditDirectory();
         return;
       case GenModelPackage.GEN_MODEL__EDITOR_DIRECTORY:
-        setEditorDirectory(EDITOR_DIRECTORY_EDEFAULT);
+        unsetEditorDirectory();
         return;
       case GenModelPackage.GEN_MODEL__MODEL_PLUGIN_ID:
         setModelPluginID(MODEL_PLUGIN_ID_EDEFAULT);
@@ -3659,10 +3973,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         setModelPluginClass(MODEL_PLUGIN_CLASS_EDEFAULT);
         return;
       case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_CLASS:
-        setEditPluginClass(EDIT_PLUGIN_CLASS_EDEFAULT);
+        unsetEditPluginClass();
         return;
       case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_CLASS:
-        setEditorPluginClass(EDITOR_PLUGIN_CLASS_EDEFAULT);
+        unsetEditorPluginClass();
         return;
       case GenModelPackage.GEN_MODEL__UPDATE_CLASSPATH:
         setUpdateClasspath(UPDATE_CLASSPATH_EDEFAULT);
@@ -3713,16 +4027,19 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         setCodeFormatting(CODE_FORMATTING_EDEFAULT);
         return;
       case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
-        setTestsDirectory(TESTS_DIRECTORY_EDEFAULT);
+        unsetTestsDirectory();
         return;
       case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
-        setTestSuiteClass(TEST_SUITE_CLASS_EDEFAULT);
+        unsetTestSuiteClass();
         return;
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_FIELD:
         setBooleanFlagsField(BOOLEAN_FLAGS_FIELD_EDEFAULT);
         return;
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
         setBooleanFlagsReservedBits(BOOLEAN_FLAGS_RESERVED_BITS_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__IMPORTER_ID:
+        setImporterID(IMPORTER_ID_EDEFAULT);
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -3753,9 +4070,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(", creationIcons: ");
     result.append(creationIcons);
     result.append(", editDirectory: ");
-    result.append(editDirectory);
+    if (editDirectoryESet) result.append(editDirectory); else result.append("<unset>");
     result.append(", editorDirectory: ");
-    result.append(editorDirectory);
+    if (editorDirectoryESet) result.append(editorDirectory); else result.append("<unset>");
     result.append(", modelPluginID: ");
     result.append(modelPluginID);
     result.append(", templateDirectory: ");
@@ -3777,9 +4094,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(", modelPluginClass: ");
     result.append(modelPluginClass);
     result.append(", editPluginClass: ");
-    result.append(editPluginClass);
+    if (editPluginClassESet) result.append(editPluginClass); else result.append("<unset>");
     result.append(", editorPluginClass: ");
-    result.append(editorPluginClass);
+    if (editorPluginClassESet) result.append(editorPluginClass); else result.append("<unset>");
     result.append(", updateClasspath: ");
     result.append(updateClasspath);
     result.append(", generateSchema: ");
@@ -3813,13 +4130,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(", codeFormatting: ");
     result.append(codeFormatting);
     result.append(", testsDirectory: ");
-    result.append(testsDirectory);
+    if (testsDirectoryESet) result.append(testsDirectory); else result.append("<unset>");
     result.append(", testSuiteClass: ");
-    result.append(testSuiteClass);
+    if (testSuiteClassESet) result.append(testSuiteClass); else result.append("<unset>");
     result.append(", booleanFlagsField: ");
     result.append(booleanFlagsField);
     result.append(", booleanFlagsReservedBits: ");
     result.append(booleanFlagsReservedBits);
+    result.append(", importerID: ");
+    result.append(importerID);
     result.append(')');
     return result.toString();
   }
@@ -4026,218 +4345,114 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return result;
   }
   
-  public String getModelPluginPackageName()
+  protected String getPluginClassName(String baseName, String defaultSuffix)
   {
-    String result = getModelPluginClassToUse();
-    if (result != null)
+    if (baseName == null)
     {
-      int index = result.lastIndexOf(".");
+      String modelName = getModelName();
+      baseName = (isBlank(modelName) ? "" : modelName) + defaultSuffix;
+    }
+    else
+    {
+      int index = baseName.lastIndexOf(".");
+      if (index != -1)
+      {
+        baseName = baseName.substring(index + 1);
+      }
+    }
+    return baseName;
+  }
+
+  protected String getPluginPackageName(String baseName, String pluginID)
+  {
+    if (baseName == null)
+    {
+      baseName = createPackageName(pluginID);
+    }
+    else
+    {
+      int index = baseName.lastIndexOf(".");
       if (index == -1)
       {
-        result = getModelPluginID();
+        baseName = createPackageName(pluginID);
       }
       else
       {
-        result = result.substring(0, index);
+        baseName = baseName.substring(0, index);
       }
     }
-    return result;
+    return baseName;
+  }
+
+  protected String createPackageName(String text)
+  {
+    return text != null ? text.toLowerCase() : "";
+  }
+
+  public String getModelPluginPackageName()
+  {
+    return getPluginPackageName(getModelPluginClassToUse(), getModelPluginID());
   }
 
   public String getModelPluginClassName()
   {
-    String result = getModelPluginClassToUse();
-    if (result != null)
-    {
-      int index = result.lastIndexOf(".");
-      if (index != -1)
-      {
-        result = result.substring(index + 1);
-      }
-    }
-    return result;
+    return getPluginClassName(getModelPluginClassToUse(), "Plugin");
   }
-
+  
   public String getQualifiedModelPluginClassName()
   {
-    String result = getModelPluginClassToUse();
-    if (result != null)
-    {
-      int index = result.lastIndexOf(".");
-      if (index == -1)
-      {
-        result = getEditPluginID() + "." + result;
-      }
-    }
-    return result;
+    return getModelPluginPackageName() + "." + getModelPluginClassName();
   }
 
   public String getEditPluginPackageName()
   {
-    String result = getEditPluginClassToUse();
-    if (result == null)
-    {
-      result = getEditPluginID();
-    }
-    else
-    {
-      int index = result.lastIndexOf(".");
-      if (index == -1)
-      {
-        result = getEditPluginID();
-      }
-      else
-      {
-        result = result.substring(0, index);
-      }
-    }
-    return result;
+    return getPluginPackageName(getEditPluginClassToUse(), getEditPluginID());
   }
-
+  
   public String getEditPluginClassName()
   {
-    String result = getEditPluginClassToUse();
-    if (result == null)
-    {
-      result = getModelName() + "EditPlugin";  
-    }
-    else
-    {
-      int index = result.lastIndexOf(".");
-      if (index != -1)
-      {
-        result = result.substring(index + 1);
-      }
-    }
-    return result;
+    return getPluginClassName(getEditPluginClassToUse(), "EditPlugin");
   }
 
   public String getQualifiedEditPluginClassName()
   {
-    String result = getEditPluginClassToUse();
-    if (result == null)
-    {
-      result = getEditPluginID() + "." + getModelName() + "EditPlugin";
-    }
-    else
-    {
-      int index = result.lastIndexOf(".");
-      if (index == -1)
-      {
-        result = getEditPluginID() + "." + result;
-      }
-    }
-    return result;
+    return getEditPluginPackageName() + "." + getEditPluginClassName();
   }
 
   public String getEditorPluginPackageName()
   {
-    String result = getEditorPluginClassToUse();
-    if (result == null)
-    {
-      result = getEditorPluginID();
-    }
-    else
-    {
-      int index = result.lastIndexOf(".");
-      if (index == -1)
-      {
-        result = getEditorPluginID();
-      }
-      else
-      {
-        result = result.substring(0, index);
-      }
-    }
-    return result;
+    return getPluginPackageName(getEditorPluginClassToUse(), getEditorPluginID());
   }
 
   public String getEditorPluginClassName()
   {
-    String result = getEditorPluginClassToUse();
-    if (result == null)
-    {
-      result = getModelName() + "EditorPlugin";  
-    }
-    else
-    {
-      int index = result.lastIndexOf(".");
-      if (index != -1)
-      {
-        result = result.substring(index + 1);
-      }
-    }
-    return result;
+    return getPluginClassName(getEditorPluginClassToUse(), "EditorPlugin");
   }
 
   public String getQualifiedEditorPluginClassName()
   {
-    String result = getEditorPluginClassToUse();
-    if (result == null)
-    {
-      result = getEditorPluginID() + "." + getModelName() + "EditorPlugin";
-    }
-    else
-    {
-      int index = result.lastIndexOf(".");
-      if (index == -1)
-      {
-        result = getEditorPluginID() + "." + result;
-      }
-    }
-    return result;
+    return getEditorPluginPackageName() + "." + getEditorPluginClassName();
   }
 
   public String getQualifiedEditorAdvisorClassName()
   {
-//    String packageName = getQualifiedEditorPluginClassName();
-//    int index = packageName.lastIndexOf('.');
-//    if (index >= 0)
-//    {
-//      packageName = packageName.substring(0, index);
-//    }
     return getEditorPluginPackageName() + "." + getEditorAdvisorClassName();
   }
   
   public String getEditorAdvisorClassName()
   {
-    return getModelName() + "EditorAdvisor";
+    String modelName = getModelName();
+    return (modelName != null ? getModelName() : "") + "EditorAdvisor";
   }
 
   public String getTestSuitePackageName()
   {
-    String result = getTestSuiteClass();
-    if (isBlank(result))
-    {
-      result = getTestsPluginID();
-    }
-    else
-    {
-      int index = result.lastIndexOf(".");
-      if (index != -1)
-      {
-        result = result.substring(0, index);
-      }
-    }
-    return result;
+    return getPluginPackageName(getTestSuiteClass(), getTestsPluginID());
   }
 
   public String getTestSuiteClassName()
   {
-    String result = getTestSuiteClass();
-    if (isBlank(result))
-    {
-      result = getModelName() + "AllTests";  
-    }
-    else
-    {
-      int index = result.lastIndexOf(".");
-      if (index != -1)
-      {
-        result = result.substring(index + 1);
-      }
-    }
-    return result;
+    return getPluginClassName(getTestSuiteClass(), "AllTests");
   }
 
   public String getQualifiedTestSuiteClassName()
@@ -4454,12 +4669,59 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   protected void reconcileSettings(GenModel oldGenModelVersion)
   {
+    if (oldGenModelVersion.isSetEditDirectory())
+    {
+      setEditDirectory(oldGenModelVersion.getEditDirectory());
+    }
+    else
+    {
+      unsetEditDirectory();
+    }
+    if (oldGenModelVersion.isSetEditPluginClass())
+    {
+      setEditPluginClass(oldGenModelVersion.getEditPluginClass());
+    }
+    else
+    {
+      unsetEditPluginClass();
+    }
+    if (oldGenModelVersion.isSetEditorDirectory())
+    {
+      setEditorDirectory(oldGenModelVersion.getEditorDirectory());
+    }
+    else
+    {
+      unsetEditorDirectory();
+    }
+    if (oldGenModelVersion.isSetEditorPluginClass())
+    {
+      setEditorPluginClass(oldGenModelVersion.getEditorPluginClass());
+    }
+    else
+    {
+      unsetEditorPluginClass();
+    }
+    if (oldGenModelVersion.isSetTestsDirectory())
+    {
+      setTestsDirectory(oldGenModelVersion.getTestsDirectory());
+    }
+    else
+    {
+      unsetTestsDirectory();
+    }
+    if (oldGenModelVersion.isSetTestSuiteClass())
+    {
+      setTestSuiteClass(oldGenModelVersion.getTestSuiteClass());
+    }
+    else
+    {
+      unsetTestSuiteClass();
+    }
+
     setCopyrightText(oldGenModelVersion.getCopyrightText());
     setModelDirectory(oldGenModelVersion.getModelDirectory());
     setCreationCommands(oldGenModelVersion.isCreationCommands());
     setCreationIcons(oldGenModelVersion.isCreationIcons());
-    setEditDirectory(oldGenModelVersion.getEditDirectory());
-    setEditorDirectory(oldGenModelVersion.getEditorDirectory());
     setModelPluginID(oldGenModelVersion.getModelPluginID());
     setTemplateDirectory(oldGenModelVersion.getTemplateDirectory());
     setRuntimeJar(oldGenModelVersion.isRuntimeJar());
@@ -4475,8 +4737,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setModelName(oldGenModelVersion.getModelName());
 
     setModelPluginClass(oldGenModelVersion.getModelPluginClass());
-    setEditPluginClass(oldGenModelVersion.getEditPluginClass());
-    setEditorPluginClass(oldGenModelVersion.getEditorPluginClass());
     setUpdateClasspath(oldGenModelVersion.isUpdateClasspath()); 
     setGenerateSchema(oldGenModelVersion.isGenerateSchema());
     setNonNLSMarkers(oldGenModelVersion.isNonNLSMarkers());
@@ -4493,10 +4753,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setRuntimeCompatibility(oldGenModelVersion.isRuntimeCompatibility());
     setRichClientPlatform(oldGenModelVersion.isRichClientPlatform());
     setCodeFormatting(oldGenModelVersion.isCodeFormatting());
-    
-    setTestsDirectory(oldGenModelVersion.getTestsDirectory());
-    setTestSuiteClass(oldGenModelVersion.getTestSuiteClass());
-    
+        
     setBooleanFlagsField(oldGenModelVersion.getBooleanFlagsField());
     setBooleanFlagsReservedBits(oldGenModelVersion.getBooleanFlagsReservedBits());
   }

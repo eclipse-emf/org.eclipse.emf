@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.6 2005/04/01 17:54:40 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.7 2005/05/10 21:23:07 davidms Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -185,6 +185,22 @@ public abstract class GeneratorTask extends EMFTask
     }
   }
 
+  public void setReconcileGenModel(String type)
+  {
+    if ("overwrite".equals(type))
+    {
+      reconcileGenModel = GENMODEL_OVERWRITE;
+    }
+    else if ("keep".equals(type))
+    {
+      reconcileGenModel = GENMODEL_KEEP;
+    }
+    else if ("reload".equals(type))
+    {
+      reconcileGenModel = GENMODEL_RELOAD;
+    }
+  }
+
   public void setGenerateJavaCode(boolean generateJavaCode)
   {
     this.generateJavaCode = generateJavaCode;
@@ -296,34 +312,8 @@ public abstract class GeneratorTask extends EMFTask
   protected void adjustEditAndEditorProjects()
   {
     String arguments = getCommandline().toString();
-
-    if (arguments.indexOf("-editProject") < 0)
-    {
-      generateEditProject = false;
-      if (modelProject != null)
-      {
-        getCommandline().createArgument().setValue("-editProject");
-        getCommandline().createArgument().setValue(modelProject.getAbsolutePath() + ".edit");
-        if (modelProjectFragmentPath != null)
-        {
-          getCommandline().createArgument().setValue(modelProjectFragmentPath);
-        }
-      }
-    }
-
-    if (arguments.indexOf("-editorProject") < 0)
-    {
-      generateEditorProject = false;
-      if (modelProject != null)
-      {
-        getCommandline().createArgument().setValue("-editorProject");
-        getCommandline().createArgument().setValue(modelProject.getAbsolutePath() + ".editor");
-        if (modelProjectFragmentPath != null)
-        {
-          getCommandline().createArgument().setValue(modelProjectFragmentPath);
-        }
-      }
-    }
+    generateEditProject = arguments.indexOf("-editProject") < 0;
+    generateEditorProject = arguments.indexOf("-editorProject") < 0;
   }
 
   protected List getGeneratorArguments()

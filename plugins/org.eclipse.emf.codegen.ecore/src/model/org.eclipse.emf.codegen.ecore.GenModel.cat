@@ -40,6 +40,7 @@
 		    type       	"String"
 		    exportControl 	"Public")
 		(object ClassAttribute "modelDirectory"
+		    attributes 	(list Attribute_Set)
 		    quid       	"3C1CBB420077"
 		    type       	"String"
 		    exportControl 	"Public")
@@ -54,14 +55,25 @@
 		    initv      	"true"
 		    exportControl 	"Public")
 		(object ClassAttribute "editDirectory"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isUnsettable"
+			    value      	TRUE))
 		    quid       	"3C6AAB1D01A3"
 		    type       	"String"
 		    exportControl 	"Public")
 		(object ClassAttribute "editorDirectory"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isUnsettable"
+			    value      	TRUE))
 		    quid       	"3C6AAB3300E5"
 		    type       	"String"
 		    exportControl 	"Public")
 		(object ClassAttribute "modelPluginID"
+		    attributes 	(list Attribute_Set)
 		    quid       	"3C6BCA3B034D"
 		    type       	"String"
 		    exportControl 	"Public")
@@ -96,6 +108,11 @@
 		    type       	"String"
 		    exportControl 	"Public")
 		(object ClassAttribute "modelName"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isUnsettable"
+			    value      	FALSE))
 		    quid       	"3D91982A0359"
 		    type       	"String"
 		    exportControl 	"Public")
@@ -104,10 +121,20 @@
 		    type       	"String"
 		    exportControl 	"Public")
 		(object ClassAttribute "editPluginClass"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isUnsettable"
+			    value      	TRUE))
 		    quid       	"3D948DC00007"
 		    type       	"String"
 		    exportControl 	"Public")
 		(object ClassAttribute "editorPluginClass"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isUnsettable"
+			    value      	TRUE))
 		    quid       	"3D948DC501D1"
 		    type       	"String"
 		    exportControl 	"Public")
@@ -183,10 +210,20 @@
 		    type       	"boolean"
 		    exportControl 	"Public")
 		(object ClassAttribute "testsDirectory"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isUnsettable"
+			    value      	TRUE))
 		    quid       	"421A52F30038"
 		    type       	"String"
 		    exportControl 	"Public")
 		(object ClassAttribute "testSuiteClass"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isUnsettable"
+			    value      	TRUE))
 		    quid       	"421B9FC90347"
 		    type       	"String"
 		    exportControl 	"Public")
@@ -198,6 +235,10 @@
 		    quid       	"423749270205"
 		    type       	"int"
 		    initv      	"-1"
+		    exportControl 	"Public")
+		(object ClassAttribute "importerID"
+		    quid       	"426FF0CD000D"
+		    type       	"String"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -2603,10 +2644,10 @@
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
 		    ShowOperationSignature 	TRUE
-		    location   	(2016, 1648)
+		    location   	(2032, 1696)
 		    label      	(object ItemLabel
 			Parent_View 	@151
-			location   	(1377, 667)
+			location   	(1393, 665)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	1278
@@ -2618,12 +2659,12 @@
 		    quidu      	"3C175881028E"
 		    compartment 	(object Compartment
 			Parent_View 	@151
-			location   	(1377, 727)
+			location   	(1393, 725)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	39
-			max_width  	1284
+			nlines     	40
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
 			    "+ modelDirectory : String"
@@ -2650,7 +2691,7 @@
 			    "+ featureMapWrapperInternalInterface : String"
 			    "+ featureMapWrapperClass : String"))
 		    width      	1296
-		    height     	1986
+		    height     	2086
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenPackage" @152
@@ -2676,7 +2717,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	5
-			max_width  	628
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ prefix : String"
 			    "+ basePackage : String"
@@ -2703,8 +2744,8 @@
 		    client     	@151
 		    supplier   	@134
 		    line_style 	3
-		    origin_attachment 	(1728, 655)
-		    terminal_attachment 	(1728, 314)
+		    origin_attachment 	(1725, 653)
+		    terminal_attachment 	(1725, 314)
 		    drawSupplier 	@143)
 		(object InheritView "" @155
 		    stereotype 	TRUE
@@ -2761,14 +2802,6 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D8C92B10303"
-		    compartment 	(object Compartment
-			Parent_View 	@157
-			location   	(1706, 248)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	228)
 		    width      	350
 		    height     	292
 		    annotation 	8
@@ -2800,14 +2833,6 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D8C9D820115"
-		    compartment 	(object Compartment
-			Parent_View 	@158
-			location   	(1700, 728)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	228)
 		    width      	362
 		    height     	292
 		    annotation 	8
@@ -2838,14 +2863,6 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D9D6E110209"
-		    compartment 	(object Compartment
-			Parent_View 	@159
-			location   	(108, 1062)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	5
-			max_width  	162)
 		    width      	378
 		    height     	392
 		    annotation 	8
@@ -2873,7 +2890,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	8
-			max_width  	697
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ creationCommands : boolean = true"
 			    "+ editDirectory : String"
@@ -2903,14 +2920,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3C1759CD00A1"
-		    compartment 	(object Compartment
-			Parent_View 	@161
-			location   	(894, 581)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	8
-			max_width  	706)
 		    width      	726
 		    height     	486
 		    annotation 	8
@@ -2932,14 +2941,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3C1759410016"
-		    compartment 	(object Compartment
-			Parent_View 	@162
-			location   	(984, 178)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	534)
 		    width      	546
 		    height     	236
 		    annotation 	8
@@ -3014,7 +3015,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	3
-			max_width  	712
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ resource : GenResourceKind"
 			    "+ disposableProviderFactory : boolean"))

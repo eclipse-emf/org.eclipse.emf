@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.9 2005/02/21 20:13:27 khussey Exp $
+ * $Id: plugin.xml,v 1.10 2005/05/10 21:22:59 davidms Exp $
  */
 -->
 
@@ -53,24 +53,6 @@
   <extension id="Generator" point="org.eclipse.core.runtime.applications">
     <application>
       <run class="org.eclipse.emf.codegen.ecore.Generator"/>
-    </application>
-  </extension>
-
-  <extension id="Rose2GenModel" point="org.eclipse.core.runtime.applications">
-    <application>
-      <run class="org.eclipse.emf.codegen.ecore.Rose2GenModel"/>
-    </application>
-  </extension>
-
-  <extension id="XSD2GenModel" point="org.eclipse.core.runtime.applications">
-    <application>
-      <run class="org.eclipse.emf.codegen.ecore.XSD2GenModel"/>
-    </application>
-  </extension>
-
-  <extension id="rose2ecore.Rose2Ecore" point="org.eclipse.core.runtime.applications">
-    <application>
-      <run class="org.eclipse.emf.codegen.ecore.rose2ecore.Rose2Ecore"/>
     </application>
   </extension>
 

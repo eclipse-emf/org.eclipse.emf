@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.3 2005/02/10 22:11:51 marcelop Exp $
+ * $Id: plugin.xml,v 1.4 2005/05/10 21:23:07 davidms Exp $
  */
 -->
 
@@ -37,8 +37,9 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.apache.ant"/>
       <import plugin="org.eclipse.ant.core"/>
-      <import plugin="org.eclipse.emf.codegen.ecore"/>
+      <import plugin="org.eclipse.emf.common"/>
       <import plugin="org.eclipse.emf.codegen"/>
+      <import plugin="org.eclipse.emf.codegen.ecore" optional="true"/>
    </requires>
    
    <extension point="org.eclipse.ant.core.extraClasspathEntries">
@@ -46,18 +47,6 @@
    </extension>   
 
    <extension point="org.eclipse.ant.core.antTasks">
-      <antTask
-            library="runtime/emf.ant.tasks.jar"
-            name="emf.Rose2Java"
-            headless="true"
-            class="org.eclipse.emf.ant.taskdefs.codegen.ecore.RoseGeneratorTask">
-      </antTask>
-      <antTask
-            library="runtime/emf.ant.tasks.jar"
-            name="emf.XSD2Java"
-            headless="true"
-            class="org.eclipse.emf.ant.taskdefs.codegen.ecore.XSDGeneratorTask">
-      </antTask>
       <antTask
             library="runtime/emf.ant.tasks.jar"
             name="emf.JETEmitter"

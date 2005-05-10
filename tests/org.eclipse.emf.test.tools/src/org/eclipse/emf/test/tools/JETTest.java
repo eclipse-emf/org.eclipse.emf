@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETTest.java,v 1.2 2005/01/05 20:42:52 marcelop Exp $
+ * $Id: JETTest.java,v 1.3 2005/05/10 21:22:42 davidms Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -129,7 +129,7 @@ public class JETTest extends TestCase
   protected StringBuffer templateHeader(String lineSeparator)
   {
     StringBuffer text = new StringBuffer();
-    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.2 2005/01/05 20:42:52 marcelop Exp $\"%>").append(lineSeparator);
+    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.3 2005/05/10 21:22:42 davidms Exp $\"%>").append(lineSeparator);
     
     text.append("<%").append(lineSeparator);
     text.append("/**").append(lineSeparator);

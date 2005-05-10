@@ -137,18 +137,18 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     XMLTypePackageImpl.init();
 
     // Obtain or create and register interdependencies
-    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackage.eINSTANCE);
     HrPackageImpl theHrPackage = (HrPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HrPackage.eNS_URI) instanceof HrPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HrPackage.eNS_URI) : HrPackage.eINSTANCE);
+    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackage.eINSTANCE);
 
     // Create package meta-data objects
     theElementsPackage.createPackageContents();
-    theLibraryPackage.createPackageContents();
     theHrPackage.createPackageContents();
+    theLibraryPackage.createPackageContents();
 
     // Initialize created meta-data
     theElementsPackage.initializePackageContents();
-    theLibraryPackage.initializePackageContents();
     theHrPackage.initializePackageContents();
+    theLibraryPackage.initializePackageContents();
 
     // Mark meta-data to indicate it can't be changed
     theElementsPackage.freeze();

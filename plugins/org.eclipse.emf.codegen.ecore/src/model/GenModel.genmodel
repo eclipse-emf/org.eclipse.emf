@@ -5,8 +5,8 @@
     creationCommands="false" editDirectory="/org.eclipse.emf.codegen.ecore.ui/src"
     editorDirectory="/org.eclipse.emf.codegen.ecore.ui/src" modelPluginID="org.eclipse.emf.codegen.ecore"
     runtimeJar="true" modelName="GenModel" editPluginClass="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin"
-    editorPluginClass="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin"
-    updateClasspath="false" runtimeCompatibility="false" usedGenPackages="../../../org.eclipse.emf.ecore/src/model/Ecore.genmodel#//ecore">
+    editorPluginClass="" updateClasspath="false" runtimeCompatibility="false" testsDirectory=""
+    importerID="org.eclipse.emf.importer.rose" usedGenPackages="../../../org.eclipse.emf.ecore/src/model/Ecore.genmodel#//ecore">
   <foreignModel>GenModel.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../../..</foreignModel>
@@ -103,6 +103,7 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/booleanFlagsField"/>
       <genFeatures createChild="false" propertyCategory="ModelFeature" propertyDescription="Number of bits to reserve in the boolean flags field, typically because they are used by parent classes"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/booleanFlagsReservedBits"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/importerID"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>

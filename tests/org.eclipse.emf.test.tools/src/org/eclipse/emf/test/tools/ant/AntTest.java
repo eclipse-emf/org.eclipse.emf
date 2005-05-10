@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.6 2005/04/01 17:59:04 marcelop Exp $
+ * $Id: AntTest.java,v 1.7 2005/05/10 21:22:42 davidms Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -114,7 +114,7 @@ public class AntTest extends TestCase
     
     String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
-    testTokenReplacements[1] = new File(EXAMPLES_COPY_DIR, "library.rose/model/library.mdl").getAbsolutePath();
+    testTokenReplacements[1] = File.separator;
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
   }
@@ -141,9 +141,8 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "library.xsd");
     File antScript = new File(rootDir, "build/codeGenFromXSD.xml");
 
-    String[] testTokenReplacements = new String[2];
+    String[] testTokenReplacements = new String[1];
     testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
-    testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
   }
@@ -157,9 +156,8 @@ public class AntTest extends TestCase
     TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
-    String[] testTokenReplacements = new String[2];
+    String[] testTokenReplacements = new String[1];
     testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
-    testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "xsd", testTokenReplacements);
   }  
@@ -170,9 +168,8 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "library.xsds");
     File antScript = new File(rootDir, "build/codeGenFromMultipleXSD.xml");
 
-    String[] testTokenReplacements = new String[2];
+    String[] testTokenReplacements = new String[1];
     testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
-    testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
   }

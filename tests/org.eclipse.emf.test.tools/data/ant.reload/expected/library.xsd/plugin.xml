@@ -12,7 +12,7 @@
 
 <plugin
     name = "%pluginName"
-    id = "org.examples.library"
+    id = "library.xsd"
     version = "1.0.0"
     provider-name = "%providerName">
 
@@ -23,7 +23,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/org.examples.library.jar">
+    <library name="runtime/library.xsd.jar">
       <export name="*"/>
     </library>
   </runtime>

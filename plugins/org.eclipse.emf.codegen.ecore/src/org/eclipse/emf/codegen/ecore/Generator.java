@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.11 2005/04/05 21:57:36 emerks Exp $
+ * $Id: Generator.java,v 1.12 2005/05/10 21:22:59 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -24,6 +24,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
@@ -42,7 +47,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
 
@@ -56,10 +60,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.xml.sax.Attributes;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 
 /**
@@ -754,41 +754,6 @@ public class Generator extends CodeGen
     {
       printStatus(childPrefix, children[i]);
     }
-  }
-
-  public static String validName(String name)
-  {
-    if (name == null || name.length() == 0)
-    {
-      return name;
-    }
-    else if (JavaConventions.validateIdentifier(name).isOK())
-    {
-      return name;
-    }
-
-    StringBuffer result = new StringBuffer();
-    if (Character.isJavaIdentifierStart(name.charAt(0)))
-    {
-      result.append(name.charAt(0));
-    }
-    else
-    {
-      result.append('_');
-      if (Character.isJavaIdentifierPart(name.charAt(0)))
-      {
-        result.append(name.charAt(0));
-      }
-    }
-    for (int i = 1; i < name.length(); ++ i)
-    {
-      if (Character.isJavaIdentifierPart(name.charAt(i)))
-      {
-        result.append(name.charAt(i));
-      }
-    }
-
-    return result.length() == 0 ? "_" : result.toString();
   }
 
   public static void setSDODefaults(GenModel genModel)

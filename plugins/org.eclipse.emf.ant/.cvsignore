@@ -1,4 +1,5 @@
 bin
+bin.tasks
 temp.folder
 build.xml
 dev.properties

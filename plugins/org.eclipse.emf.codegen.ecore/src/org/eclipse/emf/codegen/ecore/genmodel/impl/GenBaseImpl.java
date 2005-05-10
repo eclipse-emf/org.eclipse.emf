@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.24 2005/04/27 19:36:20 elena Exp $
+ * $Id: GenBaseImpl.java,v 1.25 2005/05/10 21:22:59 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -142,67 +142,28 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   public String capName(String name)
   {
-    if (name.length() == 0)
-      return name;
-    else
-      return name.substring(0,1).toUpperCase() + name.substring(1);
+    return GenModelUtil.capName(name);
   }
 
   public String uncapName(String name)
   {
-    if (name.length() == 0)
-      return name;
-    else
-      return name.substring(0,1).toLowerCase() + name.substring(1);
+    return GenModelUtil.uncapName(name);
   }
 
   public String uncapPrefixedName(String name)
   {
-    return uncapPrefixedName(name, false);
+    return GenModelUtil.uncapPrefixedName(name, false);
     
   }
   
   public String uncapPrefixedName(String name, boolean forceDifferent)
   {
-    // lower all except the last upper case character if there are
-    // more than one upper case characters in the beginning.
-    // e.g. XSDElementContent -> xsdElementContent
-    // However if the whole string is uppercase, the whole string
-    // is turned into lower case.
-    // e.g. CPU -> cpu
-    if (name.length() == 0)
-    {
-      return name;
-    }
-    else 
-    {
-      String lowerName = name.toLowerCase();
-      int i;
-      for (i = 0; i < name.length(); i++) 
-      {
-        if (name.charAt(i) == lowerName.charAt(i)) 
-        {
-          break;
-        }
-      }
-      if (i > 1 && i < name.length()) 
-      {
-        --i;
-      }
-      String prefix = name.substring(0, i);
-      String lowerCasePrefix = prefix.toLowerCase();
-      if (forceDifferent && lowerCasePrefix.equals(prefix))
-      {
-        lowerCasePrefix = "_" + lowerCasePrefix;
-      }
-      return lowerCasePrefix + name.substring(i);
-    }
+    return GenModelUtil.uncapPrefixedName(name, forceDifferent);
   }
 
   public String safeName(String name)
   {
-    if (GenModelUtil.isJavaReservedWord(name)) return name + "_";
-    return name;
+    return GenModelUtil.safeName(name);
   }
 
   protected String getImplClassName(String interfaceName)
@@ -763,84 +724,17 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   public String format(String name, char separator, String prefix, boolean includePrefix)
   {
-    List parsedName = new ArrayList();
-
-    if (prefix != null && 
-          name.startsWith(prefix) && 
-          name.length() > prefix.length() && Character.isUpperCase(name.charAt(prefix.length())))
-    {
-      name = name.substring(prefix.length());
-      if (includePrefix)
-      {
-        parsedName = parseName(prefix, '_');
-      }
-    }
-
-    if (name.length() != 0) parsedName.addAll(parseName(name, '_'));
-
-    StringBuffer result = new StringBuffer();
-
-    for (Iterator nameIter = parsedName.iterator(); nameIter.hasNext(); )
-    {
-      String nameComponent = (String)nameIter.next();
-      result.append(nameComponent);
-
-      if (nameIter.hasNext() && nameComponent.length() > 1)
-      {
-        result.append(separator);
-      }
-    }
-
-    return result.length() == 0 && prefix != null ? prefix : result.toString();
+    return GenModelUtil.format(name, separator, prefix, includePrefix);
   }
 
   /**
-   * This method breaks sourceName into words delimited by sourceSeparator and/or mixed-case naming.
+   * This method was used to break sourceName into words delimited by sourceSeparator and/or mixed-case naming.
+   * Now, it simply returns an empty list.
+   * @deprecated in 2.1.0.  Use {@link GenModelUtil#parseName(String, char)} instead.
    */
-  protected List parseName(String sourceName, char sourceSeparator)
+  protected final List parseName(String sourceName, char sourceSeparator)
   {
-    List result = new ArrayList();
-    StringBuffer currentWord = new StringBuffer();
-
-    int length = sourceName.length();
-    boolean lastIsLower = false;
-
-    for (int index=0; index<length; index++)
-    {
-      char curChar = sourceName.charAt(index);
-      if (Character.isUpperCase(curChar) || (!lastIsLower && Character.isDigit(curChar)) || curChar == sourceSeparator)
-      {
-        if (lastIsLower || curChar == sourceSeparator)
-        {
-          result.add(currentWord.toString());
-          currentWord = new StringBuffer();
-        }
-        lastIsLower = false;
-      }
-      else
-      {
-        if (!lastIsLower)
-        {
-          int currentWordLength = currentWord.length();
-          if (currentWordLength > 1)
-          {
-            char lastChar = currentWord.charAt(--currentWordLength);
-            currentWord.setLength(currentWordLength);
-            result.add(currentWord.toString());
-            currentWord = new StringBuffer();
-            currentWord.append(lastChar);
-          }
-        }
-        lastIsLower = true;
-      }
-      if (curChar != sourceSeparator)
-      {
-        currentWord.append(curChar);
-      }
-    }
-
-    result.add(currentWord.toString());
-    return result;
+    return Collections.EMPTY_LIST;
   }
 
   protected List getAllGenPackages()
