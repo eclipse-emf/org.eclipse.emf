@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaFactoryImpl.java,v 1.3 2004/06/08 18:26:51 emerks Exp $
+ * $Id: JavaFactoryImpl.java,v 1.4 2005/05/10 11:37:44 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -34,7 +34,7 @@ import org.eclipse.emf.java.*;
 public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

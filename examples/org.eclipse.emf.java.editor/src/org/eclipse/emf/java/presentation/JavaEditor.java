@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.8 2004/12/16 21:54:46 emerks Exp $
+ * $Id: JavaEditor.java,v 1.9 2005/05/10 11:38:59 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -424,21 +424,27 @@ public class JavaEditor
             ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
             delta.accept(visitor);
 
-            removedResources.addAll(visitor.getRemovedResources());
-            if (!visitor.getRemovedResources().isEmpty() && !isDirty())
+            if (!visitor.getRemovedResources().isEmpty())
             {
-              getSite().getShell().getDisplay().asyncExec
-                (new Runnable()
-                 {
-                  public void run()
-                  {
-                    getSite().getPage().closeEditor(JavaEditor.this, false);
-                    JavaEditor.this.dispose();
-                  }
-                 });
-            }
+              removedResources.addAll(visitor.getRemovedResources());
+              if (!isDirty())
+ 							{
+ 								getSite().getShell().getDisplay().asyncExec
+ 									(new Runnable()
+ 								 	{
+ 										public void run()
+ 										{
+ 											getSite().getPage().closeEditor(JavaEditor.this, false);
+ 											JavaEditor.this.dispose();
+ 										}
+ 								 	});
+ 							}
+ 						}
 
-            changedResources.addAll(visitor.getChangedResources());
+            if (!visitor.getChangedResources().isEmpty())
+            {
+              changedResources.addAll(visitor.getChangedResources());
+            }
           }
           catch (CoreException exception)
           {

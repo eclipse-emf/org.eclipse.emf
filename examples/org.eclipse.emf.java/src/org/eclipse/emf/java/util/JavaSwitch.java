@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaSwitch.java,v 1.4 2004/07/29 13:32:44 marcelop Exp $
+ * $Id: JavaSwitch.java,v 1.5 2005/05/10 11:37:44 emerks Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -141,12 +141,27 @@ public class JavaSwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case JavaPackage.JMEMBER:
+      {
+        JMember jMember = (JMember)theEObject;
+        Object result = caseJMember(jMember);
+        if (result == null) result = caseJModelElement(jMember);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case JavaPackage.JMETHOD:
       {
         JMethod jMethod = (JMethod)theEObject;
         Object result = caseJMethod(jMethod);
         if (result == null) result = caseJMember(jMethod);
         if (result == null) result = caseJModelElement(jMethod);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case JavaPackage.JMODEL_ELEMENT:
+      {
+        JModelElement jModelElement = (JModelElement)theEObject;
+        Object result = caseJModelElement(jModelElement);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaActionBarContributor.java,v 1.3 2004/06/08 18:23:49 emerks Exp $
+ * $Id: JavaActionBarContributor.java,v 1.4 2005/05/10 11:38:59 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -205,7 +205,7 @@ public class JavaActionBarContributor
 
   /**
    * This implements {@link org.eclipse.jface.viewers.ISelectionChangedListener},
-   * handling {@link org.eclipse.jface.viewers.SelectionChangedEvents} by querying for the children and siblings
+   * handling {@link org.eclipse.jface.viewers.SelectionChangedEvent}s by querying for the children and siblings
    * that can be added to the selected object and updating the menus accordingly.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
