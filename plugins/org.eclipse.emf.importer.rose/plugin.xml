@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2005 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: plugin.xml,v 1.1 2005/05/10 17:40:33 davidms Exp $
+ */
+-->
+
+<plugin
+	name = "%pluginName"
+    id = "org.eclipse.emf.importer.rose"
+    version = "2.1.0" 
+    provider-name = "%providerName"
+    class = "org.eclipse.emf.importer.rose.RoseImporterPlugin$Implementation">
+    
+	<requires>
+	    <import plugin="org.eclipse.core.runtime"/>
+	    <import plugin="org.eclipse.core.resources"/>
+   	    <import plugin="org.eclipse.emf.importer"/>
+	    <import plugin="org.eclipse.emf.codegen.ecore.ui" optional="true"/>
+	    <import plugin="org.apache.ant" optional="true"/>
+	    <import plugin="org.eclipse.emf.ant" optional="true"/>
+	</requires>
+
+	<runtime>
+		<library name="runtime/importer.rose.jar">
+			<export name="*"/>
+		</library>
+	</runtime>
+
+	<extension id="Rose2GenModel" point="org.eclipse.core.runtime.applications">
+		<application>
+			<run class="org.eclipse.emf.importer.rose.RoseImporterApplication"/>
+		</application>
+	</extension>
+
+	<extension point="org.eclipse.emf.importer.modelImporterDescriptors">
+		<modelImporterDescriptor
+			id="org.eclipse.emf.importer.rose"
+			name="%_UI_RoseModelImporter_label"
+			icon="icons/rose.gif"
+			extensions="mdl"
+			wizard="org.eclipse.emf.importer.rose.ui.RoseImporterWizard"/>
+	</extension>	
+  
+	<extension point="org.eclipse.ant.core.extraClasspathEntries">
+		<extraClasspathEntry library="runtime/importer.rose.tasks.jar"/>
+	</extension>   
+    
+	<extension point="org.eclipse.ant.core.antTasks">
+		<antTask
+            library="runtime/importer.rose.tasks.jar"
+            name="emf.Rose2Java"
+            headless="true"
+            class="org.eclipse.emf.importer.rose.taskdefs.RoseGeneratorTask">
+		</antTask>
+	</extension>  
+</plugin>
+
+
+
