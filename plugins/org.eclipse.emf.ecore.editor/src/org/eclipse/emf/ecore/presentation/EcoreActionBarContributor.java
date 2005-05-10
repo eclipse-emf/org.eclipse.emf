@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.4 2004/05/16 17:07:48 emerks Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.5 2005/05/10 11:25:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -285,7 +285,7 @@ public class EcoreActionBarContributor
 
   /**
    * This implements {@link org.eclipse.jface.viewers.ISelectionChangedListener},
-   * handling {@link org.eclipse.jface.viewers.SelectionChangedEvents} by querying for the children and siblings
+   * handling {@link org.eclipse.jface.viewers.SelectionChangedEvent}s by querying for the children and siblings
    * that can be added to the selected object and updating the menus accordingly.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
