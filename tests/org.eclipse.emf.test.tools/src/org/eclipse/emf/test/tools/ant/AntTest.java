@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.7 2005/05/10 21:22:42 davidms Exp $
+ * $Id: AntTest.java,v 1.8 2005/05/10 22:12:49 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -130,7 +130,7 @@ public class AntTest extends TestCase
    
     String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
-    testTokenReplacements[1] = new File(EXAMPLES_COPY_DIR, "library.rose/model/library.mdl").getAbsolutePath();
+    testTokenReplacements[1] = File.separator;
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "rose", testTokenReplacements);
   }
