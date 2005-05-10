@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreModelWizard.java,v 1.7 2005/05/06 15:03:18 khussey Exp $
+ * $Id: Ecore2EcoreModelWizard.java,v 1.8 2005/05/10 11:40:33 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -63,8 +64,8 @@ import org.eclipse.jface.wizard.WizardPage;
 
 import org.eclipse.swt.SWT;
 
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.ModifyEvent;
 
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -128,7 +129,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
   protected Ecore2EcoreModelWizardNewFileCreationPage newFileCreationPage;
 
   /**
-   * This is the file creation page.
+   * This is the initial object creation page.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -152,6 +153,14 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
   protected IWorkbench workbench;
 
   /**
+   * Caches the names of the types that can be created as the root object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected List initialObjectNames;
+
+  /**
    * This just records the information.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -166,12 +175,40 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
   }
 
   /**
+   * Returns the names of the types that can be created as the root object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected Collection getInitialObjectNames()
+  {
+    if (initialObjectNames == null)
+    {
+      initialObjectNames = new ArrayList();
+      for (Iterator classifiers = ecore2EcorePackage.getEClassifiers().iterator(); classifiers.hasNext(); )
+      {
+        EClassifier eClassifier = (EClassifier)classifiers.next();
+        if (eClassifier instanceof EClass)
+        {
+          EClass eClass = (EClass)eClassifier;
+          if (!eClass.isAbstract())
+          {
+            initialObjectNames.add(eClass.getName());
+          }
+        }
+      }
+      Collections.sort(initialObjectNames, java.text.Collator.getInstance());
+    }
+    return initialObjectNames;
+  }
+
+  /**
    * Create a new model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  EObject createInitialModelGen()
+  protected EObject createInitialModelGen()
   {
     EClass eClass = (EClass)ecore2EcorePackage.getEClassifier(initialObjectCreationPage.getInitialObjectName());
     EObject rootObject = ecore2EcoreFactory.create(eClass);
@@ -302,14 +339,6 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
   public class Ecore2EcoreModelWizardNewFileCreationPage extends WizardNewFileCreationPage
   {
     /**
-     * Remember the model file.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected IFile modelFile;
-
-    /**
      * Pass in the selection.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -351,28 +380,13 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
     }
 
     /**
-     * Store the dialog field settings upon completion.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public boolean performFinish()
-    {
-      modelFile = getModelFile();
-      return true;
-    }
-
-    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     public IFile getModelFile()
     {
-      return
-        modelFile == null ?
-          ResourcesPlugin.getWorkspace().getRoot().getFile(getContainerFullPath().append(getFileName())) :
-          modelFile;
+      return ResourcesPlugin.getWorkspace().getRoot().getFile(getContainerFullPath().append(getFileName()));
     }
   }
 
@@ -389,13 +403,6 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
-    protected String initialObjectName;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     protected Combo initialObjectField;
 
     /**
@@ -403,7 +410,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      */
-    protected String encoding;
+    protected List encodings;
 
     /**
      * <!-- begin-user-doc -->
@@ -461,35 +468,16 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
         initialObjectField.setLayoutData(data);
       }
 
-      List objectNames = new ArrayList();
-      for (Iterator classifier = ecore2EcorePackage.getEClassifiers().iterator(); classifier.hasNext(); )
+      for (Iterator i = getInitialObjectNames().iterator(); i.hasNext(); )
       {
-        EClassifier eClassifier = (EClassifier)classifier.next();
-        if (eClassifier instanceof EClass)
-        {
-          EClass eClass = (EClass)eClassifier;
-          if (!eClass.isAbstract())
-          {
-            objectNames.add(getLabel(eClass));
-          }
-        }
+        initialObjectField.add(getLabel((String)i.next()));
       }
 
-      Collections.sort(objectNames, java.text.Collator.getInstance());
-      for (Iterator i = objectNames.iterator(); i.hasNext(); )
+      if (initialObjectField.getItemCount() == 1)
       {
-        String objectName = (String)i.next();
-        initialObjectField.add(objectName);
+        initialObjectField.select(0);
       }
-
-      initialObjectField.addSelectionListener
-        (new SelectionAdapter()
-         {
-           public void widgetSelected(SelectionEvent e)
-           {
-             setPageComplete(isPageComplete());
-           }
-         });
+      initialObjectField.addModifyListener(validator);
 
       Label encodingLabel = new Label(composite, SWT.LEFT);
       {
@@ -507,44 +495,63 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
         encodingField.setLayoutData(data);
       }
 
-      for (StringTokenizer stringTokenizer = new StringTokenizer(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); )
+      for (Iterator i = getEncodings().iterator(); i.hasNext(); )
       {
-        encodingField.add(stringTokenizer.nextToken());
+        encodingField.add((String)i.next());
       }
-      encodingField.select(0);
 
+      encodingField.select(0);
+      encodingField.addModifyListener(validator);
+
+      setPageComplete(validatePage());
       setControl(composite);
     }
 
     /**
-     * The framework calls this to see if the file is correct.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean isPageComplete()
+    protected ModifyListener validator =
+      new ModifyListener()
+      {
+        public void modifyText(ModifyEvent e)
+        {
+          setPageComplete(validatePage());
+        }
+      };
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected boolean validatePage()
     {
-      if (super.isPageComplete())
-      {
-        return initialObjectField.getSelectionIndex() != -1;
-      }
-      else
-      {
-        return false;
-      }
+      return getInitialObjectName() != null && getEncodings().contains(encodingField.getText());
     }
 
     /**
-     * Store the dialog field settings upon completion.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    public boolean performFinish()
+    public void setVisible(boolean visible)
     {
-      initialObjectName = getInitialObjectName();
-      encoding = getEncoding();
-      return true;
+      super.setVisible(visible);
+      if (visible)
+      {
+        if (initialObjectField.getItemCount() == 1)
+        {
+          initialObjectField.clearSelection();
+          encodingField.setFocus();
+        }
+        else
+        {
+          encodingField.clearSelection();
+          initialObjectField.setFocus();
+        }
+      }
     }
 
     /**
@@ -554,27 +561,17 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
      */
     public String getInitialObjectName()
     {
-      if (initialObjectName != null)
+      String label = initialObjectField.getText();
+
+      for (Iterator i = getInitialObjectNames().iterator(); i.hasNext(); )
       {
-        return initialObjectName;
-      }
-      else
-      {
-        String label = initialObjectField.getText();
-        for (Iterator classifier = ecore2EcorePackage.getEClassifiers().iterator(); classifier.hasNext(); )
+        String name = (String)i.next();
+        if (getLabel(name).equals(label))
         {
-          EClassifier eClassifier = (EClassifier)classifier.next();
-          if (eClassifier instanceof EClass)
-          {
-            EClass eClass = (EClass)eClassifier;
-            if (!eClass.isAbstract() && getLabel(eClass).equals(label))
-            {
-              return eClass.getName();
-            }
-          }
+          return name;
         }
-        return label;
       }
+      return null;
     }
 
     /**
@@ -584,28 +581,43 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
      */
     public String getEncoding()
     {
-      return
-        encoding == null ?
-          encodingField.getText() :
-          encoding;
+      return encodingField.getText();
     }
+
     /**
-     * Returns the label of the specified element.
+     * Returns the label for the specified type name.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected String getLabel(EClass eClass)
+    protected String getLabel(String typeName)
     {
-      String name = eClass.getName();
       try
       {
-        return Ecore2EcorePlugin.INSTANCE.getString("_UI_" + name + "_type");
+        return Ecore2EcorePlugin.INSTANCE.getString("_UI_" + typeName + "_type");
       }
       catch(MissingResourceException mre)
       {
       }
-      return name;
+      return typeName;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected Collection getEncodings()
+    {
+      if (encodings == null)
+      {
+        encodings = new ArrayList();
+        for (StringTokenizer stringTokenizer = new StringTokenizer(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); )
+        {
+          encodings.add(stringTokenizer.nextToken());
+        }
+      }
+      return encodings;
     }
   }
 
