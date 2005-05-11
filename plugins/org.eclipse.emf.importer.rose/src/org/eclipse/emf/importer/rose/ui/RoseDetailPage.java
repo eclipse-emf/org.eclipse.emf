@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.1 2005/05/10 17:40:33 davidms Exp $
+ * $Id: RoseDetailPage.java,v 1.2 2005/05/11 14:53:52 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -52,6 +52,7 @@ import org.eclipse.emf.common.ui.celleditor.ExtendedTableEditor;
 import org.eclipse.emf.edit.provider.ItemProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.rose.RoseImporter;
 import org.eclipse.emf.importer.rose.RoseImporterPlugin;
@@ -337,6 +338,16 @@ public class RoseDetailPage extends ModelDetailPage
     if (processStatus(status))
     {
       internalSetGenModelFileName(getRoseImporter().getGenModelFileName());
+      status = getRoseImporter().checkGenModelFileName();
+      if (!status.isOK())
+      {
+        setErrorMessage(status.getMessage());
+        ErrorDialog.openError(
+          getShell(),
+          ImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"),
+          ImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessing_message"),
+          status);
+      }      
     }
     else
     {

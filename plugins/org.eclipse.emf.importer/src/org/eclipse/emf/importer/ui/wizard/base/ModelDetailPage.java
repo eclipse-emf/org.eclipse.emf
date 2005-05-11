@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelDetailPage.java,v 1.1 2005/05/10 17:35:19 davidms Exp $
+ * $Id: ModelDetailPage.java,v 1.2 2005/05/11 14:53:52 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui.wizard.base;
 
@@ -26,6 +26,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.SWT;
@@ -231,7 +232,8 @@ public class ModelDetailPage extends ModelImporterPage
     {
       usingInternalSetName = false;
       getModelImporter().setGenModelFileName(genModelNameText.getText());
-      checkGenModelName();
+      IStatus status = getModelImporter().checkGenModelFileName();
+      setErrorMessage(status.isOK() ? null : status.getMessage());
     }
     else if (event.type == SWT.Selection && event.widget == modelLocationBrowseFileSystemButton)
     {
@@ -245,12 +247,6 @@ public class ModelDetailPage extends ModelImporterPage
     {
       super.handleEvent(event);
     }
-  }
-
-  protected void checkGenModelName()
-  {
-    IStatus status = getModelImporter().checkGenModelFileName();
-    setErrorMessage(status.isOK() ? null : status.getMessage());
   }
 
   protected String getModelLocationTextLabel()
@@ -477,6 +473,18 @@ public class ModelDetailPage extends ModelImporterPage
     }
     
     internalSetGenModelFileName(getModelImporter().computeDefaultGenModelFileName());
+    IStatus nameStatus = getModelImporter().checkGenModelFileName();
+    if (!nameStatus.isOK())
+    {
+      if (status.isOK())
+      {
+        status = nameStatus;
+      }
+      else if (status.isMultiStatus() && status instanceof MultiStatus)
+      {
+        ((MultiStatus)status).add(nameStatus);
+      }
+    }
     
     if (status.isOK())
     {
@@ -484,6 +492,7 @@ public class ModelDetailPage extends ModelImporterPage
     }
     else
     {
+      setErrorMessage(status.getMessage());
       ErrorDialog.openError(
         getShell(),
         ImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"),
@@ -500,7 +509,6 @@ public class ModelDetailPage extends ModelImporterPage
       setHandlingEvent(false);
       genModelNameText.setText(getModelImporter().getGenModelFileName());
       setHandlingEvent(true);
-      checkGenModelName();
     }     
   }
 }
