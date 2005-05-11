@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelPackagePage.java,v 1.1 2005/05/10 17:35:19 davidms Exp $
+ * $Id: ModelPackagePage.java,v 1.2 2005/05/11 14:56:56 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui.wizard.base;
 
@@ -28,6 +28,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
@@ -58,7 +59,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.dialogs.ResourceSelectionDialog;
 
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenBaseItemProvider;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
@@ -476,35 +476,12 @@ public class ModelPackagePage extends ModelImporterPage
               }
             }
 
-            Collection checkedGenPackages = new ArrayList();
-            List tableCheckedEPackages = getCheckedEPackages();
-            for (Iterator j = genModels.iterator(); j.hasNext();)
-            {
-              GenModel genModel = (GenModel)j.next();
-              for (Iterator k = genModel.getGenPackages().iterator(); k.hasNext();)
-              {
-                GenPackage genPackage = (GenPackage)k.next();
-                for (Iterator l = getModelImporter().getEPackages().iterator(); l.hasNext();)
-                {
-                  EPackage ePackage = (EPackage)l.next();
-                  if (!tableCheckedEPackages.contains(ePackage))
-                  {
-                    if (genPackage.getEcorePackage().getNsURI().equalsIgnoreCase(ePackage.getNsURI()))
-                    {
-                      checkedGenPackages.add(genPackage);
-                      break;
-                    }
-                  }
-                }
-              }
-            }
-            
-            Object[] checkedElements = checkedGenPackages.toArray();
             referencedGenModelsCheckboxTreeViewer.getTree().deselectAll();
             referencedGenModelsCheckboxTreeViewer.setInput(new ItemProvider(genModels));
-            referencedGenModelsCheckboxTreeViewer.setCheckedElements(checkedElements);
-            referencedGenModelsCheckboxTreeViewer.setSelection(new StructuredSelection(checkedElements), true);
-            
+            for (Iterator i = genModels.iterator(); i.hasNext();)
+            {
+              referencedGenModelsCheckboxTreeViewer.expandToLevel(i.next(), AbstractTreeViewer.ALL_LEVELS);
+            }            
             referencedGenModelsCheckboxTreeViewerCheckStateChanged();
           }
         }
@@ -663,6 +640,7 @@ public class ModelPackagePage extends ModelImporterPage
           genModels.add(referencedGenPackages[i].getGenModel());
         }
         referencedGenModelsCheckboxTreeViewer.setInput(new ItemProvider(genModels));
+        referencedGenModelsCheckboxTreeViewer.expandAll();
         referencedGenModelsCheckboxTreeViewer.setCheckedElements(referencedGenPackages);
         referencedGenModelsCheckboxTreeViewer.setSelection(new StructuredSelection(referencedGenPackages), true);
       }
