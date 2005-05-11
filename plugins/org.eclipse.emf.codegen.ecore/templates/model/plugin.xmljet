@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.4 2004/05/16 17:23:20 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.5 2005/05/11 16:51:17 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -54,7 +54,9 @@
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
        uri = "<%=genPackage.getNSURI()%>" 
-       class = "<%=genPackage.getQualifiedPackageInterfaceName()%>" />
+       class = "<%=genPackage.getQualifiedPackageInterfaceName()%>"<%if (!genModel.hasLocalGenModel()) {%> /><%} else {%>
+       genModel = "<%=genModel.getRelativeGenModelLocation()%>" /> 
+       <%}%>
   </extension>
   <%if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {%>
 

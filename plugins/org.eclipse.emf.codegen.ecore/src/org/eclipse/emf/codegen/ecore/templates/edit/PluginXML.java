@@ -24,12 +24,16 @@ public class PluginXML
   protected final String TEXT_16 = NL + "      <export name=\"*\"/>" + NL + "    </library>" + NL + "  </runtime>";
   protected final String TEXT_17 = NL + NL + "  <extension point=\"org.eclipse.emf.ecore.generated_package\">" + NL + "    <package" + NL + "       uri = \"";
   protected final String TEXT_18 = "\"" + NL + "       class = \"";
-  protected final String TEXT_19 = "\" />" + NL + "  </extension>";
-  protected final String TEXT_20 = NL + NL + "  <extension point=\"org.eclipse.emf.ecore.extension_parser\">" + NL + "    <parser" + NL + "       type=\"";
-  protected final String TEXT_21 = "\"" + NL + "       class=\"";
-  protected final String TEXT_22 = "\" />" + NL + "  </extension>";
-  protected final String TEXT_23 = NL + NL + "</plugin>" + NL;
-  protected final String TEXT_24 = NL;
+  protected final String TEXT_19 = "\"";
+  protected final String TEXT_20 = " />";
+  protected final String TEXT_21 = NL + "       genModel = \"";
+  protected final String TEXT_22 = "\" /> ";
+  protected final String TEXT_23 = NL + "  </extension>";
+  protected final String TEXT_24 = NL + NL + "  <extension point=\"org.eclipse.emf.ecore.extension_parser\">" + NL + "    <parser" + NL + "       type=\"";
+  protected final String TEXT_25 = "\"" + NL + "       class=\"";
+  protected final String TEXT_26 = "\" />" + NL + "  </extension>";
+  protected final String TEXT_27 = NL + NL + "</plugin>" + NL;
+  protected final String TEXT_28 = NL;
 
   public String generate(Object argument)
   {
@@ -87,17 +91,25 @@ public class PluginXML
     stringBuffer.append(TEXT_18);
     stringBuffer.append(genPackage.getQualifiedPackageInterfaceName());
     stringBuffer.append(TEXT_19);
-    if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {
+    if (!genModel.hasLocalGenModel()) {
     stringBuffer.append(TEXT_20);
-    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    } else {
     stringBuffer.append(TEXT_21);
-    stringBuffer.append(genPackage.getQualifiedResourceFactoryClassName());
+    stringBuffer.append(genModel.getRelativeGenModelLocation());
     stringBuffer.append(TEXT_22);
     }
-    }
-    }
     stringBuffer.append(TEXT_23);
+    if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {
     stringBuffer.append(TEXT_24);
+    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    stringBuffer.append(TEXT_25);
+    stringBuffer.append(genPackage.getQualifiedResourceFactoryClassName());
+    stringBuffer.append(TEXT_26);
+    }
+    }
+    }
+    stringBuffer.append(TEXT_27);
+    stringBuffer.append(TEXT_28);
     return stringBuffer.toString();
   }
 }
