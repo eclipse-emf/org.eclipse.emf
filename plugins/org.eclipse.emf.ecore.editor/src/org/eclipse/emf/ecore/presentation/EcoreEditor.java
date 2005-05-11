@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.14 2005/05/10 11:28:26 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.15 2005/05/11 16:43:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -103,6 +103,7 @@ import org.eclipse.emf.common.ui.ViewerPane;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import java.util.HashMap;
 
@@ -437,18 +438,18 @@ public class EcoreEditor
             {
               removedResources.addAll(visitor.getRemovedResources());
               if (!isDirty())
- 							{
- 								getSite().getShell().getDisplay().asyncExec
- 									(new Runnable()
- 								 	{
- 										public void run()
- 										{
- 											getSite().getPage().closeEditor(EcoreEditor.this, false);
- 											EcoreEditor.this.dispose();
- 										}
- 								 	});
- 							}
- 						}
+              {
+                getSite().getShell().getDisplay().asyncExec
+                  (new Runnable()
+                   {
+                     public void run()
+                     {
+                       getSite().getPage().closeEditor(EcoreEditor.this, false);
+                       EcoreEditor.this.dispose();
+                     }
+                   });
+              }
+            }
 
             if (!visitor.getChangedResources().isEmpty())
             {
@@ -807,13 +808,15 @@ public class EcoreEditor
    * This is the method called to load a resource into the editing domain's resource set based on the editor's input.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void createModel()
   {
     // I assume that the input is a file object.
     //
     IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
+    
+    editingDomain.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
 
     try
     {

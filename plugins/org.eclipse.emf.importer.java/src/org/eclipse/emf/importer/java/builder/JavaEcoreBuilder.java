@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.1 2005/05/10 17:39:01 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.2 2005/05/11 16:43:47 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -82,6 +82,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -220,7 +221,9 @@ public class JavaEcoreBuilder
 
   protected ResourceSet createResourceSet()
   {
-    return new ResourceSetImpl();
+    ResourceSet result = new ResourceSetImpl();
+    result.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+    return result;
   }
     
   protected IPath analyseProject(IProject project) throws Exception

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicModelWizard.java,v 1.2 2005/03/28 20:29:26 marcelop Exp $
+ * $Id: DynamicModelWizard.java,v 1.3 2005/05/11 16:43:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -48,6 +48,7 @@ import org.eclipse.ui.part.ISetSelectionTarget;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -131,6 +132,7 @@ public class DynamicModelWizard extends Wizard implements INewWizard
               // Create a resource set
               //
               ResourceSet resourceSet = new ResourceSetImpl();
+              resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
 
               // Get the URI of the model file.
               //

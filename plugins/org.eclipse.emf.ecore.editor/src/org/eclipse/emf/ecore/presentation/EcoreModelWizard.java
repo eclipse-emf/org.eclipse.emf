@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.8 2005/05/10 11:30:28 emerks Exp $
+ * $Id: EcoreModelWizard.java,v 1.9 2005/05/11 16:43:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -57,6 +57,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 
 
@@ -212,6 +213,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
               // Create a resource set
               //
               ResourceSet resourceSet = new ResourceSetImpl();
+              resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
 
               // Get the URI of the model file.
               //

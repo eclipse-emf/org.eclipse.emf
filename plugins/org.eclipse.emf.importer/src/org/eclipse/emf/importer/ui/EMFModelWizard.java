@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFModelWizard.java,v 1.1 2005/05/10 17:35:19 davidms Exp $
+ * $Id: EMFModelWizard.java,v 1.2 2005/05/11 16:45:01 emerks Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -51,6 +51,7 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -398,7 +399,9 @@ public class EMFModelWizard extends Wizard implements INewWizard
   
   protected ResourceSet createResourceSet()
   {
-    return new ResourceSetImpl();
+    ResourceSet result = new ResourceSetImpl();
+    result.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+    return result;
   }
 
   protected void computeSuggestedDescriptor()
