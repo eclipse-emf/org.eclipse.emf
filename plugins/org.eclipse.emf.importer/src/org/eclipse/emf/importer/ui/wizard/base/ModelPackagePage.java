@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelPackagePage.java,v 1.2 2005/05/11 14:56:56 marcelop Exp $
+ * $Id: ModelPackagePage.java,v 1.3 2005/05/11 16:44:29 emerks Exp $
  */
 package org.eclipse.emf.importer.ui.wizard.base;
 
@@ -69,6 +69,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.common.ui.celleditor.ExtendedTableEditor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -135,7 +136,7 @@ public class ModelPackagePage extends ModelImporterPage
       {
         public void run()
         {
-          filterPackagesTable(firstTime);
+          filterPackagesTable(true);
           getContainer().updateButtons();
         }
       });
@@ -463,7 +464,7 @@ public class ModelPackagePage extends ModelImporterPage
           if (result != null)
           {
             ResourceSet referencedGenModels = getModelImporter().createResourceSet();
-            List genModels = new ArrayList();
+            List genModels = new UniqueEList.FastCompare(getModelImporter().getExternalGenModels());
             for (int i = 0; i < result.length; ++i)
             {
               IResource resource = (IResource)result[i];
@@ -627,11 +628,11 @@ public class ModelPackagePage extends ModelImporterPage
     }
   }
 
-  protected void filterPackagesTable(boolean firstTime)
+  protected void filterPackagesTable(boolean reloadReferencedGenPackagesTable)
   {
-    if (firstTime)
+    if (reloadReferencedGenPackagesTable)
     {
-      if (!getModelImporter().getReferencedGenPackages().isEmpty())
+      if (!getModelImporter().getReferencedGenPackages().isEmpty() || !getModelImporter().getExternalGenModels().isEmpty())
       {
         GenPackage[] referencedGenPackages = (GenPackage[])getModelImporter().getReferencedGenPackages().toArray(new GenPackage [getModelImporter().getReferencedGenPackages().size()]);
         Set genModels = new HashSet();
@@ -639,6 +640,7 @@ public class ModelPackagePage extends ModelImporterPage
         {
           genModels.add(referencedGenPackages[i].getGenModel());
         }
+        genModels.addAll(getModelImporter().getExternalGenModels());
         referencedGenModelsCheckboxTreeViewer.setInput(new ItemProvider(genModels));
         referencedGenModelsCheckboxTreeViewer.expandAll();
         referencedGenModelsCheckboxTreeViewer.setCheckedElements(referencedGenPackages);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.1 2005/05/10 17:35:19 davidms Exp $
+ * $Id: ModelImporter.java,v 1.2 2005/05/11 16:45:25 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -45,6 +45,7 @@ import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -174,6 +175,9 @@ public abstract class ModelImporter
 
   protected boolean usePlatformURI = true;
   protected IWorkspaceRoot workspaceRoot;
+  
+  protected ResourceSet externalGenModelResourceSet;
+  protected List externalGenModelList;
 
   public void dispose()
   {
@@ -575,9 +579,42 @@ public abstract class ModelImporter
     }
   }
   
+  public List getExternalGenModels()
+  {
+    if (externalGenModelList == null)
+    {
+      externalGenModelList = new UniqueEList.FastCompare();
+      if (externalGenModelResourceSet == null)
+      {
+        externalGenModelResourceSet = createResourceSet();
+      }
+      Map ePackageToGenModelMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
+      for (Iterator i = getEPackages().iterator(); i.hasNext(); )
+      {
+        EPackage ePackage = (EPackage)i.next();
+        URI genModelURI = (URI)ePackageToGenModelMap.get(ePackage.getNsURI());
+        if (genModelURI != null)
+        {
+          try
+          {
+            Resource genModelResource = externalGenModelResourceSet.getResource(genModelURI, true);
+            externalGenModelList.add(genModelResource.getContents().get(0));
+          }
+          catch (Exception exception)
+          {
+            ImporterPlugin.INSTANCE.log(exception);
+          }
+        }
+      }
+    }
+    return externalGenModelList;
+  }
+  
   public ResourceSet createResourceSet()
   {
-    return new ResourceSetImpl();
+    ResourceSet result = new ResourceSetImpl();
+    result.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+    return result;
   }
 
   protected void loadOriginalGenModel(URI genModelURI)
@@ -643,6 +680,11 @@ public abstract class ModelImporter
       ePackageToInfoMap.clear();
       ePackageToInfoMap = null;
     }
+    if (externalGenModelList != null)
+    {
+      externalGenModelList.clear();
+      externalGenModelList = null;
+    }
   }
 
   protected void adjustEPackages()
@@ -700,6 +742,8 @@ public abstract class ModelImporter
   {
     String baseLocation = getGenModelPath().removeLastSegments(1).toString() + "/";
     ResourceSet resourceSet = getGenModelResourceSet();
+    
+    resourceSet.getURIConverter().getURIMap().remove(URI.createPlatformResourceURI(getModelProjectName() + "/"));
 
     // Create resources for all the root EPackages.
     //
