@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.45 2005/05/10 16:51:27 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.46 2005/05/11 16:39:20 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -71,7 +71,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 
   protected static final int ITERATIONS_50M = 50000000;
 
-  protected static final int ITERATIONS_80K = 40000000;
+  protected static final int ITERATIONS_80K = 80000000;
 
   // values for get with generated code.
   protected Address addressBillToValue;
@@ -91,8 +91,8 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   {
     TestSuite testSuite = new TestSuite();
 
-      testSuite.addTest(new StaticIPOSDOAccessorTest("getFromMap").setWarmUp(3).setRepetitions(REPETITIONS_50));
-      testSuite.addTest(new StaticIPOSDOAccessorTest("setInMap").setWarmUp(3).setRepetitions(REPETITIONS_50));
+      testSuite.addTest(new StaticIPOSDOAccessorTest("getFromMap").setWarmUp(3).setRepetitions(REPETITIONS_100));
+//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setInMap").setWarmUp(3).setRepetitions(REPETITIONS_50));
 
 //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(3).setRepetitions(REPETITIONS_50));
 //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectWithESet").setWarmUp(3).setRepetitions(REPETITIONS_50));
@@ -113,7 +113,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
 //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(3).setRepetitions(REPETITIONS_50));
 
-      testSuite.addTest(new StaticIPOSDOAccessorTest("getStringByName").setWarmUp(5).setRepetitions(REPETITIONS_50));
+      testSuite.addTest(new StaticIPOSDOAccessorTest("getStringByName").setWarmUp(5).setRepetitions(REPETITIONS_100));
 
 //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(5).setRepetitions(REPETITIONS_20));
 //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_20));
