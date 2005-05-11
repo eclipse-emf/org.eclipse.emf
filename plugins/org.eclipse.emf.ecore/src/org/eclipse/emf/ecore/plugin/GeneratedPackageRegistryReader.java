@@ -12,14 +12,17 @@
  *
  * </copyright>
  *
- * $Id: GeneratedPackageRegistryReader.java,v 1.2 2004/05/16 17:14:15 emerks Exp $
+ * $Id: GeneratedPackageRegistryReader.java,v 1.3 2005/05/11 16:41:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
 
+import java.util.Map;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 
 /**
@@ -32,13 +35,22 @@ class GeneratedPackageRegistryReader extends RegistryReader
   static final String TAG_PACKAGE = "package";
   static final String ATT_URI = "uri";
   static final String ATT_CLASS = "class";
-
+  static final String ATT_GEN_MODEL = "genModel";
+  
+  protected Map ePackageNsURIToGenModelLocationMap;
+  
   public GeneratedPackageRegistryReader()
   {
     super
       (Platform.getExtensionRegistry(),
        EcorePlugin.getPlugin().getBundle().getSymbolicName(), 
        EcorePlugin.GENERATED_PACKAGE_PPID);
+  }
+  
+  public GeneratedPackageRegistryReader(Map ePackageNsURIToGenModelLocationMap)
+  {
+    this();
+    this.ePackageNsURIToGenModelLocationMap = ePackageNsURIToGenModelLocationMap;
   }
 
   protected boolean readElement(IConfigurationElement element)
@@ -57,6 +69,20 @@ class GeneratedPackageRegistryReader extends RegistryReader
       else
       {
         EPackage.Registry.INSTANCE.put(packageURI, new EPackageDescriptor(element, ATT_CLASS));
+        
+        if (ePackageNsURIToGenModelLocationMap != null)
+        {
+          String genModel = element.getAttribute(ATT_GEN_MODEL);
+          if (genModel != null)
+          {
+            URI genModelURI = URI.createURI(genModel);
+            if (genModelURI.isRelative())
+            {
+              genModelURI = URI.createURI("platform:/plugin/" + element.getDeclaringExtension().getNamespace() + "/" + genModel);
+            }
+            ePackageNsURIToGenModelLocationMap.put(packageURI, genModelURI);
+          }
+        }
         return true;
       }
     }
