@@ -12,17 +12,32 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.6 2005/04/06 11:51:13 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.7 2005/05/11 16:40:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.osgi.framework.BundleContext;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Platform;
@@ -31,18 +46,13 @@ import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
-// ECLIPSE-DEPEND-END
 
 
 /**
  * A collection of platform-neutral static utilities
  * as well as Eclipse support utilities.
  */
-public class EcorePlugin 
-  // ECLIPSE-DEPEND-BEGIN
-  extends EMFPlugin
-  // ECLIPSE-DEPEND-END
-
+public class EcorePlugin  extends EMFPlugin
 {
   /**
    * The singleton instance of the plugin.
@@ -54,12 +64,9 @@ public class EcorePlugin
    */
   private EcorePlugin()
   {
-    // ECLIPSE-DEPEND-BEGIN
     super(new ResourceLocator[] {});
-    // ECLIPSE-DEPEND-END
   }
 
-  // ECLIPSE-DEPEND-BEGIN
   /*
    * Javadoc copied from base class.
    */
@@ -67,7 +74,6 @@ public class EcorePlugin
   {
     return plugin;
   }
-  // ECLIPSE-DEPEND-END
 
   /**
    * Returns the platform resource map.
@@ -202,14 +208,217 @@ public class EcorePlugin
 
     return arguments;
   }
+  
+  /**
+   * Returns a map from {@link EPackage#getNsURI() package namespace URI} (represented as a String) 
+   * to the location of the GenModel containing a GenPackage for the package (represented as a {@link URI URI}).
+   * @return a map from package namespace to GenModel location.
+   */
+  public static Map getEPackageNsURIToGenModelLocationMap()
+  {
+    if (ePackageNsURIToGenModelLocationMap == null)
+    {
+      ePackageNsURIToGenModelLocationMap = new HashMap();
+    }
+    return ePackageNsURIToGenModelLocationMap;
+  }
 
+  /**
+   * Computes a map from <code>platform:/resource/&lt;plugin-location>/</code> {@link URI} to 
+   * <code>platform:/plugin/&lt;plugin-id>/</code> URI
+   * for each URI in the collection of the form <code>platform:/plugin/&lt;plugin-id>/...</code>.
+   * This allows each plugin to be {@link org.eclipse.emf.ecore.resource.URIConverter#getURIMap() treated} 
+   * as if it were a project in the workspace.
+   * If the workspace already contains a project for the plugin location, no mapping is produced.
+   * @return a map from workspace URIs to plugin URIs.
+   * @param uris a collections of {@link URI}s.
+   * @return a map from platform resource URI to platform plugin URI.
+   */
+  public static Map computePlatformResourceToPlatformPluginMap(Collection uris)
+  {
+    Map result = new HashMap();
+    IWorkspaceRoot root = getWorkspaceRoot();
+    if (root != null)
+    {
+      for (Iterator i = uris.iterator(); i.hasNext(); )
+      {
+        URI uri = (URI)i.next();
+        if ("platform".equals(uri.scheme()) && uri.segmentCount() > 1 && "plugin".equals(uri.segment(0)))
+        {
+          String pluginID = uri.segment(1);
+          if (!root.getProject(pluginID).isOpen())
+          {
+            result.put(URI.createPlatformResourceURI(pluginID + "/"), URI.createURI("platform:/plugin/" + pluginID + "/"));
+          }
+        }
+      }
+    }
+    return result;
+  }
+  
+  private static Pattern bundleSymbolNamePattern;
+  private static byte [] NO_BYTES = new byte [0];
+  
+  /**
+   * Computes a map from <code>platform:/plugin/&lt;plugin-id>/</code> {@link URI} to 
+   * <code>platform:/resource/&lt;plugin-location>/</code> URI
+   * for each plugin project in the workspace.
+   * This allows each plugin from the runtime to be {@link org.eclipse.emf.ecore.resource.URIConverter#getURIMap() redirected} 
+   * to its active version in the workspace.
+   * @return a map from plugin URIs to resource URIs.
+   * @see org.eclipse.emf.ecore.resource.URIConverter#getURIMap()
+   * @see URI
+   */
+  public static Map computePlatformPluginToPlatformResourceMap()
+  {
+    Map result = new HashMap();
+    IWorkspaceRoot root = getWorkspaceRoot();
+    if (root != null)
+    { 
+      IProject [] projects = root.getProjects();
+      if (projects != null)
+      {
+        String pluginID = null;
+        
+        class Handler extends DefaultHandler
+        {
+          public String pluginID;
+          public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
+          {
+            if ("".equals(uri) && "plugin".equals(localName))
+            {
+              pluginID = attributes.getValue("id");
+            }
+            throw new SAXException("Done");
+          }
+        };
+        Handler handler = new Handler();
+        
+        SAXParserFactory parserFactory= SAXParserFactory.newInstance();
+        parserFactory.setNamespaceAware(true);
+        SAXParser parser = null;
+        
+        try
+        {
+          parser = parserFactory.newSAXParser();
+        }
+        catch (Exception exception)
+        {
+          INSTANCE.log(exception);
+        }
+        
+        if (bundleSymbolNamePattern == null)
+        {
+          bundleSymbolNamePattern = Pattern.compile("^\\s*Bundle-SymbolicName\\s*:\\s*([^\\s;]*)\\s*(;.*)?$", Pattern.MULTILINE);
+        }
+        
+        byte [] bytes = NO_BYTES;
+        
+        for (int i = 0, size = projects.length; i < size; ++i)
+        {
+          IProject project = projects[i];
+          if (project.isOpen())
+          {
+            String name = project.getName();
+            pluginID = null;
+            IFile manifest = project.getFile("META-INF/MANIFEST.MF");
+            if (manifest.exists())
+            {
+              try
+              {
+                InputStream inputStream = manifest.getContents(); 
+                int available = inputStream.available();
+                if (bytes.length < available)
+                {
+                  bytes = new byte [available];
+                }
+                inputStream.read(bytes);
+                String contents = new String(bytes, "UTF-8");
+                Matcher matcher = bundleSymbolNamePattern.matcher(contents);
+                if (matcher.find())
+                {
+                  pluginID = matcher.group(1);
+                }
+              }
+              catch (Exception exception)
+              {
+                EcorePlugin.INSTANCE.log(exception);
+              }
+            }
+            else if (parser != null)
+            {
+              final IFile plugin = project.getFile("plugin.xml");
+              if (plugin.exists())
+              {
+                try
+                {
+                  parser.parse(new InputSource(plugin.getContents()), handler);
+                }
+                catch (Exception exception)
+                {
+                  if (handler.pluginID != null)
+                  {
+                    pluginID = handler.pluginID;
+                  }
+                  else
+                  {
+                    INSTANCE.log(exception);
+                  }
+                }
+              }
+            }
+            
+            if (pluginID != null)
+            {
+              URI platformPluginURI = URI.createURI("platform:/plugin/" + pluginID + "/");
+              URI platformResourceURI = URI.createPlatformResourceURI(project.getName() + "/");
+              result.put(platformPluginURI, platformResourceURI);
+            }
+          }
+        }
+      }
+    }
+    
+    return result;
+  }
+  
+  /**
+   * Computes a map so that plugins in the workspace will override those in the environment
+   * and so that plugins with Ecore and GenModels will look like projects in the workspace.
+   * It's implemented like this:
+   *<pre>
+   *  Map result = new HashMap();
+   *  result.putAll(computePlatformPluginToPlatformResourceMap());
+   *  result.putAll(computePlatformResourceToPlatformPluginMap(new HashSet(EcorePlugin.getEPackageNsURIToGenModelLocationMap().values())));
+   *  return result;
+   *</pre>
+   * @return computes a map so that plugins in the workspace will override those in the environment
+   * and so that plugins with Ecore and GenModels will look like projects in the workspace.
+   * @see org.eclipse.emf.ecore.resource.URIConverter#getURIMap()
+   * @see URI
+   * @see #computePlatformPluginToPlatformResourceMap()
+   * @see #computePlatformResourceToPlatformPluginMap(Collection)
+   */
+  public static Map computePlatformURIMap()
+  {
+    Map result = new HashMap();
+    result.putAll(computePlatformPluginToPlatformResourceMap());
+    result.putAll(computePlatformResourceToPlatformPluginMap(new HashSet(EcorePlugin.getEPackageNsURIToGenModelLocationMap().values())));
+    return result;
+  }
+  
   /**
    * The platform resource map.
    * @see #getPlatformResourceMap
    */
   private static Map platformResourceMap;
+  
+  /**
+   * The map fro
+   * @see #getPlatformResourceMap
+   */
+  private static Map ePackageNsURIToGenModelLocationMap;
 
-  // ECLIPSE-DEPEND-BEGIN
   /** 
    * A plugin implementation that handles Ecore plugin registration.
    * @see #startup
@@ -292,7 +501,7 @@ public class EcorePlugin
         workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
       }
 
-      new GeneratedPackageRegistryReader().readRegistry();
+      new GeneratedPackageRegistryReader(getEPackageNsURIToGenModelLocationMap()).readRegistry();
       new ExtensionParserRegistryReader().readRegistry();
       new ProtocolParserRegistryReader().readRegistry();
       new URIMappingRegistryReader().readRegistry();
@@ -333,6 +542,4 @@ public class EcorePlugin
   static final String PROTOCOL_PARSER_PPID = "protocol_parser";
   static final String SCHEME_PARSER_PPID = "scheme_parser";
   static final String URI_MAPPING_PPID = "uri_mapping";
-
-  // ECLIPSE-DEPEND-END
 }
