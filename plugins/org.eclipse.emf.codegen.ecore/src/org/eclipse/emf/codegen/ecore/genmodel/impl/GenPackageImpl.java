@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.20 2005/04/27 18:32:42 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.21 2005/05/11 16:52:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -77,6 +77,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -2050,6 +2051,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           Object xsdSchema = i.next();
 
           ResourceSet resourceSet = new ResourceSetImpl();
+          resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
           URI uri = getEcorePackage().eResource().getURI().trimSegments(1).appendSegment(getPrefix() + type + ".xsd");
           Resource xsdSchemaResource = resourceSet.createResource(uri);
           xsdSchemaResource.getContents().add(xsdSchema);

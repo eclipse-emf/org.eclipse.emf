@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.12 2005/05/10 21:22:59 davidms Exp $
+ * $Id: Generator.java,v 1.13 2005/05/11 16:53:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -57,6 +57,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -130,6 +131,7 @@ public class Generator extends CodeGen
                 String prefix = arguments[3];
 
                 ResourceSet resourceSet = new ResourceSetImpl();
+                resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap()); 
                 URI ecoreURI = URI.createFileURI(ecorePath.toString());
                 Resource resource = resourceSet.getResource(ecoreURI, true);
                 EPackage ePackage = (EPackage)resource.getContents().get(0);
@@ -255,6 +257,7 @@ public class Generator extends CodeGen
                 // Create a resource set and load the model file into it.
                 //
                 ResourceSet resourceSet = new ResourceSetImpl();
+                resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
                 URI genModelURI = URI.createFileURI(new File(genModelName).getAbsoluteFile().getCanonicalPath());
                 Resource genModelResource = resourceSet.getResource(genModelURI, true);
                 GenModel genModel = (GenModel)genModelResource.getContents().get(0);
