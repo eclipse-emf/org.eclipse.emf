@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.30 2005/05/10 21:22:59 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.31 2005/05/11 16:52:08 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -4987,6 +4987,32 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
     }
     return categories;
+  }
+  
+  public boolean hasLocalGenModel()
+  {
+    if (eResource() != null && eResource().getURI() != null)
+    {
+      URI genModelURI = eResource().getURI();
+      URI modelDirectory = URI.createURI(getModelDirectory());    
+      return 
+        "platform".equals(genModelURI.scheme()) && 
+           genModelURI.segmentCount() > 1 && 
+           "resource".equals(genModelURI.segment(0)) &&
+           modelDirectory.segmentCount() > 0 &&
+           genModelURI.segment(1).equals(modelDirectory.segment(0));
+    }
+    else
+    {
+      return false;
+    }
+  }
+  
+  public String getRelativeGenModelLocation()
+  {
+    URI genModelURI = eResource().getURI();
+    String result = genModelURI.deresolve(genModelURI.trimSegments(genModelURI.segmentCount() - 3)).toString();
+    return result;
   }
 
 } //GenModelImpl
