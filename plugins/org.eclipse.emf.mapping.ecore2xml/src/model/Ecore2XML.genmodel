@@ -6,7 +6,8 @@
     modelPluginID="org.eclipse.emf.mapping.ecore2xml" runtimeJar="true" modelName="Ecore2XML"
     modelPluginClass="" editPluginClass="org.eclipse.emf.mapping.ecore2xml.ui.Ecore2XMLUIPlugin"
     editorPluginClass="org.eclipse.emf.mapping.ecore2xml.ui.Ecore2XMLUIPlugin" nonNLSMarkers="true"
-    runtimeCompatibility="false" usedGenPackages="../../../org.eclipse.emf.ecore/src/model/Ecore.genmodel#//ecore">
+    runtimeCompatibility="false" testsDirectory="" testSuiteClass="" importerID="org.eclipse.emf.importer.rose"
+    usedGenPackages="../../../org.eclipse.emf.ecore/src/model/Ecore.genmodel#//ecore">
   <foreignModel>Ecore2XML.mdl</foreignModel>
   <foreignModel>CURDIR</foreignModel>
   <foreignModel>.</foreignModel>
