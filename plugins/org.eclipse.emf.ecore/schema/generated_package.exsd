@@ -53,6 +53,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="genModel" type="anyURI" use="optional">
+            <annotation>
+               <documentation>
+                  An absolute or plugin relative URI the generator model resource for the package.
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
