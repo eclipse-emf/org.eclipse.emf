@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2005/05/10 17:41:37 davidms Exp $
+ * $Id: plugin.xml,v 1.2 2005/05/12 14:09:26 marcelop Exp $
  */
 -->
 
@@ -56,6 +56,7 @@
 			name="%_UI_XSDImporter_label"
 			icon="icons/XSDModelFile.gif"
 			extensions="xsd,wsdl"
+			description="%_UI_XSDModelImporter_description"
 			wizard="org.eclipse.xsd.ecore.importer.ui.XSDImporterWizard"/>
 	</extension>	
   
