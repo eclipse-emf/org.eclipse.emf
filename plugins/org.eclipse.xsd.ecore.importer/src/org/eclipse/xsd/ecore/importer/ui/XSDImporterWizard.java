@@ -12,13 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterWizard.java,v 1.1 2005/05/10 17:41:37 davidms Exp $
+ * $Id: XSDImporterWizard.java,v 1.2 2005/05/12 17:09:32 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer.ui;
 
 import org.eclipse.emf.importer.ModelImporter;
-import org.eclipse.emf.importer.ui.wizard.base.ModelImporterWizard;
-import org.eclipse.emf.importer.ui.wizard.base.ModelPackagePage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelImporterWizard;
+import org.eclipse.emf.importer.ui.contribution.base.ModelPackagePage;
 
 import org.eclipse.xsd.ecore.importer.XSDImporter;
 

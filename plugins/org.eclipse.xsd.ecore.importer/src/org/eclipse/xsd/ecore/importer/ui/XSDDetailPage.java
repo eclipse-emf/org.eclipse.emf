@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDetailPage.java,v 1.2 2005/05/12 01:43:28 davidms Exp $
+ * $Id: XSDDetailPage.java,v 1.3 2005/05/12 17:09:32 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer.ui;
 
@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 
 import org.eclipse.emf.importer.ModelImporter;
-import org.eclipse.emf.importer.ui.wizard.base.ModelDetailPage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelDetailPage;
 
 import org.eclipse.xsd.ecore.importer.XSDImporter;
 import org.eclipse.xsd.ecore.importer.XSDImporterPlugin;
