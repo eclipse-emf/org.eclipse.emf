@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.8 2005/03/19 15:22:00 emerks Exp $
+ * $Id: plugin.xml,v 1.9 2005/05/12 18:28:44 emerks Exp $
  */
 -->
 
@@ -41,7 +41,8 @@
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
         uri = "http://www.eclipse.org/xsd/2002/XSD" 
-        class = "org.eclipse.xsd.XSDPackage" />
+        class = "org.eclipse.xsd.XSDPackage" 
+        genModel = "model/XSD.genmodel" />
   </extension>
 
   <extension point = "org.eclipse.emf.ecore.extension_parser">
