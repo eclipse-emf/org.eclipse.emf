@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.mapping/src"
+    creationCommands="false" editDirectory="/org.eclipse.emf.mapping/src" editorDirectory=""
+    modelPluginID="org.eclipse.emf.mapping" runtimeJar="true" modelName="Mapping"
+    modelPluginClass="org.eclipse.emf.mapping.MappingPlugin" editPluginClass="org.eclipse.emf.mapping.MappingPlugin"
+    editorPluginClass="" updateClasspath="false" runtimeCompatibility="false" testsDirectory=""
+    importerID="org.eclipse.emf.importer.rose" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+  <foreignModel>Mapping.mdl</foreignModel>
+  <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
+  <foreignModel>../..</foreignModel>
+  <genPackages prefix="Mapping" basePackage="org.eclipse.emf" disposableProviderFactory="true"
+      ecorePackage="Mapping.ecore#/">
+    <genClasses ecoreClass="Mapping.ecore#//MappingHelper">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//MappingHelper/mapper"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//MappingHelper/helpedObject"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//MappingHelper/nestedIn"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Mapping.ecore#//MappingHelper/nested"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Mapping.ecore#//Mapping">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Mapping.ecore#//Mapping/helper"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Mapping.ecore#//Mapping/nested"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//Mapping/nestedIn"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//Mapping/inputs"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//Mapping/outputs"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//Mapping/typeMapping"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Mapping.ecore#//TypeConverter"/>
+    <genClasses image="false" ecoreClass="Mapping.ecore#//FunctionPair">
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//FunctionPair/in2out"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//FunctionPair/out2in"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Mapping.ecore#//FunctionNamePair">
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute Mapping.ecore#//FunctionNamePair/in2out"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute Mapping.ecore#//FunctionNamePair/out2in"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Mapping.ecore#//MappingStrategy"/>
+    <genClasses image="false" ecoreClass="Mapping.ecore#//MappingRoot">
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute Mapping.ecore#//MappingRoot/outputReadOnly"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute Mapping.ecore#//MappingRoot/topToBottom"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute Mapping.ecore#//MappingRoot/commandStack"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Mapping.ecore#//ComplexTypeConverter">
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//ComplexTypeConverter/in2out"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference Mapping.ecore#//ComplexTypeConverter/out2in"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,117 @@
+
+(object Petal
+    version    	47
+    _written   	"Rose 8.0.0303.1400"
+    charSet    	0)
+
+(object Class_Category "ecore2ecore"
+    is_unit    	TRUE
+    is_loaded  	TRUE
+    attributes 	(list Attribute_Set
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"prefix"
+	    value      	(value Text "Ecore2Ecore"))
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"basePackage"
+	    value      	"org.eclipse.emf.mapping")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"nsPrefix"
+	    value      	(value Text "ecore2ecore"))
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"nsURI"
+	    value      	(value Text "http://www.eclipse.org/emf/2004/Ecore2Ecore")))
+    quid       	"3D9E0D68011C"
+    exportControl 	"Public"
+    logical_models 	(list unit_reference_list
+	(object Class "Ecore2EcoreMappingRoot"
+	    quid       	"3D9E0DC4033E"
+	    superclasses 	(list inheritance_relationship_list
+		(object Inheritance_Relationship
+		    quid       	"3D9E0DD3010E"
+		    supplier   	"Logical View::mapping::MappingRoot"
+		    quidu      	"38BEA7F701B6"))))
+    logical_presentations 	(list unit_reference_list
+	(object ClassDiagram "Ecore to Ecore Hierarchy"
+	    quid       	"3D9E0D780290"
+	    title      	"Ecore to Ecore Hierarchy"
+	    zoom       	100
+	    max_height 	28350
+	    max_width  	21600
+	    origin_x   	0
+	    origin_y   	0
+	    items      	(list diagram_item_list
+		(object ClassView "Class" "Logical View::mapping::MappingRoot" @1
+		    ShowCompartmentStereotypes 	TRUE
+		    SuppressAttribute 	TRUE
+		    SuppressOperation 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(384, 176)
+		    font       	(object Font
+			size       	10
+			face       	"Arial"
+			bold       	FALSE
+			italics    	FALSE
+			underline  	FALSE
+			strike     	FALSE
+			color      	0
+			default_color 	TRUE)
+		    label      	(object ItemLabel
+			Parent_View 	@1
+			location   	(248, 126)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	272
+			justify    	0
+			label      	"MappingRoot")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"38BEA7F701B6"
+		    width      	290
+		    height     	124
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object ClassView "Class" "Logical View::ecore2ecore::Ecore2EcoreMappingRoot" @2
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(432, 784)
+		    font       	(object Font
+			size       	10
+			face       	"Arial"
+			bold       	FALSE
+			italics    	FALSE
+			underline  	FALSE
+			strike     	FALSE
+			color      	0
+			default_color 	TRUE)
+		    label      	(object ItemLabel
+			Parent_View 	@2
+			location   	(273, 709)
+			fill_color 	13434879
+			nlines     	2
+			max_width  	318
+			justify    	0
+			label      	"Ecore2EcoreMappingRoot")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"3D9E0DC4033E"
+		    width      	336
+		    height     	174
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object InheritView "" @3
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"3D9E0DD3010E"
+		    client     	@2
+		    supplier   	@1
+		    line_style 	3
+		    origin_attachment 	(381, 696)
+		    terminal_attachment 	(381, 238))))))
