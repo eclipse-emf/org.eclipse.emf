@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.2 2005/04/20 20:25:12 khussey Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.3 2005/05/12 18:05:57 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -442,18 +442,18 @@ public class Ecore2XMLEditor
             {
               removedResources.addAll(visitor.getRemovedResources());
               if (!isDirty())
- 							{
- 								getSite().getShell().getDisplay().asyncExec
- 									(new Runnable()
- 								 	{
- 										public void run()
- 										{
- 											getSite().getPage().closeEditor(Ecore2XMLEditor.this, false);
- 											Ecore2XMLEditor.this.dispose();
- 										}
- 								 	});
- 							}
- 						}
+              {
+                getSite().getShell().getDisplay().asyncExec
+                  (new Runnable()
+                   {
+                     public void run()
+                     {
+                       getSite().getPage().closeEditor(Ecore2XMLEditor.this, false);
+                       Ecore2XMLEditor.this.dispose();
+                     }
+                   });
+              }
+            }
 
             if (!visitor.getChangedResources().isEmpty())
             {

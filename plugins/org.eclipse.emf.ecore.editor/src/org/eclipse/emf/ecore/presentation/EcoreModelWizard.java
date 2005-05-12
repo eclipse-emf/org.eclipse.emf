@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.9 2005/05/11 16:43:07 emerks Exp $
+ * $Id: EcoreModelWizard.java,v 1.10 2005/05/12 18:08:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -191,7 +191,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
    * Do the work after everything is specified.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public boolean performFinish()
   {

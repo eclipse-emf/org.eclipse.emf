@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.9 2005/05/10 11:38:59 emerks Exp $
+ * $Id: JavaEditor.java,v 1.10 2005/05/12 18:06:26 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -428,18 +428,18 @@ public class JavaEditor
             {
               removedResources.addAll(visitor.getRemovedResources());
               if (!isDirty())
- 							{
- 								getSite().getShell().getDisplay().asyncExec
- 									(new Runnable()
- 								 	{
- 										public void run()
- 										{
- 											getSite().getPage().closeEditor(JavaEditor.this, false);
- 											JavaEditor.this.dispose();
- 										}
- 								 	});
- 							}
- 						}
+              {
+                getSite().getShell().getDisplay().asyncExec
+                  (new Runnable()
+                   {
+                     public void run()
+                     {
+                       getSite().getPage().closeEditor(JavaEditor.this, false);
+                       JavaEditor.this.dispose();
+                     }
+                   });
+              }
+            }
 
             if (!visitor.getChangedResources().isEmpty())
             {
