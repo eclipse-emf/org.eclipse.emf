@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.2 2005/05/11 16:45:25 emerks Exp $
+ * $Id: ModelImporter.java,v 1.3 2005/05/12 01:33:47 davidms Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -668,7 +668,7 @@ public abstract class ModelImporter
     return Status.OK_STATUS;
   }
 
-  protected void clearEPackagesCollections()
+  public void clearEPackagesCollections()
   {
     if (ePackages != null)
     {
