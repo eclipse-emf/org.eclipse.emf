@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterUtil.java,v 1.1 2005/05/10 17:35:19 davidms Exp $
+ * $Id: ModelImporterUtil.java,v 1.2 2005/05/12 14:08:44 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui.wizard;
 
@@ -51,8 +51,9 @@ public class ModelImporterUtil
     protected List extensions;
     protected int types = ModelImporterDescriptor.TYPE_DEFAULT;
     protected Image icon;
+    protected String description;
+    
     protected IModelImporterWizard modelImporterWizard;
-
     protected IConfigurationElement configurationElement;
 
     public String getId()
@@ -95,6 +96,16 @@ public class ModelImporterUtil
       this.types = types;
     }
 
+    public String getDescription()
+    {
+      return description;
+    }
+
+    public void setDescription(String description)
+    {
+      this.description = description;
+    }
+    
     public List getExtensions()
     {
       if (extensions == null)
@@ -335,6 +346,7 @@ public class ModelImporterUtil
         ModelImporterDescriptorImpl descriptor = new ModelImporterDescriptorImpl();
         descriptor.setId(id);
         descriptor.setName(name);
+        descriptor.setDescription(configurationElement.getAttribute("description"));
         descriptor.configurationElement = configurationElement;
 
         String imageKey = configurationElement.getAttribute("icon");

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterDescriptor.java,v 1.1 2005/05/10 17:35:19 davidms Exp $
+ * $Id: ModelImporterDescriptor.java,v 1.2 2005/05/12 14:08:43 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui.wizard;
 
@@ -23,6 +23,10 @@ import org.eclipse.swt.graphics.Image;
 
 
 /**
+ * It is highly recommended not to implement this interface.  If you need to create
+ * instances of a <tt>ModelImporterDescriptor</tt>, use 
+ * {@link org.eclipse.emf.importer.ui.wizard.ModelImporterUtil#ModelImporterDescriptorImpl}.
+ * 
  * @since 2.1.0
  */
 public interface ModelImporterDescriptor
@@ -40,6 +44,8 @@ public interface ModelImporterDescriptor
   int getTypes();
 
   Image getIcon();
+  
+  String getDescription();
 
   IModelImporterWizard getWizard();
 }

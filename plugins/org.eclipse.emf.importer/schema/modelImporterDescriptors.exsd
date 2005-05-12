@@ -101,6 +101,16 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  An optional attribute to hold a short text describing what the model importer will do when invoked.
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
