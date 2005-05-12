@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.13 2005/05/11 16:53:18 emerks Exp $
+ * $Id: Generator.java,v 1.14 2005/05/12 18:14:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -101,7 +101,7 @@ public class Generator extends CodeGen
     System.out.println("");
     System.out.println("For example:");
     System.out.println("");
-    System.out.println("  generate result/src/model/Extended.genmodel");
+    System.out.println("  generate result/model/Extended.genmodel");
   }
 
   /**
