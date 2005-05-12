@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterApplication.java,v 1.1 2005/05/10 17:40:33 davidms Exp $
+ * $Id: RoseImporterApplication.java,v 1.2 2005/05/12 18:06:42 emerks Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -93,7 +93,7 @@ public class RoseImporterApplication extends ModelImporterApplication
     appendLine(result, "");
     appendLine(result, "  rose2genmodel");
     appendLine(result, "    ../../etools.company/src/rose/model.mdl");
-    appendLine(result, "    result/src/model/Extended.genmodel");
+    appendLine(result, "    result/model/Extended.genmodel");
     appendLine(result, "    -modelProject result src");
     appendLine(result, "    -editProject result.edit src");
     appendLine(result, "    -editorProject result.editor src");
