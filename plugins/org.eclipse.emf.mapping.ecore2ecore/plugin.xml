@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/10/24 22:14:10 davidms Exp $
+ * $Id: plugin.xml,v 1.6 2005/05/12 18:28:45 emerks Exp $
  */
 -->
 
@@ -44,7 +44,8 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri = "http://www.eclipse.org/emf/2004/Ecore2Ecore"
-            class = "org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePackage" />
+            class = "org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePackage" 
+            genModel = "model/Ecore2Ecore.genmodel" />
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">

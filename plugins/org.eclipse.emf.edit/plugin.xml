@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.7 2004/10/29 19:21:06 marcelop Exp $
+ * $Id: plugin.xml,v 1.8 2005/05/12 18:28:43 emerks Exp $
  */
 -->
 
@@ -43,7 +43,8 @@
     point="org.eclipse.emf.ecore.generated_package">
     <package
         uri = "http://www.eclipse.org/emf/2002/Tree"
-        class = "org.eclipse.emf.edit.tree.TreePackage"/>
+        class = "org.eclipse.emf.edit.tree.TreePackage"
+        genModel = "model/Tree.genmodel" />
   </extension>
 
 </plugin>

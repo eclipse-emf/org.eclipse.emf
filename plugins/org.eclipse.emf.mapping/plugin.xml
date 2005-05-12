@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.7 2004/12/08 17:37:32 marcelop Exp $
+ * $Id: plugin.xml,v 1.8 2005/05/12 18:28:43 emerks Exp $
  */
 -->
 
@@ -43,8 +43,8 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.eclipse.org/emf/2002/Mapping"
-            class="org.eclipse.emf.mapping.MappingPackage">
-      </package>
+            class="org.eclipse.emf.mapping.MappingPackage"
+            genModel="model/Mapping.genmodel"/>
    </extension>
 
 </plugin>

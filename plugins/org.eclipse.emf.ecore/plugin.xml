@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.12 2005/02/15 20:10:03 bportier Exp $
+ * $Id: plugin.xml,v 1.13 2005/05/12 18:28:44 emerks Exp $
  */
 -->
 
@@ -47,19 +47,22 @@
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package
         uri = "http://www.eclipse.org/emf/2002/Ecore"
-        class = "org.eclipse.emf.ecore.EcorePackage" />
+        class = "org.eclipse.emf.ecore.EcorePackage" 
+        genModel = "model/Ecore.genmodel" />
   </extension>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package
         uri = "http://www.eclipse.org/emf/2003/XMLType"
-        class = "org.eclipse.emf.ecore.xml.type.XMLTypePackage" />
+        class = "org.eclipse.emf.ecore.xml.type.XMLTypePackage" 
+        genModel = "model/XMLType.genmodel" />
   </extension>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package
         uri = "http://www.w3.org/XML/1998/namespace"
-        class = "org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage" />
+        class = "org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage" 
+        genModel = "model/XMLNamespace.genmodel" />
   </extension>
 
   <extension
