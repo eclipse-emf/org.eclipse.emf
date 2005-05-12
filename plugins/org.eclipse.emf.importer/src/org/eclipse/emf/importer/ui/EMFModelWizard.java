@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFModelWizard.java,v 1.2 2005/05/11 16:45:01 emerks Exp $
+ * $Id: EMFModelWizard.java,v 1.3 2005/05/12 14:11:24 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -23,6 +23,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -276,6 +277,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
         if (selectedObject instanceof ModelImporterDescriptor)
         {
           modelImporterDescriptor = (ModelImporterDescriptor)selectedObject;
+          setMessage(modelImporterDescriptor.getDescription(), IMessageProvider.NONE);
           setSelectedNode(ModelImporterUtil.getWizardNode(modelImporterDescriptor));
           return;
         }
@@ -369,8 +371,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
     }
 
     SelectionPage selectionPage = new SelectionPage("ModelImporterDescriptorSelectionPage");
-    selectionPage.setTitle(ImporterPlugin.INSTANCE.getString("_UI_InitialContents_title"));
-    selectionPage.setDescription(ImporterPlugin.INSTANCE.getString("_UI_InitialContents_description"));
+    selectionPage.setTitle(ImporterPlugin.INSTANCE.getString("_UI_SelectModelImporters_title"));
     addPage(selectionPage);
   }
 
