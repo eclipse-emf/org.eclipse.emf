@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.15 2005/04/25 21:02:28 elena Exp $
+ * $Id: SpecialCasesTest.java,v 1.16 2005/05/12 18:05:31 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -50,7 +50,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
