@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.3 2005/05/12 01:33:47 davidms Exp $
+ * $Id: ModelImporter.java,v 1.4 2005/05/12 18:57:01 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -367,7 +367,7 @@ public abstract class ModelImporter
 
   protected IPath getGenModelDefaultFolderPath()
   {
-    return new Path("src/model");
+    return new Path("model");
   }
 
   public IPath getGenModelPath()
