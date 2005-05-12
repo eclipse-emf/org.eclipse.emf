@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelPackagePage.java,v 1.3 2005/05/11 16:44:29 emerks Exp $
+ * $Id: ModelPackagePage.java,v 1.4 2005/05/12 01:43:34 davidms Exp $
  */
 package org.eclipse.emf.importer.ui.wizard.base;
 
@@ -130,7 +130,7 @@ public class ModelPackagePage extends ModelImporterPage
     return showReferencedGenModels;
   }
 
-  protected void pageActivated(final boolean firstTime)
+  protected void pageActivated(final boolean firstTime, int cause)
   {
     getControl().getDisplay().asyncExec(new Runnable()
       {
@@ -144,7 +144,10 @@ public class ModelPackagePage extends ModelImporterPage
 
   public boolean isPageComplete()
   {
-    return super.isPageComplete() && packagesCheckboxTableViewer != null && packagesCheckboxTableViewer.getCheckedElements().length > 0;
+    return super.isPageComplete() 
+      && !getModelImporter().getEPackages().isEmpty()
+      && packagesCheckboxTableViewer != null 
+      && packagesCheckboxTableViewer.getCheckedElements().length > 0;
   }
 
   public void createControl(Composite parent)

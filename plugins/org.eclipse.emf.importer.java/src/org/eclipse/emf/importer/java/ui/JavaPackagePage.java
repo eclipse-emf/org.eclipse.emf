@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackagePage.java,v 1.1 2005/05/10 17:39:01 davidms Exp $
+ * $Id: JavaPackagePage.java,v 1.2 2005/05/12 01:43:31 davidms Exp $
  */
 package org.eclipse.emf.importer.java.ui;
 
@@ -43,7 +43,7 @@ public class JavaPackagePage extends ModelPackagePage
     return (JavaImporter)getModelImporter();
   }
 
-  protected void pageActivated(final boolean firstTime)
+  protected void pageActivated(final boolean firstTime, int cause)
   {
     if (getJavaImporter().canImport())
     {

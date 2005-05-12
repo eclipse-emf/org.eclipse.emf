@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.2 2005/05/11 14:53:52 marcelop Exp $
+ * $Id: RoseDetailPage.java,v 1.3 2005/05/12 01:43:36 davidms Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -57,6 +57,7 @@ import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.rose.RoseImporter;
 import org.eclipse.emf.importer.rose.RoseImporterPlugin;
 import org.eclipse.emf.importer.ui.wizard.base.ModelDetailPage;
+import org.eclipse.emf.importer.ui.wizard.base.ModelImporterPage;
 
 
 /**
@@ -68,7 +69,7 @@ public class RoseDetailPage extends ModelDetailPage
   protected TableViewer pathMapTableViewer;
 
   protected boolean isCellEditing;
-  protected boolean hasToCalculateEPackages = false;
+  protected boolean hasToComputeEPackages = false;
 
   public RoseDetailPage(ModelImporter modelImporter, String pageName)
   {
@@ -95,20 +96,27 @@ public class RoseDetailPage extends ModelDetailPage
     return (RoseImporter)getModelImporter();
   }
 
-  protected void pageDeactivated(boolean performFinish)
+  protected boolean pageAboutToDeactivate(int cause)
   {
-    if (isPageComplete() && hasToCalculateEPackages)
+    if (cause == ModelImporterPage.CAUSE_NEXT)
     {
-      getControl().getDisplay().asyncExec(new Runnable()
-        {
-          public void run()
+      if (isPageComplete() && hasToComputeEPackages)
+      {
+        getControl().getDisplay().syncExec(new Runnable()
           {
-            computeEPackages();
-          }
-        });
+            public void run()
+            {
+              computeEPackages();
+            }
+          });
+      }
+    
+      return !hasToComputeEPackages && super.pageAboutToDeactivate(cause);
     }
-
-    super.pageDeactivated(performFinish);
+    else
+    {
+      return true;
+    }
   }
 
   protected void addControl(Composite parent)
@@ -302,18 +310,17 @@ public class RoseDetailPage extends ModelDetailPage
 
   protected void doHandleEvent(Event event)
   {
-    if (event.type == SWT.Modify && event.widget == modelLocationText)
-    {
-      setErrorMessage(null);
-      getRoseImporter().setModelLocation(null);
-    }
-    else if (event.type == SWT.Selection && event.widget == loadButton)
+    if (event.type == SWT.Selection && event.widget == loadButton)
     {
       setErrorMessage(null);
       refreshModel();
     }
     else
     {
+      if (event.type == SWT.Modify && event.widget == modelLocationText)
+      {
+        hasToComputeEPackages = true;
+      }      
       super.doHandleEvent(event);
     }
     setPageComplete(isPageComplete());
@@ -321,8 +328,9 @@ public class RoseDetailPage extends ModelDetailPage
 
   public boolean isPageComplete()
   {
-    return super.isPageComplete() && !isCellEditing && (hasToCalculateEPackages || !getRoseImporter().getEPackages().isEmpty())
-      && !getRoseImporter().getModelLocationURIs().isEmpty();
+    return getErrorMessage() == null 
+      && !isCellEditing 
+      && (hasToComputeEPackages || !getRoseImporter().getEPackages().isEmpty());
   }
 
   protected String[] getFilterExtensions()
@@ -333,8 +341,8 @@ public class RoseDetailPage extends ModelDetailPage
   protected void refreshModel(IProgressMonitor progressMonitor) throws Exception
   {
     IStatus status = getRoseImporter().loadPathMap(progressMonitor);
+    hasToComputeEPackages = true;
     pathMapTableViewer.setInput(new ItemProvider(getRoseImporter().getPathMap().keySet()));
-    hasToCalculateEPackages = true;
     if (processStatus(status))
     {
       internalSetGenModelFileName(getRoseImporter().getGenModelFileName());
@@ -388,8 +396,7 @@ public class RoseDetailPage extends ModelDetailPage
 
   protected void computeEPackages(IProgressMonitor progressMonitor) throws Exception
   {
-    processStatus(getRoseImporter().computeEPackages(progressMonitor));
-    hasToCalculateEPackages = false;
+    hasToComputeEPackages = !processStatus(getRoseImporter().computeEPackages(progressMonitor));
   }
 
   protected boolean processStatus(IStatus status)
@@ -427,6 +434,7 @@ public class RoseDetailPage extends ModelDetailPage
 
         if (showErrorDialog)
         {
+          final IStatus finalStatus = status;
           ErrorDialog dialog = new ErrorDialog(getShell(),
             RoseImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"),
             RoseImporterPlugin.INSTANCE.getString("_UI_RoseLoadFailed_message"),
@@ -434,7 +442,7 @@ public class RoseDetailPage extends ModelDetailPage
             {
               protected Image getImage()
               {
-                return getErrorImage();
+                return  finalStatus.getSeverity() == IStatus.INFO ? getErrorImage() : super.getImage(); 
               }
             };
           dialog.open();

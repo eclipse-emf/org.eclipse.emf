@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterPage.java,v 1.1 2005/05/10 17:35:19 davidms Exp $
+ * $Id: ModelImporterPage.java,v 1.2 2005/05/12 01:43:34 davidms Exp $
  */
 package org.eclipse.emf.importer.ui.wizard.base;
 
@@ -21,6 +21,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -34,8 +35,14 @@ import org.eclipse.emf.importer.ModelImporter;
  */
 public abstract class ModelImporterPage extends WizardPage implements Listener
 {
+  public static final int CAUSE_BACK = 0;
+  public static final int CAUSE_NEXT = 1;
+  public static final int CAUSE_FINISH = 2;
+  public static final int CAUSE_CANCEL = 3;
+    
   protected ModelImporter modelImporter;
   protected boolean neverVisible = true;
+  protected boolean forwardDirection = true;
   protected boolean handlingEvent = true;
 
   public ModelImporterPage(ModelImporter modelImporter, String pageName)
@@ -56,14 +63,31 @@ public abstract class ModelImporterPage extends WizardPage implements Listener
     return modelImporter;
   }
 
-  protected void pageActivated(boolean firstTime)
+  protected void pageActivated(boolean firstTime, int cause)
   {
 
   }
 
-  protected void pageDeactivated(boolean performFinish)
+  protected boolean pageAboutToDeactivate(int cause)
+  {
+    return true;
+  }
+
+  protected void pageDeactivated(int cause)
   {
 
+  }
+  
+  public IWizardPage getNextPage()
+  {
+    forwardDirection = true;
+    return pageAboutToDeactivate(CAUSE_NEXT) ?  super.getNextPage() : null;
+  }
+  
+  public IWizardPage getPreviousPage()
+  {
+    forwardDirection = false;
+    return pageAboutToDeactivate(CAUSE_BACK) ? super.getPreviousPage() : null;
   }
 
   public boolean isPageComplete()

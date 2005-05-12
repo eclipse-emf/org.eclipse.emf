@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterWizard.java,v 1.1 2005/05/10 17:35:19 davidms Exp $
+ * $Id: ModelImporterWizard.java,v 1.2 2005/05/12 01:43:34 davidms Exp $
  */
 package org.eclipse.emf.importer.ui.wizard.base;
 
@@ -71,26 +71,33 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
     {
       if (oldPage != currentPage)
       {
+        int cause = -1;
         if (oldPage instanceof ModelImporterPage)
         {
-          ((ModelImporterPage)oldPage).pageDeactivated(false);
+          ModelImporterPage page = (ModelImporterPage)oldPage;
+          cause = page.forwardDirection ? ModelImporterPage.CAUSE_NEXT : ModelImporterPage.CAUSE_BACK;
+          page.pageDeactivated(cause);
         }
 
         oldPage = currentPage;
         if (currentPage instanceof ModelImporterPage)
         {
           ModelImporterPage page = (ModelImporterPage)currentPage;
-          page.pageActivated(page.neverVisible);
+          page.pageActivated(page.neverVisible, cause);
           page.neverVisible = false;
         }
       }
     }
 
-    public void firePageDeactivated(boolean performFinish)
+    public boolean firePageAboutToDeactivate(int cause)
     {
       if (pageChangeProvider != null && pageChangeProvider.getSelectedPage() instanceof ModelImporterPage)
       {
-        ((ModelImporterPage)pageChangeProvider.getSelectedPage()).pageDeactivated(performFinish);
+        return ((ModelImporterPage)pageChangeProvider.getSelectedPage()).pageAboutToDeactivate(cause);
+      }
+      else
+      {
+        return true;
       }
     }
   }
@@ -244,12 +251,17 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
   {
     return projectPath;
   }
+  
+  public boolean performCancel()
+  {
+    return pageHelper == null || pageHelper.firePageAboutToDeactivate(ModelImporterPage.CAUSE_CANCEL);
+  }
 
   public boolean performFinish()
   {
-    if (pageHelper != null)
+    if (pageHelper != null && !pageHelper.firePageAboutToDeactivate(ModelImporterPage.CAUSE_FINISH))
     {
-      pageHelper.firePageDeactivated(true);
+      return false;
     }
 
     try

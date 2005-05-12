@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreDetailPage.java,v 1.1 2005/05/10 17:37:32 davidms Exp $
+ * $Id: EcoreDetailPage.java,v 1.2 2005/05/12 01:43:30 davidms Exp $
  */
 package org.eclipse.emf.importer.ecore.ui;
 
@@ -73,12 +73,7 @@ public class EcoreDetailPage extends ModelDetailPage
 
   protected void doHandleEvent(Event event)
   {
-    if (event.type == SWT.Modify && event.widget == modelLocationText)
-    {
-      setErrorMessage(null);
-      getModelImporter().setModelLocation(null);
-    }
-    else if (event.type == SWT.Selection && event.widget == loadButton)
+    if (event.type == SWT.Selection && event.widget == loadButton)
     {
       refreshModel();
     }
@@ -87,11 +82,6 @@ public class EcoreDetailPage extends ModelDetailPage
       super.doHandleEvent(event);
     }
     setPageComplete(isPageComplete());
-  }
-
-  public boolean isPageComplete()
-  {
-    return super.isPageComplete() && !getModelImporter().getEPackages().isEmpty() && !getModelImporter().getModelLocationURIs().isEmpty();
   }
 
   protected String[] getFilterExtensions()

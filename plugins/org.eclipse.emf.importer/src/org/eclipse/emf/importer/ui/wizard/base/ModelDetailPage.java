@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelDetailPage.java,v 1.2 2005/05/11 14:53:52 marcelop Exp $
+ * $Id: ModelDetailPage.java,v 1.3 2005/05/12 01:43:34 davidms Exp $
  */
 package org.eclipse.emf.importer.ui.wizard.base;
 
@@ -103,7 +103,7 @@ public class ModelDetailPage extends ModelImporterPage
     return showGenModel || getModelImporter().getGenModelFileName() == null;
   }
 
-  protected void pageActivated(boolean firstTime)
+  protected void pageActivated(boolean firstTime, int cause)
   {
     if (firstTime)
     {
@@ -228,7 +228,13 @@ public class ModelDetailPage extends ModelImporterPage
 
   protected void doHandleEvent(Event event)
   {
-    if (event.type == SWT.Modify && event.widget == genModelNameText)
+    if (event.type == SWT.Modify && event.widget == modelLocationText)
+    {
+      setErrorMessage(null);
+      getModelImporter().setModelLocation(null);
+      getModelImporter().clearEPackagesCollections();
+    }    
+    else if (event.type == SWT.Modify && event.widget == genModelNameText)
     {
       usingInternalSetName = false;
       getModelImporter().setGenModelFileName(genModelNameText.getText());
@@ -451,6 +457,13 @@ public class ModelDetailPage extends ModelImporterPage
       modelLocationText.setFocus();
     }
   }
+  
+  public boolean isPageComplete()
+  {
+    return super.isPageComplete() 
+      && !getModelImporter().getEPackages().isEmpty() 
+      && !getModelImporter().getModelLocationURIs().isEmpty();
+  }  
 
   protected void refreshModel(IProgressMonitor progressMonitor) throws Exception
   {

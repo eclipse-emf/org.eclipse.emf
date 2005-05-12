@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.1 2005/05/10 17:40:33 davidms Exp $
+ * $Id: RoseImporter.java,v 1.2 2005/05/12 01:43:36 davidms Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -130,9 +130,11 @@ public class RoseImporter extends ModelImporter
 
   public IStatus loadPathMap(IProgressMonitor progressMonitor) throws Exception
   {
+    clearEPackagesCollections();
+    
     IStatus roseStatus = null;
     String errorMessage = null;
-
+    
     File roseModelFile = computeRoseModelFile();
     if (roseModelFile == null)
     {
