@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.17 2005/04/08 12:05:54 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.18 2005/05/12 18:14:09 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -462,18 +462,18 @@ public class <%=genPackage.getEditorClassName()%>
 						{
 							removedResources.addAll(visitor.getRemovedResources());
 							if (!isDirty())
- 							{
- 								getSite().getShell().getDisplay().asyncExec
- 									(new Runnable()
- 								 	{
- 										public void run()
- 										{
- 											getSite().getPage().closeEditor(<%=genPackage.getEditorClassName()%>.this, false);
- 											<%=genPackage.getEditorClassName()%>.this.dispose();
- 										}
- 								 	});
- 							}
- 						}
+							{
+								getSite().getShell().getDisplay().asyncExec
+									(new Runnable()
+									 {
+										 public void run()
+										 {
+											 getSite().getPage().closeEditor(<%=genPackage.getEditorClassName()%>.this, false);
+											 <%=genPackage.getEditorClassName()%>.this.dispose();
+										 }
+									 });
+							}
+						}
 
 						if (!visitor.getChangedResources().isEmpty())
 						{
