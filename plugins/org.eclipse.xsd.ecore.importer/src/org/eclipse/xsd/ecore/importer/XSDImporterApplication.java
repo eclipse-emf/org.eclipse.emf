@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterApplication.java,v 1.1 2005/05/10 17:41:37 davidms Exp $
+ * $Id: XSDImporterApplication.java,v 1.2 2005/05/12 18:05:13 emerks Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
@@ -80,7 +80,7 @@ public class XSDImporterApplication extends ModelImporterApplication
     appendLine(result, "");
     appendLine(result, "  xsd2genmodel");
     appendLine(result, "    example.xsd");
-    appendLine(result, "    result/src/model/Example.genmodel");
+    appendLine(result, "    result/model/Example.genmodel");
     appendLine(result, "    -modelProject result src");
     appendLine(result, "    -editProject result.edit src");
     appendLine(result, "    -editorProject result.editor src");
