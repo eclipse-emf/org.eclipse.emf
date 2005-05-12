@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.49 2005/05/11 16:39:20 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.50 2005/05/12 22:30:59 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -204,7 +204,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
     //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByName").setWarmUp(12).setRepetitions(REPETITIONS_50));
     
-        testSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_100));
+    //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_100));
     //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(15).setRepetitions(REPETITIONS_500));
 
     //    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));

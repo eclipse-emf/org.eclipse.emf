@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOSaveTest.java,v 1.4 2005/03/03 22:00:50 bportier Exp $
+ * $Id: DynamicIPOSDOSaveTest.java,v 1.5 2005/05/12 22:30:59 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.serialization;
 
@@ -48,11 +48,11 @@ public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
 
   private static String XML_INSTANCE;
 
-  final static int REPETITIONS = 10;
+  final static int REPETITIONS = 50;
 
-  final static int ITERATIONS = 200;
+  final static int ITERATIONS = 10000;
 
-  final static int WARMUP = 3000;
+  final static int WARMUP = 60;
 
   private HashMap options;
 

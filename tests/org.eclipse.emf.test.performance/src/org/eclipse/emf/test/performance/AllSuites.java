@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.19 2005/04/04 18:18:26 nickb Exp $
+ * $Id: AllSuites.java,v 1.20 2005/05/12 22:30:59 bportier Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -23,17 +23,18 @@ import junit.framework.TestSuite;
 
 public class AllSuites extends TestSuite
 {
-  private static Test[] suites = new Test []{
+  private static Test[] suites = new Test []
+  {
     //org.eclipse.emf.test.performance.serialization.AttributeTest.suite(),
 
-//    org.eclipse.emf.test.performance.serialization.DynamicIpo.suite(),
-//    org.eclipse.emf.test.performance.serialization.StaticIpo.suite(),
-//
-//    org.eclipse.emf.test.performance.deserialization.DynamicIpoLoad.suite(),
-//    org.eclipse.emf.test.performance.deserialization.StaticIpoLoad.suite(),
-//
-//    org.eclipse.emf.test.performance.sdo.serialization.DynamicIPOSDOSaveTest.suite(),
-//    org.eclipse.emf.test.performance.sdo.serialization.StaticIPOSDOSaveTest.suite(),
+    org.eclipse.emf.test.performance.serialization.DynamicIpo.suite(),
+    org.eclipse.emf.test.performance.serialization.StaticIpo.suite(),
+
+    org.eclipse.emf.test.performance.deserialization.DynamicIpoLoad.suite(),
+    org.eclipse.emf.test.performance.deserialization.StaticIpoLoad.suite(),
+
+    org.eclipse.emf.test.performance.sdo.serialization.DynamicIPOSDOSaveTest.suite(),
+    org.eclipse.emf.test.performance.sdo.serialization.StaticIPOSDOSaveTest.suite(),
 //
 //    org.eclipse.emf.test.performance.sdo.deserialization.DynamicIPOSDOLoadTest.suite(),
 //    org.eclipse.emf.test.performance.sdo.deserialization.StaticIPOSDOLoadTest.suite(),
@@ -45,7 +46,8 @@ public class AllSuites extends TestSuite
 //    org.eclipse.emf.test.performance.sdo.accessor.StaticBidirectionalTest.suite(),
 
     org.eclipse.emf.test.performance.sdo.accessor.DynamicIPOSDOAccessorTest.suite(),
-    org.eclipse.emf.test.performance.sdo.accessor.StaticIPOSDOAccessorTest.suite() };
+    org.eclipse.emf.test.performance.sdo.accessor.StaticIPOSDOAccessorTest.suite()
+  };
 
   public static Test suite()
   {
