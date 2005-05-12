@@ -59,6 +59,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.dialogs.ResourceSelectionDialog;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenBaseItemProvider;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
@@ -521,7 +522,32 @@ public class ModelPackagePage extends ModelImporterPage
         }
       };
     referencedGenModelsCheckboxTreeViewer.setContentProvider(new AdapterFactoryContentProvider(genModelItemProviderAdapterFactory));
-    referencedGenModelsCheckboxTreeViewer.setLabelProvider(new AdapterFactoryLabelProvider(genModelItemProviderAdapterFactory));
+    referencedGenModelsCheckboxTreeViewer.setLabelProvider(new AdapterFactoryLabelProvider(genModelItemProviderAdapterFactory)
+      {
+        public String getText(Object element)
+        {
+          String text = super.getText(element);
+
+          if (element instanceof GenModel)
+          {
+            Resource resource = ((GenModel)element).eResource();
+            URI uri = resource != null ? resource.getURI() : null;
+            if (uri != null)
+            {
+              String location = uri.toString();
+
+              if ("platform".equals(uri.scheme()) && uri.segmentCount() > 1)
+              {
+                boolean plugin = "plugin".equals(uri.segment(0));
+                String type = ImporterPlugin.INSTANCE.getString(plugin ? "_UI_PlatformPlugin_label" : "_UI_PlatformResource_label");
+                location = ImporterPlugin.INSTANCE.getString("_UI_PlatformLocation_label", new Object [] { type, uri.segment(1) });
+              }
+              text = ImporterPlugin.INSTANCE.getString("_UI_ReferencedGenModel_label", new Object [] { text, location });
+            }
+          }
+          return text;
+        }
+      });
 
     referencedGenModelsCheckboxTreeViewer.addCheckStateListener(new ICheckStateListener()
       {
