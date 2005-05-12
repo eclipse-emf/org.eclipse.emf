@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreDetailPage.java,v 1.2 2005/05/12 01:43:30 davidms Exp $
+ * $Id: EcoreDetailPage.java,v 1.3 2005/05/12 17:09:31 marcelop Exp $
  */
 package org.eclipse.emf.importer.ecore.ui;
 
@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Event;
 
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.ecore.EcoreImporterPlugin;
-import org.eclipse.emf.importer.ui.wizard.base.ModelDetailPage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelDetailPage;
 
 
 /**

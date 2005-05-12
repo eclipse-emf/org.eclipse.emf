@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.2 2005/05/12 14:11:24 marcelop Exp $
+ * $Id: EMFProjectWizard.java,v 1.3 2005/05/12 17:09:56 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -25,9 +25,9 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.importer.ImporterPlugin;
-import org.eclipse.emf.importer.ui.wizard.IModelImporterWizard;
-import org.eclipse.emf.importer.ui.wizard.ModelImporterDescriptor;
-import org.eclipse.emf.importer.ui.wizard.ModelImporterUtil;
+import org.eclipse.emf.importer.ui.contribution.IModelImporterWizard;
+import org.eclipse.emf.importer.ui.contribution.ModelImporterDescriptor;
+import org.eclipse.emf.importer.ui.contribution.ModelImporterUtil;
 
 
 /**

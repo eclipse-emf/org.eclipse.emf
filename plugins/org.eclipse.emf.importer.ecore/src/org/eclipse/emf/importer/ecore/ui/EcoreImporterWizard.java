@@ -12,14 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporterWizard.java,v 1.1 2005/05/10 17:37:32 davidms Exp $
+ * $Id: EcoreImporterWizard.java,v 1.2 2005/05/12 17:09:31 marcelop Exp $
  */
 package org.eclipse.emf.importer.ecore.ui;
 
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.ecore.EcoreImporter;
-import org.eclipse.emf.importer.ui.wizard.base.ModelImporterWizard;
-import org.eclipse.emf.importer.ui.wizard.base.ModelPackagePage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelImporterWizard;
+import org.eclipse.emf.importer.ui.contribution.base.ModelPackagePage;
 
 
 /**

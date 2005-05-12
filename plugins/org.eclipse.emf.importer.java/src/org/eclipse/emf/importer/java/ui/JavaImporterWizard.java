@@ -12,13 +12,13 @@
  *
  * </copyright>
  *
- * $Id: JavaImporterWizard.java,v 1.1 2005/05/10 17:39:01 davidms Exp $
+ * $Id: JavaImporterWizard.java,v 1.2 2005/05/12 17:09:33 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.ui;
 
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.java.JavaImporter;
-import org.eclipse.emf.importer.ui.wizard.base.ModelImporterWizard;
+import org.eclipse.emf.importer.ui.contribution.base.ModelImporterWizard;
 
 
 /**

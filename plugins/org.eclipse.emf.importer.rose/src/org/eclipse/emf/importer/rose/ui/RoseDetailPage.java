@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.3 2005/05/12 01:43:36 davidms Exp $
+ * $Id: RoseDetailPage.java,v 1.4 2005/05/12 17:09:34 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -56,8 +56,8 @@ import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.rose.RoseImporter;
 import org.eclipse.emf.importer.rose.RoseImporterPlugin;
-import org.eclipse.emf.importer.ui.wizard.base.ModelDetailPage;
-import org.eclipse.emf.importer.ui.wizard.base.ModelImporterPage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelDetailPage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelImporterPage;
 
 
 /**

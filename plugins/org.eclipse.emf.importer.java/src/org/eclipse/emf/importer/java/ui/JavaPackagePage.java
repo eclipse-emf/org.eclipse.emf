@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackagePage.java,v 1.2 2005/05/12 01:43:31 davidms Exp $
+ * $Id: JavaPackagePage.java,v 1.3 2005/05/12 17:09:33 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.ui;
 
@@ -25,7 +25,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.java.JavaImporter;
 import org.eclipse.emf.importer.java.JavaImporterPlugin;
-import org.eclipse.emf.importer.ui.wizard.base.ModelPackagePage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelPackagePage;
 
 
 /**
