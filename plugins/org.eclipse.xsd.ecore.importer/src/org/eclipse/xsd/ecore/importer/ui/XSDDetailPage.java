@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDetailPage.java,v 1.1 2005/05/10 17:41:37 davidms Exp $
+ * $Id: XSDDetailPage.java,v 1.2 2005/05/12 01:43:28 davidms Exp $
  */
 package org.eclipse.xsd.ecore.importer.ui;
 
@@ -99,12 +99,7 @@ public class XSDDetailPage extends ModelDetailPage
 
   protected void doHandleEvent(Event event)
   {
-    if (event.type == SWT.Modify && event.widget == modelLocationText)
-    {
-      setErrorMessage(null);
-      getXSDImporter().setModelLocation(null);
-    }
-    else if (event.type == SWT.Selection && event.widget == loadButton)
+    if (event.type == SWT.Selection && event.widget == loadButton)
     {
       refreshModel();
     }
@@ -121,11 +116,6 @@ public class XSDDetailPage extends ModelDetailPage
       super.doHandleEvent(event);
     }
     setPageComplete(isPageComplete());
-  }
-
-  public boolean isPageComplete()
-  {
-    return super.isPageComplete() && !getXSDImporter().getEPackages().isEmpty() && !getXSDImporter().getModelLocationURIs().isEmpty();
   }
 
   protected String[] getFilterExtensions()
