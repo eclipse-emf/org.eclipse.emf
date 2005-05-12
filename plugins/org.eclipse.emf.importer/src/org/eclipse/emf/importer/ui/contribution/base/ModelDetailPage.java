@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: ModelDetailPage.java,v 1.3 2005/05/12 01:43:34 davidms Exp $
+ * ModelDetailPage.java,v 1.1 2005/05/12 17:10:24 marcelop Exp
  */
-package org.eclipse.emf.importer.ui.wizard.base;
+package org.eclipse.emf.importer.ui.contribution.base;
 
 import java.io.File;
 import java.io.FileNotFoundException;

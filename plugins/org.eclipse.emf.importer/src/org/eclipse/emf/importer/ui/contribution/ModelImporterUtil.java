@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterUtil.java,v 1.2 2005/05/12 14:08:44 marcelop Exp $
+ * ModelImporterUtil.java,v 1.1 2005/05/12 17:10:24 marcelop Exp
  */
-package org.eclipse.emf.importer.ui.wizard;
+package org.eclipse.emf.importer.ui.contribution;
 
 import java.net.URL;
 import java.util.ArrayList;

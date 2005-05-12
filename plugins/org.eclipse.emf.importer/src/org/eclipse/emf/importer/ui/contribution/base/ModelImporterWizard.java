@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterWizard.java,v 1.2 2005/05/12 01:43:34 davidms Exp $
+ * ModelImporterWizard.java,v 1.1 2005/05/12 17:10:24 marcelop Exp
  */
-package org.eclipse.emf.importer.ui.wizard.base;
+package org.eclipse.emf.importer.ui.contribution.base;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -42,7 +42,7 @@ import org.eclipse.ui.part.ISetSelectionTarget;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
-import org.eclipse.emf.importer.ui.wizard.IModelImporterWizard;
+import org.eclipse.emf.importer.ui.contribution.IModelImporterWizard;
 
 
 /**

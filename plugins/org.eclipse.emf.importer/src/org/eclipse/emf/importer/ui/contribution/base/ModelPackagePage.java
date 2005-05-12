@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: ModelPackagePage.java,v 1.4 2005/05/12 01:43:34 davidms Exp $
+ * ModelPackagePage.java,v 1.1 2005/05/12 17:10:24 marcelop Exp
  */
-package org.eclipse.emf.importer.ui.wizard.base;
+package org.eclipse.emf.importer.ui.contribution.base;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: IModelImporterWizard.java,v 1.1 2005/05/10 17:35:19 davidms Exp $
+ * IModelImporterWizard.java,v 1.1 2005/05/12 17:10:24 marcelop Exp
  */
-package org.eclipse.emf.importer.ui.wizard;
+package org.eclipse.emf.importer.ui.contribution;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;

@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterPage.java,v 1.2 2005/05/12 01:43:34 davidms Exp $
+ * ModelImporterPage.java,v 1.1 2005/05/12 17:10:24 marcelop Exp
  */
-package org.eclipse.emf.importer.ui.wizard.base;
+package org.eclipse.emf.importer.ui.contribution.base;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
