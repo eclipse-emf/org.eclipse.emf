@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2005/05/10 17:37:32 davidms Exp $
+ * $Id: plugin.xml,v 1.2 2005/05/12 14:09:26 marcelop Exp $
  */
 -->
 
@@ -46,6 +46,7 @@
 			name="%_UI_EcoreImporter_label"
 			icon="icons/EcoreModelFile.gif"
 			extensions="ecore,emof"
+			description="%_UI_EcoreImporter_description"
 			wizard="org.eclipse.emf.importer.ecore.ui.EcoreImporterWizard"/>
 	</extension>
 </plugin>

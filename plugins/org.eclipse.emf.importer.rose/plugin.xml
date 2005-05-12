@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2005/05/10 17:40:33 davidms Exp $
+ * $Id: plugin.xml,v 1.2 2005/05/12 14:09:27 marcelop Exp $
  */
 -->
 
@@ -54,6 +54,7 @@
 			name="%_UI_RoseModelImporter_label"
 			icon="icons/rose.gif"
 			extensions="mdl"
+			description="%_UI_RoseModelImporter_description"
 			wizard="org.eclipse.emf.importer.rose.ui.RoseImporterWizard"/>
 	</extension>	
   

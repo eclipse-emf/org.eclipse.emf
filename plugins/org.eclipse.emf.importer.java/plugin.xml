@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2005/05/10 17:39:01 davidms Exp $
+ * $Id: plugin.xml,v 1.2 2005/05/12 14:09:27 marcelop Exp $
  */
 -->
 
@@ -46,6 +46,7 @@
 			id="org.eclipse.emf.importer.java"
 			name="%_UI_JavaImporter_label"
 			icon="icons/javaInterface.gif"
+			description="%_UI_JavaImporter_description"
 			wizard="org.eclipse.emf.importer.java.ui.JavaImporterWizard"
 			types="file"/>
 	</extension>	
