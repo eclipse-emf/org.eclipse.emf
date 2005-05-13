@@ -16,63 +16,60 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.3 2005/05/13 15:18:24 emerks Exp $
+ * $Id: plugin.xml,v 1.4 2005/05/13 17:03:57 emerks Exp $
  */
 -->
 
 <plugin
-	name = "%pluginName"
+    name = "%pluginName"
     id = "org.eclipse.xsd.ecore.importer"
     version = "2.1.0" 
     provider-name = "%providerName"
     class = "org.eclipse.xsd.ecore.importer.XSDImporterPlugin$Implementation">
     
-	<requires>
-	    <import plugin="org.eclipse.core.runtime"/>
-	    <import plugin="org.eclipse.core.resources"/>
-	    <import plugin="org.eclipse.xsd"/>
-   	    <import plugin="org.eclipse.emf.importer"/>
-	    <import plugin="org.eclipse.emf.mapping.xsd2ecore" optional="true"/>
-	    <import plugin="org.eclipse.emf.codegen.ecore.ui" optional="true"/>
-	    <import plugin="org.apache.ant" optional="true"/>
-	    <import plugin="org.eclipse.emf.ant" optional="true"/>
-	</requires>
+    <requires>
+        <import plugin="org.eclipse.core.runtime"/>
+        <import plugin="org.eclipse.core.resources"/>
+        <import plugin="org.eclipse.xsd"/>
+        <import plugin="org.eclipse.emf.importer"/>
+        <import plugin="org.eclipse.emf.mapping.xsd2ecore" optional="true"/>
+        <import plugin="org.eclipse.emf.codegen.ecore.ui" optional="true"/>
+        <import plugin="org.apache.ant" optional="true"/>
+        <import plugin="org.eclipse.emf.ant" optional="true"/>
+    </requires>
 
-	<runtime>
-		<library name="xsd.ecore.importer.jar">
-			<export name="*"/>
-		</library>
-	</runtime>
+    <runtime>
+        <library name="xsd.ecore.importer.jar">
+            <export name="*"/>
+        </library>
+    </runtime>
 
-	<extension id="XSD2GenModel" point="org.eclipse.core.runtime.applications">
-		<application>
-			<run class="org.eclipse.xsd.ecore.importer.XSDImporterApplication"/>
-		</application>
-	</extension>
-	
-	<extension point="org.eclipse.emf.importer.modelImporterDescriptors">
-		<modelImporterDescriptor
-			id="org.eclipse.xsd.ecore.importer"
-			name="%_UI_XSDImporter_label"
-			icon="icons/XSDModelFile.gif"
-			extensions="xsd,wsdl"
-			description="%_UI_XSDModelImporter_description"
-			wizard="org.eclipse.xsd.ecore.importer.ui.XSDImporterWizard"/>
-	</extension>	
-  
-	<extension point="org.eclipse.ant.core.extraClasspathEntries">
-		<extraClasspathEntry library="runtime/xsd.ecore.importer.tasks.jar"/>
-	</extension>   
+    <extension id="XSD2GenModel" point="org.eclipse.core.runtime.applications">
+        <application>
+            <run class="org.eclipse.xsd.ecore.importer.XSDImporterApplication"/>
+        </application>
+    </extension>
     
-	<extension point="org.eclipse.ant.core.antTasks">
-		<antTask
-            library="runtime/xsd.ecore.importer.tasks.jar"
+    <extension point="org.eclipse.emf.importer.modelImporterDescriptors">
+        <modelImporterDescriptor
+            id="org.eclipse.xsd.ecore.importer"
+            name="%_UI_XSDImporter_label"
+            icon="icons/XSDModelFile.gif"
+            extensions="xsd,wsdl"
+            description="%_UI_XSDModelImporter_description"
+            wizard="org.eclipse.xsd.ecore.importer.ui.XSDImporterWizard"/>
+    </extension>    
+  
+    <extension point="org.eclipse.ant.core.extraClasspathEntries">
+        <extraClasspathEntry library="xsd.ecore.importer.tasks.jar"/>
+    </extension>   
+    
+    <extension point="org.eclipse.ant.core.antTasks">
+        <antTask
+            library="xsd.ecore.importer.tasks.jar"
             name="emf.XSD2Java"
             headless="true"
             class="org.eclipse.xsd.ecore.importer.taskdefs.XSDGeneratorTask">
-		</antTask>
-	</extension>  
+        </antTask>
+    </extension>  
 </plugin>
-
-
-
