@@ -21,9 +21,9 @@ public class PluginXML
   protected final String TEXT_13 = "export=\"true\"";
   protected final String TEXT_14 = "/>";
   protected final String TEXT_15 = NL + "  </requires>" + NL + "" + NL + "  <runtime>";
-  protected final String TEXT_16 = NL + "    <library name=\"runtime/";
+  protected final String TEXT_16 = NL + "    <library name=\"";
   protected final String TEXT_17 = ".jar\">";
-  protected final String TEXT_18 = NL + "    <library name=\"runtime/\">";
+  protected final String TEXT_18 = NL + "    <library name=\".\">";
   protected final String TEXT_19 = NL + "      <export name=\"*\"/>" + NL + "    </library>" + NL + "  </runtime>";
   protected final String TEXT_20 = NL + NL + "  <extension point=\"org.eclipse.emf.ecore.generated_package\">" + NL + "    <package " + NL + "       uri = \"";
   protected final String TEXT_21 = "\" " + NL + "       class = \"";

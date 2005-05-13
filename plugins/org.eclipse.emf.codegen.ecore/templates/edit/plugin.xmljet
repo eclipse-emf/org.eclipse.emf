@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.5 2005/05/11 16:51:17 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.6 2005/05/13 15:20:39 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -38,9 +38,9 @@
 
   <runtime>
 <%if (genModel.isRuntimeJar()) {%>
-    <library name="runtime/<%=genModel.getEditPluginID()%>.jar">
+    <library name="<%=genModel.getEditPluginID()%>.jar">
 <%} else {%>
-    <library name="runtime/">
+    <library name=".">
 <%}%>
       <export name="*"/>
     </library>

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model.tests" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.1 2005/03/07 21:26:06 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model.tests" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.2 2005/05/13 15:20:39 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -20,14 +20,14 @@
 <%@ include file="../Header.jetinc"%>
 -->
 <%if (genModel.isRuntimeJar()) {%>
-<%String jarFile = "runtime/"+genModel.getTestsPluginID()+".jar";%>
-bin.includes =	plugin.xml,\
-				<%=jarFile%>,\
-				plugin.properties
+<%String jarFile = genModel.getTestsPluginID()+".jar";%>
+bin.includes = plugin.xml,\
+               <%=jarFile%>,\
+               plugin.properties
 jars.compile.order = <%=jarFile%>
 source.<%=jarFile%> = src/
 output.<%=jarFile%> = bin/
 <%} else {%>
-bin.includes =	plugin.xml,\
-				plugin.properties
+bin.includes = plugin.xml,\
+               plugin.properties
 <%}%>

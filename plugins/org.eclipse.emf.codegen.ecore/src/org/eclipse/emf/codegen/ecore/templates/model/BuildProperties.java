@@ -10,14 +10,18 @@ public class BuildProperties
   protected final String TEXT_3 = "/**" + NL + " * <copyright>" + NL + " * </copyright>" + NL + " *" + NL + " * ";
   protected final String TEXT_4 = "Id";
   protected final String TEXT_5 = NL + " */" + NL + "-->";
-  protected final String TEXT_6 = NL + "bin.includes =\tplugin.xml,\\" + NL + "\t\t\t\t";
-  protected final String TEXT_7 = ",\\";
-  protected final String TEXT_8 = NL + "\t\t\t\ticons/,\\";
-  protected final String TEXT_9 = NL + "\t\t\t\tplugin.properties" + NL + "jars.compile.order = ";
-  protected final String TEXT_10 = NL + "source.";
-  protected final String TEXT_11 = " = src/" + NL + "output.";
-  protected final String TEXT_12 = " = bin/";
-  protected final String TEXT_13 = NL + "bin.includes =\tplugin.xml,\\" + NL + "\t\t\t\tplugin.properties";
+  protected final String TEXT_6 = NL + "bin.includes = plugin.xml,\\";
+  protected final String TEXT_7 = NL + "               ";
+  protected final String TEXT_8 = ",\\" + NL + "               model/,\\";
+  protected final String TEXT_9 = NL + "               icons/,\\";
+  protected final String TEXT_10 = NL + "               plugin.properties" + NL + "jars.compile.order = ";
+  protected final String TEXT_11 = NL + "source.";
+  protected final String TEXT_12 = " = src/" + NL + "output.";
+  protected final String TEXT_13 = " = bin/";
+  protected final String TEXT_14 = NL + "bin.includes = plugin.xml,\\" + NL + "               model/,\\";
+  protected final String TEXT_15 = NL + "               icons/,\\";
+  protected final String TEXT_16 = NL + "               plugin.properties";
+  protected final String TEXT_17 = NL;
 
   public String generate(Object argument)
   {
@@ -47,23 +51,29 @@ public class BuildProperties
     stringBuffer.append("$");
     stringBuffer.append(TEXT_5);
     if (genModel.isRuntimeJar()) {
-    String jarFile = "runtime/"+genModel.getModelPluginID()+".jar";
+    String jarFile = genModel.getModelPluginID()+".jar";
     stringBuffer.append(TEXT_6);
-    stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_7);
-    if (genModel.sameModelEditProject() || genModel.sameModelEditorProject()) {
-    stringBuffer.append(TEXT_8);
-    }
-    stringBuffer.append(TEXT_9);
     stringBuffer.append(jarFile);
+    stringBuffer.append(TEXT_8);
+    if (genModel.sameModelEditProject() || genModel.sameModelEditorProject()) {
+    stringBuffer.append(TEXT_9);
+    }
     stringBuffer.append(TEXT_10);
     stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_11);
     stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_12);
-    } else {
+    stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_13);
+    } else {
+    stringBuffer.append(TEXT_14);
+    if (genModel.sameModelEditProject() || genModel.sameModelEditorProject()) {
+    stringBuffer.append(TEXT_15);
     }
+    stringBuffer.append(TEXT_16);
+    }
+    stringBuffer.append(TEXT_17);
     return stringBuffer.toString();
   }
 }

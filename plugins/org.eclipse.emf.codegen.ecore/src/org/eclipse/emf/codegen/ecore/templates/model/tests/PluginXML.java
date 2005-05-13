@@ -17,9 +17,9 @@ public class PluginXML
   protected final String TEXT_9 = "export=\"true\"";
   protected final String TEXT_10 = "/>";
   protected final String TEXT_11 = NL + "  </requires>" + NL + "" + NL + "  <runtime>";
-  protected final String TEXT_12 = NL + "    <library name=\"runtime/";
+  protected final String TEXT_12 = NL + "    <library name=\"";
   protected final String TEXT_13 = ".jar\">";
-  protected final String TEXT_14 = NL + "    <library name=\"runtime/\">";
+  protected final String TEXT_14 = NL + "    <library name=\".\">";
   protected final String TEXT_15 = NL + "      <export name=\"*\"/>" + NL + "    </library>" + NL + "  </runtime>" + NL + "" + NL + "</plugin>" + NL;
   protected final String TEXT_16 = NL;
 

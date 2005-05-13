@@ -37,9 +37,9 @@
 
   <runtime>
 <%if (genModel.isRuntimeJar()) {%>
-    <library name="runtime/<%=genModel.getTestsPluginID()%>.jar">
+    <library name="<%=genModel.getTestsPluginID()%>.jar">
 <%} else {%>
-    <library name="runtime/">
+    <library name=".">
 <%}%>
       <export name="*"/>
     </library>

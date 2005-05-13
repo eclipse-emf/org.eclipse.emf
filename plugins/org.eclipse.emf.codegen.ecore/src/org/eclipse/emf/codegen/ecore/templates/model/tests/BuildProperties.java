@@ -10,12 +10,14 @@ public class BuildProperties
   protected final String TEXT_3 = "/**" + NL + " * <copyright>" + NL + " * </copyright>" + NL + " *" + NL + " * ";
   protected final String TEXT_4 = "Id";
   protected final String TEXT_5 = NL + " */" + NL + "-->";
-  protected final String TEXT_6 = NL + "bin.includes =\tplugin.xml,\\" + NL + "\t\t\t\t";
-  protected final String TEXT_7 = ",\\" + NL + "\t\t\t\tplugin.properties" + NL + "jars.compile.order = ";
-  protected final String TEXT_8 = NL + "source.";
-  protected final String TEXT_9 = " = src/" + NL + "output.";
-  protected final String TEXT_10 = " = bin/";
-  protected final String TEXT_11 = NL + "bin.includes =\tplugin.xml,\\" + NL + "\t\t\t\tplugin.properties";
+  protected final String TEXT_6 = NL + "bin.includes = plugin.xml,\\";
+  protected final String TEXT_7 = NL + "               ";
+  protected final String TEXT_8 = ",\\" + NL + "               plugin.properties" + NL + "jars.compile.order = ";
+  protected final String TEXT_9 = NL + "source.";
+  protected final String TEXT_10 = " = src/" + NL + "output.";
+  protected final String TEXT_11 = " = bin/";
+  protected final String TEXT_12 = NL + "bin.includes = plugin.xml,\\" + NL + "               plugin.properties";
+  protected final String TEXT_13 = NL;
 
   public String generate(Object argument)
   {
@@ -45,9 +47,8 @@ public class BuildProperties
     stringBuffer.append("$");
     stringBuffer.append(TEXT_5);
     if (genModel.isRuntimeJar()) {
-    String jarFile = "runtime/"+genModel.getTestsPluginID()+".jar";
+    String jarFile = genModel.getTestsPluginID()+".jar";
     stringBuffer.append(TEXT_6);
-    stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_7);
     stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_8);
@@ -55,9 +56,12 @@ public class BuildProperties
     stringBuffer.append(TEXT_9);
     stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_10);
-    } else {
+    stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_11);
+    } else {
+    stringBuffer.append(TEXT_12);
     }
+    stringBuffer.append(TEXT_13);
     return stringBuffer.toString();
   }
 }
