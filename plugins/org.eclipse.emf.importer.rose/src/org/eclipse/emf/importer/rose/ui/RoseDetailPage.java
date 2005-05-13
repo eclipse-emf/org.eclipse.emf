@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.4 2005/05/12 17:09:34 marcelop Exp $
+ * $Id: RoseDetailPage.java,v 1.5 2005/05/13 22:26:51 davidms Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -96,7 +96,7 @@ public class RoseDetailPage extends ModelDetailPage
     return (RoseImporter)getModelImporter();
   }
 
-  protected boolean pageAboutToDeactivate(int cause)
+  protected void pageDeactivated(int cause)
   {
     if (cause == ModelImporterPage.CAUSE_NEXT)
     {
@@ -109,13 +109,14 @@ public class RoseDetailPage extends ModelDetailPage
               computeEPackages();
             }
           });
+
+        if (hasToComputeEPackages)
+        {
+          getContainer().showPage(this);
+        }
       }
-    
-      return !hasToComputeEPackages && super.pageAboutToDeactivate(cause);
-    }
-    else
-    {
-      return true;
+
+      super.pageDeactivated(cause);
     }
   }
 
@@ -408,7 +409,15 @@ public class RoseDetailPage extends ModelDetailPage
     }
     else
     {
-      setErrorMessage(status.getMessage());
+      if (status.getSeverity() == IStatus.WARNING)
+      {
+        setMessage(status.getMessage(), WARNING);
+      }
+      else
+      {
+        setErrorMessage(status.getMessage());
+      }
+
       if (status.getChildren().length > 0)
       {
         boolean showErrorDialog = true;
@@ -449,7 +458,7 @@ public class RoseDetailPage extends ModelDetailPage
         }
       }
       
-      return false;
+      return status.getSeverity() == IStatus.WARNING;
     }
   }
 }
