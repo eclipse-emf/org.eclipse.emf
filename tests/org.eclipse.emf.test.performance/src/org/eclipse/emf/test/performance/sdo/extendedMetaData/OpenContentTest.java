@@ -48,9 +48,7 @@ public class OpenContentTest extends EMFPerformanceTestCase
 
   private static final String DATA_URI = "file:///" + DATA;
 
-  private static final int ITERATIONS_200 = 200;
-
-  private static final int ITERATIONS_100 = 100;
+  private static final int ITERATIONS_1T = 1000;
 
   private static String XML_SCHEMA_URI;
 
@@ -66,14 +64,13 @@ public class OpenContentTest extends EMFPerformanceTestCase
   {
     super(name);
     XML_SCHEMA_URI = "file:///" + DATA + "openContent.xsd";
-
   }
 
   public static Test suite()
   {
     TestSuite ts = new TestSuite("OpenContentTest");
-    ts.addTest(new OpenContentTest("demandFeature").setWarmUp(500).setRepetitions(5));
-    ts.addTest(new OpenContentTest("createDemandFeatureDO").setWarmUp(1000).setRepetitions(5));
+    ts.addTest(new OpenContentTest("demandFeature").setWarmUp(3).setRepetitions(20));
+    ts.addTest(new OpenContentTest("createDemandFeatureDO").setWarmUp(3).setRepetitions(20));
     return ts;
   }
 
@@ -90,8 +87,8 @@ public class OpenContentTest extends EMFPerformanceTestCase
 
     if (names == null)
     {
-      names = new String [ITERATIONS_200];
-      for (int i = 0; i < ITERATIONS_200; i++)
+      names = new String [ITERATIONS_1T];
+      for (int i = 0; i < ITERATIONS_1T; i++)
       {
         names[i] = "" + i;
       }
@@ -107,7 +104,7 @@ public class OpenContentTest extends EMFPerformanceTestCase
     String demandNamespace = OpenContentTest.demandNamespace;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_200; i++)
+    for (int i = 0; i < ITERATIONS_1T; i++)
     {
       if (feat != this)
       {
@@ -135,8 +132,8 @@ public class OpenContentTest extends EMFPerformanceTestCase
     String[] names = OpenContentTest.names;
     String demandNamespace = OpenContentTest.demandNamespace;
 
-    Property[] properties = new Property [ITERATIONS_100];
-    for (int i = 0; i < ITERATIONS_100; i++)
+    Property[] properties = new Property [ITERATIONS_1T];
+    for (int i = 0; i < ITERATIONS_1T; i++)
     {
       feat = localMetaData.demandFeature(demandNamespace, names[i], true);
       feat.setEType(SDOPackage.eINSTANCE.getEDataObject());
@@ -144,7 +141,7 @@ public class OpenContentTest extends EMFPerformanceTestCase
     }
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100; i++)
+    for (int i = 0; i < ITERATIONS_1T; i++)
     {
       if (complexDO != this)
       {

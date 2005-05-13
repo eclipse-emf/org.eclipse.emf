@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOLoadTest.java,v 1.4 2005/03/03 22:00:50 bportier Exp $
+ * $Id: DynamicIPOSDOLoadTest.java,v 1.5 2005/05/13 14:33:23 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.deserialization;
 
@@ -47,9 +47,9 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
 
   private static String XML_INSTANCE;
 
-  final static int REPETITIONS = 10;
+  final static int REPETITIONS = 50;
 
-  final static int ITERATIONS = 200;
+  final static int ITERATIONS = 2000;
 
   final static int WARMUP = 3000;
 
@@ -73,9 +73,11 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("DynamicIPOSDOLoadTest");
+
     ts.addTest(new DynamicIPOSDOLoadTest("loadWithNoOptions").setRepetitions(REPETITIONS));
     ts.addTest(new DynamicIPOSDOLoadTest("loadWithParserCache").setRepetitions(REPETITIONS));
     ts.addTest(new DynamicIPOSDOLoadTest("loadWithParserAndFeatureMapCache").setRepetitions(REPETITIONS));
+
     return ts;
   }
 

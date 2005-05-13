@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticBidirectionalTest.java,v 1.7 2005/04/19 21:50:00 bportier Exp $
+ * $Id: StaticBidirectionalTest.java,v 1.8 2005/05/13 14:33:23 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -40,11 +40,11 @@ import commonj.sdo.Property;
 
 public class StaticBidirectionalTest extends EMFPerformanceTestCase
 {
-  protected static final int REPETITIONS_10 = 10;
+  protected static final int REPETITIONS_20 = 20;
 
   protected static final int ITERATIONS_25K = 25000;
 
-  protected static final int ITERATIONS_8K = 8000;
+  protected static final int ITERATIONS_8K = 200000;
 
   protected LibraryFactory libFactoryInstance = LibraryFactory.eINSTANCE;
 
@@ -77,10 +77,9 @@ public class StaticBidirectionalTest extends EMFPerformanceTestCase
   {
     TestSuite testSuite = new TestSuite();
 
-    testSuite.addTest(new StaticBidirectionalTest("setAdaptedByGenerated").setWarmUp(0).setRepetitions(REPETITIONS_10));
-    // TODO tune warmup
-    testSuite.addTest(new StaticBidirectionalTest("setByGenerated").setWarmUp(50).setRepetitions(REPETITIONS_10));
-    testSuite.addTest(new StaticBidirectionalTest("setWithESet").setWarmUp(10).setRepetitions(REPETITIONS_10));
+    testSuite.addTest(new StaticBidirectionalTest("setAdaptedByGenerated").setWarmUp(0).setRepetitions(REPETITIONS_20));
+    testSuite.addTest(new StaticBidirectionalTest("setByGenerated").setWarmUp(1).setRepetitions(REPETITIONS_20));
+    testSuite.addTest(new StaticBidirectionalTest("setWithESet").setWarmUp(1).setRepetitions(REPETITIONS_20));
 
     return testSuite;
   }

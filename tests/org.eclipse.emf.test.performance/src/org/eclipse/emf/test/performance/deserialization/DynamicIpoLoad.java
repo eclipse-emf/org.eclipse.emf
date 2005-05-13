@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpoLoad.java,v 1.7 2005/05/12 22:30:59 bportier Exp $
+ * $Id: DynamicIpoLoad.java,v 1.8 2005/05/13 14:33:23 bportier Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -54,7 +54,7 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
 
   final static int ITERATIONS = 2000;
 
-  final static int WARMUP = 300;
+  final static int WARMUP = 3000;
 
   static URI XML_INSTANCE_URI;
 
@@ -76,9 +76,9 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("DynamicIpoLoad");
-    ts.addTest(new DynamicIpoLoad("testLoad").setRepetitions(REPETITIONS));
-    ts.addTest(new DynamicIpoLoad("testLoadParserCache").setRepetitions(REPETITIONS));
-    ts.addTest(new DynamicIpoLoad("testLoadParserAndFeatureMapCache").setRepetitions(REPETITIONS));
+    //OK ts.addTest(new DynamicIpoLoad("testLoad").setRepetitions(REPETITIONS));
+    //OK ts.addTest(new DynamicIpoLoad("testLoadParserCache").setRepetitions(REPETITIONS));
+    //OK ts.addTest(new DynamicIpoLoad("testLoadParserAndFeatureMapCache").setRepetitions(REPETITIONS));
     return ts;
   }
 

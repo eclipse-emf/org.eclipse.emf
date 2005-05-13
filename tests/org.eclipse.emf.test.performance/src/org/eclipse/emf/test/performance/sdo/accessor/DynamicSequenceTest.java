@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicSequenceTest.java,v 1.6 2005/04/02 15:30:14 bportier Exp $
+ * $Id: DynamicSequenceTest.java,v 1.7 2005/05/13 14:33:23 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -36,17 +36,17 @@ import commonj.sdo.Sequence;
 public class DynamicSequenceTest extends EMFPerformanceTestCase
 {
 
-  protected static final int REPETITIONS = 10;
+  protected static final int REPETITIONS = 20;
 
-  protected static final int ITERATIONS_10K = 10000;
+  protected static final int ITERATIONS_10K = 100000;
   
-  protected static final int ITERATIONS_50K = 50000;
+  protected static final int ITERATIONS_50K = 500000;
 
-  protected static final int ITERATIONS_100K = 100000;
+  protected static final int ITERATIONS_100K = 1000000;
 
-  protected static final int ITERATIONS_500K = 500000;
+  protected static final int ITERATIONS_500K = 5000000;
 
-  protected static final int ITERATIONS_1000K = 1000000;
+  protected static final int ITERATIONS_1000K = 100000000;
 
   protected EPOFactory epoFactoryInstance = EPOFactory.eINSTANCE;
 
@@ -83,7 +83,6 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
 
   public static Test suite()
   {
-
     TestSuite testSuite = new TestSuite();
     return testSuite;
   }

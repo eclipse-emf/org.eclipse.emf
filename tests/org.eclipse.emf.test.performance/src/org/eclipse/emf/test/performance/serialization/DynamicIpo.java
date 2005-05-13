@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpo.java,v 1.6 2005/05/12 22:30:59 bportier Exp $
+ * $Id: DynamicIpo.java,v 1.7 2005/05/13 14:33:23 bportier Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -55,7 +55,7 @@ public class DynamicIpo extends EMFPerformanceTestCase
 
   final static int ITERATIONS = 2000;
 
-  final static int WARMUP = 300;
+  final static int WARMUP = 3000;
 
   XSDEcoreBuilder xsdEcoreBuilder;
 
@@ -75,8 +75,8 @@ public class DynamicIpo extends EMFPerformanceTestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("DynamicIpo");
-    ts.addTest(new DynamicIpo("testSer").setRepetitions(REPETITIONS));
-    ts.addTest(new DynamicIpo("testSerCaching").setRepetitions(REPETITIONS));
+    //OK ts.addTest(new DynamicIpo("testSer").setRepetitions(REPETITIONS));
+    //OK ts.addTest(new DynamicIpo("testSerCaching").setRepetitions(REPETITIONS));
     return ts;
   }
 

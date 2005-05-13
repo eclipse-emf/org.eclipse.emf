@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOSaveTest.java,v 1.5 2005/05/12 22:30:59 bportier Exp $
+ * $Id: DynamicIPOSDOSaveTest.java,v 1.6 2005/05/13 14:33:23 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.serialization;
 
@@ -52,7 +52,7 @@ public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
 
   final static int ITERATIONS = 10000;
 
-  final static int WARMUP = 60;
+  final static int WARMUP = 3000;
 
   private HashMap options;
 
@@ -74,8 +74,8 @@ public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("DynamicSDOSerializationTest");
-    ts.addTest(new DynamicIPOSDOSaveTest("saveWithNoOptions").setRepetitions(REPETITIONS));
-    ts.addTest(new DynamicIPOSDOSaveTest("saveWithCaching").setRepetitions(REPETITIONS));
+    //OK ts.addTest(new DynamicIPOSDOSaveTest("saveWithNoOptions").setRepetitions(REPETITIONS));
+    //OK ts.addTest(new DynamicIPOSDOSaveTest("saveWithCaching").setRepetitions(REPETITIONS));
     return ts;
   }
 
