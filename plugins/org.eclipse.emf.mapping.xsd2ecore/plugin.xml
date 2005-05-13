@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.8 2005/05/12 18:28:45 emerks Exp $
+ * $Id: plugin.xml,v 1.9 2005/05/13 15:18:28 emerks Exp $
  */
 -->
 
@@ -37,7 +37,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/mapping.xsd2ecore.jar">
+    <library name="mapping.xsd2ecore.jar">
       <export name="*"/>
     </library>
   </runtime>

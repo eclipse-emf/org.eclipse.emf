@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.9 2004/12/22 21:24:11 marcelop Exp $
+ * $Id: plugin.xml,v 1.10 2005/05/13 15:18:34 emerks Exp $
  */
 -->
 
@@ -40,7 +40,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/xsd.editor.jar">
+    <library name="xsd.editor.jar">
       <export name="*"/>
     </library>
   </runtime>
