@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicSequenceTest.java,v 1.8 2005/05/13 21:11:44 bportier Exp $
+ * $Id: DynamicSequenceTest.java,v 1.9 2005/05/13 22:36:53 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -36,7 +36,7 @@ import commonj.sdo.Sequence;
 public class DynamicSequenceTest extends EMFPerformanceTestCase
 {
 
-  protected static final int REPETITIONS = 50;
+  protected static final int REPETITIONS = 30;
 
   protected static final int ITERATIONS_10K = 2000000;
   

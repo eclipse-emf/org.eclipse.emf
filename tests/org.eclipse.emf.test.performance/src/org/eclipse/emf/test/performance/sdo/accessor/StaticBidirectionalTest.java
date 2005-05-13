@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticBidirectionalTest.java,v 1.9 2005/05/13 21:11:44 bportier Exp $
+ * $Id: StaticBidirectionalTest.java,v 1.10 2005/05/13 22:36:53 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -40,11 +40,11 @@ import commonj.sdo.Property;
 
 public class StaticBidirectionalTest extends EMFPerformanceTestCase
 {
-  protected static final int REPETITIONS_20 = 50;
+  protected static final int REPETITIONS_20 = 30;
 
-  protected static final int ITERATIONS_25K = 500000;
+  protected static final int ITERATIONS_25K = 250000;
 
-  protected static final int ITERATIONS_8K = 2000000;
+  protected static final int ITERATIONS_8K = 500000;
 
   protected LibraryFactory libFactoryInstance = LibraryFactory.eINSTANCE;
 
