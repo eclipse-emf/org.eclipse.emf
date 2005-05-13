@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.13 2005/01/05 20:42:50 marcelop Exp $
+ * $Id: BuildTests.java,v 1.14 2005/05/13 16:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -659,7 +659,7 @@ public class BuildTests extends TestCase
     {
       if("org.eclipse.emf.ecore".equals(plugins[i].getName()) || plugins[i].getName().startsWith("org.eclipse.emf.ecore_"))
       {
-        eCoreJar = new File(plugins[i], "runtime/ecore.jar");
+        eCoreJar = new File(plugins[i], "ecore.jar");
         assertTrue(eCoreJar.exists());
         assertTrue(eCoreJar.isFile());
         
