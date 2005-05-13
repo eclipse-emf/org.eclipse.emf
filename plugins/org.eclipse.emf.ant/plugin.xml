@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.4 2005/05/10 21:23:07 davidms Exp $
+ * $Id: plugin.xml,v 1.5 2005/05/13 15:18:31 emerks Exp $
  */
 -->
 
@@ -28,7 +28,7 @@
    class="org.eclipse.emf.ant.EMFAntPlugin">
 
    <runtime>
-      <library name="runtime/emf.ant.jar">
+      <library name="emf.ant.jar">
          <export name="*"/>
       </library>
    </runtime>
@@ -43,25 +43,25 @@
    </requires>
    
    <extension point="org.eclipse.ant.core.extraClasspathEntries">
-      <extraClasspathEntry library="runtime/emf.ant.tasks.jar"/>
+      <extraClasspathEntry library="emf.ant.tasks.jar"/>
    </extension>   
 
    <extension point="org.eclipse.ant.core.antTasks">
       <antTask
-            library="runtime/emf.ant.tasks.jar"
+            library="emf.ant.tasks.jar"
             name="emf.JETEmitter"
             headless="true"
             class="org.eclipse.emf.ant.taskdefs.codegen.JETEmitterTask">
       </antTask>
       <antTask
-            library="runtime/emf.ant.tasks.jar"
+            library="emf.ant.tasks.jar"
             name="emf.JMerger"
             headless="true"
             class="org.eclipse.emf.ant.taskdefs.codegen.JMergerTask">
       </antTask>
 
       <antTask
-            library="runtime/emf.ant.tasks.jar"
+            library="emf.ant.tasks.jar"
             name="emf.util.RemoveVersion"
             headless="true"
             class="org.eclipse.emf.ant.taskdefs.RemoveVersionTaskTask">

@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.4 2004/10/24 22:06:29 davidms Exp $
+ * $Id: plugin.xml,v 1.5 2005/05/13 15:18:37 emerks Exp $
  */
 -->
 
@@ -36,7 +36,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/ecore.change.edit.jar">
+    <library name="ecore.change.edit.jar">
       <export name="*"/>
     </library>
   </runtime>

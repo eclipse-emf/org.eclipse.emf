@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.10 2005/05/10 21:22:40 davidms Exp $
+ * $Id: plugin.xml,v 1.11 2005/05/13 15:18:05 emerks Exp $
  */
 -->
 
@@ -38,7 +38,7 @@
   </requires>
   
   <runtime>
-    <library name="runtime/codegen.ecore.ui.jar">
+    <library name="codegen.ecore.ui.jar">
       <export name="*"/>
     </library>
   </runtime>

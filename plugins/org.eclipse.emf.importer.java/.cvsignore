@@ -1,5 +1,5 @@
 bin
 bin.tasks
 build.xml
-runtime
 temp.folder
+*.jar

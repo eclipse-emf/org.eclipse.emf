@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.6 2004/12/22 21:24:09 marcelop Exp $
+ * $Id: plugin.xml,v 1.7 2005/05/13 15:18:31 emerks Exp $
  */
 -->
 
@@ -34,7 +34,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/common.ui.jar">
+    <library name="common.ui.jar">
       <export name="*"/>
     </library>
   </runtime>

@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.9 2004/12/08 17:37:31 marcelop Exp $
+ * $Id: plugin.xml,v 1.10 2005/05/13 15:18:08 emerks Exp $
  */
 -->
 
@@ -37,7 +37,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/java.editor.jar">
+    <library name="java.editor.jar">
       <export name="*"/>
     </library>
   </runtime>

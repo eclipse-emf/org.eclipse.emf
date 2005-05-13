@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.2 2005/05/12 14:09:27 marcelop Exp $
+ * $Id: plugin.xml,v 1.3 2005/05/13 15:18:00 emerks Exp $
  */
 -->
 
@@ -37,7 +37,7 @@
 	</requires>
 
 	<runtime>
-		<library name="runtime/importer.rose.jar">
+		<library name="importer.rose.jar">
 			<export name="*"/>
 		</library>
 	</runtime>

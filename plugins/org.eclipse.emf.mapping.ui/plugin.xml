@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/12/22 21:24:10 marcelop Exp $
+ * $Id: plugin.xml,v 1.6 2005/05/13 15:18:29 emerks Exp $
  */
 -->
 
@@ -38,7 +38,7 @@
    </requires>
 
    <runtime>
-      <library name="runtime/mapping.ui.jar">
+      <library name="mapping.ui.jar">
          <export name="*"/>
       </library>
    </runtime>

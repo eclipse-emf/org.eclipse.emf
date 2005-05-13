@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2005/03/18 21:04:26 khussey Exp $
+ * $Id: plugin.xml,v 1.2 2005/05/13 15:18:39 emerks Exp $
  */
 -->
 
@@ -41,7 +41,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/mapping.ecore2xml.ui.jar">
+    <library name="mapping.ecore2xml.ui.jar">
       <export name="*"/>
     </library>
   </runtime>

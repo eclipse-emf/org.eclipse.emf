@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.8 2004/10/29 19:21:04 marcelop Exp $
+ * $Id: plugin.xml,v 1.9 2005/05/13 15:18:26 emerks Exp $
  */
 -->
 
@@ -38,7 +38,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/edit.ui.jar">
+    <library name="edit.ui.jar">
       <export name="*"/>
     </library>
   </runtime>

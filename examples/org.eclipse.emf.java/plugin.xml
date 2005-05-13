@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.6 2004/11/29 19:52:53 emerks Exp $
+ * $Id: plugin.xml,v 1.7 2005/05/13 15:18:37 emerks Exp $
  */
 -->
 
@@ -34,7 +34,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/java.jar">
+    <library name="java.jar">
       <export name="*"/>
     </library>
   </runtime>
