@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.14 2005/05/12 18:14:27 emerks Exp $
+ * $Id: Generator.java,v 1.15 2005/05/13 15:21:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -731,7 +731,7 @@ public class Generator extends CodeGen
 
       if (isInitiallyEmpty)
       {
-        javaProject.setOutputLocation(new Path("/" + javaSource.segment(0) + "/runtime"), new SubProgressMonitor(progressMonitor, 1));
+        javaProject.setOutputLocation(new Path("/" + javaSource.segment(0) + "/bin"), new SubProgressMonitor(progressMonitor, 1));
       }
     }
     catch (Exception exception)
