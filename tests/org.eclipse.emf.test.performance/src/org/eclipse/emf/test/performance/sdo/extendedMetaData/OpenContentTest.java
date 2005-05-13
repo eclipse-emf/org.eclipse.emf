@@ -48,7 +48,7 @@ public class OpenContentTest extends EMFPerformanceTestCase
 
   private static final String DATA_URI = "file:///" + DATA;
 
-  private static final int ITERATIONS_1T = 1000;
+  private static final int ITERATIONS_1T = 4000;
 
   private static String XML_SCHEMA_URI;
 
@@ -69,8 +69,8 @@ public class OpenContentTest extends EMFPerformanceTestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("OpenContentTest");
-    ts.addTest(new OpenContentTest("demandFeature").setWarmUp(3).setRepetitions(20));
-    ts.addTest(new OpenContentTest("createDemandFeatureDO").setWarmUp(3).setRepetitions(20));
+    ts.addTest(new OpenContentTest("demandFeature").setWarmUp(1).setRepetitions(50));
+    ts.addTest(new OpenContentTest("createDemandFeatureDO").setWarmUp(1).setRepetitions(50));
     return ts;
   }
 
