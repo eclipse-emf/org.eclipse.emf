@@ -6,7 +6,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1 2005/02/10 22:11:11 marcelop Exp $
+ * $Id: plugin.xml,v 1.2 2005/05/13 17:32:25 emerks Exp $
  */
 -->
 
@@ -22,7 +22,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/library.model.jar">
+    <library name="library.model.jar">
       <export name="*"/>
     </library>
   </runtime>

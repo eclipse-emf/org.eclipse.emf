@@ -23,7 +23,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/library.xsd.jar">
+    <library name="library.xsd.jar">
       <export name="*"/>
     </library>
   </runtime>

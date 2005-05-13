@@ -22,7 +22,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/library.model.jar">
+    <library name="library.model.jar">
       <export name="*"/>
     </library>
   </runtime>

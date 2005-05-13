@@ -6,7 +6,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: plugin.xml,v 1.2 2005/05/10 21:22:43 davidms Exp $
+ * $Id: plugin.xml,v 1.3 2005/05/13 17:32:25 emerks Exp $
  */
 -->
 
@@ -23,7 +23,7 @@
   </requires>
 
   <runtime>
-    <library name="runtime/library.xsd.jar">
+    <library name="library.xsd.jar">
       <export name="*"/>
     </library>
   </runtime>
