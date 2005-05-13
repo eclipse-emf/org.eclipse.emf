@@ -71,7 +71,7 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
     {
       if (oldPage != currentPage)
       {
-        int cause = -1;
+        int cause = ModelImporterPage.CAUSE_UNKNOWN;
         if (oldPage instanceof ModelImporterPage)
         {
           ModelImporterPage page = (ModelImporterPage)oldPage;
@@ -89,15 +89,11 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
       }
     }
 
-    public boolean firePageAboutToDeactivate(int cause)
+    public void firePageDeactivated(int cause)
     {
       if (pageChangeProvider != null && pageChangeProvider.getSelectedPage() instanceof ModelImporterPage)
       {
-        return ((ModelImporterPage)pageChangeProvider.getSelectedPage()).pageAboutToDeactivate(cause);
-      }
-      else
-      {
-        return true;
+        ((ModelImporterPage)pageChangeProvider.getSelectedPage()).pageDeactivated(cause);
       }
     }
   }
@@ -254,15 +250,13 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
   
   public boolean performCancel()
   {
-    return pageHelper == null || pageHelper.firePageAboutToDeactivate(ModelImporterPage.CAUSE_CANCEL);
+    pageHelper.firePageDeactivated(ModelImporterPage.CAUSE_CANCEL);
+    return true;
   }
 
   public boolean performFinish()
   {
-    if (pageHelper != null && !pageHelper.firePageAboutToDeactivate(ModelImporterPage.CAUSE_FINISH))
-    {
-      return false;
-    }
+    pageHelper.firePageDeactivated(ModelImporterPage.CAUSE_FINISH);
 
     try
     {

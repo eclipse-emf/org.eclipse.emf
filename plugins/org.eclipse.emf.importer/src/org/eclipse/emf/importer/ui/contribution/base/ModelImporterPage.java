@@ -35,10 +35,11 @@ import org.eclipse.emf.importer.ModelImporter;
  */
 public abstract class ModelImporterPage extends WizardPage implements Listener
 {
-  public static final int CAUSE_BACK = 0;
-  public static final int CAUSE_NEXT = 1;
-  public static final int CAUSE_FINISH = 2;
-  public static final int CAUSE_CANCEL = 3;
+  public static final int CAUSE_UNKNOWN = 0;
+  public static final int CAUSE_BACK = 1;
+  public static final int CAUSE_NEXT = 2;
+  public static final int CAUSE_FINISH = 3;
+  public static final int CAUSE_CANCEL = 4;
     
   protected ModelImporter modelImporter;
   protected boolean neverVisible = true;
@@ -65,29 +66,22 @@ public abstract class ModelImporterPage extends WizardPage implements Listener
 
   protected void pageActivated(boolean firstTime, int cause)
   {
-
-  }
-
-  protected boolean pageAboutToDeactivate(int cause)
-  {
-    return true;
   }
 
   protected void pageDeactivated(int cause)
   {
-
   }
   
   public IWizardPage getNextPage()
   {
     forwardDirection = true;
-    return pageAboutToDeactivate(CAUSE_NEXT) ?  super.getNextPage() : null;
+    return super.getNextPage();
   }
   
   public IWizardPage getPreviousPage()
   {
     forwardDirection = false;
-    return pageAboutToDeactivate(CAUSE_BACK) ? super.getPreviousPage() : null;
+    return super.getPreviousPage();
   }
 
   public boolean isPageComplete()
