@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicSequenceTest.java,v 1.9 2005/05/13 22:36:53 bportier Exp $
+ * $Id: DynamicSequenceTest.java,v 1.10 2005/05/14 04:02:08 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -40,9 +40,11 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
 
   protected static final int ITERATIONS_10K = 2000000;
   
-  protected static final int ITERATIONS_50K = 10000000;
+  protected static final int ITERATIONS_50K = 20000000;
 
   protected static final int ITERATIONS_100K = 20000000;
+
+  protected static final int ITERATIONS_300K = 30000000;
 
   protected static final int ITERATIONS_500K = 100000000;
 
@@ -143,7 +145,7 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
     Property ordersProp = this.ordersProp;
 
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_100K; i++)
+    for (int i = 0; i < ITERATIONS_300K; i++)
     {
       if (sequenceValue != this)
       { // TODO ideally, we'd want to call different methods (which return Sequence).
