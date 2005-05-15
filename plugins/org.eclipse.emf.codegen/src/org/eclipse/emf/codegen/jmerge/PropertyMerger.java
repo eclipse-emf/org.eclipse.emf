@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.3 2004/05/16 17:32:06 emerks Exp $
+ * $Id: PropertyMerger.java,v 1.4 2005/05/15 13:44:07 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,8 +39,8 @@ public class PropertyMerger implements IPlatformRunnable
 {
   protected String sourceProperties;
   protected String targetProperties;
-  protected Map sourceToTargetMap = new HashMap();
-  protected Map targetToSourceMap = new HashMap();
+  protected Map sourceToTargetMap = new LinkedHashMap();
+  protected Map targetToSourceMap = new LinkedHashMap();
 
   /**
    * This creates an empty instances, when used as a runnable.
@@ -122,11 +122,51 @@ public class PropertyMerger implements IPlatformRunnable
     return null;
   }
 
+  protected static Pattern nlPattern = Pattern.compile("([\\n][\\r]?|[\\r][\\n]?)", Pattern.MULTILINE);
+  
   public void merge()
   {
+    Matcher matcher = nlPattern.matcher(targetProperties);
+    String nl = null;
+    if (matcher.find())
+    {
+      nl = matcher.group(1);  
+      
+      matcher = nlPattern.matcher(sourceProperties);
+      if (matcher.find())
+      {
+        String sourceNL = matcher.group(1);
+        if (!sourceNL.equals(nl))
+        {
+          sourceProperties = sourceProperties.replaceAll(sourceNL, nl);
+        }
+      }
+    }
+    else
+    {
+      matcher = nlPattern.matcher(sourceProperties);
+      if (matcher.find())
+      {
+        nl = matcher.group(1);  
+      }
+    }
+    
+    if (nl != null)
+    {
+      if (!targetProperties.endsWith(nl))
+      {
+        targetProperties += nl;
+      }
+      
+      if (!sourceProperties.endsWith(nl))
+      {
+        sourceProperties += nl;
+      }
+    }
+    
     Map sourcePropertyFragments = parse(sourceProperties);
     Map targetPropertyFragments = parse(targetProperties);
-
+    
     StringBuffer result = new StringBuffer(targetProperties);
     for (Iterator i = sourcePropertyFragments.entrySet().iterator(); i.hasNext(); )
     {
@@ -144,7 +184,7 @@ public class PropertyMerger implements IPlatformRunnable
 
   public Map parse(String properties)
   {
-    Map result = new HashMap();
+    Map result = new LinkedHashMap();
     int i = 0;
     while (i < properties.length())
     {
@@ -158,7 +198,11 @@ public class PropertyMerger implements IPlatformRunnable
       }
       else
       {
-        eol = properties.length() - 1;
+        eol = properties.indexOf("\r", i);
+        if (eol == -1)
+        {
+          eol = properties.length() - 1;
+        }
       }
 
       String property = properties.substring(i, eol + 1);
