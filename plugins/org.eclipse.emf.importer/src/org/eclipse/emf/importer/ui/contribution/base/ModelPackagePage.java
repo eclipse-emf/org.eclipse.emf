@@ -65,6 +65,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.provider.GenBaseItemProvider;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelItemProviderAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenPackageItemProvider;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -82,7 +83,6 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
-import org.eclipse.emf.importer.util.ImporterUtil;
 
 
 /**
@@ -196,7 +196,7 @@ public class ModelPackagePage extends ModelImporterPage
       RowLayout layout = new RowLayout();
       layout.justify = true;
       layout.pack = true;
-      layout.spacing = 15;
+      layout.spacing = 5;
       selectionComposite.setLayout(layout);
     }
 
@@ -473,7 +473,7 @@ public class ModelPackagePage extends ModelImporterPage
             for (int i = 0; i < result.length; ++i)
             {
               IResource resource = (IResource)result[i];
-              if (resource.getType() == IResource.FILE && !ImporterUtil.isInJavaOutput(resource)
+              if (resource.getType() == IResource.FILE && !CodeGenUtil.isInJavaOutput(resource)
                 && "genmodel".equals(resource.getFullPath().getFileExtension()))
               {
                 URI genModelURI = URI.createPlatformResourceURI(resource.getFullPath().toString(), true);

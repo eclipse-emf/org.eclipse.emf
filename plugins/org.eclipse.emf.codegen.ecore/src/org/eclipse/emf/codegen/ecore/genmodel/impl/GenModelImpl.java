@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.31 2005/05/11 16:52:08 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.32 2005/05/16 18:46:25 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -33,6 +33,8 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.jdt.core.ToolFactory;
+import org.eclipse.jdt.core.formatter.CodeFormatter;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
@@ -48,11 +50,12 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
-import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.codegen.jmerge.JControlModel;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -74,8 +77,6 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.jdt.core.ToolFactory;
-import org.eclipse.jdt.core.formatter.CodeFormatter;
 
 
 /**
@@ -1107,27 +1108,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public void emitSortedImports()
   {
-    String NL = System.getProperties().getProperty("line.separator");
-    StringBuffer imports = new StringBuffer();
-
-    String previousPackageName = null;
-    for (Iterator iter = importManager.getImports().iterator(); iter.hasNext(); )
-    {
-      String importName = (String)iter.next();
-      int index = importName.lastIndexOf(".");
-      if (index != -1)
-      {
-        String packageName = importName.substring(0, index);
-        if (previousPackageName != null && !previousPackageName.equals(packageName))
-        {
-          imports.append(NL);
-        }
-        previousPackageName = packageName;
-      }
-      imports.append(NL + "import " + importName + ";");
-    }
-
-    importStringBuffer.insert(importInsertionPoint, imports);
+    importStringBuffer.insert(importInsertionPoint, importManager.computeSortedImports());
   }
 
   public String getImportedName(String qualifiedName)
@@ -2721,7 +2702,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         if (mainPackage != null)
         {
           return new StringBuffer(mainPackage).append(".").append(packageSuffix).append(".").
-            append(GenModelUtil.validJavaIdentifier(modelName)).
+            append(CodeGenUtil.validJavaIdentifier(modelName)).
             append(classSuffix).toString();
         }
       }

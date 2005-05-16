@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.ResourceSelectionDialog;
 
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.importer.ImporterPlugin;
@@ -335,7 +336,7 @@ public class ModelDetailPage extends ModelImporterPage
 
   protected boolean isValidWorkspaceResource(IResource resource)
   {
-    if (resource.getType() == IResource.FILE && !ImporterUtil.isInJavaOutput(resource))
+    if (resource.getType() == IResource.FILE && !CodeGenUtil.isInJavaOutput(resource))
     {
       String[] filterExtensions = getFilterExtensions();
       if (filterExtensions.length > 0)

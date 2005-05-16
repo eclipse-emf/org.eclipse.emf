@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.1 2005/05/10 17:40:33 davidms Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.2 2005/05/16 18:44:40 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -34,7 +34,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
-import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -671,10 +671,10 @@ public class RoseEcoreBuilder implements RoseVisitor
       for (Matcher matcher = ANNOTATION_PATTERN.matcher(annotation); matcher.find();)
       {
         EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-        eAnnotation.setSource(GenModelUtil.parseString(matcher.group(1)));
+        eAnnotation.setSource(CodeGenUtil.parseString(matcher.group(1)));
         for (Matcher detailMatcher = ANNOTATION_DETAIL_PATTERN.matcher(matcher.group(2)); detailMatcher.find();)
         {
-          eAnnotation.getDetails().put(GenModelUtil.parseString(detailMatcher.group(1)), GenModelUtil.parseString(detailMatcher.group(4)));
+          eAnnotation.getDetails().put(CodeGenUtil.parseString(detailMatcher.group(1)), CodeGenUtil.parseString(detailMatcher.group(4)));
         }
         eModelElement.getEAnnotations().add(eAnnotation);
       }
@@ -944,7 +944,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       {
         try
         {
-          int i = GenModelUtil.parseChar(initv.substring(1, initv.length() - 1));
+          int i = CodeGenUtil.parseChar(initv.substring(1, initv.length() - 1));
           initv = Integer.toString(i);
         }
         catch (IllegalArgumentException e)
@@ -957,7 +957,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       {
         try
         {
-          initv = GenModelUtil.parseString(initv.substring(1, initv.length() - 1));
+          initv = CodeGenUtil.parseString(initv.substring(1, initv.length() - 1));
         }
         catch (IllegalArgumentException e)
         {
@@ -2069,7 +2069,7 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   protected String validName(String name)
   {
-    return GenModelUtil.validJavaIdentifier(name);
+    return CodeGenUtil.validJavaIdentifier(name);
   }
 
   protected void warning(String message)

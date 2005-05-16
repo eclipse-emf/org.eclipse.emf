@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterApplication.java,v 1.2 2005/05/12 18:06:42 emerks Exp $
+ * $Id: RoseImporterApplication.java,v 1.3 2005/05/16 18:44:40 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -27,7 +27,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
-import org.eclipse.emf.codegen.CodeGen.ProgressMonitorPrinter;
+import org.eclipse.emf.codegen.util.CodeGenUtil.ProgressMonitorPrinter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.importer.ModelImporter;

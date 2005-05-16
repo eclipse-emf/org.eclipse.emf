@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.15 2005/05/13 15:21:19 emerks Exp $
+ * $Id: Generator.java,v 1.16 2005/05/16 18:47:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -54,6 +54,8 @@ import org.eclipse.emf.codegen.CodeGen;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.codegen.util.CodeGenUtil.StreamProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EPackage;
@@ -283,7 +285,7 @@ public class Generator extends CodeGen
                     //
                     IPath targetRootDirectory = new Path(arguments[index]);
                     targetRootDirectory = new Path(targetRootDirectory.toFile().getAbsoluteFile().getCanonicalPath());
-                    CodeGen.findOrCreateContainer
+                    CodeGenUtil.findOrCreateContainer
                       (new Path(path.segment(0)), true, targetRootDirectory, new SubProgressMonitor(progressMonitor, 1));
                   }
                   // This is to handle a genmodel produced by rose2genmodel.
@@ -395,7 +397,7 @@ public class Generator extends CodeGen
 
       IPath projectRelativePath =  new Path(modelProjectLocation.lastSegment()).append(fragmentPath);
 
-      CodeGen.findOrCreateContainer
+      CodeGenUtil.findOrCreateContainer
         (projectRelativePath,
          true, 
          modelProjectLocation, 
@@ -424,7 +426,7 @@ public class Generator extends CodeGen
         {
           IPath modelProjectLocation = new Path(rootLocation + "/" + encodedPath.substring(0, index));
   
-          CodeGen.findOrCreateContainer
+          CodeGenUtil.findOrCreateContainer
             (projectRelativePath,
              true, 
              modelProjectLocation, 
@@ -656,40 +658,40 @@ public class Generator extends CodeGen
           }
           else
           {
-            addClasspathEntries(classpathEntries, "ECLIPSE_CORE_RUNTIME", "org.eclipse.core.runtime");
-            addClasspathEntries(classpathEntries, "ECLIPSE_CORE_RESOURCES", "org.eclipse.core.resources");
-            addClasspathEntries(classpathEntries, "EMF_COMMON", "org.eclipse.emf.common");
-            addClasspathEntries(classpathEntries, "EMF_ECORE", "org.eclipse.emf.ecore");
+            CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_CORE_RUNTIME", "org.eclipse.core.runtime");
+            CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_CORE_RESOURCES", "org.eclipse.core.resources");
+            CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_COMMON", "org.eclipse.emf.common");
+            CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_ECORE", "org.eclipse.emf.ecore");
 
             if ((style & EMF_XML_PROJECT_STYLE) != 0)
             {
-              addClasspathEntries(classpathEntries, "EMF_ECORE_XMI", "org.eclipse.emf.ecore.xmi");
+              CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_ECORE_XMI", "org.eclipse.emf.ecore.xmi");
             }
 
             if ((style & EMF_MODEL_PROJECT_STYLE) == 0)
             {
-              addClasspathEntries(classpathEntries, "EMF_EDIT", "org.eclipse.emf.edit");
+              CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_EDIT", "org.eclipse.emf.edit");
 
               if ((style & EMF_EDIT_PROJECT_STYLE) == 0)
               {
-                addClasspathEntries(classpathEntries, "ECLIPSE_SWT", "org.eclipse.swt");
-                addClasspathEntries(classpathEntries, "ECLIPSE_JFACE", "org.eclipse.jface");
-                addClasspathEntries(classpathEntries, "ECLIPSE_UI_VIEWS", "org.eclipse.ui.views");
-                addClasspathEntries(classpathEntries, "ECLIPSE_UI_EDITORS", "org.eclipse.ui.editors");
-                addClasspathEntries(classpathEntries, "ECLIPSE_UI_IDE", "org.eclipse.ui.ide");
-                addClasspathEntries(classpathEntries, "ECLIPSE_UI_WORKBENCH", "org.eclipse.ui.workbench");
-                addClasspathEntries(classpathEntries, "EMF_COMMON_UI", "org.eclipse.emf.common.ui");
-                addClasspathEntries(classpathEntries, "EMF_EDIT_UI", "org.eclipse.emf.edit.ui");
+                CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_SWT", "org.eclipse.swt");
+                CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_JFACE", "org.eclipse.jface");
+                CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_UI_VIEWS", "org.eclipse.ui.views");
+                CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_UI_EDITORS", "org.eclipse.ui.editors");
+                CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_UI_IDE", "org.eclipse.ui.ide");
+                CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_UI_WORKBENCH", "org.eclipse.ui.workbench");
+                CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_COMMON_UI", "org.eclipse.emf.common.ui");
+                CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_EDIT_UI", "org.eclipse.emf.edit.ui");
                 if ((style & EMF_XML_PROJECT_STYLE) == 0)
                 {
-                  addClasspathEntries(classpathEntries, "EMF_ECORE_XMI", "org.eclipse.emf.ecore.xmi");
+                  CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_ECORE_XMI", "org.eclipse.emf.ecore.xmi");
                 }
               }
             }
 
             if ((style & EMF_TESTS_PROJECT_STYLE) != 0)
             {
-              addClasspathEntries(classpathEntries, "JUNIT", "org.junit");
+              CodeGenUtil.addClasspathEntries(classpathEntries, "JUNIT", "org.junit");
             }
 
             if (pluginVariables != null)
@@ -717,7 +719,7 @@ public class Generator extends CodeGen
                     name = pluginVariable.substring(0, index);
                     id = pluginVariable.substring(index + 1);
                   }
-                  addClasspathEntries(classpathEntries, name, id);
+                  CodeGenUtil.addClasspathEntries(classpathEntries, name, id);
                 }
               }
             }

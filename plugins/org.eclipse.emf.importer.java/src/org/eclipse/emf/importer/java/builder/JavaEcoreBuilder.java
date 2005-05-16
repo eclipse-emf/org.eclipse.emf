@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.2 2005/05/11 16:43:47 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.3 2005/05/16 18:44:38 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -61,7 +61,7 @@ import org.eclipse.jdt.core.jdom.IDOMType;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
-import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -1019,14 +1019,14 @@ public class JavaEcoreBuilder
     {
       // The feature name is extracted lower cased.
       //
-      featureName = GenModelUtil.uncapName(methodName.substring(3));
+      featureName = CodeGenUtil.uncapName(methodName.substring(3));
     }
     else if (parameterNames == null && parameters == null && methodName.startsWith("is") && methodName.length() > 2
       && Character.isUpperCase(methodName.charAt(2)) && "boolean".equals(returnType))
     {
       // The name is extracted and lower cased.
       //
-      featureName = GenModelUtil.uncapName(methodName.substring(2));
+      featureName = CodeGenUtil.uncapName(methodName.substring(2));
     }
     else
     {
@@ -1492,7 +1492,7 @@ public class JavaEcoreBuilder
 
   private static String parseString(String stringLiteralBody)
   {
-    return GenModelUtil.parseString(stringLiteralBody);
+    return CodeGenUtil.parseString(stringLiteralBody);
   }
 
   /**
@@ -1747,11 +1747,11 @@ public class JavaEcoreBuilder
         int i = typeName.indexOf('[');
         String elementTypeName = i == -1 ? typeName : typeName.substring(0, i);
 
-        if (GenModelUtil.isJavaPrimitiveType(elementTypeName))
+        if (CodeGenUtil.isJavaPrimitiveType(elementTypeName))
         {
           primitive = true;
         }
-        else if (GenModelUtil.isJavaLangType(elementTypeName))
+        else if (CodeGenUtil.isJavaLangType(elementTypeName))
         {
           packageName = "java.lang";
           typeName = packageName + "." + typeName;
@@ -1855,7 +1855,7 @@ public class JavaEcoreBuilder
       {
         String prefix = (String)ePackageToPrefixMap.get(eNamedElement.eContainer());
         String name = eNamedElement.getName();
-        String id = GenModelUtil.format(name, '_', prefix, true).toUpperCase();
+        String id = CodeGenUtil.format(name, '_', prefix, true).toUpperCase();
         result = (Integer)nameToIDMap.get(id);
       }
       else
@@ -1863,8 +1863,8 @@ public class JavaEcoreBuilder
         String prefix = (String)ePackageToPrefixMap.get(eNamedElement.eContainer().eContainer());
         String eClassName = ((ENamedElement)eNamedElement.eContainer()).getName();
         String eFeatureName = eNamedElement.getName();
-        String id = GenModelUtil.format(eClassName, '_', prefix, true).toUpperCase() + "__"
-          + GenModelUtil.format(eFeatureName, '_', prefix, true).toUpperCase();
+        String id = CodeGenUtil.format(eClassName, '_', prefix, true).toUpperCase() + "__"
+          + CodeGenUtil.format(eFeatureName, '_', prefix, true).toUpperCase();
         result = (Integer)nameToIDMap.get(id);
       }
       if (result != null)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.1 2005/05/10 17:35:19 davidms Exp $
+ * $Id: ModelImporterApplication.java,v 1.2 2005/05/16 18:44:31 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -37,11 +37,11 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
-import org.eclipse.emf.codegen.CodeGen.ProgressMonitorPrinter;
-import org.eclipse.emf.codegen.CodeGen.StreamProgressMonitor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.util.CodeGenUtil.ProgressMonitorPrinter;
+import org.eclipse.emf.codegen.util.CodeGenUtil.StreamProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;

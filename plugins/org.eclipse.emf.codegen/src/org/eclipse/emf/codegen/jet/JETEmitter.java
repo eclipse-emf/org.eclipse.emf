@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.10 2005/04/05 21:58:48 emerks Exp $
+ * $Id: JETEmitter.java,v 1.11 2005/05/16 18:44:23 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -32,6 +32,12 @@ import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.osgi.framework.Bundle;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -57,16 +63,10 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
 
-import org.eclipse.emf.codegen.CodeGen;
 import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
-
-import org.osgi.framework.Bundle;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
 
 
 /**
@@ -577,7 +577,7 @@ public class JETEmitter
     }
     else
     {
-      CodeGen.addClasspathEntries(getClasspathEntries(), variableName, pluginID);
+      CodeGenUtil.addClasspathEntries(getClasspathEntries(), variableName, pluginID);
     }
   }
 
