@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.21 2005/05/11 16:52:37 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.22 2005/05/16 18:15:44 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3006,5 +3006,16 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     int datatypes = getGenDataTypes().size();
 
     return (classes + supers + features + operations + parameters + exceptions + enums + literals + datatypes) > 500;
+  }
+  
+  public List /*String*/ getProviderSupportedTypes()
+  {
+    List result = new ArrayList();
+    result.add("org.eclipse.emf.edit.provider.IEditingDomainItemProvider");
+    result.add("org.eclipse.emf.edit.provider.IStructuredItemContentProvider");
+    result.add("org.eclipse.emf.edit.provider.ITreeItemContentProvider");
+    result.add("org.eclipse.emf.edit.provider.IItemLabelProvider");
+    result.add("org.eclipse.emf.edit.provider.IItemPropertySource");
+    return result;
   }
 } //GenPackageImpl

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.9 2005/03/07 21:26:07 khussey Exp $
+ * $Id: GenPackage.java,v 1.10 2005/05/16 18:15:44 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -522,4 +522,7 @@ public interface GenPackage extends GenBase
   boolean hasConstraints();
 
   String getSerializedPackageFilename();
+  
+  List /*String*/ getProviderSupportedTypes();
+  
 }
