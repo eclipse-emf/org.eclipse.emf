@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterApplication.java,v 1.2 2005/05/12 18:05:13 emerks Exp $
+ * $Id: XSDImporterApplication.java,v 1.3 2005/05/16 18:44:24 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
@@ -29,7 +29,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
-import org.eclipse.emf.codegen.CodeGen.ProgressMonitorPrinter;
+import org.eclipse.emf.codegen.util.CodeGenUtil.ProgressMonitorPrinter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
