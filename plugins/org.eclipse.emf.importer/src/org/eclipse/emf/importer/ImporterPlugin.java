@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ImporterPlugin.java,v 1.1 2005/05/10 17:35:19 davidms Exp $
+ * $Id: ImporterPlugin.java,v 1.2 2005/05/16 14:17:42 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -35,6 +35,8 @@ public final class ImporterPlugin extends EMFPlugin
    * The one instance of this class.
    */
   private static Implementation plugin;
+  
+  public static final String ID = "org.eclipse.emf.importer";
 
   /**
    * Creates the singleton instance.
