@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.22 2005/05/16 18:15:44 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.23 2005/05/16 18:52:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -54,7 +54,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
-import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
@@ -1447,7 +1447,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       GenClass genClass = (GenClass)i.next();
       String name = genClass.getName();
-      if (GenModelUtil.isJavaDefaultType(name))
+      if (CodeGenUtil.isJavaDefaultType(name))
       {
         result.add(name);
       }
