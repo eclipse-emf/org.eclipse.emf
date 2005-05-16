@@ -577,26 +577,6 @@ public class CodeGenUtil
     }
   }
 
-  /**
-   * This is used to print text via a progress monitor, by delegating to {@link IProgressMonitor#subTask subTask}.
-   * It can be safely passed around among short-running methods, instead of SubProgressMonitors, without worrying
-   * about beginning, ending, or counting ticks.
-   */
-  public static class ProgressMonitorPrinter
-  {
-    protected IProgressMonitor progressMonitor;
-    
-    public ProgressMonitorPrinter(IProgressMonitor progressMonitor)
-    {
-      this.progressMonitor = progressMonitor;
-    }
-
-    public void print(String message)
-    {
-      progressMonitor.subTask(message);
-    }
-  }
-
   public static IContainer findOrCreateContainer
     (IPath path, boolean forceRefresh, IPath localLocation, IProgressMonitor progressMonitor) throws CoreException
   {
