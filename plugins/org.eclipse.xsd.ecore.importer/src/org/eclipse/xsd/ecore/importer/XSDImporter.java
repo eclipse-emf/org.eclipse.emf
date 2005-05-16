@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporter.java,v 1.1 2005/05/10 17:41:37 davidms Exp $
+ * $Id: XSDImporter.java,v 1.2 2005/05/16 14:22:57 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
@@ -33,7 +33,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
+import org.eclipse.emf.importer.util.ImporterUtil;
 
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 
@@ -104,8 +106,8 @@ public class XSDImporter extends ModelImporter
     {
       xsdStatus = new Status(
         IStatus.ERROR,
-        XSDImporterPlugin.getPlugin().getBundle().getSymbolicName(),
-        0,
+        ImporterPlugin.ID,
+        ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
         XSDImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidXMLSchema_message"),
         null);
     }
@@ -128,8 +130,8 @@ public class XSDImporter extends ModelImporter
         if (!diagnostics.isEmpty())
         {
           MultiStatus status = new MultiStatus(
-            XSDImporterPlugin.getPlugin().getBundle().getSymbolicName(),
-            0,
+            ImporterPlugin.ID,
+            ImporterUtil.ACTION_MESSAGE_NONE,
             XSDImporterPlugin.INSTANCE.getString("_UI_ErrorsWereDetectedXMLSchema_message"),
             null);
 
