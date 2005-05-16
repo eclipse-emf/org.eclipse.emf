@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegistryReader.java,v 1.2 2004/05/16 17:14:15 emerks Exp $
+ * $Id: RegistryReader.java,v 1.3 2005/05/16 18:11:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
 
-abstract class RegistryReader
+public abstract class RegistryReader
 {
   protected static final String TAG_DESCRIPTION = "description";
 
@@ -52,7 +52,7 @@ abstract class RegistryReader
    * If this element has subelements, the reader will recursively cycle through them 
    * and will call this method, so don't do it here.
    */
-  abstract boolean readElement(IConfigurationElement element);
+  protected abstract boolean readElement(IConfigurationElement element);
 
   /**
    * Reads from the plugin registry and parses it.
@@ -106,7 +106,7 @@ abstract class RegistryReader
     logError(element, "The required attribute '" + attributeName + "' not defined");
   }
 
-  static class PluginClassDescriptor 
+  public static class PluginClassDescriptor 
   {
     protected IConfigurationElement element;
     protected String attributeName;
