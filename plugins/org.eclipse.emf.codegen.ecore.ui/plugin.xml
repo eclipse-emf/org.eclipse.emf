@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.11 2005/05/13 15:18:05 emerks Exp $
+ * $Id: plugin.xml,v 1.12 2005/05/16 19:34:25 emerks Exp $
  */
 -->
 
@@ -71,4 +71,17 @@
       <selection class = "org.eclipse.core.resources.IResource" />
     </wizard>
   </extension>
+  
+  <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+    <factory 
+       uri = "http://www.eclipse.org/emf/2002/GenModel" 
+       class = "org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelItemProviderAdapterFactory" 
+       supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+  </extension>
+
 </plugin>

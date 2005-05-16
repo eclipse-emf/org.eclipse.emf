@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.9 2005/05/13 15:18:30 emerks Exp $
+ * $Id: plugin.xml,v 1.10 2005/05/16 19:34:31 emerks Exp $
  */
 -->
 
@@ -46,5 +46,17 @@
             class="org.eclipse.emf.mapping.MappingPackage"
             genModel="model/Mapping.genmodel"/>
    </extension>
+   
+  <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+    <factory 
+       uri = "http://www.eclipse.org/emf/2002/Mapping" 
+       class = "org.eclipse.emf.mapping.provider.MappingItemProviderAdapterFactory" 
+       supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+  </extension>
 
 </plugin>

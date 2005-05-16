@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.7 2005/05/13 15:18:26 emerks Exp $
+ * $Id: plugin.xml,v 1.8 2005/05/16 19:34:24 emerks Exp $
  */
 -->
 
@@ -56,6 +56,18 @@
 
   <extension point="org.eclipse.team.core.fileTypes">
     <fileTypes extension="ecore2ecore" type="text"/>    
+  </extension>
+  
+  <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+    <factory 
+       uri = "http://www.eclipse.org/emf/2004/Ecore2Ecore" 
+       class = "org.eclipse.emf.mapping.ecore2ecore.provider.Ecore2EcoreItemProviderAdapterFactory" 
+       supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
   </extension>
 
 </plugin>
