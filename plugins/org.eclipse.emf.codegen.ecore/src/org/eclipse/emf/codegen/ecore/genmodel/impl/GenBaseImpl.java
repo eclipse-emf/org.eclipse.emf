@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.25 2005/05/10 21:22:59 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.26 2005/05/16 18:42:49 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -34,8 +34,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -47,15 +45,10 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.dom.AST;
-import org.eclipse.jdt.core.dom.ASTParser;
-import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
@@ -73,12 +66,13 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
-import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.codegen.jmerge.JMerger;
 import org.eclipse.emf.codegen.jmerge.PropertyMerger;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.common.util.WrappedException;
@@ -142,28 +136,28 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   public String capName(String name)
   {
-    return GenModelUtil.capName(name);
+    return CodeGenUtil.capName(name);
   }
 
   public String uncapName(String name)
   {
-    return GenModelUtil.uncapName(name);
+    return CodeGenUtil.uncapName(name);
   }
 
   public String uncapPrefixedName(String name)
   {
-    return GenModelUtil.uncapPrefixedName(name, false);
+    return CodeGenUtil.uncapPrefixedName(name, false);
     
   }
   
   public String uncapPrefixedName(String name, boolean forceDifferent)
   {
-    return GenModelUtil.uncapPrefixedName(name, forceDifferent);
+    return CodeGenUtil.uncapPrefixedName(name, forceDifferent);
   }
 
   public String safeName(String name)
   {
-    return GenModelUtil.safeName(name);
+    return CodeGenUtil.safeName(name);
   }
 
   protected String getImplClassName(String interfaceName)
@@ -724,13 +718,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   public String format(String name, char separator, String prefix, boolean includePrefix)
   {
-    return GenModelUtil.format(name, separator, prefix, includePrefix);
+    return CodeGenUtil.format(name, separator, prefix, includePrefix);
   }
 
   /**
    * This method was used to break sourceName into words delimited by sourceSeparator and/or mixed-case naming.
    * Now, it simply returns an empty list.
-   * @deprecated in 2.1.0.  Use {@link GenModelUtil#parseName(String, char)} instead.
+   * @deprecated in 2.1.0.  Use {@link CodeGenUtil#parseName(String, char)} instead.
    */
   protected final List parseName(String sourceName, char sourceSeparator)
   {
@@ -1124,7 +1118,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    */
   protected static Set getJavaReservedWords()
   {
-    return GenModelUtil.getJavaReservedWords();
+    return CodeGenUtil.getJavaReservedWords();
   }
 
   /**
@@ -1132,183 +1126,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    */
   protected static Set getJavaLangTypes()
   {
-    return GenModelUtil.getJavaDefaultTypes();
-  }
-
-  protected static class ImportManager
-  {
-    protected SortedSet imports = new TreeSet();
-    protected HashMap shortNameToImportMap = new HashMap();
-    protected HashSet javaLangImports = null;
-    protected HashSet importedPackages;
-
-    public ImportManager(String compilationUnitPackage)
-    {
-      importedPackages = new HashSet();
-      importedPackages.add(compilationUnitPackage);
-    }
-    
-    public Collection getImports()
-    {
-      return imports;
-    }
-
-    public String getImportedName(String qualifiedName)
-    {
-      String indices = "";
-      int firstBracket = qualifiedName.indexOf("[");
-      if (firstBracket != -1) 
-      {
-        indices = qualifiedName.substring(firstBracket);
-        qualifiedName = qualifiedName.substring(0, firstBracket);
-      }
-
-      String baseName = qualifiedName.substring(qualifiedName.lastIndexOf(".") + 1);
-
-      String shortName = baseName;
-      int firstDollar = shortName.indexOf("$");
-      if (firstDollar != -1) 
-      {
-        shortName = shortName.substring(0, firstDollar);
-      }
-
-      String registeredName = (String)shortNameToImportMap.get(shortName);
-      if (registeredName == null)
-      {
-        registeredName = "java.lang." + shortName;
-        if (qualifiedName.equals(registeredName))
-        {
-          if (javaLangImports != null && javaLangImports.contains(shortName))
-          {
-            imports.add(qualifiedName);
-          }
-          return shortName + indices;
-        }
-        else
-        {
-          return qualifiedName + indices;
-        }
-      }
-      else
-      {
-        if (qualifiedName.startsWith(registeredName))
-        {
-          if (qualifiedName.length () == registeredName.length())
-          {
-            return baseName.replace('$', '.') + indices;
-          }
-          else
-          {
-            char character = qualifiedName.charAt(registeredName.length());
-            if (character == '.' || character == '$')
-            {
-              return baseName.replace('$', '.') + indices;
-            }
-          }
-        }
-        return qualifiedName.replace('$', '.') + indices;
-      }
-    }
-
-    public void addImport(String packageName, String shortName)
-    {
-      int firstBracket = shortName.indexOf("[");
-      if (firstBracket != -1) shortName = shortName.substring(0, firstBracket);
-      basicAdd(packageName, shortName, packageName + "." + shortName);
-    }
-
-    public void addImport(String qualifiedName)
-    {
-      int firstBracket = qualifiedName.indexOf("[");
-      if (firstBracket != -1) qualifiedName = qualifiedName.substring(0, firstBracket);
-
-      int lastDot = qualifiedName.lastIndexOf(".");
-      String shortName = qualifiedName.substring(lastDot + 1);
-      int firstDollar = shortName.indexOf("$");
-      if (firstDollar != -1) 
-      {
-        shortName = shortName.substring(0, firstDollar);
-      }
-
-      String packageName = lastDot == -1 ? null : qualifiedName.substring(0, lastDot);
-      basicAdd(packageName, shortName, qualifiedName);
-    }
-
-    public void addMasterImport(String packageName, String shortName)
-    {
-      shortNameToImportMap.put(shortName, packageName + "." + shortName);
-    }
-
-    public void addJavaLangImports(List javaLangClassNames)
-    {
-      if (!javaLangClassNames.isEmpty())
-      {
-        javaLangImports = new HashSet();
-        javaLangImports.addAll(javaLangClassNames);
-      }
-    }
-
-    public boolean hasImport(String shortName)
-    {
-      return shortNameToImportMap.containsKey(shortName);
-    }
-
-    public void addCompilationUnitImports(String compilationUnitContents)
-    {   
-      ASTParser parser = ASTParser.newParser(AST.JLS3);
-      parser.setSource(compilationUnitContents.toCharArray());
-      CompilationUnit compilationUnit = (CompilationUnit)parser.createAST(new NullProgressMonitor());
-      for (Iterator i = compilationUnit.imports().iterator(); i.hasNext();)
-      {
-        ImportDeclaration importDeclaration = (ImportDeclaration)i.next();
-        String qualifiedName = importDeclaration.getName().getFullyQualifiedName();
-        int lastDot = qualifiedName.lastIndexOf(".");
-        String shortName = qualifiedName.substring(lastDot + 1);
-        if (shortName.equals("*"))
-        {
-          String packageName = qualifiedName.substring(0, lastDot);
-          importedPackages.add(packageName);
-        }
-        else
-        {
-          shortNameToImportMap.put(shortName, qualifiedName);
-        }
-      }
-    }
-
-    public void addPseudoImport(String qualifiedName)
-    {
-      int lastDot = qualifiedName.lastIndexOf(".");
-      String shortName = qualifiedName.substring(lastDot + 1);
-      if (shortName.equals("*"))
-      {
-        String packageName = qualifiedName.substring(0, lastDot);
-        importedPackages.add(packageName);
-      }
-      else
-      {
-        shortNameToImportMap.put(shortName, qualifiedName);
-      }
-    }
-
-    private void basicAdd(String packageName, String shortName, String qualifiedName)
-    {
-      if (shortName.equals("*"))
-      {
-        importedPackages.add(packageName);
-        imports.add(qualifiedName);
-      }
-      else if (!shortNameToImportMap.containsKey(shortName) && (!GenModelUtil.isJavaDefaultType(shortName)))
-      {
-        shortNameToImportMap.put(shortName, qualifiedName);
-
-        if (!importedPackages.contains(packageName))
-        {
-          imports.add(qualifiedName);
-        }
-      }
-    }
-
+    return CodeGenUtil.getJavaDefaultTypes();
   }
 
   protected static interface GenClassFilter
