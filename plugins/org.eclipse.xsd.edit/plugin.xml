@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.7 2005/05/13 15:18:36 emerks Exp $
+ * $Id: plugin.xml,v 1.8 2005/05/16 19:34:30 emerks Exp $
  */
 -->
 
@@ -39,4 +39,16 @@
     </library>
   </runtime>
 
+  <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+    <factory 
+       uri = "http://www.eclipse.org/xsd/2002/XSD" 
+       class = "org.eclipse.xsd.provider.XSDItemProviderAdapterFactory" 
+       supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+  </extension>
+  
 </plugin>
