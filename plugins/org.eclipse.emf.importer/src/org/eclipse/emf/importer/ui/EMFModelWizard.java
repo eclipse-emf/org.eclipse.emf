@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFModelWizard.java,v 1.4 2005/05/12 17:09:56 marcelop Exp $
+ * $Id: EMFModelWizard.java,v 1.5 2005/05/16 14:20:03 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -52,15 +52,13 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ui.contribution.IModelImporterWizard;
 import org.eclipse.emf.importer.ui.contribution.ModelImporterDescriptor;
 import org.eclipse.emf.importer.ui.contribution.ModelImporterUtil;
+import org.eclipse.emf.importer.util.ImporterUtil;
 
 
 /**
@@ -398,13 +396,6 @@ public class EMFModelWizard extends Wizard implements INewWizard
     return ModelImporterUtil.filterModelImporterDescriptors(ModelImporterDescriptor.TYPE_FILE);
   }
   
-  protected ResourceSet createResourceSet()
-  {
-    ResourceSet result = new ResourceSetImpl();
-    result.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
-    return result;
-  }
-
   protected void computeSuggestedDescriptor()
   {
     if (suggestedDescriptor == null)
@@ -415,7 +406,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
         Resource reloadResource = null;
         try
         {
-          reloadResource = createResourceSet().getResource(reloadURI, true);
+          reloadResource = ImporterUtil.createResourceSet().getResource(reloadURI, true);
         }
         catch (Exception e)
         {
@@ -502,6 +493,8 @@ public class EMFModelWizard extends Wizard implements INewWizard
         modelImporterWizard.setModelFile(modelFile);
       }
     }
+    modelImporterWizard.getFileExtensions().clear();
+    modelImporterWizard.getFileExtensions().addAll(modelImporterDescriptor.getExtensions());
   }
 
   public boolean canFinish()

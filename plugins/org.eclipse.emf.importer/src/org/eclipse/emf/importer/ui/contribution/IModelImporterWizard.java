@@ -16,6 +16,8 @@
  */
 package org.eclipse.emf.importer.ui.contribution;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.ui.INewWizard;
@@ -43,4 +45,6 @@ public interface IModelImporterWizard extends INewWizard
 
   void setGenModelFileName(String fileName);
   String getGenModelFileName();
+  
+  List getFileExtensions();
 }

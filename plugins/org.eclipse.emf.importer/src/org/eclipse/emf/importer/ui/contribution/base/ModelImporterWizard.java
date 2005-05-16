@@ -16,6 +16,8 @@
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -166,6 +168,11 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
   public IStructuredSelection getSelection()
   {
     return selection;
+  }
+  
+  public List getFileExtensions()
+  {
+    return getModelImporter().getFileExtensions();
   }
 
   public void setContainer(IWizardContainer wizardContainer)

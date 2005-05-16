@@ -319,7 +319,7 @@ public class ModelImporterUtil
     List descriptors = new ArrayList();
 
     IExtensionPoint extensionPoint = Platform.getExtensionRegistry().getExtensionPoint(
-      ImporterPlugin.getPlugin().getSymbolicName(),
+      ImporterPlugin.ID,
       MODEL_IMPORTER_DESCRIPTORS_EXTENSION_POINT);
     IConfigurationElement[] configurationElements = extensionPoint.getConfigurationElements();
     for (int i = 0; i < configurationElements.length; i++)
