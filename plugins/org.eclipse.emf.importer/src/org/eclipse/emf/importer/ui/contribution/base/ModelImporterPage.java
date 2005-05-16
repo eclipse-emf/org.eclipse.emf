@@ -125,9 +125,14 @@ public abstract class ModelImporterPage extends WizardPage implements Listener
     }
     else
     {
-      int actionCode = ImporterUtil.computeActionCode(status);
-      handleNotOKStatus(status, ImporterUtil.decodeAction(actionCode), message, dialogTitle, dialogMessage);
+      handleNotOKStatus(status, decodeAction(status), message, dialogTitle, dialogMessage);
     }
+  }
+  
+  protected ImporterUtil.DecodedAction decodeAction(IStatus status)
+  {
+    int actionCode = ImporterUtil.computeActionCode(status);
+    return ImporterUtil.decodeAction(actionCode);
   }
   
   protected void handleOKStatus(IStatus status, String message, String dialogTitle, String dialogMessage)
