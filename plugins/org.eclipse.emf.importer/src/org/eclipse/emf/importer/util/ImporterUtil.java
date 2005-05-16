@@ -16,14 +16,9 @@
  */
 package org.eclipse.emf.importer.util;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -203,26 +198,6 @@ public class ImporterUtil
     ResourceSet result = new ResourceSetImpl();
     result.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
     return result;    
-  }
-
-  public static boolean isInJavaOutput(IResource resource)
-  {
-    IProject project = resource.getProject();
-    IJavaProject javaProject = JavaCore.create(project);
-    try
-    {
-      if (javaProject.exists() && project != project.getWorkspace().getRoot().findMember(javaProject.getOutputLocation())
-        && javaProject.getOutputLocation().isPrefixOf(resource.getFullPath()))
-      {
-        return true;
-      }
-    }
-    catch (JavaModelException exception)
-    {
-      ImporterPlugin.INSTANCE.log(exception);
-    }
-
-    return false;
   }
   
   public static String validPluginID(String base)
