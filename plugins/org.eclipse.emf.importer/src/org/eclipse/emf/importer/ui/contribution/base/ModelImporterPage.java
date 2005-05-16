@@ -16,18 +16,18 @@
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
+import org.eclipse.emf.importer.util.ImporterUtil;
 
 
 /**
@@ -112,23 +112,112 @@ public abstract class ModelImporterPage extends WizardPage implements Listener
     
   }
 
-  protected boolean isInJavaOutput(IResource resource)
+  protected void handleStatus(IStatus status)
   {
-    IProject project = resource.getProject();
-    IJavaProject javaProject = JavaCore.create(project);
-    try
+    handleStatus(status, null, null, null);
+  }
+  
+  protected void handleStatus(IStatus status, String message, String dialogTitle, String dialogMessage)
+  {
+    if (status.isOK())
     {
-      if (javaProject.exists() && project != project.getWorkspace().getRoot().findMember(javaProject.getOutputLocation())
-        && javaProject.getOutputLocation().isPrefixOf(resource.getFullPath()))
-      {
-        return true;
-      }
+      handleOKStatus(status, message, dialogTitle, dialogMessage);
     }
-    catch (JavaModelException exception)
+    else
     {
-      ImporterPlugin.INSTANCE.log(exception);
+      int actionCode = ImporterUtil.computeActionCode(status);
+      handleNotOKStatus(status, ImporterUtil.decodeAction(actionCode), message, dialogTitle, dialogMessage);
+    }
+  }
+  
+  protected void handleOKStatus(IStatus status, String message, String dialogTitle, String dialogMessage)
+  {
+    setMessage(null);
+    setErrorMessage(null);    
+  }
+  
+  protected void handleNotOKStatus(IStatus status, ImporterUtil.DecodedAction decodedAction, String message, String dialogTitle, String dialogMessage)
+  {
+    int messageType = 0;
+    switch(status.getSeverity())
+    {
+      case IStatus.INFO:
+      {
+        messageType = IMessageProvider.INFORMATION;
+        if (dialogTitle == null) ImporterPlugin.INSTANCE.getString("_UI_DialogInformation_title");
+        break;
+      }
+      case IStatus.WARNING:
+        messageType = IMessageProvider.WARNING;
+        if (dialogTitle == null) dialogTitle = ImporterPlugin.INSTANCE.getString("_UI_DialogWarningtitle");
+        break;
+      case IStatus.ERROR:
+        messageType = IMessageProvider.ERROR;
+        if (dialogTitle == null) dialogTitle = ImporterPlugin.INSTANCE.getString("_UI_DialogError_title");
+        break;
     }
 
-    return false;
+    if (message == null) message = status.getMessage();
+    setErrorMessage(null);
+    setMessage(null);
+    switch(decodedAction.message)
+    {
+      case ImporterUtil.ACTION_MESSAGE_SET:
+      {
+        setMessage(message);
+        break;
+      }
+      case ImporterUtil.ACTION_DEFAULT:
+      case ImporterUtil.ACTION_MESSAGE_SET_TYPED:
+      {
+        if (messageType == IMessageProvider.ERROR)
+        {
+          setErrorMessage(message);
+        }
+        else
+        {
+          setMessage(message, messageType);
+        }
+        break;
+      }
+      case ImporterUtil.ACTION_MESSAGE_SET_ERROR:
+      {
+        setErrorMessage(message);
+        break;
+      }
+    }
+
+    if (dialogMessage == null) dialogMessage = status.getMessage();
+    switch(decodedAction.dialog)
+    {
+      case ImporterUtil.ACTION_DEFAULT:
+      case ImporterUtil.ACTION_DIALOG_SHOW_IF_HAS_CHILD:
+      {
+        if (status.getChildren().length > 0)
+        {
+          ErrorDialog.openError(getShell(), dialogTitle, dialogMessage, status);
+        }
+        break;
+      }
+      case ImporterUtil.ACTION_DIALOG_SHOW:
+      {
+        ErrorDialog.openError(getShell(), dialogTitle, dialogMessage, status);
+        break;
+      }
+      case ImporterUtil.ACTION_DIALOG_SHOW_ERROR:
+      {
+        new ErrorDialog(getShell(),
+          dialogTitle,
+          dialogMessage,
+          status, IStatus.INFO | IStatus.WARNING | IStatus.ERROR)
+          {
+            protected Image getImage()
+            {
+              return  getErrorImage();
+            }
+          }.open();
+        break;
+      }
+    }
   }
 }
