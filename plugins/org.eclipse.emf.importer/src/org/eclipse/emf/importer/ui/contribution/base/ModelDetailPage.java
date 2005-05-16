@@ -311,7 +311,7 @@ public class ModelDetailPage extends ModelImporterPage
       List fileExtensions = getModelImporter().getFileExtensions();
       if (fileExtensions.isEmpty())
       {
-        filterExtensions = new String[0];
+        filterExtensions = new String []{ "*.*" };
       }
       else if (fileExtensions.size() == 1)
       {
