@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDetailPage.java,v 1.3 2005/05/12 17:09:32 marcelop Exp $
+ * $Id: XSDDetailPage.java,v 1.4 2005/05/16 14:23:53 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer.ui;
 
@@ -35,7 +35,6 @@ import org.eclipse.xsd.ecore.importer.XSDImporterPlugin;
 public class XSDDetailPage extends ModelDetailPage
 {
   protected Button createMapButton;
-  protected Button loadButton;
 
   public XSDDetailPage(ModelImporter modelImporter, String pageName)
   {
@@ -48,11 +47,6 @@ public class XSDDetailPage extends ModelDetailPage
 
   public void dispose()
   {
-    if (loadButton != null)
-    {
-      loadButton.removeListener(SWT.Selection, this);
-      loadButton = null;
-    }
     if (createMapButton != null)
     {
       createMapButton.removeListener(SWT.Selection, this);
@@ -65,11 +59,6 @@ public class XSDDetailPage extends ModelDetailPage
   public XSDImporter getXSDImporter()
   {
     return (XSDImporter)getModelImporter();
-  }
-
-  protected boolean singleModelLocationSelection()
-  {
-    return false;
   }
 
   protected void addControl(Composite parent)
@@ -85,25 +74,11 @@ public class XSDDetailPage extends ModelDetailPage
       }
       createMapButton.addListener(SWT.Selection, this);
     }
-
-    loadButton = new Button(parent, SWT.PUSH);
-    loadButton.setText(XSDImporterPlugin.INSTANCE.getString("_UI_Load_label"));
-    {
-      GridData data = new GridData();
-      data.horizontalSpan = getXSDImporter().canCreateEcoreMap() ? 1 : 2;
-      data.horizontalAlignment = GridData.END;
-      loadButton.setLayoutData(data);
-    }
-    loadButton.addListener(SWT.Selection, this);
   }
 
   protected void doHandleEvent(Event event)
   {
-    if (event.type == SWT.Selection && event.widget == loadButton)
-    {
-      refreshModel();
-    }
-    else if (event.type == SWT.Selection && event.widget == createMapButton)
+    if (event.type == SWT.Selection && event.widget == createMapButton)
     {
       getXSDImporter().setCreateEcoreMap(createMapButton.getSelection());
       if (modelLocationText.getText().trim().length() > 0)
@@ -115,11 +90,6 @@ public class XSDDetailPage extends ModelDetailPage
     {
       super.doHandleEvent(event);
     }
-    setPageComplete(isPageComplete());
-  }
-
-  protected String[] getFilterExtensions()
-  {
-    return new String []{ "*.xsd;*.wsdl", "*.xsd", "*.wsdl" };
+    getContainer().updateButtons();
   }
 }
