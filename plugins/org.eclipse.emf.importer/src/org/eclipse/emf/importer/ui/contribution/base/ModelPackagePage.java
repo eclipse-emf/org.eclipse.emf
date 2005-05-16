@@ -82,6 +82,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
+import org.eclipse.emf.importer.util.ImporterUtil;
 
 
 /**
@@ -472,7 +473,7 @@ public class ModelPackagePage extends ModelImporterPage
             for (int i = 0; i < result.length; ++i)
             {
               IResource resource = (IResource)result[i];
-              if (resource.getType() == IResource.FILE && !isInJavaOutput(resource)
+              if (resource.getType() == IResource.FILE && !ImporterUtil.isInJavaOutput(resource)
                 && "genmodel".equals(resource.getFullPath().getFileExtension()))
               {
                 URI genModelURI = URI.createPlatformResourceURI(resource.getFullPath().toString(), true);
@@ -645,16 +646,8 @@ public class ModelPackagePage extends ModelImporterPage
   protected boolean validateEcoreModelFileName(String fileName, String packageName)
   {
     IStatus status = getModelImporter().checkEcoreModelFileName(fileName, packageName);
-    if (status.isOK())
-    {
-      setErrorMessage(null);
-      return true;
-    }
-    else
-    {
-      setErrorMessage(status.getMessage());
-      return false;
-    }
+    handleStatus(status);
+    return status.isOK();
   }
 
   protected void filterPackagesTable(boolean reloadReferencedGenPackagesTable)
