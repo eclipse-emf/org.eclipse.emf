@@ -20,15 +20,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -47,6 +45,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
+import org.eclipse.emf.importer.util.ImporterUtil;
 
 
 /**
@@ -55,12 +54,16 @@ import org.eclipse.emf.importer.ModelImporter;
 public class ModelDetailPage extends ModelImporterPage
 {
   protected Text modelLocationText;
+  protected Button loadButton;
   protected Text genModelNameText;
   protected Button modelLocationBrowseFileSystemButton;
   protected Button modelLocationBrowseWorkspaceButton;
 
+  protected String[] filterExtensions;
+
   protected boolean showGenModel = false;
   protected boolean usingInternalSetName = true;
+  
 
   public ModelDetailPage(ModelImporter modelImporter, String pageName)
   {
@@ -74,6 +77,11 @@ public class ModelDetailPage extends ModelImporterPage
       modelLocationText.removeListener(SWT.Modify, this);
       modelLocationText = null;
     }
+    if (loadButton != null)
+    {
+      loadButton.removeListener(SWT.Selection, this);
+      loadButton = null;
+    }    
     if (genModelNameText != null)
     {
       genModelNameText.removeListener(SWT.Modify, this);
@@ -128,17 +136,11 @@ public class ModelDetailPage extends ModelImporterPage
   public void createControl(Composite parent)
   {
     Composite composite = new Composite(parent, SWT.NONE);
+    composite.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL));
 
     GridLayout layout = new GridLayout();
-    layout.numColumns = 2;
-    layout.verticalSpacing = 12;
+    layout.verticalSpacing = 8;
     composite.setLayout(layout);
-
-    GridData data = new GridData();
-    data.verticalAlignment = GridData.FILL;
-    data.grabExcessVerticalSpace = true;
-    data.horizontalAlignment = GridData.FILL;
-    composite.setLayoutData(data);
 
     createModelLocationControl(composite);
     addControl(composite);
@@ -147,29 +149,33 @@ public class ModelDetailPage extends ModelImporterPage
       createGenModelNameControl(composite);
     }
 
+    adjustLoadButton();
     setControl(composite);
   }
 
   protected void createModelLocationControl(Composite parent)
   {
-    Label modelLocationLabel = new Label(parent, SWT.LEFT);
-    modelLocationLabel.setText(getModelLocationTextLabel());
+    Composite composite = new Composite(parent, SWT.NONE);
+    composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
     {
-      GridData data = new GridData();
-      data.horizontalAlignment = GridData.FILL;
-      modelLocationLabel.setLayoutData(data);
+      GridLayout layout = new GridLayout(2, false);
+      layout.marginLeft = -5;
+      layout.marginRight = -5;
+      composite.setLayout(layout);
     }
+    
+    Label modelLocationLabel = new Label(composite, SWT.LEFT);
+    modelLocationLabel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+    modelLocationLabel.setText(getModelLocationTextLabel());
 
-    Composite buttonComposite = new Composite(parent, SWT.NONE);
+    Composite buttonComposite = new Composite(composite, SWT.NONE);
+    buttonComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END));
     {
-      GridData data = new GridData();
-      data.horizontalAlignment = GridData.END;
-      buttonComposite.setLayoutData(data);
-
       RowLayout layout = new RowLayout();
       layout.justify = true;
       layout.pack = true;
-      layout.spacing = 15;
+      layout.spacing = 5;
+      layout.marginRight = 0;
       buttonComposite.setLayout(layout);
     }
 
@@ -181,43 +187,44 @@ public class ModelDetailPage extends ModelImporterPage
     modelLocationBrowseWorkspaceButton.setText(getBrowseWorkspaceButtonLabel());
     modelLocationBrowseWorkspaceButton.addListener(SWT.Selection, this);
 
-    modelLocationText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+    Composite modelLocationComposite = new Composite(parent, SWT.NONE);
+    modelLocationComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
     {
-      GridData data = new GridData();
-      data.horizontalAlignment = GridData.FILL;
-      data.grabExcessHorizontalSpace = true;
-      data.horizontalSpan = 3;
-      modelLocationText.setLayoutData(data);
+      GridLayout layout = new GridLayout(2, false);
+      layout.marginTop = -5;
+      layout.marginLeft = -5;
+      layout.marginRight = -5;
+      modelLocationComposite.setLayout(layout);
     }
 
+    modelLocationText = new Text(modelLocationComposite, SWT.SINGLE | SWT.BORDER);
+    modelLocationText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
     if (getModelImporter().getModelLocation() != null)
     {
       modelLocationText.setText(getModelImporter().getModelLocation());
     }
     modelLocationText.addListener(SWT.Modify, this);
-    modelLocationText.setFocus();
+    
+    createLoadButton(modelLocationComposite);
+  }
+  
+  protected void createLoadButton(Composite parent)
+  {
+    loadButton = new Button(parent, SWT.PUSH);
+    loadButton.setText(ImporterPlugin.INSTANCE.getString("_UI_Load_label"));
+    GridData data = new GridData(GridData.END);
+    data.widthHint = 50;
+    loadButton.setLayoutData(data);
+    loadButton.addListener(SWT.Selection, this);
   }
 
   protected void createGenModelNameControl(Composite parent)
   {
     Label genModelNameLabel = new Label(parent, SWT.LEFT);
-    {
-      genModelNameLabel.setText(ImporterPlugin.INSTANCE.getString("_UI_GeneratorModelName_label"));
-
-      GridData data = new GridData();
-      data.horizontalAlignment = GridData.FILL;
-      data.horizontalSpan = 2;
-      genModelNameLabel.setLayoutData(data);
-    }
+    genModelNameLabel.setText(ImporterPlugin.INSTANCE.getString("_UI_GeneratorModelName_label"));
 
     genModelNameText = new Text(parent, SWT.SINGLE | SWT.BORDER);
-    {
-      GridData data = new GridData();
-      data.horizontalAlignment = GridData.FILL;
-      data.grabExcessHorizontalSpace = true;
-      data.horizontalSpan = 2;
-      genModelNameText.setLayoutData(data);
-    }
+    genModelNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
     genModelNameText.addListener(SWT.Modify, this);
   }
@@ -225,21 +232,27 @@ public class ModelDetailPage extends ModelImporterPage
   protected void addControl(Composite parent)
   {
   }
-
+  
   protected void doHandleEvent(Event event)
   {
     if (event.type == SWT.Modify && event.widget == modelLocationText)
     {
       setErrorMessage(null);
+      setMessage(null);
       getModelImporter().setModelLocation(null);
       getModelImporter().clearEPackagesCollections();
+      adjustLoadButton();
+    }
+    else if (event.type == SWT.Selection && event.widget == loadButton)
+    {
+      refreshModel();
     }    
     else if (event.type == SWT.Modify && event.widget == genModelNameText)
     {
       usingInternalSetName = false;
       getModelImporter().setGenModelFileName(genModelNameText.getText());
       IStatus status = getModelImporter().checkGenModelFileName();
-      setErrorMessage(status.isOK() ? null : status.getMessage());
+      handleStatus(status);
     }
     else if (event.type == SWT.Selection && event.widget == modelLocationBrowseFileSystemButton)
     {
@@ -251,8 +264,18 @@ public class ModelDetailPage extends ModelImporterPage
     }
     else
     {
-      super.handleEvent(event);
-    }
+      super.doHandleEvent(event);
+    }   
+    getContainer().updateButtons();
+  }
+  
+  protected void adjustLoadButton()
+  {
+    if (loadButton != null)
+    {
+      String text = modelLocationText.getText();
+      loadButton.setEnabled(text != null && text.trim().length() > 0);
+    }    
   }
 
   protected String getModelLocationTextLabel()
@@ -275,19 +298,44 @@ public class ModelDetailPage extends ModelImporterPage
     return ImporterPlugin.INSTANCE.getString("_UI_SelectModel_label");
   }
 
-  protected boolean singleModelLocationSelection()
+  protected boolean supportMultipleModelLocation()
   {
     return true;
   }
 
   protected String[] getFilterExtensions()
   {
-    return new String []{ "*.*" };
+    if (filterExtensions == null)
+    {
+      List fileExtensions = getModelImporter().getFileExtensions();
+      if (fileExtensions.isEmpty())
+      {
+        filterExtensions = new String[0];
+      }
+      else if (fileExtensions.size() == 1)
+      {
+        filterExtensions = new String[]{"*." + (String)fileExtensions.get(0)};
+      }
+      else
+      {
+        StringBuffer allFilterExtensions = new StringBuffer();
+        String[] extensions = new String [fileExtensions.size() + 1];
+        for (int i = 1, lenght=extensions.length; i < lenght; i++)
+        {
+          extensions[i] = "*." + (String)fileExtensions.get(i-1);
+          allFilterExtensions.append(";").append(extensions[i]);
+        }
+        allFilterExtensions.deleteCharAt(0);
+        extensions[0] = allFilterExtensions.toString();
+        filterExtensions = extensions;
+      }
+    }
+    return filterExtensions;
   }
 
   protected boolean isValidWorkspaceResource(IResource resource)
   {
-    if (resource.getType() == IResource.FILE && !isInJavaOutput(resource))
+    if (resource.getType() == IResource.FILE && !ImporterUtil.isInJavaOutput(resource))
     {
       String[] filterExtensions = getFilterExtensions();
       if (filterExtensions.length > 0)
@@ -311,7 +359,7 @@ public class ModelDetailPage extends ModelImporterPage
     StringBuffer text = new StringBuffer(modelLocationText.getText());
     if (!location.equals(text))
     {
-      if (!singleModelLocationSelection())
+      if (!supportMultipleModelLocation())
       {
         Point textSelection = modelLocationText.getSelection();
         text.delete(textSelection.x, textSelection.y);
@@ -323,7 +371,7 @@ public class ModelDetailPage extends ModelImporterPage
 
   protected boolean browseFileSystem()
   {
-    FileDialog fileDialog = new FileDialog(getShell(), SWT.OPEN | (singleModelLocationSelection() ? SWT.SINGLE : SWT.MULTI));
+    FileDialog fileDialog = new FileDialog(getShell(), SWT.OPEN | (supportMultipleModelLocation() ? SWT.SINGLE : SWT.MULTI));
     fileDialog.setFilterExtensions(getFilterExtensions());
 
     URI modelURI = getModelImporter().getFirstModelLocationURI(true);
@@ -362,7 +410,7 @@ public class ModelDetailPage extends ModelImporterPage
     if (result != null)
     {
       StringBuffer text = new StringBuffer();
-      int length = singleModelLocationSelection() ? 1 : result.length;
+      int length = supportMultipleModelLocation() ? 1 : result.length;
       for (int i = 0; i < length; ++i)
       {
         IResource resource = (IResource)result[i];
@@ -386,6 +434,8 @@ public class ModelDetailPage extends ModelImporterPage
         protected void execute(IProgressMonitor progressMonitor) throws CoreException
         {
           IStatus errorStatus = null;
+          setErrorMessage(null);
+          setMessage(null);
           
           try
           {
@@ -394,29 +444,7 @@ public class ModelDetailPage extends ModelImporterPage
           catch (Exception exception)
           {
             ImporterPlugin.INSTANCE.log(exception);
-            
-            String message = exception.getLocalizedMessage();
-            if (message == null)
-            {
-              message = exception.getMessage();
-            }
-            if (message == null)
-            {
-              String exceptionName = exception.getClass().getName();
-              int index = exceptionName.lastIndexOf('.');
-              if (index >= 0)
-              {
-                exceptionName = exceptionName.substring(index+1);
-              }
-              message = ImporterPlugin.INSTANCE.getString("_UI_GenericException_message", new Object[]{exceptionName});
-            }
-
-            errorStatus = new Status(
-              IStatus.ERROR,
-              ImporterPlugin.getPlugin().getBundle().getSymbolicName(),
-              0,
-              message,
-              exception);            
+            errorStatus = ImporterUtil.createErrorStatus(exception, true);
           }
           finally
           {
@@ -425,12 +453,7 @@ public class ModelDetailPage extends ModelImporterPage
           
           if (errorStatus != null)
           {
-            setErrorMessage(errorStatus.getMessage());
-            ErrorDialog.openError(
-              getShell(),
-              ImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"),
-              ImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessing_message"),
-              errorStatus);
+            handleStatus(errorStatus, errorStatus.getMessage(), ImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"), ImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessing_message"));
           }
         }
       };
@@ -476,6 +499,7 @@ public class ModelDetailPage extends ModelImporterPage
     {
       if (wrappedException.exception() instanceof FileNotFoundException)
       {
+        setMessage(null);
         setErrorMessage(ImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidModel_message"));
         return;
       }
@@ -485,7 +509,7 @@ public class ModelDetailPage extends ModelImporterPage
       }
     }
     
-    internalSetGenModelFileName(getModelImporter().computeDefaultGenModelFileName());
+    internalSetGenModelFileName(getDefaultGenModelFileName());
     IStatus nameStatus = getModelImporter().checkGenModelFileName();
     if (!nameStatus.isOK())
     {
@@ -493,25 +517,19 @@ public class ModelDetailPage extends ModelImporterPage
       {
         status = nameStatus;
       }
-      else if (status.isMultiStatus() && status instanceof MultiStatus)
+      else
       {
-        ((MultiStatus)status).add(nameStatus);
+        status = ImporterUtil.mergeStatus(status, nameStatus);
       }
     }
     
-    if (status.isOK())
-    {
-      setErrorMessage(null);
-    }
-    else
-    {
-      setErrorMessage(status.getMessage());
-      ErrorDialog.openError(
-        getShell(),
-        ImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"),
-        ImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessing_message"),
-        status);
-    }
+    String message = ImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessing_message");
+    handleStatus(status);
+  }
+  
+  protected String getDefaultGenModelFileName()
+  {
+    return getModelImporter().computeDefaultGenModelFileName();
   }
   
   protected void internalSetGenModelFileName(String name)
