@@ -12,16 +12,13 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.5 2005/05/13 22:26:51 davidms Exp $
+ * $Id: RoseDetailPage.java,v 1.6 2005/05/16 14:27:40 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
-import java.util.Iterator;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
@@ -30,21 +27,17 @@ import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -57,7 +50,7 @@ import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.rose.RoseImporter;
 import org.eclipse.emf.importer.rose.RoseImporterPlugin;
 import org.eclipse.emf.importer.ui.contribution.base.ModelDetailPage;
-import org.eclipse.emf.importer.ui.contribution.base.ModelImporterPage;
+import org.eclipse.emf.importer.util.ImporterUtil;
 
 
 /**
@@ -65,11 +58,10 @@ import org.eclipse.emf.importer.ui.contribution.base.ModelImporterPage;
  */
 public class RoseDetailPage extends ModelDetailPage
 {
-  protected Button loadButton;
+  protected Button loadPathMapSymbolsButton;
   protected TableViewer pathMapTableViewer;
-
-  protected boolean isCellEditing;
-  protected boolean hasToComputeEPackages = false;
+  
+  protected boolean isCellEditing = false;
 
   public RoseDetailPage(ModelImporter modelImporter, String pageName)
   {
@@ -82,115 +74,47 @@ public class RoseDetailPage extends ModelDetailPage
 
   public void dispose()
   {
-    if (loadButton != null)
+    if (loadPathMapSymbolsButton != null)
     {
-      loadButton.removeListener(SWT.Selection, this);
-      loadButton = null;
+      loadPathMapSymbolsButton.removeListener(SWT.Selection, this);
+      loadPathMapSymbolsButton = null;
     }
 
     super.dispose();
   }
+  
+  protected boolean supportMultipleModelLocation()
+  {
+    return false;
+  }  
 
   public RoseImporter getRoseImporter()
   {
     return (RoseImporter)getModelImporter();
   }
 
-  protected void pageDeactivated(int cause)
-  {
-    if (cause == ModelImporterPage.CAUSE_NEXT)
-    {
-      if (isPageComplete() && hasToComputeEPackages)
-      {
-        getControl().getDisplay().syncExec(new Runnable()
-          {
-            public void run()
-            {
-              computeEPackages();
-            }
-          });
-
-        if (hasToComputeEPackages)
-        {
-          getContainer().showPage(this);
-        }
-      }
-
-      super.pageDeactivated(cause);
-    }
-  }
-
   protected void addControl(Composite parent)
   {
-    Label pathMapLabel = new Label(parent, SWT.LEFT);
+    Group pathMapGroup = new Group(parent, SWT.SHADOW_ETCHED_IN);
     {
-      pathMapLabel.setText(RoseImporterPlugin.INSTANCE.getString("_UI_PathMap_label"));
-
-      GridData data = new GridData();
-      data.horizontalAlignment = GridData.FILL;
-      pathMapLabel.setLayoutData(data);
-    }
-
-    Composite buttonComposite = new Composite(parent, SWT.NONE);
-    {
-      GridData data = new GridData();
-      data.horizontalAlignment = GridData.END;
-      buttonComposite.setLayoutData(data);
-
-      RowLayout layout = new RowLayout();
-      layout.justify = true;
-      layout.pack = true;
-      layout.spacing = 15;
-      buttonComposite.setLayout(layout);
-    }
-
-    loadButton = new Button(buttonComposite, SWT.PUSH);
-    loadButton.setText(RoseImporterPlugin.INSTANCE.getString("_UI_Load_label"));
-    loadButton.addListener(SWT.Selection, this);
-
-    final Button pathMapTableBrowseButton = new Button(buttonComposite, SWT.PUSH);
-    pathMapTableBrowseButton.setEnabled(false);
-    pathMapTableBrowseButton.setText(RoseImporterPlugin.INSTANCE.getString("_UI_Browse_label"));
-
-    final Table pathMapTable = new Table(parent, SWT.BORDER);
-
-    pathMapTable.addSelectionListener(new SelectionAdapter()
-      {
-        public void widgetSelected(SelectionEvent event)
-        {
-          pathMapTableBrowseButton.setEnabled(pathMapTable.getSelectionIndex() != -1);
-        }
-      });
-
-    pathMapTableBrowseButton.addSelectionListener(new SelectionAdapter()
-      {
-        public void widgetSelected(SelectionEvent event)
-        {
-          DirectoryDialog directoryDialog = new DirectoryDialog(getShell());
-          String path = directoryDialog.open();
-          if (path != null && path.length() > 0)
-          {
-            int index = pathMapTable.getSelectionIndex();
-            getRoseImporter().getPathMap().put(pathMapTable.getItem(index).getText(), path);
-            setPageComplete(false);
-            pathMapTableViewer.refresh();
-            if (++index < pathMapTable.getItemCount())
-            {
-              pathMapTable.select(index);
-            }
-          }
-        }
-      });
-
-    pathMapTableViewer = new TableViewer(pathMapTable);
-    {
-      GridData data = new GridData();
-      data.verticalAlignment = GridData.FILL;
-      data.grabExcessVerticalSpace = true;
-      data.horizontalAlignment = GridData.FILL;
+      GridLayout layout = new GridLayout();
+      layout.verticalSpacing = 12;
+      pathMapGroup.setLayout(layout);
+      
+      GridData data = new GridData(GridData.FILL_BOTH);
       data.horizontalSpan = 2;
-      pathMapTable.setLayoutData(data);
+      pathMapGroup.setLayoutData(data);
     }
+    pathMapGroup.setText(RoseImporterPlugin.INSTANCE.getString("_UI_PathMap_label"));
+
+    loadPathMapSymbolsButton = new Button(pathMapGroup, SWT.PUSH);
+    loadPathMapSymbolsButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+    loadPathMapSymbolsButton.setText(RoseImporterPlugin.INSTANCE.getString("_UI_LoadSymbols_label"));
+    loadPathMapSymbolsButton.addListener(SWT.Selection, this);
+
+    Table pathMapTable = new Table(pathMapGroup, SWT.BORDER);
+    pathMapTable.setLayoutData(new GridData(GridData.FILL_BOTH));
+    pathMapTableViewer = new TableViewer(pathMapTable);
 
     pathMapTable.setHeaderVisible(true);
     pathMapTable.setLinesVisible(true);
@@ -273,6 +197,8 @@ public class RoseDetailPage extends ModelDetailPage
           getRoseImporter().getPathMap().put(key, value);
 
           isCellEditing = false;
+          setErrorMessage(null);
+          setMessage(null);
           setPageComplete(isPageComplete());
         }
       };
@@ -311,154 +237,79 @@ public class RoseDetailPage extends ModelDetailPage
 
   protected void doHandleEvent(Event event)
   {
-    if (event.type == SWT.Selection && event.widget == loadButton)
+    if (event.type == SWT.Selection && event.widget == loadPathMapSymbolsButton)
     {
-      setErrorMessage(null);
-      refreshModel();
+      if (modelLocationText.getText().trim().length() > 0)
+      {
+        getControl().getDisplay().syncExec(new Runnable()
+          {
+            public void run()
+            {
+              loadPathMapSymbols();;
+            }
+          });
+      }
     }
     else
     {
-      if (event.type == SWT.Modify && event.widget == modelLocationText)
-      {
-        hasToComputeEPackages = true;
-      }      
       super.doHandleEvent(event);
     }
-    setPageComplete(isPageComplete());
+    getContainer().updateButtons();
   }
-
+  
   public boolean isPageComplete()
   {
-    return getErrorMessage() == null 
-      && !isCellEditing 
-      && (hasToComputeEPackages || !getRoseImporter().getEPackages().isEmpty());
+    return !isCellEditing && super.isPageComplete();
   }
-
-  protected String[] getFilterExtensions()
+  
+  protected void adjustLoadButton()
   {
-    return new String []{ "*.mdl" };
+    super.adjustLoadButton();
+    loadPathMapSymbolsButton.setEnabled(loadButton.isEnabled()); 
   }
-
-  protected void refreshModel(IProgressMonitor progressMonitor) throws Exception
+  
+  protected void refreshModel()
   {
-    IStatus status = getRoseImporter().loadPathMap(progressMonitor);
-    hasToComputeEPackages = true;
+    super.refreshModel();
     pathMapTableViewer.setInput(new ItemProvider(getRoseImporter().getPathMap().keySet()));
-    if (processStatus(status))
-    {
-      internalSetGenModelFileName(getRoseImporter().getGenModelFileName());
-      status = getRoseImporter().checkGenModelFileName();
-      if (!status.isOK())
-      {
-        setErrorMessage(status.getMessage());
-        ErrorDialog.openError(
-          getShell(),
-          ImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"),
-          ImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessing_message"),
-          status);
-      }      
-    }
-    else
-    {
-      internalSetGenModelFileName(getRoseImporter().computeDefaultGenModelFileName());
-    }
   }
-
-  protected void computeEPackages()
+  
+  protected void loadPathMapSymbols()
   {
-    WorkspaceModifyOperation initializeOperation = new WorkspaceModifyOperation()
-      {
-        protected void execute(IProgressMonitor progressMonitor) throws CoreException
-        {
-          try
-          {
-            computeEPackages(progressMonitor);
-          }
-          catch (Exception exception)
-          {
-            RoseImporterPlugin.INSTANCE.log(exception);
-          }
-          finally
-          {
-            progressMonitor.done();
-          }
-        }
-      };
-
+    IStatus status = null;
     try
     {
-      getContainer().run(false, false, initializeOperation);
+      status = getRoseImporter().loadPathMap(new NullProgressMonitor());
     }
     catch (Exception exception)
     {
-      RoseImporterPlugin.INSTANCE.log(exception);
+      status = ImporterUtil.createErrorStatus(exception, false);       
     }
-  }
-
-  protected void computeEPackages(IProgressMonitor progressMonitor) throws Exception
-  {
-    hasToComputeEPackages = !processStatus(getRoseImporter().computeEPackages(progressMonitor));
-  }
-
-  protected boolean processStatus(IStatus status)
-  {
-    if (status.isOK())
+    
+    internalSetGenModelFileName(status.isOK() ? 
+      getRoseImporter().getGenModelFileName() : 
+      getRoseImporter().computeDefaultGenModelFileName());
+    
+    IStatus nameStatus = getRoseImporter().checkGenModelFileName();
+    if (!nameStatus.isOK())
     {
-      setErrorMessage(null);
-      return true;
-    }
-    else
-    {
-      if (status.getSeverity() == IStatus.WARNING)
+      if (status.isOK())
       {
-        setMessage(status.getMessage(), WARNING);
+        status = nameStatus;
       }
       else
       {
-        setErrorMessage(status.getMessage());
+        status = ImporterUtil.mergeStatus(status, nameStatus);
       }
-
-      if (status.getChildren().length > 0)
-      {
-        boolean showErrorDialog = true;
-        if (status.getSeverity() == IStatus.INFO)
-        {
-          if (getRoseImporter().getPathMap().isEmpty())
-          {
-            showErrorDialog = false;
-          }
-          else
-          {
-            for (Iterator i = getRoseImporter().getPathMap().values().iterator(); i.hasNext();)
-            {
-              String value = (String)i.next();
-              if (value == null || value.trim().length() == 0)
-              {
-                showErrorDialog = false;
-                break;
-              }
-            }
-          }
-        }
-
-        if (showErrorDialog)
-        {
-          final IStatus finalStatus = status;
-          ErrorDialog dialog = new ErrorDialog(getShell(),
-            RoseImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"),
-            RoseImporterPlugin.INSTANCE.getString("_UI_RoseLoadFailed_message"),
-            status.getChildren()[0], IStatus.INFO | IStatus.WARNING | IStatus.ERROR)
-            {
-              protected Image getImage()
-              {
-                return  finalStatus.getSeverity() == IStatus.INFO ? getErrorImage() : super.getImage(); 
-              }
-            };
-          dialog.open();
-        }
-      }
-      
-      return status.getSeverity() == IStatus.WARNING;
     }
+    
+    if (status.isOK() && getRoseImporter().getPathMap().isEmpty())
+    {
+      status = new Status(IStatus.INFO, ImporterPlugin.ID, 
+        ImporterUtil.ACTION_DEFAULT, RoseImporterPlugin.INSTANCE.getString("_UI_NoPathMap_message"), null);
+    }
+    
+    pathMapTableViewer.setInput(new ItemProvider(getRoseImporter().getPathMap().keySet()));
+    handleStatus(status, null, RoseImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"), RoseImporterPlugin.INSTANCE.getString("_UI_RoseLoadFailed_message"));
   }
 }
