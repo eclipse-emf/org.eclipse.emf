@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.13 2005/04/27 20:39:06 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.14 2005/05/16 18:16:19 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -40,11 +40,9 @@ package <%=genPackage.getProviderPackageName()%>;
 public class <%=genClass.getProviderClassName()%>
 	extends <%=genClass.getProviderBaseClassName() != null ? genClass.getProviderBaseClassName() : genModel.getImportedName("org.eclipse.emf.edit.provider.ItemProviderAdapter")%>
 	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource
+<%for (Iterator i = genPackage.getProviderSupportedTypes().iterator(); i.hasNext(); ) {%>	
+		<%=genModel.getImportedName((String)i.next())%><%if (i.hasNext()){%>,<%}%>
+<%}%>		
 {
 <%if (genModel.getCopyrightText() != null) {%>
 	/**
