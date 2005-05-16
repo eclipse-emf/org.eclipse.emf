@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.2 2005/05/12 01:43:36 davidms Exp $
+ * $Id: RoseImporter.java,v 1.3 2005/05/16 14:25:41 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -25,7 +25,6 @@ import java.util.Map;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 
@@ -33,9 +32,11 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.rose.builder.RoseUtil;
 import org.eclipse.emf.importer.rose.builder.UnitTreeNode;
+import org.eclipse.emf.importer.util.ImporterUtil;
 
 
 /**
@@ -46,6 +47,9 @@ public class RoseImporter extends ModelImporter
   protected Map pathMap;
   protected boolean noQualify = false;
   protected boolean unsettablePrimitive = false;
+  
+  protected RoseUtil roseUtil;
+  protected UnitTreeNode unitTreeNode;
 
   public void dispose()
   {
@@ -70,6 +74,18 @@ public class RoseImporter extends ModelImporter
       pathMap = new HashMap();
     }
     return pathMap;
+  }
+  
+  public void setModelLocation(String location)
+  {
+    boolean isEqual = location == null ? 
+      getModelLocation() == null
+      : location.equals(getModelLocation());
+    if (!isEqual)
+    {
+      getPathMap().clear();
+    }
+    super.setModelLocation(location);
   }
 
   public boolean isNoQualify()
@@ -105,40 +121,19 @@ public class RoseImporter extends ModelImporter
     }
     return null;
   }
-
-  protected IStatus createStatus(String errorMessage, IStatus childStatus)
-  {
-    if (errorMessage == null)
-    {
-      return Status.OK_STATUS;
-    }
-    else
-    {
-      IStatus status = null;
-      if (childStatus == null || childStatus.isOK())
-      {
-        status = new Status(IStatus.ERROR, RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, errorMessage, null);
-      }
-      else
-      {
-        status = new MultiStatus(RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, errorMessage, null);
-        ((MultiStatus)status).add(childStatus);
-      }
-      return status;
-    }
-  }
-
+  
   public IStatus loadPathMap(IProgressMonitor progressMonitor) throws Exception
   {
     clearEPackagesCollections();
-    
-    IStatus roseStatus = null;
-    String errorMessage = null;
+   
+    IStatus status = null;
     
     File roseModelFile = computeRoseModelFile();
     if (roseModelFile == null)
     {
-      errorMessage = RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidRoseModel_message");
+      status = new Status(IStatus.ERROR, 
+        ImporterPlugin.ID, ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
+        RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidRoseModel_message"), null);
     }
     else
     {
@@ -150,32 +145,30 @@ public class RoseImporter extends ModelImporter
       Map pathMap = getPathMap();
       for (;;)
       {
-        RoseUtil roseUtil = createRoseUtil();
+        roseUtil = createRoseUtil();
         roseUtil.getRoseEcoreBuilder().noQualify = noQualify;
         roseUtil.getRoseEcoreBuilder().unsettablePrimitive = unsettablePrimitive;
 
         roseUtil.getVariableToDirectoryMap().putAll(pathMap);
-
-        UnitTreeNode unitTreeNode = roseUtil.createRoseUnitTreeAndTable(roseModelAbsolutePath, null);
+        unitTreeNode = roseUtil.createRoseUnitTreeAndTable(roseModelAbsolutePath, null);
         if (unitTreeNode == null)
         {
-          errorMessage = RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidRoseModel_message");
+          status = new Status(IStatus.ERROR, 
+            ImporterPlugin.ID, ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
+            RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidRoseModel_message"), null);
         }
         else
         {
-          pathMap.putAll(roseUtil.getVariableToDirectoryMap());
-          pathMap.remove(null);
-
-          if (pathMap.containsKey("VABASE_PLUGINS_PATH") && pathMap.get("VABASE_PLUGINS_PATH") == null)
+          boolean hasSymbolWithoutValue = adjustPathMap(roseUtil);
+          if (adjustKnownPathMapSymbols(roseModelAbsolutePath))
           {
-            int index = roseModelAbsolutePath.indexOf(File.separator + "plugins" + File.separator);
-            if (index != -1)
-            {
-              pathMap.put("VABASE_PLUGINS_PATH", roseModelAbsolutePath.substring(0, index + 8));
-              continue;
-            }
+            continue;
           }
-
+          if (!hasSymbolWithoutValue)
+          {
+            status = ImporterUtil.mergeStatus(status, roseUtil.getStatus());
+          }
+          
           if (getGenModelFileName() == null)
           {
             String fileName = unitTreeNode.getNodes().size() != 1
@@ -193,82 +186,88 @@ public class RoseImporter extends ModelImporter
             }
             setGenModelFileName(fileName + ".genmodel");
           }
-
-          for (Iterator entries = roseUtil.getVariableToDirectoryMap().entrySet().iterator(); entries.hasNext();)
-          {
-            Map.Entry entry = (Map.Entry)entries.next();
-            if (entry.getValue() == null)
-            {
-              errorMessage = RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyTheSymbolLocations_message");
-              break;
-            }
-          }
-
-          roseStatus = roseUtil.getStatus();
-          if (errorMessage == null && !roseStatus.isOK())
-          {
-            errorMessage = RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyTheSymbolLocations_message");
-          }
         }
         break;
       }
     }
 
-    return createStatus(errorMessage, roseStatus);
+    return status != null ? status : Status.OK_STATUS;
+  }
+  
+  protected boolean adjustPathMap(RoseUtil roseUtil)
+  {
+    boolean hasSymbolWithoutValue = false;
+    Map currentPathMap = getPathMap();
+    Map pathMap = new HashMap();
+    for (Iterator i = roseUtil.getVariableToDirectoryMap().entrySet().iterator(); i.hasNext();)
+    {
+      Map.Entry entry = (Map.Entry)i.next();
+      String symbol = (String)entry.getKey();
+      if (symbol != null)
+      {
+        String value = (String)entry.getValue();
+        if (value == null)
+        {
+          value = (String)currentPathMap.get(symbol);
+        }
+        pathMap.put(symbol, value);
+        hasSymbolWithoutValue = hasSymbolWithoutValue || (value == null);
+      }
+    }
+    currentPathMap.clear();
+    currentPathMap.putAll(pathMap);
+    return hasSymbolWithoutValue;
+  }
+  
+  protected boolean adjustKnownPathMapSymbols(String roseModelAbsolutePath)
+  {
+    if (pathMap.containsKey("VABASE_PLUGINS_PATH") && pathMap.get("VABASE_PLUGINS_PATH") == null)
+    {
+      int index = roseModelAbsolutePath.indexOf(File.separator + "plugins" + File.separator);
+      if (index != -1)
+      {
+        pathMap.put("VABASE_PLUGINS_PATH", roseModelAbsolutePath.substring(0, index + 8));
+        return true;
+      }
+    }
+    return false;
   }
 
   protected IStatus doComputeEPackages(IProgressMonitor progressMonitor) throws Exception
   {
-    IStatus roseStatus = null;
-    String errorMessage = null;
-
-    File roseModelFile = computeRoseModelFile();
-    if (roseModelFile == null)
+    progressMonitor.beginTask("", 2);
+    IStatus status = loadPathMap(progressMonitor);
+    if (status.isOK())
     {
-      errorMessage = RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidRoseModel_message");
-    }
-    else
-    {
-      String roseModelAbsolutePath = roseModelFile.getAbsolutePath();
-
-      progressMonitor.beginTask("", 2);
-      progressMonitor.subTask(RoseImporterPlugin.INSTANCE.getString(
-        "_UI_CreatingPackagesFor_message",
-        new Object []{ roseModelAbsolutePath }));
-
-      RoseUtil roseUtil = createRoseUtil();
-      roseUtil.getVariableToDirectoryMap().putAll(getPathMap());
-
-      UnitTreeNode unitTreeNode = roseUtil.createRoseUnitTreeAndTable(roseModelAbsolutePath, null);
-      roseUtil.createExtent4RoseUnitTree(unitTreeNode);
-      roseUtil.processUnitTree(unitTreeNode);
-
-      for (Iterator i = roseUtil.getEPackageToInformationMap().entrySet().iterator(); i.hasNext();)
+      if (getPathMap().values().contains(null))
       {
-        Map.Entry entry = (Map.Entry)i.next();
-        List information = (List)entry.getValue();
-        if (information != null)
+        status = new Status(IStatus.ERROR, 
+          ImporterPlugin.ID, ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
+          RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyTheSymbolLocations_message"), null);        
+      }
+      else
+      {
+        roseUtil.createExtent4RoseUnitTree(unitTreeNode);
+        roseUtil.processUnitTree(unitTreeNode);
+        status = roseUtil.getStatus();
+        
+        for (Iterator i = roseUtil.getEPackageToInformationMap().entrySet().iterator(); i.hasNext();)
         {
-          EPackageInfo ePackageInfo = getEPackageInfo((EPackage)entry.getKey());
-          ePackageInfo.setBasePackage((String)information.get(0));
-          ePackageInfo.setPrefix((String)information.get(1));
+          Map.Entry entry = (Map.Entry)i.next();
+          List information = (List)entry.getValue();
+          if (information != null)
+          {
+            EPackageInfo ePackageInfo = getEPackageInfo((EPackage)entry.getKey());
+            ePackageInfo.setBasePackage((String)information.get(0));
+            ePackageInfo.setPrefix((String)information.get(1));
+          }
         }
-      }
-
-      traverseEPackages(unitTreeNode);
-
-      roseStatus = roseUtil.getStatus();
-      if (errorMessage == null && !roseStatus.isOK())
-      {
-        errorMessage = RoseImporterPlugin.INSTANCE.getString("_UI_UnableToCalculateEPackages_message");
+  
+        traverseEPackages(unitTreeNode);
       }
     }
-
-    if (getEPackages().size() == 1)
-    {
-      getEPackageInfo((EPackage)getEPackages().get(0)).setGenerate(true);
-    }
-    return createStatus(errorMessage, roseStatus);
+    progressMonitor.done();
+    return status;
   }
 
   protected void traverseEPackages(UnitTreeNode subNode)
