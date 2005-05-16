@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSequenceTest.java,v 1.11 2005/05/15 18:30:37 bportier Exp $
+ * $Id: StaticSequenceTest.java,v 1.12 2005/05/16 14:07:36 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -52,7 +52,7 @@ public class StaticSequenceTest extends DynamicSequenceTest
     //OK testSuite.addTest(new StaticSequenceTest("getDerivedWithEGet").setWarmUp(1).setRepetitions(REPETITIONS));
 
     //OK testSuite.addTest(new StaticSequenceTest("getSequence").setWarmUp(1).setRepetitions(REPETITIONS));
-    testSuite.addTest(new StaticSequenceTest("getDerived").setWarmUp(1).setRepetitions(60));
+    testSuite.addTest(new StaticSequenceTest("getDerived").setWarmUp(1).setRepetitions(70));
 
     //OK testSuite.addTest(new StaticSequenceTest("contains").setWarmUp(1).setRepetitions(REPETITIONS));
 
