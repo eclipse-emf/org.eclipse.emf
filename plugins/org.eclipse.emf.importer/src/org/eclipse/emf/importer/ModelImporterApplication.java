@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.2 2005/05/16 18:44:31 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.3 2005/05/16 19:58:35 davidms Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -40,7 +40,6 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
-import org.eclipse.emf.codegen.util.CodeGenUtil.ProgressMonitorPrinter;
 import org.eclipse.emf.codegen.util.CodeGenUtil.StreamProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -140,7 +139,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       }
       else
       {
-        processArguments(new ProgressMonitorPrinter(progressMonitor), arguments, 0);
+        processArguments(arguments, 0);
         execute(new SubProgressMonitor(progressMonitor, 1));
       }
     }
@@ -195,15 +194,15 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     }
   }
 
-  protected void processArguments(ProgressMonitorPrinter printer, String[] arguments, int index)
+  protected void processArguments(String[] arguments, int index)
   {
     while (index < arguments.length)
     {
-      index = processArgument(printer, arguments, index); 
+      index = processArgument(arguments, index); 
     }
   }
 
-  protected int processArgument(ProgressMonitorPrinter printer, String[] arguments, int index)
+  protected int processArgument(String[] arguments, int index)
   {
     if (arguments[index].equalsIgnoreCase("-reload"))
     {
@@ -272,12 +271,12 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     }
     else
     {
-      handleUnrecognizedArgument(printer, arguments[index]);
+      handleUnrecognizedArgument(arguments[index]);
     }
     return index + 1;
   }
 
-  protected void handleUnrecognizedArgument(ProgressMonitorPrinter printer, String argument)
+  protected void handleUnrecognizedArgument(String argument)
   {
     throw new IllegalArgumentException("Unrecognized argument: '" + argument + "'");
   }
@@ -428,7 +427,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       }
       if (sdo)
       {
-        setSDODefaults(new ProgressMonitorPrinter(progressMonitor), genModel);
+        setSDODefaults(genModel);
       }
     }
     finally
@@ -437,7 +436,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     }
   }
 
-  protected void setSDODefaults(ProgressMonitorPrinter printer, GenModel genModel)
+  protected void setSDODefaults(GenModel genModel)
   {
     genModel.setRootExtendsInterface("");
     genModel.setRootImplementsInterface("org.eclipse.emf.ecore.sdo.InternalEDataObject");
