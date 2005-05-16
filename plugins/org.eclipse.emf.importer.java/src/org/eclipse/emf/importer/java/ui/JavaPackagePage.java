@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: JavaPackagePage.java,v 1.3 2005/05/12 17:09:33 marcelop Exp $
+ * $Id: JavaPackagePage.java,v 1.4 2005/05/16 14:22:20 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.ui;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 import org.eclipse.emf.importer.ModelImporter;
@@ -99,13 +98,8 @@ public class JavaPackagePage extends ModelPackagePage
   protected void computeEPackages(IProgressMonitor progressMonitor) throws Exception
   {
     IStatus status = getJavaImporter().computeEPackages(progressMonitor);
-    if (!status.isOK())
-    {
-      ErrorDialog.openError(
-        getShell(),
-        JavaImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"),
-        JavaImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessingJava_message"),
-        status);
-    }
+    
+    String message = JavaImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessingJava_message");
+    handleStatus(status, message, JavaImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"), message);
   }
 }
