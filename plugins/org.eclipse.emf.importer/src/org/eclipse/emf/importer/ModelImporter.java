@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.4 2005/05/12 18:57:01 emerks Exp $
+ * $Id: ModelImporter.java,v 1.5 2005/05/16 14:18:24 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -48,7 +48,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.importer.util.ImporterUtil;
 
 
 /**
@@ -309,7 +309,7 @@ public abstract class ModelImporter
     }
     else
     {
-      return new Status(IStatus.ERROR, ImporterPlugin.getPlugin().getSymbolicName(), 0, message, null);
+      return new Status(IStatus.ERROR, ImporterPlugin.ID, ImporterUtil.ACTION_DEFAULT, message, null);
     }
   }
 
@@ -335,7 +335,7 @@ public abstract class ModelImporter
     }
     else
     {
-      return new Status(IStatus.ERROR, ImporterPlugin.getPlugin().getSymbolicName(), 0, message, null);
+      return new Status(IStatus.ERROR, ImporterPlugin.ID, ImporterUtil.ACTION_DEFAULT, message, null);
     }
   }
 
@@ -612,9 +612,7 @@ public abstract class ModelImporter
   
   public ResourceSet createResourceSet()
   {
-    ResourceSet result = new ResourceSetImpl();
-    result.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
-    return result;
+    return ImporterUtil.createResourceSet();
   }
 
   protected void loadOriginalGenModel(URI genModelURI)
@@ -960,7 +958,7 @@ public abstract class ModelImporter
 
   public String getModelPluginID()
   {
-    return modelPluginID == null ? validPluginID(getModelProjectName()) : modelPluginID;
+    return modelPluginID == null ? ImporterUtil.validPluginID(getModelProjectName()) : modelPluginID;
   }
 
   public void setModelPluginID(String modelPluginID)
@@ -988,28 +986,6 @@ public abstract class ModelImporter
   public void setModelPluginDirectory(String modelPluginDirectory)
   {
     this.modelPluginDirectory = modelPluginDirectory;
-  }
-
-  protected String validPluginID(String base)
-  {
-    StringBuffer sb = new StringBuffer(base);
-    for (int i = sb.length() - 1; i >= 0; i--)
-    {
-      char c = sb.charAt(i);
-      if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || ('0' <= c && c <= '9') || c == '_' || c == '.')
-      {
-        //do nothing
-      }
-      else if (c == ' ')
-      {
-        sb.deleteCharAt(i);
-      }
-      else if (c == '-')
-      {
-        sb.setCharAt(i, '_');
-      }
-    }
-    return sb.toString();
   }
 
   public String getModelProjectName()
