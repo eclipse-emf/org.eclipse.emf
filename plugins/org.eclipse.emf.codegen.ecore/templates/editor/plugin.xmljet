@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.10 2005/05/13 15:20:39 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.11 2005/05/16 18:15:12 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -46,6 +46,19 @@
     </library>
   </runtime>
 
+<%if (genModel.sameEditEditorProject()) {%>
+  <% for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); %>
+  <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+    <factory 
+       uri = "<%=genPackage.getNSURI()%>" 
+       class = "<%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>"
+       supportedTypes = 
+    <%for (ListIterator j = genPackage.getProviderSupportedTypes().listIterator(); j.hasNext(); ) {%>
+         <%=(j.hasPrevious()? " " : "\"") + j.next() + (j.hasNext() ? "" : "\"")%><%}%> />
+  </extension>
+  
+  <%}%>
+<%}%>
 <%if (genModel.sameModelEditorProject()) {%>
   <% for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); %>
   <extension point="org.eclipse.emf.ecore.generated_package">
