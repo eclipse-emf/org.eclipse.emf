@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterApplication.java,v 1.3 2005/05/16 18:44:24 marcelop Exp $
+ * $Id: XSDImporterApplication.java,v 1.4 2005/05/16 19:58:36 davidms Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
@@ -29,7 +29,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
-import org.eclipse.emf.codegen.util.CodeGenUtil.ProgressMonitorPrinter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -88,7 +87,7 @@ public class XSDImporterApplication extends ModelImporterApplication
     return result;
   }
 
-  protected void processArguments(ProgressMonitorPrinter printer, String[] arguments, int index)
+  protected void processArguments(String[] arguments, int index)
   {
     StringBuffer uris = new StringBuffer();
     URI firstModelURI = null;
@@ -139,10 +138,10 @@ public class XSDImporterApplication extends ModelImporterApplication
         new Path(new File(arguments[index++]).getAbsolutePath()) :
         new Path(new File(firstModelURI.trimFileExtension().appendFileExtension("genmodel").lastSegment()).getAbsolutePath());
 
-    super.processArguments(printer, arguments, index);
+    super.processArguments(arguments, index);
   }
 
-  protected int processArgument(ProgressMonitorPrinter printer, String[] arguments, int index)
+  protected int processArgument(String[] arguments, int index)
   {
     if (arguments[index].equalsIgnoreCase("-packagemap"))
     {
@@ -173,7 +172,7 @@ public class XSDImporterApplication extends ModelImporterApplication
     }
     else
     {
-      return super.processArgument(printer, arguments, index);
+      return super.processArgument(arguments, index);
     }
     return index + 1;
   }
