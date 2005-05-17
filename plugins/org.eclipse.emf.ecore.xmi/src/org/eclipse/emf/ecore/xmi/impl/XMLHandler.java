@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.29 2005/04/19 16:29:40 elena Exp $
+ * $Id: XMLHandler.java,v 1.30 2005/05/17 17:41:43 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -290,6 +290,8 @@ public abstract class XMLHandler
 
     eObjectToExtensionMap = xmlResource.getEObjectToExtensionMap();
     eObjectToExtensionMap.clear();
+    
+    helper.setOptions(options);
 
     if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_DISABLE_NOTIFY)))
       disableNotify = true;
