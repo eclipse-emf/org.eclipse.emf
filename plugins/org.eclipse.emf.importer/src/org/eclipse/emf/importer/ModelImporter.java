@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.6 2005/05/17 13:46:29 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.7 2005/05/17 15:44:22 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -738,7 +738,6 @@ public abstract class ModelImporter
 
   public void prepareGenModelAndEPackages(IProgressMonitor progressMonitor)
   {
-    String baseLocation = getGenModelPath().removeLastSegments(1).toString() + "/";
     ResourceSet resourceSet = getGenModelResourceSet();
     
     resourceSet.getURIConverter().getURIMap().remove(URI.createPlatformResourceURI(getModelProjectName() + "/"));
@@ -749,19 +748,7 @@ public abstract class ModelImporter
     for (Iterator i = ePackages.iterator(); i.hasNext();)
     {
       EPackage ePackage = (EPackage)i.next();
-      EPackageInfo ePackageInfo = getEPackageInfo(ePackage);
-
-      if (ePackageInfo.getEcoreFileName() != null)
-      {
-        String ecoreFileName = baseLocation + ePackageInfo.getEcoreFileName().toString();
-        URI ecoreURI = createFileURI(ecoreFileName);
-        Resource resource = resourceSet.getResource(ecoreURI, false);
-        if (resource == null)
-        {
-          resource = resourceSet.createResource(ecoreURI);
-        }
-        resource.getContents().add(ePackage);
-      }
+      addToResource(ePackage, resourceSet);
     }
 
     // Create resources for all the referenced EPackages
@@ -793,6 +780,26 @@ public abstract class ModelImporter
     //
     getGenModel().reconcile(getOriginalGenModel());
   }
+  
+  public void addToResource(EPackage ePackage, ResourceSet resourceSet)
+  {
+    if (ePackage.eResource() == null)
+    {
+      EPackageInfo ePackageInfo = getEPackageInfo(ePackage);
+      if (ePackageInfo.getEcoreFileName() != null)
+      {
+        String baseLocation = getGenModelPath().removeLastSegments(1).toString() + "/";
+        String ecoreFileName = baseLocation + ePackageInfo.getEcoreFileName().toString();
+        URI ecoreURI = createFileURI(ecoreFileName);
+        Resource resource = resourceSet.getResource(ecoreURI, false);
+        if (resource == null)
+        {
+          resource = resourceSet.createResource(ecoreURI);
+        }
+        resource.getContents().add(ePackage);
+      }
+    }
+  }
 
   public void saveGenModelAndEPackages(IProgressMonitor progressMonitor) throws Exception
   {
@@ -809,12 +816,28 @@ public abstract class ModelImporter
       createProject(progressMonitor, project, referencedGenModels);
     }
 
+    for (Iterator i = computeResourcesToBeSaved().iterator(); i.hasNext();)
+    {
+      Resource resource = (Resource)i.next();
+      resource.save(getGenmodelSaveOptions());
+    }
+  }
+  
+  protected List computeResourcesToBeSaved()
+  {
+    List resources = new UniqueEList.FastCompare();
+    resources.add(getGenModel().eResource());
     for (Iterator i = getGenModel().getGenPackages().iterator(); i.hasNext();)
     {
       GenPackage genPackage = (GenPackage)i.next();
-      genPackage.getEcorePackage().eResource().save(getEcoreSaveOptions());
+      resources.add(genPackage.getEcorePackage().eResource());
     }
-    getGenModel().eResource().save(getGenmodelSaveOptions());
+    for (Iterator i = getGenModel().getUsedGenPackages().iterator(); i.hasNext();)
+    {
+      GenPackage genPackage = (GenPackage)i.next();
+      resources.add(genPackage.getEcorePackage().eResource());
+    }    
+    return resources;
   }
 
   protected void createProject(IProgressMonitor progressMonitor, IProject project, Collection referencedGenModels)

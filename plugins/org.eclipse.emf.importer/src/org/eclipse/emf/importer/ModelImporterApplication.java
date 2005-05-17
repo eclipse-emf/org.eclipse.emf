@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.3 2005/05/16 19:58:35 davidms Exp $
+ * $Id: ModelImporterApplication.java,v 1.4 2005/05/17 15:44:22 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -457,55 +457,71 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     try
     {
       progressMonitor.beginTask("", 3);
-
-      ModelImporter modelImporter = getModelImporter();
-      modelImporter.prepareGenModelAndEPackages(new SubProgressMonitor(progressMonitor, 1));
-      
-      // Add a dummy GenModel for referenced packages.
-      //
-      if (referencedEPackages != null && !referencedEPackages.isEmpty())
-      {
-        GenModel referencedGenModel = GenModelFactory.eINSTANCE.createGenModel();
-        referencedGenModel.initialize(referencedEPackages);
-
-        GenModel genModel = modelImporter.getGenModel();
-        genModel.getUsedGenPackages().addAll(referencedGenModel.getGenPackages());
-        genModel.eResource().getContents().add(referencedGenModel);
-
-        referencedGenModel.getForeignModel().addAll(genModel.getForeignModel());
-        modelImporter.traverseGenPackages(referencedGenModel.getGenPackages());
-
-        // Special case for a reference to Ecore to ensure that flag settings are respected and are set only for Ecore itself.
-        //
-        for (Iterator i = referencedGenModel.getGenPackages().iterator(); i.hasNext();)
-        {
-          GenPackage genPackage = (GenPackage)i.next();
-          if (EcorePackage.eNS_URI.equals(genPackage.getNSURI()))
-          {
-            if (referencedGenModel.getGenPackages().size() == 1)
-            {
-              referencedGenModel.setBooleanFlagsField("eFlags");
-              referencedGenModel.setBooleanFlagsReservedBits(8);
-            }
-            else
-            {
-              GenModel ecoreGenModel = GenModelFactory.eINSTANCE.createGenModel();
-              genModel.eResource().getContents().add(ecoreGenModel);
-              ecoreGenModel.getGenPackages().add(genPackage);
-              ecoreGenModel.setBooleanFlagsField("eFlags");
-              ecoreGenModel.setBooleanFlagsReservedBits(8);
-              ecoreGenModel.getForeignModel().addAll(genModel.getForeignModel());
-            }
-            break;
-          }
-        }
-      }
-
-      modelImporter.saveGenModelAndEPackages(new SubProgressMonitor(progressMonitor, 1));
+      getModelImporter().prepareGenModelAndEPackages(new SubProgressMonitor(progressMonitor, 1));
+      handleReferencedEPackages();
+      getModelImporter().saveGenModelAndEPackages(new SubProgressMonitor(progressMonitor, 1));
     }
     finally
     {
       progressMonitor.done();
     }
+  }
+  
+  /**
+   * Handles the referencedEPackages contributed by the -refPackage argument option.
+   */
+  protected void handleReferencedEPackages()
+  {
+    // Add a dummy GenModel for referenced packages.
+    //
+    if (referencedEPackages != null && !referencedEPackages.isEmpty())
+    {
+      ModelImporter modelImporter = getModelImporter();
+      GenModel genModel = modelImporter.getGenModel();
+      Resource genModelResource = genModel.eResource();
+
+      GenModel referencedGenModel = GenModelFactory.eINSTANCE.createGenModel();
+      genModelResource.getContents().add(referencedGenModel);
+      referencedGenModel.initialize(referencedEPackages);
+      genModel.getUsedGenPackages().addAll(referencedGenModel.getGenPackages());
+      referencedGenModel.getForeignModel().addAll(genModel.getForeignModel());
+      modelImporter.traverseGenPackages(referencedGenModel.getGenPackages());
+      if (!referencedGenModel.getGenPackages().isEmpty())
+      {
+        GenPackage firstGenPackage = (GenPackage)referencedGenModel.getGenPackages().get(0);
+        referencedGenModel.setModelName(firstGenPackage.getPackageName());
+      }
+
+      for (Iterator i = referencedGenModel.getGenPackages().iterator(); i.hasNext();)
+      {
+        GenPackage genPackage = (GenPackage)i.next();
+        EPackage ePackage = genPackage.getEcorePackage();
+        if (ePackage.eResource() == null)
+        {
+           modelImporter.addToResource(ePackage, genModelResource.getResourceSet());
+        }          
+        
+        // Special case for a reference to Ecore to ensure that flag settings are respected and are set only for Ecore itself.
+        //
+        if (EcorePackage.eNS_URI.equals(ePackage.getNsURI()))
+        {
+          if (referencedGenModel.getGenPackages().size() == 1)
+          {
+            referencedGenModel.setBooleanFlagsField("eFlags");
+            referencedGenModel.setBooleanFlagsReservedBits(8);
+          }
+          else
+          {
+            GenModel ecoreGenModel = GenModelFactory.eINSTANCE.createGenModel();
+            genModel.eResource().getContents().add(ecoreGenModel);
+            ecoreGenModel.getGenPackages().add(genPackage);
+            ecoreGenModel.setBooleanFlagsField("eFlags");
+            ecoreGenModel.setBooleanFlagsReservedBits(8);
+            ecoreGenModel.getForeignModel().addAll(genModel.getForeignModel());
+          }
+          break;
+        }
+      }
+    }    
   }
 }
