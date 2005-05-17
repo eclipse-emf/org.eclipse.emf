@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.5 2005/05/16 14:18:24 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.6 2005/05/17 13:46:29 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -828,10 +828,15 @@ public abstract class ModelImporter
     for (Iterator i = referencedGenModels.iterator(); i.hasNext();)
     {
       GenModel referencedGenModel = (GenModel)i.next();
-      referencedModelProjects.add(workspaceRoot.getProject(new Path(referencedGenModel.getModelDirectory()).segment(0)));
-      if (!referencedGenModel.getModelDirectory().equals(referencedGenModel.getEditDirectory()))
+      String modelDirectory = referencedGenModel.getModelDirectory();
+      if (modelDirectory != null)
       {
-        referencedEditProjects.add(workspaceRoot.getProject(new Path(referencedGenModel.getEditDirectory()).segment(0)));
+        referencedModelProjects.add(workspaceRoot.getProject(new Path(modelDirectory).segment(0)));
+        String editDirectory = referencedGenModel.getEditDirectory();
+        if (editDirectory != null && !modelDirectory.equals(editDirectory))
+        {
+          referencedEditProjects.add(workspaceRoot.getProject(new Path(editDirectory).segment(0)));
+        }
       }
     }
 
