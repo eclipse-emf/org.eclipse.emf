@@ -1,0 +1,2 @@
+examples/**/*.xml
+xsd.test*/test/SampleMarkup.xml
