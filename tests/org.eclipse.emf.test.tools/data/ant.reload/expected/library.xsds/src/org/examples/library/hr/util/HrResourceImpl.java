@@ -38,4 +38,4 @@ public class HrResourceImpl extends XMLResourceImpl
     super(uri);
   }
 
-} //HrResourceFactoryImpl
+} //HrResourceImpl

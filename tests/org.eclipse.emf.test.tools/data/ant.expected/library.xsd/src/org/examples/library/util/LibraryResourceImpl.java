@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryResourceImpl.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
+ * $Id: LibraryResourceImpl.java,v 1.3 2005/05/17 19:23:02 davidms Exp $
  */
 package org.examples.library.util;
 
@@ -38,4 +38,4 @@ public class LibraryResourceImpl extends XMLResourceImpl
     super(uri);
   }
 
-} //LibraryResourceFactoryImpl
+} //LibraryResourceImpl

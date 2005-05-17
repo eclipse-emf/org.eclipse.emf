@@ -38,4 +38,4 @@ public class ElementsResourceImpl extends XMLResourceImpl
     super(uri);
   }
 
-} //ElementsResourceFactoryImpl
+} //ElementsResourceImpl

@@ -38,4 +38,4 @@ public class LibraryResourceImpl extends XMLResourceImpl
     super(uri);
   }
 
-} //LibraryResourceFactoryImpl
+} //LibraryResourceImpl
