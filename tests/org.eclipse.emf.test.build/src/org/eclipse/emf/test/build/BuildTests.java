@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.14 2005/05/13 16:57:39 emerks Exp $
+ * $Id: BuildTests.java,v 1.15 2005/05/17 19:32:39 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -52,9 +52,9 @@ import org.eclipse.osgi.service.environment.Constants;
 
 public class BuildTests extends TestCase
 {
-  
+
   public boolean debug = false;
-  
+
   private List copyrightExcludeDirectories;
 
   private List cvsExcludeDirectories;
@@ -113,7 +113,7 @@ public class BuildTests extends TestCase
 
   /**
    * Method hasErrors.
-   * 
+   *
    * @param string
    * @return boolean
    */
@@ -613,12 +613,12 @@ public class BuildTests extends TestCase
   public void testChkpii()
   {
     if (debug) { System.out.println("locateBuildGeneratedZipFiles() ... "); }
-    
+
     String[] zipFiles = locateBuildGeneratedZipFiles();
     String sniffFolder = Platform.getInstanceLocation().getURL().getFile();
-    
+
     if (debug) { System.out.println("sniffFolder = "+sniffFolder); }
-    
+
     FileTool.IZipFilter zipFilter = getTrueFilter();
 
     for (int i = 0; i < zipFiles.length; i++)
@@ -637,15 +637,16 @@ public class BuildTests extends TestCase
     boolean htmlResult = testChkpii(HTML);
     boolean xmlResult = testChkpii(XML);
     boolean propertiesResult = testChkpii(PROPERTIES);
-    
-    String message = "HTML:" + (htmlResult?"passed":"failed") 
-        + " XML:"  + (xmlResult ?"passed":"failed")
-        + " PROP:" + (propertiesResult?"passed":"failed");
-    
-    assertTrue("Translation errors in files.  See the chkpii logs linked from the test results page for details. (" + message + ")", 
+
+    String message = "<a href=\"../chkpii/org.eclipse.nls.html.txt\">HTML:" + (htmlResult?"passed":"failed")
+    + "</a>, <a href=\"../chkpii/org.eclipse.nls.xml.txt\">XML:"  + (xmlResult ?"passed":"failed")
+    + "</a>, <a href=\"../chkpii/org.eclipse.nls.properties.txt\">PROP:" + (propertiesResult?"passed":"failed")
+    + "</a>";
+
+	assertTrue("Translation errors in files.  See the <a href=\"../chkpii\">chkpii logs</a> for details. (" + message + ")",
         (htmlResult && xmlResult && propertiesResult));
   }
-  
+
   /*
    * Checks if the ecore.jar has any file different than *.class - fails if it has
    */
@@ -662,7 +663,7 @@ public class BuildTests extends TestCase
         eCoreJar = new File(plugins[i], "ecore.jar");
         assertTrue(eCoreJar.exists());
         assertTrue(eCoreJar.isFile());
-        
+
         int manifestCount = 0;
         JarFile jarFile = new JarFile(eCoreJar);
         for (Enumeration entries=jarFile.entries(); entries.hasMoreElements();)
@@ -687,14 +688,14 @@ public class BuildTests extends TestCase
     }
     assertNotNull(eCoreJar);
   }
-  
+
   public void testDocPlugins() throws Exception
   {
     String installDir = Platform.getInstallLocation().getURL().getPath();
     File pluginDir = new File(installDir, "plugins");
     File[] plugins = pluginDir.listFiles();
     StringBuffer problems = new StringBuffer();
-    
+
     int count = 0;
     for (int i = 0; i < plugins.length; i++)
     {
@@ -709,19 +710,19 @@ public class BuildTests extends TestCase
         }
       }
     }
-    
+
     int expectedCount = 3;
     if(count != expectedCount)
     {
       problems.append("\nFound " + count + "doc plugins instead of " + expectedCount + ".");
     }
-    
+
     if(problems.length() > 0)
     {
       fail("At least one doc plugin is wrong." + problems.toString());
     }
   }
-  
+
   private String docPluginTest(File pluginDir) throws ZipException, IOException
   {
     StringBuffer problems = new StringBuffer();
@@ -729,7 +730,7 @@ public class BuildTests extends TestCase
     {
       problems.append("\n   - No toc.xml file");
     }
-    
+
     if (new File(pluginDir, "doc.zip").isFile())
     {
       boolean hasJavadocGif = false;
@@ -754,7 +755,7 @@ public class BuildTests extends TestCase
     {
       problems.append("\n   - No doc.zip file");
     }
-    
+
     if(problems.length() > 0)
     {
       return pluginDir.getName() + problems.toString();
@@ -804,7 +805,7 @@ public class BuildTests extends TestCase
 
   /**
    * Method getChkpiiString.
-   * 
+   *
    * @param type
    * @return String
    */
@@ -816,7 +817,7 @@ public class BuildTests extends TestCase
 
   /**
    * Method locateEclipseZip.
-   * 
+   *
    * @return String
    */
   private String[] locateBuildGeneratedZipFiles()
@@ -826,13 +827,13 @@ public class BuildTests extends TestCase
 
     // String to use when running in Eclipse
     // String installDir = BootLoader.getInstallURL().getPath() + "..";
-    
-    if (debug) { System.out.println("installDir = "+installDir); } 
+
+    if (debug) { System.out.println("installDir = "+installDir); }
 
     try
     {
       installDir = adjustPath(new File(installDir).getCanonicalPath().toString());
-      if (debug) { System.out.println("installDir (adjusted) = "+installDir); } 
+      if (debug) { System.out.println("installDir (adjusted) = "+installDir); }
     }
     catch (IOException e)
     {
@@ -845,17 +846,17 @@ public class BuildTests extends TestCase
     {
       File file = files[i];
       String fileName = file.getName();
-      if (debug) { System.out.println("filename["+i+"] = "+fileName); } 
+      if (debug) { System.out.println("filename["+i+"] = "+fileName); }
 
       if (fileName.endsWith(".zip"))
       {
-        if (debug) { System.out.println("zip filename = "+fileName); } 
+        if (debug) { System.out.println("zip filename = "+fileName); }
         for (int j = 0; j < BUILD_GENERATED_ZIP_FILES_PREFIX.length; j++)
         {
           if (debug) { System.out.println("Prefix: BUILD_GENERATED_ZIP_FILES_PREFIX["+j+"] = "+BUILD_GENERATED_ZIP_FILES_PREFIX[j]); }
           if (fileName.startsWith(BUILD_GENERATED_ZIP_FILES_PREFIX[j]))
           {
-            if (debug) { System.out.println("adding zip: "+file.getAbsolutePath()); } 
+            if (debug) { System.out.println("adding zip: "+file.getAbsolutePath()); }
             zipFiles.add(file.getAbsolutePath());
           }
         }
@@ -867,7 +868,7 @@ public class BuildTests extends TestCase
 
   /**
    * Method getExcludeFiles.
-   * 
+   *
    * @return String
    */
   private String getExcludeFile(int type)
@@ -893,13 +894,13 @@ public class BuildTests extends TestCase
     {
       return " -X " + file;
     }
-    
+
     return "";
   }
 
   /**
    * Method getOutputFile.
-   * 
+   *
    * @param type
    * @return String
    */
@@ -923,7 +924,7 @@ public class BuildTests extends TestCase
 
   /**
    * Method getFilesToTest.
-   * 
+   *
    * @param type
    * @return String
    */
@@ -946,7 +947,7 @@ public class BuildTests extends TestCase
 
   /**
    * Method getExec.
-   * 
+   *
    * @return String
    */
   private String getExec()
@@ -979,7 +980,7 @@ public class BuildTests extends TestCase
 
   /**
    * Method parseLine.
-   * 
+   *
    * @param aLine
    * @return -1 if not an error or warning line or the number of errors or
    *         warnings.
@@ -1079,7 +1080,7 @@ public class BuildTests extends TestCase
 
   /**
    * Constructor for EmptyDirectoriesTest.
-   * 
+   *
    * @param arg0
    */
   public BuildTests(String arg0)
@@ -1193,7 +1194,7 @@ public class BuildTests extends TestCase
   //      assertTrue("Features missing: " + (FEATURE_COUNT - features.length),
   // FEATURE_COUNT == features.length);
   //  }
-  //  
+  //
   public void testPluginFiles()
   {
     List result = new ArrayList();
@@ -1289,7 +1290,7 @@ public class BuildTests extends TestCase
   /**
    * Return true if the receiver is a source plugin, false otherwise A
    * separate method because this is a little tricky.
-   * 
+   *
    * @param aPlugin
    * @return boolean
    */
