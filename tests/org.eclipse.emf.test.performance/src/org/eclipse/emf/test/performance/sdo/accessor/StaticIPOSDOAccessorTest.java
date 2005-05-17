@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.49 2005/05/13 21:11:44 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.50 2005/05/17 21:27:13 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -31,6 +32,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
+import org.eclipse.emf.test.performance.sdo.IPOModel;
 import org.eclipse.emf.test.performance.sdo.StaticIPOModel;
 import org.eclipse.xsd.impl.type.XSDDateType;
 
@@ -49,19 +51,21 @@ import commonj.sdo.Property;
 public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 {
 
+  protected static final int ITERATIONS_1K = 1000000;
+
   protected static final int ITERATIONS_40K = 32000000;
 
   protected static final int ITERATIONS_400K = 320000000;
 
   protected static final int ITERATIONS_800K = 640000000;
 
-  protected static final int ITERATIONS_1_6M =  1280000000;
+  protected static final int ITERATIONS_1_6M = 1280000000;
 
   protected static final int ITERATIONS_600K = 160000000;
 
   protected static final int ITERATIONS_1_2M = 320000000;
 
-  protected static final int ITERATIONS_500K = 12000000;
+  protected static final int ITERATIONS_12M1 = 12000000;
 
   protected static final int ITERATIONS_80M = 80000000;
 
@@ -85,47 +89,50 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   public StaticIPOSDOAccessorTest(String name)
   {
     super(name);
+    ITERATIONS_2M = 2000000;
+    ITERATIONS_500K = 500000;
+    ITERATIONS_300 = 600;
   }
 
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite();
 
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getFromMap").setWarmUp(3).setRepetitions(REPETITIONS_100));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setInMap").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getFromMap").setWarmUp(3).setRepetitions(REPETITIONS_100));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setInMap").setWarmUp(3).setRepetitions(REPETITIONS_50));
 
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(3).setRepetitions(REPETITIONS_50));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectWithESet").setWarmUp(3).setRepetitions(REPETITIONS_50));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByIndex").setWarmUp(30).setRepetitions(REPETITIONS_100));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByIndex").setWarmUp(40).setRepetitions(REPETITIONS_100));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectWithESet").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getObjectByIndex").setWarmUp(30).setRepetitions(REPETITIONS_100));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setObjectByIndex").setWarmUp(40).setRepetitions(REPETITIONS_100));
 
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByGenerated").setWarmUp(3).setRepetitions(REPETITIONS_50));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByGenerated").setWarmUp(4).setRepetitions(REPETITIONS_50));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(5).setRepetitions(REPETITIONS_50));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(5).setRepetitions(REPETITIONS_100));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(4).setRepetitions(REPETITIONS_100));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(3).setRepetitions(REPETITIONS_20));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(10).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByGenerated").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByGenerated").setWarmUp(4).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(5).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(5).setRepetitions(REPETITIONS_100));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(4).setRepetitions(REPETITIONS_100));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(3).setRepetitions(REPETITIONS_20));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(10).setRepetitions(REPETITIONS_50));
 
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(3).setRepetitions(REPETITIONS_100));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(3).setRepetitions(REPETITIONS_100));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(3).setRepetitions(REPETITIONS_50));
 
-//HOLDtestSuite.addTest(new StaticIPOSDOAccessorTest("getStringByName").setWarmUp(5).setRepetitions(REPETITIONS_100));
+    //HOLDtestSuite.addTest(new StaticIPOSDOAccessorTest("getStringByName").setWarmUp(5).setRepetitions(REPETITIONS_100));
 
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(5).setRepetitions(REPETITIONS_20));
-//OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_20));
-//
-//    testSuite.addTest(new StaticIPOSDOAccessorTest("getByGenerated").setWarmUp(3000).setRepetitions(REPETITIONS_5));
-//    testSuite.addTest(new StaticIPOSDOAccessorTest("setByGenerated").setWarmUp(2000).setRepetitions(REPETITIONS_5));
-//    testSuite.addTest(new StaticIPOSDOAccessorTest("getByProperty").setWarmUp(500).setRepetitions(REPETITIONS_5));
-//    testSuite.addTest(new StaticIPOSDOAccessorTest("setByProperty").setWarmUp(2000).setRepetitions(REPETITIONS_5));
-//    testSuite.addTest(new StaticIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
-//    testSuite.addTest(new StaticIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-//    testSuite.addTest(new StaticIPOSDOAccessorTest("getByPath").setWarmUp(2000).setRepetitions(REPETITIONS_50));
-//    testSuite.addTest(new StaticIPOSDOAccessorTest("setByPath").setWarmUp(500).setRepetitions(REPETITIONS_5));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(5).setRepetitions(REPETITIONS_20));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_20));
+    //
+          testSuite.addTest(new StaticIPOSDOAccessorTest("getByGenerated").setWarmUp(1).setRepetitions(REPETITIONS_20));
+          testSuite.addTest(new StaticIPOSDOAccessorTest("setByGenerated").setWarmUp(1).setRepetitions(REPETITIONS_20));
+          testSuite.addTest(new StaticIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
+          testSuite.addTest(new StaticIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
+    //not tested    testSuite.addTest(new StaticIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
+    //not tested    testSuite.addTest(new StaticIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
+    //    testSuite.addTest(new StaticIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_20));
+    //    testSuite.addTest(new StaticIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_20));
 
     return testSuite;
   }
@@ -353,34 +360,38 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   public void getByGenerated()
   {
     PurchaseOrderType po = (PurchaseOrderType)this.po;
+    Address addressValue = this.addressBillToValue;
+    String stringValue = this.orderCommentValue;
+    Object objectValue = this.orderDateValue;
+    List itemsValue = this.itemsValue;
+    ItemType itemTypeElementValue = this.itemTypeElementValue;
+    BigInteger bigIntegerValue = this.quantityValue;
+    BigDecimal bigDecimalValue = this.usPriceValue;
+    Object object = this.object;
     startMeasuring();
 
-    for (int i = 0; i < ITERATIONS_40K; i++)
+    for (int i = 0; i < ITERATIONS_50M; i++)
     {
-      if (i % 2 == 0)
-      { // like get
-        addressBillToValue = po.getBillTo();
-        orderCommentValue = po.getComment();
-        orderDateValue = po.getOrderDate();
-        addressShipToValue = po.getShipTo();
-      }
-      else
+      if ((addressValue != this) && (stringValue != object) && (objectValue != this) && (addressValue != this))
       {
-        addressBillToValue = po.getBillTo();
-        orderCommentValue = po.getComment();
-        orderDateValue = po.getOrderDate();
-        addressShipToValue = po.getShipTo();
-      }
-      itemsValue = po.getItems().getItem();
-      for (int j = 0; j < itemsValue.size(); j++)
-      {
-        itemTypeElementValue = (ItemType)itemsValue.get(j);
-        productNameValue = itemTypeElementValue.getProductName();
-        quantityValue = itemTypeElementValue.getQuantity();
-        usPriceValue = itemTypeElementValue.getUSPrice();
-        itemCommentValue = itemTypeElementValue.getComment();
-        shipDateValue = itemTypeElementValue.getShipDate();
-        partNumValue = itemTypeElementValue.getPartNum();
+        addressValue = po.getBillTo();
+        stringValue = po.getComment();
+        objectValue = po.getOrderDate();
+        itemsValue = po.getItems().getItem();
+        addressValue = po.getShipTo();
+        for (int j = 0; j < itemsValue.size(); j++)
+        {
+          if ((stringValue != object) && (bigIntegerValue != object) && (bigDecimalValue != object) && (objectValue != this))
+          {
+            itemTypeElementValue = (ItemType)itemsValue.get(j);
+            stringValue = itemTypeElementValue.getProductName();
+            bigIntegerValue = itemTypeElementValue.getQuantity();
+            bigDecimalValue = itemTypeElementValue.getUSPrice();
+            stringValue = itemTypeElementValue.getComment();
+            objectValue = itemTypeElementValue.getShipDate();
+            stringValue = itemTypeElementValue.getPartNum();
+          }
+        }
       }
     }
 
@@ -405,34 +416,64 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     USAddress newBillToAddress0 = (USAddress)this.newBillToAddress0;
     USAddress newShipToAddress1 = (USAddress)this.newShipToAddress1;
     USAddress newBillToAddress1 = (USAddress)this.newBillToAddress1;
+    String orderComment0 = this.orderComment0;
+    String orderComment1 = this.orderComment1;
+    Object orderDate0 = this.orderDate0;
+    Object orderDate1 = this.orderDate1;
+    String productName0 = this.productName0;
+    String productName1 = this.productName1;
+    BigInteger quantity0 = this.quantity0;
+    BigInteger quantity1 = this.quantity1;
+    BigDecimal usPrice0 = this.usPrice0;
+    BigDecimal usPrice1 = this.usPrice1;
+    String itemComment0 = this.itemComment0;
+    String itemComment1 = this.itemComment1;
+    Object shipDate0 = this.shipDate0;
+    Object shipDate1 = this.shipDate1;
+    String partNum0 = this.partNum0;
+    String partNum1 = this.partNum1;
+    IPOModel model = DynamicIPOSDOAccessorTest.model;
+    int NUM_ITEMS = DynamicIPOSDOAccessorTest.NUM_ITEMS;
+    List itemsValue = this.itemsValue;
+    ItemType itemTypeElementValue = this.itemTypeElementValue;
     startMeasuring();
 
-    for (int i = 0; i < ITERATIONS_10K; i++)
+    for (int i = 0; i < ITERATIONS_1K; i++)
     {
-      if (i % 2 == 0)
-      { // to set to a new value each time.
-        po.setBillTo(newShipToAddress0);
-        po.setComment(orderComment0);
-        po.setOrderDate(orderDate0);
-        po.setShipTo(newBillToAddress0);
-      }
-      else
-      {
-        po.setBillTo(newShipToAddress1);
-        po.setComment(orderComment1);
-        po.setOrderDate(orderDate1);
-        po.setShipTo(newBillToAddress1);
-      }
+      po.setBillTo(newShipToAddress0);
+      po.setBillTo(newShipToAddress1);
+
+      po.setComment(orderComment0);
+      po.setComment(orderComment1);
+
+      po.setOrderDate(orderDate0);
+      po.setOrderDate(orderDate1);
+
+      po.setShipTo(newBillToAddress0);
+      po.setShipTo(newBillToAddress1);
+
       itemsValue = po.getItems().getItem();
       for (int j = 0; j < NUM_ITEMS; j++)
       {
         itemTypeElementValue = (ItemType)itemsValue.get(j);
+
         itemTypeElementValue.setProductName(productName0);
+        itemTypeElementValue.setProductName(productName1);
+
         itemTypeElementValue.setQuantity(quantity0);
+        itemTypeElementValue.setQuantity(quantity1);
+
         itemTypeElementValue.setUSPrice(usPrice0);
+        itemTypeElementValue.setUSPrice(usPrice1);
+
         itemTypeElementValue.setComment(itemComment0);
+        itemTypeElementValue.setComment(itemComment1);
+
         itemTypeElementValue.setShipDate(shipDate0);
+        itemTypeElementValue.setShipDate(shipDate1);
+
         itemTypeElementValue.setPartNum(partNum0);
+        itemTypeElementValue.setPartNum(partNum1);
       }
     }
 
