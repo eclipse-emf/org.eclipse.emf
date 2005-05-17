@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.7 2005/05/10 21:23:07 davidms Exp $
+ * $Id: GeneratorTask.java,v 1.8 2005/05/17 04:11:28 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -312,8 +312,9 @@ public abstract class GeneratorTask extends EMFTask
   protected void adjustEditAndEditorProjects()
   {
     String arguments = getCommandline().toString();
-    generateEditProject = arguments.indexOf("-editProject") < 0;
-    generateEditorProject = arguments.indexOf("-editorProject") < 0;
+    generateModelProject = arguments.indexOf("-modelProject") >= 0;
+    generateEditProject = arguments.indexOf("-editProject") >= 0;
+    generateEditorProject = arguments.indexOf("-editorProject") >= 0;
   }
 
   protected List getGeneratorArguments()
