@@ -1,2 +1,2 @@
-examples
-SampleMarkup.xml
+examples/**/*.xml
+xsd.test*/test/SampleMarkup.xml
