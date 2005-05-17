@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.15 2005/05/17 16:41:49 davidms Exp $
+ * $Id: GenModelItemProvider.java,v 1.16 2005/05/17 23:32:01 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -869,11 +868,6 @@ public class GenModelItemProvider
          null));
   }
 
-  public Collection getChildren(Object object)
-  {
-    return ((GenModel)object).canGenerate() ? super.getChildren(object) : Collections.EMPTY_LIST;
-  }
-
   /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
@@ -919,12 +913,7 @@ public class GenModelItemProvider
   public String getText(Object object)
   {
     GenModel genModel = (GenModel)object;
-    String result = genModel.getModelName();
-    if (!genModel.canGenerate())
-    {
-      result = getString("_UI_GenModelStub_label", new Object[] { result });
-    }
-    return result;
+    return genModel.getModelName();
   }
 
   /**
