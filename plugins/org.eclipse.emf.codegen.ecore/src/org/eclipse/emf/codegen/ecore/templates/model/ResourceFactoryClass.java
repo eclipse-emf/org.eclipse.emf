@@ -50,8 +50,9 @@ public class ResourceFactoryClass
   protected final String TEXT_43 = ".OPTION_XML_MAP, xmlMap);";
   protected final String TEXT_44 = NL + "\t\tResource result = new ";
   protected final String TEXT_45 = "(uri);";
-  protected final String TEXT_46 = NL + "\t\treturn result;" + NL + "\t}" + NL + "" + NL + "} //";
-  protected final String TEXT_47 = NL;
+  protected final String TEXT_46 = NL + "\t\treturn result;";
+  protected final String TEXT_47 = NL + "\t}" + NL + "" + NL + "} //";
+  protected final String TEXT_48 = NL;
 
   public String generate(Object argument)
   {
@@ -168,9 +169,11 @@ public class ResourceFactoryClass
     stringBuffer.append(TEXT_45);
     }
     stringBuffer.append(TEXT_46);
+    //ResourceFactoryClass/createResource.override.javajetinc
+    stringBuffer.append(TEXT_47);
     stringBuffer.append(genPackage.getResourceFactoryClassName());
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_47);
+    stringBuffer.append(TEXT_48);
     return stringBuffer.toString();
   }
 }

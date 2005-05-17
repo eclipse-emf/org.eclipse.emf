@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ResourceFactoryClass" version="$Id: ResourceFactoryClass.javajet,v 1.3 2004/05/16 17:22:37 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ResourceFactoryClass" version="$Id: ResourceFactoryClass.javajet,v 1.4 2005/05/17 17:50:59 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -87,6 +87,8 @@ public class <%=genPackage.getResourceFactoryClassName()%> extends <%=genPackage
 	 */
 	public Resource createResource(URI uri)
 	{
+<%@ include file="ResourceFactoryClass/createResource.override.javajetinc" fail="alternative" %>
+<%@ start %>
 <%if (genPackage.hasExtendedMetaData()) {%>
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%> result = new <%=genPackage.getResourceClassName()%>(uri);
 		result.getDefaultSaveOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_EXTENDED_META_DATA, extendedMetaData);
@@ -104,6 +106,7 @@ public class <%=genPackage.getResourceFactoryClassName()%> extends <%=genPackage
 		Resource result = new <%=genPackage.getResourceClassName()%>(uri);
 <%}%>
 		return result;
+<%@ end %><%//ResourceFactoryClass/createResource.override.javajetinc%>
 	}
 
 } //<%=genPackage.getResourceFactoryClassName()%>

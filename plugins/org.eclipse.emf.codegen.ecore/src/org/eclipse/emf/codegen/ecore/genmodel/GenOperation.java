@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.5 2005/04/20 18:47:55 khussey Exp $
+ * $Id: GenOperation.java,v 1.6 2005/05/17 17:50:59 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -125,9 +125,14 @@ public interface GenOperation extends GenBase
   String getReturnTypeClassifier();
   GenPackage getReturnTypeGenPackage();
 
+  String getObjectReturnType();
+  boolean isPrimitiveReturnType();
+  String getPrimitiveValueFunction();
+
   String getParameters();
   String getParameterTypes(String separator);
   String getParameterTypes(String separator, boolean qualified);
+  String getParameterNames(String separator);
 
   String getImportedMetaType();
 

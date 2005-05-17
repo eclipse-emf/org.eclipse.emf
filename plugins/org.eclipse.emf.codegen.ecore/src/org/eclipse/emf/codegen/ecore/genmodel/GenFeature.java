@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.11 2005/04/27 20:39:06 khussey Exp $
+ * $Id: GenFeature.java,v 1.12 2005/05/17 17:51:00 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -356,6 +356,7 @@ public interface GenFeature extends GenBase{
   boolean isEnumBasedType();
   GenEnum getGenEnumType();
   GenDataType getGenDataTypeType();
+  GenClass getGenClassType();
   boolean isBooleanType();
   boolean isStringType();
   boolean isStringBasedType();

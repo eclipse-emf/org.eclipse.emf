@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.12 2005/04/22 15:01:59 khussey Exp $
+ * $Id: GenClass.java,v 1.13 2005/05/17 17:50:59 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -281,6 +281,15 @@ public interface GenClass extends GenClassifier
   List/*of GenFeature*/ getImplementedGenFeatures();
   List/*of GenOperation*/ getImplementedGenOperations();
 
+  List/*of GenClass*/ getExtendedGenClasses();
+  List/*of GenFeature*/ getExtendedGenFeatures();
+  List/*of GenOperation*/ getExtendedGenOperations();
+
+  List/*of GenFeature*/ getDeclaredFieldGenFeatures();
+
+  List/*of GenFeature*/ getDeclaredGenFeatures();
+  List/*of GenOperation*/ getDeclaredGenOperations();
+
   List/*of GenFeature*/ getFlagGenFeatures();
   List/*of GenFeature*/ getFlagGenFeatures(String staticDefaultValue);
 
@@ -292,6 +301,7 @@ public interface GenClass extends GenClassifier
 
   List/*of GenClass*/ getMixinGenClasses();
   List/*of GenFeature*/ getMixinGenFeatures();
+  List/*of GenOperation*/ getMixinGenOperations();
 
   void initialize(EClass eClass);
   //
@@ -345,4 +355,9 @@ public interface GenClass extends GenClassifier
 
   boolean isModelRoot();
 
+  boolean isFlag(GenFeature genFeature);
+  boolean isESetFlag(GenFeature genFeature);
+
+  boolean isField(GenFeature genFeature);
+  boolean isESetField(GenFeature genFeature);  
 }

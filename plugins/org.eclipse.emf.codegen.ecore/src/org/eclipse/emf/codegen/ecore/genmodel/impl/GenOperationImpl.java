@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.8 2005/04/20 18:47:55 khussey Exp $
+ * $Id: GenOperationImpl.java,v 1.9 2005/05/17 17:51:00 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -716,5 +716,35 @@ public class GenOperationImpl extends GenBaseImpl implements GenOperation
           (((GenParameter)getGenParameters().get(0)).getEcoreParameter().getEType().getInstanceClassName()) &&
         "java.util.Map".equals
           (((GenParameter)getGenParameters().get(1)).getEcoreParameter().getEType().getInstanceClassName());
+  }
+
+  public String getParameterNames(String separator)
+  {
+    StringBuffer parameterNames = new StringBuffer();
+    for (Iterator genParameters = getGenParameters().iterator(); genParameters.hasNext();)
+    {
+      parameterNames.append(((GenParameter)genParameters.next()).getName());
+      if (genParameters.hasNext())
+      {
+        parameterNames.append(separator);
+      }
+    }
+
+    return parameterNames.toString();
+  }
+
+  public String getObjectReturnType()
+  {
+    return getImportedType(getEcoreOperation().getEType(), true);
+  }
+
+  public String getPrimitiveValueFunction()
+  {
+    return getPrimitiveValueFunction(getEcoreOperation().getEType());
+  }
+
+  public boolean isPrimitiveReturnType()
+  {
+    return isPrimitiveType(getEcoreOperation().getEType());
   }
 }

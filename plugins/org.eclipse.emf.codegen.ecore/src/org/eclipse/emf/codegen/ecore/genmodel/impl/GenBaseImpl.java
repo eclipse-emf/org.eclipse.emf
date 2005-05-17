@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.26 2005/05/16 18:42:49 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.27 2005/05/17 17:51:00 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -83,7 +83,9 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -906,6 +908,33 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       if (eStructuralFeature.getName().equals(genFeature.getEcoreFeature().getName())) //FB TBD different objects for ecore model!
       {
         return genFeature;
+      }
+    }
+
+    return null;
+  }
+
+  protected GenOperation findGenOperation(EOperation eOperation)
+  {
+    GenClass genClass = findGenClass(eOperation.getEContainingClass());
+    genOperationsLoop: for (Iterator i = genClass.getGenOperations().iterator(); i.hasNext();)
+    {
+      GenOperation genOperation = (GenOperation)i.next();
+      EOperation ecoreOperation = genOperation.getEcoreOperation();
+      if (eOperation.getName().equals(ecoreOperation.getName())
+        && eOperation.getEParameters().size() == ecoreOperation.getEParameters().size())
+      {
+        for (int j = 0; j < eOperation.getEParameters().size(); j++)
+        {
+          EParameter ecoreParameter = (EParameter)eOperation.getEParameters().get(j);
+
+          if (!ecoreParameter.getEType().getName().equals(((EParameter)ecoreOperation.getEParameters().get(j)).getEType().getName()))
+          {
+            continue genOperationsLoop;
+          }
+        }
+
+        return genOperation;
       }
     }
 
@@ -2025,4 +2054,27 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
     }
   }
+
+  protected String getPrimitiveValueFunction(EClassifier eClassifier)
+  {
+    Class instanceClass = getInstanceClass(eClassifier);
+    if (instanceClass == java.lang.Boolean.TYPE)
+      return "booleanValue";
+    if (instanceClass == java.lang.Byte.TYPE)
+      return "byteValue";
+    if (instanceClass == java.lang.Character.TYPE)
+      return "charValue";
+    if (instanceClass == java.lang.Double.TYPE)
+      return "doubleValue";
+    if (instanceClass == java.lang.Float.TYPE)
+      return "floatValue";
+    if (instanceClass == java.lang.Integer.TYPE)
+      return "intValue";
+    if (instanceClass == java.lang.Long.TYPE)
+      return "longValue";
+    if (instanceClass == java.lang.Short.TYPE)
+      return "shortValue";
+    return null;
+  }
+
 }

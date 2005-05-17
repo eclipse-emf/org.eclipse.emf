@@ -179,7 +179,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 */
 	public void test<%=genModel.capName(genFeature.getGetAccessor())%>()
 	{
-<%@ include file="TestCase.getGenFeature.TODO.override.javajetinc" fail="alternative" %>
+<%@ include file="TestCase/getGenFeature.TODO.override.javajetinc" fail="alternative" %>
 <%@ start %>
 		// TODO: implement this feature getter test method
 		// Ensure that you remove @generated or mark it @generated NOT

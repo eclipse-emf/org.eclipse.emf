@@ -75,7 +75,7 @@ public class ResourceClass
     if (genPackage.getResource() == GenResourceKind.XML_LITERAL) {
     }
     stringBuffer.append(TEXT_16);
-    stringBuffer.append(genPackage.getResourceFactoryClassName());
+    stringBuffer.append(genPackage.getResourceClassName());
     genModel.emitSortedImports();
     stringBuffer.append(TEXT_17);
     return stringBuffer.toString();

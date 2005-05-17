@@ -232,7 +232,7 @@ public class Interface
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_29);
     }
-    for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (Iterator i=genClass.getDeclaredGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
     if (genFeature.isGet() && !genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_30);
     stringBuffer.append(genFeature.getFormattedName());
@@ -462,9 +462,9 @@ public class Interface
     stringBuffer.append(TEXT_128);
     //Interface/isSetGenFeature.override.javajetinc
     }
-    //Interface/genFeature.override.javajetinc
+    //Interface/declaredGenFeature.override.javajetinc
     }//for
-    for (Iterator i=genClass.getGenOperations().iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();
+    for (Iterator i=genClass.getDeclaredGenOperations().iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();
     stringBuffer.append(TEXT_129);
     if (genOperation.hasDocumentation()) {
     stringBuffer.append(TEXT_130);
@@ -489,7 +489,7 @@ public class Interface
     stringBuffer.append(TEXT_138);
     stringBuffer.append(genOperation.getThrows());
     stringBuffer.append(TEXT_139);
-    //Interface/genOperation.override.javajetinc
+    //Interface/declaredGenOperation.override.javajetinc
     }//for
     stringBuffer.append(TEXT_140);
     stringBuffer.append(genClass.getInterfaceName());

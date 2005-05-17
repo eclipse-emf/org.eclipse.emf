@@ -912,9 +912,9 @@ public class Class
     stringBuffer.append(TEXT_27);
     }
     if (!genModel.isReflectiveDelegation()) {
-    for (Iterator i=genClass.getImplementedGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (Iterator i=genClass.getDeclaredFieldGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
     if (genFeature.isListType() || genFeature.isReferenceType()) {
-    if (genFeature.isField()) {
+    if (genClass.isField(genFeature)) {
     stringBuffer.append(TEXT_28);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_29);
@@ -949,8 +949,8 @@ public class Class
     stringBuffer.append(genModel.getNonNLS(genFeature.getStaticDefaultValue()));
     stringBuffer.append(TEXT_43);
     }
-    if (genFeature.isField()) {
-    if (genFeature.isFlag()) {
+    if (genClass.isField(genFeature)) {
+    if (genClass.isFlag(genFeature)) {
     if (genClass.getFlagIndex(genFeature) > 31 && genClass.getFlagIndex(genFeature) % 32 == 0) {
     stringBuffer.append(TEXT_44);
     stringBuffer.append(genClass.getFlagsField(genFeature));
@@ -988,8 +988,8 @@ public class Class
     }
     }
     }
-    if (genFeature.isESetField()) {
-    if (genFeature.isESetFlag()) {
+    if (genClass.isESetField(genFeature)) {
+    if (genClass.isESetFlag(genFeature)) {
     if (genClass.getESetFlagIndex(genFeature) > 31 && genClass.getESetFlagIndex(genFeature) % 32 == 0) {
     stringBuffer.append(TEXT_61);
     stringBuffer.append(genClass.getESetFlagsField(genFeature));
@@ -1015,6 +1015,7 @@ public class Class
     }
     }
     }
+    //Class/declaredFieldGenFeature.override.javajetinc
     }
     stringBuffer.append(TEXT_72);
     stringBuffer.append(genClass.getClassName());
@@ -1112,7 +1113,7 @@ public class Class
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_117);
     }
-    if (genFeature.isFlag()) {
+    if (genClass.isFlag(genFeature)) {
     stringBuffer.append(TEXT_118);
     stringBuffer.append(genClass.getFlagsField(genFeature));
     stringBuffer.append(TEXT_119);
@@ -1303,7 +1304,7 @@ public class Class
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_202);
     if (genFeature.isUnsettable()) {
-    if (genFeature.isESetFlag()) {
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_203);
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_204);
@@ -1522,7 +1523,7 @@ public class Class
     stringBuffer.append(TEXT_307);
     if (genFeature.isUnsettable()) {
     stringBuffer.append(TEXT_308);
-    if (genFeature.isESetFlag()) {
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_309);
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_310);
@@ -1570,7 +1571,7 @@ public class Class
     stringBuffer.append(TEXT_331);
     }
     } else {
-    if (genFeature.isFlag()) {
+    if (genClass.isFlag(genFeature)) {
     stringBuffer.append(TEXT_332);
     stringBuffer.append(genFeature.getImportedType());
     stringBuffer.append(TEXT_333);
@@ -1619,7 +1620,7 @@ public class Class
     }
     }
     if (genFeature.isUnsettable()) {
-    if (genFeature.isESetFlag()) {
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_355);
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_356);
@@ -1649,7 +1650,7 @@ public class Class
     stringBuffer.append(TEXT_368);
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_369);
-    if (genFeature.isFlag()) {
+    if (genClass.isFlag(genFeature)) {
     stringBuffer.append(TEXT_370);
     stringBuffer.append(genFeature.getCapName());
     } else {
@@ -1668,7 +1669,7 @@ public class Class
     stringBuffer.append(TEXT_376);
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_377);
-    if (genFeature.isFlag()) {
+    if (genClass.isFlag(genFeature)) {
     stringBuffer.append(TEXT_378);
     stringBuffer.append(genFeature.getCapName());
     } else {
@@ -1748,7 +1749,7 @@ public class Class
     stringBuffer.append(TEXT_410);
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_411);
-    if (genFeature.isESetFlag()) {
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_412);
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_413);
@@ -1838,7 +1839,7 @@ public class Class
     stringBuffer.append(TEXT_453);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_454);
-    if (genFeature.isESetFlag()) {
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_455);
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_456);
@@ -1869,7 +1870,7 @@ public class Class
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_469);
     } else {
-    if (genFeature.isFlag()) {
+    if (genClass.isFlag(genFeature)) {
     stringBuffer.append(TEXT_470);
     stringBuffer.append(genFeature.getImportedType());
     stringBuffer.append(TEXT_471);
@@ -1888,7 +1889,7 @@ public class Class
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_478);
     }
-    if (genFeature.isESetFlag()) {
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_479);
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_480);
@@ -1907,7 +1908,7 @@ public class Class
     stringBuffer.append(TEXT_486);
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_487);
-    if (genFeature.isESetFlag()) {
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_488);
     stringBuffer.append(genClass.getESetFlagsField(genFeature));
     stringBuffer.append(TEXT_489);
@@ -1930,7 +1931,7 @@ public class Class
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_498);
     } else {
-    if (genFeature.isFlag()) {
+    if (genClass.isFlag(genFeature)) {
     stringBuffer.append(TEXT_499);
     stringBuffer.append(genFeature.getUpperName());
     stringBuffer.append(TEXT_500);
@@ -1949,7 +1950,7 @@ public class Class
     stringBuffer.append(genFeature.getUpperName());
     stringBuffer.append(TEXT_507);
     }
-    if (genFeature.isESetFlag()) {
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_508);
     stringBuffer.append(genClass.getESetFlagsField(genFeature));
     stringBuffer.append(TEXT_509);
@@ -2026,7 +2027,7 @@ public class Class
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_541);
     } else {
-    if (genFeature.isESetFlag()) {
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_542);
     stringBuffer.append(genClass.getESetFlagsField(genFeature));
     stringBuffer.append(TEXT_543);
@@ -2422,7 +2423,7 @@ public class Class
     stringBuffer.append(TEXT_720);
     }
     } else {
-    if (genFeature.isField()) {
+    if (genClass.isField(genFeature)) {
     stringBuffer.append(TEXT_721);
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_722);
@@ -2439,7 +2440,7 @@ public class Class
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_727);
     } else if (genFeature.isResolveProxies()) {
-    if (genFeature.isField()) {
+    if (genClass.isField(genFeature)) {
     stringBuffer.append(TEXT_728);
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_729);
@@ -2449,7 +2450,7 @@ public class Class
     stringBuffer.append(TEXT_731);
     }
     } else if (genFeature.isReferenceType()) {
-    if (genFeature.isField()) {
+    if (genClass.isField(genFeature)) {
     stringBuffer.append(TEXT_732);
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_733);
@@ -2459,8 +2460,8 @@ public class Class
     stringBuffer.append(TEXT_735);
     }
     } else if (genFeature.isPrimitiveType() || genFeature.isEnumType()) {
-    if (genFeature.isField()) {
-    if (genFeature.isFlag()) {
+    if (genClass.isField(genFeature)) {
+    if (genClass.isFlag(genFeature)) {
     stringBuffer.append(TEXT_736);
     stringBuffer.append(genClass.getFlagsField(genFeature));
     stringBuffer.append(TEXT_737);
@@ -2483,7 +2484,7 @@ public class Class
     stringBuffer.append(TEXT_745);
     }
     } else {//datatype
-    if (genFeature.isField()) {
+    if (genClass.isField(genFeature)) {
     stringBuffer.append(TEXT_746);
     stringBuffer.append(genFeature.getUpperName());
     stringBuffer.append(TEXT_747);
@@ -2555,9 +2556,9 @@ public class Class
     stringBuffer.append(genModel.getNonNLS());
     }
     if (genFeature.isUnsettable() && !genFeature.isListType()) {
-    if (genFeature.isFlag()) {
+    if (genClass.isFlag(genFeature)) {
     stringBuffer.append(TEXT_777);
-    if (genFeature.isESetFlag()) {
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_778);
     stringBuffer.append(genClass.getESetFlagsField(genFeature));
     stringBuffer.append(TEXT_779);
@@ -2575,7 +2576,7 @@ public class Class
     stringBuffer.append(genModel.getNonNLS());
     } else {
     stringBuffer.append(TEXT_785);
-    if (genFeature.isESetFlag()) {
+    if (genClass.isESetFlag(genFeature)) {
     stringBuffer.append(TEXT_786);
     stringBuffer.append(genClass.getESetFlagsField(genFeature));
     stringBuffer.append(TEXT_787);
@@ -2591,7 +2592,7 @@ public class Class
     stringBuffer.append(genModel.getNonNLS());
     }
     } else {
-    if (genFeature.isFlag()) {
+    if (genClass.isFlag(genFeature)) {
     stringBuffer.append(TEXT_792);
     stringBuffer.append(genClass.getFlagsField(genFeature));
     stringBuffer.append(TEXT_793);

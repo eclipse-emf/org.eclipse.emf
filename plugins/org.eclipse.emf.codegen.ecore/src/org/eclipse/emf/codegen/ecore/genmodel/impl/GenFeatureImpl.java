@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.18 2005/04/27 20:39:06 khussey Exp $
+ * $Id: GenFeatureImpl.java,v 1.19 2005/05/17 17:51:00 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -950,12 +950,12 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
 
   public boolean isFlag()
   {
-    return getGenModel().isBooleanFlagsEnabled() && isBooleanType() && !isVolatile();
+    return isBooleanType() && !isVolatile();
   }
 
   public boolean isESetFlag()
   {
-    return getGenModel().isBooleanFlagsEnabled() && isUnsettable() && !isListType() && !isVolatile();
+    return isUnsettable() && !isListType() && !isVolatile();
   }
 
   public String getEffectiveMapType()
@@ -1106,6 +1106,12 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     return eType instanceof EDataType ? findGenDataType((EDataType)eType) : null;
   }
 
+  public GenClass getGenClassType()
+  {
+    EClassifier eType = getEcoreFeature().getEType();
+    return eType instanceof EClass ? findGenClass((EClass)eType) : null;
+  }
+
   public boolean isBooleanType()
   {
     return isPrimitiveType() &&
@@ -1213,24 +1219,7 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
 
   public String getPrimitiveValueFunction()
   {
-    Class instanceClass = getInstanceClass(getEcoreFeature().getEType());
-    if (instanceClass == java.lang.Boolean.TYPE)
-      return "booleanValue";
-    if (instanceClass == java.lang.Byte.TYPE)
-      return "byteValue";
-    if (instanceClass == java.lang.Character.TYPE)
-      return "charValue";
-    if (instanceClass == java.lang.Double.TYPE)
-      return "doubleValue";
-    if (instanceClass == java.lang.Float.TYPE)
-      return "floatValue";
-    if (instanceClass == java.lang.Integer.TYPE)
-      return "intValue";
-    if (instanceClass == java.lang.Long.TYPE)
-      return "longValue";
-    if (instanceClass == java.lang.Short.TYPE)
-      return "shortValue";
-    return null;
+    return getPrimitiveValueFunction(getEcoreFeature().getEType());
   }
 
   public String getLowerBound()

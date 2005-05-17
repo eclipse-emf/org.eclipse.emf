@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.29 2005/05/06 20:20:03 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.30 2005/05/17 17:51:00 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -613,9 +613,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getFlagsField(GenFeature genFeature)
   {
-    if (genFeature.isFlag())
+    if (isFlag(genFeature))
     {
-      String flagsField = genFeature.getGenModel().getBooleanFlagsField();
+      String flagsField = getImplementedGenFeatures().contains(genFeature) ? getGenModel().getBooleanFlagsField()
+        : genFeature.getGenModel().getBooleanFlagsField();
       if (!isBlank(flagsField))
       {
         int flagIndex = getFlagIndex(genFeature);
@@ -631,22 +632,23 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public int getFlagIndex(GenFeature genFeature)
   {
-    if (genFeature.isFlag())
+    if (isFlag(genFeature))
     {
-      int reservedBooleanFlags = genFeature.getGenModel().getBooleanFlagsReservedBits();
-      int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
+      int reservedBooleanFlags = getImplementedGenFeatures().contains(genFeature) ? getGenModel().getBooleanFlagsReservedBits()
+        : genFeature.getGenModel().getBooleanFlagsReservedBits();
+	    int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
 
       for (Iterator otherGenFeatures = getAllGenFeatures().iterator(); otherGenFeatures.hasNext();)
       {
         GenFeature otherGenFeature = (GenFeature)otherGenFeatures.next();
-        if (otherGenFeature.isFlag())
+        if (isFlag(otherGenFeature))
         {
           index++;
 
           if (otherGenFeature.getEcoreFeature() == genFeature.getEcoreFeature())
             return index;
         }
-        if (otherGenFeature.isESetFlag())
+        if (isESetFlag(otherGenFeature))
         {
           index++;
         }
@@ -657,9 +659,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getESetFlagsField(GenFeature genFeature)
   {
-    if (genFeature.isESetFlag())
+    if (isESetFlag(genFeature))
     {
-      String isSetFlagsField = genFeature.getGenModel().getBooleanFlagsField();
+      String isSetFlagsField = getImplementedGenFeatures().contains(genFeature) ? getGenModel().getBooleanFlagsField()
+        : genFeature.getGenModel().getBooleanFlagsField();
       if (!isBlank(isSetFlagsField))
       {
         int isSetFlagIndex = getESetFlagIndex(genFeature);
@@ -675,19 +678,20 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public int getESetFlagIndex(GenFeature genFeature)
   {
-    if (genFeature.isESetFlag())
+    if (isESetFlag(genFeature))
     {
-      int reservedBooleanFlags = genFeature.getGenModel().getBooleanFlagsReservedBits();
+      int reservedBooleanFlags = getImplementedGenFeatures().contains(genFeature) ? getGenModel().getBooleanFlagsReservedBits()
+        : genFeature.getGenModel().getBooleanFlagsReservedBits();
       int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
 
       for (Iterator otherGenFeatures = getAllGenFeatures().iterator(); otherGenFeatures.hasNext();)
       {
         GenFeature otherGenFeature = (GenFeature)otherGenFeatures.next();
-        if (otherGenFeature.isFlag())
+        if (isFlag(otherGenFeature))
         {
           index++;
         }
-        if (otherGenFeature.isESetFlag())
+        if (isESetFlag(otherGenFeature))
         {
           index++;
 
@@ -823,7 +827,6 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List getImplementedGenOperations()
   {
-    final List allGenFeatures = getAllGenFeatures();
     List implementedGenClasses = new UniqueEList(getImplementedGenClasses());
     if (needsRootImplementsInterfaceOperations())
     {
@@ -847,74 +850,48 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       collectGenOperations
         (implementedGenClasses,
          null, 
-         new GenOperationFilter()
-         {
-           public boolean accept(GenOperation genOperation) 
-           {
-             if ((genOperation.getName().startsWith("get") || genOperation.getName().startsWith("is")) && genOperation.getGenParameters().isEmpty())
-             {
-               for (Iterator i = allGenFeatures.iterator(); i.hasNext(); )
-               {
-                 GenFeature genFeature = (GenFeature)i.next();
-                 if (genFeature.getGetAccessor().equals(genOperation.getName()))
-                 {
-                   return false;
-                 }
-               }
-             }
-             else if (genOperation.getName().startsWith("set") && genOperation.getGenParameters().size() == 1)
-             {
-               GenParameter genParameter =  (GenParameter)genOperation.getGenParameters().get(0);
-               for (Iterator i = allGenFeatures.iterator(); i.hasNext(); )
-               {
-                 GenFeature genFeature = (GenFeature)i.next();
-                 if (genFeature.isChangeable() && 
-                       !genFeature.isListType() &&
-                       genOperation.getName().equals("set" + genFeature.getAccessorName()) &&
-                       genParameter.getType().equals(genFeature.getType()))
-                 {
-                   return false;
-                 }
-               }
-             }
-             else if (genOperation.getName().startsWith("unset") && genOperation.getGenParameters().isEmpty())
-             {
-               for (Iterator i = allGenFeatures.iterator(); i.hasNext(); )
-               {
-                 GenFeature genFeature = (GenFeature)i.next();
-                 if (genFeature.isChangeable() && 
-                       genFeature.isUnsettable() &&
-                       genOperation.getName().equals("unset" + genFeature.getAccessorName()))
-                 {
-                   return false;
-                 }
-               }
-             }
-             else if (genOperation.getName().startsWith("isSet") && genOperation.getGenParameters().isEmpty())
-             {
-               for (Iterator i = allGenFeatures.iterator(); i.hasNext(); )
-               {
-                 GenFeature genFeature = (GenFeature)i.next();
-                 if (genFeature.isChangeable() && 
-                       genFeature.isUnsettable() &&
-                       genOperation.getName().equals("isSet" + genFeature.getAccessorName()))
-                 {
-                   return false;
-                 }
-               }
-             }
-             return !genOperation.getGenClass().isEObject();
-           }
-         });
+         new CollidingGenOperationFilter());
+  }
+
+  public List getExtendedGenClasses()
+  {
+    List allBases = getAllBaseGenClasses();
+    GenClass extendedBase = getClassExtendsGenClass();
+    int i = extendedBase == null ? 0 : allBases.indexOf(extendedBase) + 1;
+    return new ArrayList(allBases.subList(0, i));
+  }
+
+  public List getExtendedGenFeatures()
+  {
+    return collectGenFeatures(getExtendedGenClasses(), null, null);
+  }
+
+  public List getExtendedGenOperations()
+  {
+    return
+      collectGenOperations
+        (getExtendedGenClasses(),
+         null, 
+         new CollidingGenOperationFilter());
+  }
+
+  public List getDeclaredGenFeatures()
+  {
+    return getGenFeatures();
+  }
+
+  public List getDeclaredGenOperations()
+  {
+    return getGenOperations();
   }
 
   public List getFlagGenFeatures()
   {
-    return collectGenFeatures(getImplementedGenClasses(), null, new GenFeatureFilter()
+    return collectGenFeatures(null, getImplementedGenFeatures(), new GenFeatureFilter()
       {
         public boolean accept(GenFeature genFeature)
         {
-          return genFeature.isFlag();
+          return isFlag(genFeature);
         }
       });
   }
@@ -1003,7 +980,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          {
            public boolean accept(GenFeature genFeature)
            {
-             return !genFeature.isVolatile() && !genFeature.isReferenceType();
+             return isField(genFeature) && !genFeature.isReferenceType();
            }
          });
   }
@@ -1039,6 +1016,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public List getMixinGenFeatures()
   {
       return collectGenFeatures(getMixinGenClasses(), null, null);  
+  }
+
+  public List getMixinGenOperations()
+  {
+    return collectGenOperations(getMixinGenClasses(), null, new CollidingGenOperationFilter());
   }
 
   public void initialize(EClass eClass)
@@ -2295,4 +2277,91 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getClassExtendsGenClass() == null || getClassExtendsGenClass().getGenModel() != getGenModel();
   }
 
+  public List getDeclaredFieldGenFeatures()
+  {
+    return getImplementedGenFeatures();
+  }
+
+  public boolean isFlag(GenFeature genFeature)
+  {
+    return (getImplementedGenFeatures().contains(genFeature) ? getGenModel().isBooleanFlagsEnabled()
+      : genFeature.getGenModel().isBooleanFlagsEnabled()) && genFeature.isFlag();
+  }
+
+  public boolean isESetFlag(GenFeature genFeature)
+  {
+    return (getImplementedGenFeatures().contains(genFeature) ? getGenModel().isBooleanFlagsEnabled()
+      : genFeature.getGenModel().isBooleanFlagsEnabled()) && genFeature.isESetFlag();
+  }
+
+  public boolean isField(GenFeature genFeature)
+  {
+    return !(getImplementedGenFeatures().contains(genFeature) ? getGenModel().isReflectiveDelegation()
+      : genFeature.getGenModel().isReflectiveDelegation()) && genFeature.isField();
+  }
+
+  public boolean isESetField(GenFeature genFeature)
+  {
+    return !(getImplementedGenFeatures().contains(genFeature) ? getGenModel().isReflectiveDelegation()
+      : genFeature.getGenModel().isReflectiveDelegation()) && genFeature.isESetField();
+  }
+
+  public class CollidingGenOperationFilter implements GenOperationFilter
+  {
+    protected List allGenFeatures = getAllGenFeatures();
+
+    public boolean accept(GenOperation genOperation)
+    {
+      if ((genOperation.getName().startsWith("get") || genOperation.getName().startsWith("is"))
+        && genOperation.getGenParameters().isEmpty())
+      {
+        for (Iterator i = allGenFeatures.iterator(); i.hasNext();)
+        {
+          GenFeature genFeature = (GenFeature)i.next();
+          if (genFeature.getGetAccessor().equals(genOperation.getName()))
+          {
+            return false;
+          }
+        }
+      }
+      else if (genOperation.getName().startsWith("set") && genOperation.getGenParameters().size() == 1)
+      {
+        GenParameter genParameter = (GenParameter)genOperation.getGenParameters().get(0);
+        for (Iterator i = allGenFeatures.iterator(); i.hasNext();)
+        {
+          GenFeature genFeature = (GenFeature)i.next();
+          if (genFeature.isChangeable() && !genFeature.isListType() && genOperation.getName().equals("set" + genFeature.getAccessorName())
+            && genParameter.getType().equals(genFeature.getType()))
+          {
+            return false;
+          }
+        }
+      }
+      else if (genOperation.getName().startsWith("unset") && genOperation.getGenParameters().isEmpty())
+      {
+        for (Iterator i = allGenFeatures.iterator(); i.hasNext();)
+        {
+          GenFeature genFeature = (GenFeature)i.next();
+          if (genFeature.isChangeable() && genFeature.isUnsettable()
+            && genOperation.getName().equals("unset" + genFeature.getAccessorName()))
+          {
+            return false;
+          }
+        }
+      }
+      else if (genOperation.getName().startsWith("isSet") && genOperation.getGenParameters().isEmpty())
+      {
+        for (Iterator i = allGenFeatures.iterator(); i.hasNext();)
+        {
+          GenFeature genFeature = (GenFeature)i.next();
+          if (genFeature.isChangeable() && genFeature.isUnsettable()
+            && genOperation.getName().equals("isSet" + genFeature.getAccessorName()))
+          {
+            return false;
+          }
+        }
+      }
+      return !genOperation.getGenClass().isEObject();
+    }
+  }
 }

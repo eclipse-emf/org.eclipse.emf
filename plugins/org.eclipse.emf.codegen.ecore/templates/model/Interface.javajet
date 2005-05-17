@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" version="$Id: Interface.javajet,v 1.7 2005/04/20 15:17:16 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" version="$Id: Interface.javajet,v 1.8 2005/05/17 17:50:59 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -69,8 +69,8 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	<%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
 
 <%}%>
-<%for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
-<%@ include file="Interface/genFeature.override.javajetinc" fail="alternative" %>
+<%for (Iterator i=genClass.getDeclaredGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+<%@ include file="Interface/declaredGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
   <%if (genFeature.isGet() && !genFeature.isSuppressedGetVisibility()) {%>
 <%@ include file="Interface/getGenFeature.override.javajetinc" fail="alternative" %>
@@ -209,11 +209,11 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 
 <%@ end %><%//Interface/isSetGenFeature.override.javajetinc%>
   <%}%>
-<%@ include file="Interface/genFeature.insert.javajetinc" fail="silent" %>
-<%@ end %><%//Interface/genFeature.override.javajetinc%>
+<%@ include file="Interface/declaredGenFeature.insert.javajetinc" fail="silent" %>
+<%@ end %><%//Interface/declaredGenFeature.override.javajetinc%>
 <%}//for%>
-<%for (Iterator i=genClass.getGenOperations().iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();%>
-<%@ include file="Interface/genOperation.override.javajetinc" fail="alternative" %>
+<%for (Iterator i=genClass.getDeclaredGenOperations().iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();%>
+<%@ include file="Interface/declaredGenOperation.override.javajetinc" fail="alternative" %>
 <%@ start %>
 	/**
 	 * <!-- begin-user-doc -->
@@ -234,8 +234,8 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	 */
 	<%=genOperation.getImportedReturnType()%> <%=genOperation.getName()%>(<%=genOperation.getParameters()%>)<%=genOperation.getThrows()%>;
 
-<%@ include file="Interface/genOperation.insert.javajetinc" fail="silent" %>
-<%@ end %><%//Interface/genOperation.override.javajetinc%>
+<%@ include file="Interface/declaredGenOperation.insert.javajetinc" fail="silent" %>
+<%@ end %><%//Interface/declaredGenOperation.override.javajetinc%>
 <%}//for%>
 <%@ include file="Interface/insert.javajetinc" fail="silent" %>
 } // <%=genClass.getInterfaceName()%>

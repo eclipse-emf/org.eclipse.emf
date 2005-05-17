@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.32 2005/05/16 18:46:25 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.33 2005/05/17 17:51:00 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1321,21 +1321,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter createJETEmitter(String relativeTemplateURI)
   {
     JETEmitter jetEmitter = 
-      new JETEmitter(getTemplatePath(), relativeTemplateURI)
+      new JETEmitter(getTemplatePath(), relativeTemplateURI, getClass().getClassLoader())
       {
         public void initialize(IProgressMonitor progressMonitor) throws JETException
         {
           if (getClasspathEntries().isEmpty())
           {
-            addVariable("EMF_CODEGEN", "org.eclipse.emf.codegen");
-            addVariable("EMF_CODEGEN_ECORE", "org.eclipse.emf.codegen.ecore");
-            addVariable("EMF_COMMON", "org.eclipse.emf.common");
-            addVariable("EMF_ECORE", "org.eclipse.emf.ecore");
+            addClasspathEntries(this);
           }
           super.initialize(progressMonitor);
         }
       };
     return jetEmitter;
+  }
+
+  protected void addClasspathEntries(JETEmitter jetEmitter) throws JETException
+  {
+    jetEmitter.addVariable("EMF_CODEGEN", "org.eclipse.emf.codegen");
+    jetEmitter.addVariable("EMF_CODEGEN_ECORE", "org.eclipse.emf.codegen.ecore");
+    jetEmitter.addVariable("EMF_COMMON", "org.eclipse.emf.common");
+    jetEmitter.addVariable("EMF_ECORE", "org.eclipse.emf.ecore");
   }
 
   public JETEmitter getInterfaceEmitter()
