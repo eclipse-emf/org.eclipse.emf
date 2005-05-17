@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineImpl.java,v 1.7 2005/04/13 19:19:34 emerks Exp $
+ * $Id: XSDRedefineImpl.java,v 1.8 2005/05/17 16:55:46 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -344,7 +344,7 @@ public class XSDRedefineImpl
           if (schemaToRedefine != containingSchema)
           {
             schemaToRedefine.forceResolve = true;
-            schemaToRedefine.patch();
+            schemaToRedefine.setSchemaLocation(schemaToRedefine.pendingSchemaLocation);
             schemaToRedefine.forceResolve = false;
             schemaToRedefine.pendingSchemaLocation = null;
           }
