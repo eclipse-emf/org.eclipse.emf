@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.4 2005/05/17 15:44:22 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.5 2005/05/17 19:41:03 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -37,6 +37,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
+import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -438,18 +439,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
 
   protected void setSDODefaults(GenModel genModel)
   {
-    genModel.setRootExtendsInterface("");
-    genModel.setRootImplementsInterface("org.eclipse.emf.ecore.sdo.InternalEDataObject");
-    genModel.setRootExtendsClass("org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl");
-    genModel.setFeatureMapWrapperInterface("commonj.sdo.Sequence");
-    genModel.setFeatureMapWrapperInternalInterface("org.eclipse.emf.ecore.sdo.util.ESequence");
-    genModel.setFeatureMapWrapperClass("org.eclipse.emf.ecore.sdo.util.BasicESequence");
-    genModel.setSuppressEMFTypes(true);
-
-    genModel.getModelPluginVariables().add("EMF_COMMONJ_SDO=org.eclipse.emf.commonj.sdo");
-    genModel.getModelPluginVariables().add("EMF_ECORE_SDO=org.eclipse.emf.ecore.sdo");
-
-    genModel.getStaticPackages().add("http://www.eclipse.org/emf/2003/SDO");
+    Generator.setSDODefaults(genModel);
   }
 
   protected void doExecute(IProgressMonitor progressMonitor) throws Exception
