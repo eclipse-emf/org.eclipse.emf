@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.26 2005/04/11 17:38:35 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.27 2005/05/17 16:21:34 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -70,6 +70,7 @@ public class XMLHelperImpl implements XMLHelper
   protected EPackage noNamespacePackage;
   protected XMLResource.XMLMap xmlMap;
   protected ExtendedMetaData extendedMetaData;
+  protected boolean laxFeatureProcessing;
   protected EPackage.Registry packageRegistry;
   protected XMLResource resource;
   protected URI resourceURI;
@@ -139,6 +140,11 @@ public class XMLHelperImpl implements XMLHelper
   {
     this();
     setResource(resource);
+  }
+  
+  public void setOptions (Map options)
+  {
+    laxFeatureProcessing = Boolean.TRUE.equals(options.get(XMLResource.OPTION_LAX_FEATURE_PROCESSING));
   }
 
   public void setNoNamespacePackage(EPackage pkg)
@@ -791,9 +797,9 @@ public class XMLHelperImpl implements XMLHelper
 
         // Only if the feature kind is unspecified should we return a match.
         // Otherwise, we might return an attribute feature when an element is required, 
-        // or vice versa.
+        // or vice versa. This also can be controlled by XMLResource.OPTION_LAX_FEATURE_PROCESSING.
         //
-        if (eStructuralFeature != null && 
+        if (!laxFeatureProcessing && eStructuralFeature != null && 
               extendedMetaData.getFeatureKind(eStructuralFeature) != ExtendedMetaData.UNSPECIFIED_FEATURE)
         {
           eStructuralFeature = null;

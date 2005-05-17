@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelper.java,v 1.8 2005/04/11 17:38:35 elena Exp $
+ * $Id: XMLHelper.java,v 1.9 2005/05/17 16:21:34 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -39,6 +39,11 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
  */
 public interface XMLHelper
 {
+  /**
+   * Sets various resource options on the helper
+   */
+  public void setOptions(Map options);
+  
   /**
    * Sets the package to use when there is no XML namespace in an XML
    * file.

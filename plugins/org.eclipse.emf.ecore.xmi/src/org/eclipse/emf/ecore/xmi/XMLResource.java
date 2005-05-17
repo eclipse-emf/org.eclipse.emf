@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.24 2005/03/15 18:55:15 elena Exp $
+ * $Id: XMLResource.java,v 1.25 2005/05/17 16:21:34 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -173,10 +173,18 @@ public interface XMLResource extends Resource
   String OPTION_PROCESS_DANGLING_HREF_RECORD   = "RECORD";
 
   /**
-   * This options allows you to {@link #getEObjectToExtensionMap record} unknown features.
+   * This options allows you to record unknown features. 
    * The default is <code>Boolean.FALSE</code> unless set to <code>Boolean.TRUE</code> explicitly.
+   * @see {@link #getEObjectToExtensionMap}  
    */
   String OPTION_RECORD_UNKNOWN_FEATURE = "RECORD_UNKNOWN_FEATURE";
+  
+  /**
+   * Turn this load option on to indicate that a feature should be populated 
+   * from either an attribute or an element even if its feature kind is specified (e.g. element).
+   * The default is <code>Boolean.FALSE</code> unless set to <code>Boolean.TRUE</code> explicitly.
+   */
+  String OPTION_LAX_FEATURE_PROCESSING = "LAX_FEATURE_PROCESSING";
 
   /**
    * Disable notifications during load, and enable them at the
