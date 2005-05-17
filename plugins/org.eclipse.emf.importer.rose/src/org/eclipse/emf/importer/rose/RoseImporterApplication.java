@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterApplication.java,v 1.7 2005/05/17 19:42:50 marcelop Exp $
+ * $Id: RoseImporterApplication.java,v 1.8 2005/05/17 21:25:46 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -255,25 +255,45 @@ public class RoseImporterApplication extends ModelImporterApplication
           }
         }
   
-        if (packageInfo != null)
+        if (ePackage.getNsURI() == null && ePackage.getNsPrefix() == null)
         {
           ModelImporter.EPackageInfo ePackageInfo = getRoseImporter().getEPackageInfo(ePackage);
-
-          if (packageInfo.nsURI != null)
-          {
-            ePackage.setNsURI(packageInfo.nsURI);
-          }
-          if (packageInfo.nsPrefix != null)
+          if (packageInfo != null)
           {
             ePackage.setNsPrefix(packageInfo.nsPrefix);
+            ePackage.setNsURI(packageInfo.nsURI);
+
+            if (ePackageInfo.getBasePackage() == null)
+            {
+              ePackageInfo.setBasePackage(packageInfo.base);
+            }
+            if (ePackageInfo.getPrefix() == null)
+            {
+              ePackageInfo.setPrefix(packageInfo.prefix);
+            }
           }
-          if (ePackageInfo.getBasePackage() == null)
+          
+          if (ePackage.getNsPrefix() == null)
           {
-            ePackageInfo.setBasePackage(packageInfo.base);
+            String nsPrefix  = ePackage.getName();
+            EPackage eSuperPackage = ePackage.getESuperPackage();
+            if (eSuperPackage != null)
+            {
+              nsPrefix = eSuperPackage.getNsPrefix() + "." + nsPrefix;
+            } 
+            ePackage.setNsPrefix(nsPrefix);
           }
-          if (ePackageInfo.getPrefix() == null)
+
+          if (ePackage.getNsURI() == null)
           {
-            ePackageInfo.setPrefix(packageInfo.prefix);
+            if (noQualify)
+            {
+              ePackage.setNsURI(ePackage.getNsPrefix() + ".ecore");
+            }
+            else
+            {
+              ePackage.setNsURI("http:///" + ePackage.getNsPrefix() + ".ecore");
+            }            
           }
         }
       }
