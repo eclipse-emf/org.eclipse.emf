@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterApplication.java,v 1.5 2005/05/17 05:04:55 marcelop Exp $
+ * $Id: RoseImporterApplication.java,v 1.6 2005/05/17 05:39:10 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -249,9 +249,9 @@ public class RoseImporterApplication extends ModelImporterApplication
         else
         {
           handleEPackage(ePackage, true);
-          if (nameToReferencedPackageInfo != null)
+          if (nameToPackageInfo != null)
           {
-            packageInfo = (PackageInfo)nameToReferencedPackageInfo.get(packageName);
+            packageInfo = (PackageInfo)nameToPackageInfo.get(packageName);
           }
         }
   
