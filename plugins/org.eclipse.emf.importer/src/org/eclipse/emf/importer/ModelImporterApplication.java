@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.5 2005/05/17 19:41:03 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.6 2005/05/18 14:39:07 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -489,7 +489,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
         if (ePackage.eResource() == null)
         {
            modelImporter.addToResource(ePackage, genModelResource.getResourceSet());
-        }          
+        }       
         
         // Special case for a reference to Ecore to ensure that flag settings are respected and are set only for Ecore itself.
         //
@@ -509,7 +509,6 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
             ecoreGenModel.setBooleanFlagsReservedBits(8);
             ecoreGenModel.getForeignModel().addAll(genModel.getForeignModel());
           }
-          break;
         }
       }
     }    
