@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.15 2005/05/17 19:32:39 nickb Exp $
+ * $Id: BuildTests.java,v 1.16 2005/05/18 18:24:26 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -638,12 +638,11 @@ public class BuildTests extends TestCase
     boolean xmlResult = testChkpii(XML);
     boolean propertiesResult = testChkpii(PROPERTIES);
 
-    String message = "<a href=\"../chkpii/org.eclipse.nls.html.txt\">HTML:" + (htmlResult?"passed":"failed")
-    + "</a>, <a href=\"../chkpii/org.eclipse.nls.xml.txt\">XML:"  + (xmlResult ?"passed":"failed")
-    + "</a>, <a href=\"../chkpii/org.eclipse.nls.properties.txt\">PROP:" + (propertiesResult?"passed":"failed")
-    + "</a>";
+    String message = "../chkpii/org.eclipse.nls.html.txt:" + (htmlResult?"passed":"failed")
+    + ", ../chkpii/org.eclipse.nls.xml.txt:"  + (xmlResult ?"passed":"failed")
+    + ", ../chkpii/org.eclipse.nls.properties.txt:" + (propertiesResult?"passed":"failed");
 
-	assertTrue("Translation errors in files.  See the <a href=\"../chkpii\">chkpii logs</a> for details. (" + message + ")",
+	assertTrue("Translation errors in files.  See the chkpii logs in ../chkpii for details. (" + message + ")",
         (htmlResult && xmlResult && propertiesResult));
   }
 
