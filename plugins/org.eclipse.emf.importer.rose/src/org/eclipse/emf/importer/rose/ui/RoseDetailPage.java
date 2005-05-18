@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.6 2005/05/16 14:27:40 marcelop Exp $
+ * $Id: RoseDetailPage.java,v 1.7 2005/05/18 21:34:40 davidms Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -32,6 +32,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Table;
@@ -59,6 +60,8 @@ import org.eclipse.emf.importer.util.ImporterUtil;
 public class RoseDetailPage extends ModelDetailPage
 {
   protected Button loadPathMapSymbolsButton;
+  protected Button browsePathMapLocationButton;
+  protected Table pathMapTable;
   protected TableViewer pathMapTableViewer;
   
   protected boolean isCellEditing = false;
@@ -79,6 +82,20 @@ public class RoseDetailPage extends ModelDetailPage
       loadPathMapSymbolsButton.removeListener(SWT.Selection, this);
       loadPathMapSymbolsButton = null;
     }
+    if (browsePathMapLocationButton != null)
+    {
+      browsePathMapLocationButton.removeListener(SWT.Selection, this);
+      browsePathMapLocationButton = null;
+    }
+    if (pathMapTable != null)
+    {
+      pathMapTable.removeListener(SWT.Selection, this);
+      pathMapTable = null;
+    }
+    if (pathMapTableViewer != null)
+    {
+      pathMapTableViewer = null;
+    }
 
     super.dispose();
   }
@@ -98,22 +115,26 @@ public class RoseDetailPage extends ModelDetailPage
     Group pathMapGroup = new Group(parent, SWT.SHADOW_ETCHED_IN);
     {
       GridLayout layout = new GridLayout();
+      layout.numColumns = 2;
       layout.verticalSpacing = 12;
-      pathMapGroup.setLayout(layout);
-      
-      GridData data = new GridData(GridData.FILL_BOTH);
-      data.horizontalSpan = 2;
-      pathMapGroup.setLayoutData(data);
+      pathMapGroup.setLayout(layout);      
     }
+    pathMapGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
     pathMapGroup.setText(RoseImporterPlugin.INSTANCE.getString("_UI_PathMap_label"));
 
     loadPathMapSymbolsButton = new Button(pathMapGroup, SWT.PUSH);
-    loadPathMapSymbolsButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+    loadPathMapSymbolsButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, true, false));
     loadPathMapSymbolsButton.setText(RoseImporterPlugin.INSTANCE.getString("_UI_LoadSymbols_label"));
     loadPathMapSymbolsButton.addListener(SWT.Selection, this);
 
-    Table pathMapTable = new Table(pathMapGroup, SWT.BORDER);
-    pathMapTable.setLayoutData(new GridData(GridData.FILL_BOTH));
+    browsePathMapLocationButton = new Button(pathMapGroup, SWT.PUSH);
+    browsePathMapLocationButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
+    browsePathMapLocationButton.setText(RoseImporterPlugin.INSTANCE.getString("_UI_Browse_label"));
+    browsePathMapLocationButton.setEnabled(false);
+    browsePathMapLocationButton.addListener(SWT.Selection, this);
+
+    pathMapTable = new Table(pathMapGroup, SWT.BORDER);
+    pathMapTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
     pathMapTableViewer = new TableViewer(pathMapTable);
 
     pathMapTable.setHeaderVisible(true);
@@ -133,6 +154,7 @@ public class RoseDetailPage extends ModelDetailPage
 
       pathMapTable.setLayout(layout);
     }
+    pathMapTable.addListener(SWT.Selection, this);
 
     ExtendedTableEditor extendedTableEditor = new ExtendedTableEditor(pathMapTable)
       {
@@ -248,6 +270,29 @@ public class RoseDetailPage extends ModelDetailPage
               loadPathMapSymbols();;
             }
           });
+      }
+    }
+    else if (event.type == SWT.Selection && event.widget == pathMapTable)
+    {
+      browsePathMapLocationButton.setEnabled(pathMapTable.getSelectionIndex() != -1);
+    }
+    else if (event.type == SWT.Selection && event.widget == browsePathMapLocationButton)
+    {
+      int index = pathMapTable.getSelectionIndex();
+      String symbol = pathMapTable.getItem(index).getText();
+      DirectoryDialog directoryDialog = new DirectoryDialog(getShell());
+      directoryDialog.setMessage(RoseImporterPlugin.INSTANCE.getString("_UI_PathMapDirectoryDialog_message", new Object[] { symbol }));
+      String path = directoryDialog.open();
+
+      if (path != null && path.length() > 0)
+      {
+        getRoseImporter().getPathMap().put(symbol, path);
+        setPageComplete(false);
+        pathMapTableViewer.refresh();
+        if (++index < pathMapTable.getItemCount())
+        {
+          pathMapTable.select(index);
+        }
       }
     }
     else
