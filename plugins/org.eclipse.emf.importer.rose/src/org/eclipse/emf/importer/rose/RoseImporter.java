@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.4 2005/05/18 19:33:09 marcelop Exp $
+ * $Id: RoseImporter.java,v 1.5 2005/05/18 23:17:23 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -275,7 +275,7 @@ public class RoseImporter extends ModelImporter
         roseUtil.createExtent4RoseUnitTree(unitTreeNode);
         roseUtil.processUnitTree(unitTreeNode);
         roseEPackageInformationMap = roseUtil.getEPackageToInformationMap();
-        status = roseUtil.getStatus();
+        status = ImporterUtil.createStatus(roseUtil.getStatus(), ImporterPlugin.ID, ImporterUtil.ACTION_MESSAGE_NONE);
         
         for (Iterator i = roseUtil.getEPackageToInformationMap().entrySet().iterator(); i.hasNext();)
         {
