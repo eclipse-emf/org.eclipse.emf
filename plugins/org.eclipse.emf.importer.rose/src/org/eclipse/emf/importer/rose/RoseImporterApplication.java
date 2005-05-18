@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterApplication.java,v 1.8 2005/05/17 21:25:46 marcelop Exp $
+ * $Id: RoseImporterApplication.java,v 1.9 2005/05/18 13:20:13 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -255,22 +255,13 @@ public class RoseImporterApplication extends ModelImporterApplication
           }
         }
   
+        ModelImporter.EPackageInfo ePackageInfo = getRoseImporter().getEPackageInfo(ePackage);
         if (ePackage.getNsURI() == null && ePackage.getNsPrefix() == null)
         {
-          ModelImporter.EPackageInfo ePackageInfo = getRoseImporter().getEPackageInfo(ePackage);
           if (packageInfo != null)
           {
             ePackage.setNsPrefix(packageInfo.nsPrefix);
             ePackage.setNsURI(packageInfo.nsURI);
-
-            if (ePackageInfo.getBasePackage() == null)
-            {
-              ePackageInfo.setBasePackage(packageInfo.base);
-            }
-            if (ePackageInfo.getPrefix() == null)
-            {
-              ePackageInfo.setPrefix(packageInfo.prefix);
-            }
           }
           
           if (ePackage.getNsPrefix() == null)
@@ -296,6 +287,18 @@ public class RoseImporterApplication extends ModelImporterApplication
             }            
           }
         }
+        
+        if (packageInfo != null)
+        {
+          if (ePackageInfo.getBasePackage() == null)
+          {
+            ePackageInfo.setBasePackage(packageInfo.base);
+          }
+          if (ePackageInfo.getPrefix() == null)
+          {
+            ePackageInfo.setPrefix(packageInfo.prefix);
+          }
+        }        
       }
     }
     finally
