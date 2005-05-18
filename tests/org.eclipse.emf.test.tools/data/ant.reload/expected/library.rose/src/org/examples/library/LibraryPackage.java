@@ -50,7 +50,7 @@ public interface LibraryPackage extends EPackage{
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNS_URI = "library.xmi";
+  String eNS_URI = "library.ecore";
 
   /**
    * The package namespace name.

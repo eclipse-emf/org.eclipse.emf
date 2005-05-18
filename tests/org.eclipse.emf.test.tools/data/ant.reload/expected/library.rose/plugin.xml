@@ -29,7 +29,7 @@
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
-       uri = "library.xmi" 
+       uri = "library.ecore" 
        class = "org.examples.library.LibraryPackage" />
   </extension>
 
