@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterApplication.java,v 1.10 2005/05/18 19:33:09 marcelop Exp $
+ * $Id: RoseImporterApplication.java,v 1.11 2005/05/18 21:49:03 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -230,54 +230,59 @@ public class RoseImporterApplication extends ModelImporterApplication
     try
     {
       progressMonitor.beginTask("", 2);
-
       super.adjustEPackages(new SubProgressMonitor(progressMonitor, 1));
-  
       List ePackages = getRoseImporter().getEPackages();
-      for (Iterator i = ePackages.iterator(); i.hasNext();)
-      {
-        EPackage ePackage = (EPackage)i.next();
-  
-        String packageName = ePackage.getName();
-        PackageInfo packageInfo = nameToReferencedPackageInfo == null ? null : 
-          (PackageInfo)nameToReferencedPackageInfo.get(packageName);
-        
-        if (packageInfo != null)
-        {
-          handleEPackage(ePackage, false);
-        }
-        else
-        {
-          handleEPackage(ePackage, true);
-          if (nameToPackageInfo != null)
-          {
-            packageInfo = (PackageInfo)nameToPackageInfo.get(packageName);
-          }
-        }
-  
-        if (packageInfo != null)
-        {
-          if (!getRoseImporter().hasRoseGenPackageProperties(ePackage))
-          {
-            ePackage.setNsPrefix(packageInfo.nsPrefix);
-            ePackage.setNsURI(packageInfo.nsURI);
-          }
-          
-          ModelImporter.EPackageInfo ePackageInfo = getRoseImporter().getEPackageInfo(ePackage);        
-          if (ePackageInfo.getBasePackage() == null)
-          {
-            ePackageInfo.setBasePackage(packageInfo.base);
-          }
-          if (ePackageInfo.getPrefix() == null)
-          {
-            ePackageInfo.setPrefix(packageInfo.prefix);
-          }
-        }        
-      }
+      traverseEPackages(ePackages);
     }
     finally
     {
       progressMonitor.done();
     }
+  }
+  
+  protected void traverseEPackages(List ePackages)
+  {
+    for (Iterator i = ePackages.iterator(); i.hasNext();)
+    {
+      EPackage ePackage = (EPackage)i.next();
+
+      String packageName = ePackage.getName();
+      PackageInfo packageInfo = nameToReferencedPackageInfo == null ? null : 
+        (PackageInfo)nameToReferencedPackageInfo.get(packageName);
+      
+      if (packageInfo != null)
+      {
+        handleEPackage(ePackage, false);
+      }
+      else
+      {
+        handleEPackage(ePackage, true);
+        if (nameToPackageInfo != null)
+        {
+          packageInfo = (PackageInfo)nameToPackageInfo.get(packageName);
+        }
+      }
+
+      if (packageInfo != null)
+      {
+        if (!getRoseImporter().hasRoseGenPackageProperties(ePackage))
+        {
+          ePackage.setNsPrefix(packageInfo.nsPrefix);
+          ePackage.setNsURI(packageInfo.nsURI);
+        }
+        
+        ModelImporter.EPackageInfo ePackageInfo = getRoseImporter().getEPackageInfo(ePackage);        
+        if (ePackageInfo.getBasePackage() == null)
+        {
+          ePackageInfo.setBasePackage(packageInfo.base);
+        }
+        if (ePackageInfo.getPrefix() == null)
+        {
+          ePackageInfo.setPrefix(packageInfo.prefix);
+        }
+      }
+      
+      traverseEPackages(ePackage.getESubpackages());
+    }    
   }
 }
