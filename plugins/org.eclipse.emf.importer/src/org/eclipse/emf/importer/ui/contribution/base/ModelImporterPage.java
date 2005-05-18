@@ -192,7 +192,6 @@ public abstract class ModelImporterPage extends WizardPage implements Listener
       }
     }
 
-    if (dialogMessage == null) dialogMessage = status.getMessage();
     switch(decodedAction.dialog)
     {
       case ImporterUtil.ACTION_DEFAULT:
