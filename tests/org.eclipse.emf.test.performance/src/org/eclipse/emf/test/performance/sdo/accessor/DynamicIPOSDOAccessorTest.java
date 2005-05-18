@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.51 2005/05/17 21:27:13 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.52 2005/05/18 21:40:47 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -56,7 +56,9 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected static final int REPETITIONS_500 = 500;
 
-  protected static int ITERATIONS_300 = 240000;
+  protected static final int ITERATIONS_150 = 250000;
+
+  protected static final int ITERATIONS_300 = 600000;
 
   protected static final int ITERATIONS_2_5K = 2000000;
 
@@ -219,7 +221,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(3).setRepetitions(REPETITIONS_50));
     //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(3).setRepetitions(REPETITIONS_50));
 
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByName").setWarmUp(12).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByShortPath").setWarmUp(12).setRepetitions(REPETITIONS_50));
 
     //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_100));
     //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(15).setRepetitions(REPETITIONS_500));
@@ -228,8 +230,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
           testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
     //not tested    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
     //not tested    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-    //    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_20));
-    //    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByShortPath").setWarmUp(1000).setRepetitions(REPETITIONS_50));
+          testSuite.addTest(new DynamicIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_20));
+          testSuite.addTest(new DynamicIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_20));
 
     return testSuite;
   }
@@ -597,7 +599,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
-  public void getStringByName()
+  public void getStringByShortPath()
   {
     DataObject itemElement = this.itemElement;
     String stringValue = this.stringValue;
@@ -673,37 +675,57 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void getByProperty()
   {
     DataObject po = this.po;
-    DataObject dataObjectValue = this.shipToValue;
-    String stringValue = this.orderCommentValue;
-    Object objectValue = this.objectValue;
+    // values
+    DataObject shipToValue = this.shipToValue;
+    DataObject billToValue = this.billToValue;
+    String orderCommentValue = this.orderCommentValue;
+    String productNameValue = this.productNameValue;
+    String itemCommentValue = this.itemCommentValue;
+    String partNumValue = this.partNumValue;
+    Object orderDateValue = this.orderDateValue;
     List itemsValue = this.itemsValue;
+    Object shipDateValue = this.shipDateValue;
     DataObject itemElementValue = this.itemElementValue;
-    IPOModel model = DynamicIPOSDOAccessorTest.model;
-    BigInteger bigIntegerValue = this.quantityValue;
-    BigDecimal bigDecimalValue = this.usPriceValue;
+    BigInteger quantityValue = this.quantityValue;
+    BigDecimal usPriceValue = this.usPriceValue;
     Object object = this.object;
+    // model
+    Property shipToProp = model.getShipToProp();
+    Property billToProp = model.getBillToProp();
+    Property commentProp = model.getCommentProp();
+    Property orderDateProp = model.getOrderDateProp();
+    Property itemsProp = model.getItemsProp();
+    Property itemProp = model.getItemProp();
+    Property productNameProp = model.getProductNameProp();
+    Property quantityProp = model.getQuantityProp();
+    Property usPriceProp = model.getUsPriceProp();
+    Property itemCommentProp = model.getItemCommentProp();
+    Property shipDateProp = model.getShipDateProp();
+    Property partNumProp = model.getPartNumProp();
     startMeasuring();
 
     for (int i = 0; i < ITERATIONS_2M; i++)
     {
-      if ((dataObjectValue != this) && (stringValue != object) && (objectValue != this))
+      if ((shipToValue != this) && (billToValue != this) && (orderCommentValue != object) && (orderDateValue != this)
+        && (itemsValue != this))
       {
-        dataObjectValue = po.getDataObject(model.getShipToProp());
-        dataObjectValue = po.getDataObject(model.getBillToProp());
-        stringValue = po.getString(model.getCommentProp());
-        objectValue = po.get(model.getOrderDateProp());
-        itemsValue = po.getDataObject(model.getItemsProp()).getList(model.getItemProp());
+        shipToValue = po.getDataObject(shipToProp);
+        billToValue = po.getDataObject(billToProp);
+        orderCommentValue = po.getString(commentProp);
+        orderDateValue = po.get(orderDateProp);
+        itemsValue = po.getDataObject(itemsProp).getList(itemProp);
         for (int j = 0; j < itemsValue.size(); j++)
         {
-          if ((stringValue != object) && (bigIntegerValue != object) && (bigDecimalValue != object) && (objectValue != this))
+          if ((itemElementValue != this) && (productNameValue != object) && (quantityValue != object) && (usPriceValue != object)
+            && (itemCommentValue != object) && (shipDateValue != this) && (partNumValue != object))
           {
             itemElementValue = (DataObject)itemsValue.get(j);
-            stringValue = itemElementValue.getString(model.getProductNameProp());
-            bigIntegerValue = itemElementValue.getBigInteger(model.getQuantityProp());
-            bigDecimalValue = itemElementValue.getBigDecimal(model.getUsPriceProp());
-            stringValue = itemElementValue.getString(model.getItemCommentProp());
-            objectValue = itemElementValue.get(model.getShipDateProp());
-            stringValue = itemElementValue.getString(model.getPartNumProp());
+            productNameValue = itemElementValue.getString(productNameProp);
+            quantityValue = itemElementValue.getBigInteger(quantityProp);
+            usPriceValue = itemElementValue.getBigDecimal(usPriceProp);
+            itemCommentValue = itemElementValue.getString(itemCommentProp);
+            shipDateValue = itemElementValue.get(shipDateProp);
+            partNumValue = itemElementValue.getString(partNumProp);
           }
         }
       }
@@ -725,6 +747,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   public void setByProperty()
   {
     DataObject po = this.po;
+    // new values
     DataObject newShipToAddress0 = this.newShipToAddress0;
     DataObject newShipToAddress1 = this.newShipToAddress1;
     DataObject newBillToAddress0 = this.newBillToAddress0;
@@ -747,46 +770,59 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     Object shipDate1 = this.shipDate1;
     String partNum0 = this.partNum0;
     String partNum1 = this.partNum1;
-    IPOModel model = DynamicIPOSDOAccessorTest.model;
+    // model
+    Property shipToProp = model.getShipToProp();
+    Property billToProp = model.getBillToProp();
+    Property commentProp = model.getCommentProp();
+    Property orderDateProp = model.getOrderDateProp();
+    Property itemsProp = model.getItemsProp();
+    Property itemProp = model.getItemProp();
+    Property productNameProp = model.getProductNameProp();
+    Property quantityProp = model.getQuantityProp();
+    Property usPriceProp = model.getUsPriceProp();
+    Property itemCommentProp = model.getItemCommentProp();
+    Property shipDateProp = model.getShipDateProp();
+    Property partNumProp = model.getPartNumProp();
+
     int NUM_ITEMS = DynamicIPOSDOAccessorTest.NUM_ITEMS;
     startMeasuring();
 
     for (int i = 0; i < ITERATIONS_500K; i++)
     {
-      po.setDataObject(model.getShipToProp(), newShipToAddress0);
-      po.setDataObject(model.getShipToProp(), newShipToAddress1);
+      po.setDataObject(shipToProp, newShipToAddress0);
+      po.setDataObject(shipToProp, newShipToAddress1);
 
-      po.setDataObject(model.getBillToProp(), newBillToAddress0);
-      po.setDataObject(model.getBillToProp(), newBillToAddress1);
+      po.setDataObject(billToProp, newBillToAddress0);
+      po.setDataObject(billToProp, newBillToAddress1);
 
-      po.setString(model.getCommentProp(), orderComment0);
-      po.setString(model.getCommentProp(), orderComment1);
+      po.setString(commentProp, orderComment0);
+      po.setString(commentProp, orderComment1);
 
-      po.set(model.getOrderDateProp(), orderDate0);
-      po.set(model.getOrderDateProp(), orderDate1);
+      po.set(orderDateProp, orderDate0);
+      po.set(orderDateProp, orderDate1);
 
-      itemsValue = po.getDataObject(model.getItemsProp()).getList(model.getItemProp());
+      itemsValue = po.getDataObject(itemsProp).getList(itemProp);
       for (int j = 0; j < NUM_ITEMS; j++)
       {
         itemElementValue = (DataObject)itemsValue.get(j);
 
-        itemElementValue.setString(model.getProductNameProp(), productName0);
-        itemElementValue.setString(model.getProductNameProp(), productName1);
+        itemElementValue.setString(productNameProp, productName0);
+        itemElementValue.setString(productNameProp, productName1);
 
-        itemElementValue.setBigInteger(model.getQuantityProp(), quantity0);
-        itemElementValue.setBigInteger(model.getQuantityProp(), quantity1);
+        itemElementValue.setBigInteger(quantityProp, quantity0);
+        itemElementValue.setBigInteger(quantityProp, quantity1);
 
-        itemElementValue.setBigDecimal(model.getUsPriceProp(), usPrice0);
-        itemElementValue.setBigDecimal(model.getUsPriceProp(), usPrice1);
+        itemElementValue.setBigDecimal(usPriceProp, usPrice0);
+        itemElementValue.setBigDecimal(usPriceProp, usPrice1);
 
-        itemElementValue.setString(model.getItemCommentProp(), itemComment0);
-        itemElementValue.setString(model.getItemCommentProp(), itemComment1);
+        itemElementValue.setString(itemCommentProp, itemComment0);
+        itemElementValue.setString(itemCommentProp, itemComment1);
 
-        itemElementValue.set(model.getShipDateProp(), shipDate0);
-        itemElementValue.set(model.getShipDateProp(), shipDate1);
+        itemElementValue.set(shipDateProp, shipDate0);
+        itemElementValue.set(shipDateProp, shipDate1);
 
-        itemElementValue.setString(model.getPartNumProp(), partNum0);
-        itemElementValue.setString(model.getPartNumProp(), partNum1);
+        itemElementValue.setString(partNumProp, partNum0);
+        itemElementValue.setString(partNumProp, partNum1);
       }
     }
     stopMeasuring();
@@ -899,39 +935,47 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
    * </ul>
    * </p>
    */
-  // TODO
   public void getByShortPath()
   {
     DataObject po = this.po;
-    DataObject dataObjectValue = this.shipToValue;
-    String stringValue = this.orderCommentValue;
-    Object objectValue = this.objectValue;
+    // values
+    DataObject shipToValue = this.shipToValue;
+    DataObject billToValue = this.billToValue;
+    String orderCommentValue = this.orderCommentValue;
+    String productNameValue = this.productNameValue;
+    String itemCommentValue = this.itemCommentValue;
+    String partNumValue = this.partNumValue;
+    Object orderDateValue = this.orderDateValue;
     DataObject itemsValue1 = this.itemsValue1;
+    List itemsValue = this.itemsValue;
+    Object shipDateValue = this.shipDateValue;
     DataObject itemElementValue = this.itemElementValue;
-    BigInteger bigIntegerValue = this.quantityValue;
-    BigDecimal bigDecimalValue = this.usPriceValue;
+    BigInteger quantityValue = this.quantityValue;
+    BigDecimal usPriceValue = this.usPriceValue;
     Object object = this.object;
     startMeasuring();
 
     for (int i = 0; i < ITERATIONS_300; i++)
     {
-      if ((dataObjectValue != this) && (stringValue != object) && (objectValue != this) && (stringValue != object)
-        && (bigIntegerValue != object) && (bigDecimalValue != object) && (objectValue != this))
+      if ((shipToValue != this) && (billToValue != this) && (orderCommentValue != object) && (orderDateValue != this)
+        && (itemsValue1 != this) && (itemElementValue != this) && (productNameValue != object) && (quantityValue != object)
+        && (usPriceValue != object) && (itemCommentValue != object) && (shipDateValue != this) && (partNumValue != object))
       {
-        dataObjectValue = po.getDataObject("shipTo");
-        dataObjectValue = po.getDataObject("billTo");
-        stringValue = po.getString("comment");
-        objectValue = po.get("orderDate");
+        shipToValue = po.getDataObject("shipTo");
+        billToValue = po.getDataObject("billTo");
+        orderCommentValue = po.getString("comment");
+        orderDateValue = po.get("orderDate");
         itemsValue1 = po.getDataObject("items");
         itemElementValue = itemsValue1.getDataObject("item[1]");
-        stringValue = itemElementValue.getString("productName");
-        bigIntegerValue = itemElementValue.getBigInteger("quantity");
-        bigDecimalValue = itemElementValue.getBigDecimal("uSPrice");
-        stringValue = itemElementValue.getString("comment");
-        objectValue = itemElementValue.get("shipDate");
-        stringValue = itemElementValue.getString("partNum");
+        productNameValue = itemElementValue.getString("productName");
+        quantityValue = itemElementValue.getBigInteger("quantity");
+        usPriceValue = itemElementValue.getBigDecimal("uSPrice");
+        itemCommentValue = itemElementValue.getString("comment");
+        shipDateValue = itemElementValue.get("shipDate");
+        partNumValue = itemElementValue.getString("partNum");
       }
     }
+    stopMeasuring();
   }
 
   /**
@@ -946,35 +990,69 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
    * </ul>
    * </p>
    */
-  public void setByPath()
+  public void setByShortPath()
   {
+    DataObject po = this.po;
+    DataObject newShipToAddress0 = this.newShipToAddress0;
+    DataObject newShipToAddress1 = this.newShipToAddress1;
+    DataObject newBillToAddress0 = this.newBillToAddress0;
+    DataObject newBillToAddress1 = this.newBillToAddress1;
+    String orderComment0 = this.orderComment0;
+    String orderComment1 = this.orderComment1;
+    Object orderDate0 = this.orderDate0;
+    Object orderDate1 = this.orderDate1;
+    DataObject itemsValue1 = this.itemsValue1;
+    DataObject itemElementValue = this.itemElementValue;
+    String productName0 = this.productName0;
+    String productName1 = this.productName1;
+    BigInteger quantity0 = this.quantity0;
+    BigInteger quantity1 = this.quantity1;
+    BigDecimal usPrice0 = this.usPrice0;
+    BigDecimal usPrice1 = this.usPrice1;
+    String itemComment0 = this.itemComment0;
+    String itemComment1 = this.itemComment1;
+    Object shipDate0 = this.shipDate0;
+    Object shipDate1 = this.shipDate1;
+    String partNum0 = this.partNum0;
+    String partNum1 = this.partNum1;
     startMeasuring();
-    for (int i = 0; i < ITERATIONS_300; i++)
-    {
-      if (i % 2 == 0)
-      { // to set to a new value each time.
-        po.setDataObject("shipTo", newShipToAddress0);
-        po.setDataObject("billTo", newBillToAddress0);
-        po.set("comment", orderComment0);
-        po.set("orderDate", orderDate0);
-      }
-      else
-      {
-        po.setDataObject("shipTo", newShipToAddress1);
-        po.setDataObject("billTo", newBillToAddress1);
-        po.set("comment", orderComment1);
-        po.set("orderDate", orderDate1);
-      }
 
-      po.setString("items/item[1]/productName", productName0);
-      po.setBigInteger("items/item[1]/quantity", quantity0);
-      po.setBigDecimal("items/item[1]/uSPrice", usPrice0);
-      po.setString("items/item[1]/comment", orderComment0);
-      po.set("items/item[1]/shipDate", shipDate0);
-      po.setString("items/item[1]/partNum", partNum0);
+    for (int i = 0; i < ITERATIONS_150; i++)
+    {
+      po.setDataObject("shipTo", newShipToAddress0);
+      po.setDataObject("shipTo", newShipToAddress1);
+
+      po.setDataObject("billTo", newBillToAddress0);
+      po.setDataObject("billTo", newBillToAddress1);
+
+      po.setString("comment", orderComment0);
+      po.setString("comment", orderComment1);
+
+      po.set("orderDate", orderDate0);
+      po.set("orderDate", orderDate1);
+
+      itemsValue1 = po.getDataObject("items");
+      itemElementValue = itemsValue1.getDataObject("item[1]");
+
+      itemElementValue.setString("productName", productName0);
+      itemElementValue.setString("productName", productName1);
+
+      itemElementValue.setBigInteger("quantity", quantity0);
+      itemElementValue.setBigInteger("quantity", quantity1);
+
+      itemElementValue.setBigDecimal("uSPrice", usPrice0);
+      itemElementValue.setBigDecimal("uSPrice", usPrice1);
+
+      itemElementValue.setString("comment", itemComment0);
+      itemElementValue.setString("comment", itemComment1);
+
+      itemElementValue.set("shipDate", shipDate0);
+      itemElementValue.set("shipDate", shipDate1);
+
+      itemElementValue.setString("partNum", partNum0);
+      itemElementValue.setString("partNum", partNum1);
     }
     stopMeasuring();
-    initPO();
   }
 
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.18 2005/04/23 04:38:59 nickb Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.19 2005/05/18 21:40:47 bportier Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -136,7 +136,6 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     testMethodName = testMethodName.substring(testMethodName.lastIndexOf('.') + 1) + "#" + this.getName();
     long t1 = System.currentTimeMillis();
     System.out.println(timeStamp() + " Warming up " + testMethodName + "()...");
-    System.out.println();
 
     warmUp();
 

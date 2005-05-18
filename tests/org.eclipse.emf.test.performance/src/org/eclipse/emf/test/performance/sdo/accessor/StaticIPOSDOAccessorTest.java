@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.50 2005/05/17 21:27:13 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.51 2005/05/18 21:40:47 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -55,27 +55,15 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 
   protected static final int ITERATIONS_40K = 32000000;
 
-  protected static final int ITERATIONS_400K = 320000000;
-
   protected static final int ITERATIONS_800K = 640000000;
 
   protected static final int ITERATIONS_1_6M = 1280000000;
 
   protected static final int ITERATIONS_600K = 160000000;
 
-  protected static final int ITERATIONS_1_2M = 320000000;
-
-  protected static final int ITERATIONS_12M1 = 12000000;
-
-  protected static final int ITERATIONS_80M = 80000000;
-
-  protected static final int ITERATIONS_300K = 80000000;
-
   protected static final int ITERATIONS_100M = 100000000;
 
   protected static final int ITERATIONS_50M = 50000000;
-
-  protected static final int ITERATIONS_80K = 320000000;
 
   // values for get with generated code.
   protected Address addressBillToValue;
@@ -91,7 +79,6 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     super(name);
     ITERATIONS_2M = 2000000;
     ITERATIONS_500K = 500000;
-    ITERATIONS_300 = 600;
   }
 
   public static Test suite()
@@ -120,19 +107,19 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
     //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(3).setRepetitions(REPETITIONS_50));
 
-    //HOLDtestSuite.addTest(new StaticIPOSDOAccessorTest("getStringByName").setWarmUp(5).setRepetitions(REPETITIONS_100));
+    //HOLDtestSuite.addTest(new StaticIPOSDOAccessorTest("getStringByShortPath").setWarmUp(5).setRepetitions(REPETITIONS_100));
 
     //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(5).setRepetitions(REPETITIONS_20));
     //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_20));
-    //
+
           testSuite.addTest(new StaticIPOSDOAccessorTest("getByGenerated").setWarmUp(1).setRepetitions(REPETITIONS_20));
           testSuite.addTest(new StaticIPOSDOAccessorTest("setByGenerated").setWarmUp(1).setRepetitions(REPETITIONS_20));
           testSuite.addTest(new StaticIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
           testSuite.addTest(new StaticIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
     //not tested    testSuite.addTest(new StaticIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
     //not tested    testSuite.addTest(new StaticIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-    //    testSuite.addTest(new StaticIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_20));
-    //    testSuite.addTest(new StaticIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_20));
+          testSuite.addTest(new StaticIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_20));
+          testSuite.addTest(new StaticIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_20));
 
     return testSuite;
   }
