@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterApplication.java,v 1.9 2005/05/18 13:20:13 marcelop Exp $
+ * $Id: RoseImporterApplication.java,v 1.10 2005/05/18 19:33:09 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -255,41 +255,15 @@ public class RoseImporterApplication extends ModelImporterApplication
           }
         }
   
-        ModelImporter.EPackageInfo ePackageInfo = getRoseImporter().getEPackageInfo(ePackage);
-        if (ePackage.getNsURI() == null && ePackage.getNsPrefix() == null)
+        if (packageInfo != null)
         {
-          if (packageInfo != null)
+          if (!getRoseImporter().hasRoseGenPackageProperties(ePackage))
           {
             ePackage.setNsPrefix(packageInfo.nsPrefix);
             ePackage.setNsURI(packageInfo.nsURI);
           }
           
-          if (ePackage.getNsPrefix() == null)
-          {
-            String nsPrefix  = ePackage.getName();
-            EPackage eSuperPackage = ePackage.getESuperPackage();
-            if (eSuperPackage != null)
-            {
-              nsPrefix = eSuperPackage.getNsPrefix() + "." + nsPrefix;
-            } 
-            ePackage.setNsPrefix(nsPrefix);
-          }
-
-          if (ePackage.getNsURI() == null)
-          {
-            if (noQualify)
-            {
-              ePackage.setNsURI(ePackage.getNsPrefix() + ".ecore");
-            }
-            else
-            {
-              ePackage.setNsURI("http:///" + ePackage.getNsPrefix() + ".ecore");
-            }            
-          }
-        }
-        
-        if (packageInfo != null)
-        {
+          ModelImporter.EPackageInfo ePackageInfo = getRoseImporter().getEPackageInfo(ePackage);        
           if (ePackageInfo.getBasePackage() == null)
           {
             ePackageInfo.setBasePackage(packageInfo.base);

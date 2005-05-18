@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryPackage.java,v 1.3 2005/05/18 13:45:44 marcelop Exp $
+ * $Id: LibraryPackage.java,v 1.4 2005/05/18 19:33:10 marcelop Exp $
  */
 package org.examples.library;
 
@@ -49,7 +49,7 @@ public interface LibraryPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNS_URI = "library.ecore";
+  String eNS_URI = "library.xmi";
 
   /**
    * The package namespace name.

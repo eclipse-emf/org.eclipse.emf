@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.3 2005/05/16 14:25:41 marcelop Exp $
+ * $Id: RoseImporter.java,v 1.4 2005/05/18 19:33:09 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -50,6 +50,8 @@ public class RoseImporter extends ModelImporter
   
   protected RoseUtil roseUtil;
   protected UnitTreeNode unitTreeNode;
+  
+  protected Map roseEPackageInformationMap;
 
   public void dispose()
   {
@@ -57,6 +59,11 @@ public class RoseImporter extends ModelImporter
     {
       pathMap.clear();
       pathMap = null;
+    }
+    if (roseEPackageInformationMap != null)
+    {
+      roseEPackageInformationMap.clear();
+      roseEPackageInformationMap = null;
     }
 
     super.dispose();
@@ -120,6 +127,12 @@ public class RoseImporter extends ModelImporter
       }
     }
     return null;
+  }
+  
+  public void clearEPackagesCollections()
+  {
+    super.clearEPackagesCollections();
+    roseEPackageInformationMap = null;
   }
   
   public IStatus loadPathMap(IProgressMonitor progressMonitor) throws Exception
@@ -232,6 +245,18 @@ public class RoseImporter extends ModelImporter
     }
     return false;
   }
+  
+  /**
+   * Returns whether the Rose model properties includes genmodel information about a given ePackage.  
+   * This method should only be used after invoking 
+   * {@link ModelImporter#computeEPackages(IProgressMonitor)}.
+   * @param ePackage
+   * @return boolean
+   */
+  public boolean hasRoseGenPackageProperties(EPackage ePackage)
+  {
+    return roseEPackageInformationMap != null && roseEPackageInformationMap.get(ePackage) != null;
+  }
 
   protected IStatus doComputeEPackages(IProgressMonitor progressMonitor) throws Exception
   {
@@ -249,6 +274,7 @@ public class RoseImporter extends ModelImporter
       {
         roseUtil.createExtent4RoseUnitTree(unitTreeNode);
         roseUtil.processUnitTree(unitTreeNode);
+        roseEPackageInformationMap = roseUtil.getEPackageToInformationMap();
         status = roseUtil.getStatus();
         
         for (Iterator i = roseUtil.getEPackageToInformationMap().entrySet().iterator(); i.hasNext();)

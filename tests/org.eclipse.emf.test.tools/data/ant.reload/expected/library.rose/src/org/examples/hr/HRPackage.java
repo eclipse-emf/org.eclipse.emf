@@ -48,7 +48,7 @@ public interface HRPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNS_URI = "hr.ecore";
+  String eNS_URI = "hr.xmi";
 
   /**
    * The package namespace name.
