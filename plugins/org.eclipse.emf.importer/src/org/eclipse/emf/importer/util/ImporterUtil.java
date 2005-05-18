@@ -137,6 +137,16 @@ public class ImporterUtil
       
       setSeverity(baseStatus.getSeverity());
     }
+    
+    public void setPlugin(String pluginId)
+    {
+      super.setPlugin(pluginId);
+    }
+    
+    public void setCode(int code)
+    {
+      super.setCode(code);
+    }
   }
   
   public static MultiStatus mergeStatus(IStatus baseStatus, IStatus statusToBeMerged)
@@ -168,6 +178,22 @@ public class ImporterUtil
       multiStatus.merge(statusToBeMerged);
     }
     return multiStatus;
+  }
+
+  /**
+   * Creates a new status based on the specified status, setting a new pluginID and
+   * code.
+   * @param baseStatus
+   * @param pluginID
+   * @param code
+   * @return IStatus
+   */
+  public static IStatus createStatus(IStatus baseStatus, String pluginID, int code)
+  {
+    MergedStatus mergedStatus = new MergedStatus(baseStatus);
+    mergedStatus.setPlugin(pluginID);
+    mergedStatus.setCode(code);
+    return mergedStatus;
   }
   
   public static IStatus createErrorStatus(Exception exception, boolean showErrorDialog)
