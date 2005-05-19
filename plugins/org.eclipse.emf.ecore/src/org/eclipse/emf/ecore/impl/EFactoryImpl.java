@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.10 2005/04/28 18:40:09 elena Exp $
+ * $Id: EFactoryImpl.java,v 1.11 2005/05/19 11:22:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -459,23 +459,23 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       throw new IllegalArgumentException("Invalid value: '"+objectValue+"' for datatype :"+eDataType.getName());
     }
 
-    if (objectValue instanceof Character)
+    if (objectValue == null)
+    {
+      return null;
+    }
+    else if (objectValue instanceof Character)
     {
       int charInt = ((Character) objectValue).charValue();
       Integer value = new Integer(charInt);
       return value.toString();
     }
-    else if (objectValue instanceof Date)
+    else if (objectValue.getClass() == Date.class)
     {
       return EDATE_FORMATS[0].format((Date)objectValue);
     }
-    else if (objectValue != null)
-    {
-      return objectValue.toString();
-    }
     else
     {
-      return null;
+      return objectValue.toString();
     }
   }
 
