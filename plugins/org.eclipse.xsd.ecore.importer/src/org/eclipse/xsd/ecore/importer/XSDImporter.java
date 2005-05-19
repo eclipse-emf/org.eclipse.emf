@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporter.java,v 1.2 2005/05/16 14:22:57 marcelop Exp $
+ * $Id: XSDImporter.java,v 1.3 2005/05/19 16:47:39 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
@@ -208,13 +208,14 @@ public class XSDImporter extends ModelImporter
     }
   }
 
-  public void saveGenModelAndEPackages(IProgressMonitor progressMonitor) throws Exception
+  protected List computeResourcesToBeSaved()
   {
-    super.saveGenModelAndEPackages(progressMonitor);
+    List resources = super.computeResourcesToBeSaved();
     if (getMappingRoot() != null)
     {
-      getMappingRoot().eResource().save(Collections.EMPTY_MAP);
+      resources.add(getMappingRoot().eResource());
     }
+    return resources;
   }
 
   protected void loadOriginalGenModel(URI genModelURI)
