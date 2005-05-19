@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterApplication.java,v 1.13 2005/05/19 13:54:17 marcelop Exp $
+ * $Id: RoseImporterApplication.java,v 1.14 2005/05/19 16:48:40 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -140,6 +140,8 @@ public class RoseImporterApplication extends ModelImporterApplication
     }
     else if (arguments[index].equalsIgnoreCase("-refPackage"))
     {
+      System.out.println("**** Instead of -refPackage you should be using -refGenModel");
+      
       if (nameToReferencedPackageInfo == null)
       {
         nameToReferencedPackageInfo = new HashMap();
