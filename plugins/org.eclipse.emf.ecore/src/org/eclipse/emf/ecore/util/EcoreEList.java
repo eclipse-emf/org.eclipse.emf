@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEList.java,v 1.4 2005/04/29 18:12:02 emerks Exp $
+ * $Id: EcoreEList.java,v 1.5 2005/05/19 11:16:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -424,6 +424,19 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     extends BasicEList.UnmodifiableEList 
     implements InternalEList.Unsettable, EStructuralFeature.Setting
   {
+    public static class FastCompare extends EcoreEList.UnmodifiableEList
+    {
+      public FastCompare(InternalEObject owner, EStructuralFeature eStructuralFeature, int size, Object [] data)
+      {
+        super(owner, eStructuralFeature, size, data);
+      }
+      
+      protected boolean useEquals()
+      {
+        return false;
+      }
+    }
+    
     protected final InternalEObject owner;
     protected final EStructuralFeature eStructuralFeature;
 
