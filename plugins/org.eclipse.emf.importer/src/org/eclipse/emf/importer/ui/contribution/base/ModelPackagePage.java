@@ -37,6 +37,7 @@ import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
@@ -48,7 +49,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -154,24 +154,41 @@ public class ModelPackagePage extends ModelImporterPage
 
   public void createControl(Composite parent)
   {
-    Composite composite = new Composite(parent, SWT.NONE);
-    {
-      GridLayout layout = new GridLayout();
-      layout.numColumns = 2;
-      layout.verticalSpacing = 12;
-      composite.setLayout(layout);
-
-      GridData data = new GridData();
-      data.verticalAlignment = GridData.FILL;
-      data.grabExcessVerticalSpace = true;
-      data.horizontalAlignment = GridData.FILL;
-      composite.setLayoutData(data);
-    }
-
-    createPackageControl(composite);
+    Composite composite = null;
     if (showReferencedGenModels())
     {
-      createReferencedGenModelControl(composite);
+      composite = new SashForm(parent, SWT.VERTICAL); 
+      composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+    }
+    else
+    {
+      composite = new Composite(parent, SWT.NONE);
+      GridLayout layout = new GridLayout();
+      layout.verticalSpacing = 12;
+      composite.setLayout(layout);
+      composite.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL));
+    }
+    
+    Composite packageComposite = new Composite(composite, SWT.NONE);
+    {
+      GridLayout layout = new GridLayout();
+      layout.verticalSpacing = 12;
+      packageComposite.setLayout(layout);
+      packageComposite.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL));      
+    }
+    createPackageControl(packageComposite);
+    
+    if (showReferencedGenModels())
+    {
+      Composite referencedGenModelComposite = new Composite(composite, SWT.NONE);
+      {
+        GridLayout layout = new GridLayout();
+        layout.verticalSpacing = 12;
+        referencedGenModelComposite.setLayout(layout);
+        referencedGenModelComposite.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL));      
+      }
+      createReferencedGenModelControl(referencedGenModelComposite);
+      ((SashForm)composite).setWeights(new int[] { 70, 30 });
     }
 
     setControl(composite);
@@ -179,28 +196,27 @@ public class ModelPackagePage extends ModelImporterPage
 
   protected void createPackageControl(Composite parent)
   {
-    Label packagesLabel = new Label(parent, SWT.LEFT);
+    Composite composite = new Composite(parent, SWT.NONE);
+    composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+    {
+      GridLayout layout = new GridLayout(2, false);
+      layout.marginLeft = -5; 
+      layout.marginRight = -5;
+      layout.marginTop = -5;
+      layout.marginBottom = -5;
+      composite.setLayout(layout);
+    }
+    
+    Label packagesLabel = new Label(composite, SWT.LEFT);
     packagesLabel.setText(getPackagesLabel());
-    {
-      GridData data = new GridData();
-      data.horizontalAlignment = GridData.FILL;
-      packagesLabel.setLayoutData(data);
-    }
+    packagesLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-    Composite selectionComposite = new Composite(parent, SWT.NONE);
-    {
-      GridData data = new GridData();
-      data.horizontalAlignment = GridData.END;
-      selectionComposite.setLayoutData(data);
-
-      RowLayout layout = new RowLayout();
-      layout.justify = true;
-      layout.pack = true;
-      layout.spacing = 5;
-      selectionComposite.setLayout(layout);
-    }
+    Composite selectionComposite = new Composite(composite, SWT.NONE);
+    selectionComposite.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+    selectionComposite.setLayout(new GridLayout(2, true));
 
     Button selectAllButton = new Button(selectionComposite, SWT.PUSH);
+    selectAllButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
     selectAllButton.setText(getSelectAllLabel());
     selectAllButton.addSelectionListener(new SelectionAdapter()
       {
@@ -212,6 +228,7 @@ public class ModelPackagePage extends ModelImporterPage
       });
 
     Button deselectAllButton = new Button(selectionComposite, SWT.PUSH);
+    deselectAllButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
     deselectAllButton.setText(getDeselectAllLabel());
     deselectAllButton.addSelectionListener(new SelectionAdapter()
       {
@@ -436,22 +453,24 @@ public class ModelPackagePage extends ModelImporterPage
 
   protected void createReferencedGenModelControl(Composite parent)
   {
-    Label referencedGenModelsLabel = new Label(parent, SWT.LEFT);
+    Composite composite = new Composite(parent, SWT.NONE);
+    composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
     {
-      referencedGenModelsLabel.setText(getReferencedGenModelLabel());
-
-      GridData data = new GridData();
-      data.horizontalAlignment = GridData.FILL;
-      referencedGenModelsLabel.setLayoutData(data);
+      GridLayout layout = new GridLayout(2, false);
+      layout.marginLeft = -5; 
+      layout.marginRight = -5;
+      layout.marginTop = -5;
+      layout.marginBottom = -5;
+      composite.setLayout(layout);
     }
+    
+    Label referencedGenModelsLabel = new Label(composite, SWT.LEFT);
+    referencedGenModelsLabel.setText(getReferencedGenModelLabel());
+    referencedGenModelsLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-    Button referencedGenModelsTreeBrowseButton = new Button(parent, SWT.PUSH);
+    Button referencedGenModelsTreeBrowseButton = new Button(composite, SWT.PUSH);
     referencedGenModelsTreeBrowseButton.setText(getBrowseButtonLabel());
-    {
-      GridData data = new GridData();
-      data.horizontalAlignment = GridData.END;
-      referencedGenModelsTreeBrowseButton.setLayoutData(data);
-    }
+    referencedGenModelsTreeBrowseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 
     referencedGenModelsTreeBrowseButton.addSelectionListener(new SelectionAdapter()
       {
@@ -494,16 +513,9 @@ public class ModelPackagePage extends ModelImporterPage
       });
 
     final Tree referencedGenModelsTree = new Tree(parent, SWT.CHECK | SWT.BORDER | SWT.MULTI);
+    referencedGenModelsTree.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL));
+
     referencedGenModelsCheckboxTreeViewer = new CheckboxTreeViewer(referencedGenModelsTree);
-    {
-      GridData data = new GridData();
-      data.verticalAlignment = GridData.FILL;
-      data.grabExcessHorizontalSpace = true;
-      data.horizontalAlignment = GridData.FILL;
-      data.horizontalSpan = 2;
-      data.heightHint = 60;
-      referencedGenModelsTree.setLayoutData(data);
-    }
     GenModelItemProviderAdapterFactory genModelItemProviderAdapterFactory = new GenModelItemProviderAdapterFactory()
       {
         public Adapter createGenPackageAdapter()
