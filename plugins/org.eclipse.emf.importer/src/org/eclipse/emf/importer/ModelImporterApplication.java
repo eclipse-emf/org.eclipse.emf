@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.7 2005/05/18 15:25:28 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.8 2005/05/19 13:52:50 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -476,11 +476,6 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       genModel.getUsedGenPackages().addAll(referencedGenModel.getGenPackages());
       referencedGenModel.getForeignModel().addAll(genModel.getForeignModel());
       modelImporter.traverseGenPackages(referencedGenModel.getGenPackages());
-      if (!referencedGenModel.getGenPackages().isEmpty())
-      {
-        GenPackage firstGenPackage = (GenPackage)referencedGenModel.getGenPackages().get(0);
-        referencedGenModel.setModelName(firstGenPackage.getPackageName());
-      }
 
       for (Iterator i = referencedGenModel.getGenPackages().iterator(); i.hasNext();)
       {
@@ -497,6 +492,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
         {
           if (referencedGenModel.getGenPackages().size() == 1)
           {
+            referencedGenModel.setModelName("ecore");
             referencedGenModel.setBooleanFlagsField("eFlags");
             referencedGenModel.setBooleanFlagsReservedBits(8);
           }
@@ -509,7 +505,12 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
             ecoreGenModel.setBooleanFlagsField("eFlags");
             ecoreGenModel.setBooleanFlagsReservedBits(8);
             ecoreGenModel.getForeignModel().addAll(genModel.getForeignModel());
+            ecoreGenModel.setModelName("ecore");
           }
+        }
+        else if (referencedGenModel.getModelName() == null)
+        {
+          referencedGenModel.setModelName(genPackage.getPackageName());
         }
       }
     }    
