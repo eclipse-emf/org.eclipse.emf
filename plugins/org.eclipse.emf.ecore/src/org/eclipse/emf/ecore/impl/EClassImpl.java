@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.14 2005/05/10 11:46:20 emerks Exp $
+ * $Id: EClassImpl.java,v 1.15 2005/05/19 11:16:34 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -114,7 +114,14 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     getEAllStructuralFeatures();
     getEAllSuperTypes();
 
+    getESuperAdapter().getSubclasses().clear();
+    
     super.freeze();
+  }
+  
+  public boolean isFrozen()
+  {
+    return super.isFrozen();
   }
 
   /**
@@ -152,10 +159,9 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return eStructuralFeatures;
   }
 
-  public EList getEAllAttributesGen()
+  public EList getEAllAttributes()
   {
-    ESuperAdapter a = getESuperAdapter(); 
-    if (eAllAttributes == null || a.isAllAttributesCollectionModified())
+    if (eAllAttributes == null)
     {
       eIDAttribute = null;
 
@@ -195,7 +201,6 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             return false;
           }
         };
-      a.setAllAttributesCollectionModified(false);
 
       for (Iterator i = getESuperTypes().iterator(); i.hasNext(); )
       {
@@ -213,7 +218,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
       attributes.shrink();
       eAttributes = 
-        new EcoreEList.UnmodifiableEList
+        new EcoreEList.UnmodifiableEList.FastCompare
           (this, EcorePackage.eINSTANCE.getEClass_EAttributes(), attributes.size(), attributes.data())
         {
           public void addUnique(Object object)
@@ -231,22 +236,17 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       result.addAll(eAttributes);
       result.shrink();
       eAllAttributes = 
-        new EcoreEList.UnmodifiableEList
+        new EcoreEList.UnmodifiableEList.FastCompare
           (this, EcorePackage.eINSTANCE.getEClass_EAllAttributes(), result.size(), result.data());
+      getESuperAdapter().setAllAttributesCollectionModified(false);
     }
 
     return eAllAttributes;
   }
 
-  public EList getEAllAttributes()
+  public EList getEAllReferences()
   {
-    return isFrozen() ? eAllAttributes : getEAllAttributesGen();
-  }
-
-  public EList getEAllReferencesGen()
-  {
-    ESuperAdapter a = getESuperAdapter();
-    if (eAllReferences == null || a.isAllReferencesCollectionModified())
+    if (eAllReferences == null)
     {
       class ReferenceList extends UniqueEList
       {
@@ -266,7 +266,6 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       }
       BasicEList result = new ReferenceList();
       BasicEList references = new ReferenceList();
-      a.setAllReferencesCollectionModified(false);
 
       for (Iterator i = getESuperTypes().iterator(); i.hasNext(); )
       {
@@ -284,7 +283,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
       references.shrink();
       eReferences = 
-        new EcoreEList.UnmodifiableEList
+        new EcoreEList.UnmodifiableEList.FastCompare
           (this, EcorePackage.eINSTANCE.getEClass_EReferences(), references.size(), references.data())
         {
           public void addUnique(Object object)
@@ -302,16 +301,12 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       result.addAll(eReferences);
       result.shrink();
       eAllReferences = 
-        new EcoreEList.UnmodifiableEList
+        new EcoreEList.UnmodifiableEList.FastCompare
           (this, EcorePackage.eINSTANCE.getEClass_EAllReferences(), result.size(), result.data());
+      getESuperAdapter().setAllReferencesCollectionModified(false);
     }
 
     return eAllReferences;
-  }
-
-  public EList getEAllReferences()
-  {
-    return isFrozen() ? eAllReferences : getEAllReferencesGen();
   }
 
   /**
@@ -341,7 +336,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * <!-- end-user-doc -->
    * @generated modifiable
    */
-  public EList getEAllStructuralFeaturesGen() 
+  public EList getEAllStructuralFeatures() 
   {
     // The algorithm for the order of the features in this list should never change.
     // Also, the fact that a new list is created whenever the contents change 
@@ -350,8 +345,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     // and they will need to agree to any change,
     // so that they can adjust their own code.
     //
-    ESuperAdapter a = getESuperAdapter();
-    if (eAllStructuralFeatures == null || a.isAllStructuralFeaturesCollectionModified())
+    if (eAllStructuralFeatures == null)
     {
       class EStructuralFeatureUniqueEList extends UniqueEList
       {
@@ -367,7 +361,6 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       }
 
       BasicEList result = new EStructuralFeatureUniqueEList();
-      a.setAllStructuralFeaturesCollectionModified(false);
 
       for (Iterator i = getESuperTypes().iterator(); i.hasNext(); )
       {
@@ -381,7 +374,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       }
       result.addAll(getEStructuralFeatures());
 
-      class EAllStructuralFeaturesList extends EcoreEList.UnmodifiableEList implements FeatureSubsetSupplier
+      class EAllStructuralFeaturesList extends EcoreEList.UnmodifiableEList.FastCompare implements FeatureSubsetSupplier
       {
         protected EStructuralFeature [] containments;
         protected EStructuralFeature [] crossReferences;
@@ -483,6 +476,8 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       }
 
       eNameToFeatureMap = null; 
+      
+      getESuperAdapter().setAllStructuralFeaturesCollectionModified(false);
     }
 
     return eAllStructuralFeatures;
@@ -490,20 +485,14 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   
   private static final EStructuralFeature[] NO_EALL_STRUCTURE_FEATURES_DATA = {};
 
-  public EList getEAllStructuralFeatures()
-  {
-    return isFrozen() ? eAllStructuralFeatures : getEAllStructuralFeaturesGen();
-  }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated modifiable
    */
-  public EList getEAllOperationsGen()
+  public EList getEAllOperations()
   {
-    ESuperAdapter a = getESuperAdapter(); 
-    if (eAllOperations == null || a.isAllOperationsCollectionModified())
+    if (eAllOperations == null)
     {
       BasicEList result = 
         new UniqueEList()
@@ -518,7 +507,6 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             return false;
           }
         };
-      a.setAllOperationsCollectionModified(false);
 
       for (Iterator i = getESuperTypes().iterator(); i.hasNext(); )
       {
@@ -527,16 +515,12 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       result.addAll(getEOperations());
       result.shrink();
       eAllOperations = 
-        new EcoreEList.UnmodifiableEList
+        new EcoreEList.UnmodifiableEList.FastCompare
           (this, EcorePackage.eINSTANCE.getEClass_EAllOperations(), result.size(), result.data());
+      getESuperAdapter().setAllOperationsCollectionModified(false);
     }
 
     return eAllOperations;
-  }
-
-  public EList getEAllOperations()
-  {
-    return isFrozen() ? eAllOperations : getEAllOperationsGen();
   }
 
   /**
@@ -585,10 +569,9 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
-  public EList getEAllContainmentsGen()
+  public EList getEAllContainments()
   {
-    ESuperAdapter a = getESuperAdapter();
-    if (eAllContainments == null || a.isAllContainmentsCollectionModified())
+    if (eAllContainments == null)
     {
       BasicEList result = 
         new UniqueEList()
@@ -603,7 +586,6 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             return false;
           }
         };
-      a.setAllContainmentsCollectionModified(false);
 
       for (Iterator i = getEAllReferences().iterator(); i.hasNext(); )
       {
@@ -616,16 +598,12 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
       result.shrink();
       eAllContainments = 
-        new EcoreEList.UnmodifiableEList
+        new EcoreEList.UnmodifiableEList.FastCompare
           (this, EcorePackage.eINSTANCE.getEClass_EAllContainments(), result.size(), result.data()); 
+      getESuperAdapter().setAllContainmentsCollectionModified(false);
     }
 
     return eAllContainments;
-  }
-
-  public EList getEAllContainments()
-  {
-    return isFrozen() ? eAllContainments : getEAllContainmentsGen();
   }
 
   public EStructuralFeature getEStructuralFeature(String name)
@@ -1062,12 +1040,6 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return result.toString();
   }
 
-  public EList getESuperTypes()
-  {
-    ESuperAdapter a = getESuperAdapter();
-    return this.getESuperTypesGen();
-  }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1081,7 +1053,13 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     }
     return eSuperTypes;
   }
-
+  
+  public EList getESuperTypes()
+  {
+    getESuperAdapter();
+    return getESuperTypesGen();
+  }
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1110,10 +1088,9 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   /**
    * Returns all the supertypes in the hierarchy.
    */
-  public EList getEAllSuperTypesGen()
+  public EList getEAllSuperTypes()
   {
-    ESuperAdapter a = getESuperAdapter(); 
-    if (eAllSuperTypes == null || a.isAllSuperCollectionModified())
+    if (eAllSuperTypes == null)
     {
       BasicEList result = 
         new UniqueEList()
@@ -1128,7 +1105,6 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             return false;
           }
         };
-      a.setAllSuperCollectionModified(false);
 
       EList immediateSupers = getESuperTypes();
       Iterator i = immediateSupers.iterator();
@@ -1142,16 +1118,12 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
       result.shrink();
       eAllSuperTypes = 
-        new EcoreEList.UnmodifiableEList
+        new EcoreEList.UnmodifiableEList.FastCompare
           (this, EcorePackage.eINSTANCE.getEClass_EAllSuperTypes(), result.size(), result.data());
+      getESuperAdapter().setAllSuperCollectionModified(false);
     }
 
     return eAllSuperTypes;
-  }
-
-  public EList getEAllSuperTypes()
-  {
-    return isFrozen() ? eAllSuperTypes : getEAllSuperTypesGen();
   }
 
   protected boolean dynamicIsInstance(EObject eObject)
@@ -1169,9 +1141,31 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           void setFlags(int featureId)
           {
             super.setFlags(featureId);
+            
+            if (isAllAttributesCollectionModified())
+            {
+              eAllAttributes = null;
+            }
+            if (isAllReferencesCollectionModified())
+            {
+              eAllReferences = null;
+            }
             if (isAllStructuralFeaturesCollectionModified())
             {
+              eAllStructuralFeatures = null;
               eAllStructuralFeaturesData = null;
+            }
+            if (isAllOperationsCollectionModified())
+            {
+              eAllOperations = null;
+            }
+            if (isAllContainmentsCollectionModified())
+            {
+              eAllContainments = null;
+            }
+            if (isAllSuperCollectionModified())
+            {
+              eAllSuperTypes = null;
             }
           }
         };
@@ -1189,7 +1183,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       for (Iterator eSuperTypes =  getESuperTypes().iterator(); eSuperTypes.hasNext(); )
       {
         EClass eSuperType = (EClass)eSuperTypes.next();
-        ESuperAdapter eSuperAdapter = ESuperAdapter.getESuperAdapter(eSuperType);
+        ESuperAdapter eSuperAdapter = ((ESuperAdapter.Holder)eSuperType).getESuperAdapter();
         eSuperAdapter.getSubclasses().add(this);
       }
     }
