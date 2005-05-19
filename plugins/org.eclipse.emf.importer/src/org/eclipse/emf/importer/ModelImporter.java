@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.7 2005/05/17 15:44:22 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.8 2005/05/19 14:47:45 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -152,7 +152,6 @@ public abstract class ModelImporter
 
   protected List fileExtensions;
 
-  //  protected IFile originalGenModelFile;
   protected IPath originalGenModelPath;
   protected GenModel originalGenModel;
 
@@ -586,7 +585,7 @@ public abstract class ModelImporter
       externalGenModelList = new UniqueEList.FastCompare();
       if (externalGenModelResourceSet == null)
       {
-        externalGenModelResourceSet = createResourceSet();
+        externalGenModelResourceSet = getOriginalGenModel() != null ? getOriginalGenModel().eResource().getResourceSet() : createResourceSet();
       }
       Map ePackageToGenModelMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
       for (Iterator i = getEPackages().iterator(); i.hasNext(); )
@@ -597,8 +596,12 @@ public abstract class ModelImporter
         {
           try
           {
-            Resource genModelResource = externalGenModelResourceSet.getResource(genModelURI, true);
-            externalGenModelList.add(genModelResource.getContents().get(0));
+            Resource genModelResource = externalGenModelResourceSet.getResource(genModelURI, false);
+            if (genModelResource == null)
+            {
+              genModelResource = externalGenModelResourceSet.getResource(genModelURI, true);
+              externalGenModelList.add(genModelResource.getContents().get(0));
+            }
           }
           catch (Exception exception)
           {
@@ -832,11 +835,6 @@ public abstract class ModelImporter
       GenPackage genPackage = (GenPackage)i.next();
       resources.add(genPackage.getEcorePackage().eResource());
     }
-    for (Iterator i = getGenModel().getUsedGenPackages().iterator(); i.hasNext();)
-    {
-      GenPackage genPackage = (GenPackage)i.next();
-      resources.add(genPackage.getEcorePackage().eResource());
-    }    
     return resources;
   }
 
