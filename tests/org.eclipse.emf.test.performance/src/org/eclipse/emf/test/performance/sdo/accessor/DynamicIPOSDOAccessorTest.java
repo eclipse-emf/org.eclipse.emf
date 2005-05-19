@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.52 2005/05/18 21:40:47 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.53 2005/05/19 18:42:19 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -226,12 +226,12 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_100));
     //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(15).setRepetitions(REPETITIONS_500));
 
-          testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
-          testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
+          testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
     //not tested    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
     //not tested    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-          testSuite.addTest(new DynamicIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_20));
-          testSuite.addTest(new DynamicIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_20));
+          testSuite.addTest(new DynamicIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_50));
+          testSuite.addTest(new DynamicIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_50));
 
     return testSuite;
   }

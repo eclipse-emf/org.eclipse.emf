@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticBidirectionalTest.java,v 1.14 2005/05/17 17:39:27 bportier Exp $
+ * $Id: StaticBidirectionalTest.java,v 1.15 2005/05/19 18:42:19 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -77,7 +77,7 @@ public class StaticBidirectionalTest extends EMFPerformanceTestCase
   {
     TestSuite testSuite = new TestSuite();
 
-    testSuite.addTest(new StaticBidirectionalTest("setAdaptedByGenerated").setWarmUp(0).setRepetitions(35));
+    //OK   testSuite.addTest(new StaticBidirectionalTest("setAdaptedByGenerated").setWarmUp(0).setRepetitions(35));
     //HOLD testSuite.addTest(new StaticBidirectionalTest("setByGenerated").setWarmUp(1).setRepetitions(REPETITIONS_20));
     //HOLD testSuite.addTest(new StaticBidirectionalTest("setWithESet").setWarmUp(1).setRepetitions(REPETITIONS_20));
 
