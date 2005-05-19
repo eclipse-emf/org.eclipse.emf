@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.8 2005/05/19 14:47:45 emerks Exp $
+ * $Id: ModelImporter.java,v 1.9 2005/05/19 16:49:54 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -829,12 +829,25 @@ public abstract class ModelImporter
   protected List computeResourcesToBeSaved()
   {
     List resources = new UniqueEList.FastCompare();
-    resources.add(getGenModel().eResource());
+    Resource genModelResource = getGenModel().eResource();
+    resources.add(genModelResource);
     for (Iterator i = getGenModel().getGenPackages().iterator(); i.hasNext();)
     {
       GenPackage genPackage = (GenPackage)i.next();
       resources.add(genPackage.getEcorePackage().eResource());
     }
+    
+    // Handle application genmodel stub
+    //
+    for (Iterator i = getGenModel().getUsedGenPackages().iterator(); i.hasNext();)
+    {
+      GenPackage genPackage = (GenPackage)i.next();
+      if (genPackage.eResource() == genModelResource)
+      {
+        resources.add(genPackage.getEcorePackage().eResource());
+      }
+    }
+    
     return resources;
   }
 
