@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.52 2005/05/19 18:42:19 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.53 2005/05/20 02:04:35 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -51,7 +51,7 @@ import commonj.sdo.Property;
 public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 {
 
-  protected static final int ITERATIONS_1K = 1000000;
+  protected static final int ITERATIONS_1K = 2000000;
 
   protected static final int ITERATIONS_40K = 32000000;
 
@@ -77,7 +77,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   public StaticIPOSDOAccessorTest(String name)
   {
     super(name);
-    ITERATIONS_2M = 2000000;
+    ITERATIONS_2M = 4000000;
     ITERATIONS_500K = 500000;
   }
 
@@ -112,7 +112,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(5).setRepetitions(REPETITIONS_20));
     //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_20));
 
-          testSuite.addTest(new StaticIPOSDOAccessorTest("getByGenerated").setWarmUp(1).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("getByGenerated").setWarmUp(1).setRepetitions(REPETITIONS_50));
           testSuite.addTest(new StaticIPOSDOAccessorTest("setByGenerated").setWarmUp(1).setRepetitions(REPETITIONS_50));
           testSuite.addTest(new StaticIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_50));
     //OK  testSuite.addTest(new StaticIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
