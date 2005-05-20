@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.54 2005/05/20 02:04:35 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.55 2005/05/20 20:33:20 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -51,6 +51,8 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
   protected static final int REPETITIONS_20 = 20;
 
   protected static final int REPETITIONS_50 = 50;
+
+  protected static final int REPETITIONS_80 = 80;
 
   protected static final int REPETITIONS_100 = 100;
 
@@ -226,12 +228,12 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_100));
     //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(15).setRepetitions(REPETITIONS_500));
 
-          testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_50));
+    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_50));
     //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
     //not tested    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
     //not tested    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-          testSuite.addTest(new DynamicIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_50));
-          testSuite.addTest(new DynamicIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_50));
+          testSuite.addTest(new DynamicIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
+          testSuite.addTest(new DynamicIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
 
     return testSuite;
   }
