@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.55 2005/05/20 20:33:20 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.56 2005/05/21 13:27:09 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -58,9 +58,9 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected static final int REPETITIONS_500 = 500;
 
-  protected static final int ITERATIONS_150 = 500000;
+  protected static int ITERATIONS_150 = 700000;
 
-  protected static final int ITERATIONS_300 = 1200000;
+  protected static int ITERATIONS_300 = 1200000;
 
   protected static final int ITERATIONS_2_5K = 2000000;
 
@@ -232,7 +232,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
     //not tested    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
     //not tested    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-          testSuite.addTest(new DynamicIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
+    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
           testSuite.addTest(new DynamicIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
 
     return testSuite;
