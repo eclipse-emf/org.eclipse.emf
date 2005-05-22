@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.2 2005/05/16 18:44:40 marcelop Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.3 2005/05/22 13:05:21 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -1747,7 +1747,11 @@ public class RoseEcoreBuilder implements RoseVisitor
     for (Iterator i = eStructuralFeatureToXMLNamespaceMap.entrySet().iterator(); i.hasNext();)
     {
       Map.Entry entry = (Map.Entry)i.next();
-      ExtendedMetaData.INSTANCE.setNamespace((EStructuralFeature)entry.getKey(), (String)entry.getValue());
+      EStructuralFeature eStructuralFeature = (EStructuralFeature)entry.getKey();
+      if (eStructuralFeature.eContainer() != null)
+      {
+        ExtendedMetaData.INSTANCE.setNamespace((EStructuralFeature)entry.getKey(), (String)entry.getValue());
+      }
     }
   }
 
