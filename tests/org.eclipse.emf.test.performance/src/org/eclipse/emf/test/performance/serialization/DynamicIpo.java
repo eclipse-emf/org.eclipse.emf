@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpo.java,v 1.7 2005/05/13 14:33:23 bportier Exp $
+ * $Id: DynamicIpo.java,v 1.8 2005/05/22 14:51:22 bportier Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -75,8 +75,8 @@ public class DynamicIpo extends EMFPerformanceTestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("DynamicIpo");
-    //OK ts.addTest(new DynamicIpo("testSer").setRepetitions(REPETITIONS));
-    //OK ts.addTest(new DynamicIpo("testSerCaching").setRepetitions(REPETITIONS));
+    ts.addTest(new DynamicIpo("testSer").setRepetitions(REPETITIONS));
+    ts.addTest(new DynamicIpo("testSerCaching").setRepetitions(REPETITIONS));
     return ts;
   }
 

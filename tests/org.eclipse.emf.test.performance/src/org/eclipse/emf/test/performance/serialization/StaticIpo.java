@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIpo.java,v 1.4 2005/05/13 14:33:23 bportier Exp $
+ * $Id: StaticIpo.java,v 1.5 2005/05/22 14:51:22 bportier Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -42,8 +42,8 @@ public class StaticIpo extends DynamicIpo
   public static Test suite()
   {
     TestSuite ts = new TestSuite("StaticIpo");
-    //OK ts.addTest(new StaticIpo("testSer").setRepetitions(REPETITIONS));
-    //OK ts.addTest(new StaticIpo("testSerCaching").setRepetitions(REPETITIONS));
+    ts.addTest(new StaticIpo("testSer").setRepetitions(REPETITIONS));
+    ts.addTest(new StaticIpo("testSerCaching").setRepetitions(REPETITIONS));
     return ts;
   }
 

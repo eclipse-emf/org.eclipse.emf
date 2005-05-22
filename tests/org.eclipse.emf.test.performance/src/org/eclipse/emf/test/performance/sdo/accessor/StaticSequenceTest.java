@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSequenceTest.java,v 1.13 2005/05/17 19:25:42 bportier Exp $
+ * $Id: StaticSequenceTest.java,v 1.14 2005/05/22 14:51:22 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -45,16 +45,17 @@ public class StaticSequenceTest extends DynamicSequenceTest
   {
     TestSuite testSuite = new TestSuite();
 
-    //OK testSuite.addTest(new StaticSequenceTest("getSequenceByGenerated").setWarmUp(1).setRepetitions(REPETITIONS));
-    //OK testSuite.addTest(new StaticSequenceTest("getDerivedByGenerated").setWarmUp(1).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticSequenceTest("getSequenceByGenerated").setWarmUp(1).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticSequenceTest("getDerivedByGenerated").setWarmUp(1).setRepetitions(REPETITIONS));
 
-    //OK testSuite.addTest(new StaticSequenceTest("getSequenceWithEGet").setWarmUp(1).setRepetitions(REPETITIONS));
-    //OK testSuite.addTest(new StaticSequenceTest("getDerivedWithEGet").setWarmUp(1).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticSequenceTest("getSequenceWithEGet").setWarmUp(1).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticSequenceTest("getDerivedWithEGet").setWarmUp(1).setRepetitions(REPETITIONS));
 
-    //OK testSuite.addTest(new StaticSequenceTest("getSequence").setWarmUp(1).setRepetitions(REPETITIONS));
-    //HOLD testSuite.addTest(new StaticSequenceTest("getDerived").setWarmUp(1).setRepetitions(70));
+    testSuite.addTest(new StaticSequenceTest("getSequence").setWarmUp(1).setRepetitions(REPETITIONS));
+    //HOLD
+    testSuite.addTest(new StaticSequenceTest("getDerived").setWarmUp(1).setRepetitions(70));
 
-    //OK testSuite.addTest(new StaticSequenceTest("contains").setWarmUp(1).setRepetitions(REPETITIONS));
+    testSuite.addTest(new StaticSequenceTest("contains").setWarmUp(1).setRepetitions(REPETITIONS));
 
     return testSuite;
   }

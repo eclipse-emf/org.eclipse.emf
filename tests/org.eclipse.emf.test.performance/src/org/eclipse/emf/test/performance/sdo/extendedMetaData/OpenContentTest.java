@@ -69,8 +69,8 @@ public class OpenContentTest extends EMFPerformanceTestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("OpenContentTest");
-    //OK ts.addTest(new OpenContentTest("demandFeature").setWarmUp(2).setRepetitions(30));
-    //OK ts.addTest(new OpenContentTest("createDemandFeatureDO").setWarmUp(2).setRepetitions(30));
+    ts.addTest(new OpenContentTest("demandFeature").setWarmUp(2).setRepetitions(30));
+    ts.addTest(new OpenContentTest("createDemandFeatureDO").setWarmUp(2).setRepetitions(30));
     return ts;
   }
 

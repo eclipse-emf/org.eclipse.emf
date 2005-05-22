@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.56 2005/05/21 13:27:09 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.57 2005/05/22 14:51:22 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -205,35 +205,38 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
     TestSuite testSuite = new TestSuite();
 
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(3).setRepetitions(REPETITIONS_50));
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectWithESet").setWarmUp(6).setRepetitions(REPETITIONS_100));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectWithEGet").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectWithESet").setWarmUp(6).setRepetitions(REPETITIONS_100));
 
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
-    //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByProperty").setWarmUp(6).setRepetitions(REPETITIONS_100));
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectByIndex").setWarmUp(30).setRepetitions(REPETITIONS_100));
-    //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByIndex").setWarmUp(20).setRepetitions(REPETITIONS_100));
-    //
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(5).setRepetitions(REPETITIONS_100));
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(4).setRepetitions(REPETITIONS_50));
-    //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(10).setRepetitions(REPETITIONS_50));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    //HOLD
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByProperty").setWarmUp(6).setRepetitions(REPETITIONS_100));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectByIndex").setWarmUp(30).setRepetitions(REPETITIONS_100));
+    //HOLD
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByIndex").setWarmUp(20).setRepetitions(REPETITIONS_100));
+    
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(5).setRepetitions(REPETITIONS_100));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(4).setRepetitions(REPETITIONS_50));
+    //HOLD
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(10).setRepetitions(REPETITIONS_50));
 
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(3).setRepetitions(REPETITIONS_50));
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByProperty").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(3).setRepetitions(REPETITIONS_50));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(3).setRepetitions(REPETITIONS_50));
 
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByShortPath").setWarmUp(12).setRepetitions(REPETITIONS_50));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByShortPath").setWarmUp(12).setRepetitions(REPETITIONS_50));
 
     //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_100));
     //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(15).setRepetitions(REPETITIONS_500));
 
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_50));
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_50));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
     //not tested    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
     //not tested    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
-    //OK  testSuite.addTest(new DynamicIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
-          testSuite.addTest(new DynamicIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
 
     return testSuite;
   }

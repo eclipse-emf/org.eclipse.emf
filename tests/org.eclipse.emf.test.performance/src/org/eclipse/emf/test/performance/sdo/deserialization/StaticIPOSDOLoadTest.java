@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOLoadTest.java,v 1.2 2005/05/13 21:11:44 bportier Exp $
+ * $Id: StaticIPOSDOLoadTest.java,v 1.3 2005/05/22 14:51:22 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.deserialization;
 
@@ -38,9 +38,9 @@ public class StaticIPOSDOLoadTest extends DynamicIPOSDOLoadTest
   public static Test suite()
   {
     TestSuite ts = new TestSuite("StaticIPOSDOLoadTest");
-    //OK ts.addTest(new StaticIPOSDOLoadTest("loadWithNoOptions").setRepetitions(REPETITIONS));
-    //OK ts.addTest(new StaticIPOSDOLoadTest("loadWithParserCache").setRepetitions(REPETITIONS));
-    //OK ts.addTest(new StaticIPOSDOLoadTest("loadWithParserAndFeatureMapCache").setRepetitions(REPETITIONS));
+    ts.addTest(new StaticIPOSDOLoadTest("loadWithNoOptions").setRepetitions(REPETITIONS));
+    ts.addTest(new StaticIPOSDOLoadTest("loadWithParserCache").setRepetitions(REPETITIONS));
+    ts.addTest(new StaticIPOSDOLoadTest("loadWithParserAndFeatureMapCache").setRepetitions(REPETITIONS));
     return ts;
   }
 
