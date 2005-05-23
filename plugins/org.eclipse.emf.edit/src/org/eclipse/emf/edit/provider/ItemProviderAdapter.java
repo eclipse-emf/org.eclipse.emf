@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.14 2005/04/22 19:46:31 khussey Exp $
+ * $Id: ItemProviderAdapter.java,v 1.15 2005/05/23 11:49:39 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -2266,8 +2266,18 @@ public class ItemProviderAdapter
 
         switch (notification.getEventType())
         {
-          case Notification.SET:
           case Notification.UNSET:
+          {
+            // Ignore the unset notification for an isMany feature; the value is boolean in this case.
+            //
+            if (feature.isMany())
+            {
+              break;
+            }
+            
+            // continue to next case
+          }
+          case Notification.SET:
           {
             Object oldChild = childrenStore.get(feature, index);
             Object newValue = notification.getNewValue();
