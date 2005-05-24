@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.9 2005/05/19 16:49:54 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.10 2005/05/24 18:43:52 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -192,10 +192,7 @@ public abstract class ModelImporter
     clearEPackagesCollections();
   }
 
-  public String getID()
-  {
-    return null;
-  }
+  public abstract String getID();
 
   public List getFileExtensions()
   {
