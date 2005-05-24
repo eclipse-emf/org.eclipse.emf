@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.36 2005/04/26 17:37:46 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.37 2005/05/24 11:43:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2450,6 +2450,10 @@ public class XMLSaveImpl implements XMLSave
             case ExtendedMetaData.ELEMENT_FEATURE:
             {
               return DATATYPE_ELEMENT_SINGLE;
+            }
+            case ExtendedMetaData.ATTRIBUTE_FEATURE:
+            {
+              return DATATYPE_SINGLE;
             }
           }
         }
