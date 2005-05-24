@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseUtil.java,v 1.1 2005/05/10 17:40:33 davidms Exp $
+ * $Id: RoseUtil.java,v 1.2 2005/05/24 18:22:30 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -33,6 +33,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.importer.rose.RoseImporterPlugin;
 import org.eclipse.emf.importer.rose.parser.RoseLexer;
 import org.eclipse.emf.importer.rose.parser.RoseLoader;
@@ -56,6 +57,12 @@ public class RoseUtil
   protected Map packageNameToNSNameMap = new HashMap();
   protected Map packageNameToNSURIMap = new HashMap();
   protected Map ePackageToInformationMap = new HashMap();
+  protected URIConverter uriConverter;
+  
+  public RoseUtil(URIConverter uriConverter)
+  {
+    this.uriConverter = uriConverter;
+  }
 
   MultiStatus status = new MultiStatus(
     RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(),
@@ -86,7 +93,7 @@ public class RoseUtil
     }
 
     // read mdl file...
-    RoseLoader loader = new RoseLoader(fileName);
+    RoseLoader loader = new RoseLoader(fileName, uriConverter);
     try
     {
       if (loader.isValid())
@@ -341,7 +348,7 @@ public class RoseUtil
     //
     String name = node.getName();
     String roseFile = node.getRoseFileName();
-    RoseLoader loader = new RoseLoader(roseFile);
+    RoseLoader loader = new RoseLoader(roseFile, uriConverter);
     try
     {
       if (loader.isValid())
