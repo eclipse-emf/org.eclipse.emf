@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5 2004/10/07 18:09:00 marcelop Exp $
+ * $Id: plugin.xml,v 1.6 2005/05/24 19:48:54 nickb Exp $
  */
 -->
 
@@ -37,10 +37,8 @@
 <!-- ====================================================================== -->
    <extension
          point="org.eclipse.help.toc">
-      <toc
-            file="toc.xml"
-            primary="true">
-      </toc>
+      <toc file="toc.xml" primary="true"/>
+	  <index path="index"/>
    </extension>
 
 </plugin>
