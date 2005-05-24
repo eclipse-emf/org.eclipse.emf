@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.23 2005/05/16 18:52:38 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.24 2005/05/24 18:36:03 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2551,7 +2551,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public boolean canGenerateTests()
   {
-    return getGenModel().canGenerateTests() && hasClassifiers();
+    return getGenModel().canGenerateTests() && hasClassifiers(true);
   }
 
   public void generateTests(IProgressMonitor progressMonitor)
@@ -2563,25 +2563,28 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       progressMonitor.beginTask("", getGenClasses().size() + getNestedGenPackages().size());
 
-      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString(
-        "_UI_GeneratingJavaClass_message",
-        new Object []{ getQualifiedTestSuiteClassName() }));
-      generate(
-        new SubProgressMonitor(progressMonitor, 1),
-        Generator.EMF_TESTS_PROJECT_STYLE,
-        getGenModel().getEffectiveModelPluginVariables(),
-        getGenModel().getTestsDirectory(),
-        getTestsPackageName(),
-        getTestSuiteClassName(),
-        getGenModel().getPackageTestSuiteEmitter());
-
-      for (Iterator genClasses = getGenClasses().iterator(); genClasses.hasNext();)
+      if (hasClassifiers())
       {
-        GenClass genClass = (GenClass)genClasses.next();
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString(
-          "_UI_Generating_message",
-          new Object []{ genClass.getFormattedName() }));
-        genClass.generateTests(new SubProgressMonitor(progressMonitor, 1));
+          "_UI_GeneratingJavaClass_message",
+          new Object []{ getQualifiedTestSuiteClassName() }));
+        generate(
+          new SubProgressMonitor(progressMonitor, 1),
+          Generator.EMF_TESTS_PROJECT_STYLE,
+          getGenModel().getEffectiveModelPluginVariables(),
+          getGenModel().getTestsDirectory(),
+          getTestsPackageName(),
+          getTestSuiteClassName(),
+          getGenModel().getPackageTestSuiteEmitter());
+  
+        for (Iterator genClasses = getGenClasses().iterator(); genClasses.hasNext();)
+        {
+          GenClass genClass = (GenClass)genClasses.next();
+          progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString(
+            "_UI_Generating_message",
+            new Object []{ genClass.getFormattedName() }));
+          genClass.generateTests(new SubProgressMonitor(progressMonitor, 1));
+        }
       }
 
       for (Iterator nestedGenPackages = getNestedGenPackages().iterator(); nestedGenPackages.hasNext();)
@@ -2608,6 +2611,26 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   public boolean hasClassifiers()
   {
     return getGenClasses().size() + getGenEnums().size() + getGenDataTypes().size() != 0;
+  }
+  
+  public boolean hasClassifiers(boolean traverseNestedPackages)
+  {
+    if (hasClassifiers())
+    {
+      return true;
+    }
+    else if (traverseNestedPackages)
+    {
+      for (Iterator i = getNestedGenPackages().iterator(); i.hasNext();)
+      {
+        GenPackage genPackage = (GenPackage)i.next();
+        if(genPackage.hasClassifiers(true))
+        {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   public boolean reconcile(GenPackage oldGenPackageVersion)
