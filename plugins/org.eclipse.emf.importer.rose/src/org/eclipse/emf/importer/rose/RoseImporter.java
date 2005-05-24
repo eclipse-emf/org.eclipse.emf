@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.5 2005/05/18 23:17:23 marcelop Exp $
+ * $Id: RoseImporter.java,v 1.6 2005/05/24 18:21:48 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -234,15 +234,6 @@ public class RoseImporter extends ModelImporter
   
   protected boolean adjustKnownPathMapSymbols(String roseModelAbsolutePath)
   {
-    if (pathMap.containsKey("VABASE_PLUGINS_PATH") && pathMap.get("VABASE_PLUGINS_PATH") == null)
-    {
-      int index = roseModelAbsolutePath.indexOf(File.separator + "plugins" + File.separator);
-      if (index != -1)
-      {
-        pathMap.put("VABASE_PLUGINS_PATH", roseModelAbsolutePath.substring(0, index + 8));
-        return true;
-      }
-    }
     return false;
   }
   
@@ -264,7 +255,7 @@ public class RoseImporter extends ModelImporter
     IStatus status = loadPathMap(progressMonitor);
     if (status.isOK())
     {
-      if (getPathMap().values().contains(null))
+      if (getPathMap().values().contains(null) && !roseUtil.getStatus().isOK())
       {
         status = new Status(IStatus.ERROR, 
           ImporterPlugin.ID, ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
@@ -373,20 +364,23 @@ public class RoseImporter extends ModelImporter
     for (Iterator i = getPathMap().entrySet().iterator(); i.hasNext();)
     {
       Map.Entry entry = (Map.Entry)i.next();
-      genModel.getForeignModel().add(entry.getKey());
       String value = (String)entry.getValue();
-      if (new Path(value).equals(projectLocation))
+      if (value != null)
       {
-        value = "..";
-        for (int depth = genModelPath.segmentCount(); depth > 2; --depth)
+        genModel.getForeignModel().add(entry.getKey());
+        if (new Path(value).equals(projectLocation))
         {
-          value += "/..";
+          value = "..";
+          for (int depth = genModelPath.segmentCount(); depth > 2; --depth)
+          {
+            value += "/..";
+          }
+          genModel.getForeignModel().add(value);
         }
-        genModel.getForeignModel().add(value);
-      }
-      else
-      {
-        genModel.getForeignModel().add(value);
+        else
+        {
+          genModel.getForeignModel().add(value);
+        }
       }
     }
   }
@@ -426,7 +420,7 @@ public class RoseImporter extends ModelImporter
 
   protected RoseUtil createRoseUtil()
   {
-    RoseUtil roseUtil = new RoseUtil();
+    RoseUtil roseUtil = new RoseUtil(createResourceSet().getURIConverter());
     roseUtil.getRoseEcoreBuilder().noQualify = noQualify;
     roseUtil.getRoseEcoreBuilder().unsettablePrimitive = unsettablePrimitive;
     return roseUtil;
