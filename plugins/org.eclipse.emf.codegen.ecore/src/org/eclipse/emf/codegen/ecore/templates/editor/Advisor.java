@@ -6,7 +6,16 @@ import org.eclipse.emf.codegen.ecore.genmodel.*;
 
 public class Advisor
 {
-  protected final String NL = System.getProperties().getProperty("line.separator");
+  protected static String nl;
+  public static synchronized Advisor create(String lineSeparator)
+  {
+    nl = lineSeparator;
+    Advisor result = new Advisor();
+    nl = null;
+    return result;
+  }
+
+  protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "";
   protected final String TEXT_2 = "/**" + NL + " * <copyright>" + NL + " * </copyright>" + NL + " *" + NL + " * ";
   protected final String TEXT_3 = "Id";

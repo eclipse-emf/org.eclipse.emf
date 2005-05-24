@@ -5,7 +5,16 @@ import org.eclipse.emf.codegen.ecore.genmodel.*;
 
 public class PluginXML
 {
-  protected final String NL = System.getProperties().getProperty("line.separator");
+  protected static String nl;
+  public static synchronized PluginXML create(String lineSeparator)
+  {
+    nl = lineSeparator;
+    PluginXML result = new PluginXML();
+    nl = null;
+    return result;
+  }
+
+  protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + NL + "<?eclipse version=\"3.0\"?>" + NL + "" + NL + "<!--";
   protected final String TEXT_2 = NL;
   protected final String TEXT_3 = "/**" + NL + " * <copyright>" + NL + " * </copyright>" + NL + " *" + NL + " * ";

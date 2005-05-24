@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETSkeleton.java,v 1.3 2004/10/07 11:21:44 emerks Exp $
+ * $Id: JETSkeleton.java,v 1.4 2005/05/24 17:20:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -36,8 +36,14 @@ public class JETSkeleton
   protected final String SKELETON_COMPILATION_UNIT = 
     "public class CLASS" + NL + "{" + NL + "  public String generate(Object argument)" + NL + "  {" + NL + "    return \"\";" + NL + "  }" + NL + "}" + NL;
 
-  protected final String NL_DECLARATION = "  protected final String NL = ";
-  protected final String NL_DECLARATION_TAIL = ";" + NL;
+  protected final String STATIC_NL_DECLARATION = "  protected static String nl;" + NL;
+  protected final String CREATE_METHOD_DECLARATION_HEAD = "  public static synchronized ";
+  protected final String CREATE_METHOD_DECLARATION_MIDDLE = " create(String lineSeparator)" + NL + "  {" + NL + "    nl = lineSeparator;" + NL + "    ";
+  protected final String CREATE_METHOD_DECLARATION_MIDDLE2 = " result = new ";
+  protected final String CREATE_METHOD_DECLARATION_TAIL = "();" + NL + "    nl = null;" + NL + "    return result;" + NL + "  }" + NL + NL;
+  
+  protected final String NL_DECLARATION = "  protected final String NL = nl == null ? (";
+  protected final String NL_DECLARATION_TAIL = ") : nl;" + NL;
   protected final String STRING_BUFFER_DECLARATION = "    StringBuffer stringBuffer = new StringBuffer();" + NL;
   protected final String STRING_BUFFER_RETURN = "    return stringBuffer.toString();" + NL;
 
@@ -110,7 +116,15 @@ public class JETSkeleton
     {
       if (node.getNodeType() == IDOMNode.TYPE)
       {
+        String name = node.getName();
         IDOMNode insertionNode = node.getFirstChild();
+        insertionNode.insertSibling(jdomFactory.createField(STATIC_NL_DECLARATION));
+        insertionNode.insertSibling
+          (jdomFactory.createMethod
+              (CREATE_METHOD_DECLARATION_HEAD + name + 
+                  CREATE_METHOD_DECLARATION_MIDDLE + name + 
+                  CREATE_METHOD_DECLARATION_MIDDLE2 + name + 
+                  CREATE_METHOD_DECLARATION_TAIL));
         insertionNode.insertSibling(jdomFactory.createField(NL_DECLARATION + getNLString() + NL_DECLARATION_TAIL));
         for (Iterator i = constants.iterator(); i.hasNext(); )
         {

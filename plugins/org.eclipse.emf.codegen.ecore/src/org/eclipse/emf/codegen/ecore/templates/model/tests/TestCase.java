@@ -5,7 +5,16 @@ import org.eclipse.emf.codegen.ecore.genmodel.*;
 
 public class TestCase
 {
-  protected final String NL = System.getProperties().getProperty("line.separator");
+  protected static String nl;
+  public static synchronized TestCase create(String lineSeparator)
+  {
+    nl = lineSeparator;
+    TestCase result = new TestCase();
+    nl = null;
+    return result;
+  }
+
+  protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "";
   protected final String TEXT_2 = "/**" + NL + " * <copyright>" + NL + " * </copyright>" + NL + " *" + NL + " * ";
   protected final String TEXT_3 = "Id";
