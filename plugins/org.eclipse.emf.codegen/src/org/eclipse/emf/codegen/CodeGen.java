@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGen.java,v 1.5 2005/05/16 18:39:34 marcelop Exp $
+ * $Id: CodeGen.java,v 1.6 2005/05/24 21:19:43 davidms Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -21,9 +21,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -35,6 +39,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.jet.JETCompiler;
+import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.codegen.jmerge.JControlModel;
 import org.eclipse.emf.codegen.jmerge.JMerger;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
@@ -46,7 +51,61 @@ import org.eclipse.emf.codegen.util.CodeGenUtil;
  * which is called just like main during headless workbench invocation.
  */
 public class CodeGen implements IPlatformRunnable 
-{  
+{
+  /**
+   * This is a progress monitor that prints the progress information to a stream.
+   * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil.StreamProgressMonitor CodeGenUtil}.
+   */
+  public static class StreamProgressMonitor extends CodeGenUtil.StreamProgressMonitor
+  {
+    public StreamProgressMonitor(PrintStream printStream)
+    {
+      super(printStream);
+    }
+  }
+
+  /**
+   * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil#findOrCreateContainer(IPath, boolean, IPath, IProgressMonitor) CodeGenUtil}.
+   */
+  public static IContainer findOrCreateContainer
+    (IPath path, boolean forceRefresh, IPath localLocation, IProgressMonitor progressMonitor) throws CoreException
+  {
+    return CodeGenUtil.findOrCreateContainer(path, forceRefresh, localLocation, progressMonitor);
+  }
+
+  /**
+   * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil#findOrCreateContainer(IPath, boolean, IProjectDescription, IProgressMonitor) CodeGenUtil}.
+   */
+  public static IContainer findOrCreateContainer
+    (IPath path, boolean forceRefresh, IProjectDescription projectDescription, IProgressMonitor progressMonitor) throws CoreException
+  {
+    return CodeGenUtil.findOrCreateContainer(path, forceRefresh, projectDescription, progressMonitor);
+  }
+
+  /**
+   * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil#getClasspathPaths CodeGenUtil}.
+   */
+  public static List getClasspathPaths(String pluginID) throws JETException
+  {
+    return CodeGenUtil.getClasspathPaths(pluginID);
+  }
+
+  /**
+   * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil#addClasspathEntries(Collection, String, String) CodeGenUtil}.
+   */
+  public static void addClasspathEntries(Collection classpathEntries, String variableName, String pluginID) throws JETException
+  {
+    CodeGenUtil.addClasspathEntries(classpathEntries, variableName, pluginID);
+  }
+
+  /**
+   * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil#addClasspathEntries(Collection, String) CodeGenUtil}.
+   */
+  public static void addClasspathEntries(Collection classpathEntries, String pluginID) throws Exception
+  {
+    CodeGenUtil.addClasspathEntries(classpathEntries, pluginID);
+  }  
+
   /**
    * This is called with the command line arguments of a headless workbench invocation.
    */
