@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.10 2005/05/16 18:15:44 emerks Exp $
+ * $Id: GenPackage.java,v 1.11 2005/05/24 18:35:09 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -443,6 +443,7 @@ public interface GenPackage extends GenBase
   boolean hasJavaLangConflict();
   List getJavaLangConflicts();
   boolean hasClassifiers();
+  boolean hasClassifiers(boolean traverseNestedPackages);
 
   List /*of GenClass*/ getAllSwitchGenClasses();
   String getClassUniqueName(GenClass genClass);
