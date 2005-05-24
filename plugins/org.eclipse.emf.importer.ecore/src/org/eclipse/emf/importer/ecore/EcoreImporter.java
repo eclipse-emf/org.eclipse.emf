@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporter.java,v 1.1 2005/05/10 17:37:32 davidms Exp $
+ * $Id: EcoreImporter.java,v 1.2 2005/05/24 18:02:40 marcelop Exp $
  */
 package org.eclipse.emf.importer.ecore;
 
@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.Status;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -83,6 +84,21 @@ public class EcoreImporter extends ModelImporter
       }
     }
     return status;
+  }
+  
+  public void addToResource(EPackage ePackage, ResourceSet resourceSet)
+  {
+    if (ePackage.eResource() != null && getGenModel().eResource() != null)
+    {
+      URI ePackageURI = ePackage.eResource().getURI();
+      URI genModelURI = getGenModel().eResource().getURI();
+      
+      if (!ePackageURI.trimSegments(1).equals(genModelURI.trimSegments(1)))
+      {
+        ePackage.eResource().getContents().remove(ePackage);
+      }
+    }
+    super.addToResource(ePackage, resourceSet);
   }
 
   protected void adjustGenModel(IProgressMonitor progressMonitor)
