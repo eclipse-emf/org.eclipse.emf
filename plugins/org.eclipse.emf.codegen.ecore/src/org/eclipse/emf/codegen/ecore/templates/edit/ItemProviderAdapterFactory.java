@@ -34,7 +34,7 @@ public class ItemProviderAdapterFactory
   protected final String TEXT_17 = " disposable = new Disposable();" + NL;
   protected final String TEXT_18 = NL + "\t/**" + NL + "\t * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected Collection supportedTypes = new ArrayList();" + NL + "" + NL + "\t/**" + NL + "\t * This constructs an instance." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
   protected final String TEXT_19 = "()" + NL + "\t{";
-  protected final String TEXT_20 = "\t" + NL + "\t\tsupportedTypes.add(";
+  protected final String TEXT_20 = NL + "\t\tsupportedTypes.add(";
   protected final String TEXT_21 = ".class);";
   protected final String TEXT_22 = "\t\t" + NL + "\t}" + NL;
   protected final String TEXT_23 = NL + "\t/**" + NL + "\t * This keeps track of the factory to which to delegate adapter creation for objects from that package." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected ";
