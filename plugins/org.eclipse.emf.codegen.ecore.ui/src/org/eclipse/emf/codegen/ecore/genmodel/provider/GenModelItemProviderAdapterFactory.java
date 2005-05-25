@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProviderAdapterFactory.java,v 1.2 2004/10/24 21:55:30 davidms Exp $
+ * $Id: GenModelItemProviderAdapterFactory.java,v 1.3 2005/05/25 19:14:19 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -78,11 +78,11 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    */
   public GenModelItemProviderAdapterFactory()
   {
+    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
-    supportedTypes.add(IItemPropertySource.class);
-    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
+    supportedTypes.add(IItemPropertySource.class);		
   }
 
   /**
