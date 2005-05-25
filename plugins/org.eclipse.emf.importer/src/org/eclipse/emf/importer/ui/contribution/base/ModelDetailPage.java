@@ -360,7 +360,7 @@ public class ModelDetailPage extends ModelImporterPage
     StringBuffer text = new StringBuffer(modelLocationText.getText());
     if (!location.equals(text))
     {
-      if (!supportMultipleModelLocation())
+      if (supportMultipleModelLocation())
       {
         Point textSelection = modelLocationText.getSelection();
         text.delete(textSelection.x, textSelection.y);
@@ -372,7 +372,7 @@ public class ModelDetailPage extends ModelImporterPage
 
   protected boolean browseFileSystem()
   {
-    FileDialog fileDialog = new FileDialog(getShell(), SWT.OPEN | (supportMultipleModelLocation() ? SWT.SINGLE : SWT.MULTI));
+    FileDialog fileDialog = new FileDialog(getShell(), SWT.OPEN | (supportMultipleModelLocation() ? SWT.MULTI : SWT.SINGLE));
     fileDialog.setFilterExtensions(getFilterExtensions());
 
     URI modelURI = getModelImporter().getFirstModelLocationURI(true);
@@ -411,7 +411,7 @@ public class ModelDetailPage extends ModelImporterPage
     if (result != null)
     {
       StringBuffer text = new StringBuffer();
-      int length = supportMultipleModelLocation() ? 1 : result.length;
+      int length = supportMultipleModelLocation() ? result.length : 1;
       for (int i = 0; i < length; ++i)
       {
         IResource resource = (IResource)result[i];
