@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifierImpl.java,v 1.3 2004/05/26 15:17:31 emerks Exp $
+ * $Id: GenClassifierImpl.java,v 1.4 2005/05/25 19:12:59 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -109,17 +109,9 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
     return getEcoreClassifier();
   }
 
-  // This should be abstract
-  public EClassifier getEcoreClassifier()
-  {
-    return null;
-  }
+  public abstract EClassifier getEcoreClassifier();
 
-  // This should be abstract
-  public String getImportedMetaType()
-  {
-    return null;
-  }
+  public abstract String getImportedMetaType();
 
   public String getMetaType()
   {

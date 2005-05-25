@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.9 2005/05/17 17:51:00 khussey Exp $
+ * $Id: GenOperationImpl.java,v 1.10 2005/05/25 19:12:59 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -62,7 +62,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class GenOperationImpl extends GenBaseImpl implements GenOperation
+public class GenOperationImpl extends GenTypedElementImpl implements GenOperation
 {
   /**
    * The cached value of the '{@link #getEcoreOperation() <em>Ecore Operation</em>}' reference.

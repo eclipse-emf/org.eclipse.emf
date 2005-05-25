@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.19 2005/05/17 17:51:00 khussey Exp $
+ * $Id: GenFeatureImpl.java,v 1.20 2005/05/25 19:12:59 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -75,7 +75,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *
  * @generated
  */
-public class GenFeatureImpl extends GenBaseImpl implements GenFeature
+public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 {
   /**
    * The default value of the '{@link #getProperty() <em>Property</em>}' attribute.

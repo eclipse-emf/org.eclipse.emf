@@ -191,5 +191,6 @@
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           ecoreFeature="ecore:EReference GenModel.ecore#//GenParameter/ecoreParameter"/>
     </genClasses>
+    <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenTypedElement"/>
   </genPackages>
 </genmodel:GenModel>

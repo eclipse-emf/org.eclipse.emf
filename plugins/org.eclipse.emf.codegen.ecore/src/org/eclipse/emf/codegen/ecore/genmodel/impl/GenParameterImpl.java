@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.3 2004/10/22 17:27:53 davidms Exp $
+ * $Id: GenParameterImpl.java,v 1.4 2005/05/25 19:12:59 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -47,7 +47,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *
  * @generated
  */
-public class GenParameterImpl extends GenBaseImpl implements GenParameter
+public class GenParameterImpl extends GenTypedElementImpl implements GenParameter
 {
   /**
    * The cached value of the '{@link #getEcoreParameter() <em>Ecore Parameter</em>}' reference.

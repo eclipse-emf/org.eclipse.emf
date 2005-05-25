@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelSwitch.java,v 1.7 2005/04/20 02:48:54 davidms Exp $
+ * $Id: GenModelSwitch.java,v 1.8 2005/05/25 19:12:59 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -135,6 +135,7 @@ public class GenModelSwitch {
       {
         GenFeature genFeature = (GenFeature)theEObject;
         Object result = caseGenFeature(genFeature);
+        if (result == null) result = caseGenTypedElement(genFeature);
         if (result == null) result = caseGenBase(genFeature);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -185,6 +186,7 @@ public class GenModelSwitch {
       {
         GenOperation genOperation = (GenOperation)theEObject;
         Object result = caseGenOperation(genOperation);
+        if (result == null) result = caseGenTypedElement(genOperation);
         if (result == null) result = caseGenBase(genOperation);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -193,7 +195,16 @@ public class GenModelSwitch {
       {
         GenParameter genParameter = (GenParameter)theEObject;
         Object result = caseGenParameter(genParameter);
+        if (result == null) result = caseGenTypedElement(genParameter);
         if (result == null) result = caseGenBase(genParameter);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case GenModelPackage.GEN_TYPED_ELEMENT:
+      {
+        GenTypedElement genTypedElement = (GenTypedElement)theEObject;
+        Object result = caseGenTypedElement(genTypedElement);
+        if (result == null) result = caseGenBase(genTypedElement);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -373,6 +384,22 @@ public class GenModelSwitch {
    * @generated
    */
   public Object caseGenParameter(GenParameter object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpretting the object as an instance of '<em>Gen Typed Element</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>Gen Typed Element</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public Object caseGenTypedElement(GenTypedElement object)
   {
     return null;
   }

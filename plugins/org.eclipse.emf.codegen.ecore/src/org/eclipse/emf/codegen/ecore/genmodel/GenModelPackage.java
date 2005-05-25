@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.14 2005/05/10 21:22:59 davidms Exp $
+ * $Id: GenModelPackage.java,v 1.15 2005/05/25 19:12:58 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -729,6 +729,25 @@ public interface GenModelPackage extends EPackage{
   int GEN_CLASS_FEATURE_COUNT = GEN_CLASSIFIER_FEATURE_COUNT + 6;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenTypedElementImpl <em>Gen Typed Element</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenTypedElementImpl
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenTypedElement()
+   * @generated
+   */
+  int GEN_TYPED_ELEMENT = 11;
+
+  /**
+   * The number of structural features of the the '<em>Gen Typed Element</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_TYPED_ELEMENT_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 0;
+
+  /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl <em>Gen Feature</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -745,7 +764,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__PROPERTY = GEN_BASE_FEATURE_COUNT + 0;
+  int GEN_FEATURE__PROPERTY = GEN_TYPED_ELEMENT_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Notify</b></em>' attribute.
@@ -754,7 +773,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__NOTIFY = GEN_BASE_FEATURE_COUNT + 1;
+  int GEN_FEATURE__NOTIFY = GEN_TYPED_ELEMENT_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Children</b></em>' attribute.
@@ -763,7 +782,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__CHILDREN = GEN_BASE_FEATURE_COUNT + 2;
+  int GEN_FEATURE__CHILDREN = GEN_TYPED_ELEMENT_FEATURE_COUNT + 2;
 
   /**
    * The feature id for the '<em><b>Create Child</b></em>' attribute.
@@ -772,7 +791,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__CREATE_CHILD = GEN_BASE_FEATURE_COUNT + 3;
+  int GEN_FEATURE__CREATE_CHILD = GEN_TYPED_ELEMENT_FEATURE_COUNT + 3;
 
   /**
    * The feature id for the '<em><b>Property Category</b></em>' attribute.
@@ -781,7 +800,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__PROPERTY_CATEGORY = GEN_BASE_FEATURE_COUNT + 4;
+  int GEN_FEATURE__PROPERTY_CATEGORY = GEN_TYPED_ELEMENT_FEATURE_COUNT + 4;
 
   /**
    * The feature id for the '<em><b>Property Filter Flags</b></em>' attribute list.
@@ -790,7 +809,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__PROPERTY_FILTER_FLAGS = GEN_BASE_FEATURE_COUNT + 5;
+  int GEN_FEATURE__PROPERTY_FILTER_FLAGS = GEN_TYPED_ELEMENT_FEATURE_COUNT + 5;
 
   /**
    * The feature id for the '<em><b>Property Description</b></em>' attribute.
@@ -799,7 +818,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__PROPERTY_DESCRIPTION = GEN_BASE_FEATURE_COUNT + 6;
+  int GEN_FEATURE__PROPERTY_DESCRIPTION = GEN_TYPED_ELEMENT_FEATURE_COUNT + 6;
 
   /**
    * The feature id for the '<em><b>Gen Class</b></em>' container reference.
@@ -808,7 +827,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__GEN_CLASS = GEN_BASE_FEATURE_COUNT + 7;
+  int GEN_FEATURE__GEN_CLASS = GEN_TYPED_ELEMENT_FEATURE_COUNT + 7;
 
   /**
    * The feature id for the '<em><b>Ecore Feature</b></em>' reference.
@@ -817,7 +836,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__ECORE_FEATURE = GEN_BASE_FEATURE_COUNT + 8;
+  int GEN_FEATURE__ECORE_FEATURE = GEN_TYPED_ELEMENT_FEATURE_COUNT + 8;
 
   /**
    * The number of structural features of the the '<em>Gen Feature</em>' class.
@@ -826,7 +845,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_FEATURE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 9;
+  int GEN_FEATURE_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 9;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl <em>Gen Data Type</em>}' class.
@@ -974,7 +993,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_OPERATION__GEN_CLASS = GEN_BASE_FEATURE_COUNT + 0;
+  int GEN_OPERATION__GEN_CLASS = GEN_TYPED_ELEMENT_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Ecore Operation</b></em>' reference.
@@ -983,7 +1002,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_OPERATION__ECORE_OPERATION = GEN_BASE_FEATURE_COUNT + 1;
+  int GEN_OPERATION__ECORE_OPERATION = GEN_TYPED_ELEMENT_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Gen Parameters</b></em>' containment reference list.
@@ -992,7 +1011,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_OPERATION__GEN_PARAMETERS = GEN_BASE_FEATURE_COUNT + 2;
+  int GEN_OPERATION__GEN_PARAMETERS = GEN_TYPED_ELEMENT_FEATURE_COUNT + 2;
 
   /**
    * The number of structural features of the the '<em>Gen Operation</em>' class.
@@ -1001,7 +1020,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_OPERATION_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 3;
+  int GEN_OPERATION_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenParameterImpl <em>Gen Parameter</em>}' class.
@@ -1020,7 +1039,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PARAMETER__GEN_OPERATION = GEN_BASE_FEATURE_COUNT + 0;
+  int GEN_PARAMETER__GEN_OPERATION = GEN_TYPED_ELEMENT_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Ecore Parameter</b></em>' reference.
@@ -1029,7 +1048,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PARAMETER__ECORE_PARAMETER = GEN_BASE_FEATURE_COUNT + 1;
+  int GEN_PARAMETER__ECORE_PARAMETER = GEN_TYPED_ELEMENT_FEATURE_COUNT + 1;
 
   /**
    * The number of structural features of the the '<em>Gen Parameter</em>' class.
@@ -1038,7 +1057,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PARAMETER_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 2;
+  int GEN_PARAMETER_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 2;
 
 
   /**
@@ -1049,7 +1068,7 @@ public interface GenModelPackage extends EPackage{
    * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenProviderKind()
    * @generated
    */
-  int GEN_PROVIDER_KIND = 11;
+  int GEN_PROVIDER_KIND = 12;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind <em>Gen Property Kind</em>}' enum.
@@ -1059,7 +1078,7 @@ public interface GenModelPackage extends EPackage{
    * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenPropertyKind()
    * @generated
    */
-  int GEN_PROPERTY_KIND = 12;
+  int GEN_PROPERTY_KIND = 13;
 
 
   /**
@@ -1070,7 +1089,7 @@ public interface GenModelPackage extends EPackage{
    * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenResourceKind()
    * @generated
    */
-  int GEN_RESOURCE_KIND = 13;
+  int GEN_RESOURCE_KIND = 14;
 
 
   /**
@@ -2062,6 +2081,16 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   EReference getGenParameter_EcoreParameter();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement <em>Gen Typed Element</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Gen Typed Element</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement
+   * @generated
+   */
+  EClass getGenTypedElement();
 
   /**
    * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind <em>Gen Provider Kind</em>}'.

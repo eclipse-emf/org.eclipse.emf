@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.17 2005/05/10 21:22:59 davidms Exp $
+ * $Id: GenModelPackageImpl.java,v 1.18 2005/05/25 19:12:59 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -33,6 +33,8 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -127,6 +129,13 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @generated
    */
   private EClass genParameterEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass genTypedElementEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -1137,6 +1146,16 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getGenTypedElement()
+  {
+    return genTypedElementEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EEnum getGenProviderKind()
   {
     return genProviderKindEEnum;
@@ -1294,6 +1313,8 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEReference(genParameterEClass, GEN_PARAMETER__GEN_OPERATION);
     createEReference(genParameterEClass, GEN_PARAMETER__ECORE_PARAMETER);
 
+    genTypedElementEClass = createEClass(GEN_TYPED_ELEMENT);
+
     // Create enums
     genProviderKindEEnum = createEEnum(GEN_PROVIDER_KIND);
     genPropertyKindEEnum = createEEnum(GEN_PROPERTY_KIND);
@@ -1331,13 +1352,14 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     genModelEClass.getESuperTypes().add(this.getGenBase());
     genPackageEClass.getESuperTypes().add(this.getGenBase());
     genClassEClass.getESuperTypes().add(this.getGenClassifier());
-    genFeatureEClass.getESuperTypes().add(this.getGenBase());
+    genFeatureEClass.getESuperTypes().add(this.getGenTypedElement());
     genEnumEClass.getESuperTypes().add(this.getGenDataType());
     genEnumLiteralEClass.getESuperTypes().add(this.getGenBase());
     genClassifierEClass.getESuperTypes().add(this.getGenBase());
     genDataTypeEClass.getESuperTypes().add(this.getGenClassifier());
-    genOperationEClass.getESuperTypes().add(this.getGenBase());
-    genParameterEClass.getESuperTypes().add(this.getGenBase());
+    genOperationEClass.getESuperTypes().add(this.getGenTypedElement());
+    genParameterEClass.getESuperTypes().add(this.getGenTypedElement());
+    genTypedElementEClass.getESuperTypes().add(this.getGenBase());
 
     // Initialize classes and features; add operations and parameters
     initEClass(genModelEClass, GenModel.class, "GenModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1441,6 +1463,8 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEClass(genParameterEClass, GenParameter.class, "GenParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getGenParameter_GenOperation(), this.getGenOperation(), this.getGenOperation_GenParameters(), "genOperation", null, 1, 1, GenParameter.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenParameter_EcoreParameter(), theEcorePackage.getEParameter(), null, "ecoreParameter", null, 1, 1, GenParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(genTypedElementEClass, GenTypedElement.class, "GenTypedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     // Initialize enums and add enum literals
     initEEnum(genProviderKindEEnum, GenProviderKind.class, "GenProviderKind");

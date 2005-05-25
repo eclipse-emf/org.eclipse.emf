@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.6 2005/05/17 17:50:59 khussey Exp $
+ * $Id: GenOperation.java,v 1.7 2005/05/25 19:12:58 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -41,8 +41,7 @@ import org.eclipse.emf.ecore.EOperation;
  * @model
  * @generated
  */
-public interface GenOperation extends GenBase
-{
+public interface GenOperation extends GenTypedElement {
   /**
    * Returns the value of the '<em><b>Gen Class</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#getGenOperations <em>Gen Operations</em>}'.

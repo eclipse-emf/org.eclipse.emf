@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.12 2005/05/17 17:51:00 khussey Exp $
+ * $Id: GenFeature.java,v 1.13 2005/05/25 19:12:58 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -48,7 +48,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @model
  * @generated
  */
-public interface GenFeature extends GenBase{
+public interface GenFeature extends GenTypedElement {
   /**
    * Returns the value of the '<em><b>Property</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind}.

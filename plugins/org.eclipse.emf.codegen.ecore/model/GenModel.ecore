@@ -107,7 +107,7 @@
         eType="#//GenOperation" containment="true" eOpposite="#//GenOperation/genClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="labelFeature" eType="#//GenFeature"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GenFeature" eSuperTypes="#//GenBase">
+  <eClassifiers xsi:type="ecore:EClass" name="GenFeature" eSuperTypes="#//GenTypedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="property" eType="#//GenPropertyKind"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="notify" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
@@ -145,7 +145,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreDataType" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EDataType"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GenOperation" eSuperTypes="#//GenBase">
+  <eClassifiers xsi:type="ecore:EClass" name="GenOperation" eSuperTypes="#//GenTypedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="genClass" lowerBound="1"
         eType="#//GenClass" transient="true" eOpposite="#//GenClass/genOperations"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreOperation" lowerBound="1"
@@ -153,7 +153,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="genParameters" upperBound="-1"
         eType="#//GenParameter" containment="true" eOpposite="#//GenParameter/genOperation"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GenParameter" eSuperTypes="#//GenBase">
+  <eClassifiers xsi:type="ecore:EClass" name="GenParameter" eSuperTypes="#//GenTypedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="genOperation" lowerBound="1"
         eType="#//GenOperation" transient="true" eOpposite="#//GenOperation/genParameters"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreParameter" lowerBound="1"
@@ -175,4 +175,5 @@
     <eLiterals name="XMI" value="2"/>
     <eLiterals name="XML" value="3"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenTypedElement" abstract="true" eSuperTypes="#//GenBase"/>
 </ecore:EPackage>
