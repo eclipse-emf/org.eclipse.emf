@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.10 2005/05/24 18:43:52 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.11 2005/05/25 14:01:05 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -105,7 +105,7 @@ public abstract class ModelImporter
   public static class EPackageInfo
   {
     protected boolean generate = false;
-    protected StringBuffer ecoreFileName;
+    protected String ecoreFileName;
     protected String basePackage;
     protected String prefix;
 
@@ -119,12 +119,12 @@ public abstract class ModelImporter
       this.basePackage = basePackage;
     }
 
-    public StringBuffer getEcoreFileName()
+    public String getEcoreFileName()
     {
       return ecoreFileName;
     }
 
-    public void setEcoreFileName(StringBuffer ecoreFileName)
+    public void setEcoreFileName(String ecoreFileName)
     {
       this.ecoreFileName = ecoreFileName;
     }
@@ -641,6 +641,7 @@ public abstract class ModelImporter
     IStatus status = doComputeEPackages(progressMonitor);
     adjustEPackages();
     presetEPackagesToGenerate();
+    makeEcoreFileNamesUnique();
     return status;
   }
   
@@ -724,7 +725,7 @@ public abstract class ModelImporter
     {
       ecoreFileName = ePackage.eResource() == null ? qualifiedName + ".ecore" : ePackage.eResource().getURI().lastSegment();
     }
-    ePackageInfo.setEcoreFileName(new StringBuffer(ecoreFileName));
+    ePackageInfo.setEcoreFileName(ecoreFileName);
   }
 
   protected IWorkspaceRoot getWorkspaceRoot()
@@ -786,10 +787,11 @@ public abstract class ModelImporter
     if (ePackage.eResource() == null)
     {
       EPackageInfo ePackageInfo = getEPackageInfo(ePackage);
-      if (ePackageInfo.getEcoreFileName() != null)
+      String fileName = ePackageInfo.getEcoreFileName();
+      if (fileName != null)
       {
         String baseLocation = getGenModelPath().removeLastSegments(1).toString() + "/";
-        String ecoreFileName = baseLocation + ePackageInfo.getEcoreFileName().toString();
+        String ecoreFileName = baseLocation + fileName;
         URI ecoreURI = createFileURI(ecoreFileName);
         Resource resource = resourceSet.getResource(ecoreURI, false);
         if (resource == null)
@@ -1039,6 +1041,57 @@ public abstract class ModelImporter
     }
 
     return null;
+  }
+  
+  /**
+   * Changes the existing EPackage Infos so that no duplicated names 
+   * are used.
+   */
+  public void makeEcoreFileNamesUnique()
+  {
+    Map counterByEcoreName = new HashMap();
+    
+    Collection ePackageInfos = ePackageToInfoMap.values();
+    for (Iterator i = ePackageInfos.iterator(); i.hasNext();)
+    {
+      EPackageInfo ePackageInfo = (EPackageInfo)i.next();
+      String fileName = ePackageInfo.getEcoreFileName();
+      if (fileName != null)
+      {
+        counterByEcoreName.put(fileName, null);
+      }
+    }
+    
+    for (Iterator i = ePackageInfos.iterator(); i.hasNext();)
+    {        
+      EPackageInfo ePackageInfo = (EPackageInfo)i.next();
+      String fileName = ePackageInfo.getEcoreFileName();
+      if (fileName != null)
+      {
+        Integer counterObject = (Integer)counterByEcoreName.get(fileName);
+        if (counterObject != null)
+        {
+          int counter = counterObject.intValue();
+          int index = fileName.lastIndexOf(".");
+          StringBuffer newFileName = null;
+          do
+          {            
+            newFileName = new StringBuffer(fileName).insert(index, counter++);
+          }
+          while (counterByEcoreName.containsKey(newFileName.toString()));
+          
+          ePackageInfo.setEcoreFileName(newFileName.toString());
+          counterObject = new Integer(counter);
+          counterByEcoreName.put(newFileName.toString(), new Integer(1));
+        }
+        else
+        {
+          counterObject = new Integer(1);
+        }
+        
+        counterByEcoreName.put(fileName, counterObject);
+      }
+    }
   }
 
   protected Map getEcoreSaveOptions()
