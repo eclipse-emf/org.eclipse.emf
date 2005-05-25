@@ -339,10 +339,12 @@ public class ModelPackagePage extends ModelImporterPage
           String value = tableItem.getText(column);
           text.setVisible(false);
 
-          StringBuffer ecoreFileName = getModelImporter().getEPackageInfo((EPackage)tableItem.getData()).getEcoreFileName();
+          ModelImporter.EPackageInfo ePackageInfo = getModelImporter().getEPackageInfo((EPackage)tableItem.getData());
+          StringBuffer ecoreFileName = new StringBuffer(ePackageInfo.getEcoreFileName());
           if (ecoreFileName != null)
           {
             ecoreFileName.replace(0, ecoreFileName.length(), value);
+            ePackageInfo.setEcoreFileName(ecoreFileName.toString());
           }
           isCellEditing = false;
           validate();
@@ -377,7 +379,7 @@ public class ModelPackagePage extends ModelImporterPage
             }
             case 1:
             case 2: {
-              return getModelImporter().getEPackageInfo((EPackage)o).getEcoreFileName().toString();
+              return getModelImporter().getEPackageInfo((EPackage)o).getEcoreFileName();
             }
             default: {
               return "";
@@ -641,7 +643,7 @@ public class ModelPackagePage extends ModelImporterPage
       for (Iterator i = tableCheckedEPackages.iterator(); i.hasNext();)
       {
         EPackage ePackage = (EPackage)i.next();
-        String fileName = getModelImporter().getEPackageInfo(ePackage).getEcoreFileName().toString();
+        String fileName = getModelImporter().getEPackageInfo(ePackage).getEcoreFileName();
         allNamesAreValid = validateEcoreModelFileName(fileName, ePackage.getName());
         if (!allNamesAreValid)
         {

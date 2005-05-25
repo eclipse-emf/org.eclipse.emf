@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.6 2005/05/24 18:21:48 marcelop Exp $
+ * $Id: RoseImporter.java,v 1.7 2005/05/25 14:02:13 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -325,7 +325,7 @@ public class RoseImporter extends ModelImporter
         ecoreFileName = ePackage.getName() + ".ecore";
       }
 
-      ePackageInfo.setEcoreFileName(new StringBuffer(ecoreFileName));
+      ePackageInfo.setEcoreFileName(ecoreFileName);
     }
 
     for (Iterator i = subNode.getNodes().iterator(); i.hasNext();)
