@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.16 2005/05/16 18:47:38 marcelop Exp $
+ * $Id: Generator.java,v 1.17 2005/05/25 11:22:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -55,7 +55,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
-import org.eclipse.emf.codegen.util.CodeGenUtil.StreamProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EPackage;
@@ -373,7 +372,7 @@ public class Generator extends CodeGen
             }
           }
         };
-      workspace.run(runnable, new StreamProgressMonitor(System.out));
+      workspace.run(runnable, new CodeGenUtil.StreamProgressMonitor(System.out));
 
       return new Integer(0);
     }
