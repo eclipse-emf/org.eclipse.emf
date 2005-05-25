@@ -12,11 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XSDImporter.java,v 1.3 2005/05/19 16:47:39 marcelop Exp $
+ * $Id: XSDImporter.java,v 1.4 2005/05/25 11:22:56 emerks Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
