@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourceAttributes;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -13,18 +14,18 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
-import org.eclipse.emf.codegen.CodeGen;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.codegen.jmerge.JControlModel;
 import org.eclipse.emf.codegen.jmerge.JMerger;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 
 
 /**
  * This class encapsulates access to the JET and JMerge packages.
  * 
  * @author Remko Popma
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:49 $)
+ * @version $Revision: 1.2 $ ($Date: 2005/05/25 18:42:42 $)
  */
 public class JETGateway
 {
@@ -204,7 +205,7 @@ public class JETGateway
 
     IProgressMonitor sub = new SubProgressMonitor(progressMonitor, 1);
     IPath localLocation = null; // use default
-    IContainer container = CodeGen.findOrCreateContainer(outputPath, true, localLocation, sub);
+    IContainer container = CodeGenUtil.findOrCreateContainer(outputPath, true, localLocation, sub);
     return container;
   }
 
@@ -231,7 +232,15 @@ public class JETGateway
     {
       if (getConfig().isForceOverwrite())
       {
-        targetFile.setReadOnly(false);
+        ResourceAttributes attributes = targetFile.getResourceAttributes();
+        attributes.setReadOnly(false);
+        try
+        {
+          targetFile.setResourceAttributes(attributes);
+        }
+        catch (CoreException e)
+        {
+        }
       }
       else
       {
