@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.11 2005/05/25 14:01:05 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.12 2005/05/25 23:50:59 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -1049,47 +1049,48 @@ public abstract class ModelImporter
    */
   public void makeEcoreFileNamesUnique()
   {
-    Map counterByEcoreName = new HashMap();
-    
-    Collection ePackageInfos = ePackageToInfoMap.values();
-    for (Iterator i = ePackageInfos.iterator(); i.hasNext();)
+    if (ePackageToInfoMap != null)
     {
-      EPackageInfo ePackageInfo = (EPackageInfo)i.next();
-      String fileName = ePackageInfo.getEcoreFileName();
-      if (fileName != null)
+      Map counterByEcoreName = new HashMap();  
+      Collection ePackageInfos = ePackageToInfoMap.values();
+      for (Iterator i = ePackageInfos.iterator(); i.hasNext();)
       {
-        counterByEcoreName.put(fileName, null);
+        EPackageInfo ePackageInfo = (EPackageInfo)i.next();
+        String fileName = ePackageInfo.getEcoreFileName();
+        if (fileName != null)
+        {
+          counterByEcoreName.put(fileName, null);
+        }
       }
-    }
-    
-    for (Iterator i = ePackageInfos.iterator(); i.hasNext();)
-    {        
-      EPackageInfo ePackageInfo = (EPackageInfo)i.next();
-      String fileName = ePackageInfo.getEcoreFileName();
-      if (fileName != null)
-      {
-        Integer counterObject = (Integer)counterByEcoreName.get(fileName);
-        if (counterObject != null)
+      
+      for (Iterator i = ePackageInfos.iterator(); i.hasNext();)
+      {        
+        EPackageInfo ePackageInfo = (EPackageInfo)i.next();
+        String fileName = ePackageInfo.getEcoreFileName();
+        if (fileName != null)
         {
-          int counter = counterObject.intValue();
-          int index = fileName.lastIndexOf(".");
-          StringBuffer newFileName = null;
-          do
-          {            
-            newFileName = new StringBuffer(fileName).insert(index, counter++);
+          Integer counterObject = (Integer)counterByEcoreName.get(fileName);
+          if (counterObject != null)
+          {
+            int counter = counterObject.intValue();
+            int index = fileName.lastIndexOf(".");
+            StringBuffer newFileName = null;
+            do
+            {            
+              newFileName = new StringBuffer(fileName).insert(index, counter++);
+            }
+            while (counterByEcoreName.containsKey(newFileName.toString()));
+            
+            ePackageInfo.setEcoreFileName(newFileName.toString());
+            counterObject = new Integer(counter);
+            counterByEcoreName.put(newFileName.toString(), new Integer(1));
           }
-          while (counterByEcoreName.containsKey(newFileName.toString()));
-          
-          ePackageInfo.setEcoreFileName(newFileName.toString());
-          counterObject = new Integer(counter);
-          counterByEcoreName.put(newFileName.toString(), new Integer(1));
+          else
+          {
+            counterObject = new Integer(1);
+          }        
+          counterByEcoreName.put(fileName, counterObject);
         }
-        else
-        {
-          counterObject = new Integer(1);
-        }
-        
-        counterByEcoreName.put(fileName, counterObject);
       }
     }
   }
