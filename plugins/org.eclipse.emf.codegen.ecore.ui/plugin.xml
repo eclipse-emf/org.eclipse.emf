@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.12 2005/05/16 19:34:25 emerks Exp $
+ * $Id: plugin.xml,v 1.13 2005/05/25 14:21:50 davidms Exp $
  */
 -->
 
@@ -66,7 +66,7 @@
         class = "org.eclipse.emf.codegen.ecore.ui.EmptyProjectWizard"
         category = "org.eclipse.emf.codegen.ecore.ui.wizardCategory"
         project="true"
-        icon = "icons/cprj_obj.gif">
+        icon = "icons/full/ctool16/NewEmptyEMFProject.gif">
       <description>%_UI_EmptyProject_description</description>
       <selection class = "org.eclipse.core.resources.IResource" />
     </wizard>

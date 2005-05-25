@@ -53,7 +53,7 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
   public void init(IWorkbench workbench, IStructuredSelection selection)
   {
     this.workbench = workbench;
-    setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(GenModelEditPlugin.INSTANCE.getImage("full/wizban/NewEMFProject")));
+    setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(GenModelEditPlugin.INSTANCE.getImage("full/wizban/NewEmptyEMFProject")));
     setWindowTitle(GenModelEditPlugin.INSTANCE.getString("_UI_NewEmptyProject_title"));
   }
 
