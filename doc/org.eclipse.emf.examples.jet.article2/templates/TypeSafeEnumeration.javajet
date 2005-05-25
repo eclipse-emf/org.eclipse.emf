@@ -1,0 +1,239 @@
+<%@ jet package="translated" imports="java.util.* org.eclipse.emf.examples.jet.article2.model.*" class="TypeSafeEnumeration" %>
+<% TypesafeEnum type = (TypesafeEnum) argument; %>
+<% if (type.getPackageName().length() > 0) { %>
+package <%=type.getPackageName()%>;
+<% } %>
+
+/**
+ * This final class implements a type-safe enumeration
+ * over the valid instances of a <%=type.getClassName()%>.
+ * Instances of this class are immutable.
+ * 
+<% if (type.getAuthor().length() > 0) { %>
+ * @author <%=type.getAuthor()%>
+<% } %>
+<% if (type.getVersion().length() > 0) { %>
+ * @version <%=type.getVersion()%>
+<% } %>
+ */
+public final class <%=type.getClassName()%> {
+<% for (Iterator i = type.instances(); i.hasNext(); ) { %>
+<% 	Instance instance = (Instance) i.next(); %>
+
+	/** 
+	 * <%=type.getClassName()%> with <%=instance.keyDescription()%>
+	 */
+	public static final <%=type.getClassName()%> <%=instance.getName()%> = new <%=type.getClassName()%>(<%=instance.constructorValues()%>);
+<% } %>
+
+	private static final <%=type.getClassName()%>[] ALL = new <%=type.getClassName()%>[] {
+<% for (Iterator i = type.instances(); i.hasNext(); ) { %>
+<% 	Instance instance = (Instance) i.next(); %>
+		<%=instance.getName()%>,
+<% } %>
+	};
+	
+<% for (Iterator i = type.attributes(); i.hasNext(); ) { %>
+<% 	Attribute attribute = (Attribute) i.next(); %>
+	private final <%=attribute.getType()%> m<%=attribute.getCappedName()%>;
+<% } %>
+
+	/**
+	 * Private constructor.
+	 */
+	private <%=type.getClassName()%>(<%=type.constructorParameterDescription()%>) {
+<% for (Iterator i = type.attributes(); i.hasNext(); ) { %>
+<% 	Attribute attribute = (Attribute) i.next(); %>
+		m<%=attribute.getCappedName()%> = <%=attribute.getUncappedName()%>;
+<% } %>
+	}
+
+	/**
+	 * Returns a copy of the array with all instances of this class.
+	 * <p>
+	 * Modifying the returned array will not affect this class.
+	 * 
+	 * @return an array with all instances of this class
+	 */
+	public static <%=type.getClassName()%>[] all() {
+
+		<%=type.getClassName()%>[] result = new <%=type.getClassName()%>[ALL.length];
+		System.arraycopy(ALL, 0, result, 0, ALL.length);
+		return result;
+	}
+	
+	/**
+	 * Returns the <code><%=type.getClassName()%></code> for the specified key field(s),
+<% if (type.hasDefaultInstance()) { %>
+	 * or returns <code><%=type.getDefaultInstance().getName()%></code>
+<% } else { %>
+	 * or throws an IllegalArgumentException
+<% } %>
+	 * if no <code><%=type.getClassName()%></code> exists for the specified key field(s).
+	 * 
+<% for (Iterator i = type.keyAttributes(); i.hasNext(); ) { %>
+<% 	Attribute attribute = (Attribute) i.next(); %>
+	 * @param <%=attribute.getUncappedName()%> the <%=attribute.getUncappedName()%> of the <code><%=type.getClassName()%></code> to find
+<% } %>
+	 * @return the <code><%=type.getClassName()%></code> for the specified key field(s)
+	 */
+	public static <%=type.getClassName()%> lookup(<%=type.keyParameterDescription()%>) {
+		for (int i = 0; i < ALL.length; i++) {
+<% for (Iterator i = type.keyAttributes(); i.hasNext(); ) { %>
+<% 	Attribute attribute = (Attribute) i.next(); %>
+<%	if (attribute.isBoolean() || attribute.isByte() || attribute.isChar() || attribute.isShort() || attribute.isInt() || attribute.isLong()) { %>
+			if (ALL[i].<%=attribute.toGetMethod()%>() != <%=attribute.getUncappedName()%>) {
+<% 	} else if (attribute.isDouble()) { %>
+			if (Double.doubleToLongBits(ALL[i].<%=attribute.toGetMethod()%>()) != Double.doubleToLongBits(<%=attribute.getUncappedName()%>)) {
+<% 	} else if (attribute.isFloat()) { %>
+			if (Float.floatToIntBits(ALL[i].<%=attribute.toGetMethod()%>()) != Float.floatToIntBits(<%=attribute.getUncappedName()%>)) {
+<% 	} else { %>
+			if (ALL[i].<%=attribute.toGetMethod()%>() == null ? <%=attribute.getUncappedName()%> != null : !ALL[i].<%=attribute.toGetMethod()%>().equals(<%=attribute.getUncappedName()%>)) {
+<% 	} %>
+				continue;
+			}
+<% } %>
+			return ALL[i];
+		}
+<% if (type.hasDefaultInstance()) { %>
+		return <%=type.getDefaultInstance().getName()%>;
+<% } else { %>
+		StringBuffer msg = new StringBuffer();
+<% 	for (Iterator i = type.keyAttributes(); i.hasNext(); ) { %>
+<% 	  Attribute attribute = (Attribute) i.next(); %>
+		msg.append("<%=attribute.getUncappedName()%>=").append(<%=attribute.getUncappedName()%>);
+<% 	  if (i.hasNext()) { %>
+		msg.append(", ");
+<% 	  } %>
+<% 	} %>
+		throw new IllegalArgumentException("No <%=type.getClassName()%> found for " + msg);
+<% } %>
+	}
+	
+<% for (Iterator i = type.instances(); i.hasNext(); ) { %>
+<% 	Instance instance = (Instance) i.next(); %>
+	/**
+	 * Returns whether this instance is the {@link <%=type.getClassName()%>#<%=instance.getName()%>} instance.
+	 * 
+	 * @return whether this instance is the {@link <%=type.getClassName()%>#<%=instance.getName()%>} instance
+	 */
+	public boolean is<%=instance.getCappedName()%>() {
+		return this == <%=type.getClassName()%>.<%=instance.getName()%>; 
+	}
+<% } %>
+	
+<% for (Iterator i = type.attributes(); i.hasNext(); ) { %>
+<% 	Attribute attribute = (Attribute) i.next(); %>
+	/**
+	 * Returns the <%=attribute.getName()%>.
+	 *
+	 * @return the <%=attribute.getName()%>. 
+	 */
+	public <%=attribute.getType()%> <%=attribute.toGetMethod()%>() {
+		return m<%=attribute.getCappedName()%>;
+	}
+
+<% } %>
+	/**
+	 * Returns a String description of this <code><%=type.getClassName()%></code>.
+	 *
+	 * @return a String description of this object.
+	 */
+	public String toString() {
+
+		StringBuffer result = new StringBuffer();
+		result.append("<%=type.getClassName()%>[");
+<% for (Iterator i = type.attributes(); i.hasNext(); ) { %>
+<% 	Attribute attribute = (Attribute) i.next(); %>
+		result.append("<%=attribute.getName()%>=").append(<%=attribute.toGetMethod()%>());
+<% 	if (i.hasNext()) { %>
+		result.append(", ");
+<% 	} %>
+<% } %>
+		result.append("]");
+		return result.toString();
+	}
+	
+	/*
+	 * Non-javadoc.
+	 * @see java.lang.Object#equals(Object)
+	 */
+	// Algorithm from "Effective Java" by Joshua Bloch.
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof <%=type.getClassName()%>)) {
+			return false;
+		}
+		<%=type.getClassName()%> other = (<%=type.getClassName()%>) o;
+		return true
+<% for (Iterator keys = type.keyAttributes(); keys.hasNext(); ) { %>
+<% 	Attribute attribute = (Attribute) keys.next(); %>
+<%	if (attribute.isBoolean() || attribute.isByte() || attribute.isChar() || attribute.isShort() || attribute.isInt() || attribute.isLong()) { %>
+			&& <%=attribute.toGetMethod()%>() == other.<%=attribute.toGetMethod()%>()
+<% 	} else if (attribute.isDouble()) { %>
+			&& (Double.doubleToLongBits(<%=attribute.toGetMethod()%>()) == Double.doubleToLongBits(other.<%=attribute.toGetMethod()%>()))
+<% 	} else if (attribute.isFloat()) { %>
+			&& (Float.floatToIntBits(<%=attribute.toGetMethod()%>()) == Float.floatToIntBits(other.<%=attribute.toGetMethod()%>())
+<% 	} else { %>
+			&& (<%=attribute.toGetMethod()%>() == null ? other.<%=attribute.toGetMethod()%>() == null : <%=attribute.toGetMethod()%>().equals(other.<%=attribute.toGetMethod()%>()))
+<% 	} %>
+<% } %>
+			;
+	}
+	
+	/*
+	 * Non-javadoc.
+	 * @see java.lang.Object#hashCode()
+	 */
+	// Algorithm from "Effective Java" by Joshua Bloch.
+	public int hashCode() {
+		int result = 17 * getClass().getName().hashCode();
+<% for (Iterator keys = type.keyAttributes(); keys.hasNext(); ) { %>
+<% 	Attribute attribute = (Attribute) keys.next(); %>
+<%	if (attribute.isBoolean()) { %>
+		result = 37 * result + (<%=attribute.toGetMethod()%>() ? 1 : 0);
+<% 	} else if (attribute.isInt()) { %>
+		result = 37 * result + <%=attribute.toGetMethod()%>();
+<% 	} else if (attribute.isByte() || attribute.isChar() || attribute.isShort()) { %>
+		result = 37 * result + ((int) <%=attribute.toGetMethod()%>());
+<% 	} else if (attribute.isLong()) { %>
+		result = 37 * result + ((int) (<%=attribute.toGetMethod()%>() ^ (<%=attribute.toGetMethod()%>() >>> 32)));
+<% 	} else if (attribute.isDouble()) { %>
+		result = 37 * result + ((int) (Double.doubleToLongBits(<%=attribute.toGetMethod()%>() ) ^ (Double.doubleToLongBits(<%=attribute.toGetMethod()%>()) >>> 32)));
+<% 	} else if (attribute.isFloat()) { %>
+		result = 37 * result + Float.floatToIntBits(<%=attribute.toGetMethod()%>());
+<% 	} else { %>
+		result = 37 * result + (<%=attribute.toGetMethod()%>() == null ? 0 : <%=attribute.toGetMethod()%>().hashCode());
+<% 	} %>
+<% } %>
+		return result;
+	}
+
+	/**
+	 * If this class implements <code>java.io.Serializable</code>,
+	 * the Java serialization mechanism provides a "hidden constructor".
+	 * To ensure that no other instances are created than the
+	 * ones declared above, we implement <code>readResolve</code>.
+	 * (This is not necessary if this class does not
+	 * implement <code>java.io.Serializable</code>).
+	 */
+	// Algorithm from "Effective Java" by Joshua Bloch.
+	private Object readResolve() throws java.io.ObjectStreamException {
+		
+		// look at the key attribute values of the instance 
+		// that was just deserialized,
+		// and replace the deserialized instance 
+		// with one of the static objects
+		return lookup(<%
+
+for (Iterator keys = type.keyAttributes(); keys.hasNext(); ) {
+	Attribute attribute = (Attribute) keys.next();
+		%>m<%=attribute.getCappedName()%><%
+		
+	if (keys.hasNext()) { %>, <% }
+}
+		%>); 
+	}
+}
