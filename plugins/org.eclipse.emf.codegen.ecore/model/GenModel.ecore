@@ -79,6 +79,18 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="adapterFactory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="loadInitialization" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfacePackageSuffix"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="classPackageSuffix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="impl"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="utilityPackageSuffix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="util"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="providerPackageSuffix"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="provider"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="presentationPackageSuffix"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="presentation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="testsPackageSuffix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="tests"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecorePackage" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genModel" lowerBound="1"

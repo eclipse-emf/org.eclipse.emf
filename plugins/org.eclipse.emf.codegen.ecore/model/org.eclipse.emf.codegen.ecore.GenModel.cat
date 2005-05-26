@@ -272,6 +272,48 @@
 		(object ClassAttribute "loadInitialization"
 		    quid       	"40966CBD0317"
 		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "interfacePackageSuffix"
+		    quid       	"4294D7180101"
+		    type       	"String"
+		    initv      	
+|""
+		    
+		    exportControl 	"Public")
+		(object ClassAttribute "classPackageSuffix"
+		    quid       	"4294D78E002E"
+		    type       	"String"
+		    initv      	
+|"impl"
+		    
+		    exportControl 	"Public")
+		(object ClassAttribute "utilityPackageSuffix"
+		    quid       	"4294D79C0314"
+		    type       	"String"
+		    initv      	
+|"util"
+		    
+		    exportControl 	"Public")
+		(object ClassAttribute "providerPackageSuffix"
+		    quid       	"4294D7C703DE"
+		    type       	"String"
+		    initv      	
+|"provider"
+		    
+		    exportControl 	"Public")
+		(object ClassAttribute "presentationPackageSuffix"
+		    quid       	"4294D7B50388"
+		    type       	"String"
+		    initv      	
+|"presentation"
+		    
+		    exportControl 	"Public")
+		(object ClassAttribute "testsPackageSuffix"
+		    quid       	"4294E20C01CB"
+		    type       	"String"
+		    initv      	
+|"tests"
+		    
 		    exportControl 	"Public")))
 	(object Class "GenClass"
 	    quid       	"3C1759410016"
@@ -1486,31 +1528,31 @@
 				height     	48
 				orientation 	1))))
 		(object AssociationViewNew "$UNNAMED$12" @56
-		    location   	(690, 280)
+		    location   	(690, 279)
 		    stereotype 	TRUE
 		    quidu      	"3C45AEB6027F"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$13" @57
 			    Parent_View 	@56
-			    location   	(-78, -264)
+			    location   	(-78, -265)
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"3C45AEB80047"
 			    client     	@56
 			    supplier   	@12
 			    vertices   	(list Points
-				(690, 280)
+				(690, 279)
 				(690, 137)
 				(779, 137))
 			    line_style 	3
-			    origin_attachment 	(690, 280)
+			    origin_attachment 	(690, 279)
 			    terminal_attachment 	(779, 137))
 			(object RoleView "usedGenPackages" @58
 			    Parent_View 	@56
-			    location   	(-78, -264)
+			    location   	(-78, -265)
 			    label      	(object SegLabel @59
 				Parent_View 	@58
-				location   	(494, 354)
+				location   	(494, 353)
 				anchor     	1
 				anchor_loc 	1
 				nlines     	1
@@ -1526,11 +1568,11 @@
 			    client     	@56
 			    supplier   	@43
 			    vertices   	(list Points
-				(690, 280)
+				(690, 279)
 				(690, 447)
 				(754, 447))
 			    line_style 	3
-			    origin_attachment 	(690, 280)
+			    origin_attachment 	(690, 279)
 			    terminal_attachment 	(754, 447)
 			    label      	(object SegLabel @60
 				Parent_View 	@58
@@ -2631,8 +2673,8 @@
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	40
-			max_width  	1284
+			nlines     	25
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
 			    "+ modelDirectory : String"
@@ -2685,7 +2727,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	5
-			max_width  	628
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ prefix : String"
 			    "+ basePackage : String"
@@ -2713,7 +2755,7 @@
 		    supplier   	@135
 		    line_style 	3
 		    origin_attachment 	(909, 897)
-		    terminal_attachment 	(956, 775)
+		    terminal_attachment 	(909, 775)
 		    drawSupplier 	@145)
 		(object InheritView "" @151
 		    stereotype 	TRUE
@@ -2733,7 +2775,7 @@
 		    supplier   	@135
 		    line_style 	3
 		    origin_attachment 	(703, 896)
-		    terminal_attachment 	(750, 775)
+		    terminal_attachment 	(703, 775)
 		    drawSupplier 	@145)
 		(object ClassView "Class" "Logical View::genmodel::GenTypedElement" @153
 		    ShowCompartmentStereotypes 	TRUE
@@ -2969,14 +3011,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3C1759CD00A1"
-		    compartment 	(object Compartment
-			Parent_View 	@164
-			location   	(894, 581)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	8
-			max_width  	0)
 		    width      	726
 		    height     	486
 		    annotation 	8

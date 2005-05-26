@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.15 2005/05/25 19:12:58 davidms Exp $
+ * $Id: GenModelPackage.java,v 1.16 2005/05/26 17:19:36 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -547,13 +547,67 @@ public interface GenModelPackage extends EPackage{
   int GEN_PACKAGE__LOAD_INITIALIZATION = GEN_BASE_FEATURE_COUNT + 5;
 
   /**
+   * The feature id for the '<em><b>Interface Package Suffix</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX = GEN_BASE_FEATURE_COUNT + 6;
+
+  /**
+   * The feature id for the '<em><b>Class Package Suffix</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__CLASS_PACKAGE_SUFFIX = GEN_BASE_FEATURE_COUNT + 7;
+
+  /**
+   * The feature id for the '<em><b>Utility Package Suffix</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX = GEN_BASE_FEATURE_COUNT + 8;
+
+  /**
+   * The feature id for the '<em><b>Provider Package Suffix</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX = GEN_BASE_FEATURE_COUNT + 9;
+
+  /**
+   * The feature id for the '<em><b>Presentation Package Suffix</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__PRESENTATION_PACKAGE_SUFFIX = GEN_BASE_FEATURE_COUNT + 10;
+
+  /**
+   * The feature id for the '<em><b>Tests Package Suffix</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__TESTS_PACKAGE_SUFFIX = GEN_BASE_FEATURE_COUNT + 11;
+
+  /**
    * The feature id for the '<em><b>Ecore Package</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__ECORE_PACKAGE = GEN_BASE_FEATURE_COUNT + 6;
+  int GEN_PACKAGE__ECORE_PACKAGE = GEN_BASE_FEATURE_COUNT + 12;
 
   /**
    * The feature id for the '<em><b>Gen Model</b></em>' container reference.
@@ -562,7 +616,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_MODEL = GEN_BASE_FEATURE_COUNT + 7;
+  int GEN_PACKAGE__GEN_MODEL = GEN_BASE_FEATURE_COUNT + 13;
 
   /**
    * The feature id for the '<em><b>Gen Enums</b></em>' containment reference list.
@@ -571,7 +625,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_ENUMS = GEN_BASE_FEATURE_COUNT + 8;
+  int GEN_PACKAGE__GEN_ENUMS = GEN_BASE_FEATURE_COUNT + 14;
 
   /**
    * The feature id for the '<em><b>Gen Data Types</b></em>' containment reference list.
@@ -580,7 +634,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_DATA_TYPES = GEN_BASE_FEATURE_COUNT + 9;
+  int GEN_PACKAGE__GEN_DATA_TYPES = GEN_BASE_FEATURE_COUNT + 15;
 
   /**
    * The feature id for the '<em><b>Gen Classes</b></em>' containment reference list.
@@ -589,7 +643,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_CLASSES = GEN_BASE_FEATURE_COUNT + 10;
+  int GEN_PACKAGE__GEN_CLASSES = GEN_BASE_FEATURE_COUNT + 16;
 
   /**
    * The feature id for the '<em><b>Nested Gen Packages</b></em>' containment reference list.
@@ -598,7 +652,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__NESTED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 11;
+  int GEN_PACKAGE__NESTED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 17;
 
   /**
    * The feature id for the '<em><b>Gen Classifiers</b></em>' reference list.
@@ -607,7 +661,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_CLASSIFIERS = GEN_BASE_FEATURE_COUNT + 12;
+  int GEN_PACKAGE__GEN_CLASSIFIERS = GEN_BASE_FEATURE_COUNT + 18;
 
   /**
    * The number of structural features of the the '<em>Gen Package</em>' class.
@@ -616,7 +670,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 13;
+  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 19;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl <em>Gen Classifier</em>}' class.
@@ -1628,6 +1682,72 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   EAttribute getGenPackage_LoadInitialization();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getInterfacePackageSuffix <em>Interface Package Suffix</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Interface Package Suffix</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getInterfacePackageSuffix()
+   * @see #getGenPackage()
+   * @generated
+   */
+  EAttribute getGenPackage_InterfacePackageSuffix();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getClassPackageSuffix <em>Class Package Suffix</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Class Package Suffix</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getClassPackageSuffix()
+   * @see #getGenPackage()
+   * @generated
+   */
+  EAttribute getGenPackage_ClassPackageSuffix();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getUtilityPackageSuffix <em>Utility Package Suffix</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Utility Package Suffix</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getUtilityPackageSuffix()
+   * @see #getGenPackage()
+   * @generated
+   */
+  EAttribute getGenPackage_UtilityPackageSuffix();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getProviderPackageSuffix <em>Provider Package Suffix</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Provider Package Suffix</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getProviderPackageSuffix()
+   * @see #getGenPackage()
+   * @generated
+   */
+  EAttribute getGenPackage_ProviderPackageSuffix();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getPresentationPackageSuffix <em>Presentation Package Suffix</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Presentation Package Suffix</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getPresentationPackageSuffix()
+   * @see #getGenPackage()
+   * @generated
+   */
+  EAttribute getGenPackage_PresentationPackageSuffix();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getTestsPackageSuffix <em>Tests Package Suffix</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Tests Package Suffix</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getTestsPackageSuffix()
+   * @see #getGenPackage()
+   * @generated
+   */
+  EAttribute getGenPackage_TestsPackageSuffix();
 
   /**
    * Returns the meta object for the reference '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}'.
