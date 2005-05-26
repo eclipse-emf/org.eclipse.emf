@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.24 2005/05/24 18:36:03 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.25 2005/05/26 17:22:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -101,6 +101,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isDisposableProviderFactory <em>Disposable Provider Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isAdapterFactory <em>Adapter Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isLoadInitialization <em>Load Initialization</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getInterfacePackageSuffix <em>Interface Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getClassPackageSuffix <em>Class Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getUtilityPackageSuffix <em>Utility Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getProviderPackageSuffix <em>Provider Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getPresentationPackageSuffix <em>Presentation Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getTestsPackageSuffix <em>Tests Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenEnums <em>Gen Enums</em>}</li>
@@ -236,6 +242,126 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected boolean loadInitialization = LOAD_INITIALIZATION_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getInterfacePackageSuffix() <em>Interface Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getInterfacePackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected static final String INTERFACE_PACKAGE_SUFFIX_EDEFAULT = "";
+
+  /**
+   * The cached value of the '{@link #getInterfacePackageSuffix() <em>Interface Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getInterfacePackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected String interfacePackageSuffix = INTERFACE_PACKAGE_SUFFIX_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getClassPackageSuffix() <em>Class Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getClassPackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected static final String CLASS_PACKAGE_SUFFIX_EDEFAULT = "impl";
+
+  /**
+   * The cached value of the '{@link #getClassPackageSuffix() <em>Class Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getClassPackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected String classPackageSuffix = CLASS_PACKAGE_SUFFIX_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getUtilityPackageSuffix() <em>Utility Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getUtilityPackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected static final String UTILITY_PACKAGE_SUFFIX_EDEFAULT = "util";
+
+  /**
+   * The cached value of the '{@link #getUtilityPackageSuffix() <em>Utility Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getUtilityPackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected String utilityPackageSuffix = UTILITY_PACKAGE_SUFFIX_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getProviderPackageSuffix() <em>Provider Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getProviderPackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected static final String PROVIDER_PACKAGE_SUFFIX_EDEFAULT = "provider";
+
+  /**
+   * The cached value of the '{@link #getProviderPackageSuffix() <em>Provider Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getProviderPackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected String providerPackageSuffix = PROVIDER_PACKAGE_SUFFIX_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getPresentationPackageSuffix() <em>Presentation Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPresentationPackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected static final String PRESENTATION_PACKAGE_SUFFIX_EDEFAULT = "presentation";
+
+  /**
+   * The cached value of the '{@link #getPresentationPackageSuffix() <em>Presentation Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPresentationPackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected String presentationPackageSuffix = PRESENTATION_PACKAGE_SUFFIX_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getTestsPackageSuffix() <em>Tests Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTestsPackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected static final String TESTS_PACKAGE_SUFFIX_EDEFAULT = "tests";
+
+  /**
+   * The cached value of the '{@link #getTestsPackageSuffix() <em>Tests Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTestsPackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected String testsPackageSuffix = TESTS_PACKAGE_SUFFIX_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getEcorePackage() <em>Ecore Package</em>}' reference.
@@ -465,6 +591,144 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     loadInitialization = newLoadInitialization;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION, oldLoadInitialization, loadInitialization));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getInterfacePackageSuffix()
+  {
+    return interfacePackageSuffix;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setInterfacePackageSuffix(String newInterfacePackageSuffix)
+  {
+    String oldInterfacePackageSuffix = interfacePackageSuffix;
+    interfacePackageSuffix = newInterfacePackageSuffix;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX, oldInterfacePackageSuffix, interfacePackageSuffix));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getClassPackageSuffix()
+  {
+    return classPackageSuffix;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setClassPackageSuffix(String newClassPackageSuffix)
+  {
+    String oldClassPackageSuffix = classPackageSuffix;
+    classPackageSuffix = newClassPackageSuffix;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX, oldClassPackageSuffix, classPackageSuffix));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getUtilityPackageSuffix()
+  {
+    return utilityPackageSuffix;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setUtilityPackageSuffix(String newUtilityPackageSuffix)
+  {
+    String oldUtilityPackageSuffix = utilityPackageSuffix;
+    utilityPackageSuffix = newUtilityPackageSuffix;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX, oldUtilityPackageSuffix, utilityPackageSuffix));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getProviderPackageSuffix()
+  {
+    return providerPackageSuffix;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setProviderPackageSuffix(String newProviderPackageSuffix)
+  {
+    String oldProviderPackageSuffix = providerPackageSuffix;
+    providerPackageSuffix = newProviderPackageSuffix;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX, oldProviderPackageSuffix, providerPackageSuffix));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getPresentationPackageSuffix()
+  {
+    return presentationPackageSuffix;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setPresentationPackageSuffix(String newPresentationPackageSuffix)
+  {
+    String oldPresentationPackageSuffix = presentationPackageSuffix;
+    presentationPackageSuffix = newPresentationPackageSuffix;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__PRESENTATION_PACKAGE_SUFFIX, oldPresentationPackageSuffix, presentationPackageSuffix));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getTestsPackageSuffix()
+  {
+    return testsPackageSuffix;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setTestsPackageSuffix(String newTestsPackageSuffix)
+  {
+    String oldTestsPackageSuffix = testsPackageSuffix;
+    testsPackageSuffix = newTestsPackageSuffix;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX, oldTestsPackageSuffix, testsPackageSuffix));
   }
 
   public  EModelElement getEcoreModelElement()
@@ -723,6 +987,18 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return isAdapterFactory() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
         return isLoadInitialization() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
+        return getInterfacePackageSuffix();
+      case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
+        return getClassPackageSuffix();
+      case GenModelPackage.GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX:
+        return getUtilityPackageSuffix();
+      case GenModelPackage.GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX:
+        return getProviderPackageSuffix();
+      case GenModelPackage.GEN_PACKAGE__PRESENTATION_PACKAGE_SUFFIX:
+        return getPresentationPackageSuffix();
+      case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
+        return getTestsPackageSuffix();
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         if (resolve) return getEcorePackage();
         return basicGetEcorePackage();
@@ -763,6 +1039,18 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return adapterFactory != ADAPTER_FACTORY_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
         return loadInitialization != LOAD_INITIALIZATION_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
+        return INTERFACE_PACKAGE_SUFFIX_EDEFAULT == null ? interfacePackageSuffix != null : !INTERFACE_PACKAGE_SUFFIX_EDEFAULT.equals(interfacePackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
+        return CLASS_PACKAGE_SUFFIX_EDEFAULT == null ? classPackageSuffix != null : !CLASS_PACKAGE_SUFFIX_EDEFAULT.equals(classPackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX:
+        return UTILITY_PACKAGE_SUFFIX_EDEFAULT == null ? utilityPackageSuffix != null : !UTILITY_PACKAGE_SUFFIX_EDEFAULT.equals(utilityPackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX:
+        return PROVIDER_PACKAGE_SUFFIX_EDEFAULT == null ? providerPackageSuffix != null : !PROVIDER_PACKAGE_SUFFIX_EDEFAULT.equals(providerPackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__PRESENTATION_PACKAGE_SUFFIX:
+        return PRESENTATION_PACKAGE_SUFFIX_EDEFAULT == null ? presentationPackageSuffix != null : !PRESENTATION_PACKAGE_SUFFIX_EDEFAULT.equals(presentationPackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
+        return TESTS_PACKAGE_SUFFIX_EDEFAULT == null ? testsPackageSuffix != null : !TESTS_PACKAGE_SUFFIX_EDEFAULT.equals(testsPackageSuffix);
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         return ecorePackage != null;
       case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
@@ -807,6 +1095,24 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return;
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
         setLoadInitialization(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
+        setInterfacePackageSuffix((String)newValue);
+        return;
+      case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
+        setClassPackageSuffix((String)newValue);
+        return;
+      case GenModelPackage.GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX:
+        setUtilityPackageSuffix((String)newValue);
+        return;
+      case GenModelPackage.GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX:
+        setProviderPackageSuffix((String)newValue);
+        return;
+      case GenModelPackage.GEN_PACKAGE__PRESENTATION_PACKAGE_SUFFIX:
+        setPresentationPackageSuffix((String)newValue);
+        return;
+      case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
+        setTestsPackageSuffix((String)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)newValue);
@@ -861,6 +1167,24 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
         setLoadInitialization(LOAD_INITIALIZATION_EDEFAULT);
         return;
+      case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
+        setInterfacePackageSuffix(INTERFACE_PACKAGE_SUFFIX_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
+        setClassPackageSuffix(CLASS_PACKAGE_SUFFIX_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX:
+        setUtilityPackageSuffix(UTILITY_PACKAGE_SUFFIX_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX:
+        setProviderPackageSuffix(PROVIDER_PACKAGE_SUFFIX_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_PACKAGE__PRESENTATION_PACKAGE_SUFFIX:
+        setPresentationPackageSuffix(PRESENTATION_PACKAGE_SUFFIX_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
+        setTestsPackageSuffix(TESTS_PACKAGE_SUFFIX_EDEFAULT);
+        return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)null);
         return;
@@ -905,6 +1229,18 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(adapterFactory);
     result.append(", loadInitialization: ");
     result.append(loadInitialization);
+    result.append(", interfacePackageSuffix: ");
+    result.append(interfacePackageSuffix);
+    result.append(", classPackageSuffix: ");
+    result.append(classPackageSuffix);
+    result.append(", utilityPackageSuffix: ");
+    result.append(utilityPackageSuffix);
+    result.append(", providerPackageSuffix: ");
+    result.append(providerPackageSuffix);
+    result.append(", presentationPackageSuffix: ");
+    result.append(presentationPackageSuffix);
+    result.append(", testsPackageSuffix: ");
+    result.append(testsPackageSuffix);
     result.append(')');
     return result.toString();
   }
@@ -921,26 +1257,22 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getInterfacePackageName()
   {
-    if (getBasePackage() != null)
-    {
-      return getBasePackage() + "." + safeName(getPackageName());
-    }
-    return safeName(getPackageName());
+    return getPackageName(getInterfacePackageSuffix());
   }
 
   public String getClassPackageName()
   {
-    return getInterfacePackageName() + ".impl";
+    return getPackageName(getClassPackageSuffix());
   }
 
   public String getUtilitiesPackageName()
   {
-    return getInterfacePackageName() + ".util";
+    return getPackageName(getUtilityPackageSuffix());
   }
 
   public String getTestsPackageName()
   {
-    return getInterfacePackageName() + ".tests";
+    return getPackageName(getTestsPackageSuffix());
   }
 
   public String getPackageID()
@@ -1060,7 +1392,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getQualifiedTestSuiteClassName()
   {
-    return getInterfacePackageName() + ".tests." + getPrefixedName("Tests");
+    return getTestsPackageName() + "." + getPrefixedName("Tests");
   }
 
   public String getImportedTestSuiteClassName()
@@ -2200,12 +2532,22 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getProviderPackageName()
   {
-    return getInterfacePackageName() + ".provider";
+    return getPackageName(getProviderPackageSuffix());
   }
 
   public String getPresentationPackageName()
   {
-    return getInterfacePackageName() + ".presentation";
+    return getPackageName(getPresentationPackageSuffix());
+  }
+  
+  protected String getPackageName(String suffix)
+  {
+    String name = safeName(getPackageName());
+    if (!isBlank(getBasePackage()))
+    {
+      name = getBasePackage() + "." + name;
+    }    
+    return isBlank(suffix) ? name : name + "." + suffix;
   }
 
 //   public String getExtendedItemProviderClassName()
@@ -2703,6 +3045,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     setAdapterFactory(oldGenPackageVersion.isAdapterFactory());
     setLoadInitialization(oldGenPackageVersion.isLoadInitialization());
     setDisposableProviderFactory(oldGenPackageVersion.isDisposableProviderFactory());
+    
+    setInterfacePackageSuffix(oldGenPackageVersion.getInterfacePackageSuffix());
+    setClassPackageSuffix(oldGenPackageVersion.getClassPackageSuffix());
+    setUtilityPackageSuffix(oldGenPackageVersion.getUtilityPackageSuffix());
+    setProviderPackageSuffix(oldGenPackageVersion.getProviderPackageSuffix());
+    setPresentationPackageSuffix(oldGenPackageVersion.getPresentationPackageSuffix());
+    setTestsPackageSuffix(oldGenPackageVersion.getTestsPackageSuffix());
   }
 
   public boolean reconcile()

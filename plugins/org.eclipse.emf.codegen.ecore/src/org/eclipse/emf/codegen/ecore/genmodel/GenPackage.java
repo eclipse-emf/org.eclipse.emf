@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.11 2005/05/24 18:35:09 marcelop Exp $
+ * $Id: GenPackage.java,v 1.12 2005/05/26 17:21:31 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -38,6 +38,12 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDisposableProviderFactory <em>Disposable Provider Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isAdapterFactory <em>Adapter Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isLoadInitialization <em>Load Initialization</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getInterfacePackageSuffix <em>Interface Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getClassPackageSuffix <em>Class Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getUtilityPackageSuffix <em>Utility Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getProviderPackageSuffix <em>Provider Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getPresentationPackageSuffix <em>Presentation Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getTestsPackageSuffix <em>Tests Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenEnums <em>Gen Enums</em>}</li>
@@ -52,8 +58,7 @@ import org.eclipse.emf.ecore.EPackage;
  * @model
  * @generated
  */
-public interface GenPackage extends GenBase
-{
+public interface GenPackage extends GenBase{
   /**
    * Returns the value of the '<em><b>Prefix</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -213,6 +218,168 @@ public interface GenPackage extends GenBase
    * @generated
    */
   void setLoadInitialization(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Interface Package Suffix</b></em>' attribute.
+   * The default value is <code>""</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Interface Package Suffix</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Interface Package Suffix</em>' attribute.
+   * @see #setInterfacePackageSuffix(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_InterfacePackageSuffix()
+   * @model default=""
+   * @generated
+   */
+  String getInterfacePackageSuffix();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getInterfacePackageSuffix <em>Interface Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Interface Package Suffix</em>' attribute.
+   * @see #getInterfacePackageSuffix()
+   * @generated
+   */
+  void setInterfacePackageSuffix(String value);
+
+  /**
+   * Returns the value of the '<em><b>Class Package Suffix</b></em>' attribute.
+   * The default value is <code>"impl"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Class Package Suffix</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Class Package Suffix</em>' attribute.
+   * @see #setClassPackageSuffix(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_ClassPackageSuffix()
+   * @model default="impl"
+   * @generated
+   */
+  String getClassPackageSuffix();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getClassPackageSuffix <em>Class Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Class Package Suffix</em>' attribute.
+   * @see #getClassPackageSuffix()
+   * @generated
+   */
+  void setClassPackageSuffix(String value);
+
+  /**
+   * Returns the value of the '<em><b>Utility Package Suffix</b></em>' attribute.
+   * The default value is <code>"util"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Utility Package Suffix</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Utility Package Suffix</em>' attribute.
+   * @see #setUtilityPackageSuffix(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_UtilityPackageSuffix()
+   * @model default="util"
+   * @generated
+   */
+  String getUtilityPackageSuffix();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getUtilityPackageSuffix <em>Utility Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Utility Package Suffix</em>' attribute.
+   * @see #getUtilityPackageSuffix()
+   * @generated
+   */
+  void setUtilityPackageSuffix(String value);
+
+  /**
+   * Returns the value of the '<em><b>Provider Package Suffix</b></em>' attribute.
+   * The default value is <code>"provider"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Provider Package Suffix</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Provider Package Suffix</em>' attribute.
+   * @see #setProviderPackageSuffix(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_ProviderPackageSuffix()
+   * @model default="provider"
+   * @generated
+   */
+  String getProviderPackageSuffix();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getProviderPackageSuffix <em>Provider Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Provider Package Suffix</em>' attribute.
+   * @see #getProviderPackageSuffix()
+   * @generated
+   */
+  void setProviderPackageSuffix(String value);
+
+  /**
+   * Returns the value of the '<em><b>Presentation Package Suffix</b></em>' attribute.
+   * The default value is <code>"presentation"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Presentation Package Suffix</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Presentation Package Suffix</em>' attribute.
+   * @see #setPresentationPackageSuffix(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_PresentationPackageSuffix()
+   * @model default="presentation"
+   * @generated
+   */
+  String getPresentationPackageSuffix();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getPresentationPackageSuffix <em>Presentation Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Presentation Package Suffix</em>' attribute.
+   * @see #getPresentationPackageSuffix()
+   * @generated
+   */
+  void setPresentationPackageSuffix(String value);
+
+  /**
+   * Returns the value of the '<em><b>Tests Package Suffix</b></em>' attribute.
+   * The default value is <code>"tests"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Tests Package Suffix</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Tests Package Suffix</em>' attribute.
+   * @see #setTestsPackageSuffix(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_TestsPackageSuffix()
+   * @model default="tests"
+   * @generated
+   */
+  String getTestsPackageSuffix();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getTestsPackageSuffix <em>Tests Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Tests Package Suffix</em>' attribute.
+   * @see #getTestsPackageSuffix()
+   * @generated
+   */
+  void setTestsPackageSuffix(String value);
 
   /**
    * Returns the value of the '<em><b>Ecore Package</b></em>' reference.
