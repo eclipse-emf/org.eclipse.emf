@@ -675,32 +675,35 @@ public class ModelPackagePage extends ModelImporterPage
 
   protected void filterPackagesTable(boolean reloadReferencedGenPackagesTable)
   {
-    if (reloadReferencedGenPackagesTable)
+    if (referencedGenModelsCheckboxTreeViewer != null)
     {
-      if (!getModelImporter().getReferencedGenPackages().isEmpty() || !getModelImporter().getExternalGenModels().isEmpty())
+      if (reloadReferencedGenPackagesTable)
       {
-        GenPackage[] referencedGenPackages = (GenPackage[])getModelImporter().getReferencedGenPackages().toArray(new GenPackage [getModelImporter().getReferencedGenPackages().size()]);
-        Set genModels = new HashSet();
-        for (int i = 0; i < referencedGenPackages.length; i++)
+        if (!getModelImporter().getReferencedGenPackages().isEmpty() || !getModelImporter().getExternalGenModels().isEmpty())
         {
-          genModels.add(referencedGenPackages[i].getGenModel());
+          GenPackage[] referencedGenPackages = (GenPackage[])getModelImporter().getReferencedGenPackages().toArray(new GenPackage [getModelImporter().getReferencedGenPackages().size()]);
+          Set genModels = new HashSet();
+          for (int i = 0; i < referencedGenPackages.length; i++)
+          {
+            genModels.add(referencedGenPackages[i].getGenModel());
+          }
+          genModels.addAll(getModelImporter().getExternalGenModels());
+          referencedGenModelsCheckboxTreeViewer.setInput(new ItemProvider(genModels));
+          referencedGenModelsCheckboxTreeViewer.expandAll();
+          referencedGenModelsCheckboxTreeViewer.setCheckedElements(referencedGenPackages);
+          referencedGenModelsCheckboxTreeViewer.setSelection(new StructuredSelection(referencedGenPackages), true);
         }
-        genModels.addAll(getModelImporter().getExternalGenModels());
-        referencedGenModelsCheckboxTreeViewer.setInput(new ItemProvider(genModels));
-        referencedGenModelsCheckboxTreeViewer.expandAll();
-        referencedGenModelsCheckboxTreeViewer.setCheckedElements(referencedGenPackages);
-        referencedGenModelsCheckboxTreeViewer.setSelection(new StructuredSelection(referencedGenPackages), true);
       }
-    }
-    else
-    {
-      getModelImporter().getReferencedGenPackages().clear();
-      Object[] checkedElements = referencedGenModelsCheckboxTreeViewer.getCheckedElements();
-      for (int i = 0; i < checkedElements.length; i++)
+      else
       {
-        if (checkedElements[i] instanceof GenPackage)
+        getModelImporter().getReferencedGenPackages().clear();
+        Object[] checkedElements = referencedGenModelsCheckboxTreeViewer.getCheckedElements();
+        for (int i = 0; i < checkedElements.length; i++)
         {
-          getModelImporter().getReferencedGenPackages().add(checkedElements[i]);
+          if (checkedElements[i] instanceof GenPackage)
+          {
+            getModelImporter().getReferencedGenPackages().add(checkedElements[i]);
+          }
         }
       }
     }
