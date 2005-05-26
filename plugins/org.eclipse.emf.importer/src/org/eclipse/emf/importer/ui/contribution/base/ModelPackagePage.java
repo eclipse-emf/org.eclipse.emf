@@ -149,7 +149,8 @@ public class ModelPackagePage extends ModelImporterPage
     return super.isPageComplete() 
       && !getModelImporter().getEPackages().isEmpty()
       && packagesCheckboxTableViewer != null 
-      && packagesCheckboxTableViewer.getCheckedElements().length > 0;
+      && packagesCheckboxTableViewer.getCheckedElements().length > 0
+      && !isCellEditing;
   }
 
   public void createControl(Composite parent)
@@ -213,7 +214,14 @@ public class ModelPackagePage extends ModelImporterPage
 
     Composite selectionComposite = new Composite(composite, SWT.NONE);
     selectionComposite.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-    selectionComposite.setLayout(new GridLayout(2, true));
+     {
+      GridLayout layout = new GridLayout(2, false);
+      layout.marginLeft = -5; 
+      layout.marginRight = -5;
+      layout.marginTop = -5;
+      layout.marginBottom = -5;
+      selectionComposite.setLayout(layout);
+    }
 
     Button selectAllButton = new Button(selectionComposite, SWT.PUSH);
     selectAllButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -650,9 +658,10 @@ public class ModelPackagePage extends ModelImporterPage
           break;
         }
       }
+      
       if (allNamesAreValid)
       {
-        setErrorMessage(null);
+        setErrorMessage(checkEcoreFileNames());
       }
     }
   }
@@ -713,5 +722,27 @@ public class ModelPackagePage extends ModelImporterPage
     }
     packagesCheckboxTableViewer.setInput(new ItemProvider(filteredEPackages));
     packagesCheckboxTableViewer.setCheckedElements(checkedEPackages.toArray());
+  }
+  
+  /**
+   * Checks the ecore file names and returns null if everything is
+   * OK or the error message otherwise.
+   * @return String
+   */
+  protected String checkEcoreFileNames()
+  {
+    Set fileNames = new HashSet();
+    int checkedCount = 0;
+    Table table = packagesCheckboxTableViewer.getTable();
+    TableItem[] tableItems = table.getItems();
+    for (int i = 0; i < tableItems.length; i++)
+    {
+      if (tableItems[i].getChecked())
+      {
+        checkedCount++;
+        fileNames.add(tableItems[i].getText(1));
+      }
+    }
+    return fileNames.size() < checkedCount ? ImporterPlugin.INSTANCE.getString("_UI_DuplicateEcoreNames_message") : null;
   }
 }
