@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.33 2005/05/17 17:51:00 khussey Exp $
+ * $Id: GenModelImpl.java,v 1.34 2005/05/26 17:33:22 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2706,9 +2706,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         String mainPackage = getMainPackage();
         if (mainPackage != null)
         {
-          return new StringBuffer(mainPackage).append(".").append(packageSuffix).append(".").
-            append(CodeGenUtil.validJavaIdentifier(modelName)).
-            append(classSuffix).toString();
+          StringBuffer pluginClass = new StringBuffer(mainPackage);
+          if (!isBlank(packageSuffix))
+          {
+            pluginClass.append(".").append(packageSuffix);
+          }
+          pluginClass.append(".").append(CodeGenUtil.validJavaIdentifier(modelName)). append(classSuffix);
+          return pluginClass.toString();
         }
       }
     }
@@ -2730,7 +2734,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public String getEditPluginClass()
   {
-    return getPluginClass(isSetEditPluginClass(), getEditPluginClassGen(), "provider", "EditPlugin");
+    String suffix = GenPackageImpl.PROVIDER_PACKAGE_SUFFIX_EDEFAULT;
+    GenPackage genPackage = getMainGenPackage();
+    if (genPackage != null)
+    {
+      suffix = genPackage.getProviderPackageSuffix();
+    }
+    return getPluginClass(isSetEditPluginClass(), getEditPluginClassGen(), suffix, "EditPlugin");
   }
 
   /**
@@ -2755,7 +2765,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   protected String getMainPackage()
   {
-    String result = getModelDirectory();
+    GenPackage genPackage = getMainGenPackage();
+    return genPackage != null ? genPackage.getInterfacePackageName() : getModelDirectory();
+  }
+  
+  protected GenPackage getMainGenPackage()
+  {
     if (!getGenPackages().isEmpty())
     {
       GenPackage genPackage = (GenPackage)getGenPackages().get(0);
@@ -2763,9 +2778,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         genPackage = (GenPackage)genPackage.getNestedGenPackages().get(0);
       }
-      result = genPackage.getInterfacePackageName();
+      return genPackage;
     }
-    return result;
+    return null;
   }
 
   /**
@@ -2810,7 +2825,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public String getEditorPluginClass()
   {
-    return getPluginClass(isSetEditorPluginClass(), getEditorPluginClassGen(), "presentation", "EditorPlugin");
+    String suffix = GenPackageImpl.PRESENTATION_PACKAGE_SUFFIX_EDEFAULT;
+    GenPackage genPackage = getMainGenPackage();
+    if (genPackage != null)
+    {
+      suffix = genPackage.getPresentationPackageSuffix();
+    }    
+    return getPluginClass(isSetEditorPluginClass(), getEditorPluginClassGen(), suffix, "EditorPlugin");
   }
 
   /**
@@ -3347,7 +3368,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public String getTestSuiteClass()
   {
-    return getPluginClass(isSetTestSuiteClass(), getTestSuiteClassGen(), "tests", "AllTests");
+    String suffix = GenPackageImpl.TESTS_PACKAGE_SUFFIX_EDEFAULT;
+    GenPackage genPackage = getMainGenPackage();
+    if (genPackage != null)
+    {
+      suffix = genPackage.getTestsPackageSuffix();
+    }        
+    return getPluginClass(isSetTestSuiteClass(), getTestSuiteClassGen(), suffix, "AllTests");
   }
 
   /**
@@ -4999,6 +5026,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     URI genModelURI = eResource().getURI();
     String result = genModelURI.deresolve(genModelURI.trimSegments(genModelURI.segmentCount() - 3)).toString();
     return result;
+  }
+  
+  public String getPropertyCategoryKey(String category)
+  {
+    return "_UI_" + CodeGenUtil.validJavaIdentifier(category) + "PropertyCategory";
   }
 
 } //GenModelImpl
