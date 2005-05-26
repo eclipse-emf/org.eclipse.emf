@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.12 2005/05/25 23:50:59 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.13 2005/05/26 00:34:47 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -467,9 +467,9 @@ public abstract class ModelImporter
   {
     if (getOriginalGenModel() != null && !getOriginalGenModel().getGenPackages().isEmpty())
     {
-      for (Iterator r = getOriginalGenModel().getGenPackages().iterator(); r.hasNext();)
+      for (Iterator i = getOriginalGenModel().getGenPackages().iterator(); i.hasNext();)
       {
-        GenPackage referencedGenPackage = (GenPackage)r.next();
+        GenPackage referencedGenPackage = (GenPackage)i.next();
         if (referencedGenPackage.getEcorePackage() != null && referencedGenPackage.getEcorePackage().getNsURI().equals(ePackage.getNsURI()))
         {
           return referencedGenPackage;
@@ -549,7 +549,7 @@ public abstract class ModelImporter
     return null;
   }
 
-  public List filterReferencedEPackages(List ePackages)
+  public List filterReferencedEPackages(Collection ePackages)
   {
     if (ePackages.isEmpty())
     {
@@ -1051,45 +1051,51 @@ public abstract class ModelImporter
   {
     if (ePackageToInfoMap != null)
     {
-      Map counterByEcoreName = new HashMap();  
-      Collection ePackageInfos = ePackageToInfoMap.values();
-      for (Iterator i = ePackageInfos.iterator(); i.hasNext();)
+      Map counterByEcoreName = new HashMap();
+      List ePackages = filterReferencedEPackages(ePackageToInfoMap.keySet());
+      if (!ePackages.isEmpty())
       {
-        EPackageInfo ePackageInfo = (EPackageInfo)i.next();
-        String fileName = ePackageInfo.getEcoreFileName();
-        if (fileName != null)
+        List ePackageInfos = new ArrayList(ePackages.size());
+        for (Iterator i = ePackages.iterator(); i.hasNext();)
         {
-          counterByEcoreName.put(fileName, null);
-        }
-      }
-      
-      for (Iterator i = ePackageInfos.iterator(); i.hasNext();)
-      {        
-        EPackageInfo ePackageInfo = (EPackageInfo)i.next();
-        String fileName = ePackageInfo.getEcoreFileName();
-        if (fileName != null)
-        {
-          Integer counterObject = (Integer)counterByEcoreName.get(fileName);
-          if (counterObject != null)
+          EPackage ePackage = (EPackage)i.next();
+          EPackageInfo ePackageInfo = (EPackageInfo)ePackageToInfoMap.get(ePackage);
+          ePackageInfos.add(ePackageInfo);
+          String fileName = ePackageInfo.getEcoreFileName();
+          if (fileName != null)
           {
-            int counter = counterObject.intValue();
-            int index = fileName.lastIndexOf(".");
-            StringBuffer newFileName = null;
-            do
-            {            
-              newFileName = new StringBuffer(fileName).insert(index, counter++);
-            }
-            while (counterByEcoreName.containsKey(newFileName.toString()));
-            
-            ePackageInfo.setEcoreFileName(newFileName.toString());
-            counterObject = new Integer(counter);
-            counterByEcoreName.put(newFileName.toString(), new Integer(1));
+            counterByEcoreName.put(fileName, null);
           }
-          else
+        }
+        
+        for (Iterator i = ePackageInfos.iterator(); i.hasNext();)
+        {        
+          EPackageInfo ePackageInfo = (EPackageInfo)i.next();
+          String fileName = ePackageInfo.getEcoreFileName();
+          if (fileName != null)
           {
-            counterObject = new Integer(1);
-          }        
-          counterByEcoreName.put(fileName, counterObject);
+            Integer counterObject = (Integer)counterByEcoreName.get(fileName);
+            if (counterObject != null)
+            {
+              int counter = counterObject.intValue();
+              int index = fileName.lastIndexOf(".");
+              StringBuffer newFileName = null;
+              do
+              {            
+                newFileName = new StringBuffer(fileName).insert(index, counter++);
+              }
+              while (counterByEcoreName.containsKey(newFileName.toString()));
+              
+              ePackageInfo.setEcoreFileName(newFileName.toString());
+              counterObject = new Integer(counter);
+              counterByEcoreName.put(newFileName.toString(), new Integer(1));
+            }
+            else
+            {
+              counterObject = new Integer(1);
+            }        
+            counterByEcoreName.put(fileName, counterObject);
+          }
         }
       }
     }
