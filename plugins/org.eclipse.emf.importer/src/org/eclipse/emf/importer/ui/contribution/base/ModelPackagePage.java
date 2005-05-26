@@ -215,7 +215,7 @@ public class ModelPackagePage extends ModelImporterPage
     Composite selectionComposite = new Composite(composite, SWT.NONE);
     selectionComposite.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
      {
-      GridLayout layout = new GridLayout(2, false);
+      GridLayout layout = new GridLayout(2, true);
       layout.marginLeft = -5; 
       layout.marginRight = -5;
       layout.marginTop = -5;
