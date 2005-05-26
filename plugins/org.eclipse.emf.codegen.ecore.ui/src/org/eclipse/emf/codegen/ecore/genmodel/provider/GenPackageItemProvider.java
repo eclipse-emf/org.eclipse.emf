@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.10 2005/04/27 21:28:22 khussey Exp $
+ * $Id: GenPackageItemProvider.java,v 1.11 2005/05/26 17:26:27 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -78,6 +78,12 @@ public class GenPackageItemProvider
       addDisposableProviderFactoryPropertyDescriptor(object);
       addAdapterFactoryPropertyDescriptor(object);
       addLoadInitializationPropertyDescriptor(object);
+      addInterfacePackageSuffixPropertyDescriptor(object);
+      addClassPackageSuffixPropertyDescriptor(object);
+      addUtilityPackageSuffixPropertyDescriptor(object);
+      addProviderPackageSuffixPropertyDescriptor(object);
+      addPresentationPackageSuffixPropertyDescriptor(object);
+      addTestsPackageSuffixPropertyDescriptor(object);
       addEcorePackagePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -210,6 +216,132 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Interface Package Suffix feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addInterfacePackageSuffixPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_interfacePackageSuffix_feature"),
+         getString("_UI_GenPackage_interfacePackageSuffix_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_InterfacePackageSuffix(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_PackageSuffixesPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Class Package Suffix feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addClassPackageSuffixPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_classPackageSuffix_feature"),
+         getString("_UI_GenPackage_classPackageSuffix_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_ClassPackageSuffix(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_PackageSuffixesPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Utility Package Suffix feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addUtilityPackageSuffixPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_utilityPackageSuffix_feature"),
+         getString("_UI_GenPackage_utilityPackageSuffix_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_UtilityPackageSuffix(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_PackageSuffixesPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Provider Package Suffix feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addProviderPackageSuffixPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_providerPackageSuffix_feature"),
+         getString("_UI_GenPackage_providerPackageSuffix_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_ProviderPackageSuffix(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_PackageSuffixesPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Presentation Package Suffix feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addPresentationPackageSuffixPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_presentationPackageSuffix_feature"),
+         getString("_UI_GenPackage_presentationPackageSuffix_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_PresentationPackageSuffix(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_PackageSuffixesPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Tests Package Suffix feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addTestsPackageSuffixPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_testsPackageSuffix_feature"),
+         getString("_UI_GenPackage_testsPackageSuffix_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_TestsPackageSuffix(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_PackageSuffixesPropertyCategory"),
+         null));
+  }
+
+  /**
    * This adds a property descriptor for the Ecore Package feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -299,6 +431,12 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY:
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
+      case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
+      case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
+      case GenModelPackage.GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX:
+      case GenModelPackage.GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX:
+      case GenModelPackage.GEN_PACKAGE__PRESENTATION_PACKAGE_SUFFIX:
+      case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
