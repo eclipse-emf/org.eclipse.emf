@@ -78,7 +78,7 @@ public class AdapterFactoryClass
     genModel.addImport("org.eclipse.emf.common.notify.Notifier");
     genModel.addImport("org.eclipse.emf.common.notify.impl.AdapterFactoryImpl");
     genModel.addImport("org.eclipse.emf.ecore.EObject");
-    if (!genPackage.hasJavaLangConflict()) genModel.addImport(genPackage.getInterfacePackageName() + ".*");
+    if (!genPackage.hasJavaLangConflict() && !genPackage.getUtilitiesPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");
     genModel.markImportLocation(stringBuffer);
     stringBuffer.append(TEXT_6);
     stringBuffer.append(genPackage.getQualifiedPackageInterfaceName());

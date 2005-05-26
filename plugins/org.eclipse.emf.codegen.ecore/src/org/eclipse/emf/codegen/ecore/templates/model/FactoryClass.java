@@ -163,7 +163,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_5);
     genModel.addImport("org.eclipse.emf.ecore.EClass");
     genModel.addImport("org.eclipse.emf.ecore.EObject");
-    if (!genPackage.hasJavaLangConflict() && !genPackage.hasInterfaceImplConflict()) genModel.addImport(genPackage.getInterfacePackageName() + ".*");
+    if (!genPackage.hasJavaLangConflict() && !genPackage.hasInterfaceImplConflict() && !genPackage.getClassPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");
     genModel.markImportLocation(stringBuffer);
     stringBuffer.append(TEXT_6);
     stringBuffer.append(genPackage.getFactoryClassName());

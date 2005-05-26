@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.10 2005/04/28 18:40:10 elena Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.11 2005/05/26 17:25:13 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -21,7 +21,7 @@ package <%=genPackage.getClassPackageName()%>;
 
 <%genModel.addImport("org.eclipse.emf.ecore.EClass");%>
 <%genModel.addImport("org.eclipse.emf.ecore.EObject");%>
-<%if (!genPackage.hasJavaLangConflict() && !genPackage.hasInterfaceImplConflict()) genModel.addImport(genPackage.getInterfacePackageName() + ".*");%>
+<%if (!genPackage.hasJavaLangConflict() && !genPackage.hasInterfaceImplConflict() && !genPackage.getClassPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");%>
 <%genModel.markImportLocation(stringBuffer);%>
 
 /**

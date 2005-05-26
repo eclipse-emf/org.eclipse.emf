@@ -500,7 +500,7 @@ public class ValidatorClass
     genModel.addImport("java.util.Map");
     genModel.addImport("org.eclipse.emf.common.util.DiagnosticChain");
     genModel.addImport("org.eclipse.emf.ecore.EPackage");
-    if (!genPackage.hasJavaLangConflict()) genModel.addImport(genPackage.getInterfacePackageName() + ".*");
+    if (!genPackage.hasJavaLangConflict() && !genPackage.getUtilitiesPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");
     genModel.markImportLocation(stringBuffer);
     genModel.addPseudoImport("org.eclipse.emf.ecore.EValidator.Registry");
     genModel.addPseudoImport("org.eclipse.emf.ecore.EValidator.SubstitutionLabelProvider");
