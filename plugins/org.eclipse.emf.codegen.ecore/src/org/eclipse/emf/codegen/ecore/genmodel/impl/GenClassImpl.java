@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.30 2005/05/17 17:51:00 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.31 2005/05/26 17:22:36 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1930,13 +1930,13 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString(
         "_UI_GeneratingJavaClass_message",
-        new Object []{ getGenPackage().getInterfacePackageName() + ".tests." + getInterfaceName() + "Test" }));
+        new Object []{ getGenPackage().getTestsPackageName() + "." + getInterfaceName() + "Test" }));
       generate(
         new SubProgressMonitor(progressMonitor, 1),
         Generator.EMF_TESTS_PROJECT_STYLE,
         Collections.EMPTY_LIST,
         getGenModel().getTestsDirectory(),
-        getGenPackage().getInterfacePackageName() + ".tests",
+        getGenPackage().getTestsPackageName(),
         getInterfaceName() + "Test",
         getGenModel().getTestCaseEmitter());
     }
