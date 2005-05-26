@@ -120,6 +120,18 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/adapterFactory"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to initialize package meta-data by loading from serialized form (required for large models)"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/loadInitialization"/>
+      <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the package for interfaces"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/interfacePackageSuffix"/>
+      <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the package for implementation classes"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/classPackageSuffix"/>
+      <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the utility package"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/utilityPackageSuffix"/>
+      <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the package for item providers"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/providerPackageSuffix"/>
+      <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the package for ui classes"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/presentationPackageSuffix"/>
+      <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the package for JUnit tests"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/testsPackageSuffix"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The core model element for this package" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/ecorePackage"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genModel"/>
