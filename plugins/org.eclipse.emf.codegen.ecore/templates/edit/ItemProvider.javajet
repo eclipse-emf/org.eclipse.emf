@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.14 2005/05/16 18:16:19 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.15 2005/05/26 17:34:34 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -112,7 +112,7 @@ public class <%=genClass.getProviderClassName()%>
   <%if (genFeature.getPropertyCategory() == null || genFeature.getPropertyCategory().length() == 0) {%>
 				 null,
   <%} else {%>
-				 getString("_UI_<%=genFeature.getPropertyCategory()%>PropertyCategory"),<%=genModel.getNonNLS()%>
+				 getString("<%=genModel.getPropertyCategoryKey(genFeature.getPropertyCategory())%>"),<%=genModel.getNonNLS()%>
   <%}%>
   <%if (genFeature.getPropertyFilterFlags().isEmpty()) {%>
 				 null));

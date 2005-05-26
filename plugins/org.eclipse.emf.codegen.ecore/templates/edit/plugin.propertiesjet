@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.6 2005/04/27 20:39:06 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.7 2005/05/26 17:34:34 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -58,7 +58,7 @@ _UI_Unknown_datatype= Value
 <%for (Iterator i=genModel.getFilteredAllGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next(); String description = genFeature.getPropertyDescription();%>
 _UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_feature = <%=genFeature.getFormattedName()%>
   <%if (description != null && description.length() > 0) {%>
-_UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_description = <%=description%>;
+_UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_description = <%=description%>
   <%}%>
 <%}%>
 _UI_Unknown_feature = Unspecified
@@ -73,5 +73,5 @@ _UI_<%=genEnum.getName()%>_<%=genEnumLiteral.getName()%>_literal = <%=genEnumLit
   <%}%>
 <%}%>
 <%for (Iterator i=genModel.getPropertyCategories().iterator(); i.hasNext();) { String category = (String)i.next();%>
-_UI_<%=category%>PropertyCategory = <%=category%>
+<%=genModel.getPropertyCategoryKey(category)%> = <%=category%>
 <%}%>

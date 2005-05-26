@@ -31,13 +31,12 @@ public class PluginProperties
   protected final String TEXT_14 = NL + "_UI_";
   protected final String TEXT_15 = "_";
   protected final String TEXT_16 = "_description = ";
-  protected final String TEXT_17 = ";";
-  protected final String TEXT_18 = NL + "_UI_Unknown_feature = Unspecified" + NL;
-  protected final String TEXT_19 = NL + "_UI_";
-  protected final String TEXT_20 = "_";
-  protected final String TEXT_21 = "_literal = ";
-  protected final String TEXT_22 = NL + "_UI_";
-  protected final String TEXT_23 = "PropertyCategory = ";
+  protected final String TEXT_17 = NL + "_UI_Unknown_feature = Unspecified" + NL;
+  protected final String TEXT_18 = NL + "_UI_";
+  protected final String TEXT_19 = "_";
+  protected final String TEXT_20 = "_literal = ";
+  protected final String TEXT_21 = NL;
+  protected final String TEXT_22 = " = ";
 
   public String generate(Object argument)
   {
@@ -96,28 +95,27 @@ public class PluginProperties
     stringBuffer.append(genFeature.getName());
     stringBuffer.append(TEXT_16);
     stringBuffer.append(description);
+    }
+    }
     stringBuffer.append(TEXT_17);
-    }
-    }
-    stringBuffer.append(TEXT_18);
     for (Iterator i=genModel.getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext();) { GenPackage genPackage = (GenPackage)i.next();
     if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) {
     for (Iterator j=genPackage.getGenEnums().iterator(); j.hasNext();) { GenEnum genEnum = (GenEnum)j.next();
     for (Iterator k=genEnum.getGenEnumLiterals().iterator(); k.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)k.next();
-    stringBuffer.append(TEXT_19);
+    stringBuffer.append(TEXT_18);
     stringBuffer.append(genEnum.getName());
-    stringBuffer.append(TEXT_20);
+    stringBuffer.append(TEXT_19);
     stringBuffer.append(genEnumLiteral.getName());
-    stringBuffer.append(TEXT_21);
+    stringBuffer.append(TEXT_20);
     stringBuffer.append(genEnumLiteral.getName());
     }
     }
     }
     }
     for (Iterator i=genModel.getPropertyCategories().iterator(); i.hasNext();) { String category = (String)i.next();
+    stringBuffer.append(TEXT_21);
+    stringBuffer.append(genModel.getPropertyCategoryKey(category));
     stringBuffer.append(TEXT_22);
-    stringBuffer.append(category);
-    stringBuffer.append(TEXT_23);
     stringBuffer.append(category);
     }
     return stringBuffer.toString();

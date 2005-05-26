@@ -58,8 +58,8 @@ public class ItemProvider
   protected final String TEXT_41 = ".";
   protected final String TEXT_42 = ",";
   protected final String TEXT_43 = NL + "\t\t\t\t null,";
-  protected final String TEXT_44 = NL + "\t\t\t\t getString(\"_UI_";
-  protected final String TEXT_45 = "PropertyCategory\"),";
+  protected final String TEXT_44 = NL + "\t\t\t\t getString(\"";
+  protected final String TEXT_45 = "\"),";
   protected final String TEXT_46 = NL + "\t\t\t\t null));";
   protected final String TEXT_47 = NL + "\t\t\t\t new String[] {";
   protected final String TEXT_48 = NL + "\t\t\t\t\t\"";
@@ -338,7 +338,7 @@ public class ItemProvider
     stringBuffer.append(TEXT_43);
     } else {
     stringBuffer.append(TEXT_44);
-    stringBuffer.append(genFeature.getPropertyCategory());
+    stringBuffer.append(genModel.getPropertyCategoryKey(genFeature.getPropertyCategory()));
     stringBuffer.append(TEXT_45);
     stringBuffer.append(genModel.getNonNLS());
     }
