@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentAdapter.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EContentAdapter.java,v 1.2 2005/05/27 16:23:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -94,12 +94,12 @@ public class EContentAdapter extends AdapterImpl
         Notifier oldValue = (Notifier)notification.getOldValue();
         if (oldValue != null)
         {
-          oldValue.eAdapters().remove(this);
+          removeAdapter(oldValue);
         }
         Notifier newValue = (Notifier)notification.getNewValue();
         if (newValue != null)
         {
-          newValue.eAdapters().add(this);
+          addAdapter(newValue);
         }
         break;
       }
@@ -108,7 +108,7 @@ public class EContentAdapter extends AdapterImpl
         Notifier newValue = (Notifier)notification.getNewValue();
         if (newValue != null)
         {
-          newValue.eAdapters().add(this);
+          addAdapter(newValue);
         }
         break;
       }
@@ -118,7 +118,7 @@ public class EContentAdapter extends AdapterImpl
         for (Iterator i = newValues.iterator(); i.hasNext(); )
         {
           Notifier newValue = (Notifier)i.next();
-          newValue.eAdapters().add(this);
+          addAdapter(newValue);
         }
         break;
       }
@@ -127,7 +127,7 @@ public class EContentAdapter extends AdapterImpl
         Notifier oldValue = (Notifier)notification.getOldValue();
         if (oldValue != null)
         {
-          oldValue.eAdapters().remove(this);
+          removeAdapter(oldValue);
         }
         break;
       }
@@ -137,7 +137,7 @@ public class EContentAdapter extends AdapterImpl
         for (Iterator i = oldValues.iterator(); i.hasNext(); )
         {
           Notifier oldContentValue = (Notifier)i.next();
-          oldContentValue.eAdapters().remove(this);
+          removeAdapter(oldContentValue);
         }
         break;
       }
@@ -165,7 +165,7 @@ public class EContentAdapter extends AdapterImpl
       for (Iterator i = contents.iterator(); i.hasNext(); )
       {
         Notifier notifier = (Notifier)i.next();
-        notifier.eAdapters().add(this);
+        addAdapter(notifier); 
       }
     }
   }
@@ -191,8 +191,18 @@ public class EContentAdapter extends AdapterImpl
       for (Iterator i = contents.iterator(); i.hasNext(); )
       {
         Notifier notifier = (Notifier)i.next();
-        notifier.eAdapters().remove(this);
+        removeAdapter(notifier);
       }
     }
+  }
+  
+  protected void addAdapter(Notifier notifier)
+  {
+    notifier.eAdapters().add(this); 
+  }
+  
+  protected void removeAdapter(Notifier notifier)
+  {
+    notifier.eAdapters().remove(this); 
   }
 }
