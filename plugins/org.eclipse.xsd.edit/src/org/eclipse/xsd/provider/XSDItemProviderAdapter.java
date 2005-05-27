@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDItemProviderAdapter.java,v 1.2 2004/03/08 21:32:32 emerks Exp $
+ * $Id: XSDItemProviderAdapter.java,v 1.3 2005/05/27 19:28:48 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CreateChildCommand;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
@@ -103,6 +104,32 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
       }
     }
     return parent;
+  }
+
+  public List getPropertyDescriptors(final Object object)
+  {
+    if (itemPropertyDescriptors == null)
+    {
+      itemPropertyDescriptors = 
+        new ArrayList()
+        {
+          public boolean add(Object o)
+          {
+            String id = ((IItemPropertyDescriptor)o).getId(object);
+            for (Iterator i = iterator(); i.hasNext(); )
+            {
+              IItemPropertyDescriptor propertyDescriptor = (IItemPropertyDescriptor)i.next();
+              if (id.equals(propertyDescriptor.getId(object)))
+              {
+                return false;
+              }
+            }
+            return super.add(o);
+          }
+        };
+
+    }
+    return itemPropertyDescriptors;
   }
 
   public static class ItemPropertyDescriptorWithDefault extends ItemPropertyDescriptor
