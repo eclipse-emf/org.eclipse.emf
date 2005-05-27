@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreXMLSchemaBuilder.java,v 1.5 2005/01/24 16:51:57 elena Exp $
+ * $Id: EcoreXMLSchemaBuilder.java,v 1.6 2005/05/27 12:10:28 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -45,6 +45,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDAttributeUse;
+import org.eclipse.xsd.XSDAttributeUseCategory;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDCompositor;
 import org.eclipse.xsd.XSDConcreteComponent;
@@ -605,6 +606,10 @@ public class EcoreXMLSchemaBuilder extends MapBuilder
 
   protected void setUseToRequired(EAttribute attribute, XSDAttributeUse attrUse)
   {
+    if (attribute.isRequired())  
+    {
+      attrUse.setUse(XSDAttributeUseCategory.REQUIRED_LITERAL);
+    }
   }
 
   protected void setDefaultValue(EAttribute attribute, XSDAttributeDeclaration attrDecl)
