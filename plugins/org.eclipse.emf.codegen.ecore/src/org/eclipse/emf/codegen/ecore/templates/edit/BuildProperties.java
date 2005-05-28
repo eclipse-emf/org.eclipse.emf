@@ -24,9 +24,10 @@ public class BuildProperties
   protected final String TEXT_8 = ",\\" + NL + "               plugin.properties,\\" + NL + "               icons/" + NL + "jars.compile.order = ";
   protected final String TEXT_9 = NL + "source.";
   protected final String TEXT_10 = " = src/" + NL + "output.";
-  protected final String TEXT_11 = " = bin/";
-  protected final String TEXT_12 = NL + "bin.includes = plugin.xml,\\" + NL + "               plugin.properties,\\" + NL + "               icons/";
-  protected final String TEXT_13 = NL;
+  protected final String TEXT_11 = " = bin/" + NL + "exclude.";
+  protected final String TEXT_12 = " = **/doc-files/**";
+  protected final String TEXT_13 = NL + "bin.includes = plugin.xml,\\" + NL + "               plugin.properties,\\" + NL + "               icons/";
+  protected final String TEXT_14 = NL;
 
   public String generate(Object argument)
   {
@@ -67,10 +68,12 @@ public class BuildProperties
     stringBuffer.append(TEXT_10);
     stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_11);
-    } else {
+    stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_12);
-    }
+    } else {
     stringBuffer.append(TEXT_13);
+    }
+    stringBuffer.append(TEXT_14);
     return stringBuffer.toString();
   }
 }
