@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseLoader.java,v 1.2 2005/05/24 18:23:55 marcelop Exp $
+ * $Id: RoseLoader.java,v 1.3 2005/05/28 10:19:22 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -66,7 +66,7 @@ public class RoseLoader extends RoseComponent
     }
     catch (Exception exception)
     {
-      Pattern pattern = Pattern.compile(".*/([^/]*)/((src/)?model/[^/]*\\.cat)$");
+      Pattern pattern = Pattern.compile(".*/([^/]*?)(?:_)?[0-9.]*/((src/)?model/[^/]*\\.cat)$");
       Matcher matcher = pattern.matcher(fileName.replaceAll("\\\\", "/"));
       if (matcher.matches())
       {
