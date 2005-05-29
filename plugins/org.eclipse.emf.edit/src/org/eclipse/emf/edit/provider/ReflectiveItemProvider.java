@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.12 2004/12/11 12:28:16 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.13 2005/05/29 11:44:35 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -463,6 +463,7 @@ public class ReflectiveItemProvider
         case ExtendedMetaData.GROUP_FEATURE:
         {
           Set allDelegated = new HashSet();
+          Set qNames = new HashSet();
           for (Iterator i = eClass.getEStructuralFeatures().iterator(); i.hasNext(); )
           {
             EStructuralFeature otherFeature = (EStructuralFeature)i.next();
@@ -472,6 +473,9 @@ public class ReflectiveItemProvider
               if (otherFeature.isChangeable())
               {
                 delegated.add(otherFeature);
+                qNames.add
+                  (ExtendedMetaData.INSTANCE.getNamespace(otherFeature) + "#" + 
+                     ExtendedMetaData.INSTANCE.getName(otherFeature));
               }
               allDelegated.add(otherFeature);
             }
@@ -489,7 +493,10 @@ public class ReflectiveItemProvider
                 if (otherFeature != feature && 
                       otherFeature.isChangeable() &&
                       otherFeature.isDerived() &&
-                      allDelegated.contains(ExtendedMetaData.INSTANCE.getAffiliation(eClass, otherFeature)))
+                      allDelegated.contains(ExtendedMetaData.INSTANCE.getAffiliation(eClass, otherFeature))  &&
+                      qNames.add
+                        (ExtendedMetaData.INSTANCE.getNamespace(otherFeature) + "#" + 
+                           ExtendedMetaData.INSTANCE.getName(otherFeature)))
                 {
                   delegated.add(otherFeature);
                 }
