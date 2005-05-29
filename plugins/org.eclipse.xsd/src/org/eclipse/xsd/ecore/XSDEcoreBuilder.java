@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.33 2005/04/27 18:22:37 elena Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.34 2005/05/29 12:50:34 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1582,7 +1582,6 @@ public class XSDEcoreBuilder extends MapBuilder
     (EClass eClass, XSDAttributeDeclaration xsdAttributeDeclaration, String name, XSDComponent xsdComponent, boolean isRequired)
   {
     XSDSimpleTypeDefinition attributeTypeDefinition = xsdAttributeDeclaration.getTypeDefinition();
-    EDataType eDataType = getEDataType(attributeTypeDefinition);
   
     XSDTypeDefinition referenceType = getEcoreTypeQNameAttribute(xsdAttributeDeclaration, "reference");
     if (referenceType != null)
@@ -1623,15 +1622,51 @@ public class XSDEcoreBuilder extends MapBuilder
     }
     else
     {
-      EStructuralFeature result =
-        createFeature
-          (eClass,
-           name,
-           eDataType,
-           xsdComponent,
-           isRequired ? 1 : 0,
-           1);
-      return result;
+      boolean isMany = 
+          attributeTypeDefinition.getVariety() == XSDVariety.LIST_LITERAL &&
+          xsdComponent instanceof XSDAttributeUse && 
+          "true".equals(getEcoreAttribute(xsdComponent, "many"));
+      if (isMany)
+      {
+        EDataType eDataType = getEDataType(attributeTypeDefinition.getItemTypeDefinition());
+        int lowerBound = isRequired ? 1 : 0;
+        int upperBound = -1;
+        if (isRequired)
+        {
+          XSDMinLengthFacet xsdMinLengthFacet = attributeTypeDefinition.getEffectiveMinLengthFacet();
+          if (xsdMinLengthFacet != null)
+          {
+            lowerBound = xsdMinLengthFacet.getValue();
+          }
+        }
+        XSDMaxLengthFacet xsdMaxLengthFacet = attributeTypeDefinition.getEffectiveMaxLengthFacet();
+        if (xsdMaxLengthFacet != null)
+        {
+          upperBound = xsdMaxLengthFacet.getValue();
+        }
+        EStructuralFeature result =
+          createFeature
+            (eClass,
+             name,
+             eDataType,
+             xsdComponent,
+             lowerBound,
+             upperBound);
+        return result;
+      }
+      else
+      {
+        EDataType eDataType = getEDataType(attributeTypeDefinition);
+        EStructuralFeature result =
+          createFeature
+            (eClass,
+             name,
+             eDataType,
+             xsdComponent,
+             isRequired ? 1 : 0,
+             1);
+        return result;
+      }
     }
   }
 
