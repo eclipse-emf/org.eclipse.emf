@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.37 2005/05/24 11:43:38 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.38 2005/05/29 12:52:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -134,6 +134,7 @@ public class XMLSaveImpl implements XMLSave
   protected static final int OBJECT_ATTRIBUTE_MANY                  = 23;
   protected static final int OBJECT_ATTRIBUTE_IDREF_SINGLE          = 24;
   protected static final int OBJECT_ATTRIBUTE_IDREF_MANY            = 25;
+  protected static final int DATATYPE_ATTRIBUTE_MANY                = 26;
 
   protected static final String XML_VERSION = "1.0";
 
@@ -1103,6 +1104,10 @@ public class XMLSaveImpl implements XMLSave
             }
             break;
           }
+          case DATATYPE_ATTRIBUTE_MANY:
+          {
+            break;
+          }
           case OBJECT_CONTAIN_MANY_UNSETTABLE:
           case DATATYPE_MANY:
           {
@@ -1182,6 +1187,11 @@ public class XMLSaveImpl implements XMLSave
         case DATATYPE_MANY:
         {
           saveDataTypeMany(o, f);
+          break;
+        }
+        case DATATYPE_ATTRIBUTE_MANY:
+        {
+          saveDataTypeAttributeMany(o, f);
           break;
         }
         case DATATYPE_ELEMENT_SINGLE:
@@ -1491,6 +1501,52 @@ public class XMLSaveImpl implements XMLSave
             handler.recordValues(text, o, f,  value);           
           }
         }
+      }
+    }
+  }
+
+  protected void saveDataTypeAttributeMany(EObject o, EStructuralFeature f)
+  {
+    List values = (List)helper.getValue(o, f);
+    int size = values.size();
+    if (size > 0)
+    {
+      EDataType d = (EDataType)f.getEType();
+      EPackage ePackage = d.getEPackage();
+      EFactory fac = ePackage.getEFactoryInstance();
+      StringBuffer stringValues = new StringBuffer();
+      for (int i = 0; i < size; ++i)
+      {
+        Object value = values.get(i);
+        if (value != null)
+        {
+          String svalue = helper.convertToString(fac, d, value);
+          if (escape != null)
+          {
+            svalue = escape.convert(svalue);
+          }
+          if (i > 0)
+          {
+            stringValues.append(' ');
+          }
+          stringValues.append(svalue);
+        }
+      }
+      if (!toDOM)
+      {
+        String name = helper.getQName(f);
+        doc.startAttribute(name);
+        doc.addAttributeContent(stringValues.toString());
+        doc.endAttribute();
+      }
+      else
+      {
+        helper.populateNameInfo(nameInfo, f);
+        Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+        String  value = stringValues.toString();
+        attr.setNodeValue(value);
+        ((Element)currentNode).setAttributeNodeNS(attr);
+        handler.recordValues(attr, o, f, value);
       }
     }
   }
@@ -2437,25 +2493,28 @@ public class XMLSaveImpl implements XMLSave
               ELEMENT_FEATURE_MAP;
         }
 
-        if (isMany)
-        {
-          return DATATYPE_MANY;
-        }
-
         if (extendedMetaData != null)
         {
           switch (extendedMetaData.getFeatureKind(f))
           {
             case ExtendedMetaData.SIMPLE_FEATURE:
-            case ExtendedMetaData.ELEMENT_FEATURE:
             {
               return DATATYPE_ELEMENT_SINGLE;
             }
+            case ExtendedMetaData.ELEMENT_FEATURE:
+            {
+              return f.isMany() ? DATATYPE_MANY : DATATYPE_ELEMENT_SINGLE;
+            }
             case ExtendedMetaData.ATTRIBUTE_FEATURE:
             {
-              return DATATYPE_SINGLE;
+              return f.isMany() ? DATATYPE_ATTRIBUTE_MANY: DATATYPE_SINGLE;
             }
           }
+        }
+
+        if (isMany)
+        {
+          return DATATYPE_MANY;
         }
 
         if (isUnsettable && map == null)
