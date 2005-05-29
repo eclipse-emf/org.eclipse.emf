@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.20 2005/05/25 19:12:59 davidms Exp $
+ * $Id: GenFeatureImpl.java,v 1.21 2005/05/29 11:36:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1410,6 +1410,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         case ExtendedMetaData.GROUP_FEATURE:
         {
           Set allDelegated = new HashSet();
+          Set qNames = new HashSet();
           for (Iterator i = genClass.getGenFeatures().iterator(); i.hasNext(); )
           {
             GenFeature otherFeature = (GenFeature)i.next();
@@ -1419,6 +1420,9 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
               if (otherFeature.isChangeable())
               {
                 delegated.add(otherFeature);
+                qNames.add
+                  (extendedMetaData.getNamespace(otherFeature.getEcoreFeature()) + "#" + 
+                     extendedMetaData.getName(otherFeature.getEcoreFeature()));
               }
               allDelegated.add(otherFeature.getEcoreFeature());
             }
@@ -1438,7 +1442,12 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
                       otherFeature.isDerived() &&
                       allDelegated.contains(extendedMetaData.getAffiliation(genClass.getEcoreClass(), otherFeature.getEcoreFeature())))
                 {
-                  delegated.add(otherFeature);
+                  if (qNames.add
+                        (extendedMetaData.getNamespace(otherFeature.getEcoreFeature()) + "#" + 
+                           extendedMetaData.getName(otherFeature.getEcoreFeature())))
+                  {
+                    delegated.add(otherFeature);
+                  }
                 }
               }
             }
