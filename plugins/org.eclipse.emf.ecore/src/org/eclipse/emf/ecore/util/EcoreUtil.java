@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.26 2005/05/29 11:49:18 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.27 2005/05/30 12:40:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -250,7 +250,7 @@ public class EcoreUtil
    * Visits all proxies in the resource set and tries to resolve them.
    * @param resourceSet the objects to visit.
    */
-  public void resolveAll(ResourceSet resourceSet)
+  public static void resolveAll(ResourceSet resourceSet)
   {
     List resources = resourceSet.getResources();
     for (int i = 0; i < resources.size(); ++i)
@@ -263,7 +263,7 @@ public class EcoreUtil
    * Visits all proxies in the resource and tries to resolve them.
    * @param resource the objects to visit.
    */
-  public void resolveAll(Resource resource)
+  public static void resolveAll(Resource resource)
   {
     for (Iterator i = resource.getAllContents();  i.hasNext(); )
     {
@@ -278,7 +278,7 @@ public class EcoreUtil
    * Visits all proxies referenced by the object or recursively any of it's contained object.
    * @param eObject the object to visist.
    */
-  public void resolveAll(EObject eObject)
+  public static void resolveAll(EObject eObject)
   {
     for (Iterator i = eObject.eAllContents(); i.hasNext(); )
     {
