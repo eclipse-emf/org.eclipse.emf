@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.11 2005/05/26 17:26:27 marcelop Exp $
+ * $Id: GenPackageItemProvider.java,v 1.12 2005/05/30 20:14:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -409,7 +409,12 @@ public class GenPackageItemProvider
   public String getText(Object object)
   {
     GenPackage genPackage = (GenPackage)object;
-    return genPackage.getPrefix();
+    String text = genPackage.getPrefix();
+    if (text == null || text.length() == 0)
+    {
+      text = "[" + genPackage.getEcorePackage().getName() + "]";
+    }
+    return text;
   }
 
   /**
