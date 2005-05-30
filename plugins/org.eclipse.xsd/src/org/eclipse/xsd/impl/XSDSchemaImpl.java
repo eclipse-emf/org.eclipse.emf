@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.14 2005/04/13 19:19:34 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.15 2005/05/30 11:38:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1482,6 +1482,18 @@ public class XSDSchemaImpl
         XSDNamedComponentImpl.mergeToSortedList
           (getAttributeDeclarations(), 
            ((XSDSchema)xsiSchemas.iterator().next()).getAttributeDeclarations());
+      }
+    }
+
+    for (Iterator i = getReferencingDirectives().iterator(); i.hasNext(); )
+    {
+      XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)i.next();
+      if (xsdSchemaDirective.getContainer() == null ||
+            xsdSchemaDirective.getResolvedSchema() != this &&
+            (!(xsdSchemaDirective instanceof XSDSchemaCompositor) ||
+                ((XSDSchemaCompositor)xsdSchemaDirective).getIncorporatedSchema() != this))
+      {
+        i.remove();
       }
     }
 
