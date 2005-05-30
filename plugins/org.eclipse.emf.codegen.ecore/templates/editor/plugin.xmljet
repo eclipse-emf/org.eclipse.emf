@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.11 2005/05/16 18:15:12 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.12 2005/05/30 20:50:52 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -100,6 +100,32 @@
   </extension>
 
   <extension
+    point="org.eclipse.ui.commands">
+    <command
+      name="%_UI_Menu_OpenURI_label"
+      description="%_UI_Menu_OpenURI_description"
+      categoryId="org.eclipse.ui.category.file"
+      id="<%=genModel.getQualifiedEditorAdvisorClassName()%>OpenURICommand" />  
+    <command
+      name="%_UI_Menu_Open_label"
+      description="%_UI_Menu_Open_description"
+      categoryId="org.eclipse.ui.category.file"
+      id="<%=genModel.getQualifiedEditorAdvisorClassName()%>OpenCommand" />  
+  </extension>
+  
+  <extension
+    point="org.eclipse.ui.bindings">
+    <key
+      commandId="<%=genModel.getQualifiedEditorAdvisorClassName()%>OpenURICommand"
+      sequence="M1+U"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" />
+    <key
+      commandId="<%=genModel.getQualifiedEditorAdvisorClassName()%>OpenCommand"
+      sequence="M1+O"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" />
+  </extension>
+
+  <extension
     point="org.eclipse.ui.actionSets">
     <actionSet
       label="%_UI_<%=genModel.getEditorAdvisorClassName()%>_ActionSet_label"
@@ -113,14 +139,14 @@
       </action>
       <action
         label="%_UI_Menu_OpenURI_label"
-        accelerator="Ctrl+U"
+        definitionId="<%=genModel.getQualifiedEditorAdvisorClassName()%>OpenURICommand"
         class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$OpenURIAction"
         menubarPath="file/additions"
         id="<%=genModel.getQualifiedEditorAdvisorClassName()%>OpenURIAction">
       </action>
       <action
         label="%_UI_Menu_Open_label"
-        accelerator="Ctrl+O"
+        definitionId="<%=genModel.getQualifiedEditorAdvisorClassName()%>OpenCommand"
         class="<%=genModel.getQualifiedEditorAdvisorClassName()%>$OpenAction"
         menubarPath="file/additions"
         id="<%=genModel.getQualifiedEditorAdvisorClassName()%>OpenAction">
@@ -129,7 +155,7 @@
   </extension>
    
 <%}%>
-<%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); %>
+<%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); if (genPackage.hasConcreteClasses()){%>
 
   <%if (genModel.isRichClientPlatform()) {%>
   <extension
@@ -175,5 +201,5 @@
         contributorClass="<%=genPackage.getQualifiedActionBarContributorClassName()%>" >
     </editor>
   </extension>    
-<%}%>
+<%}}%>
 </plugin>
