@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.13 2005/05/26 00:34:47 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.14 2005/05/30 20:24:16 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -41,7 +41,10 @@ import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.util.AbstractTreeIterator;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EPackage;
@@ -639,9 +642,7 @@ public abstract class ModelImporter
   {
     clearEPackagesCollections();
     IStatus status = doComputeEPackages(progressMonitor);
-    adjustEPackages();
     presetEPackagesToGenerate();
-    makeEcoreFileNamesUnique();
     return status;
   }
   
@@ -686,46 +687,67 @@ public abstract class ModelImporter
     }
   }
 
-  protected void adjustEPackages()
+  public void adjustEPackages(IProgressMonitor progressMonitor)
   {
-    for (Iterator i = getEPackages().iterator(); i.hasNext();)
+    TreeIterator ePackagesIterator = new AbstractTreeIterator(getEPackages(), false)
     {
-      EPackage ePackage = (EPackage)i.next();
-      adjustEPackage(ePackage);
+      protected Iterator getChildren(Object object)
+      {
+        return object instanceof Collection ? 
+          ((Collection)object).iterator() :
+          ((EPackage)object).getESubpackages().iterator();  
+      }
+    };
+    
+    while (ePackagesIterator.hasNext())
+    {
+      EPackage ePackage = (EPackage)ePackagesIterator.next();
+      adjustEPackage(progressMonitor, ePackage);
     }
+    
+    makeEcoreFileNamesUnique();
   }
 
-  public void adjustEPackage(EPackage ePackage)
+  protected void adjustEPackage(IProgressMonitor progressMonitor, EPackage ePackage)
   {
     EPackageInfo ePackageInfo = getEPackageInfo(ePackage);
-    String qualifiedName = ePackage.getName();
 
-    int index = qualifiedName.lastIndexOf(".");
+    String name = ePackage.getName();
+    int index = name.lastIndexOf(".");
     if (index != -1)
     {
-      ePackageInfo.setBasePackage(qualifiedName.substring(0, index));
-      ePackage.setName(qualifiedName.substring(index + 1));
+      String basePackage = ePackageInfo.getBasePackage();
+      String namePackage = name.substring(0, index);
+      name = name.substring(index + 1);
+      
+      if (basePackage != null && !namePackage.startsWith(basePackage))
+      {
+        namePackage = basePackage + "." + namePackage;
+      }
+      ePackageInfo.setBasePackage(namePackage);
+      ePackage.setName(name);
     }
-    else
-    {
-      ePackageInfo.setBasePackage(null);
-    }
-    String prefix = ePackage.getName();
-    ePackageInfo.setPrefix(Character.toUpperCase(prefix.charAt(0)) + prefix.substring(1));
 
-    String ecoreFileName = null;
-    GenPackage genPackage = getGenPackage(ePackage);
+    if (ePackageInfo.getPrefix() == null)
+    {
+      ePackageInfo.setPrefix(CodeGenUtil.capName(name));
+    }
 
-    if (genPackage != null)
+    if (ePackageInfo.getEcoreFileName() == null)
     {
-      String ePackagePath = genPackage.getEcorePackage().eResource().getURI().lastSegment();
-      ecoreFileName = URI.decode(ePackagePath);
+      String ecoreFileName = null;
+      GenPackage genPackage = getGenPackage(ePackage);      
+      if (genPackage != null)
+      {
+        String ePackagePath = genPackage.getEcorePackage().eResource().getURI().lastSegment();
+        ecoreFileName = URI.decode(ePackagePath);
+      }
+      else
+      {
+        ecoreFileName = ePackage.eResource() == null ? name + ".ecore" : ePackage.eResource().getURI().lastSegment();
+      }
+      ePackageInfo.setEcoreFileName(ecoreFileName);
     }
-    else
-    {
-      ecoreFileName = ePackage.eResource() == null ? qualifiedName + ".ecore" : ePackage.eResource().getURI().lastSegment();
-    }
-    ePackageInfo.setEcoreFileName(ecoreFileName);
   }
 
   protected IWorkspaceRoot getWorkspaceRoot()
@@ -905,7 +927,7 @@ public abstract class ModelImporter
     {
       modelName = modelName.substring(0, index);
     }
-    modelName = Character.toUpperCase(modelName.charAt(0)) + modelName.substring(1);
+    modelName = CodeGenUtil.capName(modelName); 
 
     GenModel genModel = getGenModel();
     genModel.setModelName(modelName);
@@ -938,12 +960,6 @@ public abstract class ModelImporter
 
       genPackage.setBasePackage(ePackageInfo.getBasePackage());
       genPackage.setPrefix(ePackageInfo.getPrefix());
-
-      if (genPackage.getPrefix() == null || genPackage.getPrefix().length() == 0)
-      {
-        String name = ePackage.getName();
-        genPackage.setPrefix(Character.toUpperCase(name.charAt(0)) + name.substring(1));
-      }
 
       adjustGenPackageDuringTraverse(genPackage);
       traverseGenPackages(genPackage.getNestedGenPackages());
@@ -1059,12 +1075,15 @@ public abstract class ModelImporter
         for (Iterator i = ePackages.iterator(); i.hasNext();)
         {
           EPackage ePackage = (EPackage)i.next();
-          EPackageInfo ePackageInfo = (EPackageInfo)ePackageToInfoMap.get(ePackage);
-          ePackageInfos.add(ePackageInfo);
-          String fileName = ePackageInfo.getEcoreFileName();
-          if (fileName != null)
+          if (ePackage.getESuperPackage() == null || !ePackages.contains(ePackage.getESuperPackage()))
           {
-            counterByEcoreName.put(fileName, null);
+            EPackageInfo ePackageInfo = (EPackageInfo)ePackageToInfoMap.get(ePackage);
+            ePackageInfos.add(ePackageInfo);
+            String fileName = ePackageInfo.getEcoreFileName();
+            if (fileName != null)
+            {
+              counterByEcoreName.put(fileName, null);
+            }
           }
         }
         
