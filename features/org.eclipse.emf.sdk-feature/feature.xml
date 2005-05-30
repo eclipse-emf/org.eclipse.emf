@@ -26,12 +26,12 @@
 
    <includes
          id="org.eclipse.emf.source"
-         version="2.0.2"
+         version="2.0.3"
          match="compatible"/>
 
    <includes
          id="org.eclipse.emf.doc"
-         version="2.0.2"
+         version="2.0.3"
          match="compatible"/>
 
    <includes
