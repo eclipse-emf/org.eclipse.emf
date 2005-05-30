@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOSaveTest.java,v 1.3.2.1 2005/05/30 19:26:59 nickb Exp $
+ * $Id: StaticIPOSDOSaveTest.java,v 1.3.2.2 2005/05/30 19:39:15 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.serialization;
 
@@ -39,7 +39,7 @@ public class StaticIPOSDOSaveTest extends DynamicIPOSDOSaveTest
   {
     TestSuite ts = new TestSuite("StaticIPOSDOSaveTest");
     ts.addTest(new StaticIPOSDOSaveTest("saveWithNoOptions").setRepetitions(REPETITIONS));
-    ts.addTest(new StaticIPOSDOSaveTest("saveWithCaching").setRepetitions(REPETITIONS));
+    // not supported yet ts.addTest(new StaticIPOSDOSaveTest("saveWithCaching").setRepetitions(REPETITIONS));
     return ts;
   }
 
