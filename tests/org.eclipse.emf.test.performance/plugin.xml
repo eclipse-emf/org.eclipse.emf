@@ -5,7 +5,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.1.2.2 2005/02/01 19:38:42 nickb Exp $
+ * $Id: plugin.xml,v 1.1.2.3 2005/05/30 18:12:41 nickb Exp $
  */
 -->
 
@@ -33,8 +33,11 @@
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.change"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf.ecore.sdo"/>
       <import plugin="org.eclipse.xsd"/>
       <import plugin="org.junit"/>
+      <import plugin="org.eclipse.test.performance"/>
+      <import plugin="org.apache.derby" optional="true"/>
    </requires>
 
    <runtime>
@@ -42,5 +45,4 @@
          <export name="*"/>
       </library>
    </runtime>
-   
 </plugin>

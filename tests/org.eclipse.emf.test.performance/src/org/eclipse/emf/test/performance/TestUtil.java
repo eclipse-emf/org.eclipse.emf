@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.1.2.1 2005/01/14 22:56:19 nickb Exp $
+ * $Id: TestUtil.java,v 1.1.2.2 2005/05/30 18:12:41 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -21,29 +21,62 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.Platform;
 
-/**
- * @author marcelop
- */
 public class TestUtil
 {
-  private static class Foo{};
+  private static final String PLUGIN_ID = "org.eclipse.emf.test.performance";
+  private static final String CLASS_FILE = "org/eclipse/emf/test/performance/TestUtil.class";
   
-  public static String getPluginDirectory()
+  private static int runningUnderEclipseFlag = -1;
+  
+  public final static String getPluginDirectory()
   {
     try
     {
-      if (EMFTestPerformancePlugin.getPlugin() != null)
-      {
-        return new java.io.File(Platform.asLocalURL(EMFTestPerformancePlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
-      }
+      return new File(Platform.asLocalURL(EMFTestPerformancePlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
     }
     catch (Throwable t)
     {
     }
-    
-    URL url = new Foo().getClass().getResource(".");
-    String path = url.getPath();
-    path = path.substring(0, path.indexOf("org.eclipse.emf.test.performance/") + "org.eclipse.emf.test.performance/".length());
-    return new File(path).getAbsolutePath();
+
+    URL url = ClassLoader.getSystemResource(CLASS_FILE);
+    if (url != null)
+    {
+      String path = url.getPath();
+      path = path.substring(0, path.indexOf(PLUGIN_ID));
+      if (path.startsWith("file:"))
+      {
+        path = path.substring("file:".length());
+      }
+      File parentDir = new File(path);
+      if (parentDir.isDirectory())
+      {
+        File[] files = parentDir.listFiles();
+        for (int i = 0, maxi = files.length; i < maxi; i++)
+        {
+          if (files[i].isDirectory() && files[i].getName().startsWith(PLUGIN_ID))
+          {
+            return files[i].getAbsolutePath();
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+  
+  public final static boolean isRunningUnderEclipse()
+  {
+    if (runningUnderEclipseFlag == -1)
+    {
+      runningUnderEclipseFlag = 0; 
+      try
+      {
+        if (Platform.isRunning()) runningUnderEclipseFlag = 1;
+      }
+      catch (Throwable t)
+      {
+      }
+    }
+    return (runningUnderEclipseFlag == 1);
   }
 }
