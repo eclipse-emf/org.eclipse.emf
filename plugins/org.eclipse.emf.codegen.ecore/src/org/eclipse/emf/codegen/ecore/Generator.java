@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.17 2005/05/25 11:22:32 emerks Exp $
+ * $Id: Generator.java,v 1.18 2005/05/30 20:32:36 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -77,13 +77,6 @@ public class Generator extends CodeGen
   public static void main(String args[]) 
   {
     new Generator().run(args);
-  }
-
-  /**
-   * This creates an instance.
-   */
-  public Generator() 
-  {
   }
 
   protected String basePackage;
