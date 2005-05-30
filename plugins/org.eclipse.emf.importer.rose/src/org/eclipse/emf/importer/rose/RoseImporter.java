@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.7 2005/05/25 14:02:13 marcelop Exp $
+ * $Id: RoseImporter.java,v 1.8 2005/05/30 20:29:56 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -324,7 +324,6 @@ public class RoseImporter extends ModelImporter
       {
         ecoreFileName = ePackage.getName() + ".ecore";
       }
-
       ePackageInfo.setEcoreFileName(ecoreFileName);
     }
 
@@ -335,11 +334,6 @@ public class RoseImporter extends ModelImporter
     }
   }
   
-  protected void adjustEPackages()
-  {
-    //Rose has its own way of adjusting the EPackages
-  }
-
   protected void adjustGenModel(IProgressMonitor progressMonitor)
   {
     super.adjustGenModel(progressMonitor);
