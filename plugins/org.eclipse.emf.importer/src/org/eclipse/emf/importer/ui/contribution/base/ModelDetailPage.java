@@ -495,6 +495,7 @@ public class ModelDetailPage extends ModelImporterPage
     try
     {
       status = getModelImporter().computeEPackages(progressMonitor);
+      getModelImporter().adjustEPackages(progressMonitor);
     }
     catch (WrappedException wrappedException)
     {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackagePage.java,v 1.4 2005/05/16 14:22:20 marcelop Exp $
+ * $Id: JavaPackagePage.java,v 1.5 2005/05/30 20:29:01 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.ui;
 
@@ -98,6 +98,7 @@ public class JavaPackagePage extends ModelPackagePage
   protected void computeEPackages(IProgressMonitor progressMonitor) throws Exception
   {
     IStatus status = getJavaImporter().computeEPackages(progressMonitor);
+    getJavaImporter().adjustEPackages(progressMonitor);
     
     String message = JavaImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessingJava_message");
     handleStatus(status, message, JavaImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"), message);
