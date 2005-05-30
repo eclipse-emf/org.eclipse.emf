@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFModelWizard.java,v 1.5 2005/05/16 14:20:03 marcelop Exp $
+ * $Id: EMFModelWizard.java,v 1.6 2005/05/30 20:41:04 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -299,6 +299,10 @@ public class EMFModelWizard extends Wizard implements INewWizard
         {
           Wizard wizard = (Wizard)modelImporterWizard;
           wizard.setDefaultPageImageDescriptor(getDefaultImageDescriptor());
+          if (wizard.getWindowTitle() == null)
+          {
+            wizard.setWindowTitle(getWindowTitle());
+          }
         }        
         modelImporterWizard.init(workbench, selection);
       }
