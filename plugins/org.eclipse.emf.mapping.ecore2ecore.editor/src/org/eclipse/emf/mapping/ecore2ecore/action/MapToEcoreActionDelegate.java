@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MapToEcoreActionDelegate.java,v 1.2 2005/05/06 15:03:18 khussey Exp $
+ * $Id: MapToEcoreActionDelegate.java,v 1.3 2005/05/30 18:00:57 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.action;
 
@@ -25,6 +25,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -44,11 +45,17 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionDelegate;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.ResourceSelectionDialog;
+import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.part.ISetSelectionTarget;
 
 
 /**
@@ -77,6 +84,25 @@ public class MapToEcoreActionDelegate extends ActionDelegate
     return null;
   }
 
+  protected IFile getFile(Resource resource)
+  {
+      URI uri = resource.getURI();
+      uri = resource.getResourceSet().getURIConverter().normalize(uri);
+      String scheme = uri.scheme();
+      if ("platform".equals(scheme) && uri.segmentCount() > 1 && "resource".equals(uri.segment(0)))
+      {
+        StringBuffer platformResourcePath = new StringBuffer();
+        for (int j = 1, size = uri.segmentCount(); j < size; ++j)
+        {
+          platformResourcePath.append('/');
+          platformResourcePath.append(uri.segment(j));
+        }
+        return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourcePath.toString()));
+      }
+
+      return null;
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -84,12 +110,12 @@ public class MapToEcoreActionDelegate extends ActionDelegate
    */
   public void run(IAction action)
   {
-    IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+    final IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 
     ResourceSelectionDialog resourceSelectionDialog = new ResourceSelectionDialog(
       workbenchWindow.getShell(),
       ResourcesPlugin.getWorkspace().getRoot(),
-      Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_SelectOutputEcoreModels_label")); //$NON-NLS-1$
+      Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_SelectOutputEcoreModels_label"));
     resourceSelectionDialog.open();
 
     final Object[] result = resourceSelectionDialog.getResult();
@@ -110,7 +136,7 @@ public class MapToEcoreActionDelegate extends ActionDelegate
             {
               try
               {
-                progressMonitor.beginTask("", result.length); //$NON-NLS-1$
+                progressMonitor.beginTask("", result.length);
 
                 for (int i = 0; i < result.length; i++)
                 {
@@ -125,14 +151,14 @@ public class MapToEcoreActionDelegate extends ActionDelegate
                       outputResource.getContents(),
                       EcorePackage.eINSTANCE.getEPackage());
 
-                    String base = inputResource.getURI().trimFileExtension().lastSegment() + "_2_" + //$NON-NLS-1$
+                    String base = inputResource.getURI().trimFileExtension().lastSegment() + "_2_" +
                       outputResource.getURI().trimFileExtension().lastSegment();
                     URI mappingURI = outputResource.getURI().trimSegments(1).appendSegment(base).appendFileExtension(ECORE2ECORE_FILE_EXTENSION);
 
                     Resource mappingResource = inputResource.getResourceSet().createResource(mappingURI);
 
                     progressMonitor.subTask(MessageFormat.format(
-                      Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_BuildingMappingFromTo_message"), //$NON-NLS-1$
+                      Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_BuildingMappingFromTo_message"),
                       new Object[] { inputResource.getURI().lastSegment(), outputResource.getURI().lastSegment() }));
 
                     mappingResource.getContents().add(createMappingRoot(inputEPackage, outputEPackage));
@@ -140,10 +166,32 @@ public class MapToEcoreActionDelegate extends ActionDelegate
                     try
                     {
                       mappingResource.save(null);
+                      
+                      IFile file = getFile(mappingResource);
+                      IWorkbenchPage workbenchPage = workbenchWindow.getActivePage();
+                      
+                      final IWorkbenchPart activePart = workbenchPage.getActivePart();
+                      if (activePart instanceof ISetSelectionTarget)
+                      {
+                        final ISelection targetSelection = new StructuredSelection(file);
+                        workbenchWindow.getShell().getDisplay().asyncExec(new Runnable()
+                          {
+                            public void run()
+                            {
+                              ((ISetSelectionTarget)activePart).selectReveal(targetSelection);
+                            }
+                          });
+                      }
+
+                      try {
+                        workbenchPage.openEditor(new FileEditorInput(file), workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor(file.getFullPath().toString()).getId());                      
+                      } catch (PartInitException pie) {
+                        Ecore2EcoreEditorPlugin.INSTANCE.log(pie);                      
+                      }
                     }
                     catch (IOException ioe)
                     {
-                      ioe.printStackTrace(System.err);
+                      Ecore2EcoreEditorPlugin.INSTANCE.log(ioe);
                     }
                   }
                 }
@@ -161,7 +209,7 @@ public class MapToEcoreActionDelegate extends ActionDelegate
       }
       catch (InvocationTargetException ite)
       {
-        ite.printStackTrace(System.err);
+        Ecore2EcoreEditorPlugin.INSTANCE.log(ite);
       }
     }
   }
