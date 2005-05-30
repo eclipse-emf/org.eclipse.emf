@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.sdk"
       label="%featureName"
-      version="2.0.2"
+      version="2.0.3"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -21,7 +21,7 @@
 
    <includes
          id="org.eclipse.emf"
-         version="2.0.2"
+         version="2.0.3"
          match="compatible"/>
 
    <includes
@@ -51,17 +51,17 @@
 
    <includes
          id="org.eclipse.emf.ecore.sdo"
-         version="2.0.2"
+         version="2.0.3"
          match="compatible"/>
 
    <includes
          id="org.eclipse.emf.ecore.sdo.source"
-         version="2.0.2"
+         version="2.0.3"
          match="compatible"/>
 
    <includes
          id="org.eclipse.emf.ecore.sdo.doc"
-         version="2.0.2"
+         version="2.0.3"
          match="compatible"/>
 
 </feature>
