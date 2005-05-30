@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.12 2005/05/26 17:21:31 marcelop Exp $
+ * $Id: GenPackage.java,v 1.13 2005/05/30 20:46:58 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -693,4 +693,5 @@ public interface GenPackage extends GenBase{
   
   List /*String*/ getProviderSupportedTypes();
   
+  boolean hasConcreteClasses();
 }
