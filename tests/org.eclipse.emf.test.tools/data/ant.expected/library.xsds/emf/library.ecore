@@ -16,26 +16,17 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="writers" upperBound="-1"
-        eType="ecore:EClass org.examples.library.elements.ecore#//Writer" containment="true"
-        resolveProxies="false">
+        eType="ecore:EClass elements.ecore#//Writer" containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="writers"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="books" upperBound="-1"
-        eType="ecore:EClass org.examples.library.elements.ecore#//Book" containment="true"
-        resolveProxies="false">
+        eType="ecore:EClass elements.ecore#//Book" containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="books"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="employees" upperBound="-1"
-        eType="ecore:EClass org.examples.library.hr.ecore#//Person" eOpposite="org.examples.library.hr.ecore#//Person/library">
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="employees"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

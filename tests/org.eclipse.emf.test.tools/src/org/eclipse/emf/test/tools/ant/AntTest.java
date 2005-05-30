@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.10 2005/05/18 19:34:05 marcelop Exp $
+ * $Id: AntTest.java,v 1.11 2005/05/30 20:43:07 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -113,7 +113,7 @@ public class AntTest extends TestCase
     File antScript = new File(rootDir, "build/codeGenFromRose.xml");
     
     String[] testTokenReplacements = new String[2];
-    testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
+    testTokenReplacements[0] = upperCaseDriverLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
@@ -129,7 +129,7 @@ public class AntTest extends TestCase
     TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
     String[] testTokenReplacements = new String[2];
-    testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
+    testTokenReplacements[0] = upperCaseDriverLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "rose", testTokenReplacements);
@@ -142,7 +142,7 @@ public class AntTest extends TestCase
     File antScript = new File(rootDir, "build/codeGenFromXSD.xml");
 
     String[] testTokenReplacements = new String[1];
-    testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
+    testTokenReplacements[0] = upperCaseDriverLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
   }
@@ -157,7 +157,7 @@ public class AntTest extends TestCase
     TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
     String[] testTokenReplacements = new String[1];
-    testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
+    testTokenReplacements[0] = upperCaseDriverLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "xsd", testTokenReplacements);
   }  
@@ -169,7 +169,7 @@ public class AntTest extends TestCase
     File antScript = new File(rootDir, "build/codeGenFromMultipleXSD.xml");
 
     String[] testTokenReplacements = new String[1];
-    testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
+    testTokenReplacements[0] = upperCaseDriverLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
   }
@@ -184,7 +184,7 @@ public class AntTest extends TestCase
     TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
     String[] testTokenReplacements = new String[2];
-    testTokenReplacements[0] = new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString();
+    testTokenReplacements[0] = upperCaseDriverLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
     testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "xsds", testTokenReplacements);
@@ -252,5 +252,21 @@ public class AntTest extends TestCase
     generatedContent = generatedContent.replaceAll("\\$Id.*\\$", "");
         
     assertEquals("File: " + file, expectedContent, generatedContent);
-  }  
+  }
+  
+  private String upperCaseDriverLetter(String path)
+  {
+    if (path != null && path.charAt(1) == ':')
+    {
+      char originalChar = path.charAt(0);
+      char upperCase = Character.toUpperCase(originalChar);
+      if (originalChar != upperCase)
+      {
+        StringBuffer buffer = new StringBuffer(path);
+        buffer.setCharAt(0, upperCase);
+        path = buffer.toString();
+      }
+    }
+    return path;
+  }
 }

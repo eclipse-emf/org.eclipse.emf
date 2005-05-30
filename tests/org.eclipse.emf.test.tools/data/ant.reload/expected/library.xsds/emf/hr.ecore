@@ -16,7 +16,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="library" lowerBound="1"
-        eType="ecore:EClass org.examples.library.ecore#//Library" eOpposite="org.examples.library.ecore#//Library/employees">
+        eType="ecore:EClass library.ecore#//Library" eOpposite="library.ecore#//Library/employees">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="library"/>

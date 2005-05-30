@@ -52,7 +52,7 @@
       <details key="baseType" value="BookCategory"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Writer" eSuperTypes="org.examples.library.hr.ecore#//Person">
+  <eClassifiers xsi:type="ecore:EClass" name="Writer" eSuperTypes="hr.ecore#//Person">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Writer"/>
       <details key="kind" value="elementOnly"/>

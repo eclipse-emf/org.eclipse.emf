@@ -9,38 +9,38 @@
   <foreignModel>../model/libraryPart2.xsd</foreignModel>
   <foreignModel>../model/libraryPart1.xsd</foreignModel>
   <genPackages prefix="Elements" basePackage="org.examples.library" resource="XML"
-      disposableProviderFactory="true" ecorePackage="org.examples.library.elements.ecore#/">
-    <genEnums ecoreEnum="org.examples.library.elements.ecore#//BookCategory">
-      <genEnumLiterals ecoreEnumLiteral="org.examples.library.elements.ecore#//BookCategory/Mystery"/>
-      <genEnumLiterals ecoreEnumLiteral="org.examples.library.elements.ecore#//BookCategory/ScienceFiction"/>
-      <genEnumLiterals ecoreEnumLiteral="org.examples.library.elements.ecore#//BookCategory/Biography"/>
-      <genEnumLiterals ecoreEnumLiteral="org.examples.library.elements.ecore#//BookCategory/IT"/>
+      disposableProviderFactory="true" ecorePackage="elements.ecore#/">
+    <genEnums ecoreEnum="elements.ecore#//BookCategory">
+      <genEnumLiterals ecoreEnumLiteral="elements.ecore#//BookCategory/Mystery"/>
+      <genEnumLiterals ecoreEnumLiteral="elements.ecore#//BookCategory/ScienceFiction"/>
+      <genEnumLiterals ecoreEnumLiteral="elements.ecore#//BookCategory/Biography"/>
+      <genEnumLiterals ecoreEnumLiteral="elements.ecore#//BookCategory/IT"/>
     </genEnums>
-    <genDataTypes ecoreDataType="org.examples.library.elements.ecore#//BookCategoryObject"/>
-    <genClasses ecoreClass="org.examples.library.elements.ecore#//Book">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.examples.library.elements.ecore#//Book/title"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.examples.library.elements.ecore#//Book/pages"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.examples.library.elements.ecore#//Book/category"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.examples.library.elements.ecore#//Book/author"/>
+    <genDataTypes ecoreDataType="elements.ecore#//BookCategoryObject"/>
+    <genClasses ecoreClass="elements.ecore#//Book">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/pages"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/category"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/author"/>
     </genClasses>
-    <genClasses ecoreClass="org.examples.library.elements.ecore#//Writer">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.examples.library.elements.ecore#//Writer/books"/>
+    <genClasses ecoreClass="elements.ecore#//Writer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Writer/books"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Hr" basePackage="org.examples.library" resource="XML" disposableProviderFactory="true"
-      ecorePackage="org.examples.library.hr.ecore#/">
-    <genClasses ecoreClass="org.examples.library.hr.ecore#//Person">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.examples.library.hr.ecore#//Person/name"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference org.examples.library.hr.ecore#//Person/library"/>
+      ecorePackage="hr.ecore#/">
+    <genClasses ecoreClass="hr.ecore#//Person">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute hr.ecore#//Person/name"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference hr.ecore#//Person/library"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Library" basePackage="org.examples" resource="XML" disposableProviderFactory="true"
-      ecorePackage="org.examples.library.ecore#/">
-    <genClasses ecoreClass="org.examples.library.ecore#//Library">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.examples.library.ecore#//Library/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.examples.library.ecore#//Library/writers"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.examples.library.ecore#//Library/books"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference org.examples.library.ecore#//Library/employees"/>
+      ecorePackage="library.ecore#/">
+    <genClasses ecoreClass="library.ecore#//Library">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/writers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/books"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference library.ecore#//Library/employees"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
