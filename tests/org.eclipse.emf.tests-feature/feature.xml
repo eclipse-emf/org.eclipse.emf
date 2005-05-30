@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.5.2.5 2005/05/30 18:43:29 nickb Exp $
+ * $Id: feature.xml,v 1.5.2.6 2005/05/30 21:43:36 nickb Exp $
  */
 -->
 
@@ -54,12 +54,12 @@ http://www.eclipse.org/legal/cpl-v10.html
    </requires>
 
    <!-- Required Eclipse plugins -->
-   
+
    <plugin
          id="org.eclipse.test"
          download-size="0"
          install-size="0"
-         version="3.1.0"/>
+         version="3.0.0"/>
 
    <plugin
          id="org.eclipse.ant.optional.junit"
@@ -82,7 +82,7 @@ http://www.eclipse.org/legal/cpl-v10.html
          download-size="0"
          install-size="0"
          version="2.0.3">
-   </plugin>   
+   </plugin>
 
    <plugin
          id="org.eclipse.emf.test.build"
@@ -97,7 +97,7 @@ http://www.eclipse.org/legal/cpl-v10.html
          install-size="0"
          version="2.0.2">
    </plugin>
-    
+
    <plugin
          id="org.eclipse.emf.test.edit"
          download-size="0"
@@ -110,19 +110,19 @@ http://www.eclipse.org/legal/cpl-v10.html
          download-size="0"
          install-size="0"
          version="2.0.2">
-   </plugin>   
+   </plugin>
 
    <plugin
          id="org.eclipse.emf.test.tools"
          download-size="0"
          install-size="0"
          version="2.0.2">
-   </plugin>   
+   </plugin>
 
    <plugin
          id="org.eclipse.emf.test.xml"
          download-size="0"
          install-size="0"
          version="2.0.2">
-   </plugin>   
+   </plugin>
 </feature>
