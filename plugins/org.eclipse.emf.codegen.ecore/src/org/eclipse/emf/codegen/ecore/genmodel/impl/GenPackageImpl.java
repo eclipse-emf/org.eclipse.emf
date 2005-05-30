@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.25 2005/05/26 17:22:07 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.26 2005/05/30 20:48:26 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2818,7 +2818,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         (CodeGenEcorePlugin.INSTANCE.getString
            ("_UI_GeneratingEditorForPackage_message", new Object [] { getPackageInterfaceName() }));
 
-      if (hasClassifiers())
+      if (hasClassifiers() && hasConcreteClasses())
       {
         progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
@@ -3390,4 +3390,18 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.add("org.eclipse.emf.edit.provider.IItemPropertySource");
     return result;
   }
+  
+  public boolean hasConcreteClasses()
+  {
+    for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
+    {
+      GenClass genClass = (GenClass)i.next();
+      if (!genClass.isAbstract())
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+  
 } //GenPackageImpl
