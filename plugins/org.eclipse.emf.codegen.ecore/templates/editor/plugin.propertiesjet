@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.6 2005/04/01 19:27:14 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.7 2005/05/30 20:54:16 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -103,7 +103,9 @@ _UI_Application_title = <%=genModel.getModelName()%> Application
 _UI_Menu_File_label = &File
 _UI_Menu_New_label = &New
 _UI_Menu_Open_label = &Open...
+_UI_Menu_Open_description = Opens a model object file
 _UI_Menu_OpenURI_label = &Open URI...
+_UI_Menu_OpenURI_description = Opens a model object loading it from a URI
 _UI_Menu_Edit_label = &Edit
 _UI_Menu_Window_label = &Window
 _UI_Menu_Help_label = &Help

@@ -44,7 +44,7 @@ public class PluginProperties
   protected final String TEXT_27 = "_ActionSet_label = ";
   protected final String TEXT_28 = " Action Set" + NL + "_UI_Perspective_label = ";
   protected final String TEXT_29 = NL + NL + "_UI_Browse_label = &Browse..." + NL + "_UI_File_label = &File" + NL + "_UI_Question_title = Question" + NL + "_WARN_FileConflict = The file \"{0}\" already exists.  Do you want to replace the existing file?" + NL + "_UI_Error_title = Error" + NL + "_WARN_No_Editor = There is no editor registered for the file \"{0}\"." + NL + "" + NL + "_UI_Application_title = ";
-  protected final String TEXT_30 = " Application" + NL + "_UI_Menu_File_label = &File" + NL + "_UI_Menu_New_label = &New" + NL + "_UI_Menu_Open_label = &Open..." + NL + "_UI_Menu_OpenURI_label = &Open URI..." + NL + "_UI_Menu_Edit_label = &Edit" + NL + "_UI_Menu_Window_label = &Window" + NL + "_UI_Menu_Help_label = &Help" + NL + "_UI_Menu_About_label = ";
+  protected final String TEXT_30 = " Application" + NL + "_UI_Menu_File_label = &File" + NL + "_UI_Menu_New_label = &New" + NL + "_UI_Menu_Open_label = &Open..." + NL + "_UI_Menu_Open_description = Opens a model object file" + NL + "_UI_Menu_OpenURI_label = &Open URI..." + NL + "_UI_Menu_OpenURI_description = Opens a model object loading it from a URI" + NL + "_UI_Menu_Edit_label = &Edit" + NL + "_UI_Menu_Window_label = &Window" + NL + "_UI_Menu_Help_label = &Help" + NL + "_UI_Menu_About_label = ";
   protected final String TEXT_31 = " &About..." + NL + "_UI_About_title = ";
   protected final String TEXT_32 = " Application" + NL + "_UI_About_text = ";
   protected final String TEXT_33 = " Application about box goes here." + NL;
