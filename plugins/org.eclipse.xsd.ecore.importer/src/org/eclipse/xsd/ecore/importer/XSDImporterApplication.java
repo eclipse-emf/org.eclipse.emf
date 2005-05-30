@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterApplication.java,v 1.5 2005/05/25 14:03:20 marcelop Exp $
+ * $Id: XSDImporterApplication.java,v 1.6 2005/05/30 20:31:43 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
@@ -217,13 +217,15 @@ public class XSDImporterApplication extends ModelImporterApplication
           if (packageName != null)
           {
             ePackage.setName(packageName);
-          }
-          getModelImporter().adjustEPackage(ePackage);
+          }          
         }
-
-        handleEPackage(ePackage, packages == null || packages.isEmpty() || packages.contains(nsURI));
+        
+        handleQualifiedEPackageName(ePackage);
+        boolean isNotReferencedEPackage = packages == null || packages.isEmpty() || packages.contains(nsURI);
+        handleEPackage(ePackage, isNotReferencedEPackage);
       }
-      modelImporter.makeEcoreFileNamesUnique();
+      
+      getModelImporter().adjustEPackages(new SubProgressMonitor(progressMonitor, 1));
     }
     finally
     {
