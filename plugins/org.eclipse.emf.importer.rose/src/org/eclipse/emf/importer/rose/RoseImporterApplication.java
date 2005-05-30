@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterApplication.java,v 1.14 2005/05/19 16:48:40 marcelop Exp $
+ * $Id: RoseImporterApplication.java,v 1.15 2005/05/30 20:31:26 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -233,8 +233,10 @@ public class RoseImporterApplication extends ModelImporterApplication
     {
       progressMonitor.beginTask("", 2);
       super.adjustEPackages(new SubProgressMonitor(progressMonitor, 1));
+      
       List ePackages = getRoseImporter().getEPackages();
       traverseEPackages(ePackages);
+      getRoseImporter().adjustEPackages(new SubProgressMonitor(progressMonitor, 1));
     }
     finally
     {
@@ -282,7 +284,8 @@ public class RoseImporterApplication extends ModelImporterApplication
         }
       }
       
+      handleQualifiedEPackageName(ePackage);
       traverseEPackages(ePackage.getESubpackages());
     }    
-  }
+  }  
 }
