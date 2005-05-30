@@ -16,7 +16,6 @@
  */
 package org.eclipse.emf.test.tools.importer;
 
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,7 +49,7 @@ public class ModelImporterTest extends TestCase
    */
   public void testMakeEcoreFileNamesUnique() throws Exception
   {
-    ModelImporter modelImporter = new ModelImporter()
+    class MyModelImporter extends ModelImporter
     {
       public String getID()
       {
@@ -60,32 +59,42 @@ public class ModelImporterTest extends TestCase
       public void makeEcoreFileNamesUnique()
       {
         super.makeEcoreFileNamesUnique();
-      }
-    };
+      }      
+    }
+    
+    MyModelImporter myModelImporter = new MyModelImporter();
     
     EPackage ePackage1 = EcoreFactory.eINSTANCE.createEPackage();
-    modelImporter.getEPackageInfo(ePackage1).setEcoreFileName("package.ecore");
+    ModelImporter.EPackageInfo ePackageInfo1 = myModelImporter.getEPackageInfo(ePackage1);
+    ePackageInfo1.setEcoreFileName("package.ecore");
+    ePackageInfo1.setBasePackage("basePackage");
+    
     EPackage ePackage2 = EcoreFactory.eINSTANCE.createEPackage();
-    modelImporter.getEPackageInfo(ePackage2).setEcoreFileName("package.ecore");
+    ModelImporter.EPackageInfo ePackageInfo2 = myModelImporter.getEPackageInfo(ePackage2);
+    ePackageInfo2.setEcoreFileName("package.ecore");
+    ePackageInfo2.setBasePackage("basePackage");
+
     EPackage ePackage3 = EcoreFactory.eINSTANCE.createEPackage();
-    modelImporter.getEPackageInfo(ePackage3).setEcoreFileName("package.ecore");
+    ModelImporter.EPackageInfo ePackageInfo3 = myModelImporter.getEPackageInfo(ePackage3);
+    ePackageInfo3.setEcoreFileName("package.ecore");
+    ePackageInfo3.setBasePackage("basePackage3");
+
     EPackage ePackage4 = EcoreFactory.eINSTANCE.createEPackage();
-    modelImporter.getEPackageInfo(ePackage4).setEcoreFileName("package1.ecore");
+    ModelImporter.EPackageInfo ePackageInfo4 = myModelImporter.getEPackageInfo(ePackage4);
+    ePackageInfo4.setEcoreFileName("package1.ecore");
+    ePackageInfo4.setBasePackage("basePackage");
+        
     EPackage ePackage5 = EcoreFactory.eINSTANCE.createEPackage();
-    modelImporter.getEPackageInfo(ePackage5).setEcoreFileName("package1.ecore");
+    ModelImporter.EPackageInfo ePackageInfo5 = myModelImporter.getEPackageInfo(ePackage5);
+    ePackageInfo5.setEcoreFileName("package1.ecore");
+    ePackageInfo5.setBasePackage("basePackage5");
+
     EPackage ePackage6 = EcoreFactory.eINSTANCE.createEPackage();
-    modelImporter.getEPackageInfo(ePackage6).setEcoreFileName("package2.ecore");
+    ModelImporter.EPackageInfo ePackageInfo6 = myModelImporter.getEPackageInfo(ePackage6);
+    ePackageInfo6.setEcoreFileName("package2.ecore");
+    ePackageInfo6.setBasePackage("basePackage6");
     
-    assertEquals("package.ecore", modelImporter.getEPackageInfo(ePackage1).getEcoreFileName());
-    assertEquals("package.ecore", modelImporter.getEPackageInfo(ePackage2).getEcoreFileName());
-    assertEquals("package.ecore", modelImporter.getEPackageInfo(ePackage3).getEcoreFileName());
-    assertEquals("package1.ecore", modelImporter.getEPackageInfo(ePackage4).getEcoreFileName());
-    assertEquals("package1.ecore", modelImporter.getEPackageInfo(ePackage5).getEcoreFileName());
-    assertEquals("package2.ecore", modelImporter.getEPackageInfo(ePackage6).getEcoreFileName());
-    
-    Method method = modelImporter.getClass().getMethod("makeEcoreFileNamesUnique", null);
-    method.setAccessible(true);
-    method.invoke(modelImporter, null);
+    myModelImporter.makeEcoreFileNamesUnique();
     
     Set names = new HashSet();
     names.add("package.ecore");
@@ -95,28 +104,28 @@ public class ModelImporterTest extends TestCase
     names.add("package4.ecore");
     names.add("package11.ecore");
 
-    String name = modelImporter.getEPackageInfo(ePackage1).getEcoreFileName();
-    assertTrue("package.ecore".equals(name) || "package3.ecore".equals(name)  || "package4.ecore".equals(name));
+    String name = myModelImporter.getEPackageInfo(ePackage1).getEcoreFileName();
+    assertTrue("Name: " + name, "package.ecore".equals(name) || "package3.ecore".equals(name)  || "package4.ecore".equals(name));
     names.remove(name);
     
-    name = modelImporter.getEPackageInfo(ePackage2).getEcoreFileName();
-    assertTrue("package.ecore".equals(name) || "package3.ecore".equals(name)  || "package4.ecore".equals(name));
+    name = myModelImporter.getEPackageInfo(ePackage2).getEcoreFileName();
+    assertTrue("Name: " + name, "package.ecore".equals(name) || "package3.ecore".equals(name)  || "package4.ecore".equals(name));
     names.remove(name);    
 
-    name = modelImporter.getEPackageInfo(ePackage3).getEcoreFileName();
-    assertTrue("package.ecore".equals(name) || "package3.ecore".equals(name)  || "package4.ecore".equals(name));
+    name = myModelImporter.getEPackageInfo(ePackage3).getEcoreFileName();
+    assertTrue("Name: " + name, "package.ecore".equals(name) || "package3.ecore".equals(name)  || "package4.ecore".equals(name));
     names.remove(name);
     
-    name = modelImporter.getEPackageInfo(ePackage4).getEcoreFileName();
-    assertTrue("package1.ecore".equals(name) || "package11.ecore".equals(name));
+    name = myModelImporter.getEPackageInfo(ePackage4).getEcoreFileName();
+    assertTrue("Name: " + name, "package1.ecore".equals(name) || "package11.ecore".equals(name));
     names.remove(name);    
     
-    name = modelImporter.getEPackageInfo(ePackage5).getEcoreFileName();
-    assertTrue("package1.ecore".equals(name) || "package11.ecore".equals(name));
+    name = myModelImporter.getEPackageInfo(ePackage5).getEcoreFileName();
+    assertTrue("Name: " + name, "package1.ecore".equals(name) || "package11.ecore".equals(name));
     names.remove(name);
 
-    name = modelImporter.getEPackageInfo(ePackage6).getEcoreFileName();
-    assertEquals("package2.ecore", name);
+    name = myModelImporter.getEPackageInfo(ePackage6).getEcoreFileName();
+    assertEquals("Name: " + name, "package2.ecore", name);
     names.remove(name);
     
     assertTrue(names.isEmpty());
