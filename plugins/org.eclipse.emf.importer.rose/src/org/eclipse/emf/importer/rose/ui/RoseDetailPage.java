@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.7 2005/05/18 21:34:40 davidms Exp $
+ * $Id: RoseDetailPage.java,v 1.8 2005/05/31 15:30:47 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -122,13 +122,27 @@ public class RoseDetailPage extends ModelDetailPage
     pathMapGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
     pathMapGroup.setText(RoseImporterPlugin.INSTANCE.getString("_UI_PathMap_label"));
 
-    loadPathMapSymbolsButton = new Button(pathMapGroup, SWT.PUSH);
-    loadPathMapSymbolsButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, true, false));
+    Composite buttonComposite = new Composite(pathMapGroup, SWT.NONE);
+     {
+       GridData data = new GridData(GridData.HORIZONTAL_ALIGN_END);
+       data.horizontalSpan = 2;
+       buttonComposite.setLayoutData(data);       
+       
+       GridLayout layout = new GridLayout(2, true);
+       layout.marginLeft = -5; 
+       layout.marginRight = -5;
+       layout.marginTop = -5;
+       layout.marginBottom = -5;
+       buttonComposite.setLayout(layout);
+    }
+    
+    loadPathMapSymbolsButton = new Button(buttonComposite, SWT.PUSH);
+    loadPathMapSymbolsButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
     loadPathMapSymbolsButton.setText(RoseImporterPlugin.INSTANCE.getString("_UI_LoadSymbols_label"));
     loadPathMapSymbolsButton.addListener(SWT.Selection, this);
 
-    browsePathMapLocationButton = new Button(pathMapGroup, SWT.PUSH);
-    browsePathMapLocationButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
+    browsePathMapLocationButton = new Button(buttonComposite, SWT.PUSH);
+    browsePathMapLocationButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
     browsePathMapLocationButton.setText(RoseImporterPlugin.INSTANCE.getString("_UI_Browse_label"));
     browsePathMapLocationButton.setEnabled(false);
     browsePathMapLocationButton.addListener(SWT.Selection, this);
