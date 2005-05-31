@@ -23,6 +23,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IPageChangeProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -45,6 +46,7 @@ import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.ui.contribution.IModelImporterWizard;
+import org.eclipse.emf.importer.util.ImporterUtil;
 
 
 /**
@@ -278,7 +280,7 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
             }
             catch (Exception exception)
             {
-              ImporterPlugin.INSTANCE.log(exception);
+              throw new CoreException(ImporterUtil.createErrorStatus(exception, true));
             }
             finally
             {
@@ -294,6 +296,7 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
       catch (Exception exception)
       {
         ImporterPlugin.INSTANCE.log(exception);
+        ErrorDialog.openError(getShell(), ImporterPlugin.INSTANCE.getString("_UI_SaveError_title"), null, ImporterUtil.createErrorStatus(exception, true));
         return false;
       }
 
