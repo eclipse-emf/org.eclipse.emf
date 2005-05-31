@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.14 2005/05/30 20:24:16 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.15 2005/05/31 22:29:16 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,12 +30,15 @@ import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 
 import org.eclipse.emf.codegen.ecore.Generator;
@@ -150,6 +154,22 @@ public abstract class ModelImporter
     public void setPrefix(String prefix)
     {
       this.prefix = prefix;
+    }
+  }
+  
+  protected static class ShellFinder
+  {
+    public Object getActiveShell()
+    {
+      Object shell = null;
+      try
+      {
+        shell = org.eclipse.swt.widgets.Display.getCurrent().getActiveShell();
+      }
+      catch (Throwable t)
+      {
+      }
+      return shell;
     }
   }
 
@@ -840,7 +860,15 @@ public abstract class ModelImporter
       createProject(progressMonitor, project, referencedGenModels);
     }
 
-    for (Iterator i = computeResourcesToBeSaved().iterator(); i.hasNext();)
+    
+    List resources = computeResourcesToBeSaved();
+    String readOnlyFiles = validateFiles(resources);
+    if (readOnlyFiles != null)
+    {
+      throw new Exception(ImporterPlugin.INSTANCE.getString("_UI_ReadOnlyFiles_error", new String[]{readOnlyFiles})); 
+    }
+    
+    for (Iterator i = resources.iterator(); i.hasNext();)
     {
       Resource resource = (Resource)i.next();
       resource.save(getGenmodelSaveOptions());
@@ -870,6 +898,79 @@ public abstract class ModelImporter
     }
     
     return resources;
+  }
+  
+  /**
+   * Invokes the Platform validateEdit method for all the read-only files 
+   * referred by a given resource in the list.  Returns null if the resources
+   * can be saved or a comma separated list of the files that are read-only.  
+   * @param resources
+   * @return String
+   */
+  protected String validateFiles(List resources)
+  {
+    IWorkspace workspace = ResourcesPlugin.getWorkspace();
+    IWorkspaceRoot workspaceRoot= workspace.getRoot();
+    
+    List workspaceFiles = new ArrayList(resources.size());
+    List extenalFiles = new ArrayList(resources.size());
+    for (Iterator i = resources.iterator(); i.hasNext();)
+    {
+      Resource resource = (Resource)i.next();
+      URI uri = resource.getURI().trimFragment();
+      if (uri.isFile())
+      {
+        File file = new File(uri.toFileString());
+        if (file.isFile() && !file.canWrite())
+        {
+          extenalFiles.add(file);
+        }        
+      }
+      else if (uri.toString().startsWith("platform:/resource"))
+      {
+        String path = uri.toString().substring("platform:/resources".length());
+        IResource workspaceResource = workspaceRoot.findMember(new Path(path));
+        if (workspaceResource != null && workspaceResource.getType() == IResource.FILE && workspaceResource.getResourceAttributes().isReadOnly())
+        {
+          workspaceFiles.add(workspaceResource);
+        }
+      }
+    }
+    
+    StringBuffer readOnlyFiles = new StringBuffer();
+    if (!workspaceFiles.isEmpty())
+    {
+      Object context = null;
+      if (Platform.getBundle("org.eclipse.swt") != null)
+      {
+        context = new ShellFinder().getActiveShell();
+      }
+      
+      IFile[] files = (IFile[])workspaceFiles.toArray(new IFile [workspaceFiles.size()]);
+      IStatus status = workspace.validateEdit(files, context);
+      if (!status.isOK())
+      {
+        for (int i = 0; i < files.length; i++)
+        {
+          if (files[i].isReadOnly())
+          {
+            readOnlyFiles.append(", ").append(files[i].getFullPath().toString());
+          }
+        }
+      }
+    }
+    if (!extenalFiles.isEmpty())
+    {
+      for (Iterator i = extenalFiles.iterator(); i.hasNext();)
+      {
+        File file = (File)i.next();
+        readOnlyFiles.append(", ").append(file.getAbsolutePath());
+      }
+    }
+    
+    return readOnlyFiles.length() == 0 ? 
+      null : 
+      readOnlyFiles.deleteCharAt(0).deleteCharAt(0).toString();
   }
 
   protected void createProject(IProgressMonitor progressMonitor, IProject project, Collection referencedGenModels)
