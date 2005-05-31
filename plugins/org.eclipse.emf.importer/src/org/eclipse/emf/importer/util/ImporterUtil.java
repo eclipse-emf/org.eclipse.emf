@@ -16,6 +16,7 @@
  */
 package org.eclipse.emf.importer.util;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
@@ -196,27 +197,55 @@ public class ImporterUtil
     return mergedStatus;
   }
   
-  public static IStatus createErrorStatus(Exception exception, boolean showErrorDialog)
+  public static IStatus createErrorStatus(Throwable throwable, boolean showErrorDialog)
   {
-    String message = exception.getLocalizedMessage();
-    if (message == null)
+    while (throwable.getCause() != null)
     {
-      message = exception.getMessage();
-    }
-    if (message == null)
-    {
-      String exceptionName = exception.getClass().getName();
-      int index = exceptionName.lastIndexOf('.');
-      if (index >= 0)
+      Throwable cause = throwable.getCause();
+      if (throwable != cause)
       {
-        exceptionName = exceptionName.substring(index+1);
+        throwable = cause;
       }
-      message = ImporterPlugin.INSTANCE.getString("_UI_GenericException_message", new Object[]{exceptionName});
+      else
+      {
+        break;
+      }
+    }
+    
+    IStatus status = null;
+    if (throwable instanceof CoreException)
+    {
+      IStatus originalStatus = ((CoreException)throwable).getStatus();
+      if (originalStatus != null && originalStatus.getSeverity() == IStatus.ERROR)
+      {
+        status = originalStatus;
+      }
     }
 
-    return new Status(IStatus.ERROR,
-      ImporterPlugin.ID, showErrorDialog ? ACTION_DIALOG_SHOW_ERROR : ACTION_DEFAULT,
-      message, exception);           
+    if (status == null)
+    {
+      String message = throwable.getLocalizedMessage();
+      if (message == null)
+      {
+        message = throwable.getMessage();
+      }
+      if (message == null)
+      {
+        String exceptionName = throwable.getClass().getName();
+        int index = exceptionName.lastIndexOf('.');
+        if (index >= 0)
+        {
+          exceptionName = exceptionName.substring(index+1);
+        }
+        message = ImporterPlugin.INSTANCE.getString("_UI_GenericException_message", new Object[]{exceptionName});
+      }
+  
+      status = new Status(IStatus.ERROR,
+        ImporterPlugin.ID, showErrorDialog ? ACTION_DIALOG_SHOW_ERROR : ACTION_DEFAULT,
+        message, throwable);
+    }
+    
+    return status;
   }
   
   public static ResourceSet createResourceSet()
