@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.5 2004/10/20 14:33:58 emerks Exp $
+ * $Id: EMFPlugin.java,v 1.6 2005/05/31 14:54:48 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -25,6 +25,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import org.eclipse.core.runtime.IStatus;
@@ -119,20 +120,106 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
       {
         try
         {
-          URL pluginPropertiesURL = getClass().getResource("plugin.properties");
+          // Determine the base URL by looking for the plugin.properties file in the standard way.
+          //
+          Class theClass = getClass();
+          URL pluginPropertiesURL = theClass.getResource("plugin.properties");
           if (pluginPropertiesURL == null)
           {
-            String className = getClass().getName();
+            // If that fails, determine the URL for the class itself.
+            // The URL will be of one of the following forms,
+            // so there are a few good places to consider looking for the plugin.properties.
+            //
+            // For a plugin.xml with runtime="common.jar":
+            // jar:file:/D:/sandbox/unpackage1-3.1M7/eclipse/plugins/org.eclipse.emf.common/common.jar!/org/eclipse/common/CommonPlugin.class
+            //
+            // For a plugin.xml with runtime="runtime/common.jar":
+            // jar:file:/D:/sandbox/unpackage1-3.1M7/eclipse/plugins/org.eclipse.emf.common/runtime/common.jar!/org/eclipse/common/CommonPlugin.class
+            // 
+            // For a plugin.xml with runtime="." where the plugin is jarred:
+            // jar:file:/D:/sandbox/unpackage1-3.1M7/eclipse/plugins/org.eclipse.emf.common.jar!/org/eclipse/common/CommonPlugin.class
+            //
+            // For a plugin.xml with runtime="." where the plugin is not jarred.
+            // file:/D:/sandbox/unpackage1-3.1M7/eclipse/plugins/org.eclipse.emf.common/org/eclipse/emf/common/CommonPlugin.class
+            //
+            // Running in PDE with bin on classpath:
+            // file:/D:/sandbox/unpackage1-3.1M7/eclipse/plugins/org.eclipse.emf.common/bin/org/eclipse/emf/common/CommonPlugin.class
+            //
+            String className = theClass.getName();
             int index = className.lastIndexOf(".");
-            String resourceName = 
-              index == -1 ? 
-                "plugin.properties" : 
-                className.substring(0, index + 1).replace('.','/') + "plugin.properties";
-            throw new MissingResourceException("Missing properties: " + resourceName, getClass().getName(), "plugin.properties");
+            URL classURL = theClass.getResource((index == -1 ? className : className.substring(index + 1)) + ".class");
+            URI uri = URI.createURI(classURL.toString());
+            
+            // Trim off the segements corresponding to the package nesting.
+            //
+            int count = 1;
+            for (int i = 0; (i = className.indexOf('.', i)) != -1; ++i)
+            {
+              ++count;
+            }
+            uri = uri.trimSegments(count);
+            
+            // For an archive URI, check for the plugin.properties in the archive.
+            //
+            if (URI.isArchiveScheme(uri.scheme()))
+            {
+              try
+              {
+                // If we can open  an input stream, then the plugin.properties is there, and we have a good base URL.
+                //
+                InputStream inputStream =  new URL(uri.appendSegment("plugin.properties").toString()).openStream();
+                inputStream.close();
+                baseURL = new URL(uri.trimSegments(1).toString() + "/");
+              }
+              catch (IOException exception)
+              {
+                // If the plugin.properties isn't within the root of the archive, 
+                // create a new URI for the folder location of the archive, 
+                // so we can look in the folder that contains it.
+                //
+                uri = URI.createURI(uri.authority()).trimSegments(1);
+              }
+            }
+            
+            // If we didn't find the plugin.properties in the usual place nor in the archive...
+            //
+            if (baseURL == null)
+            {
+              // Trim off the "bin" or "runtime" segement.
+              //
+              String lastSegment = uri.lastSegment();
+              if ("bin".equals(lastSegment) || "runtime".equals(lastSegment))
+              {
+                uri = uri.trimSegments(1);
+              }
+              uri = uri.appendSegment("plugin.properties");
+              try
+              {
+                // If we can open  an input stream, then the plugin.properties is in the folder, and we have a good base URL.
+                //
+                InputStream inputStream = new URL(uri.toString()).openStream();
+                inputStream.close();
+                baseURL = new URL(uri.trimSegments(1).toString() + "/");
+              }
+              catch (IOException exception)
+              {
+              }
+            }
+            
+            // If we still don't have a good base URL, complain about it.
+            //
+            if (baseURL == null)
+            {
+              String resourceName = 
+                index == -1 ? 
+                  "plugin.properties" : 
+                  className.substring(0, index + 1).replace('.','/') + "plugin.properties";
+              throw new MissingResourceException("Missing properties: " + resourceName, theClass.getName(), "plugin.properties");
+            }
           }
           else
           {
-            baseURL = new URL (URI.createURI (pluginPropertiesURL.toString()).trimSegments(1).toString() + "/");
+            baseURL = new URL(URI.createURI(pluginPropertiesURL.toString()).trimSegments(1).toString() + "/");
           }
         }
         catch (IOException exception)
@@ -252,7 +339,29 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
             {
               packageName = packageName.substring(0, index);
             }
-            resourceBundle = ResourceBundle.getBundle(packageName + ".plugin");
+            try
+            {
+              resourceBundle = ResourceBundle.getBundle(packageName + ".plugin");
+            }
+            catch (MissingResourceException exception)
+            {
+              // If the bundle can't be found the normal way, try to find it as the base URL.
+              // If that also doesn't work, rethrow the original exception.
+              //
+              try
+              {
+                InputStream inputStream =  new URL(getBaseURL().toString() + "/plugin.properties").openStream();
+                resourceBundle = new PropertyResourceBundle(inputStream);
+                inputStream.close();
+              }
+              catch (IOException ioException)
+              {
+              }
+              if (resourceBundle == null)
+              {
+                throw exception; 
+              }
+            }
           }
           result = resourceBundle.getString(key);
         }
