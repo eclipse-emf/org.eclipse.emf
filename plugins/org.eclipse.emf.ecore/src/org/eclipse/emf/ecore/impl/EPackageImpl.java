@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.10 2004/08/12 15:02:26 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.10.2.1 2005/05/31 16:53:33 nickb Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -496,12 +496,13 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     if (eNameToEClassifierMap == null)
     {
       List eClassifiers = getEClassifiers();
-      eNameToEClassifierMap = new HashMap(eClassifiers.size());
+      Map result = new HashMap(eClassifiers.size());
       for (Iterator i = eClassifiers.iterator(); i.hasNext(); )
       {
         EClassifier eClassifier = (EClassifier)i.next();
-        eNameToEClassifierMap.put(eClassifier.getName(), eClassifier);
+        result.put(eClassifier.getName(), eClassifier);
       }
+      eNameToEClassifierMap = result;
     }
 
     return (EClassifier)eNameToEClassifierMap.get(name);
