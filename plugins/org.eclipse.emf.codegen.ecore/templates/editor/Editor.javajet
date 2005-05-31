@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.18 2005/05/12 18:14:09 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.19 2005/05/31 15:05:51 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -113,14 +113,12 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableLayout;
-import org.eclipse.jface.viewers.TableTreeViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 
 import org.eclipse.swt.SWT;
 
-import org.eclipse.swt.custom.TableTree;
 import org.eclipse.swt.custom.CTabFolder;
 
 import org.eclipse.swt.dnd.DND;
@@ -130,6 +128,7 @@ import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -137,6 +136,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
@@ -282,13 +282,12 @@ public class <%=genPackage.getEditorClassName()%>
 	protected TableViewer tableViewer;
 
 	/**
-	 * This shows how a table view works.
-	 * A table can be used as a list with icons.
+	 * This shows how a tree view with columns works.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TableTreeViewer tableTreeViewer;
+	protected TreeViewer treeViewerWithColumns;
 
 	/**
 	 * This keeps track of the active viewer pane, in the book.
@@ -1056,7 +1055,7 @@ public class <%=genPackage.getEditorClassName()%>
 				{
 					public Viewer createViewer(Composite composite)
 					{
-						return new TableTreeViewer(composite);
+						return new TreeViewer(composite);
 					}
 					public void requestActivation()
 					{
@@ -1066,31 +1065,30 @@ public class <%=genPackage.getEditorClassName()%>
 				};
 			viewerPane.createControl(getContainer());
 
-			tableTreeViewer = (TableTreeViewer)viewerPane.getViewer();
+			treeViewerWithColumns = (TreeViewer)viewerPane.getViewer();
 
-			TableTree tableTree = tableTreeViewer.getTableTree();
-			TableLayout layout = new TableLayout();
-			tableTree.getTable().setLayout(layout);
-			tableTree.getTable().setHeaderVisible(true);
-			tableTree.getTable().setLinesVisible(true);
+			Tree tree = treeViewerWithColumns.getTree();
+			tree.setLayoutData(new FillLayout());
+			tree.setHeaderVisible(true);
+			tree.setLinesVisible(true);
 
-			TableColumn objectColumn = new TableColumn(tableTree.getTable(), SWT.NONE);
-			layout.addColumnData(new ColumnWeightData(3, 100, true));
+			TreeColumn objectColumn = new TreeColumn(tree, SWT.NONE);
 			objectColumn.setText(getString("_UI_ObjectColumn_label"));<%=genModel.getNonNLS()%>
 			objectColumn.setResizable(true);
+			objectColumn.setWidth(250);
 
-			TableColumn selfColumn = new TableColumn(tableTree.getTable(), SWT.NONE);
-			layout.addColumnData(new ColumnWeightData(2, 100, true));
+			TreeColumn selfColumn = new TreeColumn(tree, SWT.NONE);
 			selfColumn.setText(getString("_UI_SelfColumn_label"));<%=genModel.getNonNLS()%>
 			selfColumn.setResizable(true);
+			selfColumn.setWidth(200);
 
-			tableTreeViewer.setColumnProperties(new String [] {"a", "b"});<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
-			tableTreeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-			tableTreeViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+			treeViewerWithColumns.setColumnProperties(new String [] {"a", "b"});<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+			treeViewerWithColumns.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+			treeViewerWithColumns.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 
-			createContextMenuFor(tableTreeViewer);
+			createContextMenuFor(treeViewerWithColumns);
 			int pageIndex = addPage(viewerPane.getControl());
-			setPageText(pageIndex, getString("_UI_TableTreePage_label"));<%=genModel.getNonNLS()%>
+			setPageText(pageIndex, getString("_UI_TreeWithColumnsPage_label"));<%=genModel.getNonNLS()%>
 		}
 
 		setActivePage(0);
