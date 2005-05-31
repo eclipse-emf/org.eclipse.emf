@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.16 2005/05/03 18:40:54 davidms Exp $
+ * $Id: URI.java,v 1.17 2005/05/31 14:53:18 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -1348,11 +1348,17 @@ public final class URI
     return isArchiveScheme(scheme);
   }
 
-  // Returns true if the given value is an archive scheme, as defined by
-  // the org.eclipse.emf.common.util.URI.archiveSchemes system property.
-  // By default, "jar", "zip", and "archive" are considered archives.
-  private static boolean isArchiveScheme(String value)
+  /**
+   * Returns <code>true</code> if the specified <code>value</code> would be
+   * valid as the scheme of an <a
+   * href="#archive_explanation">archive URI</a>; <code>false</code>
+   * otherwise.
+   */
+  public static boolean isArchiveScheme(String value)
   {
+    // Returns true if the given value is an archive scheme, as defined by
+    // the org.eclipse.emf.common.util.URI.archiveSchemes system property.
+    // By default, "jar", "zip", and "archive" are considered archives.
     return value != null && archiveSchemes.contains(value.toLowerCase());
   }
   
