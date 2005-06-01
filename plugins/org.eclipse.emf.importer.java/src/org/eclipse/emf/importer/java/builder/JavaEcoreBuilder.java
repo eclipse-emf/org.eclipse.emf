@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.3 2005/05/16 18:44:38 marcelop Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.4 2005/06/01 19:37:23 davidms Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1014,15 +1014,15 @@ public class JavaEcoreBuilder
 
     // Check whether there are parameters; the special attribute and reference rules only apply for the case of no arguments.
     //
-    if (parameterNames == null && parameters == null && methodName.startsWith("get") && methodName.length() > 3
-      && Character.isUpperCase(methodName.charAt(3)) && !"boolean".equals(returnType) && !"void".equals(returnType))
+    if (parameterNames == null && parameters == null && methodName.startsWith("get") && methodName.length() > 3 &&
+        Character.isUpperCase(methodName.charAt(3)) && !"boolean".equals(returnType) && !"void".equals(returnType))
     {
       // The feature name is extracted lower cased.
       //
       featureName = CodeGenUtil.uncapName(methodName.substring(3));
     }
-    else if (parameterNames == null && parameters == null && methodName.startsWith("is") && methodName.length() > 2
-      && Character.isUpperCase(methodName.charAt(2)) && "boolean".equals(returnType))
+    else if (parameterNames == null && parameters == null && methodName.startsWith("is") && methodName.length() > 2 &&
+             Character.isUpperCase(methodName.charAt(2)) && "boolean".equals(returnType))
     {
       // The name is extracted and lower cased.
       //
@@ -1035,218 +1035,230 @@ public class JavaEcoreBuilder
       EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
       eClass.getEOperations().add(eTypedElement = eOperation);
 
+      handleETypedElement(eOperation, methodName, returnType, modelAnnotation, eClass.getName() + "." + methodName);
+      
       if (parameterTypes != null)
       {
+        // Each token in parameters will specify a dataType for the corresponding paramter, but can be overridden by a
+        // parameter-name-prefixed dataType property.
+        //
         StringTokenizer stringTokenizer = new StringTokenizer(parameters == null ? "" : parameters);
         for (int i = 0; i < parameterNames.length; ++i)
         {
           EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
           eOperation.getEParameters().add(eParameter);
-          eParameter.setName(parameterNames[i]);
+          String parameterName = parameterNames[i];
           String parameterType = parameterTypes[i];
+          String parameterModelAnnotation = getFilteredModelAnnotations(modelAnnotation, parameterName);
+
           if (stringTokenizer.hasMoreTokens())
           {
-            eTypedElementToInstanceTypeNameMap.put(eParameter, parameterType);
             String dataType = stringTokenizer.nextToken();
             if (!"-".equals(dataType))
             {
-              parameterType = dataType;
+              StringBuffer buffer = new StringBuffer(parameterModelAnnotation);
+              buffer.append("dataType=\"");
+              buffer.append(dataType);
+              buffer.append("\" ");
+              parameterModelAnnotation = buffer.toString();
             }
           }
-          eTypedElementToTypeNameMap.put(eParameter, parameterType);
+
+          StringBuffer identifierName = new StringBuffer(eClass.getName());
+          identifierName.append('.');
+          identifierName.append(methodName);
+          identifierName.append('(');
+          identifierName.append(parameterName);
+          identifierName.append(')');
+          handleETypedElement(eParameter, parameterName, parameterType, parameterModelAnnotation, identifierName.toString());
+          eParameter.getEAnnotations().addAll(extractEAnnotations(parameterModelAnnotation));
         }
       }
     }
 
-    // We ignore the void return type.
+    // If we aren't doing an operation...
     //
-    if (!"void".equals(returnType))
+    if (eTypedElement == null)
     {
-      // If we aren't doing an operation...
+      // We'll create one of these.
       //
-      if (eTypedElement == null)
+      EStructuralFeature eStructuralFeature = null;
+
+      // If any of these attributes appear, this must be a reference.
+      //
+      String opposite = getModelAnnotationAttribute(modelAnnotation, "opposite");
+      String containment = getModelAnnotationAttribute(modelAnnotation, "containment");
+      String resolveProxies = getModelAnnotationAttribute(modelAnnotation, "resolveProxies");
+      String mapType = getModelAnnotationAttribute(modelAnnotation, "mapType");
+      String keyType = getModelAnnotationAttribute(modelAnnotation, "keyType");
+      String valueType = getModelAnnotationAttribute(modelAnnotation, "valueType");
+      if (opposite != null || containment != null || resolveProxies != null || mapType != null || (keyType != null && valueType != null))
       {
-        // We'll create one of these.
+        EReference eReference = EcoreFactory.eINSTANCE.createEReference();
+        eClass.getEStructuralFeatures().add(eTypedElement = eStructuralFeature = eReference);
+
+        // Set the EReference attributes.
         //
-        EStructuralFeature eStructuralFeature = null;
+        eReference.setContainment("true".equals(containment) || mapType != null && !returnType.endsWith("Entry") || keyType != null
+          && valueType != null);
+        eReference.setResolveProxies(!eReference.isContainment() && !"false".equals(resolveProxies));
+        eReference.setUnsettable("true".equals(getModelAnnotationAttribute(modelAnnotation, "unsettable")));
 
-        // If any of these attributes appear, this must be a reference.
+        // Defer the handling of the opposite.
         //
-        String opposite = getModelAnnotationAttribute(modelAnnotation, "opposite");
-        String containment = getModelAnnotationAttribute(modelAnnotation, "containment");
-        String resolveProxies = getModelAnnotationAttribute(modelAnnotation, "resolveProxies");
-        String mapType = getModelAnnotationAttribute(modelAnnotation, "mapType");
-        String dataType = getModelAnnotationAttribute(modelAnnotation, "dataType");
-        String keyType = getModelAnnotationAttribute(modelAnnotation, "keyType");
-        String valueType = getModelAnnotationAttribute(modelAnnotation, "valueType");
-        String modelType = getModelAnnotationAttribute(modelAnnotation, "type");
-        if (opposite != null || containment != null || resolveProxies != null || mapType != null || (keyType != null && valueType != null))
+        if (opposite != null)
         {
-          EReference eReference = EcoreFactory.eINSTANCE.createEReference();
-          eClass.getEStructuralFeatures().add(eTypedElement = eStructuralFeature = eReference);
-
-          // Set the EReference attributes.
-          //
-          eReference.setContainment("true".equals(containment) || mapType != null && !returnType.endsWith("Entry") || keyType != null
-            && valueType != null);
-          eReference.setResolveProxies(!eReference.isContainment() && !"false".equals(resolveProxies));
-          eReference.setUnsettable("true".equals(getModelAnnotationAttribute(modelAnnotation, "unsettable")));
-
-          // Defer the handling of the opposite.
-          //
-          if (opposite != null)
-          {
-            eReferenceToOppositeNameMap.put(eReference, opposite);
-          }
+          eReferenceToOppositeNameMap.put(eReference, opposite);
         }
-        else
-        {
-          // Assume that it's an atttribute for now.
-          // It will/could become a reference if the type resolves to an EClass.
-          //
-          EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-          eClass.getEStructuralFeatures().add(eTypedElement = eStructuralFeature = eAttribute);
-
-          // Set the EAttribute attributes.
-          //
-          eAttribute.setUnsettable("true".equals(getModelAnnotationAttribute(modelAnnotation, "unsettable")));
-          eAttribute.setID("true".equals(getModelAnnotationAttribute(modelAnnotation, "id")));
-          String defaultValueLiteral = getModelAnnotationAttribute(modelAnnotation, "defaultValue");
-          if (defaultValueLiteral == null)
-          {
-            defaultValueLiteral = getModelAnnotationAttribute(modelAnnotation, "default");
-          }
-          eStructuralFeature.setDefaultValueLiteral(defaultValueLiteral);
-          eStructuralFeature.setUnique(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "unique")));
-        }
-
-        // For lists, maps, and feature maps, the default is many-valued, which can be overriden by an upper-bound declaration
-        if (dataType == null || mapType != null)
-        {
-          if ("EList".equals(returnType) || "org.eclipse.emf.common.util.EList".equals(returnType) || "List".equals(returnType)
-            || "java.util.List".equals(returnType))
-          {
-            eStructuralFeature.setUpperBound(-1);
-            if (modelType == null)
-            {
-              error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheTypeMustBeSpecifiedFor_message", new Object []{ eClass.getName() + "."
-                + methodName }));
-              modelType = "java.lang.Object";
-            }
-          }
-          else if ("EMap".equals(returnType) || "org.eclipse.emf.common.util.EMap".equals(returnType) || "Map".equals(returnType)
-            || "java.util.Map".equals(returnType) || "FeatureMap".equals(returnType)
-            || "org.eclipse.emf.common.util.FeatureMap".equals(returnType))
-          {
-            eStructuralFeature.setUpperBound(-1);
-          }
-        }
-        String many = getModelAnnotationAttribute(modelAnnotation, "many");
-        if (many != null)
-        {
-          eStructuralFeature.setUpperBound("true".equals(many) ? -1 : 1);
-        }
-
-        // The return type can be augmented by specifying the feature's type explicitly.
-        // This mostly makes sense only for many-valued features 
-        // where the return type is a list and the item type needs to be specified.
-        //
-        if (modelType != null)
-        {
-          returnType = modelType;
-        }
-        if (mapType != null)
-        {
-          if (keyType != null && valueType != null)
-          {
-            returnType = mapType + "@" + keyType + "/" + valueType;
-          }
-          else
-          {
-            returnType = mapType;
-          }
-        }
-        else if (dataType != null)
-        {
-          eTypedElementToInstanceTypeNameMap.put(eStructuralFeature, returnType);
-          returnType = dataType;
-        }
-        else if (keyType != null && valueType != null)
-        {
-          // Special paired return type.
-          //
-          returnType = keyType + "/" + valueType;
-        }
-
-        // Set the EStructuralFeature attributes.
-        //
-        eStructuralFeature.setChangeable(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "changeable")));
-        eStructuralFeature.setOrdered(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "ordered")));
-        eStructuralFeature.setDerived("true".equals(getModelAnnotationAttribute(modelAnnotation, "derived")));
-        eStructuralFeature.setVolatile("true".equals(getModelAnnotationAttribute(modelAnnotation, "volatile")));
-        eStructuralFeature.setTransient("true".equals(getModelAnnotationAttribute(modelAnnotation, "transient")));
-        eStructuralFeature.setLowerBound("true".equals(getModelAnnotationAttribute(modelAnnotation, "required")) ? 1 : 0);
-        String lowerBound = getModelAnnotationAttribute(modelAnnotation, "lowerBound");
-        if (lowerBound == null)
-        {
-          lowerBound = getModelAnnotationAttribute(modelAnnotation, "lower");
-        }
-        if (lowerBound != null)
-        {
-          eStructuralFeature.setLowerBound(Integer.parseInt(lowerBound));
-        }
-        String upperBound = getModelAnnotationAttribute(modelAnnotation, "upperBound");
-        if (upperBound == null)
-        {
-          upperBound = getModelAnnotationAttribute(modelAnnotation, "upper");
-        }
-        if (upperBound != null)
-        {
-          eStructuralFeature.setUpperBound(Integer.parseInt(upperBound));
-        }
-
-        // Set the visibility annotations for the EstructuralFeature.
-        //
-        EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.GET, "true".equals(getModelAnnotationAttribute(
-          modelAnnotation,
-          "suppressedGetVisibility")));
-        EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.SET, "true".equals(getModelAnnotationAttribute(
-          modelAnnotation,
-          "suppressedSetVisibility")));
-        EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET, "true".equals(getModelAnnotationAttribute(
-          modelAnnotation,
-          "suppressedIsSetVisibility")));
-        EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, "true".equals(getModelAnnotationAttribute(
-          modelAnnotation,
-          "suppressedUnsetVisibility")));
       }
       else
       {
-        String dataType = getModelAnnotationAttribute(modelAnnotation, "dataType");
-        if (dataType != null)
+        // Assume that it's an atttribute for now.
+        // It will/could become a reference if the type resolves to an EClass.
+        //
+        EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
+        eClass.getEStructuralFeatures().add(eTypedElement = eStructuralFeature = eAttribute);
+
+        // Set the EAttribute attributes.
+        //
+        eAttribute.setUnsettable("true".equals(getModelAnnotationAttribute(modelAnnotation, "unsettable")));
+        eAttribute.setID("true".equals(getModelAnnotationAttribute(modelAnnotation, "id")));
+        String defaultValueLiteral = getModelAnnotationAttribute(modelAnnotation, "defaultValue");
+        if (defaultValueLiteral == null)
         {
-          eTypedElementToInstanceTypeNameMap.put(eTypedElement, returnType);
-          returnType = dataType;
+          defaultValueLiteral = getModelAnnotationAttribute(modelAnnotation, "default");
         }
+        eStructuralFeature.setDefaultValueLiteral(defaultValueLiteral);
       }
 
-      // Remember the return type for later resolution.
+      // Handle the type, multiplicity and other ETypedElement attributes. 
       //
-      eTypedElementToTypeNameMap.put(eTypedElement, returnType);
+      handleETypedElement(eStructuralFeature, featureName, returnType, modelAnnotation,eClass.getName() + "." + methodName);
+      
+      // Set the EStructuralFeature attributes.
+      //
+      eStructuralFeature.setChangeable(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "changeable")));
+      eStructuralFeature.setDerived("true".equals(getModelAnnotationAttribute(modelAnnotation, "derived")));
+      eStructuralFeature.setVolatile("true".equals(getModelAnnotationAttribute(modelAnnotation, "volatile")));
+      eStructuralFeature.setTransient("true".equals(getModelAnnotationAttribute(modelAnnotation, "transient")));
+
+      // Set the visibility annotations for the EstructuralFeature.
+      //
+      EcoreUtil.setSuppressedVisibility
+        (eStructuralFeature, EcoreUtil.GET, "true".equals(getModelAnnotationAttribute(modelAnnotation, "suppressedGetVisibility")));
+      EcoreUtil.setSuppressedVisibility
+        (eStructuralFeature, EcoreUtil.SET, "true".equals(getModelAnnotationAttribute(modelAnnotation, "suppressedSetVisibility")));
+      EcoreUtil.setSuppressedVisibility
+        (eStructuralFeature, EcoreUtil.IS_SET, "true".equals(getModelAnnotationAttribute(modelAnnotation, "suppressedIsSetVisibility")));
+      EcoreUtil.setSuppressedVisibility
+        (eStructuralFeature, EcoreUtil.UNSET, "true".equals(getModelAnnotationAttribute(modelAnnotation, "suppressedUnsetVisibility")));
     }
 
     if (eTypedElement != null)
     {
-      // Set the name, and remember method for import resolution later.
-      //
-      eTypedElement.setName(featureName);
-
       // Process the annotations.
       //
       eTypedElement.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
     }
 
     return eTypedElement;
+  }
+
+  protected void handleETypedElement(ETypedElement eTypedElement, String name, String type, String modelAnnotation, String identifierName)
+  {
+    eTypedElement.setName(name);
+    if ("void".equals(type)) return;
+    
+    String mapType = getModelAnnotationAttribute(modelAnnotation, "mapType");
+    String dataType = getModelAnnotationAttribute(modelAnnotation, "dataType");
+    String modelType = getModelAnnotationAttribute(modelAnnotation, "type");
+
+    // For lists, maps, and feature maps, the default is many-valued, which can be overriden by an upper-bound declaration.
+    //
+    if (dataType == null || mapType != null)
+    {
+      if ("EList".equals(type) || "org.eclipse.emf.common.util.EList".equals(type)|| "List".equals(type) || "java.util.List".equals(type))
+      {
+        eTypedElement.setUpperBound(-1);
+        if (modelType == null)
+        {
+          error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheTypeMustBeSpecifiedFor_message", new Object [] { identifierName }));
+          modelType = "java.lang.Object";
+        }
+      }
+      else if ("EMap".equals(type) || "org.eclipse.emf.common.util.EMap".equals(type) ||
+               "Map".equals(type) || "java.util.Map".equals(type) ||
+               "FeatureMap".equals(type) || "org.eclipse.emf.common.util.FeatureMap".equals(type))
+      {
+        eTypedElement.setUpperBound(-1);
+      }
+    }
+
+    String many = getModelAnnotationAttribute(modelAnnotation, "many");
+    if (many != null)
+    {
+      eTypedElement.setUpperBound("true".equals(many) ? -1 : 1);
+    }
+
+    eTypedElement.setLowerBound("true".equals(getModelAnnotationAttribute(modelAnnotation, "required")) ? 1 : 0);
+
+    String lowerBound = getModelAnnotationAttribute(modelAnnotation, "lowerBound");
+    if (lowerBound == null)
+    {
+      lowerBound = getModelAnnotationAttribute(modelAnnotation, "lower");
+    }
+    if (lowerBound != null)
+    {
+      eTypedElement.setLowerBound(Integer.parseInt(lowerBound));
+    }
+    String upperBound = getModelAnnotationAttribute(modelAnnotation, "upperBound");
+    if (upperBound == null)
+    {
+      upperBound = getModelAnnotationAttribute(modelAnnotation, "upper");
+    }
+    if (upperBound != null)
+    {
+      eTypedElement.setUpperBound(Integer.parseInt(upperBound));
+    }
+
+    // The type can be augmented by specifying the it explicitly in the annotation.
+    // This mostly makes sense only for many-valued typed elements, where the Java
+    // type is a list and the item type needs to be specified.
+    //
+    if (modelType != null)
+    {
+      type = modelType;
+    }
+
+    String keyType = getModelAnnotationAttribute(modelAnnotation, "keyType");
+    String valueType = getModelAnnotationAttribute(modelAnnotation, "valueType");
+
+    if (mapType != null)
+    {
+      if (keyType != null && valueType != null)
+      {
+        type = mapType + "@" + keyType + "/" + valueType;
+      }
+      else
+      {
+        type = mapType;
+      }
+    }
+    else if (dataType != null)
+    {
+      eTypedElementToInstanceTypeNameMap.put(eTypedElement, type);
+      type = dataType;
+    }
+    else if (keyType != null && valueType != null)
+    {
+      // Special paired return type.
+      //
+      type = keyType + "/" + valueType;
+    }
+    eTypedElementToTypeNameMap.put(eTypedElement, type);
+
+    eTypedElement.setUnique(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "unique")));
+    eTypedElement.setOrdered(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "ordered")));
   }
 
   protected EStructuralFeature createFeature(EClass eClass, String name, EClassifier eType)
