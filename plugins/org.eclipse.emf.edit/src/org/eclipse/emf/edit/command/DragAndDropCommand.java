@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DragAndDropCommand.java,v 1.4 2004/07/29 13:33:00 marcelop Exp $
+ * $Id: DragAndDropCommand.java,v 1.5 2005/06/01 21:20:12 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -496,7 +496,14 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
         Object object = objects.next();
         if (collection.contains(object))
         {
-          (j <= index ? before : after).add(object);
+          if (j < index)
+          {
+            before.add(object);
+          }
+          else if (j > index)
+          {
+            after.add(object);
+          }
         }
       }
 
@@ -512,7 +519,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
         compoundCommand.append(MoveCommand.create(domain, parent, null, object, index));
       }
 
-      dropCommand = compoundCommand;
+      dropCommand = compoundCommand.getCommandList().size() == 0 ? (Command)IdentityCommand.INSTANCE : compoundCommand;
     }
     else if (isCrossDomain())
     {
