@@ -314,6 +314,11 @@
 		    initv      	
 |"tests"
 		    
+		    exportControl 	"Public")
+		(object ClassAttribute "generateExampleClass"
+		    quid       	"429D345C01E3"
+		    type       	"boolean"
+		    initv      	"true"
 		    exportControl 	"Public")))
 	(object Class "GenClass"
 	    quid       	"3C1759410016"
