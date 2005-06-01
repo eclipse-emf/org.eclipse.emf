@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.19 2005/05/26 17:32:37 marcelop Exp $
+ * $Id: GenModel.java,v 1.20 2005/06/01 15:31:15 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -1336,6 +1336,7 @@ public interface GenModel extends GenBase{
   JETEmitter getTestCaseEmitter();
   JETEmitter getModelTestSuiteEmitter();
   JETEmitter getPackageTestSuiteEmitter();
+  JETEmitter getPackageTestUtilityEmitter();
   JETEmitter getTestsPluginXMLEmitter();
   JETEmitter getTestsPluginPropertiesEmitter();
   JETEmitter getTestsBuildPropertiesEmitter();

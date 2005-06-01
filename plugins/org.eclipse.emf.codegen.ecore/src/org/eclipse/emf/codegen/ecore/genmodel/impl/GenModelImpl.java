@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.34 2005/05/26 17:33:22 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.35 2005/06/01 15:31:15 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2277,6 +2277,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String testCaseTemplateName = "model.tests/TestCase.javajet";
   protected String modelTestSuiteTemplateName = "model.tests/ModelTestSuite.javajet";
   protected String packageTestSuiteTemplateName = "model.tests/PackageTestSuite.javajet";
+  protected String packageTestUtilityTemplateName = "model.tests/PackageTestUtility.javajet";
   protected String testsPluginXMLTemplateName = "model.tests/plugin.xmljet";
   protected String testsPluginPropertiesTemplateName = "model.tests/plugin.propertiesjet";
   protected String testsBuildPropertiesTemplateName = "model.tests/build.propertiesjet";
@@ -2284,6 +2285,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter testCaseEmitter = null;
   protected JETEmitter modelTestSuiteEmitter = null;
   protected JETEmitter packageTestSuiteEmitter = null;
+  protected JETEmitter packageTestUtilityEmitter = null;
   protected JETEmitter testsPluginXMLEmitter = null;
   protected JETEmitter testsPluginPropertiesEmitter = null;
   protected JETEmitter testsBuildPropertiesEmitter = null;
@@ -2319,6 +2321,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
 
     return packageTestSuiteEmitter;
+  }
+  
+  public JETEmitter getPackageTestUtilityEmitter()
+  {
+    if (packageTestUtilityEmitter == null)
+    {
+      packageTestUtilityEmitter = createJETEmitter(packageTestUtilityTemplateName);
+      setMethod(packageTestUtilityEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.PackageExample");
+    }
+
+    return packageTestUtilityEmitter;
   }
 
   public JETEmitter getTestsPluginXMLEmitter()
@@ -4634,6 +4647,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       GenModel genModel = genPackage.getGenModel();
       result.add(genModel.getModelPluginID());
     }
+
+    result.add("org.eclipse.emf.ecore.xmi");
 
     result.add("org.junit");
 
