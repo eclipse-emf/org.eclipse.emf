@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.4 2005/05/25 19:12:59 davidms Exp $
+ * $Id: GenParameterImpl.java,v 1.5 2005/06/01 19:30:53 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -25,9 +25,11 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -111,11 +113,6 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PARAMETER__GEN_OPERATION, newGenOperation, newGenOperation));
-  }
-
-  public  EModelElement getEcoreModelElement()
-  {
-    return getEcoreParameter();
   }
 
   /**
@@ -298,33 +295,14 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
     eDynamicUnset(eFeature);
   }
 
+  public ETypedElement getEcoreTypedElement()
+  {
+    return getEcoreParameter();
+  }
+
   public String getName()
   {
     return getEcoreParameter().getName();
-  }
-
-  public String getType()
-  {
-    return getType(getEcoreParameter().getEType(), false);
-  }
-
-  public String getImportedType()
-  {
-    return getImportedType(getEcoreParameter().getEType(), false);
-  }
-
-  public String getTypeClassifier()
-  {
-    return findGenClassifier(getEcoreParameter().getEType()).getClassifierAccessorName();
-  }
-
-  public GenPackage getTypeGenPackage()
-  {
-    EClassifier eType = getEcoreParameter().getEType();
-    if (eType != null)
-      return findGenPackage(eType.getEPackage());
-    else
-      return null;
   }
 
   public GenPackage getGenPackage()
@@ -348,6 +326,55 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
     {
       return false;
     }
+  }
+
+  public String getQualifiedModelInfo()
+  {
+    return getModelInfo(true);
+  }
+
+  protected String getModelInfo(boolean qualified)
+  {
+    EParameter eParameter = getEcoreParameter();
+    StringBuffer result = new StringBuffer();
+
+    String mapModelInfo = getMapModelInfo(qualified, true);
+    if (mapModelInfo != null)
+    {
+      result.append(mapModelInfo);
+    }
+    else
+    {
+      if (eParameter.isMany() && !isFeatureMapType())
+      {
+        appendModelSetting(result, qualified, "type", getType(eParameter.getEType(), false));
+      }
+
+      EClassifier type = eParameter.getEType();
+      if (type instanceof EDataType && !(type instanceof EEnum))
+      {
+        GenPackage genPackage = findGenPackage(type.getEPackage());
+        if (genPackage != null && (isFeatureMapType() || !genPackage.isEcorePackage()))
+        {
+          appendModelSetting(result, qualified, "dataType", genPackage.getInterfacePackageName() + '.' + type.getName());
+        }
+      }
+      
+      if (!eParameter.isUnique())
+      {
+        appendModelSetting(result, qualified, "unique", "false");
+      }
+
+      result.append(getMultiplicityModelInfo(qualified));
+
+      if (!eParameter.isOrdered()) 
+      {
+        appendModelSetting(result, qualified, "ordered", "false");
+      }
+    }
+
+    appendAnnotationInfo(result, qualified, eParameter, DEFAULT_ANNOTATION_FILTER);
+    return result.toString().trim();
   }
 
   protected void reconcileSettings(GenParameter oldGenParameterVersion)

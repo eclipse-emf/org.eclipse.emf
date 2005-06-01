@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.13 2005/05/25 19:12:58 davidms Exp $
+ * $Id: GenFeature.java,v 1.14 2005/06/01 19:30:50 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -327,64 +327,25 @@ public interface GenFeature extends GenTypedElement {
   String getImportedMetaType();
   String getFeatureKind(); // this returns either "attribute", "attribute list", "reference", or "reference list"
   boolean isReferenceType();
-  String getEObjectCast(); // this returns either "(EObject)", "(org.eclipse.emf.ecore.EObject)", or "" as needed for the reference type.
-  String getInternalTypeCast(); // this returns either "(EObject)", "(org.eclipse.emf.ecore.EObject)", or "" as needed for the reference type.
-  boolean isEffectiveSuppressEMFTypes();
   boolean isFlag();
   boolean isESetFlag();
-  
-  String getTypeClassifier();
-  GenPackage getTypeGenPackage();
-
-  String getType(); // this returns the feature type, either primitive (e.g. "int") or qualified class name (e.g. "java.lang.String", "org.eclipse.emf.common.util.EList", or "org.sample.company.Company")
-
-  String getImportedType(); // this returns the feature type, either primitive (e.g. "int") or imported class name (e.g. "String", "EList", or "Company")
-  String getObjectType(); // this returns the imported name of the feature type or, if primitive, of the wrapper class (e.g. "Integer")
-  String getImportedInternalType(); // this returns the real imported feature type used internally, regardless of the value of GenModel.isSuppressEMFValues()
-  String getQualifiedListItemType(); // this returns the qualified name of the feature type/wrapper class, or if a multi-valued feature, the type of the EList members
-  String getListItemType(); // this returns the imported name of the feature type/wrapper class, or if a multi-valued feature, the type of the EList members
-  GenClass getMapGenClass(); 
-  String getMapItemType(); 
-  String getImportedEffectiveFeatureMapWrapperClass();
-  String getImportedEffectiveFeatureMapWrapperInternalInterface();
 
   boolean isSetDefaultValue();
   String getDefaultValue();
   String getStaticDefaultValue();
-
-  boolean isEnumType();
-  boolean isEnumBasedType();
-  GenEnum getGenEnumType();
-  GenDataType getGenDataTypeType();
-  GenClass getGenClassType();
-  boolean isBooleanType();
-  boolean isStringType();
-  boolean isStringBasedType();
-  boolean isListType();
-  boolean isMapType();
-  boolean isFeatureMapType();
-  boolean isFeatureMapWrapped();
 
   boolean isContainer();
   boolean isContains();
   boolean isBidirectional();
   GenFeature getReverse();
 
-  boolean isPrimitiveType();
-  String getPrimitiveValueFunction();
-
-  String getLowerBound();
-  String getUpperBound();
-
   String getContainerClass();
 
-  String getOrderedFlag();
   String getDerivedFlag();
   String getTransientFlag();
   String getVolatileFlag();
   String getChangeableFlag();
   String getUnsettableFlag();
-  String getUniqueFlag();
   String getIDFlag();
   String getContainmentFlag();
   String getResolveProxiesFlag();
@@ -393,7 +354,6 @@ public interface GenFeature extends GenTypedElement {
   boolean isChangeable();
   boolean isUnsettable();
   boolean isID();
-  boolean isUnique();
   boolean isDerived();
   boolean isResolveProxies();
 

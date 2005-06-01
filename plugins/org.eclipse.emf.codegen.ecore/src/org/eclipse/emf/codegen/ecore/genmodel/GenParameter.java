@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameter.java,v 1.3 2005/05/25 19:12:58 davidms Exp $
+ * $Id: GenParameter.java,v 1.4 2005/06/01 19:30:50 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -93,14 +93,10 @@ public interface GenParameter extends GenTypedElement {
   void setEcoreParameter(EParameter value);
 
   String getName();
-  String getType();
-  String getImportedType();
-  String getTypeClassifier();
-  GenPackage getTypeGenPackage();
-  
   GenPackage getGenPackage();
 
   void initialize(EParameter eParameter);
+  String getQualifiedModelInfo();
 
   boolean reconcile(GenParameter oldGenParameterVersion);
 }

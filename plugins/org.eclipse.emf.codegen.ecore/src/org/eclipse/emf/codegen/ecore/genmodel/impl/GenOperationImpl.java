@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.10 2005/05/25 19:12:59 davidms Exp $
+ * $Id: GenOperationImpl.java,v 1.11 2005/06/01 19:30:53 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -36,10 +36,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -136,11 +136,6 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_OPERATION__GEN_CLASS, newGenClass, newGenClass));
-  }
-
-  public  EModelElement getEcoreModelElement()
-  {
-    return getEcoreOperation();
   }
 
   /**
@@ -352,6 +347,11 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     eDynamicUnset(eFeature);
   }
 
+  public ETypedElement getEcoreTypedElement()
+  {
+    return getEcoreOperation();
+  }
+
   public String getName()
   {
     return getEcoreOperation().getName();
@@ -367,38 +367,132 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     return format(getCapName(), ' ', null, false);
   }
 
+  // Many inherited methods must be overridden to handle this case.
+  //
   public boolean isVoid()
   {
     return getEcoreOperation().getEType() == null;
   }
 
+  /**
+   * @deprecated As of EMF 2.1, simply call <code>getEcoreTypedElement().getEType()</code>.
+   */
   protected EClassifier getReturn()
   {
     return getEcoreOperation().getEType();
   }
 
-  public String getReturnType()
+  public String getTypeClassifierAccessorName()
   {
-    return isVoid() ? "void" : getType(getReturn(), false);
+    return isVoid() ? "null" : super.getTypeClassifierAccessorName();
   }
 
-  public String getImportedReturnType()
+  public GenPackage getTypeGenPackage()
   {
-    return isVoid() ? "void" : getImportedType(getReturn(), false);
+    return isVoid() ? null : super.getTypeGenPackage();
   }
 
+  public String getType()
+  {
+    return isVoid() ? "void" : super.getType();
+  }
+
+  public String getImportedType()
+  {
+    return isVoid() ? "void" : super.getImportedType();
+  }
+
+  public String getObjectType()
+  {
+    return isVoid() ? "void" : super.getObjectType();
+  }
+
+  public String getImportedInternalType()
+  {
+    return isVoid() ? "void" : super.getImportedInternalType();
+  }
+
+  public boolean isFeatureMapType()
+  {
+    return !isVoid() && super.isFeatureMapType();
+  }
+
+  public String getListItemType()
+  {
+    return isVoid() ? "void" : super.getListItemType();
+  }
+
+  public String getQualifiedListItemType()
+  {
+    return isVoid() ? "void" : super.getQualifiedListItemType();
+  }
+
+  public boolean isPrimitiveType()
+  {
+    return !isVoid() && super.isPrimitiveType();
+  }
+
+  public String getPrimitiveValueFunction()
+  {
+    return isVoid() ? null : super.getPrimitiveValueFunction();
+  }
+
+  public boolean isStringType()
+  {
+    return !isVoid() && super.isStringType();
+  }
+
+  public boolean isStringBasedType()
+  {
+    return !isVoid() && super.isStringBasedType();
+  }
+
+  /**
+   * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getTypeClassifierAccessorName() getTypeClassifierAccessorName} instead.
+   */
   public String getReturnTypeClassifier()
   {
-    return isVoid() ? null : findGenClassifier(getReturn()).getClassifierAccessorName();
+    return getTypeClassifierAccessorName();
   }
 
+  /**
+   * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getTypeGenPackage getTypeGenPackage} instead.
+   */
   public GenPackage getReturnTypeGenPackage()
   {
-    EClassifier eType = getReturn();
-    if (eType != null)
-      return findGenPackage(eType.getEPackage());
-    else
-      return null;
+    return getTypeGenPackage();
+  }
+
+  /**
+   * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getType getType} instead.
+   */
+  public String getReturnType()
+  {
+    return getType();
+  }
+
+  /**
+   * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getImporterType getImportedType} instead.
+   */
+  public String getImportedReturnType()
+  {
+    return getImportedType();
+  }
+
+  /**
+   * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getObjectType getObjectType} instead.
+   */
+  public String getObjectReturnType()
+  {
+    return getObjectType();
+  }
+
+  /**
+   * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#isPrimitiveType isPrimitiveType} instead.
+   */
+  public boolean isPrimitiveReturnType()
+  {
+    return isPrimitiveType();
   }
 
   public String getParameters()
@@ -509,62 +603,71 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   public String getModelInfo()
   {
+    EOperation eOperation = getEcoreOperation();
     StringBuffer result = new StringBuffer();
 
-    EClassifier returnTypeEClassifier = getEcoreOperation().getEType();
-    if (returnTypeEClassifier != null)
+    if (!isVoid())
     {
-      GenPackage returnTypeGenPackage = findGenPackage(returnTypeEClassifier.getEPackage());
-      if (returnTypeGenPackage != null && 
-            !returnTypeGenPackage.isEcorePackage() && 
-            returnTypeEClassifier instanceof EDataType && 
-            !(returnTypeEClassifier instanceof EEnum))
+      // Since we only use this right on an operation, we always want to include the keyType and valueType, and we never
+      // want to qualify the property names.
+      //
+      String mapModelInfo = getMapModelInfo(false, true);
+      if (mapModelInfo != null)
       {
-        result.append("dataType=\"");
-        result.append(returnTypeGenPackage == null ? "org.eclipse.emf.ecore" : returnTypeGenPackage.getInterfacePackageName());
-        result.append('.');
-        result.append(returnTypeEClassifier.getName());
-        result.append("\" ");
+        result.append(mapModelInfo);
       }
-    } 
+      else
+      {
+        if (eOperation.isMany() && !isFeatureMapType())
+        {
+          appendModelSetting(result, "type", getType(eOperation.getEType(), false));
+        }
 
-    StringBuffer parameterResult = new StringBuffer("parameters=\"");
-    boolean required = 
-      getGenParameters().isEmpty() && 
-        (getName().startsWith("get") && 
-         getName().length() > 3 && 
-         Character.isUpperCase(getName().charAt(3)) ||
-          (getName().startsWith("get") && 
-           getName().length() > 2 && 
-           Character.isUpperCase(getName().charAt(2))));
+        EClassifier type = eOperation.getEType();
+        if (type instanceof EDataType && !(type instanceof EEnum))
+        {
+          GenPackage genPackage = findGenPackage(type.getEPackage());
+          if (genPackage != null && (isFeatureMapType() || !genPackage.isEcorePackage()))
+          {
+            appendModelSetting(result, "dataType", genPackage.getInterfacePackageName() + '.' + type.getName());
+          }
+        }
+        
+        if (!eOperation.isUnique())
+        {
+          appendModelSetting(result, "unique", "false");
+        }
+
+        result.append(getMultiplicityModelInfo(false));
+      }
+
+      if (!eOperation.isOrdered())
+      {
+        appendModelSetting(result, "ordered", "false");
+      }
+    }
+
+    // If this looks like a feature getter, a dummy parameters property will allow it to be recognized properly.
+    //
+    if (getGenParameters().isEmpty() &&
+        ((getName().startsWith("get") && getName().length() > 3 && Character.isUpperCase(getName().charAt(3))) ||
+         (getName().startsWith("is") && getName().length() > 2 && Character.isUpperCase(getName().charAt(2)))))
+    {
+      appendModelSetting(result, "parameters", "-");
+    }
+
     for (Iterator i = getGenParameters().iterator(); i.hasNext(); )
     {
-      GenParameter genParameter = (GenParameter)i.next();
-      EClassifier eClassifier = genParameter.getEcoreParameter().getEType();
-      GenPackage genPackage = findGenPackage(eClassifier.getEPackage());
-      required |= 
-        genPackage != null && 
-          !genPackage.isEcorePackage() && 
-          eClassifier instanceof EDataType && 
-          !(eClassifier instanceof EEnum);
-      parameterResult.append(genPackage == null ? "org.eclipse.emf.ecore" : genPackage.getInterfacePackageName());
-      parameterResult.append('.');
-      parameterResult.append(eClassifier.getName());
-      if (i.hasNext())
+      String parameterResult = ((GenParameter)i.next()).getQualifiedModelInfo();
+      if (parameterResult.length() > 0)
       {
-        parameterResult.append(" ");
+        result.append(parameterResult);
+        result.append(' ');
       }
     }
 
-    if (required)
-    {
-      result.append(parameterResult);
-      result.append('"');
-    }
-
-    appendAnnotationInfo(result, getEcoreOperation());
-  
-    return result.toString();
+    appendAnnotationInfo(result, eOperation);  
+    return result.toString().trim();
   }
 
   public boolean reconcile(GenOperation oldGenOperationVersion)
@@ -617,7 +720,6 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       return true;
     }
   }
-
 
   protected String getBody()
   {
@@ -731,20 +833,5 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     }
 
     return parameterNames.toString();
-  }
-
-  public String getObjectReturnType()
-  {
-    return getImportedType(getEcoreOperation().getEType(), true);
-  }
-
-  public String getPrimitiveValueFunction()
-  {
-    return getPrimitiveValueFunction(getEcoreOperation().getEType());
-  }
-
-  public boolean isPrimitiveReturnType()
-  {
-    return isPrimitiveType(getEcoreOperation().getEType());
   }
 }

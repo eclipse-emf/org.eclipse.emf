@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.21 2005/05/29 11:36:37 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.22 2005/06/01 19:30:50 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -28,7 +28,6 @@ import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
-import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
@@ -46,6 +45,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
@@ -490,11 +490,6 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__GEN_CLASS, newGenClass, newGenClass));
   }
 
-  public EModelElement getEcoreModelElement()
-  {
-    return getEcoreFeature();
-  }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -774,6 +769,11 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return result.toString();
   }
 
+  public ETypedElement getEcoreTypedElement()
+  {
+    return getEcoreFeature();
+  }
+
   public String getName()
   {
     return getEcoreFeature().getName();
@@ -803,7 +803,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         GenOperation genOperation = (GenOperation)i.next();
         if (genOperation.getName().equals(result) && 
               genOperation.getGenParameters().isEmpty() && 
-              !genOperation.getReturnType().equals(getType()))
+              !genOperation.getType().equals(getType()))
         {
           result = result + "_";
           break;
@@ -907,45 +907,19 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return getEcoreFeature() instanceof EReference;
   }
 
-  public String getEObjectCast()
+  protected boolean isEObjectExtensionType()
   {
-    return 
-      isEObjectExtensionType() && !isEffectiveSuppressEMFTypes() ? 
-        "" : 
-        "(" + getGenModel().getImportedName("org.eclipse.emf.ecore.EObject") + ")";
+    return isReferenceType() && super.isEObjectExtensionType();
   }
 
-  public String getInternalTypeCast()
+  protected boolean isEObjectType()
   {
-    return 
-      isEObjectType() && isEffectiveSuppressEMFTypes() ? 
-        "(" + getGenModel().getImportedName("org.eclipse.emf.ecore.EObject") + ")" :
-        "";
+    return isReferenceType() && super.isEObjectType();
   }
 
-  public boolean isEObjectExtensionType()
+  public boolean isMapType()
   {
-    return isReferenceType() && findGenClass((EClass)getEcoreFeature().getEType()).isEObjectExtension();
-  }
-
-  public boolean isEObjectType()
-  {
-    return isReferenceType() && findGenClass((EClass)getEcoreFeature().getEType()).isEObject();
-  }
-
-  public String getTypeClassifier()
-  {
-    return findGenClassifier(getEcoreFeature().getEType()).getClassifierAccessorName();
-  }
-
-  public GenPackage getTypeGenPackage()
-  {
-    return findGenPackage(getEcoreFeature().getEType().getEPackage());
-  }
-
-  public boolean isEffectiveSuppressEMFTypes()
-  {
-    return getGenModel().isSuppressEMFTypes();
+    return !isContainer() && super.isMapType();
   }
 
   public boolean isFlag()
@@ -956,108 +930,6 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   public boolean isESetFlag()
   {
     return isUnsettable() && !isListType() && !isVolatile();
-  }
-
-  public String getEffectiveMapType()
-  {
-    return isEffectiveSuppressEMFTypes() ?
-      "java.util.Map" : "org.eclipse.emf.common.util.EMap";
-  }
-
-  public String getEffectiveListType()
-  {
-    return isEffectiveSuppressEMFTypes() ?
-       "java.util.List" : "org.eclipse.emf.common.util.EList";
-  }
-
-  public String getEffectiveEObjectType()
-  {
-    return isEffectiveSuppressEMFTypes() ?
-      "java.lang.Object" : "org.eclipse.emf.ecore.EObject";
-  }
-
-  public String getEffectiveFeatureMapWrapperInterface()
-  {
-    String result = getGenModel().getFeatureMapWrapperInterface();
-    return isBlank(result) ? "org.eclipse.emf.ecore.util.FeatureMap" : result;
-  }
-
-  public String getImportedEffectiveFeatureMapWrapperInternalInterface()
-  {
-    String result = getGenModel().getFeatureMapWrapperInternalInterface();
-    return getGenModel().getImportedName(isBlank(result) ? "org.eclipse.emf.ecore.util.FeatureMap" : result);
-  }
-
-  public String getImportedEffectiveFeatureMapWrapperClass()
-  {
-    String result = getGenModel().getFeatureMapWrapperClass();
-    return getGenModel().getImportedName(isBlank(result) ? "org.eclipse.emf.ecore.util.FeatureMap" : result);
-  }
-
-  public String getType()
-  {
-    if (isFeatureMapType()) return getEffectiveFeatureMapWrapperInterface();
-    if (isMapType()) return getEffectiveMapType();
-    if (isListType()) return getEffectiveListType();
-    if (isEObjectType()) return getEffectiveEObjectType();
-    return getType(getEcoreFeature().getEType(), false);
-  }
-
-  public String getImportedType()
-  {
-    if (isFeatureMapType()) return getGenModel().getImportedName(getEffectiveFeatureMapWrapperInterface());
-    if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType());
-    if (isListType()) return getGenModel().getImportedName(getEffectiveListType());
-    if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
-    return getImportedType(getEcoreFeature().getEType(), false);
-  }
-
-  public String getObjectType()
-  {
-    if (isFeatureMapType()) return getGenModel().getImportedName(getEffectiveFeatureMapWrapperInterface());
-    if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType());
-    if (isListType()) return getGenModel().getImportedName(getEffectiveListType());
-    if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
-    return getImportedType(getEcoreFeature().getEType(), true);
-  }
-
-  public String getImportedInternalType()
-  {
-    if (isFeatureMapType()) return getImportedEffectiveFeatureMapWrapperInternalInterface();
-    if (isMapType()) return getGenModel().getImportedName("org.eclipse.emf.common.util.EMap");
-    if (isListType()) return getGenModel().getImportedName("org.eclipse.emf.common.util.EList");
-    return getImportedType(getEcoreFeature().getEType(), false);
-  }
-
-  public String getQualifiedListItemType()
-  {
-    return getType(getEcoreFeature().getEType(), true).replace('$', '.');
-  }
-
-  public String getListItemType()
-  {
-    return getImportedType(getEcoreFeature().getEType(), true);
-  }
-
-  public GenClass getMapGenClass()
-  {
-    EClassifier eType = getEcoreFeature().getEType();
-    if (eType instanceof EClass && isJavaUtilMapEntry(eType.getInstanceClassName()))
-    {
-      GenClass genClass = findGenClass((EClass)eType);
-      if (genClass.isMapEntry())
-      {
-        return genClass;
-      }
-    }
-
-    return null;
-  }
-
-  public String getMapItemType()
-  {
-    GenClass genClass = findGenClass((EClass)getEcoreFeature().getEType());
-    return genClass.getImportedClassName();
   }
 
   public boolean isSetDefaultValue()
@@ -1084,85 +956,9 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return "null";
   }
 
-  public boolean isEnumType()
-  {
-    return !isListType() && getEcoreFeature().getEType() instanceof EEnum;
-  }
-
-  public boolean isEnumBasedType()
-  {
-    return getEcoreFeature().getEType() instanceof EEnum;
-  }
-
-  public GenEnum getGenEnumType()
-  {
-    EClassifier eType = getEcoreFeature().getEType();
-    return eType instanceof EEnum ? findGenEnum((EEnum)eType) : null;
-  }
-
-  public GenDataType getGenDataTypeType()
-  {
-    EClassifier eType = getEcoreFeature().getEType();
-    return eType instanceof EDataType ? findGenDataType((EDataType)eType) : null;
-  }
-
-  public GenClass getGenClassType()
-  {
-    EClassifier eType = getEcoreFeature().getEType();
-    return eType instanceof EClass ? findGenClass((EClass)eType) : null;
-  }
-
-  public boolean isBooleanType()
-  {
-    return isPrimitiveType() &&
-      getInstanceClass(getEcoreFeature().getEType()) == java.lang.Boolean.TYPE;
-  }
-
-  public boolean isStringType()
-  {
-    return !isListType() &&
-      getInstanceClass(getEcoreFeature().getEType()) == java.lang.String.class;
-  }
-
-  // Like isStringType(), but still returns true even if multiplicity-many.
-  //
-  public boolean isStringBasedType()
-  {
-    return getInstanceClass(getEcoreFeature().getEType()) == java.lang.String.class;
-  }
-  
-  public boolean isListType()
-  {
-    return getEcoreFeature().isMany() || isFeatureMapType();
-  }
-
-  public boolean isMapType()
-  {
-    return isListType() && !isContainer() && getMapGenClass() != null;
-  }
-
   protected boolean isMapEntryFeature()
   {
     return getGenClass().isMapEntry() && ("key".equals(getName()) || "value".equals(getName()));
-  }
-
-  protected static boolean isFeatureMapEntry(String name)
-  {
-    return "org.eclipse.emf.ecore.util.FeatureMap.Entry".equals(name) || "org.eclipse.emf.ecore.util.FeatureMap$Entry".equals(name);
-  }  
-
-  public boolean isFeatureMapType()
-  {
-    return isFeatureMapEntry(getEcoreFeature().getEType().getInstanceClassName());
-  }
-
-  public boolean isFeatureMapWrapped()
-  {
-    return 
-      isFeatureMapType() &&  
-        !isBlank(getGenModel().getFeatureMapWrapperInterface()) &&
-        !isBlank(getGenModel().getFeatureMapWrapperInternalInterface()) &&
-        !isBlank(getGenModel().getFeatureMapWrapperClass());
   }
 
   public boolean isContainer()
@@ -1212,26 +1008,6 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return null;
   }
 
-  public boolean isPrimitiveType()
-  {
-    return !isListType() && isPrimitiveType(getEcoreFeature().getEType());
-  }
-
-  public String getPrimitiveValueFunction()
-  {
-    return getPrimitiveValueFunction(getEcoreFeature().getEType());
-  }
-
-  public String getLowerBound()
-  {
-    return String.valueOf(getEcoreFeature().getLowerBound());
-  }
-
-  public String getUpperBound()
-  {
-    return String.valueOf(getEcoreFeature().getUpperBound());
-  }
-
   public String getContainerClass()
   {
     return getGenClass().isDocumentRoot() ? "null" : getGenClass().getImportedInterfaceName() + ".class";
@@ -1241,12 +1017,6 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   {
     String result = !getEcoreFeature().isDerived() ? "!" : "";
     return result + "IS_DERIVED";
-  }
-
-  public String getOrderedFlag()
-  {
-    String result = !getEcoreFeature().isOrdered() ? "!" : "";
-    return result + "IS_ORDERED";
   }
 
   public String getTransientFlag()
@@ -1271,12 +1041,6 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   {
     String result = !isUnsettable() ? "!" : "";
     return result + "IS_UNSETTABLE";
-  }
-
-  public String getUniqueFlag()
-  {
-    String result = !isUnique() ? "!" : "";
-    return result + "IS_UNIQUE";
   }
 
   public String getIDFlag()
@@ -1332,12 +1096,6 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     EStructuralFeature eStructuralFeature = getEcoreFeature();
     return eStructuralFeature instanceof EAttribute && ((EAttribute)eStructuralFeature).isID();
   }
-
-  public boolean isUnique()
-  {
-    return getEcoreFeature().isUnique();
-  }
-
   public boolean isDerived()
   {
     return getEcoreFeature().isDerived();
@@ -1629,30 +1387,15 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     EStructuralFeature eStructuralFeature = getEcoreFeature();
     StringBuffer result = new StringBuffer();
     boolean defaultTransient = false;
-    
-    GenClass mapGenClass = getMapGenClass();
-    if (mapGenClass != null)
+
+    // We don't want keyType and valueType on a map type specification in a package interface.
+    // But, we also use qualified model information when defining a feature with suppressed get accessor
+    // on the interface, and we do want to include these properties in that case.
+    //
+    String mapModelInfo = getMapModelInfo(qualified, (!qualified || isSuppressedGetVisibility()) && !isContainer());
+    if (mapModelInfo != null)
     {
-      appendModelSetting
-        (result, 
-         qualified, 
-         "mapType", 
-         mapGenClass.getGenPackage().getInterfacePackageName() + '.' + mapGenClass.getEcoreClass().getName());
-
-      EReference eReference = (EReference) eStructuralFeature;
-
-      // We don't want keyType and valueType on a map type specification in a package interface.
-      // But, we also use qualified model information when defining a feature with suppressed get accessor
-      // on the interface, and we do want to include these properties in that case.
-      //
-      if ((!qualified || isSuppressedGetVisibility()) && !eReference.isContainer())
-      {
-        GenFeature keyFeature = mapGenClass.getMapEntryKeyFeature();
-        appendModelSetting(result, false, "keyType", getType(keyFeature.getEcoreFeature().getEType(), false));
-  
-        GenFeature valueFeature = mapGenClass.getMapEntryValueFeature();
-        appendModelSetting(result, false, "valueType", getType(valueFeature.getEcoreFeature().getEType(), false));
-      }
+      result.append(mapModelInfo);
     }
     else
     {
@@ -1717,34 +1460,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
           }
         }
       }
-    
-      int lowerBound = eStructuralFeature.getLowerBound();
-      if (lowerBound == 1)
-      {
-        appendModelSetting(result, qualified, "required", "true");
-      }
-      else if (lowerBound > 1)
-      {
-        appendModelSetting(result, qualified, "lower", Integer.toString(lowerBound));
-      }
-      
-      int upperBound = eStructuralFeature.getUpperBound();
-      if (upperBound > 1 || upperBound < -1)
-      {
-        appendModelSetting(result, qualified, "upper", Integer.toString(eStructuralFeature.getUpperBound()));
-      }
-      else if (upperBound == 1)
-      {
-        String typeName = getType(eStructuralFeature.getEType(), false);
-        if ("org.eclipse.emf.common.util.EList".equals(typeName) || "java.util.List".equals(typeName)) 
-        {
-          appendModelSetting(result, qualified, "many", "false");
-        }
-      }
-      else if ((qualified || isFeatureMapType()) && upperBound == -1)
-      {
-        appendModelSetting(result, qualified, "many", "true");
-      }
+
+      result.append(getMultiplicityModelInfo(qualified));
     }
 
     if (eStructuralFeature.isTransient() && !defaultTransient)
@@ -1789,14 +1506,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       appendModelSetting(result, qualified, "suppressedUnsetVisibility", "true");
     }
 
-    appendAnnotationInfo(result, getEcoreFeature(), DEFAULT_GEN_FEATURE_ANNOTATION_FILTER);
-
+    appendAnnotationInfo(result, qualified, eStructuralFeature, DEFAULT_GEN_FEATURE_ANNOTATION_FILTER);
     return result.toString().trim();
-  }
-
-  protected void appendModelSetting(StringBuffer result, boolean qualified, String name, String value)
-  {
-    appendModelSetting(result, qualified ? getEcoreFeature().getName() : null, name, value);
   }
 
   //

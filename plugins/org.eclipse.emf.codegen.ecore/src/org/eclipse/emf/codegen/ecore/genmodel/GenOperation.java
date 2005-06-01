@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.7 2005/05/25 19:12:58 davidms Exp $
+ * $Id: GenOperation.java,v 1.8 2005/06/01 19:30:50 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -119,14 +119,36 @@ public interface GenOperation extends GenTypedElement {
   String getFormattedName();
 
   boolean isVoid();
-  String getReturnType();
-  String getImportedReturnType();
+
+  /**
+   * @deprecated As of EMF 2.1, use {@link GenTypedElement#getTypeClassifierAccessorName getTypeClassifierAccessorName} instead.
+   */
   String getReturnTypeClassifier();
+
+  /**
+   * @deprecated As of EMF 2.1, use {@link GenTypedElement#getTypeGenPackage getTypeGenPackage} instead.
+   */
   GenPackage getReturnTypeGenPackage();
 
+  /**
+   * @deprecated As of EMF 2.1, use {@link GenTypedElement#getType getType} instead.
+   */
+  String getReturnType();
+
+  /**
+   * @deprecated As of EMF 2.1, use {@link GenTypedElement#getImportedType getImportedType} instead.
+   */
+  String getImportedReturnType();
+
+  /**
+   * @deprecated As of EMF 2.1, use {@link GenTypedElement#getObjectType getObjectType} instead.
+   */
   String getObjectReturnType();
+
+  /**
+   * @deprecated As of EMF 2.1, use {@link GenTypedElement#isPrimitiveType isPrimitiveType} instead.
+   */
   boolean isPrimitiveReturnType();
-  String getPrimitiveValueFunction();
 
   String getParameters();
   String getParameterTypes(String separator);
