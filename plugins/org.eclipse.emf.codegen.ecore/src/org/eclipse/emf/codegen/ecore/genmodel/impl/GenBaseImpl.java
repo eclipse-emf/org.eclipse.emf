@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.27 2005/05/17 17:51:00 khussey Exp $
+ * $Id: GenBaseImpl.java,v 1.28 2005/06/01 19:32:37 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -82,6 +82,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
@@ -941,6 +942,44 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return null;
   }
 
+  protected boolean isEffectiveSuppressEMFTypes()
+  {
+    return getGenModel().isSuppressEMFTypes();
+  }
+
+  protected String getEffectiveMapType()
+  {
+    return isEffectiveSuppressEMFTypes() ? "java.util.Map" : "org.eclipse.emf.common.util.EMap";
+  }
+
+  protected String getEffectiveListType()
+  {
+    return isEffectiveSuppressEMFTypes() ? "java.util.List" : "org.eclipse.emf.common.util.EList";
+  }
+
+  protected String getEffectiveEObjectType()
+  {
+    return isEffectiveSuppressEMFTypes() ? "java.lang.Object" : "org.eclipse.emf.ecore.EObject";
+  }
+
+  protected String getEffectiveFeatureMapWrapperInterface()
+  {
+    String result = getGenModel().getFeatureMapWrapperInterface();
+    return isBlank(result) ? "org.eclipse.emf.ecore.util.FeatureMap" : result;
+  }
+
+  protected String getImportedEffectiveFeatureMapWrapperInternalInterface()
+  {
+    String result = getGenModel().getFeatureMapWrapperInternalInterface();
+    return getGenModel().getImportedName(isBlank(result) ? "org.eclipse.emf.ecore.util.FeatureMap" : result);
+  }
+
+  protected String getImportedEffectiveFeatureMapWrapperClass()
+  {
+    String result = getGenModel().getFeatureMapWrapperClass();
+    return getGenModel().getImportedName(isBlank(result) ? "org.eclipse.emf.ecore.util.FeatureMap" : result);
+  }
+
   protected Class getInstanceClass(EClassifier eType)
   {
     try
@@ -1412,17 +1451,23 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected void appendAnnotationInfo(StringBuffer result, EModelElement eModelElement, AnnotationFilter annotationFilter)
   {
+    appendAnnotationInfo(result, false, eModelElement, annotationFilter);
+  }
+
+  protected void appendAnnotationInfo(StringBuffer result, boolean qualified, EModelElement eModelElement, AnnotationFilter annotationFilter)
+  {
     for (Iterator i = getAnnotationInfo(eModelElement, annotationFilter).iterator(); i.hasNext(); )
     {
       String annotationInfo = (String)i.next();
       appendLineBreak(result);
+      String qualifier = qualified && eModelElement instanceof ENamedElement ? ((ENamedElement)eModelElement).getName() : null;
       if (annotationInfo.startsWith(ExtendedMetaData.ANNOTATION_URI))
       {
-        appendModelSetting(result, "extendedMetaData", annotationInfo.substring(ExtendedMetaData.ANNOTATION_URI.length() + 1));
+        appendModelSetting(result, qualifier, "extendedMetaData", annotationInfo.substring(ExtendedMetaData.ANNOTATION_URI.length() + 1));
       }
       else
       {
-        appendModelSetting(result, "annotation", annotationInfo);
+        appendModelSetting(result, qualifier, "annotation", annotationInfo);
       } 
     }
   }
@@ -2054,27 +2099,4 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
     }
   }
-
-  protected String getPrimitiveValueFunction(EClassifier eClassifier)
-  {
-    Class instanceClass = getInstanceClass(eClassifier);
-    if (instanceClass == java.lang.Boolean.TYPE)
-      return "booleanValue";
-    if (instanceClass == java.lang.Byte.TYPE)
-      return "byteValue";
-    if (instanceClass == java.lang.Character.TYPE)
-      return "charValue";
-    if (instanceClass == java.lang.Double.TYPE)
-      return "doubleValue";
-    if (instanceClass == java.lang.Float.TYPE)
-      return "floatValue";
-    if (instanceClass == java.lang.Integer.TYPE)
-      return "intValue";
-    if (instanceClass == java.lang.Long.TYPE)
-      return "longValue";
-    if (instanceClass == java.lang.Short.TYPE)
-      return "shortValue";
-    return null;
-  }
-
 }
