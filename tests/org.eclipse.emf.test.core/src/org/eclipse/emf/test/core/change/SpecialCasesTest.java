@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.16 2005/05/12 18:05:31 emerks Exp $
+ * $Id: SpecialCasesTest.java,v 1.17 2005/06/01 23:48:12 elena Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -62,6 +62,8 @@ import org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage;
 
 public class SpecialCasesTest  extends TestCase
 {
+  static final boolean DEBUG = false;
+  
   public SpecialCasesTest(String name)
   {
     super(name);
@@ -90,7 +92,9 @@ public class SpecialCasesTest  extends TestCase
     
     Supplier supplier = supplierFactory.createSupplier();
     supplier.setName("ACME");
-    new ResourceImpl().getContents().add(supplier);
+    ResourceSet resourceSet = new ResourceSetImpl();
+    Resource resource = resourceSet.createResource(URI.createFileURI("dummy.temp"));
+    resource.getContents().add(supplier);
     
     PurchaseOrder po1 = supplierFactory.createPurchaseOrder();
     po1.setId("po1");
@@ -106,7 +110,8 @@ public class SpecialCasesTest  extends TestCase
     List ordersBeforeChange = new ArrayList(supplier.getOrders());
     List preferredOrdersBeforeChange = new ArrayList(supplier.getPreferredOrders());
     List standardOrdersBeforeChange = new ArrayList(supplier.getStandardOrders());
-        
+    if (DEBUG) resource.save(System.out, null);
+    
     ChangeRecorder changeRecorder = new ChangeRecorder(supplier);
     
     supplier.getPreferredOrders().add(po3);
@@ -116,6 +121,9 @@ public class SpecialCasesTest  extends TestCase
     supplier.getStandardOrders().remove(po2);
     
     ChangeDescription changeDescription = changeRecorder.endRecording();
+  
+    resource.getContents().add(changeDescription);
+    if (DEBUG) resource.save(System.out, null);
     
     assertFalse(TestUtil.areEqual(ordersBeforeChange, supplier.getOrders()));
     assertFalse(TestUtil.areEqual(preferredOrdersBeforeChange, supplier.getPreferredOrders()));
@@ -132,10 +140,12 @@ public class SpecialCasesTest  extends TestCase
     assertEquals(1, featureChanges.size());
     
     featureChanges = (List)changeDescription.getObjectChanges().get(supplier);
-    assertEquals(2, featureChanges.size());
+    assertEquals(1, featureChanges.size());
     
     changeDescription.apply();
 
+    if (DEBUG) resource.save(System.out, null);
+    
     assertTrue(TestUtil.areEqual(ordersBeforeChange, supplier.getOrders()));
     assertTrue(TestUtil.areEqual(preferredOrdersBeforeChange, supplier.getPreferredOrders()));
     assertTrue(TestUtil.areEqual(standardOrdersBeforeChange, supplier.getStandardOrders()));
