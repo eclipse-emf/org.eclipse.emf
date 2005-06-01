@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.6 2005/05/31 14:54:48 emerks Exp $
+ * $Id: EMFPlugin.java,v 1.7 2005/06/01 21:16:49 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -73,8 +73,10 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
 
   protected ResourceLocator [] delegateResourceLocators;
   protected URL baseURL;
+  protected ResourceBundle untranslatedResourceBundle;
   protected ResourceBundle resourceBundle;
   protected Map strings = new HashMap();
+  protected Map untranslatedStrings = new HashMap();
   protected Map images = new HashMap();
 
   public EMFPlugin(ResourceLocator [] delegateResourceLocators)
@@ -324,14 +326,24 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
    */
   public String getString(String key)
   {
-    String result = (String)strings.get(key);
+    return getString(key, true);
+  }
+
+  /*
+   * Javadoc copied from interface.
+   */
+  public String getString(String key, boolean translate)
+  {
+    Map stringMap = translate ? strings : untranslatedStrings;
+    String result = (String)stringMap.get(key);
     if (result == null)
     {
       try
       {
         if (getPluginResourceLocator() == null)
         {
-          if (resourceBundle == null)
+          ResourceBundle bundle = translate ? resourceBundle : untranslatedResourceBundle;
+          if (bundle == null)
           {
             String packageName = getClass().getName();
             int index = packageName.lastIndexOf(".");
@@ -339,43 +351,60 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
             {
               packageName = packageName.substring(0, index);
             }
-            try
+            if (translate)
             {
-              resourceBundle = ResourceBundle.getBundle(packageName + ".plugin");
-            }
-            catch (MissingResourceException exception)
-            {
-              // If the bundle can't be found the normal way, try to find it as the base URL.
-              // If that also doesn't work, rethrow the original exception.
-              //
               try
               {
-                InputStream inputStream =  new URL(getBaseURL().toString() + "/plugin.properties").openStream();
-                resourceBundle = new PropertyResourceBundle(inputStream);
+                bundle = resourceBundle = ResourceBundle.getBundle(packageName + ".plugin");
+              }
+              catch (MissingResourceException exception)
+              {
+                // If the bundle can't be found the normal way, try to find it as the base URL.
+                // If that also doesn't work, rethrow the original exception.
+                //
+                try
+                {
+                  InputStream inputStream =  new URL(getBaseURL().toString() + "plugin.properties").openStream();
+                  bundle = untranslatedResourceBundle = resourceBundle = new PropertyResourceBundle(inputStream);
+                  inputStream.close();
+                }
+                catch (IOException ioException)
+                {
+                }
+                if (resourceBundle == null)
+                {
+                  throw exception; 
+                }
+              }
+            }
+            else
+            {
+              String resourceName = getBaseURL().toString() + "plugin.properties";
+              try
+              {
+                InputStream inputStream =  new URL(resourceName).openStream();
+                bundle = untranslatedResourceBundle = new PropertyResourceBundle(inputStream);
                 inputStream.close();
               }
               catch (IOException ioException)
               {
-              }
-              if (resourceBundle == null)
-              {
-                throw exception; 
+                throw new MissingResourceException("Missing properties: " + resourceName, getClass().getName(), "plugin.properties");
               }
             }
           }
-          result = resourceBundle.getString(key);
+          result = bundle.getString(key);
         }
         else
         {
-          result = getPluginResourceLocator().getString(key);
+          result = getPluginResourceLocator().getString(key, translate);
         }
       }
       catch (MissingResourceException exception)
       {
-        result = delegatedGetString(key);
+        result = delegatedGetString(key, translate);
       }
   
-      strings.put(key, result);
+      stringMap.put(key, result);
     }
 
     return result;
@@ -388,13 +417,13 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
    * @exception MissingResourceException if the string resource doesn't exist anywhere.
    * @see #delegateResourceLocators
    */
-  protected String delegatedGetString(String key)
+  protected String delegatedGetString(String key, boolean translate)
   {
     for (int i = 0; i < delegateResourceLocators.length; ++i)
     {
       try
       {
-        return delegateResourceLocators[i].getString(key);
+        return delegateResourceLocators[i].getString(key, translate);
       }
       catch (MissingResourceException exception)
       {
@@ -413,7 +442,15 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
    */
   public String getString(String key, Object [] substitutions)
   {
-    return MessageFormat.format(getString(key), substitutions);
+    return getString(key, substitutions, true);
+  }
+  
+  /*
+   * Javadoc copied from interface.
+   */
+  public String getString(String key, Object [] substitutions, boolean translate)
+  {
+    return MessageFormat.format(getString(key, translate), substitutions);
   }
 
   /*
@@ -444,6 +481,9 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
    */
   public static abstract class EclipsePlugin extends Plugin implements ResourceLocator, Logger
   {
+    protected ResourceBundle resourceBundle;
+    protected ResourceBundle untranslatedResourceBundle;
+    
     /**
      * Creates an instance.
      */
@@ -521,7 +561,37 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
      */
     public String getString(String key)
     {
-      return Platform.getResourceBundle(getBundle()).getString(key);
+      return getString(key, true);
+    }
+    
+    /*
+     * Javadoc copied from interface.
+     */
+    public String getString(String key, boolean translate)
+    {
+      ResourceBundle bundle = translate ? resourceBundle : untranslatedResourceBundle;
+      if (bundle == null)
+      {
+        if (translate)
+        {
+           bundle = resourceBundle = Platform.getResourceBundle(getBundle());
+        }
+        else
+        {
+          String resourceName = getBaseURL().toString() + "plugin.properties";
+          try
+          {
+            InputStream inputStream =  new URL(resourceName).openStream();
+            bundle = untranslatedResourceBundle = new PropertyResourceBundle(inputStream);
+            inputStream.close();
+          }
+          catch (IOException ioException)
+          {
+            throw new MissingResourceException("Missing properties: " + resourceName, getClass().getName(), "plugin.properties");
+          }
+        }
+      }
+      return bundle.getString(key);
     }
 
     /*
@@ -529,7 +599,16 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
      */
     public String getString(String key, Object [] substitutions)
     {
-      return MessageFormat.format(getString(key), substitutions);
+      return getString(key, substitutions, true);
+      
+    }
+
+    /*
+     * Javadoc copied from interface.
+     */
+    public String getString(String key, Object [] substitutions, boolean translate)
+    {
+      return MessageFormat.format(getString(key, translate), substitutions);
     }
 
     /*

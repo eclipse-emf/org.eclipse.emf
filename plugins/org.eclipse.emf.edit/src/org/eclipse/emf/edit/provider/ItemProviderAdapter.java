@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.15 2005/05/23 11:49:39 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.16 2005/06/01 21:16:49 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1461,15 +1461,17 @@ public class ItemProviderAdapter
     //
     try
     {
-      return getResourceLocator().getString(
-        feature instanceof EAttribute ? "_UI_CreateChild_text3" : "_UI_CreateChild_text",
-        new Object[] { childType, getFeatureText(feature), getTypeText(owner) });
+      return 
+        getResourceLocator().getString
+          (feature instanceof EAttribute ? "_UI_CreateChild_text3" : "_UI_CreateChild_text",
+           new Object[] { childType, getFeatureText(feature), getTypeText(owner) });
     }
     catch (MissingResourceException e)
     {
-      return getResourceLocator().getString(
-        "_UI_CreateChild_label",
-        new Object[] { childType, getFeatureText(feature), getTypeText(owner) });
+      return 
+        getResourceLocator().getString
+          ("_UI_CreateChild_label",
+           new Object[] { childType, getFeatureText(feature), getTypeText(owner) });
     }
   }
 
@@ -1491,9 +1493,9 @@ public class ItemProviderAdapter
     if (selectionObject == owner)
     {
       return 
-      getResourceLocator().getString
-        ("_UI_CreateChild_description", 
-         new Object[] { childType, getFeatureText(feature), getTypeText(owner) });
+        getResourceLocator().getString
+          ("_UI_CreateChild_description", 
+           new Object[] { childType, getFeatureText(feature), getTypeText(owner) });
     }
 
     Object sibling = selectionObject;
@@ -1683,7 +1685,15 @@ public class ItemProviderAdapter
    */
   public String getString(String key)
   {
-    return getResourceLocator().getString(key);
+    return getString(key, true);
+  }
+  
+  /**
+   * Get a translated string from the resource locator.
+   */
+  public String getString(String key, boolean translate)
+  {
+    return getResourceLocator().getString(key, translate);
   }
 
   /**
@@ -1691,7 +1701,15 @@ public class ItemProviderAdapter
    */
   public String getString(String key, Object [] substitutions)
   {
-    return getResourceLocator().getString(key, substitutions);
+    return getString(key, substitutions, true);
+  }
+  
+  /**
+   * Get a translated string from the resource locator, with substitutions.
+   */
+  public String getString(String key, Object [] substitutions, boolean translate)
+  {
+    return getResourceLocator().getString(key, substitutions, translate);
   }
 
   /**
@@ -1700,9 +1718,17 @@ public class ItemProviderAdapter
    */
   protected String getString(String key, String s0)
   {
+    return getString(key, s0, true);
+  }
+  
+  /**
+   * Get a translated string from the resource locator, substituting another
+   * such translated string.
+   */
+  protected String getString(String key, String s0, boolean translate)
+  {
     ResourceLocator resourceLocator = getResourceLocator();
-    return resourceLocator.getString
-      (key, new Object[] { resourceLocator.getString(s0) });
+    return resourceLocator.getString(key, new Object[] { resourceLocator.getString(s0, translate) }, translate);
   }
 
   /**
@@ -1711,9 +1737,17 @@ public class ItemProviderAdapter
    */
   protected String getString(String key, String s0, String s1)
   {
+    return getString(key, s0, s1, true);
+  }
+  
+  /**
+   * Get a translated string from the resource locator, substituting two
+   * other such translated strings.
+   */
+  protected String getString(String key, String s0, String s1, boolean translate)
+  {
     ResourceLocator resourceLocator = getResourceLocator();
-    return resourceLocator.getString
-      (key, new Object[] { resourceLocator.getString(s0), resourceLocator.getString(s1) });
+    return resourceLocator.getString(key, new Object[] { resourceLocator.getString(s0, translate), resourceLocator.getString(s1, translate) }, translate);
   }
 
   /**
