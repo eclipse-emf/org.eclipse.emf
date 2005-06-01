@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.35 2005/06/01 15:31:15 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.36 2005/06/01 17:28:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2277,7 +2277,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String testCaseTemplateName = "model.tests/TestCase.javajet";
   protected String modelTestSuiteTemplateName = "model.tests/ModelTestSuite.javajet";
   protected String packageTestSuiteTemplateName = "model.tests/PackageTestSuite.javajet";
-  protected String packageTestUtilityTemplateName = "model.tests/PackageTestUtility.javajet";
+  protected String packageExampleTemplateName = "model.tests/PackageExample.javajet";
   protected String testsPluginXMLTemplateName = "model.tests/plugin.xmljet";
   protected String testsPluginPropertiesTemplateName = "model.tests/plugin.propertiesjet";
   protected String testsBuildPropertiesTemplateName = "model.tests/build.propertiesjet";
@@ -2285,7 +2285,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter testCaseEmitter = null;
   protected JETEmitter modelTestSuiteEmitter = null;
   protected JETEmitter packageTestSuiteEmitter = null;
-  protected JETEmitter packageTestUtilityEmitter = null;
+  protected JETEmitter packageExampleEmitter = null;
   protected JETEmitter testsPluginXMLEmitter = null;
   protected JETEmitter testsPluginPropertiesEmitter = null;
   protected JETEmitter testsBuildPropertiesEmitter = null;
@@ -2323,15 +2323,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return packageTestSuiteEmitter;
   }
   
-  public JETEmitter getPackageTestUtilityEmitter()
+  public JETEmitter getPackageExampleEmitter()
   {
-    if (packageTestUtilityEmitter == null)
+    if (packageExampleEmitter == null)
     {
-      packageTestUtilityEmitter = createJETEmitter(packageTestUtilityTemplateName);
-      setMethod(packageTestUtilityEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.PackageExample");
+      packageExampleEmitter = createJETEmitter(packageExampleTemplateName);
+      setMethod(packageExampleEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.PackageExample");
     }
 
-    return packageTestUtilityEmitter;
+    return packageExampleEmitter;
   }
 
   public JETEmitter getTestsPluginXMLEmitter()
@@ -2779,7 +2779,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String getMainPackage()
   {
     GenPackage genPackage = getMainGenPackage();
-    return genPackage != null ? genPackage.getInterfacePackageName() : getModelDirectory();
+    return genPackage != null ? genPackage.getQualifiedPackageName() : getModelDirectory();
   }
   
   protected GenPackage getMainGenPackage()
