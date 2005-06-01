@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.28 2005/06/01 17:28:12 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.29 2005/06/01 19:34:37 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1659,7 +1659,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           GenOperation genOperation = (GenOperation)j.next();
           if (!genOperation.isVoid())
           {
-            initializationDependencies.add(genOperation.getReturnTypeGenPackage());
+            initializationDependencies.add(genOperation.getTypeGenPackage());
           }
           for (Iterator k = genOperation.getGenParameters().iterator(); k.hasNext(); )
           {
@@ -3480,7 +3480,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
     else
     {
-      return rootFeature.getGenClassType();
+      return rootFeature.getTypeGenClass();
     }
   }
 

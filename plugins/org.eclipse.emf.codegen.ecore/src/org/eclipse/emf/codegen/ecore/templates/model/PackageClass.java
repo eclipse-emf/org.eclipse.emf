@@ -651,7 +651,7 @@ public class PackageClass
     stringBuffer.append(TEXT_158);
     stringBuffer.append(genPackage.getPackageInstanceVariable(genFeature.getTypeGenPackage()));
     stringBuffer.append(TEXT_159);
-    stringBuffer.append(genFeature.getTypeClassifier());
+    stringBuffer.append(genFeature.getTypeClassifierAccessorName());
     stringBuffer.append(TEXT_160);
     stringBuffer.append(reverse);
     stringBuffer.append(TEXT_161);
@@ -691,7 +691,7 @@ public class PackageClass
     stringBuffer.append(TEXT_177);
     stringBuffer.append(genPackage.getPackageInstanceVariable(genFeature.getTypeGenPackage()));
     stringBuffer.append(TEXT_178);
-    stringBuffer.append(genFeature.getTypeClassifier());
+    stringBuffer.append(genFeature.getTypeClassifierAccessorName());
     stringBuffer.append(TEXT_179);
     stringBuffer.append(genFeature.getName());
     stringBuffer.append(TEXT_180);
@@ -731,9 +731,9 @@ public class PackageClass
     stringBuffer.append(TEXT_195);
     stringBuffer.append(genClass.getClassifierInstanceName());
     stringBuffer.append(TEXT_196);
-    stringBuffer.append(genPackage.getPackageInstanceVariable(genOperation.getReturnTypeGenPackage()));
+    stringBuffer.append(genPackage.getPackageInstanceVariable(genOperation.getTypeGenPackage()));
     stringBuffer.append(TEXT_197);
-    stringBuffer.append(genOperation.getReturnTypeClassifier());
+    stringBuffer.append(genOperation.getTypeClassifierAccessorName());
     stringBuffer.append(TEXT_198);
     stringBuffer.append(genOperation.getName());
     stringBuffer.append(TEXT_199);
@@ -752,7 +752,7 @@ public class PackageClass
     stringBuffer.append(TEXT_204);
     stringBuffer.append(genPackage.getPackageInstanceVariable(genParameter.getTypeGenPackage()));
     stringBuffer.append(TEXT_205);
-    stringBuffer.append(genParameter.getTypeClassifier());
+    stringBuffer.append(genParameter.getTypeClassifierAccessorName());
     stringBuffer.append(TEXT_206);
     stringBuffer.append(genParameter.getName());
     stringBuffer.append(TEXT_207);

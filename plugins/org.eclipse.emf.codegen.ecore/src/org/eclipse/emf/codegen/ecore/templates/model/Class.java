@@ -1153,7 +1153,7 @@ public class Class
     stringBuffer.append(TEXT_130);
     } else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();
     if (genFeature.isFeatureMapType()) {
-    if (delegateFeature.isFeatureMapWrapped()) {
+    if (delegateFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_131);
     stringBuffer.append(genFeature.getImportedEffectiveFeatureMapWrapperClass());
     stringBuffer.append(TEXT_132);
@@ -1177,7 +1177,7 @@ public class Class
     stringBuffer.append(TEXT_141);
     }
     } else if (genFeature.isListType()) {
-    if (delegateFeature.isFeatureMapWrapped()) {
+    if (delegateFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_142);
     stringBuffer.append(delegateFeature.getImportedEffectiveFeatureMapWrapperInternalInterface());
     stringBuffer.append(TEXT_143);
@@ -1195,7 +1195,7 @@ public class Class
     stringBuffer.append(TEXT_149);
     }
     } else {
-    if (delegateFeature.isFeatureMapWrapped()) {
+    if (delegateFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_150);
     if (genFeature.isPrimitiveType()) {
     stringBuffer.append(TEXT_151);
@@ -1258,7 +1258,7 @@ public class Class
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_177);
     } else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();
-    if (delegateFeature.isFeatureMapWrapped()) {
+    if (delegateFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_178);
     stringBuffer.append(genFeature.getImportedType());
     stringBuffer.append(TEXT_179);
@@ -1370,7 +1370,7 @@ public class Class
     stringBuffer.append(TEXT_229);
     stringBuffer.append(TEXT_230);
     } else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();
-    if (delegateFeature.isFeatureMapWrapped()) {
+    if (delegateFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_231);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_232);
@@ -1688,7 +1688,7 @@ public class Class
     }
     }
     } else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();
-    if (delegateFeature.isFeatureMapWrapped()) {
+    if (delegateFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_380);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_381);
@@ -1986,7 +1986,7 @@ public class Class
     }
     }
     } else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();
-    if (delegateFeature.isFeatureMapWrapped()) {
+    if (delegateFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_520);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_521);
@@ -2049,7 +2049,7 @@ public class Class
     }
     }
     } else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();
-    if (delegateFeature.isFeatureMapWrapped()) {
+    if (delegateFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_547);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
     stringBuffer.append(TEXT_548);
@@ -2083,7 +2083,7 @@ public class Class
     }//for
     for (Iterator i=genClass.getImplementedGenOperations().iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();
     stringBuffer.append(TEXT_560);
-    stringBuffer.append(genOperation.getImportedReturnType());
+    stringBuffer.append(genOperation.getImportedType());
     stringBuffer.append(TEXT_561);
     stringBuffer.append(genOperation.getName());
     stringBuffer.append(TEXT_562);
@@ -2213,7 +2213,7 @@ public class Class
     stringBuffer.append(TEXT_619);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_620);
-    } else if (genFeature.isFeatureMapWrapped()) {
+    } else if (genFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_621);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList"));
     stringBuffer.append(TEXT_622);
@@ -2294,7 +2294,7 @@ public class Class
     stringBuffer.append(TEXT_656);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_657);
-    } else if (genFeature.isFeatureMapWrapped()) {
+    } else if (genFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_658);
     stringBuffer.append(genFeature.getImportedEffectiveFeatureMapWrapperInternalInterface());
     stringBuffer.append(TEXT_659);
@@ -2317,7 +2317,7 @@ public class Class
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_667);
     if (genFeature.isListType()) {
-    if (genFeature.isFeatureMapWrapped()) {
+    if (genFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_668);
     stringBuffer.append(genFeature.getImportedEffectiveFeatureMapWrapperInternalInterface());
     stringBuffer.append(TEXT_669);
@@ -2328,7 +2328,7 @@ public class Class
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_672);
     }
-    if (genFeature.isFeatureMapWrapped()) {
+    if (genFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_673);
     stringBuffer.append(genFeature.getImportedEffectiveFeatureMapWrapperInternalInterface());
     stringBuffer.append(TEXT_674);
@@ -2376,7 +2376,7 @@ public class Class
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_695);
     if (genFeature.isListType() && !genFeature.isUnsettable()) {
-    if (genFeature.isFeatureMapWrapped()) {
+    if (genFeature.isWrappedFeatureMapType()) {
     stringBuffer.append(TEXT_696);
     stringBuffer.append(genFeature.getImportedEffectiveFeatureMapWrapperInternalInterface());
     stringBuffer.append(TEXT_697);
@@ -2417,7 +2417,7 @@ public class Class
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_714);
     if (genFeature.isListType() && !genFeature.isUnsettable()) {
-    if (genFeature.isFeatureMapWrapped()) {
+    if (genFeature.isWrappedFeatureMapType()) {
     if (genFeature.isVolatile()) {
     stringBuffer.append(TEXT_715);
     stringBuffer.append(genFeature.getImportedEffectiveFeatureMapWrapperInternalInterface());

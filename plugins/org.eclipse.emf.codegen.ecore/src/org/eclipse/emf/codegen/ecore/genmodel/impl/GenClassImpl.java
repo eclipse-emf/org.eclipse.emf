@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.31 2005/05/26 17:22:36 marcelop Exp $
+ * $Id: GenClassImpl.java,v 1.32 2005/06/01 19:34:37 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2154,14 +2154,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
     if (genFeature.isMapType())
     {
-      GenClass mapGenClass = genFeature.getMapGenClass();
+      GenClass mapGenClass = genFeature.getMapEntryTypeGenClass();
       sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EcoreEMap"));
       sb.append("(");
       sb.append(mapGenClass.getGenPackage().getImportedPackageInterfaceName());
       sb.append(".eINSTANCE.get");
       sb.append(mapGenClass.getName());
       sb.append("(), ");
-      sb.append(genFeature.getMapItemType());
+      sb.append(genFeature.getImportedMapEntryType());
       sb.append(".class, this, ");
       sb.append(getQualifiedFeatureID(genFeature));
       sb.append(")");
@@ -2238,7 +2238,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
     else if (genFeature.isFeatureMapType())
     {
-      if (genFeature.isFeatureMapWrapped())
+      if (genFeature.isWrappedFeatureMapType())
       {
         sb.append(genFeature.getImportedEffectiveFeatureMapWrapperClass());
         sb.append("(new ");
@@ -2247,7 +2247,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       sb.append("(this, ");
       sb.append(getQualifiedFeatureID(genFeature));
       sb.append(")");
-      if (genFeature.isFeatureMapWrapped())
+      if (genFeature.isWrappedFeatureMapType())
       {
         sb.append(")");
       }

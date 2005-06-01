@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" version="$Id: Interface.javajet,v 1.8 2005/05/17 17:50:59 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Interface" version="$Id: Interface.javajet,v 1.9 2005/06/01 19:34:37 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -78,7 +78,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	/**
 	 * Returns the value of the '<em><b><%=genFeature.getFormattedName()%></b></em>' <%=genFeature.getFeatureKind()%>.
     <%if (genFeature.isListType()) {%>
-      <%if (genFeature.isMapType()) { GenFeature keyFeature = genFeature.getMapGenClass().getMapEntryKeyFeature(); GenFeature valueFeature = genFeature.getMapGenClass().getMapEntryValueFeature(); %>
+      <%if (genFeature.isMapType()) { GenFeature keyFeature = genFeature.getMapEntryTypeGenClass().getMapEntryKeyFeature(); GenFeature valueFeature = genFeature.getMapEntryTypeGenClass().getMapEntryValueFeature(); %>
 	 * The key is of type <%if (keyFeature.isListType()) {%>list of {@link <%=keyFeature.getQualifiedListItemType()%>}<%} else {%>{@link <%=keyFeature.getType()%>}<%}%>,
 	 * and the value is of type <%if (valueFeature.isListType()) {%>list of {@link <%=valueFeature.getQualifiedListItemType()%>}<%} else {%>{@link <%=valueFeature.getType()%>}<%}%>,
       <%} else {%>
@@ -87,8 +87,8 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
     <%} else if (genFeature.isSetDefaultValue()) {%>
 	 * The default value is <code><%=genFeature.getDefaultValue()%></code>.
     <%}%>
-    <%if (genFeature.getGenEnumType() != null) {%>
-	 * The literals are from the enumeration {@link <%=genFeature.getGenEnumType().getQualifiedName()%>}.
+    <%if (genFeature.getTypeGenEnum() != null) {%>
+	 * The literals are from the enumeration {@link <%=genFeature.getTypeGenEnum().getQualifiedName()%>}.
     <%}%>
     <%if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); %>
       <%if (!reverseGenFeature.isSuppressedGetVisibility()) {%>
@@ -109,8 +109,8 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	 * <!-- end-model-doc -->
     <%}%>
 	 * @return the value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
-    <%if (genFeature.getGenEnumType() != null) {%>
-	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
+    <%if (genFeature.getTypeGenEnum() != null) {%>
+	 * @see <%=genFeature.getTypeGenEnum().getQualifiedName()%>
     <%}%>
     <%if (genFeature.isUnsettable()) {%>
       <%if (!genFeature.isSuppressedIsSetVisibility()) {%>
@@ -151,7 +151,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
     <%if (genFeature.isEnumType()) {%>
-	 * @see <%=genFeature.getGenEnumType().getQualifiedName()%>
+	 * @see <%=genFeature.getTypeGenEnum().getQualifiedName()%>
     <%}%>
     <%if (genFeature.isUnsettable()) {%>
       <%if (!genFeature.isSuppressedIsSetVisibility()) {%>
@@ -232,7 +232,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
   <%}}%>
 	 * @generated
 	 */
-	<%=genOperation.getImportedReturnType()%> <%=genOperation.getName()%>(<%=genOperation.getParameters()%>)<%=genOperation.getThrows()%>;
+	<%=genOperation.getImportedType()%> <%=genOperation.getName()%>(<%=genOperation.getParameters()%>)<%=genOperation.getThrows()%>;
 
 <%@ include file="Interface/declaredGenOperation.insert.javajetinc" fail="silent" %>
 <%@ end %><%//Interface/declaredGenOperation.override.javajetinc%>

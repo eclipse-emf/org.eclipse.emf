@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.15 2005/05/26 17:34:34 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.16 2005/06/01 19:34:37 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -298,10 +298,10 @@ public class <%=genClass.getProviderClassName()%>
 				 <%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMapUtil")%>.createEntry
 					(<%=delegatedFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=delegatedFeature.getFeatureAccessorName()%>(),
           <%if (delegatedFeature.isEnumBasedType()) {%>
-					 <%=delegatedFeature.getGenEnumType().getStaticValue(delegatedFeature.getEcoreFeature().getDefaultValueLiteral())%>)));
+					 <%=delegatedFeature.getTypeGenEnum().getStaticValue(delegatedFeature.getEcoreFeature().getDefaultValueLiteral())%>)));
           <%} else if (delegatedFeature.isStringBasedType()) {%>
 					 <%=delegatedFeature.getCreateChildValueLiteral()%>)));<%=genModel.getNonNLS()%>
-          <%} else { String literal = delegatedFeature.getCreateChildValueLiteral(); GenDataType createDataType = delegatedFeature.getGenDataTypeType();%>
+          <%} else { String literal = delegatedFeature.getCreateChildValueLiteral(); GenDataType createDataType = delegatedFeature.getTypeGenDataType();%>
 					 <%=createDataType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=createDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createDataType.getClassifierAccessorName()%>(), <%=literal%>))));<%if (literal != null) {%><%=genModel.getNonNLS()%><%} else {%> // TODO: ensure this is a valid literal value<%}%>
           <%}%>
         <%}%>
@@ -324,10 +324,10 @@ public class <%=genClass.getProviderClassName()%>
 			(createChildParameter
 				(<%=createFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createFeature.getFeatureAccessorName()%>(),
       <%if (createFeature.isEnumBasedType()) {%>
-				 <%=createFeature.getGenEnumType().getStaticValue(createFeature.getEcoreFeature().getDefaultValueLiteral())%>));
+				 <%=createFeature.getTypeGenEnum().getStaticValue(createFeature.getEcoreFeature().getDefaultValueLiteral())%>));
       <%} else if (createFeature.isStringBasedType()) {%>
 				 <%=createFeature.getCreateChildValueLiteral()%>));<%=genModel.getNonNLS()%>
-      <%} else { String literal = createFeature.getCreateChildValueLiteral(); GenDataType createDataType = createFeature.getGenDataTypeType();%>
+      <%} else { String literal = createFeature.getCreateChildValueLiteral(); GenDataType createDataType = createFeature.getTypeGenDataType();%>
 				 <%=createDataType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=createDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createDataType.getClassifierAccessorName()%>(), <%=literal%>)));<%if (literal != null) {%><%=genModel.getNonNLS()%><%} else {%> // TODO: ensure this is a valid literal value<%}%>
       <%}%>
     <%}%>
