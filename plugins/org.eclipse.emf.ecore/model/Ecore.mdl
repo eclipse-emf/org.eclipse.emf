@@ -133,6 +133,10 @@
 		    (object Attribute
 			tool       	"Ecore"
 			name       	"prefix"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"annotation"
 			value      	"")))
 	    (object Attribute
 		tool       	"Ecore"
@@ -141,6 +145,46 @@
 		    (object Attribute
 			tool       	"Ecore"
 			name       	"classifierName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"constraints"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlContentKind"
+			value      	("ContentKind" 0))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"ContentKind"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Unspecified"
+				value      	0)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Empty"
+				value      	1)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Simple"
+				value      	2)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Mixed"
+				value      	3)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"ElementOnly"
+				value      	4)))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"annotation"
 			value      	"")))
 	    (object Attribute
 		tool       	"Ecore"
@@ -149,6 +193,14 @@
 		    (object Attribute
 			tool       	"Ecore"
 			name       	"operationName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isUnique"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"annotation"
 			value      	"")))
 	    (object Attribute
 		tool       	"Ecore"
@@ -181,7 +233,75 @@
 		    (object Attribute
 			tool       	"Ecore"
 			name       	"isID"
-			value      	FALSE)))
+			value      	FALSE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"visibility"
+			value      	("VisibilityKind" 0))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"VisibilityKind"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Unspecified"
+				value      	0)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"None"
+				value      	1)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-only"
+				value      	2)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-write"
+				value      	3)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-only unsettable"
+				value      	4)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-write unsettable"
+				value      	5)))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlNamespace"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlFeatureKind"
+			value      	("FeatureKind" 0))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"FeatureKind"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Unspecified"
+				value      	0)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Simple"
+				value      	1)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Attribute"
+				value      	2)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Element"
+				value      	4)))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"annotation"
+			value      	"")))
 	    (object Attribute
 		tool       	"Ecore"
 		name       	"default__Role"
@@ -209,5 +329,477 @@
 		    (object Attribute
 			tool       	"Ecore"
 			name       	"isResolveProxies"
-			value      	TRUE))))
+			value      	TRUE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"visibility"
+			value      	("VisibilityKind" 0))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"VisibilityKind"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Unspecified"
+				value      	0)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"None"
+				value      	1)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-only"
+				value      	2)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-write"
+				value      	3)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-only unsettable"
+				value      	4)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-write unsettable"
+				value      	5)))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlNamespace"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlFeatureKind"
+			value      	("FeatureKind" 0))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"FeatureKind"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Unspecified"
+				value      	0)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Simple"
+				value      	1)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Attribute"
+				value      	2)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Element"
+				value      	4)))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"annotation"
+			value      	"")))
+	    (object Attribute
+		tool       	"DDL"
+		name       	"propertyId"
+		value      	"809135966")
+	    (object Attribute
+		tool       	"DDL"
+		name       	"default__Project"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"DDL"
+			name       	"Directory"
+			value      	"AUTO GENERATE")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"DataBase"
+			value      	("DataBaseSet" 800))
+		    (object Attribute
+			tool       	"DDL"
+			name       	"DataBaseSet"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"DDL"
+				name       	"ANSI"
+				value      	800)
+			    (object Attribute
+				tool       	"DDL"
+				name       	"Oracle"
+				value      	801)
+			    (object Attribute
+				tool       	"DDL"
+				name       	"SQLServer"
+				value      	802)
+			    (object Attribute
+				tool       	"DDL"
+				name       	"Sybase"
+				value      	803)
+			    (object Attribute
+				tool       	"DDL"
+				name       	"Watcom"
+				value      	804)))
+		    (object Attribute
+			tool       	"DDL"
+			name       	"PrimaryKeyColumnName"
+			value      	"Id")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"PrimaryKeyColumnType"
+			value      	"NUMBER(5)")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"ViewName"
+			value      	"V_")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"TableName"
+			value      	"T_")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"InheritSuffix"
+			value      	"_V")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"DropClause"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"BaseViews"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"DDLScriptFilename"
+			value      	"DDL1.SQL")))
+	    (object Attribute
+		tool       	"DDL"
+		name       	"default__Attribute"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"DDL"
+			name       	"ColumnType"
+			value      	"VARCHAR")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"Length"
+			value      	"")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"NullsOK"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"PrimaryKey"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"Unique"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"CompositeUnique"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"CheckConstraint"
+			value      	"")))
+	    (object Attribute
+		tool       	"DDL"
+		name       	"HiddenTool"
+		value      	FALSE)
+	    (object Attribute
+		tool       	"IDL"
+		name       	"propertyId"
+		value      	"809135966")
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Project"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"CreateMissingDirectories"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"StopOnError"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"Directory"
+			value      	"AUTO GENERATE")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GeneratePreserveRegions"
+			value      	TRUE)))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Class"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"ImplementationType"
+			value      	"")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"ConstValue"
+			value      	"")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateDefaultSpecifier"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"DefaultSpecifier"
+			value      	"")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IDLElement"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IDLSpecificationType"
+			value      	("IDLSpecSet" 22))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IDLSpecSet"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Interface"
+				value      	22)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Typedef"
+				value      	54)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Enumeration"
+				value      	8)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Const"
+				value      	71)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Exception"
+				value      	61)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Struct"
+				value      	51)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Union"
+				value      	81)))))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Module-Spec"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"Generate"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"CmIdentification"
+			value      	(value Text "  %X% %Q% %Z% %W%"))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"CopyrightNotice"
+			value      	(value Text ""))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"FileName"
+			value      	"AUTO GENERATE")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateIDLModule"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"InclusionProtectionSymbol"
+			value      	"AUTO GENERATE")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"AdditionalIncludes"
+			value      	(value Text ""))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IncludeBySimpleName"
+			value      	FALSE)))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Module-Body"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"CmIdentification"
+			value      	(value Text "  %X% %Q% %Z% %W%"))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"CopyrightNotice"
+			value      	(value Text ""))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"FileName"
+			value      	"AUTO GENERATE")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"AdditionalIncludes"
+			value      	(value Text ""))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IncludeBySimpleName"
+			value      	FALSE)))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Operation"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"OperationIsOneWay"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"Context"
+			value      	"")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"Raises"
+			value      	"")))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Attribute"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"CaseSpecifier"
+			value      	"")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateDataMember"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"DataMemberName"
+			value      	"$relationship")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IsReadOnly"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IsConst"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"ConstValue"
+			value      	"")))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Has"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"NameIfUnlabeled"
+			value      	"the_$supplier")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateDataMember"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"DataMemberName"
+			value      	"$relationship")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateForwardReference"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IsReadOnly"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"BoundedHasRelType"
+			value      	("HasRelTypeSet" 47))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"HasRelTypeSet"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Array"
+				value      	24)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Sequence"
+				value      	47)))))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Role"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"NameIfUnlabeled"
+			value      	"the_$supplier")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateDataMember"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"DataMemberName"
+			value      	"$relationship")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateForwardReference"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IsReadOnly"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"BoundedRoleType"
+			value      	("AssocTypeSet" 47))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"AssocTypeSet"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Array"
+				value      	24)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Sequence"
+				value      	47)))))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Uses"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateForwardReference"
+			value      	FALSE)))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Subsystem"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"Directory"
+			value      	"AUTO GENERATE")))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"HiddenTool"
+		value      	FALSE)
+	    (object Attribute
+		tool       	"SCC"
+		name       	"HiddenTool"
+		value      	FALSE)
+	    (object Attribute
+		tool       	"Ecore"
+		name       	"propertyId"
+		value      	"809135969"))
 	quid       	"3C4C76CF01E2"))
