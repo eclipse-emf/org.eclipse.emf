@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.12 2005/05/30 20:14:07 marcelop Exp $
+ * $Id: GenPackageItemProvider.java,v 1.13 2005/06/01 15:27:59 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -84,6 +84,7 @@ public class GenPackageItemProvider
       addProviderPackageSuffixPropertyDescriptor(object);
       addPresentationPackageSuffixPropertyDescriptor(object);
       addTestsPackageSuffixPropertyDescriptor(object);
+      addGenerateExampleClassPropertyDescriptor(object);
       addEcorePackagePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -342,6 +343,27 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Generate Example Class feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addGenerateExampleClassPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_generateExampleClass_feature"),
+         getString("_UI_GenPackage_generateExampleClass_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_GenerateExampleClass(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_TestsPropertyCategory"),
+         null));
+  }
+
+  /**
    * This adds a property descriptor for the Ecore Package feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -442,6 +464,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX:
       case GenModelPackage.GEN_PACKAGE__PRESENTATION_PACKAGE_SUFFIX:
       case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
+      case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
