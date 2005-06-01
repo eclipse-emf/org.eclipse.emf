@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.3 2005/05/22 13:05:21 emerks Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.4 2005/06/01 19:39:25 davidms Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -837,7 +837,9 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   protected void setEOperationProperties(RoseNode roseNode, EOperation eOperation)
   {
-    setEModelElementProperties(roseNode, eOperation);
+    setETypedElementProperties(roseNode, eOperation);
+    eOperation.setUnique(roseNode.isUnique());
+    
     String semantics = roseNode.getSemantics();
     if (semantics != null)
     {
@@ -850,6 +852,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       }
       eAnnotation.getDetails().put("body", semantics);
     }
+
     String exceptions = roseNode.getExceptions();
     if (exceptions != null)
     {
@@ -880,6 +883,7 @@ public class RoseEcoreBuilder implements RoseVisitor
         }
       }
     }
+
     String stereotype = roseNode.getStereotype();
     if (stereotype != null)
     {
@@ -1003,7 +1007,7 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   protected void setEStructuralFeatureProperties(RoseNode roseNode, EStructuralFeature eStructuralFeature)
   {
-    setEModelElementProperties(roseNode, eStructuralFeature);
+    setETypedElementProperties(roseNode, eStructuralFeature);
 
     String xmlName = roseNode.getXMLName();
     if (xmlName != null && xmlName.length() != 0)
@@ -1020,13 +1024,16 @@ public class RoseEcoreBuilder implements RoseVisitor
     {
       eStructuralFeatureToXMLNamespaceMap.put(eStructuralFeature, xmlNamespace);
     }
+  }
 
-    // multiplicity
-    //
-    String multiplicity = eStructuralFeature instanceof EAttribute ? roseNode.getStereotype() : roseNode.getRoleMultiplicity();
+  protected void setETypedElementProperties(RoseNode roseNode, ETypedElement eTypedElement)
+  {
+    setEModelElementProperties(roseNode, eTypedElement);
+
+    String multiplicity = eTypedElement instanceof EReference ?  roseNode.getRoleMultiplicity() : roseNode.getStereotype();
     if (multiplicity != null)
     {
-      bounded.add(eStructuralFeature);
+      bounded.add(eTypedElement);
 
       if (multiplicity.length() > 0 && Character.isLetter(multiplicity.charAt(0)) && !"n".equalsIgnoreCase(multiplicity))
       {
@@ -1040,7 +1047,7 @@ public class RoseEcoreBuilder implements RoseVisitor
           String bound = stringTokenizer.nextToken();
           if (bound.equals("*") || bound.equalsIgnoreCase("n"))
           {
-            eStructuralFeature.setUpperBound(-1);
+            eTypedElement.setUpperBound(-1);
           }
           else
           {
@@ -1049,21 +1056,21 @@ public class RoseEcoreBuilder implements RoseVisitor
               int boundValue = Integer.parseInt(bound);
               if (boundValue > 0)
               {
-                eStructuralFeature.setLowerBound(boundValue);
-                eStructuralFeature.setUpperBound(boundValue);
+                eTypedElement.setLowerBound(boundValue);
+                eTypedElement.setUpperBound(boundValue);
               }
               else
               {
                 warning(RoseImporterPlugin.INSTANCE.getString("_UI_BadMultiplicityFor_message", new Object []{
                   multiplicity,
-                  eStructuralFeature.getName() }));
+                  eTypedElement.getName() }));
               }
             }
             catch (NumberFormatException exception)
             {
               warning(RoseImporterPlugin.INSTANCE.getString("_UI_BadMultiplicityFor_message", new Object []{
                 multiplicity,
-                eStructuralFeature.getName() }));
+                eTypedElement.getName() }));
             }
           }
           break;
@@ -1078,8 +1085,8 @@ public class RoseEcoreBuilder implements RoseVisitor
               String upperBound = stringTokenizer.nextToken();
               if (upperBound.equals("*") || upperBound.equalsIgnoreCase("n"))
               {
-                eStructuralFeature.setLowerBound(lowerBoundValue);
-                eStructuralFeature.setUpperBound(-1);
+                eTypedElement.setLowerBound(lowerBoundValue);
+                eTypedElement.setUpperBound(-1);
               }
               else
               {
@@ -1088,12 +1095,12 @@ public class RoseEcoreBuilder implements RoseVisitor
                 {
                   warning(RoseImporterPlugin.INSTANCE.getString("_UI_BadMultiplicityFor_message", new Object []{
                     multiplicity,
-                    eStructuralFeature.getName() }));
+                    eTypedElement.getName() }));
                 }
                 else
                 {
-                  eStructuralFeature.setLowerBound(lowerBoundValue);
-                  eStructuralFeature.setUpperBound(upperBoundValue);
+                  eTypedElement.setLowerBound(lowerBoundValue);
+                  eTypedElement.setUpperBound(upperBoundValue);
                 }
               }
             }
@@ -1101,21 +1108,21 @@ public class RoseEcoreBuilder implements RoseVisitor
             {
               warning(RoseImporterPlugin.INSTANCE.getString("_UI_BadMultiplicityFor_message", new Object []{
                 multiplicity,
-                eStructuralFeature.getName() }));
+                eTypedElement.getName() }));
             }
           }
           catch (NumberFormatException exception)
           {
             warning(RoseImporterPlugin.INSTANCE.getString("_UI_BadMultiplicityFor_message", new Object []{
               multiplicity,
-              eStructuralFeature.getName() }));
+              eTypedElement.getName() }));
           }
           break;
         }
         default: {
           warning(RoseImporterPlugin.INSTANCE.getString("_UI_BadMultiplicityFor_message", new Object []{
             multiplicity,
-            eStructuralFeature.getName() }));
+            eTypedElement.getName() }));
         }
       }
     }
@@ -1656,6 +1663,40 @@ public class RoseEcoreBuilder implements RoseVisitor
       if (oppositeEClass != null)
       {
         oppositeEClass.getEStructuralFeatures().remove(opposite);
+      }
+    }
+
+    for (Iterator operations = eClass.getEOperations().iterator(); operations.hasNext();)
+    {
+      EOperation eOperation = (EOperation)operations.next();
+      EClassifier opType = eOperation.getEType();
+
+      if (opType instanceof EClass && "java.util.Map$Entry".equals(opType.getInstanceClassName()))
+      {
+        if (!eOperation.isMany())
+        {
+          warning
+            (RoseImporterPlugin.INSTANCE.getString
+              ("_UI_MultiplicityManyIsAssumedForOperation_message", new Object [] { eOperation.getName(), eClass.getName() }));
+          eOperation.setUpperBound(-1);
+        }
+      }
+
+      for (Iterator paramters = eOperation.getEParameters().iterator(); paramters.hasNext();)
+      {
+        EParameter eParameter = (EParameter)paramters.next();
+        EClassifier paramType = eParameter.getEType();
+
+        if (paramType instanceof EClass && "java.util.Map$Entry".equals(paramType.getInstanceClassName()))
+        {
+          if (!eParameter.isMany())
+          {
+            warning
+              (RoseImporterPlugin.INSTANCE.getString
+                ("_UI_MultiplicityManyIsAssumedForParameter_message", new Object [] { eParameter.getName(), eOperation.getName(), eClass.getName() }));
+            eParameter.setUpperBound(-1);
+          }
+        }
       }
     }
 
