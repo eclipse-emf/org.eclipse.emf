@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.3 2005/04/12 20:03:13 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.4 2005/06/01 21:18:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -22,6 +22,7 @@ import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
@@ -291,47 +292,141 @@ public abstract class EModelElementImpl extends EObjectImpl implements EModelEle
             name;
       }
     }
-    return super.eURIFragmentSegment(eStructuralFeature, eObject);
-  }
-
-  public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
-  {
-    if (!uriFragmentSegment.startsWith("@"))
+    else if (eObject instanceof EAnnotation)
     {
-      int index = uriFragmentSegment.indexOf(".");
-      String name = index == -1 ? uriFragmentSegment : uriFragmentSegment.substring(0, index);
-      int count = 0;
-      if (index != -1)
+      EAnnotation eAnnotation = (EAnnotation)eObject;
+      String source = eAnnotation.getSource();
+      if (source != null)
       {
-        try
+        int count = 0;
+        for (Iterator i = eContents().iterator(); i.hasNext(); )
         {
-          count = Integer.parseInt(uriFragmentSegment.substring(index + 1));
-        }
-        catch (NumberFormatException exception)
-        {
-          throw new WrappedException(exception);
-        }
-      }
-
-      for (Iterator i = eContents().iterator(); i.hasNext(); )
-      {
-        Object object = i.next();
-        if (object instanceof ENamedElement)
-        {
-          ENamedElement eNamedElement = (ENamedElement)object;
-          if (name.equals(eNamedElement.getName()) && count-- == 0)
+          Object otherEObject = i.next();
+          if (otherEObject == eObject)
           {
-            return eNamedElement;
+            break;
+          }
+          if (otherEObject instanceof EAnnotation)
+          {
+            EAnnotation otherEAnnotation = (EAnnotation)otherEObject;
+            if (source.equals(otherEAnnotation.getSource()))
+            {
+              ++count;
+            }
           }
         }
+        
+        StringBuffer result = new StringBuffer(source.length() + 5);
+        result.append('%');
+        result.append(URI.encodeSegment(source,  false));
+        result.append('%');
+        if (count > 0)
+        {
+          result.append('.');
+          result.append(count);
+        }
+        return result.toString();
       }
-
-      return null;
     }
-    else
+    return super.eURIFragmentSegment(eStructuralFeature, eObject);
+  }
+  
+  public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
+  {
+    if (uriFragmentSegment.length() > 0)
     {
-      return super.eObjectForURIFragmentSegment(uriFragmentSegment);
+      // Is the first character a special character, i.e., something other than '@'?
+      //
+      char firstCharacter = uriFragmentSegment.charAt(0);
+      if (firstCharacter != '@')
+      {
+        // Is it the start of a source URI of an annotation?
+        //
+        if (firstCharacter == '%')
+        {
+          // Find the closing '%'
+          //
+          int index = uriFragmentSegment.lastIndexOf("%");
+          if (index != -1)
+          {
+            // Decode all encoded characters.
+            //
+            String source = URI.decode(uriFragmentSegment.substring(1, index));
+            
+            // Check for a count, i.e., a '.' followed by a number.
+            //
+            int count = 0;
+            ++index;
+            if (uriFragmentSegment.length() > index && uriFragmentSegment.charAt(index) == '.')
+            {
+              try
+              {
+                count = Integer.parseInt(uriFragmentSegment.substring(index + 1));
+              }
+              catch (NumberFormatException exception)
+              {
+                throw new WrappedException(exception);
+              }
+            }
+            
+            // Look for the annotation with the matching source.
+            //
+            for (Iterator i = eContents().iterator(); i.hasNext(); )
+            {
+              Object object = i.next();
+              if (object instanceof EAnnotation)
+              {
+                EAnnotation eAnnotation = (EAnnotation)object;
+                if (source.equals(eAnnotation.getSource()) && count-- == 0)
+                {
+                  return eAnnotation;
+                }
+              }
+            }
+          }
+        }
+        else
+        {
+          // Look for trailing count.
+          //
+          int index = uriFragmentSegment.lastIndexOf(".");
+          String name = index == -1 ? uriFragmentSegment : uriFragmentSegment.substring(0, index);
+          int count = 0;
+          if (index != -1)
+          {
+            try
+            {
+              count = Integer.parseInt(uriFragmentSegment.substring(index + 1));
+            }
+            catch (NumberFormatException exception)
+            {
+              // Interpret it as part of the name.
+              //
+              name = uriFragmentSegment;
+            }
+          }
+    
+          // Look for a matching named element.
+          //
+          for (Iterator i = eContents().iterator(); i.hasNext(); )
+          {
+            Object object = i.next();
+            if (object instanceof ENamedElement)
+            {
+              ENamedElement eNamedElement = (ENamedElement)object;
+              if (name.equals(eNamedElement.getName()) && count-- == 0)
+              {
+                return eNamedElement;
+              }
+            }
+          }
+        }
+  
+        return null;
+      }
     }
+    
+    return super.eObjectForURIFragmentSegment(uriFragmentSegment);
   }
 
 }
