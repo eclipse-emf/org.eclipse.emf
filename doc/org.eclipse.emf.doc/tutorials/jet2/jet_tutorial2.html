@@ -149,7 +149,7 @@
   <tt class="code">platform:/plugin/</tt>, <tt class="code">platform:/fragment/</tt> and <tt class="code">platform:/resource/</tt> 
   uris, so plug-ins can use a uri like <tt class="code">platform:/resource/myproject/myfolder/mytemplate.jet</tt> 
   to specify a template file.  Note: Eclipse 3.0 has introduced <tt class="code">bundleentry</tt> to its list
-  of special protocols.  It should be used in references to Eclipse elements such as plugins and features.</p>
+  of special protocols.  It should be used in references to Eclipse elements such as plug-ins and features.</p>
 
 <p>In our example plug-in, we will distribute our template file together with our 
   plug-in, so the template file will be located in a <i>myplugin/templates/</i> 
@@ -182,7 +182,7 @@ translation.  This value can be changed by the <tt class="code">setProjectName</
 <p>Our example plug-in will use <tt class="code">JETEmitter</tt> and save the generated text to a Java 
   source file in the workspace. The figure below shows the steps for generating 
   source code using <tt class="code">JETEmitter</tt>. </p>
-<p><img alt="Using JETEmitter to generate text from a plugin" src="images/jetemitter.gif"/> </p>
+<p><img alt="Using JETEmitter to generate text from a plug-in" src="images/jetemitter.gif"/> </p>
 <h3><a name="jetemitter_gotchas"></a><tt class="code">JETEmitter</tt> Gotchas</h3>
 <p>The <tt class="code">JETEmitter</tt> class combines template translation and text generation into 
   a single step, which makes it a very convenient tool. However, it is important 
@@ -287,10 +287,10 @@ public class EmitAction implements IActionDelegate {
   project, or the JavaBuilder cannot compile the template implementation source 
   files.  Fortunately, <tt class="code">JETEmitter</tt> provides a simple way to do this through the method 
   <tt class="code">addVariable</tt> which adds a <i>Classpath Variable</i> to the <i>.JETEmitter</i> project.</p>
-<p>A <i>Classpath Variable</i> is a workspace-wide name that is used in Eclipse to refer to a jar file or
+<p>A <i>Classpath Variable</i> is a workspace-wide name that is used in Eclipse to refer to a JAR file or
 directory.  The list of all such variables can be seen using the Window &gt; Preferences &gt; Java &gt; 
 Classpath Variables menua action.. Your program will need to add a class path variable for each
-  jar file or directory that is needed on the class path of the <i>.JETEmitter</i> project.</p>
+  JAR file or directory that is needed on the class path of the <i>.JETEmitter</i> project.</p>
   
   
 <h2><a name="example_plugin"></a>A Plug-in that Generates Source Code </h2>
@@ -589,7 +589,7 @@ public String constructorValues() {
 <p>When a user presses Finish on the wizard, the <tt class="code">performFinish</tt> method 
   in our wizard is called. The code below shows how we <img src="images/tag_1.gif" width="24" height="13"/>use 
   a custom subclass of <tt class="code">JETEmitter</tt> to <img src="images/tag_2.gif" width="24" height="13"/>add 
-  the jar file of our plug-in to the class path of the <i>.JETEmitters</i> project 
+  the JAR file of our plug-in to the class path of the <i>.JETEmitters</i> project 
   before we <img src="images/tag_3.gif" width="24" height="13"/>call generate on 
   the <tt class="code">JETEmitter</tt>. The generated typesafe enum source code is <img src="images/tag_4.gif" width="24" height="13"/>saved 
   to the location in the workspace that the user specified.</p>
@@ -717,7 +717,7 @@ servlets.
     <td>Interface extending <tt class="code">org.eclipse.core.resources.IProjectNature</tt>. 
       Defines some of the properties that a JET nature has. Implemented by <tt class="code">JETNature</tt>. 
       Used as a filter for project property pages by the <tt class="code">org.eclipse.emf.codegen.ui</tt> 
-      plugin.</td>
+      plug-in.</td>
   </tr>
   <tr> 
     <td valign="top"><tt class="code">JETAddNatureOperation</tt></td>
