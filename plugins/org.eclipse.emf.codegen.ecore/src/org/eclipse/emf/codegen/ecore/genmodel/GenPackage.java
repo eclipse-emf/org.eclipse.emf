@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.13 2005/05/30 20:46:58 marcelop Exp $
+ * $Id: GenPackage.java,v 1.14 2005/06/01 15:33:55 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -44,6 +44,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getProviderPackageSuffix <em>Provider Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getPresentationPackageSuffix <em>Presentation Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getTestsPackageSuffix <em>Tests Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isGenerateExampleClass <em>Generate Example Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenEnums <em>Gen Enums</em>}</li>
@@ -382,6 +383,33 @@ public interface GenPackage extends GenBase{
   void setTestsPackageSuffix(String value);
 
   /**
+   * Returns the value of the '<em><b>Generate Example Class</b></em>' attribute.
+   * The default value is <code>"true"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Generate Example Class</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Generate Example Class</em>' attribute.
+   * @see #setGenerateExampleClass(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_GenerateExampleClass()
+   * @model default="true"
+   * @generated
+   */
+  boolean isGenerateExampleClass();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isGenerateExampleClass <em>Generate Example Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Generate Example Class</em>' attribute.
+   * @see #isGenerateExampleClass()
+   * @generated
+   */
+  void setGenerateExampleClass(boolean value);
+
+  /**
    * Returns the value of the '<em><b>Ecore Package</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
@@ -526,6 +554,7 @@ public interface GenPackage extends GenBase{
   String getNSName();
   String getNSURI();
   String getPackageName();
+  String getQualifiedPackageName();
 
   String getPackageInterfaceName();
   String getQualifiedPackageInterfaceName();
@@ -552,6 +581,7 @@ public interface GenPackage extends GenBase{
   String getValidatorClassName();
   String getImportedValidatorClassName();
   String getTestSuiteClassName();
+  String getExampleClassName();
   String getQualifiedTestSuiteClassName();
   String getImportedTestSuiteClassName();
 
@@ -692,6 +722,9 @@ public interface GenPackage extends GenBase{
   String getSerializedPackageFilename();
   
   List /*String*/ getProviderSupportedTypes();
+  
+  GenClass getRootClass();
+  GenFeature getRootFeature();
   
   boolean hasConcreteClasses();
 }

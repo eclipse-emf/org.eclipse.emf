@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.26 2005/05/30 20:48:26 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.27 2005/06/01 15:33:56 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -73,6 +73,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -107,6 +108,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getProviderPackageSuffix <em>Provider Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getPresentationPackageSuffix <em>Presentation Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getTestsPackageSuffix <em>Tests Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isGenerateExampleClass <em>Generate Example Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenEnums <em>Gen Enums</em>}</li>
@@ -364,6 +366,26 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   protected String testsPackageSuffix = TESTS_PACKAGE_SUFFIX_EDEFAULT;
 
   /**
+   * The default value of the '{@link #isGenerateExampleClass() <em>Generate Example Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isGenerateExampleClass()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean GENERATE_EXAMPLE_CLASS_EDEFAULT = true;
+
+  /**
+   * The cached value of the '{@link #isGenerateExampleClass() <em>Generate Example Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isGenerateExampleClass()
+   * @generated
+   * @ordered
+   */
+  protected boolean generateExampleClass = GENERATE_EXAMPLE_CLASS_EDEFAULT;
+
+  /**
    * The cached value of the '{@link #getEcorePackage() <em>Ecore Package</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -483,7 +505,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     if (isBlank(result))
     {
       EObject container = eContainer();
-      result = container instanceof GenPackage ? ((GenPackage)container).getInterfacePackageName() : null;
+      result = container instanceof GenPackage ? ((GenPackage)container).getQualifiedPackageName() : null;
     }
     return result;
   }
@@ -729,6 +751,29 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     testsPackageSuffix = newTestsPackageSuffix;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX, oldTestsPackageSuffix, testsPackageSuffix));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isGenerateExampleClass()
+  {
+    return generateExampleClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setGenerateExampleClass(boolean newGenerateExampleClass)
+  {
+    boolean oldGenerateExampleClass = generateExampleClass;
+    generateExampleClass = newGenerateExampleClass;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS, oldGenerateExampleClass, generateExampleClass));
   }
 
   public  EModelElement getEcoreModelElement()
@@ -999,6 +1044,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return getPresentationPackageSuffix();
       case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
         return getTestsPackageSuffix();
+      case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
+        return isGenerateExampleClass() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         if (resolve) return getEcorePackage();
         return basicGetEcorePackage();
@@ -1051,6 +1098,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return PRESENTATION_PACKAGE_SUFFIX_EDEFAULT == null ? presentationPackageSuffix != null : !PRESENTATION_PACKAGE_SUFFIX_EDEFAULT.equals(presentationPackageSuffix);
       case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
         return TESTS_PACKAGE_SUFFIX_EDEFAULT == null ? testsPackageSuffix != null : !TESTS_PACKAGE_SUFFIX_EDEFAULT.equals(testsPackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
+        return generateExampleClass != GENERATE_EXAMPLE_CLASS_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         return ecorePackage != null;
       case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
@@ -1113,6 +1162,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return;
       case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
         setTestsPackageSuffix((String)newValue);
+        return;
+      case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
+        setGenerateExampleClass(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)newValue);
@@ -1185,6 +1237,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
         setTestsPackageSuffix(TESTS_PACKAGE_SUFFIX_EDEFAULT);
         return;
+      case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
+        setGenerateExampleClass(GENERATE_EXAMPLE_CLASS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)null);
         return;
@@ -1241,6 +1296,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(presentationPackageSuffix);
     result.append(", testsPackageSuffix: ");
     result.append(testsPackageSuffix);
+    result.append(", generateExampleClass: ");
+    result.append(generateExampleClass);
     result.append(')');
     return result.toString();
   }
@@ -1257,22 +1314,22 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getInterfacePackageName()
   {
-    return getPackageName(getInterfacePackageSuffix());
+    return getQualifiedPackageName(getInterfacePackageSuffix());
   }
 
   public String getClassPackageName()
   {
-    return getPackageName(getClassPackageSuffix());
+    return getQualifiedPackageName(getClassPackageSuffix());
   }
 
   public String getUtilitiesPackageName()
   {
-    return getPackageName(getUtilityPackageSuffix());
+    return getQualifiedPackageName(getUtilityPackageSuffix());
   }
 
   public String getTestsPackageName()
   {
-    return getPackageName(getTestsPackageSuffix());
+    return getQualifiedPackageName(getTestsPackageSuffix());
   }
 
   public String getPackageID()
@@ -1388,6 +1445,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   public String getTestSuiteClassName()
   {
     return getPrefixedName("Tests");
+  }
+  
+  public String getExampleClassName()
+  {
+    return getPrefixedName("Example");
   }
 
   public String getQualifiedTestSuiteClassName()
@@ -2285,20 +2347,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       {
         case GenResourceKind.XML:
         {
-          boolean hasXSD2EcoreAnnotation = false;
-          for (Iterator i = getEcorePackage().getEAnnotations().iterator(); i.hasNext(); )
-          {
-            EAnnotation eAnnotation = (EAnnotation)i.next();
-            if (XSD2ECORE_URI.equals(eAnnotation.getSource()))
-            {
-              hasXSD2EcoreAnnotation = true;
-              break;
-            }
-          }
-          if( !hasXSD2EcoreAnnotation)
-          {
-            generateXSD("XML");
-          }
+          generateXSD("XML");
           break;
         }
         case GenResourceKind.NONE:
@@ -2323,9 +2372,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       try
       {
+        boolean extended = hasExtendedMetaData(getEcorePackage());
         Class theGeneratorClass = 
           xsdPlugin.loadClass
-            ("org.eclipse.xsd.ecore.Ecore" + type + "SchemaBuilder");
+            ("org.eclipse.xsd.ecore." + (extended ? "XSD" :  "Ecore" + type) + "SchemaBuilder");
 
         try
         {
@@ -2377,14 +2427,17 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           Collection result = 
             (Collection)theGeneratorClass.getMethod
               ("generate", 
-               new Class [] { EPackage.class }).invoke(generator, new Object [] { getEcorePackage() });
+               new Class [] { EPackage.class , ExtendedMetaData.class }).invoke(generator, new Object [] { getEcorePackage(), getExtendedMetaData() });
 
           Iterator i = result.iterator();
           Object xsdSchema = i.next();
 
           ResourceSet resourceSet = new ResourceSetImpl();
           resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
-          URI uri = getEcorePackage().eResource().getURI().trimSegments(1).appendSegment(getPrefix() + type + ".xsd");
+          URI uri = 
+             extended ? 
+               getEcorePackage().eResource().getURI().trimFileExtension().appendFileExtension("xsd") :
+               getEcorePackage().eResource().getURI().trimSegments(1).appendSegment(getPrefix() + type + ".xsd");
           Resource xsdSchemaResource = resourceSet.createResource(uri);
           xsdSchemaResource.getContents().add(xsdSchema);
           try
@@ -2532,22 +2585,28 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getProviderPackageName()
   {
-    return getPackageName(getProviderPackageSuffix());
+    return getQualifiedPackageName(getProviderPackageSuffix());
   }
 
   public String getPresentationPackageName()
   {
-    return getPackageName(getPresentationPackageSuffix());
+    return getQualifiedPackageName(getPresentationPackageSuffix());
   }
   
-  protected String getPackageName(String suffix)
+  protected String getQualifiedPackageName(String suffix)
+  {
+    String name = getQualifiedPackageName();
+    return isBlank(suffix) ? name : name + "." + suffix;
+  }
+  
+  public String getQualifiedPackageName()
   {
     String name = safeName(getPackageName());
     if (!isBlank(getBasePackage()))
     {
       name = getBasePackage() + "." + name;
     }    
-    return isBlank(suffix) ? name : name + "." + suffix;
+    return name;
   }
 
 //   public String getExtendedItemProviderClassName()
@@ -2910,6 +2969,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString(
           "_UI_GeneratingJavaClass_message",
           new Object []{ getQualifiedTestSuiteClassName() }));
+          
         generate(
           new SubProgressMonitor(progressMonitor, 1),
           Generator.EMF_TESTS_PROJECT_STYLE,
@@ -2919,6 +2979,18 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           getTestSuiteClassName(),
           getGenModel().getPackageTestSuiteEmitter());
   
+        if (isGenerateExampleClass())
+        {
+          generate(
+            new SubProgressMonitor(progressMonitor, 1),
+            Generator.EMF_TESTS_PROJECT_STYLE,
+            getGenModel().getEffectiveModelPluginVariables(),
+            getGenModel().getTestsDirectory(),
+            getTestsPackageName(),
+            getExampleClassName(),
+            getGenModel().getPackageTestUtilityEmitter());
+        }
+          
         for (Iterator genClasses = getGenClasses().iterator(); genClasses.hasNext();)
         {
           GenClass genClass = (GenClass)genClasses.next();
@@ -3391,6 +3463,44 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return result;
   }
   
+  public GenClass getRootClass()
+  {
+    GenFeature rootFeature = getRootFeature();
+    if (rootFeature == null)
+    {
+      for (Iterator i = getGenClasses().iterator(); i.hasNext();)
+      {
+        GenClass genClass = (GenClass)i.next();
+        if (!genClass.isAbstract())
+        {
+          return genClass;
+        }
+      }
+      return null;
+    }
+    else
+    {
+      return rootFeature.getGenClassType();
+    }
+  }
+
+  public GenFeature getRootFeature()
+  {
+    EClass documentRoot = getExtendedMetaData().getDocumentRoot(getEcorePackage());
+    if (documentRoot != null)
+    {
+      for (Iterator i = getExtendedMetaData().getAllElements(documentRoot).iterator(); i.hasNext();)
+      {
+        EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+        if (eStructuralFeature instanceof EReference && !((EClass)eStructuralFeature.getEType()).isAbstract())
+        {
+          return findGenFeature(eStructuralFeature);
+        }
+      }
+    }
+    return null;
+  }
+    
   public boolean hasConcreteClasses()
   {
     for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
@@ -3403,5 +3513,4 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
     return false;
   }
-  
 } //GenPackageImpl
