@@ -60,7 +60,7 @@
 	    (object Class_Category "ecore"
 		is_unit    	TRUE
 		is_loaded  	FALSE
-		file_name  	"$VABASE_PLUGINS_PATH\\org.eclipse.emf.ecore\\src\\model\\org.eclipse.emf.Ecore.cat"
+		file_name  	"$VABASE_PLUGINS_PATH\\org.eclipse.emf.ecore\\model\\org.eclipse.emf.Ecore.cat"
 		quid       	"39A5ED04004E"))
 	logical_presentations 	(list unit_reference_list
 	    (object ClassDiagram "Main"
@@ -334,7 +334,7 @@
 		    (object Attribute
 			tool       	"IDL"
 			name       	"CmIdentification"
-			value      	(value Text "  %X%  @(#) plugins/org.eclipse.emf.ecore.change/src/model/Change.mdl, emf.ecore.change, org.eclipse.dev"))
+			value      	(value Text "  %X%  @(#) plugins/org.eclipse.emf.ecore.change/model/Change.mdl, emf.ecore.change, org.eclipse.dev"))
 		    (object Attribute
 			tool       	"IDL"
 			name       	"CopyrightNotice"
@@ -366,7 +366,7 @@
 		    (object Attribute
 			tool       	"IDL"
 			name       	"CmIdentification"
-			value      	(value Text "  %X%  @(#) plugins/org.eclipse.emf.ecore.change/src/model/Change.mdl, emf.ecore.change, org.eclipse.dev"))
+			value      	(value Text "  %X%  @(#) plugins/org.eclipse.emf.ecore.change/model/Change.mdl, emf.ecore.change, org.eclipse.dev"))
 		    (object Attribute
 			tool       	"IDL"
 			name       	"CopyrightNotice"

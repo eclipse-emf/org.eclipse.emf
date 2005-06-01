@@ -8,7 +8,7 @@
     editorPluginClass="" updateClasspath="false" runtimeCompatibility="false" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>Change.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
-  <foreignModel>../../..</foreignModel>
+  <foreignModel>../..</foreignModel>
   <genPackages prefix="Change" basePackage="org.eclipse.emf.ecore" disposableProviderFactory="true"
       ecorePackage="Change.ecore#/">
     <genEnums ecoreEnum="Change.ecore#//ChangeKind">
