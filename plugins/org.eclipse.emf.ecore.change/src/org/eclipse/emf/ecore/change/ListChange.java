@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChange.java,v 1.3 2004/12/16 21:51:46 emerks Exp $
+ * $Id: ListChange.java,v 1.4 2005/06/01 22:28:16 elena Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link org.eclipse.emf.ecore.change.ListChange#getValues <em>Values</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.ListChange#getReferenceValues <em>Reference Values</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.ListChange#getFeature <em>Feature</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.change.ListChange#getFeatureMapEntryValues <em>Feature Map Entry Values</em>}</li>
  * </ul>
  * </p>
  *
@@ -185,6 +186,22 @@ public interface ListChange extends EObject
    * @generated
    */
   void setFeature(EStructuralFeature value);
+
+  /**
+   * Returns the value of the '<em><b>Feature Map Entry Values</b></em>' containment reference list.
+   * The list contents are of type {@link org.eclipse.emf.ecore.change.FeatureMapEntry}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Feature Map Entry Values</em>' containment reference list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Feature Map Entry Values</em>' containment reference list.
+   * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_FeatureMapEntryValues()
+   * @model type="org.eclipse.emf.ecore.change.FeatureMapEntry" containment="true"
+   * @generated
+   */
+  EList getFeatureMapEntryValues();
 
   /**
    * Returns the value of the '<em><b>Values</b></em>' attribute list.

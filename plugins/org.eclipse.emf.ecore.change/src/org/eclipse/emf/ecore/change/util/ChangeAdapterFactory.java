@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeAdapterFactory.java,v 1.2 2004/03/15 20:08:13 emerks Exp $
+ * $Id: ChangeAdapterFactory.java,v 1.3 2005/06/01 22:28:16 elena Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -107,6 +107,10 @@ public class ChangeAdapterFactory extends AdapterFactoryImpl
       {
         return createResourceChangeAdapter();
       }
+      public Object caseFeatureMapEntry(FeatureMapEntry object)
+      {
+        return createFeatureMapEntryAdapter();
+      }
       public Object defaultCase(EObject object)
       {
         return createEObjectAdapter();
@@ -198,6 +202,21 @@ public class ChangeAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createResourceChangeAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.ecore.change.FeatureMapEntry <em>Feature Map Entry</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.eclipse.emf.ecore.change.FeatureMapEntry
+   * @generated
+   */
+  public Adapter createFeatureMapEntryAdapter()
   {
     return null;
   }

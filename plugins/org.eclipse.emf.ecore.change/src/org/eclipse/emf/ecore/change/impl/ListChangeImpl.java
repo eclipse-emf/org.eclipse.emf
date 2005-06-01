@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.5 2005/04/14 21:15:15 marcelop Exp $
+ * $Id: ListChangeImpl.java,v 1.6 2005/06/01 22:28:16 elena Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -21,6 +21,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.DelegatingEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -29,14 +31,21 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.change.ChangeFactory;
 import org.eclipse.emf.ecore.change.ChangeKind;
 import org.eclipse.emf.ecore.change.ChangePackage;
+import org.eclipse.emf.ecore.change.FeatureMapEntry;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
@@ -54,6 +63,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl#getValues <em>Values</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl#getReferenceValues <em>Reference Values</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl#getFeature <em>Feature</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl#getFeatureMapEntryValues <em>Feature Map Entry Values</em>}</li>
  * </ul>
  * </p>
  *
@@ -152,6 +162,16 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
   protected EStructuralFeature feature = null;
   
   /**
+   * The cached value of the '{@link #getFeatureMapEntryValues() <em>Feature Map Entry Values</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFeatureMapEntryValues()
+   * @generated
+   * @ordered
+   */
+  protected EList featureMapEntryValues = null;
+
+  /**
    * The data value delegating list is used to ensure that the elements
    * are properly converted to and from strings when added and removed
    * from the dataValues list. 
@@ -220,25 +240,58 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    */
   protected EList createDataValueDelegatingList()
   {
-    return new DelegatingEList()
+    if (FeatureMapUtil.isFeatureMap(getFeature()))
     {
-      protected List delegateList()
-      {
-        return getDataValues();
-      }
-      
-      protected Object resolve(int index, Object object)
-      {
-        EDataType type = (EDataType)getFeature().getEType();
-        return EcoreUtil.createFromString(type, (String)object);
-      }
-      
-      protected Object validate(int index, Object object)
-      {
-        EDataType type = (EDataType)getFeature().getEType();
-        return EcoreUtil.convertToString(type, object);
-      }
-    };
+      return 
+        new DelegatingEList()
+        {
+          protected List delegateList()
+          {
+            return getFeatureMapEntryValues();
+          }
+          
+          protected Object validate(int index, Object object)
+          {
+            if (object instanceof FeatureMapEntry)
+            {
+              return object;
+            }
+            else
+            {
+              FeatureMap.Entry entry = (FeatureMap.Entry)object;
+              return createFeatureMapEntry(entry.getEStructuralFeature(), entry.getValue());
+            }
+          }
+        };
+    }
+    else
+    {
+      return 
+        new DelegatingEList()
+        {
+          protected List delegateList()
+          {
+            return getDataValues();
+          }
+            
+          protected Object resolve(int index, Object object)
+          {
+            EDataType type = (EDataType)getFeature().getEType();
+            return EcoreUtil.createFromString(type, (String)object);
+          }
+            
+          protected Object validate(int index, Object object)
+          {
+            EDataType type = (EDataType)getFeature().getEType();
+            return EcoreUtil.convertToString(type, object);
+          }
+        };
+    } 
+  }
+  
+  protected FeatureMapEntry createFeatureMapEntry(EStructuralFeature feature, Object value)
+  {
+    return ChangeFactory.eINSTANCE.createFeatureMapEntry(feature, value);
   }
 
   /**
@@ -361,6 +414,20 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList getFeatureMapEntryValues()
+  {
+    if (featureMapEntryValues == null)
+    {
+      featureMapEntryValues = new EObjectContainmentEList(FeatureMapEntry.class, this, ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES);
+    }
+    return featureMapEntryValues;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated NOT
    */
   public EList getValues()
@@ -368,7 +435,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
     EStructuralFeature feature = getFeature();
     if (feature instanceof EAttribute)
     {
-      if(dataValueDelegatingList == null)
+      if (dataValueDelegatingList == null)
       {
         dataValueDelegatingList = createDataValueDelegatingList();
       }
@@ -475,6 +542,26 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  {
+    if (featureID >= 0)
+    {
+      switch (eDerivedStructuralFeatureID(featureID, baseClass))
+      {
+        case ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES:
+          return ((InternalEList)getFeatureMapEntryValues()).basicRemove(otherEnd, msgs);
+        default:
+          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+      }
+    }
+    return eBasicSetContainer(null, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public Object eGet(EStructuralFeature eFeature, boolean resolve)
   {
     switch (eDerivedStructuralFeatureID(eFeature))
@@ -494,6 +581,8 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
       case ChangePackage.LIST_CHANGE__FEATURE:
         if (resolve) return getFeature();
         return basicGetFeature();
+      case ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES:
+        return getFeatureMapEntryValues();
     }
     return eDynamicGet(eFeature, resolve);
   }
@@ -531,6 +620,10 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
       case ChangePackage.LIST_CHANGE__FEATURE:
         setFeature((EStructuralFeature)newValue);
         return;
+      case ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES:
+        getFeatureMapEntryValues().clear();
+        getFeatureMapEntryValues().addAll((Collection)newValue);
+        return;
     }
     eDynamicSet(eFeature, newValue);
   }
@@ -565,6 +658,9 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
       case ChangePackage.LIST_CHANGE__FEATURE:
         setFeature((EStructuralFeature)null);
         return;
+      case ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES:
+        getFeatureMapEntryValues().clear();
+        return;
     }
     eDynamicUnset(eFeature);
   }
@@ -592,6 +688,8 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
         return referenceValues != null && !referenceValues.isEmpty();
       case ChangePackage.LIST_CHANGE__FEATURE:
         return feature != null;
+      case ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES:
+        return featureMapEntryValues != null && !featureMapEntryValues.isEmpty();
     }
     return eDynamicIsSet(eFeature);
   }

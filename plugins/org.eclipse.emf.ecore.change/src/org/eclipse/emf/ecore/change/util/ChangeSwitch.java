@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeSwitch.java,v 1.4 2004/07/29 13:33:14 marcelop Exp $
+ * $Id: ChangeSwitch.java,v 1.5 2005/06/01 22:28:16 elena Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -141,6 +141,13 @@ public class ChangeSwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case ChangePackage.FEATURE_MAP_ENTRY:
+      {
+        FeatureMapEntry featureMapEntry = (FeatureMapEntry)theEObject;
+        Object result = caseFeatureMapEntry(featureMapEntry);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       default: return defaultCase(theEObject);
     }
   }
@@ -221,6 +228,22 @@ public class ChangeSwitch {
    * @generated
    */
   public Object caseResourceChange(ResourceChange object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpretting the object as an instance of '<em>Feature Map Entry</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>Feature Map Entry</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public Object caseFeatureMapEntry(FeatureMapEntry object)
   {
     return null;
   }

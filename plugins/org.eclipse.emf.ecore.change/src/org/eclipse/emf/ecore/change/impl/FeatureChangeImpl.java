@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.19 2005/04/25 21:01:11 elena Exp $
+ * $Id: FeatureChangeImpl.java,v 1.20 2005/06/01 22:28:16 elena Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -42,6 +42,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -369,7 +370,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   public EObject basicGetReferenceValue()
   {
-    return (feature instanceof EReference && !feature.isMany()) ? (EObject)value : null;
+    return (feature instanceof EReference && value instanceof EObject) ? (EObject)value : null;
   }
 
   /**
@@ -408,7 +409,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   public Object getValue()
   {
     EStructuralFeature feature = getFeature();
-    if (feature.isMany())
+    if (feature.getUpperBound() < 0)
     {
       if (value == null && eContainer() instanceof EObjectToChangesMapEntryImpl)
       {
@@ -452,13 +453,14 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
 
   protected EList getListValue(EList originalList)
   {
-    if (isSet() && getFeature().isMany())
+    if (isSet() && getFeature().getUpperBound() < 0)
     {
       if (value instanceof EList) // cached already?
       {
         return (EList)value;
       }
-      EList changedList = new BasicEList(originalList);
+      
+      EList changedList =  new BasicEList(originalList);
       apply(changedList);
       value = changedList; // cache result
       return changedList;
@@ -484,7 +486,8 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       {
         if (listChanges != null)
         {
-          if (feature instanceof EReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
+          if (FeatureMapUtil.isFeatureMap(feature) ||
+                feature instanceof EReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
           {
             // Bi-directional references need to use this less efficient approach because some
             //  or all of the changes may already have been made from the other end.
@@ -536,7 +539,8 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       {
         if (listChanges != null)
         {
-          if (isEReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
+          if (FeatureMapUtil.isFeatureMap(feature) || 
+                isEReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
           {
             // Bi-directional references need to use this less efficient approach because some
             //  or all of the changes may already have been made from the other end.
@@ -555,7 +559,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
           ECollections.reverse(getListChanges());
         }
       }
-      else
+      else 
       {
         originalObject.eSet(feature, getValue());
       }
@@ -563,7 +567,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       setSet(newIsSet);
       setValue(newValue);
       
-      if(!isSet())
+      if (!isSet())
       {
         getListChanges().clear();
       }

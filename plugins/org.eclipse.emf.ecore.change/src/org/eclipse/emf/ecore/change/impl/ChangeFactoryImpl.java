@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeFactoryImpl.java,v 1.4 2005/04/20 03:00:26 davidms Exp $
+ * $Id: ChangeFactoryImpl.java,v 1.5 2005/06/01 22:28:16 elena Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -62,6 +62,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
       case ChangePackage.FEATURE_CHANGE: return createFeatureChange();
       case ChangePackage.LIST_CHANGE: return createListChange();
       case ChangePackage.RESOURCE_CHANGE: return createResourceChange();
+      case ChangePackage.FEATURE_MAP_ENTRY: return createFeatureMapEntry();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -168,6 +169,23 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
   {
     ResourceChangeImpl resourceChange = new ResourceChangeImpl(resource, oldValue);
     return resourceChange;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public FeatureMapEntry createFeatureMapEntry()
+  {
+    FeatureMapEntryImpl featureMapEntry = new FeatureMapEntryImpl();
+    return featureMapEntry;
+  }
+
+  public FeatureMapEntry createFeatureMapEntry(EStructuralFeature feature, Object value)
+  {
+    FeatureMapEntryImpl featureMapEntry = new FeatureMapEntryImpl(feature, value);
+    return featureMapEntry;
   }
 
   /**

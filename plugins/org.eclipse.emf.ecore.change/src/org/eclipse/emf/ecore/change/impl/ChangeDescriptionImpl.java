@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.8 2005/02/22 16:15:12 marcelop Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.9 2005/06/01 22:28:16 elena Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,6 +44,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -154,6 +157,21 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
     return objectsToDetach;
   }
 
+  protected static List getContainedEObjects(List featureMapEntries)
+  {
+    List result = new ArrayList();
+    for (Iterator i = featureMapEntries.iterator(); i.hasNext(); )
+    {
+      FeatureMap.Entry entry = (FeatureMap.Entry)i.next(); 
+      EStructuralFeature feature = entry.getEStructuralFeature();
+      if (feature instanceof EReference && ((EReference)feature).isContainment())
+      {
+        result.add(entry.getValue()); 
+      }
+    }
+    return result;
+  }
+
   public EList getObjectsToDetach()
   {
     List objectsBeforeChange = new UniqueEList.FastCompare();
@@ -171,7 +189,12 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         {
           FeatureChange featureChange = (FeatureChange)j.next();
           EStructuralFeature feature = featureChange.getFeature();
-          if (feature instanceof EReference && ((EReference)feature).isContainment())
+          if (FeatureMapUtil.isFeatureMap(feature))
+          {
+            objectsBeforeChange.addAll(getContainedEObjects((List)featureChange.getValue()));
+            objectsAfterChange.addAll(getContainedEObjects((List)objectToChange.eGet(feature)));
+          }
+          else if (feature instanceof EReference && ((EReference)feature).isContainment())
           {
             if (feature.isMany())
             {
@@ -313,7 +336,14 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         FeatureChange featureChange = (FeatureChange)fIter.next();
         EStructuralFeature feature  = featureChange.getFeature();
 
-        int featureKind = feature instanceof EReference && ((EReference)feature).isContainment() ? feature.isMany() ? 1 : 2 : 0;
+        int featureKind = 
+          FeatureMapUtil.isFeatureMap(feature) ?
+            3 :
+            feature instanceof EReference && ((EReference)feature).isContainment() ? 
+              feature.isMany() ? 
+                1 : 
+                2 : 
+            0;
         switch (featureKind)
         {
           case 1:
@@ -330,6 +360,11 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
             }
             break;
           }            
+          case 3:
+          {
+            objectsBeforeApply.addAll(getContainedEObjects((List)objectToChange.eGet(feature)));
+            break;
+          }
         }
                
         featureChange.applyAndReverse(objectToChange);
@@ -350,6 +385,11 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
             }
             break;
           }            
+          case 3:
+          {
+            objectsAfterApply.addAll(getContainedEObjects((List)objectToChange.eGet(feature)));
+            break;
+          }
         }
       }
     }
@@ -403,9 +443,11 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         if (reverse || featureChange.isSet())
         {
           EStructuralFeature feature = featureChange.getFeature();
-          if (feature != null && feature.isMany() &&
-              feature instanceof EReference &&
-              (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
+          if (FeatureMapUtil.isFeatureMap(feature) ||
+                feature != null && 
+                  feature.isMany() &&
+                  feature instanceof EReference &&
+                  (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
           {
             if (reverse)
             {

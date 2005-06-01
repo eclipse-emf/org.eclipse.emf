@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.27 2005/04/14 19:16:31 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.28 2005/06/01 22:28:16 elena Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -42,7 +42,6 @@ import org.eclipse.emf.ecore.change.impl.FeatureChangeImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -312,17 +311,15 @@ public class ChangeRecorder implements Adapter
 
   protected void handleFeature(EStructuralFeature feature, EReference containment, Notification notification, EObject eObject)
   {
-    // EATM This is a hack. 
-    // Since we can't record these changes properly, it's best not to record them at all.
-    //
-    if (FeatureMapUtil.isFeatureMap(feature))
+    boolean shouldRecord = isRecording();
+    if (feature.isDerived())
     {
-      return;
+      shouldRecord = false;
     }
     
     List changes = null;
     FeatureChange change = null;
-    if (isRecording())
+    if (shouldRecord)
     {
       changes = getFeatureChanges(eObject);
       change = getFeatureChange(changes, feature);      
@@ -334,7 +331,7 @@ public class ChangeRecorder implements Adapter
       case Notification.SET:
       case Notification.UNSET:
       {
-        if (change == null && isRecording())
+        if (change == null && shouldRecord)
         {
           if (feature.isMany())
           {
@@ -365,7 +362,7 @@ public class ChangeRecorder implements Adapter
       }
       case Notification.ADD:
       {
-        if (change == null && isRecording())
+        if (change == null && shouldRecord)
         {
           List oldValue = new BasicEList((Collection)eObject.eGet(feature));
           oldValue.remove(notification.getPosition());
@@ -381,7 +378,7 @@ public class ChangeRecorder implements Adapter
       }
       case Notification.ADD_MANY:
       {
-        if (change == null && isRecording())
+        if (change == null && shouldRecord)
         {
           List oldValue = new BasicEList((Collection)eObject.eGet(feature));
           int position = notification.getPosition();
@@ -405,7 +402,7 @@ public class ChangeRecorder implements Adapter
       }
       case Notification.REMOVE:
       {
-        if (change == null && isRecording())
+        if (change == null && shouldRecord)
         {
           List oldValue = new BasicEList((Collection)eObject.eGet(feature));
 
@@ -424,7 +421,7 @@ public class ChangeRecorder implements Adapter
       }
       case Notification.REMOVE_MANY:
       {
-        if (change == null && isRecording())
+        if (change == null && shouldRecord)
         {
           List removedValues = (List)notification.getOldValue();
           List oldValue = new BasicEList((Collection)eObject.eGet(feature));
@@ -447,7 +444,7 @@ public class ChangeRecorder implements Adapter
       }
       case Notification.MOVE:
       {
-        if (change == null && isRecording())
+        if (change == null && shouldRecord)
         {
           EList oldValue = new BasicEList((Collection)eObject.eGet(feature));
           int position = notification.getPosition();

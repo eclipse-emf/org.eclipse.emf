@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeFactory.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ChangeFactory.java,v 1.2 2005/06/01 22:28:16 elena Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -83,6 +83,17 @@ public interface ChangeFactory extends EFactory
   ResourceChange createResourceChange();
 
   ResourceChange createResourceChange(Resource resource, EList oldValue);
+
+  /**
+   * Returns a new object of class '<em>Feature Map Entry</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Feature Map Entry</em>'.
+   * @generated
+   */
+  FeatureMapEntry createFeatureMapEntry();
+
+  FeatureMapEntry createFeatureMapEntry(EStructuralFeature feature, Object value);
 
   /**
    * Returns the package supported by this factory.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.8 2005/02/08 21:07:46 marcelop Exp $
+ * $Id: ChangePackageImpl.java,v 1.9 2005/06/01 22:28:16 elena Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.change.ChangeFactory;
 import org.eclipse.emf.ecore.change.ChangeKind;
 import org.eclipse.emf.ecore.change.ChangePackage;
 import org.eclipse.emf.ecore.change.FeatureChange;
+import org.eclipse.emf.ecore.change.FeatureMapEntry;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.ResourceChange;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -79,6 +80,13 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * @generated
    */
   private EClass resourceChangeEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass featureMapEntryEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -405,6 +413,16 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getListChange_FeatureMapEntryValues()
+  {
+    return (EReference)listChangeEClass.getEStructuralFeatures().get(7);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getResourceChange()
   {
     return resourceChangeEClass;
@@ -448,6 +466,66 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
   public EReference getResourceChange_ListChanges()
   {
     return (EReference)resourceChangeEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getFeatureMapEntry()
+  {
+    return featureMapEntryEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getFeatureMapEntry_FeatureName()
+  {
+    return (EAttribute)featureMapEntryEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getFeatureMapEntry_DataValue()
+  {
+    return (EAttribute)featureMapEntryEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getFeatureMapEntry_Value()
+  {
+    return (EAttribute)featureMapEntryEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getFeatureMapEntry_Feature()
+  {
+    return (EReference)featureMapEntryEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getFeatureMapEntry_ReferenceValue()
+  {
+    return (EReference)featureMapEntryEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -517,12 +595,20 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     createEAttribute(listChangeEClass, LIST_CHANGE__VALUES);
     createEReference(listChangeEClass, LIST_CHANGE__REFERENCE_VALUES);
     createEReference(listChangeEClass, LIST_CHANGE__FEATURE);
+    createEReference(listChangeEClass, LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES);
 
     resourceChangeEClass = createEClass(RESOURCE_CHANGE);
     createEAttribute(resourceChangeEClass, RESOURCE_CHANGE__RESOURCE_URI);
     createEAttribute(resourceChangeEClass, RESOURCE_CHANGE__RESOURCE);
     createEAttribute(resourceChangeEClass, RESOURCE_CHANGE__VALUE);
     createEReference(resourceChangeEClass, RESOURCE_CHANGE__LIST_CHANGES);
+
+    featureMapEntryEClass = createEClass(FEATURE_MAP_ENTRY);
+    createEAttribute(featureMapEntryEClass, FEATURE_MAP_ENTRY__FEATURE_NAME);
+    createEAttribute(featureMapEntryEClass, FEATURE_MAP_ENTRY__DATA_VALUE);
+    createEAttribute(featureMapEntryEClass, FEATURE_MAP_ENTRY__VALUE);
+    createEReference(featureMapEntryEClass, FEATURE_MAP_ENTRY__FEATURE);
+    createEReference(featureMapEntryEClass, FEATURE_MAP_ENTRY__REFERENCE_VALUE);
 
     // Create enums
     changeKindEEnum = createEEnum(CHANGE_KIND);
@@ -595,6 +681,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     initEAttribute(getListChange_Values(), theEcorePackage.getEJavaObject(), "values", null, 0, -1, ListChange.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getListChange_ReferenceValues(), theEcorePackage.getEObject(), null, "referenceValues", null, 0, -1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getListChange_Feature(), theEcorePackage.getEStructuralFeature(), null, "feature", null, 0, 1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getListChange_FeatureMapEntryValues(), this.getFeatureMapEntry(), null, "featureMapEntryValues", null, 0, -1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     op = addEOperation(listChangeEClass, null, "apply");
     addEParameter(op, theEcorePackage.getEEList(), "originalList");
@@ -611,6 +698,13 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     addEOperation(resourceChangeEClass, null, "apply");
 
     addEOperation(resourceChangeEClass, null, "applyAndReverse");
+
+    initEClass(featureMapEntryEClass, FeatureMapEntry.class, "FeatureMapEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getFeatureMapEntry_FeatureName(), ecorePackage.getEString(), "featureName", null, 0, 1, FeatureMapEntry.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getFeatureMapEntry_DataValue(), ecorePackage.getEString(), "dataValue", null, 0, 1, FeatureMapEntry.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getFeatureMapEntry_Value(), theEcorePackage.getEJavaObject(), "value", null, 0, 1, FeatureMapEntry.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEReference(getFeatureMapEntry_Feature(), theEcorePackage.getEStructuralFeature(), null, "feature", null, 1, 1, FeatureMapEntry.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getFeatureMapEntry_ReferenceValue(), theEcorePackage.getEObject(), null, "referenceValue", null, 0, 1, FeatureMapEntry.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
     initEEnum(changeKindEEnum, ChangeKind.class, "ChangeKind");

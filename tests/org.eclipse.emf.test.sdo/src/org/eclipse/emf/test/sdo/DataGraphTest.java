@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.3 2005/04/14 15:17:53 marcelop Exp $
+ * $Id: DataGraphTest.java,v 1.4 2005/06/01 22:28:12 elena Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -93,10 +93,6 @@ public class DataGraphTest extends TestCase
     finalXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\"><changeSummary><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges><objectChanges key=\"#//@eRootObject/@child.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\"><listChanges index=\"0\" referenceValues=\"#//@eChangeSummary/@objectsToAttach.0\"/></value></objectChanges><objectChanges key=\"#//@eChangeSummary/@objectsToAttach.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Child\"/><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\" set=\"false\"/></objectChanges><objectsToAttach xsi:type=\"testClass\"/></changeSummary><testClass name=\"Root2\"><child name=\"Parent\"/></testClass></sdo:datagraph>"
       + System.getProperties().getProperty("line.separator");
 
-    Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
-      Resource.Factory.Registry.DEFAULT_EXTENSION,
-      new DataGraphResourceFactoryImpl());
-
     // Create a dynamic package
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
     ePackage.setName("testPackage");
@@ -125,6 +121,9 @@ public class DataGraphTest extends TestCase
 
     // Create a new data graph with the resource set
     eDataGraph = SDOFactory.eINSTANCE.createEDataGraph();
+    eDataGraph.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put(
+      Resource.Factory.Registry.DEFAULT_EXTENSION,
+      new DataGraphResourceFactoryImpl());
 
     // Create some objects in the graph
     DataObject rootObject = eDataGraph.createRootObject("testPackage", "testClass");

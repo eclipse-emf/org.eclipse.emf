@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackage.java,v 1.3 2004/12/16 21:51:46 emerks Exp $
+ * $Id: ChangePackage.java,v 1.4 2005/06/01 22:28:16 elena Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -320,13 +320,22 @@ public interface ChangePackage extends EPackage
   int LIST_CHANGE__FEATURE = 6;
 
   /**
+   * The feature id for the '<em><b>Feature Map Entry Values</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES = 7;
+
+  /**
    * The number of structural features of the the '<em>List Change</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int LIST_CHANGE_FEATURE_COUNT = 7;
+  int LIST_CHANGE_FEATURE_COUNT = 8;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.change.impl.ResourceChangeImpl <em>Resource Change</em>}' class.
@@ -384,6 +393,70 @@ public interface ChangePackage extends EPackage
   int RESOURCE_CHANGE_FEATURE_COUNT = 4;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.change.impl.FeatureMapEntryImpl <em>Feature Map Entry</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.change.impl.FeatureMapEntryImpl
+   * @see org.eclipse.emf.ecore.change.impl.ChangePackageImpl#getFeatureMapEntry()
+   * @generated
+   */
+  int FEATURE_MAP_ENTRY = 5;
+
+  /**
+   * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int FEATURE_MAP_ENTRY__FEATURE_NAME = 0;
+
+  /**
+   * The feature id for the '<em><b>Data Value</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int FEATURE_MAP_ENTRY__DATA_VALUE = 1;
+
+  /**
+   * The feature id for the '<em><b>Value</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int FEATURE_MAP_ENTRY__VALUE = 2;
+
+  /**
+   * The feature id for the '<em><b>Feature</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int FEATURE_MAP_ENTRY__FEATURE = 3;
+
+  /**
+   * The feature id for the '<em><b>Reference Value</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int FEATURE_MAP_ENTRY__REFERENCE_VALUE = 4;
+
+  /**
+   * The number of structural features of the the '<em>Feature Map Entry</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int FEATURE_MAP_ENTRY_FEATURE_COUNT = 5;
+
+  /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.change.ChangeKind <em>Kind</em>}' enum.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -391,7 +464,7 @@ public interface ChangePackage extends EPackage
    * @see org.eclipse.emf.ecore.change.impl.ChangePackageImpl#getChangeKind()
    * @generated
    */
-  int CHANGE_KIND = 5;
+  int CHANGE_KIND = 6;
 
 
   /**
@@ -657,6 +730,17 @@ public interface ChangePackage extends EPackage
   EReference getListChange_Feature();
 
   /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.ecore.change.ListChange#getFeatureMapEntryValues <em>Feature Map Entry Values</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Feature Map Entry Values</em>'.
+   * @see org.eclipse.emf.ecore.change.ListChange#getFeatureMapEntryValues()
+   * @see #getListChange()
+   * @generated
+   */
+  EReference getListChange_FeatureMapEntryValues();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.change.ResourceChange <em>Resource Change</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -709,6 +793,71 @@ public interface ChangePackage extends EPackage
    * @generated
    */
   EReference getResourceChange_ListChanges();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.ecore.change.FeatureMapEntry <em>Feature Map Entry</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Feature Map Entry</em>'.
+   * @see org.eclipse.emf.ecore.change.FeatureMapEntry
+   * @generated
+   */
+  EClass getFeatureMapEntry();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.change.FeatureMapEntry#getFeatureName <em>Feature Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Feature Name</em>'.
+   * @see org.eclipse.emf.ecore.change.FeatureMapEntry#getFeatureName()
+   * @see #getFeatureMapEntry()
+   * @generated
+   */
+  EAttribute getFeatureMapEntry_FeatureName();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.change.FeatureMapEntry#getDataValue <em>Data Value</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Data Value</em>'.
+   * @see org.eclipse.emf.ecore.change.FeatureMapEntry#getDataValue()
+   * @see #getFeatureMapEntry()
+   * @generated
+   */
+  EAttribute getFeatureMapEntry_DataValue();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.change.FeatureMapEntry#getValue <em>Value</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Value</em>'.
+   * @see org.eclipse.emf.ecore.change.FeatureMapEntry#getValue()
+   * @see #getFeatureMapEntry()
+   * @generated
+   */
+  EAttribute getFeatureMapEntry_Value();
+
+  /**
+   * Returns the meta object for the reference '{@link org.eclipse.emf.ecore.change.FeatureMapEntry#getFeature <em>Feature</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Feature</em>'.
+   * @see org.eclipse.emf.ecore.change.FeatureMapEntry#getFeature()
+   * @see #getFeatureMapEntry()
+   * @generated
+   */
+  EReference getFeatureMapEntry_Feature();
+
+  /**
+   * Returns the meta object for the reference '{@link org.eclipse.emf.ecore.change.FeatureMapEntry#getReferenceValue <em>Reference Value</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Reference Value</em>'.
+   * @see org.eclipse.emf.ecore.change.FeatureMapEntry#getReferenceValue()
+   * @see #getFeatureMapEntry()
+   * @generated
+   */
+  EReference getFeatureMapEntry_ReferenceValue();
 
   /**
    * Returns the meta object for enum '{@link org.eclipse.emf.ecore.change.ChangeKind <em>Kind</em>}'.
