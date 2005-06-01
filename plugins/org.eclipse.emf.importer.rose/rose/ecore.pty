@@ -96,6 +96,10 @@
                 value      	"")
             (object Attribute
                 tool       	"Ecore"
+                name       	"isUnique"
+                value      	TRUE)
+            (object Attribute
+                tool       	"Ecore"
                 name       	"annotation"
                 value      	"")))
     (object Attribute
