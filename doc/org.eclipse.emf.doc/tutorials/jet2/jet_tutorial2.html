@@ -132,17 +132,17 @@
   JET package. The <tt class="code">generate</tt> method of this class combines template 
   translation and text generation into a single step. By taking care of the gory 
   details of translating templates and compiling the Java source code of the translated 
-  template implementation class, JETEmitter lets you focus on the final generator 
+  template implementation class, <tt class="code">JETEmitter</tt> lets you focus on the final generator 
   output.</p>
-<p>Another way of looking at JETEmitter is that it abstracts away the translation 
+<p>Another way of looking at <tt class="code">JETEmitter</tt> is that it abstracts away the translation 
   step and lets you pretend that you can directly generate text with a template. 
   Following the <a href="http://www.joelonsoftware.com/articles/LeakyAbstractions.html" target="_blank">Law 
-  of Leaky Abstractions</a>, we cannot always get away with this, and the <a href="#jetemitter_gotchas">JETEmitter 
+  of Leaky Abstractions</a>, we cannot always get away with this, and the <a href="#jetemitter_gotchas"><tt class="code">JETEmitter</tt> 
   Gotchas</a> section below points to a few places where you have to be careful.</p>
-<p>JETEmitter is the class we will be using in our plug-in, so we will go into 
+<p><tt class="code">JETEmitter</tt> is the class we will be using in our plug-in, so we will go into 
   a little more detail here.</p>
 
-<p>A JETEmitter object is constructed with the uri of the template used to generate 
+<p>A <tt class="code">JETEmitter</tt> object is constructed with the uri of the template used to generate 
   text. Any type of uri is acceptable as long as a protocol handler is available. 
   This means that <tt class="code">file:/</tt> uris, <tt class="code">ftp:/</tt> uris and <tt class="code">http:/</tt><i> 
   </i>uris can all be used. Eclipse adds special protocol handlers for <tt class="code">platform:/base</tt>/, 
@@ -158,16 +158,16 @@
 <pre class="code"> String pluginId = "myplugin.id";
  String base = Platform.getBundle(pluginId).getEntry("/").toString();
  String uri = base + "templates/myTemplate.javajet";
- JETEmitter emitter = new JETEmitter(uri);
+ <tt class="code">JETEmitter</tt> emitter = new JETEmitter(uri);
  String generatedText = emitter.generate(new Object[] {parameter});</pre>
-<p>After constructing a JETEmitter object, clients then call <tt class="code">generate</tt> 
+<p>After constructing a <tt class="code">JETEmitter</tt> object, clients then call <tt class="code">generate</tt> 
   on it to generate text. The <tt class="code">generate</tt> method will perform the following 
   steps:</p>
 
 <ol>
   <li>Create a project called <i>.JETEmitters</i> in the workspace </li>
-  <li>Prepare this project by giving it the Java Nature and adding classpath variables 
-    to its classpath </li>
+  <li>Prepare this project by giving it the Java Nature and adding class path variables 
+    to its class path </li>
   <li>Translate the template to a template implementation Java source file in 
     the <i>.JETEmitters</i> project </li>
   <li>Build the project to compile the template implementation source code to 
@@ -179,12 +179,12 @@
 translation.  This value can be changed by the <tt class="code">setProjectName</tt> method.</p>
 
 
-<p>Our example plug-in will use JETEmitter and save the generated text to a Java 
+<p>Our example plug-in will use <tt class="code">JETEmitter</tt> and save the generated text to a Java 
   source file in the workspace. The figure below shows the steps for generating 
-  source code using JETEmitter. </p>
+  source code using <tt class="code">JETEmitter</tt>. </p>
 <p><img alt="Using JETEmitter to generate text from a plugin" src="images/jetemitter.gif"/> </p>
-<h3><a name="jetemitter_gotchas"></a>JETEmitter Gotchas</h3>
-<p>The JETEmitter class combines template translation and text generation into 
+<h3><a name="jetemitter_gotchas"></a><tt class="code">JETEmitter</tt> Gotchas</h3>
+<p>The <tt class="code">JETEmitter</tt> class combines template translation and text generation into 
   a single step, which makes it a very convenient tool. However, it is important 
   that you know what takes place under the hood, otherwise you might be in for 
   some nasty surprises. This section highlights some &quot;gotchas&quot; that 
@@ -195,11 +195,11 @@ translation.  This value can be changed by the <tt class="code">setProjectName</
   a workspace application. Any application using JET must minimally run as an 
   Eclipse &quot;headless&quot; application so that plug-in initialization takes 
   place. (The term headless refers to running Eclipse without the user interface.)</p>
-<p>This means that using JETEmitter from a simple standalone application (a standard 
+<p>This means that using <tt class="code">JETEmitter</tt> from a simple standalone application (a standard 
   Java class with a <tt class="code">main</tt> method) <i>will not work</i>:</p>
-<pre class="code"> // This fails: cannot use JETEmitter from a standalone application
+<pre class="code"> // This fails: cannot use <tt class="code">JETEmitter</tt> from a standalone application
  public static void main(String[] args) {
-     JETEmitter emitter = new JETEmitter("/myproject/templates/HelloWorld.txtjet");
+     <tt class="code">JETEmitter</tt> emitter = new JETEmitter("/myproject/templates/HelloWorld.txtjet");
  
      // this will throw a NullPointerException
      String result = emitter.generate(new NullProgressMonitor(), {"hi" });
@@ -207,33 +207,33 @@ translation.  This value can be changed by the <tt class="code">setProjectName</
      System.out.println(result);
 </pre>
 
-<p>Note that this is not a restriction of just the JETEmitter class, many of the 
+<p>Note that this is not a restriction of just the <tt class="code">JETEmitter</tt> class, many of the 
   classes in the <tt class="code">org.eclipse.emf.codegen</tt> plug-in have dependencies 
   on other plug-ins. The <a href="#appendix">Appendix</a> section below has more 
   details on using JET from standalone applications.</p>
 <p>In the rest of this article we will assume that our code is running from inside 
   a plug-in.</p>
-<h4>2. Classloader Issues </h4>
+<h4>2. Class Loader Issues </h4>
 <p>You may get a NoClassDefFoundError when you pass a custom object as the argument 
   to the <tt class="code">JETEmitter.generate</tt> method. This can happen if the object 
   you pass as the argument is not one of the java "bootstrap" classes (the bootstrap 
   classes are the runtime classes in rt.jar and internationalization classes in 
   i18n.jar).</p>
 
-<p>To prevent this error you must specify the classloader of your plug-in when 
-  using JETEmitter. If no classloader is specified, JETEmitter uses the classloader 
-  of its own class, which is usually the classloader for the <tt class="code">org.eclipse.emf.codegen</tt> 
-  plug-in, and this classloader can't see much. In recent versions of EMF (since 
-  version 1.1.0 build 20030527_0913VL), JETEmitter has a constructor that takes 
-  a classloader argument.</p>
-<p>Note that another way to specify a classloader is to subclass JETEmitter in 
-  your own project; if no classloader is specified, JETEmitter will use the classloader 
+<p>To prevent this error you must specify the class loader of your plug-in when 
+  using <tt class="code">JETEmitter</tt>. If no class loader is specified, <tt class="code">JETEmitter</tt> uses the class loader 
+  of its own class, which is usually the class loader for the <tt class="code">org.eclipse.emf.codegen</tt> 
+  plug-in, and this class loader can't see much. In recent versions of EMF (since 
+  version 1.1.0 build 20030527_0913VL), <tt class="code">JETEmitter</tt> has a constructor that takes 
+  a class loader argument.</p>
+<p>Note that another way to specify a class loader is to subclass <tt class="code">JETEmitter</tt> in 
+  your own project; if no class loader is specified, <tt class="code">JETEmitter</tt> will use the class loader 
   of this subclass. (If you are using an older version of EMF, there are no constructors 
-  that take a classloader argument and you will have no choice but to subclass 
-  JETEmitter in your own project.)</p>
+  that take a class loader argument and you will have no choice but to subclass 
+  <tt class="code">JETEmitter</tt> in your own project.)</p>
 <p>The example below shows an action class that translates and invokes a selected 
-  template using JETEmitter. The example shows how a JETEmitter can be constructed 
-  <img src="images/tag_1.gif" width="24" height="13"/>with a classloader parameter or by <img src="images/tag_2.gif" width="24" height="13"/>constructing 
+  template using <tt class="code">JETEmitter</tt>. The example shows how a <tt class="code">JETEmitter</tt> can be constructed 
+  <img src="images/tag_1.gif" width="24" height="13"/>with a class loader parameter or by <img src="images/tag_2.gif" width="24" height="13"/>constructing 
   an anonymous subclass.</p>
 <pre class="code">package org.eclipse.emf.examples.jet.article2.actionexample;
 // imports omitted
@@ -255,8 +255,8 @@ public class EmitAction implements IActionDelegate {
             IPath fullPath = file.getFullPath();
  
             String templateURI = "platform:/resource" + fullPath;
-            <b>Class</b><b>Loader classloader = getClass().getClassLoader();</b>
-<img src="images/tag_1.gif" width="24" height="13"/>         JETEmitter emitter = new JETEmitter(templateURI, <b>classloader</b>);
+            <b>Class</b><b>Loader class loader = getClass().getClassLoader();</b>
+<img src="images/tag_1.gif" width="24" height="13"/>         <tt class="code">JETEmitter</tt> emitter = new JETEmitter(templateURI, <b>class loader</b>);
  
             // <b>or: use an anonymous subclass</b>
 
@@ -283,14 +283,14 @@ public class EmitAction implements IActionDelegate {
 <p>JETEmitter translates your templates to Java source files in the <i>.JETEmitters</i> 
   project, and invokes the JavaBuilder to compile these source files. If your 
   templates use classes that are not standard Java classes, or not in the EMF 
-  plug-in, you will need to add these classes to the classpath of the <i>.JETEmitters</i> 
+  plug-in, you will need to add these classes to the class path of the <i>.JETEmitters</i> 
   project, or the JavaBuilder cannot compile the template implementation source 
-  files.  Fortunately, JETEmitter provides a simple way to do this through the method 
-  <tt class="code">addVariable</tt> which adds a <i>Classpath Variable</i> to the <i>.JETEmiter</i> project.</p>
+  files.  Fortunately, <tt class="code">JETEmitter</tt> provides a simple way to do this through the method 
+  <tt class="code">addVariable</tt> which adds a <i>Classpath Variable</i> to the <i>.JETEmitter</i> project.</p>
 <p>A <i>Classpath Variable</i> is a workspace-wide name that is used in Eclipse to refer to a jar file or
 directory.  The list of all such variables can be seen using the Window &gt; Preferences &gt; Java &gt; 
-Classpath Variables menua action.. Your program will need to add a classpath variable for each
-  jar file or directory that is needed on the classpath of the <i>.JETEmiter</i> project.</p>
+Classpath Variables menua action.. Your program will need to add a class path variable for each
+  jar file or directory that is needed on the class path of the <i>.JETEmitter</i> project.</p>
   
   
 <h2><a name="example_plugin"></a>A Plug-in that Generates Source Code </h2>
@@ -588,10 +588,10 @@ public String constructorValues() {
 
 <p>When a user presses Finish on the wizard, the <tt class="code">performFinish</tt> method 
   in our wizard is called. The code below shows how we <img src="images/tag_1.gif" width="24" height="13"/>use 
-  a custom subclass of JETEmitter to <img src="images/tag_2.gif" width="24" height="13"/>add 
-  the jar file of our plug-in to the classpath of the <i>.JETEmitters</i> project 
+  a custom subclass of <tt class="code">JETEmitter</tt> to <img src="images/tag_2.gif" width="24" height="13"/>add 
+  the jar file of our plug-in to the class path of the <i>.JETEmitters</i> project 
   before we <img src="images/tag_3.gif" width="24" height="13"/>call generate on 
-  the JETEmitter. The generated typesafe enum source code is <img src="images/tag_4.gif" width="24" height="13"/>saved 
+  the <tt class="code">JETEmitter</tt>. The generated typesafe enum source code is <img src="images/tag_4.gif" width="24" height="13"/>saved 
   to the location in the workspace that the user specified.</p>
 <pre class="code"> // class NewTypesafeEnumCreationWizard
  protected void finishPage(IProgressMonitor monitor) 
@@ -600,7 +600,7 @@ public String constructorValues() {
      String pluginId = "org.eclipse.emf.examples.jet.article2";
      String base = Platform.getBundle(pluginId).getEntry("/").toString();
      String relativeUri = "templates/TypeSafeEnumeration.javajet";
-<img src="images/tag_1.gif" width="24" height="13"/>  JETEmitter emitter = new JETEmitter(base + relativeUri, getClass().getClassLoader());
+<img src="images/tag_1.gif" width="24" height="13"/>  <tt class="code">JETEmitter</tt> emitter = new JETEmitter(base + relativeUri, getClass().getClassLoader());
 <img src="images/tag_2.gif" width="24" height="13"/>  emitter.addClasspathVariable("JET_TUTORIAL", pluginId);
  
      TypesafeEnum model = mPage1.getTypesafeEnumModel();
@@ -955,7 +955,7 @@ servlets.
 
 <p>Some notes: </p>
 <ul>
-  <li>In the <tt class="code">&lt;taskdef/&gt;</tt> you have to specify the classpath to include 
+  <li>In the <tt class="code">&lt;taskdef/&gt;</tt> you have to specify the class path to include 
     both this task as well as the jars of a number of Eclipse plug-ins (see the 
     example buildfile). </li>
   <li>There are two ways to tell the jetc task which template(s) it should translate: 
@@ -971,7 +971,7 @@ servlets.
       when you want to specify the class to generate outside the template. </li>
   </ul>
 </ul>
-<p>Here's a simple Ant buildfile (the taskdef classpath assumes you have Eclipse 
+<p>Here's a simple Ant buildfile (the taskdef class path assumes you have Eclipse 
   2.1 and EMF 1.1.0): </p>
 <pre class="code"> &lt;project default="jetc_multiple_templates"&gt;
   
