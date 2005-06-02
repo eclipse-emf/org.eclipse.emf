@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingEditor.java,v 1.4 2004/06/13 12:21:19 emerks Exp $
+ * $Id: MappingEditor.java,v 1.5 2005/06/02 03:05:08 davidms Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -604,11 +604,11 @@ public abstract class MappingEditor
     public void setActiveEditor(IEditorPart part)
     {
       super.setActiveEditor(part);
-      removeMappingAction.setActiveEditor(part);
-      createMappingAction.setActiveEditor(part);
-      createOneSidedMappingAction.setActiveEditor(part);
-      nameMatchMappingAction.setActiveEditor(part);
-      typeMatchMappingAction.setActiveEditor(part);
+      removeMappingAction.setActiveWorkbenchPart(part);
+      createMappingAction.setActiveWorkbenchPart(part);
+      createOneSidedMappingAction.setActiveWorkbenchPart(part);
+      nameMatchMappingAction.setActiveWorkbenchPart(part);
+      typeMatchMappingAction.setActiveWorkbenchPart(part);
     }
 
 /*
