@@ -1,72 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-
-<!--
-/**
- * <copyright>
- *
- * Copyright (c) 2002-2004 IBM Corporation and others.
- * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors: 
- *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: plugin.xml,v 1.10 2005/05/13 15:18:04 emerks Exp $
- */
--->
-
-<plugin
-    name = "%pluginName"
-    id = "org.eclipse.xsd"
-    version = "2.1.0"
-    provider-name = "%providerName"
-    class = "org.eclipse.xsd.XSDPlugin$Implementation">
-
-  <requires>
-    <import plugin="org.eclipse.core.runtime"/>
-    <import plugin="org.eclipse.emf.ecore" export="true"/>
-  </requires>
-
-  <runtime>
-    <library name="xsd.jar">
-      <export name="*"/>
-    </library>
-  </runtime>
-
+<plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package 
-        uri = "http://www.eclipse.org/xsd/2002/XSD" 
-        class = "org.eclipse.xsd.XSDPackage" 
-        genModel = "model/XSD.genmodel" />
+    <package uri="http://www.eclipse.org/xsd/2002/XSD" class="org.eclipse.xsd.XSDPackage" genModel="model/XSD.genmodel" />
   </extension>
 
-  <extension point = "org.eclipse.emf.ecore.extension_parser">
-    <parser type="xsd" class="org.eclipse.xsd.util.XSDResourceFactoryImpl"/>
+  <extension point="org.eclipse.emf.ecore.extension_parser">
+    <parser type="xsd" class="org.eclipse.xsd.util.XSDResourceFactoryImpl" />
   </extension>
 
   <extension point="org.eclipse.team.core.fileTypes">
-    <fileTypes extension="xsd" type="text"/>    
+    <fileTypes extension="xsd" type="text" />
   </extension>
 
-<extension
-      id="diagnostic"
-      name="%_UI_XMLSchemaDiagnostic_marker"
-      point="org.eclipse.core.resources.markers">
-   <super
-         type="org.eclipse.core.resources.problemmarker">
-   </super>
-   <persistent
-         value="true">
-   </persistent>
-   <attribute
-         name="diagnostic">
-   </attribute>
-</extension>
-
+  <extension id="diagnostic" name="%_UI_XMLSchemaDiagnostic_marker" point="org.eclipse.core.resources.markers">
+    <super type="org.eclipse.core.resources.problemmarker" />
+    <persistent value="true" />
+    <attribute name="diagnostic" />
+  </extension>
 </plugin>
-
