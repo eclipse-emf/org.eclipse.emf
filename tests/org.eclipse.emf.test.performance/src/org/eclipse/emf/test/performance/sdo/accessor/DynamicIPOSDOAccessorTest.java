@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.58 2005/05/24 14:45:22 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.59 2005/06/02 14:17:23 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -46,8 +46,6 @@ import commonj.sdo.Property;
 
 public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 {
-  protected static final int REPETITIONS_5 = 5;
-
   protected static final int REPETITIONS_20 = 20;
 
   protected static final int REPETITIONS_50 = 50;
@@ -56,21 +54,17 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected static final int REPETITIONS_100 = 100;
 
-  protected static final int REPETITIONS_500 = 500;
+  protected static final int REPETITIONS_200 = 200;
 
   protected static int ITERATIONS_150 = 700000;
 
   protected static int ITERATIONS_300 = 1200000;
-
-  protected static final int ITERATIONS_2_5K = 2000000;
 
   protected static final int ITERATIONS_5K = 1400000;
 
   protected static final int ITERATIONS_10K = 2500000;
 
   protected static final int ITERATIONS_12M = 2000000;
-
-  protected static final int ITERATIONS_50K = 25000000;
 
   protected static final int ITERATIONS_100K = 40000000;
 
@@ -162,7 +156,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected DataObject newShipToAddress1;
 
-  // TODO use java.util.Date instead?: Date oderDate0 = new Date();
   protected Object orderDate0 = new XSDDateType().getValue("2006-02-10");
 
   protected Object orderDate1 = new XSDDateType().getValue("2006-02-11");
@@ -216,7 +209,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectByIndex").setWarmUp(30).setRepetitions(REPETITIONS_100));
     //HOLD
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByIndex").setWarmUp(20).setRepetitions(REPETITIONS_100));
-    
+
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3).setRepetitions(REPETITIONS_80));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(5).setRepetitions(REPETITIONS_100));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(4).setRepetitions(REPETITIONS_80));
@@ -230,13 +223,13 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByShortPath").setWarmUp(12).setRepetitions(REPETITIONS_80));
 
-    //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_100));
-    //HOLDtestSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(15).setRepetitions(REPETITIONS_500));
+    //HOLD
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_100));
+    //HOLD
+    testSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(15).setRepetitions(REPETITIONS_200));
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_80));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
-    //not tested    testSuite.addTest(new DynamicIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
-    //not tested    testSuite.addTest(new DynamicIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
 
@@ -470,7 +463,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
       // to use quantityValue inside the loop.
       if (quantityValue != quantity0)
       {
-        // TODO ideally, we'd want to call getBigInteger for different features.
         quantityValue = itemElement.getBigInteger(quantityProp);
       }
     }
@@ -488,7 +480,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     for (int i = 0; i < ITERATIONS_120K; i++)
     {
       itemElement.setBigInteger(quantityProp, quantity0);
-      // TODO ideally, we'd want to alternate the feature to set.
       itemElement.setBigInteger(quantityProp, quantity1);
     }
     stopMeasuring();
@@ -506,7 +497,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
       // to use quantityValue inside the loop.
       if (quantityValue != quantity0)
       {
-        // TODO ideally, we'd want to call getBigInteger for different features.
         quantityValue = itemElement.getBigInteger(1);
       }
     }
@@ -523,7 +513,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     for (int i = 0; i < ITERATIONS_8M; i++)
     {
       itemElement.setBigInteger(1, quantity0);
-      // TODO ideally, we'd want to alternate the feature to set.
       itemElement.setBigInteger(1, quantity1);
     }
     stopMeasuring();
@@ -561,7 +550,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
       // to use usPriceValue inside the loop.
       if (usPriceValue != usPrice0)
       {
-        // TODO ideally, we'd want to call getBigDecimal for different features.
         usPriceValue = itemElement.getBigDecimal(usPriceProp);
       }
     }
@@ -580,7 +568,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
       // to use usPriceValue inside the loop.
       if (usPriceValue != usPrice0)
       {
-        // TODO ideally, we'd want to call getBigDecimal for different features.
         usPriceValue = itemElement.getBigDecimal(2);
       }
     }
@@ -599,7 +586,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
       // to use usPriceValue inside the loop.
       if (usPriceValue != usPrice0)
       {
-        // TODO ideally, we'd want to call getBigDecimal for different features.
         usPriceValue = po.getBigDecimal("items/item[1]/uSPrice");
       }
     }
@@ -830,101 +816,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
         itemElementValue.setString(partNumProp, partNum0);
         itemElementValue.setString(partNumProp, partNum1);
-      }
-    }
-    stopMeasuring();
-  }
-
-  /**
-   * <p>
-   * Uses the SDO reflective API to get the values of a DataObject whose model has been dynamically created.
-   * Test details:
-   * <ul>
-   * <li>get/set: get</li>
-   * <li>model generation: dynamic</li>
-   * <li>access API: reflective by index</li>
-   * </ul>
-   * </p>
-   */
-  // TODO rewrite if by index test wanted
-  public void getByIndex()
-  {
-    startMeasuring();
-    for (int i = 0; i < ITERATIONS_10K; i++)
-    {
-      if (i % 2 == 0)
-      { // like set.
-        shipToValue = po.getDataObject(0);
-        billToValue = po.getDataObject(1);
-        orderCommentValue = po.getString(2);
-        orderDateValue = po.get(4);
-      }
-      else
-      {
-        shipToValue = po.getDataObject(0);
-        billToValue = po.getDataObject(1);
-        orderCommentValue = po.getString(2);
-        orderDateValue = po.get(4);
-      }
-
-      itemsValue = po.getDataObject(3).getList(0);
-      for (int j = 0; j < itemsValue.size(); j++)
-      {
-        itemElementValue = (DataObject)itemsValue.get(j);
-        productNameValue = itemElementValue.getString(0);
-        quantityValue = itemElementValue.getBigInteger(1);
-        usPriceValue = itemElementValue.getBigDecimal(2);
-        itemCommentValue = itemElementValue.getString(3);
-        shipDateValue = itemElementValue.get(4);
-        partNumValue = itemElementValue.getString(5);
-      }
-    }
-    stopMeasuring();
-  }
-
-  /**
-   * <p>
-   * Uses the SDO reflective API to set the values of a DataObject whose model has been dynamically created.
-   * Test details:
-   * <ul>
-   * <li>get/set: set</li>
-   * <li>model generation: dynamic</li>
-   * <li>access API: reflective by index</li>
-   * </ul>
-   * </p>
-   */
-  // TODO rewrite if by index test wanted
-  public void setByIndex()
-  {
-    startMeasuring();
-    for (int i = 0; i < ITERATIONS_5K; i++)
-    {
-      if (i % 2 == 0)
-      { // to set to a new value each time.
-        po.setDataObject(0, newShipToAddress0);
-        po.setDataObject(1, newBillToAddress0);
-        po.set(2, orderComment0);
-        po.set(4, orderDate0);
-      }
-      else
-      {
-        po.setDataObject(0, newShipToAddress1);
-        po.setDataObject(1, newBillToAddress1);
-        po.set(2, orderComment1);
-        po.set(4, orderDate1);
-      }
-
-      // items
-      itemsValue = po.getDataObject(3).getList(0);
-      for (int j = 0; j < NUM_ITEMS; j++)
-      {
-        itemElementValue = (DataObject)itemsValue.get(j);
-        itemElementValue.setString(0, productName0);
-        itemElementValue.setBigInteger(1, quantity0);
-        itemElementValue.setBigDecimal(2, usPrice0);
-        itemElementValue.setString(3, itemComment0);
-        itemElementValue.set(4, shipDate0);
-        itemElementValue.setString(5, partNum0);
       }
     }
     stopMeasuring();

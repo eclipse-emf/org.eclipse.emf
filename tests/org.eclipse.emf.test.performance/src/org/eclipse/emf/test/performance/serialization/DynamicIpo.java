@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpo.java,v 1.8 2005/05/22 14:51:22 bportier Exp $
+ * $Id: DynamicIpo.java,v 1.9 2005/06/02 14:17:23 bportier Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -50,7 +50,6 @@ public class DynamicIpo extends EMFPerformanceTestCase
 {
   final static String BASE_XSD_URI = "file:///" + TestUtil.getPluginDirectory() + "/data/";
 
-  // 10 reps needed to get consistent results (tested on static ser w/ caching)
   final static int REPETITIONS = 50;
 
   final static int ITERATIONS = 2000;
