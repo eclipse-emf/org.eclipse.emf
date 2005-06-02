@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.xsd.editor; singleton:=true
+Bundle-Version: 2.1.0
+Bundle-ClassPath: xsd.editor.jar
+Bundle-Activator: org.eclipse.xsd.presentation.XSDEditorPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.xsd.presentation
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.jface.text;visibility:=reexport,
+ org.eclipse.ui.ide;visibility:=reexport,
+ org.eclipse.ui.workbench.texteditor;visibility:=reexport,
+ org.eclipse.ui.editors;visibility:=reexport,
+ org.eclipse.emf.edit.ui;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.xsd.edit;visibility:=reexport
+Eclipse-AutoStart: true

@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.xsd.ecore.importer; singleton:=true
+Bundle-Version: 2.1.0
+Bundle-ClassPath: xsd.ecore.importer.jar
+Bundle-Activator: org.eclipse.xsd.ecore.importer.XSDImporterPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.xsd.ecore.importer,
+ org.eclipse.xsd.ecore.importer.taskdefs,
+ org.eclipse.xsd.ecore.importer.ui
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.xsd,
+ org.eclipse.emf.importer,
+ org.eclipse.emf.mapping.xsd2ecore;resolution:=optional,
+ org.eclipse.emf.codegen.ecore.ui;resolution:=optional,
+ org.apache.ant;resolution:=optional,
+ org.eclipse.emf.ant;resolution:=optional
+Eclipse-AutoStart: true
