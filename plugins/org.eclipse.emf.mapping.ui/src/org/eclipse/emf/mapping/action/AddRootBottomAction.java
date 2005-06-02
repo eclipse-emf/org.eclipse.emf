@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddRootBottomAction.java,v 1.1 2004/03/06 17:31:33 marcelop Exp $
+ * $Id: AddRootBottomAction.java,v 1.2 2005/06/02 03:11:02 davidms Exp $
  */
 package org.eclipse.emf.mapping.action;
 
@@ -21,7 +21,7 @@ import java.util.Collection;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.ui.action.CommandAction;
@@ -68,9 +68,9 @@ public class AddRootBottomAction extends CommandAction
     super.run(action);
   }
 
-  public void setActiveEditor(IAction action, IEditorPart editorPart)
+  public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
   {
-    super.setActiveEditor(action, editorPart);
+    super.setActiveWorkbenchPart(workbenchPart);
     action.setEnabled(true);
   }
 }
