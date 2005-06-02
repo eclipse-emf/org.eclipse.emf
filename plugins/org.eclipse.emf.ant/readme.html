@@ -6,7 +6,6 @@
 <title>org.eclipse.emf.ant Read Me</title>
 </head>
 <body lang="EN-US">
-<h2>Read Me</h2>
 <h3>Introduction</h3>
 <p>The &quot;examples&quot; directory contains scripts that show how to use the EMF Ant tasks
 available in this plugin.  If you have any questions after reading and experimenting with them, look 
@@ -14,16 +13,6 @@ at the task's javadoc for more details.</p>
 <p>The EMF java tasks are:</p>
 <table border="1" cellpadding="2" cellspacing="0" 
 summary="Enumerates the EMF tasks providing a &quot;one sentence&quot; description and the path to the java file that implement them">
-  <tr>
-    <td valign="top"><tt>emf.Rose2Java</tt></td>
-    <td>Generates code from Rose model.</td>
-	<td>org.eclipse.emf.ant/tasks/org/eclipse/emf/ant/taskdefs/codegen/ecore/RoseGeneratorTask.java</td>
-  </tr>
-  <tr>
-    <td valign="top"><tt>emf.XSD2Java</tt></td>
-    <td>Generates code from XML schema.</td>
-	<td>org.eclipse.emf.ant/tasks/org/eclipse/emf/ant/taskdefs/codegen/ecore/XSDGeneratorTask.java</td>
-  </tr>
   <tr>
     <td valign="top"><tt>emf.JETEmitter</tt></td>
     <td>Invokes the JETEmitter class to generate code from templates.</td>
@@ -60,13 +49,6 @@ perform better if you are able to group the tasks that require Eclipse in a few 
 <li>In order to preserve the original state of this plugin's &quot;examples&quot; directory, you
 should copy it to a different location and run the Ant scripts from there.</li>
 </ul>
-<h3>org.eclipse.emf.ant/examples/library</h3>
-<p>
-This directory contains the famous library model expressed as a Rose model and as XML 
-schemas.  One schema, <i>library.xsd</i>, defines all the model elements in itself while the 
-<i>libraryPart*.xsd</i> schemas contain subsets of it.  In the &quot;build&quot; directory 
-you will find Ant scripts to generate code from each model specification.
-</p>
 <h3>org.eclipse.emf.ant/examples/jet</h3>
 <p>
 Running JET from an Ant script sounds really convenient. And it is, especially when the templates you
