@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommandAction.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: CommandAction.java,v 1.2 2005/06/02 02:54:46 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -26,8 +26,13 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.ui.IActionDelegate2;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IViewActionDelegate;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPart;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.UnexecutableCommand;
@@ -50,15 +55,23 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
  * This class can also be used to implement actions not based on a selection, 
  * in that case the method {@link #selectionChanged selectionChanged} should be overriden to do nothing.
  */
-public class CommandAction implements IEditorActionDelegate 
+public class CommandAction implements IEditorActionDelegate, IViewActionDelegate, IActionDelegate2
 {
   /**
-   * When the action is used as an editor part (for the menubar and toolbar), this records the current editor.
+   * This records the editor or view with which the action is currently associated.
+   * @since 2.1.0
+   */
+  protected IWorkbenchPart workbenchPart;
+
+  /**
+   * If this action delegate is associated with an editor, it is also recorded here.
+   * This field was retained for backwards compatibility.
+   * @deprecated As of EMF 2.1.0, replaced by {@link #workbenchPart}.
    */
   protected IEditorPart editorPart;
 
   /**
-   * This returns the action to which we are delegating our action properties.
+   * This records the proxy action created by the platform.
    */
   protected IAction action;
 
@@ -104,14 +117,53 @@ public class CommandAction implements IEditorActionDelegate
   }
 
   /**
-   * The framework calls this so that we can register against this editor.
-   * We use this as an opportunity to record the action and the editor part for later use.
+   * This is called immediately after this action delegate is created.
+   * We use this as an opportunity to record the proxy action for later use.
+   * @since 2.1.0
    */
-  public void setActiveEditor(IAction action, IEditorPart editorPart) 
+  public void init(IAction action)
   {
-    // If the editor changes...
+    this.action = action;
+  }
+
+  /**
+   * This is called when this action delegate is no longer needed. This implementation does nothing.
+   * @since 2.1.0
+   */
+  public void dispose()
+  {
+  }
+
+  /**
+   * For editor actions, the framework calls this when the active editor changes, so that we can connect with it.
+   * We call {@link #setActiveWorkbenchPart} to record it and its editing domain, if it can provide one.
+   */
+  public void setActiveEditor(IAction action, IEditorPart editorPart)
+  {
+    setActiveWorkbenchPart(editorPart);
+    this.editorPart = editorPart;
+    this.action = action;
+  }
+
+  /**
+   * For view actions, the framework calls this when the view is shown, so that we can connect with it.
+   * We call {@link #setActiveWorkbenchPart} to record it and its editing domain, if it can provide one.
+   * @since 2.1.0
+   */
+  public void init(IViewPart view)
+  {
+    setActiveWorkbenchPart(view);
+  }
+
+  /**
+   * This records the specified workbench part, and if it is an editing domain provider, its editing domain.
+   * @since 2.1.0
+   */
+  public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
+  {
+    // If the workbench part changes...
     //
-    if (this.editorPart != editorPart)
+    if (this.workbenchPart != workbenchPart)
     {
       // Discard the old editing domain.
       //
@@ -119,24 +171,30 @@ public class CommandAction implements IEditorActionDelegate
 
       // If there is a new one...
       //
-      if (editorPart != null)
+      if (workbenchPart != null)
       {
-        // Does this editor provide an editing domain?
+        // Does this part provide an editing domain?
         //
-        if (editorPart instanceof IEditingDomainProvider)
+        if (workbenchPart instanceof IEditingDomainProvider)
         {
-          editingDomain = ((IEditingDomainProvider)editorPart).getEditingDomain();
+          editingDomain = ((IEditingDomainProvider)workbenchPart).getEditingDomain();
         }
       }
 
       // Record the part.
       //
-      this.editorPart = editorPart;
-    }
+      this.workbenchPart = workbenchPart;
+    }    
+  }
 
-    // Save the action.
-    //
-    this.action = action;
+  /**
+   * Because we implement {@link IActionDelegate2}, this is called instead of the old {@link #run(IAction) run}.
+   * This simply calls that method, which must be invokved since a subclass may have overridden it.
+   * @since 2.1.0
+   */
+  public void runWithEvent(IAction action, Event event)
+  {
+    run(action);
   }
 
   /**
@@ -173,11 +231,11 @@ public class CommandAction implements IEditorActionDelegate
         collection.add(elements.next());
       }
 
-      // If we aren't getting the domain from the editor part...
+      // If we aren't getting the domain from the workbench part...
       // This happens when this action is used for a global popup action.
       // We try to get the editing domain from one of the objects in the selection.
       //
-      if (editorPart == null)
+      if (workbenchPart == null && editorPart == null) //DMS editingDomain == null) ?
       {
         for (Iterator objects = collection.iterator(); objects.hasNext(); )
         {
