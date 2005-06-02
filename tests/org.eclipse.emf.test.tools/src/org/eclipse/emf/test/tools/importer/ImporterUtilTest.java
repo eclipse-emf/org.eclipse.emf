@@ -20,6 +20,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 
+import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.util.ImporterUtil;
 
 import junit.framework.Test;
@@ -42,6 +44,7 @@ public class ImporterUtilTest extends TestCase
     ts.addTest(new ImporterUtilTest("testDecodeAction"));
     ts.addTest(new ImporterUtilTest("testValidPluginID"));
     ts.addTest(new ImporterUtilTest("testMergeStatus"));
+    ts.addTest(new ImporterUtilTest("testCreateErrorStatus"));
     return ts;
   }
   
@@ -156,5 +159,44 @@ public class ImporterUtilTest extends TestCase
     assertEquals(baseStatus.getException(), mergedStatus.getException());
     assertEquals(1, mergedStatus.getChildren().length);
     assertEquals(statusToBeMerged, mergedStatus.getChildren()[0]);
+  }
+  
+  public void testCreateErrorStatus()
+  {
+    Throwable throwable = new NullPointerException();
+    IStatus status = ImporterUtil.createErrorStatus(throwable, false);
+    assertEquals(IStatus.ERROR, status.getSeverity());
+    assertEquals(ImporterUtil.ACTION_DEFAULT, status.getCode());
+    assertEquals(throwable, status.getException());
+    String message = ImporterPlugin.INSTANCE.getString("_UI_GenericException_message", new Object[]{"NullPointerException"}); 
+    assertEquals(message, status.getMessage());
+
+    Exception rootException = new Exception("root");
+    status = ImporterUtil.createErrorStatus(rootException, true);
+    assertEquals(IStatus.ERROR, status.getSeverity());
+    assertEquals(ImporterUtil.ACTION_DIALOG_SHOW_ERROR, status.getCode());
+    assertEquals(rootException, status.getException());
+    assertEquals("root", status.getMessage());
+
+    throwable = new Exception(new Exception(new Exception(rootException)));
+    status = ImporterUtil.createErrorStatus(throwable, true);
+    assertEquals(IStatus.ERROR, status.getSeverity());
+    assertEquals(ImporterUtil.ACTION_DIALOG_SHOW_ERROR, status.getCode());
+    assertEquals(rootException, status.getException());
+    assertEquals("root", status.getMessage());
+
+    throwable = new WrappedException(new WrappedException(rootException));
+    status = ImporterUtil.createErrorStatus(throwable, true);
+    assertEquals(IStatus.ERROR, status.getSeverity());
+    assertEquals(ImporterUtil.ACTION_DIALOG_SHOW_ERROR, status.getCode());
+    assertEquals(rootException, status.getException());
+    assertEquals("root", status.getMessage());
+
+    throwable = new WrappedException(new Exception(new WrappedException(new Exception(rootException))));
+    status = ImporterUtil.createErrorStatus(throwable, false);
+    assertEquals(IStatus.ERROR, status.getSeverity());
+    assertEquals(ImporterUtil.ACTION_DEFAULT, status.getCode());
+    assertEquals(rootException, status.getException());
+    assertEquals("root", status.getMessage());
   }
 }
