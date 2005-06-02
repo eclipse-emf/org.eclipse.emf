@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LoadResourceAction.java,v 1.7 2004/07/08 08:14:10 marcelop Exp $
+ * $Id: LoadResourceAction.java,v 1.8 2005/06/02 02:53:21 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -44,6 +44,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ResourceSelectionDialog;
 
@@ -103,9 +104,20 @@ public class LoadResourceAction extends Action
     setEnabled(domain != null);
   }
 
+  /**
+   * @deprecated As of EMF 2.1.0, replaced by {@link #setActiveWorkbenchPart}.
+   */
   public void setActiveEditor(IEditorPart editorPart)
   {
-    setEditingDomain(editorPart instanceof IEditingDomainProvider ? ((IEditingDomainProvider)editorPart).getEditingDomain() : null);
+    setActiveWorkbenchPart(editorPart);
+  }
+
+  /**
+   * @since 2.1.0
+   */
+  public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
+  {
+    setEditingDomain(workbenchPart instanceof IEditingDomainProvider ? ((IEditingDomainProvider)workbenchPart).getEditingDomain() : null);
   }
 
   public static class LoadResourceDialog extends Dialog

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateSiblingAction.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: CreateSiblingAction.java,v 1.2 2005/06/02 02:53:21 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -21,6 +21,7 @@ import java.util.Collection;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.UnexecutableCommand;
@@ -42,13 +43,25 @@ public class CreateSiblingAction extends StaticSelectionCommandAction
   /**
    * This constructs an instance of an action that creates a sibling
    * specified by <code>descriptor</code>.
+   * @since 2.1.0
    */
-  public CreateSiblingAction(IEditorPart editorPart, ISelection selection, 
+  public CreateSiblingAction(IWorkbenchPart workbenchPart, ISelection selection, 
                              Object descriptor)
   {
-    super(editorPart);
+    super(workbenchPart);
     this.descriptor = descriptor;
     configureAction(selection);
+  }
+
+  /**
+   * This constructor is simply retained for binary compatibility. It just
+   * calls the {@link #CreateSiblingAction(IWorkbenchPart, ISelection, Object)
+   * new form}.
+   */
+  public CreateSiblingAction(IEditorPart editorPart, ISelection selection, 
+                              Object descriptor)
+  {
+    this((IWorkbenchPart)editorPart, selection, descriptor);
   }
 
   /**

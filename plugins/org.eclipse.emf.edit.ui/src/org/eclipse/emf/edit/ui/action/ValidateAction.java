@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.11 2005/04/29 11:32:57 emerks Exp $
+ * $Id: ValidateAction.java,v 1.12 2005/06/02 02:53:21 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -45,6 +45,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
 import org.eclipse.ui.part.ISetSelectionTarget;
@@ -407,11 +408,22 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         selectedObjects.get(0) instanceof EObject;
   }
 
+  /**
+   * @deprecated As of EMF 2.1.0, replaced by {@link #setActiveWorkbenchPart}.
+   */
   public void setActiveEditor(IEditorPart editorPart)
   {
-    if (editorPart instanceof IEditingDomainProvider)
+    setActiveWorkbenchPart(editorPart);
+  }
+
+  /**
+   * @since 2.1.0
+   */
+  public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
+  {
+    if (workbenchPart instanceof IEditingDomainProvider)
     {
-      domain = ((IEditingDomainProvider)editorPart).getEditingDomain();
+      domain = ((IEditingDomainProvider)workbenchPart).getEditingDomain();
     }
   }
 }

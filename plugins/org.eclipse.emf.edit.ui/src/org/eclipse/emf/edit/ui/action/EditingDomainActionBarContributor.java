@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainActionBarContributor.java,v 1.6 2004/05/12 22:31:31 emerks Exp $
+ * $Id: EditingDomainActionBarContributor.java,v 1.7 2005/06/02 02:53:21 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -225,16 +225,16 @@ public class EditingDomainActionBarContributor
   {
     activeEditor.removePropertyListener(this);
 
-    deleteAction.setActiveEditor(null);
-    cutAction.setActiveEditor(null);
-    copyAction.setActiveEditor(null);
-    pasteAction.setActiveEditor(null);
-    undoAction.setActiveEditor(null);
-    redoAction.setActiveEditor(null);
+    deleteAction.setActiveWorkbenchPart(null);
+    cutAction.setActiveWorkbenchPart(null);
+    copyAction.setActiveWorkbenchPart(null);
+    pasteAction.setActiveWorkbenchPart(null);
+    undoAction.setActiveWorkbenchPart(null);
+    redoAction.setActiveWorkbenchPart(null);
 
     if (loadResourceAction != null)
     {
-      loadResourceAction.setActiveEditor(null);
+      loadResourceAction.setActiveWorkbenchPart(null);
     }
 
     ISelectionProvider selectionProvider = 
@@ -248,7 +248,7 @@ public class EditingDomainActionBarContributor
 
     if (validateAction != null)
     {
-      validateAction.setActiveEditor(null);
+      validateAction.setActiveWorkbenchPart(null);
       selectionProvider.removeSelectionChangedListener(validateAction);
     }
   }
@@ -257,16 +257,16 @@ public class EditingDomainActionBarContributor
   {
     activeEditor.addPropertyListener(this);
 
-    deleteAction.setActiveEditor(activeEditor);
-    cutAction.setActiveEditor(activeEditor);
-    copyAction.setActiveEditor(activeEditor);
-    pasteAction.setActiveEditor(activeEditor);
-    undoAction.setActiveEditor(activeEditor);
-    redoAction.setActiveEditor(activeEditor);
+    deleteAction.setActiveWorkbenchPart(activeEditor);
+    cutAction.setActiveWorkbenchPart(activeEditor);
+    copyAction.setActiveWorkbenchPart(activeEditor);
+    pasteAction.setActiveWorkbenchPart(activeEditor);
+    undoAction.setActiveWorkbenchPart(activeEditor);
+    redoAction.setActiveWorkbenchPart(activeEditor);
 
     if (loadResourceAction != null)
     {
-      loadResourceAction.setActiveEditor(activeEditor);
+      loadResourceAction.setActiveWorkbenchPart(activeEditor);
     }
 
     ISelectionProvider selectionProvider = 
@@ -280,7 +280,7 @@ public class EditingDomainActionBarContributor
 
     if (validateAction != null)
     {
-      validateAction.setActiveEditor(activeEditor);
+      validateAction.setActiveWorkbenchPart(activeEditor);
       selectionProvider.addSelectionChangedListener(validateAction);
     }
 

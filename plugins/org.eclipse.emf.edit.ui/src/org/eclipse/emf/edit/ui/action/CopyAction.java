@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CopyAction.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: CopyAction.java,v 1.2 2005/06/02 02:53:21 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.edit.ui.action;
 import java.util.Collection;
 
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.edit.command.CopyToClipboardCommand;
@@ -48,11 +49,22 @@ public class CopyAction extends CommandActionHandler
     return CopyToClipboardCommand.create(domain, selection);
   }
 
+  /**
+   * @deprecated As of EMF 2.1.0, replaced by {@link #setActiveWorkbenchPart}.
+   */
   public void setActiveEditor(IEditorPart editorPart)
   {
-    if (editorPart instanceof IEditingDomainProvider)
+    setActiveWorkbenchPart(editorPart);
+  }
+
+  /**
+   * @since 2.1.0
+   */
+  public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
+  {
+    if (workbenchPart instanceof IEditingDomainProvider)
     {
-      domain = ((IEditingDomainProvider)editorPart).getEditingDomain();
+      domain = ((IEditingDomainProvider)workbenchPart).getEditingDomain();
     }
   }
 }

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSelectionCommandAction.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: StaticSelectionCommandAction.java,v 1.2 2005/06/02 02:53:21 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -26,6 +26,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.UnexecutableCommand;
@@ -57,7 +58,7 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 public abstract class StaticSelectionCommandAction extends Action
 {
   /**
-   * This records the editing domain of the current editor.  For global
+   * This records the editing domain of the current editor or viewer.  For global
    * popups, we try to determine the editing domain from the selected
    * objects themselves.
    */
@@ -70,21 +71,31 @@ public abstract class StaticSelectionCommandAction extends Action
 
   /**
    * This constructs an instance for a command to be executed via
-   * editorPart's editing domain.
+   * workbenchPart's editing domain.
+   * @since 2.1.0
    */
-  public StaticSelectionCommandAction(IEditorPart editorPart)
+  public StaticSelectionCommandAction(IWorkbenchPart workbenchPart)
   {
     super();
 
-    // try to get editing domain from editor part
-    if (editorPart instanceof IEditingDomainProvider)
+    // try to get editing domain from workbench part
+    if (workbenchPart instanceof IEditingDomainProvider)
     {
-      editingDomain = ((IEditingDomainProvider) editorPart).getEditingDomain();
+      editingDomain = ((IEditingDomainProvider)workbenchPart).getEditingDomain();
     }
   }
 
   /**
-   * This constructs an instance without a specified editor.
+   * This constructor is simply retained for binary compatibility. It just
+   * calls the {@link #StaticSelectionCommandAction(IWorkbenchPart) new form}.
+   */
+  public StaticSelectionCommandAction(IEditorPart editorPart)
+  {
+    this((IWorkbenchPart)editorPart);
+  }
+
+  /**
+   * This constructs an instance without a specified workbenchPart.
    */
   public StaticSelectionCommandAction()
   {
@@ -119,7 +130,7 @@ public abstract class StaticSelectionCommandAction extends Action
         collection.add(i.next());
       }
       
-      // if the editing domain wasn't given by the editor part, try to get
+      // if the editing domain wasn't given by the workbench part, try to get
       // it from the selection
       for (Iterator i = collection.iterator();
            editingDomain == null && i.hasNext(); )
