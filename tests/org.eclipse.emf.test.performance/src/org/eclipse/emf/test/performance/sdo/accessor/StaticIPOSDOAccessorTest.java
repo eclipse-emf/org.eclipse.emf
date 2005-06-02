@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.57.2.1 2005/05/30 19:26:59 nickb Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.57.2.2 2005/06/02 14:06:36 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -50,7 +50,6 @@ import commonj.sdo.Property;
 
 public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 {
-
   protected static final int ITERATIONS_1K = 3000000;
 
   protected static final int ITERATIONS_40K = 32000000;
@@ -122,8 +121,6 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByGenerated").setWarmUp(1).setRepetitions(REPETITIONS_80));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_80));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
-    //not tested    testSuite.addTest(new StaticIPOSDOAccessorTest("getByIndex").setWarmUp(500).setRepetitions(REPETITIONS_5));
-    //not tested    testSuite.addTest(new StaticIPOSDOAccessorTest("setByIndex").setWarmUp(1000).setRepetitions(REPETITIONS_5));
     //HOLD
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
     //HOLD
@@ -318,7 +315,6 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
       // to use quantityValue inside the loop.
       if (quantityValue != quantity0)
       {
-        // TODO ideally, we'd want to call different methods (which return BigInteger).
         quantityValue = itemElement.getQuantity();
       }
     }
@@ -335,7 +331,6 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     for (int i = 0; i < ITERATIONS_600K; i++)
     {
       itemElement.setQuantity(quantity0);
-      // TODO ideally, we'd want to alternate the feature to set.
       itemElement.setQuantity(quantity1);
     }
     stopMeasuring();

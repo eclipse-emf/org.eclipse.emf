@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSequenceTest.java,v 1.14.2.1 2005/05/30 19:26:59 nickb Exp $
+ * $Id: StaticSequenceTest.java,v 1.14.2.2 2005/06/02 14:06:36 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -117,7 +117,6 @@ public class StaticSequenceTest extends DynamicSequenceTest
     {
       if (ordersValue != this)
       {
-        // TODO ideally, we'd want to call different methods (which return Sequence).
         ordersValue = supplier.getOrders();
       }
     }
