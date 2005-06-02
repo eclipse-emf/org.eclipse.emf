@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddInputRootAction.java,v 1.2 2005/05/06 15:03:18 khussey Exp $
+ * $Id: AddInputRootAction.java,v 1.3 2005/06/02 03:03:59 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.action;
 
@@ -52,7 +52,7 @@ public class AddInputRootAction extends AddRootTopAction
     Collection topsToAdd = new ArrayList();
 
     ResourceSelectionDialog resourceSelectionDialog = new ResourceSelectionDialog(
-      editorPart.getEditorSite().getShell(),
+      workbenchPart.getSite().getShell(),
       ResourcesPlugin.getWorkspace().getRoot(),
       Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_SelectInputEcoreModels_label")); //$NON-NLS-1$
     resourceSelectionDialog.open();
@@ -67,7 +67,7 @@ public class AddInputRootAction extends AddRootTopAction
 
         if (resource.getType() == IResource.FILE && "ecore".equals(resource.getFullPath().getFileExtension())) //$NON-NLS-1$
         {
-          topsToAdd.addAll(((Ecore2EcoreEditor)editorPart).getEditingDomain().getResourceSet().getResource(
+          topsToAdd.addAll(((Ecore2EcoreEditor)workbenchPart).getEditingDomain().getResourceSet().getResource(
             URI.createPlatformResourceURI(resource.getFullPath().toString()),
             true).getContents());
         }

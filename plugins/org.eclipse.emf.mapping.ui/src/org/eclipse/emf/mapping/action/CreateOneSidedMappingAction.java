@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateOneSidedMappingAction.java,v 1.1 2004/03/06 17:31:33 marcelop Exp $
+ * $Id: CreateOneSidedMappingAction.java,v 1.2 2005/06/02 03:04:00 davidms Exp $
  */
 package org.eclipse.emf.mapping.action;
 
@@ -21,10 +21,9 @@ import java.util.Collection;
 import java.util.EventObject;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStackListener;
@@ -44,14 +43,14 @@ import org.eclipse.emf.mapping.provider.MappingItemProvider;
  */
 public class CreateOneSidedMappingAction extends CommandAction implements CommandStackListener
 {
-  public void setActiveEditor(IAction action, IEditorPart editorPart)
+  public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
   {
     if (editingDomain != null)
     {
       editingDomain.getCommandStack().removeCommandStackListener(this);
     }
 
-    super.setActiveEditor(action, editorPart);
+    super.setActiveWorkbenchPart(workbenchPart);
 
     if (editingDomain != null)
     {
@@ -61,7 +60,7 @@ public class CreateOneSidedMappingAction extends CommandAction implements Comman
 
   public void commandStackChanged(EventObject event)
   {
-    selectionChanged(action, ((ISelectionProvider)editorPart).getSelection());
+    selectionChanged(action, ((ISelectionProvider)workbenchPart).getSelection());
   }
 
   /**
