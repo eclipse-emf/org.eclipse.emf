@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingCommandAction.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: DelegatingCommandAction.java,v 1.2 2005/06/02 02:58:32 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -22,33 +22,69 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IViewActionDelegate;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 
 /**
- * This class wraps an {@link IEditorActionDelegate}, e.g., a {@link CommandAction}, to make it into an {@link Action}.
+ * This class wraps an {@link IActionDelegate}, e.g., a {@link CommandAction}, to make it into an {@link Action}.
+ * Even if the action delegate implements {@link IActionDelegate2}, this class will still ony use the older interface
+ * (i.e. it will not call {@link IActionDelegate2#init(IAction) init}, {@link IActoinDelegate2#runWithEvent
+ * runWithEvent}, or {@link IActionDelegate2#dispose dispose}, since it does not have the information required
+ * to do so).
  */
 public class DelegatingCommandAction extends Action implements ISelectionListener, ISelectionChangedListener
 {
   /**
-   *  This is the delegate;
+   * This is the action delegate we're wrapping.
+   * @since 2.1.0
+   */
+  protected IActionDelegate actionDelegate;
+
+  /**
+   * If the action delegate is associated with an editor, is also recorded here.
+   * This field was retained for backwards compatibility.
+   * @deprecated As of EMF 2.1.0, replaced by {@link #actionDelegate}.
    */
   protected IEditorActionDelegate editorActionDelegate;
 
   /**
-   * This is the current editor.
+   * This is the current workbench part.
+   */
+  protected IWorkbenchPart workbenchPart;
+
+  /**
+   * If the workbench part is an editor, it is also recorded here.
+   * This field was retained for backwards compatibility.
+   * @deprecated As of EMF 2.1.0, replaced by {@link #workbenchPart}.
    */
   protected IEditorPart editorPart;
 
   /**
    * This constructs an instance.
+   * @since 2.1.0
+   */
+  public DelegatingCommandAction(IActionDelegate actionDelegate)
+  {
+    this.actionDelegate = actionDelegate;
+    if (actionDelegate instanceof IEditorActionDelegate)
+    {
+      editorActionDelegate = (IEditorActionDelegate)actionDelegate;
+    }
+  }
+
+  /**
+   * This constructor is simply retained for binary compatibility.
+   * It just calls the {@link #DelegatingCommandAction(IActionDelegate) new form}.
    */
   public DelegatingCommandAction(IEditorActionDelegate editorActionDelegate)
   {
-    this.editorActionDelegate = editorActionDelegate;
+    this((IActionDelegate)editorActionDelegate);
   }
 
   public void selectionChanged(SelectionChangedEvent event) 
@@ -63,7 +99,17 @@ public class DelegatingCommandAction extends Action implements ISelectionListene
 
   protected void selectionChanged(ISelection selection) 
   {
-    editorActionDelegate.selectionChanged(this, selection);
+    if (actionDelegate != null)
+    {
+      // This is for backwards compatibility, since the constructor may have been overridden before it was expected
+      // to set actionDelegate.
+      //
+      editorActionDelegate.selectionChanged(this, selection);
+    }
+    else
+    {
+      actionDelegate.selectionChanged(this, selection);
+    }
   }
 
   protected void handleSelection(ISelection selection) 
@@ -71,9 +117,12 @@ public class DelegatingCommandAction extends Action implements ISelectionListene
     selectionChanged(selection);
   }
 
-  protected void registerSelectionListener(IEditorPart editorPart) 
+  /**
+   * @since 2.1.0
+   */
+  protected void registerSelectionListener(IWorkbenchPart workbenchPart)
   {
-    ISelectionProvider selectionProvider = editorPart.getSite().getSelectionProvider();
+    ISelectionProvider selectionProvider = workbenchPart.getSite().getSelectionProvider();
     if (selectionProvider != null) 
     {
       selectionProvider.addSelectionChangedListener(this);
@@ -81,34 +130,78 @@ public class DelegatingCommandAction extends Action implements ISelectionListene
     }
   }
 
-  protected void unregisterSelectionListener(IEditorPart editorPart) 
+  /**
+   * @deprecated As of EMF 2.1.0, replaced by {@link #registerSelectionListener(IWorkbenchPart) registerSelectionListener}.
+   */
+  protected void registerSelectionListener(IEditorPart editorPart)
   {
-    ISelectionProvider selectionProvider = editorPart.getSite().getSelectionProvider();
+    registerSelectionListener((IWorkbenchPart)editorPart);
+  }
+
+  /**
+   * @since 2.1.0
+   */
+  protected void unregisterSelectionListener(IWorkbenchPart workbenchPart)
+  {
+    ISelectionProvider selectionProvider = workbenchPart.getSite().getSelectionProvider();
     if (selectionProvider != null) 
     {
       selectionProvider.removeSelectionChangedListener(this);
     }
   }
 
+  /**
+   * @deprecated As of EMF 2.1.0, replaced by {@link #unregisterSelectionListener(IWorkbenchPart) unregisterSelectionListener}.
+   */
+  protected void unregisterSelectionListener(IEditorPart editorPart) 
+  {
+    unregisterSelectionListener((IWorkbenchPart)editorPart);
+  }
+
+  /**
+   * @deprecated As of EMF 2.1.0, replaced by {@link #setActiveWorkbenchPart}.
+   */
   public void setActiveEditor(IEditorPart editorPart) 
   {
-    if (this.editorPart != editorPart)
+    setActiveWorkbenchPart(editorPart);
+    this.editorPart = editorPart;
+  }
+
+  public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
+  {
+    if (this.workbenchPart != workbenchPart)
     {
-      if (this.editorPart != null)
+      if (this.workbenchPart != null)
       {
-        unregisterSelectionListener(this.editorPart);
+        unregisterSelectionListener(this.workbenchPart);
       }
-      this.editorPart = editorPart;
-      editorActionDelegate.setActiveEditor(this, editorPart);
-      if (editorPart != null)
+      this.workbenchPart = workbenchPart;
+
+      if (actionDelegate == null)
       {
-        registerSelectionListener(editorPart);
+        // This is for backwards compatibility, since the constructor may have been overridden before it was expected
+        // to set actionDelegate.
+        //
+        editorActionDelegate.setActiveEditor(this, (IEditorPart)workbenchPart);
+      }
+      else if (actionDelegate instanceof IEditorActionDelegate)
+      {
+        ((IEditorActionDelegate)actionDelegate).setActiveEditor(this, (IEditorPart)workbenchPart);
+      }
+      else
+      {
+        ((IViewActionDelegate)actionDelegate).init((IViewPart)workbenchPart);        
+      }
+
+      if (workbenchPart != null)
+      {
+        registerSelectionListener(workbenchPart);
       }
     }
   }
 
   public void run()
   {
-    editorActionDelegate.run(this);
+    actionDelegate.run(this);
   }
 }
