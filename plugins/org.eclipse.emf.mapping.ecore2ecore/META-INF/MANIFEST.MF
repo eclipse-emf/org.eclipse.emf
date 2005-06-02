@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.emf.mapping.ecore2ecore; singleton:=true
+Bundle-Version: 2.1.0
+Bundle-ClassPath: mapping.ecore2ecore.jar
+Bundle-Activator: org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.emf.mapping.ecore2ecore,
+ org.eclipse.emf.mapping.ecore2ecore.impl,
+ org.eclipse.emf.mapping.ecore2ecore.provider,
+ org.eclipse.emf.mapping.ecore2ecore.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.edit;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.eclipse.emf.mapping;visibility:=reexport
+Eclipse-AutoStart: true

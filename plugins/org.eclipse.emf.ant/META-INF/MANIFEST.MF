@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.emf.ant; singleton:=true
+Bundle-Version: 2.1.0
+Bundle-ClassPath: emf.ant.jar
+Bundle-Activator: org.eclipse.emf.ant.EMFAntPlugin
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.emf.ant,
+ org.eclipse.emf.ant.taskdefs,
+ org.eclipse.emf.ant.taskdefs.codegen,
+ org.eclipse.emf.ant.taskdefs.codegen.ecore,
+ org.eclipse.emf.ant.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.apache.ant,
+ org.eclipse.ant.core,
+ org.eclipse.emf.common,
+ org.eclipse.emf.codegen,
+ org.eclipse.emf.codegen.ecore;resolution:=optional
+Eclipse-AutoStart: true

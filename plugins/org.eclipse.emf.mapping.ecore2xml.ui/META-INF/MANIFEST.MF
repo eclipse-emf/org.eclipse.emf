@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.emf.mapping.ecore2xml.ui; singleton:=true
+Bundle-Version: 2.1.0
+Bundle-ClassPath: mapping.ecore2xml.ui.jar
+Bundle-Activator: org.eclipse.emf.mapping.ecore2xml.ui.Ecore2XMLUIPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.emf.mapping.ecore2xml.action,
+ org.eclipse.emf.mapping.ecore2xml.presentation,
+ org.eclipse.emf.mapping.ecore2xml.provider,
+ org.eclipse.emf.mapping.ecore2xml.ui
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources;visibility:=reexport,
+ org.eclipse.emf.mapping.ecore2xml;visibility:=reexport,
+ org.eclipse.emf.edit;visibility:=reexport,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.edit;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.eclipse.emf.edit.ui;visibility:=reexport,
+ org.eclipse.ui.ide;visibility:=reexport,
+ org.eclipse.emf.mapping.ecore2ecore;visibility:=reexport
+Eclipse-AutoStart: true

@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.emf.java
+Bundle-Version: 2.1.0
+Bundle-ClassPath: java.jar
+Bundle-Activator: org.eclipse.emf.java.JavaPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.emf.java,
+ org.eclipse.emf.java.impl,
+ org.eclipse.emf.java.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.jdt.core;visibility:=reexport
+Eclipse-AutoStart: true
