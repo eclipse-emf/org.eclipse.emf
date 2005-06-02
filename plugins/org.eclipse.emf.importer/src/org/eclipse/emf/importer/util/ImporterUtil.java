@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -199,10 +200,14 @@ public class ImporterUtil
   
   public static IStatus createErrorStatus(Throwable throwable, boolean showErrorDialog)
   {
-    while (throwable.getCause() != null)
+    while (true)
     {
-      Throwable cause = throwable.getCause();
-      if (throwable != cause)
+      Throwable cause = 
+        throwable instanceof WrappedException ? ((WrappedException)throwable).exception() :
+        throwable.getCause() != null ? throwable.getCause() :
+        null;
+        
+      if (cause != null && cause != throwable)
       {
         throwable = cause;
       }
