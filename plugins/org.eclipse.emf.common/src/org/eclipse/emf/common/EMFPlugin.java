@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.7 2005/06/01 21:16:49 emerks Exp $
+ * $Id: EMFPlugin.java,v 1.8 2005/06/02 13:32:20 khussey Exp $
  */
 package org.eclipse.emf.common;
 
@@ -77,6 +77,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
   protected ResourceBundle resourceBundle;
   protected Map strings = new HashMap();
   protected Map untranslatedStrings = new HashMap();
+  protected boolean shouldTranslate = true;
   protected Map images = new HashMap();
 
   public EMFPlugin(ResourceLocator [] delegateResourceLocators)
@@ -321,12 +322,32 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
          key);
   }
 
+  /**
+   * Indicates whether strings should be translated by default.
+   * 
+   * @return <code>true</code> if strings should be translated by default; <code>false</code> otherwise.
+   */
+  public boolean shouldTranslate()
+  {
+    return shouldTranslate;
+  }
+
+  /**
+   * Sets whether strings should be translated by default.
+   * 
+   * @param shouldTranslate whether strings should be translated by default.
+   */
+  public void setShouldTranslate(boolean shouldTranslate)
+  {
+    this.shouldTranslate = shouldTranslate;
+  }
+
   /*
    * Javadoc copied from interface.
    */
   public String getString(String key)
   {
-    return getString(key, true);
+    return getString(key, shouldTranslate());
   }
 
   /*
@@ -442,7 +463,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
    */
   public String getString(String key, Object [] substitutions)
   {
-    return getString(key, substitutions, true);
+    return getString(key, substitutions, shouldTranslate());
   }
   
   /*
@@ -600,7 +621,6 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
     public String getString(String key, Object [] substitutions)
     {
       return getString(key, substitutions, true);
-      
     }
 
     /*

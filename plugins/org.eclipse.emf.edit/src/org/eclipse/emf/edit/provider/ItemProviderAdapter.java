@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.16 2005/06/01 21:16:49 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.17 2005/06/02 13:32:18 khussey Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1681,11 +1681,21 @@ public class ItemProviderAdapter
   }
 
   /**
+   * Indicates whether strings should be translated by default.
+   * 
+   * @return <code>true</code> if strings should be translated by default; <code>false</code> otherwise.
+   */
+  protected boolean shouldTranslate()
+  {
+    return true;
+  }
+
+  /**
    * Get a translated string from the resource locator.
    */
   public String getString(String key)
   {
-    return getString(key, true);
+    return getString(key, shouldTranslate());
   }
   
   /**
@@ -1701,7 +1711,7 @@ public class ItemProviderAdapter
    */
   public String getString(String key, Object [] substitutions)
   {
-    return getString(key, substitutions, true);
+    return getString(key, substitutions, shouldTranslate());
   }
   
   /**
@@ -1718,7 +1728,7 @@ public class ItemProviderAdapter
    */
   protected String getString(String key, String s0)
   {
-    return getString(key, s0, true);
+    return getString(key, s0, shouldTranslate());
   }
   
   /**
@@ -1737,7 +1747,7 @@ public class ItemProviderAdapter
    */
   protected String getString(String key, String s0, String s1)
   {
-    return getString(key, s0, s1, true);
+    return getString(key, s0, s1, shouldTranslate());
   }
   
   /**
