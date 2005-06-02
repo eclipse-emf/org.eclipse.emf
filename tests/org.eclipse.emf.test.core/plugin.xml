@@ -1,81 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-
-<!--
-/**
- * <copyright>
- *
- * Copyright (c) 2002-2004 IBM Corporation and others.
- * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
- *
- * Contributors:
- *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: plugin.xml,v 1.16 2005/02/08 20:54:12 marcelop Exp $
- */
--->
-
-<plugin
-   id="org.eclipse.emf.test.core"
-   name="%pluginName"
-   version="2.1.0"
-   provider-name="%providerName"
-   class="org.eclipse.emf.test.core.EMFTestCorePlugin">
-
-   <requires>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.emf.ecore.change"/>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.xsd"/>
-      <import plugin="org.junit"/>
-   </requires>
-
-   <runtime>
-      <library name="test.core.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-   
+<plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package 
-       uri = "http://org/eclipse/emf/test/models/Customer" 
-       class = "org.eclipse.emf.test.models.customer.CustomerPackage" />
+    <package uri="http://org/eclipse/emf/test/models/Customer" class="org.eclipse.emf.test.models.customer.CustomerPackage" />
   </extension>
 
   <extension point="org.eclipse.emf.ecore.extension_parser">
-    <parser 
-       type="customer" 
-       class="org.eclipse.emf.test.models.customer.util.CustomerResourceFactoryImpl" />
+    <parser type="customer" class="org.eclipse.emf.test.models.customer.util.CustomerResourceFactoryImpl" />
   </extension>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package 
-       uri = "http://org/eclipse/emf/test/models/MovieDB" 
-       class = "org.eclipse.emf.test.models.movie.db.DbPackage" />
+    <package uri="http://org/eclipse/emf/test/models/MovieDB" class="org.eclipse.emf.test.models.movie.db.DbPackage" />
   </extension>
 
   <extension point="org.eclipse.emf.ecore.extension_parser">
-    <parser 
-       type="db" 
-       class="org.eclipse.emf.test.models.movie.db.util.DbResourceFactoryImpl" />
+    <parser type="db" class="org.eclipse.emf.test.models.movie.db.util.DbResourceFactoryImpl" />
   </extension>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package 
-       uri = "http://org/eclipse/emf/test/models/Order" 
-       class = "org.eclipse.emf.test.models.order.OrderPackage" />
+    <package uri="http://org/eclipse/emf/test/models/Order" class="org.eclipse.emf.test.models.order.OrderPackage" />
   </extension>
 
   <extension point="org.eclipse.emf.ecore.extension_parser">
-    <parser 
-       type="order" 
-       class="org.eclipse.emf.test.models.order.util.OrderResourceFactoryImpl" />
-  </extension>   
+    <parser type="order" class="org.eclipse.emf.test.models.order.util.OrderResourceFactoryImpl" />
+  </extension>
 </plugin>

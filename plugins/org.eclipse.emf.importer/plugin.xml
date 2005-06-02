@@ -1,94 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
+<plugin>
+  <extension-point id="modelImporterDescriptors" name="%_UI_ModelImporterDescriptors_extensionpoint" schema="schema/modelImporterDescriptors.exsd" />
 
-<!--
-/**
- * <copyright>
- *
- * Copyright (c) 2005 IBM Corporation and others.
- * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors: 
- *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: plugin.xml,v 1.3 2005/05/16 18:41:16 marcelop Exp $
- */
--->
-
-<plugin
-    name = "%pluginName"
-    id = "org.eclipse.emf.importer"
-    version = "2.1.0" 
-    provider-name = "%providerName"
-    class = "org.eclipse.emf.importer.ImporterPlugin$Implementation" >
-    
-  <requires>
-    <import plugin="org.eclipse.core.runtime"/>
-    <import plugin="org.eclipse.core.resources"/>
-    <import plugin="org.eclipse.emf.codegen.ecore" export="true"/>
-    <import plugin="org.eclipse.emf.codegen.ecore.ui" optional="true"/>
-  </requires>
-
-  <runtime>
-    <library name="importer.jar">
-      <export name="*"/>
-    </library>
-  </runtime>
-
-  <extension-point id="modelImporterDescriptors" name="%_UI_ModelImporterDescriptors_extensionpoint" schema="schema/modelImporterDescriptors.exsd"/>
-
-  <extension
-      point = "org.eclipse.ui.newWizards">
-    <wizard
-        id = "org.eclipse.emf.importer.ui.EMFModelWizard"
-        name = "%_UI_EMFModelWizard_name"
-        class = "org.eclipse.emf.importer.ui.EMFModelWizard"
-        category = "org.eclipse.emf.codegen.ecore.ui.wizardCategory"
-        icon = "icons/full/ctool16/NewGenModel.gif">
+  <extension point="org.eclipse.ui.newWizards">
+    <wizard id="org.eclipse.emf.importer.ui.EMFModelWizard" name="%_UI_EMFModelWizard_name" class="org.eclipse.emf.importer.ui.EMFModelWizard" category="org.eclipse.emf.codegen.ecore.ui.wizardCategory" icon="icons/full/ctool16/NewGenModel.gif">
       <description>%_UI_EMFModelWizard_description</description>
-      <selection class = "org.eclipse.core.resources.IResource" />
+      <selection class="org.eclipse.core.resources.IResource" />
     </wizard>
-    <wizard
-        id="org.eclipse.emf.importer.ui.EMFProjectWizard"
-        name="%_UI_EMFProjectWizard_name"
-        class = "org.eclipse.emf.importer.ui.EMFProjectWizard"
-        category = "org.eclipse.emf.codegen.ecore.ui.wizardCategory"
-        project="true"
-        finalPerspective="org.eclipse.ui.resourcePerspective"
-        icon = "icons/full/ctool16/NewEMFProject.gif">
+    <wizard id="org.eclipse.emf.importer.ui.EMFProjectWizard" name="%_UI_EMFProjectWizard_name" class="org.eclipse.emf.importer.ui.EMFProjectWizard" category="org.eclipse.emf.codegen.ecore.ui.wizardCategory" project="true" finalPerspective="org.eclipse.ui.resourcePerspective" icon="icons/full/ctool16/NewEMFProject.gif">
       <description>%_UI_EMFProjectWizard_description</description>
-      <selection class="org.eclipse.core.resources.IResource"/>
+      <selection class="org.eclipse.core.resources.IResource" />
     </wizard>
   </extension>
 
-  <extension point = "org.eclipse.ui.popupMenus">
-    <objectContribution id="org.eclipse.emf.importer.genModelObjectContribution"
-         objectClass="org.eclipse.core.resources.IFile"
-         nameFilter="*.genmodel">
-
-      <action id="org.eclipse.emf.importer.ui.GenModelReloadActionDelegate.Popup"
-          label="%_UI_Model_Reload_label"
-          menubarPath="additions"
-          class="org.eclipse.emf.importer.ui.GenModelReloadActionDelegate"
-          enablesFor="1">
-      </action>
+  <extension point="org.eclipse.ui.popupMenus">
+    <objectContribution id="org.eclipse.emf.importer.genModelObjectContribution" objectClass="org.eclipse.core.resources.IFile" nameFilter="*.genmodel">
+      <action id="org.eclipse.emf.importer.ui.GenModelReloadActionDelegate.Popup" label="%_UI_Model_Reload_label" menubarPath="additions" class="org.eclipse.emf.importer.ui.GenModelReloadActionDelegate" enablesFor="1" />
     </objectContribution>
   </extension>
 
   <extension point="org.eclipse.ui.editorActions">
-    <editorContribution id="org.eclipse.emf.importer.genModelEditorContribution"
-        targetID="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditorID">
-
-      <action id="org.eclipse.emf.importer.ui.GenModelReloadActionDelegate.Editor"
-          label="%_UI_Model_Reload_label"
-          menubarPath="org.eclipse.emf.codegen.ecore.genmodelMenuID/global-actions"
-          class="org.eclipse.emf.importer.ui.GenModelReloadActionDelegate">
-      </action>
+    <editorContribution id="org.eclipse.emf.importer.genModelEditorContribution" targetID="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditorID">
+      <action id="org.eclipse.emf.importer.ui.GenModelReloadActionDelegate.Editor" label="%_UI_Model_Reload_label" menubarPath="org.eclipse.emf.codegen.ecore.genmodelMenuID/global-actions" class="org.eclipse.emf.importer.ui.GenModelReloadActionDelegate" />
     </editorContribution>
   </extension>
 </plugin>

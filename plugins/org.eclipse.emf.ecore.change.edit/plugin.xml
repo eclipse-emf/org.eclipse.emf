@@ -1,57 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-
-<!--
-/**
- * <copyright>
- *
- * Copyright (c) 2003-2004 IBM Corporation and others.
- * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
- *
- * Contributors:
- *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: plugin.xml,v 1.6 2005/05/16 19:34:28 emerks Exp $
- */
--->
-
-<plugin
-    name = "%pluginName"
-    id = "org.eclipse.emf.ecore.change.edit"
-    version = "2.1.0"
-    provider-name = "%providerName"
-    class = "org.eclipse.emf.ecore.change.provider.ChangeEditPlugin$Implementation">
-
-  <requires>
-    <import plugin="org.eclipse.core.runtime"/>
-    <import plugin="org.eclipse.emf.ecore.change" export="true"/>
-    <import plugin="org.eclipse.emf.edit" export="true"/>
-    <import plugin="org.eclipse.emf.ecore" export="true"/>
-    <import plugin="org.eclipse.emf.ecore.edit" export="true"/>
-  </requires>
-
-  <runtime>
-    <library name="ecore.change.edit.jar">
-      <export name="*"/>
-    </library>
-  </runtime>
-  
+<plugin>
   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-    <factory 
-       uri = "http://www.eclipse.org/emf/2003/Change" 
-       class = "org.eclipse.emf.ecore.change.provider.ChangeItemProviderAdapterFactory" 
-       supportedTypes = 
-         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-          org.eclipse.emf.edit.provider.ITreeItemContentProvider
-          org.eclipse.emf.edit.provider.IItemLabelProvider
-          org.eclipse.emf.edit.provider.IItemPropertySource" />
+    <factory uri="http://www.eclipse.org/emf/2003/Change" class="org.eclipse.emf.ecore.change.provider.ChangeItemProviderAdapterFactory" supportedTypes="org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+      org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+      org.eclipse.emf.edit.provider.ITreeItemContentProvider
+      org.eclipse.emf.edit.provider.IItemLabelProvider
+      org.eclipse.emf.edit.provider.IItemPropertySource" />
   </extension>
-
 </plugin>
-

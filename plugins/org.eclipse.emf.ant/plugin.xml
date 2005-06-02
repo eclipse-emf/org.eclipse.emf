@@ -1,70 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
+<plugin>
+  <extension point="org.eclipse.ant.core.extraClasspathEntries">
+    <extraClasspathEntry library="emf.ant.tasks.jar" />
+  </extension>
 
-<!--
-/**
- * <copyright>
- *
- * Copyright (c) 2004-2005 IBM Corporation and others.
- * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors: 
- *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: plugin.xml,v 1.5 2005/05/13 15:18:31 emerks Exp $
- */
--->
-
-<plugin
-   id="org.eclipse.emf.ant"
-   name="%pluginName"
-   version="2.1.0"
-   provider-name="%providerName"
-   class="org.eclipse.emf.ant.EMFAntPlugin">
-
-   <runtime>
-      <library name="emf.ant.jar">
-         <export name="*"/>
-      </library>
-   </runtime>
-   
-   <requires>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.apache.ant"/>
-      <import plugin="org.eclipse.ant.core"/>
-      <import plugin="org.eclipse.emf.common"/>
-      <import plugin="org.eclipse.emf.codegen"/>
-      <import plugin="org.eclipse.emf.codegen.ecore" optional="true"/>
-   </requires>
-   
-   <extension point="org.eclipse.ant.core.extraClasspathEntries">
-      <extraClasspathEntry library="emf.ant.tasks.jar"/>
-   </extension>   
-
-   <extension point="org.eclipse.ant.core.antTasks">
-      <antTask
-            library="emf.ant.tasks.jar"
-            name="emf.JETEmitter"
-            headless="true"
-            class="org.eclipse.emf.ant.taskdefs.codegen.JETEmitterTask">
-      </antTask>
-      <antTask
-            library="emf.ant.tasks.jar"
-            name="emf.JMerger"
-            headless="true"
-            class="org.eclipse.emf.ant.taskdefs.codegen.JMergerTask">
-      </antTask>
-
-      <antTask
-            library="emf.ant.tasks.jar"
-            name="emf.util.RemoveVersion"
-            headless="true"
-            class="org.eclipse.emf.ant.taskdefs.RemoveVersionTaskTask">
-      </antTask>
-   </extension>   
+  <extension point="org.eclipse.ant.core.antTasks">
+    <antTask library="emf.ant.tasks.jar" name="emf.JETEmitter" headless="true" class="org.eclipse.emf.ant.taskdefs.codegen.JETEmitterTask" />
+    <antTask library="emf.ant.tasks.jar" name="emf.JMerger" headless="true" class="org.eclipse.emf.ant.taskdefs.codegen.JMergerTask" />
+    <antTask library="emf.ant.tasks.jar" name="emf.util.RemoveVersion" headless="true" class="org.eclipse.emf.ant.taskdefs.RemoveVersionTaskTask" />
+  </extension>
 </plugin>

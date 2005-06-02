@@ -1,126 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin
-   id="org.eclipse.emf.activities"
-   name="%pluginName"
-   version="2.1.0"
-   provider-name="%providerName">
-
+<plugin>
   <!-- Defines the "modeling" category and the EMF activity -->
   <extension point="org.eclipse.ui.activities">
-    <category
-      id="org.eclipse.categories.modelingCategory"
-      description="%_UI_Category_Modeling_description"
-      name="%_UI_Category_Modeling_name"/>
-
-    <activity 
-      id="org.eclipse.EMF"
-      description="%_UI_Activity_EMF_description"
-      name="%_UI_Activity_EMF_name"/>
-         
-    <categoryActivityBinding 
-      activityId="org.eclipse.EMF"
-      categoryId="org.eclipse.categories.modelingCategory"/>
+    <category id="org.eclipse.categories.modelingCategory" description="%_UI_Category_Modeling_description" name="%_UI_Category_Modeling_name" />
+    <activity id="org.eclipse.EMF" description="%_UI_Activity_EMF_description" name="%_UI_Activity_EMF_name" />
+    <categoryActivityBinding activityId="org.eclipse.EMF" categoryId="org.eclipse.categories.modelingCategory" />
   </extension>
 
   <!-- org.eclipse.emf.codegen.ecore.ui -->
   <!-- EMF code generation wizards and the genmodel editor -->
   <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding
-      activityId="org.eclipse.EMF"
-      pattern="org\.eclipse\.emf\.codegen\.ecore\.ui/.*"/>
-      
-    <defaultEnablement id="org.eclipse.EMF"/>
+    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.codegen\.ecore\.ui/.*" />
+    <defaultEnablement id="org.eclipse.EMF" />
   </extension>
 
   <!-- org.eclipse.emf.codegen.ui -->
   <!-- The "Convert to JET Project" wizard -->
   <extension point="org.eclipse.ui.activities">
-    <activity 
-      id="org.eclipse.emf.activities.JET"
-      description="%_UI_Activity_JET_description"
-      name="%_UI_Activity_JET_name"/>
-	
-    <categoryActivityBinding 
-      activityId="org.eclipse.emf.activities.JET"
-      categoryId="org.eclipse.categories.modelingCategory"/>
-
-    <activityPatternBinding
-      activityId="org.eclipse.emf.activities.JET"
-      pattern="org\.eclipse\.emf\.codegen\.ui/.*"/>
-
-    <defaultEnablement id="org.eclipse.emf.activities.JET"/>	
+    <activity id="org.eclipse.emf.activities.JET" description="%_UI_Activity_JET_description" name="%_UI_Activity_JET_name" />
+    <categoryActivityBinding activityId="org.eclipse.emf.activities.JET" categoryId="org.eclipse.categories.modelingCategory" />
+    <activityPatternBinding activityId="org.eclipse.emf.activities.JET" pattern="org\.eclipse\.emf\.codegen\.ui/.*" />
+    <defaultEnablement id="org.eclipse.emf.activities.JET" />
   </extension>
-  
+
   <!-- org.eclipse.emf.ecore.sdo.editor -->
   <!-- SDO Data Graph wizard and editor -->
   <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding
-      activityId="org.eclipse.EMF"
-      pattern="org\.eclipse\.emf\.ecore\.sdo\.editor/.*"/>
+    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.ecore\.sdo\.editor/.*" />
   </extension>
-  
+
   <!-- org.eclipse.emf.ecore.editor -->
   <!-- Defines a categoty and an activity for the reflective editors (available -->
   <!-- through the "Open As" editor) and associates the ecore editor and wizard -->
   <!-- to the EMF category.  The "Open As" menu is disabled by default. -->
   <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding
-      activityId="org.eclipse.EMF"
-      pattern="org\.eclipse\.emf\.ecore\.editor/.*Ecore.*"/>
-    <activityPatternBinding
-      activityId="org.eclipse.EMF"
-      pattern="org\.eclipse\.emf\.ecore\.editor/.*CreateDynamic.*"/>
-  
-    <activity 
-      id="org.eclipse.emf.reflectiveEditing"
-      description="%_UI_Activity_ReflectiveEditing_description"
-      name="%_UI_Activity_ReflectiveEditing_name"/>
-         
-    <categoryActivityBinding 
-      activityId="org.eclipse.emf.reflectiveEditing"
-      categoryId="org.eclipse.categories.modelingCategory"/>
+    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.ecore\.editor/.*Ecore.*" />
+    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.ecore\.editor/.*CreateDynamic.*" />
+    <activity id="org.eclipse.emf.reflectiveEditing" description="%_UI_Activity_ReflectiveEditing_description" name="%_UI_Activity_ReflectiveEditing_name" />
+    <categoryActivityBinding activityId="org.eclipse.emf.reflectiveEditing" categoryId="org.eclipse.categories.modelingCategory" />
+    <activityPatternBinding activityId="org.eclipse.emf.reflectiveEditing" pattern="org\.eclipse\.emf\.ecore\.editor/.Open*" />
+    <activityPatternBinding activityId="org.eclipse.emf.reflectiveEditing" pattern="org\.eclipse\.emf\.ecore\.editor/.*Reflective.*" />
+  </extension>
 
-    <activityPatternBinding
-      activityId="org.eclipse.emf.reflectiveEditing"
-      pattern="org\.eclipse\.emf\.ecore\.editor/.Open*"/>
-    <activityPatternBinding
-      activityId="org.eclipse.emf.reflectiveEditing"
-      pattern="org\.eclipse\.emf\.ecore\.editor/.*Reflective.*"/>
-  </extension>  
-  
   <!-- org.eclipse.emf.mapping.xsd2ecore.editor -->
   <!-- XSD to EMF mapping -->
   <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding
-      activityId="org.eclipse.EMF"
-      pattern="org\.eclipse\.emf\.mapping\.xsd2ecore\.editor/.*"/>
-  </extension> 
-  
+    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.mapping\.xsd2ecore\.editor/.*" />
+  </extension>
+
   <!-- org.eclipse.emf.mapping.ecore2ecore -->
   <!-- ECore to ECore mapping -->
   <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding
-      activityId="org.eclipse.EMF"
-      pattern="org\.eclipse\.emf\.mapping\.ecore2ecore\.editor/.*"/>
+    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.mapping\.ecore2ecore\.editor/.*" />
   </extension>
-  
+
   <!-- org.eclipse.xsd.editor -->
   <!-- XSD editor and wizard -->
   <extension point="org.eclipse.ui.activities">
-    <activity 
-      id="org.eclipse.XSD"
-      description="%_UI_Activity_XSD_description"
-      name="%_UI_Activity_XSD_name"/>
-   			
-    <categoryActivityBinding 
-      activityId="org.eclipse.XSD"
-      categoryId="org.eclipse.categories.modelingCategory"/>
-
-    <activityPatternBinding
-      activityId="org.eclipse.XSD"
-      pattern="org\.eclipse\.xsd\.editor/.*"/>
-            		
-    <defaultEnablement id="org.eclipse.XSD"/>
-  </extension>   
+    <activity id="org.eclipse.XSD" description="%_UI_Activity_XSD_description" name="%_UI_Activity_XSD_name" />
+    <categoryActivityBinding activityId="org.eclipse.XSD" categoryId="org.eclipse.categories.modelingCategory" />
+    <activityPatternBinding activityId="org.eclipse.XSD" pattern="org\.eclipse\.xsd\.editor/.*" />
+    <defaultEnablement id="org.eclipse.XSD" />
+  </extension>
 </plugin>

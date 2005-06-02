@@ -1,87 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-
-<!--
-/**
- * <copyright>
- *
- * Copyright (c) 2002-2005 IBM Corporation and others.
- * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
- * 
- * Contributors: 
- *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: plugin.xml,v 1.13 2005/05/25 14:21:50 davidms Exp $
- */
--->
-
-<plugin
-    name = "%pluginName"
-    id = "org.eclipse.emf.codegen.ecore.ui"
-    version = "2.1.0"
-    provider-name = "%providerName" 
-    class = "org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin$Implementation">
-
-  <requires>
-    <import plugin="org.eclipse.core.runtime"/>
-    <import plugin="org.eclipse.core.resources"/>
-    <import plugin="org.eclipse.jdt.core"/>
-    <import plugin="org.eclipse.ui.ide" export="true"/>
-    <import plugin="org.eclipse.emf.codegen.ecore" export="true"/>
-    <import plugin="org.eclipse.emf.edit.ui" export="true"/>
-    <import plugin="org.eclipse.emf.ecore.edit" export="true"/>
-  </requires>
-  
-  <runtime>
-    <library name="codegen.ecore.ui.jar">
-      <export name="*"/>
-    </library>
-  </runtime>
-
-  <extension point = "org.eclipse.ui.editors">
-    <editor
-        id = "org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditorID"
-        name = "%_UI_GenModel_Editor"
-        icon = "icons/full/obj16/GenModelModelFile.gif"
-        extensions = "genmodel"
-        class = "org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditor" 
-        contributorClass="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelActionBarContributor" >
+<plugin>
+  <extension point="org.eclipse.ui.editors">
+    <editor id="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditorID" name="%_UI_GenModel_Editor" icon="icons/full/obj16/GenModelModelFile.gif" extensions="genmodel" class="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditor" contributorClass="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelActionBarContributor">
     </editor>
   </extension>
-  
-  <extension
-      point = "org.eclipse.ui.newWizards">
-    <category
-       id = "org.eclipse.emf.codegen.ecore.ui.wizardCategory"
-       name="%_UI_Wizard_Category">
+
+  <extension point="org.eclipse.ui.newWizards">
+    <category id="org.eclipse.emf.codegen.ecore.ui.wizardCategory" name="%_UI_Wizard_Category">
     </category>
-    <wizard
-        id = "org.eclipse.emf.codegen.ecore.ui.EmptyProjectWizard"
-        name = "%_UI_EmptyProject_title"
-        class = "org.eclipse.emf.codegen.ecore.ui.EmptyProjectWizard"
-        category = "org.eclipse.emf.codegen.ecore.ui.wizardCategory"
-        project="true"
-        icon = "icons/full/ctool16/NewEmptyEMFProject.gif">
+    <wizard id="org.eclipse.emf.codegen.ecore.ui.EmptyProjectWizard" name="%_UI_EmptyProject_title" class="org.eclipse.emf.codegen.ecore.ui.EmptyProjectWizard" category="org.eclipse.emf.codegen.ecore.ui.wizardCategory" project="true" icon="icons/full/ctool16/NewEmptyEMFProject.gif">
       <description>%_UI_EmptyProject_description</description>
-      <selection class = "org.eclipse.core.resources.IResource" />
+      <selection class="org.eclipse.core.resources.IResource" />
     </wizard>
   </extension>
-  
-  <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-    <factory 
-       uri = "http://www.eclipse.org/emf/2002/GenModel" 
-       class = "org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelItemProviderAdapterFactory" 
-       supportedTypes = 
-         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-          org.eclipse.emf.edit.provider.ITreeItemContentProvider
-          org.eclipse.emf.edit.provider.IItemLabelProvider
-          org.eclipse.emf.edit.provider.IItemPropertySource" />
-  </extension>
 
+  <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+    <factory uri="http://www.eclipse.org/emf/2002/GenModel" class="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelItemProviderAdapterFactory" supportedTypes="org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+      org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+      org.eclipse.emf.edit.provider.ITreeItemContentProvider
+      org.eclipse.emf.edit.provider.IItemLabelProvider
+      org.eclipse.emf.edit.provider.IItemPropertySource" />
+  </extension>
 </plugin>
