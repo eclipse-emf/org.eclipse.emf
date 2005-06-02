@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.12 2005/05/31 14:15:14 marcelop Exp $
+ * $Id: AntTest.java,v 1.13 2005/06/02 04:31:44 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -32,6 +32,8 @@ public class AntTest extends TestCase
   public static final String TEST_TOKEN = "@TEST_TOKEN@";
   
   private static final File EMF_ANT_PLUGIN_DIR = new File(TestUtil.getPluginDirectory("org.eclipse.emf.ant"));
+  private static final File ROSE_IMPORTER_PLUGIN_DIR = new File(TestUtil.getPluginDirectory("org.eclipse.emf.importer.rose"));
+  private static final File XSD_IMPORTER_PLUGIN_DIR = new File(TestUtil.getPluginDirectory("org.eclipse.xsd.ecore.importer"));
   private static final File EXAMPLES_COPY_DIR = new File(TestUtil.getPluginDirectory() + "/ant.example.tmp");
   private static final File EXPECTED_DIR = new File(TestUtil.getPluginDirectory() + "/data/ant.expected");
   private static final File RELOAD_EXPECTED_DIR = new File(TestUtil.getPluginDirectory() + "/data/ant.reload/expected");
@@ -64,21 +66,27 @@ public class AntTest extends TestCase
   public void suiteSetUp() throws Exception
   {
     assertTrue(EMF_ANT_PLUGIN_DIR.getAbsolutePath() + " doesn't exist", EMF_ANT_PLUGIN_DIR.isDirectory());
+    assertTrue(ROSE_IMPORTER_PLUGIN_DIR.getAbsolutePath() + " doesn't exist", ROSE_IMPORTER_PLUGIN_DIR.isDirectory());
+    assertTrue(XSD_IMPORTER_PLUGIN_DIR.getAbsolutePath() + " doesn't exist", XSD_IMPORTER_PLUGIN_DIR.isDirectory());
     assertTrue(EXPECTED_DIR.getAbsolutePath() + " doesn't exist", EXPECTED_DIR.isDirectory());
     
-    File examplesDir = new File(EMF_ANT_PLUGIN_DIR, "examples");
-    assertTrue(examplesDir.getAbsolutePath() + " doesn't exist", examplesDir.isDirectory());
-
     TestUtil.delete(EXAMPLES_COPY_DIR);
     assertFalse(EXAMPLES_COPY_DIR.exists());
     assertTrue(EXAMPLES_COPY_DIR.mkdir());
-    
+
+    // JET and Merge
+    File examplesDir = new File(EMF_ANT_PLUGIN_DIR, "examples");
+    assertTrue(examplesDir.getAbsolutePath() + " doesn't exist", examplesDir.isDirectory());
     TestUtil.copyFiles(examplesDir, EXAMPLES_COPY_DIR, true);
 
-    File libraryDir = new File(EXAMPLES_COPY_DIR, "library");
+    // Rose
+    File libraryDir = new File(ROSE_IMPORTER_PLUGIN_DIR.getAbsolutePath() + "/examples/library");
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.rose"), true);
+    
+    // XSD and XSDs
+    libraryDir = new File(XSD_IMPORTER_PLUGIN_DIR.getAbsolutePath() + "/examples/library");
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.xsd"), true);
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.xsds"), true);
-    assertTrue(libraryDir.renameTo(new File(EXAMPLES_COPY_DIR, "library.rose")));
   }
   
   public void suiteTearDown() throws Exception
@@ -110,7 +118,7 @@ public class AntTest extends TestCase
   {
     File rootDir = new File(EXAMPLES_COPY_DIR, "library.rose");
     File rootExpectedDir = new File(EXPECTED_DIR, "library.rose");
-    File antScript = new File(rootDir, "build/codeGenFromRose.xml");
+    File antScript = new File(rootDir, "build/build.xml");
     
     String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
