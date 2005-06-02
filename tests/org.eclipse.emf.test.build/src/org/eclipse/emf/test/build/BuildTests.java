@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.16 2005/05/18 18:24:26 nickb Exp $
+ * $Id: BuildTests.java,v 1.17 2005/06/02 21:11:40 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -1229,22 +1229,22 @@ public class BuildTests extends TestCase
     // Are we a doc plugin?
     if (testDirectory(aPlugin, REQUIRED_PLUGIN_FILES, ".zip"))
     {
-      return true;
+      return hasManifestFile(aPlugin);
     }
     // Are we a feature plugin?
     if (testDirectory(aPlugin, REQUIRED_FEATURE_PLUGIN_FILES, REQUIRED_FEATURE_PLUGIN_SUFFIX))
     {
-      return true;
+      return hasManifestFile(aPlugin);
     }
     // Are we a regular plugin
     if (testDirectory(aPlugin, REQUIRED_PLUGIN_FILES, REQUIRED_PLUGIN_SUFFIX))
     {
-      return true;
+      return hasManifestFile(aPlugin);
     }
     // Are we a source plugin
     if (testSourcePlugin(aPlugin))
     {
-      return true;
+      return hasManifestFile(aPlugin);
     }
     // Are we a fragment
     if (testDirectory(aPlugin, REQUIRED_FRAGMENT_FILES, REQUIRED_FRAGMENT_SUFFIX))
@@ -1252,6 +1252,16 @@ public class BuildTests extends TestCase
       return true;
     }
     // No then we are bad
+    return false;
+  }
+  
+  private boolean hasManifestFile(File aDirectory)
+  {
+    File metaInfDir = new File(aDirectory, "META-INF");
+    if (metaInfDir.isDirectory())
+    {
+      return new File(metaInfDir, "MANIFEST.MF").isFile();
+    }
     return false;
   }
 
