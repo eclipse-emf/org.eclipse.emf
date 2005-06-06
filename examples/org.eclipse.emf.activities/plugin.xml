@@ -6,13 +6,19 @@
     <category id="org.eclipse.categories.modelingCategory" description="%_UI_Category_Modeling_description" name="%_UI_Category_Modeling_name" />
     <activity id="org.eclipse.EMF" description="%_UI_Activity_EMF_description" name="%_UI_Activity_EMF_name" />
     <categoryActivityBinding activityId="org.eclipse.EMF" categoryId="org.eclipse.categories.modelingCategory" />
+    <defaultEnablement id="org.eclipse.EMF" />
   </extension>
 
   <!-- org.eclipse.emf.codegen.ecore.ui -->
-  <!-- EMF code generation wizards and the genmodel editor -->
+  <!-- Genmodel editor -->
   <extension point="org.eclipse.ui.activities">
     <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.codegen\.ecore\.ui/.*" />
-    <defaultEnablement id="org.eclipse.EMF" />
+  </extension>
+
+  <!-- org.eclipse.emf.importer -->
+  <!-- EMF code generation wizards and the reload action -->
+  <extension point="org.eclipse.ui.activities">
+    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.importer/.*" />
   </extension>
 
   <!-- org.eclipse.emf.codegen.ui -->
@@ -37,6 +43,7 @@
   <extension point="org.eclipse.ui.activities">
     <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.ecore\.editor/.*Ecore.*" />
     <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.ecore\.editor/.*CreateDynamic.*" />
+    
     <activity id="org.eclipse.emf.reflectiveEditing" description="%_UI_Activity_ReflectiveEditing_description" name="%_UI_Activity_ReflectiveEditing_name" />
     <categoryActivityBinding activityId="org.eclipse.emf.reflectiveEditing" categoryId="org.eclipse.categories.modelingCategory" />
     <activityPatternBinding activityId="org.eclipse.emf.reflectiveEditing" pattern="org\.eclipse\.emf\.ecore\.editor/.Open*" />
