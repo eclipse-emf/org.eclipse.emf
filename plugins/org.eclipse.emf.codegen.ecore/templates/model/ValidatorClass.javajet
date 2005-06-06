@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.7 2005/05/26 17:25:13 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.8 2005/06/06 18:55:10 khussey Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -102,6 +102,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	 */
 	public <%=genPackage.getValidatorClassName()%>()
 	{
+		super();
 <%for (Iterator i = genPackage.getAllValidatorBaseGenPackages().iterator(); i.hasNext(); ) { GenPackage baseGenPackage = (GenPackage)i.next(); %>
 		<%=genPackage.getValidatorPackageUniqueSafeName(baseGenPackage)%>Validator = <%=baseGenPackage.getImportedValidatorClassName()%>.INSTANCE;
 <%}%>

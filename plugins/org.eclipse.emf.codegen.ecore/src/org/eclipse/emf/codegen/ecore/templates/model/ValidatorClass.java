@@ -44,7 +44,7 @@ public class ValidatorClass
   protected final String TEXT_27 = " ";
   protected final String TEXT_28 = "Validator;" + NL;
   protected final String TEXT_29 = NL + "\t/**" + NL + "\t * Creates an instance of the switch." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
-  protected final String TEXT_30 = "()" + NL + "\t{";
+  protected final String TEXT_30 = "()" + NL + "\t{" + NL + "\t\tsuper();";
   protected final String TEXT_31 = NL + "\t\t";
   protected final String TEXT_32 = "Validator = ";
   protected final String TEXT_33 = ".INSTANCE;";
@@ -476,7 +476,7 @@ public class ValidatorClass
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at

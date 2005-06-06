@@ -155,44 +155,47 @@ public class ModelWizard
   protected final String TEXT_139 = ".INSTANCE.getString(\"";
   protected final String TEXT_140 = "\" + ";
   protected final String TEXT_141 = "Name + \"_";
-  protected final String TEXT_142 = "\");" + NL + "\t\t\t}" + NL + "\t\t\tcatch(MissingResourceException mre)" + NL + "\t\t\t{" + NL + "\t\t\t}" + NL + "\t\t\treturn ";
-  protected final String TEXT_143 = "Name;" + NL + "\t\t}";
-  protected final String TEXT_144 = NL + NL + "\t\t/**" + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @generated" + NL + "\t\t */" + NL + "\t\tprotected Collection getEncodings()" + NL + "\t\t{" + NL + "\t\t\tif (encodings == null)" + NL + "\t\t\t{" + NL + "\t\t\t\tencodings = new ArrayList();" + NL + "\t\t\t\tfor (StringTokenizer stringTokenizer = new StringTokenizer(";
-  protected final String TEXT_145 = ".INSTANCE.getString(\"_UI_XMLEncodingChoices\")); stringTokenizer.hasMoreTokens(); )" + NL + "\t\t\t\t{" + NL + "\t\t\t\t\tencodings.add(stringTokenizer.nextToken());" + NL + "\t\t\t\t}" + NL + "\t\t\t}" + NL + "\t\t\treturn encodings;" + NL + "\t\t}" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * The framework calls this to create the contents of the wizard." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void addPages()" + NL + "\t{";
-  protected final String TEXT_146 = NL + "\t\t// Create a page, set the title, and the initial model file name." + NL + "\t\t//" + NL + "\t\tnewFileCreationPage = new ";
-  protected final String TEXT_147 = "NewFileCreationPage(\"Whatever\", selection);";
-  protected final String TEXT_148 = NL + "\t\tnewFileCreationPage.setTitle(";
-  protected final String TEXT_149 = ".INSTANCE.getString(\"_UI_";
-  protected final String TEXT_150 = "_label\"));";
-  protected final String TEXT_151 = NL + "\t\tnewFileCreationPage.setDescription(";
+  protected final String TEXT_142 = "\");";
+  protected final String TEXT_143 = NL + "\t\t\t}" + NL + "\t\t\tcatch(MissingResourceException mre)" + NL + "\t\t\t{" + NL + "\t\t\t\t";
+  protected final String TEXT_144 = ".INSTANCE.log(mre);" + NL + "\t\t\t}" + NL + "\t\t\treturn ";
+  protected final String TEXT_145 = "Name;" + NL + "\t\t}";
+  protected final String TEXT_146 = NL + NL + "\t\t/**" + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @generated" + NL + "\t\t */" + NL + "\t\tprotected Collection getEncodings()" + NL + "\t\t{" + NL + "\t\t\tif (encodings == null)" + NL + "\t\t\t{" + NL + "\t\t\t\tencodings = new ArrayList();" + NL + "\t\t\t\tfor (StringTokenizer stringTokenizer = new StringTokenizer(";
+  protected final String TEXT_147 = ".INSTANCE.getString(\"_UI_XMLEncodingChoices\")); stringTokenizer.hasMoreTokens(); )";
+  protected final String TEXT_148 = NL + "\t\t\t\t{" + NL + "\t\t\t\t\tencodings.add(stringTokenizer.nextToken());" + NL + "\t\t\t\t}" + NL + "\t\t\t}" + NL + "\t\t\treturn encodings;" + NL + "\t\t}" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * The framework calls this to create the contents of the wizard." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void addPages()" + NL + "\t{";
+  protected final String TEXT_149 = NL + "\t\t// Create a page, set the title, and the initial model file name." + NL + "\t\t//" + NL + "\t\tnewFileCreationPage = new ";
+  protected final String TEXT_150 = "NewFileCreationPage(\"Whatever\", selection);";
+  protected final String TEXT_151 = NL + "\t\tnewFileCreationPage.setTitle(";
   protected final String TEXT_152 = ".INSTANCE.getString(\"_UI_";
-  protected final String TEXT_153 = "_description\"));";
-  protected final String TEXT_154 = NL + "\t\tnewFileCreationPage.setFileName(";
+  protected final String TEXT_153 = "_label\"));";
+  protected final String TEXT_154 = NL + "\t\tnewFileCreationPage.setDescription(";
   protected final String TEXT_155 = ".INSTANCE.getString(\"_UI_";
-  protected final String TEXT_156 = "FilenameDefaultBase\") + \".\" + ";
-  protected final String TEXT_157 = ".INSTANCE.getString(\"_UI_";
-  protected final String TEXT_158 = "FilenameExtension\"));";
-  protected final String TEXT_159 = NL + "\t\taddPage(newFileCreationPage);" + NL + "" + NL + "\t\t// Try and get the resource selection to determine a current directory for the file dialog." + NL + "\t\t//" + NL + "\t\tif (selection != null && !selection.isEmpty())" + NL + "\t\t{" + NL + "\t\t\t// Get the resource..." + NL + "\t\t\t//" + NL + "\t\t\tObject selectedElement = selection.iterator().next();" + NL + "\t\t\tif (selectedElement instanceof IResource)" + NL + "\t\t\t{" + NL + "\t\t\t\t// Get the resource parent, if its a file." + NL + "\t\t\t\t//" + NL + "\t\t\t\tIResource selectedResource = (IResource)selectedElement;" + NL + "\t\t\t\tif (selectedResource.getType() == IResource.FILE)" + NL + "\t\t\t\t{" + NL + "\t\t\t\t\tselectedResource = selectedResource.getParent();" + NL + "\t\t\t\t}" + NL + "" + NL + "\t\t\t\t// This gives us a directory..." + NL + "\t\t\t\t//" + NL + "\t\t\t\tif (selectedResource instanceof IFolder || selectedResource instanceof IProject)" + NL + "\t\t\t\t{" + NL + "\t\t\t\t\t// Set this for the container." + NL + "\t\t\t\t\t//" + NL + "\t\t\t\t\tnewFileCreationPage.setContainerFullPath(selectedResource.getFullPath());" + NL + "" + NL + "\t\t\t\t\t// Make up a unique new name here." + NL + "\t\t\t\t\t//" + NL + "\t\t\t\t\tString defaultModelBaseFilename = ";
+  protected final String TEXT_156 = "_description\"));";
+  protected final String TEXT_157 = NL + "\t\tnewFileCreationPage.setFileName(";
+  protected final String TEXT_158 = ".INSTANCE.getString(\"_UI_";
+  protected final String TEXT_159 = "FilenameDefaultBase\") + \".\" + ";
   protected final String TEXT_160 = ".INSTANCE.getString(\"_UI_";
-  protected final String TEXT_161 = "FilenameDefaultBase\");";
-  protected final String TEXT_162 = NL + "\t\t\t\t\tString defaultModelFilenameExtension = ";
+  protected final String TEXT_161 = "FilenameExtension\"));";
+  protected final String TEXT_162 = NL + "\t\taddPage(newFileCreationPage);" + NL + "" + NL + "\t\t// Try and get the resource selection to determine a current directory for the file dialog." + NL + "\t\t//" + NL + "\t\tif (selection != null && !selection.isEmpty())" + NL + "\t\t{" + NL + "\t\t\t// Get the resource..." + NL + "\t\t\t//" + NL + "\t\t\tObject selectedElement = selection.iterator().next();" + NL + "\t\t\tif (selectedElement instanceof IResource)" + NL + "\t\t\t{" + NL + "\t\t\t\t// Get the resource parent, if its a file." + NL + "\t\t\t\t//" + NL + "\t\t\t\tIResource selectedResource = (IResource)selectedElement;" + NL + "\t\t\t\tif (selectedResource.getType() == IResource.FILE)" + NL + "\t\t\t\t{" + NL + "\t\t\t\t\tselectedResource = selectedResource.getParent();" + NL + "\t\t\t\t}" + NL + "" + NL + "\t\t\t\t// This gives us a directory..." + NL + "\t\t\t\t//" + NL + "\t\t\t\tif (selectedResource instanceof IFolder || selectedResource instanceof IProject)" + NL + "\t\t\t\t{" + NL + "\t\t\t\t\t// Set this for the container." + NL + "\t\t\t\t\t//" + NL + "\t\t\t\t\tnewFileCreationPage.setContainerFullPath(selectedResource.getFullPath());" + NL + "" + NL + "\t\t\t\t\t// Make up a unique new name here." + NL + "\t\t\t\t\t//" + NL + "\t\t\t\t\tString defaultModelBaseFilename = ";
   protected final String TEXT_163 = ".INSTANCE.getString(\"_UI_";
-  protected final String TEXT_164 = "FilenameExtension\");";
-  protected final String TEXT_165 = NL + "\t\t\t\t\tString modelFilename = defaultModelBaseFilename + \".\" + defaultModelFilenameExtension;";
-  protected final String TEXT_166 = NL + "\t\t\t\t\tfor (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i)" + NL + "\t\t\t\t\t{" + NL + "\t\t\t\t\t\tmodelFilename = defaultModelBaseFilename + i + \".\" + defaultModelFilenameExtension;";
-  protected final String TEXT_167 = NL + "\t\t\t\t\t}" + NL + "\t\t\t\t\tnewFileCreationPage.setFileName(modelFilename);" + NL + "\t\t\t\t}" + NL + "\t\t\t}" + NL + "\t\t}";
-  protected final String TEXT_168 = NL + "\t\tinitialObjectCreationPage = new ";
-  protected final String TEXT_169 = "InitialObjectCreationPage(\"Whatever2\");";
-  protected final String TEXT_170 = NL + "\t\tinitialObjectCreationPage.setTitle(";
-  protected final String TEXT_171 = ".INSTANCE.getString(\"_UI_";
-  protected final String TEXT_172 = "_label\"));";
-  protected final String TEXT_173 = NL + "\t\tinitialObjectCreationPage.setDescription(";
-  protected final String TEXT_174 = ".INSTANCE.getString(\"_UI_Wizard_initial_object_description\"));";
-  protected final String TEXT_175 = NL + "\t\taddPage(initialObjectCreationPage);" + NL + "\t}" + NL;
-  protected final String TEXT_176 = NL + "\t\t/**" + NL + "\t\t * Get the URI from the page." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @generated" + NL + "\t\t*/" + NL + "\t\tpublic URI getModelURI()" + NL + "\t\t{" + NL + "\t\t\treturn initialObjectCreationPage.getFileURI();" + NL + "\t\t}" + NL;
-  protected final String TEXT_177 = NL + "\t/**" + NL + "\t * Get the file from the page." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic IFile getModelFile()" + NL + "\t{" + NL + "\t\treturn newFileCreationPage.getModelFile();" + NL + "\t}" + NL;
-  protected final String TEXT_178 = NL + "}";
-  protected final String TEXT_179 = NL;
+  protected final String TEXT_164 = "FilenameDefaultBase\");";
+  protected final String TEXT_165 = NL + "\t\t\t\t\tString defaultModelFilenameExtension = ";
+  protected final String TEXT_166 = ".INSTANCE.getString(\"_UI_";
+  protected final String TEXT_167 = "FilenameExtension\");";
+  protected final String TEXT_168 = NL + "\t\t\t\t\tString modelFilename = defaultModelBaseFilename + \".\" + defaultModelFilenameExtension;";
+  protected final String TEXT_169 = NL + "\t\t\t\t\tfor (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i)" + NL + "\t\t\t\t\t{" + NL + "\t\t\t\t\t\tmodelFilename = defaultModelBaseFilename + i + \".\" + defaultModelFilenameExtension;";
+  protected final String TEXT_170 = NL + "\t\t\t\t\t}" + NL + "\t\t\t\t\tnewFileCreationPage.setFileName(modelFilename);" + NL + "\t\t\t\t}" + NL + "\t\t\t}" + NL + "\t\t}";
+  protected final String TEXT_171 = NL + "\t\tinitialObjectCreationPage = new ";
+  protected final String TEXT_172 = "InitialObjectCreationPage(\"Whatever2\");";
+  protected final String TEXT_173 = NL + "\t\tinitialObjectCreationPage.setTitle(";
+  protected final String TEXT_174 = ".INSTANCE.getString(\"_UI_";
+  protected final String TEXT_175 = "_label\"));";
+  protected final String TEXT_176 = NL + "\t\tinitialObjectCreationPage.setDescription(";
+  protected final String TEXT_177 = ".INSTANCE.getString(\"_UI_Wizard_initial_object_description\"));";
+  protected final String TEXT_178 = NL + "\t\taddPage(initialObjectCreationPage);" + NL + "\t}" + NL;
+  protected final String TEXT_179 = NL + "\t\t/**" + NL + "\t\t * Get the URI from the page." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @generated" + NL + "\t\t*/" + NL + "\t\tpublic URI getModelURI()" + NL + "\t\t{" + NL + "\t\t\treturn initialObjectCreationPage.getFileURI();" + NL + "\t\t}" + NL;
+  protected final String TEXT_180 = NL + "\t/**" + NL + "\t * Get the file from the page." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic IFile getModelFile()" + NL + "\t{" + NL + "\t\treturn newFileCreationPage.getModelFile();" + NL + "\t}" + NL;
+  protected final String TEXT_181 = NL + "}";
+  protected final String TEXT_182 = NL;
 
   public String generate(Object argument)
   {
@@ -497,19 +500,19 @@ public class ModelWizard
     stringBuffer.append(TEXT_141);
     stringBuffer.append(type);
     stringBuffer.append(TEXT_142);
-    stringBuffer.append(type);
+    stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_143);
-    }
+    stringBuffer.append(genModel.getImportedName(genModel.getQualifiedEditorPluginClassName()));
     stringBuffer.append(TEXT_144);
-    stringBuffer.append(genPackage.getImportedEditorPluginClassName());
+    stringBuffer.append(type);
     stringBuffer.append(TEXT_145);
-    if (!genModel.isRichClientPlatform()) {
+    }
     stringBuffer.append(TEXT_146);
-    stringBuffer.append(genPackage.getModelWizardClassName());
+    stringBuffer.append(genPackage.getImportedEditorPluginClassName());
     stringBuffer.append(TEXT_147);
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_148);
-    stringBuffer.append(genPackage.getImportedEditorPluginClassName());
+    if (!genModel.isRichClientPlatform()) {
     stringBuffer.append(TEXT_149);
     stringBuffer.append(genPackage.getModelWizardClassName());
     stringBuffer.append(TEXT_150);
@@ -523,21 +526,21 @@ public class ModelWizard
     stringBuffer.append(TEXT_154);
     stringBuffer.append(genPackage.getImportedEditorPluginClassName());
     stringBuffer.append(TEXT_155);
-    stringBuffer.append(genPackage.getEditorClassName());
+    stringBuffer.append(genPackage.getModelWizardClassName());
     stringBuffer.append(TEXT_156);
-    stringBuffer.append(genPackage.getImportedEditorPluginClassName());
-    stringBuffer.append(TEXT_157);
-    stringBuffer.append(genPackage.getEditorClassName());
-    stringBuffer.append(TEXT_158);
     stringBuffer.append(genModel.getNonNLS());
-    stringBuffer.append(genModel.getNonNLS(2));
-    stringBuffer.append(genModel.getNonNLS(3));
+    stringBuffer.append(TEXT_157);
+    stringBuffer.append(genPackage.getImportedEditorPluginClassName());
+    stringBuffer.append(TEXT_158);
+    stringBuffer.append(genPackage.getEditorClassName());
     stringBuffer.append(TEXT_159);
     stringBuffer.append(genPackage.getImportedEditorPluginClassName());
     stringBuffer.append(TEXT_160);
     stringBuffer.append(genPackage.getEditorClassName());
     stringBuffer.append(TEXT_161);
     stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(genModel.getNonNLS(2));
+    stringBuffer.append(genModel.getNonNLS(3));
     stringBuffer.append(TEXT_162);
     stringBuffer.append(genPackage.getImportedEditorPluginClassName());
     stringBuffer.append(TEXT_163);
@@ -545,17 +548,17 @@ public class ModelWizard
     stringBuffer.append(TEXT_164);
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_165);
-    stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(genPackage.getImportedEditorPluginClassName());
     stringBuffer.append(TEXT_166);
-    stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(genPackage.getEditorClassName());
     stringBuffer.append(TEXT_167);
-    }
+    stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_168);
-    stringBuffer.append(genPackage.getModelWizardClassName());
+    stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_169);
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_170);
-    stringBuffer.append(genPackage.getImportedEditorPluginClassName());
+    }
     stringBuffer.append(TEXT_171);
     stringBuffer.append(genPackage.getModelWizardClassName());
     stringBuffer.append(TEXT_172);
@@ -563,16 +566,22 @@ public class ModelWizard
     stringBuffer.append(TEXT_173);
     stringBuffer.append(genPackage.getImportedEditorPluginClassName());
     stringBuffer.append(TEXT_174);
-    stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(genPackage.getModelWizardClassName());
     stringBuffer.append(TEXT_175);
-    if (genModel.isRichClientPlatform()) {
+    stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_176);
-    } else {
+    stringBuffer.append(genPackage.getImportedEditorPluginClassName());
     stringBuffer.append(TEXT_177);
-    }
+    stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_178);
-    genModel.emitSortedImports();
+    if (genModel.isRichClientPlatform()) {
     stringBuffer.append(TEXT_179);
+    } else {
+    stringBuffer.append(TEXT_180);
+    }
+    stringBuffer.append(TEXT_181);
+    genModel.emitSortedImports();
+    stringBuffer.append(TEXT_182);
     return stringBuffer.toString();
   }
 }
