@@ -104,6 +104,8 @@
       <genFeatures createChild="false" propertyCategory="ModelFeature" propertyDescription="Number of bits to reserve in the boolean flags field, typically because they are used by parent classes"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/booleanFlagsReservedBits"/>
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/importerID"/>
+      <genFeatures createChild="false" propertyCategory="All" propertyDescription="Whether to generate the OSGi bundle manifest"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/bundleManifest"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>

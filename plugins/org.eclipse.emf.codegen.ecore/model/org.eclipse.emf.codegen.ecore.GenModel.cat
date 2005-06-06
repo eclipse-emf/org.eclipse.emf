@@ -239,6 +239,11 @@
 		(object ClassAttribute "importerID"
 		    quid       	"426FF0CD000D"
 		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "bundleManifest"
+		    quid       	"429FD2E60379"
+		    type       	"boolean"
+		    initv      	"true"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -2678,7 +2683,7 @@
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	25
+			nlines     	41
 			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
