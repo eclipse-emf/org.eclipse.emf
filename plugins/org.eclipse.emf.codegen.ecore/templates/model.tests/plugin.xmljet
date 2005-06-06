@@ -23,7 +23,7 @@
 <%@ include file="../Header.jetinc"%>
 -->
 
-<plugin
+<plugin<%if (genModel.isBundleManifest()) {%>><%} else {%>
     name = "%pluginName"
     id = "<%=genModel.getTestsPluginID()%>"
     version = "1.0.0"
@@ -44,6 +44,6 @@
       <export name="*"/>
     </library>
   </runtime>
-
+<%}%>
 </plugin>
 
