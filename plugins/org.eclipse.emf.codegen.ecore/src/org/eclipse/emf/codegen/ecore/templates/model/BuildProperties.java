@@ -23,15 +23,17 @@ public class BuildProperties
   protected final String TEXT_7 = NL + "               ";
   protected final String TEXT_8 = ",\\" + NL + "               model/,\\";
   protected final String TEXT_9 = NL + "               icons/,\\";
-  protected final String TEXT_10 = NL + "               plugin.properties" + NL + "jars.compile.order = ";
-  protected final String TEXT_11 = NL + "source.";
-  protected final String TEXT_12 = " = src/" + NL + "output.";
-  protected final String TEXT_13 = " = bin/" + NL + "exclude.";
-  protected final String TEXT_14 = " = **/doc-files/**";
-  protected final String TEXT_15 = NL + "bin.includes = plugin.xml,\\" + NL + "               model/,\\";
-  protected final String TEXT_16 = NL + "               icons/,\\";
-  protected final String TEXT_17 = NL + "               plugin.properties";
-  protected final String TEXT_18 = NL;
+  protected final String TEXT_10 = NL + "               META-INF/,\\";
+  protected final String TEXT_11 = NL + "               plugin.properties" + NL + "jars.compile.order = ";
+  protected final String TEXT_12 = NL + "source.";
+  protected final String TEXT_13 = " = src/" + NL + "output.";
+  protected final String TEXT_14 = " = bin/" + NL + "exclude.";
+  protected final String TEXT_15 = " = **/doc-files/**";
+  protected final String TEXT_16 = NL + "bin.includes = plugin.xml,\\" + NL + "               model/,\\";
+  protected final String TEXT_17 = NL + "               icons/,\\";
+  protected final String TEXT_18 = NL + "               META-INF/,\\";
+  protected final String TEXT_19 = NL + "               plugin.properties";
+  protected final String TEXT_20 = NL;
 
   public String generate(Object argument)
   {
@@ -40,7 +42,7 @@ public class BuildProperties
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -69,8 +71,9 @@ public class BuildProperties
     if (genModel.sameModelEditProject() || genModel.sameModelEditorProject()) {
     stringBuffer.append(TEXT_9);
     }
+    if (genModel.isBundleManifest()) {
     stringBuffer.append(TEXT_10);
-    stringBuffer.append(jarFile);
+    }
     stringBuffer.append(TEXT_11);
     stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_12);
@@ -78,14 +81,19 @@ public class BuildProperties
     stringBuffer.append(TEXT_13);
     stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_14);
-    } else {
+    stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_15);
-    if (genModel.sameModelEditProject() || genModel.sameModelEditorProject()) {
+    } else {
     stringBuffer.append(TEXT_16);
-    }
+    if (genModel.sameModelEditProject() || genModel.sameModelEditorProject()) {
     stringBuffer.append(TEXT_17);
     }
+    if (genModel.isBundleManifest()) {
     stringBuffer.append(TEXT_18);
+    }
+    stringBuffer.append(TEXT_19);
+    }
+    stringBuffer.append(TEXT_20);
     return stringBuffer.toString();
   }
 }

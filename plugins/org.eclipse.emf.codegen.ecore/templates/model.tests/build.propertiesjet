@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model.tests" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.3 2005/05/27 20:52:16 nickb Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model.tests" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.4 2005/06/06 19:49:05 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -23,6 +23,9 @@
 <%String jarFile = genModel.getTestsPluginID()+".jar";%>
 bin.includes = plugin.xml,\
                <%=jarFile%>,\
+<%if (genModel.isBundleManifest()) {%>
+               META-INF/,\
+<%}%>
                plugin.properties
 jars.compile.order = <%=jarFile%>
 source.<%=jarFile%> = src/
@@ -30,5 +33,8 @@ output.<%=jarFile%> = bin/
 exclude.<%=jarFile%> = **/doc-files/**
 <%} else {%>
 bin.includes = plugin.xml,\
+<%if (genModel.isBundleManifest()) {%>
+               META-INF/,\
+<%}%>
                plugin.properties
 <%}%>

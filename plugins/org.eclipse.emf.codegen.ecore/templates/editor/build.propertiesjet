@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.4 2005/05/27 20:52:16 nickb Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.5 2005/06/06 19:49:05 marcelop Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,6 +24,9 @@
 bin.includes = plugin.xml,\
                <%=jarFile%>,\
                plugin.properties,\
+<%if (genModel.isBundleManifest()) {%>
+               META-INF/,\
+<%}%>
                icons/
 jars.compile.order = <%=jarFile%>
 source.<%=jarFile%> = src/
@@ -32,5 +35,8 @@ exclude.<%=jarFile%> = **/doc-files/**
 <%} else {%>
 bin.includes = plugin.xml,\
                plugin.properties,\
+<%if (genModel.isBundleManifest()) {%>
+               META-INF/,\
+<%}%>
                icons/
 <%}%>

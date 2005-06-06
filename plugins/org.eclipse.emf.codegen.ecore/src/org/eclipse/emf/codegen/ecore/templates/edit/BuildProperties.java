@@ -21,13 +21,17 @@ public class BuildProperties
   protected final String TEXT_5 = NL + " */" + NL + "-->";
   protected final String TEXT_6 = NL + "bin.includes = plugin.xml,\\";
   protected final String TEXT_7 = NL + "               ";
-  protected final String TEXT_8 = ",\\" + NL + "               plugin.properties,\\" + NL + "               icons/" + NL + "jars.compile.order = ";
-  protected final String TEXT_9 = NL + "source.";
-  protected final String TEXT_10 = " = src/" + NL + "output.";
-  protected final String TEXT_11 = " = bin/" + NL + "exclude.";
-  protected final String TEXT_12 = " = **/doc-files/**";
-  protected final String TEXT_13 = NL + "bin.includes = plugin.xml,\\" + NL + "               plugin.properties,\\" + NL + "               icons/";
-  protected final String TEXT_14 = NL;
+  protected final String TEXT_8 = ",\\" + NL + "               plugin.properties,\\";
+  protected final String TEXT_9 = NL + "               META-INF/,\\";
+  protected final String TEXT_10 = NL + "               icons/" + NL + "jars.compile.order = ";
+  protected final String TEXT_11 = NL + "source.";
+  protected final String TEXT_12 = " = src/" + NL + "output.";
+  protected final String TEXT_13 = " = bin/" + NL + "exclude.";
+  protected final String TEXT_14 = " = **/doc-files/**";
+  protected final String TEXT_15 = NL + "bin.includes = plugin.xml,\\" + NL + "               plugin.properties,\\";
+  protected final String TEXT_16 = NL + "               META-INF/,\\";
+  protected final String TEXT_17 = NL + "               icons/";
+  protected final String TEXT_18 = NL;
 
   public String generate(Object argument)
   {
@@ -36,7 +40,7 @@ public class BuildProperties
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -62,18 +66,26 @@ public class BuildProperties
     stringBuffer.append(TEXT_7);
     stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_8);
-    stringBuffer.append(jarFile);
+    if (genModel.isBundleManifest()) {
     stringBuffer.append(TEXT_9);
-    stringBuffer.append(jarFile);
+    }
     stringBuffer.append(TEXT_10);
     stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_11);
     stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_12);
-    } else {
+    stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_13);
-    }
+    stringBuffer.append(jarFile);
     stringBuffer.append(TEXT_14);
+    } else {
+    stringBuffer.append(TEXT_15);
+    if (genModel.isBundleManifest()) {
+    stringBuffer.append(TEXT_16);
+    }
+    stringBuffer.append(TEXT_17);
+    }
+    stringBuffer.append(TEXT_18);
     return stringBuffer.toString();
   }
 }
