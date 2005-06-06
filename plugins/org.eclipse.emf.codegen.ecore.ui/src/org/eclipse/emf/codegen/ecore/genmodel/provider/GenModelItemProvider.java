@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.16 2005/05/17 23:32:01 davidms Exp $
+ * $Id: GenModelItemProvider.java,v 1.17 2005/06/06 19:46:08 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -108,6 +108,7 @@ public class GenModelItemProvider
       addTestSuiteClassPropertyDescriptor(object);
       addBooleanFlagsFieldPropertyDescriptor(object);
       addBooleanFlagsReservedBitsPropertyDescriptor(object);
+      addBundleManifestPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -869,6 +870,27 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Bundle Manifest feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addBundleManifestPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_bundleManifest_feature"),
+         getString("_UI_GenModel_bundleManifest_description"),
+         GenModelPackage.eINSTANCE.getGenModel_BundleManifest(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_AllPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -968,6 +990,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_FIELD:
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
       case GenModelPackage.GEN_MODEL__IMPORTER_ID:
+      case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
