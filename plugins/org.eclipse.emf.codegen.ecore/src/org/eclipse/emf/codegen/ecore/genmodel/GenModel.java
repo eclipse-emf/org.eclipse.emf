@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.21 2005/06/01 17:28:12 marcelop Exp $
+ * $Id: GenModel.java,v 1.22 2005/06/06 19:52:58 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -78,6 +78,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getBooleanFlagsField <em>Boolean Flags Field</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getBooleanFlagsReservedBits <em>Boolean Flags Reserved Bits</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getImporterID <em>Importer ID</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isBundleManifest <em>Bundle Manifest</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1230,6 +1231,33 @@ public interface GenModel extends GenBase{
   void setImporterID(String value);
 
   /**
+   * Returns the value of the '<em><b>Bundle Manifest</b></em>' attribute.
+   * The default value is <code>"true"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Bundle Manifest</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Bundle Manifest</em>' attribute.
+   * @see #setBundleManifest(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_BundleManifest()
+   * @model default="true"
+   * @generated
+   */
+  boolean isBundleManifest();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isBundleManifest <em>Bundle Manifest</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Bundle Manifest</em>' attribute.
+   * @see #isBundleManifest()
+   * @generated
+   */
+  void setBundleManifest(boolean value);
+
+  /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
@@ -1297,6 +1325,7 @@ public interface GenModel extends GenBase{
   JETEmitter getSwitchClassEmitter();
   JETEmitter getValidatorClassEmitter();
   JETEmitter getPluginXMLEmitter();
+  JETEmitter getManifestMFEmitter();
   JETEmitter getModelPluginClassEmitter();
   JETEmitter getResourceClassEmitter();
   JETEmitter getResourceFactoryClassEmitter();
@@ -1311,6 +1340,7 @@ public interface GenModel extends GenBase{
   JETEmitter getItemProviderAdapterFactoryEmitter();
   JETEmitter getEditPluginClassEmitter();
   JETEmitter getEditPluginXMLEmitter();
+  JETEmitter getEditManifestMFEmitter();
   JETEmitter getEditPluginPropertiesEmitter();
   JETEmitter getEditBuildPropertiesEmitter();
 
@@ -1325,6 +1355,7 @@ public interface GenModel extends GenBase{
   JETEmitter getEditorAdvisorEmitter();
   JETEmitter getEditorPluginClassEmitter();
   JETEmitter getEditorPluginXMLEmitter();
+  JETEmitter getEditorManifestMFEmitter();
   JETEmitter getEditorPluginPropertiesEmitter();
   JETEmitter getEditorBuildPropertiesEmitter();
 
@@ -1338,6 +1369,7 @@ public interface GenModel extends GenBase{
   JETEmitter getPackageTestSuiteEmitter();
   JETEmitter getPackageExampleEmitter();
   JETEmitter getTestsPluginXMLEmitter();
+  JETEmitter getTestsManifestMFEmitter();
   JETEmitter getTestsPluginPropertiesEmitter();
   JETEmitter getTestsBuildPropertiesEmitter();
   
@@ -1391,9 +1423,13 @@ public interface GenModel extends GenBase{
   String getEditorPluginID();
   String getTestsPluginID();
 
+  List getModelQualifiedPackageNames();
   List getModelRequiredPlugins();
+  List getEditQualifiedPackageNames();
   List getEditRequiredPlugins();
+  List getEditorQualifiedPackageNames();
   List getEditorRequiredPlugins();
+  List getTestsQualifiedPackageNames();
   List getTestsRequiredPlugins();
 
   List getEditResourceDelegateImportedPluginClassNames();

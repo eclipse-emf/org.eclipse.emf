@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.36 2005/06/01 17:28:12 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.37 2005/06/06 19:53:19 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -58,6 +58,7 @@ import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -125,6 +126,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getBooleanFlagsField <em>Boolean Flags Field</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getBooleanFlagsReservedBits <em>Boolean Flags Reserved Bits</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getImporterID <em>Importer ID</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isBundleManifest <em>Bundle Manifest</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -939,6 +941,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String importerID = IMPORTER_ID_EDEFAULT;
 
   /**
+   * The default value of the '{@link #isBundleManifest() <em>Bundle Manifest</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isBundleManifest()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean BUNDLE_MANIFEST_EDEFAULT = true;
+
+  /**
+   * The cached value of the '{@link #isBundleManifest() <em>Bundle Manifest</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isBundleManifest()
+   * @generated
+   * @ordered
+   */
+  protected boolean bundleManifest = BUNDLE_MANIFEST_EDEFAULT;
+
+  /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1246,6 +1268,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String switchClassTemplateName = "model/SwitchClass.javajet";
   protected String validatorSwitchClassTemplateName = "model/ValidatorClass.javajet";
   protected String pluginXMLTemplateName = "model/plugin.xmljet";
+  protected String manifestMFTemplateName = "model/manifest.mfjet";
   protected String pluginPropertiesTemplateName = "model/plugin.propertiesjet";
   protected String buildPropertiesTemplateName = "model/build.propertiesjet";
   protected String modelPluginTemplateName = "model/Plugin.javajet";
@@ -1267,6 +1290,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter switchClassEmitter = null;
   protected JETEmitter validatorSwitchClassEmitter = null;
   protected JETEmitter pluginXMLEmitter = null;
+  protected JETEmitter manifestMFEmitter = null;
   protected JETEmitter pluginPropertiesEmitter = null;
   protected JETEmitter buildPropertiesEmitter = null;
   protected JETEmitter modelPluginClassEmitter = null;
@@ -1451,6 +1475,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(pluginXMLEmitter, "org.eclipse.emf.codegen.ecore.templates.model.PluginXML");
     }
     return pluginXMLEmitter;
+  }
+
+  public JETEmitter getManifestMFEmitter()
+  {
+    if (manifestMFEmitter == null)
+    {
+      manifestMFEmitter = createJETEmitter(manifestMFTemplateName);
+      setMethod(manifestMFEmitter, "org.eclipse.emf.codegen.ecore.templates.model.ManifestMF");
+    }
+    return manifestMFEmitter;
   }
 
   public JETEmitter getPluginPropertiesEmitter()
@@ -1715,6 +1749,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         if (!sameModelEditProject() && !sameModelEditorProject())
         {
+          if (isBundleManifest())
+          {
+            progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelManifestMF_message"));
+            generate
+              (new SubProgressMonitor(progressMonitor, 1),
+               Generator.EMF_MODEL_PROJECT_STYLE,
+               getEffectiveModelPluginVariables(),
+               getModelProjectDirectory() + "/META-INF/MANIFEST.MF",
+               getManifestMFEmitter());          
+          }
+          
           progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelPluginXML_message"));
           generate
             (new SubProgressMonitor(progressMonitor, 1),
@@ -1738,7 +1783,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
            Generator.EMF_MODEL_PROJECT_STYLE,
            getEffectiveModelPluginVariables(),
            getModelProjectDirectory() + "/build.properties",
-           getBuildPropertiesEmitter());        
+           getBuildPropertiesEmitter());       
       }
     }
     finally
@@ -1806,6 +1851,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
            getEditPluginClassName(),
            getEditPluginClassEmitter());
 
+        if (isBundleManifest())
+        {
+          progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditManifestMF_message"));
+          generate
+            (new SubProgressMonitor(progressMonitor, 1),
+             Generator.EMF_EDIT_PROJECT_STYLE,
+             getEffectiveModelPluginVariables(),
+             getEditProjectDirectory() + "/META-INF/MANIFEST.MF",
+             getEditManifestMFEmitter());
+        }
+        
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditPluginXML_message"));
         generate
           (new SubProgressMonitor(progressMonitor, 1),
@@ -1894,6 +1950,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
          getEditorPluginClassName(),
          getEditorPluginClassEmitter());
 
+      if (isBundleManifest())
+      {
+        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorManifestMF_message"));
+        generate
+          (new SubProgressMonitor(progressMonitor, 1),
+           Generator.EMF_EDITOR_PROJECT_STYLE,
+           getEffectiveModelPluginVariables(),
+           getEditorProjectDirectory() + "/META-INF/MANIFEST.MF",
+           getEditorManifestMFEmitter());
+      }
+      
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorPluginXML_message"));
       generate
         (new SubProgressMonitor(progressMonitor, 1),
@@ -1901,7 +1968,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
          getEffectiveModelPluginVariables(),
          getEditorProjectDirectory() + "/plugin.xml",
          getEditorPluginXMLEmitter());
-
+            
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorPluginProperties_message"));
       generate
         (new SubProgressMonitor(progressMonitor, 1),
@@ -2008,6 +2075,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
       if (!sameModelTestsProject())
       {
+        if (isBundleManifest())
+        {
+          progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsManifestMF_message"));
+          generate
+            (new SubProgressMonitor(progressMonitor, 1),
+             Generator.EMF_TESTS_PROJECT_STYLE,
+             getEffectiveModelPluginVariables(),
+             getTestsProjectDirectory() + "/META-INF/MANIFEST.MF",
+             getTestsManifestMFEmitter());
+        }        
+        
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPluginXML_message"));
         generate(
           new SubProgressMonitor(progressMonitor, 1),
@@ -2015,7 +2093,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           getEffectiveModelPluginVariables(),
           getTestsProjectDirectory() + "/plugin.xml",
           getTestsPluginXMLEmitter());
-
+        
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPluginProperties_message"));
         generate(
           new SubProgressMonitor(progressMonitor, 1),
@@ -2047,6 +2125,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String itemProviderAdapterFactoryTemplateName = "edit/ItemProviderAdapterFactory.javajet";
   protected String editPluginTemplateName = "edit/Plugin.javajet";
   protected String editPluginXMLTemplateName = "edit/plugin.xmljet";
+  protected String editManifestMFTemplateName = "edit/manifest.mfjet";
   protected String editPluginPropertiesTemplateName = "edit/plugin.propertiesjet";
   protected String editBuildPropertiesTemplateName = "edit/build.propertiesjet";
   protected String itemGIFName = "edit/Item.gif";
@@ -2058,6 +2137,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String advisorTemplateName = "editor/Advisor.javajet";
   protected String editorPluginTemplateName = "editor/Plugin.javajet";
   protected String editorPluginXMLTemplateName = "editor/plugin.xmljet";
+  protected String editorManifestMFTemplateName = "editor/manifest.mfjet";
   protected String editorPluginPropertiesTemplateName = "editor/plugin.propertiesjet";
   protected String editorBuildPropertiesTemplateName = "editor/build.propertiesjet";
   protected String modelGIFName = "editor/ModelFile.gif";
@@ -2068,6 +2148,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter itemProviderAdapterFactoryEmitter = null;
   protected JETEmitter editPluginClassEmitter = null;
   protected JETEmitter editPluginXMLEmitter = null;
+  protected JETEmitter editManifestMFEmitter = null;
   protected JETEmitter editPluginPropertiesEmitter = null;
   protected JETEmitter editBuildPropertiesEmitter = null;
   protected GIFEmitter itemGIFEmitter = null;
@@ -2078,6 +2159,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter modelWizardEmitter = null;
   protected JETEmitter advisorEmitter = null;
   protected JETEmitter editorPluginClassEmitter = null;
+  protected JETEmitter editorManifestMFEmitter = null;
   protected JETEmitter editorPluginXMLEmitter = null;
   protected JETEmitter editorPluginPropertiesEmitter = null;
   protected JETEmitter editorBuildPropertiesEmitter = null;
@@ -2133,6 +2215,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     return editPluginXMLEmitter;
   }
+  
+  public JETEmitter getEditManifestMFEmitter()
+  {
+    if (editManifestMFEmitter == null)
+    {
+      editManifestMFEmitter = createJETEmitter(editManifestMFTemplateName);
+      setMethod(editManifestMFEmitter, "org.eclipse.emf.codegen.ecore.templates.edit.ManifestMF");
+    }
+
+    return editManifestMFEmitter;
+  }  
 
   public JETEmitter getEditPluginPropertiesEmitter()
   {
@@ -2250,6 +2343,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editorPluginXMLEmitter;
   }
 
+  public JETEmitter getEditorManifestMFEmitter()
+  {
+    if (editorManifestMFEmitter == null)
+    {
+      editorManifestMFEmitter = createJETEmitter(editorManifestMFTemplateName);
+      setMethod(editorManifestMFEmitter, "org.eclipse.emf.codegen.ecore.templates.editor.ManifestMF");
+    }
+
+    return editorManifestMFEmitter;
+  }  
+  
   public JETEmitter getEditorPluginPropertiesEmitter()
   {
     if (editorPluginPropertiesEmitter == null)
@@ -2279,6 +2383,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String packageTestSuiteTemplateName = "model.tests/PackageTestSuite.javajet";
   protected String packageExampleTemplateName = "model.tests/PackageExample.javajet";
   protected String testsPluginXMLTemplateName = "model.tests/plugin.xmljet";
+  protected String testsManifestMFTemplateName = "model.tests/manifest.mfjet";
   protected String testsPluginPropertiesTemplateName = "model.tests/plugin.propertiesjet";
   protected String testsBuildPropertiesTemplateName = "model.tests/build.propertiesjet";
 
@@ -2287,6 +2392,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter packageTestSuiteEmitter = null;
   protected JETEmitter packageExampleEmitter = null;
   protected JETEmitter testsPluginXMLEmitter = null;
+  protected JETEmitter testsManifestMFEmitter = null;
   protected JETEmitter testsPluginPropertiesEmitter = null;
   protected JETEmitter testsBuildPropertiesEmitter = null;
 
@@ -2343,6 +2449,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
 
     return testsPluginXMLEmitter;
+  }
+
+  public JETEmitter getTestsManifestMFEmitter()
+  {
+    if (testsManifestMFEmitter == null)
+    {
+      testsManifestMFEmitter = createJETEmitter(testsManifestMFTemplateName);
+      setMethod(testsManifestMFEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.ManifestMF");
+    }
+
+    return testsManifestMFEmitter;
   }
 
   public JETEmitter getTestsPluginPropertiesEmitter()
@@ -3066,6 +3183,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   protected GenClass rootImplementsInterfaceGenClass;
 
+  private List packages;
+
   public GenClass getRootImplementsInterfaceGenClass()
   {
     if (rootImplementsInterfaceGenClass == null)
@@ -3514,6 +3633,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isBundleManifest()
+  {
+    return bundleManifest;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setBundleManifest(boolean newBundleManifest)
+  {
+    boolean oldBundleManifest = bundleManifest;
+    bundleManifest = newBundleManifest;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST, oldBundleManifest, bundleManifest));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getGenPackages()
   {
     if (genPackages == null)
@@ -3697,6 +3839,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return new Integer(getBooleanFlagsReservedBits());
       case GenModelPackage.GEN_MODEL__IMPORTER_ID:
         return getImporterID();
+      case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
+        return isBundleManifest() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3792,6 +3936,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return booleanFlagsReservedBits != BOOLEAN_FLAGS_RESERVED_BITS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__IMPORTER_ID:
         return IMPORTER_ID_EDEFAULT == null ? importerID != null : !IMPORTER_ID_EDEFAULT.equals(importerID);
+      case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
+        return bundleManifest != BUNDLE_MANIFEST_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3928,6 +4074,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__IMPORTER_ID:
         setImporterID((String)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
+        setBundleManifest(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -4067,6 +4216,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__IMPORTER_ID:
         setImporterID(IMPORTER_ID_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
+        setBundleManifest(BUNDLE_MANIFEST_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -4165,6 +4317,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(booleanFlagsReservedBits);
     result.append(", importerID: ");
     result.append(importerID);
+    result.append(", bundleManifest: ");
+    result.append(bundleManifest);
     result.append(')');
     return result.toString();
   }
@@ -4380,11 +4534,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     else
     {
-      int index = baseName.lastIndexOf(".");
-      if (index != -1)
-      {
-        baseName = baseName.substring(index + 1);
-      }
+      baseName = CodeGenUtil.getSimpleClassName(baseName);
     }
     return baseName;
   }
@@ -4404,7 +4554,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
       else
       {
-        baseName = baseName.substring(0, index);
+        baseName = CodeGenUtil.getPackageName(baseName);
       }
     }
     return baseName;
@@ -4529,6 +4679,45 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     getAllGenPackagesWithClassifiersHelper(result, getStaticGenPackages());
     return result;
   }
+  
+  public List getModelQualifiedPackageNames()
+  {
+    EList packageNames = new UniqueEList();
+    for (Iterator i = getGenPackages().iterator(); i.hasNext();)
+    {
+      GenPackage genPackage = (GenPackage)i.next();
+      addQualifiedModelPackageNames(packageNames, genPackage);
+    }
+    
+    String pluginClassPackage = CodeGenUtil.getPackageName(getModelPluginClassToUse());
+    if (!isBlank(pluginClassPackage))
+    {
+      packageNames.add(pluginClassPackage);
+    }
+    
+    if (sameModelTestsProject())
+    {
+      packageNames.addAll(getTestsQualifiedPackageNames());
+    }
+    
+    ECollections.sort(packageNames);
+    return packageNames;
+  }
+  
+  protected void addQualifiedModelPackageNames(List packageNames, GenPackage genPackage)
+  {
+    if (genPackage.hasClassifiers())
+    {
+      packageNames.add(genPackage.getInterfacePackageName());
+      packageNames.add(genPackage.getClassPackageName());
+      packageNames.add(genPackage.getUtilitiesPackageName());
+    }
+    for (Iterator i = genPackage.getNestedGenPackages().iterator(); i.hasNext();)
+    {
+      GenPackage nestedGenPackage = (GenPackage)i.next();
+      addQualifiedModelPackageNames(packageNames, nestedGenPackage);
+    }
+  }
 
   public List getModelRequiredPlugins()
   {
@@ -4557,6 +4746,41 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
 
     return result;
+  }
+
+  public List getEditQualifiedPackageNames()
+  {
+    EList packageNames = sameModelEditProject() ? 
+      (EList)getModelQualifiedPackageNames() :
+      new UniqueEList();
+
+    for (Iterator i = getGenPackages().iterator(); i.hasNext();)
+    {
+      GenPackage genPackage = (GenPackage)i.next();
+      addQualifiedEditPackageNames(packageNames, genPackage);
+    }
+    
+    String pluginClassPackage = CodeGenUtil.getPackageName(getEditPluginClassToUse());
+    if (!isBlank(pluginClassPackage))
+    {
+      packageNames.add(pluginClassPackage);
+    }
+    
+    ECollections.sort(packageNames);
+    return packageNames;
+  }
+
+  protected void addQualifiedEditPackageNames(List packageNames, GenPackage genPackage)
+  {
+    if (genPackage.hasClassifiers())
+    {
+      packageNames.add(genPackage.getProviderPackageName());
+    }
+    for (Iterator i = genPackage.getNestedGenPackages().iterator(); i.hasNext();)
+    {
+      GenPackage nestedGenPackage = (GenPackage)i.next();
+      addQualifiedEditPackageNames(packageNames, nestedGenPackage);
+    }
   }
 
   public List getEditRequiredPlugins()
@@ -4590,6 +4814,41 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
     }
     return result;
+  }
+
+  public List getEditorQualifiedPackageNames()
+  {
+    EList packageNames = sameModelEditorProject() || sameEditEditorProject() ? 
+      (EList)getEditQualifiedPackageNames() :
+      new UniqueEList();
+
+    for (Iterator i = getGenPackages().iterator(); i.hasNext();)
+    {
+      GenPackage genPackage = (GenPackage)i.next();
+      addQualifiedEditorPackageNames(packageNames, genPackage);
+    }
+
+    String pluginClassPackage = CodeGenUtil.getPackageName(getEditorPluginClassToUse());
+    if (!isBlank(pluginClassPackage))
+    {
+      packageNames.add(pluginClassPackage);
+    }
+    
+    ECollections.sort(packageNames);
+    return packageNames;
+  }
+
+  protected void addQualifiedEditorPackageNames(List packageNames, GenPackage genPackage)
+  {
+    if (genPackage.hasClassifiers() && genPackage.hasConcreteClasses())
+    {
+      packageNames.add(genPackage.getPresentationPackageName());
+    }
+    for (Iterator i = genPackage.getNestedGenPackages().iterator(); i.hasNext();)
+    {
+      GenPackage nestedGenPackage = (GenPackage)i.next();
+      addQualifiedEditorPackageNames(packageNames, nestedGenPackage);
+    }
   }
 
   public List getEditorRequiredPlugins()
@@ -4633,6 +4892,39 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
     }
     return result;
+  }
+
+  public List getTestsQualifiedPackageNames()
+  {
+    EList packageNames = new UniqueEList();
+
+    for (Iterator i = getGenPackages().iterator(); i.hasNext();)
+    {
+      GenPackage genPackage = (GenPackage)i.next();
+      addQualifiedTestsPackageNames(packageNames, genPackage);
+    }
+
+    String pluginClassPackage = CodeGenUtil.getPackageName(getTestSuiteClass());
+    if (!isBlank(pluginClassPackage))
+    {
+      packageNames.add(pluginClassPackage);
+    }
+    
+    ECollections.sort(packageNames);
+    return packageNames;
+  }
+
+  protected void addQualifiedTestsPackageNames(List packageNames, GenPackage genPackage)
+  {
+    if (genPackage.hasClassifiers())
+    {
+      packageNames.add(genPackage.getTestsPackageName());
+    }
+    for (Iterator i = genPackage.getNestedGenPackages().iterator(); i.hasNext();)
+    {
+      GenPackage nestedGenPackage = (GenPackage)i.next();
+      addQualifiedTestsPackageNames(packageNames, nestedGenPackage);
+    }
   }
 
   public List getTestsRequiredPlugins()
