@@ -728,4 +728,41 @@ public class CodeGenUtil
   {
     addClasspathEntries(classpathEntries, null, pluginID);
   }  
+  
+  /**
+   * Returns the package name for a qualified class name, ie, a substring
+   * from the first char until the last &quot;.&quot;.  If the argument is 
+   * <tt>null</tt> or a non-qualified name, this method returns <tt>null</tt>. 
+   * @param qualifiedClassName
+   * @return String
+   */
+  public static String getPackageName(String qualifiedClassName)
+  {
+    int index = qualifiedClassName != null ? 
+      qualifiedClassName.lastIndexOf('.') : 
+      -1;
+      
+    return index >= 0 ? 
+      qualifiedClassName.substring(0, index) :
+      null;
+  }
+  
+  /**
+   * Returns the simple class name for a qualified class name, ie, a substring
+   * from starting after the last &quot;.&quot;.  If the argument is 
+   * a non-qualified name, this method returns the argument. 
+   * @param qualifiedClassName
+   * @return String
+   */
+  public static String getSimpleClassName(String qualifiedClassName)
+  {
+    int index = qualifiedClassName != null ? 
+      qualifiedClassName.lastIndexOf('.') : 
+      -1;
+      
+    return index >= 0 ? 
+      qualifiedClassName.substring(index+1) :
+      qualifiedClassName;
+  }
+  
 }
