@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.28 2005/06/01 19:32:37 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.29 2005/06/06 19:53:50 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -194,6 +194,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       {
         IFile targetFile = container.getFile(new Path(outputFilePath.substring(outputFilePath.lastIndexOf("/") + 1)));
         if (targetFile.exists() && (outputFilePath.endsWith("/build.properties") || !outputFilePath.endsWith(".properties")))
+        {
+          return;
+        }
+        
+        //We are not generating the manifest file if the plugin.xml exists.
+        //
+        if (outputFilePath.endsWith("/META-INF/MANIFEST.MF") && targetFile.getParent().getParent().exists(new Path("plugin.xml")))
         {
           return;
         }
