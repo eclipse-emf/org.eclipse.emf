@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditPlugin.java,v 1.3 2004/07/29 13:33:15 marcelop Exp $
+ * $Id: XSDEditPlugin.java,v 1.4 2005/06/07 13:11:51 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -60,7 +60,6 @@ public class XSDEditPlugin extends Plugin
    *  {@link System#getProperty(String) System.getProperty}("VABASE") + "/plugins/org.eclipse.xsd/"
    *</pre>
    * @return the base location at which to find resources.
-   * @see org.eclipse.core.runtime.IPluginDescriptor#getInstallURL
    */
   public static String getBaseURL()
   {
