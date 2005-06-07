@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.37 2005/06/06 19:53:19 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.38 2005/06/07 13:58:53 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -5045,6 +5045,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setModelPluginID(oldGenModelVersion.getModelPluginID());
     setTemplateDirectory(oldGenModelVersion.getTemplateDirectory());
     setRuntimeJar(oldGenModelVersion.isRuntimeJar());
+    setBundleManifest(oldGenModelVersion.isBundleManifest());
 
     // EATM 
     // Foreign Model
