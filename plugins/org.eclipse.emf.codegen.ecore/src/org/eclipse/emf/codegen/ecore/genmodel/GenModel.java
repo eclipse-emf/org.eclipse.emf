@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.22 2005/06/06 19:52:58 marcelop Exp $
+ * $Id: GenModel.java,v 1.23 2005/06/07 17:28:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jmerge.JControlModel;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
 
 
@@ -1482,4 +1483,6 @@ public interface GenModel extends GenBase{
   String getRelativeGenModelLocation();
   
   String getPropertyCategoryKey(String category);  
+
+  ExtendedMetaData getExtendedMetaData();
 }

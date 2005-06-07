@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.38 2005/06/07 13:58:53 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.39 2005/06/07 17:28:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1665,7 +1665,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   }
 
   protected ExtendedMetaData extendedMetaData;
-  protected ExtendedMetaData getExtendedMetaData()
+  public ExtendedMetaData getExtendedMetaData()
   {
     if (extendedMetaData == null)
     {
