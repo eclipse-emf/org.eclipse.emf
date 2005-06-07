@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.18 2005/05/03 12:04:33 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.19 2005/06/07 17:44:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1037,6 +1037,20 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     {
       String namespace = getNamespace(eStructuralFeature.getEContainingClass().getEPackage());
       EAnnotation eAnnotation = getAnnotation(eStructuralFeature, true);
+      eAnnotation.getDetails().put("wildcards", getEncodedWildcards(namespace, wildcards));
+      eAnnotation.getDetails().put("name","");
+    }
+    getExtendedMetaData(eStructuralFeature).setWildcards(wildcards);
+  }
+  
+  public static String getEncodedWildcards(String namespace, List wildcards)
+  {
+    if (wildcards.isEmpty())
+    {
+      return ""; 
+    }
+    else
+    {
       StringBuffer value = new StringBuffer();
       for (int i = 0, size = wildcards.size(); i < size; )
       {
@@ -1073,16 +1087,14 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         {
           value.append(wildcard);
         }
-        
+
         if (++i < size)
         {
           value.append(' ');
         }
       }
-      eAnnotation.getDetails().put("wildcards", value.toString());
-      eAnnotation.getDetails().put("name","");
+      return value.toString();
     }
-    getExtendedMetaData(eStructuralFeature).setWildcards(wildcards);
   }
 
   public int getProcessingKind(EStructuralFeature eStructuralFeature)
