@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreItemProviderAdapterFactory.java,v 1.2 2004/10/22 19:25:59 davidms Exp $
+ * $Id: EcoreItemProviderAdapterFactory.java,v 1.3 2005/06/07 16:09:01 marcelop Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -81,11 +81,11 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    */
   public EcoreItemProviderAdapterFactory()
   {
+    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
-    supportedTypes.add(IItemPropertySource.class);
-    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
+    supportedTypes.add(IItemPropertySource.class);		
   }
 
   /**
