@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaItemProviderAdapterFactory.java,v 1.1 2004/04/13 02:50:25 marcelop Exp $
+ * $Id: JavaItemProviderAdapterFactory.java,v 1.2 2005/06/07 15:42:59 marcelop Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -79,11 +79,11 @@ public class JavaItemProviderAdapterFactory extends JavaAdapterFactory implement
    */
   public JavaItemProviderAdapterFactory()
   {
+    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
-    supportedTypes.add(IItemPropertySource.class);
-    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
+    supportedTypes.add(IItemPropertySource.class);		
   }
 
   /**
