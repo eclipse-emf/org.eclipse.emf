@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaModelWizard.java,v 1.6 2005/05/10 11:38:59 emerks Exp $
+ * $Id: JavaModelWizard.java,v 1.7 2005/06/07 14:28:32 marcelop Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -566,6 +566,7 @@ public class JavaModelWizard extends Wizard implements INewWizard
       }
       catch(MissingResourceException mre)
       {
+        JavaEditorPlugin.INSTANCE.log(mre);
       }
       return typeName;
     }

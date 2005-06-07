@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.10 2005/05/12 18:06:26 emerks Exp $
+ * $Id: JavaEditor.java,v 1.11 2005/06/07 14:28:32 marcelop Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EventObject;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
@@ -65,22 +67,22 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableLayout;
-import org.eclipse.jface.viewers.TableTreeViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.TableTree;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -92,7 +94,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
-
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
@@ -110,11 +111,10 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.ViewerPane;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -134,10 +134,6 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.java.JCompilationUnit;
 import org.eclipse.emf.java.provider.JavaItemProviderAdapterFactory;
-import java.util.HashMap;
-
-import org.eclipse.core.runtime.NullProgressMonitor;
-
 import org.eclipse.emf.java.util.JavaPackageResourceFactoryImpl;
 import org.eclipse.emf.java.util.JavaPackageResourceImpl;
 import org.eclipse.emf.java.util.JavaResourceFactoryImpl;
@@ -249,13 +245,12 @@ public class JavaEditor
   protected TableViewer tableViewer;
 
   /**
-   * This shows how a table view works.
-   * A table can be used as a list with icons.
+   * This shows how a tree view with columns works.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected TableTreeViewer tableTreeViewer;
+  protected TreeViewer treeViewerWithColumns;
 
   /**
    * This keeps track of the active viewer pane, in the book.
@@ -1126,7 +1121,7 @@ public class JavaEditor
         {
           public Viewer createViewer(Composite composite)
           {
-            return new TableTreeViewer(composite);
+            return new TreeViewer(composite);
           }
           public void requestActivation()
           {
@@ -1136,31 +1131,30 @@ public class JavaEditor
         };
       viewerPane.createControl(getContainer());
 
-      tableTreeViewer = (TableTreeViewer)viewerPane.getViewer();
+      treeViewerWithColumns = (TreeViewer)viewerPane.getViewer();
 
-      TableTree tableTree = tableTreeViewer.getTableTree();
-      TableLayout layout = new TableLayout();
-      tableTree.getTable().setLayout(layout);
-      tableTree.getTable().setHeaderVisible(true);
-      tableTree.getTable().setLinesVisible(true);
+      Tree tree = treeViewerWithColumns.getTree();
+      tree.setLayoutData(new FillLayout());
+      tree.setHeaderVisible(true);
+      tree.setLinesVisible(true);
 
-      TableColumn objectColumn = new TableColumn(tableTree.getTable(), SWT.NONE);
-      layout.addColumnData(new ColumnWeightData(3, 100, true));
+      TreeColumn objectColumn = new TreeColumn(tree, SWT.NONE);
       objectColumn.setText(getString("_UI_ObjectColumn_label"));
       objectColumn.setResizable(true);
+      objectColumn.setWidth(250);
 
-      TableColumn selfColumn = new TableColumn(tableTree.getTable(), SWT.NONE);
-      layout.addColumnData(new ColumnWeightData(2, 100, true));
+      TreeColumn selfColumn = new TreeColumn(tree, SWT.NONE);
       selfColumn.setText(getString("_UI_SelfColumn_label"));
       selfColumn.setResizable(true);
+      selfColumn.setWidth(200);
 
-      tableTreeViewer.setColumnProperties(new String [] {"a", "b"});
-      tableTreeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-      tableTreeViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+      treeViewerWithColumns.setColumnProperties(new String [] {"a", "b"});
+      treeViewerWithColumns.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+      treeViewerWithColumns.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 
-      createContextMenuFor(tableTreeViewer);
+      createContextMenuFor(treeViewerWithColumns);
       int pageIndex = addPage(viewerPane.getControl());
-      setPageText(pageIndex, getString("_UI_TableTreePage_label"));
+      setPageText(pageIndex, getString("_UI_TreeWithColumnsPage_label"));
     }
 
     setActivePage(0);
