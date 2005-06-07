@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.2 2005/06/01 19:30:53 davidms Exp $
+ * $Id: GenTypedElementImpl.java,v 1.3 2005/06/07 21:20:50 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -409,7 +409,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     }
     else if (upperBound == 1)
     {
-      String typeName = getType(eTypedElement.getEType(), false); //DMs must not be null (void) *****
+      String typeName = getType(eTypedElement.getEType(), false);
       if ("org.eclipse.emf.common.util.EList".equals(typeName) || "java.util.List".equals(typeName)) 
       {
         appendModelSetting(result, qualified, "many", "false");
