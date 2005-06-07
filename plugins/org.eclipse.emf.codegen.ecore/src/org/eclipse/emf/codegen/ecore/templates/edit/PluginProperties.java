@@ -37,6 +37,7 @@ public class PluginProperties
   protected final String TEXT_20 = "_literal = ";
   protected final String TEXT_21 = NL;
   protected final String TEXT_22 = " = ";
+  protected final String TEXT_23 = NL;
 
   public String generate(Object argument)
   {
@@ -118,6 +119,7 @@ public class PluginProperties
     stringBuffer.append(TEXT_22);
     stringBuffer.append(category);
     }
+    stringBuffer.append(TEXT_23);
     return stringBuffer.toString();
   }
 }
