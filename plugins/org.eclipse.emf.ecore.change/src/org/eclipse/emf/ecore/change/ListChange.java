@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChange.java,v 1.4 2005/06/01 22:28:16 elena Exp $
+ * $Id: ListChange.java,v 1.5 2005/06/07 11:15:23 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -218,7 +218,7 @@ public interface ListChange extends EObject
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @model
+   * @model originalListMany="false"
    * @generated
    */
   void apply(EList originalList);
@@ -226,7 +226,7 @@ public interface ListChange extends EObject
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @model
+   * @model originalListMany="false"
    * @generated
    */
   void applyAndReverse(EList originalList);
