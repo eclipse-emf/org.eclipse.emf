@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeItemProviderAdapterFactory.java,v 1.2 2004/10/24 22:01:35 davidms Exp $
+ * $Id: ChangeItemProviderAdapterFactory.java,v 1.3 2005/06/07 11:16:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -78,11 +78,11 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
    */
   public ChangeItemProviderAdapterFactory()
   {
+    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
-    supportedTypes.add(IItemPropertySource.class);
-    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
+    supportedTypes.add(IItemPropertySource.class);		
   }
 
   /**
@@ -206,6 +206,30 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
   }
 
   /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.ecore.change.FeatureMapEntry} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected FeatureMapEntryItemProvider featureMapEntryItemProvider;
+
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.ecore.change.FeatureMapEntry}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createFeatureMapEntryAdapter()
+  {
+    if (featureMapEntryItemProvider == null)
+    {
+      featureMapEntryItemProvider = new FeatureMapEntryItemProvider(this);
+    }
+
+    return featureMapEntryItemProvider;
+  }
+
+  /**
    * This returns the root adapter factory that contains this factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -318,6 +342,7 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
     if (featureChangeItemProvider != null) featureChangeItemProvider.dispose();
     if (listChangeItemProvider != null) listChangeItemProvider.dispose();
     if (resourceChangeItemProvider != null) resourceChangeItemProvider.dispose();
+    if (featureMapEntryItemProvider != null) featureMapEntryItemProvider.dispose();
   }
 
 }

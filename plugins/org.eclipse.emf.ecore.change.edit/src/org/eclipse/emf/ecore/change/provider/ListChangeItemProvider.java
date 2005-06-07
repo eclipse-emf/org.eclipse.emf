@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ListChangeItemProvider.java,v 1.6 2005/05/10 11:19:58 emerks Exp $
+ * $Id: ListChangeItemProvider.java,v 1.7 2005/06/07 11:17:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -167,6 +168,24 @@ public class ListChangeItemProvider
   }
 
   /**
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Collection getChildrenFeatures(Object object)
+  {
+    if (childrenFeatures == null)
+    {
+      super.getChildrenFeatures(object);
+      childrenFeatures.add(ChangePackage.eINSTANCE.getListChange_FeatureMapEntryValues());
+    }
+    return childrenFeatures;
+  }
+
+  /**
    * This returns ListChange.gif.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -210,6 +229,9 @@ public class ListChangeItemProvider
       case ChangePackage.LIST_CHANGE__MOVE_TO_INDEX:
       case ChangePackage.LIST_CHANGE__VALUES:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+        return;
+      case ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
         return;
     }
     super.notifyChanged(notification);
