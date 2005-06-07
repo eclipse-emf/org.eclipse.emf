@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.11 2005/06/01 19:30:53 davidms Exp $
+ * $Id: GenOperationImpl.java,v 1.12 2005/06/07 21:20:24 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -653,7 +653,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         ((getName().startsWith("get") && getName().length() > 3 && Character.isUpperCase(getName().charAt(3))) ||
          (getName().startsWith("is") && getName().length() > 2 && Character.isUpperCase(getName().charAt(2)))))
     {
-      appendModelSetting(result, "parameters", "-");
+      appendModelSetting(result, "parameters", "");
     }
 
     for (Iterator i = getGenParameters().iterator(); i.hasNext(); )
