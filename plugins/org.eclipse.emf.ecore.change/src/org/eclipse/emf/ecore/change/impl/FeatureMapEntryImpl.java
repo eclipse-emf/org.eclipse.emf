@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryImpl.java,v 1.1 2005/06/01 22:28:16 elena Exp $
+ * $Id: FeatureMapEntryImpl.java,v 1.2 2005/06/07 11:15:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -36,11 +36,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
+//import org.eclipse.emf.ecore.InternalEObject;
 
 
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Feature Map Entry</b></em>'.
+ * @extends FeatureMap.Entry
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
