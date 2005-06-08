@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.5 2005/06/08 06:17:32 nickb Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.6 2005/06/08 17:41:56 davidms Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1172,6 +1172,7 @@ public class JavaEcoreBuilder
     String mapType = getModelAnnotationAttribute(modelAnnotation, "mapType");
     String dataType = getModelAnnotationAttribute(modelAnnotation, "dataType");
     String modelType = getModelAnnotationAttribute(modelAnnotation, "type");
+    String many = getModelAnnotationAttribute(modelAnnotation, "many");
 
     // For lists, maps, and feature maps, the default is many-valued, which can be overriden by an upper-bound declaration.
     //
@@ -1180,7 +1181,7 @@ public class JavaEcoreBuilder
       if ("EList".equals(type) || "org.eclipse.emf.common.util.EList".equals(type)|| "List".equals(type) || "java.util.List".equals(type))
       {
         eTypedElement.setUpperBound(-1);
-        if (modelType == null)
+        if (modelType == null && !"false".equals(many))
         {
           error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheTypeMustBeSpecifiedFor_message", new Object [] { identifierName }));
           modelType = "java.lang.Object";
@@ -1194,7 +1195,6 @@ public class JavaEcoreBuilder
       }
     }
 
-    String many = getModelAnnotationAttribute(modelAnnotation, "many");
     if (many != null)
     {
       eTypedElement.setUpperBound("true".equals(many) ? -1 : 1);
