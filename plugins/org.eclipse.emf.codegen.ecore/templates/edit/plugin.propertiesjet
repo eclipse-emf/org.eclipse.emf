@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.10 2005/06/08 20:34:18 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.11 2005/06/08 21:40:20 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -16,7 +16,7 @@
  */
 %>
 <%GenModel genModel = (GenModel)argument;%>
-<%@ include file="../PropertiesHeader.jetinc"%>
+<%@ include file="../Header.propertiesjetinc"%>
 
 # ====================================================================
 # To code developer:

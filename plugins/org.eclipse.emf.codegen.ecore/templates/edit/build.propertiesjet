@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.7 2005/06/08 20:35:12 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.8 2005/06/08 21:40:20 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -17,7 +17,7 @@
 %>
 <%GenModel genModel = (GenModel)argument;%>
 <%String pluginClassesLocation = genModel.isRuntimeJar() ? genModel.getEditPluginID()+".jar" : ".";%>
-<%@ include file="../PropertiesHeader.jetinc"%>
+<%@ include file="../Header.propertiesjetinc"%>
 
 bin.includes = <%=pluginClassesLocation%>,\
                icons/,\

@@ -16,7 +16,7 @@
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel = genPackage.getGenModel();%>
-<%@ include file="../Header.jetinc"%>
+<%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getTestsPackageName()%>;
 
 <%genModel.markImportLocation(stringBuffer);%>

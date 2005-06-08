@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.12 2005/06/08 06:18:44 nickb Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.13 2005/06/08 21:40:20 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -16,7 +16,7 @@
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
-<%@ include file="../Header.jetinc"%>
+<%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getClassPackageName()%>;
 
 <%genModel.addImport("org.eclipse.emf.ecore.EClass");%>

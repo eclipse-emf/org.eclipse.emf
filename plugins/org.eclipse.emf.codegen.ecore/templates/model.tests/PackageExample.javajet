@@ -30,7 +30,7 @@ String _Resource = genModel.getImportedName("org.eclipse.emf.ecore.resource.Reso
 String _ResourceSet = genModel.getImportedName("org.eclipse.emf.ecore.resource.ResourceSet");
 String _ResourceSetImpl = genModel.getImportedName("org.eclipse.emf.ecore.resource.impl.ResourceSetImpl");
 %>
-<%@ include file="../Header.jetinc"%>
+<%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getTestsPackageName()%>;
 
 <%genModel.markImportLocation(stringBuffer);%>

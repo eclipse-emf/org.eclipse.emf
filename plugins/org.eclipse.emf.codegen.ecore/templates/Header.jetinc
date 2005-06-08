@@ -1,6 +1,1 @@
-/**
- * <copyright>
- * </copyright>
- *
- * <%="$"%>Id<%="$"%>
- */
+<%@ include file="Header.javajetinc"%>
