@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.18 2005/06/08 06:17:51 nickb Exp $
+ * $Id: GenModelItemProvider.java,v 1.19 2005/06/08 20:27:39 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -298,7 +298,7 @@ public class GenModelItemProvider
          GenModelPackage.eINSTANCE.getGenModel_RuntimeJar(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_JETPropertyCategory"),
+         getString("_UI_AllPropertyCategory"),
          null));
   }
 
