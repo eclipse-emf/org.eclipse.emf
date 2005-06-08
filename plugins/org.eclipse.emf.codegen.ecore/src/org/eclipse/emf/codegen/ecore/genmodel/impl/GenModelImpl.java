@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.40 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenModelImpl.java,v 1.41 2005/06/08 20:31:42 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -750,7 +750,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected static final boolean RUNTIME_COMPATIBILITY_EDEFAULT = true;
+  protected static final boolean RUNTIME_COMPATIBILITY_EDEFAULT = false;
 
   /**
    * The cached value of the '{@link #isRuntimeCompatibility() <em>Runtime Compatibility</em>}' attribute.
@@ -1228,12 +1228,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public void initialize(Collection ePackages)
   {
-    if (getGenPackages().isEmpty())
-    {
-      setRuntimeCompatibility(false);
-      setRuntimeJar(true);
-    }
-
     LOOP:
     for (Iterator iter = ePackages.iterator(); iter.hasNext(); )
     {
