@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2003-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: DataValue.java,v 1.6 2005/02/23 18:31:46 marcelop Exp $
+ * $Id: DataValue.java,v 1.7 2005/06/08 06:20:10 nickb Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -1467,7 +1467,7 @@ public static class EncodingMap {
 * default port for a specific scheme). Rather, it only knows the
 * grammar and basic set of operations that can be applied to a URI.
 *
-* @version  $Id: DataValue.java,v 1.6 2005/02/23 18:31:46 marcelop Exp $
+* @version  $Id: DataValue.java,v 1.7 2005/06/08 06:20:10 nickb Exp $
 *
 **********************************************************************/
  public static final class URI implements Serializable {
@@ -3484,7 +3484,7 @@ public static class EncodingMap {
   * @author Michael Glavassevich, IBM
   * @author Rahul Srivastava, Sun Microsystems Inc.
   *
-  * @version $Id: DataValue.java,v 1.6 2005/02/23 18:31:46 marcelop Exp $
+  * @version $Id: DataValue.java,v 1.7 2005/06/08 06:20:10 nickb Exp $
   */
  public static final class XMLChar {
 

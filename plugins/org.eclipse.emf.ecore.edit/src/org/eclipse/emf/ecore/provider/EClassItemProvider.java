@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.7 2005/05/10 11:24:57 emerks Exp $
+ * $Id: EClassItemProvider.java,v 1.8 2005/06/08 06:15:46 nickb Exp $
  */
 package org.eclipse.emf.ecore.provider;
 

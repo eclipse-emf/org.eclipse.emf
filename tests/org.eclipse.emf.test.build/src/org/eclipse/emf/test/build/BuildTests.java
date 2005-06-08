@@ -1,18 +1,18 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.17 2005/06/02 21:11:40 marcelop Exp $
+ * $Id: BuildTests.java,v 1.18 2005/06/08 06:21:21 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -281,11 +281,11 @@ public class BuildTests extends TestCase
     copyrightExcludeDirectories = new ArrayList();
     javaCopyrightLines = new String [8];
     javaCopyrightLines[0] = "/*******************************************************************************";
-    javaCopyrightLines[1] = " * Copyright (c) 2000, 2003 IBM Corporation and others.";
+    javaCopyrightLines[1] = " * Copyright (c) 2000, 2005 IBM Corporation and others.";
     javaCopyrightLines[2] = " * All rights reserved. This program and the accompanying materials ";
-    javaCopyrightLines[3] = " * are made available under the terms of the Common Public License v1.0";
+    javaCopyrightLines[3] = " * are made available under the terms of the Eclipse Public License v1.0";
     javaCopyrightLines[4] = " * which accompanies this distribution, and is available at";
-    javaCopyrightLines[5] = " * http://www.eclipse.org/legal/cpl-v10.html";
+    javaCopyrightLines[5] = " * http://www.eclipse.org/legal/epl-v10.html";
     javaCopyrightLines[6] = " * ";
     javaCopyrightLines[7] = " * Contributors:";
     // Define directories with all binary types
@@ -1045,7 +1045,7 @@ public class BuildTests extends TestCase
   public static final String[] BUILD_GENERATED_ZIP_FILES_PREFIX = { "emf-runtime", "emf-source", "emf-doc", "xsd-runtime", "xsd-source",
       "xsd-doc", "sdo-runtime", "sdo-source", "sdo-doc", "emf-sdo-xsd-SDK" }; // last one changed 041104 to fix absentee chkpii testing
 
-  public static final String[] REQUIRED_FEATURE_FILES = { "cpl-v10.html", "feature.properties", "feature.xml", "license.html" };
+  public static final String[] REQUIRED_FEATURE_FILES = { "epl-v10.html", "feature.properties", "feature.xml", "license.html" };
 
   public static final String REQUIRED_FEATURE_SUFFIX = ".jpg";
 

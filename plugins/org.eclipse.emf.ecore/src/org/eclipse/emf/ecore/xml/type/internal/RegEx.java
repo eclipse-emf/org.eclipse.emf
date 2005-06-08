@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.6 2005/02/23 18:31:46 marcelop Exp $
+ * $Id: RegEx.java,v 1.7 2005/06/08 06:20:10 nickb Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -1262,7 +1262,7 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.6 2005/02/23 18:31:46 marcelop Exp $
+   * @version $Id: RegEx.java,v 1.7 2005/06/08 06:20:10 nickb Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
       static final boolean DEBUG = false;
@@ -7396,7 +7396,7 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.6 2005/02/23 18:31:46 marcelop Exp $
+   * @version $Id: RegEx.java,v 1.7 2005/06/08 06:20:10 nickb Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {

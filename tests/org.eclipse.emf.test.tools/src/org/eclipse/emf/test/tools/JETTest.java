@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: JETTest.java,v 1.3 2005/05/10 21:22:42 davidms Exp $
+ * $Id: JETTest.java,v 1.4 2005/06/08 06:24:42 nickb Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -129,7 +129,7 @@ public class JETTest extends TestCase
   protected StringBuffer templateHeader(String lineSeparator)
   {
     StringBuffer text = new StringBuffer();
-    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.3 2005/05/10 21:22:42 davidms Exp $\"%>").append(lineSeparator);
+    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.4 2005/06/08 06:24:42 nickb Exp $\"%>").append(lineSeparator);
     
     text.append("<%").append(lineSeparator);
     text.append("/**").append(lineSeparator);

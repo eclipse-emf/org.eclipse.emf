@@ -4,16 +4,16 @@
  * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
                 }
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.8 2005/04/22 14:37:13 khussey Exp $
+ * $Id: PropertyDescriptor.java,v 1.9 2005/06/08 06:20:52 nickb Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
