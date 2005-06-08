@@ -45,7 +45,7 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/modelPluginID"/>
       <genFeatures createChild="false" propertyCategory="JET" propertyDescription="The location of the dynamic templates directory"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/templateDirectory"/>
-      <genFeatures createChild="false" propertyCategory="JET" propertyDescription="Whether the generated classes are to be packaged in a jar file"
+      <genFeatures createChild="false" propertyCategory="All" propertyDescription="Whether the compiled classes are to be packaged in a JAR file (for JARed plugins, this should be false)"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/runtimeJar"/>
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/foreignModel"/>
       <genFeatures createChild="false" propertyCategory="JET" propertyDescription="Whether to ignore pre-compiled, packaged templates"

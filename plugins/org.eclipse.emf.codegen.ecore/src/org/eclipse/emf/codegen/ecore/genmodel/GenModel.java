@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.24 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenModel.java,v 1.25 2005/06/08 20:30:20 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -944,7 +944,6 @@ public interface GenModel extends GenBase{
 
   /**
    * Returns the value of the '<em><b>Runtime Compatibility</b></em>' attribute.
-   * The default value is <code>"true"</code>.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Runtime Compatibility</em>' attribute isn't clear,
@@ -954,7 +953,7 @@ public interface GenModel extends GenBase{
    * @return the value of the '<em>Runtime Compatibility</em>' attribute.
    * @see #setRuntimeCompatibility(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_RuntimeCompatibility()
-   * @model default="true"
+   * @model
    * @generated
    */
   boolean isRuntimeCompatibility();

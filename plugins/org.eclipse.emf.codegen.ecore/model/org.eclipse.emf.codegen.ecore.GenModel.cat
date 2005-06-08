@@ -195,7 +195,6 @@
 		(object ClassAttribute "runtimeCompatibility"
 		    quid       	"40AF87F9039E"
 		    type       	"boolean"
-		    initv      	"true"
 		    exportControl 	"Public")
 		(object ClassAttribute "richClientPlatform"
 		    quid       	"40B01B1E0055"
