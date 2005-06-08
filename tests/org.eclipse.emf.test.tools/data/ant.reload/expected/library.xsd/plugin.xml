@@ -2,12 +2,10 @@
 <?eclipse version="3.0"?>
 
 <!--
-/**
- * <copyright>
- * </copyright>
- *
- * $Id$
- */
+ <copyright>
+ </copyright>
+
+ $Id$
 -->
 
 <plugin>
