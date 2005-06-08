@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.7 2005/06/08 06:17:25 nickb Exp $
+ * $Id: AllSuites.java,v 1.8 2005/06/08 20:47:30 bportier Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -32,6 +32,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.sdo.types.SDOUtilSetTest.suite()
     ,org.eclipse.emf.test.sdo.types.SDOUtilProtectedGetTest.suite()
     ,org.eclipse.emf.test.sdo.TestSDO.suite()
+    ,org.eclipse.emf.test.sdo.DateTest.suite()
   };
 
   public static Test suite()

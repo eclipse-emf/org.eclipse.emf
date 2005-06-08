@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLCalendar.java,v 1.5 2005/06/08 20:47:39 bportier Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -75,8 +75,14 @@
 package org.eclipse.emf.ecore.xml.type.internal;
 
 
-import java.util.Arrays;
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.xml.type.InvalidDatatypeValueException;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.TypeValidator;
 
@@ -135,9 +141,22 @@ public final class XMLCalendar
 
   protected final static int DAY = 15;
 
-  final int[] dateValue;
+  private int[] dateValue;
 
   final short dataType;
+
+  private Date date;
+
+  protected static final DateFormat [] EDATE_FORMATS =
+  {
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'S'Z'"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
+    new SafeSimpleDateFormat("yyyy-MM-dd")
+  };
+
+  {
+    EDATE_FORMATS[0].setTimeZone(TimeZone.getTimeZone("GMT"));
+  }
 
   public XMLCalendar(String value, short datatype)
   {
@@ -194,17 +213,32 @@ public final class XMLCalendar
     }
   }
 
+  public XMLCalendar(Date date, short dataType)
+  {
+    this.date = date;
+    this.dataType = dataType;
+  }
+
   public boolean equals(Object obj)
   {
     if (!(obj instanceof XMLCalendar))
+    {
       return false;
-    int[] odata = ((XMLCalendar)obj).dateValue;
-    return (dateValue[XMLCalendar.utc] == odata[XMLCalendar.utc]) ? Arrays.equals(dateValue, odata) : false;
+    }
+
+    XMLCalendar xmlCalendarObj = (XMLCalendar)obj;
+    if (dataType != xmlCalendarObj.dataType)
+    {
+      return false;
+    }
+
+    return compare(this, (XMLCalendar)obj) == EQUALS;
   }
 
   public int hashCode()
   {
-    int hashCode = 0;
+    int hashCode = dataType;
+    int [] dateValue = getDateValue();
     for (int i=0;i<TOTAL_SIZE;i++)
     {
       hashCode^=dateValue[i];
@@ -231,8 +265,40 @@ public final class XMLCalendar
   // the parameters are in compiled form (from getActualValue)
   public static int compare(XMLCalendar value1, XMLCalendar value2)
   {
-    return compareDates(value1.dateValue, value2.dateValue, true);
+    return (value1.dataType != value2.dataType) ? INDETERMINATE : compareDates(value1.getDateValue(), value2.getDateValue(), true); 
   }//compare()
+
+  protected int[] getDateValue()
+  {
+    if (dateValue == null)
+    {
+      dateValue = parseDateTime(XMLCalendar.EDATE_FORMATS[1].format(date));
+    }
+    return dateValue;
+  }
+
+  public Date getDate()
+  {
+    if (date == null)
+    {
+      try
+      {
+        if (dataType == XMLCalendar.DATETIME)
+        {
+          date = XMLCalendar.EDATE_FORMATS[0].parse(dateTimeToString());
+        }
+        else if (dataType == XMLCalendar.DATE)
+        {
+          date = XMLCalendar.EDATE_FORMATS[2].parse(dateToString());
+        }
+      }
+      catch (Exception e)
+      {
+        throw new WrappedException(e);
+      }
+    }
+    return date;
+  }
 
   /**
    * Compare algorithm described in dateDime (3.2.7).
@@ -882,6 +948,10 @@ public final class XMLCalendar
 
   private String dateTimeToString()
   {
+    if (date != null)
+    {
+      return XMLCalendar.EDATE_FORMATS[1].format(date);
+    }
     StringBuffer message = new StringBuffer(25);
     append(message, dateValue[CY], 4);
     message.append('-');
@@ -903,6 +973,7 @@ public final class XMLCalendar
   private String dateToString()
   {
     StringBuffer message = new StringBuffer(25);
+    int[] dateValue = getDateValue();
     append(message, dateValue[CY], 4);
     message.append('-');
     append(message, dateValue[M], 2);
@@ -1268,6 +1339,26 @@ public final class XMLCalendar
       normalize(date, timeZone);
     }
     return date;
+  }
+
+  private static class SafeSimpleDateFormat extends SimpleDateFormat
+  {
+    public SafeSimpleDateFormat(String pattern)
+    {
+      super(pattern);
+    }
+
+    public synchronized Date parse(String source) throws ParseException
+    {
+      return super.parse(source);
+    }
+
+    public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition pos)
+    {
+      StringBuffer result = super.format(date, toAppendTo, pos);
+      result.insert(result.length() - 2, ":");
+      return result;
+    }
   }
 
 }

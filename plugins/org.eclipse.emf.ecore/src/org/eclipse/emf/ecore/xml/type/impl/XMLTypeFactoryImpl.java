@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,18 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.12 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.13 2005/06/08 20:47:39 bportier Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -27,11 +32,20 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.xml.type.*;
+import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.emf.ecore.xml.type.InvalidDatatypeValueException;
+import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
+import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.ecore.xml.type.internal.QName;
-import org.eclipse.emf.ecore.xml.type.internal.XMLDuration;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
-import org.eclipse.emf.ecore.xml.type.internal.DataValue.*;
+import org.eclipse.emf.ecore.xml.type.internal.XMLDuration;
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.Base64;
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.HexBin;
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.URI;
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.XMLChar;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
@@ -40,6 +54,13 @@ import org.eclipse.emf.ecore.xml.type.internal.DataValue.*;
  */
 public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
 {
+
+  protected static final DateFormat [] EDATE_FORMATS =
+  {
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
+    new SafeSimpleDateFormat("yyyy-MM-ddZ")
+  };
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -702,7 +723,15 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertDateToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    if (instanceValue == null)
+    {
+      return null;
+    }
+    if (instanceValue instanceof Date)
+    {
+      return EDATE_FORMATS[1].format((Date)instanceValue);
+    }
+    return instanceValue.toString();
   }
 
   /**
@@ -722,7 +751,15 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertDateTimeToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    if (instanceValue == null)
+    {
+      return null;
+    }
+    if (instanceValue instanceof Date)
+    {
+      return EDATE_FORMATS[0].format((Date)instanceValue);
+    }
+    return instanceValue.toString();
   }
 
   /**
@@ -1641,4 +1678,25 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     }
     throw new InvalidDatatypeValueException("Invalid boolean value: '" + initialValue + "'");
   }
+
+  private static class SafeSimpleDateFormat extends SimpleDateFormat
+  {
+    public SafeSimpleDateFormat(String pattern)
+    {
+      super(pattern);
+    }
+
+    public synchronized Date parse(String source) throws ParseException
+    {
+      return super.parse(source);
+    }
+
+    public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition pos)
+    {
+      StringBuffer result = super.format(date, toAppendTo, pos);
+      result.insert(result.length() - 2, ":");
+      return result;
+    }
+  }
+
 } //XMLTypeFactoryImpl
