@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.10 2005/05/12 18:08:21 emerks Exp $
+ * $Id: EcoreModelWizard.java,v 1.11 2005/06/08 12:34:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -559,6 +559,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
       }
       catch(MissingResourceException mre)
       {
+        EcoreEditorPlugin.INSTANCE.log(mre);
       }
       return typeName;
     }

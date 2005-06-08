@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObject.java,v 1.5 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EObject.java,v 1.6 2005/06/08 12:35:27 marcelop Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -196,7 +196,7 @@ public interface EObject extends Notifier
    * @see #eAllContents
    * @ignore
    * <!-- end-user-doc -->
-   * @model
+   * @model many="false"
    * @generated
    */
   EList eContents();
@@ -264,7 +264,7 @@ public interface EObject extends Notifier
    * @see org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer
    * @return a list view of the cross referenced objects.
    * <!-- end-user-doc -->
-   * @model
+   * @model many="false"
    * @generated
    */
   EList eCrossReferences();
