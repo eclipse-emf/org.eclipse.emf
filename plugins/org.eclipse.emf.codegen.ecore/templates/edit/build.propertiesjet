@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.6 2005/06/08 06:18:44 nickb Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.7 2005/06/08 20:35:12 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -16,27 +16,16 @@
  */
 %>
 <%GenModel genModel = (GenModel)argument;%>
-<!--
-<%@ include file="../Header.jetinc"%>
--->
-<%if (genModel.isRuntimeJar()) {%>
-<%String jarFile = genModel.getEditPluginID()+".jar";%>
-bin.includes = plugin.xml,\
-               <%=jarFile%>,\
-               plugin.properties,\
+<%String pluginClassesLocation = genModel.isRuntimeJar() ? genModel.getEditPluginID()+".jar" : ".";%>
+<%@ include file="../PropertiesHeader.jetinc"%>
+
+bin.includes = <%=pluginClassesLocation%>,\
+               icons/,\
 <%if (genModel.isBundleManifest()) {%>
                META-INF/,\
 <%}%>
-               icons/
-jars.compile.order = <%=jarFile%>
-source.<%=jarFile%> = src/
-output.<%=jarFile%> = bin/
-exclude.<%=jarFile%> = **/doc-files/**
-<%} else {%>
-bin.includes = plugin.xml,\
-               plugin.properties,\
-<%if (genModel.isBundleManifest()) {%>
-               META-INF/,\
-<%}%>
-               icons/
-<%}%>
+               plugin.xml,\
+               plugin.properties
+jars.compile.order = <%=pluginClassesLocation%>
+source.<%=pluginClassesLocation%> = src/
+output.<%=pluginClassesLocation%> = bin/

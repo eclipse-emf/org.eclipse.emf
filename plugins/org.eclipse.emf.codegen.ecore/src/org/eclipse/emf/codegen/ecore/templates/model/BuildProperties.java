@@ -14,26 +14,17 @@ public class BuildProperties
   }
 
   protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
-  protected final String TEXT_1 = "<!--";
-  protected final String TEXT_2 = NL;
-  protected final String TEXT_3 = "/**" + NL + " * <copyright>" + NL + " * </copyright>" + NL + " *" + NL + " * ";
-  protected final String TEXT_4 = "Id";
-  protected final String TEXT_5 = NL + " */" + NL + "-->";
-  protected final String TEXT_6 = NL + "bin.includes = plugin.xml,\\";
-  protected final String TEXT_7 = NL + "               ";
-  protected final String TEXT_8 = ",\\" + NL + "               model/,\\";
-  protected final String TEXT_9 = NL + "               icons/,\\";
-  protected final String TEXT_10 = NL + "               META-INF/,\\";
-  protected final String TEXT_11 = NL + "               plugin.properties" + NL + "jars.compile.order = ";
-  protected final String TEXT_12 = NL + "source.";
-  protected final String TEXT_13 = " = src/" + NL + "output.";
-  protected final String TEXT_14 = " = bin/" + NL + "exclude.";
-  protected final String TEXT_15 = " = **/doc-files/**";
-  protected final String TEXT_16 = NL + "bin.includes = plugin.xml,\\" + NL + "               model/,\\";
-  protected final String TEXT_17 = NL + "               icons/,\\";
-  protected final String TEXT_18 = NL + "               META-INF/,\\";
-  protected final String TEXT_19 = NL + "               plugin.properties";
-  protected final String TEXT_20 = NL;
+  protected final String TEXT_1 = "";
+  protected final String TEXT_2 = "# <copyright>" + NL + "# </copyright>" + NL + "#" + NL + "# ";
+  protected final String TEXT_3 = "Id";
+  protected final String TEXT_4 = NL + NL + "bin.includes = ";
+  protected final String TEXT_5 = ",\\" + NL + "               model/,\\";
+  protected final String TEXT_6 = NL + "               icons/,\\";
+  protected final String TEXT_7 = NL + "               META-INF/,\\";
+  protected final String TEXT_8 = NL + "               plugin.xml,\\" + NL + "               plugin.properties" + NL + "jars.compile.order = ";
+  protected final String TEXT_9 = NL + "source.";
+  protected final String TEXT_10 = " = src/" + NL + "output.";
+  protected final String TEXT_11 = " = bin/";
 
   public String generate(Object argument)
   {
@@ -55,45 +46,28 @@ public class BuildProperties
  */
 
     GenModel genModel = (GenModel)argument;
+    String pluginClassesLocation = genModel.isRuntimeJar() ? genModel.getModelPluginID()+".jar" : ".";
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
+    stringBuffer.append("$");
     stringBuffer.append(TEXT_3);
     stringBuffer.append("$");
     stringBuffer.append(TEXT_4);
-    stringBuffer.append("$");
+    stringBuffer.append(pluginClassesLocation);
     stringBuffer.append(TEXT_5);
-    if (genModel.isRuntimeJar()) {
-    String jarFile = genModel.getModelPluginID()+".jar";
+    if (genModel.sameModelEditProject() || genModel.sameModelEditorProject()) {
     stringBuffer.append(TEXT_6);
+    }
+    if (genModel.isBundleManifest()) {
     stringBuffer.append(TEXT_7);
-    stringBuffer.append(jarFile);
+    }
     stringBuffer.append(TEXT_8);
-    if (genModel.sameModelEditProject() || genModel.sameModelEditorProject()) {
+    stringBuffer.append(pluginClassesLocation);
     stringBuffer.append(TEXT_9);
-    }
-    if (genModel.isBundleManifest()) {
+    stringBuffer.append(pluginClassesLocation);
     stringBuffer.append(TEXT_10);
-    }
+    stringBuffer.append(pluginClassesLocation);
     stringBuffer.append(TEXT_11);
-    stringBuffer.append(jarFile);
-    stringBuffer.append(TEXT_12);
-    stringBuffer.append(jarFile);
-    stringBuffer.append(TEXT_13);
-    stringBuffer.append(jarFile);
-    stringBuffer.append(TEXT_14);
-    stringBuffer.append(jarFile);
-    stringBuffer.append(TEXT_15);
-    } else {
-    stringBuffer.append(TEXT_16);
-    if (genModel.sameModelEditProject() || genModel.sameModelEditorProject()) {
-    stringBuffer.append(TEXT_17);
-    }
-    if (genModel.isBundleManifest()) {
-    stringBuffer.append(TEXT_18);
-    }
-    stringBuffer.append(TEXT_19);
-    }
-    stringBuffer.append(TEXT_20);
     return stringBuffer.toString();
   }
 }
