@@ -5,7 +5,8 @@
     creationCommands="false" editDirectory="/org.eclipse.emf.ecore.change.edit/src"
     editorDirectory="" modelPluginID="org.eclipse.emf.ecore.change" runtimeJar="true"
     modelName="Change" editPluginClass="org.eclipse.emf.ecore.change.provider.ChangeEditPlugin"
-    editorPluginClass="" updateClasspath="false" runtimeCompatibility="false" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    editorPluginClass="" updateClasspath="false" runtimeCompatibility="false" testsDirectory=""
+    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>Change.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
