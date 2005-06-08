@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: CreateChildCommand.java,v 1.6 2004/09/24 04:11:46 davidms Exp $
+ * $Id: CreateChildCommand.java,v 1.5.2.1 2005/06/08 18:27:45 nickb Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -25,7 +25,6 @@ import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
@@ -201,18 +200,6 @@ public class CreateChildCommand extends CommandWrapper
     this.index = index;
     this.selection = selection == null ? Collections.EMPTY_LIST : selection;
     this.helper = helper == null ? defaultHelper : helper;
-
-    // If we're creating a child under an object in a feature map, the selection will be the feature map entry.
-    // We want to replace it with the model object.
-    //
-    if (this.selection.size() == 1)
-    {
-      Object selObject = this.selection.iterator().next();
-      if (selObject instanceof FeatureMap.Entry && ((FeatureMap.Entry)selObject).getValue() == owner)
-      {
-        this.selection = Collections.singletonList(owner);
-      }
-    }
 
     String text = this.helper.getCreateChildText(owner, feature, child, selection);
     setLabel(EMFEditPlugin.INSTANCE.getString(

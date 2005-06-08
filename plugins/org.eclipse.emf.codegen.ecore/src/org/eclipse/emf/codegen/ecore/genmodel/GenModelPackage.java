@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.7 2004/11/01 21:10:25 davidms Exp $
+ * $Id: GenModelPackage.java,v 1.5.2.1 2005/06/08 18:27:45 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -402,22 +402,13 @@ public interface GenModelPackage extends EPackage{
   int GEN_MODEL__REFLECTIVE_DELEGATION = GEN_BASE_FEATURE_COUNT + 32;
 
   /**
-   * The feature id for the '<em><b>Code Formatting</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int GEN_MODEL__CODE_FORMATTING = GEN_BASE_FEATURE_COUNT + 33;
-
-  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 34;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 33;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -426,7 +417,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 35;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 34;
 
   /**
    * The number of structural features of the the '<em>GenModel</em>' class.
@@ -435,7 +426,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 36;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 35;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -475,22 +466,13 @@ public interface GenModelPackage extends EPackage{
   int GEN_PACKAGE__RESOURCE = GEN_BASE_FEATURE_COUNT + 2;
 
   /**
-   * The feature id for the '<em><b>Disposable Provider Factory</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY = GEN_BASE_FEATURE_COUNT + 3;
-
-  /**
    * The feature id for the '<em><b>Adapter Factory</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__ADAPTER_FACTORY = GEN_BASE_FEATURE_COUNT + 4;
+  int GEN_PACKAGE__ADAPTER_FACTORY = GEN_BASE_FEATURE_COUNT + 3;
 
   /**
    * The feature id for the '<em><b>Load Initialization</b></em>' attribute.
@@ -499,7 +481,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__LOAD_INITIALIZATION = GEN_BASE_FEATURE_COUNT + 5;
+  int GEN_PACKAGE__LOAD_INITIALIZATION = GEN_BASE_FEATURE_COUNT + 4;
 
   /**
    * The feature id for the '<em><b>Ecore Package</b></em>' reference.
@@ -508,7 +490,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__ECORE_PACKAGE = GEN_BASE_FEATURE_COUNT + 6;
+  int GEN_PACKAGE__ECORE_PACKAGE = GEN_BASE_FEATURE_COUNT + 5;
 
   /**
    * The feature id for the '<em><b>Gen Model</b></em>' container reference.
@@ -517,7 +499,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_MODEL = GEN_BASE_FEATURE_COUNT + 7;
+  int GEN_PACKAGE__GEN_MODEL = GEN_BASE_FEATURE_COUNT + 6;
 
   /**
    * The feature id for the '<em><b>Gen Enums</b></em>' containment reference list.
@@ -526,7 +508,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_ENUMS = GEN_BASE_FEATURE_COUNT + 8;
+  int GEN_PACKAGE__GEN_ENUMS = GEN_BASE_FEATURE_COUNT + 7;
 
   /**
    * The feature id for the '<em><b>Gen Data Types</b></em>' containment reference list.
@@ -535,7 +517,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_DATA_TYPES = GEN_BASE_FEATURE_COUNT + 9;
+  int GEN_PACKAGE__GEN_DATA_TYPES = GEN_BASE_FEATURE_COUNT + 8;
 
   /**
    * The feature id for the '<em><b>Gen Classes</b></em>' containment reference list.
@@ -544,7 +526,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_CLASSES = GEN_BASE_FEATURE_COUNT + 10;
+  int GEN_PACKAGE__GEN_CLASSES = GEN_BASE_FEATURE_COUNT + 9;
 
   /**
    * The feature id for the '<em><b>Nested Gen Packages</b></em>' containment reference list.
@@ -553,7 +535,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__NESTED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 11;
+  int GEN_PACKAGE__NESTED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 10;
 
   /**
    * The feature id for the '<em><b>Gen Classifiers</b></em>' reference list.
@@ -562,7 +544,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_CLASSIFIERS = GEN_BASE_FEATURE_COUNT + 12;
+  int GEN_PACKAGE__GEN_CLASSIFIERS = GEN_BASE_FEATURE_COUNT + 11;
 
   /**
    * The number of structural features of the the '<em>Gen Package</em>' class.
@@ -571,7 +553,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 13;
+  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 12;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl <em>Gen Classifier</em>}' class.
@@ -1375,17 +1357,6 @@ public interface GenModelPackage extends EPackage{
   EAttribute getGenModel_ReflectiveDelegation();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCodeFormatting <em>Code Formatting</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Code Formatting</em>'.
-   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCodeFormatting()
-   * @see #getGenModel()
-   * @generated
-   */
-  EAttribute getGenModel_CodeFormatting();
-
-  /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1449,17 +1420,6 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   EAttribute getGenPackage_Resource();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDisposableProviderFactory <em>Disposable Provider Factory</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Disposable Provider Factory</em>'.
-   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDisposableProviderFactory()
-   * @see #getGenPackage()
-   * @generated
-   */
-  EAttribute getGenPackage_DisposableProviderFactory();
 
   /**
    * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isAdapterFactory <em>Adapter Factory</em>}'.

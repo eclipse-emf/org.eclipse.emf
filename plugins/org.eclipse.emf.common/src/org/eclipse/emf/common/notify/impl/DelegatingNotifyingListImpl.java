@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.3 2004/10/14 17:41:29 marcelop Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.2.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -558,67 +558,27 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
         BasicEList list = new BasicEList(collection);
         Object [] objects = list.data();
         positions = new int [listSize];
-        int count = 0;
 
-        if (isUnique())
+        // Count up the objects that will be removed.
+        // The objects are exchanged to produce this list's order
+        //
+        int count = 0;
+        for (ListIterator i = delegateListIterator(); i.hasNext(); )
         {
-          // Count up the objects that will be removed.
-          // The objects are exchanged to produce this list's order
-          //
-          for (ListIterator i = delegateListIterator(); i.hasNext(); )
+          Object object = i.next();
+          for (int j = listSize; --j >= 0; )
           {
-            Object object = i.next();
-            for (int j = listSize; --j >= 0; )
+            if (equalObjects(object, objects[j]))
             {
-              if (equalObjects(object, objects[j]))
+              if (count != j)
               {
-                if (count != j)
-                {
-                  Object x = objects[count];
-                  objects[count] = objects[j];
-                  objects[j] = x;
-                }
-                positions[count++] = i.previousIndex();
-                break;
+                Object x = objects[count];
+                objects[count] = objects[j];
+                objects[j] = x;
               }
+              positions[count++] = i.previousIndex();
+              break;
             }
-          }
-        }
-        else
-        {
-          BasicEList resultList = new BasicEList(listSize);
-          
-          // Count up the objects that will be removed.
-          // The objects are exchanged to produce this list's order
-          //
-          for (ListIterator i = delegateListIterator(); i.hasNext(); )
-          {
-            Object object = i.next();
-            for (int j = listSize; --j >= 0; )
-            {
-              if (equalObjects(object, objects[j]))
-              {
-                if (positions.length <= count)
-                {
-                  int [] oldPositions = positions;
-                  positions = new int [2 * positions.length];
-                  System.arraycopy(oldPositions, 0, positions, 0, count);
-                }
-                positions[count++] = i.previousIndex();
-                resultList.add(objects[j]);
-              }
-            }
-          }
-          
-          list = resultList;
-          objects = resultList.data();
-          listSize = count;
-          
-          if (count > positions.length)
-          {
-            int [] oldPositions = positions;
-            positions = new int [count];
-            System.arraycopy(oldPositions, 0, positions, 0, count);
           }
         }
 

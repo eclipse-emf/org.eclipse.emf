@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: FeatureEditorDialog.java,v 1.5 2004/10/08 20:21:35 marcelop Exp $
+ * $Id: FeatureEditorDialog.java,v 1.4.2.1 2005/06/08 18:27:44 nickb Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
@@ -125,17 +125,17 @@ public class FeatureEditorDialog extends Dialog
     contentsGridLayout.numColumns = 3;
 
     GridData contentsGridData = (GridData)contents.getLayoutData();
-    contentsGridData.horizontalAlignment = SWT.FILL;
-    contentsGridData.verticalAlignment = SWT.FILL;
+    contentsGridData.horizontalAlignment = GridData.FILL;
+    contentsGridData.verticalAlignment = GridData.FILL;
 
     Composite featureComposite = new Composite(contents, SWT.NONE);
     {
-      GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-      data.horizontalAlignment = SWT.END;
+      GridData data = new GridData();
+      data.horizontalAlignment = GridData.END;
       featureComposite.setLayoutData(data);
 
       GridLayout layout = new GridLayout();
-      data.horizontalAlignment = SWT.FILL;
+      data.horizontalAlignment = GridData.FILL;
       layout.marginHeight = 0;
       layout.marginWidth = 0;
       layout.numColumns = 1;
@@ -146,16 +146,16 @@ public class FeatureEditorDialog extends Dialog
     featureLabel.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Feature_label"));
     GridData featureLabelGridData = new GridData();
     featureLabelGridData.horizontalSpan = 2;
-    featureLabelGridData.horizontalAlignment = SWT.FILL;
-    featureLabelGridData.verticalAlignment = SWT.FILL;
+    featureLabelGridData.horizontalAlignment = GridData.FILL;
+    featureLabelGridData.verticalAlignment = GridData.FILL;
     featureLabel.setLayoutData(featureLabelGridData);
     
     final Table featureTable = new Table(featureComposite, SWT.MULTI | SWT.BORDER);
     GridData featureTableGridData = new GridData();
     featureTableGridData.widthHint = Display.getCurrent().getBounds().width / 5;
     featureTableGridData.heightHint = Display.getCurrent().getBounds().height / 3;
-    featureTableGridData.verticalAlignment = SWT.FILL;
-    featureTableGridData.horizontalAlignment = SWT.FILL;
+    featureTableGridData.verticalAlignment = GridData.FILL;
+    featureTableGridData.horizontalAlignment = GridData.FILL;
     featureTableGridData.grabExcessHorizontalSpace= true;
     featureTableGridData.grabExcessVerticalSpace= true;
     featureTable.setLayoutData(featureTableGridData);
@@ -171,8 +171,8 @@ public class FeatureEditorDialog extends Dialog
 
     Composite controlButtons = new Composite(contents, SWT.NONE);
     GridData controlButtonsGridData = new GridData();
-    controlButtonsGridData.verticalAlignment = SWT.FILL;
-    controlButtonsGridData.horizontalAlignment = SWT.FILL;
+    controlButtonsGridData.verticalAlignment = GridData.FILL;
+    controlButtonsGridData.horizontalAlignment = GridData.FILL;
     controlButtons.setLayoutData(controlButtonsGridData);
 
     GridLayout controlsButtonGridLayout = new GridLayout();
@@ -183,39 +183,40 @@ public class FeatureEditorDialog extends Dialog
     final Button upButton = new Button(controlButtons, SWT.PUSH);
     upButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Up_label"));
     GridData upButtonGridData = new GridData();
-    upButtonGridData.verticalAlignment = SWT.FILL;
-    upButtonGridData.horizontalAlignment = SWT.FILL;
+    upButtonGridData.verticalAlignment = GridData.FILL;
+    upButtonGridData.horizontalAlignment = GridData.FILL;
     upButton.setLayoutData(upButtonGridData);
 
     final Button downButton = new Button(controlButtons, SWT.PUSH);
     downButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Down_label"));
     GridData downButtonGridData = new GridData();
-    downButtonGridData.verticalAlignment = SWT.FILL;
-    downButtonGridData.horizontalAlignment = SWT.FILL;
+    downButtonGridData.verticalAlignment = GridData.FILL;
+    downButtonGridData.horizontalAlignment = GridData.FILL;
     downButton.setLayoutData(downButtonGridData);
 
     final Button addButton = new Button(controlButtons, SWT.PUSH);
     addButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Add_label"));
     GridData addButtonGridData = new GridData();
-    addButtonGridData.verticalAlignment = SWT.FILL;
-    addButtonGridData.horizontalAlignment = SWT.FILL;
+    addButtonGridData.verticalAlignment = GridData.FILL;
+    addButtonGridData.horizontalAlignment = GridData.FILL;
     addButton.setLayoutData(addButtonGridData);
 
     final Button removeButton = new Button(controlButtons, SWT.PUSH);
     removeButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Remove_label"));
     GridData removeButtonGridData = new GridData();
-    removeButtonGridData.verticalAlignment = SWT.FILL;
-    removeButtonGridData.horizontalAlignment = SWT.FILL;
+    removeButtonGridData.verticalAlignment = GridData.FILL;
+    removeButtonGridData.horizontalAlignment = GridData.FILL;
     removeButton.setLayoutData(removeButtonGridData);
 
     Composite choiceComposite = new Composite(contents, SWT.NONE);
     {
-      GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-      data.horizontalAlignment = SWT.END;
+      GridData data = new GridData();
+      data.horizontalAlignment = GridData.END;
       choiceComposite.setLayoutData(data);
 
       GridLayout layout = new GridLayout();
-      data.horizontalAlignment = SWT.FILL;
+      data.verticalAlignment = GridData.BEGINNING;
+      data.horizontalAlignment = GridData.FILL;
       layout.marginHeight = 0;
       layout.marginWidth = 0;
       layout.numColumns = 1;
@@ -228,8 +229,8 @@ public class FeatureEditorDialog extends Dialog
          EMFEditUIPlugin.INSTANCE.getString("_UI_Value_label") : 
          EMFEditUIPlugin.INSTANCE.getString("_UI_Choices_label"));
     GridData choiceLabelGridData = new GridData();
-    choiceLabelGridData.verticalAlignment = SWT.FILL;
-    choiceLabelGridData.horizontalAlignment = SWT.FILL;
+    choiceLabelGridData.verticalAlignment = GridData.FILL;
+    choiceLabelGridData.horizontalAlignment = GridData.FILL;
     choiceLabel.setLayoutData(choiceLabelGridData);
 
     final Table choiceTable = choiceOfValues == null ? null : new Table(choiceComposite, SWT.MULTI | SWT.BORDER);
@@ -238,8 +239,8 @@ public class FeatureEditorDialog extends Dialog
       GridData choiceTableGridData = new GridData();
       choiceTableGridData.widthHint = Display.getCurrent().getBounds().width / 5;
       choiceTableGridData.heightHint = Display.getCurrent().getBounds().height / 3;
-      choiceTableGridData.verticalAlignment = SWT.FILL;
-      choiceTableGridData.horizontalAlignment = SWT.FILL;
+      choiceTableGridData.verticalAlignment = GridData.FILL;
+      choiceTableGridData.horizontalAlignment = GridData.FILL;
       choiceTableGridData.grabExcessHorizontalSpace= true;
       choiceTableGridData.grabExcessVerticalSpace= true;
       choiceTable.setLayoutData(choiceTableGridData);
@@ -258,8 +259,7 @@ public class FeatureEditorDialog extends Dialog
     {
       GridData choiceTextGridData = new GridData();
       choiceTextGridData.widthHint = Display.getCurrent().getBounds().width / 5;
-      choiceTextGridData.verticalAlignment = SWT.BEGINNING;
-      choiceTextGridData.horizontalAlignment = SWT.FILL;
+      choiceTextGridData.verticalAlignment = GridData.BEGINNING;
       choiceTextGridData.grabExcessHorizontalSpace= true;
       choiceText.setLayoutData(choiceTextGridData);
 

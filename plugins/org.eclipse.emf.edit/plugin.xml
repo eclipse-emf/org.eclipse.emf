@@ -7,23 +7,23 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.7 2004/10/29 19:21:06 marcelop Exp $
+ * $Id: plugin.xml,v 1.5.2.1 2005/06/08 18:27:47 nickb Exp $
  */
 -->
 
 <plugin
     name = "%pluginName"
     id = "org.eclipse.emf.edit"
-    version = "2.1.0"
+    version = "2.0.1"
     provider-name = "%providerName"
     class = "org.eclipse.emf.edit.EMFEditPlugin$Implementation" >
 
@@ -36,6 +36,7 @@
   <runtime>
     <library name="runtime/edit.jar">
       <export name="*"/>
+      <packages prefixes="org.eclipse.emf.edit"/>
     </library>
   </runtime>
 

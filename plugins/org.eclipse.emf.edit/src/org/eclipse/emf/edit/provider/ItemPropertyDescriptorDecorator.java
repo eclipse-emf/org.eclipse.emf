@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptorDecorator.java,v 1.2 2004/09/24 04:14:41 davidms Exp $
+ * $Id: ItemPropertyDescriptorDecorator.java,v 1.1.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -148,13 +148,5 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor
   public Collection getChoiceOfValues(Object thisObject)
   {
     return itemPropertyDescriptor.getChoiceOfValues(object);
-  }
-
-  /**
-   * This does the delegated job of determing whether the  property represents multiple values.
-   */
-  public boolean isMany(Object thisObject)
-  {
-    return itemPropertyDescriptor.isMany(thisObject);
   }
 }

@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.4 2004/10/21 16:12:02 marcelop Exp $
+ * $Id: XMLResourceImpl.java,v 1.3.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -254,17 +254,12 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
    */
   public void setID(EObject eObject, String id)
   {
-    Object oldID = id != null ? getEObjectToIDMap().put(eObject, id) : getEObjectToIDMap().remove(eObject);
-    
+    Object oldID = getEObjectToIDMap().put(eObject, id);
     if (oldID != null)
     {
       getIDToEObjectMap().remove(oldID);
     }
-    
-    if (id != null)
-    {
-      getIDToEObjectMap().put(id, eObject);
-    }
+    getIDToEObjectMap().put(id, eObject);
   }
 
   /*
@@ -302,51 +297,86 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   {
     return uriFragment.startsWith("/");
   }
-  
-  protected boolean isAttachedDetachedHelperRequired()
+
+  /*
+   * Javadoc copied from interface.
+   */
+  public void attached(EObject eObject)
   {
-    return useIDs() || super.isAttachedDetachedHelperRequired();
+    if (useIDs())
+    {
+      attachedHelper(eObject);
+      for (Iterator tree = eObject.eAllContents(); tree.hasNext(); )
+      {
+        EObject child = (EObject)tree.next();
+        attachedHelper(child);
+      }
+    }
+    else
+    {
+      super.attached(eObject);
+    }
   }
 
   protected void attachedHelper(EObject eObject)
   {
-    super.attachedHelper(eObject);
-    
+    if (modificationTrackingAdapter != null)
+    {
+      eObject.eAdapters().add(modificationTrackingAdapter);
+    }
+
+    String id = getID(eObject);
+    if (useUUIDs() && id == null)
+    {
+      id = (String)DETACHED_EOBJECT_TO_ID_MAP.remove(eObject);
+      if (id == null)
+      {
+        id = EcoreUtil.generateUUID();
+      }
+      setID(eObject, id);
+    }
+    else if (id != null)
+    {
+      getIDToEObjectMap().put(id, eObject);
+    }
+  }
+
+  /*
+   * Javadoc copied from interface.
+   */
+  public void detached(EObject eObject)
+  {
     if (useIDs())
     {
-      String id = getID(eObject);
-      if (useUUIDs() && id == null)
+      detachedHelper(eObject);
+      for (Iterator tree = eObject.eAllContents(); tree.hasNext(); )
       {
-        id = (String)DETACHED_EOBJECT_TO_ID_MAP.remove(eObject);
-        if (id == null)
-        {
-          id = EcoreUtil.generateUUID();
-        }
-        setID(eObject, id);
+        EObject child = (EObject)tree.next();
+        detachedHelper(child);
       }
-      else if (id != null)
-      {
-        getIDToEObjectMap().put(id, eObject);
-      }
+    }
+    else
+    {
+      super.detached(eObject);
     }
   }
 
   protected void detachedHelper(EObject eObject)
   {
-    if (useIDs())
+    if (modificationTrackingAdapter != null)
     {
-      if (useUUIDs())
-      {
-        DETACHED_EOBJECT_TO_ID_MAP.put(eObject, getID(eObject));
-      }
-
-      if (idToEObjectMap != null && eObjectToIDMap != null)
-      {
-        setID(eObject, null);
-      }
+      eObject.eAdapters().remove(modificationTrackingAdapter);
     }
-    
-    super.detachedHelper(eObject);
+
+    if (useUUIDs())
+    {
+      DETACHED_EOBJECT_TO_ID_MAP.put(eObject, getID(eObject));
+    }
+
+    if (idToEObjectMap != null && eObjectToIDMap != null)
+    {
+      idToEObjectMap.remove(eObjectToIDMap.remove(eObject));
+    }
   }
 
   /**

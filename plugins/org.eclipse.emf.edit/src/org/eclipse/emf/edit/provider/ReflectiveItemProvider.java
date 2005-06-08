@@ -3,23 +3,22 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.10 2004/10/19 15:16:51 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.7.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.edit.provider;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +29,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -38,8 +36,6 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.util.FeatureMapUtil;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
 /**
@@ -115,38 +111,13 @@ public class ReflectiveItemProvider
           {
             allEClasses.add(eObject);
           }
-          for (Iterator j = eObject.eClass().getEAllReferences().iterator(); j.hasNext(); )
+          for (Iterator j = eObject.eCrossReferences().iterator(); j.hasNext(); )
           {
-            EReference eReference = (EReference)j.next();
-            if (!eReference.isDerived() && !eReference.isContainer() && !eReference.isContainment())
+            EObject crossReference = (EObject)j.next();
+            EObject otherRoot = EcoreUtil.getRootContainer(crossReference);
+            if (!allRoots.contains(otherRoot))
             {
-              if (eReference.isMany())
-              {
-                for (Iterator k = ((List)eObject.eGet(eReference)).iterator(); k.hasNext(); )
-                {
-                  EObject crossReference = (EObject)k.next();
-                  if (crossReference != null)
-                  {
-                    EObject otherRoot = EcoreUtil.getRootContainer(crossReference);
-                    if (!allRoots.contains(otherRoot))
-                    {
-                      roots.add(otherRoot);
-                    }
-                  } 
-                }
-              }
-              else
-              {
-                EObject crossReference = (EObject)eObject.eGet(eReference);
-                if (crossReference != null)
-                {
-                  EObject otherRoot = EcoreUtil.getRootContainer(crossReference);
-                  if (!allRoots.contains(otherRoot))
-                  {
-                    roots.add(otherRoot);
-                  }
-                }
-              }
+              roots.add(otherRoot);
             }
           }
         }
@@ -181,16 +152,12 @@ public class ReflectiveItemProvider
         }
       }
     }
-    else if (ExtendedMetaData.INSTANCE.isAnonymous(eClass))
-    {
-      result.add(eClass);
-    }
     else
     {
       for (Iterator i = getAllEClasses(eClass).iterator(); i.hasNext(); )
       {
         EClass otherEClass = (EClass)i.next();
-        if (!otherEClass.isAbstract() && eClass.isSuperTypeOf(otherEClass) && !ExtendedMetaData.INSTANCE.isAnonymous(otherEClass))
+        if (!otherEClass.isAbstract() && eClass.isSuperTypeOf(otherEClass))
         {
           result.add(otherEClass);
         }
@@ -248,22 +215,11 @@ public class ReflectiveItemProvider
   {
     EObject eObject = (EObject)object;
     EClass eClass = eObject.eClass();
-    String label = format(capName(eClass.getName()), ' ');
-
     EStructuralFeature feature = getLabelFeature(eClass);
-    if (feature != null)
-    {
-      Object value = eObject.eGet(feature);
-      if (value != null)
-      {
-        return label + " " + value.toString();
-      }
-    }
-    return label;
+    Object label = feature == null ? feature : eObject.eGet(feature);
+    return label == null ? eClass.getName() : eClass.getName() + " " + label.toString();
   }
 
-  /**
-   */  
   protected EStructuralFeature getLabelFeature(EClass eClass)
   {
     EAttribute result = null;
@@ -293,137 +249,6 @@ public class ReflectiveItemProvider
 
   /**
    */
-  protected String capName(String name)
-  {
-    return name.length() == 0 ? name : name.substring(0, 1).toUpperCase() + name.substring(1);
-  }
-
-  /**
-   */
-  public String format(String name, char separator)
-  {
-    StringBuffer result = new StringBuffer();
-
-    for (Iterator i = parseName(name, '_').iterator(); i.hasNext(); )
-    {
-      String component = (String)i.next();
-      result.append(component);
-      if (i.hasNext() && component.length() > 1)
-      {
-        result.append(separator);
-      }
-    }
-    return result.toString();
-  }
-
-  /**
-   */
-  protected List parseName(String sourceName, char sourceSeparator)
-  {
-    List result = new ArrayList();
-    StringBuffer currentWord = new StringBuffer();
-
-    int length = sourceName.length();
-    boolean lastIsLower = false;
-
-    for (int index = 0; index < length; index++)
-    {
-      char curChar = sourceName.charAt(index);
-      if (Character.isUpperCase(curChar) || (!lastIsLower && Character.isDigit(curChar)) || curChar == sourceSeparator)
-      {
-        if (lastIsLower || curChar == sourceSeparator)
-        {
-          result.add(currentWord.toString());
-          currentWord = new StringBuffer();
-        }
-        lastIsLower = false;
-      }
-      else
-      {
-        if (!lastIsLower)
-        {
-          int currentWordLength = currentWord.length();
-          if (currentWordLength > 1)
-          {
-            char lastChar = currentWord.charAt(--currentWordLength);
-            currentWord.setLength(currentWordLength);
-            result.add(currentWord.toString());
-            currentWord = new StringBuffer();
-            currentWord.append(lastChar);
-          }
-        }
-        lastIsLower = true;
-      }
-      if (curChar != sourceSeparator)
-      {
-        currentWord.append(curChar);
-      }
-    }
-
-    result.add(currentWord.toString());
-    return result;
-  }
-
-  /**
-   */  
-  protected List getAllDelegatedFeatures(EStructuralFeature feature)
-  {
-    if (!FeatureMapUtil.isFeatureMap(feature)) return Collections.EMPTY_LIST;
-
-    EClass eClass = feature.getEContainingClass();
-    List delegated = new ArrayList();
-
-    if (ExtendedMetaData.INSTANCE.getMixedFeature(eClass) == feature)
-    {
-       delegated.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment());
-       delegated.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text());
-
-       if (ExtendedMetaData.INSTANCE.getDocumentRoot(eClass.getEPackage()) != eClass)
-       {
-         delegated.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA());
-       }
-
-       for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
-       {
-         EStructuralFeature otherFeature = (EStructuralFeature)i.next();
-         if (otherFeature != feature && otherFeature.isDerived() &&
-             ExtendedMetaData.INSTANCE.getGroup(otherFeature) == null)
-         {
-           delegated.add(otherFeature);
-         }
-       }
-    }
-    else if (ExtendedMetaData.INSTANCE.getFeatureKind(feature) == ExtendedMetaData.GROUP_FEATURE)
-    {
-      for (Iterator i = eClass.getEStructuralFeatures().iterator(); i.hasNext(); )
-      {
-        EStructuralFeature otherFeature = (EStructuralFeature)i.next();
-        if (otherFeature != feature && otherFeature.isDerived() && otherFeature.isChangeable() &&
-            ExtendedMetaData.INSTANCE.getGroup(otherFeature) == feature)
-        {
-          delegated.add(otherFeature);
-        }
-      }
-    }
-
-    List result = new ArrayList();
-    for (Iterator iter = delegated.iterator(); iter.hasNext(); )
-    {
-      EStructuralFeature delegatedFeature = (EStructuralFeature)iter.next();
-      if (FeatureMapUtil.isFeatureMap(delegatedFeature))
-      {
-        result.addAll(getAllDelegatedFeatures(delegatedFeature));
-      }
-      else
-      {
-        result.add(delegatedFeature);
-      }
-    }
-    return result;
-  }
-
-  /**
-   */
   protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)    
   {
     EObject eObject = (EObject)object;
@@ -433,71 +258,21 @@ public class ReflectiveItemProvider
     //
     getAllEClasses(eClass);
 
-    for (Iterator i = getChildrenFeatures(object).iterator(); i.hasNext(); )
+    for (Iterator i = eClass.getEAllReferences().iterator(); i.hasNext(); )
     {
-      EStructuralFeature feature = (EStructuralFeature)i.next();
-
-      if (FeatureMapUtil.isFeatureMap(feature))
+      EReference eReference = (EReference)i.next();
+      if (eReference.isContainment() && eReference.isChangeable())
       {
-        for (Iterator j = getAllDelegatedFeatures(feature).iterator(); j.hasNext(); )
+        EClass referenceType = eReference.getEReferenceType();
+
+        for (Iterator j = getAllConcreteSubclasses(referenceType).iterator(); j.hasNext(); )
         {
-          EStructuralFeature delegatedFeature = (EStructuralFeature)j.next();
-
-          if (delegatedFeature instanceof EAttribute)
-          {
-            EDataType type = ((EAttribute)delegatedFeature).getEAttributeType();
-            Object value = delegatedFeature.getDefaultValue();
-
-            if (value == null)
-            {
-              Class instanceClass = type.getInstanceClass();
-
-              if (instanceClass == String.class)
-              {
-                value = "";
-              }
-              else if (instanceClass == Boolean.class)
-              {
-                value = Boolean.FALSE;
-              }
-              else if (instanceClass == Character.class)
-              {
-                value = new Character('\u0000');
-              }
-              else
-              {
-                String literal = instanceClass != null && Number.class.isAssignableFrom(instanceClass) ? "0" : ""; 
-                try
-                {
-                  value = EcoreUtil.createFromString(type, literal);
-                }
-                catch (Exception e) {}
-              }
-            }
-
-            if (value != null)
-            {
-              newChildDescriptors.add(createChildParameter(feature, FeatureMapUtil.createEntry(delegatedFeature, value)));
-            }
-          }
-          else if (delegatedFeature instanceof EReference)
-          {
-            EReference delegatedReference = (EReference)delegatedFeature;
-
-            for (Iterator k = getAllConcreteSubclasses((EClass)delegatedFeature.getEType()).iterator(); k.hasNext(); )
-            {
-              FeatureMap.Entry entry = FeatureMapUtil.createEntry(delegatedFeature, EcoreUtil.create((EClass)k.next()));
-              newChildDescriptors.add(createChildParameter(feature, entry));
-            }
-          }
+          EClass concreteType = (EClass)j.next();
+          newChildDescriptors.add
+            (createChildParameter
+              (eReference,
+               EcoreUtil.create(concreteType)));
         }
-      }
-      else if (feature instanceof EReference && feature.isChangeable())
-      {
-        for (Iterator j = getAllConcreteSubclasses((EClass)feature.getEType()).iterator(); j.hasNext(); )
-        {
-          newChildDescriptors.add(createChildParameter(feature, EcoreUtil.create((EClass)j.next())));
-        }        
       }
     }
   }
@@ -506,13 +281,6 @@ public class ReflectiveItemProvider
    */
   public Object getCreateChildImage(Object owner, Object feature, Object child, Collection selection)
   {
-    if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
-    {
-      FeatureMap.Entry entry = (FeatureMap.Entry)child;
-      feature = entry.getEStructuralFeature();
-      child = entry.getValue();        
-    }
-
     if (feature instanceof EReference && child instanceof EObject)
     {
       EReference reference = (EReference)feature;
@@ -531,24 +299,18 @@ public class ReflectiveItemProvider
    */
   protected String getTypeText(Object object)
   {
-    String text = object instanceof EObject ? ((EObject)object).eClass().getName() : getString("_UI_Unknown_type");
-    return format(capName(text), ' ');
-  }
-
-  /**
-   */
-  protected String getTypeText(EAttribute attribute)
-  {
-    return format(capName(attribute.getEAttributeType().getName()), ' ');
+    return object instanceof EObject ?
+      ((EObject)object).eClass().getName() :
+      getString("_UI_Unknown_type");
   }
 
   /**
    */
   protected String getFeatureText(Object feature)
   {
-    String text = feature instanceof EStructuralFeature ?
-      ((EStructuralFeature)feature).getName() : getResourceLocator().getString("_UI_Unknown_feature");
-    return format(capName(text), ' ');
+    return feature instanceof EStructuralFeature ?
+      ((EStructuralFeature)feature).getName() :
+      getResourceLocator().getString("_UI_Unknown_feature");
   }
 
   /**
@@ -561,25 +323,18 @@ public class ReflectiveItemProvider
     EClass eClass = object.eClass();
     EStructuralFeature feature = (EStructuralFeature)notification.getFeature();
 
-    // Is this a containment reference child?
-    //
-    boolean child = 
-      ExtendedMetaData.INSTANCE.getContentKind(eClass) != ExtendedMetaData.MIXED_CONTENT &&
-      feature instanceof EReference && ((EReference)feature).isContainment() &&
-      ExtendedMetaData.INSTANCE.getGroup(feature) == null;
-
-    // Or a feature map child?
-    //
-    child |=
-      feature instanceof EAttribute &&
-      ExtendedMetaData.INSTANCE.getGroup(feature) == null &&
-      feature.getEType().getInstanceClass() == FeatureMap.Entry.class &&
-      !feature.isDerived();
-
-    // Is this the label feature?
-    //
     boolean label = feature == getLabelFeature(eClass);
+    boolean content =
+      (ExtendedMetaData.INSTANCE.getContentKind(eClass) == ExtendedMetaData.MIXED_CONTENT &&
+       feature.getEType().getInstanceClass() == FeatureMap.Entry.class &&
+       ExtendedMetaData.INSTANCE.getGroup(feature) == null) ||
+      (feature instanceof EReference &&
+       ((EReference)feature).isContainment() &&
+       ExtendedMetaData.INSTANCE.getGroup(feature) == null);
 
-    fireNotifyChanged(new ViewerNotification(notification, object, child, !child || (child && label)));
+    if (content || label)
+    {
+      fireNotifyChanged(new ViewerNotification(notification, object, content, label));
+    }
   }
 }

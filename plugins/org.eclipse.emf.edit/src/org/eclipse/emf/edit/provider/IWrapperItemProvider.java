@@ -3,20 +3,18 @@
  *
  * Copyright (c) 2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: IWrapperItemProvider.java,v 1.3 2004/09/24 04:20:58 davidms Exp $
+ * $Id: IWrapperItemProvider.java,v 1.2.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.edit.provider;
-
-import org.eclipse.emf.ecore.EStructuralFeature;
 
 
 /**
@@ -30,19 +28,8 @@ public interface IWrapperItemProvider extends IDisposable
   Object getValue();
 
   /**
-   * Returns the object that owns the value.
-   */
-  Object getOwner();
-
-  /**
-   * Returns the structural feature through which the value can be set and retrieved, or null if the feature is
-   * unknown or not applicable.
-   */
-  EStructuralFeature getFeature();
-
-  /**
-   * The index at which the value is located, or {@link org.eclipse.emf.edit.command.CommandParameter#NO_INDEX} if the
-   * index isn't known to the wrapper. If {@link #feature} is non-null, this index is within that feature. 
+   * Returns the index within a feature at which the value is located, or {@link
+   * org.eclipse.emf.edit.command.CommandParameter#NO_INDEX} if the index isn't known to the wrapper.
    */
   int getIndex();
 

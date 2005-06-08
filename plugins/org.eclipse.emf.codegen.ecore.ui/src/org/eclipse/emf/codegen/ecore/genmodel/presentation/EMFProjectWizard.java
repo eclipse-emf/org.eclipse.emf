@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.9 2004/11/01 22:36:23 davidms Exp $
+ * $Id: EMFProjectWizard.java,v 1.8.2.1 2005/06/08 18:27:45 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -755,11 +755,6 @@ public class EMFProjectWizard extends Wizard implements INewWizard
     return uri;
   }
 
-  protected RoseUtil createRoseUtil()
-  {
-  	return new RoseUtil();
-  }
-
   /**
    * A page that allows a Rose model to be imported.
    */
@@ -1164,7 +1159,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
               for (;;)
               {
                 unitTree = null;
-                roseUtil = createRoseUtil();
+                roseUtil = new RoseUtil();
                 roseUtil.getVariableToDirectoryMap().putAll(pathMap);
       
                 String message = null;
@@ -2605,7 +2600,7 @@ public class EMFProjectWizard extends Wizard implements INewWizard
                   progressMonitor.subTask
                     (GenModelEditPlugin.INSTANCE.getString("_UI_CreatingPackagesFor_message", new Object [] { roseModelLocationString }));
     
-                  roseUtil = createRoseUtil();
+                  roseUtil = new RoseUtil();
                   roseUtil.getVariableToDirectoryMap().putAll(roseModelPage.getPathMap());
             
                   ePackageToEcoreFileInformationMap.clear();

@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: ResourceItemProviderAdapterFactory.java,v 1.2 2004/10/19 21:24:09 emerks Exp $
+ * $Id: ResourceItemProviderAdapterFactory.java,v 1.1.2.1 2005/06/08 18:27:45 nickb Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -30,9 +30,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.provider.Disposable;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
-import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -49,9 +47,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
  * Note that most of the adapters are shared among multiple instances.
  * @generated
  */
-public class ResourceItemProviderAdapterFactory 
-  extends AdapterFactoryImpl 
-  implements ComposeableAdapterFactory, IChangeNotifier, IDisposable
+public class ResourceItemProviderAdapterFactory extends AdapterFactoryImpl implements ComposeableAdapterFactory, IChangeNotifier
 {
   protected static Package resourcePackage = Resource.class.getPackage();
 
@@ -72,11 +68,6 @@ public class ResourceItemProviderAdapterFactory
    * @generated
    */
   protected Collection supportedTypes = new ArrayList();
-
-  /**
-   * This is used to implement {@link org.eclipse.emf.edit.provider.IDisposable}.
-   */
-  protected Disposable disposable = new Disposable();
 
   /**
    * This constructs an instance.
@@ -218,17 +209,4 @@ public class ResourceItemProviderAdapterFactory
     }
   }
 
-  protected void associate(Adapter adapter, Notifier target)
-  {
-    super.associate(adapter, target);
-    if (adapter != null)
-    {
-      disposable.add(adapter);
-    }
-  }
-  
-  public void dispose()
-  {
-    disposable.dispose();
-  }
 }

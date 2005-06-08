@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.7 2004/10/22 19:20:50 davidms Exp $
+ * $Id: GenPackage.java,v 1.5.2.1 2005/06/08 18:27:45 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -35,7 +35,6 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getPrefix <em>Prefix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getBasePackage <em>Base Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getResource <em>Resource</em>}</li>
- *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDisposableProviderFactory <em>Disposable Provider Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isAdapterFactory <em>Adapter Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isLoadInitialization <em>Load Initialization</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}</li>
@@ -133,32 +132,6 @@ public interface GenPackage extends GenBase{
    * @generated
    */
   void setResource(GenResourceKind value);
-
-  /**
-   * Returns the value of the '<em><b>Disposable Provider Factory</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Disposable Provider Factory</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Disposable Provider Factory</em>' attribute.
-   * @see #setDisposableProviderFactory(boolean)
-   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_DisposableProviderFactory()
-   * @model 
-   * @generated
-   */
-  boolean isDisposableProviderFactory();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDisposableProviderFactory <em>Disposable Provider Factory</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Disposable Provider Factory</em>' attribute.
-   * @see #isDisposableProviderFactory()
-   * @generated
-   */
-  void setDisposableProviderFactory(boolean value);
 
   /**
    * Returns the value of the '<em><b>Adapter Factory</b></em>' attribute.
@@ -485,12 +458,10 @@ public interface GenPackage extends GenBase{
   String getImportedEditorPluginClassName();
 
   // String getCapPackageID();
-  List/*GenFeature*/ getAllGenFeatures(); // Includes features in other packages that delegate to those in this one.
+  List/*GenFeature*/ getAllGenFeatures();
 
   List/*GenPackage*/ getAdapterDelegatePackages();
   List/*GenClass*/ getAdapterDelegateSuperClasses();
-
-  boolean hasStatefulProvider();
 
   boolean reconcile(GenPackage oldGenPackageVersion);
 

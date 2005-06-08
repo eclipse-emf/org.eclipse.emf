@@ -4,16 +4,16 @@
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
                 }
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.6 2004/09/24 04:22:29 davidms Exp $
+ * $Id: PropertyDescriptor.java,v 1.5.2.1 2005/06/08 18:27:46 nickb Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -125,7 +125,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
   }
 
   /**
-   * This cell editor ensures that only type-compatible values are supported
+   * This cell editor ensures that only Integer values are supported
    */
   public static class EDataTypeCellEditor extends TextCellEditor
   {
@@ -296,7 +296,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
       final Collection choiceOfValues = itemPropertyDescriptor.getChoiceOfValues(object);
       if (choiceOfValues != null)
       {
-        if (itemPropertyDescriptor.isMany(object))
+        if (feature.isMany())
         {
           boolean valid = true;
           for (Iterator i = choiceOfValues.iterator(); i.hasNext(); )
@@ -344,7 +344,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
         EDataType eDataType = (EDataType)eType;
         if (eDataType.isSerializable())
         {
-          if (itemPropertyDescriptor.isMany(object)) 
+          if (feature.isMany()) 
           {
             result = 
               new ExtendedDialogCellEditor(composite, getLabelProvider())

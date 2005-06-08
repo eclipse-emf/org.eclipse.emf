@@ -3,19 +3,22 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.6 2004/10/06 20:52:01 davidms Exp $
+ * $Id: GenDataTypeImpl.java,v 1.5.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -777,9 +780,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       {
         EClassifier eClassifier = (EClassifier)i.next();
         if (eClassifier instanceof EDataType && 
-            eClassifier.getInstanceClassName().equals(eDataType.getInstanceClassName()) &&
-            ((EDataType)eClassifier).isSerializable() &&
-            eClassifier != EcorePackage.eINSTANCE.getEDate())
+              eClassifier.getInstanceClassName().equals(eDataType.getInstanceClassName()) &&
+              ((EDataType)eClassifier).isSerializable())
         {
           replaced = true;
           eDataType = eClassifier;
@@ -825,7 +827,29 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       }
     }
     if (defaultObject == null) return "null";
-    String result = Literals.toLiteral(defaultObject, getGenModel());
+    String result = Literals.toLiteral(defaultObject);
+
+    // import any class names
+    if (defaultObject instanceof Float && result.startsWith("java.lang.Float"))
+    {
+      result = getGenModel().getImportedName("java.lang.Float") + result.substring(15);
+    }
+    else if (defaultObject instanceof Double && result.startsWith("java.lang.Double"))
+    {
+      result = getGenModel().getImportedName("java.lang.Double") + result.substring(16);
+    }
+    else if (defaultObject instanceof BigDecimal)
+    {
+      result = "new " + getGenModel().getImportedName("java.math.BigDecimal") + result.substring(24);
+    }
+    else if (defaultObject instanceof BigInteger)
+    {
+      result = "new " + getGenModel().getImportedName("java.math.BigInteger") + result.substring(24);
+    }
+    else if (defaultObject instanceof Class && result.endsWith(".class"))
+    {
+      result = getGenModel().getImportedName(result.substring(0, result.length() - 6)) + ".class";
+    }
 
     // include wrapping for wrapped primitive types
     Class typeClass = getInstanceClass(eDataType);

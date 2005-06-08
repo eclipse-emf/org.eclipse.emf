@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.6 2004/10/20 23:12:21 davidms Exp $
+ * $Id: SetCommand.java,v 1.3.2.1 2005/06/08 18:27:45 nickb Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -25,7 +25,6 @@ import java.util.List;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.CompoundCommand;
-import org.eclipse.emf.common.command.IdentityCommand;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -93,44 +92,28 @@ public class SetCommand extends AbstractOverrideableCommand
       if (eReference.isMany() && index == CommandParameter.NO_INDEX)
       {
         // We never directly set a multiplicity-many feature to a list directly.  Instead, we remove the old values
-        // values and insert the new values.  If there are no old values or new values, we simply return an identity
-        // command, which is executable but does nothing.
+        // values and insert the new values.
         //
-        List values = (List)value;
+        CompoundCommand compound = 
+          new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL, LABEL, DESCRIPTION)
+          {
+            public Collection getAffectedObjects()
+            {
+              return Collections.singleton(owner);
+            }
+          };
+
         List oldValues = (List)((EObject)owner).eGet(eReference);
-
-        if (values.isEmpty() && oldValues.isEmpty())
+        if (!oldValues.isEmpty())
         {
-          return
-            new IdentityCommand(LABEL, DESCRIPTION, owner)
-            {
-              public Collection getAffectedObjects()
-              {
-                return Collections.singleton(owner);
-              }
-            };
+          compound.append(RemoveCommand.create(domain, owner, feature, new BasicEList(oldValues)));
         }
-        else
+        List values = (List)value;
+        if (!values.isEmpty())
         {
-          CompoundCommand compound = 
-            new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL, LABEL, DESCRIPTION)
-            {
-              public Collection getAffectedObjects()
-              {
-                return Collections.singleton(owner);
-              }
-            };
-
-          if (!oldValues.isEmpty())
-          {
-            compound.append(RemoveCommand.create(domain, owner, feature, new BasicEList(oldValues)));
-          }
-          if (!values.isEmpty())
-          {
-            compound.append(AddCommand.create(domain, owner, feature, values));
-          }
-          return compound;
+          compound.append(AddCommand.create(domain, owner, feature, values));
         }
+        return compound;
       }
       else if (eReference.getEOpposite() != null)
       {
@@ -433,11 +416,9 @@ public class SetCommand extends AbstractOverrideableCommand
 
         if (ownerList != null)
         {
-          // Setting at an index. Make sure the index is valid, the type is valid, and the value isn't already in a
-          // unique feature. Record the old value.
+          // Setting at an index. Make sure the index is valid and record the old value at it. 
           //
-          if (index >= 0 && index < ownerList.size() && eType.isInstance(value) &&
-              (!eAttribute.isUnique() || !ownerList.contains(value)))
+          if (index >= 0 && index < ownerList.size() && eType.isInstance(value))
           {
             oldValue = ownerList.get(index);
             result = true;
@@ -456,11 +437,11 @@ public class SetCommand extends AbstractOverrideableCommand
           {
             result = true;
           }
-          else if (value instanceof Collection)
+          else if (value instanceof EList)
           {
-            Collection collection = (Collection)value;
+            EList list = (EList)value;
             result = true;
-            for (Iterator objects = collection.iterator(); objects.hasNext(); )
+            for (Iterator objects = list.iterator(); objects.hasNext(); )
             {
               if (!eType.isInstance(objects.next()))
               {
@@ -495,8 +476,7 @@ public class SetCommand extends AbstractOverrideableCommand
         //
         if (ownerList != null)
         {
-          if (index >= 0 && index < ownerList.size() && eReference.getEType().isInstance(value) &&
-              (!eReference.isUnique() || !ownerList.contains(value)))
+          if (index >= 0 && index < ownerList.size() && eReference.getEType().isInstance(value))
           {
             oldValue = ownerList.get(index);
             result = true;

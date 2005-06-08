@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.14 2004/11/01 21:14:42 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.10.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -33,7 +33,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -43,21 +42,16 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jdt.core.jdom.DOMFactory;
 import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
 import org.eclipse.jdt.core.jdom.IDOMImport;
 import org.eclipse.jdt.core.jdom.IDOMNode;
-import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.text.edits.TextEdit;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
@@ -394,9 +388,6 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         importManager.addMasterImport(packageName, className);
         setImportManager(importManager);
 
-        // Create a code formatter for this compilation unit, if needed
-        CodeFormatter codeFormatter = getGenModel().isCodeFormatting() ? getGenModel().createCodeFormatter() : null;
-
         String emitterResult = jetEmitter.generate(new SubProgressMonitor(progressMonitor, 1), new Object [] { this });
         progressMonitor.worked(1);
 
@@ -420,7 +411,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           jMerger.merge();
           progressMonitor.worked(1);
 
-          newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+          newContents = jMerger.getTargetCompilationUnitContents();
           changed = !oldContents.equals(newContents);
           if (changed)
           {
@@ -429,7 +420,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             {
               jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(targetFile.getContents(true)));
               jMerger.remerge();
-              newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+              newContents = jMerger.getTargetCompilationUnitContents();
             }
           }
         }
@@ -440,31 +431,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile.getFullPath() }));
           jMerger.merge();
           progressMonitor.worked(1);
-          newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+          newContents = jMerger.getTargetCompilationUnitContents();
         }
 
         if (changed)
         {
-          //purpose: using charset from 'targetFile' to encode in-memory 
-          //         'newContents' object into bytes
-          //modifer: Wu Zhi Qiang
-          //date:    Aug 25, 2004
-          //action:  first get the charset from 'targetFile', then use it 
-          //         to encode the 'newContents' object into bytes
-          String encoding = null;
-          try
-          {
-            encoding = targetFile.getCharset();
-          }
-          catch (CoreException ce)
-          {
-            // use no encoding
-          }
-          byte[] bytes = encoding == null 
-            ? newContents.getBytes() 
-            : newContents.getBytes(encoding);
-
-          InputStream contents = new ByteArrayInputStream(bytes);
+          InputStream contents = new ByteArrayInputStream(newContents.getBytes());
 
           String redirection = getGenModel().getRedirection();
           boolean redirect = redirection != null && redirection.indexOf("{0}") != -1;
@@ -690,36 +662,6 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
     progressMonitor.done();
     return container;
-  }
-
-  /**
-   * If {@link org.eclipse.emf.codegen.ecore.GenModel#isCodeFormatting code formatting} is enabled for this model, use
-   * the specified JDT code formatter to format the given compilation unit contents. If no code formatter is specified,
-   * one will be {@link org.eclipse.emf.codegen.ecore.GenModel#createCodeFormatter created}.
-   */
-  protected String formatCode(String contents, CodeFormatter codeFormatter)
-  {
-    if (getGenModel().isCodeFormatting())
-    {
-      if (codeFormatter == null)
-      {
-        codeFormatter = getGenModel().createCodeFormatter();
-      }
-
-      IDocument doc = new Document(contents);
-      TextEdit edit = codeFormatter.format(CodeFormatter.K_COMPILATION_UNIT, doc.get(), 0, doc.get().length(), 0, null);
-
-      try
-      {
-        edit.apply(doc);
-        contents = doc.get();
-      }
-      catch (Exception exception)
-      {
-        CodeGenEcorePlugin.INSTANCE.log(exception);
-      }
-    }
-    return contents;
   }
 
   public String format(String name, char separator, String prefix, boolean includePrefix)
@@ -1118,9 +1060,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * non-abstract subclasses, beginning with those from the specified
    * firstGenPackage followed by the others in genPackages, and ordered down
    * the inheritance chains within each package.  Stops searching after
-   * max GenClasses are found; -1 for no limit.  If eType corresponds to an
-   * anonymous complex type, only that class itself is returned; otherwise,
-   * no such anonymous classes are included.
+   * max GenClasses are found; -1 for no limit.  
    */
   protected List getTypeGenClasses(EClassifier eType, GenPackage firstGenPackage, List genPackages, int max)
   {
@@ -1129,13 +1069,6 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     boolean hasMax = max > -1;
     List result = new ArrayList();
     EClass baseClass = (EClass)eType;
-
-    ExtendedMetaData extendedMetaData = getExtendedMetaData();
-    if (extendedMetaData.isAnonymous(baseClass))
-    {
-      result.add(findGenClass(baseClass));
-      return result;
-    }
 
     // order genPackages by putting firstGenPackage (if non-null) first
     List orderedGenPackages = genPackages;
@@ -1157,7 +1090,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         for (Iterator cIter = ((GenPackage)pIter.next()).getOrderedGenClasses().iterator(); cIter.hasNext(); )
         {
           GenClass genClass = (GenClass)cIter.next();
-          if (!genClass.isAbstract() && !extendedMetaData.isAnonymous(genClass.getEcoreClass()))
+          if (!genClass.isAbstract())
           {
             result.add(genClass);
             if (hasMax && result.size() >= max) return result;
@@ -1169,9 +1102,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         for (Iterator cIter = ((GenPackage)pIter.next()).getOrderedGenClasses().iterator(); cIter.hasNext(); )
         {
           GenClass genClass = (GenClass)cIter.next();
-          if (!genClass.isAbstract() && 
-                baseClass.isSuperTypeOf(genClass.getEcoreClass()) && 
-                !extendedMetaData.isAnonymous(genClass.getEcoreClass()))
+          if (!genClass.isAbstract() && baseClass.isSuperTypeOf(genClass.getEcoreClass()))
           {
             result.add(genClass);
             if (hasMax && result.size() >= max) return result;
@@ -2245,22 +2176,5 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   protected ExtendedMetaData getExtendedMetaData()
   {
     return eContainer() == null ? ExtendedMetaData.INSTANCE : ((GenBaseImpl)eContainer()).getExtendedMetaData();
-  }
-
-  protected void addNonDuplicates(Collection target, Collection source, Set noDupSet)
-  {
-    if (noDupSet == null)
-    {
-      noDupSet = new HashSet(target);
-    }
-
-    for (Iterator iter = source.iterator(); iter.hasNext(); )
-    {
-      Object o = iter.next();
-      if (noDupSet.add(o))
-      {
-        target.add(o);
-      }
-    }
   }
 }

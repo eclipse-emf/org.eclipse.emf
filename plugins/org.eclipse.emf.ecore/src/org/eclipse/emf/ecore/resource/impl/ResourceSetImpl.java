@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: ResourceSetImpl.java,v 1.6 2004/10/20 15:27:19 marcelop Exp $
+ * $Id: ResourceSetImpl.java,v 1.4.2.1 2005/06/08 18:27:43 nickb Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -155,9 +155,7 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    */
   public TreeIterator getAllContents()
   {
-    TreeIterator result = EcoreUtil.getAllContents(Collections.singleton(this));
-    result.next();
-    return result;
+    return EcoreUtil.getAllContents(Collections.singleton(this));
   }
 
   /*
@@ -294,10 +292,9 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    */
   public Resource getResource(URI uri, boolean loadOnDemand)
   {
-    Map map = getURIResourceMap();
-    if (map != null)
+    if (getURIResourceMap() != null)
     {
-      Resource resource = (Resource)map.get(uri);
+      Resource resource = (Resource)getURIResourceMap().get(uri);
       if (resource != null)
       {
         if (loadOnDemand && !resource.isLoaded())
@@ -320,9 +317,9 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
           demandLoadHelper(resource);
         }
         
-        if (map != null)
+        if (getURIResourceMap() != null)
         {
-          map.put(uri, resource);
+          getURIResourceMap().put(uri, resource);
         } 
         return resource;
       }
@@ -331,9 +328,9 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
     Resource delegatedResource = delegatedGetResource(uri, loadOnDemand);
     if (delegatedResource != null)
     {
-      if (map != null)
+      if (getURIResourceMap() != null)
       {
-        map.put(uri, delegatedResource);
+        getURIResourceMap().put(uri, delegatedResource);
       }
       return delegatedResource;
     }
@@ -348,9 +345,9 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
 
       demandLoadHelper(resource);
 
-      if (map != null)
+      if (getURIResourceMap() != null)
       {
-        map.put(uri, resource);
+        getURIResourceMap().put(uri, resource);
       }      
       return resource;
     }
@@ -493,10 +490,9 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
     protected NotificationChain inverseRemove(Object object, NotificationChain notifications)
     {
       Resource.Internal resource = (Resource.Internal)object;
-      Map map = getURIResourceMap();
-      if (map != null)
+      if (getURIResourceMap() != null)
       {
-        for (Iterator i = map.values().iterator(); i.hasNext();)
+        for (Iterator i = getURIResourceMap().values().iterator(); i.hasNext();)
         {
           if (resource == i.next())
           {

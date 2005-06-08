@@ -3,36 +3,29 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: AddCommand.java,v 1.5 2004/10/20 23:09:39 davidms Exp $
+ * $Id: AddCommand.java,v 1.3.2.1 2005/06/08 18:27:45 nickb Exp $
  */
 package org.eclipse.emf.edit.command;
 
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
-import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.util.FeatureMapUtil;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
@@ -265,14 +258,6 @@ public class AddCommand extends AbstractOverrideableCommand
     return index;
   }
 
-  protected boolean isUserElement(EStructuralFeature entryFeature)
-  {
-    return
-      entryFeature != XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text() &&
-      entryFeature != XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA() &&
-      entryFeature != XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment();      
-  }
-
   protected boolean prepare()
   {
     // If there is no list to add to, no collection or an empty collection from which to add, or the index is out of range...
@@ -284,101 +269,30 @@ public class AddCommand extends AbstractOverrideableCommand
     {
       return false;
     }
-
-    if (feature != null) 
+    else
     {
-      // If it's a feature map, we'll need to validate the entry feature and enforce its multiplicity restraints.
-      //
-      FeatureMapUtil.Validator validator = null;
-      boolean documentRoot = false;
-      Set entryFeatures = null;
-
-      if (FeatureMapUtil.isFeatureMap(feature))
-      {
-        EClass eClass = owner.eClass();
-        validator = FeatureMapUtil.getValidator(eClass, feature); 
-
-        // Keep track of all the entry features that are already in the feature map and that will be added, excluding
-        // XML text, CDATA, and comments (if we're in a mixed type).
-        //
-        documentRoot = ExtendedMetaData.INSTANCE.getDocumentRoot(eClass.getEPackage()) == eClass;
-        boolean mixed = documentRoot || ExtendedMetaData.INSTANCE.getContentKind(eClass) == ExtendedMetaData.MIXED_CONTENT;
-        entryFeatures = new HashSet();
-        for (Iterator i = ownerList.iterator(); i.hasNext(); )
-        {
-          EStructuralFeature entryFeature = ((FeatureMap.Entry)i.next()).getEStructuralFeature();
-          if (!mixed || isUserElement(entryFeature))
-          {
-            entryFeatures.add(entryFeature);
-          }
-        }
-      }
-
-      // Check each object... 
+      // Check that each object conforms to the requirements of the owner list.
       //
       for (Iterator objects = collection.iterator(); objects.hasNext(); )
       {
         Object object = objects.next();
-        boolean containment = false;
 
-        // Check type of object.
-        //
-        if (!feature.getEType().isInstance(object))
+        if (feature != null && !feature.getEType().isInstance(object))
         {
           return false;
         }
+      }
+    }
 
-        // Check that the object isn't already in a unique list.
-        //
-        if (feature.isUnique() && ownerList.contains(object))
+    // Check to see if a container is being put into a contained object.
+    //
+    if (feature instanceof EReference && ((EReference)feature).isContainment()) 
+    {
+      for (EObject container = owner; container != null; container = container.eContainer()) 
+      {
+        if (collection.contains(container)) 
         {
           return false;
-        }
-
-        // For feature maps, test that the entry feature is a valid type, that the entry value is an instance of it,
-        // that there is not already something in a document root, and that there is not already something in a
-        // single-valued entry feature.
-        //
-        if (validator != null)
-        {
-          FeatureMap.Entry entry = (FeatureMap.Entry)object;
-          EStructuralFeature entryFeature = entry.getEStructuralFeature();
-          containment = entryFeature instanceof EReference && ((EReference)entryFeature).isContainment();
-          
-          if (!validator.isValid(entryFeature) || !entryFeature.getEType().isInstance(entry.getValue()))
-          {
-            return false;
-          }
-
-          if (documentRoot)
-          {
-            if (isUserElement(entryFeature))
-            {
-              if (!entryFeatures.isEmpty())
-              {
-                return false;
-              }
-              entryFeatures.add(entryFeature);
-            }
-          }
-          else if (!entryFeatures.add(entryFeature) && !entryFeature.isMany()) 
-          {
-            return false;
-          }
-        }
-
-        // Check to see if a container is being put into a contained object.
-        //
-        containment |= feature instanceof EReference && ((EReference)feature).isContainment();
-        if (containment)
-        {
-          for (EObject container = owner; container != null; container = container.eContainer()) 
-          {
-            if (object == container) 
-            {
-              return false;
-            }
-          }
         }
       }
     }
@@ -411,10 +325,9 @@ public class AddCommand extends AbstractOverrideableCommand
 
   public void doUndo() 
   {
-    // Remove the collection from the list by index.
+    // Simple remove the collection from the list.
     //
-    int i = index != CommandParameter.NO_INDEX ? index : ownerList.size() - collection.size();
-    ownerList.subList(i, i + collection.size()).clear();    
+    ownerList.removeAll(collection);
   
     // We'd like the owner selected after this undo completes.
     //

@@ -11,11 +11,11 @@ public class PluginProperties
   protected final String TEXT_3 = "Id";
   protected final String TEXT_4 = NL + " */" + NL + "" + NL + "# ====================================================================" + NL + "# To code developer:" + NL + "#   Do NOT change the properties between this line and the" + NL + "#   \"%%% END OF TRANSLATED PROPERTIES %%%\" line." + NL + "#   Make a new property name, append to the end of the file and change" + NL + "#   the code to use the new property." + NL + "# ====================================================================" + NL + "" + NL + "# ====================================================================" + NL + "# %%% END OF TRANSLATED PROPERTIES %%%" + NL + "# ====================================================================" + NL + "" + NL + "pluginName = ";
   protected final String TEXT_5 = " Edit Support" + NL + "providerName = www.example.org" + NL;
-  protected final String TEXT_6 = NL + "_UI_CreateChild_text = {0}" + NL + "_UI_CreateChild_text2 = {1} {0}" + NL + "_UI_CreateChild_text3 = {1}" + NL + "_UI_CreateChild_tooltip = Create New {0} Under {1} Feature" + NL + "_UI_CreateChild_description = Create a new child of type {0} for the {1} feature of the selected {2}." + NL + "_UI_CreateSibling_description = Create a new sibling of type {0} for the selected {2}, under the {1} feature of their parent." + NL;
+  protected final String TEXT_6 = NL + "_UI_CreateChild_text = {0}" + NL + "_UI_CreateChild_text2 = {1} {0}" + NL + "_UI_CreateChild_tooltip = Create New {0} Under {1} Feature" + NL + "_UI_CreateChild_description = Create a new child of type {0} for the {1} feature of the selected {2}." + NL + "_UI_CreateSibling_description = Create a new sibling of type {0} for the selected {2}, under the {1} feature of their parent." + NL;
   protected final String TEXT_7 = NL + "_UI_PropertyDescriptor_description = The {0} of the {1}" + NL;
   protected final String TEXT_8 = NL + "_UI_";
   protected final String TEXT_9 = "_type = ";
-  protected final String TEXT_10 = NL + "_UI_Unknown_type = Object" + NL + "" + NL + "_UI_Unknown_datatype= Value" + NL;
+  protected final String TEXT_10 = NL + "_UI_Unknown_type = Object" + NL;
   protected final String TEXT_11 = NL + "_UI_";
   protected final String TEXT_12 = "_";
   protected final String TEXT_13 = "_feature = ";
@@ -34,9 +34,9 @@ public class PluginProperties
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
@@ -68,13 +68,19 @@ public class PluginProperties
     }
     }
     stringBuffer.append(TEXT_10);
-    for (Iterator i=genModel.getFilteredAllGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (Iterator i=genModel.getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext();) { GenPackage genPackage = (GenPackage)i.next();
+    if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) {
+    for (Iterator j=genPackage.getAllGenFeatures().iterator(); j.hasNext();) { GenFeature genFeature = (GenFeature)j.next(); GenClass genClass = genFeature.getGenClass();
+    if (genModel.isCreationCommands() || genFeature.isProperty()) {
     stringBuffer.append(TEXT_11);
-    stringBuffer.append(genFeature.getGenClass().getName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_12);
     stringBuffer.append(genFeature.getName());
     stringBuffer.append(TEXT_13);
     stringBuffer.append(genFeature.getFormattedName());
+    }
+    }
+    }
     }
     stringBuffer.append(TEXT_14);
     for (Iterator i=genModel.getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext();) { GenPackage genPackage = (GenPackage)i.next();

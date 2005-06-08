@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2003-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: ChangeItemProviderAdapterFactory.java,v 1.2 2004/10/24 22:01:35 davidms Exp $
+ * $Id: ChangeItemProviderAdapterFactory.java,v 1.1.2.1 2005/06/08 18:27:44 nickb Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -27,7 +27,6 @@ import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
-import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -44,7 +43,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
  * <!-- end-user-doc -->
  * @generated
  */
-public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable
+public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier
 {
   /**
    * This keeps track of the root adapter factory that delegates to this adapter factory.
@@ -303,21 +302,6 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
     {
       parentAdapterFactory.fireNotifyChanged(notification);
     }
-  }
-
-  /**
-   * This disposes all of the item providers created by this factory. 
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void dispose()
-  {
-    if (changeDescriptionItemProvider != null) changeDescriptionItemProvider.dispose();
-    if (eObjectToChangesMapEntryItemProvider != null) eObjectToChangesMapEntryItemProvider.dispose();
-    if (featureChangeItemProvider != null) featureChangeItemProvider.dispose();
-    if (listChangeItemProvider != null) listChangeItemProvider.dispose();
-    if (resourceChangeItemProvider != null) resourceChangeItemProvider.dispose();
   }
 
 }

@@ -7,23 +7,23 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.7 2004/10/29 19:20:49 marcelop Exp $
+ * $Id: plugin.xml,v 1.4.2.1 2005/06/08 18:27:43 nickb Exp $
  */
 -->
 
 <plugin
     name = "%pluginName"
     id = "org.eclipse.emf.codegen"
-    version = "2.1.0" 
+    version = "2.0.1" 
     provider-name = "%providerName"
     class = "org.eclipse.emf.codegen.CodeGenPlugin$Implementation">
     
@@ -39,6 +39,7 @@
   <runtime>
     <library name="runtime/codegen.jar">
       <export name="*"/>
+      <packages prefixes="org.eclipse.emf.codegen"/>
     </library>
   </runtime>
 
@@ -72,18 +73,6 @@
     <builder>
         <run class="org.eclipse.emf.codegen.jet.JETBuilder"/>
     </builder>
-  </extension>
-
-  <!--
-    Registering the appropriate type of files of the common jet
-    file extensions.  This is usefull when these files are stored
-    in repositories.
-  -->
-  <extension point="org.eclipse.team.core.fileTypes">
-    <fileTypes extension="javajet" type="text"/>
-    <fileTypes extension="jetinc" type="text"/>
-    <fileTypes extension="propertiesjet" type="text"/>
-    <fileTypes extension="xmljet" type="text"/>    
   </extension>
 
 </plugin>

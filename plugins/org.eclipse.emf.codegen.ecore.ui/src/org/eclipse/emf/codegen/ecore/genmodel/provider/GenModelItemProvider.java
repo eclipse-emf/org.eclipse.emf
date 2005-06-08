@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.7 2004/11/01 21:10:20 davidms Exp $
+ * $Id: GenModelItemProvider.java,v 1.5.2.1 2005/06/08 18:27:44 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -102,7 +102,6 @@ public class GenModelItemProvider
       addRuntimeCompatibilityPropertyDescriptor(object);
       addRichClientPlatformPropertyDescriptor(object);
       addReflectiveDelegationPropertyDescriptor(object);
-      addCodeFormattingPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -651,7 +650,7 @@ public class GenModelItemProvider
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getString("_UI_GenModel_richClientPlatform_feature"),
-         getString("_UI_GenModel_richClientPlatform_description"),
+         getString("_UI_GenModel_runtimeCompatibility_description"),
          GenModelPackage.eINSTANCE.getGenModel_RichClientPlatform(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
@@ -675,26 +674,6 @@ public class GenModelItemProvider
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory")));
-  }
-
-  /**
-   * This adds a property descriptor for the Code Formatting feature.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  protected void addCodeFormattingPropertyDescriptor(Object object)
-  {
-    itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
-        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         getResourceLocator(),
-         getString("_UI_GenModel_codeFormatting_feature"),
-         getString("_UI_GenModel_codeFormatting_description"),
-         GenModelPackage.eINSTANCE.getGenModel_CodeFormatting(),
-         true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_JETPropertyCategory")));
   }
 
   /**
@@ -791,7 +770,6 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__RUNTIME_COMPATIBILITY:
       case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
       case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
-      case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:

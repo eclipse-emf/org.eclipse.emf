@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.12 2004/09/25 02:05:28 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.11.2.1 2005/06/08 18:27:47 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.java2ecore;
 
@@ -697,26 +697,7 @@ public class JavaEcoreBuilder
         byte [] input = new byte [bufferedInputStream.available()];
         bufferedInputStream.read(input);
         bufferedInputStream.close();
-        
-        //purpose: using charset from 'file' to decode bytes into in-memory 
-        //         String object
-        //modifer: Wu Zhi Qiang
-        //date:    Aug 25, 2004
-        //action:  first get the charset from 'file', then use it 
-        //         to decode the 'input' bytes object
-        String encoding = null;
-        try
-        {
-          encoding = file.getCharset();
-        }
-        catch (CoreException ce)
-        {
-          // use no encoding
-        }
-        String contents = encoding == null 
-          ? new String(input)
-          : new String(input, encoding);     
-        IDOMCompilationUnit jCompilationUnit = jdomFactory.createCompilationUnit(contents, "NAME");
+        IDOMCompilationUnit jCompilationUnit = jdomFactory.createCompilationUnit(new String(input), "NAME");
         analyzeCompilationUnit(jCompilationUnit);
       }
       catch (IOException exception)

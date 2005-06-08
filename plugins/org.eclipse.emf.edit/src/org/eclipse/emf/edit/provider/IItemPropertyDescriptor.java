@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: IItemPropertyDescriptor.java,v 1.2 2004/09/24 04:12:56 davidms Exp $
+ * $Id: IItemPropertyDescriptor.java,v 1.1.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -99,29 +99,5 @@ public interface IItemPropertyDescriptor
    */
   public Object getFeature(Object object);
 
-  /**
-   * Returns whether this property represents multiple values. This may not be the same as the feature's getMany(), as
-   * the property may allows editing only a single value of a multi-vlaued feature.
-   */
-  public boolean isMany(Object object);
-
   public Collection getChoiceOfValues(Object object);
-
-  /**
-   * This interface may be implemented by item property descriptors to allow an object to be provided as an override for
-   * whatever would usually be the owner of any commands created to set the property's value.  This is typically used
-   * when a wrapper is being displayed in place of a real model object, so that commands will be created by the wrapper.
-   */
-  public interface OverrideableCommandOwner
-  {
-    /**
-     * Sets the object to use as the owner of commands created to set the property's value.
-     */
-    public void setCommandOwner(Object override);
-
-    /**
-     * Returns the override command owner set via {@link setCommandOwner setCommandOwner}.
-     */
-    public Object getCommandOwner();
-  }
 }

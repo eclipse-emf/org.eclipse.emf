@@ -3,23 +3,22 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.10 2004/11/01 21:13:33 davidms Exp $
+ * $Id: GenModel.java,v 1.8.2.1 2005/06/08 18:27:45 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.runtime.IStatus;
 
@@ -27,7 +26,6 @@ import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jmerge.JControlModel;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.jdt.core.formatter.CodeFormatter;
 
 
 /**
@@ -71,7 +69,6 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRuntimeCompatibility <em>Runtime Compatibility</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichClientPlatform <em>Rich Client Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isReflectiveDelegation <em>Reflective Delegation</em>}</li>
- *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCodeFormatting <em>Code Formatting</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -908,32 +905,6 @@ public interface GenModel extends GenBase{
   void setReflectiveDelegation(boolean value);
 
   /**
-   * Returns the value of the '<em><b>Code Formatting</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Code Formatting</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Code Formatting</em>' attribute.
-   * @see #setCodeFormatting(boolean)
-   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_CodeFormatting()
-   * @model 
-   * @generated
-   */
-  boolean isCodeFormatting();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCodeFormatting <em>Code Formatting</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Code Formatting</em>' attribute.
-   * @see #isCodeFormatting()
-   * @generated
-   */
-  void setCodeFormatting(boolean value);
-
-  /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
@@ -1097,17 +1068,4 @@ public interface GenModel extends GenBase{
   List getEffectiveModelPluginVariables();
 
   boolean needsRuntimeCompatibility();
-  
-  List/*of GenFeature*/ getAllGenFeatures();
-  List/*of GenFeature*/ getFilteredAllGenFeatures(); // Filtered for property keys to remove duplicates.
-
-  /**
-   * Set the code formatter options to be used to {@link #createCodeFormatter create} a new code formatter. 
-   */
-  void setCodeFormatterOptions(Map options);
-
-  /**
-   * Creates and returns a new JDT code formatter.
-   */
-  CodeFormatter createCodeFormatter();
 }

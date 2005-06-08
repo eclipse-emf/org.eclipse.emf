@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: SAXXMLHandler.java,v 1.4 2004/11/01 21:02:46 elena Exp $
+ * $Id: SAXXMLHandler.java,v 1.3.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -136,7 +136,7 @@ public class SAXXMLHandler extends XMLHandler
         {
           xmlResource.setID(internalEObject, attribs.getValue(i));
         }
-        else if (name.equals(XMLResource.HREF) && (!recordUnknownFeature || types.peek() != UNKNOWN_FEATURE_TYPE))
+        else if (name.equals(hrefAttribute) && (!recordUnknownFeature || types.peek() != UNKNOWN_FEATURE_TYPE))
         {
           handleProxy(internalEObject, attribs.getValue(i));
         }

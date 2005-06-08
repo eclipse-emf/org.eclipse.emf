@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: RoseUtil.java,v 1.5 2004/11/01 22:36:26 davidms Exp $
+ * $Id: RoseUtil.java,v 1.4.2.1 2005/06/08 18:27:44 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -47,16 +47,16 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  */
 public class RoseUtil 
 {
-  protected Map quidTable = new HashMap();
-  protected Map nameTable = new HashMap();
-  protected Map superTable = new HashMap();
-  protected Map refTable = new HashMap();
-  protected Map typeTable = new HashMap();
-  protected Map primitiveTable = new HashMap();
-  protected Map variableToDirectoryMap = new HashMap();
-  protected Map packageNameToNSNameMap = new HashMap();
-  protected Map packageNameToNSURIMap = new HashMap();
-  protected Map ePackageToInformationMap = new HashMap();
+  Map quidTable = new HashMap();
+  Map nameTable = new HashMap();
+  Map superTable = new HashMap();
+  Map refTable = new HashMap();
+  Map typeTable = new HashMap();
+  Map primitiveTable = new HashMap();
+  Map variableToDirectoryMap = new HashMap();
+  Map packageNameToNSNameMap = new HashMap();
+  Map packageNameToNSURIMap = new HashMap();
+  Map ePackageToInformationMap = new HashMap();
 
   MultiStatus status = 
     new MultiStatus
@@ -65,7 +65,7 @@ public class RoseUtil
        CodeGenEcorePlugin.INSTANCE.getString("_UI_ProblemsWereEncounteredLoadingTheRoseModel_message"),
        null);
 
-  protected EcoreBuilder ecoreBuilder = new EcoreBuilder(this);
+  EcoreBuilder ecoreBuilder = new EcoreBuilder(this);
 
   public UnitTreeNode createRoseUnitTreeAndTable(String fileNameNodeValue, UnitTreeNode topNode) throws Exception
   {

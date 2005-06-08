@@ -3,23 +3,25 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.6 2004/10/06 21:49:54 davidms Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.5.2.1 2005/06/08 18:27:43 nickb Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -394,6 +396,15 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
 
     return instanceValue == null ? null : instanceValue.toString();
   }
+
+  protected static final DateFormat [] EDATE_FORMATS = 
+    {
+      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSSZ"),
+      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS"),
+      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
+      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"),
+      new SimpleDateFormat("yyyy-MM-dd")
+    };
 
   /**
    * <!-- begin-user-doc -->

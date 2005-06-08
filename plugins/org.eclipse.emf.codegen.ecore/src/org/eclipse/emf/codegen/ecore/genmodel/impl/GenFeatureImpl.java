@@ -3,24 +3,21 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.9 2004/10/22 17:27:53 davidms Exp $
+ * $Id: GenFeatureImpl.java,v 1.7.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
@@ -43,8 +40,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
 /**
@@ -332,7 +327,8 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   {
     if (!isSetCreateChildGen())
     {
-      setCreateChild(isChildren());
+      boolean value = (isChildren() || (!isChildren() && hasDelegateFeature())) && !isFeatureMapType();
+      setCreateChild(value);
     }
   }
 
@@ -474,12 +470,12 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
       switch (eContainerFeatureID)
       {
         case GenModelPackage.GEN_FEATURE__GEN_CLASS:
-          return eContainer.eInverseRemove(this, GenModelPackage.GEN_CLASS__GEN_FEATURES, GenClass.class, msgs);
+          return ((InternalEObject)eContainer).eInverseRemove(this, GenModelPackage.GEN_CLASS__GEN_FEATURES, GenClass.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
@@ -922,11 +918,6 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     return !isListType() && getEcoreFeature().getEType() instanceof EEnum;
   }
 
-  public boolean isEnumBasedType()
-  {
-    return getEcoreFeature().getEType() instanceof EEnum;
-  }
-
   public GenEnum getGenEnumType()
   {
     EClassifier eType = getEcoreFeature().getEType();
@@ -951,13 +942,6 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
       getInstanceClass(getEcoreFeature().getEType()) == java.lang.String.class;
   }
 
-  // Like isStringType(), but still returns true even if multiplicity-many.
-  //
-  public boolean isStringBasedType()
-  {
-    return getInstanceClass(getEcoreFeature().getEType()) == java.lang.String.class;
-  }
-  
   public boolean isListType()
   {
     return getEcoreFeature().isMany() || isFeatureMapType();
@@ -1182,11 +1166,6 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     return getEcoreFeature().isUnique();
   }
 
-  public boolean isDerived()
-  {
-    return getEcoreFeature().isDerived();
-  }
-
   public boolean hasDelegateFeature()
   {
     EStructuralFeature ecoreFeature = getEcoreFeature();
@@ -1216,95 +1195,6 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
     }
   }
 
-  /**
-   * This is incomplete.  It only does mixed types and model groups.  It doesn't search for substitution groups or
-   * wildcards yet.
-   */
-  public List/*of GenFeature*/ getDelegatedFeatures()
-  {
-    if (!isFeatureMapType()) return Collections.EMPTY_LIST;
-
-    GenClass genClass = getGenClass();
-    List delegated = new ArrayList();
-
-    if (genClass.getMixedGenFeature() == this)
-    {
-       delegated.add(findGenFeature(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment()));
-       delegated.add(findGenFeature(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text()));
-
-       if (!genClass.isDocumentRoot())
-       {
-         delegated.add(findGenFeature(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA()));
-       }
-
-       for (Iterator iter = genClass.getGenFeatures().iterator(); iter.hasNext(); )
-       {
-         GenFeature otherFeature = (GenFeature)iter.next();
-         if (otherFeature != this && otherFeature.isDerived() &&
-             ExtendedMetaData.INSTANCE.getGroup(otherFeature.getEcoreFeature()) == null)
-         {
-           delegated.add(otherFeature);
-         }
-       }
-    }
-    else if (ExtendedMetaData.INSTANCE.getFeatureKind(getEcoreFeature()) == ExtendedMetaData.GROUP_FEATURE)
-    {
-      for (Iterator iter = genClass.getGenFeatures().iterator(); iter.hasNext(); )
-      {
-        GenFeature otherFeature = (GenFeature)iter.next();
-        if (otherFeature != this && otherFeature.isDerived() && otherFeature.isChangeable() &&
-            ExtendedMetaData.INSTANCE.getGroup(otherFeature.getEcoreFeature()) == getEcoreFeature())
-        {
-          delegated.add(otherFeature);
-        }
-      }
-    }
-
-    List result = new ArrayList();
-    for (Iterator iter = delegated.iterator(); iter.hasNext(); )
-    {
-      GenFeature feature = (GenFeature)iter.next();
-      if (feature.isFeatureMapType())
-      {
-        result.addAll(feature.getDelegatedFeatures());
-      }
-      else
-      {
-        result.add(feature);
-      }
-    }
-    return result;
-  }
-
-  public String getCreateChildValueLiteral()
-  {
-    String result = getDefaultValue();
-
-    if (result == null)
-    {
-      Class c = getEcoreFeature().getEType().getInstanceClass();
-
-      if (c == Boolean.TYPE || c == Boolean.class)
-      {
-        result = "\"false\"";
-      }
-      else if (c == String.class)
-      {
-        result = "\"\"";
-      }
-      else if (c == Character.class)
-      {
-        result = "\"0\"";
-      }
-      else if (c == Byte.TYPE || c == Short.TYPE || c == Integer.TYPE || c == Long.TYPE || c == Float.TYPE || c == Double.TYPE ||
-               (c != null && Number.class.isAssignableFrom(c)))
-      {
-        result = "\"0\"";
-      }
-    }
-    return result;
-  }
-
   public void initialize(EStructuralFeature eFeature)
   {
     if (eFeature != getEcoreFeature())
@@ -1323,14 +1213,14 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
           setProperty(GenPropertyKind.NONE_LITERAL);
         }
         setChildren(eReference.isContainment() && !hasDelegateFeature());
-        setCreateChild(isChildren() && isChangeable());
+        setCreateChild(eReference.isContainment() && isChangeable());
         setNotify(isChildren());
       }
       else if (isFeatureMapType())
       {
         setProperty(GenPropertyKind.NONE_LITERAL);
         setChildren(!hasDelegateFeature());
-        setCreateChild(isChildren() && isChangeable());
+        setCreateChild(false);
         setNotify(isChildren());
       }
       else
@@ -1557,8 +1447,14 @@ public class GenFeatureImpl extends GenBaseImpl implements GenFeature
   {
     setProperty(oldGenFeatureVersion.getProperty());
     setNotify(oldGenFeatureVersion.isNotify());
-    setChildren(oldGenFeatureVersion.isChildren());
-    setCreateChild(oldGenFeatureVersion.isCreateChild());
+
+    if ((hasDelegateFeature() && oldGenFeatureVersion.hasDelegateFeature()) ||
+        (isContains() && oldGenFeatureVersion.isContains()) ||
+        (!hasDelegateFeature() && !isContains()))
+    {
+      setChildren(oldGenFeatureVersion.isChildren());
+      setCreateChild(oldGenFeatureVersion.isCreateChild());
+    }
   }
 
   public boolean reconcile()

@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.13 2004/10/19 21:15:23 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.10.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -42,6 +42,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -114,7 +115,7 @@ public class ItemProviderAdapter
   /**
    * This keeps track of all the targets to which this adapter is set.
    */
-  protected List targets;
+  protected Collection targets;
 
   /**
    * When {@link ChildrenStore}s are to be used to cache children (typically to hold wrappers for non-EObject
@@ -842,7 +843,7 @@ public class ItemProviderAdapter
           (domain,
            commandParameter.getEOwner(), 
            newChildParameter.getEStructuralFeature(), 
-           newChildParameter.getValue(),
+           newChildParameter.getEValue(),
            newChildParameter.getIndex(),
            commandParameter.getCollection());      
     }
@@ -1371,48 +1372,22 @@ public class ItemProviderAdapter
     }
   }
 
-  public void unsetTarget(Notifier target)
-  {
-    if (target == this.target)
-    {
-      if (targets == null || targets.isEmpty())
-      {
-        super.setTarget(null);
-      }
-      else
-      {
-        super.setTarget((Notifier)targets.remove(targets.size() - 1));
-      }
-    }
-    else if (targets != null)
-    {
-      targets.remove(target);
-    }
-  }
-
   /**
    * This will remove this adapter from all its the targets and dispose any
    * remainging children wrappers in the children store.
    */
   public void dispose()
   {
-    Notifier oldTarget = target;
-    target = null;
-
-    List oldTargets = targets;
-    targets = null;
-
-    if (oldTarget != null)
+    if (target != null)
     {
-      oldTarget.eAdapters().remove(this);
-    }
-
-    if (oldTargets != null)
-    {
-      for (Iterator i = oldTargets.iterator(); i.hasNext(); )
+      target.eAdapters().remove(this);
+      if (targets != null)
       {
-        Notifier otherTarget = (Notifier)i.next();
-        otherTarget.eAdapters().remove(this);
+        for (Iterator i = targets.iterator(); i.hasNext(); )
+        {
+          Notifier otherTarget = (Notifier)i.next();
+          otherTarget.eAdapters().remove(this);
+        }
       }
     }
 
@@ -1446,15 +1421,6 @@ public class ItemProviderAdapter
    */
   public String getCreateChildText(Object owner, Object feature, Object child, Collection selection)
   {
-    if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
-    {
-      FeatureMap.Entry entry = (FeatureMap.Entry)child;
-      feature = entry.getEStructuralFeature();
-      child = entry.getValue();
-    }
-
-    String childType = feature instanceof EAttribute ? getTypeText((EAttribute)feature) : getTypeText(child);
-
     // The try/catch provides backwards compatibility with the old resource
     // key, "_UI_CreateChild_label", and should be removed at the next
     // release, when we can expect users to do a regen.
@@ -1462,14 +1428,22 @@ public class ItemProviderAdapter
     try
     {
       return getResourceLocator().getString(
-        feature instanceof EAttribute ? "_UI_CreateChild_text3" : "_UI_CreateChild_text",
-        new Object[] { childType, getFeatureText(feature), getTypeText(owner) });
+        "_UI_CreateChild_text",
+        new Object[] { 
+          getTypeText(child),
+          getFeatureText(feature),
+          getTypeText(owner)
+        });
     }
     catch (MissingResourceException e)
     {
       return getResourceLocator().getString(
         "_UI_CreateChild_label",
-        new Object[] { childType, getFeatureText(feature), getTypeText(owner) });
+        new Object[] { 
+          getTypeText(child),
+          getFeatureText(feature),
+          getTypeText(owner)
+        });
     }
   }
 
@@ -1478,39 +1452,19 @@ public class ItemProviderAdapter
    */
   public String getCreateChildDescription(Object owner, Object feature, Object child, Collection selection)
   {
-    if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
-    {
-      FeatureMap.Entry entry = (FeatureMap.Entry)child;
-      feature = entry.getEStructuralFeature();
-      child = entry.getValue();
-    }
-
-    String childType = feature instanceof EAttribute ? getTypeText((EAttribute)feature) : getTypeText(child);
     Object selectionObject = selection == null || selection.isEmpty() ?  null : selection.iterator().next();
-
-    if (selectionObject == owner)
+    if (owner != selectionObject)
     {
       return 
-      getResourceLocator().getString
-        ("_UI_CreateChild_description", 
-         new Object[] { childType, getFeatureText(feature), getTypeText(owner) });
+        getResourceLocator().getString
+          ("_UI_CreateSibling_description", 
+           new Object[] { getTypeText(child), getFeatureText(feature), getTypeText(selectionObject) });
     }
 
-    Object sibling = selectionObject;
-    Object siblingFeature = getChildFeature(owner, sibling);
-
-    if (siblingFeature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)siblingFeature))
-    {
-      FeatureMap.Entry entry = (FeatureMap.Entry)sibling;
-      siblingFeature = entry.getEStructuralFeature();
-      sibling = entry.getValue();
-    }
-
-    String siblingType = siblingFeature instanceof EAttribute ? getTypeText((EAttribute)siblingFeature) : getTypeText(sibling);
     return 
       getResourceLocator().getString
-        ("_UI_CreateSibling_description", 
-         new Object[] { childType, getFeatureText(feature), siblingType });
+        ("_UI_CreateChild_description", 
+         new Object[] { getTypeText(child), getFeatureText(feature), getTypeText(owner) });
   }
 
   /**
@@ -1518,18 +1472,10 @@ public class ItemProviderAdapter
    */
   public String getCreateChildToolTipText(Object owner, Object feature, Object child, Collection selection)
   {
-    if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
-    {
-      FeatureMap.Entry entry = (FeatureMap.Entry)child;
-      feature = entry.getEStructuralFeature();
-      child = entry.getValue();
-    }
-
-    String childType = feature instanceof EAttribute ? getTypeText((EAttribute)feature) : getTypeText(child);
     return 
       getResourceLocator().getString
         ("_UI_CreateChild_tooltip",
-         new Object[] {childType , getFeatureText(feature), getTypeText(owner) });
+         new Object[] { getTypeText(child), getFeatureText(feature), getTypeText(owner) });
   }
 
   /**
@@ -1537,31 +1483,13 @@ public class ItemProviderAdapter
    */
   public Object getCreateChildImage(Object owner, Object feature, Object child, Collection selection)
   {
-    if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
+    if (feature instanceof EReference && child instanceof EObject)
     {
-      FeatureMap.Entry entry = (FeatureMap.Entry)child;
-      feature = entry.getEStructuralFeature();
-      child = entry.getValue();        
-    }
-
-    if (feature instanceof EReference) //EStructuralFeature)
-    {
-      EStructuralFeature eFeature = (EStructuralFeature)feature;
-      String name = "full/ctool16/Create" + eFeature.getEContainingClass().getName() + "_" + eFeature.getName();
-
-      if (child instanceof EObject)
-      {
-        name += "_" + ((EObject)child).eClass().getName();
-      }
-
-      try
-      {
-        return getResourceLocator().getImage(name);
-      }
-      catch (Exception e)
-      {
-        System.out.println(name);
-      }
+      EReference reference = (EReference)feature;
+      EClass parentClass = reference.getEContainingClass();
+      EClass childClass = ((EObject)child).eClass();
+      String name = "full/ctool16/Create" + parentClass.getName() + "_" + reference.getName() + "_" + childClass.getName();
+      return getResourceLocator().getImage(name);
     }
 
     return EMFEditPlugin.INSTANCE.getImage("full/ctool16/CreateChild");
@@ -1588,31 +1516,15 @@ public class ItemProviderAdapter
   }
 
   /**
-   * This looks up the name of the type of the specified attribute.
-   */
-  protected String getTypeText(EAttribute attribute)
-  {
-    String typeKey = attribute.getEAttributeType().getName();
-    try
-    {
-      return getString("_UI_" + typeKey + "_datatype");
-    }
-    catch (MissingResourceException e)
-    {
-    }
-    return getString("_UI_Unknown_datatype");
-  }
-
-  /**
    * This looks up the name of the specified feature.
    */
   protected String getFeatureText(Object feature)
   {
     String featureKey;
-    if (feature instanceof EStructuralFeature)
+    if (feature instanceof EReference)
     {
-      EStructuralFeature eFeature = (EStructuralFeature)feature;
-      featureKey = eFeature.getEContainingClass().getName() + "_" + eFeature.getName();
+      EReference reference = (EReference)feature;
+      featureKey = reference.getEContainingClass().getName() + "_" + reference.getName();
     }
     else
     {
@@ -2140,15 +2052,15 @@ public class ItemProviderAdapter
 
     if (FeatureMapUtil.isFeatureMap(feature))
     {
-      value = new FeatureMapEntryWrapperItemProvider((FeatureMap.Entry)value, object, (EAttribute)feature, index, adapterFactory, getResourceLocator());
+      value = new FeatureMapEntryWrapperItemProvider((FeatureMap.Entry)value, object, (EAttribute)feature, index, adapterFactory);
     }
     else if (feature instanceof EAttribute)
     {
-      value = new AttributeValueWrapperItemProvider(value, object, (EAttribute)feature, index, adapterFactory, getResourceLocator());
+      value = new AttributeValueWrapperItemProvider(value, object, (EAttribute)feature, index, adapterFactory);
     }
     else if (!((EReference)feature).isContainment())
     {
-      value = new DelegatingWrapperItemProvider(value, object, feature, index, adapterFactory);
+      value = new DelegatingWrapperItemProvider(value, object, adapterFactory);
     }
 
     return value;
@@ -2400,14 +2312,16 @@ public class ItemProviderAdapter
    * returned. For most commands, any objects in the {@link org.eclipse.emf.edit.command.CommandParameter#getCollection
    * collection} or in the {@link org.eclipse.emf.edit.command.CommandParameter#getValue value} that implement {@link
    * IWrapperItemProvider} will be {@link #unwrap unwrapped}. {@link org.eclipse.emf.edit.command.DragAndDropCommand}
-   * is never unwrapped. 
+   * and {@link org.eclipse.emf.edit.command.CreateChildCommand} are never unwrapped. 
    */
   protected CommandParameter unwrapCommandValues(CommandParameter commandParameter, Class commandClass)
   {
     // We need the wrapper, not the item provider, to handle a DragAndDropCommand; the move, add, remove, etc. commands
-    // that implement it will have their values unwrapped as usual.
+    // that implement it will have their values unwrapped as usual. For CreateChildCommand, the value isn't wrapped to
+    // begin with, and the collection is used to hold the selection, and so it may include wrappers, but it isn't
+    // actually operated on by the command -- it's just directly returned as the affected objects.
     //
-    if (commandClass == DragAndDropCommand.class)
+    if (commandClass == DragAndDropCommand.class || commandClass == CreateChildCommand.class)
     {
       return commandParameter;
     }

@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.6 2004/09/24 04:20:58 davidms Exp $
+ * $Id: WrapperItemProvider.java,v 1.5.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -26,15 +26,11 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.command.AbstractOverrideableCommand;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CopyCommand;
 import org.eclipse.emf.edit.command.DragAndDropCommand;
-import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 
@@ -65,16 +61,6 @@ public class WrapperItemProvider implements IWrapperItemProvider
   protected Object owner;
 
   /**
-   * The structural feature, if applicable, through which the value can be set and retrieved.
-   */
-  protected EStructuralFeature feature;
-
-  /**
-   * The index at which the value is located. If {@link #feature} is non-null, this index is within that feature.
-   */
-  protected int index;
-
-  /**
    * The adapter factory for the owner's item provider.
    */
   protected AdapterFactory adapterFactory;
@@ -83,12 +69,10 @@ public class WrapperItemProvider implements IWrapperItemProvider
    * Creates an instance. The adapter factory of the owner's item provider may be needed for echoing notifications and
    * providing property descriptors.
    */
-  public WrapperItemProvider(Object value, Object owner, EStructuralFeature feature, int index, AdapterFactory adapterFactory)
+  public WrapperItemProvider(Object value, Object owner, AdapterFactory adapterFactory)
   {
     this.value = value;
     this.owner = owner;
-    this.feature = feature;
-    this.index = index;
     this.adapterFactory = adapterFactory;
   }
 
@@ -109,37 +93,19 @@ public class WrapperItemProvider implements IWrapperItemProvider
   }
 
   /**
-   * Returns the object that owns the value.
-   */
-  public Object getOwner()
-  {
-    return owner;
-  }
-
-  /**
-   * Returns the structural feature through which the value can be set and retrieved, or null if the feature is
-   * unknown or not applicable.
-   */
-  public EStructuralFeature getFeature()
-  {
-    return feature;
-  }
-
-  /**
-   * The index at which the value is located, or {@link org.eclipse.emf.edit.command.CommandParameter#NO_INDEX} if the
-   * index isn't known to the wrapper. If {@link #feature} is non-null, this index is within that feature. 
+   * Returns {@link org.eclipse.emf.edit.command.CommandParameter#NO_INDEX}, indicating that the index isn't known to
+   * this base wrapper implementation.
    */
   public int getIndex()
   {
-    return index;
+    return CommandParameter.NO_INDEX;
   }
 
   /**
-   * Sets the index. Has no effect if the index isn't known to the wrapper.
+   * Has no effect, as the index isn't known to this base wrapper implementation.
    */
   public void setIndex(int index)
   {
-    this.index = index;
   }
 
   /**
@@ -260,27 +226,25 @@ public class WrapperItemProvider implements IWrapperItemProvider
   }
 
   /**
-   * Returns whether a value's single property is settable. By default, this returns whether the structural feature is
-   * {@link org.eclipse.emf.ecore.EStructuralFeature#isChangeable changeable}. Subclasses may use this in creating a
-   * property descriptor, and user subclasses may override it to restrict or allow setting of the property.
+   * Returns whether a value's single property is settable. Subclasses may use this in creating a property descriptor
+   * and override it to provide a specific name.
    */
   protected boolean isPropertySettable()
   {
-    return feature.isChangeable();
+    return false;
   }
 
   /**
-   * Returns an image for a value's single property. By default, a standard property icon is selected based on the type
-   * of the structural feature. Subclasses may use this in creating a property descriptor, and user subclasses may
-   * override it to select a different icon. 
+   * Returns an image for a value's single property. By default, the generic property icon is returned. Subclasses
+   * may use this in creating a property descriptor and override it to provide a more specific icon. 
    */
   protected Object getPropertyImage()
   {
-    return getPropertyImage(feature.getEType().getInstanceClass());
+    return getPropertyImage(null);
   }
 
   /**
-   * Returns the property image for the specified type. Implementations of {@link #getPropertyImage getPropertyImage}
+   * Returns the property image for the specified type. Overrides for {@link #getPropertyImage getPropertyImage}
    * typically call this method.
    */
   protected Object getPropertyImage(Class typeClass)
@@ -311,24 +275,6 @@ public class WrapperItemProvider implements IWrapperItemProvider
   }
 
   /**
-   * Returns a category for a value's single property. By default, null is returned. Subclasses may use this in
-   * creating a property descriptor, and user subclasses may override it to actually provide a category.
-   */
-  protected String getPropertyCategory()
-  {
-    return null;
-  }
-
-  /**
-   * Returns filter flags for a value's single property. By default, null is returned. Subclasses may use this in
-   * createing a property descriptor, and user subclasses may override it to actually provide a category.
-   */
-  protected String[] getPropertyFilterFlags()
-  {
-    return null;
-  }
-
-  /**
    * {@link IEditingDomainItemProvider#getNewChildDescriptors IEditingDomainItemProvider.getNewChildDescriptors} is
    * implemented to return an empty list. Subclasses may override it to return something else.
    */
@@ -339,7 +285,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
 
   /**
    * {IEditingDomainItemProvider#createCommand IEditingDomainItemProvider.createCommand} is implemented via {@link
-   * #baseCreateCommand baseCreateCommand} to create set, copy, and drag-and-drop commands, only.
+   * #baseCreateCommand baseCreateCommand} to create copy and drag-and-drop commands, only.
    */
   public Command createCommand(Object object, EditingDomain domain, Class commandClass, CommandParameter commandParameter)
   {
@@ -347,17 +293,12 @@ public class WrapperItemProvider implements IWrapperItemProvider
   }
 
   /**
-   * Implements creation of a set, copy, or drag-and-drop command by calling out to {@link #createSetCommand
-   * createSetCommand}, {@link #createCopyCommand createCopyCommand}, or {@link #createDragAndDropCommand
-   * createDragAndDropCommand}.
+   * Implements creation of copy and drag-and-drop commands by calling out to {@link #createCopyCommand
+   * createCopyCommand} or {@link #createDragAndDropCommand createDragAndDropCommand}.
    */
   public Command baseCreateCommand(Object object, EditingDomain domain, Class commandClass, CommandParameter commandParameter)
   {
-    if (commandClass == SetCommand.class)
-    {
-      return createSetCommand(domain, commandParameter.getOwner(), commandParameter.getFeature(), commandParameter.getValue(), commandParameter.getIndex());
-    }
-    else if (commandClass == CopyCommand.class)
+    if (commandClass == CopyCommand.class)
     {
       return createCopyCommand(domain, commandParameter.getOwner(), (CopyCommand.Helper)commandParameter.getValue());
     }
@@ -370,15 +311,6 @@ public class WrapperItemProvider implements IWrapperItemProvider
     {
       return UnexecutableCommand.INSTANCE;
     }
-  }
-
-  /**
-   * Return an {@link org.eclipse.emf.common.command.UnexecutableCommand}. Subclasses should override this to map this
-   * into a real set on a model object.
-   */
-  protected Command createSetCommand(EditingDomain domain, Object owner, Object feature, Object value, int index) 
-  {
-    return UnexecutableCommand.INSTANCE;
   }
 
   /**
@@ -415,7 +347,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
    * an adapter to return a copy command, itself. This class just provides the scaffolding; concrete subclasses must
    * implement {@link #copy copy} to do the copying.
    */
-  protected abstract class SimpleCopyCommand extends AbstractOverrideableCommand
+  public abstract class SimpleCopyCommand extends AbstractOverrideableCommand
   {
     protected Collection result = Collections.EMPTY_LIST;
     protected Collection affectedObjects;
@@ -496,7 +428,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
    * an element that is not adaptable, such as a feature map entry. This command copies the non-adapter element and the
    * wrapper, which ensures the copy can be copied again.
    */
-  protected abstract class WrappingCopyCommand extends CommandWrapper
+  public abstract class WrappingCopyCommand extends CommandWrapper
   {
     protected Collection result = Collections.EMPTY_LIST;
     protected Collection affectedObjects;
@@ -558,190 +490,5 @@ public class WrapperItemProvider implements IWrapperItemProvider
     return adapterFactory instanceof ComposeableAdapterFactory ?
       ((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory() :
       adapterFactory;
-  }
-
-  /**
-   * An item property descriptor for the single property of a wrapper for a simple value. This extends the base
-   * implentation and substitutes the wrapper's owner for the selected object (the wrapper itself) in the call to {@link
-   * #getPropertyValue getPropertyValue}. Thus, the owner must be an EObject to use this class. The property's name,
-   * description, settable flag, static image, category, and filter flags are obtained by calling out to various
-   * template methods, so can be easily changed by subclassing.
-   */
-  protected class WrapperItemPropertyDescriptor extends ItemPropertyDescriptor
-  {
-    public WrapperItemPropertyDescriptor(ResourceLocator resourceLocator, EStructuralFeature feature)
-    {
-      super(
-        WrapperItemProvider.this.adapterFactory,
-        resourceLocator,
-        getPropertyName(),
-        getPropertyDescription(),
-        feature,
-        isPropertySettable(),
-        getPropertyImage(),
-        getPropertyCategory(),
-        getPropertyFilterFlags());
-    }
-
-    /**
-     * Substitutes the wrapper owner for the selected object and invokes the base implementation. The actual value
-     * returned depends on the implementation of {@link #getValue getValue}.
-     */
-    public Object getPropertyValue(Object object)
-    {
-      return super.getPropertyValue(owner);
-    }
-
-    /**
-     * Returns <code>true</code>, as the property of a value wrapper is always considered to be set. 
-     */
-    public boolean isPropertySet(Object object)
-    {
-      return true;
-    }
-
-    /**
-     * Does nothing, as resetting the property of a value wrapper is not meaningful.
-     */
-    public void resetPropertyValue(Object object)
-    {
-    }
-
-    /**
-     * Sets the property value. If an editing domain can be obtained, the command returned by {@link #createSetCommand
-     * createSetcommand} is executed; otherwise, {@link #setValue setValue} is called to set the value.
-     */
-    public void setPropertyValue(Object object, Object value)
-    {
-      EObject eObject = (EObject)owner;
-      EditingDomain editingDomain = getEditingDomain(owner);
-
-      if (editingDomain == null)
-      {
-        setValue(eObject, feature, value);
-      }
-      else
-      {
-        editingDomain.getCommandStack().execute(createSetCommand(editingDomain, eObject, feature, value));
-      }
-    }
-
-    /**
-     * Returns a value from a model object. If the feature is multi-valued, only the single value that the wrapper
-     * represents is returned.
-     */
-    protected Object getValue(EObject object, EStructuralFeature feature)
-    {
-      // When the value is changed, the property sheet page doesn't update the property sheet viewer input
-      // before refreshing, and this gets called on the obsolete wrapper. So, we need to read directly from the
-      // model object.
-      //
-      //return value;
-
-      Object result = ((EObject)owner).eGet(feature);
-      if (feature.isMany())
-      {
-        // If the last object was deleted and the selection was in the property sheet view, the obsolete wrapper will
-        // reference past the end of the list.
-        //
-        List list = (List)result;
-        result = index >= 0 && index < list.size() ? list.get(index) : value;
-      }
-      return result;
-    }
-
-    /**
-     * Sets a value on a model object. If the feature is multi-valued, only the single value that the wrapper
-     * represents is set.
-     */
-    protected void setValue(EObject object, EStructuralFeature feature, Object value)
-    {
-      if (feature.isMany())
-      {
-        ((List)object.eGet(feature)).set(index, value);
-      }
-      else
-      {
-        object.eSet(feature, value);
-      }
-    }
-
-    /**
-     * Returns a command that will set the value on the model object. The wrapper is used as the owner of the command,
-     * unless overridden, so that it can specialize the command that eventually gets created.
-     */
-    protected Command createSetCommand(EditingDomain domain, Object owner, Object feature, Object value)
-    {
-      return SetCommand.create(domain, getCommandOwner(WrapperItemProvider.this), null, value);
-    }
-
-    /**
-     * Returns <code>false</code>, as the property only represents a single value, even if the feature is multi-valued.
-     */
-    public boolean isMany(Object object)
-    {
-      return false;
-    }
-
-    /**
-     * Substitutes the wrapper owner for the selected object and invokes the base implementation.
-     */
-    public Collection getChoiceOfValues(Object object)
-    {
-      return super.getChoiceOfValues(owner);
-    }
-  }
-
-  /**
-   * A <code>ReplacementAffectedObjectCommand</code> wraps another command to return as its affected objects the single
-   * wrapper that replaces this wrapper. That is, it obtains the children of the wrapper's owner, and returns a
-   * collection containing the first wrapper whose feature and index match this one's.
-   */
-  protected class ReplacementAffectedObjectCommand extends CommandWrapper
-  {
-    public ReplacementAffectedObjectCommand(Command command)
-    {
-      super(command);
-    }
-
-    /**
-     * Obtains the children of the wrapper's owner, and returns a collection containing the first wrapper whose feature
-     * and index match this one's. 
-     */
-    public Collection getAffectedObjects()
-    {
-      Collection children = Collections.EMPTY_LIST;
-
-      // Either the IEditingDomainItemProvider or ITreeItemContentProvider item provider interface can give us
-      // the children.
-      //
-      Object adapter = adapterFactory.adapt(owner, IEditingDomainItemProvider.class);
-      if (adapter instanceof IEditingDomainItemProvider)
-      {
-        children = ((IEditingDomainItemProvider)adapter).getChildren(owner);
-      }
-      else
-      {
-        adapter = adapterFactory.adapt(owner, ITreeItemContentProvider.class);
-        if (adapter instanceof ITreeItemContentProvider)
-        {
-          children = ((ITreeItemContentProvider)adapter).getChildren(owner);
-        }
-      }
-
-      for (Iterator i = children.iterator(); i.hasNext(); )
-      {
-        Object child = i.next();
-        if (child instanceof IWrapperItemProvider)
-        {
-          IWrapperItemProvider wrapper = (IWrapperItemProvider)child;
-          if (wrapper.getFeature() == feature && wrapper.getIndex() == index)
-          {
-            return Collections.singletonList(child);
-          }
-        }
-      }
-      return Collections.EMPTY_LIST;
-    }
   }
 }

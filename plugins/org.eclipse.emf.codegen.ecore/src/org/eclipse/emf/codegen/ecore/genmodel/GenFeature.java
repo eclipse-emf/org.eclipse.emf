@@ -3,21 +3,19 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.5 2004/09/24 04:09:14 davidms Exp $
+ * $Id: GenFeature.java,v 1.4.2.1 2005/06/08 18:27:45 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
-
-import java.util.List;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -279,12 +277,10 @@ public interface GenFeature extends GenBase
   String getStaticDefaultValue();
 
   boolean isEnumType();
-  boolean isEnumBasedType();
   GenEnum getGenEnumType();
   GenDataType getGenDataTypeType();
   boolean isBooleanType();
   boolean isStringType();
-  boolean isStringBasedType();
   boolean isListType();
   boolean isMapType();
   boolean isFeatureMapType();
@@ -319,15 +315,10 @@ public interface GenFeature extends GenBase
   boolean isUnsettable();
   boolean isID();
   boolean isUnique();
-  boolean isDerived();
   boolean isResolveProxies();
 
   boolean hasDelegateFeature();
   GenFeature getDelegateFeature();
-
-  List/*of GenFeature*/ getDelegatedFeatures();
-
-  String getCreateChildValueLiteral();
 
   void initialize(EStructuralFeature eFeature);
 

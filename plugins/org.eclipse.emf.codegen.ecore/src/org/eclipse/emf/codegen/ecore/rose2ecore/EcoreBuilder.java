@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.10 2004/11/01 22:36:26 davidms Exp $
+ * $Id: EcoreBuilder.java,v 1.8.2.1 2005/06/08 18:27:44 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.rose2ecore;
 
@@ -105,7 +105,7 @@ public class EcoreBuilder implements RoseVisitor
 
   public void visitObject(RoseNode roseNode)
   {
-    String roseNodeValue = roseNode.getValue();
+    String  roseNodeValue = roseNode.getValue();
     String objectKey  = roseNode.getKey();
     String objectType = Util.getType(roseNodeValue);
     String objectName = Util.getName(roseNodeValue);
@@ -122,220 +122,196 @@ public class EcoreBuilder implements RoseVisitor
       parent = currentNode.getNode();
     }
 
-    visitObject(roseNode, roseNodeValue, objectKey, objectType, objectName, parent);
-  }
-
-  protected void visitObject(RoseNode roseNode, String roseNodeValue, String objectKey, String objectType, String objectName, Object parent)
-  {
     if (objectKey.equals("") && objectType.equals(RoseStrings.CLASS_CATEGORY))
     {
-      visitClassCategory(roseNode, roseNodeValue, objectKey, objectName, parent);
-    }
-    else if (objectType.equals(RoseStrings.CLASS))
-    {
-      visitClass(roseNode, roseNodeValue, objectKey, objectName, parent);
-    }
-    else if (objectType.equals(RoseStrings.OPERATION))
-    {
-      visitOperation(roseNode, roseNodeValue, objectKey, objectName, parent);
-    }
-    else if (objectType.equals(RoseStrings.PARAMETER))
-    {
-      visitParameter(roseNode, roseNodeValue, objectKey, objectName, parent);
-    }
-    else if (objectType.equals(RoseStrings.INHERITANCE_RELATIONSHIP))
-    {
-      visitInheritanceRelationship(roseNode, roseNodeValue, objectKey, objectName, parent);
-    }
-    else if (objectType.equals(RoseStrings.CLASSATTRIBUTE) && (!roseNode.isDerived() || !"reference".equals(roseNode.getStereotype())))
-    {
-      visitClassattribute(roseNode, roseNodeValue, objectKey, objectName, parent);
-    }
-    else if (objectType.equals(RoseStrings.ASSOCIATION))
-    {
-      visitAssociation(roseNode, roseNodeValue, objectKey, objectName, parent);
-    }
-    else if (objectType.equals(RoseStrings.ROLE) && !objectName.startsWith("/"))
-    {
-      visitRole(roseNode, roseNodeValue, objectKey, objectName, parent);
-    }
-  }
-
-  protected void visitClassCategory(RoseNode roseNode, String roseNodeValue, String objectKey, String objectName, Object parent)
-  {
-    // Map to an EPackage.
-    //
-    if (roseNode.isLoaded())
-    {
-      String id = roseNode.getRoseId();
-      if (idToParentMap.containsKey(id))
+      // Map to an EPackage.
+      //
+      if (roseNode.isLoaded())
       {
-        parent = idToParentMap.get(id);
-      }
-      EPackage ePackage = ecoreFactory.createEPackage();
-      if (parent instanceof EPackage)
-      {
-        // Add to package.
-        //
-        ((EPackage)parent).getESubpackages().add(ePackage);
-      }
-      else if (parent instanceof EList)
-      {
-        ((EList)parent).add(ePackage);
-      }
-      setEPackageProperties(roseNode, ePackage, objectName.toLowerCase());
-    }
-    else
-    {
-      idToParentMap.put(roseNode.getRoseId(), parent);
-    }
-  }
-
-  protected void visitClass(RoseNode roseNode, String roseNodeValue, String objectKey, String objectName, Object parent)
-  {
-    if (objectName == null || objectName.length() == 0)
-    {
-      String quid = roseNode.getRoseId();
-      if (quid != null)
-      {
-        quid = quid.substring(1, quid.length() - 1);
-      }
-
-      objectName = "Unnamed" + quid;
-      error(CodeGenEcorePlugin.INSTANCE.getString("_UI_UnnamedClass_message", new Object [] { objectName }));
-    }
-
-    // Map to EClass, EEnum or EInerface.
-    // Note that we do not map structure and primitive type class.
-    //
-    RoseNode stereoTypeNode = roseNode.findNodeWithKey(RoseStrings.STEREOTYPE);
-    if (stereoTypeNode != null)
-    {
-      String stereoTypeValue = stereoTypeNode.getValue();
-      stereoTypeValue = stereoTypeValue.substring(1, stereoTypeValue.length() - 1);
-      if (stereoTypeValue.equals(RoseStrings.INTERFACE))
-      {
-        // Map to an EClass.
-        //
-        EClass eClass = ecoreFactory.createEClass();
-        String classifierName = roseNode.getClassifierName();
-        if (classifierName == null || classifierName.length() == 0)
+        String id = roseNode.getRoseId();
+        if (idToParentMap.containsKey(id))
         {
-          classifierName = validName(upperCaseName(objectName));
+          parent = idToParentMap.get(id);
         }
-        eClass.setName(classifierName);
-        roseNode.setNode(eClass);
-        setEClassProperties(roseNode, eClass);
-        eClass.setInterface(true);
-        eClass.setAbstract(true);
-        build(roseNode, parent, eClass);
-      }
-      else if (stereoTypeValue.equalsIgnoreCase(RoseStrings.ENUMERATION))
-      {
-        // Map to an EEnum.
-        EEnum eEnum = ecoreFactory.createEEnum();
-        String classifierName = roseNode.getClassifierName();
-        if (classifierName == null || classifierName.length() == 0)
+        EPackage ePackage = ecoreFactory.createEPackage();
+        if (parent instanceof EPackage)
         {
-          classifierName = validName(upperCaseName(objectName));
+          // Add to package.
+          //
+          ((EPackage)parent).getESubpackages().add(ePackage);
         }
-        eEnum.setName(classifierName);
-        roseNode.setNode(eEnum);
-        setEEnumProperties(roseNode, eEnum);
-        build(roseNode, parent, eEnum);
-      }
-      else if (stereoTypeValue.equalsIgnoreCase("datatype") || stereoTypeValue.equalsIgnoreCase("primitive"))
-      {
-        // Map to an EDataType.
-        //
-        EDataType eDataType = ecoreFactory.createEDataType();
-        String classifierName = roseNode.getClassifierName();
-        if (classifierName == null || classifierName.length() == 0)
+        else if (parent instanceof EList)
         {
-          classifierName = validName(upperCaseName(objectName));
+          ((EList)parent).add(ePackage);
         }
-        eDataType.setName(classifierName);
-        roseNode.setNode(eDataType);
-        setEDataTypeProperties(roseNode, eDataType);
-        build(roseNode, parent, eDataType);
-
-        String uml2MOFCorbaType = roseNode.getUML2MOFCorbaType();
-        if (uml2MOFCorbaType != null)
-        {
-          uml2MOFCorbaType = uml2MOFCorbaType.trim();
-          int start = uml2MOFCorbaType.indexOf("typedef ");
-          if (start != -1)
-          {
-            uml2MOFCorbaType = uml2MOFCorbaType.substring(8);
-            int end = uml2MOFCorbaType.lastIndexOf(" ");
-            if (end != -1)
-            {
-              uml2MOFCorbaType = uml2MOFCorbaType.substring(0, end);
-            }
-          }
-
-          if (uml2MOFCorbaType != null && uml2MOFCorbaType.length() != 0)
-          {
-            roseUtil.typeTable.put(eDataType, uml2MOFCorbaType);
-          }
-        }
-
-      }
-      else if (stereoTypeValue.equalsIgnoreCase("javatype"))
-      {
-        // Map to an EDataType.
-        //
-        EDataType eDataType = ecoreFactory.createEDataType();
-        String classifierName = roseNode.getClassifierName();
-        if (classifierName == null || classifierName.length() == 0)
-        {
-          int index = objectName.lastIndexOf(".");
-          classifierName = validName(upperCaseName(index == -1 ? objectName : objectName.substring(index + 1)));
-        }
-        int index = objectName.lastIndexOf(".");
-        eDataType.setName(validName(upperCaseName(index == -1 ? objectName : objectName.substring(index + 1))));
-        eDataType.setInstanceClassName(objectName);
-        roseNode.setNode(eDataType);
-        setEDataTypeProperties(roseNode, eDataType);
-        build(roseNode, parent, eDataType);
-      }
-      else if (stereoTypeValue.equalsIgnoreCase("abstract"))
-      {
-        // Map to an EClass.
-        //
-        EClass eClass = ecoreFactory.createEClass();
-        String classifierName = roseNode.getClassifierName();
-        if (classifierName == null || classifierName.length() == 0)
-        {
-          classifierName = validName(upperCaseName(objectName));
-        }
-        eClass.setName(classifierName);
-        roseNode.setNode(eClass);
-        setEClassProperties(roseNode, eClass);
-        build(roseNode, parent, eClass);
-      }
-      else if (stereoTypeValue.equalsIgnoreCase("MapEntry"))
-      {
-        // Map to an EClass.
-        //
-        EClass eClass = ecoreFactory.createEClass();
-        String classifierName = roseNode.getClassifierName();
-        if (classifierName == null || classifierName.length() == 0)
-        {
-          classifierName = validName(upperCaseName(objectName));
-        }
-        eClass.setName(classifierName);
-        roseNode.setNode(eClass);
-        setEClassProperties(roseNode, eClass);
-        eClass.setInstanceClassName("java.util.Map$Entry");
-        build(roseNode, parent, eClass);
+        setEPackageProperties(roseNode, ePackage, objectName.toLowerCase());
       }
       else
       {
-        warning
-          (CodeGenEcorePlugin.INSTANCE.getString
-             ("_UI_UnrecognizedStereotype_message", new Object [] { stereoTypeValue, objectName }));
+        idToParentMap.put(roseNode.getRoseId(), parent);
+      }
+    }
+    else if (objectType.equals(RoseStrings.CLASS))
+    {
+      if (objectName == null || objectName.length() == 0)
+      {
+        String quid = roseNode.getRoseId();
+        if (quid != null)
+        {
+          quid = quid.substring(1, quid.length() - 1);
+        }
 
+        objectName = "Unnamed" + quid;
+        error(CodeGenEcorePlugin.INSTANCE.getString("_UI_UnnamedClass_message", new Object [] { objectName }));
+      }
+
+      // Map to EClass, EEnum or EInerface.
+      // Note that we do not map structure and primitive type class.
+      //
+      RoseNode stereoTypeNode = roseNode.findNodeWithKey(RoseStrings.STEREOTYPE);
+      if (stereoTypeNode != null)
+      {
+        String stereoTypeValue = stereoTypeNode.getValue();
+        stereoTypeValue = stereoTypeValue.substring(1, stereoTypeValue.length() - 1);
+        if (stereoTypeValue.equals(RoseStrings.INTERFACE))
+        {
+          // Map to an EClass.
+          //
+          EClass eClass = ecoreFactory.createEClass();
+          String classifierName = roseNode.getClassifierName();
+          if (classifierName == null || classifierName.length() == 0)
+          {
+            classifierName = validName(upperCaseName(objectName));
+          }
+          eClass.setName(classifierName);
+          roseNode.setNode(eClass);
+          setEClassProperties(roseNode, eClass);
+          eClass.setInterface(true);
+          eClass.setAbstract(true);
+          build(roseNode, parent, eClass);
+        }
+        else if (stereoTypeValue.equalsIgnoreCase(RoseStrings.ENUMERATION))
+        {
+          // Map to an EEnum.
+          EEnum eEnum = ecoreFactory.createEEnum();
+          String classifierName = roseNode.getClassifierName();
+          if (classifierName == null || classifierName.length() == 0)
+          {
+            classifierName = validName(upperCaseName(objectName));
+          }
+          eEnum.setName(classifierName);
+          roseNode.setNode(eEnum);
+          setEEnumProperties(roseNode, eEnum);
+          build(roseNode, parent, eEnum);
+        }
+        else if (stereoTypeValue.equalsIgnoreCase("datatype") || stereoTypeValue.equalsIgnoreCase("primitive"))
+        {
+          // Map to an EDataType.
+          //
+          EDataType eDataType = ecoreFactory.createEDataType();
+          String classifierName = roseNode.getClassifierName();
+          if (classifierName == null || classifierName.length() == 0)
+          {
+            classifierName = validName(upperCaseName(objectName));
+          }
+          eDataType.setName(classifierName);
+          roseNode.setNode(eDataType);
+          setEDataTypeProperties(roseNode, eDataType);
+          build(roseNode, parent, eDataType);
+
+          String uml2MOFCorbaType = roseNode.getUML2MOFCorbaType();
+          if (uml2MOFCorbaType != null)
+          {
+            uml2MOFCorbaType = uml2MOFCorbaType.trim();
+            int start = uml2MOFCorbaType.indexOf("typedef ");
+            if (start != -1)
+            {
+              uml2MOFCorbaType = uml2MOFCorbaType.substring(8);
+              int end = uml2MOFCorbaType.lastIndexOf(" ");
+              if (end != -1)
+              {
+                uml2MOFCorbaType = uml2MOFCorbaType.substring(0, end);
+              }
+            }
+
+            if (uml2MOFCorbaType != null && uml2MOFCorbaType.length() != 0)
+            {
+              roseUtil.typeTable.put(eDataType, uml2MOFCorbaType);
+            }
+          }
+
+        }
+        else if (stereoTypeValue.equalsIgnoreCase("javatype"))
+        {
+          // Map to an EDataType.
+          //
+          EDataType eDataType = ecoreFactory.createEDataType();
+          String classifierName = roseNode.getClassifierName();
+          if (classifierName == null || classifierName.length() == 0)
+          {
+            int index = objectName.lastIndexOf(".");
+            classifierName = validName(upperCaseName(index == -1 ? objectName : objectName.substring(index + 1)));
+          }
+          int index = objectName.lastIndexOf(".");
+          eDataType.setName(validName(upperCaseName(index == -1 ? objectName : objectName.substring(index + 1))));
+          eDataType.setInstanceClassName(objectName);
+          roseNode.setNode(eDataType);
+          setEDataTypeProperties(roseNode, eDataType);
+          build(roseNode, parent, eDataType);
+        }
+        else if (stereoTypeValue.equalsIgnoreCase("abstract"))
+        {
+          // Map to an EClass.
+          //
+          EClass eClass = ecoreFactory.createEClass();
+          String classifierName = roseNode.getClassifierName();
+          if (classifierName == null || classifierName.length() == 0)
+          {
+            classifierName = validName(upperCaseName(objectName));
+          }
+          eClass.setName(classifierName);
+          roseNode.setNode(eClass);
+          setEClassProperties(roseNode, eClass);
+          build(roseNode, parent, eClass);
+        }
+        else if (stereoTypeValue.equalsIgnoreCase("MapEntry"))
+        {
+          // Map to an EClass.
+          //
+          EClass eClass = ecoreFactory.createEClass();
+          String classifierName = roseNode.getClassifierName();
+          if (classifierName == null || classifierName.length() == 0)
+          {
+            classifierName = validName(upperCaseName(objectName));
+          }
+          eClass.setName(classifierName);
+          roseNode.setNode(eClass);
+          setEClassProperties(roseNode, eClass);
+          eClass.setInstanceClassName("java.util.Map$Entry");
+          build(roseNode, parent, eClass);
+        }
+        else
+        {
+          warning
+            (CodeGenEcorePlugin.INSTANCE.getString
+               ("_UI_UnrecognizedStereotype_message", new Object [] { stereoTypeValue, objectName }));
+
+          // Map to an eClass.
+          //
+          EClass eClass = ecoreFactory.createEClass();
+          String classifierName = roseNode.getClassifierName();
+          if (classifierName == null || classifierName.length() == 0)
+          {
+            classifierName = validName(upperCaseName(objectName));
+          }
+          eClass.setName(classifierName);
+          roseNode.setNode(eClass);
+          setEClassProperties(roseNode, eClass);
+          build(roseNode, parent, eClass);
+        }
+      }
+      else
+      {
         // Map to an eClass.
         //
         EClass eClass = ecoreFactory.createEClass();
@@ -350,239 +326,218 @@ public class EcoreBuilder implements RoseVisitor
         build(roseNode, parent, eClass);
       }
     }
-    else
+    else if (objectType.equals(RoseStrings.OPERATION))
     {
-      // Map to an eClass.
-      //
-      EClass eClass = ecoreFactory.createEClass();
-      String classifierName = roseNode.getClassifierName();
-      if (classifierName == null || classifierName.length() == 0)
+      // Map to an EOperation.
+      EOperation eOperation = ecoreFactory.createEOperation();
+      String operationName = roseNode.getOperationName();
+      if (operationName == null || operationName.length() == 0)
       {
-        classifierName = validName(upperCaseName(objectName));
+        operationName = validName(objectName);
       }
-      eClass.setName(classifierName);
-      roseNode.setNode(eClass);
-      setEClassProperties(roseNode, eClass);
-      build(roseNode, parent, eClass);
-    }
-  }
-  
-  protected void visitOperation(RoseNode roseNode, String roseNodeValue, String objectKey, String objectName, Object parent)
-  {
-    // Map to an EOperation.
-    EOperation eOperation = ecoreFactory.createEOperation();
-    String operationName = roseNode.getOperationName();
-    if (operationName == null || operationName.length() == 0)
-    {
-      operationName = validName(objectName);
-    }
-    eOperation.setName(operationName);
-    roseNode.setNode(eOperation);
-    setResultType(roseNode, eOperation);
-    setEOperationProperties(roseNode, eOperation);
-    if (parent instanceof EClass)
-    {
-      // Add to an EClass
-      //
-      ((EClass)parent).getEOperations().add(eOperation);
-    }
-  }
-
-  protected void visitParameter(RoseNode roseNode, String roseNodeValue, String objectKey, String objectName, Object parent)
-  {
-    // Map to an EParameter as input parameter for operation.
-    //
-    EParameter eParameter = ecoreFactory.createEParameter();
-    eParameter.setName(validName(objectName));
-    roseNode.setNode(eParameter);
-
-    // Do this first for better error message during setEParameterProperties.
-    //
-    if (parent instanceof EOperation)
-    {
-      ((EOperation)parent).getEParameters().add(eParameter);
-    }
-    setEParameterProperties(roseNode, eParameter);
-  }
-
-  protected void visitInheritanceRelationship(RoseNode roseNode, String roseNodeValue, String objectKey, String objectName, Object parent)
-  {
-    String quidu = roseNode.getRoseRefId();
-    if (quidu != null && !quidu.equals(""))
-    {
-      quidu = quidu.substring(1, quidu.length()-1);
-    }
-    List superList = (List)roseUtil.superTable.get(parent);
-    if (superList == null)
-    {
-      superList = new ArrayList();
-      roseUtil.superTable.put(parent, superList);
-    }
-    superList.add(quidu);
-    superList.add(roseNode.getStereotype());
-  }
-  
-  protected void visitClassattribute(RoseNode roseNode, String roseNodeValue, String objectKey, String objectName, Object parent)
-  {
-    // Map to EAttribute, or EEnumLiteral.
-    //
-    if (parent instanceof EEnum)
-    {
-      EEnumLiteral eEnumLiteral = ((EEnum)parent).getEEnumLiteral(objectName);
-      if (eEnumLiteral == null)
+      eOperation.setName(operationName);
+      roseNode.setNode(eOperation);
+      setResultType(roseNode, eOperation);
+      setEOperationProperties(roseNode, eOperation);
+      if (parent instanceof EClass)
       {
-        eEnumLiteral = ecoreFactory.createEEnumLiteral();
-        String literalName = roseNode.getAttributeName();
-        if (literalName == null || literalName.length() == 0)
+        // Add to an EClass
+        //
+        ((EClass)parent).getEOperations().add(eOperation);
+      }
+    }
+    else if (objectType.equals(RoseStrings.PARAMETER))
+    {
+      // Map to an EParameter as input parameter for operation.
+      //
+      EParameter eParameter = ecoreFactory.createEParameter();
+      eParameter.setName(validName(objectName));
+      roseNode.setNode(eParameter);
+
+      // Do this first for better error message during setEParameterProperties.
+      //
+      if (parent instanceof EOperation)
+      {
+        ((EOperation)parent).getEParameters().add(eParameter);
+      }
+      setEParameterProperties(roseNode, eParameter);
+    }
+    else if (objectType.equals(RoseStrings.INHERITANCE_RELATIONSHIP))
+    {
+      String quidu = roseNode.getRoseRefId();
+      if (quidu != null && !quidu.equals(""))
+      {
+        quidu = quidu.substring(1, quidu.length()-1);
+      }
+      List superList = (List)roseUtil.superTable.get(parent);
+      if (superList == null)
+      {
+        superList = new ArrayList();
+        roseUtil.superTable.put(parent, superList);
+      }
+      superList.add(quidu);
+      superList.add(roseNode.getStereotype());
+    }
+    else if (objectType.equals(RoseStrings.CLASSATTRIBUTE) && (!roseNode.isDerived() || !"reference".equals(roseNode.getStereotype())))
+    {
+      // Map to EAttribute, or EEnumLiteral.
+      //
+      if (parent instanceof EEnum)
+      {
+        EEnumLiteral eEnumLiteral = ((EEnum)parent).getEEnumLiteral(objectName);
+        if (eEnumLiteral == null)
         {
-          literalName = validName(objectName);
-        }
-        eEnumLiteral.setName(literalName);
-        roseNode.setNode(eEnumLiteral);
-        if (!setEEnumLiteralProperties(roseNode, eEnumLiteral))
-        {
-          if (((EEnum)parent).getELiterals() == null)
+          eEnumLiteral = ecoreFactory.createEEnumLiteral();
+          String literalName = roseNode.getAttributeName();
+          if (literalName == null || literalName.length() == 0)
           {
-            eEnumLiteral.setValue(0);
+            literalName = validName(objectName);
+          }
+          eEnumLiteral.setName(literalName);
+          roseNode.setNode(eEnumLiteral);
+          if (!setEEnumLiteralProperties(roseNode, eEnumLiteral))
+          {
+            if (((EEnum)parent).getELiterals() == null)
+            {
+              eEnumLiteral.setValue(0);
+            }
+            else
+            {
+              eEnumLiteral.setValue(((EEnum)parent).getELiterals().size());
+            }
+          }
+          ((EEnum)parent).getELiterals().add(eEnumLiteral);
+        } 
+      }
+      else if (parent instanceof EClassifier)
+      {
+        String stereoTypeValue = null;
+        RoseNode stereoTypeNode = roseNode.findNodeWithKey(RoseStrings.STEREOTYPE);
+        if (stereoTypeNode != null)
+        {
+          stereoTypeValue = stereoTypeNode.getValue();
+          stereoTypeValue = stereoTypeValue.substring(1, stereoTypeValue.length() - 1);
+        }
+
+        if ((parent instanceof EDataType || (parent instanceof EClass && ((EClass)parent).isInterface())) &&
+            "javaclass".equalsIgnoreCase(stereoTypeValue))
+        {
+          roseUtil.typeTable.remove(parent);
+          ((EClassifier)parent).setInstanceClassName(objectName);
+        }
+        else if (parent instanceof EClass)
+        {
+          EAttribute eAttribute = ecoreFactory.createEAttribute();
+          String attributeName = roseNode.getAttributeName();
+          if (attributeName == null || attributeName.length() == 0)
+          {
+            attributeName = validName(objectName);
+          }
+
+          eAttribute.setName(attributeName);
+          roseNode.setNode(eAttribute);
+          setEAttributeProperties(roseNode, eAttribute);
+          ((EClass)parent).getEStructuralFeatures().add(eAttribute);
+          if (eAttribute.getUpperBound() == 0)
+          {
+            eAttribute.setUpperBound(1);
+          }
+        }
+      }
+    }
+    else if (objectType.equals(RoseStrings.ASSOCIATION))
+    {
+      ref1 = null;
+      ref2 = null;
+      role1 = null;
+      role2 = null;
+    }
+    else if (objectType.equals(RoseStrings.ROLE) && !objectName.startsWith("/"))
+    {
+      // map to EReference when is navigable
+      //
+      EReference ref = ecoreFactory.createEReference();
+      ref.setUpperBound(0);
+      String referenceName = roseNode.getReferenceName();
+      if (referenceName == null || referenceName.length() == 0)
+      {
+        referenceName = validName(objectName);
+      }
+      ref.setName(referenceName);
+      roseNode.setNode(ref);
+      setEReferenceProperties(roseNode, ref);
+      if (ref1 == null)
+      {
+        ref1 = ref;
+      }
+      else if (ref2 == null)
+      {
+        ref2 = ref;
+      }
+      if (role1 == null)
+      {
+        role1 = roseNode;
+      }
+      else if (role2 == null)
+      {
+        role2 = roseNode;
+      }
+      if (ref1 != null && ref2 != null && role1 != null && role2 != null)
+      {
+        String ref1Quidu = role1.getRoseRefId();
+        if (ref1Quidu != null && !ref1Quidu.equals(""))
+        {
+          ref1Quidu = ref1Quidu.substring(1, ref1Quidu.length()-1);
+        }
+        String ref2Quidu = role2.getRoseRefId();
+        if (ref2Quidu != null && !ref2Quidu.equals(""))
+        {
+          ref2Quidu = ref2Quidu.substring(1, ref2Quidu.length()-1);
+        }
+        boolean ref1Navigable = role1.isNavigable();
+        boolean ref2Navigable = role2.isNavigable();
+        if (ref1Navigable)
+        {
+          ref2.setEOpposite(ref1);
+          setEReferenceIsContainment(ref1, role1, role2);
+          roseUtil.refTable.put(ref1, ref2Quidu);
+          TableObject obj = (TableObject)roseUtil.quidTable.get(ref1Quidu);
+          if (obj != null)
+          {
+            roseUtil.typeTable.put(ref1, obj.getName());
           }
           else
           {
-            eEnumLiteral.setValue(((EEnum)parent).getELiterals().size());
+            warning
+              (CodeGenEcorePlugin.INSTANCE.getString
+                 ("_UI_UnresolvedTypeNameFor_message", new Object [] { role1.getRoseSupplier(), ref1.getName() }));
+            roseUtil.typeTable.put(ref1, "EObject");
           }
         }
-        ((EEnum)parent).getELiterals().add(eEnumLiteral);
-      } 
-    }
-    else if (parent instanceof EClassifier)
-    {
-      String stereoTypeValue = null;
-      RoseNode stereoTypeNode = roseNode.findNodeWithKey(RoseStrings.STEREOTYPE);
-      if (stereoTypeNode != null)
-      {
-        stereoTypeValue = stereoTypeNode.getValue();
-        stereoTypeValue = stereoTypeValue.substring(1, stereoTypeValue.length() - 1);
-      }
-
-      if ((parent instanceof EDataType || (parent instanceof EClass && ((EClass)parent).isInterface())) &&
-          "javaclass".equalsIgnoreCase(stereoTypeValue))
-      {
-        roseUtil.typeTable.remove(parent);
-        ((EClassifier)parent).setInstanceClassName(objectName);
-      }
-      else if (parent instanceof EClass)
-      {
-        EAttribute eAttribute = ecoreFactory.createEAttribute();
-        String attributeName = roseNode.getAttributeName();
-        if (attributeName == null || attributeName.length() == 0)
+        if (ref2Navigable)
         {
-          attributeName = validName(objectName);
-        }
-
-        eAttribute.setName(attributeName);
-        roseNode.setNode(eAttribute);
-        setEAttributeProperties(roseNode, eAttribute);
-        ((EClass)parent).getEStructuralFeatures().add(eAttribute);
-        if (eAttribute.getUpperBound() == 0)
-        {
-          eAttribute.setUpperBound(1);
+          ref1.setEOpposite(ref2);
+          setEReferenceIsContainment(ref2, role2, role1);
+          roseUtil.refTable.put(ref2, ref1Quidu);
+          TableObject obj = (TableObject)roseUtil.quidTable.get(ref2Quidu);
+          if (obj != null)
+          {
+            roseUtil.typeTable.put(ref2, obj.getName());
+          }
+          else
+          {
+            warning
+              (CodeGenEcorePlugin.INSTANCE.getString
+                 ("_UI_UnresolvedTypeNameFor_message", new Object [] { role2.getRoseSupplier(), ref2.getName() }));
+            roseUtil.typeTable.put(ref2, "EObject");
+          }
         }
       }
-    }
-  }
-
-  protected void visitAssociation(RoseNode roseNode, String roseNodeValue, String objectKey, String objectName, Object parent)
-  {
-    ref1 = null;
-    ref2 = null;
-    role1 = null;
-    role2 = null;
-  }
-  
-  protected void visitRole(RoseNode roseNode, String roseNodeValue, String objectKey, String objectName, Object parent)
-  {
-    // map to EReference when is navigable
-    //
-    EReference ref = ecoreFactory.createEReference();
-    ref.setUpperBound(0);
-    String referenceName = roseNode.getReferenceName();
-    if (referenceName == null || referenceName.length() == 0)
-    {
-      referenceName = validName(objectName);
-    }
-    ref.setName(referenceName);
-    roseNode.setNode(ref);
-    setEReferenceProperties(roseNode, ref);
-    if (ref1 == null)
-    {
-      ref1 = ref;
-    }
-    else if (ref2 == null)
-    {
-      ref2 = ref;
-    }
-    if (role1 == null)
-    {
-      role1 = roseNode;
-    }
-    else if (role2 == null)
-    {
-      role2 = roseNode;
-    }
-    if (ref1 != null && ref2 != null && role1 != null && role2 != null)
-    {
-      String ref1Quidu = role1.getRoseRefId();
-      if (ref1Quidu != null && !ref1Quidu.equals(""))
+ 
+      if (ref.getUpperBound() == 0)
       {
-        ref1Quidu = ref1Quidu.substring(1, ref1Quidu.length()-1);
+        setEReferenceDefaultMultiplicity(ref);
       }
-      String ref2Quidu = role2.getRoseRefId();
-      if (ref2Quidu != null && !ref2Quidu.equals(""))
-      {
-        ref2Quidu = ref2Quidu.substring(1, ref2Quidu.length()-1);
-      }
-      boolean ref1Navigable = role1.isNavigable();
-      boolean ref2Navigable = role2.isNavigable();
-      if (ref1Navigable)
-      {
-        ref2.setEOpposite(ref1);
-        setEReferenceIsContainment(ref1, role1, role2);
-        roseUtil.refTable.put(ref1, ref2Quidu);
-        TableObject obj = (TableObject)roseUtil.quidTable.get(ref1Quidu);
-        if (obj != null)
-        {
-          roseUtil.typeTable.put(ref1, obj.getName());
-        }
-        else
-        {
-          warning
-            (CodeGenEcorePlugin.INSTANCE.getString
-               ("_UI_UnresolvedTypeNameFor_message", new Object [] { role1.getRoseSupplier(), ref1.getName() }));
-          roseUtil.typeTable.put(ref1, "EObject");
-        }
-      }
-      if (ref2Navigable)
-      {
-        ref1.setEOpposite(ref2);
-        setEReferenceIsContainment(ref2, role2, role1);
-        roseUtil.refTable.put(ref2, ref1Quidu);
-        TableObject obj = (TableObject)roseUtil.quidTable.get(ref2Quidu);
-        if (obj != null)
-        {
-          roseUtil.typeTable.put(ref2, obj.getName());
-        }
-        else
-        {
-          warning
-            (CodeGenEcorePlugin.INSTANCE.getString
-               ("_UI_UnresolvedTypeNameFor_message", new Object [] { role2.getRoseSupplier(), ref2.getName() }));
-          roseUtil.typeTable.put(ref2, "EObject");
-        }
-      }
-    }
-
-    if (ref.getUpperBound() == 0)
-    {
-      setEReferenceDefaultMultiplicity(ref);
     }
   }
 
@@ -791,11 +746,11 @@ public class EcoreBuilder implements RoseVisitor
     }
   }
 
-  protected void populateEEnumFromDocumentation(EEnum eEnum, String documentation)
+  protected void populateEEnumFromDocumentation(EEnum enum, String documentation)
   {
     // process documentation info and create eEnumLiteral for each line
     //
-    List eLiterals = eEnum.getELiterals();
+    List eLiterals = enum.getELiterals();
     for (StringTokenizer stringTokenizer = new StringTokenizer(documentation, ", \n\r\t"); stringTokenizer.hasMoreTokens();)
     {
       String literalV = stringTokenizer.nextToken();
@@ -819,7 +774,7 @@ public class EcoreBuilder implements RoseVisitor
 
       if (!name.equals(""))
       {
-        EEnumLiteral lit = eEnum.getEEnumLiteral(name);
+        EEnumLiteral lit = enum.getEEnumLiteral(name);
         if (lit == null)
         {
           lit = ecoreFactory.createEEnumLiteral();
@@ -1296,11 +1251,6 @@ public class EcoreBuilder implements RoseVisitor
       }
     }
 
-    sortSuper(superMap);
-  }
-
-  protected void sortSuper(Map superMap)
-  {
     for (Iterator entries = superMap.entrySet().iterator(); entries.hasNext(); )
     {
       Map.Entry entry = (Map.Entry)entries.next();
@@ -1372,17 +1322,232 @@ public class EcoreBuilder implements RoseVisitor
     {
       public Object caseEDataType(EDataType eDataType)
       {
-      	return validateEDataType(eDataType);
+        if (!(eDataType instanceof EEnum) && eDataType.getInstanceClassName() == null)
+        {
+          error
+            (CodeGenEcorePlugin.INSTANCE.getString("_UI_DatatypeNotSetFor_message", new Object [] { eDataType.getName() }));
+          eDataType.setInstanceClassName("java.lang.String");
+        }
+        return null;
       }
 
       public Object caseEEnum(EEnum eEnum)
       {
-      	return validateEEnum(eEnum);
+        for (Iterator literals = eEnum.getELiterals().iterator(); literals.hasNext(); )
+        {
+          EEnumLiteral eEnumLiteral = (EEnumLiteral)literals.next();
+          for (Iterator allLiterals = eEnum.getELiterals().iterator(); allLiterals.hasNext(); )
+          {
+            EEnumLiteral otherLiteral = (EEnumLiteral)allLiterals.next();
+            if (eEnumLiteral == otherLiteral)
+            {
+              break;
+            }
+            else if (eEnumLiteral.getName().equalsIgnoreCase(otherLiteral.getName()))
+            {
+              error
+                (CodeGenEcorePlugin.INSTANCE.getString
+                   ("_UI_DuplicateLiteral_message", new Object [] { eEnumLiteral.getName(), eEnum.getName() }));
+              literals.remove();
+              break;
+            }
+          }
+        }
+        return this;
       }
 
       public Object caseEClass(EClass eClass)
       {
-      	return validateEClass(eClass);
+        List oppositesToRemove = new ArrayList();
+        for (Iterator features = eClass.getEStructuralFeatures().iterator(); features.hasNext(); )
+        {
+          EStructuralFeature eStructuralFeature = (EStructuralFeature)features.next();
+          if (eStructuralFeature instanceof EAttribute)
+          {
+            EAttribute eAttribute = (EAttribute)eStructuralFeature;
+
+            // Temporary WAS/WSAD migration option.
+            //
+            if (org.eclipse.emf.codegen.ecore.Rose2GenModel.unsettablePrimitive)
+            {
+              try
+              {
+                EDataType eDataType = eAttribute.getEAttributeType();
+                if (eDataType instanceof EEnum || eDataType.getInstanceClass().isPrimitive())
+                {
+                  eAttribute.setUnsettable(true);
+                }
+              }
+              catch (Exception e)
+              {
+              }
+            }
+
+            for (Iterator allFeatures = eClass.getEAllStructuralFeatures().iterator(); allFeatures.hasNext(); )
+            {
+              EStructuralFeature otherFeature = (EStructuralFeature)allFeatures.next();
+              if (eAttribute == otherFeature)
+              {
+                break;
+              }
+              else if (eAttribute.getName().equalsIgnoreCase(otherFeature.getName()))
+              {
+                error
+                  (CodeGenEcorePlugin.INSTANCE.getString
+                     ("_UI_DuplicateAttribute_message", new Object [] { eAttribute.getName(), eClass.getName() }));
+                features.remove();
+                break;
+              }
+              else if (!eAttribute.getEAttributeType().isSerializable() && !eAttribute.isTransient())
+              {
+                error
+                  (CodeGenEcorePlugin.INSTANCE.getString
+                     ("_UI_TheAttributeShouldBeTransient_message", new Object [] { eAttribute.getName(), eAttribute.getEType().getName() }));
+                break;
+              }
+
+            }
+          }
+          else
+          {
+            EReference eReference = (EReference)eStructuralFeature;
+            EReference opposite = eReference.getEOpposite();
+            if (opposite != null)
+            {
+              if (opposite.eContainer() == null)
+              {
+                error
+                  (CodeGenEcorePlugin.INSTANCE.getString
+                     ("_UI_AnAssociationHasADanglingEnd_message", new Object [] { opposite.getName(), eReference.getName() }));
+                opposite = null;
+                eReference.setEOpposite(null);
+              }
+              else if (opposite.isContainment())
+              {
+                // A container must be transient.
+                //
+                eReference.setTransient(true);
+
+                if (eReference.getUpperBound() != 1)
+                {
+                  if (bounded.contains(eReference))
+                  {
+                    error
+                      (CodeGenEcorePlugin.INSTANCE.getString
+                         ("_UI_ContainerRelationUpperBound_message", new Object [] { opposite.getName(), eReference.getName() }));
+                  }
+                  eReference.setUpperBound(1);
+                }
+              }
+            }
+
+            if (eReference.isTransient() &&
+                  !eReference.isVolatile() &&
+                  opposite != null &&
+                  !opposite.isTransient() &&
+                  opposite.isResolveProxies() &&
+                  !opposite.isContainment())
+            {
+              error
+                (CodeGenEcorePlugin.INSTANCE.getString
+                   ("_UI_CrossDocumentBidirectionalTransient_message", 
+                    new Object [] { opposite.getName(), eReference.getName() }));
+            }
+
+            for (Iterator allFeatures = eClass.getEAllStructuralFeatures().iterator(); allFeatures.hasNext(); )
+            {
+              EStructuralFeature otherFeature = (EStructuralFeature)allFeatures.next();
+              if (eReference == otherFeature)
+              {
+                break;
+              }
+              else if (eReference.getName().equalsIgnoreCase(otherFeature.getName()))
+              {
+                error
+                  (CodeGenEcorePlugin.INSTANCE.getString
+                     ("_UI_DuplicateReference_message", new Object [] { eReference.getName(), eClass.getName() }));
+                if (opposite != null)
+                {
+                  oppositesToRemove.add(opposite);
+                }
+                features.remove();
+                break;
+              }
+            }
+
+            if (!eReference.isContainer() && "java.util.Map$Entry".equals(eReference.getEType().getInstanceClassName()))
+            {
+              if (!eReference.isContainment() || !eReference.isMany())
+              {
+                error
+                  (CodeGenEcorePlugin.INSTANCE.getString
+                     ("_UI_MultiplicityManyContainmentIsAssumedFor_message", new Object [] { eReference.getName(), eClass.getName() }));
+                eReference.setContainment(true);
+                eReference.setUpperBound(-1);
+              }
+            }
+          }
+        }
+
+        for (Iterator opposites = oppositesToRemove.iterator(); opposites.hasNext(); )
+        {
+          EReference opposite = (EReference)opposites.next();
+          EClass oppositeEClass = opposite.getEContainingClass();
+          if (oppositeEClass != null)
+          {
+            oppositeEClass.getEStructuralFeatures().remove(opposite);
+          }
+        }
+
+        if (eClass.getESuperTypes().size() > 1)
+        {
+          Iterator superTypes = eClass.getESuperTypes().iterator();
+          superTypes.next();
+          while (superTypes.hasNext())
+          {
+            EClass superType = (EClass)superTypes.next();
+            superFeatureLoop: for (Iterator superFeatures = superType.getEAllStructuralFeatures().iterator(); superFeatures.hasNext(); )
+            {
+              EStructuralFeature superFeature = (EStructuralFeature)superFeatures.next();
+              for (Iterator allFeatures = eClass.getEAllStructuralFeatures().iterator(); allFeatures.hasNext(); )
+              {
+                EStructuralFeature otherFeature = (EStructuralFeature)allFeatures.next();
+                if (superFeature == otherFeature)
+                {
+                  break;
+                }
+                else if (superFeature.getName().equalsIgnoreCase(otherFeature.getName()))
+                {
+                  error
+                    (CodeGenEcorePlugin.INSTANCE.getString
+                       ("_UI_DuplicateFeatureInheritance_message", 
+                        new Object [] { superFeature.getName(), eClass.getName(), superType.getName() }));
+                  superTypes.remove();
+                  break superFeatureLoop;
+                }
+              }
+            }
+          }
+        }
+
+        if ("java.util.Map$Entry".equals(eClass.getInstanceClassName()))
+        {
+          EStructuralFeature keyFeature = eClass.getEStructuralFeature("key");
+          EStructuralFeature valueFeature = eClass.getEStructuralFeature("value");
+          if (keyFeature == null)
+          {
+            error(CodeGenEcorePlugin.INSTANCE.getString("_UI_ExpectingFeatureNamedKey_message", new Object [] { eClass.getName() }));
+            eClass.setInstanceClassName(null);
+          }
+
+          if (valueFeature == null)
+          {
+            error(CodeGenEcorePlugin.INSTANCE.getString("_UI_ExpectingFeatureNamedValue_message", new Object [] { eClass.getName() }));
+            eClass.setInstanceClassName(null);
+          }
+        }
+
+        return this;
       }
 
       public Object defaultCase(EObject eObject)
@@ -1394,235 +1559,6 @@ public class EcoreBuilder implements RoseVisitor
         return this;
       }
     }.doSwitch(object);
-  }
-
-  protected Object validateEDataType(EDataType eDataType)
-  {
-    if (!(eDataType instanceof EEnum) && eDataType.getInstanceClassName() == null)
-    {
-      error
-        (CodeGenEcorePlugin.INSTANCE.getString("_UI_DatatypeNotSetFor_message", new Object [] { eDataType.getName() }));
-      eDataType.setInstanceClassName("java.lang.String");
-    }
-    return null;
-  }
-
-  protected Object validateEEnum(EEnum eEnum)
-  {
-    for (Iterator literals = eEnum.getELiterals().iterator(); literals.hasNext(); )
-    {
-      EEnumLiteral eEnumLiteral = (EEnumLiteral)literals.next();
-      for (Iterator allLiterals = eEnum.getELiterals().iterator(); allLiterals.hasNext(); )
-      {
-        EEnumLiteral otherLiteral = (EEnumLiteral)allLiterals.next();
-        if (eEnumLiteral == otherLiteral)
-        {
-          break;
-        }
-        else if (eEnumLiteral.getName().equalsIgnoreCase(otherLiteral.getName()))
-        {
-          error
-            (CodeGenEcorePlugin.INSTANCE.getString
-               ("_UI_DuplicateLiteral_message", new Object [] { eEnumLiteral.getName(), eEnum.getName() }));
-          literals.remove();
-          break;
-        }
-      }
-    }
-    return this;
-  }
-
-  protected Object validateEClass(EClass eClass)
-  {
-    List oppositesToRemove = new ArrayList();
-    for (Iterator features = eClass.getEStructuralFeatures().iterator(); features.hasNext(); )
-    {
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)features.next();
-      if (eStructuralFeature instanceof EAttribute)
-      {
-        EAttribute eAttribute = (EAttribute)eStructuralFeature;
-
-        // Temporary WAS/WSAD migration option.
-        //
-        if (org.eclipse.emf.codegen.ecore.Rose2GenModel.unsettablePrimitive)
-        {
-          try
-          {
-            EDataType eDataType = eAttribute.getEAttributeType();
-            if (eDataType instanceof EEnum || eDataType.getInstanceClass().isPrimitive())
-            {
-              eAttribute.setUnsettable(true);
-            }
-          }
-          catch (Exception e)
-          {
-          }
-        }
-
-        for (Iterator allFeatures = eClass.getEAllStructuralFeatures().iterator(); allFeatures.hasNext(); )
-        {
-          EStructuralFeature otherFeature = (EStructuralFeature)allFeatures.next();
-          if (eAttribute == otherFeature)
-          {
-            break;
-          }
-          else if (eAttribute.getName().equalsIgnoreCase(otherFeature.getName()))
-          {
-            error
-              (CodeGenEcorePlugin.INSTANCE.getString
-                 ("_UI_DuplicateAttribute_message", new Object [] { eAttribute.getName(), eClass.getName() }));
-            features.remove();
-            break;
-          }
-          else if (!eAttribute.getEAttributeType().isSerializable() && !eAttribute.isTransient())
-          {
-            error
-              (CodeGenEcorePlugin.INSTANCE.getString
-                 ("_UI_TheAttributeShouldBeTransient_message", new Object [] { eAttribute.getName(), eAttribute.getEType().getName() }));
-            break;
-          }
-
-        }
-      }
-      else
-      {
-        EReference eReference = (EReference)eStructuralFeature;
-        EReference opposite = eReference.getEOpposite();
-        if (opposite != null)
-        {
-          if (opposite.eContainer() == null)
-          {
-            error
-              (CodeGenEcorePlugin.INSTANCE.getString
-                 ("_UI_AnAssociationHasADanglingEnd_message", new Object [] { opposite.getName(), eReference.getName() }));
-            opposite = null;
-            eReference.setEOpposite(null);
-          }
-          else if (opposite.isContainment())
-          {
-            // A container must be transient.
-            //
-            eReference.setTransient(true);
-
-            if (eReference.getUpperBound() != 1)
-            {
-              if (bounded.contains(eReference))
-              {
-                error
-                  (CodeGenEcorePlugin.INSTANCE.getString
-                     ("_UI_ContainerRelationUpperBound_message", new Object [] { opposite.getName(), eReference.getName() }));
-              }
-              eReference.setUpperBound(1);
-            }
-          }
-        }
-
-        if (eReference.isTransient() &&
-              !eReference.isVolatile() &&
-              opposite != null &&
-              !opposite.isTransient() &&
-              opposite.isResolveProxies() &&
-              !opposite.isContainment())
-        {
-          error
-            (CodeGenEcorePlugin.INSTANCE.getString
-               ("_UI_CrossDocumentBidirectionalTransient_message", 
-                new Object [] { opposite.getName(), eReference.getName() }));
-        }
-
-        for (Iterator allFeatures = eClass.getEAllStructuralFeatures().iterator(); allFeatures.hasNext(); )
-        {
-          EStructuralFeature otherFeature = (EStructuralFeature)allFeatures.next();
-          if (eReference == otherFeature)
-          {
-            break;
-          }
-          else if (eReference.getName().equalsIgnoreCase(otherFeature.getName()))
-          {
-            error
-              (CodeGenEcorePlugin.INSTANCE.getString
-                 ("_UI_DuplicateReference_message", new Object [] { eReference.getName(), eClass.getName() }));
-            if (opposite != null)
-            {
-              oppositesToRemove.add(opposite);
-            }
-            features.remove();
-            break;
-          }
-        }
-
-        if (!eReference.isContainer() && "java.util.Map$Entry".equals(eReference.getEType().getInstanceClassName()))
-        {
-          if (!eReference.isContainment() || !eReference.isMany())
-          {
-            error
-              (CodeGenEcorePlugin.INSTANCE.getString
-                 ("_UI_MultiplicityManyContainmentIsAssumedFor_message", new Object [] { eReference.getName(), eClass.getName() }));
-            eReference.setContainment(true);
-            eReference.setUpperBound(-1);
-          }
-        }
-      }
-    }
-
-    for (Iterator opposites = oppositesToRemove.iterator(); opposites.hasNext(); )
-    {
-      EReference opposite = (EReference)opposites.next();
-      EClass oppositeEClass = opposite.getEContainingClass();
-      if (oppositeEClass != null)
-      {
-        oppositeEClass.getEStructuralFeatures().remove(opposite);
-      }
-    }
-
-    if (eClass.getESuperTypes().size() > 1)
-    {
-      Iterator superTypes = eClass.getESuperTypes().iterator();
-      superTypes.next();
-      while (superTypes.hasNext())
-      {
-        EClass superType = (EClass)superTypes.next();
-        superFeatureLoop: for (Iterator superFeatures = superType.getEAllStructuralFeatures().iterator(); superFeatures.hasNext(); )
-        {
-          EStructuralFeature superFeature = (EStructuralFeature)superFeatures.next();
-          for (Iterator allFeatures = eClass.getEAllStructuralFeatures().iterator(); allFeatures.hasNext(); )
-          {
-            EStructuralFeature otherFeature = (EStructuralFeature)allFeatures.next();
-            if (superFeature == otherFeature)
-            {
-              break;
-            }
-            else if (superFeature.getName().equalsIgnoreCase(otherFeature.getName()))
-            {
-              error
-                (CodeGenEcorePlugin.INSTANCE.getString
-                   ("_UI_DuplicateFeatureInheritance_message", 
-                    new Object [] { superFeature.getName(), eClass.getName(), superType.getName() }));
-              superTypes.remove();
-              break superFeatureLoop;
-            }
-          }
-        }
-      }
-    }
-
-    if ("java.util.Map$Entry".equals(eClass.getInstanceClassName()))
-    {
-      EStructuralFeature keyFeature = eClass.getEStructuralFeature("key");
-      EStructuralFeature valueFeature = eClass.getEStructuralFeature("value");
-      if (keyFeature == null)
-      {
-        error(CodeGenEcorePlugin.INSTANCE.getString("_UI_ExpectingFeatureNamedKey_message", new Object [] { eClass.getName() }));
-        eClass.setInstanceClassName(null);
-      }
-
-      if (valueFeature == null)
-      {
-        error(CodeGenEcorePlugin.INSTANCE.getString("_UI_ExpectingFeatureNamedValue_message", new Object [] { eClass.getName() }));
-        eClass.setInstanceClassName(null);
-      }
-    }
-    return this;
   }
 
   protected Comparator eStructuralFeatureComparator =
@@ -1712,9 +1648,95 @@ public class EcoreBuilder implements RoseVisitor
       {
         // It was not found in the model class so check if primitive type.
         //
-      	eType = getBasicType(type);
-      	
-      	if (eType == null)
+        if (type.equals("boolean") || type.equalsIgnoreCase("eboolean"))
+        {
+          eType = getBasicType("EBoolean");
+        }
+        else if (type.equalsIgnoreCase("boolean") || type.equalsIgnoreCase("ebooleanobject"))
+        {
+          eType = getBasicType("EBooleanObject");
+        }
+        else if (type.equalsIgnoreCase("string") || type.equalsIgnoreCase("estring"))
+        {
+          eType = ecorePackage.getEString();
+        }
+        else if (type.equalsIgnoreCase("char") || type.equalsIgnoreCase("echar"))
+        {
+          eType = getBasicType("EChar");
+        }
+        else if (type.equalsIgnoreCase("character") || type.equalsIgnoreCase("echaracterobject"))
+        {
+          eType = getBasicType("ECharacterObject");
+        }
+        else if (type.equals("double") || type.equalsIgnoreCase("edouble") || type.equalsIgnoreCase("currency"))
+        {
+          eType = getBasicType("EDouble");
+        }
+        else if (type.equalsIgnoreCase("double") || type.equalsIgnoreCase("edoubleobject"))
+        {
+          eType = getBasicType("EDoubleObject");
+        }
+        else if (type.equalsIgnoreCase("int") || type.equalsIgnoreCase("eint"))
+        {
+          eType = getBasicType("EInt");
+        }
+        else if (type.equalsIgnoreCase("integer") || type.equalsIgnoreCase("eintegerobject"))
+        {
+          eType = getBasicType("EIntegerObject");
+        }
+        else if (type.equals("long long") || type.equals("long") || type.equalsIgnoreCase("elong"))
+        {
+          eType = getBasicType("ELong");
+        }
+        else if (type.equalsIgnoreCase("long") || type.equalsIgnoreCase("elongobject"))
+        {
+          eType = getBasicType("ELongObject");
+        }
+        else if (type.equals("float") || type.equalsIgnoreCase("efloat") || type.equalsIgnoreCase("single"))
+        {
+          eType = getBasicType("EFloat");
+        }
+        else if (type.equalsIgnoreCase("float") || type.equalsIgnoreCase("efloatobject"))
+        {
+          eType = getBasicType("EFloatObject");
+        }
+        else if (type.equals("short") || type.equalsIgnoreCase("eshort"))
+        {
+          eType = getBasicType("EShort");
+        }
+        else if (type.equalsIgnoreCase("short") || type.equalsIgnoreCase("eshortobject"))
+        {
+          eType = getBasicType("EShortObject");
+        }
+        else if (type.equals("byte") || type.equalsIgnoreCase("ebyte"))
+        {
+          eType = getBasicType("EByte");
+        }
+        else if (type.equals("byte[]") || type.equalsIgnoreCase("ebytearray") || type.equalsIgnoreCase("ebyte[]"))
+        {
+          eType = getBasicType("EByteArray");
+        }
+        else if (type.equalsIgnoreCase("byte") || type.equalsIgnoreCase("ebyteObject"))
+        {
+          eType = getBasicType("EByteObject");
+        }
+        else if (type.equalsIgnoreCase("ebigdecimal"))
+        {
+          eType = getBasicType("EBigDecimal");
+        }
+        else if (type.equalsIgnoreCase("ebiginteger"))
+        {
+          eType = getBasicType("EBigInteger");
+        }
+        else if (type.equalsIgnoreCase("edate"))
+        {
+          eType = getBasicType("EDate");
+        }
+        else if (type.equalsIgnoreCase("eobject"))
+        {
+          eType = ecorePackage.getEObject();
+        }
+        else
         {
           warning
             (CodeGenEcorePlugin.INSTANCE.getString
@@ -1811,100 +1833,9 @@ public class EcoreBuilder implements RoseVisitor
     }
   }
 
-  protected EClassifier getBasicType(String value)
+  protected EDataType getBasicType(String value)
   {
-    if (value.equals("boolean") || value.equalsIgnoreCase("eboolean"))
-    {
-      return ecorePackage.getEBoolean();
-    }
-    else if (value.equalsIgnoreCase("boolean") || value.equalsIgnoreCase("ebooleanobject"))
-    {
-      return ecorePackage.getEBooleanObject();
-    }
-    else if (value.equalsIgnoreCase("string") || value.equalsIgnoreCase("estring"))
-    {
-      return ecorePackage.getEString();
-    }
-    else if (value.equalsIgnoreCase("char") || value.equalsIgnoreCase("echar"))
-    {
-      return ecorePackage.getEChar();
-    }
-    else if (value.equalsIgnoreCase("character") || value.equalsIgnoreCase("echaracterobject"))
-    {
-      return ecorePackage.getECharacterObject();
-    }
-    else if (value.equals("double") || value.equalsIgnoreCase("edouble") || value.equalsIgnoreCase("currency"))
-    {
-      return ecorePackage.getEDouble();
-    }
-    else if (value.equalsIgnoreCase("double") || value.equalsIgnoreCase("edoubleobject"))
-    {
-      return ecorePackage.getEDoubleObject();
-    }
-    else if (value.equalsIgnoreCase("int") || value.equalsIgnoreCase("eint"))
-    {
-      return ecorePackage.getEInt();
-    }
-    else if (value.equalsIgnoreCase("integer") || value.equalsIgnoreCase("eintegerobject"))
-    {
-      return ecorePackage.getEIntegerObject();
-    }
-    else if (value.equals("long long") || value.equals("long") || value.equalsIgnoreCase("elong"))
-    {
-      return ecorePackage.getELong();
-    }
-    else if (value.equalsIgnoreCase("long") || value.equalsIgnoreCase("elongobject"))
-    {
-      return ecorePackage.getELongObject();
-    }
-    else if (value.equals("float") || value.equalsIgnoreCase("efloat") || value.equalsIgnoreCase("single"))
-    {
-      return ecorePackage.getEFloat();
-    }
-    else if (value.equalsIgnoreCase("float") || value.equalsIgnoreCase("efloatobject"))
-    {
-      return ecorePackage.getEFloatObject();
-    }
-    else if (value.equals("short") || value.equalsIgnoreCase("eshort"))
-    {
-      return ecorePackage.getEShort();
-    }
-    else if (value.equalsIgnoreCase("short") || value.equalsIgnoreCase("eshortobject"))
-    {
-      return ecorePackage.getEShortObject();
-    }
-    else if (value.equals("byte") || value.equalsIgnoreCase("ebyte"))
-    {
-      return ecorePackage.getEByte();
-    }
-    else if (value.equals("byte[]") || value.equalsIgnoreCase("ebytearray") || value.equalsIgnoreCase("ebyte[]"))
-    {
-      return ecorePackage.getEByteArray();
-    }
-    else if (value.equalsIgnoreCase("byte") || value.equalsIgnoreCase("ebyteObject"))
-    {
-      return ecorePackage.getEByteObject();
-    }
-    else if (value.equalsIgnoreCase("ebigdecimal"))
-    {
-      return ecorePackage.getEBigDecimal();
-    }
-    else if (value.equalsIgnoreCase("ebiginteger"))
-    {
-      return ecorePackage.getEBigInteger();
-    }
-    else if (value.equalsIgnoreCase("edate"))
-    {
-      return ecorePackage.getEDate();
-    }
-    else if (value.equalsIgnoreCase("eobject"))
-    {
-      return ecorePackage.getEObject();
-    }
-    else
-    {
-    	return null;   	
-    }
+    return (EDataType)ecorePackage.getEClassifier(value);
   }
 
   public void createEPackageForRootClasses(EList extent, RoseNode roseNode, String packageName)

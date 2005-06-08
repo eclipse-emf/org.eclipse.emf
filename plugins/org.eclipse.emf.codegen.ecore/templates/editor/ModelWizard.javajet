@@ -1,13 +1,13 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.10 2004/10/12 16:52:01 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.9.2.1 2005/06/08 18:27:44 nickb Exp $" %>
 <%
 /**
  * <copyright>
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
@@ -226,7 +226,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 			//
 			<%=genModel.getImportedName("org.eclipse.jface.operation.IRunnableWithProgress")%> operation = new <%=genModel.getImportedName("org.eclipse.jface.operation.IRunnableWithProgress")%>()
 			{
-				public void run(IProgressMonitor progressMonitor)
+				public void run(IProgressMonitor progressMonitor) throws <%=genModel.getImportedName("java.lang.reflect.InvocationTargetException")%>, InterruptedException
 <%} else {%>
 			// Remember the file.
 			//
@@ -845,6 +845,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 				{
 					// Set this for the container.
 					//
+					String currentDirectory = selectedResource.getLocation().toOSString();
 					newFileCreationPage.setContainerFullPath(selectedResource.getFullPath());
 
 					// Make up a unique new name here.

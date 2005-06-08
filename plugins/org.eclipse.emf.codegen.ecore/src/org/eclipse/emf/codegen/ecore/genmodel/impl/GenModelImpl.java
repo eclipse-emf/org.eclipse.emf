@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.16 2004/11/01 21:13:34 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.14.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -20,12 +20,10 @@ package org.eclipse.emf.codegen.ecore.genmodel.impl;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -37,7 +35,6 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
-import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -67,8 +64,6 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.jdt.core.ToolFactory;
-import org.eclipse.jdt.core.formatter.CodeFormatter;
 
 
 /**
@@ -111,7 +106,6 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRuntimeCompatibility <em>Runtime Compatibility</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRichClientPlatform <em>Rich Client Platform</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isReflectiveDelegation <em>Reflective Delegation</em>}</li>
- *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCodeFormatting <em>Code Formatting</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -750,26 +744,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean reflectiveDelegation = REFLECTIVE_DELEGATION_EDEFAULT;
-
-  /**
-   * The default value of the '{@link #isCodeFormatting() <em>Code Formatting</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isCodeFormatting()
-   * @generated
-   * @ordered
-   */
-  protected static final boolean CODE_FORMATTING_EDEFAULT = false;
-
-  /**
-   * The cached value of the '{@link #isCodeFormatting() <em>Code Formatting</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isCodeFormatting()
-   * @generated
-   * @ordered
-   */
-  protected boolean codeFormatting = CODE_FORMATTING_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -2801,29 +2775,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean isCodeFormatting()
-  {
-    return codeFormatting;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setCodeFormatting(boolean newCodeFormatting)
-  {
-    boolean oldCodeFormatting = codeFormatting;
-    codeFormatting = newCodeFormatting;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__CODE_FORMATTING, oldCodeFormatting, codeFormatting));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EList getGenPackages()
   {
     if (genPackages == null)
@@ -2995,8 +2946,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isRichClientPlatform() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
         return isReflectiveDelegation() ? Boolean.TRUE : Boolean.FALSE;
-      case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
-        return isCodeFormatting() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3080,8 +3029,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return richClientPlatform != RICH_CLIENT_PLATFORM_EDEFAULT;
       case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
         return reflectiveDelegation != REFLECTIVE_DELEGATION_EDEFAULT;
-      case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
-        return codeFormatting != CODE_FORMATTING_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3200,9 +3147,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
         setReflectiveDelegation(((Boolean)newValue).booleanValue());
-        return;
-      case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
-        setCodeFormatting(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -3324,9 +3268,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
         setReflectiveDelegation(REFLECTIVE_DELEGATION_EDEFAULT);
         return;
-      case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
-        setCodeFormatting(CODE_FORMATTING_EDEFAULT);
-        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -3413,8 +3354,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(richClientPlatform);
     result.append(", reflectiveDelegation: ");
     result.append(reflectiveDelegation);
-    result.append(", codeFormatting: ");
-    result.append(codeFormatting);
     result.append(')');
     return result.toString();
   }
@@ -3998,7 +3937,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     setRuntimeCompatibility(oldGenModelVersion.isRuntimeCompatibility());
     setRichClientPlatform(oldGenModelVersion.isRichClientPlatform());
-    setCodeFormatting(oldGenModelVersion.isCodeFormatting());
   }
 
   public boolean reconcile()
@@ -4100,70 +4038,5 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return ((GenPackage)getGenPackages().get(0)).getEcorePackage();
   }
+ } //GenModelImpl
 
-  public List/*GenFeature*/ getAllGenFeatures()
-  {
-    List result = new ArrayList();
-
-    // Any features from one package that delegate to features in another.
-    //
-    List delegated = new ArrayList();
-
-    for (Iterator iter = getAllGenAndUsedGenPackagesWithClassifiers().iterator(); iter.hasNext(); )
-    {
-      GenPackage genPackage = (GenPackage)iter.next();
-      if (genPackage.getGenModel() == this || !genPackage.getGenModel().hasEditSupport())
-      {
-        for (Iterator fIter = genPackage.getAllGenFeatures().iterator(); fIter.hasNext(); )
-        {
-          GenFeature genFeature = (GenFeature)fIter.next();
-          List addTo = genFeature.getGenPackage() == genPackage ? result : delegated;
-          addTo.add(genFeature);
-        }
-      }
-    }
-
-    // If there are features delegating across packages, add only those that aren't already being generated.
-    //
-    if (!delegated.isEmpty())
-    {
-      addNonDuplicates(result, delegated, null);
-    }
-    return result;
-  }
-
-  public List/*GenFeature*/ getFilteredAllGenFeatures()
-  {
-    ArrayList result = new ArrayList();
-
-    // We need to filer out duplicates in the unlikely event that we have two
-    // features with the same class-qualifed name. We'll only generate one property
-    // string in that case and let the user add the second one mannually, if necessary.
-    //
-    Set noDupSet = new HashSet();
-    for (Iterator iter = getAllGenFeatures().iterator(); iter.hasNext(); )
-    {
-      GenFeature genFeature = (GenFeature)iter.next();
-      if (isCreationCommands() || genFeature.isProperty())
-      {
-        if (noDupSet.add(genFeature.getGenClass().getName() + "_" + genFeature.getName()))
-        {
-          result.add(genFeature);
-        }
-      }
-    }
-    return result;
-  }
-
-  protected Map codeFormatterOptions = null;
-
-  public void setCodeFormatterOptions(Map options)
-  {
-    codeFormatterOptions = options;
-  }
-
-  public CodeFormatter createCodeFormatter()
-  {
-    return ToolFactory.createCodeFormatter(codeFormatterOptions);
-  }
-} //GenModelImpl

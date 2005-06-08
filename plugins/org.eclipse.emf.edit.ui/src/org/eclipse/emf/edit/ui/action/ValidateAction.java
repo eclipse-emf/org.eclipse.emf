@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.8 2004/10/13 20:25:42 davidms Exp $
+ * $Id: ValidateAction.java,v 1.7.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -34,7 +34,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -191,7 +190,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
                {
                  if (progressMonitor.isCanceled())
                  {
-                   handleDiagnostic(Diagnostic.CANCEL_INSTANCE);
+                   handleDiagnostic(Diagnostic.OK_INSTANCE);
                  }
                  else
                  {
@@ -289,15 +288,6 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
   protected void handleDiagnostic(final Diagnostic diagnostic)
   {
-    if (diagnostic.getSeverity() == Diagnostic.OK)
-    {
-      MessageDialog.openInformation
-        (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationOK_title"),
-         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationOK_message"));
-      return;
-    }
-
     final int result = 
       ErrorDialog.openError
         (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),

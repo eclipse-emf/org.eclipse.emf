@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: Diagnostic.java,v 1.2 2004/10/13 20:22:56 davidms Exp $
+ * $Id: Diagnostic.java,v 1.1.2.1 2005/06/08 18:27:42 nickb Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -89,11 +89,4 @@ public interface Diagnostic
   Diagnostic OK_INSTANCE = 
     new BasicDiagnostic
       (OK, "org.eclipse.emf.common", 0, org.eclipse.emf.common.CommonPlugin.INSTANCE.getString("_UI_OK_diagnostic_0"), null);
-
-  /**
-   * A diagnostic indicating that the diagnosis was canceled.
-   */
-  Diagnostic CANCEL_INSTANCE = 
-    new BasicDiagnostic
-      (CANCEL, "org.eclipse.emf.common", 0, org.eclipse.emf.common.CommonPlugin.INSTANCE.getString("_UI_Cancel_diagnostic_0"), null);
 }
