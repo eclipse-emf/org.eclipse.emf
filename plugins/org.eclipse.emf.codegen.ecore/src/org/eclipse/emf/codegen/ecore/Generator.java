@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.19 2005/06/08 06:18:44 nickb Exp $
+ * $Id: Generator.java,v 1.20 2005/06/08 13:33:23 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -626,7 +626,8 @@ public class Generator extends CodeGen
               i.remove();
             }
           }
-          classpathEntries.add(jreClasspathEntry);
+
+          classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER")));
         }
 
         if ((style & EMF_EMPTY_PROJECT_STYLE) == 0)
