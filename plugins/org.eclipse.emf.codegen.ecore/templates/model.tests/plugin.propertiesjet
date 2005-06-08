@@ -16,9 +16,8 @@
  */
 %>
 <%GenModel genModel = (GenModel)argument;%>
-<!--
-<%@ include file="../Header.jetinc"%>
--->
+<%@ include file="../PropertiesHeader.jetinc"%>
+
 # ====================================================================
 # To code developer:
 #   Do NOT change the properties between this line and the
