@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.5 2005/06/09 14:48:01 davidms Exp $
+ * $Id: EMFProjectWizard.java,v 1.6 2005/06/09 21:39:37 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -82,11 +82,10 @@ public class EMFProjectWizard extends EMFModelWizard
     return ModelImporterUtil.filterModelImporterDescriptors(ModelImporterDescriptor.TYPE_PROJECT);
   }
   
-  protected void adjustModelImportWizard(ModelImporterDescriptor modelImporterDescriptor)
+  protected void adjustModelImporterWizard(IModelImporterWizard modelImporterWizard, ModelImporterDescriptor modelImporterDescriptor)
   {
-    super.adjustModelImportWizard(modelImporterDescriptor);
-    
-    IModelImporterWizard modelImporterWizard = modelImporterDescriptor.getWizard();
+    super.adjustModelImporterWizard(modelImporterWizard, modelImporterDescriptor);
+
     if (isValidNewValue(projectLocation, modelImporterWizard.getGenModelProjectLocation()))
     {
       modelImporterWizard.setGenModelProjectLocation(projectLocation);
