@@ -18,6 +18,7 @@ package org.eclipse.emf.importer.ui.contribution;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -53,7 +54,6 @@ public class ModelImporterUtil
     protected Image icon;
     protected String description;
     
-    protected IModelImporterWizard modelImporterWizard;
     protected IConfigurationElement configurationElement;
 
     public String getId()
@@ -115,26 +115,23 @@ public class ModelImporterUtil
       return extensions;
     }
 
-    public IModelImporterWizard getWizard()
+    public IModelImporterWizard createWizard()
     {
-      if (modelImporterWizard == null)
+      if (configurationElement != null)
       {
-        if (configurationElement != null)
+        try
         {
-          try
+          Object object = configurationElement.createExecutableExtension("wizard");
+          if (object instanceof IModelImporterWizard)
           {
-            Object object = configurationElement.createExecutableExtension("wizard");
-            if (object instanceof IModelImporterWizard)
-            {
-              modelImporterWizard = (IModelImporterWizard)object;
-            }
-          }
-          catch (CoreException e)
-          {
+            return (IModelImporterWizard)object;
           }
         }
+        catch (CoreException e)
+        {
+        }
       }
-      return modelImporterWizard;
+      return null;
     }
   }
 
@@ -169,6 +166,7 @@ public class ModelImporterUtil
   {
     protected boolean contentCreated = false;
     protected ModelImporterDescriptor descriptor;
+    protected IModelImporterWizard modelImporterWizard;
     protected Point point;
 
     public ModelImporterDescriptorWizardNode(ModelImporterDescriptor descriptor)
@@ -178,20 +176,21 @@ public class ModelImporterUtil
 
     public void dispose()
     {
-      if (descriptor != null)
-      {
-        if (descriptor instanceof ModelImporterDescriptorImpl)
-        {
-          ((ModelImporterDescriptorImpl)descriptor).modelImporterWizard = null;
-        }
-        descriptor = null;
-      }
+      modelImporterWizard = null;
+      descriptor = null;
       point = null;
     }
 
     public IWizard getWizard()
     {
-      return descriptor.getWizard();
+      if (modelImporterWizard == null)
+      {
+        if (descriptor != null)
+        {
+          modelImporterWizard = descriptor.createWizard();
+        }
+      } 
+      return modelImporterWizard;
     }
 
     public boolean isContentCreated()
@@ -217,7 +216,6 @@ public class ModelImporterUtil
   public final static String MODEL_IMPORTER_DESCRIPTORS_EXTENSION_POINT = "modelImporterDescriptors";
 
   private static List descriptors;
-  private static Map wizardNodeByDescriptor;
 
   public static void dispose()
   {
@@ -226,45 +224,29 @@ public class ModelImporterUtil
       descriptors.clear();
       descriptors = null;
     }
-
-    clearWizardNodesCache();
   }
 
-  public static void clearWizardNodesCache()
+  /**
+   * @return a map in which the key is a {@link ModelImporterDescriptor} and 
+   * the value is a {@link ModelImporterDescriptorWizardNode}
+   */
+  public static Map createModelImporterDescriptorWizardNodesMap()
   {
-    if (wizardNodeByDescriptor != null)
+    if (descriptors != null)
     {
-      for (Iterator i = wizardNodeByDescriptor.values().iterator(); i.hasNext();)
+      Map map = new HashMap();
+      for (Iterator i = descriptors.iterator(); i.hasNext();)
       {
-        IWizardNode wizardNode = (IWizardNode)i.next();
-        wizardNode.dispose();
+        ModelImporterDescriptor modelImporterDescriptor = (ModelImporterDescriptor)i.next();
+        ModelImporterDescriptorWizardNode wizardNode = new ModelImporterDescriptorWizardNode(modelImporterDescriptor);
+        map.put(modelImporterDescriptor, wizardNode);
       }
-      
-      wizardNodeByDescriptor.clear();
-      wizardNodeByDescriptor = null;
+      return map;
     }
-  }
-
-  public static IWizardNode getWizardNode(ModelImporterDescriptor descriptor)
-  {
-    if (wizardNodeByDescriptor == null)
+    else
     {
-      wizardNodeByDescriptor = new HashMap();
+      return Collections.EMPTY_MAP;
     }
-
-    ModelImporterDescriptorWizardNode descriptorNode = (ModelImporterDescriptorWizardNode)wizardNodeByDescriptor.get(descriptor);
-    if (descriptorNode == null)
-    {
-      descriptorNode = new ModelImporterDescriptorWizardNode(descriptor);
-      wizardNodeByDescriptor.put(descriptor, descriptorNode);
-    }
-
-    if (descriptorNode.descriptor == null)
-    {
-      descriptorNode.descriptor = descriptor;
-    }
-
-    return descriptorNode;
   }
 
   public static List getModelImporterDescriptors()
