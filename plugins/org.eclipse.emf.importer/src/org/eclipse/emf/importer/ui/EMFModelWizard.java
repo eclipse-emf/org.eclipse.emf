@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFModelWizard.java,v 1.7 2005/06/08 06:11:55 nickb Exp $
+ * $Id: EMFModelWizard.java,v 1.8 2005/06/09 14:50:58 davidms Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -140,6 +140,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
     public SelectionPage(String pageId)
     {
       super(pageId);
+      ModelImporterUtil.clearWizardNodesCache();
     }
 
     public void dispose()
@@ -364,7 +365,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
     {
       NewGenModelFileCreationPage page = new NewGenModelFileCreationPage("NewModelFileCreationPageID");
       page.setTitle(ImporterPlugin.INSTANCE.getString("_UI_EMFModelWizard_name"));
-      page.setDescription(ImporterPlugin.INSTANCE.getString("_UI_EMFModelWizard_description"));
+      page.setDescription(ImporterPlugin.INSTANCE.getString("_UI_CreateGeneratorModel_label"));
       addPage(page);
     }
     else
