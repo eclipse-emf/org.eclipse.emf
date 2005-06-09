@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.9 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseDetailPage.java,v 1.10 2005/06/09 14:01:04 davidms Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -71,8 +71,8 @@ public class RoseDetailPage extends ModelDetailPage
     super(modelImporter, pageName);
 
     setTitle(RoseImporterPlugin.INSTANCE.getString("_UI_RoseModelImport_title"));
-    setDescription(RoseImporterPlugin.INSTANCE.getString(showGenModel()
-      ? "_UI_RoseModelImportFile_description" : "_UI_RoseModelImportNewProject_description"));
+    setDescription(RoseImporterPlugin.INSTANCE.getString(showGenModel() ?
+      "_UI_RoseModelImportNewProject_description" : "_UI_RoseModelImportFile_description"));
   }
 
   public void dispose()
