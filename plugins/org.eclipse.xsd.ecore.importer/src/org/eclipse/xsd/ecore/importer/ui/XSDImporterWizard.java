@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterWizard.java,v 1.3 2005/06/08 06:21:26 nickb Exp $
+ * $Id: XSDImporterWizard.java,v 1.4 2005/06/09 20:11:31 davidms Exp $
  */
 package org.eclipse.xsd.ecore.importer.ui;
 
@@ -36,7 +36,6 @@ public class XSDImporterWizard extends ModelImporterWizard
   public void addPages()
   {
     XSDDetailPage detailPage = new XSDDetailPage(getModelImporter(), "XSDModel");
-    detailPage.setShowGenModel(getModelImporter().getGenModelFileName() == null);
     addPage(detailPage);
 
     ModelPackagePage packagePage = new ModelPackagePage(getModelImporter(), "XSDPackages");
