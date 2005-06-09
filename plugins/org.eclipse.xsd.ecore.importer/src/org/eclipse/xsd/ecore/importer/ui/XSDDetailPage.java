@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDetailPage.java,v 1.5 2005/06/08 06:21:26 nickb Exp $
+ * $Id: XSDDetailPage.java,v 1.6 2005/06/09 14:01:00 davidms Exp $
  */
 package org.eclipse.xsd.ecore.importer.ui;
 
@@ -41,8 +41,8 @@ public class XSDDetailPage extends ModelDetailPage
     super(modelImporter, pageName);
 
     setTitle(XSDImporterPlugin.INSTANCE.getString("_UI_XSDImport_title"));
-    setDescription(XSDImporterPlugin.INSTANCE.getString(showGenModel()
-      ? "_UI_XSDImportFile_description" : "_UI_XSDImportNewProject_description"));
+    setDescription(XSDImporterPlugin.INSTANCE.getString(showGenModel() ?
+      "_UI_XSDImportNewProject_description": "_UI_XSDImportFile_description" ));
   }
 
   public void dispose()
