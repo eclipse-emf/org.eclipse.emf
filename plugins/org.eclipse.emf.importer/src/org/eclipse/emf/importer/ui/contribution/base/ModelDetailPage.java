@@ -69,6 +69,7 @@ public class ModelDetailPage extends ModelImporterPage
   public ModelDetailPage(ModelImporter modelImporter, String pageName)
   {
     super(modelImporter, pageName);
+    showGenModel = getModelImporter().getGenModelFileName() == null;
   }
 
   public void dispose()
@@ -102,14 +103,9 @@ public class ModelDetailPage extends ModelImporterPage
     super.dispose();
   }
 
-  public void setShowGenModel(boolean showGenModel)
-  {
-    this.showGenModel = showGenModel;
-  }
-
   public boolean showGenModel()
   {
-    return showGenModel || getModelImporter().getGenModelFileName() == null;
+    return showGenModel;
   }
 
   protected void pageActivated(boolean firstTime, int cause)
