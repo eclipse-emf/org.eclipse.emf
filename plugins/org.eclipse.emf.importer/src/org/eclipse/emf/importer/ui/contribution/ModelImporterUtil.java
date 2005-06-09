@@ -234,6 +234,12 @@ public class ModelImporterUtil
   {
     if (wizardNodeByDescriptor != null)
     {
+      for (Iterator i = wizardNodeByDescriptor.values().iterator(); i.hasNext();)
+      {
+        IWizardNode wizardNode = (IWizardNode)i.next();
+        wizardNode.dispose();
+      }
+      
       wizardNodeByDescriptor.clear();
       wizardNodeByDescriptor = null;
     }
