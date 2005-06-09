@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.4 2005/06/08 06:11:55 nickb Exp $
+ * $Id: EMFProjectWizard.java,v 1.5 2005/06/09 14:48:01 davidms Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -69,7 +69,7 @@ public class EMFProjectWizard extends EMFModelWizard
         }
       };
     newProjectCreationPage.setTitle(ImporterPlugin.INSTANCE.getString("_UI_EMFProjectWizard_name"));
-    newProjectCreationPage.setDescription(ImporterPlugin.INSTANCE.getString("_UI_EMFProjectWizard_description"));
+    newProjectCreationPage.setDescription(ImporterPlugin.INSTANCE.getString("_UI_CreateEMFProject_label"));
     addPage(newProjectCreationPage);
 
     SelectionPage selectionPage = new SelectionPage("ModelImporterDescriptorSelectionPage");
