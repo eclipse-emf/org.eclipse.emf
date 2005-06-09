@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EMFModelWizard.java,v 1.8 2005/06/09 14:50:58 davidms Exp $
+ * $Id: EMFModelWizard.java,v 1.9 2005/06/09 21:40:34 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -140,7 +142,6 @@ public class EMFModelWizard extends Wizard implements INewWizard
     public SelectionPage(String pageId)
     {
       super(pageId);
-      ModelImporterUtil.clearWizardNodesCache();
     }
 
     public void dispose()
@@ -158,8 +159,6 @@ public class EMFModelWizard extends Wizard implements INewWizard
         initializedWizards = null;
       }
       
-      ModelImporterUtil.clearWizardNodesCache();
-
       super.dispose();
     }
 
@@ -276,8 +275,12 @@ public class EMFModelWizard extends Wizard implements INewWizard
         if (selectedObject instanceof ModelImporterDescriptor)
         {
           modelImporterDescriptor = (ModelImporterDescriptor)selectedObject;
+          if (modelImporterWizardNodeMap == null)
+          {
+            modelImporterWizardNodeMap = ModelImporterUtil.createModelImporterDescriptorWizardNodesMap();
+          }
           setMessage(modelImporterDescriptor.getDescription(), IMessageProvider.NONE);
-          setSelectedNode(ModelImporterUtil.getWizardNode(modelImporterDescriptor));
+          setSelectedNode((IWizardNode)modelImporterWizardNodeMap.get(modelImporterDescriptor));
           return;
         }
       }
@@ -292,7 +295,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
 
     public IWizardPage getNextPage()
     {
-      IModelImporterWizard modelImporterWizard = getModelImporterDescriptor().getWizard();
+      IModelImporterWizard modelImporterWizard = (IModelImporterWizard)getSelectedNode().getWizard();
       if (!initializedWizards.contains(modelImporterWizard))
       {
         initializedWizards.add(modelImporterWizard);
@@ -308,7 +311,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
         modelImporterWizard.init(workbench, selection);
       }
 
-      adjustModelImportWizard(getModelImporterDescriptor());
+      adjustModelImporterWizard(modelImporterWizard, getModelImporterDescriptor());
       IWizardPage wizardPage = super.getNextPage();
       
       IWizardNode wizardNode = getSelectedNode();
@@ -328,6 +331,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
 
   protected IFile modelFile;
   protected ModelImporterDescriptor suggestedDescriptor;
+  protected Map modelImporterWizardNodeMap;
 
   protected boolean canFinish = false;
 
@@ -350,6 +354,17 @@ public class EMFModelWizard extends Wizard implements INewWizard
     workbench = null;
     genModelContainerPath = null;
     reloadFile = null;
+    
+    if (modelImporterWizardNodeMap != null)
+    {
+      for (Iterator i = modelImporterWizardNodeMap.values().iterator(); i.hasNext();)
+      {
+        IWizardNode wizardNode = (IWizardNode)i.next();
+        wizardNode.dispose();
+      }
+      modelImporterWizardNodeMap.clear();
+      modelImporterWizardNodeMap = null;
+    }
 
     super.dispose();
   }
@@ -476,9 +491,8 @@ public class EMFModelWizard extends Wizard implements INewWizard
     return newValue == null ? oldValue != null : !newValue.equals(oldValue);
   }  
 
-  protected void adjustModelImportWizard(ModelImporterDescriptor modelImporterDescriptor)
+  protected void adjustModelImporterWizard(IModelImporterWizard modelImporterWizard, ModelImporterDescriptor modelImporterDescriptor)
   {
-    IModelImporterWizard modelImporterWizard = modelImporterDescriptor.getWizard();
     if (isValidNewValue(reloadFile, modelImporterWizard.getOriginalGenModelFile()))
     {
       modelImporterWizard.setOriginalGenModelFile(reloadFile);
