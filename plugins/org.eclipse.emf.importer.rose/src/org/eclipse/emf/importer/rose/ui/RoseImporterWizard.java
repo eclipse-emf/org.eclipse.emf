@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterWizard.java,v 1.3 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseImporterWizard.java,v 1.4 2005/06/09 20:11:35 davidms Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -40,7 +40,6 @@ public class RoseImporterWizard extends ModelImporterWizard
   public void addPages()
   {
     RoseDetailPage detailPage = new RoseDetailPage(getModelImporter(), "RoseModel");
-    detailPage.setShowGenModel(getModelImporter().getGenModelFileName() == null);
     addPage(detailPage);
 
     ModelPackagePage packagePage = new ModelPackagePage(getModelImporter(), "RosePackages");

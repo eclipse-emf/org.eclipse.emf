@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporterWizard.java,v 1.5 2005/06/09 14:01:02 davidms Exp $
+ * $Id: EcoreImporterWizard.java,v 1.6 2005/06/09 20:11:34 davidms Exp $
  */
 package org.eclipse.emf.importer.ecore.ui;
 
@@ -37,7 +37,6 @@ public class EcoreImporterWizard extends ModelImporterWizard
   public void addPages()
   {
     ModelDetailPage detailPage = new ModelDetailPage(getModelImporter(), "EcoreModel");
-    detailPage.setShowGenModel(getModelImporter().getGenModelFileName() == null);
     detailPage.setTitle(EcoreImporterPlugin.INSTANCE.getString("_UI_EcoreImport_title"));
     detailPage.setDescription(EcoreImporterPlugin.INSTANCE.getString(detailPage.showGenModel() ?
       "_UI_EcoreImportNewProject_description" : "_UI_EcoreImportFile_description"));    
