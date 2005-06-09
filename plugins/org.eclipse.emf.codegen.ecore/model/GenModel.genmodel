@@ -137,7 +137,7 @@
       <genFeatures createChild="false" propertyCategory="Tests" propertyDescription="Whether to generate an example class in the test plugin"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/generateExampleClass"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
-          propertyDescription="The core model element for this package" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/ecorePackage"/>
+          propertyDescription="The Ecore model element for this package" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/ecorePackage"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genModel"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genEnums"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genDataTypes"/>
@@ -151,7 +151,7 @@
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether to generate an icon file for this class"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenClass/image"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
-          propertyDescription="The core model element for this class" ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/ecoreClass"/>
+          propertyDescription="The Ecore model element for this class" ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/ecoreClass"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/genFeatures"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/genOperations"/>
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Which feature the item provider should use in forming the object labels"
@@ -174,19 +174,19 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/propertyDescription"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenFeature/genClass"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
-          propertyDescription="The core model element for this structural feature"
+          propertyDescription="The Ecore model element for this structural feature"
           ecoreFeature="ecore:EReference GenModel.ecore#//GenFeature/ecoreFeature"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenBase"/>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenEnum">
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
-          propertyDescription="The core model element for this enumerated type" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnum/ecoreEnum"/>
+          propertyDescription="The Ecore model element for this enumerated type" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnum/ecoreEnum"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnum/genEnumLiterals"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenEnumLiteral">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnumLiteral/genEnum"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
-          propertyDescription="The core model element for this enumerated type literal"
+          propertyDescription="The Ecore model element for this enumerated type literal"
           ecoreFeature="ecore:EReference GenModel.ecore#//GenEnumLiteral/ecoreEnumLiteral"/>
     </genClasses>
     <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenClassifier">
@@ -194,12 +194,12 @@
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenDataType">
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
-          propertyDescription="The core model element for this data type" ecoreFeature="ecore:EReference GenModel.ecore#//GenDataType/ecoreDataType"/>
+          propertyDescription="The Ecore model element for this data type" ecoreFeature="ecore:EReference GenModel.ecore#//GenDataType/ecoreDataType"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenOperation">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genClass"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
-          propertyDescription="The core model element for this operation" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/ecoreOperation"/>
+          propertyDescription="The Ecore model element for this operation" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/ecoreOperation"/>
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genParameters"/>
     </genClasses>
     <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenParameter">
