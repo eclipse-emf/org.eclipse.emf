@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackagePage.java,v 1.6 2005/06/08 06:17:32 nickb Exp $
+ * $Id: JavaPackagePage.java,v 1.7 2005/06/09 14:52:31 davidms Exp $
  */
 package org.eclipse.emf.importer.java.ui;
 
@@ -35,6 +35,9 @@ public class JavaPackagePage extends ModelPackagePage
   public JavaPackagePage(ModelImporter modelImporter, String pageName)
   {
     super(modelImporter, pageName);
+
+    setDescription(JavaImporterPlugin.INSTANCE.getString("_UI_PackageSelection_description"));
+
   }
 
   public JavaImporter getJavaImporter()
