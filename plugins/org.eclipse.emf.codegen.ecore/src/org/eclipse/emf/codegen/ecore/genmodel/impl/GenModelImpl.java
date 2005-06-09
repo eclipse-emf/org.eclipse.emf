@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.41 2005/06/08 20:31:42 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.42 2005/06/09 04:32:34 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -58,8 +58,10 @@ import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.AbstractTreeIterator;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
@@ -4676,10 +4678,22 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   
   public List getModelQualifiedPackageNames()
   {
-    EList packageNames = new UniqueEList();
-    for (Iterator i = getGenPackages().iterator(); i.hasNext();)
+    EList packageNames = sameModelTestsProject() ?
+      (EList)getTestsQualifiedPackageNames() :
+      new UniqueEList();
+      
+    TreeIterator genPackagesIterator = new AbstractTreeIterator(getGenPackages(), false)
     {
-      GenPackage genPackage = (GenPackage)i.next();
+      protected Iterator getChildren(Object object)
+      {
+        return object instanceof Collection ? 
+          ((Collection)object).iterator() :
+          ((GenPackage)object).getNestedGenPackages().iterator();
+      }
+    };
+    while(genPackagesIterator.hasNext())
+    {
+      GenPackage genPackage = (GenPackage)genPackagesIterator.next();
       addQualifiedModelPackageNames(packageNames, genPackage);
     }
     
@@ -4687,11 +4701,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (!isBlank(pluginClassPackage))
     {
       packageNames.add(pluginClassPackage);
-    }
-    
-    if (sameModelTestsProject())
-    {
-      packageNames.addAll(getTestsQualifiedPackageNames());
     }
     
     ECollections.sort(packageNames);
@@ -4705,11 +4714,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       packageNames.add(genPackage.getInterfacePackageName());
       packageNames.add(genPackage.getClassPackageName());
       packageNames.add(genPackage.getUtilitiesPackageName());
-    }
-    for (Iterator i = genPackage.getNestedGenPackages().iterator(); i.hasNext();)
-    {
-      GenPackage nestedGenPackage = (GenPackage)i.next();
-      addQualifiedModelPackageNames(packageNames, nestedGenPackage);
     }
   }
 
@@ -4748,9 +4752,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       (EList)getModelQualifiedPackageNames() :
       new UniqueEList();
 
-    for (Iterator i = getGenPackages().iterator(); i.hasNext();)
+    TreeIterator genPackagesIterator = new AbstractTreeIterator(getGenPackages(), false)
     {
-      GenPackage genPackage = (GenPackage)i.next();
+      protected Iterator getChildren(Object object)
+      {
+        return object instanceof Collection ? 
+          ((Collection)object).iterator() :
+          ((GenPackage)object).getNestedGenPackages().iterator();
+      }
+    };
+    while(genPackagesIterator.hasNext())
+    {
+      GenPackage genPackage = (GenPackage)genPackagesIterator.next();
       addQualifiedEditPackageNames(packageNames, genPackage);
     }
     
@@ -4769,11 +4782,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (genPackage.hasClassifiers())
     {
       packageNames.add(genPackage.getProviderPackageName());
-    }
-    for (Iterator i = genPackage.getNestedGenPackages().iterator(); i.hasNext();)
-    {
-      GenPackage nestedGenPackage = (GenPackage)i.next();
-      addQualifiedEditPackageNames(packageNames, nestedGenPackage);
     }
   }
 
@@ -4816,9 +4824,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       (EList)getEditQualifiedPackageNames() :
       new UniqueEList();
 
-    for (Iterator i = getGenPackages().iterator(); i.hasNext();)
+    TreeIterator genPackagesIterator = new AbstractTreeIterator(getGenPackages(), false)
     {
-      GenPackage genPackage = (GenPackage)i.next();
+      protected Iterator getChildren(Object object)
+      {
+        return object instanceof Collection ? 
+          ((Collection)object).iterator() :
+          ((GenPackage)object).getNestedGenPackages().iterator();
+      }
+    };
+    while(genPackagesIterator.hasNext())
+    {
+      GenPackage genPackage = (GenPackage)genPackagesIterator.next();
       addQualifiedEditorPackageNames(packageNames, genPackage);
     }
 
@@ -4837,11 +4854,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (genPackage.hasClassifiers() && genPackage.hasConcreteClasses())
     {
       packageNames.add(genPackage.getPresentationPackageName());
-    }
-    for (Iterator i = genPackage.getNestedGenPackages().iterator(); i.hasNext();)
-    {
-      GenPackage nestedGenPackage = (GenPackage)i.next();
-      addQualifiedEditorPackageNames(packageNames, nestedGenPackage);
     }
   }
 
@@ -4892,9 +4904,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     EList packageNames = new UniqueEList();
 
-    for (Iterator i = getGenPackages().iterator(); i.hasNext();)
+    TreeIterator genPackagesIterator = new AbstractTreeIterator(getGenPackages(), false)
     {
-      GenPackage genPackage = (GenPackage)i.next();
+      protected Iterator getChildren(Object object)
+      {
+        return object instanceof Collection ? 
+          ((Collection)object).iterator() :
+          ((GenPackage)object).getNestedGenPackages().iterator();
+      }
+    };
+    while(genPackagesIterator.hasNext())
+    {
+      GenPackage genPackage = (GenPackage)genPackagesIterator.next();
       addQualifiedTestsPackageNames(packageNames, genPackage);
     }
 
@@ -4913,11 +4934,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (genPackage.hasClassifiers())
     {
       packageNames.add(genPackage.getTestsPackageName());
-    }
-    for (Iterator i = genPackage.getNestedGenPackages().iterator(); i.hasNext();)
-    {
-      GenPackage nestedGenPackage = (GenPackage)i.next();
-      addQualifiedTestsPackageNames(packageNames, nestedGenPackage);
     }
   }
 
