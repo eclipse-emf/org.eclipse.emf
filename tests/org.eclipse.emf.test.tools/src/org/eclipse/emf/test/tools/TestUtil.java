@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.7 2005/06/08 06:24:42 nickb Exp $
+ * $Id: TestUtil.java,v 1.8 2005/06/09 14:54:04 marcelop Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -106,6 +106,7 @@ public class TestUtil
   {    
     StringBuffer stringBuffer = new StringBuffer();
 
+    String nl = useSystemLineSeparator ? System.getProperties().getProperty("line.separator") : "\n";
     try
     {
       BufferedReader in = new BufferedReader(new FileReader(file));
@@ -113,7 +114,6 @@ public class TestUtil
       
       try
       {
-        String nl = useSystemLineSeparator ? System.getProperties().getProperty("line.separator") : "\n";
         while ((str = in.readLine()) != null)
         {
           stringBuffer.append(str).append(nl);
@@ -135,7 +135,7 @@ public class TestUtil
     int length = stringBuffer.length();
     if(length > 0)
     {
-      stringBuffer.deleteCharAt(length - 1);
+      stringBuffer.delete(length-nl.length(), length);
     }
     return stringBuffer.toString();
   }  
