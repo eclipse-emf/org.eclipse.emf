@@ -21,7 +21,6 @@ import java.util.List;
 import org.eclipse.swt.graphics.Image;
 
 
-
 /**
  * It is highly recommended not to implement this interface.  If you need to create
  * instances of a <tt>ModelImporterDescriptor</tt>, use 
@@ -47,5 +46,5 @@ public interface ModelImporterDescriptor
   
   String getDescription();
 
-  IModelImporterWizard getWizard();
+  IModelImporterWizard createWizard();
 }
