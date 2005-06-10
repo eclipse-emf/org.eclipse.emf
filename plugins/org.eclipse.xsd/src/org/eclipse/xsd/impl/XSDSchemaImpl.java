@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.16 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDSchemaImpl.java,v 1.17 2005/06/10 11:11:24 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -3222,12 +3222,12 @@ public class XSDSchemaImpl
       ((XSDSchemaImpl)redefiningSchema).getSchemasToRedefine().addAll(getSchemasToRedefine());
     }
 
+    propogateComponents(redefiningSchema);
+
     if (getPendingSchemaLocation() == null)
     {
       patch();
     }
-
-    propogateComponents(redefiningSchema);
 
     ((XSDSchemaImpl)redefiningSchema).getRedefinitionMap().putAll(getRedefinitionMap());
   }
