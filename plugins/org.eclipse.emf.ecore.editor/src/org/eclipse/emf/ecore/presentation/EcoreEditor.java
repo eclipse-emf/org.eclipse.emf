@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.18 2005/06/10 20:30:11 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.19 2005/06/10 21:02:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -153,6 +153,21 @@ public class EcoreEditor
       catch (Exception exception)
       {
         EcoreEditorPlugin.INSTANCE.log(exception);
+      }
+    }
+    public void createModel()
+    {
+      super.createModel();
+      
+      // Load the schema and packages that were used to load the instance into this resource set.
+      //
+      ResourceSet resourceSet = editingDomain.getResourceSet();
+      Resource resource = (Resource)resourceSet.getResources().get(0);
+      EObject rootObject = (EObject)resource.getContents().get(0);
+      Resource metaDataResource =  rootObject.eClass().eResource();
+      if (metaDataResource != null && metaDataResource.getResourceSet() != null)
+      {
+        resourceSet.getResources().addAll(metaDataResource.getResourceSet().getResources());
       }
     }
   }
