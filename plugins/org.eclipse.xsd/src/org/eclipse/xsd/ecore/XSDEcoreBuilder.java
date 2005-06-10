@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.35 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.36 2005/06/10 20:32:13 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -33,6 +33,7 @@ import java.util.Map;
 
 import org.w3c.dom.Element;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.common.util.WrappedException;
@@ -61,37 +62,6 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
-import org.eclipse.xsd.XSDAnnotation;
-import org.eclipse.xsd.XSDAttributeDeclaration;
-import org.eclipse.xsd.XSDAttributeGroupDefinition;
-import org.eclipse.xsd.XSDAttributeUse;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDComponent;
-import org.eclipse.xsd.XSDCompositor;
-import org.eclipse.xsd.XSDConcreteComponent;
-import org.eclipse.xsd.XSDContentTypeCategory;
-import org.eclipse.xsd.XSDDerivationMethod;
-import org.eclipse.xsd.XSDDiagnostic;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDEnumerationFacet;
-import org.eclipse.xsd.XSDFacet;
-import org.eclipse.xsd.XSDFeature;
-import org.eclipse.xsd.XSDIdentityConstraintDefinition;
-import org.eclipse.xsd.XSDImport;
-import org.eclipse.xsd.XSDMaxLengthFacet;
-import org.eclipse.xsd.XSDMinLengthFacet;
-import org.eclipse.xsd.XSDModelGroup;
-import org.eclipse.xsd.XSDModelGroupDefinition;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDNamespaceConstraintCategory;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDPlugin;
-import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.XSDTerm;
-import org.eclipse.xsd.XSDTypeDefinition;
-import org.eclipse.xsd.XSDVariety;
-import org.eclipse.xsd.XSDWildcard;
 import org.eclipse.xsd.*;
 import org.eclipse.xsd.util.XSDConstants;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
@@ -1915,12 +1885,40 @@ public class XSDEcoreBuilder extends MapBuilder
     }
   }
 
+  protected static final Class ecoreResourceFactoryImplClass;
+  static
+  {
+    Class theEcoreResourceFactoryImplClass = null;
+    try
+    {
+      theEcoreResourceFactoryImplClass =
+        CommonPlugin.loadClass("org.eclipse.emf.ecore.xmi", "org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl");
+    }
+    catch (Exception exception)
+    {
+    }
+    ecoreResourceFactoryImplClass = theEcoreResourceFactoryImplClass;
+  }
+  
   protected ResourceSet createResourceSet()
   {
     ResourceSet result = new ResourceSetImpl();
     result.getLoadOptions().put(XSDResourceImpl.XSD_TRACK_LOCATION, Boolean.TRUE);
-    result.getResourceFactoryRegistry().getExtensionToFactoryMap().put("wsdl", new XSDResourceFactoryImpl());
-    result.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xsd", new XSDResourceFactoryImpl());
+    Map extensionToFactoryMap =  result.getResourceFactoryRegistry().getExtensionToFactoryMap();
+    extensionToFactoryMap.put("wsdl", new XSDResourceFactoryImpl());
+    extensionToFactoryMap.put("xsd", new XSDResourceFactoryImpl());
+    if (ecoreResourceFactoryImplClass != null)
+    {
+      try
+      {
+         extensionToFactoryMap.put("ecore", ecoreResourceFactoryImplClass.newInstance());
+      }
+      catch (Exception exception)
+      {
+        XSDPlugin.INSTANCE.log(exception);
+      }
+    }
+    
     return result;
   }
 
