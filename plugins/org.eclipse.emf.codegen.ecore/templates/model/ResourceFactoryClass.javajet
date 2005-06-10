@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ResourceFactoryClass" version="$Id: ResourceFactoryClass.javajet,v 1.6 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ResourceFactoryClass" version="$Id: ResourceFactoryClass.javajet,v 1.7 2005/06/10 11:14:07 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -41,7 +41,7 @@ public class <%=genPackage.getResourceFactoryClassName()%> extends <%=genPackage
 	public static final <%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
 
 <%}%>
-<%if (genPackage.hasExtendedMetaData()) {%>
+<%if (genPackage.hasExtendedMetaData() && !genPackage.hasTargetNamespace()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -67,13 +67,9 @@ public class <%=genPackage.getResourceFactoryClassName()%> extends <%=genPackage
 	public <%=genPackage.getResourceFactoryClassName()%>()
 	{
 		super();
-<%if (genPackage.hasExtendedMetaData()) {%>
- <%if (genPackage.hasTargetNamespace()) {%>
-		extendedMetaData = <%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE;
- <%} else {%>
+<%if (genPackage.hasExtendedMetaData() && !genPackage.hasTargetNamespace()) {%>
 		extendedMetaData = new <%=genModel.getImportedName("org.eclipse.emf.ecore.util.BasicExtendedMetaData")%>(new <%=genModel.getImportedName("org.eclipse.emf.ecore.impl.EPackageRegistryImpl")%>(<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE));
 		extendedMetaData.putPackage(null, <%=genPackage.getImportedPackageInterfaceName()%>.eINSTANCE);
- <%}%>
 <%} else if (genPackage.hasXMLMap() && !genPackage.hasTargetNamespace()) {%>
 		xmlMap.setNoNamespacePackage(<%=genPackage.getImportedPackageInterfaceName()%>.eINSTANCE);
 <%}%>
@@ -91,8 +87,8 @@ public class <%=genPackage.getResourceFactoryClassName()%> extends <%=genPackage
 <%@ start %>
 <%if (genPackage.hasExtendedMetaData()) {%>
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%> result = new <%=genPackage.getResourceClassName()%>(uri);
-		result.getDefaultSaveOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_EXTENDED_META_DATA, extendedMetaData);
-		result.getDefaultLoadOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_EXTENDED_META_DATA, extendedMetaData);
+		result.getDefaultSaveOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_EXTENDED_META_DATA, <%if (genPackage.hasTargetNamespace()){%>Boolean.TRUE<%}else{%>extendedMetaData<%}%>);
+		result.getDefaultLoadOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_EXTENDED_META_DATA, <%if (genPackage.hasTargetNamespace()){%>Boolean.TRUE<%}else{%>extendedMetaData<%}%>);
 
 		result.getDefaultSaveOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
 		result.getDefaultSaveOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
