@@ -36,7 +36,7 @@ groupPackage org.eclipse.emf.mapping.xsd2ecore
 groupPackage org.eclipse.emf.mapping.xsd2ecore.editor
 
 # The directory of the xsd plugins in the order they were built 
-pluginDirs=`find $eclipseDir/plugins -name *.jar -printf '%T@ %p\n' | sort -n | grep -v resources.jar | egrep -e 'org.eclipse.xsd|org.eclipse.emf.mapping.xsd2ecore' | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
+pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | grep -v resources.jar | egrep -e 'org.eclipse.xsd|org.eclipse.emf.mapping.xsd2ecore' | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
 
 # All the jars in the pluigins directory
 classpath=`find $eclipseDir/plugins -name *.jar -print | grep -v org.eclipse.xsd | grep -v org.eclipse.emf.mapping.xsd2ecore | tr '\n' ';'`
