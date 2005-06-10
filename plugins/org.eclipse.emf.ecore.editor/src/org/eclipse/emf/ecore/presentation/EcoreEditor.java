@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.17 2005/06/08 12:34:41 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.18 2005/06/10 20:30:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -26,8 +26,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.osgi.framework.Bundle;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -40,7 +38,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -99,6 +96,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
@@ -113,6 +111,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -145,16 +144,9 @@ public class EcoreEditor
     {
       try
       {
-        Bundle plugin = Platform.getBundle("org.eclipse.xsd.editor");
-        Class theClass = 
-          plugin.loadClass
-            ("org.eclipse.xsd.presentation.XSDEditor$GenericXMLResourceFactoryImpl");
-        Object genericXMLResourceFactory = theClass.newInstance();
-        editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", genericXMLResourceFactory);
+        editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new GenericXMLResourceFactoryImpl());
 
-        Class theItemProviderClass =
-          plugin.loadClass
-            ("org.eclipse.xsd.provider.XSDItemProviderAdapterFactory");
+        Class theItemProviderClass = CommonPlugin.loadClass("org.eclipse.xsd.edit", "org.eclipse.xsd.provider.XSDItemProviderAdapterFactory");
         AdapterFactory xsdItemProviderAdapterFactory = (AdapterFactory)theItemProviderClass.newInstance();
         adapterFactory.insertAdapterFactory(xsdItemProviderAdapterFactory);
       }
