@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.15 2005/06/08 22:25:17 marcelop Exp $
+ * $Id: AntTest.java,v 1.16 2005/06/10 17:07:17 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -59,7 +59,7 @@ public class AntTest extends TestCase
     ts.addTest(new AntTest("testXSDReload"));
     ts.addTest(new AntTest("testXSDs"));
     ts.addTest(new AntTest("testXSDsReload"));
-    //ts.addTest(new AntTest("suiteTearDown"));
+    ts.addTest(new AntTest("suiteTearDown"));
     return ts;
   }
   

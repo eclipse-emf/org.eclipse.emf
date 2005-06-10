@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsResourceFactoryImpl.java,v 1.3 2005/04/07 17:37:20 davidms Exp $
+ * $Id: ElementsResourceFactoryImpl.java,v 1.4 2005/06/10 17:07:17 marcelop Exp $
  */
 package org.examples.library.elements.util;
 
@@ -11,8 +11,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
-
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
@@ -33,13 +31,6 @@ public class ElementsResourceFactoryImpl extends ResourceFactoryImpl
   public static final String copyright = "This is my code.";
 
   /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected ExtendedMetaData extendedMetaData;
-
-  /**
    * Creates an instance of the resource factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -48,7 +39,6 @@ public class ElementsResourceFactoryImpl extends ResourceFactoryImpl
   public ElementsResourceFactoryImpl()
   {
     super();
-    extendedMetaData = ExtendedMetaData.INSTANCE;
   }
 
   /**
@@ -60,8 +50,8 @@ public class ElementsResourceFactoryImpl extends ResourceFactoryImpl
   public Resource createResource(URI uri)
   {
     XMLResource result = new ElementsResourceImpl(uri);
-    result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-    result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
+    result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
+    result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
