@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.8 2005/06/08 05:42:32 nickb Exp $
+ * $Id: CommonPlugin.java,v 1.9 2005/06/10 20:27:24 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -88,6 +88,14 @@ public final class CommonPlugin extends EMFPlugin
   public static URI resolve(URI uri)
   {
     return plugin == null ? uri : Implementation.resolve(uri);
+  }
+
+  /**
+   * Use the platform, if available, to load the named class using the right class loader.
+   */
+  public static Class loadClass(String pluginID, String className) throws ClassNotFoundException
+  {
+    return plugin == null ? Class.forName(className) : Implementation.loadClass(pluginID, className);
   }
 
   /**
@@ -180,6 +188,14 @@ public final class CommonPlugin extends EMFPlugin
         result = result.appendFragment(fragment);
       }
       return result;
+    }
+    
+    /**
+     * Use the platform to load the named class using the right class loader.
+     */
+    public static Class loadClass(String pluginID, String className) throws ClassNotFoundException
+    {
+      return Platform.getBundle(pluginID).loadClass(className);
     }
   }
 }
