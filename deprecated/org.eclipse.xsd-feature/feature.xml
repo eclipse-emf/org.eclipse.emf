@@ -37,42 +37,49 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.xsd"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.xsd.ecore.importer"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.xsd.edit"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.xsd.editor"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.xsd.test"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.mapping.xsd2ecore"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.mapping.xsd2ecore.editor"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.0"
+         unpack="false"/>
 
 </feature>
