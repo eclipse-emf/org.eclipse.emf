@@ -12,10 +12,10 @@
   </extension>
 
   <extension point="org.eclipse.ant.core.extraClasspathEntries">
-    <extraClasspathEntry library="xsd.ecore.importer.tasks.jar" />
+    <extraClasspathEntry library="ant_tasks/xsd.ecore.importer.tasks.jar" />
   </extension>
 
   <extension point="org.eclipse.ant.core.antTasks">
-    <antTask library="xsd.ecore.importer.tasks.jar" name="emf.XSD2Java" headless="true" class="org.eclipse.xsd.ecore.importer.taskdefs.XSDGeneratorTask" />
+    <antTask library="ant_tasks/xsd.ecore.importer.tasks.jar" name="emf.XSD2Java" headless="true" class="org.eclipse.xsd.ecore.importer.taskdefs.XSDGeneratorTask" />
   </extension>
 </plugin>
