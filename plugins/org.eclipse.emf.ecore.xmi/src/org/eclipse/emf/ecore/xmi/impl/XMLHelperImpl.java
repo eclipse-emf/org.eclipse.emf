@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.28 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMLHelperImpl.java,v 1.29 2005/06/10 13:57:51 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1175,11 +1175,18 @@ public class XMLHelperImpl implements XMLHelper
         }
         continue;
       }
-      else if ((seenEmptyStringMapping && prefix.length() == 0) || originalURI != null)
+      else if ((seenEmptyStringMapping && prefix.length() == 0))
       {
         // record default ns declaration as duplicate if seen QName (#1) or seen xmlns="" (#2)
-        // record duplicate declaration for a given prefix (#3)
         addNSDeclaration(prefix, uri);       
+      }
+      else if (originalURI != null)
+      {
+        if (!uri.equals(originalURI))
+        {
+          // record duplicate declaration for a given prefix (#3)
+          addNSDeclaration(prefix, uri);
+        }
       }
       else
       {
