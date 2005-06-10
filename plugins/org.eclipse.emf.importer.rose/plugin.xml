@@ -12,10 +12,10 @@
   </extension>
 
   <extension point="org.eclipse.ant.core.extraClasspathEntries">
-    <extraClasspathEntry library="importer.rose.tasks.jar" />
+    <extraClasspathEntry library="ant_tasks/importer.rose.tasks.jar" />
   </extension>
 
   <extension point="org.eclipse.ant.core.antTasks">
-    <antTask library="importer.rose.tasks.jar" name="emf.Rose2Java" headless="true" class="org.eclipse.emf.importer.rose.taskdefs.RoseGeneratorTask" />
+    <antTask library="ant_tasks/importer.rose.tasks.jar" name="emf.Rose2Java" headless="true" class="org.eclipse.emf.importer.rose.taskdefs.RoseGeneratorTask" />
   </extension>
 </plugin>
