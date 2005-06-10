@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenericXMLResourceImpl.java,v 1.1 2005/06/10 20:29:11 emerks Exp $
+ * $Id: GenericXMLResourceImpl.java,v 1.2 2005/06/10 20:59:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -102,7 +102,7 @@ public class GenericXMLResourceImpl extends XMLResourceImpl
           xsdEcoreBuilder = xsdEcoreBuilderConstructor.newInstance(new Object [] { extendedMetaData });
           generatedResources = 
               (Collection)xsdEcoreBuilderGenerateResourcesMethod.invoke(xsdEcoreBuilder, new Object [] { urisToLocations.values() });
-          xmlResource.getResourceSet().getResources().addAll(generatedResources);
+          // xmlResource.getResourceSet().getResources().addAll(generatedResources);
         }
         catch (Exception exception)
         {
