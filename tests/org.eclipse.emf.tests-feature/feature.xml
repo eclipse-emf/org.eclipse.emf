@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.23 2005/06/08 06:17:38 nickb Exp $
+ * $Id: feature.xml,v 1.24 2005/06/10 18:14:07 marcelop Exp $
  */
 -->
 
@@ -87,55 +87,55 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.tests"
          download-size="0"
          install-size="0"
-         version="2.1.0">
-   </plugin>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.test.performance"
          download-size="0"
          install-size="0"
-         version="2.1.0">
-   </plugin>   
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.test.build"
          download-size="0"
          install-size="0"
-         version="2.1.0">
-   </plugin>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.test.core"
          download-size="0"
          install-size="0"
-         version="2.1.0">
-   </plugin>
+         version="2.1.0"
+         unpack="false"/>
    
    <plugin
          id="org.eclipse.emf.test.edit"
          download-size="0"
          install-size="0"
-         version="2.1.0">
-   </plugin>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.test.sdo"
          download-size="0"
          install-size="0"
-         version="2.1.0">
-   </plugin>   
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.test.tools"
          download-size="0"
          install-size="0"
-         version="2.1.0">
-   </plugin>   
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.test.xml"
          download-size="0"
          install-size="0"
-         version="2.1.0">
-   </plugin>   
+         version="2.1.0"
+         unpack="false"/>
 </feature>

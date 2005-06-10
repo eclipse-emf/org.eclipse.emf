@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.9 2005/06/08 06:24:37 nickb Exp $
+ * $Id: feature.xml,v 1.10 2005/06/10 18:14:08 marcelop Exp $
  */
 -->
 
@@ -44,5 +44,6 @@
         id="org.eclipse.emf.doc"
         download-size="0"
         install-size="0"        
-        version="2.1.0"/>
+        version="2.1.0"
+        unpack="false"/>
 </feature>

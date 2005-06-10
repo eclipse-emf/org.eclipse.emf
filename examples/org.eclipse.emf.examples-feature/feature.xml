@@ -37,29 +37,34 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.examples"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.java"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.java.edit"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.java.editor"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.activities"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.0"
+         unpack="false"/>
 </feature>
