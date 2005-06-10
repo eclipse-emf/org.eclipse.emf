@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.6 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMLString.java,v 1.7 2005/06/10 20:28:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -197,7 +197,7 @@ public class XMLString extends StringSegment
 
     --depth;
 
-    if (!isUnformatted)
+    if (!isUnformatted && !isMixed)
     {
       addLine();
     }
@@ -231,7 +231,7 @@ public class XMLString extends StringSegment
     --depth;
     add(name);
     add(">");
-    if (!isUnformatted)
+    if (!isUnformatted && !isMixed)
     {
       addLine();
     }
