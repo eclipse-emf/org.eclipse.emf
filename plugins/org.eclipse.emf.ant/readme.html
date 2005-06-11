@@ -25,12 +25,17 @@ summary="Enumerates the EMF tasks providing a &quot;one sentence&quot; descripti
   </tr>
 </table>
 <h3>Overall Comments</h3>
-<ul>
+<ul> 
+<li>If you didn't extract this plugin from CVS, the &quot;examples&quot; directory mentioned 
+above is available in the EMF source plugin 
+(org.eclipse.emf.source_<i>&lt;version&gt;</i>/src/org.eclipse.emf.ant_<i>&lt;version&gt;</i>).
+<br/><br/></li>
 <li>Before running your build scripts or the examples provided here, make sure you have the 2 
 jar files required by this plugin: &quot;runtime/emf.ant.jar&quot; and 
 &quot;runtime/emf.ant.tasks.jar&quot;.  If necessary, Eclipse can generate them for you.  All 
 you need to do is to run the Ant script created by PDE when you right click on the manifest file 
-and select &quot;PDE Tools&gt;Create Ant Build File&quot;.<br/><br/></li>
+and select &quot;PDE Tools&gt;Create Ant Build File&quot;.
+<br/><br/></li>
 <li>Although all the EMF tasks must be executed by Eclipse (usually in headless mode), they can work 
 on files located in any directory.  In other words, your models, templates and other files don't need 
 to be in the &quot;plugins&quot; directory nor in the workspace.<br/><br/></li>
@@ -45,7 +50,8 @@ java
 <br/><br/></li>
 <li>Starting a new JVM process and invoking Eclipse are expensive operations.  Your build will 
 perform better if you are able to group the tasks that require Eclipse in a few scripts 
-(one script would be ideal).<br/><br/></li>
+(one script would be ideal).
+<br/><br/></li>
 <li>In order to preserve the original state of this plugin's &quot;examples&quot; directory, you
 should copy it to a different location and run the Ant scripts from there.</li>
 </ul>
