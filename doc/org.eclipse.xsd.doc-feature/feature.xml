@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.9 2005/06/10 18:14:04 marcelop Exp $
+ * $Id: feature.xml,v 1.10 2005/06/11 06:10:42 marcelop Exp $
  */
 -->
 
@@ -44,7 +44,6 @@
          id="org.eclipse.xsd.doc"
          download-size="0"
          install-size="0"
-         version="2.1.0"
-         unpack="false"/>
+         version="2.1.0"/>
    		
 </feature>
