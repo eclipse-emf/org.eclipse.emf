@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.5 2005/06/08 06:20:41 nickb Exp $
+ * $Id: XSDValidateTest.java,v 1.6 2005/06/12 12:38:46 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -657,12 +657,9 @@ public class XSDValidateTest extends TestCase
         xsdSchema.validate();
 
         EList diagnostics = xsdSchema.getAllDiagnostics();
-        int errors = diagnostics.size();
         for (Iterator i = diagnostics.iterator(); i.hasNext();)
         {
           XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)i.next();
-          String message = xsdDiagnostic.getMessage();
-
           System.err.println('"' + xsdDiagnostic.getMessage() + '"' + ',');
           msgErrorCounter++;
         }

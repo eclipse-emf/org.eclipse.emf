@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNameTest.java,v 1.3 2005/06/08 06:20:41 nickb Exp $
+ * $Id: QNameTest.java,v 1.4 2005/06/12 12:38:45 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -72,7 +72,7 @@ public class QNameTest extends TestCase
    */
   protected void setUp() throws Exception
   {
-    QnamePackage aPackage = QnamePackage.eINSTANCE;
+    QnamePackage.eINSTANCE.getName();
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
     inputXML = BASE_XML_URI + "qname.xml";
     expectedXML = BASE_XMI_URI + "qnameOutput.xml";

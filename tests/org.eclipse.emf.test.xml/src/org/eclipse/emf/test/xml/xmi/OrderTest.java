@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: OrderTest.java,v 1.3 2005/06/08 06:20:41 nickb Exp $
+ * $Id: OrderTest.java,v 1.4 2005/06/12 12:38:45 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -63,9 +63,9 @@ public class OrderTest extends TestCase
    */
   protected void setUp() throws Exception
   {
-    OrderPackage oPackage = OrderPackage.eINSTANCE;
-    CustomerPackage cPackage = CustomerPackage.eINSTANCE;
-    DbPackage dbPackage = DbPackage.eINSTANCE;
+    OrderPackage.eINSTANCE.getName();
+    CustomerPackage.eINSTANCE.getName();
+    DbPackage.eINSTANCE.getName();
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
     inputXML = BASE_XML_URI + "order.xml";
     options = new HashMap();

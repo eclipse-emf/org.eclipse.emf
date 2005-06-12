@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbValidator.java,v 1.1 2004/11/04 05:52:46 marcelop Exp $
+ * $Id: DbValidator.java,v 1.2 2005/06/12 12:38:46 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.util;
 
@@ -48,14 +48,6 @@ public class DbValidator extends EObjectValidator
    * @generated
    */
   public static final String DIAGNOSTIC_SOURCE = "org.eclipse.emf.test.models.movie.db";
-
-  /**
-   * A constant with a fixed name that can be used as the base value for additional hand written constants.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
 
   /**
    * The cached base package validator.

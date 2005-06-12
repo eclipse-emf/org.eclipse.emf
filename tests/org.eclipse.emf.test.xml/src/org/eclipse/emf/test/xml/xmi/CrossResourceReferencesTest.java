@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CrossResourceReferencesTest.java,v 1.2 2005/06/08 06:20:41 nickb Exp $
+ * $Id: CrossResourceReferencesTest.java,v 1.3 2005/06/12 12:38:45 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -72,7 +72,7 @@ public class CrossResourceReferencesTest extends TestCase
   public void testHREF() throws Exception
   {
     ResourceSet rs = new ResourceSetImpl();
-    LibraryPackage libPackage = LibraryPackage.eINSTANCE;
+    LibraryPackage.eINSTANCE.getName();
     LibraryFactory libFactory = LibraryFactory.eINSTANCE;
     
     Book b = libFactory.createBook();

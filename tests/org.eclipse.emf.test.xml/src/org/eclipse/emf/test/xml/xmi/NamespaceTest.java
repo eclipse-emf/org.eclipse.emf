@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NamespaceTest.java,v 1.3 2005/06/08 06:20:41 nickb Exp $
+ * $Id: NamespaceTest.java,v 1.4 2005/06/12 12:38:45 emerks Exp $
  */
 
 package org.eclipse.emf.test.xml.xmi;
@@ -64,8 +64,8 @@ public class NamespaceTest extends TestCase
   protected void setUp() throws Exception
   {
     rs = new ResourceSetImpl();
-    DbpricePackage p1 = DbpricePackage.eINSTANCE;
-    DbitemPackage p2 = DbitemPackage.eINSTANCE;
+    DbpricePackage.eINSTANCE.getName();
+    DbitemPackage.eINSTANCE.getName();
     rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new DbitemResourceFactoryImpl());
     file = BASE_XML_URI + "dbitemtest.xml";
   }
