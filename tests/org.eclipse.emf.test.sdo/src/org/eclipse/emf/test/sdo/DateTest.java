@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DateTest.java,v 1.1 2005/06/08 20:47:30 bportier Exp $
+ * $Id: DateTest.java,v 1.2 2005/06/12 14:07:57 emerks Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -85,7 +85,7 @@ public class DateTest extends TestCase
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, registerModel());
 
     String DATA = TestUtil.getPluginDirectory() + "/data/";
-    String XML_SCHEMA_URI = "file:///" + DATA + "ipo.xsd";
+    // String XML_SCHEMA_URI = "file:///" + DATA + "ipo.xsd";
     String XML_INSTANCE = DATA + "ipoDG.xml";
 
     FileInputStream inputStream = new FileInputStream(XML_INSTANCE);
@@ -99,7 +99,7 @@ public class DateTest extends TestCase
 
   protected ExtendedMetaData registerModel()
   {
-    IpoPackage ipoPackageInstance = IpoPackage.eINSTANCE;
+    IpoPackage.eINSTANCE.getName();
     ResourceSet resourceSet = SDOUtil.createResourceSet();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new IpoResourceFactoryImpl());
     return new BasicExtendedMetaData(resourceSet.getPackageRegistry());
@@ -194,12 +194,14 @@ public class DateTest extends TestCase
     PurchaseOrderType purchaseOrder = (PurchaseOrderType)po;
     // this returns the XMLCalendar value :(
     Object generatedOrderDateValue = purchaseOrder.getOrderDate();
+    assertTrue(generatedOrderDateValue != null);
 
     EObject poEObject = (EObject)po;
     EClass poEClass = poEObject.eClass();
     EAttribute orderDateAttr = (EAttribute)poEClass.getEAllAttributes().get(1);
     // this returns the XMLCalendar value
     Object eSetOrderDateValue = poEObject.eGet(orderDateAttr);
+    assertTrue(eSetOrderDateValue != null);
 
     // get the orderDate (dateTime) value using DataObject::getDate() 
     Object orderDateValue = po.getDate("orderDate");
@@ -212,7 +214,7 @@ public class DateTest extends TestCase
     // get the shipDate (date) Objet value
     DataObject itemDO1 = (DataObject)this.po.getItems().getItem().get(0);
     Object shipDateObjectValue = itemDO1.get("shipDate");
-    assertNotNull(orderDateObjectValue);
+    assertNotNull(shipDateObjectValue);
 
     // get the shipDate (date) Date value
     Object shipDateValue = itemDO1.getDate("shipDate");

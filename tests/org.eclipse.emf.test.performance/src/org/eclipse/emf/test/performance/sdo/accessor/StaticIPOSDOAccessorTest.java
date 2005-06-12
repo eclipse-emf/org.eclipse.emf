@@ -12,16 +12,13 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.59 2005/06/08 06:16:23 nickb Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.60 2005/06/12 14:03:11 emerks Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,10 +26,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
-import org.eclipse.emf.test.performance.sdo.IPOModel;
 import org.eclipse.emf.test.performance.sdo.StaticIPOModel;
 import org.eclipse.xsd.impl.type.XSDDateType;
 
@@ -43,7 +38,6 @@ import com.example.sdo.ipo.Items;
 import com.example.sdo.ipo.PurchaseOrderType;
 import com.example.sdo.ipo.USAddress;
 import com.example.sdo.ipo.USState;
-import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 
@@ -193,6 +187,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     dataGraph.setEChangeSummary(sdoFactoryInstance.createEChangeSummary());
   }
 
+  /*
   private void serializeDataGraph()
   {
     DataGraph dataGraph = po.getDataGraph();
@@ -206,6 +201,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     {
     }
   }
+  */
 
   private void initMap()
   {
@@ -418,7 +414,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     Object shipDate1 = this.shipDate1;
     String partNum0 = this.partNum0;
     String partNum1 = this.partNum1;
-    IPOModel model = DynamicIPOSDOAccessorTest.model;
+    // IPOModel model = DynamicIPOSDOAccessorTest.model;
     int NUM_ITEMS = DynamicIPOSDOAccessorTest.NUM_ITEMS;
     List itemsValue = this.itemsValue;
     ItemType itemTypeElementValue = this.itemTypeElementValue;

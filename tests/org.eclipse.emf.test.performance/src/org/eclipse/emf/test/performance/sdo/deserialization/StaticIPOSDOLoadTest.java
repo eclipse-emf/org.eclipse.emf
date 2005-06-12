@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOLoadTest.java,v 1.4 2005/06/08 06:16:23 nickb Exp $
+ * $Id: StaticIPOSDOLoadTest.java,v 1.5 2005/06/12 14:03:11 emerks Exp $
  */
 package org.eclipse.emf.test.performance.sdo.deserialization;
 
@@ -46,7 +46,7 @@ public class StaticIPOSDOLoadTest extends DynamicIPOSDOLoadTest
 
   protected ExtendedMetaData registerModel()
   {
-    IpoPackage ipoPackageInstance = IpoPackage.eINSTANCE;
+    IpoPackage.eINSTANCE.getName();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new IpoResourceFactoryImpl());
     return new BasicExtendedMetaData(resourceSet.getPackageRegistry());
   }

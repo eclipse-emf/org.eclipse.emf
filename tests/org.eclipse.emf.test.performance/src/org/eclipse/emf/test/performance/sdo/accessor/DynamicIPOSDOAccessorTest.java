@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.60 2005/06/08 06:16:22 nickb Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.61 2005/06/12 14:03:11 emerks Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -845,7 +845,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     String partNumValue = this.partNumValue;
     Object orderDateValue = this.orderDateValue;
     DataObject itemsValue1 = this.itemsValue1;
-    List itemsValue = this.itemsValue;
+    // List itemsValue = this.itemsValue;
     Object shipDateValue = this.shipDateValue;
     DataObject itemElementValue = this.itemElementValue;
     BigInteger quantityValue = this.quantityValue;

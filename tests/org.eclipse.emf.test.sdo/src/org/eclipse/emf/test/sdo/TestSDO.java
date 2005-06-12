@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestSDO.java,v 1.4 2005/06/08 06:17:25 nickb Exp $
+ * $Id: TestSDO.java,v 1.5 2005/06/12 14:07:57 emerks Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -105,7 +105,7 @@ public class TestSDO extends TestCase
   {
     EDataObject root = (EDataObject)eFactory.create((EClass)ePackage.getEClassifier("Quote")); 
     EDataObject child = (EDataObject)eFactory.create((EClass)ePackage.getEClassifier("Quote"));
-    DataObject grandChild = child.createDataObject("quotes");
+    child.createDataObject("quotes");
     root.getList("quotes").add(child);
     eDataGraph.setERootObject(root);
     if (SYSOUT) eDataGraph.getDataGraphResource().save(System.out, null);

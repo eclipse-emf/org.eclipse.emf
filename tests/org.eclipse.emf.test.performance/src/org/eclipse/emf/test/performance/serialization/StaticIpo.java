@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIpo.java,v 1.6 2005/06/08 06:16:23 nickb Exp $
+ * $Id: StaticIpo.java,v 1.7 2005/06/12 14:03:11 emerks Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -49,7 +49,7 @@ public class StaticIpo extends DynamicIpo
 
   protected ExtendedMetaData registerModel(ResourceSet rs)
   {
-    IpoPackage p = IpoPackage.eINSTANCE;
+    IpoPackage.eINSTANCE.getName();
     rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new IpoResourceFactoryImpl());
     return new BasicExtendedMetaData(rs.getPackageRegistry());
   }

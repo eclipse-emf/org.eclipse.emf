@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeSummaryTest.java,v 1.5 2005/06/08 06:17:25 nickb Exp $
+ * $Id: ChangeSummaryTest.java,v 1.6 2005/06/12 14:07:57 emerks Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -75,7 +75,7 @@ public class ChangeSummaryTest extends TestCase
 
   private static final String DATA = TestUtil.getPluginDirectory() + "/data/";
 
-  private static final String DATA_URI = "file:///" + DATA;
+  // private static final String DATA_URI = "file:///" + DATA;
 
   static final boolean DEBUG = false;
 
@@ -106,7 +106,7 @@ public class ChangeSummaryTest extends TestCase
 
   protected ExtendedMetaData registerPersonal()
   {
-    PersonalPackage pPackage = PersonalPackage.eINSTANCE;
+    PersonalPackage.eINSTANCE.getName();
     resourceSet = SDOUtil.createResourceSet();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new PersonalResourceFactoryImpl());
     return new BasicExtendedMetaData(resourceSet.getPackageRegistry());
@@ -114,7 +114,7 @@ public class ChangeSummaryTest extends TestCase
 
   protected ExtendedMetaData registerPersonalMixed()
   {
-    MixedPackage pPackage = MixedPackage.eINSTANCE;
+    MixedPackage.eINSTANCE.getName();
     resourceSet = SDOUtil.createResourceSet();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new MixedResourceFactoryImpl());
     return new BasicExtendedMetaData(resourceSet.getPackageRegistry());
@@ -263,7 +263,7 @@ public class ChangeSummaryTest extends TestCase
     for (int k = 0; k < settings.size(); k++)
     {
       ChangeSummary.Setting s = (ChangeSummary.Setting)settings.get(k);
-      FeatureChange change = (FeatureChange)s;
+      // FeatureChange change = (FeatureChange)s;
       Object svalue = s.getValue();
       Object value = copyDO.get(s.getProperty());
       if (svalue instanceof DataObject)
@@ -308,7 +308,7 @@ public class ChangeSummaryTest extends TestCase
 
     // make copy of original to compare with recorded values in change summary
     DataObject oneWorkerCopy = (DataObject)EcoreUtil.copy((EObject)oneWorker);
-    DataObject twoWorkerLinkCopy = (DataObject)EcoreUtil.copy((EObject)twoWorkerLink);
+    // DataObject twoWorkerLinkCopy = (DataObject)EcoreUtil.copy((EObject)twoWorkerLink);
 
     // make changes
     changeSummary.beginLogging();

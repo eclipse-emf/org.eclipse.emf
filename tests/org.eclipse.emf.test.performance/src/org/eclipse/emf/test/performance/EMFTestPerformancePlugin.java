@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.29 2005/06/08 06:16:23 nickb Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.30 2005/06/12 14:03:11 emerks Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -194,6 +194,10 @@ public class EMFTestPerformancePlugin extends Plugin
     super.start(context);
 
     DerbyHelper derbyHelper = new DerbyHelper();
+    if (false)
+    {
+      setDerbyAttributes(derbyHelper);
+    }
 //    if (derbyHelper.isAvailable())
 //    {
 //      setDerbyAttributes(derbyHelper);

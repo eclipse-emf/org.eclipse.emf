@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticBidirectionalTest.java,v 1.17 2005/06/08 06:16:23 nickb Exp $
+ * $Id: StaticBidirectionalTest.java,v 1.18 2005/06/12 14:03:11 emerks Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -169,9 +169,9 @@ public class StaticBidirectionalTest extends EMFPerformanceTestCase
   public void setAdaptedByGenerated()
   {
     Library lib = (Library)this.lib;
-    List books = lib.getBooks();
+    // List books = lib.getBooks();
     Book book0 = (Book)lib.getBooks().get(0);
-    Book book1 = (Book)lib.getBooks().get(1);
+    // Book book1 = (Book)lib.getBooks().get(1);
     List writers = lib.getWriters();
     Writer writer0 = (Writer)writers.get(0);
     Writer writer1 = (Writer)writers.get(1);

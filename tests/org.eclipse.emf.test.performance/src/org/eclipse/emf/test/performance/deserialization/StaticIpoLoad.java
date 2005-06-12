@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIpoLoad.java,v 1.5 2005/06/08 06:16:22 nickb Exp $
+ * $Id: StaticIpoLoad.java,v 1.6 2005/06/12 14:03:11 emerks Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -50,7 +50,7 @@ public class StaticIpoLoad extends DynamicIpoLoad
 
   protected ExtendedMetaData registerModel(ResourceSet rs)
   {
-    IpoPackage p = IpoPackage.eINSTANCE;
+    rs.getPackageRegistry().put(IpoPackage.eNS_URI, IpoPackage.eINSTANCE);
     rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new IpoResourceFactoryImpl());
     return new BasicExtendedMetaData(rs.getPackageRegistry());
   }

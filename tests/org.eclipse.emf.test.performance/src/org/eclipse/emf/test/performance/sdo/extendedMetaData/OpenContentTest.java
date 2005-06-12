@@ -46,7 +46,7 @@ public class OpenContentTest extends EMFPerformanceTestCase
 {
   private static final String DATA = TestUtil.getPluginDirectory() + "/data/";
 
-  private static final String DATA_URI = "file:///" + DATA;
+  // private static final String DATA_URI = "file:///" + DATA;
 
   private static final int ITERATIONS_1T = 2000;
 

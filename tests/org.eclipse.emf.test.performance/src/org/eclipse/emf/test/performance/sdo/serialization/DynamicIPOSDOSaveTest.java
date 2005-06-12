@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOSaveTest.java,v 1.8 2005/06/08 06:16:23 nickb Exp $
+ * $Id: DynamicIPOSDOSaveTest.java,v 1.9 2005/06/12 14:03:11 emerks Exp $
  */
 package org.eclipse.emf.test.performance.sdo.serialization;
 
@@ -42,7 +42,7 @@ public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
 {
   private static final String DATA = TestUtil.getPluginDirectory() + "/data/";
 
-  private static final String DATA_URI = "file:///" + DATA;
+  //private static final String DATA_URI = "file:///" + DATA;
 
   private static String XML_SCHEMA_URI;
 
