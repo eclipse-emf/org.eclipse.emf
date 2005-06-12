@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.17 2005/06/10 11:11:24 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.18 2005/06/12 12:38:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -530,9 +530,8 @@ public class XSDSchemaImpl
         {
           String baseURL = XSDPlugin.INSTANCE.getBaseURL().toString();
           getGlobalResourceSet().getLoadOptions().put("XSD_MAGIC_XML_SCHEMA", XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
-          Resource magicSchemaForSchema2001Resource = 
-            getGlobalResourceSet().getResource
-              (URI.createURI(baseURL + "cache/www.w3.org/2001/MagicXMLSchema.xsd"), true);
+          getGlobalResourceSet().getResource
+            (URI.createURI(baseURL + "cache/www.w3.org/2001/MagicXMLSchema.xsd"), true);
         }
         catch (Exception exception)
         {
@@ -554,9 +553,8 @@ public class XSDSchemaImpl
         {
           String baseURL = XSDPlugin.INSTANCE.getBaseURL().toString();
           getGlobalResourceSet().getLoadOptions().put("XSD_MAGIC_XML_SCHEMA", XSDConstants.SCHEMA_FOR_SCHEMA_URI_2000_10);
-          Resource magicSchemaForSchema2000_10Resource = 
-            getGlobalResourceSet().getResource
-              (URI.createURI(baseURL + "cache/www.w3.org/2000/10/MagicXMLSchema.xsd"), true);
+          getGlobalResourceSet().getResource
+            (URI.createURI(baseURL + "cache/www.w3.org/2000/10/MagicXMLSchema.xsd"), true);
         }
         catch (Exception exception)
         {
@@ -578,10 +576,8 @@ public class XSDSchemaImpl
         {
           String baseURL = XSDPlugin.INSTANCE.getBaseURL().toString();
           getGlobalResourceSet().getLoadOptions().put("XSD_MAGIC_XML_SCHEMA", XSDConstants.SCHEMA_FOR_SCHEMA_URI_1999);
-          Resource magicSchemaForSchema1999Resource = 
-            getGlobalResourceSet().getResource
-              (URI.createURI(baseURL + "cache/www.w3.org/1999/MagicXMLSchema.xsd"), true);
-          // EATM NEEDED? xsdMagicSchemaForSchema1999 = (XSDSchema)magicSchemaForSchema1999Resource.getContents().get(0);
+          getGlobalResourceSet().getResource
+            (URI.createURI(baseURL + "cache/www.w3.org/1999/MagicXMLSchema.xsd"), true);
         }
         catch (Exception exception)
         {
@@ -610,9 +606,8 @@ public class XSDSchemaImpl
           String baseURL = XSDPlugin.INSTANCE.getBaseURL().toString();
           getMagicSchemaForSchema(namespace);
           getGlobalResourceSet().getLoadOptions().put("XSD_XML_SCHEMA", XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
-          Resource schemaForSchema2001Resource = 
-            getGlobalResourceSet().getResource
-              (URI.createURI(baseURL + "cache/www.w3.org/2001/XMLSchema.xsd"), true);
+          getGlobalResourceSet().getResource
+            (URI.createURI(baseURL + "cache/www.w3.org/2001/XMLSchema.xsd"), true);
         }
         catch (Exception exception)
         {
@@ -634,9 +629,8 @@ public class XSDSchemaImpl
           String baseURL = XSDPlugin.INSTANCE.getBaseURL().toString();
           getMagicSchemaForSchema(namespace);
           getGlobalResourceSet().getLoadOptions().put("XSD_XML_SCHEMA", XSDConstants.SCHEMA_FOR_SCHEMA_URI_2000_10);
-          Resource schemaForSchema2000_10Resource = 
-            getGlobalResourceSet().getResource
-              (URI.createURI(baseURL + "cache/www.w3.org/2000/10/XMLSchema.xsd"), true);
+          getGlobalResourceSet().getResource
+            (URI.createURI(baseURL + "cache/www.w3.org/2000/10/XMLSchema.xsd"), true);
         }
         catch (Exception exception)
         {
@@ -658,9 +652,8 @@ public class XSDSchemaImpl
           String baseURL = XSDPlugin.INSTANCE.getBaseURL().toString();
           getMagicSchemaForSchema(namespace);
           getGlobalResourceSet().getLoadOptions().put("XSD_XML_SCHEMA", XSDConstants.SCHEMA_FOR_SCHEMA_URI_1999);
-          Resource schemaForSchema1999Resource = 
-            getGlobalResourceSet().getResource
-              (URI.createURI(baseURL + "cache/www.w3.org/1999/XMLSchema.xsd"), true);
+          getGlobalResourceSet().getResource
+            (URI.createURI(baseURL + "cache/www.w3.org/1999/XMLSchema.xsd"), true);
         }
         catch (Exception exception)
         {
@@ -2982,7 +2975,6 @@ public class XSDSchemaImpl
   {
     xsdImport.setResolvedSchema(this);
     getReferencingDirectives().add(xsdImport);
-    XSDSchema importingSchema = xsdImport.getSchema();
     propogateComponents(xsdImport.getSchema());
 
     return this;
@@ -3025,11 +3017,12 @@ public class XSDSchemaImpl
         {
           for (Iterator i = incorporatedVersion.getReferencingDirectives().iterator(); i.hasNext(); )
           {
-            XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)i.next();
+            i.next();
             // This was commented out to fix 72109, i.e., to prevent stack overflow.
             // There really does need to be some kind of guard here in the general case.
             // But it's very challenging to fix this, so it's better to not overflow 
             // and to have some other unreported corner case be wrong.
+            // XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)i.next();
             // if (xsdRedefine.getSchema().getOriginalVersion() == xsdSchemaDirective.getSchema())
             {
               ((XSDSchemaImpl)incorporatedVersion).incorporate(xsdRedefine);

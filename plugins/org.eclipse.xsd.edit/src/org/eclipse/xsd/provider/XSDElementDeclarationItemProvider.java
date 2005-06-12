@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationItemProvider.java,v 1.4 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDElementDeclarationItemProvider.java,v 1.5 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -297,8 +297,6 @@ public class XSDElementDeclarationItemProvider
 
   protected void createElementFormDefaultPropertyDescriptor(Object object)
   {
-    XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)object;
-
     // This is for the elementFormDefault feature.
     //
     itemPropertyDescriptors.add
@@ -321,8 +319,6 @@ public class XSDElementDeclarationItemProvider
 
   protected void createLexicalValuePropertyDescriptor(Object object)
   {
-    XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
-
     // This is for the value feature.
     //
     itemPropertyDescriptors.add
@@ -337,8 +333,6 @@ public class XSDElementDeclarationItemProvider
 
   protected void createConstraintPropertyDescriptor(Object object)
   {
-    XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
-
     // This is for the constraint feature.
     //
     itemPropertyDescriptors.add
@@ -353,8 +347,6 @@ public class XSDElementDeclarationItemProvider
 
   protected void createScopePropertyDescriptor(Object object)
   {
-    XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
-
     // This is for the scope feature.
     //
     itemPropertyDescriptors.add
@@ -369,8 +361,6 @@ public class XSDElementDeclarationItemProvider
 
   protected void createNillablePropertyDescriptor(Object object)
   {
-    XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
-
     // This is for the nillable feature.
     //
     itemPropertyDescriptors.add
@@ -402,8 +392,6 @@ public class XSDElementDeclarationItemProvider
 
   protected void createDisallowedSubstitutionsPropertyDescriptor(Object object)
   {
-    XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
-
     // This is for the disallowedSubstitutions feature.
     //
     itemPropertyDescriptors.add
@@ -424,8 +412,6 @@ public class XSDElementDeclarationItemProvider
 
   protected void createSubstitutionGroupExclusionsPropertyDescriptor(Object object)
   {
-    XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
-
     // This is for the substitutionGroupExclusions feature.
     //
     itemPropertyDescriptors.add
@@ -446,8 +432,6 @@ public class XSDElementDeclarationItemProvider
 
   protected void createAbstractPropertyDescriptor(Object object)
   {
-    XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
-
     // This is for the abstract feature.
     //
     itemPropertyDescriptors.add
@@ -479,8 +463,6 @@ public class XSDElementDeclarationItemProvider
 
   protected void createTypeDefinitionPropertyDescriptor(Object object)
   {
-    XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
-
     // This is for the typeDefinition feature.
     //
     itemPropertyDescriptors.add
@@ -495,8 +477,6 @@ public class XSDElementDeclarationItemProvider
 
   protected void createSubstitutionGroupAffiliationPropertyDescriptor(Object object)
   {
-    XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
-
     // This is for the substitutionGroupAffiliation feature.
     //
     itemPropertyDescriptors.add
@@ -511,8 +491,6 @@ public class XSDElementDeclarationItemProvider
 
   protected void createAnnotationPropertyDescriptor(Object object)
   {
-    XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
-
     // This is for the annotation feature.
     //
     itemPropertyDescriptors.add
@@ -526,8 +504,6 @@ public class XSDElementDeclarationItemProvider
 
   protected void createResolvedElementDeclarationPropertyDescriptor(Object object)
   {
-    XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
-
     // This is for the resolvedElementDeclaration feature.
     //
     itemPropertyDescriptors.add
@@ -549,7 +525,6 @@ public class XSDElementDeclarationItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
       childrenFeatures.add(xsdPackage.getXSDElementDeclaration_Annotation());
       childrenFeatures.add(xsdPackage.getXSDElementDeclaration_AnonymousTypeDefinition());
       childrenFeatures.add(xsdPackage.getXSDElementDeclaration_IdentityConstraintDefinitions());

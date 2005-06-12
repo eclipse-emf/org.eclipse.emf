@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.16 2005/06/08 06:23:51 nickb Exp $
+ * $Id: XSDEditor.java,v 1.17 2005/06/12 12:34:09 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EventObject;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -1126,7 +1125,6 @@ public class XSDEditor
     for (Iterator i = nodes.iterator(); i.hasNext(); )
     {
       Node node = (Node)i.next();
-      Collection parents = new HashSet();
       XSDConcreteComponent bestXSDConcreteComponent = xsdSchema.getCorrespondingComponent(node);
       if (bestXSDConcreteComponent != null)
       {

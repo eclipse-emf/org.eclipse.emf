@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDAttributeGroupDefinitionItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -65,8 +65,6 @@ public class XSDAttributeGroupDefinitionItemProvider
     {
       super.getPropertyDescriptors(object);
 
-      XSDAttributeGroupDefinition xsdAttributeGroupDefinition = ((XSDAttributeGroupDefinition)object);
-
       // This is for the attributeWildcard feature.
       //
       itemPropertyDescriptors.add
@@ -110,7 +108,6 @@ public class XSDAttributeGroupDefinitionItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDAttributeGroupDefinition xsdAttributeGroupDefinition = ((XSDAttributeGroupDefinition)object);
       childrenFeatures.add(xsdPackage.getXSDAttributeGroupDefinition_Annotation());
       childrenFeatures.add(xsdPackage.getXSDAttributeGroupDefinition_Contents());
       childrenFeatures.add(xsdPackage.getXSDAttributeGroupDefinition_AttributeWildcardContent());
@@ -120,7 +117,6 @@ public class XSDAttributeGroupDefinitionItemProvider
 
   protected EStructuralFeature getChildFeature(Object object, Object child)
   {
-    XSDAttributeGroupDefinition xsdAttributeGroupDefinition = ((XSDAttributeGroupDefinition)object);
     EObject refObject = (EObject)child;
     if (refObject instanceof XSDAttributeDeclaration)
     {

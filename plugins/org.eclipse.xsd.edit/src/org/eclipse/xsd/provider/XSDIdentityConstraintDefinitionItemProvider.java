@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintDefinitionItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDIdentityConstraintDefinitionItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -64,8 +64,6 @@ public class XSDIdentityConstraintDefinitionItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDIdentityConstraintDefinition xsdIdentityConstraintDefinition = ((XSDIdentityConstraintDefinition)object);
 
       // This is for the identityConstraintCategory feature.
       //
@@ -125,7 +123,6 @@ public class XSDIdentityConstraintDefinitionItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDIdentityConstraintDefinition xsdIdentityConstraintDefinition = ((XSDIdentityConstraintDefinition)object);
       childrenFeatures.add(xsdPackage.getXSDIdentityConstraintDefinition_Annotation());
       childrenFeatures.add(xsdPackage.getXSDIdentityConstraintDefinition_Selector());
       childrenFeatures.add(xsdPackage.getXSDIdentityConstraintDefinition_Fields());
@@ -182,8 +179,6 @@ public class XSDIdentityConstraintDefinitionItemProvider
                                             Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
-    XSDIdentityConstraintDefinition icd = 
-      (XSDIdentityConstraintDefinition) object;
 
     // annotation
     newChildDescriptors.add(createChildParameter(xsdPackage.getXSDIdentityConstraintDefinition_Annotation(), xsdFactory.createXSDAnnotation()));

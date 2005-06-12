@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDBoundedFacetItemProvider.java,v 1.2 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDBoundedFacetItemProvider.java,v 1.3 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -60,8 +60,6 @@ public class XSDBoundedFacetItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDBoundedFacet xsdBoundedFacet = ((XSDBoundedFacet)object);
 
       // This is for the value feature.
       //

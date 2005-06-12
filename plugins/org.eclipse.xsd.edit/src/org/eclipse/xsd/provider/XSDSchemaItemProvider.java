@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDSchemaItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -68,8 +68,6 @@ public class XSDSchemaItemProvider
 
   protected void createSchemaLocationPropertyDescriptor(Object object)
   {
-    XSDSchema xsdSchema = (XSDSchema)object;
-
     // This is for the schemaLocation feature.
     //
     itemPropertyDescriptors.add
@@ -84,8 +82,6 @@ public class XSDSchemaItemProvider
 
   protected void createTargetNamespacePropertyDescriptor(Object object)
   {
-    XSDSchema xsdSchema = (XSDSchema)object;
-
     // This is for the targetNamespace feature.
     //
     itemPropertyDescriptors.add
@@ -113,8 +109,6 @@ public class XSDSchemaItemProvider
 
   protected void createFinalDefaultPropertyDescriptor(Object object)
   {
-    XSDSchema xsdSchema = (XSDSchema)object;
-
     // This is for the finalDefault feature.
     //
     itemPropertyDescriptors.add
@@ -149,8 +143,6 @@ public class XSDSchemaItemProvider
 
   protected void createBlockDefaultPropertyDescriptor(Object object)
   {
-    XSDSchema xsdSchema = (XSDSchema)object;
-
     // This is for the blockDefault feature.
     //
     itemPropertyDescriptors.add
@@ -189,8 +181,6 @@ public class XSDSchemaItemProvider
 
   protected void createElementFormDefaultPropertyDescriptor(Object object)
   {
-    XSDSchema xsdSchema = (XSDSchema)object;
-
     // This is for the elementFormDefault feature.
     //
     itemPropertyDescriptors.add
@@ -205,8 +195,6 @@ public class XSDSchemaItemProvider
 
   protected void createAttributeFormDefaultPropertyDescriptor(Object object)
   {
-    XSDSchema xsdSchema = (XSDSchema)object;
-
     // This is for the elementFormDefault feature.
     //
     itemPropertyDescriptors.add
@@ -229,7 +217,6 @@ public class XSDSchemaItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDSchema xsdSchema = (XSDSchema)object;
       childrenFeatures.add(xsdPackage.getXSDSchema_Contents());
     }
     return childrenFeatures;

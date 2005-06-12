@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDModelGroupDefinitionItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -62,8 +62,6 @@ public class XSDModelGroupDefinitionItemProvider
     {
       super.getPropertyDescriptors(object);
 
-      XSDModelGroupDefinition xsdModelGroupDefinition = ((XSDModelGroupDefinition)object);
-
       // This is for the annotation feature.
       //
       itemPropertyDescriptors.add
@@ -98,7 +96,6 @@ public class XSDModelGroupDefinitionItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDModelGroupDefinition xsdModelGroupDefinition = ((XSDModelGroupDefinition)object);
       childrenFeatures.add(xsdPackage.getXSDModelGroupDefinition_Annotation());
       childrenFeatures.add(xsdPackage.getXSDModelGroupDefinition_ModelGroup());
     }

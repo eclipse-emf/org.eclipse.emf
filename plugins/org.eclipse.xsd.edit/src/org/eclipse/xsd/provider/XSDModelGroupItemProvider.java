@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDModelGroupItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -70,8 +70,6 @@ public class XSDModelGroupItemProvider
     {
       super.getPropertyDescriptors(object);
 
-      XSDModelGroup xsdModelGroup = ((XSDModelGroup)object);
-
       // This is for the compositor feature.
       //
       itemPropertyDescriptors.add
@@ -107,7 +105,6 @@ public class XSDModelGroupItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDModelGroup xsdModelGroup = ((XSDModelGroup)object);
       childrenFeatures.add(xsdPackage.getXSDModelGroup_Annotation());
       childrenFeatures.add(xsdPackage.getXSDModelGroup_Contents());
     }

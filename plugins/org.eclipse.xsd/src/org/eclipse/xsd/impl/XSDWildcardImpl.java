@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDWildcardImpl.java,v 1.5 2005/06/12 12:38:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -845,7 +845,7 @@ public class XSDWildcardImpl
       {
         XSDProcessContents theProcessContents = getProcessContents();
         niceSetAttribute
-          (theElement, XSDConstants.PROCESSCONTENTS_ATTRIBUTE, isSetProcessContents() ? getProcessContents().getName() : null);
+          (theElement, XSDConstants.PROCESSCONTENTS_ATTRIBUTE, isSetProcessContents() ? theProcessContents.getName() : null);
       }
     }
   }

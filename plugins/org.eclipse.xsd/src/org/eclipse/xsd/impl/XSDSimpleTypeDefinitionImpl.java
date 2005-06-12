@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.8 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.9 2005/06/12 12:38:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -773,7 +773,6 @@ public class XSDSimpleTypeDefinitionImpl
     XSDSimpleTypeDefinition newPrimitiveTypeDefinition = null;
     XSDVariety newVariety = null;
     EList newValidFacets = null;
-    boolean facetMergeRequired = false;
 
     if (theBaseTypeDefinition != null && theBaseTypeDefinition.getContainer() != null)
     {
@@ -1049,8 +1048,6 @@ public class XSDSimpleTypeDefinitionImpl
     if (theElement != null)
     {
       String anchor;
-      String restriction;
-      String extension;
       if (getContainer() instanceof XSDComplexTypeDefinition)
       {
         checkAttributes
@@ -2962,7 +2959,7 @@ public class XSDSimpleTypeDefinitionImpl
     list.add(cardinalityFacet);
     list.add(numericFacet);
     list.add(orderedFacet);
-    getFundamentalFacets().addAll(list);
+    theFundamentalFacets.addAll(list);
   }
 
   protected static EList validFacetsForList;

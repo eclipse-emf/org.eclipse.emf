@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionItemProvider.java,v 1.4 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDComplexTypeDefinitionItemProvider.java,v 1.5 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -69,8 +69,6 @@ public class XSDComplexTypeDefinitionItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDComplexTypeDefinition xsdComplexTypeDefinition = ((XSDComplexTypeDefinition)object);
 
       // This is for the derivationMethod feature.
       //
@@ -298,7 +296,6 @@ public class XSDComplexTypeDefinitionItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDComplexTypeDefinition xsdComplexTypeDefinition = ((XSDComplexTypeDefinition)object);
       childrenFeatures.add(xsdPackage.getXSDTypeDefinition_Annotation());
       childrenFeatures.add(xsdPackage.getXSDComplexTypeDefinition_ContentAnnotation());
       childrenFeatures.add(xsdPackage.getXSDTypeDefinition_DerivationAnnotation());
@@ -311,7 +308,6 @@ public class XSDComplexTypeDefinitionItemProvider
 
   protected EStructuralFeature getChildFeature(Object object, Object child)
   {
-    XSDComplexTypeDefinition xsdComplexTypeDefinition = ((XSDComplexTypeDefinition)object);
     EObject refObject = (EObject)child;
     if (refObject instanceof XSDAttributeDeclaration)
     {

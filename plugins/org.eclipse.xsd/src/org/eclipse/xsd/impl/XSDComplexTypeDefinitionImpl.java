@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.10 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.11 2005/06/12 12:38:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2282,7 +2282,6 @@ public class XSDComplexTypeDefinitionImpl
         case XSDConstants.SIMPLECONTENT_ELEMENT:
         case XSDConstants.COMPLEXCONTENT_ELEMENT:
         {
-          Element elementChild = (Element)child;
           for (Node grandChild = child.getFirstChild(); grandChild != null; grandChild = grandChild.getNextSibling())
           {
             int grandChildNodeType = XSDConstants.nodeType(grandChild);

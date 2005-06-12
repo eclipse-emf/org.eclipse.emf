@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConstants.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDConstants.java,v 1.5 2005/06/12 12:38:14 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -1511,7 +1511,7 @@ public class XSDConstants
     String name = xsdTypeDefinition.getName();
     return 
       isSchemaForSchemaNamespace(xsdTypeDefinition.getTargetNamespace()) &&
-        ("anyType".equals(xsdTypeDefinition.getName()) || "anySimpleType".equals(xsdTypeDefinition.getName()));
+        ("anyType".equals(name) || "anySimpleType".equals(name));
   }
 
   /**

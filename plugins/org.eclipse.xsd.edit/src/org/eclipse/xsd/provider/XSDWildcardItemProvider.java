@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDWildcardItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -67,8 +67,6 @@ public class XSDWildcardItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDWildcard xsdWildcard = ((XSDWildcard)object);
 
       // This is for the namespaceConstraint feature.
       //
@@ -181,7 +179,6 @@ It looks like you can't set a multi-value anymore with the latest generated code
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDWildcard xsdWildcard = ((XSDWildcard)object);
       childrenFeatures.add(xsdPackage.getXSDWildcard_Annotation());
     }
     return childrenFeatures;
@@ -257,7 +254,6 @@ It looks like you can't set a multi-value anymore with the latest generated code
                                             Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
-    XSDWildcard w = (XSDWildcard) object;
 
     // annotation
     newChildDescriptors.add(createChildParameter(xsdPackage.getXSDWildcard_Annotation(), xsdFactory.createXSDAnnotation()));

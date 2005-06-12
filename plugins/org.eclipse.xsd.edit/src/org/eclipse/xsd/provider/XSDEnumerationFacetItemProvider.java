@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEnumerationFacetItemProvider.java,v 1.2 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDEnumerationFacetItemProvider.java,v 1.3 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -60,8 +60,6 @@ public class XSDEnumerationFacetItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDEnumerationFacet xsdEnumerationFacet = ((XSDEnumerationFacet)object);
 
       // This is for the value feature.
       //

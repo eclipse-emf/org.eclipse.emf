@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWhiteSpaceFacetItemProvider.java,v 1.2 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDWhiteSpaceFacetItemProvider.java,v 1.3 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -60,8 +60,6 @@ public class XSDWhiteSpaceFacetItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDWhiteSpaceFacet xsdWhiteSpaceFacet = ((XSDWhiteSpaceFacet)object);
 
       // This is for the value feature.
       //

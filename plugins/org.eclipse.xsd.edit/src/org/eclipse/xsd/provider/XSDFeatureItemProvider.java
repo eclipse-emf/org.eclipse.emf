@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFeatureItemProvider.java,v 1.2 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDFeatureItemProvider.java,v 1.3 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -28,8 +28,6 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-
-import org.eclipse.xsd.XSDFeature;
 
 
 /**
@@ -70,8 +68,6 @@ public class XSDFeatureItemProvider
 
   protected void createLexicalValuePropertyDescriptor(Object object)
   {
-    XSDFeature xsdFeature = ((XSDFeature)object);
-
     // This is for the value feature.
     //
     itemPropertyDescriptors.add
@@ -86,8 +82,6 @@ public class XSDFeatureItemProvider
 
   protected void createConstraintPropertyDescriptor(Object object)
   {
-    XSDFeature xsdFeature = ((XSDFeature)object);
-
     // This is for the constraint feature.
     //
     itemPropertyDescriptors.add
@@ -102,8 +96,6 @@ public class XSDFeatureItemProvider
 
   protected void createScopePropertyDescriptor(Object object)
   {
-    XSDFeature xsdFeature = ((XSDFeature)object);
-
     // This is for the scope feature.
     //
     itemPropertyDescriptors.add

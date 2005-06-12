@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDXPathDefinitionItemProvider.java,v 1.2 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDXPathDefinitionItemProvider.java,v 1.3 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -62,8 +62,6 @@ public class XSDXPathDefinitionItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDXPathDefinition xsdXPathDefinition = ((XSDXPathDefinition)object);
 
       // This is for the variety feature.
       //
@@ -123,7 +121,6 @@ public class XSDXPathDefinitionItemProvider
                                             Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
-    XSDXPathDefinition xpd = (XSDXPathDefinition) object;
 
     // annotation
     newChildDescriptors.add(createChildParameter(xsdPackage.getXSDXPathDefinition_Annotation(), xsdFactory.createXSDAnnotation()));

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelWizard.java,v 1.2 2005/06/08 06:23:51 nickb Exp $
+ * $Id: XSDModelWizard.java,v 1.3 2005/06/12 12:33:47 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -523,7 +523,6 @@ public class XSDModelWizard extends Wizard implements INewWizard
         {
           // Set this for the container.
           //
-          String currentDirectory = selectedResource.getLocation().toOSString();
           newFileCreationPage.setContainerFullPath(selectedResource.getFullPath());
 
           // Make up a unique new name here.

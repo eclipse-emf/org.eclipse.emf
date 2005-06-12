@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIncludeItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDIncludeItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -62,8 +62,6 @@ public class XSDIncludeItemProvider
     {
       super.getPropertyDescriptors(object);
 
-      XSDInclude xsdInclude = ((XSDInclude)object);
-
       // This is for the annotation feature.
       //
       itemPropertyDescriptors.add
@@ -88,7 +86,6 @@ public class XSDIncludeItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDInclude xsdInclude = ((XSDInclude)object);
       childrenFeatures.add(xsdPackage.getXSDInclude_Annotation());
     }
     return childrenFeatures;
@@ -128,11 +125,9 @@ public class XSDIncludeItemProvider
    * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s 
    * describing all of the children that can be created under this object.
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors,
-                                            Object object)
+  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
-    XSDInclude i = (XSDInclude) object;
 
     // annotation
     newChildDescriptors.add(createChildParameter(xsdPackage.getXSDInclude_Annotation(), xsdFactory.createXSDAnnotation()));

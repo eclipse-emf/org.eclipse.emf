@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDAttributeDeclarationItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -196,8 +196,6 @@ public class XSDAttributeDeclarationItemProvider
 
   protected void createAttributeFormDefaultPropertyDescriptor(Object object)
   {
-    XSDAttributeDeclaration xsdAttributeDeclaration = (XSDAttributeDeclaration)object;
-
     // This is for the elementFormDefault feature.
     //
     itemPropertyDescriptors.add
@@ -220,8 +218,6 @@ public class XSDAttributeDeclarationItemProvider
 
   protected void createLexicalValuePropertyDescriptor(Object object)
   {
-    XSDAttributeDeclaration xsdAttributeDeclaration = ((XSDAttributeDeclaration)object);
-
     // This is for the value feature.
     //
     itemPropertyDescriptors.add
@@ -236,8 +232,6 @@ public class XSDAttributeDeclarationItemProvider
 
   protected void createConstraintPropertyDescriptor(Object object)
   {
-    XSDAttributeDeclaration xsdAttributeDeclaration = ((XSDAttributeDeclaration)object);
-
     // This is for the constraint feature.
     //
     itemPropertyDescriptors.add
@@ -252,8 +246,6 @@ public class XSDAttributeDeclarationItemProvider
 
   protected void createScopePropertyDescriptor(Object object)
   {
-    XSDAttributeDeclaration xsdAttributeDeclaration = ((XSDAttributeDeclaration)object);
-
     // This is for the scope feature.
     //
     itemPropertyDescriptors.add
@@ -268,8 +260,6 @@ public class XSDAttributeDeclarationItemProvider
 
   protected void createTypeDefinitionPropertyDescriptor(Object object)
   {
-    XSDAttributeDeclaration xsdAttributeDeclaration = ((XSDAttributeDeclaration)object);
-
     // This is for the typeDefinition feature.
     //
     itemPropertyDescriptors.add
@@ -284,8 +274,6 @@ public class XSDAttributeDeclarationItemProvider
 
   protected void createAnnotationPropertyDescriptor(Object object)
   {
-    XSDAttributeDeclaration xsdAttributeDeclaration = ((XSDAttributeDeclaration)object);
-
     // This is for the annotation feature.
     //
     itemPropertyDescriptors.add
@@ -299,8 +287,6 @@ public class XSDAttributeDeclarationItemProvider
 
   protected void createResolvedAttributeDeclarationPropertyDescriptor(Object object)
   {
-    XSDAttributeDeclaration xsdAttributeDeclaration = ((XSDAttributeDeclaration)object);
-
     // This is for the resolvedAttributeDeclaration feature.
     //
     itemPropertyDescriptors.add
@@ -322,7 +308,6 @@ public class XSDAttributeDeclarationItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDAttributeDeclaration xsdAttributeDeclaration = ((XSDAttributeDeclaration)object);
       childrenFeatures.add(xsdPackage.getXSDAttributeDeclaration_AnonymousTypeDefinition());
       childrenFeatures.add(xsdPackage.getXSDAttributeDeclaration_Annotation());
     }

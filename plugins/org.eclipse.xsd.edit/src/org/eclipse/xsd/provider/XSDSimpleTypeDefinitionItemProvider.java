@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDSimpleTypeDefinitionItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -77,8 +77,6 @@ public class XSDSimpleTypeDefinitionItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDSimpleTypeDefinition xsdSimpleTypeDefinition = ((XSDSimpleTypeDefinition)object);
 
       // This is for the annotation feature.
       //
@@ -333,7 +331,6 @@ public class XSDSimpleTypeDefinitionItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDSimpleTypeDefinition xsdSimpleTypeDefinition = ((XSDSimpleTypeDefinition)object);
       childrenFeatures.add(xsdPackage.getXSDTypeDefinition_Annotation());
       childrenFeatures.add(xsdPackage.getXSDTypeDefinition_DerivationAnnotation());
       childrenFeatures.add(xsdPackage.getXSDSimpleTypeDefinition_Contents());
@@ -495,7 +492,6 @@ public class XSDSimpleTypeDefinitionItemProvider
         ((XSDComplexTypeDefinition) std.eContainer()).getDerivationMethod() != XSDDerivationMethod.EXTENSION_LITERAL)
     {
       boolean isAtomic = std.getVariety() == XSDVariety.ATOMIC_LITERAL;
-      boolean isList = std.getVariety() == XSDVariety.LIST_LITERAL;
       boolean isUnion = std.getVariety() == XSDVariety.UNION_LITERAL;
       Collection validFacets = std.getValidFacets();
 

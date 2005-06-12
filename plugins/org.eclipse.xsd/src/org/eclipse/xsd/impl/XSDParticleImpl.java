@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.5 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDParticleImpl.java,v 1.6 2005/06/12 12:38:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -814,7 +814,6 @@ public class XSDParticleImpl
 
       public XSDParticle.DFA.Transition accept(String namespaceURI, String localName)
       {
-        StateImpl nextState = null;
         for (Iterator transitions = getTransitions().iterator(); transitions.hasNext(); )
         {
           Transition transition = (Transition)transitions.next();
@@ -985,7 +984,6 @@ public class XSDParticleImpl
       for (int i = 0, size = originalStates.size(); i < size; ++i)
       {
         State originalState = (State)originalStates.get(i); 
-        State clonedState = (State)stateCloneMap.get(originalState);
         List originalTransitions = originalState.getTransitions();
         for (int j = 0, transitionSize = originalTransitions.size(); j < transitionSize; ++j)
         {
@@ -1025,7 +1023,6 @@ public class XSDParticleImpl
       }
       else if (xsdComponent instanceof XSDWildcard)
       {
-        XSDWildcard xsdWildcard = (XSDWildcard)xsdComponent;
         initialState.createTransition(xsdParticle, finalState);
       }
       else if (xsdComponent instanceof XSDModelGroup)
@@ -1179,7 +1176,7 @@ public class XSDParticleImpl
             }
           }
 
-          XSDNFA previousTermNFA = firstTermNFA;
+          //XSDNFA previousTermNFA = firstTermNFA;
           StateImpl previousState = initialState;
           int i;
           if (minOccurs == 0)
@@ -1196,7 +1193,6 @@ public class XSDParticleImpl
               XSDNFA termNFA = (XSDNFA)termNFAs.get(i - 1);
               previousState.createTransition(null, termNFA.getInitialState());
               previousState = (StateImpl)termNFA.getFinalState();
-              previousTermNFA = termNFA;
               if (getStates().size() > MAXIMUM_STATES)
               {
                 break;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFacetItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDFacetItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -29,8 +29,6 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-
-import org.eclipse.xsd.XSDFacet;
 
 
 /**
@@ -61,8 +59,6 @@ public class XSDFacetItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDFacet xsdFacet = ((XSDFacet)object);
 
       // This is for the lexicalValue feature.
       //
@@ -108,7 +104,6 @@ public class XSDFacetItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDFacet xsdFacet = ((XSDFacet)object);
       childrenFeatures.add(xsdPackage.getXSDFacet_Annotation());
     }
     return childrenFeatures;
@@ -138,7 +133,6 @@ public class XSDFacetItemProvider
                                             Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
-    XSDFacet f = (XSDFacet) object;
 
     // annotation
     newChildDescriptors.add(createChildParameter(xsdPackage.getXSDFacet_Annotation(), xsdFactory.createXSDAnnotation()));

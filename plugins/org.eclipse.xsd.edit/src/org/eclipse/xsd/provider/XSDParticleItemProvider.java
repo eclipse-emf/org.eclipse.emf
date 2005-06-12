@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDParticleItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -260,7 +260,6 @@ public class XSDParticleItemProvider
    */
   public void notifyChanged(Notification msg) 
   {
-    XSDParticle xsdParticle = (XSDParticle)msg.getNotifier();
     if (
          msg.getFeature() == xsdPackage.getXSDParticle_MinOccurs() || 
          msg.getFeature() == xsdPackage.getXSDParticle_MaxOccurs() || 

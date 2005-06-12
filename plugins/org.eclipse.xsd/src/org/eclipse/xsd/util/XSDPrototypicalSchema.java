@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPrototypicalSchema.java,v 1.5 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDPrototypicalSchema.java,v 1.6 2005/06/12 12:38:14 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -2832,7 +2832,7 @@ public class XSDPrototypicalSchema
       //
       /*{@link */ResourceSet/*}*/ resourceSet = new /*{@link */ResourceSetImpl/*}*/();
       resourceSet.getLoadOptions().put(XSDResourceImpl.XSD_TRACK_LOCATION, Boolean.TRUE);
-      /*{@link */XSDResourceImpl/*}*/ xsdSchemaResource = (XSDResourceImpl)resourceSet./*{@link ResourceSet#getResource */getResource/*}*/(URI.createURI(xsdSchemaURI), true);
+      resourceSet./*{@link ResourceSet#getResource */getResource/*}*/(URI.createURI(xsdSchemaURI), true);
 
       // Iterate over all the resources, i.e., the main resource 
       // and those that have been included, imported, or redefined.
@@ -3152,7 +3152,7 @@ public class XSDPrototypicalSchema
 
       // Load the schema from the URI.
       //
-      /*{@link */XSDResourceImpl/*}*/ xsdSchemaResource = (XSDResourceImpl)resourceSet.getResource(URI.createURI(xsdSchemaURI), true);
+      resourceSet.getResource(URI.createURI(xsdSchemaURI), true);
 
       // Iterate over all the resources, i.e., the main resource 
       // and those that have been included, imported, or redefined.

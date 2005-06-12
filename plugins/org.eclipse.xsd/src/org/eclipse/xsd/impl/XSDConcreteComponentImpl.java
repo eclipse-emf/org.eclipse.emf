@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.6 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.7 2005/06/12 12:38:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1304,13 +1304,11 @@ public abstract class XSDConcreteComponentImpl
       }
     }
 
-    boolean isNew = false;
     if (childElement == null)
     {
       ((XSDConcreteComponentImpl)xsdConcreteComponent).isReconciling = true;
       childElement = ((XSDConcreteComponentImpl)xsdConcreteComponent).createElement();
       ((XSDConcreteComponentImpl)xsdConcreteComponent).isReconciling = false;
-      isNew = true;
       if (childElement == null)
       {
          System.out.println("not created! " + xsdConcreteComponent);

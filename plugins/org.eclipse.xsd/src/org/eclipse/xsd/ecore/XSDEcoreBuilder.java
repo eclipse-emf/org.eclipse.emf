@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.36 2005/06/10 20:32:13 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.37 2005/06/12 12:38:14 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -736,14 +736,13 @@ public class XSDEcoreBuilder extends MapBuilder
       extendedMetaData.setContentKind(eClass, ExtendedMetaData.SIMPLE_CONTENT);
       if (eClass.getEAllStructuralFeatures().isEmpty())
       {
-        EStructuralFeature eStructuralFeature =
-          createFeature
-            (eClass,
-             "value",
-             getEClassifier(xsdComplexTypeDefinition.getSimpleType()),
-             null,
-             0,
-             1);
+        createFeature
+          (eClass,
+           "value",
+           getEClassifier(xsdComplexTypeDefinition.getSimpleType()),
+           null,
+           0,
+           1);
       }
     }
     else 
@@ -1056,14 +1055,13 @@ public class XSDEcoreBuilder extends MapBuilder
       {
         name = "anyAttribute";
       }
-      EStructuralFeature eStructuralFeature =
-        createFeature
-          (eClass,
-           name,
-           EcorePackage.eINSTANCE.getEFeatureMapEntry(),
-           xsdWildcard,
-           0,
-           -1);
+      createFeature
+        (eClass,
+         name,
+         EcorePackage.eINSTANCE.getEFeatureMapEntry(),
+         xsdWildcard,
+         0,
+         -1);
     }
 
     if (isRestriction)
@@ -1373,7 +1371,6 @@ public class XSDEcoreBuilder extends MapBuilder
         }
         else if (xsdComponent instanceof XSDParticle)
         {
-          XSDParticle xsdParticle = (XSDParticle)xsdComponent;
           XSDTerm xsdTerm = ((XSDParticle)xsdComponent).getTerm();
           if (xsdTerm instanceof XSDElementDeclaration)
           {
@@ -1822,7 +1819,6 @@ public class XSDEcoreBuilder extends MapBuilder
     {
       EPackage ePackage = (EPackage)i.next();
       Map eClassifierMap = new HashMap();
-      Map xmlNameMap = new HashMap();
       for (Iterator j = ePackage.getEClassifiers().iterator(); j.hasNext(); )
       {
         EClassifier eClassifier = (EClassifier)j.next();
@@ -1976,14 +1972,13 @@ public class XSDEcoreBuilder extends MapBuilder
 
         ePackage.getEClassifiers().add(documentEClass);
 
-        EStructuralFeature mixedFeature =
-          createFeature
-            (documentEClass,
-             "mixed",
-             EcorePackage.eINSTANCE.getEFeatureMapEntry(),
-             null,
-             0,
-             -1);
+        createFeature
+          (documentEClass,
+           "mixed",
+           EcorePackage.eINSTANCE.getEFeatureMapEntry(),
+           null,
+           0,
+           -1);
 
         EStructuralFeature xmlnsPrefixMapFeature =
           createFeature
@@ -2140,7 +2135,7 @@ public class XSDEcoreBuilder extends MapBuilder
       for (Iterator i = typeDefinitions.iterator(); i.hasNext(); )
       {
         XSDTypeDefinition xsdTypeDefinition = (XSDTypeDefinition)i.next();
-        EClassifier eClassifier = getEClassifier(xsdTypeDefinition);
+        getEClassifier(xsdTypeDefinition);
       }
       visitedTypeDefinitions.addAll(typeDefinitions);
       typeDefinitions = new ArrayList(xsdSchema.getTypeDefinitions());

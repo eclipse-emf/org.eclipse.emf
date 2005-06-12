@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDRedefineItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -59,9 +59,6 @@ public class XSDRedefineItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDRedefine xsdRedefine = ((XSDRedefine)object);
-
     }
     return itemPropertyDescriptors;
   }
@@ -76,7 +73,6 @@ public class XSDRedefineItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDRedefine xsdRedefine = ((XSDRedefine)object);
       childrenFeatures.add(xsdPackage.getXSDRedefine_Contents());
     }
     return childrenFeatures;

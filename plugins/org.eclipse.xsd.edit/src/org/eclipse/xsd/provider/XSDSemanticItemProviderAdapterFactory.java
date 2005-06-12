@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSemanticItemProviderAdapterFactory.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDSemanticItemProviderAdapterFactory.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -29,17 +29,12 @@ import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ItemProvider;
 
 import org.eclipse.xsd.XSDAttributeDeclaration;
-import org.eclipse.xsd.XSDAttributeGroupDefinition;
 import org.eclipse.xsd.XSDAttributeUse;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDModelGroup;
 import org.eclipse.xsd.XSDNamespaceConstraintCategory;
 import org.eclipse.xsd.XSDParticle;
 import org.eclipse.xsd.XSDParticleContent;
-import org.eclipse.xsd.XSDRepeatableFacet;
 import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDWildcard;
 
 
@@ -219,7 +214,6 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             if (childrenFeatures == null)
             {
               super.getChildrenFeatures(object);
-              XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
               childrenFeatures.remove(xsdPackage.getXSDElementDeclaration_AnonymousTypeDefinition());
               childrenFeatures.add(1, xsdPackage.getXSDElementDeclaration_TypeDefinition());
             }
@@ -263,7 +257,6 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             if (childrenFeatures == null)
             {
               super.getChildrenFeatures(object);
-              XSDAttributeDeclaration xsdAttributeDeclaration = ((XSDAttributeDeclaration)object);
               childrenFeatures.remove(xsdPackage.getXSDAttributeDeclaration_AnonymousTypeDefinition());
               childrenFeatures.add(1, xsdPackage.getXSDAttributeDeclaration_TypeDefinition());
             }
@@ -305,7 +298,6 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             if (childrenFeatures == null)
             {
               super.getChildrenFeatures(object);
-              XSDAttributeGroupDefinition xsdAttributeGroupDefinition = ((XSDAttributeGroupDefinition)object);
               childrenFeatures.remove(xsdPackage.getXSDAttributeGroupDefinition_Contents());
               childrenFeatures.add(1, xsdPackage.getXSDAttributeGroupDefinition_AttributeUses());
               childrenFeatures.remove(xsdPackage.getXSDAttributeGroupDefinition_AttributeWildcardContent());
@@ -343,7 +335,6 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             if (childrenFeatures == null)
             {
               super.getChildrenFeatures(object);
-              XSDComplexTypeDefinition xsdComplexTypeDefinition = ((XSDComplexTypeDefinition)object);
               childrenFeatures.remove(xsdPackage.getXSDComplexTypeDefinition_AttributeContents());
               childrenFeatures.remove(xsdPackage.getXSDComplexTypeDefinition_Content());
               childrenFeatures.remove(xsdPackage.getXSDComplexTypeDefinition_AttributeWildcardContent());
@@ -389,7 +380,6 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             if (childrenFeatures == null)
             {
               super.getChildrenFeatures(object);
-              XSDSimpleTypeDefinition xsdSimpleTypeDefinition = ((XSDSimpleTypeDefinition)object);
               childrenFeatures.remove(xsdPackage.getXSDSimpleTypeDefinition_Contents());
               childrenFeatures.remove(xsdPackage.getXSDSimpleTypeDefinition_FacetContents());
               childrenFeatures.add(1, xsdPackage.getXSDSimpleTypeDefinition_MemberTypeDefinitions());
@@ -526,7 +516,6 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             if (childrenFeatures == null)
             {
               super.getChildrenFeatures(object);
-              XSDModelGroup xsdModelGroup = ((XSDModelGroup)object);
               childrenFeatures.remove(xsdPackage.getXSDModelGroup_Contents());
               childrenFeatures.add(1, xsdPackage.getXSDModelGroup_Particles());
             }
@@ -705,7 +694,6 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             if (childrenFeatures == null)
             {
               super.getChildrenFeatures(object);
-              XSDRepeatableFacet xsdWildcard = ((XSDRepeatableFacet)object);
               childrenFeatures.remove(xsdPackage.getXSDFacet_Annotation());
               childrenFeatures.add(xsdPackage.getXSDRepeatableFacet_Annotations());
             }
@@ -730,7 +718,6 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             if (childrenFeatures == null)
             {
               super.getChildrenFeatures(object);
-              XSDRepeatableFacet xsdWildcard = ((XSDRepeatableFacet)object);
               childrenFeatures.remove(xsdPackage.getXSDFacet_Annotation());
               childrenFeatures.add(xsdPackage.getXSDRepeatableFacet_Annotations());
             }
@@ -770,7 +757,6 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             if (childrenFeatures == null)
             {
               super.getChildrenFeatures(object);
-              XSDWildcard xsdWildcard = ((XSDWildcard)object);
               childrenFeatures.remove(xsdPackage.getXSDWildcard_Annotation());
               childrenFeatures.add(xsdPackage.getXSDWildcard_Annotations());
             }

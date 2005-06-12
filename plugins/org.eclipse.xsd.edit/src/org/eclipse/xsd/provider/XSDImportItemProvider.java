@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImportItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDImportItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -62,8 +62,6 @@ public class XSDImportItemProvider
     {
       super.getPropertyDescriptors(object);
 
-      XSDImport xsdImport = ((XSDImport)object);
-
       // This is for the namespace feature.
       //
       itemPropertyDescriptors.add
@@ -99,7 +97,6 @@ public class XSDImportItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDImport xsdImport = ((XSDImport)object);
       childrenFeatures.add(xsdPackage.getXSDImport_Annotation());
     }
     return childrenFeatures;
@@ -144,8 +141,6 @@ public class XSDImportItemProvider
                                             Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
-    XSDImport i = (XSDImport) object;
-
     // annotation
     newChildDescriptors.add(createChildParameter(xsdPackage.getXSDImport_Annotation(), xsdFactory.createXSDAnnotation()));
   }

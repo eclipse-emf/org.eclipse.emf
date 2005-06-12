@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComponentItemProvider.java,v 1.2 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDComponentItemProvider.java,v 1.3 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -26,8 +26,6 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
-import org.eclipse.xsd.XSDComponent;
 
 
 /**
@@ -58,9 +56,6 @@ public class XSDComponentItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDComponent xsdComponent = ((XSDComponent)object);
-
     }
     return itemPropertyDescriptors;
   }

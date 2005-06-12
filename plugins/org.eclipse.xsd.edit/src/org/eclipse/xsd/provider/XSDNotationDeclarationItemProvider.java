@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNotationDeclarationItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDNotationDeclarationItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -50,8 +50,6 @@ public class XSDNotationDeclarationItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDNotationDeclaration xsdNotationDeclaration = ((XSDNotationDeclaration)object);
 
       // This is for the systemIdentifier feature.
       //
@@ -99,7 +97,6 @@ public class XSDNotationDeclarationItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      XSDNotationDeclaration xsdNotationDeclaration = ((XSDNotationDeclaration)object);
       childrenFeatures.add(xsdPackage.getXSDNotationDeclaration_Annotation());
     }
     return childrenFeatures;
@@ -143,7 +140,6 @@ public class XSDNotationDeclarationItemProvider
                                             Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
-    XSDNotationDeclaration nd = (XSDNotationDeclaration) object;
 
     // annotation
     newChildDescriptors.add(createChildParameter(xsdPackage.getXSDNotationDeclaration_Annotation(), xsdFactory.createXSDAnnotation()));

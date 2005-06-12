@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFractionDigitsFacetItemProvider.java,v 1.2 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDFractionDigitsFacetItemProvider.java,v 1.3 2005/06/12 12:34:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -60,8 +60,6 @@ public class XSDFractionDigitsFacetItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      XSDFractionDigitsFacet xsdFractionDigitsFacet = ((XSDFractionDigitsFacet)object);
 
       // This is for the value feature.
       //
