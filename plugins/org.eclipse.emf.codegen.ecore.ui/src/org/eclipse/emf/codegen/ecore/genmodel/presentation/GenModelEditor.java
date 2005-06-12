@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.14 2005/06/08 06:17:51 nickb Exp $
+ * $Id: GenModelEditor.java,v 1.15 2005/06/12 13:23:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -242,7 +242,6 @@ public class GenModelEditor
     {
       public void resourceChanged(IResourceChangeEvent event)
       {
-        ResourceSet resourceSet = editingDomain.getResourceSet();
         // Only listening to these.
         // if (event.getType() == IResourceDelta.POST_CHANGE)
         {
@@ -714,8 +713,7 @@ public class GenModelEditor
       new AdapterFactoryTreeEditor(treeViewer.getTree(), adapterFactory);
 
       createContextMenuFor(treeViewer);
-      int pageIndex = addPage(tree);
-      // setPageText(pageIndex, "Selection");
+      addPage(tree);
     }
     setActivePage(0);
 

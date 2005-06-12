@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.9 2005/06/10 20:27:24 emerks Exp $
+ * $Id: CommonPlugin.java,v 1.10 2005/06/12 13:24:00 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -139,7 +139,7 @@ public final class CommonPlugin extends EMFPlugin
     {
       String fragment = uri.fragment();
       URI uriWithoutFragment = uri.trimFragment();
-      String uriWithoutFragmentToString = uri.trimFragment().toString();
+      String uriWithoutFragmentToString = uriWithoutFragment.toString();
       
       URL url = null;
       try

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerPane.java,v 1.4 2005/06/08 06:24:33 nickb Exp $
+ * $Id: ViewerPane.java,v 1.5 2005/06/12 13:24:22 emerks Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -589,7 +589,6 @@ public abstract class ViewerPane implements IPropertyListener, Listener
   private void showTitleLabelMenu(MouseEvent e) 
   {
     Menu menu = new Menu(titleLabel);
-    MenuItem item;
 
     boolean isMaximized = 
         control.getParent() instanceof SashForm ? 

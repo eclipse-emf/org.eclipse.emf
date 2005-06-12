@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedTableEditor.java,v 1.2 2005/06/08 06:24:33 nickb Exp $
+ * $Id: ExtendedTableEditor.java,v 1.3 2005/06/12 13:24:22 emerks Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
@@ -145,7 +145,6 @@ public abstract class ExtendedTableEditor
     // System.out.println("*up*");
     if (event.button == 1)
     {
-      Point point = new Point(event.x, event.y);
       TableItem [] tableItems = table.getItems();
       int columnCount = table.getColumnCount();
       LOOP: for (int i = table.getTopIndex(); i < tableItems.length; ++i)

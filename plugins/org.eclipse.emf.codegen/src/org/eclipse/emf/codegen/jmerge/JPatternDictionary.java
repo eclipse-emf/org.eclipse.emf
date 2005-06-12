@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.4 2005/06/08 06:15:57 nickb Exp $
+ * $Id: JPatternDictionary.java,v 1.5 2005/06/12 13:19:04 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -200,7 +200,6 @@ public class JPatternDictionary
       case IDOMNode.METHOD: 
       {
         IDOMMethod jdomMethod = (IDOMMethod)jdomNode;
-        String name = jdomNode.getName();
         StringBuffer result = new StringBuffer(getQualifiedName(jdomNode.getParent()));
         result.append(".");
         if (jdomMethod.isConstructor())

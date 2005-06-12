@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.30 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenBaseImpl.java,v 1.31 2005/06/12 13:23:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -573,8 +573,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           {
             IProject testsProject = workspace.getRoot().getProject(getGenModel().getTestsProjectDirectory());
 
-            if (!getGenModel().sameModelTestsProject()) {
-              IPath modelDirectory = javaSource;
+            if (!getGenModel().sameModelTestsProject()) 
+            {
               javaSource = new Path(getGenModel().getTestsDirectory());
 
               if (testsProject.exists())
@@ -592,7 +592,6 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
             if (!getGenModel().sameModelEditProject())
             {
-              IPath modelDirectory = javaSource;
               javaSource = new Path(getGenModel().getEditDirectory());
               if (editProject.exists())
               {
@@ -611,11 +610,6 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
                 if (otherEditProject.exists())
                 {
                   referencedProjects.add(otherEditProject);
-                  for (Iterator j = Arrays.asList(otherEditProject.getDescription().getReferencedProjects()).iterator(); j.hasNext(); )
-                  {
-                    IProject otherEditReferencedProjects = (IProject)j.next();
-                  }
-  
                   referencedProjects.addAll(Arrays.asList(otherEditProject.getDescription().getReferencedProjects()));
                 }
               }
@@ -623,7 +617,6 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
             if ((style & Generator.EMF_EDIT_PROJECT_STYLE) == 0 && getGenModel().hasEditorSupport())
             {
-              IPath editDirectory = javaSource;
               javaSource = new Path(getGenModel().getEditorDirectory());
               if (!getGenModel().sameEditEditorProject())
               {

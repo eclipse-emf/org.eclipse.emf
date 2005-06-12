@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETParser.java,v 1.5 2005/06/08 06:15:57 nickb Exp $
+ * $Id: JETParser.java,v 1.6 2005/06/12 13:19:04 emerks Exp $
  *
  * The Apache Software License, Version 1.1
  *
@@ -523,7 +523,7 @@ public class JETParser
       while (e.hasNext()) 
       {
         JETCoreElement c = (JETCoreElement) e.next();
-        JETMark m = reader.mark();
+        reader.mark();
         if (c.accept(listener, reader, this)) 
         {
           accepted = true;

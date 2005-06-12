@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.42 2005/06/09 04:32:34 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.43 2005/06/12 13:23:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3178,8 +3178,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   }
 
   protected GenClass rootImplementsInterfaceGenClass;
-
-  private List packages;
 
   public GenClass getRootImplementsInterfaceGenClass()
   {

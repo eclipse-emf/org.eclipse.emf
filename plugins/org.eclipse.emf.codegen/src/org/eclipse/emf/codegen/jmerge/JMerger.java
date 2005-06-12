@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.10 2005/06/08 06:15:57 nickb Exp $
+ * $Id: JMerger.java,v 1.11 2005/06/12 13:19:04 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -587,8 +587,6 @@ public class JMerger implements IPlatformRunnable
       this.string = string;
       this.stringBuffer = new StringBuffer();
 
-      int length = string.length();
-      List matches = new ArrayList();
       for (int start = 0, end = string.length(); start < end; )
       {
         Matcher matcher = pattern.matcher(string.subSequence(start, end));

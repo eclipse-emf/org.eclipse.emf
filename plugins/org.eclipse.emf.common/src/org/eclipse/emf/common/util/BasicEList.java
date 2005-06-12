@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.9 2005/06/08 06:19:08 nickb Exp $
+ * $Id: BasicEList.java,v 1.10 2005/06/12 13:24:00 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -765,7 +765,6 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
     }
 
     Iterator objects = collection.iterator();
-    int oldSize = size;
     size += growth;
     for (int i = 0; i < growth; ++i)
     {

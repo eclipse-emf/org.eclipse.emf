@@ -654,7 +654,7 @@ public class CodeGenUtil
       ManifestElement[] elements = ManifestElement.parseHeader(Constants.BUNDLE_CLASSPATH, requires);
       if (elements != null)
       {
-        for (int i = 0, count = 0; i < elements.length; ++i)
+        for (int i = 0; i < elements.length; ++i)
         {
           ManifestElement element = elements[i];
           String value = element.getValue();

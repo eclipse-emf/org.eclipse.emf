@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETReader.java,v 1.6 2005/06/08 06:15:57 nickb Exp $
+ * $Id: JETReader.java,v 1.7 2005/06/12 13:19:04 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -518,7 +518,7 @@ public class JETReader
     {
       throw new JETException(CodeGenPlugin.getPlugin().getString("jet.error.attr.novalue", new Object[] { name, mark().toString() }));
     }
-    char ch = (char) nextChar();
+    nextChar();
 
     // Get the attribute value:
     //

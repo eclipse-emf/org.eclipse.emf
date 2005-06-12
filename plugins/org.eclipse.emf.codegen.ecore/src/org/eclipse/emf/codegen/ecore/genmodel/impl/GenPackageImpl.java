@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.31 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenPackageImpl.java,v 1.32 2005/06/12 13:23:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2566,7 +2566,6 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         
         if (!contents.isEmpty() && contents.get(0) instanceof EPackage)
         {
-          EPackage ePackage = (EPackage)contents.get(0);
           resource.setURI((URI)oldURIs.get(resource));
         }        
       }
