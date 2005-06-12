@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TypeConverterItemProvider.java,v 1.4 2005/06/08 06:21:43 nickb Exp $
+ * $Id: TypeConverterItemProvider.java,v 1.5 2005/06/12 13:38:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -28,7 +28,6 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.mapping.MappingPlugin;
-import org.eclipse.emf.mapping.MappingPackage;
 
 
 /**
@@ -59,10 +58,6 @@ public class TypeConverterItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      //MappingPackage ePackage = ((TypeConverter)object).ePackageMapping();
-      MappingPackage ePackage = MappingPackage.eINSTANCE;
-
     }
     return itemPropertyDescriptors;
   }

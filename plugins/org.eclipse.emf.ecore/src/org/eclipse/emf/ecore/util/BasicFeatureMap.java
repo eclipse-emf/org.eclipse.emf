@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.17 2005/06/08 06:20:10 nickb Exp $
+ * $Id: BasicFeatureMap.java,v 1.18 2005/06/12 13:29:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -241,7 +241,6 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         InternalEObject internalEObject = (InternalEObject)entry.getValue();
         if (internalEObject != null)
         {
-          InternalEObject oldValue = (InternalEObject)internalEObject.eContainer();
           int containmentFeatureID = owner.eClass().getFeatureID(eReference);
           notifications =
             internalEObject.eInverseAdd
@@ -1054,7 +1053,6 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     else
     {
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-      int count = 0;
       Entry [] entries = (Entry[])data;
       for (int i = 0; i < size; ++i)
       {

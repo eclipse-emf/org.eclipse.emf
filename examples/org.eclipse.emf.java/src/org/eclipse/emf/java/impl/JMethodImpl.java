@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodImpl.java,v 1.3 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JMethodImpl.java,v 1.4 2005/06/12 13:37:24 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -987,7 +987,6 @@ public class JMethodImpl extends JMemberImpl implements JMethod
         String [] parameterNames = iDOMMethod.getParameterNames();
         if (parameterNames != null)
         {
-          String [] parameterTypes = iDOMMethod.getParameterTypes();
           for (int i = 0; i < parameterNames.length; ++i)
           {
             JParameter jParameter = JavaFactory.eINSTANCE.createJParameter();

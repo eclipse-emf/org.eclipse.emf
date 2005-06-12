@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: LoadResourceAction.java,v 1.9 2005/06/08 06:20:52 nickb Exp $
+ * $Id: LoadResourceAction.java,v 1.10 2005/06/12 13:33:17 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -233,7 +232,6 @@ public class LoadResourceAction extends Action
 	         {
 	           public void widgetSelected(SelectionEvent event)
 	           {
-	             Collection resources = new ArrayList();
 	             ResourceSelectionDialog resourceSelectionDialog =
 	               new ResourceSelectionDialog
 	                 (getShell(),

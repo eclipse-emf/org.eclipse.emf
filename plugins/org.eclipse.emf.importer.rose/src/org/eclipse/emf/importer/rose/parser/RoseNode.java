@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseNode.java,v 1.2 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseNode.java,v 1.3 2005/06/12 13:36:38 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -651,7 +651,7 @@ public class RoseNode
               {
                 List subSubNodes = node.getNodes();
                 String stringV = "";
-                for (Iterator k = node.getNodes().iterator(); k.hasNext();)
+                for (Iterator k = subSubNodes.iterator(); k.hasNext();)
                 {
                   RoseNode subSubNode = (RoseNode)k.next();
                   if (subSubNode.getRoseNodeType() == RoseNode.STRING)
@@ -734,7 +734,6 @@ public class RoseNode
     RoseNode attributeListNode = null;
     RoseNode rootNode = getRoot();
     String rootNodeValue = rootNode.getValue();
-    String rootObjectKey = rootNode.getKey();
     String rootObjectType = Util.getType(rootNodeValue);
 
     if (rootObjectType.equals(RoseStrings.DESIGN))
@@ -794,7 +793,6 @@ public class RoseNode
       {
         String objKey = node.getKey();
         String objType = Util.getType(node.getValue());
-        String objName = Util.getName(node.getValue());
         if (objKey.equals(RoseStrings.CLIENT_CARDINALITY) && objType.equals(RoseStrings.CARDINALITY))
         {
           List subNodes = node.getNodes();

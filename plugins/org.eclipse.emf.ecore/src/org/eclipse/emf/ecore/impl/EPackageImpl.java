@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.15 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EPackageImpl.java,v 1.16 2005/06/12 13:29:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -642,14 +642,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     if (resource == null) 
     {
       URI actualURI = URI.createURI(uri);
-      resource = 
-        new ResourceImpl(actualURI)
-        {
-          public boolean useIDs()
-          {
-            return false;
-          }
-        };
+      resource =  new ResourceImpl(actualURI);
       resource.getContents().add(this);
     }
     return resource;

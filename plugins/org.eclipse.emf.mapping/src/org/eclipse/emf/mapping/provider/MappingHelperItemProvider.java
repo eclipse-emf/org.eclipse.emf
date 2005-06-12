@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelperItemProvider.java,v 1.5 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingHelperItemProvider.java,v 1.6 2005/06/12 13:38:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -39,8 +39,6 @@ import org.eclipse.emf.mapping.Mapping;
 import org.eclipse.emf.mapping.MappingHelper;
 import org.eclipse.emf.mapping.MappingPackage;
 import org.eclipse.emf.mapping.MappingPlugin;
-import org.eclipse.emf.mapping.MappingRoot;
-import org.eclipse.emf.mapping.domain.AdapterFactoryMappingDomain;
 
 // import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
@@ -77,10 +75,7 @@ public class MappingHelperItemProvider
       MappingHelper mappingHelper = (MappingHelper)object;
 
       Mapping mapping = mappingHelper.getMapper();
-      MappingRoot mappingRoot = mapping != null ? mapping.getMappingRoot() : null;
-      final AdapterFactoryMappingDomain mappingDomain = mappingRoot != null? (AdapterFactoryMappingDomain)mappingRoot.getDomain() : null;
-
-      //MappingPackage ePackage = mappingHelper.ePackageMapping();
+      
       MappingPackage ePackage = MappingPackage.eINSTANCE;
       if (!mappingHelper.getNested().isEmpty())
       {
@@ -182,7 +177,6 @@ public class MappingHelperItemProvider
    */
   public void notifyChanged(Notification msg) 
   {
-    MappingPackage ePackage = MappingPackage.eINSTANCE;
     if (msg.getFeature() == MappingPackage.eINSTANCE.getMappingHelper_Mapper())
     {
       fireNotifyChanged(msg);

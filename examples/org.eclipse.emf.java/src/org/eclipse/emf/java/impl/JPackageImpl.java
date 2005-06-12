@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPackageImpl.java,v 1.2 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JPackageImpl.java,v 1.3 2005/06/12 13:37:24 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -297,9 +297,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
     }
     else
     {
-      JClass componentJClass = null;
       List theTypes = getTypes();
-      int uriFragmentSegmentLength = uriFragmentSegment.length();
       // EATM resolve problems
       for (int i = 0, size = theTypes.size(); i < size; ++i)
       {

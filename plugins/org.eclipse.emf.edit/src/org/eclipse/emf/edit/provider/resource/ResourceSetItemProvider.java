@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetItemProvider.java,v 1.3 2005/06/08 06:17:06 nickb Exp $
+ * $Id: ResourceSetItemProvider.java,v 1.4 2005/06/12 13:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -66,8 +66,6 @@ public class ResourceSetItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      ResourceSet resourceSet = (ResourceSet)object;
     }
     return itemPropertyDescriptors;
   }
@@ -132,7 +130,6 @@ public class ResourceSetItemProvider
    */
   public void notifyChanged(Notification notification) 
   {
-    ResourceSet resourceSet = (ResourceSet)notification.getNotifier();
     switch (notification.getFeatureID(ResourceSet.class))
     {
       case ResourceSet.RESOURCE_SET__RESOURCES:

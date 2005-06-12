@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.8 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EcorePlugin.java,v 1.9 2005/06/12 13:29:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -319,7 +319,6 @@ public class EcorePlugin  extends EMFPlugin
           IProject project = projects[i];
           if (project.isOpen())
           {
-            String name = project.getName();
             pluginID = null;
             IFile manifest = project.getFile("META-INF/MANIFEST.MF");
             if (manifest.exists())

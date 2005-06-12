@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelReloadActionDelegate.java,v 1.2 2005/06/08 06:11:55 nickb Exp $
+ * $Id: GenModelReloadActionDelegate.java,v 1.3 2005/06/12 13:35:21 emerks Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -110,6 +110,6 @@ public class GenModelReloadActionDelegate extends ActionDelegate implements IEdi
     WizardDialog wizardDialog = new WizardDialog(shell, wizard);
     wizardDialog.create();
     wizardDialog.getShell().setSize(540, 580);
-    int result = wizardDialog.open();
+    wizardDialog.open();
   }
 }

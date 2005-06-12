@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseParser.java,v 1.2 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseParser.java,v 1.3 2005/06/12 13:36:38 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -93,7 +93,6 @@ public class RoseParser
     idStack.push(new Integer(0));
     baseId = null;
     modelTree = parseExpr("");
-    RoseLoader loader = lexer.roseLoader;
   }
 
   public void traverseTree(List path)

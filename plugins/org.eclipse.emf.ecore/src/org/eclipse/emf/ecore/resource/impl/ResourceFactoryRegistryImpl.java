@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceFactoryRegistryImpl.java,v 1.2 2005/06/08 06:20:10 nickb Exp $
+ * $Id: ResourceFactoryRegistryImpl.java,v 1.3 2005/06/12 13:29:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -60,23 +60,18 @@ public class ResourceFactoryRegistryImpl implements Resource.Factory.Registry
    */
   public Resource.Factory getFactory(URI uri)
   {
-    Object resourceFactory = null;
-    String file = uri.toFileString();
+    String protocol = uri.scheme();
+    Object resourceFactory =  protocolToFactoryMap.get(protocol);
     if (resourceFactory == null)
     {
-      String protocol = uri.scheme();
-      resourceFactory = protocolToFactoryMap.get(protocol);
+      String extension = uri.fileExtension();
+      resourceFactory = extensionToFactoryMap.get(extension);
       if (resourceFactory == null)
       {
-        String extension = uri.fileExtension();
-        resourceFactory = extensionToFactoryMap.get(extension);
+        resourceFactory = extensionToFactoryMap.get("*");
         if (resourceFactory == null)
         {
-          resourceFactory = extensionToFactoryMap.get("*");
-          if (resourceFactory == null)
-          {
-            resourceFactory = delegatedGetFactory(uri);
-          }
+          resourceFactory = delegatedGetFactory(uri);
         }
       }
     }

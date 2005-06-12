@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.17 2005/06/08 06:20:10 nickb Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.18 2005/06/12 13:29:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -283,7 +283,6 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         InternalEObject internalEObject = (InternalEObject)entry.getValue();
         if (internalEObject != null)
         {
-          InternalEObject oldValue = (InternalEObject)internalEObject.eContainer();
           int containmentFeatureID = owner.eClass().getFeatureID(eReference);
           notifications =
             internalEObject.eInverseAdd
@@ -1083,7 +1082,6 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     else
     {
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-      int count = 0;
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
         Entry entry = (Entry)delegateGet(i);

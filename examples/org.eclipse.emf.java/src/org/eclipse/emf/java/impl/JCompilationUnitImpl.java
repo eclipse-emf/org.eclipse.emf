@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitImpl.java,v 1.4 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JCompilationUnitImpl.java,v 1.5 2005/06/12 13:37:24 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -570,7 +570,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
 
     for (Iterator i = getImportedTypes().iterator(); i.hasNext(); )
     {
-      JClass jClass = (JClass)i.next();
+      i.next();
     }
   }
 

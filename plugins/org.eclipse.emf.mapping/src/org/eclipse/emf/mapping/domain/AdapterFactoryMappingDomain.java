@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryMappingDomain.java,v 1.4 2005/06/08 06:21:43 nickb Exp $
+ * $Id: AdapterFactoryMappingDomain.java,v 1.5 2005/06/12 13:38:44 emerks Exp $
  */
 package org.eclipse.emf.mapping.domain;
 
@@ -613,9 +613,6 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
 
   protected Command createInitializeCopyOverrideCommand(InitializeCopyCommand initializeCopyCommand)
   {
-    EObject copy = initializeCopyCommand.getCopy();
-    EObject owner = initializeCopyCommand.getOwner();
-
     // If the owner and the copy are of the same type, we can proceed with the command, i.e. no override.
     // If not, we will skip this command by returning a do-nothing override.
     //

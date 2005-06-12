@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.10 2005/06/09 14:01:04 davidms Exp $
+ * $Id: RoseDetailPage.java,v 1.11 2005/06/12 13:36:38 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -170,74 +170,74 @@ public class RoseDetailPage extends ModelDetailPage
     }
     pathMapTable.addListener(SWT.Selection, this);
 
-    ExtendedTableEditor extendedTableEditor = new ExtendedTableEditor(pathMapTable)
+    new ExtendedTableEditor(pathMapTable)
+    {
+      protected void editItem(final TableItem tableItem, final int column)
       {
-        protected void editItem(final TableItem tableItem, final int column)
+        switch (column)
         {
-          switch (column)
-          {
-            case 1: {
-              final String string = tableItem.getText(column);
-              horizontalAlignment = SWT.LEFT;
-              minimumWidth = Math.max(50, tableItem.getBounds(column).width);
-
-              final Text text = new Text(table, SWT.NONE);
-              setEditor(text, tableItem, column);
-              text.setFocus();
-              text.setText(string);
-              text.setSelection(0, string.length());
-
-              text.addFocusListener(new FocusAdapter()
+          case 1: {
+            final String string = tableItem.getText(column);
+            horizontalAlignment = SWT.LEFT;
+            minimumWidth = Math.max(50, tableItem.getBounds(column).width);
+ 
+            final Text text = new Text(table, SWT.NONE);
+            setEditor(text, tableItem, column);
+            text.setFocus();
+            text.setText(string);
+            text.setSelection(0, string.length());
+ 
+            text.addFocusListener(new FocusAdapter()
+              {
+                public void focusLost(FocusEvent event)
                 {
-                  public void focusLost(FocusEvent event)
+                  modify(tableItem, column, text);
+                }
+              });
+ 
+            text.addKeyListener(new KeyAdapter()
+              {
+                public void keyPressed(KeyEvent event)
+                {
+                  if (event.character == '\r' || event.character == '\n')
                   {
                     modify(tableItem, column, text);
+                    setEditor(null);
+                    text.dispose();
                   }
-                });
-
-              text.addKeyListener(new KeyAdapter()
-                {
-                  public void keyPressed(KeyEvent event)
+                  else if (event.character == '\033')
                   {
-                    if (event.character == '\r' || event.character == '\n')
-                    {
-                      modify(tableItem, column, text);
-                      setEditor(null);
-                      text.dispose();
-                    }
-                    else if (event.character == '\033')
-                    {
-                      setEditor(null);
-                      text.dispose();
-                    }
+                    setEditor(null);
+                    text.dispose();
                   }
-                });
-
-              isCellEditing = true;
-              setPageComplete(false);
-              break;
-            }
+                }
+              });
+ 
+            isCellEditing = true;
+            setPageComplete(false);
+            break;
           }
         }
+      }
 
-        protected void modify(TableItem tableItem, int column, Text text)
+      protected void modify(TableItem tableItem, int column, Text text)
+      {
+        tableItem.setText(column, text.getText());
+        String key = tableItem.getText();
+        String value = tableItem.getText(column);
+        text.setVisible(false);
+        if ("".equals(value))
         {
-          tableItem.setText(column, text.getText());
-          String key = tableItem.getText();
-          String value = tableItem.getText(column);
-          text.setVisible(false);
-          if ("".equals(value))
-          {
-            value = null;
-          }
-          getRoseImporter().getPathMap().put(key, value);
-
-          isCellEditing = false;
-          setErrorMessage(null);
-          setMessage(null);
-          setPageComplete(isPageComplete());
+          value = null;
         }
-      };
+        getRoseImporter().getPathMap().put(key, value);
+
+        isCellEditing = false;
+        setErrorMessage(null);
+        setMessage(null);
+        setPageComplete(isPageComplete());
+      }
+    };
 
     AdapterFactory adapterFactory = new AdapterFactoryImpl();
     pathMapTableViewer.setColumnProperties(new String []{ "a", "b" });

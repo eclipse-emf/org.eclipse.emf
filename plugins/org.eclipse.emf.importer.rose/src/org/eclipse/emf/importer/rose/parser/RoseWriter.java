@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseWriter.java,v 1.2 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseWriter.java,v 1.3 2005/06/12 13:36:38 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -100,8 +100,6 @@ public class RoseWriter extends RoseComponent
       }
       buffWriter.newLine();
       buffWriter.close();
-      int newValue = upper;
-      // firePropertyChange(PROGRESS, oldValue, newValue);
     }
     catch (Exception e)
     {

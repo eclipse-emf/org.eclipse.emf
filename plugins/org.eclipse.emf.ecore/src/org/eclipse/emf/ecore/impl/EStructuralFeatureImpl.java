@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.11 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.12 2005/06/12 13:29:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2236,7 +2236,6 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     public void dynamicUnset(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index)
     {
       Object oldValue = settings.dynamicGet(index);
-      boolean oldIsSet = oldValue != null;
       if (isUnsettable() && oldValue == NIL)
       {
         oldValue = null;

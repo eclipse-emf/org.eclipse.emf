@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeValidator.java,v 1.7 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLTypeValidator.java,v 1.8 2005/06/12 13:29:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -67,6 +67,14 @@ public class XMLTypeValidator extends EObjectValidator
   private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
 
   /**
+   * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
+
+  /**
    * Creates an instance of the switch.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -74,6 +82,7 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public XMLTypeValidator()
   {
+    super();
   }
 
   /**

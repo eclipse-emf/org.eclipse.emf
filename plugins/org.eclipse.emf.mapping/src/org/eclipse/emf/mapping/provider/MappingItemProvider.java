@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingItemProvider.java,v 1.8 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingItemProvider.java,v 1.9 2005/06/12 13:38:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -197,7 +197,7 @@ public class MappingItemProvider
              {
                public Object getPropertyValue(Object o)
                {
-                 Object result = super.getPropertyValue(o);
+                 super.getPropertyValue(o);
                  return this.object;
                }
                public Collection getChoiceOfValues(Object o)
@@ -697,15 +697,9 @@ public class MappingItemProvider
    */
   public void notifyChanged(Notification msg) 
   {
-    Mapping mapping = (Mapping)msg.getNotifier();
-    //MappingPackage ePackage = mapping.ePackageMapping();
     MappingPackage ePackage = MappingPackage.eINSTANCE;
-    Object feature = msg.getFeature();
     if (msg.getFeature() == ePackage.getMapping_Inputs() || msg.getFeature() == ePackage.getMapping_Outputs())
     {
-      Object substituteOldValue = substituteMappedObjectItemProvider(mapping, msg.getOldValue());
-      Object substituteNewValue = substituteMappedObjectItemProvider(mapping, msg.getNewValue());
-
       fireNotifyChanged(msg);
       //hgd::fireNotifyChanged(msg.getNotifier(), msg.getEventType(), msg.getFeature(), substituteOldValue, substituteNewValue, msg.getPosition());
 
@@ -896,7 +890,6 @@ public class MappingItemProvider
                 }
               }
 
-              Collection mappingsToRemove = new ArrayList();
               for (TreeIterator mappings = mappingRoot.treeIterator(false); mappings.hasNext(); )
               {
                 Mapping mapping = (Mapping)mappings.next();
@@ -1101,8 +1094,6 @@ public class MappingItemProvider
    */
   protected Command createSetCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value)
   {
-    Mapping mapping = (Mapping)owner;
-
     if (feature == MappingPackage.eINSTANCE.getMapping_Inputs() || 
           feature == MappingPackage.eINSTANCE.getMapping_Outputs())
     {

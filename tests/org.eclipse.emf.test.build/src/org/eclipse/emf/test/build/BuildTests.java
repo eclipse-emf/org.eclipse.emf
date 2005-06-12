@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTests.java,v 1.18 2005/06/08 06:21:21 nickb Exp $
+ * $Id: BuildTests.java,v 1.19 2005/06/12 13:40:40 emerks Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -771,8 +771,7 @@ public class BuildTests extends TestCase
     {
       Process aProcess = aRuntime.exec(chkpiiString);
       BufferedReader aBufferedReader = new BufferedReader(new InputStreamReader(aProcess.getInputStream()));
-      String line = null;
-      while ((line = aBufferedReader.readLine()) != null)
+      while (aBufferedReader.readLine() != null)
       {
       }
       aProcess.waitFor();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicModelWizard.java,v 1.4 2005/06/08 06:17:55 nickb Exp $
+ * $Id: DynamicModelWizard.java,v 1.5 2005/06/12 13:30:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -317,7 +317,6 @@ public class DynamicModelWizard extends Wizard implements INewWizard
         {
           // Set this for the container.
           //
-          String currentDirectory = selectedResource.getLocation().toOSString();
           newFileCreationPage.setContainerFullPath(selectedResource.getFullPath());
 
           // Make up a unique new name here.

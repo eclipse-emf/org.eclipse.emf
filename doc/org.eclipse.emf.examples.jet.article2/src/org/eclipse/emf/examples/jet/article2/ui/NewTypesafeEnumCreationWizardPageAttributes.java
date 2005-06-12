@@ -46,7 +46,7 @@ import org.eclipse.emf.examples.jet.article2.model.TypesafeEnum;
  * the typesafe enumeration class.
  * 
  * @author Remko Popma
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:48 $)
+ * @version $Revision: 1.2 $ ($Date: 2005/06/12 13:33:48 $)
  */
 public class NewTypesafeEnumCreationWizardPageAttributes extends WizardPage
 {
@@ -272,7 +272,7 @@ public class NewTypesafeEnumCreationWizardPageAttributes extends WizardPage
     EditAttributeDialog dialog = new EditAttributeDialog(getShell());
     dialog.setAttribute(attribute);
     dialog.setTitle(WizardMessages.getString("NewEnumWizPageAttr.Edit_Attribute"));
-    int reply = dialog.open();
+    dialog.open();
     mTableViewer.refresh();
     mTableViewer.setSelection(new StructuredSelection(dialog.getAttribute()));
     mTableViewer.setChecked(dialog.getAttribute(), dialog.getAttribute().isKey());

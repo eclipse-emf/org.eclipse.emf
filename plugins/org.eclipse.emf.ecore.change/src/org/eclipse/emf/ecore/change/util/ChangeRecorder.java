@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.29 2005/06/08 06:16:16 nickb Exp $
+ * $Id: ChangeRecorder.java,v 1.30 2005/06/12 13:29:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -774,7 +774,7 @@ public class ChangeRecorder implements Adapter
    */
   protected void createRemoveListChange(EList oldList, EList changesList, Object newObject, int index)
   {
-    ListChange listChange = createListChange(changesList, ChangeKind.REMOVE_LITERAL, index);
+    createListChange(changesList, ChangeKind.REMOVE_LITERAL, index);
     oldList.remove(index);
   }
 

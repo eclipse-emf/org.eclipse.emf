@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceItemProvider.java,v 1.4 2005/06/08 06:17:06 nickb Exp $
+ * $Id: ResourceItemProvider.java,v 1.5 2005/06/12 13:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -127,7 +127,6 @@ public class ResourceItemProvider
    */
   public void notifyChanged(Notification notification) 
   {
-    Resource resource = (Resource)notification.getNotifier();
     switch (notification.getFeatureID(Resource.class))
     {
       case Resource.RESOURCE__URI:

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.39 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMLSaveImpl.java,v 1.40 2005/06/12 13:31:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1821,7 +1821,6 @@ public class XMLSaveImpl implements XMLSave
     }
     else
     {
-      String name = helper.getQName(f);
       String id = helper.getIDREF(target);
       helper.populateNameInfo(nameInfo, f);
       Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.5 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.6 2005/06/12 13:36:38 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -2057,7 +2057,6 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   public void createEPackageForRootClasses(EList extent, RoseNode roseNode, String packageName)
   {
-    boolean hasSubpackages = false;
     ArrayList list = new ArrayList();
     for (Iterator i = extent.iterator(); i.hasNext();)
     {

@@ -278,87 +278,87 @@ public class ModelPackagePage extends ModelImporterPage
       packagesTable.setLayout(layout);
     }
 
-    ExtendedTableEditor extendedTableEditor = new ExtendedTableEditor(packagesTable)
+    new ExtendedTableEditor(packagesTable)
+    {
+      protected void editItem(final TableItem tableItem, final int column)
       {
-        protected void editItem(final TableItem tableItem, final int column)
+        switch (column)
         {
-          switch (column)
-          {
-            case 1:
-            case 2: {
-              final String string = tableItem.getText(column);
-              horizontalAlignment = SWT.LEFT;
-              minimumWidth = Math.max(50, tableItem.getBounds(column).width);
+          case 1:
+          case 2: {
+            final String string = tableItem.getText(column);
+            horizontalAlignment = SWT.LEFT;
+            minimumWidth = Math.max(50, tableItem.getBounds(column).width);
 
-              final Text text = new Text(table, SWT.NONE);
-              setEditor(text, tableItem, column);
-              text.setFocus();
-              text.setText(string);
-              text.setSelection(0, string.length());
-              validateEcoreModelFileName(string, null);
+            final Text text = new Text(table, SWT.NONE);
+            setEditor(text, tableItem, column);
+            text.setFocus();
+            text.setText(string);
+            text.setSelection(0, string.length());
+            validateEcoreModelFileName(string, null);
 
-              text.addFocusListener(new FocusAdapter()
+            text.addFocusListener(new FocusAdapter()
+              {
+                public void focusLost(FocusEvent event)
                 {
-                  public void focusLost(FocusEvent event)
+                  modify(tableItem, column, text);
+                }
+              });
+
+            text.addKeyListener(new KeyAdapter()
+              {
+                public void keyPressed(KeyEvent event)
+                {
+                  if (event.character == '\r' || event.character == '\n')
                   {
                     modify(tableItem, column, text);
+                    setEditor(null);
+                    text.dispose();
                   }
-                });
-
-              text.addKeyListener(new KeyAdapter()
-                {
-                  public void keyPressed(KeyEvent event)
+                  else if (event.character == '\033')
                   {
-                    if (event.character == '\r' || event.character == '\n')
-                    {
-                      modify(tableItem, column, text);
-                      setEditor(null);
-                      text.dispose();
-                    }
-                    else if (event.character == '\033')
-                    {
-                      setEditor(null);
-                      text.dispose();
-                    }
+                    setEditor(null);
+                    text.dispose();
                   }
-                });
+                }
+              });
 
-              text.addModifyListener(new ModifyListener()
+            text.addModifyListener(new ModifyListener()
+              {
+                public void modifyText(ModifyEvent event)
                 {
-                  public void modifyText(ModifyEvent event)
+                  if (column == 1)
                   {
-                    if (column == 1)
-                    {
-                      validateEcoreModelFileName(text.getText(), null);
-                    }
+                    validateEcoreModelFileName(text.getText(), null);
                   }
-                });
+                }
+              });
 
-              isCellEditing = true;
-              setPageComplete(false);
-              break;
-            }
+            isCellEditing = true;
+            setPageComplete(false);
+            break;
           }
         }
+      }
 
-        protected void modify(TableItem tableItem, int column, Text text)
+      protected void modify(TableItem tableItem, int column, Text text)
+      {
+        tableItem.setText(column, text.getText());
+        String value = tableItem.getText(column);
+        text.setVisible(false);
+
+        ModelImporter.EPackageInfo ePackageInfo = getModelImporter().getEPackageInfo((EPackage)tableItem.getData());
+        StringBuffer ecoreFileName = new StringBuffer(ePackageInfo.getEcoreFileName());
+        if (ecoreFileName != null)
         {
-          tableItem.setText(column, text.getText());
-          String value = tableItem.getText(column);
-          text.setVisible(false);
-
-          ModelImporter.EPackageInfo ePackageInfo = getModelImporter().getEPackageInfo((EPackage)tableItem.getData());
-          StringBuffer ecoreFileName = new StringBuffer(ePackageInfo.getEcoreFileName());
-          if (ecoreFileName != null)
-          {
-            ecoreFileName.replace(0, ecoreFileName.length(), value);
-            ePackageInfo.setEcoreFileName(ecoreFileName.toString());
-          }
-          isCellEditing = false;
-          validate();
-          setPageComplete(isPageComplete());
+          ecoreFileName.replace(0, ecoreFileName.length(), value);
+          ePackageInfo.setEcoreFileName(ecoreFileName.toString());
         }
-      };
+        isCellEditing = false;
+        validate();
+        setPageComplete(isPageComplete());
+      }
+    };
 
     AdapterFactory adapterFactory = new AdapterFactoryImpl();
     packagesCheckboxTableViewer.setColumnProperties(new String []{ "a", "b" });

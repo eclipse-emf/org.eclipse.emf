@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NameMatchMappingAction.java,v 1.3 2005/06/08 06:23:57 nickb Exp $
+ * $Id: NameMatchMappingAction.java,v 1.4 2005/06/12 13:39:41 emerks Exp $
  */
 package org.eclipse.emf.mapping.action;
 
@@ -192,8 +192,6 @@ public class NameMatchMappingAction extends CommandAction implements CommandStac
 
   protected ImageDescriptor objectToImageDescriptor(Object object)
   {
-    MappingDomain mappingDomain = (MappingDomain)editingDomain;
-
     ((Action)action).setHoverImageDescriptor
       (ExtendedImageRegistry.getInstance().getImageDescriptor(MappingPlugin.getPlugin().getImage("full/ctool16/MatchByName")));
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackageResourceImpl.java,v 1.2 2005/06/08 06:21:06 nickb Exp $
+ * $Id: JavaPackageResourceImpl.java,v 1.3 2005/06/12 13:37:24 emerks Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -247,13 +247,6 @@ public class JavaPackageResourceImpl extends ResourceImpl
     }
     catch (ClassNotFoundException exception)
     {
-    }
-
-    String baseName = className;
-    int dotIndex = className.indexOf(".");
-    if (dotIndex != -1)
-    {
-      baseName = className.substring(0, dotIndex);
     }
 
     for (Iterator i = getSourceURIs().iterator(); i.hasNext(); )

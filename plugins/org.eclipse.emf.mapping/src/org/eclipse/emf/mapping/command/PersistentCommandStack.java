@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistentCommandStack.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: PersistentCommandStack.java,v 1.3 2005/06/12 13:38:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -304,7 +304,7 @@ public class PersistentCommandStack extends BasicCommandStack
       {
         Collection collection = (Collection)object;
         buffer.append("<collection>");
-        for (Iterator objects = ((Collection)object).iterator(); objects.hasNext(); )
+        for (Iterator objects = collection.iterator(); objects.hasNext(); )
         {
           Object member = objects.next();
           encode(member);
@@ -377,7 +377,6 @@ public class PersistentCommandStack extends BasicCommandStack
       Object result = null;
 
       skipWhitespace();
-      int resultStartIndex = index;
       if (index < string.length() && string.charAt(index) == '<')
       {
         ++index;

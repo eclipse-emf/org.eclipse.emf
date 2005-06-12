@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.16 2005/06/08 06:17:05 nickb Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.17 2005/06/12 13:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1157,7 +1157,6 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
 
     if (parentReferences != null)
     {
-      Command removeCommand = null;
       for (int i = 0; i < parentReferences.length; ++i)
       {
         final EReference parentReference = parentReferences[i];

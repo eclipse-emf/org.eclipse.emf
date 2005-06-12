@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.13 2005/06/08 06:20:52 nickb Exp $
+ * $Id: ValidateAction.java,v 1.14 2005/06/12 13:33:17 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -246,8 +246,6 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     Diagnostician diagnostician = 
       new Diagnostician()
       {
-        protected int threshold = 10;
-
         public String getObjectLabel(EObject eObject)
         {
           if (adapterFactory != null && !eObject.eIsProxy())
@@ -264,20 +262,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
         public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map context)
         {
-         progressMonitor.worked(1);
-/*
-          try
-          {
-            if (progressMonitor.isCanceled())
-            {
-              return false;
-            }
-            Thread.sleep(100);
-          }
-          catch (Exception exception)
-          {
-          }
-*/
+          progressMonitor.worked(1);
           return super.validate(eClass, eObject, diagnostics, context);
         }
       };

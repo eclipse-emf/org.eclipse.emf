@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.9 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EClassifierImpl.java,v 1.10 2005/06/12 13:29:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -530,7 +530,6 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    */
   public void setInstanceClassGen(Class newInstanceClass)
   {
-    Class oldInstanceClass = instanceClass;
     instanceClass = newInstanceClass;
   }
 

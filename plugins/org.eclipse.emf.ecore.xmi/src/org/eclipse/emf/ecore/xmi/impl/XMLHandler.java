@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.31 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMLHandler.java,v 1.32 2005/06/12 13:31:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1231,14 +1231,13 @@ public abstract class XMLHandler
     else
     {
       String xsiType = getXSIType();
-      EObject object;
       if (xsiType != null)
       {
-        object = createObjectFromTypeName(peekObject, xsiType, feature);
+        createObjectFromTypeName(peekObject, xsiType, feature);
       }
       else
       {
-        object = createObjectFromFeatureType(peekObject, feature);
+        createObjectFromFeatureType(peekObject, feature);
         if (extendedMetaData != null && !((EReference)feature).isContainment())
         {
           text = new StringBuffer();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingStrategyItemProvider.java,v 1.4 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingStrategyItemProvider.java,v 1.5 2005/06/12 13:38:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -27,7 +27,6 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.mapping.MappingPackage;
 import org.eclipse.emf.mapping.MappingPlugin;
 
 
@@ -59,10 +58,6 @@ public class MappingStrategyItemProvider
     if (itemPropertyDescriptors == null)
     {
       super.getPropertyDescriptors(object);
-
-      //MappingPackage ePackage = ((MappingStrategy)object).ePackageMapping();
-      MappingPackage ePackage = MappingPackage.eINSTANCE;
-
     }
     return itemPropertyDescriptors;
   }

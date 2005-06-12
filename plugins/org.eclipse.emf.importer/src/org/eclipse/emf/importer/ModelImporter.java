@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.16 2005/06/08 06:11:55 nickb Exp $
+ * $Id: ModelImporter.java,v 1.17 2005/06/12 13:35:21 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -801,8 +801,6 @@ public abstract class ModelImporter
     {
       GenPackage genPackage = (GenPackage)i.next();
       EPackage realEPackage = genPackage.getEcorePackage();
-      GenModel genModel = genPackage.getGenModel();
-
       EPackage referredEPackage = getReferredEPackage(genPackage);
       if (referredEPackage != null)
       {
@@ -1012,12 +1010,12 @@ public abstract class ModelImporter
     // Create the model project.
     //
     List referencedProjects = new ArrayList(referencedModelProjects);
-    IProject emfProject = Generator.createEMFProject(
-      new Path(path),
-      getGenModelProjectLocation(),
-      referencedProjects,
-      progressMonitor,
-      Generator.EMF_MODEL_PROJECT_STYLE | Generator.EMF_EMPTY_PROJECT_STYLE);
+    Generator.createEMFProject
+      (new Path(path),
+       getGenModelProjectLocation(),
+       referencedProjects,
+       progressMonitor,
+       Generator.EMF_MODEL_PROJECT_STYLE | Generator.EMF_EMPTY_PROJECT_STYLE);
   }
 
   protected void adjustGenModel(IProgressMonitor progressMonitor)

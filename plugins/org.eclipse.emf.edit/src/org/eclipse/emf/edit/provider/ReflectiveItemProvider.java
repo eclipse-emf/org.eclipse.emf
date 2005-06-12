@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.14 2005/06/08 06:17:05 nickb Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.15 2005/06/12 13:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -606,8 +606,6 @@ public class ReflectiveItemProvider
           }
           else if (delegatedFeature instanceof EReference)
           {
-            EReference delegatedReference = (EReference)delegatedFeature;
-
             for (Iterator k = getAllConcreteSubclasses((EClass)delegatedFeature.getEType()).iterator(); k.hasNext(); )
             {
               FeatureMap.Entry entry = FeatureMapUtil.createEntry(delegatedFeature, EcoreUtil.create((EClass)k.next()));

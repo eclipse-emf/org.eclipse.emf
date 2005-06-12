@@ -47,7 +47,7 @@ import org.eclipse.emf.examples.jet.article2.model.TypesafeEnum;
  * enumeration class, and the attribute values for each instance.
  * 
  * @author Remko Popma
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:48 $)
+ * @version $Revision: 1.2 $ ($Date: 2005/06/12 13:33:48 $)
  */
 public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
 {
@@ -311,7 +311,7 @@ public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
     dialog.setAttributes(getTypesafeEnumModel().attributeArray());
     dialog.setTitle(WizardMessages.getString("NewEnumWizPageInst.Edit_Instance"));
 
-    int reply = dialog.open();
+    dialog.open();
     mTableViewer.refresh();
     mTableViewer.setSelection(new StructuredSelection(dialog.getInstance()));
     syncTableCheckWithModel();

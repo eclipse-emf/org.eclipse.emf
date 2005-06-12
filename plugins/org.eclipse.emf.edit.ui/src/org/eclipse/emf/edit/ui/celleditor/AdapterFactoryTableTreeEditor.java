@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryTableTreeEditor.java,v 1.2 2005/06/08 06:20:52 nickb Exp $
+ * $Id: AdapterFactoryTableTreeEditor.java,v 1.3 2005/06/12 13:33:17 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
@@ -232,7 +232,6 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
          {
            if (event.button == 1 && isDown())
            {
-             Point point = new Point(event.x, event.y);
              if (currentColumn == 0 && currentTableTreeItem.getItemCount() > 0)
              {
                Rectangle imageBounds = adjust(
@@ -324,8 +323,6 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
 
       if (control != null)
       {
-        Rectangle controlRectangle = control.getBounds();
-
         control.setBounds(1, 1, itemBounds.width - x - 2, itemBounds.height * 5 - 2);
 
         dropDown.setVisible(true);

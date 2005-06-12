@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseUtil.java,v 1.3 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseUtil.java,v 1.4 2005/06/12 13:36:38 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -346,7 +346,6 @@ public class RoseUtil
   {
     // Load the Rose .mdl or .cat file, and create mappings for the objects.
     //
-    String name = node.getName();
     String roseFile = node.getRoseFileName();
     RoseLoader loader = new RoseLoader(roseFile, uriConverter);
     try

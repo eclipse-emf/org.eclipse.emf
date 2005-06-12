@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.18 2005/06/08 06:17:05 nickb Exp $
+ * $Id: ItemProviderAdapter.java,v 1.19 2005/06/12 13:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1320,7 +1320,6 @@ public class ItemProviderAdapter
     {
       // Compute the relative index as best as possible.
       //
-      Collection result = new ArrayList();
       for (Iterator i = getAnyChildrenFeatures(eObject).iterator(); i.hasNext(); )
       {
         EStructuralFeature feature = (EStructuralFeature)i.next();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.6 2005/06/08 06:20:10 nickb Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.7 2005/06/12 13:29:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -179,7 +179,7 @@ public abstract class DelegatingEcoreEList
     if (eStructuralFeature instanceof EReference)
     {
       EReference eReference = (EReference)eStructuralFeature;
-      EReference oppositeEReference = ((EReference)eStructuralFeature).getEOpposite();
+      EReference oppositeEReference = eReference.getEOpposite();
       return oppositeEReference != null && oppositeEReference.isMany();
     }
     else
@@ -194,7 +194,7 @@ public abstract class DelegatingEcoreEList
     if (eStructuralFeature instanceof EReference)
     {
       EReference eReference = (EReference)eStructuralFeature;
-      EReference oppositeEReference = ((EReference)eStructuralFeature).getEOpposite();
+      EReference oppositeEReference = eReference.getEOpposite();
       return oppositeEReference != null;
     }
     else

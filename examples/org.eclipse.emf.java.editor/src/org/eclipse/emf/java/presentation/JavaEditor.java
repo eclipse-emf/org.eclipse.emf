@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.12 2005/06/08 06:24:47 nickb Exp $
+ * $Id: JavaEditor.java,v 1.13 2005/06/12 13:37:40 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -834,9 +834,8 @@ public class JavaEditor
 
       // Load the resource through the editing domain.
       //
-      Resource resource = 
-        editingDomain.loadResource
-          (URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
+      editingDomain.loadResource
+        (URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
 
       Map map = new EcoreUtil.UnresolvedProxyCrossReferencer(editingDomain.getResourceSet())
       {

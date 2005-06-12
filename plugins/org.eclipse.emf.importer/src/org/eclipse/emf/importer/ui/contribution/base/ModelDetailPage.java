@@ -18,8 +18,6 @@ package org.eclipse.emf.importer.ui.contribution.base;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
@@ -396,7 +394,6 @@ public class ModelDetailPage extends ModelImporterPage
 
   protected boolean browseWorkspace()
   {
-    Collection resources = new ArrayList();
     ResourceSelectionDialog resourceSelectionDialog = new ResourceSelectionDialog(
       getShell(),
       ResourcesPlugin.getWorkspace().getRoot(),
@@ -521,7 +518,6 @@ public class ModelDetailPage extends ModelImporterPage
       }
     }
     
-    String message = ImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessing_message");
     handleStatus(status);
   }
   

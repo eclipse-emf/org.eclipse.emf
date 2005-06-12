@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.12 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EFactoryImpl.java,v 1.13 2005/06/12 13:29:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -316,7 +316,6 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
 
     if (c == Date.class)
     {
-      Exception exception = null;
       for (int i = 0; i < EDATE_FORMATS.length; ++i)
       {
         try
@@ -325,7 +324,6 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
         }
         catch (ParseException parseException)
         {
-          exception = parseException;
         }
       }
       throw new IllegalArgumentException("The value '" + stringValue + "' is not a date formatted string of the form yyyy-MM-dd'T'HH:mm:ss'.'SSSZ or a valid subset thereof");

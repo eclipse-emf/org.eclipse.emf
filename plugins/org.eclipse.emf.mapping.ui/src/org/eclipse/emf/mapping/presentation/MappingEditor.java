@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingEditor.java,v 1.6 2005/06/08 06:23:57 nickb Exp $
+ * $Id: MappingEditor.java,v 1.7 2005/06/12 13:39:41 emerks Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -109,7 +109,6 @@ import org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -1001,7 +1000,6 @@ public abstract class MappingEditor
         if (mappingDomain.getMappingRoot().isInputObject(note.getNotifier()) || 
               mappingDomain.getMappingRoot().isOutputObject(note.getNotifier()))
         {
-          EStructuralFeature myFeature = (EStructuralFeature) note.getFeature(); 
           if (note.getFeatureID(null) == Notification.NO_FEATURE_ID - 1)
           {
             ENotificationImpl newNote = new ENotificationImpl(
@@ -1309,8 +1307,6 @@ public abstract class MappingEditor
     {
       final SashForm compositePage = new SashForm(getContainer(), SWT.VERTICAL);
       final SashForm topSashForm = new SashForm(compositePage, SWT.HORIZONTAL);
-      final MappingDomain theDomain = mappingDomain;
-
 
       ViewerPane leftSelectionViewerPane = new MyViewerPane(getSite().getPage(), MappingEditor.this, mappingDomain, true);
       leftSelectionViewerPane.createControl(topSashForm);
@@ -1946,7 +1942,6 @@ public abstract class MappingEditor
       IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
       if (file != null)
       {
-        URI oldURI = mappingRoot.eResource().getURI();
         mappingRoot.eResource().setURI(URI.createURI(getURIFromFile(file)));
         modelFile = new FileEditorInput(file);
         setInput(modelFile);
@@ -1975,10 +1970,6 @@ public abstract class MappingEditor
       // Create the mapping domain with a special command stack.
       // 
       mappingDomain = createMappingDomain(); 
-
-      // Create an adapter factory that yields item providers.
-      //
-      AdapterFactory adapterFactory = mappingDomain.getAdapterFactory();
 
       editorSelection = new StructuredSelection();
     }
@@ -2060,8 +2051,6 @@ public abstract class MappingEditor
     if (selection instanceof IComposedSelection)
     {
       Collection objects = ((IComposedSelection)selection).getCombinedSelection().toList();
-      Image image = 
-        ExtendedImageRegistry.getInstance().getImage(MappingItemProvider.getImage(mappingDomain.getMappingRoot(), "full/obj16/", objects));
       String text = MappingItemProvider.getText(mappingDomain.getMappingRoot(), mappingDomain.getAdapterFactory(), objects, "/");
       statusLineManager.setMessage(SELECTED_MAPPING_PREFIX + text);
     }
@@ -2536,8 +2525,6 @@ public abstract class MappingEditor
               return;
             }
 
-            MappingRoot mappingRoot = mappingDomain.getMappingRoot();
-
             final Collection selection = new ArrayList(((IStructuredSelection)dropDownTreeViewer.getSelection()).toList());
             if (mapping == null)
             {
@@ -2592,7 +2579,7 @@ public abstract class MappingEditor
                       return createCommand.getResult();
                     }
 
-                    public Collection getAffectedObjcts()
+                    public Collection getAffectedObjects()
                     {
                       return createCommand.getAffectedObjects();
                     }
@@ -2761,7 +2748,6 @@ public abstract class MappingEditor
         {
           secondaryMappedObjectsCollection = mappingDomain.getChildren(secondaryMappedObjectsCollection.iterator().next());
         }
-        int count = 0;
         for (Iterator secondaryMappedObjects = secondaryMappedObjectsCollection.iterator(); secondaryMappedObjects.hasNext(); )
         {
           Object mappedObject = secondaryMappedObjects.next();

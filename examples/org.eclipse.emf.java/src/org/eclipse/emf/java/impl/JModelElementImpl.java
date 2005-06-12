@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JModelElementImpl.java,v 1.2 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JModelElementImpl.java,v 1.3 2005/06/12 13:37:24 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -359,7 +358,6 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
     }
     else if (eClass().getEAllAttributes().contains(feature))
     {
-      EAttribute eAttribute = (EAttribute)feature;
       switch (eventType)
       {
         case Notification.ADD:
