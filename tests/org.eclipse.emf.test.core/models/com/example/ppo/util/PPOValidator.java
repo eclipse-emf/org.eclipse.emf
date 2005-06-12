@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PPOValidator.java,v 1.1 2005/03/14 22:15:58 marcelop Exp $
+ * $Id: PPOValidator.java,v 1.2 2005/06/12 13:52:15 emerks Exp $
  */
 package com.example.ppo.util;
 
@@ -65,6 +65,14 @@ public class PPOValidator extends EObjectValidator
   private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 1;
 
   /**
+   * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
+
+  /**
    * Creates an instance of the switch.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -72,6 +80,7 @@ public class PPOValidator extends EObjectValidator
    */
   public PPOValidator()
   {
+    super();
   }
 
   /**
