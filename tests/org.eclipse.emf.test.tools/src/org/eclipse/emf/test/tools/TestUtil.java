@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.8 2005/06/09 14:54:04 marcelop Exp $
+ * $Id: TestUtil.java,v 1.9 2005/06/12 08:10:58 marcelop Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -78,7 +78,11 @@ public class TestUtil
     {
       if (Platform.isRunning())
       {
-        return new java.io.File(Platform.asLocalURL(Platform.getBundle(pluginID).getEntry("/")).getFile()).toString();
+        File file = new File(Platform.asLocalURL(Platform.getBundle(pluginID).getEntry("/")).getFile());
+        if (file.isDirectory())
+        {
+          return file.getAbsolutePath();
+        }
       }
     }
     catch (Throwable t)

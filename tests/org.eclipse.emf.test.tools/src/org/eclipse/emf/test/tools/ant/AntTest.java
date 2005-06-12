@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.16 2005/06/10 17:07:17 marcelop Exp $
+ * $Id: AntTest.java,v 1.17 2005/06/12 08:10:58 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -30,10 +30,7 @@ import org.eclipse.emf.test.tools.TestUtil;
 public class AntTest extends TestCase
 {
   public static final String TEST_TOKEN = "@TEST_TOKEN@";
-  
-  private static final File EMF_ANT_PLUGIN_DIR = new File(TestUtil.getPluginDirectory("org.eclipse.emf.ant"));
-  private static final File ROSE_IMPORTER_PLUGIN_DIR = new File(TestUtil.getPluginDirectory("org.eclipse.emf.importer.rose"));
-  private static final File XSD_IMPORTER_PLUGIN_DIR = new File(TestUtil.getPluginDirectory("org.eclipse.xsd.ecore.importer"));
+    
   private static final File EXAMPLES_COPY_DIR = new File(TestUtil.getPluginDirectory() + "/ant.example.tmp");
   private static final File EXPECTED_DIR = new File(TestUtil.getPluginDirectory() + "/data/ant.expected");
   private static final File RELOAD_EXPECTED_DIR = new File(TestUtil.getPluginDirectory() + "/data/ant.reload/expected");
@@ -65,28 +62,95 @@ public class AntTest extends TestCase
   
   public void suiteSetUp() throws Exception
   {
-    assertTrue(EMF_ANT_PLUGIN_DIR.getAbsolutePath() + " doesn't exist", EMF_ANT_PLUGIN_DIR.isDirectory());
-    assertTrue(ROSE_IMPORTER_PLUGIN_DIR.getAbsolutePath() + " doesn't exist", ROSE_IMPORTER_PLUGIN_DIR.isDirectory());
-    assertTrue(XSD_IMPORTER_PLUGIN_DIR.getAbsolutePath() + " doesn't exist", XSD_IMPORTER_PLUGIN_DIR.isDirectory());
     assertTrue(EXPECTED_DIR.getAbsolutePath() + " doesn't exist", EXPECTED_DIR.isDirectory());
     
     TestUtil.delete(EXAMPLES_COPY_DIR);
     assertFalse(EXAMPLES_COPY_DIR.exists());
     assertTrue(EXAMPLES_COPY_DIR.mkdir());
 
+    String emfAntPluginDir = TestUtil.getPluginDirectory("org.eclipse.emf.ant"); 
+    String roseImporterPluginDir = TestUtil.getPluginDirectory("org.eclipse.emf.importer.rose");
+    String xsdImporterPluginDir = TestUtil.getPluginDirectory("org.eclipse.xsd.ecore.importer");
+
+    String emfSourcePlugin = TestUtil.getPluginDirectory("org.eclipse.emf.source");
+    String xsdSourcePlugin = TestUtil.getPluginDirectory("org.eclipse.xsd.source");
+
     // JET and Merge
-    File examplesDir = new File(EMF_ANT_PLUGIN_DIR, "examples");
+    File examplesDir = null;
+    if (emfAntPluginDir != null)
+    {
+      examplesDir = new File(emfAntPluginDir + "/examples");
+    }
+    else if (emfSourcePlugin != null)
+    {
+      File emfAntPluginSrcDir = getPluginSourceSubDirectory(emfSourcePlugin, "org.eclipse.emf.ant");
+      if (emfAntPluginSrcDir != null)
+      {
+        examplesDir = new File(emfAntPluginSrcDir + "/examples");
+      }
+    }
+    assertNotNull(examplesDir);
     assertTrue(examplesDir.getAbsolutePath() + " doesn't exist", examplesDir.isDirectory());
     TestUtil.copyFiles(examplesDir, EXAMPLES_COPY_DIR, true);
 
     // Rose
-    File libraryDir = new File(ROSE_IMPORTER_PLUGIN_DIR.getAbsolutePath() + "/examples/library");
+    File libraryDir = null;
+    if (roseImporterPluginDir != null)
+    {
+      libraryDir = new File(roseImporterPluginDir + "/examples/library");
+    }
+    else if (emfSourcePlugin != null)
+    {
+      File roseImporterPluginSrcDir = getPluginSourceSubDirectory(emfSourcePlugin, "org.eclipse.emf.importer.rose");
+      if (roseImporterPluginSrcDir != null)
+      {
+        libraryDir = new File(roseImporterPluginSrcDir + "/examples/library");
+      }
+    }
+    assertNotNull(libraryDir);
+    assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.rose"), true);
     
     // XSD and XSDs
-    libraryDir = new File(XSD_IMPORTER_PLUGIN_DIR.getAbsolutePath() + "/examples/library");
+    libraryDir = null;
+    if (xsdImporterPluginDir != null)
+    {
+      libraryDir = new File(xsdImporterPluginDir + "/examples/library");
+    }
+    else if (xsdSourcePlugin != null)
+    {
+      File xsdImporterPluginSrcDir = getPluginSourceSubDirectory(xsdSourcePlugin, "org.eclipse.xsd.ecore.importer");
+      if (xsdImporterPluginSrcDir != null)
+      {
+        libraryDir = new File(xsdImporterPluginSrcDir + "/examples/library");
+      }
+    }
+    assertNotNull(libraryDir);
+    assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.xsd"), true);
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.xsds"), true);
+  }
+  
+  protected File getPluginSourceSubDirectory(String sourcePluginDir, String pluginID)
+  {
+    File sourceDir = new File(sourcePluginDir + "/src");
+    if (sourceDir.isDirectory())
+    {
+      File[] files = sourceDir.listFiles();
+      for (int i = 0; i < files.length; i++)
+      {
+        if (files[i].isDirectory())
+        {
+          String name = files[i].getName();
+          if (name.equals(pluginID) || name.startsWith(pluginID + "_"))
+          {
+            return files[i].getAbsoluteFile();
+          }
+        }
+      }
+    }
+    
+    return null;
   }
   
   public void suiteTearDown() throws Exception
