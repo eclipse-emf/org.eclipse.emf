@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbValidator.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: DbValidator.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.util;
 
@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.AbstractEnumerator;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
 import org.eclipse.emf.ecore.EPackage;
@@ -58,6 +59,14 @@ public class DbValidator extends EObjectValidator
   private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
 
   /**
+   * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
+
+  /**
    * The cached base package validator.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -73,6 +82,7 @@ public class DbValidator extends EObjectValidator
    */
   public DbValidator()
   {
+    super();
     xmlTypeValidator = XMLTypeValidator.INSTANCE;
   }
 
@@ -112,7 +122,7 @@ public class DbValidator extends EObjectValidator
       case DbPackage.ACTORS_LIST:
         return validateActorsList((List)value, diagnostics, context);
       case DbPackage.GENRE_TYPES_OBJECT:
-        return validateGenreTypesObject((GenreTypes)value, diagnostics, context);
+        return validateGenreTypesObject((AbstractEnumerator)value, diagnostics, context);
       case DbPackage.RATING_TYPE:
         return validateRatingType(((Integer)value).intValue(), diagnostics, context);
       case DbPackage.RATING_TYPE_OBJECT:
@@ -227,7 +237,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateGenreTypesObject(GenreTypes genreTypesObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateGenreTypesObject(AbstractEnumerator genreTypesObject, DiagnosticChain diagnostics, Map context)
   {
     return true;
   }

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IpoPackageImpl.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: IpoPackageImpl.java,v 1.2 2005/06/12 14:01:27 emerks Exp $
  */
 package com.example.ipo.impl;
 
@@ -20,6 +20,8 @@ import com.example.ipo.USState;
 import com.example.ipo.util.IpoValidator;
 
 import java.math.BigInteger;
+
+import org.eclipse.emf.common.util.AbstractEnumerator;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -749,7 +751,7 @@ public class IpoPackageImpl extends EPackageImpl implements IpoPackage
     initEDataType(quantityTypeEDataType, BigInteger.class, "QuantityType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(skuEDataType, String.class, "SKU", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(ukPostcodeEDataType, String.class, "UKPostcode", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(usStateObjectEDataType, USState.class, "USStateObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(usStateObjectEDataType, AbstractEnumerator.class, "USStateObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);

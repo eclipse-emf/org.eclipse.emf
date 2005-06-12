@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerSwitch.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: CustomerSwitch.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.util;
 
@@ -26,8 +26,7 @@ import org.eclipse.emf.test.models.customer.*;
  * @see org.eclipse.emf.test.models.customer.CustomerPackage
  * @generated
  */
-public class CustomerSwitch
-{
+public class CustomerSwitch {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -96,6 +95,13 @@ public class CustomerSwitch
   {
     switch (classifierID)
     {
+      case CustomerPackage.ADDRESS_TYPE:
+      {
+        AddressType addressType = (AddressType)theEObject;
+        Object result = caseAddressType(addressType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case CustomerPackage.CANADA_ADDR:
       {
         CanadaAddr canadaAddr = (CanadaAddr)theEObject;
@@ -111,7 +117,7 @@ public class CustomerSwitch
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case CustomerPackage.CUSTOMER_STYPE:
+      case CustomerPackage.CUSTOMERS_TYPE:
       {
         CustomersType customersType = (CustomersType)theEObject;
         Object result = caseCustomersType(customersType);
@@ -193,13 +199,13 @@ public class CustomerSwitch
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>sType</em>'.
+   * Returns the result of interpretting the object as an instance of '<em>Customers Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>sType</em>'.
+   * @return the result of interpretting the object as an instance of '<em>Customers Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

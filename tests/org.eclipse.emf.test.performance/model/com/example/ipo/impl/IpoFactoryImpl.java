@@ -2,13 +2,15 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IpoFactoryImpl.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: IpoFactoryImpl.java,v 1.2 2005/06/12 14:01:27 emerks Exp $
  */
 package com.example.ipo.impl;
 
 import com.example.ipo.*;
 
 import java.math.BigInteger;
+
+import org.eclipse.emf.common.util.AbstractEnumerator;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -28,7 +30,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -277,9 +279,9 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public USState createUSStateObjectFromString(EDataType eDataType, String initialValue)
+  public AbstractEnumerator createUSStateObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (USState)IpoFactory.eINSTANCE.createFromString(IpoPackage.eINSTANCE.getUSState(), initialValue);
+    return (AbstractEnumerator)IpoFactory.eINSTANCE.createFromString(IpoPackage.eINSTANCE.getUSState(), initialValue);
   }
 
   /**

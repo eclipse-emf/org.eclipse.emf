@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: OrderFactoryImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: OrderFactoryImpl.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.order.impl;
 
@@ -22,7 +22,7 @@ import org.eclipse.emf.test.models.order.*;
 public class OrderFactoryImpl extends EFactoryImpl implements OrderFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

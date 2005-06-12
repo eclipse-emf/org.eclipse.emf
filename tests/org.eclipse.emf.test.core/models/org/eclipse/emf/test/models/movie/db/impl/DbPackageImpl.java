@@ -2,11 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbPackageImpl.java,v 1.2 2005/02/22 23:08:12 marcelop Exp $
+ * $Id: DbPackageImpl.java,v 1.3 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
 import java.util.List;
+
+import org.eclipse.emf.common.util.AbstractEnumerator;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -756,7 +758,7 @@ public class DbPackageImpl extends EPackageImpl implements DbPackage
 
     // Initialize data types
     initEDataType(actorsListEDataType, List.class, "ActorsList", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(genreTypesObjectEDataType, GenreTypes.class, "GenreTypesObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(genreTypesObjectEDataType, AbstractEnumerator.class, "GenreTypesObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
     initEDataType(ratingTypeEDataType, int.class, "RatingType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(ratingTypeObjectEDataType, Integer.class, "RatingTypeObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(ratingValuesEDataType, int.class, "RatingValues", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

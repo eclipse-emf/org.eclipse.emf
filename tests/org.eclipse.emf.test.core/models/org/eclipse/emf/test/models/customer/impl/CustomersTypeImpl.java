@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomersTypeImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: CustomersTypeImpl.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
@@ -80,7 +80,7 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
   {
     if (mixed == null)
     {
-      mixed = new BasicFeatureMap(this, CustomerPackage.CUSTOMER_STYPE__MIXED);
+      mixed = new BasicFeatureMap(this, CustomerPackage.CUSTOMERS_TYPE__MIXED);
     }
     return mixed;
   }
@@ -106,9 +106,9 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
     {
       switch (eDerivedStructuralFeatureID(featureID, baseClass))
       {
-        case CustomerPackage.CUSTOMER_STYPE__MIXED:
+        case CustomerPackage.CUSTOMERS_TYPE__MIXED:
           return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
-        case CustomerPackage.CUSTOMER_STYPE__CUSTOMER:
+        case CustomerPackage.CUSTOMERS_TYPE__CUSTOMER:
           return ((InternalEList)getCustomer()).basicRemove(otherEnd, msgs);
         default:
           return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
@@ -126,9 +126,9 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
-      case CustomerPackage.CUSTOMER_STYPE__MIXED:
+      case CustomerPackage.CUSTOMERS_TYPE__MIXED:
         return getMixed();
-      case CustomerPackage.CUSTOMER_STYPE__CUSTOMER:
+      case CustomerPackage.CUSTOMERS_TYPE__CUSTOMER:
         return getCustomer();
     }
     return eDynamicGet(eFeature, resolve);
@@ -143,11 +143,11 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
-      case CustomerPackage.CUSTOMER_STYPE__MIXED:
+      case CustomerPackage.CUSTOMERS_TYPE__MIXED:
         getMixed().clear();
         getMixed().addAll((Collection)newValue);
         return;
-      case CustomerPackage.CUSTOMER_STYPE__CUSTOMER:
+      case CustomerPackage.CUSTOMERS_TYPE__CUSTOMER:
         getCustomer().clear();
         getCustomer().addAll((Collection)newValue);
         return;
@@ -164,10 +164,10 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
-      case CustomerPackage.CUSTOMER_STYPE__MIXED:
+      case CustomerPackage.CUSTOMERS_TYPE__MIXED:
         getMixed().clear();
         return;
-      case CustomerPackage.CUSTOMER_STYPE__CUSTOMER:
+      case CustomerPackage.CUSTOMERS_TYPE__CUSTOMER:
         getCustomer().clear();
         return;
     }
@@ -183,9 +183,9 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
-      case CustomerPackage.CUSTOMER_STYPE__MIXED:
+      case CustomerPackage.CUSTOMERS_TYPE__MIXED:
         return mixed != null && !mixed.isEmpty();
-      case CustomerPackage.CUSTOMER_STYPE__CUSTOMER:
+      case CustomerPackage.CUSTOMERS_TYPE__CUSTOMER:
         return !getCustomer().isEmpty();
     }
     return eDynamicIsSet(eFeature);

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbPackage.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: DbPackage.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -27,8 +27,7 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.emf.test.models.movie.db.DbFactory
  * @generated
  */
-public interface DbPackage extends EPackage
-{
+public interface DbPackage extends EPackage{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -423,7 +422,7 @@ public interface DbPackage extends EPackage
    * The meta object id for the '<em>Genre Types Object</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.emf.test.models.movie.db.GenreTypes
+   * @see org.eclipse.emf.common.util.AbstractEnumerator
    * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getGenreTypesObject()
    * @generated
    */
@@ -816,12 +815,12 @@ public interface DbPackage extends EPackage
   EDataType getActorsList();
 
   /**
-   * Returns the meta object for data type '{@link org.eclipse.emf.test.models.movie.db.GenreTypes <em>Genre Types Object</em>}'.
+   * Returns the meta object for data type '{@link org.eclipse.emf.common.util.AbstractEnumerator <em>Genre Types Object</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Genre Types Object</em>'.
-   * @see org.eclipse.emf.test.models.movie.db.GenreTypes
-   * @model instanceClass="org.eclipse.emf.test.models.movie.db.GenreTypes"
+   * @see org.eclipse.emf.common.util.AbstractEnumerator
+   * @model instanceClass="org.eclipse.emf.common.util.AbstractEnumerator"
    *        extendedMetaData="name='genreTypes:Object' baseType='genreTypes'" 
    * @generated
    */

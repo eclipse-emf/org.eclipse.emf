@@ -2,11 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerPackageImpl.java,v 1.2 2005/02/22 23:08:12 marcelop Exp $
+ * $Id: CustomerPackageImpl.java,v 1.3 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
 import java.math.BigInteger;
+
+import org.eclipse.emf.common.util.AbstractEnumerator;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -583,9 +585,9 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     createEAttribute(creditInfoEClass, CREDIT_INFO__CC_NUMBER);
     createEAttribute(creditInfoEClass, CREDIT_INFO__EXPIRE_DATE);
 
-    customersTypeEClass = createEClass(CUSTOMER_STYPE);
-    createEAttribute(customersTypeEClass, CUSTOMER_STYPE__MIXED);
-    createEReference(customersTypeEClass, CUSTOMER_STYPE__CUSTOMER);
+    customersTypeEClass = createEClass(CUSTOMERS_TYPE);
+    createEAttribute(customersTypeEClass, CUSTOMERS_TYPE__MIXED);
+    createEReference(customersTypeEClass, CUSTOMERS_TYPE__CUSTOMER);
 
     customerTypeEClass = createEClass(CUSTOMER_TYPE);
     createEAttribute(customerTypeEClass, CUSTOMER_TYPE__NAME);
@@ -688,7 +690,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     addEEnumLiteral(usStateEEnum, USState.AR_LITERAL);
 
     // Initialize data types
-    initEDataType(usStateObjectEDataType, USState.class, "USStateObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(usStateObjectEDataType, AbstractEnumerator.class, "USStateObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
     initEDataType(zipCodesEDataType, BigInteger.class, "ZipCodes", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(zipUnionEDataType, Object.class, "ZipUnion", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 

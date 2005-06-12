@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerFactory.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: CustomerFactory.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -45,10 +45,10 @@ public interface CustomerFactory extends EFactory
   CreditInfo createCreditInfo();
 
   /**
-   * Returns a new object of class '<em>sType</em>'.
+   * Returns a new object of class '<em>Customers Type</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>sType</em>'.
+   * @return a new object of class '<em>Customers Type</em>'.
    * @generated
    */
   CustomersType createCustomersType();

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SimpleFactoryImpl.java,v 1.1 2004/12/19 04:02:21 marcelop Exp $
+ * $Id: SimpleFactoryImpl.java,v 1.2 2005/06/12 14:04:08 emerks Exp $
  */
 package com.example.simple.impl;
 
@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 public class SimpleFactoryImpl extends EFactoryImpl implements SimpleFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

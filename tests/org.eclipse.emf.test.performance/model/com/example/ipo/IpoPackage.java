@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IpoPackage.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: IpoPackage.java,v 1.2 2005/06/12 14:01:27 emerks Exp $
  */
 package com.example.ipo;
 
@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
- *         International Purchase order schema for Example.com        Copyright 2000 Example.com. All rights reserved.      
+ *        International Purchase order schema for Example.com       Copyright 2000 Example.com. All rights reserved.     
  * <!-- end-model-doc -->
  * @see com.example.ipo.IpoFactory
  * @generated
@@ -521,7 +521,7 @@ public interface IpoPackage extends EPackage
    * The meta object id for the '<em>US State Object</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see com.example.ipo.USState
+   * @see org.eclipse.emf.common.util.AbstractEnumerator
    * @see com.example.ipo.impl.IpoPackageImpl#getUSStateObject()
    * @generated
    */
@@ -921,12 +921,12 @@ public interface IpoPackage extends EPackage
   EDataType getUKPostcode();
 
   /**
-   * Returns the meta object for data type '{@link com.example.ipo.USState <em>US State Object</em>}'.
+   * Returns the meta object for data type '{@link org.eclipse.emf.common.util.AbstractEnumerator <em>US State Object</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>US State Object</em>'.
-   * @see com.example.ipo.USState
-   * @model instanceClass="com.example.ipo.USState"
+   * @see org.eclipse.emf.common.util.AbstractEnumerator
+   * @model instanceClass="org.eclipse.emf.common.util.AbstractEnumerator"
    *        extendedMetaData="name='USState:Object' baseType='USState'" 
    * @generated
    */

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Quote.java,v 1.1 2004/12/19 04:02:21 marcelop Exp $
+ * $Id: Quote.java,v 1.2 2005/06/12 14:03:56 emerks Exp $
  */
 package com.example.simple;
 
@@ -31,11 +31,10 @@ import java.util.List;
  * </p>
  *
  * @see com.example.simple.SimplePackage#getQuote()
- * @model 
+ * @model extendedMetaData="name='Quote' kind='elementOnly'"
  * @generated
  */
-public interface Quote
-{
+public interface Quote {
   /**
    * Returns the value of the '<em><b>Symbol</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -48,6 +47,7 @@ public interface Quote
    * @see #setSymbol(String)
    * @see com.example.simple.SimplePackage#getQuote_Symbol()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='symbol'"
    * @generated
    */
   String getSymbol();
@@ -74,6 +74,7 @@ public interface Quote
    * @see #setCompanyName(String)
    * @see com.example.simple.SimplePackage#getQuote_CompanyName()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='companyName'"
    * @generated
    */
   String getCompanyName();
@@ -100,6 +101,7 @@ public interface Quote
    * @see #setPrice(BigDecimal)
    * @see com.example.simple.SimplePackage#getQuote_Price()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   *        extendedMetaData="kind='element' name='price'"
    * @generated
    */
   BigDecimal getPrice();
@@ -126,6 +128,7 @@ public interface Quote
    * @see #setOpen1(BigDecimal)
    * @see com.example.simple.SimplePackage#getQuote_Open1()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   *        extendedMetaData="kind='element' name='open1'"
    * @generated
    */
   BigDecimal getOpen1();
@@ -152,6 +155,7 @@ public interface Quote
    * @see #setHigh(BigDecimal)
    * @see com.example.simple.SimplePackage#getQuote_High()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   *        extendedMetaData="kind='element' name='high'"
    * @generated
    */
   BigDecimal getHigh();
@@ -178,6 +182,7 @@ public interface Quote
    * @see #setLow(BigDecimal)
    * @see com.example.simple.SimplePackage#getQuote_Low()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   *        extendedMetaData="kind='element' name='low'"
    * @generated
    */
   BigDecimal getLow();
@@ -206,6 +211,7 @@ public interface Quote
    * @see #setVolume(double)
    * @see com.example.simple.SimplePackage#getQuote_Volume()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+   *        extendedMetaData="kind='element' name='volume'"
    * @generated
    */
   double getVolume();
@@ -259,6 +265,7 @@ public interface Quote
    * @see #setChange1(double)
    * @see com.example.simple.SimplePackage#getQuote_Change1()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+   *        extendedMetaData="kind='element' name='change1'"
    * @generated
    */
   double getChange1();
@@ -310,6 +317,7 @@ public interface Quote
    * @return the value of the '<em>Quotes</em>' containment reference list.
    * @see com.example.simple.SimplePackage#getQuote_Quotes()
    * @model type="com.example.simple.Quote" containment="true"
+   *        extendedMetaData="kind='element' name='quotes'"
    * @generated
    */
   List getQuotes();

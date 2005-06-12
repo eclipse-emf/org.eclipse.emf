@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DocumentRootImpl.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: DocumentRootImpl.java,v 1.2 2005/06/12 14:01:27 emerks Exp $
  */
 package com.example.ipo.impl;
 
@@ -187,7 +187,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public NotificationChain basicSetPurchaseOrder(PurchaseOrderType newPurchaseOrder, NotificationChain msgs)
   {
-    return ((FeatureMap.Internal)getMixed()).basicAdd(IpoPackage.eINSTANCE.getDocumentRoot_PurchaseOrder(), newPurchaseOrder, null);
+    return ((FeatureMap.Internal)getMixed()).basicAdd(IpoPackage.eINSTANCE.getDocumentRoot_PurchaseOrder(), newPurchaseOrder, msgs);
   }
 
   /**

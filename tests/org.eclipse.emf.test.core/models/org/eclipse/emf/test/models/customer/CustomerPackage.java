@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerPackage.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: CustomerPackage.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -200,14 +200,14 @@ public interface CustomerPackage extends EPackage
   int CREDIT_INFO_FEATURE_COUNT = 3;
 
   /**
-   * The meta object id for the '{@link org.eclipse.emf.test.models.customer.impl.CustomersTypeImpl <em>sType</em>}' class.
+   * The meta object id for the '{@link org.eclipse.emf.test.models.customer.impl.CustomersTypeImpl <em>Customers Type</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see org.eclipse.emf.test.models.customer.impl.CustomersTypeImpl
    * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getCustomersType()
    * @generated
    */
-  int CUSTOMER_STYPE = 3;
+  int CUSTOMERS_TYPE = 3;
 
   /**
    * The feature id for the '<em><b>Mixed</b></em>' attribute list.
@@ -216,7 +216,7 @@ public interface CustomerPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CUSTOMER_STYPE__MIXED = 0;
+  int CUSTOMERS_TYPE__MIXED = 0;
 
   /**
    * The feature id for the '<em><b>Customer</b></em>' containment reference list.
@@ -225,16 +225,16 @@ public interface CustomerPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CUSTOMER_STYPE__CUSTOMER = 1;
+  int CUSTOMERS_TYPE__CUSTOMER = 1;
 
   /**
-   * The number of structural features of the the '<em>sType</em>' class.
+   * The number of structural features of the the '<em>Customers Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int CUSTOMER_STYPE_FEATURE_COUNT = 2;
+  int CUSTOMERS_TYPE_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.test.models.customer.impl.CustomerTypeImpl <em>Type</em>}' class.
@@ -433,7 +433,7 @@ public interface CustomerPackage extends EPackage
    * The meta object id for the '<em>US State Object</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.emf.test.models.customer.USState
+   * @see org.eclipse.emf.common.util.AbstractEnumerator
    * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getUSStateObject()
    * @generated
    */
@@ -568,10 +568,10 @@ public interface CustomerPackage extends EPackage
   EAttribute getCreditInfo_ExpireDate();
 
   /**
-   * Returns the meta object for class '{@link org.eclipse.emf.test.models.customer.CustomersType <em>sType</em>}'.
+   * Returns the meta object for class '{@link org.eclipse.emf.test.models.customer.CustomersType <em>Customers Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>sType</em>'.
+   * @return the meta object for class '<em>Customers Type</em>'.
    * @see org.eclipse.emf.test.models.customer.CustomersType
    * @generated
    */
@@ -772,12 +772,12 @@ public interface CustomerPackage extends EPackage
   EEnum getUSState();
 
   /**
-   * Returns the meta object for data type '{@link org.eclipse.emf.test.models.customer.USState <em>US State Object</em>}'.
+   * Returns the meta object for data type '{@link org.eclipse.emf.common.util.AbstractEnumerator <em>US State Object</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>US State Object</em>'.
-   * @see org.eclipse.emf.test.models.customer.USState
-   * @model instanceClass="org.eclipse.emf.test.models.customer.USState"
+   * @see org.eclipse.emf.common.util.AbstractEnumerator
+   * @model instanceClass="org.eclipse.emf.common.util.AbstractEnumerator"
    *        extendedMetaData="name='USState:Object' baseType='USState'" 
    * @generated
    */

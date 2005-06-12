@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbFactoryImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: DbFactoryImpl.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import org.eclipse.emf.common.util.AbstractEnumerator;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -31,7 +33,7 @@ import org.eclipse.emf.test.models.movie.db.*;
 public class DbFactoryImpl extends EFactoryImpl implements DbFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -216,9 +218,9 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public GenreTypes createGenreTypesObjectFromString(EDataType eDataType, String initialValue)
+  public AbstractEnumerator createGenreTypesObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (GenreTypes)DbFactory.eINSTANCE.createFromString(DbPackage.eINSTANCE.getGenreTypes(), initialValue);
+    return (AbstractEnumerator)DbFactory.eINSTANCE.createFromString(DbPackage.eINSTANCE.getGenreTypes(), initialValue);
   }
 
   /**

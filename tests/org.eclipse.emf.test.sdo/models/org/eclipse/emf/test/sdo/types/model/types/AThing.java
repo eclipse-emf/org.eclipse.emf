@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: AThing.java,v 1.1 2004/12/19 04:02:20 marcelop Exp $
+ * $Id: AThing.java,v 1.2 2005/06/12 14:05:03 emerks Exp $
  */
 package org.eclipse.emf.test.sdo.types.model.types;
 
@@ -56,7 +56,7 @@ import java.util.List;
  * </p>
  *
  * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing()
- * @model 
+ * @model extendedMetaData="name='AThing' kind='elementOnly'"
  * @generated
  */
 public interface AThing
@@ -75,6 +75,7 @@ public interface AThing
    * @see #setABoolean(boolean)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ABoolean()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+   *        extendedMetaData="kind='element' name='aBoolean'"
    * @generated
    */
   boolean isABoolean();
@@ -128,6 +129,7 @@ public interface AThing
    * @see #setAByte(byte)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_AByte()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Byte" required="true"
+   *        extendedMetaData="kind='element' name='aByte'"
    * @generated
    */
   byte getAByte();
@@ -179,6 +181,7 @@ public interface AThing
    * @see #setADecimal(BigDecimal)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ADecimal()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   *        extendedMetaData="kind='element' name='aDecimal'"
    * @generated
    */
   BigDecimal getADecimal();
@@ -207,6 +210,7 @@ public interface AThing
    * @see #setAFloat(float)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_AFloat()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Float" required="true"
+   *        extendedMetaData="kind='element' name='aFloat'"
    * @generated
    */
   float getAFloat();
@@ -260,6 +264,7 @@ public interface AThing
    * @see #setADouble(double)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ADouble()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+   *        extendedMetaData="kind='element' name='aDouble'"
    * @generated
    */
   double getADouble();
@@ -313,6 +318,7 @@ public interface AThing
    * @see #setAInt(int)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_AInt()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+   *        extendedMetaData="kind='element' name='aInt'"
    * @generated
    */
   int getAInt();
@@ -364,6 +370,7 @@ public interface AThing
    * @see #setAInteger(BigInteger)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_AInteger()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Integer" required="true"
+   *        extendedMetaData="kind='element' name='aInteger'"
    * @generated
    */
   BigInteger getAInteger();
@@ -392,6 +399,7 @@ public interface AThing
    * @see #setALong(long)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ALong()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Long" required="true"
+   *        extendedMetaData="kind='element' name='aLong'"
    * @generated
    */
   long getALong();
@@ -445,6 +453,7 @@ public interface AThing
    * @see #setAShort(short)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_AShort()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Short" required="true"
+   *        extendedMetaData="kind='element' name='aShort'"
    * @generated
    */
   short getAShort();
@@ -496,6 +505,7 @@ public interface AThing
    * @see #setAString(String)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_AString()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='aString'"
    * @generated
    */
   String getAString();
@@ -524,6 +534,7 @@ public interface AThing
    * @see #setAChar(char)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_AChar()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.test.sdo.types.model.types.MyChar" required="true"
+   *        extendedMetaData="kind='element' name='aChar'"
    * @generated
    */
   char getAChar();
@@ -575,6 +586,7 @@ public interface AThing
    * @see #setADate(Date)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ADate()
    * @model unique="false" dataType="org.eclipse.emf.test.sdo.types.model.types.MyDate" required="true"
+   *        extendedMetaData="kind='element' name='aDate'"
    * @generated
    */
   Date getADate();
@@ -601,6 +613,7 @@ public interface AThing
    * @see #setABytes(byte[])
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ABytes()
    * @model unique="false" dataType="org.eclipse.emf.test.sdo.types.model.types.MyBytes" required="true"
+   *        extendedMetaData="kind='element' name='aBytes'"
    * @generated
    */
   byte[] getABytes();
@@ -627,6 +640,7 @@ public interface AThing
    * @see #setANumber(Number)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ANumber()
    * @model unique="false" dataType="org.eclipse.emf.test.sdo.types.model.types.MyNumber" required="true"
+   *        extendedMetaData="kind='element' name='aNumber'"
    * @generated
    */
   Number getANumber();
@@ -653,6 +667,7 @@ public interface AThing
    * @see #setAObject(Object)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_AObject()
    * @model unique="false" dataType="org.eclipse.emf.test.sdo.types.model.types.MyObject" required="true"
+   *        extendedMetaData="kind='element' name='aObject'"
    * @generated
    */
   Object getAObject();
@@ -679,6 +694,7 @@ public interface AThing
    * @see #setAThread(Thread)
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_AThread()
    * @model unique="false" dataType="org.eclipse.emf.test.sdo.types.model.types.MyThread" required="true"
+   *        extendedMetaData="kind='element' name='aThread'"
    * @generated
    */
   Thread getAThread();
@@ -705,6 +721,7 @@ public interface AThing
    * @return the value of the '<em>Many Boolean</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyBoolean()
    * @model type="boolean" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+   *        extendedMetaData="kind='element' name='manyBoolean'"
    * @generated
    */
   List getManyBoolean();
@@ -721,6 +738,7 @@ public interface AThing
    * @return the value of the '<em>Many Byte</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyByte()
    * @model type="byte" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Byte" required="true"
+   *        extendedMetaData="kind='element' name='manyByte'"
    * @generated
    */
   List getManyByte();
@@ -737,6 +755,7 @@ public interface AThing
    * @return the value of the '<em>Many Decimal</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyDecimal()
    * @model type="java.math.BigDecimal" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   *        extendedMetaData="kind='element' name='manyDecimal'"
    * @generated
    */
   List getManyDecimal();
@@ -753,6 +772,7 @@ public interface AThing
    * @return the value of the '<em>Many Float</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyFloat()
    * @model type="float" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Float" required="true"
+   *        extendedMetaData="kind='element' name='manyFloat'"
    * @generated
    */
   List getManyFloat();
@@ -769,6 +789,7 @@ public interface AThing
    * @return the value of the '<em>Many Double</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyDouble()
    * @model type="double" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+   *        extendedMetaData="kind='element' name='manyDouble'"
    * @generated
    */
   List getManyDouble();
@@ -785,6 +806,7 @@ public interface AThing
    * @return the value of the '<em>Many Int</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyInt()
    * @model type="int" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+   *        extendedMetaData="kind='element' name='manyInt'"
    * @generated
    */
   List getManyInt();
@@ -801,6 +823,7 @@ public interface AThing
    * @return the value of the '<em>Many Integer</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyInteger()
    * @model type="java.math.BigInteger" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Integer" required="true"
+   *        extendedMetaData="kind='element' name='manyInteger'"
    * @generated
    */
   List getManyInteger();
@@ -817,6 +840,7 @@ public interface AThing
    * @return the value of the '<em>Many Long</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyLong()
    * @model type="long" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Long" required="true"
+   *        extendedMetaData="kind='element' name='manyLong'"
    * @generated
    */
   List getManyLong();
@@ -833,6 +857,7 @@ public interface AThing
    * @return the value of the '<em>Many Short</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyShort()
    * @model type="short" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Short" required="true"
+   *        extendedMetaData="kind='element' name='manyShort'"
    * @generated
    */
   List getManyShort();
@@ -849,6 +874,7 @@ public interface AThing
    * @return the value of the '<em>Many String</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyString()
    * @model type="java.lang.String" unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='manyString'"
    * @generated
    */
   List getManyString();
@@ -865,6 +891,7 @@ public interface AThing
    * @return the value of the '<em>Many Char</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyChar()
    * @model type="char" unique="false" dataType="org.eclipse.emf.test.sdo.types.model.types.MyChar" required="true"
+   *        extendedMetaData="kind='element' name='manyChar'"
    * @generated
    */
   List getManyChar();
@@ -881,6 +908,7 @@ public interface AThing
    * @return the value of the '<em>Many Date</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyDate()
    * @model type="java.util.Date" unique="false" dataType="org.eclipse.emf.test.sdo.types.model.types.MyDate" required="true"
+   *        extendedMetaData="kind='element' name='manyDate'"
    * @generated
    */
   List getManyDate();
@@ -897,6 +925,7 @@ public interface AThing
    * @return the value of the '<em>Many Bytes</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyBytes()
    * @model type="byte[]" unique="false" dataType="org.eclipse.emf.test.sdo.types.model.types.MyBytes" required="true"
+   *        extendedMetaData="kind='element' name='manyBytes'"
    * @generated
    */
   List getManyBytes();
@@ -913,6 +942,7 @@ public interface AThing
    * @return the value of the '<em>Many Number</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyNumber()
    * @model type="java.lang.Number" unique="false" dataType="org.eclipse.emf.test.sdo.types.model.types.MyNumber" required="true"
+   *        extendedMetaData="kind='element' name='manyNumber'"
    * @generated
    */
   List getManyNumber();
@@ -929,6 +959,7 @@ public interface AThing
    * @return the value of the '<em>Many Object</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyObject()
    * @model type="java.lang.Object" unique="false" dataType="org.eclipse.emf.test.sdo.types.model.types.MyObject" required="true"
+   *        extendedMetaData="kind='element' name='manyObject'"
    * @generated
    */
   List getManyObject();
@@ -945,6 +976,7 @@ public interface AThing
    * @return the value of the '<em>Many Thread</em>' attribute list.
    * @see org.eclipse.emf.test.sdo.types.model.types.TypesPackage#getAThing_ManyThread()
    * @model type="java.lang.Thread" unique="false" dataType="org.eclipse.emf.test.sdo.types.model.types.MyThread" required="true"
+   *        extendedMetaData="kind='element' name='manyThread'"
    * @generated
    */
   List getManyThread();

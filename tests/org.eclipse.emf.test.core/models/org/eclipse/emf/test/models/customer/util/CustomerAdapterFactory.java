@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerAdapterFactory.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: CustomerAdapterFactory.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.util;
 
@@ -171,7 +171,7 @@ public class CustomerAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.models.customer.CustomersType <em>sType</em>}'.
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.models.customer.CustomersType <em>Customers Type</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.

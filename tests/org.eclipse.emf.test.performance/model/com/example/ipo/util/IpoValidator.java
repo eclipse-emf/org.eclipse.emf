@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IpoValidator.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: IpoValidator.java,v 1.2 2005/06/12 14:01:27 emerks Exp $
  */
 package com.example.ipo.util;
 
@@ -12,6 +12,7 @@ import java.math.BigInteger;
 
 import java.util.Map;
 
+import org.eclipse.emf.common.util.AbstractEnumerator;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
 import org.eclipse.emf.ecore.EPackage;
@@ -57,6 +58,14 @@ public class IpoValidator extends EObjectValidator
   private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
 
   /**
+   * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
+
+  /**
    * The cached base package validator.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -72,6 +81,7 @@ public class IpoValidator extends EObjectValidator
    */
   public IpoValidator()
   {
+    super();
     xmlTypeValidator = XMLTypeValidator.INSTANCE;
   }
 
@@ -121,7 +131,7 @@ public class IpoValidator extends EObjectValidator
       case IpoPackage.UK_POSTCODE:
         return validateUKPostcode((String)value, diagnostics, context);
       case IpoPackage.US_STATE_OBJECT:
-        return validateUSStateObject((USState)value, diagnostics, context);
+        return validateUSStateObject((AbstractEnumerator)value, diagnostics, context);
       default: 
         return true;
     }
@@ -214,20 +224,39 @@ public class IpoValidator extends EObjectValidator
    */
   public boolean validatePostcode(String postcode, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validatePostcode_Length(postcode, diagnostics, context);
+    boolean result = validatePostcode_MinLength(postcode, diagnostics, context);
+    if (result || diagnostics != null) result &= validatePostcode_MaxLength(postcode, diagnostics, context);
     return result;
   }
 
   /**
-   * Validates the Length constraint of '<em>Postcode</em>'.
+   * Validates the MinLength constraint of '<em>Postcode</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validatePostcode_Length(String postcode, DiagnosticChain diagnostics, Map context)
+  public boolean validatePostcode_MinLength(String postcode, DiagnosticChain diagnostics, Map context)
   {
-    // TODO implement the constraint
-    return true;
+    int length = postcode.length();  
+    boolean result = length >= 7;
+    if (!result && diagnostics != null) 
+      reportMinLengthViolation(IpoPackage.eINSTANCE.getPostcode(), postcode, length, 7, diagnostics, context);
+    return result;
+  }
+
+  /**
+   * Validates the MaxLength constraint of '<em>Postcode</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validatePostcode_MaxLength(String postcode, DiagnosticChain diagnostics, Map context)
+  {
+    int length = postcode.length();  
+    boolean result = length <= 7;
+    if (!result && diagnostics != null) 
+      reportMaxLengthViolation(IpoPackage.eINSTANCE.getPostcode(), postcode, length, 7, diagnostics, context);
+    return result;
   }
 
   /**
@@ -308,7 +337,8 @@ public class IpoValidator extends EObjectValidator
    */
   public boolean validateUKPostcode(String ukPostcode, DiagnosticChain diagnostics, Map context)
   {
-    boolean result = validatePostcode_Length(ukPostcode, diagnostics, context);
+    boolean result = validatePostcode_MinLength(ukPostcode, diagnostics, context);
+    if (result || diagnostics != null) result &= validatePostcode_MaxLength(ukPostcode, diagnostics, context);
     if (result || diagnostics != null) result &= validateUKPostcode_Pattern(ukPostcode, diagnostics, context);
     return result;
   }
@@ -344,7 +374,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUSStateObject(USState usStateObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateUSStateObject(AbstractEnumerator usStateObject, DiagnosticChain diagnostics, Map context)
   {
     return true;
   }

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IpoValidator.java,v 1.1 2005/02/15 20:21:05 bportier Exp $
+ * $Id: IpoValidator.java,v 1.2 2005/06/12 14:01:27 emerks Exp $
  */
 package com.example.sdo.ipo.util;
 
@@ -48,14 +48,6 @@ public class IpoValidator extends EObjectValidator
    * @generated
    */
   public static final String DIAGNOSTIC_SOURCE = "com.example.sdo.ipo";
-
-  /**
-   * A constant with a fixed name that can be used as the base value for additional hand written constants.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
 
   /**
    * The cached base package validator.

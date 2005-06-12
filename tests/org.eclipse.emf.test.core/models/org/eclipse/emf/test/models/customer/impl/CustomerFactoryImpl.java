@@ -2,11 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerFactoryImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: CustomerFactoryImpl.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
 import java.math.BigInteger;
+
+import org.eclipse.emf.common.util.AbstractEnumerator;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -28,7 +30,7 @@ import org.eclipse.emf.test.models.customer.*;
 public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -49,7 +51,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
     {
       case CustomerPackage.CANADA_ADDR: return createCanadaAddr();
       case CustomerPackage.CREDIT_INFO: return createCreditInfo();
-      case CustomerPackage.CUSTOMER_STYPE: return createCustomersType();
+      case CustomerPackage.CUSTOMERS_TYPE: return createCustomersType();
       case CustomerPackage.CUSTOMER_TYPE: return createCustomerType();
       case CustomerPackage.DOCUMENT_ROOT: return createDocumentRoot();
       case CustomerPackage.US_ADDR: return createUSAddr();
@@ -177,9 +179,9 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public USState createUSStateObjectFromString(EDataType eDataType, String initialValue)
+  public AbstractEnumerator createUSStateObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (USState)CustomerFactory.eINSTANCE.createFromString(CustomerPackage.eINSTANCE.getUSState(), initialValue);
+    return (AbstractEnumerator)CustomerFactory.eINSTANCE.createFromString(CustomerPackage.eINSTANCE.getUSState(), initialValue);
   }
 
   /**
@@ -242,13 +244,27 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
   {
     if (CustomerPackage.eINSTANCE.getUSState().isInstance(instanceValue))
     {
-      return CustomerFactory.eINSTANCE.convertToString(CustomerPackage.eINSTANCE.getUSState(), instanceValue);
+      try
+      {
+        String value = CustomerFactory.eINSTANCE.convertToString(CustomerPackage.eINSTANCE.getUSState(), instanceValue);
+        if (value != null) return value;
+      }
+      catch (Exception e)
+      {
+      }
     }
     if (CustomerPackage.eINSTANCE.getZipCodes().isInstance(instanceValue))
     {
-      return CustomerFactory.eINSTANCE.convertToString(CustomerPackage.eINSTANCE.getZipCodes(), instanceValue);
+      try
+      {
+        String value = CustomerFactory.eINSTANCE.convertToString(CustomerPackage.eINSTANCE.getZipCodes(), instanceValue);
+        if (value != null) return value;
+      }
+      catch (Exception e)
+      {
+      }
     }
-    return null;
+    throw new IllegalArgumentException("Invalid value: '"+instanceValue+"' for datatype :"+eDataType.getName());
   }
 
   /**

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesFactoryImpl.java,v 1.1 2004/12/19 04:02:20 marcelop Exp $
+ * $Id: TypesFactoryImpl.java,v 1.2 2005/06/12 14:05:03 emerks Exp $
  */
 package org.eclipse.emf.test.sdo.types.model.types.impl;
 
@@ -25,7 +25,7 @@ import org.eclipse.emf.test.sdo.types.model.types.*;
 public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

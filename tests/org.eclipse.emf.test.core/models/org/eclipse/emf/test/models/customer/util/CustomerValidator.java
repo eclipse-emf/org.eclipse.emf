@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerValidator.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: CustomerValidator.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.util;
 
@@ -10,6 +10,7 @@ import java.math.BigInteger;
 
 import java.util.Map;
 
+import org.eclipse.emf.common.util.AbstractEnumerator;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
 import org.eclipse.emf.ecore.EPackage;
@@ -56,6 +57,14 @@ public class CustomerValidator extends EObjectValidator
   private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
 
   /**
+   * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
+
+  /**
    * The cached base package validator.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -71,6 +80,7 @@ public class CustomerValidator extends EObjectValidator
    */
   public CustomerValidator()
   {
+    super();
     xmlTypeValidator = XMLTypeValidator.INSTANCE;
   }
 
@@ -101,7 +111,7 @@ public class CustomerValidator extends EObjectValidator
         return validateCanadaAddr((CanadaAddr)value, diagnostics, context);
       case CustomerPackage.CREDIT_INFO:
         return validateCreditInfo((CreditInfo)value, diagnostics, context);
-      case CustomerPackage.CUSTOMER_STYPE:
+      case CustomerPackage.CUSTOMERS_TYPE:
         return validateCustomersType((CustomersType)value, diagnostics, context);
       case CustomerPackage.CUSTOMER_TYPE:
         return validateCustomerType((CustomerType)value, diagnostics, context);
@@ -112,7 +122,7 @@ public class CustomerValidator extends EObjectValidator
       case CustomerPackage.US_STATE:
         return validateUSState((Object)value, diagnostics, context);
       case CustomerPackage.US_STATE_OBJECT:
-        return validateUSStateObject((USState)value, diagnostics, context);
+        return validateUSStateObject((AbstractEnumerator)value, diagnostics, context);
       case CustomerPackage.ZIP_CODES:
         return validateZipCodes((BigInteger)value, diagnostics, context);
       case CustomerPackage.ZIP_UNION:
@@ -207,7 +217,7 @@ public class CustomerValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUSStateObject(USState usStateObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateUSStateObject(AbstractEnumerator usStateObject, DiagnosticChain diagnostics, Map context)
   {
     return true;
   }

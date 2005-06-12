@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: TypesResourceFactoryImpl.java,v 1.1 2004/12/19 04:02:20 marcelop Exp $
+ * $Id: TypesResourceFactoryImpl.java,v 1.2 2005/06/12 14:05:17 emerks Exp $
  */
 package org.eclipse.emf.test.sdo.types.model.types.util;
 
@@ -10,11 +10,10 @@ import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,15 +22,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
  * @see org.eclipse.emf.test.sdo.types.model.types.util.TypesResourceImpl
  * @generated
  */
-public class TypesResourceFactoryImpl extends XMLResourceFactoryImpl
+public class TypesResourceFactoryImpl extends ResourceFactoryImpl
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected ExtendedMetaData extendedMetaData;
-
   /**
    * Creates an instance of the resource factory.
    * <!-- begin-user-doc -->
@@ -41,7 +33,6 @@ public class TypesResourceFactoryImpl extends XMLResourceFactoryImpl
   public TypesResourceFactoryImpl()
   {
     super();
-    extendedMetaData = ExtendedMetaData.INSTANCE;
   }
 
   /**
@@ -53,8 +44,8 @@ public class TypesResourceFactoryImpl extends XMLResourceFactoryImpl
   public Resource createResource(URI uri)
   {
     XMLResource result = new TypesResourceImpl(uri);
-    result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-    result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
+    result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
+    result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);

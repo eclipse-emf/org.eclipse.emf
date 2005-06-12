@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IpoResourceFactoryImpl.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: IpoResourceFactoryImpl.java,v 1.2 2005/06/12 14:01:27 emerks Exp $
  */
 package com.example.ipo.util;
 
@@ -10,11 +10,10 @@ import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,15 +22,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
  * @see com.example.ipo.util.IpoResourceImpl
  * @generated
  */
-public class IpoResourceFactoryImpl extends XMLResourceFactoryImpl
+public class IpoResourceFactoryImpl extends ResourceFactoryImpl
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected ExtendedMetaData extendedMetaData;
-
   /**
    * Creates an instance of the resource factory.
    * <!-- begin-user-doc -->
@@ -41,7 +33,6 @@ public class IpoResourceFactoryImpl extends XMLResourceFactoryImpl
   public IpoResourceFactoryImpl()
   {
     super();
-    extendedMetaData = ExtendedMetaData.INSTANCE;
   }
 
   /**
@@ -53,8 +44,8 @@ public class IpoResourceFactoryImpl extends XMLResourceFactoryImpl
   public Resource createResource(URI uri)
   {
     XMLResource result = new IpoResourceImpl(uri);
-    result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-    result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
+    result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
+    result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
