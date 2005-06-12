@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionTest.java,v 1.9 2005/06/08 06:17:44 nickb Exp $
+ * $Id: ChangeDescriptionTest.java,v 1.10 2005/06/12 13:58:08 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -128,7 +128,7 @@ public class ChangeDescriptionTest extends TestCase
     
     changeRecorder = new ChangeRecorder();
     changeRecorder.beginRecording(loadedChangeDescription, Collections.singleton(loadedResource));
-    EClass loadedClass3 = (EClass)loadedPack.getEClassifiers().set(1, class5);
+    loadedPack.getEClassifiers().set(1, class5);
     changeRecorder.endRecording();
     
     assertEquals(2, loadedChangeDescription.getObjectsToDetach().size());

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.8 2005/06/08 06:17:44 nickb Exp $
+ * $Id: ChangeRecordTest.java,v 1.9 2005/06/12 13:58:08 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -530,9 +530,6 @@ extends TestCase
   {
     String previousName = eClass0.getName();
     Object previousSource = eAnnotation.getSource();
-    
-    Resource resource = (Resource)resourceSet.getResources().get(0);
-    URI previousURI = resource.getURI();
     
     ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
     if (callSummarize) changeRecorder.summarize();

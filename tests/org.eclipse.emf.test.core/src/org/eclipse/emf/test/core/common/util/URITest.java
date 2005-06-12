@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URITest.java,v 1.9 2005/06/08 06:17:44 nickb Exp $
+ * $Id: URITest.java,v 1.10 2005/06/12 13:58:08 emerks Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -505,7 +505,7 @@ public class URITest extends TestCase
       String s = uriStrings[i];
       try
       {
-        URI u = URI.createURI(s);
+        URI.createURI(s);
         fail("Parse of bad JAR-scheme URI failed to throw IllegalArgumentException: " + s);
       }
       catch (IllegalArgumentException e)
