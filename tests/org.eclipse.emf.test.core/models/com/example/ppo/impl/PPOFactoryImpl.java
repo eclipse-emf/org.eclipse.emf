@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PPOFactoryImpl.java,v 1.1 2005/03/14 22:15:58 marcelop Exp $
+ * $Id: PPOFactoryImpl.java,v 1.2 2005/06/12 13:51:58 emerks Exp $
  */
 package com.example.ppo.impl;
 
@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
