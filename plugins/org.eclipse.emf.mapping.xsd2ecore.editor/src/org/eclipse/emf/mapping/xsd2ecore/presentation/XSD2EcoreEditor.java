@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreEditor.java,v 1.2 2005/06/08 06:23:48 nickb Exp $
+ * $Id: XSD2EcoreEditor.java,v 1.3 2005/06/12 13:40:19 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.presentation;
 
@@ -26,11 +26,8 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.command.InitializeCopyCommand;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
@@ -108,9 +105,6 @@ public class XSD2EcoreEditor extends MappingEditor
 
     protected Command createInitializeCopyOverrideCommand(InitializeCopyCommand initializeCopyCommand) 
     {
-      EObject copy = initializeCopyCommand.getCopy();
-      EObject owner = initializeCopyCommand.getOwner();
-
       // If the owner and the copy are of the same type, we can proceed with the command, i.e. no override.
       // If not, we will skip this command by returning a do-nothing override.
       //
@@ -137,8 +131,6 @@ public class XSD2EcoreEditor extends MappingEditor
     // This is a test case for the persistent command stack implementation.
     //
     CommandStack commandStack = new BasicCommandStack();
-
-    ResourceSet resourceSet = new ResourceSetImpl();
 
     // This is a test case for cross domain code.
     // It creates two instances of the factory.

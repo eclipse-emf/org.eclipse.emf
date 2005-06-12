@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreModelWizard.java,v 1.3 2005/06/08 06:23:48 nickb Exp $
+ * $Id: XSD2EcoreModelWizard.java,v 1.4 2005/06/12 13:40:19 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.presentation;
 
@@ -559,7 +559,6 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
         {
           // Set this for the container.
           //
-          String currentDirectory = selectedResource.getLocation().toOSString();
           newFileCreationPage.setContainerFullPath(selectedResource.getFullPath());
 
           // Make up a unique new name here.
