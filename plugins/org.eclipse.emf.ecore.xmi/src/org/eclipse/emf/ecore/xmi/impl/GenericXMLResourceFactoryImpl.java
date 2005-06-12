@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenericXMLResourceFactoryImpl.java,v 1.1 2005/06/10 20:29:11 emerks Exp $
+ * $Id: GenericXMLResourceFactoryImpl.java,v 1.2 2005/06/12 13:31:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -31,6 +31,7 @@ public class GenericXMLResourceFactoryImpl extends XMLResourceFactoryImpl
   public Resource createResource(URI uri)
   {
     XMLResource result = new GenericXMLResourceImpl(uri);
+    result.setEncoding("UTF-8");
     
     result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
     result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
@@ -38,6 +39,8 @@ public class GenericXMLResourceFactoryImpl extends XMLResourceFactoryImpl
     result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, new Integer(80));
+    
+    result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
     
