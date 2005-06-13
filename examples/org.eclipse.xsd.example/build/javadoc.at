@@ -1,0 +1,2 @@
+-group "XML Schema Model Example" org.eclipse.xsd.example
+-overview build/overview.html
