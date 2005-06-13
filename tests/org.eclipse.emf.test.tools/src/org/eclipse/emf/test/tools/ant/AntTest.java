@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.17 2005/06/12 08:10:58 marcelop Exp $
+ * $Id: AntTest.java,v 1.18 2005/06/13 15:48:42 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -81,7 +81,8 @@ public class AntTest extends TestCase
     {
       examplesDir = new File(emfAntPluginDir + "/examples");
     }
-    else if (emfSourcePlugin != null)
+    
+    if (!examplesDir.isDirectory() && emfSourcePlugin != null)
     {
       File emfAntPluginSrcDir = getPluginSourceSubDirectory(emfSourcePlugin, "org.eclipse.emf.ant");
       if (emfAntPluginSrcDir != null)
@@ -99,7 +100,8 @@ public class AntTest extends TestCase
     {
       libraryDir = new File(roseImporterPluginDir + "/examples/library");
     }
-    else if (emfSourcePlugin != null)
+    
+    if (!libraryDir.isDirectory() && emfSourcePlugin != null)
     {
       File roseImporterPluginSrcDir = getPluginSourceSubDirectory(emfSourcePlugin, "org.eclipse.emf.importer.rose");
       if (roseImporterPluginSrcDir != null)
@@ -117,7 +119,8 @@ public class AntTest extends TestCase
     {
       libraryDir = new File(xsdImporterPluginDir + "/examples/library");
     }
-    else if (xsdSourcePlugin != null)
+    
+    if (!libraryDir.isDirectory() && emfSourcePlugin != null)
     {
       File xsdImporterPluginSrcDir = getPluginSourceSubDirectory(xsdSourcePlugin, "org.eclipse.xsd.ecore.importer");
       if (xsdImporterPluginSrcDir != null)
