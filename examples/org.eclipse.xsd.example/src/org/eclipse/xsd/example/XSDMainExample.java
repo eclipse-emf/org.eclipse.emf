@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMainTest.java,v 1.1 2005/06/13 14:08:22 marcelop Exp $
+ * $Id: XSDMainExample.java,v 1.1 2005/06/13 14:12:35 marcelop Exp $
  */
 package org.eclipse.xsd.example;
 
@@ -197,7 +197,7 @@ public class XSDMainExample // implements IPlatformRunnable
       }
       else if (arguments[0].equals("-crossReferenceExample"))
       {
-        XSDPrototypicalSchema.getInstance().crossReferenceExample(System.out);
+        XSDPrototypicalSchema.getInstance().crossReferenceTest(System.out);
       }
       else if (arguments[0].equals("-validate"))
       {
