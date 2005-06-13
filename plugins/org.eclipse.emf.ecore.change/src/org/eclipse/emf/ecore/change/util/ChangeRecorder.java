@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.30 2005/06/12 13:29:48 emerks Exp $
+ * $Id: ChangeRecorder.java,v 1.31 2005/06/13 12:21:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -50,7 +50,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * then produces a {@link ChangeDescription change model} representing the changes needed to reverse (undo) all
  * the model changes made while recording.
  */
-public class ChangeRecorder implements Adapter
+public class ChangeRecorder implements Adapter.Internal
 {
   protected boolean recording;
 
@@ -607,6 +607,11 @@ public class ChangeRecorder implements Adapter
         addAdapter(notifier);
       }
     }
+  }
+
+  public void unsetTarget(Notifier oldTarget)
+  {
+    targetObjects.remove(oldTarget);
   }
 
   protected void addAdapter(Notifier notifier)
