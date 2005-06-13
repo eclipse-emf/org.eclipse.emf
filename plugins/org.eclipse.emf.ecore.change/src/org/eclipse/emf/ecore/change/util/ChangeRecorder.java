@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.31 2005/06/13 12:21:05 emerks Exp $
+ * $Id: ChangeRecorder.java,v 1.32 2005/06/13 15:51:43 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -102,12 +102,13 @@ public class ChangeRecorder implements Adapter.Internal
   public void dispose()
   {
     recording = false;
-    for (Iterator i = targetObjects.iterator(); i.hasNext();)
+    
+    Notifier[] notifiers = (Notifier[])targetObjects.toArray(new Notifier [targetObjects.size()]);
+    targetObjects.clear();    
+    for (int i = 0, length = notifiers.length; i < length; i++)
     {
-      Notifier notifier = (Notifier)i.next();
-      notifier.eAdapters().remove(this);
+      notifiers[i].eAdapters().remove(this);
     }
-    targetObjects.clear();
     changeDescription = null;
   }
 
