@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassItemProvider.java,v 1.5 2005/06/08 06:21:29 nickb Exp $
+ * $Id: JClassItemProvider.java,v 1.6 2005/06/13 14:26:57 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -448,7 +448,7 @@ public class JClassItemProvider
     JClass jClass = (JClass)object;
     return 
       getResourceLocator().getImage
-        ("full/obj16/" + (jClass.isInterface() ?"JInterface" : "JClass") + jClass.getVisibility());
+        ("full/obj16/" + (jClass.isInterface() ? "JInterface" : "JClass") + getVisibility(jClass));
   }
 
   /**

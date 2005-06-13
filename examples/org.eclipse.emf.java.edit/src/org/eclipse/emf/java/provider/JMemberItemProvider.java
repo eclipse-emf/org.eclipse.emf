@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMemberItemProvider.java,v 1.4 2005/06/08 06:21:29 nickb Exp $
+ * $Id: JMemberItemProvider.java,v 1.5 2005/06/13 14:26:57 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -207,4 +207,9 @@ public class JMemberItemProvider
     return JavaEditPlugin.INSTANCE;
   }
 
+  protected String getVisibility(JMember jMember)
+  {
+    String result = jMember.getVisibility().toString();
+    return Character.toUpperCase(result.charAt(0)) + result.substring(1);
+  }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodItemProvider.java,v 1.4 2005/06/08 06:21:29 nickb Exp $
+ * $Id: JMethodItemProvider.java,v 1.5 2005/06/13 14:26:57 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -344,7 +344,7 @@ public class JMethodItemProvider
   public Object getImage(Object object)
   {
     JMethod jMethod = (JMethod)object;
-    return getResourceLocator().getImage("full/obj16/JMethod" + jMethod.getVisibility());
+    return getResourceLocator().getImage("full/obj16/JMethod" + getVisibility(jMethod));
   }
 
   /**
