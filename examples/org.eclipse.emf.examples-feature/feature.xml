@@ -67,4 +67,10 @@ http://www.eclipse.org/legal/epl-v10.html
          install-size="0"
          version="2.1.0"
          unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.example"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"/>
 </feature>
