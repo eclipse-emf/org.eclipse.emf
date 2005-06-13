@@ -17,7 +17,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class BuildTests extends TestCase
+public class BuildTest extends TestCase
 {
   protected final static String[] REQUIRED_FEATURE_FILES = 
    {"eclipse_update_120.jpg", "epl-v10.html", "feature.properties", "feature.xml", "license.html"};
@@ -37,7 +37,7 @@ public class BuildTests extends TestCase
   
   protected Set brandingPluginNames;
   
-  public BuildTests(String name)
+  public BuildTest(String name)
   {
     super(name);
   }
@@ -45,8 +45,8 @@ public class BuildTests extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("BuildTests");
-    ts.addTest(new BuildTests("testFeatures"));
-    ts.addTest(new BuildTests("testPlugins"));
+    ts.addTest(new BuildTest("testFeatures"));
+    ts.addTest(new BuildTest("testPlugins"));
     return ts;
   }
   
@@ -67,9 +67,6 @@ public class BuildTests extends TestCase
         featuresDir = dir;
       }
     }
-    
-    featuresDir = new File("D:/tmp/emfBuild/N200506130700/emf-sdo-xsd-SDK-N200506130700/eclipse/features");
-    pluginsDir = new File("D:/tmp/emfBuild/N200506130700/emf-sdo-xsd-SDK-N200506130700/eclipse/plugins");
   }
   
   protected boolean isFeatureToTest(File feature)

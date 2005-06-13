@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CheckPIITests.java,v 1.1 2005/06/13 21:16:29 marcelop Exp $
+ * $Id: CheckPIITest.java,v 1.1 2005/06/13 22:04:47 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -35,7 +35,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.environment.Constants;
 
 
-public class CheckPIITests extends TestCase
+public class CheckPIITest extends TestCase
 {
   public static final boolean DEBUG = false;
 
@@ -462,7 +462,7 @@ public class CheckPIITests extends TestCase
   // include non-shipping test
   // feature
 
-  public CheckPIITests(String name)
+  public CheckPIITest(String name)
   {
     super(name);
   }
@@ -470,7 +470,7 @@ public class CheckPIITests extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("CheckPIITests");
-    ts.addTest(new CheckPIITests("testChkpii"));
+    ts.addTest(new CheckPIITest("testChkpii"));
     return ts;
   }
 
