@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.10 2005/06/08 06:16:16 nickb Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.11 2005/06/14 14:51:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -515,7 +515,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
             else
             {
               EObject eObject = (EObject)featureChange.getValue();
-              if (eObject.eContainer() != container || eObject.eContainmentFeature() != feature)
+              if (eObject != null && (eObject.eContainer() != container || eObject.eContainmentFeature() != feature))
               {
                 oldContainmentInformation.put(eObject, new OldContainmentInformation(container, (EReference)feature));
               }
@@ -523,6 +523,12 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
           }
         }
       }
+    }
+
+    for (Iterator i= getObjectsToDetach().iterator(); i.hasNext(); )
+    {
+      EObject eObject = (EObject)i.next();
+      oldContainmentInformation.put(eObject, new OldContainmentInformation(null, null));
     }
 
     return oldContainmentInformation;
