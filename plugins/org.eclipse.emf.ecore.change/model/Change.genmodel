@@ -4,9 +4,8 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.ecore.change/src"
     creationCommands="false" editDirectory="/org.eclipse.emf.ecore.change.edit/src"
     editorDirectory="" modelPluginID="org.eclipse.emf.ecore.change" runtimeJar="true"
-    modelName="Change" editPluginClass="org.eclipse.emf.ecore.change.provider.ChangeEditPlugin"
-    editorPluginClass="" updateClasspath="false" runtimeCompatibility="false" testsDirectory=""
-    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    modelName="Change" modelPluginClass="ChangePlugin" editPluginClass="org.eclipse.emf.ecore.change.provider.ChangeEditPlugin"
+    editorPluginClass="" updateClasspath="false" testsDirectory="" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>Change.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
