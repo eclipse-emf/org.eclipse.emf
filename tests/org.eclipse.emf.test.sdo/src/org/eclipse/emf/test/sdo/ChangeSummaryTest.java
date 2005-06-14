@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeSummaryTest.java,v 1.6 2005/06/12 14:07:57 emerks Exp $
+ * $Id: ChangeSummaryTest.java,v 1.7 2005/06/14 14:51:40 emerks Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -63,6 +63,10 @@ import org.eclipse.emf.test.models.personal.mixed.MixedPackage;
 import org.eclipse.emf.test.models.personal.mixed.util.MixedResourceFactoryImpl;
 import org.eclipse.emf.test.models.personal.util.PersonalResourceFactoryImpl;
 
+import com.example.ipo.IpoFactory;
+import com.example.ipo.PurchaseOrderType;
+import com.example.ipo.USAddress;
+
 import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
@@ -96,6 +100,7 @@ public class ChangeSummaryTest extends TestCase
     testSuite.addTest(new ChangeSummaryTest("testIsDeleted"));
     testSuite.addTest(new ChangeSummaryTest("testPersonalMixed"));
     testSuite.addTest(new ChangeSummaryTest("testPersonal"));
+    testSuite.addTest(new ChangeSummaryTest("testOldContainer"));
     return testSuite;
   }
 
@@ -538,6 +543,32 @@ public class ChangeSummaryTest extends TestCase
 
     assertEquals("PhoneNumber", deletedTypeName);
     assertEquals("PhoneBook", updatedTypeName);
+  }
+  
+  public void testOldContainer()
+  {
+    EDataGraph dataGraph = new MyDataGraphImpl();
+    
+    //Instantiating an object
+    PurchaseOrderType purchaseOrder = IpoFactory.eINSTANCE.createPurchaseOrderType();
+    USAddress shipToAddress = IpoFactory.eINSTANCE.createUSAddress();
+    USAddress billToAddress = IpoFactory.eINSTANCE.createUSAddress();
+    
+    dataGraph.setERootObject((EObject)purchaseOrder);
+    purchaseOrder.setShipTo(shipToAddress);
+    
+    //Removing the object from the resource
+    EChangeSummary log = (EChangeSummary)dataGraph.getChangeSummary();
+    log.beginLogging();
+    purchaseOrder.setBillTo(billToAddress);
+    purchaseOrder.setShipTo(null);
+    log.endLogging();
+    
+    DataObject oldContainerBillToContainer = log.getOldContainer((DataObject)billToAddress);
+    assertNull(oldContainerBillToContainer);
+    
+    DataObject oldContainerShipToContainer = log.getOldContainer((DataObject)shipToAddress);
+    assertEquals(oldContainerShipToContainer, purchaseOrder);
   }
 
   /**
