@@ -24,13 +24,16 @@ public class BuildTest extends TestCase
   protected final static String[] REQUIRED_REGULAR_PLUGIN_FILES = 
    {"about.html", "plugin.properties", "plugin.xml", "META-INF/MANIFEST.MF"};
   protected final static String[] REQUIRED_DOC_PLUGIN_FILES = 
-   {"about.html", "plugin.properties", "plugin.xml", "META-INF/MANIFEST.MF",
-   "doc.zip", "toc.xml"};  
+   {"doc.zip", "toc.xml"};  
   protected final static String[] REQUIRED_BRANDING_PLUGIN_FILES = 
-   {"about.html", "plugin.properties", "plugin.xml", "META-INF/MANIFEST.MF",
-    "about.ini", "about.mappings", "about.properties"};
+   {"about.ini", "about.mappings", "about.properties", "eclipse32.gif"};
+  protected final static String[] REQUIRED_SOURCE_PLUGIN_FILES = 
+   {"src/"};
+  protected final static String[] REQUIRED_SRC_SUBDIR_FILES = 
+   {"about.html", "src.zip"};
   
   protected static int expectedNumberOfDocPlugins = 3;
+  protected static int expectedNumberOfSourcePlugins = 3;
   
   protected File featuresDir;
   protected File pluginsDir;
@@ -133,6 +136,7 @@ public class BuildTest extends TestCase
     StringBuffer result = new StringBuffer();
     int docPluginsCounter = 0;
     int brandingPluginsCounter = 0;
+    int sourcePluginsCounter = 0;
     
     File[] plugins = pluginsDir.listFiles();
     for (int i = 0; i < plugins.length; i++)
@@ -142,6 +146,7 @@ public class BuildTest extends TestCase
       {
         JarFile jarFile = plugin.isFile() ? new JarFile(plugin) : null;
         String name = plugin.getName().replaceAll("(_\\d\\.\\d\\.\\d)?(\\.jar)?$", "");
+        
         if (isDocPlugin(name))
         {
           docPluginsCounter++;
@@ -159,9 +164,9 @@ public class BuildTest extends TestCase
             }
           }
         }
+        
         if (isBrandingPlugin(name))
         {
-          System.out.println(name);
           brandingPluginsCounter++;
           String missingFiles = jarFile == null ? 
             getMissingFiles(plugin, REQUIRED_BRANDING_PLUGIN_FILES) : 
@@ -171,6 +176,25 @@ public class BuildTest extends TestCase
             result.append(",").append(missingFiles);
           }
         }
+        
+        if (isSourcePlugin(name))
+        {
+          sourcePluginsCounter++;
+          String missingFiles = getMissingFiles(plugin, REQUIRED_SOURCE_PLUGIN_FILES); 
+          if (missingFiles.length() > 0)
+          {
+            result.append(",").append(missingFiles);
+          }
+          else
+          {
+            String sourceDirResult = testSrcDir(plugin);
+            if (sourceDirResult.length() > 0)
+            {
+              result.append(",").append(sourceDirResult);
+            }
+          }          
+        }
+        
         {
           String missingFiles = jarFile == null ? 
             getMissingFiles(plugin, REQUIRED_REGULAR_PLUGIN_FILES) : 
@@ -190,6 +214,7 @@ public class BuildTest extends TestCase
     assertTrue(result.toString(), result.length() == 0);
     
     assertEquals("expected number of doc plugins", expectedNumberOfDocPlugins, docPluginsCounter);
+    assertEquals("expected number of source plugins", expectedNumberOfSourcePlugins, sourcePluginsCounter);
     assertEquals("expected number of branding plugins", brandingPluginNames.size(), brandingPluginsCounter);
   }
   
@@ -200,8 +225,9 @@ public class BuildTest extends TestCase
     StringBuffer result = new StringBuffer();
     for (int i = 0; i < requiredFiles.length; i++)
     {
+      boolean isDirectory = requiredFiles[i].endsWith("/");
       File file = new File(dir, requiredFiles[i]);
-      if (!file.isFile())
+      if ((isDirectory && !file.isDirectory()) || (!isDirectory && !file.isFile()))
       {
         result.append(",").append(file.getAbsoluteFile());
       }
@@ -238,6 +264,11 @@ public class BuildTest extends TestCase
     return name.endsWith(".doc");
   }
   
+  protected boolean isSourcePlugin(String name)
+  {
+    return name.endsWith(".source");
+  }
+
   protected boolean isBrandingPlugin(String name)
   {
     if (brandingPluginNames == null)
@@ -281,4 +312,28 @@ public class BuildTest extends TestCase
     return hasJavadocGif ? "" : 
       pluginDir + "/doc.zip doesn't have a reference/javadoc/*/doc-files/*.gif";
   }
+  
+  protected String testSrcDir(File pluginDir)
+  {
+    File srcDir = new File(pluginDir, "src");
+    assertTrue(srcDir.isDirectory());
+    
+    StringBuffer result = new StringBuffer();
+    File[] files = srcDir.listFiles();
+    for (int i = 0; i < files.length; i++)
+    {
+      File dir = files[i];
+      assertTrue(dir.isDirectory());
+      
+      String name = dir.getName(); 
+      assertTrue(name.indexOf('_') >= 0);
+      
+      String missingFiles = getMissingFiles(dir, REQUIRED_SRC_SUBDIR_FILES);
+      if (missingFiles.length() > 0)
+      {
+        result.append(",").append(missingFiles);
+      }
+    }
+    return result.length() > 0 ? result.deleteCharAt(0).toString() : "";
+  }  
 }
