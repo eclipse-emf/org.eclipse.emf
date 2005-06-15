@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: XMLLoad.java,v 1.3 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMLLoad.java,v 1.4 2005/06/15 21:16:49 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+
+import org.w3c.dom.Node;
 
 /**
  * This defines the methods for the interface that XMLResourceImpl
@@ -27,4 +29,5 @@ import java.util.Map;
 public interface XMLLoad 
 {
   void load(XMLResource resource, InputStream inputStream, Map options) throws IOException;
+  void load(XMLResource resource, Node node, Map options) throws IOException;
 }

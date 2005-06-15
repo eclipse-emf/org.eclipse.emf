@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.26 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMLResource.java,v 1.27 2005/06/15 21:16:49 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * This interface represents an XML resource. You can use it to load
@@ -39,15 +41,24 @@ import org.w3c.dom.Document;
 public interface XMLResource extends Resource
 {
   /**
-   * Specify a parser pool to be used for loading XML documents.
-   * You should provide an XMLParserPool as the value of this option.
+   * Specify a parser pool to be used for loading XML documents from InputStream.
+   * You need to provide a XMLParserPool as the value of this option.
+   * <p>
+   * This option can dramatically improve performance for deserialization (loading) of XML resource.
+   * </p>
    * @see org.eclipse.emf.ecore.xmi.XMLParserPool
    */
   String OPTION_USE_PARSER_POOL = "USE_PARSER_POOL";
   
   /**
+   * <p>
    * Specify a map {@link Map} to be used during the subsequent loading of XML documents.
-   * This is a mapping between XML name, namespace and an EClass to the corresponding EStructuralFeature.
+   * This is mapping between XML name, namespace and an EClass to the corresponding EStructuralFeature.
+   * </p>
+   * <p>
+   * This option can significantly improve performance for deserialization (loading) of multiple XML resources
+   * which are based on the same model (XML Schema or Ecore). 
+   * </p>
    * @see org.eclipse.emf.ecore.EClass
    * @see org.eclipse.emf.ecore.EStructuralFeature
    */
@@ -55,11 +66,14 @@ public interface XMLResource extends Resource
   
   /**
    * Specify a place holder {@link List} for caching information during the subsequent saving of XML documents.
+   * This option can improve performance for serialization (saving) of multiple XML resources. This option
+   * is similar to the OPTION_USE_XML_NAME_TO_FEATURE_MAP which is used for deserialization (loading).
    */
   String OPTION_USE_CACHED_LOOKUP_TABLE = "USE_CACHED_LOOKUP_TABLE";
   
   /**
-   * Enable caching to improve performance.
+   * Generic option for enable caching (during save and load) to improve performance.
+   * Note: this option might change in the future to define how the caching is done.
    */
   String OPTION_CONFIGURATION_CACHE = "CONFIGURATION_CACHE";
   
@@ -71,23 +85,38 @@ public interface XMLResource extends Resource
   
   /**
    * Specify parser features with their corresponding values, 
-   * i.e., <code>true</code> or <code>false</code> using {@link Map}.
+   * i.e., <code>true</code> or <code>false</code> using {@link Map}.  
+   * This option is applicable during loading of XML resources from an InputStream
    */
   String OPTION_PARSER_FEATURES = "PARSER_FEATURES";
   
   /**
    * Specify parser properties with their corresponding values using a {@link Map}.
+   * This option is applicable during loading of XML resources from an InputStream.
    */
   String OPTION_PARSER_PROPERTIES = "PARSER_PROPERTIES";
   
   /**
    * Determines whether comments and CDATA will be preserved in any mixed text processing.
+   * This option is applicable for loading XML resources (from DOM node or an InputStream)
    */
   String OPTION_USE_LEXICAL_HANDLER = "USE_LEXICAL_HANDLER";
+  
+  /**
+   * This is option should be used when loading a resource from a DOM Element node, to specify
+   * that load method should take into account all the namespaces declarations in scope for this node 
+   * (by visiting parents of the node being loaded). 
+   * Otherwise, user have to make sure that Element node being loaded has namespace well-formed content.
+   * <p>
+   * Note that loading will only succeed if the subset of DOM being loaded could be treated as a valid resource according
+   * to the model. </p>
+   */
+  String OPTION_DOM_USE_NAMESPACES_IN_SCOPE = "DOM_USE_NAMESPACES_IN_SCOPE";
 
   /**
    * This option allows you to tailor the XML serialization of objects. 
    * You should provide an ExtendedMetaData as the value of this option.
+   * @see org.eclipse.emf.ecore.util.BasicExtendedMetaData
    */
   String OPTION_EXTENDED_META_DATA = "EXTENDED_META_DATA";
   
@@ -108,6 +137,10 @@ public interface XMLResource extends Resource
   /**
    * This save option allows you to tailor the XML serialization of
    * objects. You should provide an XMLMap as the value of this option.
+   * <p>
+   * It is strongly suggested to use instead of this option the ExtendedMetaData. 
+   * </p>
+   * @see OPTION_EXTENDED_META_DATA
    */
   String OPTION_XML_MAP = "XML_MAP";
 
@@ -173,8 +206,9 @@ public interface XMLResource extends Resource
   String OPTION_PROCESS_DANGLING_HREF_RECORD   = "RECORD";
 
   /**
-   * This options allows you to record unknown features. 
-   * The default is <code>Boolean.FALSE</code> unless set to <code>Boolean.TRUE</code> explicitly.
+   * This options allows you to record unknown features during deserialization/loading.
+   * The default is <code>Boolean.FALSE</code> unless set to <code>Boolean.TRUE</code> explicitly. 
+   * The unknown featurs and their values can be accessed via getEObjectToExtensionMap().
    * @see {@link #getEObjectToExtensionMap}  
    */
   String OPTION_RECORD_UNKNOWN_FEATURE = "RECORD_UNKNOWN_FEATURE";
@@ -343,21 +377,35 @@ public interface XMLResource extends Resource
    
   /**
    * Create a DOM tree representing contents of this resource.
-   * @param options the options
    * @param document an empty {@link org.w3c.dom.Document} to use or null. If no document is specified, the 
    * new {@link org.w3c.dom.Document} will be created using JAXP API.
+   * @param options the "save" options
    * @param handler the {@link org.eclipse.emf.ecore.xmi.DOMHandler} to record mappings or null. 
    * If no DOMHandler is passed, the default DOMHandler will be created.
-   * @return the {@link org.w3c.dom.Document}. In the case the document is specified as a paramenter, 
+   * @return the {@link org.w3c.dom.Document}. In the case the document is specified as a parameter, 
    * the returned document is the same as the one specified, otherwise the newly created document is returned.
    * @since 2.1.0
    */
-  Document toDOM(Map options, Document document, DOMHandler handler);
+  Document save(Document document, Map options, DOMHandler handler);
     
   /**
    * Returns the {@link DOMHelper} 
+   * @since 2.1.0
    */
   DOMHelper getDOMHelper();
+  
+  /**
+   * Loads the resource from the DOM node, either an Element or Document, using the specified options. 
+   * <p>
+   * This method assumes that no namespace fixup needs to be done.
+   * To process comments and CDATA section nodes, please set XMLResource.OPTION_USE_LEXICAL_HANDLER option to Boolean.TRUE.
+   * </p>
+   * @param node DOM Element or Document node.
+   * @param options the load options.
+   * @see #save(Document, Map, DOMHandler)
+   * @since 2.1.0
+   */
+  void load(Node node, Map options) throws IOException;
 
   /**
    * This interface represents a mapping from Ecore constructs to the

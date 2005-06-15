@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.40 2005/06/12 13:31:10 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.41 2005/06/15 21:16:49 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -165,7 +165,7 @@ public class XMLSaveImpl implements XMLSave
     this.encoding = encoding;
   }
   
-  public Document toDOM(XMLResource resource, Document doc, DOMHandler handler, Map options)
+  public Document save(XMLResource resource, Document doc, Map options, DOMHandler handler)
   {
     toDOM = true;
     document = doc;

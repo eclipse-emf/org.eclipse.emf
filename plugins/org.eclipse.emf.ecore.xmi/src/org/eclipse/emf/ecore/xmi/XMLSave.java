@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSave.java,v 1.5 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMLSave.java,v 1.6 2005/06/15 21:16:49 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -72,10 +72,10 @@ public interface XMLSave
   /**
    * @param resource a resource 
    * @param document a {@link org.w3c.dom.Document} (must not be null)
-   * @param handler a {@link DOMHandler} (must not be null)
    * @param options options
+   * @param handler a {@link DOMHandler} (must not be null)
    * @return the document
    * @since 2.1.0
    */
-  Document toDOM(XMLResource resource, Document document, DOMHandler handler, Map options);
+  Document save(XMLResource resource, Document document, Map options, DOMHandler handler);
 }

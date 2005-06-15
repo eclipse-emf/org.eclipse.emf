@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.8 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMLResourceImpl.java,v 1.9 2005/06/15 21:16:49 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLSave;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 
 /**
@@ -198,7 +199,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
   }
 
-  public Document toDOM(Map options, Document doc, DOMHandler handler)
+  public Document save(Document doc, Map options, DOMHandler handler)
   {
     XMLSave xmlSave = createXMLSave();
     domHandler = handler;
@@ -220,17 +221,17 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
     if (defaultSaveOptions == null || defaultSaveOptions.isEmpty())
     {
-      return xmlSave.toDOM(this, document, domHandler, options);
+      return xmlSave.save(this, document, options, domHandler);
     }
     else if (options == null)
     {
-      return xmlSave.toDOM(this, document, domHandler, defaultSaveOptions);
+      return xmlSave.save(this, document, defaultSaveOptions, domHandler);
     }
     else
     {
       Map mergedOptions = new HashMap(defaultSaveOptions);
       mergedOptions.putAll(options);
-      return xmlSave.toDOM(this, document, domHandler, mergedOptions);
+      return xmlSave.save(this, document, mergedOptions, domHandler);
     }
   }
 
@@ -474,5 +475,36 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       }
     }
     return result.toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.eclipse.emf.ecore.xmi.XMLResource#load(org.w3c.dom.Node, java.util.Map)
+   */
+  public void load(Node node, Map options) throws IOException
+  {
+    XMLLoad xmlLoad = createXMLLoad();
+
+    if (options == null)
+    {
+      options = Collections.EMPTY_MAP;
+    }
+    
+    if (defaultLoadOptions == null || defaultLoadOptions.isEmpty())
+    {
+      xmlLoad.load(this, node, options);
+    }
+    else if (options == null)
+    {
+      xmlLoad.load(this, node, defaultLoadOptions);
+    }
+    else
+    {
+      Map mergedOptions = new HashMap(defaultLoadOptions);
+      mergedOptions.putAll(options);
+
+      xmlLoad.load(this, node, mergedOptions);
+    }
+
+    
   }
 }
