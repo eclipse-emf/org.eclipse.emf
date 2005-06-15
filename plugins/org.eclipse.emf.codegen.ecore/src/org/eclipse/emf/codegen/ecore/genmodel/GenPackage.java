@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.15 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenPackage.java,v 1.16 2005/06/15 20:09:00 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -727,4 +727,6 @@ public interface GenPackage extends GenBase{
   GenFeature getRootFeature();
   
   boolean hasConcreteClasses();
+  
+  boolean hasTests();
 }

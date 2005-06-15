@@ -58,7 +58,9 @@ public class <%=genModel.getTestSuiteClassName()%> extends <%=genModel.getImport
 	{
 		<%=genModel.getImportedName("junit.framework.TestSuite")%> suite = new <%=genModel.getTestSuiteClassName()%>("<%=genModel.getModelName()%> Tests");<%=genModel.getNonNLS()%>
 <%for (Iterator genPackages = genModel.getAllGenPackagesWithClassifiers().iterator(); genPackages.hasNext();) { GenPackage genPackage = (GenPackage)genPackages.next();%>
+  <%if (genPackage.hasTests()) {%>
 		suite.addTest(<%=genModel.getImportedName(genPackage.getImportedTestSuiteClassName())%>.suite());
+  <%}%>
 <%}%>
 		return suite;
 	}

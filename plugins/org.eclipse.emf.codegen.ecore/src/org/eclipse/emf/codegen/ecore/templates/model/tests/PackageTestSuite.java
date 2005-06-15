@@ -96,7 +96,7 @@ public class PackageTestSuite
     stringBuffer.append(TEXT_18);
     stringBuffer.append(genModel.getNonNLS());
     for (Iterator genClasses = genPackage.getGenClasses().iterator(); genClasses.hasNext();) { GenClass genClass = (GenClass)genClasses.next();
-    if (!genClass.isExternalInterface() && !genClass.isAbstract()) {
+    if (!genClass.isExternalInterface() && !genClass.isAbstract() && genClass.hasTests()) {
     stringBuffer.append(TEXT_19);
     stringBuffer.append(genClass.getImportedTestCaseClassName());
     stringBuffer.append(TEXT_20);

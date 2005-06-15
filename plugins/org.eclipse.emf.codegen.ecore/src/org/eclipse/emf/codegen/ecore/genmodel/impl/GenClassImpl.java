@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.33 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenClassImpl.java,v 1.34 2005/06/15 20:09:00 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1910,6 +1910,24 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     {
       progressMonitor.done();
     }
+  }
+
+  public boolean hasTests()
+  {
+    for (Iterator i = getAllGenFeatures().iterator(); i.hasNext();)
+    {
+      GenFeature genFeature = (GenFeature)i.next();
+      if (((genFeature.isGet() && !genFeature.isSuppressedGetVisibility())
+        || (genFeature.isSet() && !genFeature.isSuppressedSetVisibility())
+        || (genFeature.isUnset() && !genFeature.isSuppressedUnsetVisibility())
+        || (genFeature.isIsSet() && !genFeature.isSuppressedIsSetVisibility()))
+          && (genFeature.isVolatile() || genFeature.isDerived()))
+      {
+        return true;
+      }
+    }
+
+    return !getAllGenOperations().isEmpty();
   }
 
   public boolean canGenerateTests()

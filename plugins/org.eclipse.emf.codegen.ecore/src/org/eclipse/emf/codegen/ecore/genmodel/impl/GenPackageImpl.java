@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.32 2005/06/12 13:23:06 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.33 2005/06/15 20:09:00 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2947,6 +2947,19 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       progressMonitor.done();
     }
+  }
+
+  public boolean hasTests()
+  {
+    for (Iterator i = getGenClasses().iterator(); i.hasNext();)
+    {
+      if (((GenClass)i.next()).hasTests())
+      {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public boolean canGenerateTests()

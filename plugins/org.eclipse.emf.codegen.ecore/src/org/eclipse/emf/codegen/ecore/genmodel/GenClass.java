@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.14 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenClass.java,v 1.15 2005/06/15 20:09:00 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -360,4 +360,6 @@ public interface GenClass extends GenClassifier
 
   boolean isField(GenFeature genFeature);
   boolean isESetField(GenFeature genFeature);  
+
+  boolean hasTests();
 }

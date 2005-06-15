@@ -96,9 +96,11 @@ public class ModelTestSuite
     stringBuffer.append(TEXT_18);
     stringBuffer.append(genModel.getNonNLS());
     for (Iterator genPackages = genModel.getAllGenPackagesWithClassifiers().iterator(); genPackages.hasNext();) { GenPackage genPackage = (GenPackage)genPackages.next();
+    if (genPackage.hasTests()) {
     stringBuffer.append(TEXT_19);
     stringBuffer.append(genModel.getImportedName(genPackage.getImportedTestSuiteClassName()));
     stringBuffer.append(TEXT_20);
+    }
     }
     stringBuffer.append(TEXT_21);
     stringBuffer.append(genModel.getTestSuiteClassName());

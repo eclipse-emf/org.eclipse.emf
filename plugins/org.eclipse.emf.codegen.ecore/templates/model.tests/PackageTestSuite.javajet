@@ -58,7 +58,7 @@ public class <%=genPackage.getTestSuiteClassName()%> extends <%=genModel.getImpo
 	{
 		<%=genModel.getImportedName("junit.framework.TestSuite")%> suite = new <%=genPackage.getTestSuiteClassName()%>("<%=genPackage.getPackageName()%> Tests");<%=genModel.getNonNLS()%>
 <%for (Iterator genClasses = genPackage.getGenClasses().iterator(); genClasses.hasNext();) { GenClass genClass = (GenClass)genClasses.next();%>
-  <%if (!genClass.isExternalInterface() && !genClass.isAbstract()) {%>
+  <%if (!genClass.isExternalInterface() && !genClass.isAbstract() && genClass.hasTests()) {%>
 		suite.addTestSuite(<%=genClass.getImportedTestCaseClassName()%>.class);
   <%}%>
 <%}%>
