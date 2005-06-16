@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.7 2005/06/15 21:16:49 elena Exp $
+ * $Id: XMLLoadImpl.java,v 1.8 2005/06/16 04:06:26 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -394,7 +394,7 @@ public class XMLLoadImpl implements XMLLoad
           {
             String publicId = doctype.getPublicId();
             String systemId = doctype.getSystemId();
-            lexicalHandler.startDTD(root.getNodeName(), doctype.getPublicId(), doctype.getSystemId());
+            lexicalHandler.startDTD(root.getNodeName(), publicId, systemId);
           }
         }
         traverse(root, attributesProxy, handler, lexicalHandler);

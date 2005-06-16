@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.41 2005/06/15 21:16:49 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.42 2005/06/16 04:06:26 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -280,14 +280,16 @@ public class XMLSaveImpl implements XMLSave
     Object saveTypeInfoOption = options.get(XMLResource.OPTION_SAVE_TYPE_INFORMATION);
     if (saveTypeInfoOption instanceof Boolean)
     {
-      if (saveTypeInfo = saveTypeInfoOption.equals(Boolean.TRUE))
+      saveTypeInfo = saveTypeInfoOption.equals(Boolean.TRUE);
+      if (saveTypeInfo)
       {
         xmlTypeInfo = new XMLTypeInfoImpl();
       }
     }
     else
     {
-      if (saveTypeInfo = saveTypeInfoOption != null)
+      saveTypeInfo = saveTypeInfoOption != null;
+      if (saveTypeInfo)
       {
         xmlTypeInfo = (XMLTypeInfo)saveTypeInfoOption;
       }
