@@ -36,6 +36,7 @@ import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.FocusAdapter;
@@ -493,7 +494,7 @@ public class ModelPackagePage extends ModelImporterPage
             getSelectGenModelDialogTitle());
 
           resourceSelectionDialog.setInitialSelections(genModelResources.toArray());
-          Object[] result = resourceSelectionDialog.open() == ResourceSelectionDialog.OK ? 
+          Object[] result = resourceSelectionDialog.open() == Window.OK ? 
             resourceSelectionDialog.getResult() : null;
           if (result != null)
           {
