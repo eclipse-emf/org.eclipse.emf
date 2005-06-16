@@ -10,7 +10,7 @@
 <body lang="EN-US" xml:lang="EN-US">
 <h1>The Eclipse Modeling Framework (EMF) Overview</h1>
 <p>
-Last updated: June 1, 2004
+Last updated: June 16, 2005 (accessibility update)
 </p>
 <p>
 This paper presents a basic overview of EMF and its code generator patterns. For 
@@ -115,7 +115,7 @@ write serializations of EMOF.
 To help describe EMF, we'll start by assuming we have a trivial, one-class model 
 like this:
 </p>
-<img src="images/EMF/image001.gif" width="87" height="89" alt="One-class model"/>
+<img src="images/EMF/image001.gif" width="87" height="89" alt="One-class model: Book with title : String and pages : int"/>
 <p>
 The model shows a single class called Book with two attributes: title of type 
 String and pages of type int.
@@ -329,7 +329,7 @@ more complicated and start to show the real value of the EMF generator.
 Let's expand our example model with another class Writer that has an association 
 with class Book:
 </p>
-<img src="images/EMF/image002.gif" width="303" height="89" alt="One-way reference"/>
+<img src="images/EMF/image002.gif" width="303" height="89" alt="One-way reference: Book has a single author of class Writer, which contains a name : String"/>
 <p>
 The association between a book and its writer is, in this example, a single 
 one-way reference. The reference (role) name used to access the Writer from 
@@ -404,7 +404,7 @@ types of references, we can look at how the set pattern changes when an
 association is made two-way. Let's change our one-way author association to 
 this:
 </p>
-<img src="images/EMF/image003.gif" width="303" height="89" alt="Two-way reference"/>
+<img src="images/EMF/image003.gif" width="303" height="89" alt="Two-way reference: an author may have written 0 or more books, but a book can only have one author"/>
 <p>
 The association is now two-way, as indicated by the lack of an arrowhead on the 
 Writer end of the association line. The role name used to access Books from a 
@@ -565,7 +565,7 @@ Book<sup><a class="footnote" href="#fn10">[10]</a><a name="ref10">&nbsp;</a></su
 <p>
 Let's add a new class, Library, which will act as the container for Books.
 </p>
-<img src="images/EMF/image004.gif" width="308" height="89" alt="Containment reference"/>
+<img src="images/EMF/image004.gif" width="308" height="89" alt="Containment reference: a Library contains 0 or more books"/>
 <p>
 The containment reference is indicated by the black diamond on the Library end 
 of the association. In full, the association indicates that a Library 
@@ -622,7 +622,7 @@ like this:
 If you want to avoid the downcast, you can change the association to be 
 explicitly two-way instead:
 </p>
-<img src="images/EMF/image005.gif" width="308" height="89" alt="Two-way containment reference"/>
+<img src="images/EMF/image005.gif" width="308" height="89" alt="Two-way containment reference: a Library contains 0 or more books; books are contained by a Library"/>
 <p>
 and let EMF generate a nice typesafe get method for you:
 </p>
@@ -648,7 +648,7 @@ pattern<sup><a class="footnote" href="#fn12">[12]</a><a name="ref12">&nbsp;</a><
 <p>
 If we add an enumeration attribute, category, to class Book:
 </p>
-<img src="images/EMF/image006.gif" width="354" height="108" alt="Enumeration attribute and definition"/>
+<img src="images/EMF/image006.gif" width="354" height="108" alt="Enumeration attribute and definition: Book has a category of class BookCategory, which is an enumeration of Mystery, ScienceFiction, and Biography"/>
 <p>
 and regenerate the implementation classes, interface Book will now include a 
 getter and setter for category:
@@ -808,7 +808,7 @@ constant reference to its singleton implementation.
 Let's say we want to create a subclass, SchoolBook, of our Book model class,
 like this:
 </p>
-<img src="images/EMF/image007.gif" width="164" height="198" alt="Single inheritance"/>
+<img src="images/EMF/image007.gif" width="164" height="198" alt="Single inheritance: a SchoolBook is a kind of Book"/>
 <p>
 The EMF generator handles single inheritance as you'd expect: the generated 
 interface extends the super interface:
@@ -831,7 +831,7 @@ derived implementation class.
 <p>
 Consider the following example:
 </p>
-<img src="images/EMF/image008.gif" width="284" height="213" alt="Multiple inheritance"/>
+<img src="images/EMF/image008.gif" width="284" height="213" alt="Multiple inheritance: a SchoolBook is a kind of Book and a kind of Asset (has a value : float)"/>
 <p>
 Here we've made SchoolBook derive from two classes: Book and Asset. We've
 identified Book as the implementation base (extended) class as
@@ -906,7 +906,7 @@ it<sup><a class="footnote" href="#fn16">[16]</a><a name="ref16">&nbsp;</a></sup>
 <pre class="code">
   /**
    * ...
-   * <strike>@generated</strike>
+   * <strike>@generated</strike> // (removed)
    */
   public String getTitle()
   {
@@ -1104,7 +1104,7 @@ above, into separate documents, all we need to do is create a second resource:
 and add the writer to it, instead of the first:
 </p>
 <pre class="code">
-  <strike>resource.getContents().add(writer);</strike>
+  <strike>resource.getContents().add(writer);</strike> // (replaced)
   anotherResource.getContents().add(writer);</pre>
 <p>
 This would produce two resources, each containing one object, with a cross
@@ -1384,7 +1384,7 @@ want to add an attribute of type java.util.Date to our model. Before we can do
 so, we need to define an EMF DataType to represent the external type. In UML, we 
 use a class with the datatype stereotype for this purpose:
 </p>
-<img src="images/EMF/image009.gif" width="183" height="75" alt="Data type definition"/>
+<img src="images/EMF/image009.gif" width="183" height="75" alt="Data type definition: datatype JavaDate is of javaclass java.util.Date"/>
 <p>
 As shown, a data type is simply a named element in the model that acts as a
 proxy for some Java class. The actual Java class is provided as an attribute
@@ -1392,7 +1392,7 @@ with the javaclass stereotype, whose name is the fully qualified class being
 represented. With this data type defined, we  can now declare attributes of type
 java.util.Date like this:
 </p>
-<img src="images/EMF/image010.gif" width="173" height="122" alt="Attribute with data type as attribute type"/>
+<img src="images/EMF/image010.gif" width="173" height="122" alt="Attribute with data type as attribute type: Book has a publicationDate of type JavaDate"/>
 <p>
 If we regenerate, the publicationDate attribute will now appear in the Book
 interface:
@@ -1450,7 +1450,7 @@ implementations:
 </p>
 <pre class="code">
   /**
-   * <strike>@generated</strike>
+   * <strike>@generated</strike> // (removed)
    */
   public String convertJavaDateToString(EDataType eDataType, Object instanceValue)
   {
