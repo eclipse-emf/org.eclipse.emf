@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTask.java,v 1.3 2005/06/08 06:17:17 nickb Exp $
+ * $Id: JMergerTask.java,v 1.4 2005/06/17 13:40:04 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen;
 
@@ -23,7 +23,6 @@ import org.apache.tools.ant.BuildException;
 
 import org.eclipse.emf.ant.taskdefs.EMFTask;
 import org.eclipse.emf.ant.util.Util;
-import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.codegen.jmerge.JMerger;
 import org.eclipse.emf.common.util.URI;
 
@@ -128,7 +127,7 @@ public class JMergerTask extends EMFTask
     invokeMerger(createJMerger());
   }
 
-  protected JMerger createJMerger() throws JETException
+  protected JMerger createJMerger()
   {
     return new JMerger();
   }
