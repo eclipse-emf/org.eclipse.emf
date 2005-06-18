@@ -10,14 +10,14 @@
 <body lang="EN-US" xml:lang="EN-US">
 <h1>Generating an EMF Model using XML Schema (XSD)</h1>
 
-<p>Last updated: June 29, 2004</p>
+<p>Last updated: June 17, 2005</p>
 
 <p>This tutorial provides a step-by-step description for creating an EMF model
 from an XML schema and then generating a simple model editor for it. Following
 this tutorial will show how easy EMF makes it to go from a simple model
 definition in an XML schema to a fully functioning editor for that model.</p>
 
-<p>The screenshots are based on version 3.0 of the Eclipse SDK and version 2.0
+<p>The screenshots are based on version 3.1.0 RC2 of the Eclipse SDK and version 2.1.0 I200506160200
 of EMF.</p>
 
 <p>The XML Schema file we use in this tutorial can be found here:
@@ -100,11 +100,9 @@ available in your Eclipse environment:</p>
 <img src="images/../../clibmod/images/img002.gif" alt="Plug-in Details"/><br/>
 &nbsp;</li>
 
-<li>Click the "Plug-in Id" column heading to order the plug-ins by that field.
+<li>Click the "Version" column heading to order the plug-ins by that field.
 Then, check that the highlighted set of plug-ins are present.<br/>
-<img src="images/img001.gif" alt="Check EMF plug-ins"/><br/><br/>
-<img src="images/img002.gif" alt="Check EMF plug-ins"/><br/><br/>
-<img src="images/img003.gif" alt="Check EMF plug-ins"/><br/>
+<img src="images/img001.gif" alt="Check EMF plug-ins"/><br/>
 &nbsp;</li>
 </ul>
 
@@ -140,10 +138,10 @@ packages you installed.</p>
 <img src="images/img102.gif" alt="Browse for schema file"/><br/>
 &nbsp;</li>
 
-<li>If you see the following error, you need to exit Eclipse and fix your
+<li>If you see "The operation was interrupted due to an exception ('NullPointerException').", you need to exit Eclipse and fix your
 XML parser. It is caused by a bug in the Crimson DOM implementation used in some
-versions of the Sun JDK. <a target="_xerces" href="http://download.eclipse.org/tools/emf/scripts/downloads-xerces.php">More
-information</a> is available from the EMF Web site.<br/>
+versions of the Sun JDK. More
+information is available from the EMF Web site, in both the <a href="http://eclipse.org/emf/faq/">FAQ</a>, and in the <a href="http://eclipse.org/emf/downloads-xerces.php">Installation</a> notes.<br/>
 <img src="images/img103.gif" alt="Specify a valid XML Schema and try loading again"/><br/>
 &nbsp;</li>
 
@@ -219,8 +217,7 @@ the pop-up menu.<br/>
 and a new pair of interfaces will have been created for the package itself and
 for the factory. There will also be two new packages, with "impl" and "util"
 suffixes, which contain implementations of the interfaces and additional utility
-classes, and a "plugin.xml" manifest file for the model.
-plug-in.</p>
+classes, and both types of manifest files for the model plug-in: "plugin.xml" and "MANIFEST.MF".</p>
 
 <p>If you change the model, you can regenerate it, and changes will be merged
 with any hand modifications that may have been made to the code. You can also
@@ -276,13 +273,13 @@ library.edit, and library.editor projects.<br/>
 <p style="text-align: right"><a id="step4" name="step4">&nbsp;</a><a href="#top">contents</a></p>
 <h2>Step 4: Run the Generated Editor</h2>
 
-<p>In order to test the new plug-ins, a second instance of Eclipse, called a
-run-time workbench must be launched. The plug-ins will run in this
+<p>In order to test the new plug-ins, a second instance of Eclipse, called an
+Eclipse Application (previously "Run-time Workbench") must be launched. The plug-ins will run in this
 workbench.</p>
 
 <ul>
-<li>Select "Run As/Run-time Workbench" from the "Run" toolbar drop-down.<br/>
-<img src="images/../../clibmod/images/img401.gif" alt="Run/Run As/Run-time Workbench"/><br/>
+<li>Select "Run As/Eclipse Application" from the "Run" toolbar drop-down.<br/>
+<img src="images/../../clibmod/images/img401.gif" alt="Run/Run As/Eclipse Application"/><br/>
 &nbsp;</li>
 
 <li>Wait for a second instance of the Eclipse platform to come up. Bring up the

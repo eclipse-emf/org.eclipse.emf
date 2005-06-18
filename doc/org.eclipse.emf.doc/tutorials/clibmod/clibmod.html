@@ -10,7 +10,7 @@
 <body lang="EN-US" xml:lang="EN-US">
 <h1>Generating an EMF Model</h1>
 
-<p>Last updated: June 29, 2004</p>
+<p>Last updated: June 17, 2005</p>
 
 <p>This tutorial is a step-by-step description of the process of creating an EMF
 model and generating a simple model editor for it. Following this tutorial will
@@ -27,7 +27,7 @@ Overview</a> for a description of this model):</p>
 sources: a Rational Rose model or a set of annotated Java interfaces and
 classes.</p>
 
-<p>The screenshots are based on version 3.0 of the Eclipse SDK and version 2.0
+<p>The screenshots are based on version 3.1.0 RC2 of the Eclipse SDK and version 2.1.0 I200506160200
 of EMF.</p>
 
 <hr/>
@@ -117,11 +117,11 @@ somewhere on your workstation.</p>
 <img src="images/img103.gif" alt="Name the project"/><br/>
 &nbsp;</li>
 
-<li>Select "Load from a Rose class model" and click the "Next" button.<br/>
+<li>Select "Rose class model" and click the "Next" button.<br/>
 <img src="images/img104.gif" alt="Load from a Rose class model"/><br/>
 &nbsp;</li>
 
-<li>Click on the "Browse" button and locate the Rose model file.<br/>
+<li>Click on the "Browse File System..." or "Browse Workspace..." button and locate the Rose model file.<br/>
 <img src="images/img105.gif" alt="Browse for Rose file"/><br/>
 &nbsp;</li>
 
@@ -282,7 +282,7 @@ public class BookCategory
 <img src="images/img101.gif" alt="File/New/Project..."/><br/>
 &nbsp;</li>
 
-<li>Expand "Java" and select "Java Project". Click the "Next" button.<br/>
+<li>Select "Java Project". Click the "Next" button.<br/>
 <img src="images/img121.gif" alt="Java Project"/><br/>
 &nbsp;</li>
 
@@ -347,7 +347,7 @@ to create the class, select "New/Class" from the pop-up menu, instead of
 <img src="images/img131.gif" alt="EMF Models"/><br/>
 &nbsp;</li>
 
-<li>Change the folder to "library/src/model".<br/>
+<li>Change the folder to "library/model".<br/>
 <img src="images/img132.gif" alt="Change the folder"/><br/>
 &nbsp;</li>
 
@@ -355,7 +355,7 @@ to create the class, select "New/Class" from the pop-up menu, instead of
 <img src="images/img133.gif" alt="Change the file name"/><br/>
 &nbsp;</li>
 
-<li>Select "Load from annotated Java" and click the "Next" button.<br/>
+<li>Select "Annotated Java" and click the "Next" button.<br/>
 <img src="images/img134.gif" alt="Load from annotated Java"/><br/>
 &nbsp;</li>
 
@@ -421,8 +421,8 @@ the pop-up menu.<br/>
 using annotated Java), and a new pair of interfaces will have been created for
 the package itself and for the factory. There will also be two new packages,
 with "impl" and "util" suffixes, which contain implementations of the interfaces
-and additional utility classes, and a "plugin.xml" manifest file for the model
-plug-in.</p>
+and additional utility classes, and both types of manifest files for the model
+plug-in: "plugin.xml" and "MANIFEST.MF".</p>
 
 <p>If you defined the model by using annotated Java, you may see a warning in
 the Problems view: "The import java.util.List is never used". This warning is
@@ -461,7 +461,7 @@ the pop-up menu.<br/>
 </ul>
 
 <p>In general, if you wish to generate the model, edit, and editor plug-ins in a
-single step, you can do so by selecting "Generate All" from the pop-up menu.</p>
+single step, you can do so by selecting "Generate All" from the pop-up menu. This will also create a tests plug-in, containing generated JUnit test code.</p>
 
 <p>The code should be compiled automatically as it is generated, and should
 recompile whenever it is changed. If you have disabled automatic building in the
@@ -495,13 +495,13 @@ selecting "Organize Imports" from the "Source" menu.<br/>
 <p style="text-align: right"><a id="step4" name="step4">&nbsp;</a><a href="#top">contents</a></p>
 <h2>Step 4: Run the Generated Editor</h2>
 
-<p>In order to test the new plug-ins, a second instance of Eclipse, called a
-run-time workbench must be launched. The plug-ins will run in this
+<p>In order to test the new plug-ins, a second instance of Eclipse, called an
+Eclipse Application (previously "Run-time Workbench") must be launched. The plug-ins will run in this
 workbench.</p>
 
 <ul>
-<li>Select "Run As/Run-time Workbench" from the "Run" toolbar drop-down.<br/>
-<img src="images/img401.gif" alt="Run/Run As/Run-time Workbench"/><br/>
+<li>Select "Run As/Eclipse Application" from the "Run" toolbar drop-down or menu.<br/>
+<img src="images/img401.gif" alt="Run/Run As/Eclipse Application"/><br/>
 &nbsp;</li>
 
 <li>Wait for a second instance of the Eclipse platform to come up. Bring up the
