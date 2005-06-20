@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageRegistryImpl.java,v 1.6 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EPackageRegistryImpl.java,v 1.7 2005/06/20 10:30:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -31,10 +31,13 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 
 /**
- * An implementation of a package registry.
+ * An implementation of a package registry that can delegate failed lookup  to another registry.
  */
 public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
 {
+  /**
+   * Creates the {@link EPackagte.Registry#INSTANCE instance} of the global registry.
+   */
   public static EPackage.Registry createGlobalRegistry()
   {
     try
@@ -63,17 +66,29 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
     }
   }
 
+  /** 
+   * The delegate registry.
+   */
   protected EPackage.Registry delegateRegistry;
 
+  /**
+   * Creates a non-delegating instance.
+   */
   public EPackageRegistryImpl()
   {
   }
 
+  /**
+   * Creates a delegating instance.
+   */
   public EPackageRegistryImpl(EPackage.Registry delegateRegistry)
   {
     this.delegateRegistry = delegateRegistry;
   }
 
+  /*
+   * Javadoc copied from interface.
+   */
   public EPackage getEPackage(String nsURI)
   {
     Object ePackage = get(nsURI);
@@ -103,10 +118,17 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
     }
   }
 
+  /**
+   * Creates a delegating instance.
+   */
   protected void initialize(EPackage ePackage)
   {
   }
 
+  /**
+   * Returns the package from the delegate registry, if there is one.
+   * @return the package from the delegate registry.
+   */
   protected EPackage delegatedGetEPackage(String nsURI)
   {
     if (delegateRegistry != null)
@@ -117,13 +139,25 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
     return null;
   }
 
+  /**
+   * Returns whether this map or the delegate map contains this key.
+   * @return whether this map or the delegate map contains this key.
+   */
   public boolean containsKey(Object key)
   {
     return super.containsKey(key) || delegateRegistry != null && delegateRegistry.containsKey(key);
   }
 
+  /**
+   * A map from class loader to its associated registry.
+   */
   protected static Map classLoaderToRegistryMap = new WeakHashMap();
 
+  /**
+   * Returns the package registry associated with the given class loader.
+   * @param classLoader the class loader.
+   * @return the package registry associated with the given class loader.
+   */
   public static synchronized EPackage.Registry getRegistry(ClassLoader classLoader)
   {
     EPackage.Registry result = (EPackage.Registry)classLoaderToRegistryMap.get(classLoader);
@@ -142,6 +176,9 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
     return result;
   }
 
+  /**
+   * A package registry implementation that delegates to a class loader specific registry.
+   */
   public static class Delegator implements EPackage.Registry
   {
     protected EPackage.Registry delegateRegistry(ClassLoader classLoader)
