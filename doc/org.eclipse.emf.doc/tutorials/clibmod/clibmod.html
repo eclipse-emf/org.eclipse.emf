@@ -461,7 +461,9 @@ the pop-up menu.<br/>
 </ul>
 
 <p>In general, if you wish to generate the model, edit, and editor plug-ins in a
-single step, you can do so by selecting "Generate All" from the pop-up menu. This will also create a tests plug-in, containing generated JUnit test code.</p>
+single step, you can do so by selecting "Generate All" from the pop-up menu. </p>
+
+<p>This will also create a tests plug-in, containing JUnit test skeletons for exercising any volatile features and operations defined in the model.  This model doesn't include any, but In general, you'll need to fill in the bodies of these tests, yourself.  The tests plug-in also includes a simple example class, which shows how to load and validate a model in a stand-alone application.</p>
 
 <p>The code should be compiled automatically as it is generated, and should
 recompile whenever it is changed. If you have disabled automatic building in the
