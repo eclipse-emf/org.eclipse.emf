@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LoadResourceAction.java,v 1.10 2005/06/12 13:33:17 emerks Exp $
+ * $Id: LoadResourceAction.java,v 1.11 2005/06/20 20:18:14 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -248,7 +248,7 @@ public class LoadResourceAction extends Action
 	                 IResource resource = (IResource)result[i];
 	                 if (resource.getType() == IResource.FILE)
 	                 {
-	                   text.append(URI.createPlatformResourceURI(resource.getFullPath().toString()));
+	                   text.append(URI.createPlatformResourceURI(resource.getFullPath().toString(), true));
 	                   text.append("  ");
 	                 }
 	               }
