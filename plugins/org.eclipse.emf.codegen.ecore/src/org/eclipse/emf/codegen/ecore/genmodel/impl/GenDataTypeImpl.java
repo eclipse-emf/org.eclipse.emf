@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.10 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenDataTypeImpl.java,v 1.11 2005/06/20 15:10:42 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -831,12 +831,18 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     if (defaultObject == null) return "null";
     String result = Literals.toLiteral(defaultObject, getGenModel());
 
-    // include wrapping for wrapped primitive types
+    // Include static field or constructor for wrapped primitive types.
+    //
     Class typeClass = getInstanceClass(eDataType);
-    if (typeClass == Boolean.class || typeClass == Character.class ||
-        typeClass == Byte.class    || typeClass == Short.class     ||
-        typeClass == Integer.class || typeClass == Long.class      ||
-        typeClass == Float.class   || typeClass == Double.class)
+    if (typeClass == Boolean.class)
+    {
+      StringBuffer wrapped = new StringBuffer(getGenModel().getImportedName("java.lang.Boolean"));
+      wrapped.append('.');
+      wrapped.append(result.toUpperCase());
+      result = wrapped.toString();
+    }
+    else if (typeClass == Character.class || typeClass == Byte.class || typeClass == Short.class || typeClass == Integer.class ||
+             typeClass == Long.class || typeClass == Float.class || typeClass == Double.class)
     {
       StringBuffer wrapped = new StringBuffer("new ");
       wrapped.append(getGenModel().getImportedName(eDataType.getInstanceClassName()));
