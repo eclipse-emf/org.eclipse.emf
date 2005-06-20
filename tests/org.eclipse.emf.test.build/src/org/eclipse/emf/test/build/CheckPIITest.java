@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CheckPIITest.java,v 1.1 2005/06/13 22:04:47 marcelop Exp $
+ * $Id: CheckPIITest.java,v 1.2 2005/06/20 18:02:50 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -410,50 +410,8 @@ public class CheckPIITest extends TestCase
     }
   }
 
-  private boolean isValidFeature(File feature)
-  {
-    return isValidPlugin(feature);
-  }
-
-  private boolean isValidPlugin(File plugin)
-  {
-    if (plugin != null)
-    {
-      String name = plugin.getName();
-      if (name.startsWith("org.eclipse.emf") || name.startsWith("org.eclipse.xsd"))
-        return (name.indexOf("emf.test") < 0);
-    }
-
-    return false;
-  }
-
   public static final String[] BUILD_GENERATED_ZIP_FILES_PREFIX = { "emf-runtime", "emf-source", "emf-doc", "xsd-runtime", "xsd-source",
       "xsd-doc", "sdo-runtime", "sdo-source", "sdo-doc", "emf-sdo-xsd-SDK" }; // last one changed 041104 to fix absentee chkpii testing
-
-  public static final String[] REQUIRED_FEATURE_FILES = { "epl-v10.html", "feature.properties", "feature.xml", "license.html" };
-
-  public static final String REQUIRED_FEATURE_SUFFIX = ".jpg";
-
-  public static final String[] REQUIRED_PLUGIN_FILES = { "about.html", "plugin.properties", "plugin.xml" };
-
-  public static final String REQUIRED_PLUGIN_SUFFIX = ".jar";
-
-  public static final String[] REQUIRED_FEATURE_PLUGIN_FILES = { "about.html", "about.ini", "about.mappings", "about.properties",
-      "plugin.properties", "plugin.xml" };
-
-  public static final String REQUIRED_FEATURE_PLUGIN_SUFFIX = ".gif";
-
-  public static final String[] REQUIRED_FRAGMENT_FILES = { "fragment.xml" };
-
-  public static final String REQUIRED_FRAGMENT_SUFFIX = "";
-
-  public static final String[] REQUIRED_SOURCE_FILES = { "about.html" };
-
-  public static final String REQUIRED_SOURCE_SUFFIX = ".zip";
-
-  public static final String[] SUFFIX_EXEMPT_LIST = { "org.eclipse.swt", "org.apache.ant" };
-
-  public static final int PLUGIN_COUNT = 84; // - 20; // Note this number
 
   // must include non-shipping
   // test plugins
