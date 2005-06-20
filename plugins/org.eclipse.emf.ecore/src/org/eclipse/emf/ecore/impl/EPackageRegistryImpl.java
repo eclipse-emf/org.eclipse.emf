@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageRegistryImpl.java,v 1.7 2005/06/20 10:30:55 emerks Exp $
+ * $Id: EPackageRegistryImpl.java,v 1.8 2005/06/20 21:05:41 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -31,12 +31,12 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 
 /**
- * An implementation of a package registry that can delegate failed lookup  to another registry.
+ * An implementation of a package registry that can delegate failed lookup to another registry.
  */
 public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
 {
   /**
-   * Creates the {@link EPackagte.Registry#INSTANCE instance} of the global registry.
+   * Creates the {@link EPackage.Registry#INSTANCE instance} of the global registry.
    */
   public static EPackage.Registry createGlobalRegistry()
   {
@@ -140,7 +140,10 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
   }
 
   /**
-   * Returns whether this map or the delegate map contains this key.
+   * Returns whether this map or the delegate map contains this key. Note that
+   * if there is a delegate map, the result of this method may
+   * <em><b>not</b></em> be the same as <code>keySet().contains(key)</code>.
+   * @param key the key whose presence in this map is to be tested.
    * @return whether this map or the delegate map contains this key.
    */
   public boolean containsKey(Object key)
