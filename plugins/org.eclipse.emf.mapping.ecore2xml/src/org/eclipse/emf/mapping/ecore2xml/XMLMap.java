@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMap.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: XMLMap.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -42,76 +42,75 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  * @model
  * @generated
  */
-public interface XMLMap extends EObject, XMLResource.XMLMap
-{
-
+public interface XMLMap extends EObject, XMLResource.XMLMap{
+  
   /**
    * Returns the value of the '<em><b>ID Attribute Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>ID Attribute Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+   * <p>
+   * If the meaning of the '<em>ID Attribute Name</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
    * @return the value of the '<em>ID Attribute Name</em>' attribute.
    * @see #setIDAttributeName(String)
    * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage#getXMLMap_IDAttributeName()
    * @model volatile="true"
    * @generated
    */
-	String getIDAttributeName();
+  String getIDAttributeName();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.mapping.ecore2xml.XMLMap#getIDAttributeName <em>ID Attribute Name</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @param value the new value of the '<em>ID Attribute Name</em>' attribute.
    * @see #getIDAttributeName()
    * @generated
    */
-	void setIDAttributeName(String value);
+  void setIDAttributeName(String value);
 
   /**
    * Returns the value of the '<em><b>Ecore To XML Info</b></em>' map.
    * The key is of type {@link org.eclipse.emf.ecore.ENamedElement},
    * and the value is of type {@link org.eclipse.emf.mapping.ecore2xml.XMLInfo},
    * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ecore To XML Info</em>' map isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Ecore To XML Info</em>' map isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
    * @return the value of the '<em>Ecore To XML Info</em>' map.
    * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage#getXMLMap_EcoreToXMLInfo()
    * @model mapType="org.eclipse.emf.mapping.ecore2xml.ENamedElementToXMLInfoMapEntry" keyType="org.eclipse.emf.ecore.ENamedElement" valueType="org.eclipse.emf.mapping.ecore2xml.XMLInfo"
    * @generated
    */
-	EMap getEcoreToXMLInfo();
+  EMap getEcoreToXMLInfo();
 
   /**
    * Returns the value of the '<em><b>No Namespace Package</b></em>' reference.
    * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>No Namespace Package</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+   * <p>
+   * If the meaning of the '<em>No Namespace Package</em>' reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
    * @return the value of the '<em>No Namespace Package</em>' reference.
    * @see #setNoNamespacePackage(EPackage)
    * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage#getXMLMap_NoNamespacePackage()
    * @model volatile="true"
    * @generated
    */
-	EPackage getNoNamespacePackage();
+  EPackage getNoNamespacePackage();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.mapping.ecore2xml.XMLMap#getNoNamespacePackage <em>No Namespace Package</em>}' reference.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @param value the new value of the '<em>No Namespace Package</em>' reference.
    * @see #getNoNamespacePackage()
    * @generated
    */
-	void setNoNamespacePackage(EPackage value);
+  void setNoNamespacePackage(EPackage value);
 
 } // XMLMap

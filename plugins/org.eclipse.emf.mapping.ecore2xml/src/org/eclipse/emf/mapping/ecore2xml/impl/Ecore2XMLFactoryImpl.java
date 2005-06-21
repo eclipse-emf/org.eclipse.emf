@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLFactoryImpl.java,v 1.2 2005/04/20 20:25:13 khussey Exp $
+ * $Id: Ecore2XMLFactoryImpl.java,v 1.3 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -33,24 +33,24 @@ import org.eclipse.emf.mapping.ecore2xml.*;
  */
 public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFactory
 {
-
+  
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Ecore2XMLFactoryImpl()
+  public Ecore2XMLFactoryImpl()
   {
     super();
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EObject create(EClass eClass)
+  public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
     {
@@ -64,10 +64,10 @@ public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFacto
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public XMLInfo createXMLInfo()
+  public XMLInfo createXMLInfo()
   {
     XMLInfoImpl xmlInfo = new XMLInfoImpl();
     return xmlInfo;
@@ -75,10 +75,10 @@ public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFacto
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public XMLMap createXMLMap()
+  public XMLMap createXMLMap()
   {
     XMLMapImpl xmlMap = new XMLMapImpl();
     return xmlMap;
@@ -86,10 +86,10 @@ public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFacto
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Map.Entry createENamedElementToXMLInfoMapEntry()
+  public Map.Entry createENamedElementToXMLInfoMapEntry()
   {
     ENamedElementToXMLInfoMapEntryImpl eNamedElementToXMLInfoMapEntry = new ENamedElementToXMLInfoMapEntryImpl();
     return eNamedElementToXMLInfoMapEntry;
@@ -97,21 +97,21 @@ public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFacto
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Ecore2XMLPackage getEcore2XMLPackage()
+  public Ecore2XMLPackage getEcore2XMLPackage()
   {
     return (Ecore2XMLPackage)getEPackage();
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @deprecated
    * @generated
    */
-	public static Ecore2XMLPackage getPackage()
+  public static Ecore2XMLPackage getPackage()
   {
     return Ecore2XMLPackage.eINSTANCE;
   }

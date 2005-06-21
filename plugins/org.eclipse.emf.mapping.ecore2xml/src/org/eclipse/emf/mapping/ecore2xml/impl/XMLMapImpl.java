@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapImpl.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: XMLMapImpl.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EMap;
@@ -31,6 +32,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EcoreEMap;
@@ -57,73 +59,76 @@ import org.eclipse.emf.mapping.ecore2xml.XMLMap;
  */
 public class XMLMapImpl extends EObjectImpl implements XMLMap
 {
-
+  
   /**
    * The default value of the '{@link #getIDAttributeName() <em>ID Attribute Name</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getIDAttributeName()
    * @generated
    * @ordered
    */
-	protected static final String IDATTRIBUTE_NAME_EDEFAULT = null;
-
+  protected static final String IDATTRIBUTE_NAME_EDEFAULT = null;
+  
   /**
    * The cached value of the '{@link #getEcoreToXMLInfo() <em>Ecore To XML Info</em>}' map.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getEcoreToXMLInfo()
    * @generated
    * @ordered
    */
-	protected EMap ecoreToXMLInfo = null;
-
+  protected EMap ecoreToXMLInfo = null;
+  
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected XMLMapImpl()
+  protected XMLMapImpl()
   {
     super();
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected EClass eStaticClass()
+  protected EClass eStaticClass()
   {
     return Ecore2XMLPackage.eINSTANCE.getXMLMap();
   }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public String getIDAttributeName()
-  {
-		return delegateXMLMap.getIDAttributeName();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public void setIDAttributeName(String newIDAttributeName)
-  {
-		delegateXMLMap.setIDAttributeName(newIDAttributeName);
-	}
-
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String getIDAttributeName()
+  {
+    return delegateXMLMap.getIDAttributeName();
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void setIDAttributeName(String newIDAttributeName)
+  {
+    String oldIDAttributeName = delegateXMLMap.getIDAttributeName();
+    delegateXMLMap.setIDAttributeName(newIDAttributeName);
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, Ecore2XMLPackage.XML_MAP__IDATTRIBUTE_NAME, oldIDAttributeName, newIDAttributeName));
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EMap getEcoreToXMLInfo()
+  public EMap getEcoreToXMLInfo()
   {
     if (ecoreToXMLInfo == null)
     {
@@ -134,41 +139,44 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EPackage getNoNamespacePackage()
+  public EPackage getNoNamespacePackage()
   {
     EPackage noNamespacePackage = basicGetNoNamespacePackage();
     return noNamespacePackage == null ? null : (EPackage)eResolveProxy((InternalEObject)noNamespacePackage);
   }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public EPackage basicGetNoNamespacePackage()
-  {
-		return delegateXMLMap.getNoNamespacePackage();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public void setNoNamespacePackage(EPackage newNoNamespacePackage)
-  {
-		delegateXMLMap.setNoNamespacePackage(newNoNamespacePackage);
-	}
-
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public EPackage basicGetNoNamespacePackage()
+  {
+    return delegateXMLMap.getNoNamespacePackage();
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void setNoNamespacePackage(EPackage newNoNamespacePackage)
+  {
+    EPackage oldNoNamespacePackage = delegateXMLMap.getNoNamespacePackage();
+    delegateXMLMap.setNoNamespacePackage(newNoNamespacePackage);
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, Ecore2XMLPackage.XML_MAP__NO_NAMESPACE_PACKAGE, oldNoNamespacePackage, newNoNamespacePackage));
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
   {
     if (featureID >= 0)
     {
@@ -185,10 +193,10 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(EStructuralFeature eFeature, boolean resolve)
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
@@ -205,10 +213,10 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(EStructuralFeature eFeature, Object newValue)
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
@@ -228,10 +236,10 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(EStructuralFeature eFeature)
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
@@ -250,10 +258,10 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(EStructuralFeature eFeature)
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
@@ -267,7 +275,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
     return eDynamicIsSet(eFeature);
   }
 
-	protected class DelegateXMLMapImpl extends org.eclipse.emf.ecore.xmi.impl.XMLMapImpl
+  protected class DelegateXMLMapImpl extends org.eclipse.emf.ecore.xmi.impl.XMLMapImpl
   {
     protected DelegateXMLMapImpl()
     {
@@ -275,9 +283,9 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
       this.ecoreToXMLInfo = XMLMapImpl.this.getEcoreToXMLInfo().map();
     }
   }
-
-	protected XMLResource.XMLMap delegateXMLMap = new DelegateXMLMapImpl();
-
+  
+  protected XMLResource.XMLMap delegateXMLMap = new DelegateXMLMapImpl();
+  
   /* (non-Javadoc)
    * @see org.eclipse.emf.ecore.xmi.XMLResource.XMLMap#add(org.eclipse.emf.ecore.ENamedElement, org.eclipse.emf.ecore.xmi.XMLResource.XMLInfo)
    */
@@ -285,7 +293,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   {
     delegateXMLMap.add(element, XMLInfo.class.isInstance(info) ? info : new XMLInfoImpl(info));
   }
-
+  
   /* (non-Javadoc)
    * @see org.eclipse.emf.ecore.xmi.XMLResource.XMLMap#getClassifier(java.lang.String, java.lang.String)
    */
@@ -293,7 +301,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   {
     return delegateXMLMap.getClassifier(namespaceURI, name);
   }
-
+  
   /* (non-Javadoc)
    * @see org.eclipse.emf.ecore.xmi.XMLResource.XMLMap#getFeature(org.eclipse.emf.ecore.EClass, java.lang.String, java.lang.String)
    */
@@ -301,7 +309,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   {
     return delegateXMLMap.getFeature(eClass, namespaceURI, name);
   }
-
+  
   /* (non-Javadoc)
    * @see org.eclipse.emf.ecore.xmi.XMLResource.XMLMap#getFeatures(org.eclipse.emf.ecore.EClass)
    */
@@ -309,7 +317,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   {
     return delegateXMLMap.getFeatures(eClass);
   }
-
+  
   /* (non-Javadoc)
    * @see org.eclipse.emf.ecore.xmi.XMLResource.XMLMap#getInfo(org.eclipse.emf.ecore.ENamedElement)
    */
@@ -317,5 +325,5 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   {
     return delegateXMLMap.getInfo(element);
   }
-	
+  
 } //XMLMapImpl

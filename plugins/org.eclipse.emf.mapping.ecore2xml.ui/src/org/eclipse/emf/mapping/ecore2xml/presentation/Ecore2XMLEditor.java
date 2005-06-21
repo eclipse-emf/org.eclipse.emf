@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.3 2005/05/12 18:05:57 emerks Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.4 2005/06/21 16:16:58 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -99,14 +99,12 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableLayout;
-import org.eclipse.jface.viewers.TableTreeViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 
 import org.eclipse.swt.SWT;
 
-import org.eclipse.swt.custom.TableTree;
 import org.eclipse.swt.custom.CTabFolder;
 
 import org.eclipse.swt.dnd.DND;
@@ -117,12 +115,16 @@ import org.eclipse.swt.events.ControlEvent;
 
 import org.eclipse.swt.graphics.Point;
 
+import org.eclipse.swt.layout.FillLayout;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
+
+import org.eclipse.swt.widgets.TreeColumn;
 
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
@@ -263,13 +265,12 @@ public class Ecore2XMLEditor
   protected TableViewer tableViewer;
 
   /**
-   * This shows how a table view works.
-   * A table can be used as a list with icons.
+   * This shows how a tree view with columns works.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected TableTreeViewer tableTreeViewer;
+  protected TreeViewer treeViewerWithColumns;
 
   /**
    * This keeps track of the active viewer pane, in the book.
@@ -1015,7 +1016,7 @@ public class Ecore2XMLEditor
         {
           public Viewer createViewer(Composite composite)
           {
-            return new TableTreeViewer(composite);
+            return new TreeViewer(composite);
           }
           public void requestActivation()
           {
@@ -1025,31 +1026,30 @@ public class Ecore2XMLEditor
         };
       viewerPane.createControl(getContainer());
 
-      tableTreeViewer = (TableTreeViewer)viewerPane.getViewer();
+      treeViewerWithColumns = (TreeViewer)viewerPane.getViewer();
 
-      TableTree tableTree = tableTreeViewer.getTableTree();
-      TableLayout layout = new TableLayout();
-      tableTree.getTable().setLayout(layout);
-      tableTree.getTable().setHeaderVisible(true);
-      tableTree.getTable().setLinesVisible(true);
+      Tree tree = treeViewerWithColumns.getTree();
+      tree.setLayoutData(new FillLayout());
+      tree.setHeaderVisible(true);
+      tree.setLinesVisible(true);
 
-      TableColumn objectColumn = new TableColumn(tableTree.getTable(), SWT.NONE);
-      layout.addColumnData(new ColumnWeightData(3, 100, true));
+      TreeColumn objectColumn = new TreeColumn(tree, SWT.NONE);
       objectColumn.setText(getString("_UI_ObjectColumn_label")); //$NON-NLS-1$
       objectColumn.setResizable(true);
+      objectColumn.setWidth(250);
 
-      TableColumn selfColumn = new TableColumn(tableTree.getTable(), SWT.NONE);
-      layout.addColumnData(new ColumnWeightData(2, 100, true));
+      TreeColumn selfColumn = new TreeColumn(tree, SWT.NONE);
       selfColumn.setText(getString("_UI_SelfColumn_label")); //$NON-NLS-1$
       selfColumn.setResizable(true);
+      selfColumn.setWidth(200);
 
-      tableTreeViewer.setColumnProperties(new String [] {"a", "b"}); //$NON-NLS-1$ //$NON-NLS-2$
-      tableTreeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-      tableTreeViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+      treeViewerWithColumns.setColumnProperties(new String [] {"a", "b"}); //$NON-NLS-1$ //$NON-NLS-2$
+      treeViewerWithColumns.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+      treeViewerWithColumns.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 
-      createContextMenuFor(tableTreeViewer);
+      createContextMenuFor(treeViewerWithColumns);
       int pageIndex = addPage(viewerPane.getControl());
-      setPageText(pageIndex, getString("_UI_TableTreePage_label")); //$NON-NLS-1$
+      setPageText(pageIndex, getString("_UI_TreeWithColumnsPage_label")); //$NON-NLS-1$
     }
 
     setActivePage(0);

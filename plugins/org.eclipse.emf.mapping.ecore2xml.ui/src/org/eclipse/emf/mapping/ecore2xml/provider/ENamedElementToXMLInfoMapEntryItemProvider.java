@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: ENamedElementToXMLInfoMapEntryItemProvider.java,v 1.3 2005/05/10 11:42:26 emerks Exp $
+ * $Id: ENamedElementToXMLInfoMapEntryItemProvider.java,v 1.4 2005/06/21 16:16:58 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -24,6 +24,13 @@ import java.util.Map;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+//import org.eclipse.emf.ecore.EObject;
+//import org.eclipse.emf.ecore.EReference;
+//import org.eclipse.emf.ecore.EStructuralFeature;
+
+//import org.eclipse.emf.ecore.util.FeatureMap;
+//import org.eclipse.emf.ecore.util.FeatureMapUtil;
+
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -33,6 +40,7 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+//import org.eclipse.emf.mapping.MappingPlugin;
 import org.eclipse.emf.mapping.ecore2xml.Ecore2XMLFactory;
 import org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage;
 import org.eclipse.emf.mapping.ecore2xml.XMLInfo;
@@ -140,7 +148,9 @@ public class ENamedElementToXMLInfoMapEntryItemProvider
   public String getText(Object object)
   {
     Map.Entry eNamedElementToXMLInfoMapEntry = (Map.Entry)object;
-    return ((ENamedElement)eNamedElementToXMLInfoMapEntry.getKey()).getName() + " -> " + ((XMLInfo)eNamedElementToXMLInfoMapEntry.getValue()).getName(); //$NON-NLS-1$ //$NON-NLS-2$
+    Object key = eNamedElementToXMLInfoMapEntry.getKey();
+    Object value = eNamedElementToXMLInfoMapEntry.getValue();
+    return "" + (key instanceof ENamedElement ? ((ENamedElement)key).getName() : String.valueOf(key)) + " -> " + (value instanceof XMLInfo ? ((XMLInfo)value).getName() : String.valueOf(value)); //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   /**
@@ -156,6 +166,9 @@ public class ENamedElementToXMLInfoMapEntryItemProvider
 
     switch (notification.getFeatureID(Map.Entry.class))
     {
+      case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__KEY:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+        return;
       case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
         return;

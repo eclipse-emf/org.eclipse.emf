@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfo.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: XMLInfo.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -38,86 +38,85 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  * @model
  * @generated
  */
-public interface XMLInfo extends EObject, XMLResource.XMLInfo
-{
-
+public interface XMLInfo extends EObject, XMLResource.XMLInfo{
+  
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Name</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
    * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage#getXMLInfo_Name()
    * @model volatile="true"
    * @generated
    */
-	String getName();
+  String getName();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.mapping.ecore2xml.XMLInfo#getName <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @param value the new value of the '<em>Name</em>' attribute.
    * @see #getName()
    * @generated
    */
-	void setName(String value);
+  void setName(String value);
 
   /**
    * Returns the value of the '<em><b>Target Namespace</b></em>' attribute.
    * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Target Namespace</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Target Namespace</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
    * @return the value of the '<em>Target Namespace</em>' attribute.
    * @see #setTargetNamespace(String)
    * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage#getXMLInfo_TargetNamespace()
    * @model volatile="true"
    * @generated
    */
-	String getTargetNamespace();
+  String getTargetNamespace();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.mapping.ecore2xml.XMLInfo#getTargetNamespace <em>Target Namespace</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @param value the new value of the '<em>Target Namespace</em>' attribute.
    * @see #getTargetNamespace()
    * @generated
    */
-	void setTargetNamespace(String value);
+  void setTargetNamespace(String value);
 
   /**
    * Returns the value of the '<em><b>XML Representation</b></em>' attribute.
    * The default value is <code>"-1"</code>.
    * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>XML Representation</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+   * <p>
+   * If the meaning of the '<em>XML Representation</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
    * @return the value of the '<em>XML Representation</em>' attribute.
    * @see #setXMLRepresentation(int)
    * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage#getXMLInfo_XMLRepresentation()
    * @model default="-1" volatile="true"
    * @generated
    */
-	int getXMLRepresentation();
+  int getXMLRepresentation();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.mapping.ecore2xml.XMLInfo#getXMLRepresentation <em>XML Representation</em>}' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @param value the new value of the '<em>XML Representation</em>' attribute.
    * @see #getXMLRepresentation()
    * @generated
    */
-	void setXMLRepresentation(int value);
+  void setXMLRepresentation(int value);
 
 } // XMLInfo

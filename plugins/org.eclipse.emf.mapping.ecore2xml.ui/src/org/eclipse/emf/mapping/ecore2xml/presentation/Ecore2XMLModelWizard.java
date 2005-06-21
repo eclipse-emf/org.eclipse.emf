@@ -12,14 +12,14 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLModelWizard.java,v 1.3 2005/05/06 15:03:19 khussey Exp $
+ * $Id: Ecore2XMLModelWizard.java,v 1.4 2005/06/21 16:16:58 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+//import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +30,8 @@ import java.util.StringTokenizer;
 import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
+
+//import org.eclipse.emf.ecore.EClassifier;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -179,26 +180,14 @@ public class Ecore2XMLModelWizard extends Wizard implements INewWizard
    * Returns the names of the types that can be created as the root object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected Collection getInitialObjectNames()
   {
     if (initialObjectNames == null)
     {
       initialObjectNames = new ArrayList();
-      for (Iterator classifiers = ecore2XMLPackage.getEClassifiers().iterator(); classifiers.hasNext(); )
-      {
-        EClassifier eClassifier = (EClassifier)classifiers.next();
-        if (eClassifier instanceof EClass)
-        {
-          EClass eClass = (EClass)eClassifier;
-          if (!eClass.isAbstract())
-          {
-            initialObjectNames.add(eClass.getName());
-          }
-        }
-      }
-      Collections.sort(initialObjectNames, java.text.Collator.getInstance());
+      initialObjectNames.add(ecore2XMLPackage.getXMLMap().getName());
     }
     return initialObjectNames;
   }
@@ -583,10 +572,11 @@ public class Ecore2XMLModelWizard extends Wizard implements INewWizard
     {
       try
       {
-        return Ecore2XMLUIPlugin.INSTANCE.getString("_UI_" + typeName + "_type");
+        return Ecore2XMLUIPlugin.INSTANCE.getString("_UI_" + typeName + "_type"); //$NON-NLS-1$
       }
       catch(MissingResourceException mre)
       {
+        Ecore2XMLUIPlugin.INSTANCE.log(mre);
       }
       return typeName;
     }
@@ -601,7 +591,7 @@ public class Ecore2XMLModelWizard extends Wizard implements INewWizard
       if (encodings == null)
       {
         encodings = new ArrayList();
-        for (StringTokenizer stringTokenizer = new StringTokenizer(Ecore2XMLUIPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); )
+        for (StringTokenizer stringTokenizer = new StringTokenizer(Ecore2XMLUIPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); ) //$NON-NLS-1$
         {
           encodings.add(stringTokenizer.nextToken());
         }

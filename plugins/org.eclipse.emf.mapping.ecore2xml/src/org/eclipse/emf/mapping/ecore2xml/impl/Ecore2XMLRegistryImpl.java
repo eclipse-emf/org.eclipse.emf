@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLRegistryImpl.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: Ecore2XMLRegistryImpl.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -26,25 +26,25 @@ import org.eclipse.emf.mapping.ecore2xml.Ecore2XMLRegistry;
  */
 public class Ecore2XMLRegistryImpl extends HashMap implements Ecore2XMLRegistry
 {
-
+  
   protected Ecore2XMLRegistry delegateRegistry;
-
+  
   public Ecore2XMLRegistryImpl()
   {
     super();
   }
-
+  
   public Ecore2XMLRegistryImpl(Ecore2XMLRegistry delegateRegistry)
   {
     this();
-
+    
     this.delegateRegistry = delegateRegistry;
   }
-
+  
   public XMLResource.XMLMap getXMLMap(String nsURI)
   {
     Object value = get(nsURI);
-
+    
     if (value instanceof XMLResource.XMLMap)
     {
       return (XMLResource.XMLMap)value;
@@ -53,7 +53,7 @@ public class Ecore2XMLRegistryImpl extends HashMap implements Ecore2XMLRegistry
     {
       XMLResource.XMLMap xmlMap = ((Ecore2XMLRegistry.Descriptor)value).getXMLMap();
       put(nsURI, xmlMap);
-
+      
       return xmlMap;
     }
     else
@@ -61,15 +61,15 @@ public class Ecore2XMLRegistryImpl extends HashMap implements Ecore2XMLRegistry
       return delegatedGetXMLMap(nsURI);
     }
   }
-
+  
   protected XMLResource.XMLMap delegatedGetXMLMap(String nsURI)
   {
     return delegateRegistry == null ? null : delegateRegistry.getXMLMap(nsURI);
   }
-
+  
   public boolean containsKey(Object key)
   {
     return super.containsKey(key) || delegateRegistry != null && delegateRegistry.containsKey(key);
   }
-
+  
 }

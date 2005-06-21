@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLResource.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: Ecore2XMLResource.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.util;
 
@@ -24,19 +24,19 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
  */
 public interface Ecore2XMLResource extends XMIResource
 {
-
+  
   /**
    * The interface for Ecore2XML resource factories.
    */
   public interface Factory extends Resource.Factory
   {
-
+    
     public static final Factory INSTANCE = new Ecore2XMLResourceFactoryImpl();
-
+    
   }
-
+  
   public static final String FILE_EXTENSION = "ecore2xml"; //$NON-NLS-1$
-
+  
   public static final String DEFAULT_ENCODING = "UTF-8"; //$NON-NLS-1$
-
+  
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfoItemProvider.java,v 1.3 2005/05/10 11:42:26 emerks Exp $
+ * $Id: XMLInfoItemProvider.java,v 1.4 2005/06/21 16:16:58 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -23,6 +23,13 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+//import org.eclipse.emf.ecore.EObject;
+//import org.eclipse.emf.ecore.EReference;
+//import org.eclipse.emf.ecore.EStructuralFeature;
+
+//import org.eclipse.emf.ecore.util.FeatureMap;
+//import org.eclipse.emf.ecore.util.FeatureMapUtil;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -32,6 +39,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+//import org.eclipse.emf.mapping.MappingPlugin;
 import org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage;
 import org.eclipse.emf.mapping.ecore2xml.XMLInfo;
 import org.eclipse.emf.mapping.ecore2xml.ui.Ecore2XMLUIPlugin;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: GenerateEcore2XMLActionDelegate.java,v 1.2 2005/05/06 15:03:19 khussey Exp $
+ * $Id: GenerateEcore2XMLActionDelegate.java,v 1.3 2005/06/21 16:16:58 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.action;
 
@@ -22,7 +22,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
@@ -40,15 +42,22 @@ import org.eclipse.emf.mapping.Mapping;
 import org.eclipse.emf.mapping.ecore2ecore.Ecore2EcoreMappingRoot;
 import org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePackage;
 import org.eclipse.emf.mapping.ecore2xml.Ecore2XMLFactory;
+import org.eclipse.emf.mapping.ecore2xml.ui.Ecore2XMLUIPlugin;
 import org.eclipse.emf.mapping.ecore2xml.util.Ecore2XMLResource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionDelegate;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.part.ISetSelectionTarget;
 
 
 /**
@@ -56,16 +65,16 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
  */
 public class GenerateEcore2XMLActionDelegate extends ActionDelegate
 {
-
-  private static final String ECORE2ECORE_FILE_EXTENSION = "ecore2ecore"; //$NON-NLS-1$
-
+  
+  private static final String ECORE2ECORE_FILE_EXTENSION = "ecore2ecore";
+  
   protected Ecore2EcoreMappingRoot getMappingRoot(IStructuredSelection structuredSelection)
   {
-
+    
     if (IFile.class.isInstance(structuredSelection.getFirstElement()))
     {
       IFile file = (IFile)structuredSelection.getFirstElement();
-
+      
       if (ECORE2ECORE_FILE_EXTENSION.equals(file.getFullPath().getFileExtension()))
       {
         return (Ecore2EcoreMappingRoot)EcoreUtil.getObjectByType(new ResourceSetImpl().getResource(
@@ -73,81 +82,101 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
           true).getContents(), Ecore2EcorePackage.eINSTANCE.getEcore2EcoreMappingRoot());
       }
     }
-
+    
     return null;
   }
-
+  
   protected static XMLResource.XMLInfo createXMLInfo(EObject eObject)
   {
     return (XMLResource.XMLInfo)new EcoreSwitch()
+    {
+      public Object caseEPackage(EPackage ePackage)
       {
-
-        public Object caseEPackage(EPackage ePackage)
+        XMLResource.XMLInfo xmlInfo = Ecore2XMLFactory.eINSTANCE.createXMLInfo();
+        
+        xmlInfo.setName(ePackage.getName());
+        xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(ePackage));
+        
+        return xmlInfo;
+      }
+      
+      public Object caseEClassifier(EClassifier eClassifier)
+      {
+        XMLResource.XMLInfo xmlInfo = Ecore2XMLFactory.eINSTANCE.createXMLInfo();
+        
+        xmlInfo.setName(ExtendedMetaData.INSTANCE.getName(eClassifier));
+        xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(eClassifier));
+        
+        return xmlInfo;
+      }
+      
+      public Object caseEStructuralFeature(EStructuralFeature eStructuralFeature)
+      {
+        XMLResource.XMLInfo xmlInfo = Ecore2XMLFactory.eINSTANCE.createXMLInfo();
+        
+        xmlInfo.setName(ExtendedMetaData.INSTANCE.getName(eStructuralFeature));
+        xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(eStructuralFeature));
+        
+        switch (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature))
         {
-          XMLResource.XMLInfo xmlInfo = Ecore2XMLFactory.eINSTANCE.createXMLInfo();
-
-          xmlInfo.setName(ePackage.getName());
-          xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(ePackage));
-
-          return xmlInfo;
+          case ExtendedMetaData.ATTRIBUTE_FEATURE:
+            xmlInfo.setXMLRepresentation(XMLResource.XMLInfo.ATTRIBUTE);
+            break;
+          case ExtendedMetaData.ELEMENT_FEATURE:
+            xmlInfo.setXMLRepresentation(XMLResource.XMLInfo.ELEMENT);
+            break;
         }
-
-        public Object caseEClassifier(EClassifier eClassifier)
-        {
-          XMLResource.XMLInfo xmlInfo = Ecore2XMLFactory.eINSTANCE.createXMLInfo();
-
-          xmlInfo.setName(ExtendedMetaData.INSTANCE.getName(eClassifier));
-          xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(eClassifier));
-
-          return xmlInfo;
-        }
-
-        public Object caseEStructuralFeature(EStructuralFeature eStructuralFeature)
-        {
-          XMLResource.XMLInfo xmlInfo = Ecore2XMLFactory.eINSTANCE.createXMLInfo();
-
-          xmlInfo.setName(ExtendedMetaData.INSTANCE.getName(eStructuralFeature));
-          xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(eStructuralFeature));
-
-          switch (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature))
-          {
-
-            case ExtendedMetaData.ATTRIBUTE_FEATURE:
-              xmlInfo.setXMLRepresentation(XMLResource.XMLInfo.ATTRIBUTE);
-              break;
-            case ExtendedMetaData.ELEMENT_FEATURE:
-              xmlInfo.setXMLRepresentation(XMLResource.XMLInfo.ELEMENT);
-              break;
-          }
-
-          return xmlInfo;
-        }
-      }.doSwitch(eObject);
+        
+        return xmlInfo;
+      }
+    }.doSwitch(eObject);
   }
-
+  
   protected static XMLResource.XMLMap createXMLMap(Ecore2EcoreMappingRoot mappingRoot)
   {
     XMLResource.XMLMap xmlMap = Ecore2XMLFactory.eINSTANCE.createXMLMap();
-
+    
     for (TreeIterator mappings = mappingRoot.treeIterator(); mappings.hasNext();)
     {
-
       Mapping mapping = (Mapping)mappings.next();
-
+      
       if (!mapping.getInputs().isEmpty())
       {
-        EObject eObject = (EObject)mapping.getInputs().get(0);
-
+        EObject input = (EObject)mapping.getInputs().get(0);
+        
         for (Iterator outputs = mapping.getOutputs().iterator(); outputs.hasNext();)
         {
-          xmlMap.add((ENamedElement)outputs.next(), createXMLInfo(eObject));
+          ENamedElement output = (ENamedElement)outputs.next();
+          XMLResource.XMLInfo xmlInfo = createXMLInfo(input);
+          if (xmlInfo != null) {
+            xmlMap.add(output, xmlInfo);
+          }
         }
       }
     }
-
+    
     return xmlMap;
   }
-
+  
+  protected IFile getFile(Resource resource)
+  {
+    URI uri = resource.getURI();
+    uri = resource.getResourceSet().getURIConverter().normalize(uri);
+    String scheme = uri.scheme();
+    if ("platform".equals(scheme) && uri.segmentCount() > 1 && "resource".equals(uri.segment(0)))
+    {
+      StringBuffer platformResourcePath = new StringBuffer();
+      for (int j = 1, size = uri.segmentCount(); j < size; ++j)
+      {
+        platformResourcePath.append('/');
+        platformResourcePath.append(uri.segment(j));
+      }
+      return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourcePath.toString()));
+    }
+    
+    return null;
+  }
+  
   /*
    * (non-Javadoc)
    * 
@@ -156,44 +185,66 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
   public void run(IAction action)
   {
     final IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-
+    
     try
     {
       new ProgressMonitorDialog(workbenchWindow.getShell()).run(false, true, new WorkspaceModifyOperation()
         {
-
-          protected void execute(IProgressMonitor progressMonitor)
+        
+        protected void execute(IProgressMonitor progressMonitor)
+        {
+          try
           {
-            try
+            progressMonitor.beginTask("", IProgressMonitor.UNKNOWN);
+            
+            Ecore2EcoreMappingRoot mappingRoot = getMappingRoot((IStructuredSelection)workbenchWindow.getSelectionService().getSelection());
+            
+            if (mappingRoot != null)
             {
-              progressMonitor.beginTask("", IProgressMonitor.UNKNOWN); //$NON-NLS-1$
-
-              Ecore2EcoreMappingRoot mappingRoot = getMappingRoot((IStructuredSelection)workbenchWindow.getSelectionService().getSelection());
-
-              if (mappingRoot != null)
+              Resource ecore2ecoreResource = mappingRoot.eResource();
+              
+              URI ecore2xmlURI = ecore2ecoreResource.getURI().trimFileExtension().appendFileExtension(Ecore2XMLResource.FILE_EXTENSION);
+              Resource ecore2xmlResource = ecore2ecoreResource.getResourceSet().createResource(ecore2xmlURI);
+              
+              ecore2xmlResource.getContents().add(createXMLMap(mappingRoot));
+              
+              try
               {
-                Resource ecore2ecoreResource = mappingRoot.eResource();
-
-                URI ecore2xmlURI = ecore2ecoreResource.getURI().trimFileExtension().appendFileExtension(Ecore2XMLResource.FILE_EXTENSION);
-                Resource ecore2xmlResource = ecore2ecoreResource.getResourceSet().createResource(ecore2xmlURI);
-
-                ecore2xmlResource.getContents().add(createXMLMap(mappingRoot));
-
-                try
+                ecore2xmlResource.save(null);
+                
+                IFile file = getFile(ecore2xmlResource);
+                IWorkbenchPage workbenchPage = workbenchWindow.getActivePage();
+                
+                final IWorkbenchPart activePart = workbenchPage.getActivePart();
+                if (activePart instanceof ISetSelectionTarget)
                 {
-                  ecore2xmlResource.save(null);
+                  final ISelection targetSelection = new StructuredSelection(file);
+                  workbenchWindow.getShell().getDisplay().asyncExec(new Runnable()
+                    {
+                    public void run()
+                    {
+                      ((ISetSelectionTarget)activePart).selectReveal(targetSelection);
+                    }
+                    });
                 }
-                catch (IOException ioe)
-                {
-                  ioe.printStackTrace(System.err);
+                
+                try {
+                  workbenchPage.openEditor(new FileEditorInput(file), workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor(file.getFullPath().toString()).getId());                      
+                } catch (PartInitException pie) {
+                  Ecore2XMLUIPlugin.INSTANCE.log(pie);                      
                 }
               }
-            }
-            finally
-            {
-              progressMonitor.done();
+              catch (IOException ioe)
+              {
+                Ecore2XMLUIPlugin.INSTANCE.log(ioe);                      
+              }
             }
           }
+          finally
+          {
+            progressMonitor.done();
+          }
+        }
         });
     }
     catch (InterruptedException ie)
@@ -202,10 +253,10 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
     }
     catch (InvocationTargetException ite)
     {
-      ite.printStackTrace(System.err);
+      Ecore2XMLUIPlugin.INSTANCE.log(ite);                      
     }
   }
-
+  
   /*
    * (non-Javadoc)
    * 
@@ -216,5 +267,5 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
   {
     action.setEnabled(IStructuredSelection.class.isInstance(selection) && getMappingRoot((IStructuredSelection)selection) != null);
   }
-
+  
 }

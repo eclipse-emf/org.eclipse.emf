@@ -98,12 +98,12 @@
 	    (object Class_Category "ecore"
 		is_unit    	TRUE
 		is_loaded  	FALSE
-		file_name  	"$CURDIR\\..\\..\\..\\org.eclipse.emf.ecore\\model\\org.eclipse.emf.Ecore.cat"
+		file_name  	"$VABASE_PLUGINS_PATH\\org.eclipse.emf.ecore\\model\\org.eclipse.emf.Ecore.cat"
 		quid       	"39A5ED04004E")
 	    (object Class_Category "ecore2xml"
 		is_unit    	TRUE
 		is_loaded  	FALSE
-		file_name  	"$CURDIR\\org.eclipse.emf.mapping.Ecore2XML.cat"
+		file_name  	"$VABASE_PLUGINS_PATH\\org.eclipse.emf.mapping.ecore2xml\\model\\org.eclipse.emf.mapping.Ecore2XML.cat"
 		quid       	"3D9E0D68011C"))
 	logical_presentations 	(list unit_reference_list
 	    (object ClassDiagram "Main"
@@ -159,7 +159,7 @@
 			    max_width  	1221
 			    label      	
 |A Rose PATH MAP must be set to locate the subunits.
-|The symbol $CURDIR should be set to actual path &.
+|The variable VABASE_PLUGINS_PATH should be set to point to the root dir of the Foundation components build.
 			    )
 			line_color 	3342489
 			fill_color 	13434879

@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLFactory.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: Ecore2XMLFactory.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -30,36 +30,36 @@ public interface Ecore2XMLFactory extends EFactory{
   /**
    * The singleton instance of the factory.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	Ecore2XMLFactory eINSTANCE = new org.eclipse.emf.mapping.ecore2xml.impl.Ecore2XMLFactoryImpl();
+  Ecore2XMLFactory eINSTANCE = new org.eclipse.emf.mapping.ecore2xml.impl.Ecore2XMLFactoryImpl();
 
   /**
    * Returns a new object of class '<em>XML Info</em>'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return a new object of class '<em>XML Info</em>'.
    * @generated
    */
-	XMLInfo createXMLInfo();
+  XMLInfo createXMLInfo();
 
   /**
    * Returns a new object of class '<em>XML Map</em>'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return a new object of class '<em>XML Map</em>'.
    * @generated
    */
-	XMLMap createXMLMap();
+  XMLMap createXMLMap();
 
   /**
    * Returns the package supported by this factory.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the package supported by this factory.
    * @generated
    */
-	Ecore2XMLPackage getEcore2XMLPackage();
+  Ecore2XMLPackage getEcore2XMLPackage();
 
 } //Ecore2XMLFactory

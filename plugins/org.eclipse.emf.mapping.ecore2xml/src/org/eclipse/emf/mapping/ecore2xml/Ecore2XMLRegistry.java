@@ -12,9 +12,10 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLRegistry.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: Ecore2XMLRegistry.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
+
 
 import java.util.Map;
 
@@ -40,9 +41,7 @@ public interface Ecore2XMLRegistry extends Map
    */
   public interface Descriptor
   {
-
     XMLResource.XMLMap getXMLMap();
-
   }
 
   /**

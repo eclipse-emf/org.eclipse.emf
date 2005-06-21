@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLSwitch.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: Ecore2XMLSwitch.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.util;
 
@@ -36,24 +36,23 @@ import org.eclipse.emf.mapping.ecore2xml.*;
  * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage
  * @generated
  */
-public class Ecore2XMLSwitch
-{
-
+public class Ecore2XMLSwitch {
+  
   /**
    * The cached model package
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected static Ecore2XMLPackage modelPackage;
-
+  protected static Ecore2XMLPackage modelPackage;
+  
   /**
    * Creates an instance of the switch.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Ecore2XMLSwitch()
+  public Ecore2XMLSwitch()
   {
     if (modelPackage == null)
     {
@@ -64,11 +63,11 @@ public class Ecore2XMLSwitch
   /**
    * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-	public Object doSwitch(EObject theEObject)
+  public Object doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -76,11 +75,11 @@ public class Ecore2XMLSwitch
   /**
    * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-	protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected Object doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -99,11 +98,11 @@ public class Ecore2XMLSwitch
   /**
    * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-	protected Object doSwitch(int classifierID, EObject theEObject)
+  protected Object doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
@@ -135,15 +134,15 @@ public class Ecore2XMLSwitch
   /**
    * Returns the result of interpretting the object as an instance of '<em>XML Info</em>'.
    * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
    * @param object the target of the switch.
    * @return the result of interpretting the object as an instance of '<em>XML Info</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-	public Object caseXMLInfo(XMLInfo object)
+  public Object caseXMLInfo(XMLInfo object)
   {
     return null;
   }
@@ -151,15 +150,15 @@ public class Ecore2XMLSwitch
   /**
    * Returns the result of interpretting the object as an instance of '<em>XML Map</em>'.
    * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
    * @param object the target of the switch.
    * @return the result of interpretting the object as an instance of '<em>XML Map</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-	public Object caseXMLMap(XMLMap object)
+  public Object caseXMLMap(XMLMap object)
   {
     return null;
   }
@@ -167,15 +166,15 @@ public class Ecore2XMLSwitch
   /**
    * Returns the result of interpretting the object as an instance of '<em>ENamed Element To XML Info Map Entry</em>'.
    * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
    * @param object the target of the switch.
    * @return the result of interpretting the object as an instance of '<em>ENamed Element To XML Info Map Entry</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-	public Object caseENamedElementToXMLInfoMapEntry(Map.Entry object)
+  public Object caseENamedElementToXMLInfoMapEntry(Map.Entry object)
   {
     return null;
   }
@@ -183,15 +182,15 @@ public class Ecore2XMLSwitch
   /**
    * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
    * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch, but this is the last case anyway.
-	 * <!-- end-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch, but this is the last case anyway.
+   * <!-- end-user-doc -->
    * @param object the target of the switch.
    * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-	public Object defaultCase(EObject object)
+  public Object defaultCase(EObject object)
   {
     return null;
   }

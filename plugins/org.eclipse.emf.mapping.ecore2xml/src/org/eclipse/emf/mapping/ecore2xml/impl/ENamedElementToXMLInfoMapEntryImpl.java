@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: ENamedElementToXMLInfoMapEntryImpl.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: ENamedElementToXMLInfoMapEntryImpl.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -49,53 +49,53 @@ import org.eclipse.emf.mapping.ecore2xml.XMLInfo;
  */
 public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements BasicEMap.Entry
 {
-
+  
   /**
    * The cached value of the '{@link #getTypedKey() <em>Key</em>}' reference.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getTypedKey()
    * @generated
    * @ordered
    */
-	protected ENamedElement key = null;
-
+  protected ENamedElement key = null;
+  
   /**
    * The cached value of the '{@link #getTypedValue() <em>Value</em>}' containment reference.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #getTypedValue()
    * @generated
    * @ordered
    */
-	protected XMLInfo value = null;
-
+  protected XMLInfo value = null;
+  
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected ENamedElementToXMLInfoMapEntryImpl()
+  protected ENamedElementToXMLInfoMapEntryImpl()
   {
     super();
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected EClass eStaticClass()
+  protected EClass eStaticClass()
   {
     return Ecore2XMLPackage.eINSTANCE.getENamedElementToXMLInfoMapEntry();
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public ENamedElement getTypedKey()
+  public ENamedElement getTypedKey()
   {
     if (key != null && key.eIsProxy())
     {
@@ -112,20 +112,20 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public ENamedElement basicGetTypedKey()
+  public ENamedElement basicGetTypedKey()
   {
     return key;
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setTypedKey(ENamedElement newKey)
+  public void setTypedKey(ENamedElement newKey)
   {
     ENamedElement oldKey = key;
     key = newKey;
@@ -135,20 +135,20 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public XMLInfo getTypedValue()
+  public XMLInfo getTypedValue()
   {
     return value;
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public NotificationChain basicSetTypedValue(XMLInfo newValue, NotificationChain msgs)
+  public NotificationChain basicSetTypedValue(XMLInfo newValue, NotificationChain msgs)
   {
     XMLInfo oldValue = value;
     value = newValue;
@@ -162,10 +162,10 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setTypedValue(XMLInfo newValue)
+  public void setTypedValue(XMLInfo newValue)
   {
     if (newValue != value)
     {
@@ -183,10 +183,10 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
   {
     if (featureID >= 0)
     {
@@ -203,10 +203,10 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(EStructuralFeature eFeature, boolean resolve)
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
@@ -221,10 +221,10 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(EStructuralFeature eFeature, Object newValue)
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
@@ -240,10 +240,10 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(EStructuralFeature eFeature)
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
@@ -259,10 +259,10 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(EStructuralFeature eFeature)
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
@@ -276,17 +276,17 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	protected int hash = -1;
-
+  protected int hash = -1;
+  
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public int getHash()
+  public int getHash()
   {
     if (hash == -1)
     {
@@ -298,50 +298,50 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setHash(int hash)
+  public void setHash(int hash)
   {
     this.hash = hash;
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Object getKey()
+  public Object getKey()
   {
     return getTypedKey();
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void setKey(Object key)
+  public void setKey(Object key)
   {
     setTypedKey((ENamedElement)key);
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Object getValue()
+  public Object getValue()
   {
     return getTypedValue();
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Object setValue(Object value)
+  public Object setValue(Object value)
   {
     Object oldValue = getValue();
     setTypedValue((XMLInfo)value);
@@ -350,10 +350,10 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EMap getEMap()
+  public EMap getEMap()
   {
     EObject container = eContainer();
     return container == null ? null : (EMap)container.eGet(eContainmentFeature());

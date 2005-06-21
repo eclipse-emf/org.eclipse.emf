@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLExtendedMetaData.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: Ecore2XMLExtendedMetaData.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.util;
 
@@ -34,57 +34,57 @@ import org.eclipse.emf.mapping.ecore2xml.Ecore2XMLRegistry;
  */
 public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
 {
-
+  
   protected final Ecore2XMLRegistry ecore2xmlRegistry;
-
+  
   protected final Map xmlMaps = new HashMap();
-
+  
   public Ecore2XMLExtendedMetaData()
   {
     this(Ecore2XMLRegistry.INSTANCE);
   }
-
+  
   public Ecore2XMLExtendedMetaData(Ecore2XMLRegistry ecore2xmlRegistry)
   {
     this(EPackage.Registry.INSTANCE, ecore2xmlRegistry);
   }
-
+  
   public Ecore2XMLExtendedMetaData(EPackage.Registry ePackageRegistry, Ecore2XMLRegistry ecore2xmlRegistry)
   {
     this(ANNOTATION_URI, ePackageRegistry, ecore2xmlRegistry);
   }
-
+  
   public Ecore2XMLExtendedMetaData(String annotationURI, EPackage.Registry ePackageRegistry, Ecore2XMLRegistry ecore2xmlRegistry)
   {
     super(annotationURI, ePackageRegistry);
-
+    
     this.ecore2xmlRegistry = ecore2xmlRegistry;
   }
-
+  
   protected XMLResource.XMLInfo getInfo(ENamedElement element)
   {
     XMLResource.XMLInfo xmlInfo = null;
-
+    
     for (Iterator maps = xmlMaps.values().iterator(); xmlInfo == null && maps.hasNext();)
     {
       xmlInfo = ((XMLResource.XMLMap)maps.next()).getInfo(element);
     }
-
+    
     return xmlInfo;
   }
-
+  
   protected EClassifier getClassifier(String namespaceURI, String name)
   {
     EClassifier classifier = null;
-
+    
     for (Iterator maps = xmlMaps.values().iterator(); classifier == null && maps.hasNext();)
     {
       classifier = ((XMLResource.XMLMap)maps.next()).getClassifier(namespaceURI, name);
     }
-
+    
     return classifier;
   }
-
+  
   /*
    * (non-Javadoc)
    * 
@@ -93,15 +93,15 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
   public EPackage getPackage(String namespace)
   {
     XMLResource.XMLMap xmlMap = ecore2xmlRegistry.getXMLMap(namespace);
-
+    
     if (xmlMap != null)
     {
       xmlMaps.put(namespace, xmlMap);
     }
-
+    
     return super.getPackage(namespace);
   }
-
+  
   /*
    * (non-Javadoc)
    * 
@@ -110,20 +110,20 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
   public String getName(EClassifier eClassifier)
   {
     XMLResource.XMLInfo xmlInfo = getInfo(eClassifier);
-
+    
     if (xmlInfo != null)
     {
       String name = xmlInfo.getName();
-
+      
       if (name != null)
       {
         return name;
       }
     }
-
+    
     return super.getName(eClassifier);
   }
-
+  
   /*
    * (non-Javadoc)
    * 
@@ -132,20 +132,20 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
   public String getName(EStructuralFeature eStructuralFeature)
   {
     XMLResource.XMLInfo xmlInfo = getInfo(eStructuralFeature);
-
+    
     if (xmlInfo != null)
     {
       String name = xmlInfo.getName();
-
+      
       if (name != null)
       {
         return name;
       }
     }
-
+    
     return super.getName(eStructuralFeature);
   }
-
+  
   /*
    * (non-Javadoc)
    * 
@@ -154,20 +154,20 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
   public String getNamespace(EPackage ePackage)
   {
     XMLResource.XMLInfo xmlInfo = getInfo(ePackage);
-
+    
     if (xmlInfo != null)
     {
       String namespace = xmlInfo.getTargetNamespace();
-
+      
       if (namespace != null)
       {
         return namespace;
       }
     }
-
+    
     return super.getNamespace(ePackage);
   }
-
+  
   /*
    * (non-Javadoc)
    * 
@@ -177,15 +177,15 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
   public EClassifier getType(EPackage ePackage, String name)
   {
     EClassifier type = super.getType(ePackage, name);
-
+    
     if (type == null)
     {
       type = getClassifier(ePackage.getNsURI(), name);
     }
-
+    
     return type;
   }
-
+  
   /*
    * (non-Javadoc)
    * 
@@ -194,7 +194,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
   public int getFeatureKind(EStructuralFeature eStructuralFeature)
   {
     XMLResource.XMLInfo xmlInfo = getInfo(eStructuralFeature);
-
+    
     if (xmlInfo != null)
     {
       switch (xmlInfo.getXMLRepresentation())
@@ -205,10 +205,10 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
           return ExtendedMetaData.ATTRIBUTE_FEATURE;
       }
     }
-
+    
     return super.getFeatureKind(eStructuralFeature);
   }
-
+  
   /*
    * (non-Javadoc)
    * 
@@ -218,5 +218,5 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
   {
     return false;
   }
-
+  
 }

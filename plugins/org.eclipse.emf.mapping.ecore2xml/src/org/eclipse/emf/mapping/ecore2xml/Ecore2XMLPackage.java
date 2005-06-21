@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLPackage.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: Ecore2XMLPackage.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -41,292 +41,292 @@ public interface Ecore2XMLPackage extends EPackage
   /**
    * The package name.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	String eNAME = "ecore2xml"; //$NON-NLS-1$
+  String eNAME = "ecore2xml"; //$NON-NLS-1$
 
   /**
    * The package namespace URI.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	String eNS_URI = "http://www.eclipse.org/emf/2005/Ecore2XML"; //$NON-NLS-1$
+  String eNS_URI = "http://www.eclipse.org/emf/2005/Ecore2XML"; //$NON-NLS-1$
 
   /**
    * The package namespace name.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	String eNS_PREFIX = "ecore2xml"; //$NON-NLS-1$
+  String eNS_PREFIX = "ecore2xml"; //$NON-NLS-1$
 
   /**
    * The singleton instance of the package.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	Ecore2XMLPackage eINSTANCE = org.eclipse.emf.mapping.ecore2xml.impl.Ecore2XMLPackageImpl.init();
+  Ecore2XMLPackage eINSTANCE = org.eclipse.emf.mapping.ecore2xml.impl.Ecore2XMLPackageImpl.init();
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.mapping.ecore2xml.impl.XMLInfoImpl <em>XML Info</em>}' class.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see org.eclipse.emf.mapping.ecore2xml.impl.XMLInfoImpl
    * @see org.eclipse.emf.mapping.ecore2xml.impl.Ecore2XMLPackageImpl#getXMLInfo()
    * @generated
    */
-	int XML_INFO = 0;
+  int XML_INFO = 0;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int XML_INFO__NAME = 0;
+  int XML_INFO__NAME = 0;
 
   /**
    * The feature id for the '<em><b>Target Namespace</b></em>' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int XML_INFO__TARGET_NAMESPACE = 1;
+  int XML_INFO__TARGET_NAMESPACE = 1;
 
   /**
    * The feature id for the '<em><b>XML Representation</b></em>' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int XML_INFO__XML_REPRESENTATION = 2;
+  int XML_INFO__XML_REPRESENTATION = 2;
 
   /**
    * The number of structural features of the the '<em>XML Info</em>' class.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int XML_INFO_FEATURE_COUNT = 3;
+  int XML_INFO_FEATURE_COUNT = 3;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.mapping.ecore2xml.impl.XMLMapImpl <em>XML Map</em>}' class.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see org.eclipse.emf.mapping.ecore2xml.impl.XMLMapImpl
    * @see org.eclipse.emf.mapping.ecore2xml.impl.Ecore2XMLPackageImpl#getXMLMap()
    * @generated
    */
-	int XML_MAP = 1;
+  int XML_MAP = 1;
 
   /**
    * The feature id for the '<em><b>ID Attribute Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int XML_MAP__IDATTRIBUTE_NAME = 0;
+  int XML_MAP__IDATTRIBUTE_NAME = 0;
 
   /**
    * The feature id for the '<em><b>Ecore To XML Info</b></em>' map.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int XML_MAP__ECORE_TO_XML_INFO = 1;
+  int XML_MAP__ECORE_TO_XML_INFO = 1;
 
   /**
    * The feature id for the '<em><b>No Namespace Package</b></em>' reference.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int XML_MAP__NO_NAMESPACE_PACKAGE = 2;
+  int XML_MAP__NO_NAMESPACE_PACKAGE = 2;
 
   /**
    * The number of structural features of the the '<em>XML Map</em>' class.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int XML_MAP_FEATURE_COUNT = 3;
+  int XML_MAP_FEATURE_COUNT = 3;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.mapping.ecore2xml.impl.ENamedElementToXMLInfoMapEntryImpl <em>ENamed Element To XML Info Map Entry</em>}' class.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see org.eclipse.emf.mapping.ecore2xml.impl.ENamedElementToXMLInfoMapEntryImpl
    * @see org.eclipse.emf.mapping.ecore2xml.impl.Ecore2XMLPackageImpl#getENamedElementToXMLInfoMapEntry()
    * @generated
    */
-	int ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY = 2;
+  int ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY = 2;
 
   /**
    * The feature id for the '<em><b>Key</b></em>' reference.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__KEY = 0;
+  int ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__KEY = 0;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' containment reference.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE = 1;
+  int ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE = 1;
 
   /**
    * The number of structural features of the the '<em>ENamed Element To XML Info Map Entry</em>' class.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-	int ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY_FEATURE_COUNT = 2;
+  int ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY_FEATURE_COUNT = 2;
 
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.mapping.ecore2xml.XMLInfo <em>XML Info</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for class '<em>XML Info</em>'.
    * @see org.eclipse.emf.mapping.ecore2xml.XMLInfo
    * @generated
    */
-	EClass getXMLInfo();
+  EClass getXMLInfo();
 
   /**
    * Returns the meta object for the attribute '{@link org.eclipse.emf.mapping.ecore2xml.XMLInfo#getName <em>Name</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Name</em>'.
    * @see org.eclipse.emf.mapping.ecore2xml.XMLInfo#getName()
    * @see #getXMLInfo()
    * @generated
    */
-	EAttribute getXMLInfo_Name();
+  EAttribute getXMLInfo_Name();
 
   /**
    * Returns the meta object for the attribute '{@link org.eclipse.emf.mapping.ecore2xml.XMLInfo#getTargetNamespace <em>Target Namespace</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Target Namespace</em>'.
    * @see org.eclipse.emf.mapping.ecore2xml.XMLInfo#getTargetNamespace()
    * @see #getXMLInfo()
    * @generated
    */
-	EAttribute getXMLInfo_TargetNamespace();
+  EAttribute getXMLInfo_TargetNamespace();
 
   /**
    * Returns the meta object for the attribute '{@link org.eclipse.emf.mapping.ecore2xml.XMLInfo#getXMLRepresentation <em>XML Representation</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>XML Representation</em>'.
    * @see org.eclipse.emf.mapping.ecore2xml.XMLInfo#getXMLRepresentation()
    * @see #getXMLInfo()
    * @generated
    */
-	EAttribute getXMLInfo_XMLRepresentation();
+  EAttribute getXMLInfo_XMLRepresentation();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.mapping.ecore2xml.XMLMap <em>XML Map</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for class '<em>XML Map</em>'.
    * @see org.eclipse.emf.mapping.ecore2xml.XMLMap
    * @generated
    */
-	EClass getXMLMap();
+  EClass getXMLMap();
 
   /**
    * Returns the meta object for the attribute '{@link org.eclipse.emf.mapping.ecore2xml.XMLMap#getIDAttributeName <em>ID Attribute Name</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>ID Attribute Name</em>'.
    * @see org.eclipse.emf.mapping.ecore2xml.XMLMap#getIDAttributeName()
    * @see #getXMLMap()
    * @generated
    */
-	EAttribute getXMLMap_IDAttributeName();
+  EAttribute getXMLMap_IDAttributeName();
 
   /**
    * Returns the meta object for the map '{@link org.eclipse.emf.mapping.ecore2xml.XMLMap#getEcoreToXMLInfo <em>Ecore To XML Info</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the map '<em>Ecore To XML Info</em>'.
    * @see org.eclipse.emf.mapping.ecore2xml.XMLMap#getEcoreToXMLInfo()
    * @see #getXMLMap()
    * @generated
    */
-	EReference getXMLMap_EcoreToXMLInfo();
+  EReference getXMLMap_EcoreToXMLInfo();
 
   /**
    * Returns the meta object for the reference '{@link org.eclipse.emf.mapping.ecore2xml.XMLMap#getNoNamespacePackage <em>No Namespace Package</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the reference '<em>No Namespace Package</em>'.
    * @see org.eclipse.emf.mapping.ecore2xml.XMLMap#getNoNamespacePackage()
    * @see #getXMLMap()
    * @generated
    */
-	EReference getXMLMap_NoNamespacePackage();
+  EReference getXMLMap_NoNamespacePackage();
 
   /**
    * Returns the meta object for class '{@link java.util.Map.Entry <em>ENamed Element To XML Info Map Entry</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for class '<em>ENamed Element To XML Info Map Entry</em>'.
    * @see java.util.Map.Entry
    * @model keyType="org.eclipse.emf.ecore.ENamedElement" keyRequired="true"
    *        valueType="org.eclipse.emf.mapping.ecore2xml.XMLInfo" valueContainment="true" valueRequired="true"
    * @generated
    */
-	EClass getENamedElementToXMLInfoMapEntry();
+  EClass getENamedElementToXMLInfoMapEntry();
 
   /**
    * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the reference '<em>Key</em>'.
    * @see java.util.Map.Entry
    * @see #getENamedElementToXMLInfoMapEntry()
    * @generated
    */
-	EReference getENamedElementToXMLInfoMapEntry_Key();
+  EReference getENamedElementToXMLInfoMapEntry_Key();
 
   /**
    * Returns the meta object for the containment reference '{@link java.util.Map.Entry <em>Value</em>}'.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Value</em>'.
    * @see java.util.Map.Entry
    * @see #getENamedElementToXMLInfoMapEntry()
    * @generated
    */
-	EReference getENamedElementToXMLInfoMapEntry_Value();
+  EReference getENamedElementToXMLInfoMapEntry_Value();
 
   /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @return the factory that creates the instances of the model.
    * @generated
    */
-	Ecore2XMLFactory getEcore2XMLFactory();
+  Ecore2XMLFactory getEcore2XMLFactory();
 
 } //Ecore2XMLPackage

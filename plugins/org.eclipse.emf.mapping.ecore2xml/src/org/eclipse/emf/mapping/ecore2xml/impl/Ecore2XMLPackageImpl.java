@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLPackageImpl.java,v 1.1 2005/03/18 21:02:01 khussey Exp $
+ * $Id: Ecore2XMLPackageImpl.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -39,28 +39,28 @@ import org.eclipse.emf.mapping.ecore2xml.XMLMap;
  */
 public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPackage
 {
-
+  
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private EClass xmlInfoEClass = null;
-
+  private EClass xmlInfoEClass = null;
+  
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private EClass xmlMapEClass = null;
-
+  private EClass xmlMapEClass = null;
+  
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private EClass eNamedElementToXMLInfoMapEntryEClass = null;
-
+  private EClass eNamedElementToXMLInfoMapEntryEClass = null;
+  
   /**
    * Creates an instance of the model <b>Package</b>, registered with
    * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
@@ -70,24 +70,24 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * initialization of the package, or returns the registered package,
    * if one already exists.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see org.eclipse.emf.ecore.EPackage.Registry
    * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage#eNS_URI
    * @see #init()
    * @generated
    */
-	private Ecore2XMLPackageImpl()
+  private Ecore2XMLPackageImpl()
   {
     super(eNS_URI, Ecore2XMLFactory.eINSTANCE);
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private static boolean isInited = false;
-
+  private static boolean isInited = false;
+  
   /**
    * Creates, registers, and initializes the <b>Package</b> for this
    * model, and for any others upon which it depends.  Simple
@@ -104,13 +104,13 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <p>Invocation of this method will not affect any packages that have
    * already been initialized.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @see #eNS_URI
    * @see #createPackageContents()
    * @see #initializePackageContents()
    * @generated
    */
-	public static Ecore2XMLPackage init()
+  public static Ecore2XMLPackage init()
   {
     if (isInited) return (Ecore2XMLPackage)EPackage.Registry.INSTANCE.getEPackage(Ecore2XMLPackage.eNS_URI);
 
@@ -136,139 +136,139 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EClass getXMLInfo()
+  public EClass getXMLInfo()
   {
     return xmlInfoEClass;
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EAttribute getXMLInfo_Name()
+  public EAttribute getXMLInfo_Name()
   {
     return (EAttribute)xmlInfoEClass.getEStructuralFeatures().get(0);
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EAttribute getXMLInfo_TargetNamespace()
+  public EAttribute getXMLInfo_TargetNamespace()
   {
     return (EAttribute)xmlInfoEClass.getEStructuralFeatures().get(1);
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EAttribute getXMLInfo_XMLRepresentation()
+  public EAttribute getXMLInfo_XMLRepresentation()
   {
     return (EAttribute)xmlInfoEClass.getEStructuralFeatures().get(2);
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EClass getXMLMap()
+  public EClass getXMLMap()
   {
     return xmlMapEClass;
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EAttribute getXMLMap_IDAttributeName()
+  public EAttribute getXMLMap_IDAttributeName()
   {
     return (EAttribute)xmlMapEClass.getEStructuralFeatures().get(0);
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EReference getXMLMap_EcoreToXMLInfo()
+  public EReference getXMLMap_EcoreToXMLInfo()
   {
     return (EReference)xmlMapEClass.getEStructuralFeatures().get(1);
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EReference getXMLMap_NoNamespacePackage()
+  public EReference getXMLMap_NoNamespacePackage()
   {
     return (EReference)xmlMapEClass.getEStructuralFeatures().get(2);
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EClass getENamedElementToXMLInfoMapEntry()
+  public EClass getENamedElementToXMLInfoMapEntry()
   {
     return eNamedElementToXMLInfoMapEntryEClass;
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EReference getENamedElementToXMLInfoMapEntry_Key()
+  public EReference getENamedElementToXMLInfoMapEntry_Key()
   {
     return (EReference)eNamedElementToXMLInfoMapEntryEClass.getEStructuralFeatures().get(0);
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public EReference getENamedElementToXMLInfoMapEntry_Value()
+  public EReference getENamedElementToXMLInfoMapEntry_Value()
   {
     return (EReference)eNamedElementToXMLInfoMapEntryEClass.getEStructuralFeatures().get(1);
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public Ecore2XMLFactory getEcore2XMLFactory()
+  public Ecore2XMLFactory getEcore2XMLFactory()
   {
     return (Ecore2XMLFactory)getEFactoryInstance();
   }
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private boolean isCreated = false;
-
+  private boolean isCreated = false;
+  
   /**
    * Creates the meta-model objects for the package.  This method is
    * guarded to have no affect on any invocation but its first.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void createPackageContents()
+  public void createPackageContents()
   {
     if (isCreated) return;
     isCreated = true;
@@ -291,19 +291,19 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
 
   /**
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	private boolean isInitialized = false;
-
+  private boolean isInitialized = false;
+  
   /**
    * Complete the initialization of the package and its meta-model.  This
    * method is guarded to have no affect on any invocation but its first.
    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-	public void initializePackageContents()
+  public void initializePackageContents()
   {
     if (isInitialized) return;
     isInitialized = true;
