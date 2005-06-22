@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.16 2005/06/15 20:09:00 khussey Exp $
+ * $Id: GenPackage.java,v 1.17 2005/06/22 19:55:04 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -694,6 +694,8 @@ public interface GenPackage extends GenBase{
   List/*GenClass*/ getAdapterDelegateSuperClasses();
 
   boolean hasStatefulProvider();
+
+  String getModelInfo();
 
   boolean reconcile(GenPackage oldGenPackageVersion);
 
