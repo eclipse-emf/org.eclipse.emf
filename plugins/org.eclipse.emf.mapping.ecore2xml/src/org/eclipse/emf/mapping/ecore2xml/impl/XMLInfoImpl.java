@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfoImpl.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
+ * $Id: XMLInfoImpl.java,v 1.3 2005/06/22 19:59:56 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -77,15 +77,15 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected XMLInfoImpl()
   {
     super();
-    
+
     this.delegateXMLInfo = new org.eclipse.emf.ecore.xmi.impl.XMLInfoImpl();
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
