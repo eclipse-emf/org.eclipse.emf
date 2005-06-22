@@ -26,6 +26,7 @@ import org.examples.hr.HRPackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.examples.library.LibraryFactory
+ * @model kind="package"
  * @generated
  */
 public interface LibraryPackage extends EPackage{

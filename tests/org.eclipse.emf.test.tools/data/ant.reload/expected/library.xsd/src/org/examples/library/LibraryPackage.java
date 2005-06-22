@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.examples.library.LibraryFactory
+ * @model kind="package"
  * @generated
  */
 public interface LibraryPackage extends EPackage{

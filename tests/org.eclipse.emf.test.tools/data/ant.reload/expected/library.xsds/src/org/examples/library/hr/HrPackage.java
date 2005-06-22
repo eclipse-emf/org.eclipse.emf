@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.examples.library.hr.HrFactory
+ * @model kind="package"
  * @generated
  */
 public interface HrPackage extends EPackage

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryPackage.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
+ * $Id: LibraryPackage.java,v 1.3 2005/06/22 19:57:53 davidms Exp $
  */
 package org.examples.library;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.examples.library.LibraryFactory
+ * @model kind="package"
  * @generated
  */
 public interface LibraryPackage extends EPackage

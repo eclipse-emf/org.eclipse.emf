@@ -26,6 +26,7 @@ import org.examples.library.hr.HrPackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.examples.library.elements.ElementsFactory
+ * @model kind="package"
  * @generated
  */
 public interface ElementsPackage extends EPackage{
