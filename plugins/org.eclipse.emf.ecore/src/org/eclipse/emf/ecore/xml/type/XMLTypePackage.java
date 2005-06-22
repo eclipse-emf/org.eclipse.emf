@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackage.java,v 1.5 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLTypePackage.java,v 1.6 2005/06/22 20:00:41 davidms Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.ecore.xml.type.XMLTypeFactory
+ * @model kind="package"
  * @generated
  */
 public interface XMLTypePackage extends EPackage

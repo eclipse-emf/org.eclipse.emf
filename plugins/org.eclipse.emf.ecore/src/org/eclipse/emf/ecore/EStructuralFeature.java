@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.5 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EStructuralFeature.java,v 1.6 2005/06/22 20:00:41 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -253,7 +253,7 @@ public interface EStructuralFeature extends ETypedElement
    * Returns the ID relative to the {@link #getEContainingClass containing} class.
    * @return  the relative ID.
    * <!-- end-user-doc -->
-   * @model parameters=""
+   * @model kind="operation"
    * @generated
    */
   int getFeatureID();
@@ -263,7 +263,7 @@ public interface EStructuralFeature extends ETypedElement
    * Returns the {@link EClassifier#getInstanceClass instance class} of the {@link #getEContainingClass containing} class.
    * @return the instance class of the containing class.
    * <!-- end-user-doc -->
-   * @model parameters=""
+   * @model kind="operation"
    * @generated
    */
   Class getContainerClass();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingPackage.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingPackage.java,v 1.3 2005/06/22 20:00:43 davidms Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -35,9 +35,11 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.mapping.MappingFactory
+ * @model kind="package"
  * @generated
  */
-public interface MappingPackage extends EPackage {
+public interface MappingPackage extends EPackage
+{
 
   /**
    * The package name.

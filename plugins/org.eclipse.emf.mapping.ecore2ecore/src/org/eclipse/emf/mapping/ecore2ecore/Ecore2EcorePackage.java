@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcorePackage.java,v 1.3 2005/06/08 06:21:24 nickb Exp $
+ * $Id: Ecore2EcorePackage.java,v 1.4 2005/06/22 20:00:44 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore;
 
@@ -35,6 +35,7 @@ import org.eclipse.emf.mapping.MappingPackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.mapping.ecore2ecore.Ecore2EcoreFactory
+ * @model kind="package"
  * @generated
  */
 public interface Ecore2EcorePackage extends EPackage

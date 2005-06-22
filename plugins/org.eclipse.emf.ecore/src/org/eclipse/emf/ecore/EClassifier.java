@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifier.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EClassifier.java,v 1.4 2005/06/22 20:00:41 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -137,7 +137,7 @@ public interface EClassifier extends ENamedElement
    * Returns the ID relative to the {@link #getEPackage containing} package.
    * @return  the relative ID.
    * <!-- end-user-doc -->
-   * @model parameters=""
+   * @model kind="operation"
    * @generated
    */
   int getClassifierID();

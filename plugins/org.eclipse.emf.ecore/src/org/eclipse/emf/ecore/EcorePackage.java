@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.5 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EcorePackage.java,v 1.6 2005/06/22 20:00:41 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -33,6 +33,7 @@ package org.eclipse.emf.ecore;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.ecore.EcoreFactory
+ * @model kind="package"
  * @generated
  */
 public interface EcorePackage extends EPackage

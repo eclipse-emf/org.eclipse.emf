@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackage.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLNamespacePackage.java,v 1.5 2005/06/22 20:00:41 davidms Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespaceFactory
+ * @model kind="package"
  * @generated
  */
 public interface XMLNamespacePackage extends EPackage

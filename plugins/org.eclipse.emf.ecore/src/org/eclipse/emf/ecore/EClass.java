@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClass.java,v 1.5 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EClass.java,v 1.6 2005/06/22 20:00:41 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -313,7 +313,7 @@ public interface EClass extends EClassifier
    * Returns the number of features.
    * @return the number of features.
    * <!-- end-user-doc -->
-   * @model parameters=""
+   * @model kind="operation"
    * @generated
    */
   int getFeatureCount();

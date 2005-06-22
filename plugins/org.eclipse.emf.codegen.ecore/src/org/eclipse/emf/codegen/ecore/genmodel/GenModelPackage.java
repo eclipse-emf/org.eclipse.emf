@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.19 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenModelPackage.java,v 1.20 2005/06/22 20:03:13 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -39,10 +39,11 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory
+ * @model kind="package"
  * @generated
  */
-public interface GenModelPackage extends EPackage{
-
+public interface GenModelPackage extends EPackage
+{
   /**
    * The package name.
    * <!-- begin-user-doc -->

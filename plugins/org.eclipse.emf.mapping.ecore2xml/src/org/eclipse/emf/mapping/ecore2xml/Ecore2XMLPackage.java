@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLPackage.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
+ * $Id: Ecore2XMLPackage.java,v 1.3 2005/06/22 20:00:38 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLFactory
+ * @model kind="package"
  * @generated
  */
 public interface Ecore2XMLPackage extends EPackage

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreePackage.java,v 1.2 2005/06/08 06:17:05 nickb Exp $
+ * $Id: TreePackage.java,v 1.3 2005/06/22 20:00:39 davidms Exp $
  */
 package org.eclipse.emf.edit.tree;
 
@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.edit.tree.TreeFactory
+ * @model kind="package"
  * @generated
  */
 public interface TreePackage extends EPackage

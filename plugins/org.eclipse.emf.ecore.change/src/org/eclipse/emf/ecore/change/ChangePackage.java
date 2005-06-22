@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackage.java,v 1.5 2005/06/08 06:16:16 nickb Exp $
+ * $Id: ChangePackage.java,v 1.6 2005/06/22 20:00:42 davidms Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.ecore.change.ChangeFactory
+ * @model kind="package"
  * @generated
  */
 public interface ChangePackage extends EPackage
