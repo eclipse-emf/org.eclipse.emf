@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDoubleType.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDDoubleType.java,v 1.5 2005/06/22 17:56:35 nickb Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -33,6 +33,6 @@ public class XSDDoubleType extends XSDAnySimpleType
 
   public int compareValues(Object value1, Object value2)
   {
-    return ((Double)value1).compareTo(value2);
+    return ((Double)value1).compareTo((Double)value2);
   }
 }

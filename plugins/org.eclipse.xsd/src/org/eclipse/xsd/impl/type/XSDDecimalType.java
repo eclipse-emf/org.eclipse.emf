@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDecimalType.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDDecimalType.java,v 1.4 2005/06/22 17:56:35 nickb Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -39,6 +39,6 @@ public class XSDDecimalType extends XSDAnySimpleType
   
   public int compareValues(Object value1, Object value2)
   {
-    return ((BigDecimal)value1).compareTo(value2);
+    return ((BigDecimal)value1).compareTo((BigDecimal)value2);
   }
 }
