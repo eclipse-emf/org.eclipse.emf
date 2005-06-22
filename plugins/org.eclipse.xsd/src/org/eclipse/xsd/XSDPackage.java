@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackage.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDPackage.java,v 1.3 2005/06/22 20:00:47 davidms Exp $
  */
 package org.eclipse.xsd;
 
@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.xsd.XSDFactory
+ * @model kind="package"
  * @generated
  */
 public interface XSDPackage extends EPackage

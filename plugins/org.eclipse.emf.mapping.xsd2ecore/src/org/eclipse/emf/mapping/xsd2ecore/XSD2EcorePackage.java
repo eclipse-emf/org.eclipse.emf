@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePackage.java,v 1.2 2005/06/08 06:18:57 nickb Exp $
+ * $Id: XSD2EcorePackage.java,v 1.3 2005/06/22 20:00:34 davidms Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore;
 
@@ -34,9 +34,11 @@ import org.eclipse.emf.mapping.MappingPackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreFactory
+ * @model kind="package"
  * @generated
  */
-public interface XSD2EcorePackage extends EPackage {
+public interface XSD2EcorePackage extends EPackage
+{
   /**
    * The package name.
    * <!-- begin-user-doc -->
