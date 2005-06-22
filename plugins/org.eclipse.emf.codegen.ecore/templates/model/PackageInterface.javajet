@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PackageInterface" version="$Id: PackageInterface.javajet,v 1.6 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PackageInterface" version="$Id: PackageInterface.javajet,v 1.7 2005/06/22 19:54:27 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -38,6 +38,13 @@ package <%=genPackage.getInterfacePackageName()%>;
  * <!-- end-model-doc -->
 <%}%>
  * @see <%=genPackage.getQualifiedFactoryInterfaceName()%>
+  <%{boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genPackage.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+ * @model <%=modelInfo%>
+  <%} else {%>
+ *        <%=modelInfo%>
+  <%}} if (first) {%>
+ * @model
+  <%}}%>
  * @generated
  */
 public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>
