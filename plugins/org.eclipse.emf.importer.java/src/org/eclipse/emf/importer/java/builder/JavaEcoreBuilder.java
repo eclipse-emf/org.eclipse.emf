@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.6 2005/06/08 17:41:56 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.7 2005/06/22 19:53:52 davidms Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -687,9 +687,19 @@ public class JavaEcoreBuilder
     }
 
     // Check whether this has @model annotation contents.
+    // If not, it might be a package interface, for backwards compatibility.
     //
     String modelAnnotation = getModelAnnotation(type.getComment());
+    boolean isEClassifier = false;
+    String kind = null;
+
     if (modelAnnotation != null)
+    {
+      kind = getModelAnnotationAttribute(modelAnnotation, "kind");
+      isEClassifier = !"package".equals(kind);
+    }
+    
+    if (isEClassifier)
     {
       // Get the package name and see if there's an EPackage for it.
       //
@@ -770,7 +780,7 @@ public class JavaEcoreBuilder
             }
             else
             {
-              error(CodeGenEcorePlugin.INSTANCE.getString("_UI_DuplicateFeature_message", new Object []{ feature, eClass.getName() }));
+              warning(CodeGenEcorePlugin.INSTANCE.getString("_UI_DuplicateFeature_message", new Object []{ feature, eClass.getName() }));
             }
           }
         }
@@ -801,10 +811,17 @@ public class JavaEcoreBuilder
     else
     {
       String typeName = type.getName();
-      boolean isPackage = false;
+      boolean isEPackage = false;
       if (typeName.endsWith("Package") && typeName.length() > 7)
       {
         String packagePrefix = typeName.substring(0, typeName.length() - 7);
+
+        // It's definitely a package if it was declared as such.
+        //
+        if ("package".equals(kind))
+        {
+          isEPackage = true;
+        }
 
         int index = qualifiedPackageName == null ? -1 : qualifiedPackageName.lastIndexOf(".");
         String name = index == -1 ? qualifiedPackageName : qualifiedPackageName.substring(index + 1);
@@ -826,19 +843,19 @@ public class JavaEcoreBuilder
             String childType = field.getType();
             if ("eNAME".equals(childName))
             {
-              isPackage = true;
+              isEPackage = true;
               name = field.getInitializer();
               name = name.substring(2, name.length() - 1);
             }
             else if ("eNS_URI".equals(childName))
             {
-              isPackage = true;
+              isEPackage = true;
               nsURI = field.getInitializer();
               nsURI = nsURI.substring(2, nsURI.length() - 1);
             }
             else if ("eNS_PREFIX".equals(childName))
             {
-              isPackage = true;
+              isEPackage = true;
               nsPrefix = field.getInitializer();
               nsPrefix = nsPrefix.substring(2, nsPrefix.length() - 1);
             }
@@ -934,7 +951,7 @@ public class JavaEcoreBuilder
           }
         }
 
-        if (isPackage || !eClasses.isEmpty() || !eDataTypes.isEmpty())
+        if (isEPackage || !eClasses.isEmpty() || !eDataTypes.isEmpty())
         {
           EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
           ePackageToOrderingMap.put(ePackage, ordering);
@@ -1011,17 +1028,24 @@ public class JavaEcoreBuilder
     ETypedElement eTypedElement = null;
     String featureName = methodName;
     String parameters = getModelAnnotationAttribute(modelAnnotation, "parameters");
+    String kind = getModelAnnotationAttribute(modelAnnotation, "kind");
+
+    // An operation is declared via the kind property or, for backwards compatibility, by specifying parameters
+    // (though attribute or reference kind takes precedence).
+    //
+    boolean declaredEOperation = "operation".equals(kind) ||
+      (parameters != null && !"attribute".equals(kind) && !"reference".equals(kind));
 
     // Check whether there are parameters; the special attribute and reference rules only apply for the case of no arguments.
     //
-    if (parameterNames == null && parameters == null && methodName.startsWith("get") && methodName.length() > 3 &&
+    if (parameterNames == null && !declaredEOperation && methodName.startsWith("get") && methodName.length() > 3 &&
         Character.isUpperCase(methodName.charAt(3)) && !"boolean".equals(returnType) && !"void".equals(returnType))
     {
       // The feature name is extracted lower cased.
       //
       featureName = CodeGenUtil.uncapName(methodName.substring(3));
     }
-    else if (parameterNames == null && parameters == null && methodName.startsWith("is") && methodName.length() > 2 &&
+    else if (parameterNames == null && !declaredEOperation && methodName.startsWith("is") && methodName.length() > 2 &&
              Character.isUpperCase(methodName.charAt(2)) && "boolean".equals(returnType))
     {
       // The name is extracted and lower cased.
@@ -1172,6 +1196,8 @@ public class JavaEcoreBuilder
     String mapType = getModelAnnotationAttribute(modelAnnotation, "mapType");
     String dataType = getModelAnnotationAttribute(modelAnnotation, "dataType");
     String modelType = getModelAnnotationAttribute(modelAnnotation, "type");
+    String keyType = getModelAnnotationAttribute(modelAnnotation, "keyType");
+    String valueType = getModelAnnotationAttribute(modelAnnotation, "valueType");
     String many = getModelAnnotationAttribute(modelAnnotation, "many");
 
     // For lists, maps, and feature maps, the default is many-valued, which can be overriden by an upper-bound declaration.
@@ -1189,6 +1215,7 @@ public class JavaEcoreBuilder
       }
       else if ("EMap".equals(type) || "org.eclipse.emf.common.util.EMap".equals(type) ||
                "Map".equals(type) || "java.util.Map".equals(type) ||
+               mapType != null || (keyType != null && valueType != null) || 
                "FeatureMap".equals(type) || "org.eclipse.emf.common.util.FeatureMap".equals(type))
       {
         eTypedElement.setUpperBound(-1);
@@ -1229,9 +1256,6 @@ public class JavaEcoreBuilder
     {
       type = modelType;
     }
-
-    String keyType = getModelAnnotationAttribute(modelAnnotation, "keyType");
-    String valueType = getModelAnnotationAttribute(modelAnnotation, "valueType");
 
     if (mapType != null)
     {
@@ -1820,10 +1844,10 @@ public class JavaEcoreBuilder
       {
         EClass mapEntryInterface = (EClass)ePackageClassifier;
         EStructuralFeature keyFeature = mapEntryInterface.getEStructuralFeature("key");
-        if (keyFeature != null && keyFeature.getEType() == keyEClassifier && !keyFeature.isMany())
+        if (keyFeature != null && resolveType(keyFeature) == keyEClassifier && !keyFeature.isMany())
         {
           EStructuralFeature valueFeature = mapEntryInterface.getEStructuralFeature("value");
-          if (valueFeature != null && valueFeature.getEType() == valueEClassifier && !valueFeature.isMany())
+          if (valueFeature != null && resolveType(valueFeature) == valueEClassifier && !valueFeature.isMany())
           {
             return mapEntryInterface;
           }
@@ -1832,6 +1856,20 @@ public class JavaEcoreBuilder
     }
 
     return null;
+  }
+
+  protected EClassifier resolveType(ETypedElement eTypedElement)
+  {
+    EClassifier type = eTypedElement.getEType();
+    if (type == null)
+    {
+      String typeName = (String)eTypedElementToTypeNameMap.get(eTypedElement);
+      if (typeName != null)
+      {
+        type = resolve(eTypedElement, typeName);
+      }
+    }
+    return type;
   }
 
   protected void sort(EList eList, final Map nameToIDMap)
@@ -1919,5 +1957,15 @@ public class JavaEcoreBuilder
   {
     System.err.println("-->Error: " + message);
     status.add(new Status(IStatus.ERROR, JavaImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
+  }
+
+  /**
+   * Produces another IStatus in the MultiStatus, with warning severity.
+   * @param message a description of the error.
+   */
+  protected void warning(String message)
+  {
+    System.err.println("-->Warning: " + message);
+    status.add(new Status(IStatus.WARNING, JavaImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
   }
 }
