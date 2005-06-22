@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.14 2005/06/10 17:48:38 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.15 2005/06/22 19:56:46 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -606,6 +606,15 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     EOperation eOperation = getEcoreOperation();
     StringBuffer result = new StringBuffer();
 
+    // If this looks like a feature getter, a kind property will allow it to be recognized properly.
+    //
+    if (getGenParameters().isEmpty() &&
+        ((getName().startsWith("get") && getName().length() > 3 && Character.isUpperCase(getName().charAt(3))) ||
+         (getName().startsWith("is") && getName().length() > 2 && Character.isUpperCase(getName().charAt(2)))))
+    {
+      appendModelSetting(result, "kind", "operation");
+    }
+
     if (!isVoid())
     {
       // Since we only use this right on an operation, we always want to include the keyType and valueType, and we never
@@ -645,15 +654,6 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       {
         appendModelSetting(result, "ordered", "false");
       }
-    }
-
-    // If this looks like a feature getter, a dummy parameters property will allow it to be recognized properly.
-    //
-    if (getGenParameters().isEmpty() &&
-        ((getName().startsWith("get") && getName().length() > 3 && Character.isUpperCase(getName().charAt(3))) ||
-         (getName().startsWith("is") && getName().length() > 2 && Character.isUpperCase(getName().charAt(2)))))
-    {
-      appendModelSetting(result, "parameters", "");
     }
 
     for (Iterator i = getGenParameters().iterator(); i.hasNext(); )
