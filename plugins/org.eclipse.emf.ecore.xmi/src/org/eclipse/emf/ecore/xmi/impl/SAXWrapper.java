@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SAXWrapper.java,v 1.4 2005/06/08 06:16:07 nickb Exp $
+ * $Id: SAXWrapper.java,v 1.5 2005/06/22 14:45:00 khussey Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -109,7 +109,7 @@ public class SAXWrapper extends DefaultHandler implements LexicalHandler
 
   public void processingInstruction (String target, String data) throws SAXException
   {
-    // handler.processingInstruction(target, data);
+    handler.processingInstruction(target, data);
   }
 
   public void skippedEntity (String name) throws SAXException

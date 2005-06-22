@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.32 2005/06/12 13:31:12 emerks Exp $
+ * $Id: XMLHandler.java,v 1.33 2005/06/22 14:45:00 khussey Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -894,6 +894,11 @@ public abstract class XMLHandler
     {
       text.append(ch, start, length);
     }
+  }
+
+  public void processingInstruction(String target, String data)
+  {
+    // do nothing
   }
 
   public void comment(char [] ch, int start, int length) // throws SAXException
