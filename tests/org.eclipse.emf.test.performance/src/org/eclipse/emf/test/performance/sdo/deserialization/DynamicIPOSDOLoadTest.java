@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOLoadTest.java,v 1.9 2005/06/12 14:03:11 emerks Exp $
+ * $Id: DynamicIPOSDOLoadTest.java,v 1.10 2005/06/22 17:40:20 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.deserialization;
 
@@ -40,8 +40,6 @@ import commonj.sdo.DataGraph;
 public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
 {
   private static final String DATA = TestUtil.getPluginDirectory() + "/data/";
-
-  // private static final String DATA_URI = "file:///" + DATA;
 
   private static String XML_SCHEMA_URI;
 
@@ -113,11 +111,8 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Deserializes SDO DataGraph from data/ipoDG.xml.
-   * Test details:
-   * <ul>
-   * <li>options: none</li>
-   * </ul>
+   * Loads/deserializes a static or dynamic instance of the EMF International Purchase Order (IPO) model.
+   * Options: none
    * </p>
    * @throws Exception 
    */
@@ -130,10 +125,10 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Deserializes SDO DataGraph from data/ipoDG.xml.
-   * Test details:
+   * Loads/deserializes a static or dynamic instance of the SDO International Purchase Order (IPO) model.
+   * Options:
    * <ul>
-   * <li>options: XMLResource.OPTION_USE_PARSER_POOL</li>
+   * <li>XMLResource.OPTION_USE_PARSER_POOL</li>
    * </ul>
    * </p>
    * @throws Exception 
@@ -148,8 +143,8 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Deserializes SDO DataGraph from data/ipoDG.xml.
-   * Test details (options):
+   * Loads/deserializes a static or dynamic instance of the SDO International Purchase Order (IPO) model.
+   * Options:
    * <ul>
    * <li>XMLResource.OPTION_USE_PARSER_POOL</li>
    * <li>XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP</li>

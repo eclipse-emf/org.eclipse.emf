@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicSequenceTest.java,v 1.13 2005/06/08 06:16:22 nickb Exp $
+ * $Id: DynamicSequenceTest.java,v 1.14 2005/06/22 17:40:20 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -102,6 +102,18 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
     // dynamic is not tested currently.
   }
 
+  /**
+   * <p>
+   * Uses the EMF reflective API to get the Object value of a property of type Sequence/FeatureMap from a DataObject/EObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: Object</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective with eGet</li>
+   * </ul>
+   * </p>
+   */
   public void getSequenceWithEGet()
   {
     EObject supplier = (EObject)this.supplier;
@@ -119,6 +131,18 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the EMF reflective API to get the Object value of a derived property/feature from a DataObject/EObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: Object</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective with eGet</li>
+   * </ul>
+   * </p>
+   */
   public void getDerivedWithEGet()
   {
     EObject supplier = (EObject)this.supplier;
@@ -138,6 +162,18 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to get the value of a Sequence from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: Sequence</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective with getSequence</li>
+   * </ul>
+   * </p>
+   */
   public void getSequence()
   {
     DataObject supplier = this.supplier;
@@ -155,6 +191,18 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to get the value of a derived Property from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: derived List</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective with getList</li>
+   * </ul>
+   * </p>
+   */
   public void getDerived()
   {
     DataObject supplier = this.supplier;
@@ -174,6 +222,11 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
   
+  /**
+   * <p>
+   * Tests EList::contains(Object)
+   * </p>
+   */
   public void contains()
   {
     DataObject supplier = this.supplier;

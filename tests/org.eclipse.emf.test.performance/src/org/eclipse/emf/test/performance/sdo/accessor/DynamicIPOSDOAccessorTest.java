@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.61 2005/06/12 14:03:11 emerks Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.62 2005/06/22 17:40:20 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -204,16 +204,13 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectWithESet").setWarmUp(6).setRepetitions(REPETITIONS_100));
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectByProperty").setWarmUp(3).setRepetitions(REPETITIONS_80));
-    //HOLD
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByProperty").setWarmUp(6).setRepetitions(REPETITIONS_100));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getObjectByIndex").setWarmUp(30).setRepetitions(REPETITIONS_100));
-    //HOLD
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setObjectByIndex").setWarmUp(20).setRepetitions(REPETITIONS_100));
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByProperty").setWarmUp(3).setRepetitions(REPETITIONS_80));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByProperty").setWarmUp(5).setRepetitions(REPETITIONS_100));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByIndex").setWarmUp(4).setRepetitions(REPETITIONS_80));
-    //HOLD
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setBigIntegerByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getBigIntegerByPath").setWarmUp(10).setRepetitions(REPETITIONS_50));
 
@@ -223,9 +220,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getStringByShortPath").setWarmUp(12).setRepetitions(REPETITIONS_80));
 
-    //HOLD
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_100));
-    //HOLD
     testSuite.addTest(new DynamicIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(15).setRepetitions(REPETITIONS_200));
 
     testSuite.addTest(new DynamicIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_80));
@@ -326,6 +321,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     newBillToAddress1 = (DataObject)address1;
   }
 
+  /**
+   * <p>
+   * Uses the EMF reflective API to get the value of a property of type Object from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: Object</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective with eGet</li>
+   * </ul>
+   * </p>
+   */
   public void getObjectWithEGet()
   {
     EObject itemElement = (EObject)this.itemElement;
@@ -346,6 +353,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the EMF reflective API to set the value of a property of type Object from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: set</li>
+   * <li>type: Object</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective with eSet</li>
+   * </ul>
+   * </p>
+   */
   public void setObjectWithESet()
   {
     EObject itemElement = (EObject)this.itemElement;
@@ -369,6 +388,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to get the value of a property of type Object from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: Object</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by property</li>
+   * </ul>
+   * </p>
+   */
   public void getObjectByProperty()
   {
     DataObject itemElement = this.itemElement;
@@ -389,6 +420,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to set the value of a property of type Object from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: set</li>
+   * <li>type: Object</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by property</li>
+   * </ul>
+   * </p>
+   */
   public void setObjectByProperty()
   {
     DataObject itemElement = this.itemElement;
@@ -412,6 +455,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to get the value of a property of type Object from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: Object</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by index</li>
+   * </ul>
+   * </p>
+   */
   public void getObjectByIndex()
   {
     DataObject itemElement = this.itemElement;
@@ -430,6 +485,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to set the value of a property of type Object from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: set</li>
+   * <li>type: Object</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by index</li>
+   * </ul>
+   * </p>
+   */
   public void setObjectByIndex()
   {
     BigInteger quantity0 = this.quantity0;
@@ -450,6 +517,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to get the value of a property of type BigInteger from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: BigInteger</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by property</li>
+   * </ul>
+   * </p>
+   */
   public void getBigIntegerByProperty()
   {
     DataObject itemElement = this.itemElement;
@@ -469,6 +548,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to set the value of a property of type BigInteger from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: set</li>
+   * <li>type: BigInteger</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by property</li>
+   * </ul>
+   * </p>
+   */
   public void setBigIntegerByProperty()
   {
     DataObject itemElement = this.itemElement;
@@ -485,6 +576,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to get the value of a property of type BigInteger from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: BigInteger</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by index</li>
+   * </ul>
+   * </p>
+   */
   public void getBigIntegerByIndex()
   {
     DataObject itemElement = this.itemElement;
@@ -503,6 +606,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to set the value of a property of type BigInteger from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: set</li>
+   * <li>type: BigInteger</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by index</li>
+   * </ul>
+   * </p>
+   */
   public void setBigIntegerByIndex()
   {
     DataObject itemElement = this.itemElement;
@@ -518,6 +633,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to get the value of a property of type BigInteger from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: BigInteger</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by path</li>
+   * </ul>
+   * </p>
+   */
   public void getBigIntegerByPath()
   {
     DataObject po = this.po;
@@ -537,6 +664,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to get the value of a property of type BigDecimal from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: BigDecimal</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by property</li>
+   * </ul>
+   * </p>
+   */
   public void getBigDecimalByProperty()
   {
     DataObject itemElement = this.itemElement;
@@ -556,6 +695,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to get the value of a property of type BigDecimal from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: BigDecimal</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by index</li>
+   * </ul>
+   * </p>
+   */
   public void getBigDecimalByIndex()
   {
     DataObject itemElement = this.itemElement;
@@ -574,6 +725,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to get the value of a property of type BigDecimal from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: BigDecimal</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by path</li>
+   * </ul>
+   * </p>
+   */
   public void getBigDecimalByPath()
   {
     DataObject po = this.po;
@@ -592,6 +755,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to get the value of a property of type String from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: String</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by short path</li>
+   * </ul>
+   * </p>
+   */
   public void getStringByShortPath()
   {
     DataObject itemElement = this.itemElement;
@@ -611,6 +786,18 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to get the value of a property of type DataObject from a DataObject whose model has been statically or dynamically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: DataObject</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by Property</li>
+   * </ul>
+   * </p>
+   */
   public void getDataObjectByProperty()
   {
     DataObject po = this.po;
@@ -631,6 +818,19 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO reflective API to set the value of a property of type DataObject from a DataObject whose model has been statically or dynamically created.
+   * Note: billTo and shipTo are containment references. 
+   * Test details:
+   * <ul>
+   * <li>get/set: set</li>
+   * <li>type: DataObject</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by Property</li>
+   * </ul>
+   * </p>
+   */
   public void setDataObjectByProperty()
   {
     DataObject po = this.po;
@@ -656,12 +856,12 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Uses the SDO reflective API to get the values of a DataObject whose model has been dynamically created.
+   * Uses the SDO reflective API to get the values of properties of a DataObject whose model has been statically or dynamically created.
    * Test details:
    * <ul>
    * <li>get/set: get</li>
-   * <li>model generation: dynamic</li>
-   * <li>access API: reflective by Property</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by property</li>
    * </ul>
    * </p>
    */
@@ -728,12 +928,12 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Uses the SDO reflective API to set the values of a DataObject whose model has been dynamically created.
+   * Uses the SDO reflective API to set the values of properties of a DataObject whose model has been statically or dynamically created.
    * Test details:
    * <ul>
    * <li>get/set: set</li>
-   * <li>model generation: dynamic</li>
-   * <li>access API: reflective by Property</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by property</li>
    * </ul>
    * </p>
    */
@@ -823,13 +1023,12 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Uses the SDO reflective API to get the values of a DataObject whose model has been dynamically created.
-   * Not comparable to other non-path accesor tests because less iterations.
+   * Uses the SDO reflective API to get the values of properties of a DataObject whose model has been statically or dynamically created.
    * Test details:
    * <ul>
    * <li>get/set: get</li>
-   * <li>model generation: dynamic</li>
-   * <li>access API: reflective by path</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by short path</li>
    * </ul>
    * </p>
    */
@@ -845,7 +1044,6 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     String partNumValue = this.partNumValue;
     Object orderDateValue = this.orderDateValue;
     DataObject itemsValue1 = this.itemsValue1;
-    // List itemsValue = this.itemsValue;
     Object shipDateValue = this.shipDateValue;
     DataObject itemElementValue = this.itemElementValue;
     BigInteger quantityValue = this.quantityValue;
@@ -878,13 +1076,12 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Uses the SDO reflective API to set the values of a DataObject whose model has been dynamically created.
-   * Not comparable to other non-path accesor tests because less iterations.
+   * Uses the SDO reflective API to set the values of properties of a DataObject whose model has been statically or dynamically created.
    * Test details:
    * <ul>
    * <li>get/set: set</li>
-   * <li>model generation: dynamic</li>
-   * <li>access API: reflective by path</li>
+   * <li>model generation: static/dynamic</li>
+   * <li>access API: reflective by short path</li>
    * </ul>
    * </p>
    */

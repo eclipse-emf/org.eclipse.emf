@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOSaveTest.java,v 1.9 2005/06/12 14:03:11 emerks Exp $
+ * $Id: DynamicIPOSDOSaveTest.java,v 1.10 2005/06/22 17:40:20 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.serialization;
 
@@ -104,11 +104,8 @@ public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Serializes SDO DataGraph.
-   * Test details:
-   * <ul>
-   * <li>options: none</li>
-   * </ul>
+   * Saves/serializes a static or dynamic instance of the SDO International Purchase Order (IPO) model.
+   * Options: none
    * </p>
    * @throws Exception 
    */
@@ -121,10 +118,10 @@ public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Serializes SDO DataGraph.
-   * Test details:
+   * Saves/serializes a static or dynamic instance of the SDO International Purchase Order (IPO) model.
+   * Options:
    * <ul>
-   * <li>options: XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE</li>
+   * <li>XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE</li>
    * </ul>
    * </p>
    * @throws Exception 

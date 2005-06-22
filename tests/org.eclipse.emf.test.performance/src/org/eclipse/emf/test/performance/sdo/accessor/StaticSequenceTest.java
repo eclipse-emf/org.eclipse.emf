@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSequenceTest.java,v 1.17 2005/06/12 14:03:11 emerks Exp $
+ * $Id: StaticSequenceTest.java,v 1.18 2005/06/22 17:40:20 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -71,9 +71,6 @@ public class StaticSequenceTest extends DynamicSequenceTest
 
   protected void initSupplier()
   {
-    // SDOFactory sdoFactoryInstance = SDOFactory.eINSTANCE;
-    // EDataGraph dataGraph = sdoFactoryInstance.createEDataGraph();
-
     Supplier supplier = epoFactoryInstance.createSupplier();
     this.supplier = (DataObject)supplier;
     supplier.setName("The Supplier");

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpo.java,v 1.10 2005/06/08 06:16:23 nickb Exp $
+ * $Id: DynamicIpo.java,v 1.11 2005/06/22 17:40:20 bportier Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -130,9 +130,9 @@ public class DynamicIpo extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Test details:
+   * Saves/serializes a static or dynamic instance of the EMF International Purchase Order (IPO) model.
+   * Options: none
    * </p>
-   * Tests serialization of data/ipo.xml. No special options set up.
    * @throws Exception
    */
   public void testSer() throws Exception
@@ -144,9 +144,12 @@ public class DynamicIpo extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Test details:
+   * Saves/serializes a static or dynamic instance of the EMF International Purchase Order (IPO) model.
+   * Options:
+   * <ul>
+   * <li>XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE</li>
+   * </ul>
    * </p>
-   * Tests serialization of data/ipo.xml. The XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE is specified.
    * @throws Exception
    */
   public void testSerCaching() throws Exception

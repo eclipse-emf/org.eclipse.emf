@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpoLoad.java,v 1.10 2005/06/08 06:16:22 nickb Exp $
+ * $Id: DynamicIpoLoad.java,v 1.11 2005/06/22 17:40:20 bportier Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -131,12 +131,12 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Test details:
+   * Loads/deserializes a static or dynamic instance of the EMF International Purchase Order (IPO) model.
+   * Options: none
    * </p>
-   * Tests load of data/ipo.xml. No special options set up.
    * @throws Exception
    */
-  public void testLoad() throws Exception
+   public void testLoad() throws Exception
   {
     startMeasuring();
     load(ITERATIONS, options);
@@ -145,9 +145,12 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Test details:
+   * Loads/deserializes a static or dynamic instance of the EMF International Purchase Order (IPO) model.
+   * Options:
+   * <ul>
+   * <li>XMLResource.OPTION_USE_PARSER_POOL</li>
+   * </ul>
    * </p>
-   * Tests loading of data/ipo.xml. The XMLResource.OPTION_USE_PARSER_POOL is set.
    * @throws Exception
    */
   public void testLoadParserCache() throws Exception
@@ -160,11 +163,13 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
 
   /**
    * <p>
-   * Test details:
+   * Loads/deserializes a static or dynamic instance of the EMF International Purchase Order (IPO) model.
+   * Options:
+   * <ul>
+   * <li>XMLResource.OPTION_USE_PARSER_POOL</li>
+   * <li>XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP</li>
+   * </ul>
    * </p>
-   * Tests loading of data/ipo.xml. 
-   * The XMLResource.OPTION_USE_PARSER_POOL is set.
-   * The XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP is set.
    * @throws Exception
    */
   public void testLoadParserAndFeatureMapCache() throws Exception

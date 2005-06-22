@@ -46,8 +46,6 @@ public class OpenContentTest extends EMFPerformanceTestCase
 {
   private static final String DATA = TestUtil.getPluginDirectory() + "/data/";
 
-  // private static final String DATA_URI = "file:///" + DATA;
-
   private static final int ITERATIONS_1T = 2000;
 
   private static String XML_SCHEMA_URI;
@@ -96,6 +94,11 @@ public class OpenContentTest extends EMFPerformanceTestCase
 
   }
 
+  /**
+   * <p>
+   * Tests ExtendedMetaData::demandFeature().
+   * </p>
+   */
   public void demandFeature() throws Exception
   {
     ExtendedMetaData localMetaData = new BasicExtendedMetaData();
@@ -114,6 +117,11 @@ public class OpenContentTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Tests DataObject::demandFeature(Property) with a Property created using ExtendedMetaData::demandFeature().
+   * </p>
+   */
   public void createDemandFeatureDO() throws Exception
   {
     EDataGraph dg = SDOFactory.eINSTANCE.createEDataGraph();

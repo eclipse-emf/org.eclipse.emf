@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticBidirectionalTest.java,v 1.18 2005/06/12 14:03:11 emerks Exp $
+ * $Id: StaticBidirectionalTest.java,v 1.19 2005/06/22 17:40:20 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -149,6 +149,18 @@ public class StaticBidirectionalTest extends EMFPerformanceTestCase
     bookProp = SDOUtil.adaptProperty(bookFeat);
   }
 
+  /**
+   * <p>
+   * Uses the SDO generated API to set the value of a bi-directional property from a DataObject whose model has been statically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: set</li>
+   * <li>type: DataObject</li>
+   * <li>model generation: static</li>
+   * <li>access API: generated</li>
+   * </ul>
+   * </p>
+   */
   public void setByGenerated()
   {
     Library lib = (Library)this.lib;
@@ -166,12 +178,22 @@ public class StaticBidirectionalTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO generated API to set the value of a bi-directional property with an adapter, from a DataObject whose model has been statically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: set</li>
+   * <li>type: DataObject</li>
+   * <li>model generation: static</li>
+   * <li>access API: generated</li>
+   * </ul>
+   * </p>
+   */
   public void setAdaptedByGenerated()
   {
     Library lib = (Library)this.lib;
-    // List books = lib.getBooks();
     Book book0 = (Book)lib.getBooks().get(0);
-    // Book book1 = (Book)lib.getBooks().get(1);
     List writers = lib.getWriters();
     Writer writer0 = (Writer)writers.get(0);
     Writer writer1 = (Writer)writers.get(1);
@@ -190,6 +212,18 @@ public class StaticBidirectionalTest extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the EMF reflective API to set the value of a bi-directional feature from a DataObject/EObject whose model has been statically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: set</li>
+   * <li>type: DataObject</li>
+   * <li>model generation: static</li>
+   * <li>access API: reflective with eSet</li>
+   * </ul>
+   * </p>
+   */
   public void setWithESet()
   {
     Library lib = (Library)this.lib;

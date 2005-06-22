@@ -12,13 +12,16 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.60 2005/06/12 14:03:11 emerks Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.61 2005/06/22 17:40:20 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +29,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
 import org.eclipse.emf.test.performance.sdo.StaticIPOModel;
@@ -38,6 +42,7 @@ import com.example.sdo.ipo.Items;
 import com.example.sdo.ipo.PurchaseOrderType;
 import com.example.sdo.ipo.USAddress;
 import com.example.sdo.ipo.USState;
+import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 
@@ -100,20 +105,16 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByIndex").setWarmUp(3).setRepetitions(REPETITIONS_100));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getBigDecimalByPath").setWarmUp(3).setRepetitions(REPETITIONS_50));
 
-    //HOLD
     testSuite.addTest(new StaticIPOSDOAccessorTest("getStringByShortPath").setWarmUp(5).setRepetitions(REPETITIONS_100));
 
     testSuite.addTest(new StaticIPOSDOAccessorTest("getDataObjectByProperty").setWarmUp(5).setRepetitions(REPETITIONS_50));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setDataObjectByProperty").setWarmUp(8).setRepetitions(REPETITIONS_20));
 
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByGenerated").setWarmUp(1).setRepetitions(REPETITIONS_50));
-    //HOLD
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByGenerated").setWarmUp(1).setRepetitions(REPETITIONS_80));
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByProperty").setWarmUp(1).setRepetitions(REPETITIONS_80));
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByProperty").setWarmUp(1).setRepetitions(REPETITIONS_20));
-    //HOLD
     testSuite.addTest(new StaticIPOSDOAccessorTest("getByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
-    //HOLD
     testSuite.addTest(new StaticIPOSDOAccessorTest("setByShortPath").setWarmUp(1).setRepetitions(REPETITIONS_80));
 
     return testSuite;
@@ -187,8 +188,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     dataGraph.setEChangeSummary(sdoFactoryInstance.createEChangeSummary());
   }
 
-  /*
-  private void serializeDataGraph()
+  protected void serializeDataGraph()
   {
     DataGraph dataGraph = po.getDataGraph();
     try
@@ -201,7 +201,6 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     {
     }
   }
-  */
 
   private void initMap()
   {
@@ -246,7 +245,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   }
 
   /**
-   * Tests HashMap (not EMF) access time.
+   * Tests HashMap (not EMF) access time. To be used as a reference.
    */
   public void getFromMap()
   {
@@ -271,7 +270,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
   }
 
   /**
-   * Tests HashMap (not EMF) access time.
+   * Tests HashMap (not EMF) access time. To be used as a reference.
    */
   public void setInMap()
   {
@@ -295,6 +294,18 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the generated types to get the value of a Property of type BigInteger on a DataObject whose model has been statically generated.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: BigInteger</li>
+   * <li>model generation: static</li>
+   * <li>access API: strongly-typed</li>
+   * </ul>
+   * </p>
+   */
   public void getBigIntegerByGenerated()
   {
     ItemType itemElement = (ItemType)this.itemElement;
@@ -313,6 +324,18 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the generated types to set the value of a Property of type BigInteger on a DataObject whose model has been statically generated.
+   * Test details:
+   * <ul>
+   * <li>get/set: set</li>
+   * <li>type: BigInteger</li>
+   * <li>model generation: static</li>
+   * <li>access API: strongly-typed</li>
+   * </ul>
+   * </p>
+   */
   public void setBigIntegerByGenerated()
   {
     ItemType itemElement = (ItemType)this.itemElement;
@@ -330,7 +353,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 
   /**
    * <p>
-   * Uses the generated types to get the values of a DataObject whose model has been statically generated.
+   * Uses the generated types to get the values of properties of a DataObject whose model has been statically generated.
    * Test details:
    * <ul>
    * <li>get/set: get</li>
@@ -382,7 +405,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 
   /**
    * <p>
-   * Uses the generated types to get the values of a DataObject whose model has been statically generated.
+   * Uses the generated types to get the values of properties of a DataObject whose model has been statically generated.
    * Test details:
    * <ul>
    * <li>get/set: set</li>
@@ -414,7 +437,6 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     Object shipDate1 = this.shipDate1;
     String partNum0 = this.partNum0;
     String partNum1 = this.partNum1;
-    // IPOModel model = DynamicIPOSDOAccessorTest.model;
     int NUM_ITEMS = DynamicIPOSDOAccessorTest.NUM_ITEMS;
     List itemsValue = this.itemsValue;
     ItemType itemTypeElementValue = this.itemTypeElementValue;
