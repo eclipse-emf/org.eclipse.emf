@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOLoadTest.java,v 1.5 2005/06/12 14:03:11 emerks Exp $
+ * $Id: StaticIPOSDOLoadTest.java,v 1.6 2005/06/22 19:59:55 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.deserialization;
 
@@ -27,6 +27,9 @@ import com.example.sdo.ipo.IpoPackage;
 import com.example.sdo.ipo.util.IpoResourceFactoryImpl;
 
 
+/**
+ * Loads/deserializes SDO instances of static International Purchase Order (IPO) model.
+ */
 public class StaticIPOSDOLoadTest extends DynamicIPOSDOLoadTest
 {
 

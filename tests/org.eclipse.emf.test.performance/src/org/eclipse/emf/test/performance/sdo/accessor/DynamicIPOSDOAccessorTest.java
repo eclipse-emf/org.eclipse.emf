@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.62 2005/06/22 17:40:20 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.63 2005/06/22 19:59:55 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -44,6 +44,9 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 
 
+/**
+ * Uses EMF and SDO APIs to access (get/set) instances of dynamic International Purchase Order (IPO) model. 
+ */
 public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 {
   protected static final int REPETITIONS_20 = 20;

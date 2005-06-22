@@ -42,6 +42,9 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 
 
+/**
+ * Works with ExtendedMetadata on open content.
+ */
 public class OpenContentTest extends EMFPerformanceTestCase
 {
   private static final String DATA = TestUtil.getPluginDirectory() + "/data/";

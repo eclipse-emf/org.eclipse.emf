@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOSaveTest.java,v 1.10 2005/06/22 17:40:20 bportier Exp $
+ * $Id: DynamicIPOSDOSaveTest.java,v 1.11 2005/06/22 19:59:55 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.serialization;
 
@@ -38,6 +38,9 @@ import org.eclipse.emf.test.performance.sdo.SDOPerfUtil;
 import commonj.sdo.DataGraph;
 
 
+/**
+ * Saves/serializes SDO instances of dynamic International Purchase Order (IPO) model. 
+ */
 public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
 {
   private static final String DATA = TestUtil.getPluginDirectory() + "/data/";

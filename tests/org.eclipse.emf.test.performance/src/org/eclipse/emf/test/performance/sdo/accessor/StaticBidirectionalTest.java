@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticBidirectionalTest.java,v 1.19 2005/06/22 17:40:20 bportier Exp $
+ * $Id: StaticBidirectionalTest.java,v 1.20 2005/06/22 19:59:55 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -38,6 +38,9 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 
 
+/**
+ * Uses EMF and SDO APIs to set values on instances of a library model with bi-directional references. 
+ */
 public class StaticBidirectionalTest extends EMFPerformanceTestCase
 {
   protected static final int REPETITIONS_20 = 70;

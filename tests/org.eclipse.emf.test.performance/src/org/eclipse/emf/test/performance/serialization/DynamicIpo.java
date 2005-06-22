@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpo.java,v 1.11 2005/06/22 17:40:20 bportier Exp $
+ * $Id: DynamicIpo.java,v 1.12 2005/06/22 19:59:55 bportier Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -44,7 +44,7 @@ import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
 
 /**
- * Test serialization of ipo.xml using dynamic model
+ * Saves/serializes EMF instances of dynamic International Purchase Order (IPO) model.
  */
 public class DynamicIpo extends EMFPerformanceTestCase
 {

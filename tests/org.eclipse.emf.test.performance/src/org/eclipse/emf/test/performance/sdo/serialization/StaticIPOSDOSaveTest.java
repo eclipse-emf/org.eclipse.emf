@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOSaveTest.java,v 1.5 2005/06/12 14:03:11 emerks Exp $
+ * $Id: StaticIPOSDOSaveTest.java,v 1.6 2005/06/22 19:59:55 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.serialization;
 
@@ -27,6 +27,9 @@ import com.example.sdo.ipo.IpoPackage;
 import com.example.sdo.ipo.util.IpoResourceFactoryImpl;
 
 
+/**
+ * Saves/serializes SDO instances of static International Purchase Order (IPO) model.
+ */
 public class StaticIPOSDOSaveTest extends DynamicIPOSDOSaveTest
 {
 

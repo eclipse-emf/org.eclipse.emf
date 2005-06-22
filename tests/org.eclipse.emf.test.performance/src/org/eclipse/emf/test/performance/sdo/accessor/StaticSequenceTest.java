@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSequenceTest.java,v 1.18 2005/06/22 17:40:20 bportier Exp $
+ * $Id: StaticSequenceTest.java,v 1.19 2005/06/22 19:59:55 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -31,6 +31,9 @@ import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 
 
+/**
+ * Uses EMF and SDO APIs to get values of instances of a static Extended Purchase Order (EPO) model with derived features. 
+ */
 public class StaticSequenceTest extends DynamicSequenceTest
 {
 
@@ -102,6 +105,18 @@ public class StaticSequenceTest extends DynamicSequenceTest
     standardOrdersFeat = ((EProperty)standardOrdersProp).getEStructuralFeature();
   }
 
+  /**
+   * <p>
+   * Uses the SDO generated API to get the value of a Sequence from a DataObject whose model has been statically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: Sequence</li>
+   * <li>model generation: static</li>
+   * <li>access API: generated</li>
+   * </ul>
+   * </p>
+   */
   public void getSequenceByGenerated()
   {
     Supplier supplier = (Supplier)this.supplier;
@@ -118,6 +133,18 @@ public class StaticSequenceTest extends DynamicSequenceTest
     stopMeasuring();
   }
 
+  /**
+   * <p>
+   * Uses the SDO generated API to get the value of a derived property/feature from a DataObject whose model has been statically created.
+   * Test details:
+   * <ul>
+   * <li>get/set: get</li>
+   * <li>type: List</li>
+   * <li>model generation: static</li>
+   * <li>access API: generated</li>
+   * </ul>
+   * </p>
+   */
   public void getDerivedByGenerated()
   {
     Supplier supplier = (Supplier)this.supplier;

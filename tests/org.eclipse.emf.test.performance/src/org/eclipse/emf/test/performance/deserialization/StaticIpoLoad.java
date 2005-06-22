@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIpoLoad.java,v 1.6 2005/06/12 14:03:11 emerks Exp $
+ * $Id: StaticIpoLoad.java,v 1.7 2005/06/22 19:59:55 bportier Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -29,7 +29,7 @@ import com.example.ipo.util.IpoResourceFactoryImpl;
 
 
 /**
- * Test serialization of ipo.xml using static model.
+ * Loads/deserializes EMF instances of static International Purchase Order (IPO) model.
  */
 public class StaticIpoLoad extends DynamicIpoLoad
 {

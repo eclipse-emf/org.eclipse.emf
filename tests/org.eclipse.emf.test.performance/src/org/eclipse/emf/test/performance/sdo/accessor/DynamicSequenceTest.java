@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicSequenceTest.java,v 1.14 2005/06/22 17:40:20 bportier Exp $
+ * $Id: DynamicSequenceTest.java,v 1.15 2005/06/22 19:59:55 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -33,6 +33,9 @@ import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 
 
+/**
+ * Uses EMF and SDO APIs to get values of instances of a dynamic Extended Purchase Order (EPO) model with derived features. 
+ */
 public class DynamicSequenceTest extends EMFPerformanceTestCase
 {
 
@@ -223,9 +226,7 @@ public class DynamicSequenceTest extends EMFPerformanceTestCase
   }
   
   /**
-   * <p>
-   * Tests EList::contains(Object)
-   * </p>
+   * <p>Tests EList::contains(Object).</p>
    */
   public void contains()
   {
