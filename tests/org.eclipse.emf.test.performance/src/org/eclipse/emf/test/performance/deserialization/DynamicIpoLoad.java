@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpoLoad.java,v 1.9.2.3 2005/06/08 18:27:45 nickb Exp $
+ * $Id: DynamicIpoLoad.java,v 1.9.2.4 2005/06/23 17:43:21 bportier Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -78,7 +78,7 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
     TestSuite ts = new TestSuite("DynamicIpoLoad");
     ts.addTest(new DynamicIpoLoad("testLoad").setRepetitions(REPETITIONS));
     ts.addTest(new DynamicIpoLoad("testLoadParserCache").setRepetitions(REPETITIONS));
-    // not supported yet ts.addTest(new DynamicIpoLoad("testLoadParserAndFeatureMapCache").setRepetitions(REPETITIONS));
+    ts.addTest(new DynamicIpoLoad("testLoadParserAndFeatureMapCache").setRepetitions(REPETITIONS));
     return ts;
   }
 

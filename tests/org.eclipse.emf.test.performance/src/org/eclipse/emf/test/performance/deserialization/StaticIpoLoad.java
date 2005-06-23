@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIpoLoad.java,v 1.4.2.3 2005/06/08 18:27:45 nickb Exp $
+ * $Id: StaticIpoLoad.java,v 1.4.2.4 2005/06/23 17:43:21 bportier Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -44,7 +44,7 @@ public class StaticIpoLoad extends DynamicIpoLoad
     TestSuite ts = new TestSuite("StaticIpoLoad");
     ts.addTest(new StaticIpoLoad("testLoad").setRepetitions(REPETITIONS));
     ts.addTest(new StaticIpoLoad("testLoadParserCache").setRepetitions(REPETITIONS));
-    // not supported yet ts.addTest(new StaticIpoLoad("testLoadParserAndFeatureMapCache").setRepetitions(REPETITIONS));
+    ts.addTest(new StaticIpoLoad("testLoadParserAndFeatureMapCache").setRepetitions(REPETITIONS));
     return ts;
   }
 
