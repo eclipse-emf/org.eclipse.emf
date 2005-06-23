@@ -5,6 +5,7 @@
 	<topic label="Overviews">
 		<topic label="EMF Framework Overview" href="references/overview/EMF.html" />
 		<topic label="EMF.Edit Framework Overview" href="references/overview/EMF.Edit.html" />
+		<topic label="EMF Validation Framework Overview" href="references/overview/EMF.Validation.html" />
 	</topic>
 	<topic label="Tutorials">
 		<topic label="Generating an EMF Model" href="tutorials/clibmod/clibmod.html" />
