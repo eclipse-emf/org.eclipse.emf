@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.8 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDResourceImpl.java,v 1.9 2005/06/24 23:05:52 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -213,12 +213,12 @@ public class XSDResourceImpl extends ResourceImpl
   }
 
   /**
-   * Builds a document using Xerces.
-   * @param inputStream the contents to parse.
+   * Builds a document using JAXP.
+   * @param inputSource the contents to parse.
    * @param errorHandler the handled used by the parser.
    * @return a document.
    */
-  protected static Document getDocument(InputStream inputStream, ErrorHandler errorHandler)  throws IOException
+  protected static Document getDocument(InputSource inputSource, ErrorHandler errorHandler)  throws IOException
   {
     try
     {
@@ -235,7 +235,7 @@ public class XSDResourceImpl extends ResourceImpl
 
       documentBuilder.setErrorHandler(errorHandler);
 
-      Document document = documentBuilder.parse(inputStream);
+      Document document = documentBuilder.parse(inputSource);
       return document;
     }
     catch (ParserConfigurationException exception)
@@ -246,6 +246,17 @@ public class XSDResourceImpl extends ResourceImpl
     {
       throw new IOWrappedException(exception);
     }
+  }
+  
+  /**
+   * Builds a document using JAXP.
+   * @param inputStream the contents to parse.
+   * @param errorHandler the handled used by the parser.
+   * @return a document.
+   */
+  protected static Document getDocument(InputStream inputStream, ErrorHandler errorHandler)  throws IOException
+  {
+    return getDocument(new InputSource(inputStream), errorHandler);
   }
 
   /**
@@ -384,14 +395,21 @@ public class XSDResourceImpl extends ResourceImpl
     try
     {
       Document document;
+      InputSource inputSource = new InputSource(inputStream);
+      if (getURI() != null)
+      {
+        String id = getURI().toString();
+        inputSource.setPublicId(id);
+        inputSource.setSystemId(id);
+      }
       if (options != null && Boolean.TRUE.equals(options.get("XSD_TRACK_LOCATION")))
       {
-        xsdParser.parse(inputStream);
+        xsdParser.parse(inputSource);
         document = xsdParser.getDocument();
       }
       else
       {
-        document = getDocument(inputStream, xsdParser);
+        document = getDocument(inputSource, xsdParser);
       }
 
       if (xsdParser.getEncoding() != null)
