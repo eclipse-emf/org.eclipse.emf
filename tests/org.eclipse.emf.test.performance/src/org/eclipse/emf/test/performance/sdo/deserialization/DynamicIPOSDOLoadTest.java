@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOLoadTest.java,v 1.7.2.3 2005/06/08 18:27:47 nickb Exp $
+ * $Id: DynamicIPOSDOLoadTest.java,v 1.7.2.4 2005/06/24 13:43:39 bportier Exp $
  */
 package org.eclipse.emf.test.performance.sdo.deserialization;
 
@@ -76,7 +76,7 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
 
     ts.addTest(new DynamicIPOSDOLoadTest("loadWithNoOptions").setRepetitions(REPETITIONS));
     ts.addTest(new DynamicIPOSDOLoadTest("loadWithParserCache").setRepetitions(REPETITIONS));
-    // not supported yet ts.addTest(new DynamicIPOSDOLoadTest("loadWithParserAndFeatureMapCache").setRepetitions(REPETITIONS));
+    ts.addTest(new DynamicIPOSDOLoadTest("loadWithParserAndFeatureMapCache").setRepetitions(REPETITIONS));
 
     return ts;
   }
