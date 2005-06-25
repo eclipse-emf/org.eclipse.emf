@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTypeDefinitionImpl.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDTypeDefinitionImpl.java,v 1.5 2005/06/25 13:31:38 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -265,7 +265,7 @@ public abstract class XSDTypeDefinitionImpl
         }
         else
         {
-          return false;
+          return analysisState == ANALYZED;
         }
       }
       case ANALYZED:
