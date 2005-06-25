@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.11 2005/06/12 12:38:14 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.12 2005/06/25 13:31:08 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1124,8 +1124,6 @@ public class XSDComplexTypeDefinitionImpl
   protected XSDWildcardImpl effectiveWildcard;
   protected void handleAnalysis()
   {
-    super.handleAnalysis();
-
     XSDTypeDefinition theBaseTypeDefinition = getBaseTypeDefinition();
     XSDComplexTypeContent newContentType = null;
     XSDContentTypeCategory newContentTypeCategory = XSDContentTypeCategory.EMPTY_LITERAL;
@@ -1156,6 +1154,10 @@ public class XSDComplexTypeDefinitionImpl
       }
     }
 
+    if (localWildcard != null)
+    {
+      ((XSDConcreteComponentImpl)localWildcard).analyze();
+    }
     XSDWildcard newAttributeWildcard = 
       XSDAttributeGroupDefinitionImpl.getAttributeWildcard(baseWildcard, localWildcard, getAttributeContents());
 
@@ -1179,6 +1181,7 @@ public class XSDComplexTypeDefinitionImpl
     newContentType = getContent();
     if (newContentType instanceof XSDSimpleTypeDefinition)
     {
+      ((XSDConcreteComponentImpl)newContentType).analyze();
       newContentTypeCategory = XSDContentTypeCategory.SIMPLE_LITERAL;
       if (XSDDerivationMethod.EXTENSION_LITERAL == getDerivationMethod())
       {
@@ -1287,6 +1290,12 @@ public class XSDComplexTypeDefinitionImpl
     {
       setAttributeWildcard(newAttributeWildcard);
     }
+
+    if (analysisState == ANALYZING)
+    {
+      analysisState = ANALYZED;
+    }
+    super.handleAnalysis();
   }
 
   protected boolean isEmptyContent(XSDParticle xsdParticle)
