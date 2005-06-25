@@ -4,7 +4,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BadComplexTypeDefinition.xsd,v 1.1 2005/06/13 14:08:22 marcelop Exp $
+ * $Id: BadComplexTypeDefinition.xsd,v 1.2 2005/06/25 13:32:12 emerks Exp $
  */
 -->
 <xsd:schema
@@ -104,6 +104,9 @@
     <xsd:complexType name="badComplexExtension">
         <xsd:complexContent>
            <xsd:extension base="this:okayComplexTypeSimple">
+             <xsd:sequence>
+                 <xsd:element name="x"/>
+             </xsd:sequence>
            </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
@@ -117,7 +120,7 @@
         </xsd:complexContent>
     </xsd:complexType>
 
-    <xsd:complexType name="badComplexExtension" mixed="false">
+    <xsd:complexType name="badComplexExtensionMixed" mixed="false">
         <xsd:complexContent>
            <xsd:extension base="this:okayComplexTypeComplex">
            </xsd:extension>
