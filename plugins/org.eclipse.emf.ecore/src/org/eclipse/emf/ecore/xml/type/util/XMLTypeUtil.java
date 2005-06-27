@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.6 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLTypeUtil.java,v 1.7 2005/06/27 13:34:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -37,7 +37,7 @@ public final class XMLTypeUtil
 
   public static int compareCalendar(Object calendar1, Object calendar2)
   {
-    return XMLCalendar.compare((XMLCalendar)calendar2, (XMLCalendar)calendar2);
+    return XMLCalendar.compare((XMLCalendar)calendar1, (XMLCalendar)calendar2);
   }
 
   public static int compareDuration(Object duration1, Object duration2)
