@@ -54,7 +54,7 @@ public class StandaloneZipTest extends TestCase
         standaloneZipFile = file;
       }
     }    
-    assertNotNull("The standalone zip should be available in the eclipse dir", standaloneZipFile);
+    assertNotNull("The standalone zip should be available in the eclipse dir ('" + eclipseDir.getAbsolutePath() + "')", standaloneZipFile);
   }
 
   public void testContent() throws Exception
