@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.33 2005/06/22 14:45:00 khussey Exp $
+ * $Id: XMLHandler.java,v 1.34 2005/06/27 22:13:47 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1038,7 +1038,7 @@ public abstract class XMLHandler
           text = new StringBuffer();
         }
       }
-      else if (extendedMetaData != null)
+      else if (extendedMetaData != null && extendedMetaData.getFeatureKind(feature) != ExtendedMetaData.UNSPECIFIED_FEATURE)
       {
         EReference eReference = (EReference)feature;
         boolean isContainment = eReference.isContainment();
