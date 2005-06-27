@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.43 2005/06/12 13:23:06 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.44 2005/06/27 21:11:10 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1682,11 +1682,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       GenPackage genPackage = (GenPackage)i.next();
       EPackage ePackage = genPackage.getEcorePackage();
-      if (!EcorePackage.eNS_URI.equals(ePackage.getNsURI()) && ! GenModelPackage.eNS_URI.equals(ePackage.getNsURI()))
+      if (ePackage != null)  // genPackage can be a broken proxy
       {
-        extendedMetaData.putPackage(ePackage.getNsURI(), ePackage);
+        if (!EcorePackage.eNS_URI.equals(ePackage.getNsURI()) && ! GenModelPackage.eNS_URI.equals(ePackage.getNsURI()))
+        {
+          extendedMetaData.putPackage(ePackage.getNsURI(), ePackage);
+        }
+        populateExtendedMetaData(genPackage.getSubGenPackages());
       }
-      populateExtendedMetaData(genPackage.getSubGenPackages());
     }
   }
 
