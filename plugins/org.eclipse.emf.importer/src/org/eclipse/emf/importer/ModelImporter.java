@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.17 2005/06/12 13:35:21 emerks Exp $
+ * $Id: ModelImporter.java,v 1.18 2005/06/28 23:55:17 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -1032,6 +1032,7 @@ public abstract class ModelImporter
     genModel.setModelName(modelName);
     genModel.setModelPluginID(getModelPluginID());
     genModel.setModelDirectory(getModelPluginDirectory());
+    genModel.getUsedGenPackages().addAll(genModel.computeMissingUsedGenPackages());
   }
 
   protected List computeEPackagesToGenerate()
