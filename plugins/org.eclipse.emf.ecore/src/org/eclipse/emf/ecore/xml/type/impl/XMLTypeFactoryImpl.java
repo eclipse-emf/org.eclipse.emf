@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.14 2005/06/12 13:29:22 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.15 2005/06/28 19:39:11 elena Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -404,7 +404,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createAnyURIFromString(EDataType eDataType, String initialValue)
   {
-    initialValue = collapseWhiteSpace(initialValue);
+    // Per Schema 1.0 it is not clear if the result returned should be a valid URI. 
+    // For the future if we plant to surport IRIs then it is better not to massage
+    // the initialValue. 
+    // We should thought consider where would be the best way to validate anyURI values -- EL
+    
+    /*initialValue = collapseWhiteSpace(initialValue);
     if (initialValue != null)
     {
       //encode special characters using XLink 5.4 algorithm
@@ -420,7 +425,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
       {
         throw new InvalidDatatypeValueException("Invalid anyURI value: '"+initialValue+"' :"+e.toString());
       }
-    }
+    }*/
     return initialValue;
   }
 
