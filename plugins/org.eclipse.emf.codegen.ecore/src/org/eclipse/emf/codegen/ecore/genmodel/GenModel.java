@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.25 2005/06/08 20:30:20 marcelop Exp $
+ * $Id: GenModel.java,v 1.26 2005/06/28 23:49:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -1484,4 +1484,6 @@ public interface GenModel extends GenBase{
   String getPropertyCategoryKey(String category);  
 
   ExtendedMetaData getExtendedMetaData();
+  
+  List computeMissingUsedGenPackages();
 }
