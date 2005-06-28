@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.44 2005/06/27 21:11:10 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.45 2005/06/28 23:50:25 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.codegen.ecore.genmodel.impl;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -5108,8 +5109,50 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         i.remove();
       }
     }
-
+    getUsedGenPackages().addAll(computeMissingUsedGenPackages());
+    
     return !getGenPackages().isEmpty();
+  }
+  
+  public List computeMissingUsedGenPackages()
+  {
+    List missingEPackages = getMissingPackages();
+    if (!missingEPackages.isEmpty())
+    {
+      List allGenModels = new UniqueEList.FastCompare();
+      allGenModels.add(this);
+      for (int i = 0; i < allGenModels.size(); i++)
+      {
+        GenModel genModel = (GenModel)allGenModels.get(i);
+        for (int j = 0; j < genModel.getUsedGenPackages().size(); j++)
+        {
+          GenPackage genPackage = (GenPackage)genModel.getUsedGenPackages().get(j);
+          allGenModels.add(genPackage.getGenModel());
+        }
+      }
+
+      List usedGenPackages = new UniqueEList.FastCompare();
+      for (int i = 0; i < missingEPackages.size(); i++)
+      {
+        EPackage ePackage = (EPackage)missingEPackages.get(i);
+        for (int j = 0; j < allGenModels.size(); j++)
+        {
+          GenModel genModel = (GenModel)allGenModels.get(j);
+          GenPackage genPackage = genModel.findGenPackage(ePackage);
+          if (genPackage != null)
+          {
+            usedGenPackages.add(genPackage);
+            getMissingPackagesHelper(missingEPackages, Collections.singletonList(genPackage));
+            break;
+          }
+        }
+      }    
+      return usedGenPackages;
+    } 
+    else
+    {
+      return Collections.EMPTY_LIST;
+    }
   }
 
   public List getMissingPackages()
@@ -5125,18 +5168,22 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     for (Iterator i = genPackages.iterator(); i.hasNext(); )
     {
       GenPackage genPackage = (GenPackage)i.next();
-      for (Iterator j = genPackage.getEcorePackage().eAllContents(); j.hasNext();)
+      EPackage ePackage = genPackage.getEcorePackage();
+      if (ePackage != null)
       {
-        EObject eObject = (EObject)j.next();
-        for (Iterator k = eObject.eCrossReferences().iterator(); k.hasNext(); )
+        for (Iterator j = ePackage.eAllContents(); j.hasNext();)
         {
-          Object o = k.next();
-          if (o instanceof EClassifier)
+          EObject eObject = (EObject)j.next();
+          for (Iterator k = eObject.eCrossReferences().iterator(); k.hasNext(); )
           {
-            EClassifier eClassifier = (EClassifier)o;
-            if (findGenClassifier(eClassifier) == null)
+            Object o = k.next();
+            if (o instanceof EClassifier)
             {
-              ePackages.add(eClassifier.getEPackage());
+              EClassifier eClassifier = (EClassifier)o;
+              if (findGenClassifier(eClassifier) == null)
+              {
+                ePackages.add(eClassifier.getEPackage());
+              }
             }
           }
         }
