@@ -45,16 +45,30 @@ public class StandaloneZipTest extends TestCase
   {
     File testBuildDir = new File(TestUtil.getPluginDirectory()).getAbsoluteFile();
     File eclipseDir = testBuildDir.getParentFile().getParentFile();
-    File[] files = eclipseDir.listFiles();
+    standaloneZipFile = getStandaloneZip(eclipseDir);
+    
+    if (standaloneZipFile == null)
+    {
+      //In the build environment, the eclipseDir is in testingDir/target/
+      File testingDir = eclipseDir.getParentFile().getParentFile();
+      standaloneZipFile = getStandaloneZip(testingDir);
+    }
+    
+    assertNotNull("The standalone zip should be available in the eclipse dir ('" + eclipseDir.getAbsolutePath() + "')", standaloneZipFile);
+  }
+  
+  protected File getStandaloneZip(File dir)
+  {
+    File[] files = dir.listFiles();
     for (int i = 0; i < files.length; i++)
     {
       File file = files[i];
       if (file.isFile() && file.getName().matches("^emf-sdo-xsd-Standalone-.*\\.zip$"))
       {
-        standaloneZipFile = file;
+        return file;
       }
-    }    
-    assertNotNull("The standalone zip should be available in the eclipse dir ('" + eclipseDir.getAbsolutePath() + "')", standaloneZipFile);
+    }
+    return null;
   }
 
   public void testContent() throws Exception
