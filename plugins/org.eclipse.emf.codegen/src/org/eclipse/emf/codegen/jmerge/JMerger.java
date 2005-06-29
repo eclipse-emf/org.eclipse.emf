@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.11 2005/06/12 13:19:04 emerks Exp $
+ * $Id: JMerger.java,v 1.12 2005/06/29 21:13:11 davidms Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -782,6 +782,17 @@ public class JMerger implements IPlatformRunnable
                 {
                   continue;
                 }
+              }
+
+              // The block pattern needs to prevent merging of the return type, to allow changing from the modeled data
+              // type (Bugzilla 102209). 
+              //
+              if (sourceGetMethod.getName().equals("getReturnType") &&
+                  jControlModel.getBlockPattern() != null && 
+                  ((IDOMMethod)targetNode).getComment() != null &&
+                  jControlModel.getBlockPattern().matcher(((IDOMMethod)targetNode).getComment()).find())
+              {
+                continue;
               }
 
               targetPutMethod.invoke(targetNode, new Object [] { value });
