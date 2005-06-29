@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.34 2005/06/22 19:55:52 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.35 2005/06/29 21:23:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2372,10 +2372,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       try
       {
-        boolean extended = hasExtendedMetaData(getEcorePackage());
         Class theGeneratorClass = 
           xsdPlugin.loadClass
-            ("org.eclipse.xsd.ecore." + (extended ? "XSD" :  "Ecore" + type) + "SchemaBuilder");
+            ("org.eclipse.xsd.ecore.Ecore" + type + "SchemaBuilder");
 
         try
         {
@@ -2427,17 +2426,14 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           Collection result = 
             (Collection)theGeneratorClass.getMethod
               ("generate", 
-               new Class [] { EPackage.class , ExtendedMetaData.class }).invoke(generator, new Object [] { getEcorePackage(), getExtendedMetaData() });
+               new Class [] { EPackage.class }).invoke(generator, new Object [] { getEcorePackage() });
 
           Iterator i = result.iterator();
           Object xsdSchema = i.next();
 
           ResourceSet resourceSet = new ResourceSetImpl();
           resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
-          URI uri = 
-             extended ? 
-               getEcorePackage().eResource().getURI().trimFileExtension().appendFileExtension("xsd") :
-               getEcorePackage().eResource().getURI().trimSegments(1).appendSegment(getPrefix() + type + ".xsd");
+          URI uri = getEcorePackage().eResource().getURI().trimSegments(1).appendSegment(getPrefix() + type + ".xsd");
           Resource xsdSchemaResource = resourceSet.createResource(uri);
           xsdSchemaResource.getContents().add(xsdSchema);
           try
