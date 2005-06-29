@@ -36,6 +36,8 @@ import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -140,6 +142,7 @@ public class ModelPackagePage extends ModelImporterPage
         public void run()
         {
           filterPackagesTable(true);
+          validate();
           getContainer().updateButtons();
         }
       });
@@ -545,6 +548,19 @@ public class ModelPackagePage extends ModelImporterPage
           return genPackageItemProvider;
         }
       };
+      
+    // Sorting only the genModels
+    referencedGenModelsCheckboxTreeViewer.setSorter(new ViewerSorter()
+      {
+        public void sort(Viewer viewer, Object[] elements)
+        {
+          if (elements.length > 0 && elements[0] instanceof GenModel)
+          {
+            super.sort(viewer, elements);
+          }
+        }
+      });
+    
     referencedGenModelsCheckboxTreeViewer.setContentProvider(new AdapterFactoryContentProvider(genModelItemProviderAdapterFactory));
     referencedGenModelsCheckboxTreeViewer.setLabelProvider(new AdapterFactoryLabelProvider(genModelItemProviderAdapterFactory)
       {
@@ -586,7 +602,7 @@ public class ModelPackagePage extends ModelImporterPage
   {
     filterPackagesTable(false);
     validate();
-    setPageComplete(isPageComplete());    
+    getContainer().updateButtons();
   }
 
   protected String getBrowseButtonLabel()
