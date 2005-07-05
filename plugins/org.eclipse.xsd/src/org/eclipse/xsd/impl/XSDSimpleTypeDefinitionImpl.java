@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.9 2005/06/12 12:38:14 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.10 2005/07/05 18:14:04 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -673,7 +673,14 @@ public class XSDSimpleTypeDefinitionImpl
                 resolveSimpleTypeDefinition(theMemberTypeDefinition.getTargetNamespace(), theMemberTypeDefinition.getName());
               if (newMemberTypeDefinition.getContainer() != null && newMemberTypeDefinition != theMemberTypeDefinition)
               {
-                theMemberTypeDefinitions.set(newMemberTypeDefinition);
+                if (getMemberTypeDefinitions().contains(newMemberTypeDefinition))
+                {
+                  theMemberTypeDefinitions.remove();
+                }
+                else
+                {
+                  theMemberTypeDefinitions.set(newMemberTypeDefinition);
+                }
               }
             }
           }
