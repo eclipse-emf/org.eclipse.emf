@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.3 2005/06/08 06:17:44 nickb Exp $
+ * $Id: TestUtil.java,v 1.4 2005/07/05 22:59:32 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -90,5 +90,18 @@ public class TestUtil
     }
     
     return true;  
-  }  
+  } 
+
+  public static boolean isPlatformRunning()
+  {
+    try
+    {
+      return org.eclipse.core.runtime.Platform.isRunning(); 
+    }
+    catch (Throwable t)
+    {
+    }
+    
+    return false;
+  }
 }

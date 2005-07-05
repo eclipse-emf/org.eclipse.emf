@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.11 2005/06/08 06:17:44 nickb Exp $
+ * $Id: SimpleModelTest.java,v 1.12 2005/07/05 22:59:32 marcelop Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -28,8 +28,6 @@ import java.util.Map;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
@@ -359,7 +357,7 @@ public class SimpleModelTest extends TestCase
 
     //Loading department in ResourceSet
     ResourceSet resourceSet = new ResourceSetImpl();
-    if (!Platform.isRunning())
+    if (!TestUtil.isPlatformRunning())
     {
       resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
     }
@@ -432,7 +430,7 @@ public class SimpleModelTest extends TestCase
     
     //Loading department into a resource set
     ResourceSet resourceSet = new ResourceSetImpl();
-    if (!Platform.isRunning())
+    if (!TestUtil.isPlatformRunning())
     {
       resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
     }
