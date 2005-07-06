@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackage.java,v 1.2 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JavaPackage.java,v 1.3 2005/07/06 19:45:14 davidms Exp $
  */
 package org.eclipse.emf.java;
 
@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.java.JavaFactory
+ * @model kind="package"
  * @generated
  */
 public interface JavaPackage extends EPackage{

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.16 2005/06/29 00:13:54 marcelop Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.17 2005/07/06 19:45:15 davidms Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -32,12 +32,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.xml.type.AnyType;
-import org.eclipse.emf.ecore.xml.type.InvalidDatatypeValueException;
-import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
-import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.emf.ecore.xml.type.*;
 import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.emf.ecore.xml.type.internal.XMLDuration;
