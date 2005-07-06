@@ -38,10 +38,10 @@
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
 		<mkdir dir="${destination.temp.folder}/org.eclipse.emf.doc_${pluginVersion}"/>
 		<copy todir="${destination.temp.folder}/org.eclipse.emf.doc_${pluginVersion}">
-			<fileset dir="${build.result.folder}" includes="about.html,about.ini,about.mappings,about.properties,eclipse32.gif,plugin.properties,plugin.xml,toc.xml,doc.zip,META-INF/**"			/>
+			<fileset dir="${build.result.folder}" includes="about.html,about.ini,about.mappings,about.properties,eclipse*.gif,eclipse*.png,eclipse*.jpg,plugin.properties,plugin.xml,toc.xml,doc.zip,META-INF/**"			/>
 		</copy>
 		<copy todir="${destination.temp.folder}/org.eclipse.emf.doc_${pluginVersion}">
-			<fileset dir="${basedir}" includes="about.html,about.ini,about.mappings,about.properties,eclipse32.gif,plugin.properties,plugin.xml,toc.xml,doc.zip,META-INF/**"			/>
+			<fileset dir="${basedir}" includes="about.html,about.ini,about.mappings,about.properties,eclipse*.gif,eclipse*.png,eclipse*.jpg,plugin.properties,plugin.xml,toc.xml,doc.zip,META-INF/**"			/>
 		</copy>
 	</target>
 
