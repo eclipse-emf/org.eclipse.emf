@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreItemProviderAdapterFactory.java,v 1.3 2005/06/08 06:18:57 nickb Exp $
+ * $Id: XSD2EcoreItemProviderAdapterFactory.java,v 1.4 2005/07/06 19:45:17 davidms Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.provider;
 
@@ -80,11 +80,11 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    */
   public XSD2EcoreItemProviderAdapterFactory()
   {
+    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
-    supportedTypes.add(IItemPropertySource.class);
-    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
+    supportedTypes.add(IItemPropertySource.class);		
   }
 
   /**
