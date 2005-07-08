@@ -15,14 +15,14 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.25 2005/06/11 06:10:41 marcelop Exp $
+ * $Id: feature.xml,v 1.26 2005/07/08 02:21:37 davidms Exp $
  */
 -->
 
 <feature
       id="org.eclipse.emf.tests"
       label="%featureName"
-      version="2.1.0"
+      version="2.2.0"
       image= "eclipse_update_120.jpg"
       provider-name="%providerName">
 
@@ -50,7 +50,7 @@ http://www.eclipse.org/legal/epl-v10.html
    </url>
 
    <requires>
-      <import feature="org.eclipse.emf" version="2.1.0"/>
+      <import feature="org.eclipse.emf" version="2.2.0"/>
    </requires>
 
    <!-- Required Eclipse plugins -->
@@ -87,7 +87,7 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.tests"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.2.0"/>
 
    <plugin
          id="org.eclipse.emf.test.performance"
@@ -111,7 +111,7 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.test.edit"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.2.0"/>
 
    <plugin
          id="org.eclipse.emf.test.sdo"
