@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.13 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.14 2005/07/08 02:10:16 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -476,6 +476,17 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		menuManager.insertAfter("ui-actions", refreshViewerAction);<%=genModel.getNonNLS()%>
 
 		super.addGlobalActions(menuManager);
+	}
+
+	/**
+	 * This ensures that a delete action will clean up all references to deleted objects.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected boolean removeAllReferencesOnDelete()
+	{
+		return true;
 	}
 
 }

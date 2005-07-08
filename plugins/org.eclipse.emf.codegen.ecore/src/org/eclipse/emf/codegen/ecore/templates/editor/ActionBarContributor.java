@@ -154,7 +154,7 @@ public class ActionBarContributor
   protected final String TEXT_138 = "(\"ui-actions\"));";
   protected final String TEXT_139 = NL + "\t\tmenuManager.insertAfter(\"ui-actions\", showPropertiesViewAction);";
   protected final String TEXT_140 = NL + NL + "\t\trefreshViewerAction.setEnabled(refreshViewerAction.isEnabled());\t\t" + NL + "\t\tmenuManager.insertAfter(\"ui-actions\", refreshViewerAction);";
-  protected final String TEXT_141 = NL + NL + "\t\tsuper.addGlobalActions(menuManager);" + NL + "\t}" + NL + "" + NL + "}";
+  protected final String TEXT_141 = NL + NL + "\t\tsuper.addGlobalActions(menuManager);" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * This ensures that a delete action will clean up all references to deleted objects." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected boolean removeAllReferencesOnDelete()" + NL + "\t{" + NL + "\t\treturn true;" + NL + "\t}" + NL + "" + NL + "}";
   protected final String TEXT_142 = NL;
 
   public String generate(Object argument)
