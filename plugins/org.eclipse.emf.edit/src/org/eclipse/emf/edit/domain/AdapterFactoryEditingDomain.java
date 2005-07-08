@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.13 2005/06/08 06:17:06 nickb Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.14 2005/07/08 02:07:33 davidms Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -50,6 +50,7 @@ import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CopyToClipboardCommand;
 import org.eclipse.emf.edit.command.CreateChildCommand;
 import org.eclipse.emf.edit.command.CutToClipboardCommand;
+import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.command.OverrideableCommand;
 import org.eclipse.emf.edit.command.PasteFromClipboardCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
@@ -377,6 +378,10 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     {
       return new CutToClipboardCommand
         (this, RemoveCommand.create(this, commandParameter.getOwner(), commandParameter.getFeature(), commandParameter.getCollection()));
+    }
+    else if (commandClass == DeleteCommand.class)
+    {
+      return new DeleteCommand(this, commandParameter.getCollection());
     }
     else if (owner != null)
     {
