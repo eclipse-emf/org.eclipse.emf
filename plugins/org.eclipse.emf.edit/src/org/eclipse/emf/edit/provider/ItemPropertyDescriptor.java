@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.17 2005/06/12 13:32:37 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.18 2005/07/08 02:57:52 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1049,9 +1049,14 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
     {
       EAttribute attribute = (EAttribute)feature;
       Object result =  getValue(eObject, attribute);
+
+      // We used to use getDefaultValue() when null, but that behaviour isn't correct: the value is aready set to
+      // its default initially, and we should always show the actual state of the object (bug 102557).
+      // 
       if (result == null)
       {
-        return getDefaultValue(attribute.getEType());
+        //return getDefaultValue(attribute.getEType());
+        return null;
       }
       else
       {
