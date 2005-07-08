@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddCommandTest.java,v 1.2 2005/06/08 06:20:57 nickb Exp $
+ * $Id: AddCommandTest.java,v 1.3 2005/07/08 02:18:27 davidms Exp $
  */
 package org.eclipse.emf.test.edit.command;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.test.models.ref.E;
 import org.eclipse.emf.test.models.ref.RefFactory;
 import org.eclipse.emf.test.models.ref.RefPackage;
-import org.eclipse.emf.test.models.ref.util.RefAdapterFactory;
+import org.eclipse.emf.test.models.ref.provider.RefItemProviderAdapterFactory;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -74,7 +74,7 @@ public class AddCommandTest extends TestCase
     refPackage = RefPackage.eINSTANCE;
     refFactory = refPackage.getRefFactory();
     
-    AdapterFactory adapterFactory = new RefAdapterFactory();
+    AdapterFactory adapterFactory = new RefItemProviderAdapterFactory();
     CommandStack commandStack = new BasicCommandStack();
     editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
   }
