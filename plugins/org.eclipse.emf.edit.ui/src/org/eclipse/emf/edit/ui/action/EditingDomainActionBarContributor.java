@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainActionBarContributor.java,v 1.8 2005/06/08 06:20:52 nickb Exp $
+ * $Id: EditingDomainActionBarContributor.java,v 1.9 2005/07/08 02:09:28 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -120,7 +120,7 @@ public class EditingDomainActionBarContributor
     super.init(actionBars);
     ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
 
-    deleteAction = new DeleteAction();
+    deleteAction = new DeleteAction(removeAllReferencesOnDelete()); 
     deleteAction.setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
     actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(), deleteAction);
 
@@ -143,6 +143,17 @@ public class EditingDomainActionBarContributor
     redoAction = new RedoAction();
     redoAction.setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_REDO));
     actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), redoAction);
+  }
+
+  /**
+   * This determines whether or not the delete action should clean up all references to the deleted objects.
+   * It is false by default, to provide the same beahviour, by default, as in EMF 2.1 and before.
+   * You should probably override this method to return true, in order to get the new, more useful beahviour.
+   * @since 2.2
+   */
+  protected boolean removeAllReferencesOnDelete()
+  {
+    return false;
   }
 
   public void contributeToMenu(IMenuManager menuManager) 
