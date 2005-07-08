@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefPackage.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: RefPackage.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.models.ref.RefFactory
+ * @model kind="package"
  * @generated
  */
 public interface RefPackage extends EPackage
@@ -245,13 +246,22 @@ public interface RefPackage extends EPackage
   int C__D = 0;
 
   /**
+   * The feature id for the '<em><b>C4</b></em>' container reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int C__C4 = 1;
+
+  /**
    * The number of structural features of the the '<em>C</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int C_FEATURE_COUNT = 1;
+  int C_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.test.models.ref.impl.DImpl <em>D</em>}' class.
@@ -282,13 +292,22 @@ public interface RefPackage extends EPackage
   int D__E = 1;
 
   /**
+   * The feature id for the '<em><b>C4</b></em>' container reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int D__C4 = 2;
+
+  /**
    * The number of structural features of the the '<em>D</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int D_FEATURE_COUNT = 2;
+  int D_FEATURE_COUNT = 3;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.test.models.ref.impl.EImpl <em>E</em>}' class.
@@ -344,6 +363,81 @@ public interface RefPackage extends EPackage
    * @ordered
    */
   int E_FEATURE_COUNT = 4;
+
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.test.models.ref.impl.C4Impl <em>C4</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.test.models.ref.impl.C4Impl
+   * @see org.eclipse.emf.test.models.ref.impl.RefPackageImpl#getC4()
+   * @generated
+   */
+  int C4 = 7;
+
+  /**
+   * The feature id for the '<em><b>C</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int C4__C = 0;
+
+  /**
+   * The feature id for the '<em><b>D</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int C4__D = 1;
+
+  /**
+   * The number of structural features of the the '<em>C4</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int C4_FEATURE_COUNT = 2;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.test.models.ref.impl.C3Impl <em>C3</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.test.models.ref.impl.C3Impl
+   * @see org.eclipse.emf.test.models.ref.impl.RefPackageImpl#getC3()
+   * @generated
+   */
+  int C3 = 8;
+
+  /**
+   * The feature id for the '<em><b>D</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int C3__D = 0;
+
+  /**
+   * The feature id for the '<em><b>C</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int C3__C = 1;
+
+  /**
+   * The number of structural features of the the '<em>C3</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int C3_FEATURE_COUNT = 2;
 
 
   /**
@@ -518,6 +612,17 @@ public interface RefPackage extends EPackage
   EReference getC_D();
 
   /**
+   * Returns the meta object for the container reference '{@link org.eclipse.emf.test.models.ref.C#getC4 <em>C4</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the container reference '<em>C4</em>'.
+   * @see org.eclipse.emf.test.models.ref.C#getC4()
+   * @see #getC()
+   * @generated
+   */
+  EReference getC_C4();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.test.models.ref.D <em>D</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -548,6 +653,17 @@ public interface RefPackage extends EPackage
    * @generated
    */
   EReference getD_E();
+
+  /**
+   * Returns the meta object for the container reference '{@link org.eclipse.emf.test.models.ref.D#getC4 <em>C4</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the container reference '<em>C4</em>'.
+   * @see org.eclipse.emf.test.models.ref.D#getC4()
+   * @see #getD()
+   * @generated
+   */
+  EReference getD_C4();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.test.models.ref.E <em>E</em>}'.
@@ -602,6 +718,70 @@ public interface RefPackage extends EPackage
    * @generated
    */
   EReference getE_D();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.test.models.ref.C4 <em>C4</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>C4</em>'.
+   * @see org.eclipse.emf.test.models.ref.C4
+   * @generated
+   */
+  EClass getC4();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.eclipse.emf.test.models.ref.C4#getC <em>C</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>C</em>'.
+   * @see org.eclipse.emf.test.models.ref.C4#getC()
+   * @see #getC4()
+   * @generated
+   */
+  EReference getC4_C();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.test.models.ref.C4#getD <em>D</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>D</em>'.
+   * @see org.eclipse.emf.test.models.ref.C4#getD()
+   * @see #getC4()
+   * @generated
+   */
+  EReference getC4_D();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.test.models.ref.C3 <em>C3</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>C3</em>'.
+   * @see org.eclipse.emf.test.models.ref.C3
+   * @generated
+   */
+  EClass getC3();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.test.models.ref.C3#getD <em>D</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>D</em>'.
+   * @see org.eclipse.emf.test.models.ref.C3#getD()
+   * @see #getC3()
+   * @generated
+   */
+  EReference getC3_D();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.eclipse.emf.test.models.ref.C3#getC <em>C</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>C</em>'.
+   * @see org.eclipse.emf.test.models.ref.C3#getC()
+   * @see #getC3()
+   * @generated
+   */
+  EReference getC3_C();
 
   /**
    * Returns the factory that creates the instances of the model.

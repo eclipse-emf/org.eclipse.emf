@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: C2ItemProvider.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: C2ItemProvider.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -29,7 +29,7 @@ import org.eclipse.emf.test.models.ref.C2;
 import org.eclipse.emf.test.models.ref.RefPackage;
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.test.models.ref.C2} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.test.models.ref.C2} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

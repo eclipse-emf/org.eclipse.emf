@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: E.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: E.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.test.models.ref.RefPackage#getE()
- * @model 
+ * @model
  * @generated
  */
 public interface E extends EObject
@@ -42,7 +42,7 @@ public interface E extends EObject
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
    * @see org.eclipse.emf.test.models.ref.RefPackage#getE_Name()
-   * @model 
+   * @model
    * @generated
    */
   String getName();

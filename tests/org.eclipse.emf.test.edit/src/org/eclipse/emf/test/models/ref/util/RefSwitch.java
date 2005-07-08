@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefSwitch.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: RefSwitch.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.util;
 
@@ -26,8 +26,7 @@ import org.eclipse.emf.test.models.ref.*;
  * @see org.eclipse.emf.test.models.ref.RefPackage
  * @generated
  */
-public class RefSwitch
-{
+public class RefSwitch {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -145,6 +144,20 @@ public class RefSwitch
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case RefPackage.C4:
+      {
+        C4 c4 = (C4)theEObject;
+        Object result = caseC4(c4);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case RefPackage.C3:
+      {
+        C3 c3 = (C3)theEObject;
+        Object result = caseC3(c3);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       default: return defaultCase(theEObject);
     }
   }
@@ -257,6 +270,38 @@ public class RefSwitch
    * @generated
    */
   public Object caseE(E object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpretting the object as an instance of '<em>C4</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>C4</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public Object caseC4(C4 object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpretting the object as an instance of '<em>C3</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>C3</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public Object caseC3(C3 object)
   {
     return null;
   }

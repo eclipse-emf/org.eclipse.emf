@@ -2,10 +2,10 @@
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.edit/src"
-    creationCommands="false" editDirectory="/org.eclipse.emf.test.edit/src" editorDirectory="/org.eclipse.emf.test.edit/src"
+    creationCommands="false" editDirectory="/org.eclipse.emf.test.edit/src" editorDirectory=""
     modelPluginID="org.eclipse.emf.test.edit" runtimeJar="true" modelName="RefTest"
-    editPluginClass="org.eclipse.emf.test.models.ref.provider.RefTestEditPlugin" editorPluginClass=""
-    runtimeCompatibility="false">
+    editPluginClass="org.eclipse.emf.test.models.ref.provider.RefTestEditPlugin" testsDirectory=""
+    importerID="org.eclipse.emf.importer.rose">
   <foreignModel>..\..\..\..\..\..\..\data\rose\RefTest.mdl</foreignModel>
   <genPackages prefix="Ref" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
       ecorePackage="RefTest.ecore#/">
@@ -29,16 +29,26 @@
     </genClasses>
     <genClasses image="false" ecoreClass="RefTest.ecore#//C">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//C/d"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//C/c4"/>
     </genClasses>
     <genClasses image="false" ecoreClass="RefTest.ecore#//D">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//D/c"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//D/e"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//D/c4"/>
     </genClasses>
     <genClasses image="false" ecoreClass="RefTest.ecore#//E">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTest.ecore#//E/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTest.ecore#//E/ids"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTest.ecore#//E/labels"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//E/d"/>
+    </genClasses>
+    <genClasses ecoreClass="RefTest.ecore#//C4">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//C4/c"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//C4/d"/>
+    </genClasses>
+    <genClasses ecoreClass="RefTest.ecore#//C3">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//C3/d"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//C3/c"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefFactory.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: RefFactory.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
@@ -88,6 +88,24 @@ public interface RefFactory extends EFactory
    * @generated
    */
   E createE();
+
+  /**
+   * Returns a new object of class '<em>C4</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>C4</em>'.
+   * @generated
+   */
+  C4 createC4();
+
+  /**
+   * Returns a new object of class '<em>C3</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>C3</em>'.
+   * @generated
+   */
+  C3 createC3();
 
   /**
    * Returns the package supported by this factory.

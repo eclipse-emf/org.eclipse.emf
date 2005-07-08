@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefTestEditPlugin.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: RefTestEditPlugin.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -11,7 +11,7 @@ import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
 /**
- * This is the central singleton for the RefTest editor plugin.
+ * This is the central singleton for the RefTest edit plugin.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

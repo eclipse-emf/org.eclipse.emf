@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: D.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: D.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
@@ -20,11 +20,12 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.D#getC <em>C</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.D#getE <em>E</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.models.ref.D#getC4 <em>C4</em>}</li>
  * </ul>
  * </p>
  *
  * @see org.eclipse.emf.test.models.ref.RefPackage#getD()
- * @model 
+ * @model
  * @generated
  */
 public interface D extends EObject
@@ -74,5 +75,33 @@ public interface D extends EObject
    * @generated
    */
   EList getE();
+
+  /**
+   * Returns the value of the '<em><b>C4</b></em>' container reference.
+   * It is bidirectional and its opposite is '{@link org.eclipse.emf.test.models.ref.C4#getD <em>D</em>}'.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>C4</em>' container reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>C4</em>' container reference.
+   * @see #setC4(C4)
+   * @see org.eclipse.emf.test.models.ref.RefPackage#getD_C4()
+   * @see org.eclipse.emf.test.models.ref.C4#getD
+   * @model opposite="d" required="true"
+   * @generated
+   */
+  C4 getC4();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.test.models.ref.D#getC4 <em>C4</em>}' container reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>C4</em>' container reference.
+   * @see #getC4()
+   * @generated
+   */
+  void setC4(C4 value);
 
 } // D

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefItemProviderAdapterFactory.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: RefItemProviderAdapterFactory.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -70,11 +70,11 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    */
   public RefItemProviderAdapterFactory()
   {
+    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
-    supportedTypes.add(IItemPropertySource.class);
-    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
+    supportedTypes.add(IItemPropertySource.class);		
   }
 
   /**
@@ -246,6 +246,54 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
   }
 
   /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.test.models.ref.C4} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected C4ItemProvider c4ItemProvider;
+
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.test.models.ref.C4}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createC4Adapter()
+  {
+    if (c4ItemProvider == null)
+    {
+      c4ItemProvider = new C4ItemProvider(this);
+    }
+
+    return c4ItemProvider;
+  }
+
+  /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.test.models.ref.C3} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected C3ItemProvider c3ItemProvider;
+
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.test.models.ref.C3}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createC3Adapter()
+  {
+    if (c3ItemProvider == null)
+    {
+      c3ItemProvider = new C3ItemProvider(this);
+    }
+
+    return c3ItemProvider;
+  }
+
+  /**
    * This returns the root adapter factory that contains this factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -360,6 +408,8 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
     if (cItemProvider != null) cItemProvider.dispose();
     if (dItemProvider != null) dItemProvider.dispose();
     if (eItemProvider != null) eItemProvider.dispose();
+    if (c4ItemProvider != null) c4ItemProvider.dispose();
+    if (c3ItemProvider != null) c3ItemProvider.dispose();
   }
 
 }

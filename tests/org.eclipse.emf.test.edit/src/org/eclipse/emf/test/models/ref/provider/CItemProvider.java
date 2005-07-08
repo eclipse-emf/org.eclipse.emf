@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CItemProvider.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: CItemProvider.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.test.models.ref.RefPackage;
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.test.models.ref.C} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.test.models.ref.C} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -77,13 +77,16 @@ public class CItemProvider
   protected void addDPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_C_d_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_C_d_feature", "_UI_C_type"),
          RefPackage.eINSTANCE.getC_D(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**

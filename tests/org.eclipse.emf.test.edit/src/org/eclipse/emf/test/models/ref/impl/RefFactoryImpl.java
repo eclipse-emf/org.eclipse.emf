@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefFactoryImpl.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: RefFactoryImpl.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -22,7 +22,7 @@ import org.eclipse.emf.test.models.ref.*;
 public class RefFactoryImpl extends EFactoryImpl implements RefFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -48,6 +48,8 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
       case RefPackage.C: return createC();
       case RefPackage.D: return createD();
       case RefPackage.E: return createE();
+      case RefPackage.C4: return createC4();
+      case RefPackage.C3: return createC3();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -128,6 +130,28 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
   {
     EImpl e = new EImpl();
     return e;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public C4 createC4()
+  {
+    C4Impl c4 = new C4Impl();
+    return c4;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public C3 createC3()
+  {
+    C3Impl c3 = new C3Impl();
+    return c3;
   }
 
   /**

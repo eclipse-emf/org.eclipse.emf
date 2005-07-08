@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BItemProvider.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: BItemProvider.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.test.models.ref.RefPackage;
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.test.models.ref.B} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.test.models.ref.B} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -78,13 +78,16 @@ public class BItemProvider
   protected void addAPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_B_a_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_B_a_feature", "_UI_B_type"),
          RefPackage.eINSTANCE.getB_A(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**
@@ -96,13 +99,16 @@ public class BItemProvider
   protected void addDPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_B_d_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_B_d_feature", "_UI_B_type"),
          RefPackage.eINSTANCE.getB_D(),
-         true));
+         true,
+         null,
+         null,
+         null));
   }
 
   /**

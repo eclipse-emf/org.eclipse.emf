@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: C1.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: C1.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.test.models.ref.RefPackage#getC1()
- * @model 
+ * @model
  * @generated
  */
 public interface C1 extends EObject

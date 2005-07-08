@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefPackageImpl.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: RefPackageImpl.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -79,6 +79,20 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * @generated
    */
   private EClass eEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass c4EClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass c3EClass = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -315,6 +329,16 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getC_C4()
+  {
+    return (EReference)cEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getD()
   {
     return dEClass;
@@ -338,6 +362,16 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
   public EReference getD_E()
   {
     return (EReference)dEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getD_C4()
+  {
+    return (EReference)dEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -395,6 +429,66 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getC4()
+  {
+    return c4EClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getC4_C()
+  {
+    return (EReference)c4EClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getC4_D()
+  {
+    return (EReference)c4EClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getC3()
+  {
+    return c3EClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getC3_D()
+  {
+    return (EReference)c3EClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getC3_C()
+  {
+    return (EReference)c3EClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public RefFactory getRefFactory()
   {
     return (RefFactory)getEFactoryInstance();
@@ -440,16 +534,26 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
 
     cEClass = createEClass(C);
     createEReference(cEClass, C__D);
+    createEReference(cEClass, C__C4);
 
     dEClass = createEClass(D);
     createEReference(dEClass, D__C);
     createEReference(dEClass, D__E);
+    createEReference(dEClass, D__C4);
 
     eEClass = createEClass(E);
     createEAttribute(eEClass, E__NAME);
     createEAttribute(eEClass, E__IDS);
     createEAttribute(eEClass, E__LABELS);
     createEReference(eEClass, E__D);
+
+    c4EClass = createEClass(C4);
+    createEReference(c4EClass, C4__C);
+    createEReference(c4EClass, C4__D);
+
+    c3EClass = createEClass(C3);
+    createEReference(c3EClass, C3__D);
+    createEReference(c3EClass, C3__C);
   }
 
   /**
@@ -479,36 +583,46 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
-    initEClass(aEClass, A.class, "A", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getA_B(), this.getB(), this.getB_A(), "b", null, 1, 1, A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getA_C2(), this.getC2(), this.getC2_A(), "c2", null, 1, 1, A.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getA_C(), this.getC(), null, "c", null, 1, 1, A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(aEClass, org.eclipse.emf.test.models.ref.A.class, "A", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getA_B(), this.getB(), this.getB_A(), "b", null, 1, 1, org.eclipse.emf.test.models.ref.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getA_C2(), this.getC2(), this.getC2_A(), "c2", null, 1, 1, org.eclipse.emf.test.models.ref.A.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getA_C(), this.getC(), null, "c", null, 1, 1, org.eclipse.emf.test.models.ref.A.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(bEClass, B.class, "B", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getB_A(), this.getA(), this.getA_B(), "a", null, 1, 1, B.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getB_C2(), this.getC2(), this.getC2_B(), "c2", null, 1, 1, B.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getB_D(), this.getD(), null, "d", null, 0, -1, B.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(bEClass, org.eclipse.emf.test.models.ref.B.class, "B", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getB_A(), this.getA(), this.getA_B(), "a", null, 1, 1, org.eclipse.emf.test.models.ref.B.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getB_C2(), this.getC2(), this.getC2_B(), "c2", null, 1, 1, org.eclipse.emf.test.models.ref.B.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getB_D(), this.getD(), null, "d", null, 0, -1, org.eclipse.emf.test.models.ref.B.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(c1EClass, C1.class, "C1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getC1_A(), this.getA(), null, "a", null, 1, 1, C1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getC1_B(), this.getB(), null, "b", null, 0, -1, C1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(c1EClass, org.eclipse.emf.test.models.ref.C1.class, "C1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getC1_A(), this.getA(), null, "a", null, 1, 1, org.eclipse.emf.test.models.ref.C1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getC1_B(), this.getB(), null, "b", null, 0, -1, org.eclipse.emf.test.models.ref.C1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(c2EClass, C2.class, "C2", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getC2_B(), this.getB(), this.getB_C2(), "b", null, 0, -1, C2.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getC2_A(), this.getA(), this.getA_C2(), "a", null, 1, 1, C2.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(c2EClass, org.eclipse.emf.test.models.ref.C2.class, "C2", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getC2_B(), this.getB(), this.getB_C2(), "b", null, 0, -1, org.eclipse.emf.test.models.ref.C2.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getC2_A(), this.getA(), this.getA_C2(), "a", null, 1, 1, org.eclipse.emf.test.models.ref.C2.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(cEClass, C.class, "C", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getC_D(), this.getD(), this.getD_C(), "d", null, 0, -1, C.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(cEClass, org.eclipse.emf.test.models.ref.C.class, "C", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getC_D(), this.getD(), this.getD_C(), "d", null, 0, -1, org.eclipse.emf.test.models.ref.C.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getC_C4(), this.getC4(), this.getC4_C(), "c4", null, 1, 1, org.eclipse.emf.test.models.ref.C.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(dEClass, D.class, "D", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getD_C(), this.getC(), this.getC_D(), "c", null, 1, 1, D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getD_E(), this.getE(), this.getE_D(), "e", null, 0, -1, D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(dEClass, org.eclipse.emf.test.models.ref.D.class, "D", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getD_C(), this.getC(), this.getC_D(), "c", null, 1, 1, org.eclipse.emf.test.models.ref.D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getD_E(), this.getE(), this.getE_D(), "e", null, 0, -1, org.eclipse.emf.test.models.ref.D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getD_C4(), this.getC4(), this.getC4_D(), "c4", null, 1, 1, org.eclipse.emf.test.models.ref.D.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(eEClass, E.class, "E", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getE_Name(), ecorePackage.getEString(), "name", null, 0, 1, E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getE_Ids(), ecorePackage.getEString(), "ids", null, 0, -1, E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getE_Labels(), ecorePackage.getEString(), "labels", null, 0, -1, E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getE_D(), this.getD(), this.getD_E(), "d", null, 0, -1, E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(eEClass, org.eclipse.emf.test.models.ref.E.class, "E", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getE_Name(), ecorePackage.getEString(), "name", null, 0, 1, org.eclipse.emf.test.models.ref.E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getE_Ids(), ecorePackage.getEString(), "ids", null, 0, -1, org.eclipse.emf.test.models.ref.E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getE_Labels(), ecorePackage.getEString(), "labels", null, 0, -1, org.eclipse.emf.test.models.ref.E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getE_D(), this.getD(), this.getD_E(), "d", null, 0, -1, org.eclipse.emf.test.models.ref.E.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(c4EClass, org.eclipse.emf.test.models.ref.C4.class, "C4", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getC4_C(), this.getC(), this.getC_C4(), "c", null, 1, 1, org.eclipse.emf.test.models.ref.C4.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getC4_D(), this.getD(), this.getD_C4(), "d", null, 0, -1, org.eclipse.emf.test.models.ref.C4.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(c3EClass, org.eclipse.emf.test.models.ref.C3.class, "C3", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getC3_D(), this.getD(), null, "d", null, 0, -1, org.eclipse.emf.test.models.ref.C3.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getC3_C(), this.getC(), null, "c", null, 1, 1, org.eclipse.emf.test.models.ref.C3.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Create resource
     createResource(eNS_URI);

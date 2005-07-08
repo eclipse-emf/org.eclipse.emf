@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefAdapterFactory.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: RefAdapterFactory.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.util;
 
@@ -104,6 +104,14 @@ public class RefAdapterFactory extends AdapterFactoryImpl
       public Object caseE(E object)
       {
         return createEAdapter();
+      }
+      public Object caseC4(C4 object)
+      {
+        return createC4Adapter();
+      }
+      public Object caseC3(C3 object)
+      {
+        return createC3Adapter();
       }
       public Object defaultCase(EObject object)
       {
@@ -226,6 +234,36 @@ public class RefAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createEAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.models.ref.C4 <em>C4</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.eclipse.emf.test.models.ref.C4
+   * @generated
+   */
+  public Adapter createC4Adapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.models.ref.C3 <em>C3</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.eclipse.emf.test.models.ref.C3
+   * @generated
+   */
+  public Adapter createC3Adapter()
   {
     return null;
   }

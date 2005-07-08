@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DImpl.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: DImpl.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -21,9 +21,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.test.models.ref.C;
+import org.eclipse.emf.test.models.ref.C4;
 import org.eclipse.emf.test.models.ref.D;
 import org.eclipse.emf.test.models.ref.E;
 import org.eclipse.emf.test.models.ref.RefPackage;
@@ -37,6 +39,7 @@ import org.eclipse.emf.test.models.ref.RefPackage;
  * <ul>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.DImpl#getC <em>C</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.ref.impl.DImpl#getE <em>E</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.models.ref.impl.DImpl#getC4 <em>C4</em>}</li>
  * </ul>
  * </p>
  *
@@ -171,6 +174,40 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
+  public C4 getC4()
+  {
+    if (eContainerFeatureID != RefPackage.D__C4) return null;
+    return (C4)eContainer;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setC4(C4 newC4)
+  {
+    if (newC4 != eContainer || (eContainerFeatureID != RefPackage.D__C4 && newC4 != null))
+    {
+      if (EcoreUtil.isAncestor(this, newC4))
+        throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+      NotificationChain msgs = null;
+      if (eContainer != null)
+        msgs = eBasicRemoveFromContainer(msgs);
+      if (newC4 != null)
+        msgs = ((InternalEObject)newC4).eInverseAdd(this, RefPackage.C4__D, C4.class, msgs);
+      msgs = eBasicSetContainer((InternalEObject)newC4, RefPackage.D__C4, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, RefPackage.D__C4, newC4, newC4));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
   {
     if (featureID >= 0)
@@ -183,6 +220,10 @@ public class DImpl extends EObjectImpl implements D
           return basicSetC((C)otherEnd, msgs);
         case RefPackage.D__E:
           return ((InternalEList)getE()).basicAdd(otherEnd, msgs);
+        case RefPackage.D__C4:
+          if (eContainer != null)
+            msgs = eBasicRemoveFromContainer(msgs);
+          return eBasicSetContainer(otherEnd, RefPackage.D__C4, msgs);
         default:
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
@@ -207,11 +248,33 @@ public class DImpl extends EObjectImpl implements D
           return basicSetC(null, msgs);
         case RefPackage.D__E:
           return ((InternalEList)getE()).basicRemove(otherEnd, msgs);
+        case RefPackage.D__C4:
+          return eBasicSetContainer(null, RefPackage.D__C4, msgs);
         default:
           return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
       }
     }
     return eBasicSetContainer(null, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  {
+    if (eContainerFeatureID >= 0)
+    {
+      switch (eContainerFeatureID)
+      {
+        case RefPackage.D__C4:
+          return eContainer.eInverseRemove(this, RefPackage.C4__D, C4.class, msgs);
+        default:
+          return eDynamicBasicRemoveFromContainer(msgs);
+      }
+    }
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
@@ -228,6 +291,8 @@ public class DImpl extends EObjectImpl implements D
         return basicGetC();
       case RefPackage.D__E:
         return getE();
+      case RefPackage.D__C4:
+        return getC4();
     }
     return eDynamicGet(eFeature, resolve);
   }
@@ -248,6 +313,9 @@ public class DImpl extends EObjectImpl implements D
         getE().clear();
         getE().addAll((Collection)newValue);
         return;
+      case RefPackage.D__C4:
+        setC4((C4)newValue);
+        return;
     }
     eDynamicSet(eFeature, newValue);
   }
@@ -267,6 +335,9 @@ public class DImpl extends EObjectImpl implements D
       case RefPackage.D__E:
         getE().clear();
         return;
+      case RefPackage.D__C4:
+        setC4((C4)null);
+        return;
     }
     eDynamicUnset(eFeature);
   }
@@ -284,6 +355,8 @@ public class DImpl extends EObjectImpl implements D
         return c != null;
       case RefPackage.D__E:
         return e != null && !e.isEmpty();
+      case RefPackage.D__C4:
+        return getC4() != null;
     }
     return eDynamicIsSet(eFeature);
   }

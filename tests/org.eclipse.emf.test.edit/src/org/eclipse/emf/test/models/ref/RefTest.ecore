@@ -32,12 +32,16 @@
   <eClassifiers xsi:type="ecore:EClass" name="C">
     <eStructuralFeatures xsi:type="ecore:EReference" name="d" upperBound="-1" eType="#//D"
         eOpposite="#//D/c"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="c4" lowerBound="1" eType="#//C4"
+        transient="true" eOpposite="#//C4/c"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="D">
     <eStructuralFeatures xsi:type="ecore:EReference" name="c" lowerBound="1" eType="#//C"
         eOpposite="#//C/d"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="e" upperBound="-1" eType="#//E"
         eOpposite="#//E/d"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="c4" lowerBound="1" eType="#//C4"
+        transient="true" eOpposite="#//C4/d"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="E">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -46,5 +50,17 @@
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="d" upperBound="-1" eType="#//D"
         eOpposite="#//D/e"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="C4">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="c" lowerBound="1" eType="#//C"
+        containment="true" eOpposite="#//C/c4"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="d" upperBound="-1" eType="#//D"
+        containment="true" eOpposite="#//D/c4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="C3">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="d" upperBound="-1" eType="#//D"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="c" lowerBound="1" eType="#//C"
+        containment="true"/>
   </eClassifiers>
 </ecore:EPackage>
