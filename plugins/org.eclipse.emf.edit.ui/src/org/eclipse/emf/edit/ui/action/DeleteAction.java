@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeleteAction.java,v 1.3 2005/06/08 06:20:52 nickb Exp $
+ * $Id: DeleteAction.java,v 1.4 2005/07/08 02:08:33 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -23,6 +23,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -30,23 +31,47 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
 
 /**
- * A delete action is implemented by creating a {@link RemoveCommand}.
+ * A delete action removes objects from their parent containers, optionally cleaning up other references to the objects.
+ * It is implemented by creating a {@link RemoveCommand} or {@link DeleteCommand}.
  */
 public class DeleteAction extends CommandActionHandler
 {
-  public DeleteAction(EditingDomain domain)
+  /**
+   * Whether the action should clean up all references to deleted objects.
+   * @since 2.2
+   */
+  protected boolean removeAllReferences;
+
+  /**
+   * @since 2.2
+   */
+  public DeleteAction(EditingDomain domain, boolean removeAllReferences)
   {
     super(domain, EMFEditUIPlugin.INSTANCE.getString("_UI_Delete_menu_item"));
+    this.removeAllReferences = removeAllReferences;
+  }
+
+  public DeleteAction(EditingDomain domain)
+  {
+    this(domain, false);
+  }
+
+  /**
+   * @since 2.2
+   */
+  public DeleteAction(boolean removeAllReferences)
+  {
+    this(null, removeAllReferences);
   }
 
   public DeleteAction()
   {
-    super(null, EMFEditUIPlugin.INSTANCE.getString("_UI_Delete_menu_item"));
+    this(null);
   }
-
+  
   public Command createCommand(Collection selection)
   {
-    return RemoveCommand.create(domain, selection);
+    return removeAllReferences ? DeleteCommand.create(domain, selection) : RemoveCommand.create(domain, selection);
   }
 
   /**
