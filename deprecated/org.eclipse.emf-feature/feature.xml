@@ -1,160 +1,216 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!--
-/**
- * <copyright>
- *
- * Copyright (c) 2002-2004 IBM Corporation and others.
- * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
- *
- * Contributors:
- *   IBM - Initial API and implementation
- *
- * </copyright>
- *
- * $Id: feature.xml,v 1.1 2004/03/06 17:31:31 marcelop Exp $
- */
--->
-
 <feature
       id="org.eclipse.emf"
       label="%featureName"
-      version="2.0.0"
-      image= "eclipse_update_120.jpg"
-      provider-name="%providerName">
+      version="2.1.1"
+      provider-name="%providerName"
+      image="eclipse_update_120.jpg">
 
-	<description>
-		%description
-	</description>
+   <description>
+      %description
+   </description>
 
-	<license url="%licenseURL">
-		%license
-	</license>
+   <copyright url="http://www.eclipse.org/legal/epl-v10.html">
+      Copyright (c) 2002-2005 IBM Corporation and others.
+All rights reserved.   This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+   </copyright>
 
-	<url>
-		<update url="http://update.eclipse.org/updates" label="%updateSiteName"/>
-	</url>
+   <license url="%licenseURL">
+      %license
+   </license>
 
-	<plugin
-		id="org.eclipse.emf"
-		download-size="0"
-		install-size="0"
-        version="2.0.0">
-	</plugin>
+   <url>
+      <update label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
+      <discovery label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
+   </url>
 
-	<plugin
-        id="org.eclipse.emf.codegen"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-	</plugin>
- 
-    <plugin
-        id="org.eclipse.emf.codegen.ecore"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
- 
-    <plugin
-        id="org.eclipse.emf.codegen.ecore.ui"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
- 
-    <plugin
-        id="org.eclipse.emf.codegen.ui"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
- 
-    <plugin
-        id="org.eclipse.emf.common"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
- 
-    <plugin
-        id="org.eclipse.emf.common.ui"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
+   <requires>
+      <import plugin="org.eclipse.core.resources" version="3.1.0"/>
+   </requires>
 
-    <plugin
-        id="org.eclipse.emf.ecore"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
+   <plugin
+         id="org.eclipse.emf"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
 
-	<plugin
-        id="org.eclipse.emf.ecore.change"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-	</plugin>
- 
-    <plugin
-        id="org.eclipse.emf.ecore.change.edit"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
+   <plugin
+         id="org.eclipse.emf.ant"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
 
-    <plugin
-        id="org.eclipse.emf.ecore.edit"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
+   <plugin
+         id="org.eclipse.emf.codegen"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
 
-    <plugin
-        id="org.eclipse.emf.ecore.editor"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
+   <plugin
+         id="org.eclipse.emf.codegen.ui"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
 
-    <plugin
-        id="org.eclipse.emf.ecore.xmi"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
+   <plugin
+         id="org.eclipse.emf.codegen.ecore"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
 
-    <plugin
-        id="org.eclipse.emf.edit"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
+   <plugin
+         id="org.eclipse.emf.codegen.ecore.ui"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
 
-    <plugin
-        id="org.eclipse.emf.edit.ui"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
+   <plugin
+         id="org.eclipse.emf.common"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
 
-    <plugin
-        id="org.eclipse.emf.mapping"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
+   <plugin
+         id="org.eclipse.emf.common.ui"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
 
-    <plugin
-        id="org.eclipse.emf.mapping.ui"
-        download-size="0"
-        install-size="0"
-        version="2.0.0">
-    </plugin>
+   <plugin
+         id="org.eclipse.emf.ecore"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.ecore.edit"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.ecore.editor"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.ecore.change"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.ecore.change.edit"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.ecore.xmi"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.edit"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.edit.ui"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.mapping"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.mapping.ui"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.mapping.ecore2ecore"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.mapping.ecore2ecore.editor"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.mapping.ecore2xml"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.mapping.ecore2xml.ui"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.importer"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.importer.ecore"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.importer.java"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.importer.rose"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"
+         unpack="false"/>
 
 </feature>
