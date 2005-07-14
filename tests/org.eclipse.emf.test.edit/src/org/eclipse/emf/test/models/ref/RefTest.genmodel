@@ -51,4 +51,15 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//C3/c"/>
     </genClasses>
   </genPackages>
+  <genPackages prefix="Ext" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
+      ecorePackage="RefTestExt.ecore#/">
+    <genClasses ecoreClass="RefTestExt.ecore#//ExtE">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTestExt.ecore#//ExtE/value"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTestExt.ecore#//ExtE/f"/>
+    </genClasses>
+    <genClasses ecoreClass="RefTestExt.ecore#//F">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTestExt.ecore#//F/id"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RefTestExt.ecore#//F/e"/>
+    </genClasses>
+  </genPackages>
 </genmodel:GenModel>

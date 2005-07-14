@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefPackageImpl.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
+ * $Id: RefPackageImpl.java,v 1.3 2005/07/14 19:35:16 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -13,13 +13,10 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import org.eclipse.emf.test.models.ref.A;
-import org.eclipse.emf.test.models.ref.B;
-import org.eclipse.emf.test.models.ref.C;
-import org.eclipse.emf.test.models.ref.C1;
-import org.eclipse.emf.test.models.ref.C2;
-import org.eclipse.emf.test.models.ref.D;
-import org.eclipse.emf.test.models.ref.E;
+import org.eclipse.emf.test.models.ext.ExtPackage;
+
+import org.eclipse.emf.test.models.ext.impl.ExtPackageImpl;
+
 import org.eclipse.emf.test.models.ref.RefFactory;
 import org.eclipse.emf.test.models.ref.RefPackage;
 
@@ -152,11 +149,16 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
 
     isInited = true;
 
+    // Obtain or create and register interdependencies
+    ExtPackageImpl theExtPackage = (ExtPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ExtPackage.eNS_URI) instanceof ExtPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ExtPackage.eNS_URI) : ExtPackage.eINSTANCE);
+
     // Create package meta-data objects
     theRefPackage.createPackageContents();
+    theExtPackage.createPackageContents();
 
     // Initialize created meta-data
     theRefPackage.initializePackageContents();
+    theExtPackage.initializePackageContents();
 
     // Mark meta-data to indicate it can't be changed
     theRefPackage.freeze();
