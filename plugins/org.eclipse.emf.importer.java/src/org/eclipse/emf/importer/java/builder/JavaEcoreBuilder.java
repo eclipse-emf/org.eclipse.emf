@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.7 2005/06/22 19:53:52 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.8 2005/07/14 19:59:34 davidms Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1213,9 +1213,7 @@ public class JavaEcoreBuilder
           modelType = "java.lang.Object";
         }
       }
-      else if ("EMap".equals(type) || "org.eclipse.emf.common.util.EMap".equals(type) ||
-               "Map".equals(type) || "java.util.Map".equals(type) ||
-               mapType != null || (keyType != null && valueType != null) || 
+      else if (mapType != null || (keyType != null && valueType != null) || 
                "FeatureMap".equals(type) || "org.eclipse.emf.common.util.FeatureMap".equals(type))
       {
         eTypedElement.setUpperBound(-1);
