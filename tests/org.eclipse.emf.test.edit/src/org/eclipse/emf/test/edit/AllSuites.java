@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.4 2005/07/08 02:19:14 davidms Exp $
+ * $Id: AllSuites.java,v 1.5 2005/07/14 19:42:39 davidms Exp $
  */
 package org.eclipse.emf.test.edit;
 
@@ -28,6 +28,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.edit.command.DeleteCommandTest.suite()
     ,org.eclipse.emf.test.edit.command.RemoveCommandTest.suite()
     ,org.eclipse.emf.test.edit.command.SetCommandTest.suite()
+    ,org.eclipse.emf.test.edit.provider.ComposedAdapterFactoryTest.suite()
   };
 
   public static Test suite()
