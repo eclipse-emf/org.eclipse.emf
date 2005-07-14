@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: AItemProvider.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
+ * $Id: AItemProvider.java,v 1.3 2005/07/14 19:35:42 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -20,7 +20,6 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 import org.eclipse.emf.test.models.ref.RefPackage;
