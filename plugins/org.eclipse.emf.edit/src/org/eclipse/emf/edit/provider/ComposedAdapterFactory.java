@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComposedAdapterFactory.java,v 1.3 2005/06/08 06:17:05 nickb Exp $
+ * $Id: ComposedAdapterFactory.java,v 1.4 2005/07/14 19:37:20 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -29,6 +29,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -279,14 +280,15 @@ public class ComposedAdapterFactory
         {
           Collection failedPackageSet = new HashSet();
           failedPackageSet.add(ePackage);
-          for (Iterator supertypes = eClass.getEAllSuperTypes().iterator(); supertypes.hasNext(); )
+          List allSuperTypes = new UniqueEList.FastCompare(eClass.getESuperTypes());
+          for (int i = 0; i < allSuperTypes.size(); ++i)
           {
-            EClass eSuperType = (EClass)supertypes.next();
+            EClass eSuperType = (EClass)allSuperTypes.get(i);
             EPackage eSupertypePackage = eSuperType.getEPackage();
             if (failedPackageSet.add(eSupertypePackage))
             {
               Collection superTypes = new ArrayList();
-              superTypes.add(ePackage);
+              superTypes.add(eSupertypePackage);
               if (type != null)
               {
                 superTypes.add(type);
@@ -301,6 +303,7 @@ public class ComposedAdapterFactory
                 }
               }
             }
+            allSuperTypes.addAll(eSuperType.getESuperTypes());
           }
         }
       }
