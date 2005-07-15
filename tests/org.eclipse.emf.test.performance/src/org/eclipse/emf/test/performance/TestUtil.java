@@ -12,14 +12,14 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.6 2005/06/08 06:16:23 nickb Exp $
+ * $Id: TestUtil.java,v 1.7 2005/07/15 22:50:01 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
 import java.io.File;
 import java.net.URL;
 
-import org.eclipse.core.runtime.Platform;
+//import org.eclipse.core.runtime.Platform;
 
 public class TestUtil
 {
@@ -32,7 +32,8 @@ public class TestUtil
   {
     try
     {
-      return new File(Platform.asLocalURL(EMFTestPerformancePlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
+      //return new File(Platform.asLocalURL(EMFTestPerformancePlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
+      return new File(".").getCanonicalPath();
     }
     catch (Throwable t)
     {
@@ -66,17 +67,18 @@ public class TestUtil
   
   public final static boolean isRunningUnderEclipse()
   {
-    if (runningUnderEclipseFlag == -1)
-    {
-      runningUnderEclipseFlag = 0; 
-      try
-      {
-        if (Platform.isRunning()) runningUnderEclipseFlag = 1;
-      }
-      catch (Throwable t)
-      {
-      }
-    }
-    return (runningUnderEclipseFlag == 1);
+//    if (runningUnderEclipseFlag == -1)
+//    {
+//      runningUnderEclipseFlag = 0; 
+//      try
+//      {
+//        if (Platform.isRunning()) runningUnderEclipseFlag = 1;
+//      }
+//      catch (Throwable t)
+//      {
+//      }
+//    }
+//    return (runningUnderEclipseFlag == 1);
+    return true;
   }
 }

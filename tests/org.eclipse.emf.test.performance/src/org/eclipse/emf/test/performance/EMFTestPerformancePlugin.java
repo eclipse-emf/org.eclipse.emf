@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.30 2005/06/12 14:03:11 emerks Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.31 2005/07/15 22:50:01 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -22,13 +22,13 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.Properties;
 
-import org.osgi.framework.BundleContext;
+//import org.osgi.framework.BundleContext;
+//
+//import org.eclipse.core.runtime.Platform;
+//import org.eclipse.core.runtime.Plugin;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Plugin;
 
-
-public class EMFTestPerformancePlugin extends Plugin
+public class EMFTestPerformancePlugin// extends Plugin
 {
   private static class DerbyHelper
   {
@@ -189,15 +189,15 @@ public class EMFTestPerformancePlugin extends Plugin
     return instance;
   }
 
-  public void start(BundleContext context) throws Exception
-  {
-    super.start(context);
-
-    DerbyHelper derbyHelper = new DerbyHelper();
-    if (false)
-    {
-      setDerbyAttributes(derbyHelper);
-    }
+//  public void start(BundleContext context) throws Exception
+//  {
+//    super.start(context);
+//
+//    DerbyHelper derbyHelper = new DerbyHelper();
+//    if (false)
+//    {
+//      setDerbyAttributes(derbyHelper);
+//    }
 //    if (derbyHelper.isAvailable())
 //    {
 //      setDerbyAttributes(derbyHelper);
@@ -206,54 +206,54 @@ public class EMFTestPerformancePlugin extends Plugin
 //      derbyHelper.writeSystemProperties();
 //      derbyHelper.printSystemProperties();
 //    }
-  }
+//  }
 
   private void setDerbyAttributes(DerbyHelper derbyHelper)
   {
-    Properties testingProperties = getTestingProperties();
-    if (testingProperties != null)
-    {
-      derbyHelper.setUser(testingProperties.getProperty("emf.test.performance.dbuser"));
-      derbyHelper.setPass(testingProperties.getProperty("emf.test.performance.dbpass"));
-      derbyHelper.setHome(testingProperties.getProperty("emf.test.performance.dbhome"));
-      derbyHelper.setPerformanceConfiguration(testingProperties.getProperty("emf.test.performance.dbconf"));
-    }
-    else if (Platform.isRunning())
-    {
-      String[] args = Platform.getApplicationArgs();
-      for (int i = 0, maxi = args.length; i < maxi; i++)
-      {
-        String arg = args[i];
-        int index = arg.indexOf("emf.test.performance");
-        if (index >= 0)
-        {
-          index = arg.indexOf(".dbuser=");
-          if (index >= 0)
-          {
-            derbyHelper.setUser(arg.substring(index + ".dbuser=".length()));
-            continue;
-          }
-          index = arg.indexOf(".dbpass=");
-          if (index >= 0)
-          {
-            derbyHelper.setPass(arg.substring(index + ".dbpass=".length()));
-            continue;
-          }
-          index = arg.indexOf(".dbhome=");
-          if (index >= 0)
-          {
-            derbyHelper.setHome(arg.substring(index + ".dbhome=".length()));
-            continue;
-          }
-          index = arg.indexOf(".dbconf=");
-          if (index >= 0)
-          {
-            derbyHelper.setPerformanceConfiguration(arg.substring(index + ".dbconf=".length()));
-            continue;
-          }
-        }
-      }
-    }
+//    Properties testingProperties = getTestingProperties();
+//    if (testingProperties != null)
+//    {
+//      derbyHelper.setUser(testingProperties.getProperty("emf.test.performance.dbuser"));
+//      derbyHelper.setPass(testingProperties.getProperty("emf.test.performance.dbpass"));
+//      derbyHelper.setHome(testingProperties.getProperty("emf.test.performance.dbhome"));
+//      derbyHelper.setPerformanceConfiguration(testingProperties.getProperty("emf.test.performance.dbconf"));
+//    }
+//    else if (Platform.isRunning())
+//    {
+//      String[] args = Platform.getApplicationArgs();
+//      for (int i = 0, maxi = args.length; i < maxi; i++)
+//      {
+//        String arg = args[i];
+//        int index = arg.indexOf("emf.test.performance");
+//        if (index >= 0)
+//        {
+//          index = arg.indexOf(".dbuser=");
+//          if (index >= 0)
+//          {
+//            derbyHelper.setUser(arg.substring(index + ".dbuser=".length()));
+//            continue;
+//          }
+//          index = arg.indexOf(".dbpass=");
+//          if (index >= 0)
+//          {
+//            derbyHelper.setPass(arg.substring(index + ".dbpass=".length()));
+//            continue;
+//          }
+//          index = arg.indexOf(".dbhome=");
+//          if (index >= 0)
+//          {
+//            derbyHelper.setHome(arg.substring(index + ".dbhome=".length()));
+//            continue;
+//          }
+//          index = arg.indexOf(".dbconf=");
+//          if (index >= 0)
+//          {
+//            derbyHelper.setPerformanceConfiguration(arg.substring(index + ".dbconf=".length()));
+//            continue;
+//          }
+//        }
+//      }
+//    }
   }
 
   private File getTestingPropertiesFile()
