@@ -6,8 +6,7 @@
 #	EMF performance tests
 #	EMF/SDO/XSD standalone
 
-## TODO: make sure emftester or www-data have permission to ssh access to dev and emf's cvs from emftest03
-## script should run as www-data, which means www-data needs an ssh key for nickb@emf and nickb@dev
+## TODO: ensure logging to file is working.
 
 # default eclipse.org username
 user=$USER;
@@ -40,7 +39,7 @@ function doInstructions()
 	echo "Example:"
 	echo "bash -c \"exec nohup setsid ./perf-standalone.sh -build 2.1.0/R200507070200 \\"
 	echo "  -user nickb -email codeslave@ca.ibm.com -noclean \\"
-	echo "  2>&1 > ~/log_\`date +%Y%m%d_%H%M%S\`.txt\""
+	echo "  2>&1 > ~/log_\`date +%Y%m%d_%H%M%S\`.txt\" &"
 
 }
 
@@ -110,6 +109,7 @@ testID=${testBranchAndID##*/}; #  get R200507070200 from 2.1.0/R200507070200
 #echo "branch = $branch";
 
 # 1. check out lib jars
+echo "[perf] [`date +%H:%M:%S`] check out lib jars ..."
 cd $workingDir;
 cvs -d $CVSRep $quietCVS co -P -d tmp org.eclipse.test.performance;
 mkdir -p $workingDir/lib;
@@ -117,10 +117,11 @@ mv tmp/testperformance_emf.jar tmp/junit.jar lib/;
 rm -fr tmp;
 
 #get data/ folder from org.eclipse.emf.test.performance on dev
+echo "[perf] [`date +%H:%M:%S`] check out org.eclipse.emf.test.performance/data"
 cd $workingDir;
 cvs -d $ProdCVSRep $quietCVS co -P -d data org.eclipse.emf/tests/org.eclipse.emf.test.performance/data;
 
-echo -n "[perf] Running tests on build $buildBranchAndID";
+echo -n "[perf] [`date +%H:%M:%S`] Running tests on build $buildBranchAndID";
 if [ "$buildBranchAndID" != "$testBranchAndID" ]; then
 	echo -n ", with tests from $testBranchAndID";
 fi
@@ -135,14 +136,28 @@ function getZip()
 	ID=$3;
 	webdir=tools/emf/downloads/drops/$branch/$ID
 	basedir=/home/www-data/emf-build/$webdir
-	if [ ! -e $basedir/$pre*.zip ]; then
+	if [ ! -e $basedir ]; then
 		mkdir -p $basedir;
-		cd $basedir;
+	fi
+	cd $basedir;
+	zip=`find $basedir -name "$pre*.zip" -type f | tail -1`
+	if  [ "x$zip" = "x" ] || [ ! -e $zip ]; then
+		echo "[perf] [`date +%H:%M:%S`] wget http://fullmoon.torolab.ibm.com/$webdir/$pre$branch.zip ...";
 		wget -nv http://fullmoon.torolab.ibm.com/$webdir/$pre$branch.zip; # R build
-		if [ ! -e $basedir/$pre*.zip ]; then
+		zip=`find $basedir -name "$pre*.zip" -type f | tail -1`
+		if [ "x$zip" = "x" ] || [ ! -e $zip ]; then
+			echo "[perf] [`date +%H:%M:%S`] wget http://fullmoon.torolab.ibm.com/$webdir/$pre$ID.zip ...";
 			wget -nv http://fullmoon.torolab.ibm.com/$webdir/$pre$ID.zip # I/M build
-			if [ ! -e $basedir/$pre*.zip ]; then
+			zip=`find $basedir -name "$pre*.zip" -type f | tail -1`
+			if [ "x$zip" = "x" ] || [ ! -e $zip ]; then
+				echo "[perf] [`date +%H:%M:%S`] wget http://emf.torolab.ibm.com/$webdir/$pre$ID.zip ...";
 				wget -nv http://emf.torolab.ibm.com/$webdir/$pre$ID.zip # N build
+				zip=`find $basedir -name "$pre*.zip" -type f | tail -1`
+				if [ "x$zip" = "x" ] || [ ! -e $zip ]; then
+					echo "[perf] ERROR: couldn't download $pre*.zip!"
+					echo "[perf] Exit: 1"
+					exit 1;
+				fi
 			fi
 		fi
 	fi
@@ -150,13 +165,19 @@ function getZip()
 
 if [ "$branch" = "2.0.1" ] || [ "$branch" = "2.0.2" ] || [ "$branch" = "2.0.3" ]; then
 
-	# 2. unpack SDK zip, need only jars
 	mkdir -p $workingDir/$branch;
+	cd $workingDir;
+
+	# 2. unpack SDK zip, need only jars
+	echo "[perf] [`date +%H:%M:%S`] unpack jars from SDK zip ..."
 	getZip emf-sdo-xsd-SDK- $branch $buildID
 	cd $workingDir/$branch;
 	unzip -uoj -qq /home/www-data/emf-build/tools/emf/downloads/drops/$buildBranchAndID/emf-sdo-xsd-SDK-*.zip *.jar;
 
+	cd $workingDir;
+
 	# 3. unpack test.performance.jar (JUnit tests)
+	echo "[perf] [`date +%H:%M:%S`] unpack test.performance.jar (JUnit tests) from Automated-Tests zip ..."
 	getZip emf-sdo-xsd-Automated-Tests- $branch $testID
 	cd $workingDir/$branch;
 	unzip -uoj -qq /home/www-data/emf-build/tools/emf/downloads/drops/$testBranchAndID/emf-sdo-xsd-Automated-Tests-*.zip testing/emf-sdo-xsd-JUnit-Tests-*.zip;
@@ -165,44 +186,60 @@ if [ "$branch" = "2.0.1" ] || [ "$branch" = "2.0.2" ] || [ "$branch" = "2.0.3" ]
 
 	cd $workingDir;
 
-	cmd="\
-$vm -showversion $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/$branch/test.performance.jar:\
+	cmd="$vm -showversion $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/$branch/test.performance.jar:\
 $workingDir/$branch/common.jar:$workingDir/$branch/common.resources.jar:$workingDir/$branch/ecore.sdo.jar:$workingDir/$branch/commonj.sdo.jar:\
 $workingDir/$branch/ecore.jar:$workingDir/$branch/ecore.change.jar:$workingDir/$branch/ecore.resources.jar:\
 $workingDir/$branch/ecore.xmi.jar:$workingDir/$branch/xsd.jar:$workingDir/$branch/xsd.resources.jar \
-junit.textui.TestRunner -classnames org.eclipse.emf.test.performance.AllSuites 2>&1 > $workingDir/testlog.txt";
-	echo $cmd; echo ""; $cmd;
+junit.textui.TestRunner org.eclipse.emf.test.performance.AllSuites";
+
+	echo "[perf] [`date +%H:%M:%S`] Run junit.textui.TestRunner ..."
+	echo "";
+	echo $cmd;
+	echo "  2>&1 > $workingDir/testlog.txt";
+	echo ""; 
+	$cmd 2>&1 > $workingDir/testlog.txt 
 elif  [ "$branch" = "2.1.0" ] || [ "$branch" = "2.1.1" ] || [ "$branch" = "2.2.0" ]; then
 
-	# 2. unpack Standalone zip
 	mkdir -p $workingDir/$branch;
+	cd $workingDir;
 
+	# 2a. unpack Standalone zip
+	echo "[perf] [`date +%H:%M:%S`] unpack jars from Standalone zip ..."
 	getZip emf-sdo-xsd-Standalone- $branch $buildID
 	cd $workingDir/$branch;
 	unzip -uoj -qq /home/www-data/emf-build/tools/emf/downloads/drops/$buildBranchAndID/emf-sdo-xsd-Standalone-*.zip *.jar;
-	# rename foo_2.1.0.jar to foo.jar
+
+	#2b. rename foo_2.1.0.jar to foo.jar
+	echo "[perf] [`date +%H:%M:%S`] remove version from jar names (eg., xsd_2.1.0.jar -> xsd.jar) ..."
 	jars=`find $workingDir/$branch -name "*.jar"`
 	for jar in $jars; do
-		mv $jar ${jar%%\_*}.zip
+		mv $jar ${jar%%\_*}.jar
 	done
+
 	cd $workingDir;
 
 	# 3. unpack test.performance.jar (JUnit tests)
+	echo "[perf] [`date +%H:%M:%S`] unpack test.performance.jar (JUnit tests) from Automated-Tests zip ..."
 	getZip emf-sdo-xsd-Automated-Tests- $branch $testID
 	cd $workingDir/$branch;
 	unzip -uoj -qq /home/www-data/emf-build/tools/emf/downloads/drops/$testBranchAndID/emf-sdo-xsd-Automated-Tests-*.zip testing/emf-sdo-xsd-JUnit-Tests-*.zip;
 	unzip -uoj -qq emf-sdo-xsd-JUnit-Tests-*.zip eclipse/plugins/org.eclipse.emf.test.performance_*/test.performance.jar;
 	rm -fr emf-sdo-xsd-JUnit-Tests-*.zip;
 
-	echo "";
+	cd $workingDir;
 
-	cmd="\
-$vm -showversion $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/$branch/test.performance.jar:\
+	cmd="$vm -showversion $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/$branch/test.performance.jar:\
 $workingDir/$branch/emf.common.jar:$workingDir/$branch/emf.ecore.jar:$workingDir/$branch/emf.ecore.change.jar:\
 $workingDir/$branch/emf.ecore.sdo.jar:$workingDir/$branch/emf.commonj.sdo.jar:\
-$workingDir/$branch/emf.ecore.xmi.jar:$workingDir/$branch/xsd.jar 
-junit.textui.TestRunner -classnames org.eclipse.emf.test.performance.AllSuites 2>&1 > $workingDir/testlog.txt";
-	echo $cmd; echo ""; $cmd;
+$workingDir/$branch/emf.ecore.xmi.jar:$workingDir/$branch/xsd.jar \
+junit.textui.TestRunner org.eclipse.emf.test.performance.AllSuites";
+
+	echo "[perf] [`date +%H:%M:%S`] Run junit.textui.TestRunner ..."
+	echo "";
+	echo $cmd;
+	echo "  2>&1 > $workingDir/testlog.txt";
+	echo ""; 
+	$cmd 2>&1 > $workingDir/testlog.txt 
 else
 	echo "Branch $branch is not supported yet."
 fi
@@ -235,6 +272,5 @@ fi
 
 echo "[perf] Done `date`";
 echo "";
-
 
 
