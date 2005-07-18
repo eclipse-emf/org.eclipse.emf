@@ -12,15 +12,15 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.31 2005/07/15 22:50:01 nickb Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.32 2005/07/18 00:03:10 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.PrintWriter;
-import java.lang.reflect.Method;
-import java.util.Properties;
+//import java.io.File;
+//import java.io.FileInputStream;
+//import java.io.PrintWriter;
+//import java.lang.reflect.Method;
+//import java.util.Properties;
 
 //import org.osgi.framework.BundleContext;
 //
@@ -30,151 +30,151 @@ import java.util.Properties;
 
 public class EMFTestPerformancePlugin// extends Plugin
 {
-  private static class DerbyHelper
-  {
-    private String home;
-    private String user;
-    private String pass;
-    private String performanceConfiguration;
-
-    private Class networkServerControlClass;
-    private Object networkServerControl;
-
-    public boolean isAvailable()
-    {
-      if (networkServerControl == null)
-      {
-        try
-        {
-          networkServerControlClass = Class.forName("org.apache.derby.drda.NetworkServerControl");
-        }
-        catch (Exception e)
-        {
-          return false;
-        }
-      }
-
-      return true;
-    }
-
-    public boolean isRunning()
-    {
-      if (networkServerControl == null)
-      {
-        if (isAvailable())
-        {
-          try
-          {
-            networkServerControl = networkServerControlClass.newInstance();
-          }
-          catch (Exception e)
-          {
-          }
-        }
-      }
-
-      if (networkServerControl != null)
-      {
-        try
-        {
-          Method sysInfoMethod = networkServerControlClass.getDeclaredMethod("getSysinfo", new Class [0]);
-          return sysInfoMethod.invoke(networkServerControl, null) != null;
-        }
-        catch (Exception e)
-        {
-        }
-      }
-
-      return false;
-    }
-
-    public void setHome(String home)
-    {
-      this.home = home;
-    }
-
-    public void setUser(String user)
-    {
-      this.user = user;
-    }
-
-    public void setPass(String pass)
-    {
-      this.pass = pass;
-    }
-
-    public void setPerformanceConfiguration(String performanceConfiguration)
-    {
-      this.performanceConfiguration = performanceConfiguration;
-    }
-
-    //Returns true if the server is running
-    public void startIfDown()
-    {
-      if (!isRunning() && networkServerControl != null)
-      {
-        Thread thread = new Thread()
-          {
-            public void run()
-            {
-              try
-              {
-                System.out.println("*** Starting Derby...");
-                if (home != null)
-                  System.setProperty("derby.system.home", home);
-                Method startMethod = networkServerControlClass.getDeclaredMethod("start", new Class []{ PrintWriter.class });
-                startMethod.invoke(networkServerControl, new Object [1]);
-              }
-              catch (Exception e)
-              {
-                System.err.println("*** Unable to start Derby");
-                e.printStackTrace();
-              }
-            }
-          };
-        thread.start();
-      }
-    }
-
-    public void writeSystemProperties()
-    {
-      System.setProperty("test.target", "performance");
-      if (home != null)
-        System.setProperty("derby.system.home", home);
-      if (performanceConfiguration != null)
-        System.setProperty("eclipse.perf.config", performanceConfiguration);
-
-      String userAtt = user == null ? "" : (";dbuser=" + user);
-      String passAtt = pass == null ? "" : (";dbpasswd=" + pass);
-
-      Class driverClass = null;
-      try
-      {
-        driverClass = Class.forName("com.ibm.db2.jcc.DB2Driver");
-      }
-      catch (Throwable t)
-      {
-      }
-
-      if (driverClass != null)
-      {
-        System.setProperty("eclipse.perf.dbloc", "net://localhost" + userAtt + passAtt);
-      }
-      else
-      {
-        System.setProperty("eclipse.perf.dbloc", home + userAtt + passAtt);
-      }
-    }
-
-    public void printSystemProperties()
-    {
-      System.out.println("*** Derby properties");
-      System.out.println("derby.system.home: " + System.getProperty("derby.system.home"));
-      System.out.println("test.target: " + System.getProperty("test.target"));
-      System.out.println("eclipse.perf.config: " + System.getProperty("eclipse.perf.config"));
-      System.out.println("eclipse.perf.dbloc: " + System.getProperty("eclipse.perf.dbloc"));
-    }
-  }
+//  private static class DerbyHelper
+//  {
+//    private String home;
+//    private String user;
+//    private String pass;
+//    private String performanceConfiguration;
+//
+//    private Class networkServerControlClass;
+//    private Object networkServerControl;
+//
+//    public boolean isAvailable()
+//    {
+//      if (networkServerControl == null)
+//      {
+//        try
+//        {
+//          networkServerControlClass = Class.forName("org.apache.derby.drda.NetworkServerControl");
+//        }
+//        catch (Exception e)
+//        {
+//          return false;
+//        }
+//      }
+//
+//      return true;
+//    }
+//
+//    public boolean isRunning()
+//    {
+//      if (networkServerControl == null)
+//      {
+//        if (isAvailable())
+//        {
+//          try
+//          {
+//            networkServerControl = networkServerControlClass.newInstance();
+//          }
+//          catch (Exception e)
+//          {
+//          }
+//        }
+//      }
+//
+//      if (networkServerControl != null)
+//      {
+//        try
+//        {
+//          Method sysInfoMethod = networkServerControlClass.getDeclaredMethod("getSysinfo", new Class [0]);
+//          return sysInfoMethod.invoke(networkServerControl, null) != null;
+//        }
+//        catch (Exception e)
+//        {
+//        }
+//      }
+//
+//      return false;
+//    }
+//
+//    public void setHome(String home)
+//    {
+//      this.home = home;
+//    }
+//
+//    public void setUser(String user)
+//    {
+//      this.user = user;
+//    }
+//
+//    public void setPass(String pass)
+//    {
+//      this.pass = pass;
+//    }
+//
+//    public void setPerformanceConfiguration(String performanceConfiguration)
+//    {
+//      this.performanceConfiguration = performanceConfiguration;
+//    }
+//
+//    //Returns true if the server is running
+//    public void startIfDown()
+//    {
+//      if (!isRunning() && networkServerControl != null)
+//      {
+//        Thread thread = new Thread()
+//          {
+//            public void run()
+//            {
+//              try
+//              {
+//                System.out.println("*** Starting Derby...");
+//                if (home != null)
+//                  System.setProperty("derby.system.home", home);
+//                Method startMethod = networkServerControlClass.getDeclaredMethod("start", new Class []{ PrintWriter.class });
+//                startMethod.invoke(networkServerControl, new Object [1]);
+//              }
+//              catch (Exception e)
+//              {
+//                System.err.println("*** Unable to start Derby");
+//                e.printStackTrace();
+//              }
+//            }
+//          };
+//        thread.start();
+//      }
+//    }
+//
+//    public void writeSystemProperties()
+//    {
+//      System.setProperty("test.target", "performance");
+//      if (home != null)
+//        System.setProperty("derby.system.home", home);
+//      if (performanceConfiguration != null)
+//        System.setProperty("eclipse.perf.config", performanceConfiguration);
+//
+//      String userAtt = user == null ? "" : (";dbuser=" + user);
+//      String passAtt = pass == null ? "" : (";dbpasswd=" + pass);
+//
+//      Class driverClass = null;
+//      try
+//      {
+//        driverClass = Class.forName("com.ibm.db2.jcc.DB2Driver");
+//      }
+//      catch (Throwable t)
+//      {
+//      }
+//
+//      if (driverClass != null)
+//      {
+//        System.setProperty("eclipse.perf.dbloc", "net://localhost" + userAtt + passAtt);
+//      }
+//      else
+//      {
+//        System.setProperty("eclipse.perf.dbloc", home + userAtt + passAtt);
+//      }
+//    }
+//
+//    public void printSystemProperties()
+//    {
+//      System.out.println("*** Derby properties");
+//      System.out.println("derby.system.home: " + System.getProperty("derby.system.home"));
+//      System.out.println("test.target: " + System.getProperty("test.target"));
+//      System.out.println("eclipse.perf.config: " + System.getProperty("eclipse.perf.config"));
+//      System.out.println("eclipse.perf.dbloc: " + System.getProperty("eclipse.perf.dbloc"));
+//    }
+//  }
 
   private static EMFTestPerformancePlugin instance;
 
@@ -208,8 +208,8 @@ public class EMFTestPerformancePlugin// extends Plugin
 //    }
 //  }
 
-  private void setDerbyAttributes(DerbyHelper derbyHelper)
-  {
+//  private void setDerbyAttributes(DerbyHelper derbyHelper)
+//  {
 //    Properties testingProperties = getTestingProperties();
 //    if (testingProperties != null)
 //    {
@@ -254,47 +254,47 @@ public class EMFTestPerformancePlugin// extends Plugin
 //        }
 //      }
 //    }
-  }
+//  }
 
-  private File getTestingPropertiesFile()
-  {
-    String fileName = "testing.properties";
-    File parentDir = new File(TestUtil.getPluginDirectory());
+//  private File getTestingPropertiesFile()
+//  {
+//    String fileName = "testing.properties";
+//    File parentDir = new File(TestUtil.getPluginDirectory());
+//
+//    do
+//    {
+//      File file = new File(parentDir, fileName);
+//      if (file.isFile())
+//      {
+//        return file;
+//      }
+//      else
+//      {
+//        parentDir = parentDir.getParentFile();
+//      }
+//    }
+//    while (parentDir != null);
+//
+//    return null;
+//  }
 
-    do
-    {
-      File file = new File(parentDir, fileName);
-      if (file.isFile())
-      {
-        return file;
-      }
-      else
-      {
-        parentDir = parentDir.getParentFile();
-      }
-    }
-    while (parentDir != null);
-
-    return null;
-  }
-
-  private Properties getTestingProperties()
-  {
-    File testingPropertiesFile = getTestingPropertiesFile();
-    if (testingPropertiesFile != null)
-    {
-      Properties testingProperties = new Properties();
-      try
-      {
-        testingProperties.load(new FileInputStream(testingPropertiesFile));
-        return testingProperties;
-      }
-      catch (Exception e)
-      {
-        e.printStackTrace();
-      }
-    }
-
-    return null;
-  }
+//  private Properties getTestingProperties()
+//  {
+//    File testingPropertiesFile = getTestingPropertiesFile();
+//    if (testingPropertiesFile != null)
+//    {
+//      Properties testingProperties = new Properties();
+//      try
+//      {
+//        testingProperties.load(new FileInputStream(testingPropertiesFile));
+//        return testingProperties;
+//      }
+//      catch (Exception e)
+//      {
+//        e.printStackTrace();
+//      }
+//    }
+//
+//    return null;
+//  }
 }
