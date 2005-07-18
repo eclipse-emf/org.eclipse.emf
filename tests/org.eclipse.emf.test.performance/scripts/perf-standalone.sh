@@ -199,13 +199,13 @@ function getZip()
 
 if [ "$branch" = "2.0.1" ] || [ "$branch" = "2.0.2" ] || [ "$branch" = "2.0.3" ]; then
 
-	mkdir -p $workingDir/$branch;
+	mkdir -p $workingDir/lib;
 	cd $workingDir;
 
 	# 2. unpack SDK zip, need only jars
 	echo "[perf] [`date +%H:%M:%S`] unpack jars from SDK zip ..."
 	getZip emf-sdo-xsd-SDK- $branch $buildID
-	cd $workingDir/$branch;
+	cd $workingDir/lib;
 	unzip -uoj -qq /home/www-data/emf-build/tools/emf/downloads/drops/$buildBranchAndID/emf-sdo-xsd-SDK-*.zip *.jar;
 
 	cd $workingDir;
@@ -213,7 +213,7 @@ if [ "$branch" = "2.0.1" ] || [ "$branch" = "2.0.2" ] || [ "$branch" = "2.0.3" ]
 	# 3. unpack test.performance.jar (JUnit tests)
 	echo "[perf] [`date +%H:%M:%S`] unpack test.performance.jar (JUnit tests) from Automated-Tests zip ..."
 	getZip emf-sdo-xsd-Automated-Tests- $testBranch $testID
-	cd $workingDir/$branch;
+	cd $workingDir/lib;
 	unzip -uoj -qq /home/www-data/emf-build/tools/emf/downloads/drops/$testBranchAndID/emf-sdo-xsd-Automated-Tests-*.zip testing/emf-sdo-xsd-JUnit-Tests-*.zip;
 	unzip -uoj -qq emf-sdo-xsd-JUnit-Tests-*.zip eclipse/plugins/org.eclipse.emf.test.performance_*/test.performance.jar;
 	rm -fr emf-sdo-xsd-JUnit-Tests-*.zip
@@ -223,10 +223,10 @@ if [ "$branch" = "2.0.1" ] || [ "$branch" = "2.0.2" ] || [ "$branch" = "2.0.3" ]
 	# fix permissions 
 	find $workingDir -name "*.jar" -exec chmod 644 {} \;
 
-	cmd="$vm $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/$branch/test.performance.jar:\
-$workingDir/$branch/common.jar:$workingDir/$branch/common.resources.jar:$workingDir/$branch/ecore.sdo.jar:$workingDir/$branch/commonj.sdo.jar:\
-$workingDir/$branch/ecore.jar:$workingDir/$branch/ecore.change.jar:$workingDir/$branch/ecore.resources.jar:\
-$workingDir/$branch/ecore.xmi.jar:$workingDir/$branch/xsd.jar:$workingDir/$branch/xsd.resources.jar \
+	cmd="$vm $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/lib/test.performance.jar:\
+$workingDir/lib/common.jar:$workingDir/lib/common.resources.jar:$workingDir/lib/ecore.sdo.jar:$workingDir/lib/commonj.sdo.jar:\
+$workingDir/lib/ecore.jar:$workingDir/lib/ecore.change.jar:$workingDir/lib/ecore.resources.jar:\
+$workingDir/lib/ecore.xmi.jar:$workingDir/lib/xsd.jar:$workingDir/lib/xsd.resources.jar \
 junit.textui.TestRunner org.eclipse.emf.test.performance.AllSuites";
 
 	echo "[perf] [`date +%H:%M:%S`] Run junit.textui.TestRunner ...";
@@ -245,18 +245,18 @@ junit.textui.TestRunner org.eclipse.emf.test.performance.AllSuites";
 	$cmd 2>&1 >> $workingDir/testlog.txt; 
 elif  [ "$branch" = "2.1.0" ] || [ "$branch" = "2.1.1" ] || [ "$branch" = "2.2.0" ]; then
 
-	mkdir -p $workingDir/$branch;
+	mkdir -p $workingDir/lib;
 	cd $workingDir;
 
 	# 2a. unpack Standalone zip
 	echo "[perf] [`date +%H:%M:%S`] unpack jars from Standalone zip ..."
 	getZip emf-sdo-xsd-Standalone- $branch $buildID
-	cd $workingDir/$branch;
+	cd $workingDir/lib;
 	unzip -uoj -qq /home/www-data/emf-build/tools/emf/downloads/drops/$buildBranchAndID/emf-sdo-xsd-Standalone-*.zip *.jar;
 
 	#2b. rename foo_2.1.0.jar to foo.jar
 	echo "[perf] [`date +%H:%M:%S`] remove version from jar names (eg., xsd_2.1.0.jar -> xsd.jar) ..."
-	jars=`find $workingDir/$branch -name "*.jar"`
+	jars=`find $workingDir/lib -name "*_*.*.jar"`
 	for jar in $jars; do
 		mv $jar ${jar%%\_*}.jar
 	done
@@ -266,7 +266,7 @@ elif  [ "$branch" = "2.1.0" ] || [ "$branch" = "2.1.1" ] || [ "$branch" = "2.2.0
 	# 3. unpack test.performance.jar (JUnit tests)
 	echo "[perf] [`date +%H:%M:%S`] unpack test.performance.jar (JUnit tests) from Automated-Tests zip ..."
 	getZip emf-sdo-xsd-Automated-Tests- $testBranch $testID
-	cd $workingDir/$branch;
+	cd $workingDir/lib;
 	unzip -uoj -qq /home/www-data/emf-build/tools/emf/downloads/drops/$testBranchAndID/emf-sdo-xsd-Automated-Tests-*.zip testing/emf-sdo-xsd-JUnit-Tests-*.zip;
 	unzip -uoj -qq emf-sdo-xsd-JUnit-Tests-*.zip eclipse/plugins/org.eclipse.emf.test.performance_*/test.performance.jar;
 	rm -fr emf-sdo-xsd-JUnit-Tests-*.zip;
@@ -276,10 +276,10 @@ elif  [ "$branch" = "2.1.0" ] || [ "$branch" = "2.1.1" ] || [ "$branch" = "2.2.0
 	# fix permissions 
 	find $workingDir -name "*.jar" -exec chmod 644 {} \;
 
-	cmd="$vm $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/$branch/test.performance.jar:\
-$workingDir/$branch/emf.common.jar:$workingDir/$branch/emf.ecore.jar:$workingDir/$branch/emf.ecore.change.jar:\
-$workingDir/$branch/emf.ecore.sdo.jar:$workingDir/$branch/emf.commonj.sdo.jar:\
-$workingDir/$branch/emf.ecore.xmi.jar:$workingDir/$branch/xsd.jar \
+	cmd="$vm $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/lib/test.performance.jar:\
+$workingDir/lib/emf.common.jar:$workingDir/lib/emf.ecore.jar:$workingDir/lib/emf.ecore.change.jar:\
+$workingDir/lib/emf.ecore.sdo.jar:$workingDir/lib/emf.commonj.sdo.jar:\
+$workingDir/lib/emf.ecore.xmi.jar:$workingDir/lib/xsd.jar \
 junit.textui.TestRunner org.eclipse.emf.test.performance.AllSuites";
 
 	echo "[perf] [`date +%H:%M:%S`] Run junit.textui.TestRunner ...";
@@ -306,7 +306,6 @@ echo "";
 
 if [ $noclean -eq 0 ]; then
 	# cleanup temp space
-	rm -fr $workingDir/$branch;
 	rm -fr $workingDir/data;
 	rm -fr $workingDir/lib;
 	echo "[perf] Temporary files purged from $workingDir/.";
