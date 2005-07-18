@@ -138,7 +138,8 @@ fi
 
 branch=${buildBranchAndID%%/*}; #  get 2.1.0 from 2.1.0/R200507070200
 buildID=${buildBranchAndID##*/}; #  get R200507070200 from 2.1.0/R200507070200
-testID=${testBranchAndID##*/}; #  get R200507070200 from 2.1.0/R200507070200
+testBranch=${testBranchAndID%%/*}; #  get 2.2.0 from 2.2.0/N200507172011
+testID=${testBranchAndID##*/}; #  get R200507070200 from 2.2.0/N200507172011
 #echo "branch = $branch";
 
 # 1. check out lib jars
@@ -211,7 +212,7 @@ if [ "$branch" = "2.0.1" ] || [ "$branch" = "2.0.2" ] || [ "$branch" = "2.0.3" ]
 
 	# 3. unpack test.performance.jar (JUnit tests)
 	echo "[perf] [`date +%H:%M:%S`] unpack test.performance.jar (JUnit tests) from Automated-Tests zip ..."
-	getZip emf-sdo-xsd-Automated-Tests- $branch $testID
+	getZip emf-sdo-xsd-Automated-Tests- $testBranch $testID
 	cd $workingDir/$branch;
 	unzip -uoj -qq /home/www-data/emf-build/tools/emf/downloads/drops/$testBranchAndID/emf-sdo-xsd-Automated-Tests-*.zip testing/emf-sdo-xsd-JUnit-Tests-*.zip;
 	unzip -uoj -qq emf-sdo-xsd-JUnit-Tests-*.zip eclipse/plugins/org.eclipse.emf.test.performance_*/test.performance.jar;
@@ -264,7 +265,7 @@ elif  [ "$branch" = "2.1.0" ] || [ "$branch" = "2.1.1" ] || [ "$branch" = "2.2.0
 
 	# 3. unpack test.performance.jar (JUnit tests)
 	echo "[perf] [`date +%H:%M:%S`] unpack test.performance.jar (JUnit tests) from Automated-Tests zip ..."
-	getZip emf-sdo-xsd-Automated-Tests- $branch $testID
+	getZip emf-sdo-xsd-Automated-Tests- $testBranch $testID
 	cd $workingDir/$branch;
 	unzip -uoj -qq /home/www-data/emf-build/tools/emf/downloads/drops/$testBranchAndID/emf-sdo-xsd-Automated-Tests-*.zip testing/emf-sdo-xsd-JUnit-Tests-*.zip;
 	unzip -uoj -qq emf-sdo-xsd-JUnit-Tests-*.zip eclipse/plugins/org.eclipse.emf.test.performance_*/test.performance.jar;
