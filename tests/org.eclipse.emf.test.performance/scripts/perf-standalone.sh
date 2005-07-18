@@ -175,15 +175,15 @@ function getZip()
 	cd $basedir;
 	zip=`find $basedir -name "$pre*.zip" -type f | tail -1`
 	if  [ "x$zip" = "x" ] || [ ! -e $zip ]; then
-		echo "[perf] [`date +%H:%M:%S`] wget http://fullmoon.torolab.ibm.com/$webdir/$pre$branch.zip ...";
+		echo -n "[perf] [`date +%H:%M:%S`] wget ";
 		wget -nv http://fullmoon.torolab.ibm.com/$webdir/$pre$branch.zip; # R build
 		zip=`find $basedir -name "$pre*.zip" -type f | tail -1`
 		if [ "x$zip" = "x" ] || [ ! -e $zip ]; then
-			echo "[perf] [`date +%H:%M:%S`] wget http://fullmoon.torolab.ibm.com/$webdir/$pre$ID.zip ...";
+			echo -n "[perf] [`date +%H:%M:%S`] wget ";
 			wget -nv http://fullmoon.torolab.ibm.com/$webdir/$pre$ID.zip # I/M build
 			zip=`find $basedir -name "$pre*.zip" -type f | tail -1`
 			if [ "x$zip" = "x" ] || [ ! -e $zip ]; then
-				echo "[perf] [`date +%H:%M:%S`] wget http://emf.torolab.ibm.com/$webdir/$pre$ID.zip ...";
+				echo -n "[perf] [`date +%H:%M:%S`] wget ";
 				wget -nv http://emf.torolab.ibm.com/$webdir/$pre$ID.zip # N build
 				zip=`find $basedir -name "$pre*.zip" -type f | tail -1`
 				if [ "x$zip" = "x" ] || [ ! -e $zip ]; then
@@ -222,18 +222,26 @@ if [ "$branch" = "2.0.1" ] || [ "$branch" = "2.0.2" ] || [ "$branch" = "2.0.3" ]
 	# fix permissions 
 	find $workingDir -name "*.jar" -exec chmod 644 {} \;
 
-	cmd="$vm -showversion $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/$branch/test.performance.jar:\
+	cmd="$vm $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/$branch/test.performance.jar:\
 $workingDir/$branch/common.jar:$workingDir/$branch/common.resources.jar:$workingDir/$branch/ecore.sdo.jar:$workingDir/$branch/commonj.sdo.jar:\
 $workingDir/$branch/ecore.jar:$workingDir/$branch/ecore.change.jar:$workingDir/$branch/ecore.resources.jar:\
 $workingDir/$branch/ecore.xmi.jar:$workingDir/$branch/xsd.jar:$workingDir/$branch/xsd.resources.jar \
 junit.textui.TestRunner org.eclipse.emf.test.performance.AllSuites";
 
-	echo "[perf] [`date +%H:%M:%S`] Run junit.textui.TestRunner ..."
+	echo "[perf] [`date +%H:%M:%S`] Run junit.textui.TestRunner ...";
 	echo "";
-	echo $cmd;
-	echo "  2>&1 > $workingDir/testlog.txt";
-	echo ""; 
-	$cmd 2>&1 > $workingDir/testlog.txt 
+	vmver=`$vm -version 2>&1`;
+	
+	#echo to shell log
+	echo $vmver;
+	echo $cmd; echo "  2>&1 > $workingDir/testlog.txt"; echo ""; 
+	
+	#echo to test log
+	echo $vmver > $workingDir/testlog.txt; 
+	echo $cmd >> $workingDir/testlog.txt;
+	
+	#run java, echo to test log
+	$cmd 2>&1 >> $workingDir/testlog.txt; 
 elif  [ "$branch" = "2.1.0" ] || [ "$branch" = "2.1.1" ] || [ "$branch" = "2.2.0" ]; then
 
 	mkdir -p $workingDir/$branch;
@@ -267,20 +275,30 @@ elif  [ "$branch" = "2.1.0" ] || [ "$branch" = "2.1.1" ] || [ "$branch" = "2.2.0
 	# fix permissions 
 	find $workingDir -name "*.jar" -exec chmod 644 {} \;
 
-	cmd="$vm -showversion $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/$branch/test.performance.jar:\
+	cmd="$vm $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/$branch/test.performance.jar:\
 $workingDir/$branch/emf.common.jar:$workingDir/$branch/emf.ecore.jar:$workingDir/$branch/emf.ecore.change.jar:\
 $workingDir/$branch/emf.ecore.sdo.jar:$workingDir/$branch/emf.commonj.sdo.jar:\
 $workingDir/$branch/emf.ecore.xmi.jar:$workingDir/$branch/xsd.jar \
 junit.textui.TestRunner org.eclipse.emf.test.performance.AllSuites";
 
-	echo "[perf] [`date +%H:%M:%S`] Run junit.textui.TestRunner ..."
+	echo "[perf] [`date +%H:%M:%S`] Run junit.textui.TestRunner ...";
 	echo "";
-	echo $cmd;
-	echo "  2>&1 > $workingDir/testlog.txt";
-	echo ""; 
-	$cmd 2>&1 > $workingDir/testlog.txt 
+	vmver=`$vm -version 2>&1`;
+	
+	#echo to shell log
+	echo $vmver; echo "";
+	echo $cmd; echo "  2>&1 > $workingDir/testlog.txt"; echo ""; 
+	
+	#echo to test log
+	echo $vmver > $workingDir/testlog.txt; 
+	echo "" >> $workingDir/testlog.txt; 
+	echo $cmd >> $workingDir/testlog.txt;
+	echo "" >> $workingDir/testlog.txt;
+	
+	#run java, echo to test log
+	$cmd 2>&1 >> $workingDir/testlog.txt; 
 else
-	echo "Branch $branch is not supported yet."
+	echo "Branch $branch is not supported yet.";
 fi
 
 echo "";
