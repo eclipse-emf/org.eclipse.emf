@@ -6,7 +6,40 @@
 #	EMF performance tests
 #	EMF/SDO/XSD standalone
 
-## TODO: ensure logging to file is working.
+# for testing...
+
+# replace eclipse.test.performance or emf.test.performance jars:
+# cp /home/ibm/workspace1/org.eclipse.emf.test.performance/test.performance.jar 2.1.0/test.performance.jar; \
+# cp /home/ibm/workspace1/org.eclipse.test.performance/testperformance_emf.jar lib/testperformance_emf.jar; \
+
+# then run tests:
+# /opt/ibm-java2-1.4/bin/java -showversion -Xj9 -Xms256M -Xmx400M -classpath /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/lib/junit.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/lib/testperformance_emf.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/test.performance.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/emf.common.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/emf.ecore.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/emf.ecore.change.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/emf.ecore.sdo.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/emf.commonj.sdo.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/emf.ecore.xmi.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/xsd.jar \
+# junit.textui.TestRunner \
+# org.eclipse.emf.test.performance.AllSuites;
+
+# or run as zombie process logging to file: 
+# bash -c "exec nohup setsid /opt/ibm-java2-1.4/bin/java -showversion -Xj9 -Xms256M -Xmx400M -classpath /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/lib/junit.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/lib/testperformance_emf.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/test.performance.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/emf.common.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/emf.ecore.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/emf.ecore.change.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/emf.ecore.sdo.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/emf.commonj.sdo.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/emf.ecore.xmi.jar:\
+# /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/2.1.0/xsd.jar \
+# junit.textui.TestRunner \
+# org.eclipse.emf.test.performance.AllSuites \
+# 2>&1 > /home/www-data/perftests-standalone/2.1.0/R200507070200/200507171759/testlog.txt" &
 
 # default eclipse.org username
 user=$USER;
