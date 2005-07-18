@@ -1,0 +1,1 @@
+# see http://dev.eclipse.org/viewcvs/indextools.cgi/emf-home/emf-build/scripts/runPerfTestsStandalone.sh
