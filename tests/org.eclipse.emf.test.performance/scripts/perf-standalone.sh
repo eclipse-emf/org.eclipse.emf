@@ -218,6 +218,9 @@ if [ "$branch" = "2.0.1" ] || [ "$branch" = "2.0.2" ] || [ "$branch" = "2.0.3" ]
 	rm -fr emf-sdo-xsd-JUnit-Tests-*.zip
 
 	cd $workingDir;
+	
+	# fix permissions 
+	find $workingDir -name "*.jar" -exec chmod 644 {} \;
 
 	cmd="$vm -showversion $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/$branch/test.performance.jar:\
 $workingDir/$branch/common.jar:$workingDir/$branch/common.resources.jar:$workingDir/$branch/ecore.sdo.jar:$workingDir/$branch/commonj.sdo.jar:\
@@ -260,6 +263,9 @@ elif  [ "$branch" = "2.1.0" ] || [ "$branch" = "2.1.1" ] || [ "$branch" = "2.2.0
 	rm -fr emf-sdo-xsd-JUnit-Tests-*.zip;
 
 	cd $workingDir;
+
+	# fix permissions 
+	find $workingDir -name "*.jar" -exec chmod 644 {} \;
 
 	cmd="$vm -showversion $vmargs -classpath $workingDir/lib/junit.jar:$workingDir/lib/testperformance_emf.jar:$workingDir/$branch/test.performance.jar:\
 $workingDir/$branch/emf.common.jar:$workingDir/$branch/emf.ecore.jar:$workingDir/$branch/emf.ecore.change.jar:\
