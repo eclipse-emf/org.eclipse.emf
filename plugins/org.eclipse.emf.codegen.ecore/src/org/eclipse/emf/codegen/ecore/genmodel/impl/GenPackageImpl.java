@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.35 2005/06/29 21:23:56 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.36 2005/07/21 20:00:38 elena Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1487,6 +1487,21 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   {
     return getGenModel().getImportedName(getUtilitiesPackageName() + "." + getPrefixedName("Validator"));
   }
+  
+  public String getImportedXMLProcessorBaseClassName()
+  {
+    return getGenModel().getImportedName("org.eclipse.emf.ecore.xmi.util.XMLProcessor");   
+  }
+
+  public String getQualifiedXMLProcessorClassName()
+  {
+    return getUtilitiesPackageName() + "." + getPrefixedName("XMLProcessor");
+  }
+
+  public String getXMLProcessorClassName()
+  {
+    return getPrefixedName("XMLProcessor");
+  }
 
   protected String getPrefixedName(String name)
   {
@@ -2235,7 +2250,23 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
            getClassPackageName(), 
            getFactoryClassName(), 
            getGenModel().getFactoryClassEmitter());
-
+        
+        
+        if (getResource().getValue() == GenResourceKind.XML)
+        {
+          progressMonitor.subTask
+          (CodeGenEcorePlugin.INSTANCE.getString
+             ("_UI_GeneratingJavaClass_message", new Object [] { getClassPackageName() + "." + getXMLProcessorClassName() }));
+          generate(
+            new SubProgressMonitor(progressMonitor, 1),
+            Generator.EMF_MODEL_PROJECT_STYLE,
+            getGenModel().getEffectiveModelPluginVariables(),
+            getGenModel().getModelDirectory(),
+            getUtilitiesPackageName(),
+            getXMLProcessorClassName(),
+            getGenModel().getXMLProcessorClassEmitter());
+        }
+        
         if (hasConstraints())
         {
           progressMonitor.subTask

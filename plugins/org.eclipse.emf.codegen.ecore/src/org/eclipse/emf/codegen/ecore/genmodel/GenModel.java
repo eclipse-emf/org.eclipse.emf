@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.26 2005/06/28 23:49:12 marcelop Exp $
+ * $Id: GenModel.java,v 1.27 2005/07/21 20:00:38 elena Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -1330,6 +1330,7 @@ public interface GenModel extends GenBase{
   JETEmitter getResourceClassEmitter();
   JETEmitter getResourceFactoryClassEmitter();
   JETEmitter getBuildPropertiesEmitter();
+  JETEmitter getXMLProcessorClassEmitter();
 
   //
   // EMF.Edit generation

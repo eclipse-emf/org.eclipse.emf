@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.17 2005/06/22 19:55:04 davidms Exp $
+ * $Id: GenPackage.java,v 1.18 2005/07/21 20:00:38 elena Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -584,6 +584,10 @@ public interface GenPackage extends GenBase{
   String getExampleClassName();
   String getQualifiedTestSuiteClassName();
   String getImportedTestSuiteClassName();
+    
+  String getQualifiedXMLProcessorClassName();
+  String getXMLProcessorClassName();
+  String getImportedXMLProcessorBaseClassName();
 
   List getAllGenDataTypes();
 

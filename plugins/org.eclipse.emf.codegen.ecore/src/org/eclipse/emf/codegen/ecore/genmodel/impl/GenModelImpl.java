@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.45 2005/06/28 23:50:25 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.46 2005/07/21 20:00:38 elena Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1264,6 +1264,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String adapterFactoryClassTemplateName = "model/AdapterFactoryClass.javajet";
   protected String switchClassTemplateName = "model/SwitchClass.javajet";
   protected String validatorSwitchClassTemplateName = "model/ValidatorClass.javajet";
+  protected String xmlProcessorClassTemplateName = "model/XMLProcessorClass.javajet";
   protected String pluginXMLTemplateName = "model/plugin.xmljet";
   protected String manifestMFTemplateName = "model/manifest.mfjet";
   protected String pluginPropertiesTemplateName = "model/plugin.propertiesjet";
@@ -1286,6 +1287,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected JETEmitter adapterFactoryClassEmitter = null;
   protected JETEmitter switchClassEmitter = null;
   protected JETEmitter validatorSwitchClassEmitter = null;
+  protected JETEmitter xmlProcessorClassEmitter = null;
   protected JETEmitter pluginXMLEmitter = null;
   protected JETEmitter manifestMFEmitter = null;
   protected JETEmitter pluginPropertiesEmitter = null;
@@ -1462,6 +1464,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(validatorSwitchClassEmitter, "org.eclipse.emf.codegen.ecore.templates.model.ValidatorClass");
     }
     return validatorSwitchClassEmitter;
+  }
+  
+  public JETEmitter getXMLProcessorClassEmitter()
+  {
+    if (xmlProcessorClassEmitter == null)
+    {
+      xmlProcessorClassEmitter = createJETEmitter(xmlProcessorClassTemplateName);
+      setMethod(xmlProcessorClassEmitter, "org.eclipse.emf.codegen.ecore.templates.model.XMLProcessorClass");
+    }
+    return xmlProcessorClassEmitter;
   }
 
   public JETEmitter getPluginXMLEmitter()
@@ -4725,9 +4737,19 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
     result.add("org.eclipse.emf.ecore");
     result.addAll(getEffectiveModelPluginIDs());
-    for (Iterator i = getGenPackages().iterator(); i.hasNext(); )
+    
+    TreeIterator genPackagesIterator = new AbstractTreeIterator(getGenPackages(), false)
     {
-      GenPackage genPackage = (GenPackage)i.next();
+      protected Iterator getChildren(Object object)
+      {
+        return object instanceof Collection ? 
+          ((Collection)object).iterator() :
+          ((GenPackage)object).getNestedGenPackages().iterator();
+      }
+    };
+    while(genPackagesIterator.hasNext())
+    {
+      GenPackage genPackage = (GenPackage)genPackagesIterator.next();
       if (genPackage.getResource() != GenResourceKind.NONE_LITERAL || genPackage.isLoadingInitialization())
       {
         result.add("org.eclipse.emf.ecore.xmi");
