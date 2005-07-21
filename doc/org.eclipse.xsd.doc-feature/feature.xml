@@ -15,14 +15,14 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.10 2005/06/11 06:10:42 marcelop Exp $
+ * $Id: feature.xml,v 1.11 2005/07/21 20:53:40 nickb Exp $
  */
 -->
 
 <feature
       id="org.eclipse.xsd.doc"
       label="%featureName"
-      version="2.1.0"
+      version="2.2.0"
       image= "eclipse_update_120.jpg"
       provider-name="%providerName">
 
@@ -44,6 +44,6 @@
          id="org.eclipse.xsd.doc"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.2.0"/>
    		
 </feature>
