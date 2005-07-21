@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.13 2005/07/11 22:47:00 nickb Exp $
+ * $Id: feature.xml,v 1.14 2005/07/21 21:02:22 nickb Exp $
  */
 -->
 
@@ -57,32 +57,32 @@
 
     <includes
         id="org.eclipse.xsd"
-        version="2.1.0"
+        version="2.2.0"
         match="compatible"/> 
 
     <includes
         id="org.eclipse.xsd.source"
-        version="2.1.0"
+        version="2.2.0"
         match="compatible"/> 
 
     <includes
         id="org.eclipse.xsd.doc"
-        version="2.1.0"
+        version="2.2.0"
         match="compatible"/> 
 
     <includes
         id="org.eclipse.emf.ecore.sdo"
-        version="2.1.0"
+        version="2.2.0"
         match="compatible"/> 
 
     <includes
         id="org.eclipse.emf.ecore.sdo.source"
-        version="2.1.0"
+        version="2.2.0"
         match="compatible"/> 
 
     <includes
         id="org.eclipse.emf.ecore.sdo.doc"
-        version="2.1.0"
+        version="2.2.0"
         match="compatible"/> 
        
 </feature>
