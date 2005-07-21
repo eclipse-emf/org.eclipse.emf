@@ -12,16 +12,19 @@
  *
  * </copyright>
  *
- * $Id: GenericXMLResourceFactoryImpl.java,v 1.2 2005/06/12 13:31:45 emerks Exp $
+ * $Id: GenericXMLResourceFactoryImpl.java,v 1.3 2005/07/21 19:47:33 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.XMLOptions;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 
-public class GenericXMLResourceFactoryImpl extends XMLResourceFactoryImpl
+
+public class GenericXMLResourceFactoryImpl extends ResourceFactoryImpl
 {
   public GenericXMLResourceFactoryImpl()
   {
@@ -30,20 +33,26 @@ public class GenericXMLResourceFactoryImpl extends XMLResourceFactoryImpl
 
   public Resource createResource(URI uri)
   {
-    XMLResource result = new GenericXMLResourceImpl(uri);
+    XMLResource result = new XMLResourceImpl(uri);
     result.setEncoding("UTF-8");
-    
+
     result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
     result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 
     result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, new Integer(80));
-    
+
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
-    
+
+    XMLOptions xmlOptions = new XMLOptionsImpl();
+
+    xmlOptions.setProcessAnyXML(true);
+
+    xmlOptions.setProcessSchemaLocations(true);
+
     return result;
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.27 2005/06/15 21:16:49 elena Exp $
+ * $Id: XMLResource.java,v 1.28 2005/07/21 19:47:33 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 
 /**
  * This interface represents an XML resource. You can use it to load
@@ -122,15 +123,16 @@ public interface XMLResource extends Resource
   
   /** 
    * This option allows to specify an EClass for the implementation for anyType.
+   * As an example, see <code>org.eclipse.emf.ecore.sdo.SDOPackage</code> <code>getEDataObjectAnyType()</code>.
    * @see #OPTION_ANY_SIMPLE_TYPE
-   * @see org.eclipse.emf.ecore.sdo.SDOPackage#getEDataObjectAnyType()
+   * 
    */
   String OPTION_ANY_TYPE = "ANY_TYPE";
   
   /** 
    * This option allows to specify an EClass for the implementation for anySimpleType.
+   * As an example, see <code>org.eclipse.emf.ecore.sdo.SDOPackage</code> <code>getEDataObjectSimpleAnyType()</code> method.
    * @see #OPTION_ANY_TYPE
-   * @see org.eclipse.emf.ecore.sdo.SDOPackage#getEDataObjectSimpleAnyType()
    */
   String OPTION_ANY_SIMPLE_TYPE ="ANY_SIMPLE_TYPE";
 
@@ -208,7 +210,7 @@ public interface XMLResource extends Resource
   /**
    * This options allows you to record unknown features during deserialization/loading.
    * The default is <code>Boolean.FALSE</code> unless set to <code>Boolean.TRUE</code> explicitly. 
-   * The unknown featurs and their values can be accessed via getEObjectToExtensionMap().
+   * The unknown features and their values can be accessed via getEObjectToExtensionMap().
    * @see {@link #getEObjectToExtensionMap}  
    */
   String OPTION_RECORD_UNKNOWN_FEATURE = "RECORD_UNKNOWN_FEATURE";
@@ -219,6 +221,13 @@ public interface XMLResource extends Resource
    * The default is <code>Boolean.FALSE</code> unless set to <code>Boolean.TRUE</code> explicitly.
    */
   String OPTION_LAX_FEATURE_PROCESSING = "LAX_FEATURE_PROCESSING";
+  
+  
+  /**
+   * Allows the user to specify XML options 
+   * {@link XMLOptions} and default implementation you can use {@link org.eclipse.emf.ecore.xmi.impl.XMLOptionsImpl}
+   */
+  String OPTION_XML_OPTIONS = "XML_OPTIONS";
 
   /**
    * Disable notifications during load, and enable them at the
@@ -406,6 +415,8 @@ public interface XMLResource extends Resource
    * @since 2.1.0
    */
   void load(Node node, Map options) throws IOException;
+  
+  void load(InputSource inputSource, Map options) throws IOException;
 
   /**
    * This interface represents a mapping from Ecore constructs to the

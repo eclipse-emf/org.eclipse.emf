@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: SAXXMLHandler.java,v 1.6 2005/06/08 06:16:07 nickb Exp $
+ * $Id: SAXXMLHandler.java,v 1.7 2005/07/21 19:47:33 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +59,24 @@ public class SAXXMLHandler extends XMLHandler
 
   public void setLocator(Object locator)
   {
-    this.locator = (Locator) locator;
+    this.locator = (Locator)locator;
+    Class locatorClass = locator.getClass();
+    try
+    {
+
+      Method encodingMethod = locatorClass.getMethod("getEncoding", null);
+      String encoding = (String)encodingMethod.invoke(locator, null);
+      this.xmlResource.setEncoding(encoding);
+    }
+    catch (NoSuchMethodException e)
+    {
+    }
+    catch (IllegalAccessException e)
+    {
+    }
+    catch (InvocationTargetException e)
+    {
+    }
   }
 
   protected int getLineNumber()

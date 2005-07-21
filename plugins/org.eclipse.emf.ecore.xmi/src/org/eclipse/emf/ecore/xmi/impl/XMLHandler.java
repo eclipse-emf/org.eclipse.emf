@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.34 2005/06/27 22:13:47 elena Exp $
+ * $Id: XMLHandler.java,v 1.35 2005/07/21 19:47:33 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -52,13 +52,17 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xmi.ClassNotFoundException;
+import org.eclipse.emf.ecore.xmi.EcoreBuilder;
 import org.eclipse.emf.ecore.xmi.FeatureNotFoundException;
 import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.PackageNotFoundException;
 import org.eclipse.emf.ecore.xmi.UnresolvedReferenceException;
 import org.eclipse.emf.ecore.xmi.XMIException;
+import org.eclipse.emf.ecore.xmi.XMIPlugin;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
+import org.eclipse.emf.ecore.xmi.XMLOptions;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.util.DefaultEcoreBuilder;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -232,6 +236,8 @@ public abstract class XMLHandler
   protected MyStack mixedTargets;
   protected Map prefixesToFactories;
   protected Map urisToLocations;
+  protected Map externalURIToLocations;
+  protected boolean processSchemaLocations;
   protected InternalEList extent;
   protected ResourceSet resourceSet;
   protected EPackage.Registry packageRegistry;
@@ -263,6 +269,8 @@ public abstract class XMLHandler
   protected EStructuralFeature contextFeature;
   protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
   protected boolean deferIDREFResolution;
+  protected boolean processAnyXML;
+  protected EcoreBuilder ecoreBuilder;
 
   /**
    */
@@ -315,6 +323,31 @@ public abstract class XMLHandler
     if (recordUnknownFeature && extendedMetaData == null)
     {
       setExtendedMetaDataOption(Boolean.TRUE);
+    }
+    
+    XMLOptions xmlOptions = (XMLOptions)options.get(XMLResource.OPTION_XML_OPTIONS);
+    if (xmlOptions != null)
+    {
+      processSchemaLocations = xmlOptions.getProcessSchemaLocations();
+      externalURIToLocations = xmlOptions.getExternalSchemaLocations();
+
+      if (processSchemaLocations || externalURIToLocations != null)
+      {
+        if (extendedMetaData == null)
+        {
+          setExtendedMetaDataOption(Boolean.TRUE);
+        }
+        ecoreBuilder = xmlOptions.getEcoreBuilder();
+        if (ecoreBuilder == null)
+        {
+          ecoreBuilder = new DefaultEcoreBuilder(extendedMetaData);
+        }
+      }
+      processAnyXML = xmlOptions.getProcessAnyXML();
+      if (processAnyXML && extendedMetaData == null)
+      {
+        setExtendedMetaDataOption(Boolean.TRUE);
+      }
     }
 
     if (extendedMetaData != null)
@@ -991,10 +1024,57 @@ public abstract class XMLHandler
   {
     if (urisToLocations != null)
     {
+      // If processSchemaLocations is specified, treat these as XML Schema locations
+      if (processSchemaLocations)
+      {
+        try
+        {
+          ecoreBuilder.generate(urisToLocations);
+        }
+        catch (Exception exception)
+        {
+          XMIPlugin.INSTANCE.log(exception);
+        }
+      }
+      // If externalSchemaLocations are specified, process these ones as well
+      try
+      {
+        if (externalURIToLocations != null)
+        {
+          ecoreBuilder.generate(externalURIToLocations);
+        }
+      }
+      catch (Exception exception)
+      {
+        XMIPlugin.INSTANCE.log(exception);
+      }
+
       URI locationForNull = (URI)urisToLocations.get(null);
       if (locationForNull != null && helper.getNoNamespacePackage() == null)
       {
         helper.setNoNamespacePackage(getPackageForURI(locationForNull.toString()));
+      }
+    }
+    else if (externalURIToLocations != null)
+    {
+      try
+      {
+        ecoreBuilder.generate(externalURIToLocations);
+      }
+      catch (Exception exception)
+      {
+        XMIPlugin.INSTANCE.log(exception);
+      }
+    }
+
+    if (processAnyXML)
+    {
+      // Ensure that anything can be handled, even if it's not recognized.
+      //
+      String namespaceURI = helper.getURI(prefix);
+      if (extendedMetaData.getPackage(namespaceURI) == null)
+      {
+        extendedMetaData.demandFeature(namespaceURI, name, true);
       }
     }
   }
@@ -1455,7 +1535,7 @@ public abstract class XMLHandler
     }
     else if (feature != null && factory != null && extendedMetaData != null)
     {
-      if (recordUnknownFeature)
+      if (recordUnknownFeature || processAnyXML)
       {
         factory = 
           extendedMetaData.demandType
@@ -1731,6 +1811,10 @@ public abstract class XMLHandler
     else if (extendedMetaData != null)
     {
       if (recordUnknownFeature)
+      {
+        return extendedMetaData.demandPackage(uriString);
+      }
+      else if (processAnyXML && objects.isEmpty())
       {
         return extendedMetaData.demandPackage(uriString);
       }
@@ -2189,5 +2273,10 @@ public abstract class XMLHandler
     FeatureMap featureMap = (FeatureMap)mixedTargets.peek();
     featureMap.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), text.toString());
     text = null;
+  }
+  
+  protected EcoreBuilder createEcoreBuilder(Map options, ExtendedMetaData extendedMetaData)
+  {
+    return new DefaultEcoreBuilder(extendedMetaData);
   }
 }

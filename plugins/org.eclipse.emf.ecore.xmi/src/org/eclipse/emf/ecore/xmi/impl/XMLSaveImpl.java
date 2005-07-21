@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.42 2005/06/16 04:06:26 marcelop Exp $
+ * $Id: XMLSaveImpl.java,v 1.43 2005/07/21 19:47:33 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -565,7 +565,7 @@ public class XMLSaveImpl implements XMLSave
         Resource resource = helper.getResource();
         if (resource != null && resource.getContents().size() >= 1)
         {
-          EObject root = (EObject)resource.getContents().get(0);
+          EObject root =  getSchemaLocationRoot((EObject)resource.getContents().get(0));
           EClass eClass = root.eClass();
 
           EReference xsiSchemaLocationMapFeature = extendedMetaData.getXSISchemaLocationMapFeature(eClass);
@@ -750,6 +750,11 @@ public class XMLSaveImpl implements XMLSave
         ((Element)currentNode).setAttributeNS(XMLResource.XSI_URI, XSI_NO_NAMESPACE_SCHEMA_LOCATION, xsiNoNamespaceSchemaLocation);
       }
     }
+  }
+  
+  protected EObject getSchemaLocationRoot(EObject eObject)
+  {
+    return eObject;
   }
   
   public boolean isDuplicateURI(String nsURI)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.9 2005/06/15 21:16:49 elena Exp $
+ * $Id: XMLResourceImpl.java,v 1.10 2005/07/21 19:47:33 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLSave;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 
 
 /**
@@ -503,6 +504,32 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       mergedOptions.putAll(options);
 
       xmlLoad.load(this, node, mergedOptions);
+    }    
+  }
+  
+  public void load(InputSource inputSource, Map options) throws IOException
+  {
+    XMLLoad xmlLoad = createXMLLoad();
+
+    if (options == null)
+    {
+      options = Collections.EMPTY_MAP;
+    }
+    
+    if (defaultLoadOptions == null || defaultLoadOptions.isEmpty())
+    {
+      xmlLoad.load(this, inputSource, options);
+    }
+    else if (options == null)
+    {
+      xmlLoad.load(this, inputSource, defaultLoadOptions);
+    }
+    else
+    {
+      Map mergedOptions = new HashMap(defaultLoadOptions);
+      mergedOptions.putAll(options);
+
+      xmlLoad.load(this, inputSource, mergedOptions);
     }
 
     
