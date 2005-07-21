@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: GenerateEcore2XMLActionDelegate.java,v 1.3 2005/06/21 16:16:58 khussey Exp $
+ * $Id: GenerateEcore2XMLActionDelegate.java,v 1.4 2005/07/21 12:50:03 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.action;
 
@@ -146,10 +146,15 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
         
         for (Iterator outputs = mapping.getOutputs().iterator(); outputs.hasNext();)
         {
-          ENamedElement output = (ENamedElement)outputs.next();
-          XMLResource.XMLInfo xmlInfo = createXMLInfo(input);
-          if (xmlInfo != null) {
-            xmlMap.add(output, xmlInfo);
+          EObject output = (EObject)outputs.next();
+
+          if (output instanceof ENamedElement)
+          {
+            XMLResource.XMLInfo xmlInfo = createXMLInfo(input);
+
+            if (xmlInfo != null) {
+              xmlMap.add((ENamedElement)output, xmlInfo);
+            }
           }
         }
       }

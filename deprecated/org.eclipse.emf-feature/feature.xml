@@ -183,7 +183,7 @@ http://www.eclipse.org/legal/epl-v10.html
          download-size="0"
          install-size="0"
          unpack="false"
-         version="2.1.0"/>
+         version="2.2.0"/>
 
    <plugin
          id="org.eclipse.emf.importer"
