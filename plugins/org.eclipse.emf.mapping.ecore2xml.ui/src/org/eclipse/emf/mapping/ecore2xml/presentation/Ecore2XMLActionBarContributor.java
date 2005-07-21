@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLActionBarContributor.java,v 1.2 2005/04/20 20:25:12 khussey Exp $
+ * $Id: Ecore2XMLActionBarContributor.java,v 1.3 2005/07/21 17:15:39 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -459,6 +459,17 @@ public class Ecore2XMLActionBarContributor
     menuManager.insertAfter("ui-actions", refreshViewerAction); //$NON-NLS-1$
 
     super.addGlobalActions(menuManager);
+  }
+
+  /**
+   * This ensures that a delete action will clean up all references to deleted objects.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected boolean removeAllReferencesOnDelete()
+  {
+    return true;
   }
 
 }

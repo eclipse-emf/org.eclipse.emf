@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.6 2005/06/08 06:17:55 nickb Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.7 2005/07/21 17:15:37 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -476,6 +476,17 @@ public class EcoreActionBarContributor
     menuManager.insertAfter("ui-actions", refreshViewerAction);
 
     super.addGlobalActions(menuManager);
+  }
+
+  /**
+   * This ensures that a delete action will clean up all references to deleted objects.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected boolean removeAllReferencesOnDelete()
+  {
+    return true;
   }
 
 }

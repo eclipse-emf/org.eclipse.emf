@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaActionBarContributor.java,v 1.5 2005/06/08 06:24:47 nickb Exp $
+ * $Id: JavaActionBarContributor.java,v 1.6 2005/07/21 17:15:35 marcelop Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -243,6 +243,17 @@ public class JavaActionBarContributor
     menuManager.insertAfter("ui-actions", refreshViewerAction);
 
     super.addGlobalActions(menuManager);
+  }
+
+  /**
+   * This ensures that a delete action will clean up all references to deleted objects.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected boolean removeAllReferencesOnDelete()
+  {
+    return true;
   }
 
 }
