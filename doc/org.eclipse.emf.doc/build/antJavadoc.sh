@@ -8,7 +8,7 @@ eclipseDir=$1
 destDir=$eclipseDir/plugins/org.eclipse.emf.doc/references/javadoc
 
 # Don't execute if the destination directory has files
-if [ -d $destDir ]; then
+if [ -d "$destDir" ]; then
 	exit
 fi
 
@@ -18,7 +18,7 @@ function groupPackage
 	hasToken=`grep "@$plugin@" $currentPath/javadoc.xml.template`
 	if [ "x$hasToken" != "x"  ]; then
 		srcDir=$eclipseDir/plugins/$plugin/src
-		if [ -d $srcDir ]; then
+		if [ -d "$srcDir" ]; then
 			packages=`find $srcDir -type f -name '*.java' -exec grep -e '^package .*;' {} \; | sed -e 's/^package *\(.*\);/\1/' | sort | uniq | xargs | sed -e 's/ /:/g'`
 			packages=`echo $packages | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
 		
@@ -50,10 +50,9 @@ groupPackage org.eclipse.emf.mapping.ecore2ecore.editor
 # The directory of the emf plugins in the order they were built 
 pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | grep org.eclipse.emf | grep -v resources.jar | grep -v xsd | grep -v test  | grep -v org.eclipse.emf.java | grep -v sdo | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
 
-# All the jars in the pluigins directory
-classpath=`find $eclipseDir/plugins -name *.jar -print | grep -v org.eclipse.emf | grep -v org.eclipse.xsd | tr '\n' ':'`
-
-echo "Got classpath entries: "; for cp in $classpath; do echo $cp; done
+# All the jars in the plugins directory
+classpath=`find $eclipseDir/plugins -name "*.jar" | tr '\n' ':'`
+echo "Got classpath (\"$eclipseDir/plugins/\" removed): "; echo ${cp#$eclipseDir/plugins/};
 
 # Calculates the packagesets and the calls to copyDocFiles
 packagesets=""
@@ -61,7 +60,7 @@ copydocfiles=""
 for pluginDir in $pluginDirs; do
 	pluginDir=`echo $pluginDir | sed -e 's/\/runtime$//g'`
 	srcDir=$pluginDir/src
-	if [ -d $srcDir ]; then
+	if [ -d "$srcDir" ]; then
 		packagesets=$packagesets"<packageset dir=\"$srcDir\"><exclude name=\"$srcDir/**/doc-files/**\"/></packageset>"
 		copydocfiles=$copydocfiles"<copyDocFiles pluginDir=\"$pluginDir\"/>"
 	fi
@@ -73,8 +72,7 @@ sed -e "s/\@packagesets\@/${packagesets}/g" $currentPath/javadoc.xml.template > 
 # Replaces the token @copydocfiles@ in the template by the actual value
 copydocfiles=`echo $copydocfiles | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
 sed -e "s/\@copydocfiles\@/${copydocfiles}/g" $currentPath/javadoc.xml.template2 > javadoc.xml
-
-cp javadoc.xml /tmp/emf-javadoc.xml
+#cp javadoc.xml /tmp/emf-javadoc.xml
 
 # Executes the ant script
 ant	-f javadoc.xml \
