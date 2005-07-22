@@ -53,7 +53,7 @@ pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | g
 # All the jars in the pluigins directory
 classpath=`find $eclipseDir/plugins -name *.jar -print | grep -v org.eclipse.emf | grep -v org.eclipse.xsd | tr '\n' ':'`
 
-echo "Got classpath entries: "; for cp in classpath; do echo $cp; done
+echo "Got classpath entries: "; for cp in $classpath; do echo $cp; done
 
 # Calculates the packagesets and the calls to copyDocFiles
 packagesets=""
