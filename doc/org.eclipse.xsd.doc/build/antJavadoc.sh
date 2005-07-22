@@ -39,7 +39,7 @@ pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | g
 
 # All the jars in the plugins directory
 classpath=`find $eclipseDir/plugins -name "*.jar" | tr '\n' ':'`
-echo "Got classpath (\"$eclipseDir/plugins/\" removed): "; echo ${cp#$eclipseDir/plugins/};
+echo "Got classpath (\"$eclipseDir/plugins/\" removed): "; echo ${classpath#$eclipseDir/plugins/};
 
 # Calculates the packagesets and the calls to copyDocFiles
 packagesets=""
