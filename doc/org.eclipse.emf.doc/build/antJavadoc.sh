@@ -51,7 +51,9 @@ groupPackage org.eclipse.emf.mapping.ecore2ecore.editor
 pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | grep org.eclipse.emf | grep -v resources.jar | grep -v xsd | grep -v test  | grep -v org.eclipse.emf.java | grep -v sdo | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
 
 # All the jars in the pluigins directory
-classpath=`find $eclipseDir/plugins -name *.jar -print | grep -v org.eclipse.emf | grep -v org.eclipse.xsd | tr '\n' ';'`
+classpath=`find $eclipseDir/plugins -name *.jar -print | grep -v org.eclipse.emf | grep -v org.eclipse.xsd | tr '\n' ':'`
+
+echo "Got classpath entries: "; for cp in classpath; do echo $cp; done
 
 # Calculates the packagesets and the calls to copyDocFiles
 packagesets=""
@@ -71,6 +73,8 @@ sed -e "s/\@packagesets\@/${packagesets}/g" $currentPath/javadoc.xml.template > 
 # Replaces the token @copydocfiles@ in the template by the actual value
 copydocfiles=`echo $copydocfiles | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
 sed -e "s/\@copydocfiles\@/${copydocfiles}/g" $currentPath/javadoc.xml.template2 > javadoc.xml
+
+cp javadoc.xml /tmp/emf-javadoc.xml
 
 # Executes the ant script
 ant	-f javadoc.xml \
