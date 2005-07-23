@@ -50,9 +50,11 @@ groupPackage org.eclipse.emf.mapping.ecore2ecore.editor
 # The directory of the emf plugins in the order they were built 
 pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | grep org.eclipse.emf | grep -v resources.jar | grep -v xsd | grep -v test  | grep -v org.eclipse.emf.java | grep -v sdo | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
 
+### TODO: missing emf/sdo/xsd plugins (?) in $eclipseDir - need to copy them over or reference source (?)
+### so that all classes/packages (and thus @links) can be resolved
+
 # All the jars in the plugins directory
-classpath=`find $eclipseDir/plugins -name "*.jar" | tr '\n' ':'`
-echo "Got classpath (\"$eclipseDir/plugins/\" removed): "; echo ${classpath#$eclipseDir/plugins/};
+classpath=`find $eclipseDir/plugins -name "*.jar" | tr '\n' ':'`; echo "Got classpath: "; echo $classpath;
 
 # Calculates the packagesets and the calls to copyDocFiles
 packagesets=""
