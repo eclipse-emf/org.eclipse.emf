@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: UnitTreeBuilder.java,v 1.2 2005/06/08 06:20:36 nickb Exp $
+ * $Id: UnitTreeBuilder.java,v 1.3 2005/07/25 18:01:41 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -108,11 +108,14 @@ public class UnitTreeBuilder
         // The package is in a .cat file.
         //
         RoseNode fileNameNode = tree.findNodeWithKey(RoseStrings.FILE_NAME);
-        String fileNameNodeValue = fileNameNode.getValue();
-        String fileName = roseUtil.resolveFileName(fileNameNodeValue);
-        UnitTreeNode unitTreeNode = new UnitTreeNode(objName, quid, fileName);
-        unitNode.addNode(unitTreeNode);
-        roseUtil.createRoseUnitTreeAndTable(fileNameNodeValue, unitTreeNode);
+        if (fileNameNode != null)
+        {
+          String fileNameNodeValue = fileNameNode.getValue();
+          String fileName = roseUtil.resolveFileName(fileNameNodeValue);
+          UnitTreeNode unitTreeNode = new UnitTreeNode(objName, quid, fileName);
+          unitNode.addNode(unitTreeNode);
+          roseUtil.createRoseUnitTreeAndTable(fileNameNodeValue, unitTreeNode);
+        }
       }
       else
       {
