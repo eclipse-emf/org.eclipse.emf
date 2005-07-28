@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.7.2.1 2005/06/08 18:27:43 nickb Exp $
+ * $Id: EClassImpl.java,v 1.7.2.2 2005/07/28 23:04:22 nickb Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -111,6 +111,11 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     super.freeze();
   }
 
+  public boolean isFrozen()
+  {
+    return super.isFrozen();
+  }
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
