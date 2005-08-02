@@ -207,9 +207,7 @@ public class ModelDetailPage extends ModelImporterPage
   {
     loadButton = new Button(parent, SWT.PUSH);
     loadButton.setText(ImporterPlugin.INSTANCE.getString("_UI_Load_label"));
-    GridData data = new GridData(GridData.END);
-    data.widthHint = 50;
-    loadButton.setLayoutData(data);
+    loadButton.setLayoutData(new GridData(GridData.END));
     loadButton.addListener(SWT.Selection, this);
   }
 
