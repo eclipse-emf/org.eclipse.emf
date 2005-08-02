@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.35 2005/07/21 19:47:33 elena Exp $
+ * $Id: XMLHandler.java,v 1.36 2005/08/02 16:40:18 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -789,6 +789,20 @@ public abstract class XMLHandler
     if (top)
     {
       processTopObject(newObject);
+      // check for simple feature
+      if (extendedMetaData != null)
+      {
+        EStructuralFeature simpleFeature = extendedMetaData.getSimpleFeature(newObject.eClass());
+        if (simpleFeature != null)
+        {
+          isSimpleFeature = true;
+          isIDREF = simpleFeature instanceof EReference;
+          objects.push(null);
+          mixedTargets.push(null);
+          types.push(simpleFeature);
+          text = new StringBuffer();
+        }
+      }
     }
     return newObject;
   }
