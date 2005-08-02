@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf"
       label="%featureName"
-      version="2.0.3"
+      version="2.0.3.1"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -23,20 +23,19 @@ http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <url>
-<!--      <update label="%updateSiteName" url="http://update.eclipse.org/updates/3.0"/> -->
       <update label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
       <discovery label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
    </url>
 
    <requires>
-      <import plugin="org.eclipse.core.resources" version="3.0.0" match="compatible"/>
+      <import plugin="org.eclipse.core.resources" version="3.0.0"/>
    </requires>
 
    <plugin
          id="org.eclipse.emf"
          download-size="0"
          install-size="0"
-         version="2.0.3"/>
+         version="2.0.3.1"/>
 
    <plugin
          id="org.eclipse.emf.codegen"
@@ -78,7 +77,7 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.ecore"
          download-size="0"
          install-size="0"
-         version="2.0.3"/>
+         version="2.0.3.1"/>
 
    <plugin
          id="org.eclipse.emf.ecore.edit"
