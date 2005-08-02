@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.19 2005/06/10 21:02:54 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.20 2005/08/02 19:35:54 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -826,7 +826,7 @@ public class EcoreEditor
     {
       // Load the resource through the editing domain.
       //
-      editingDomain.loadResource(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
+      editingDomain.loadResource(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true).toString());
     }
     catch (Exception exception)
     {
@@ -1212,7 +1212,7 @@ public class EcoreEditor
         Resource currentResource = (Resource)resourceSet.getResources().get(0);
         String currentExtension = currentResource.getURI().fileExtension();
 
-        URI newURI = URI.createPlatformResourceURI(file.getFullPath().toString());
+        URI newURI = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
         String newExtension = newURI.fileExtension();
         
         if (currentExtension.equals(ECORE_FILE_EXTENSION) && newExtension.equals(EMOF_FILE_EXTENSION) ||

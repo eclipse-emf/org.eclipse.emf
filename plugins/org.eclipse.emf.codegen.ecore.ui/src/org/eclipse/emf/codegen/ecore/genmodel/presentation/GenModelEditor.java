@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.15 2005/06/12 13:23:31 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.16 2005/08/02 19:35:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -687,7 +687,7 @@ public class GenModelEditor
       //
       Resource resource = 
         editingDomain.loadResource
-          (URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
+          (URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true).toString());
 
       // Initialize the formatting styles based on the Eclipse preferences.
       //
@@ -901,7 +901,7 @@ public class GenModelEditor
       if (file != null)
       {
         ((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI
-          (URI.createPlatformResourceURI(file.getFullPath().toString()));
+          (URI.createPlatformResourceURI(file.getFullPath().toString(), true));
         IFileEditorInput modelFile = new FileEditorInput(file);
         setInput(modelFile);
         setPartName(file.getName());
