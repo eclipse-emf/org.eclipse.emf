@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.28 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EcoreUtil.java,v 1.29 2005/08/04 16:09:49 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -557,7 +557,7 @@ public class EcoreUtil
             if (eStructuralFeature instanceof EReference)
             {
               EReference eReference = (EReference)eStructuralFeature;
-              if (!eReference.isContainment())
+              if (!eReference.isContainment() && !eReference.isContainer())
               {
                 copyReference(eReference, eObject, copyEObject);
               }
