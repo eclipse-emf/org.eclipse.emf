@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: ComposedAdapterFactory.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: ComposedAdapterFactory.java,v 1.3.2.1 2005/08/04 22:27:18 nickb Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.edit.provider;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -46,6 +48,78 @@ public class ComposedAdapterFactory
     IDisposable
 {
   /**
+   * A descriptor is can create an adapter factory.
+   * They are used as the values in a {@link Descritor.Registry registry}.
+   */
+  public interface Descriptor
+  {
+    /**
+     * Creates an adapter factory.
+     * @return a new adapter factory.
+     */
+    AdapterFactory createAdapterFactory();   
+    
+    /**
+     * A registry is an index that takes a collection of keys,
+     * typically a pair consisting of an EPackage or java.lang.Package, and a java.lang.Class,
+     * and maps it to a {@link Descriptor descriptor}.
+     */
+    interface Registry
+    {
+      /**
+       * The global registry typically populated by plugin registration.
+       */
+      Registry INSTANCE = org.eclipse.emf.edit.EMFEditPlugin.getComposedAdapterFactoryDescriptorRegistry();
+      
+      /**
+       * Returns descriptor that can create a factory for the types.
+       * @param  a collections of keys, typically a pair consisting of an EPackage or java.lang.Package, and a java.lang.Class.
+       * @return a descriptor that can create a factory for the types.
+       */
+      Descriptor getDescriptor(Collection types);
+      
+      /**
+       *  A simple registry implementation that supports delegation.
+       */
+      class Impl extends HashMap implements Registry
+      {
+        /**
+         * The delegate registry should lookup fail locally.
+         */
+        protected Registry delegateRegistry;
+        
+        /**
+         * Creates an instance.
+         * @param delegateRegistry <code>null</code> or a registration that should act as the delegate.
+         */
+        public Impl(Registry delegateRegistry)
+        {
+          this.delegateRegistry = delegateRegistry;
+        }
+        
+        public Descriptor getDescriptor(Collection types)
+        {
+          Descriptor descriptor = (Descriptor)get(types);
+          return descriptor == null ?  delegatedGetDescriptor(types) : descriptor;
+        }
+        
+        /**
+         * This is called when local lookup fails.
+         */
+        protected Descriptor delegatedGetDescriptor(Collection types)
+        {
+          if (delegateRegistry != null)
+          {
+            return delegateRegistry.getDescriptor(types);
+          }
+          
+          return null;
+        }
+      }
+    }
+  }
+  
+  /**
    * This keeps track of all the {@link org.eclipse.emf.common.notify.AdapterFactory} delegates.
    */
   protected List adapterFactories = new ArrayList();
@@ -60,6 +134,22 @@ public class ComposedAdapterFactory
    */
   protected ChangeNotifier changeNotifier = new ChangeNotifier();
 
+  /**
+   * This is used to demand create adapter factories from a registry. 
+   */
+  protected Descriptor.Registry adapterFactoryDescriptorRegistry;
+
+  public ComposedAdapterFactory()
+  {
+  }
+  
+  /**
+   */
+  public ComposedAdapterFactory(Descriptor.Registry adapterFactoryDescriptorRegistry)
+  {
+    this.adapterFactoryDescriptorRegistry = adapterFactoryDescriptorRegistry;
+  }
+  
   /**
    */
   public ComposedAdapterFactory(AdapterFactory adapterFactory)
@@ -127,8 +217,24 @@ public class ComposedAdapterFactory
         return factory;
       }
     }
-
-    return null;
+    
+    if (adapterFactoryDescriptorRegistry != null)
+    {
+      Descriptor descriptor = adapterFactoryDescriptorRegistry.getDescriptor(types);
+      if (descriptor != null)
+      {
+        AdapterFactory result = descriptor.createAdapterFactory();
+        addAdapterFactory(result);
+        return result;
+      }
+    }   
+    
+    return delegatedGetFactoryForTypes(types);
+  }
+  
+  protected AdapterFactory delegatedGetFactoryForTypes(Collection types)
+  {
+    return  null;
   }
 
   public Object adapt(Object target, Object type)
@@ -174,14 +280,15 @@ public class ComposedAdapterFactory
         {
           Collection failedPackageSet = new HashSet();
           failedPackageSet.add(ePackage);
-          for (Iterator supertypes = eClass.getEAllSuperTypes().iterator(); supertypes.hasNext(); )
+          List allSuperTypes = new UniqueEList.FastCompare(eClass.getESuperTypes());
+          for (int i = 0; i < allSuperTypes.size(); ++i)
           {
-            EClass eSuperType = (EClass)supertypes.next();
+            EClass eSuperType = (EClass)allSuperTypes.get(i);
             EPackage eSupertypePackage = eSuperType.getEPackage();
             if (failedPackageSet.add(eSupertypePackage))
             {
               Collection superTypes = new ArrayList();
-              superTypes.add(ePackage);
+              superTypes.add(eSupertypePackage);
               if (type != null)
               {
                 superTypes.add(type);
@@ -196,6 +303,7 @@ public class ComposedAdapterFactory
                 }
               }
             }
+            allSuperTypes.addAll(eSuperType.getESuperTypes());
           }
         }
       }

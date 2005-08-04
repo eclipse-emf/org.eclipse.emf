@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.emf.edit; singleton:=true
+Bundle-Version: 2.1.1
+Bundle-ClassPath: edit.jar
+Bundle-Activator: org.eclipse.emf.edit.EMFEditPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.emf.edit,
+ org.eclipse.emf.edit.command,
+ org.eclipse.emf.edit.domain,
+ org.eclipse.emf.edit.provider,
+ org.eclipse.emf.edit.provider.resource,
+ org.eclipse.emf.edit.tree,
+ org.eclipse.emf.edit.tree.impl,
+ org.eclipse.emf.edit.tree.provider,
+ org.eclipse.emf.edit.tree.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.common;visibility:=reexport,
+ org.eclipse.emf.ecore;visibility:=reexport
+Eclipse-AutoStart: true
