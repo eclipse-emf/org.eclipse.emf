@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeSummaryTest.java,v 1.7 2005/06/14 14:51:40 emerks Exp $
+ * $Id: ChangeSummaryTest.java,v 1.8 2005/08/04 14:34:31 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.change.ChangeKind;
@@ -46,13 +47,6 @@ import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.sdo.EChangeSummary;
-import org.eclipse.emf.ecore.sdo.EDataGraph;
-import org.eclipse.emf.ecore.sdo.EProperty;
-import org.eclipse.emf.ecore.sdo.SDOFactory;
-import org.eclipse.emf.ecore.sdo.impl.DynamicEDataObjectImpl;
-import org.eclipse.emf.ecore.sdo.impl.EDataGraphImpl;
-import org.eclipse.emf.ecore.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -62,6 +56,16 @@ import org.eclipse.emf.test.models.personal.PersonalPackage;
 import org.eclipse.emf.test.models.personal.mixed.MixedPackage;
 import org.eclipse.emf.test.models.personal.mixed.util.MixedResourceFactoryImpl;
 import org.eclipse.emf.test.models.personal.util.PersonalResourceFactoryImpl;
+
+import org.eclipse.emf.ecore.sdo.EChangeSummary;
+import org.eclipse.emf.ecore.sdo.EChangeSummarySetting;
+import org.eclipse.emf.ecore.sdo.EDataGraph;
+import org.eclipse.emf.ecore.sdo.EDataObject;
+import org.eclipse.emf.ecore.sdo.EProperty;
+import org.eclipse.emf.ecore.sdo.SDOFactory;
+import org.eclipse.emf.ecore.sdo.impl.DynamicEDataObjectImpl;
+import org.eclipse.emf.ecore.sdo.impl.EDataGraphImpl;
+import org.eclipse.emf.ecore.sdo.util.SDOUtil;
 
 import com.example.ipo.IpoFactory;
 import com.example.ipo.PurchaseOrderType;
@@ -101,12 +105,8 @@ public class ChangeSummaryTest extends TestCase
     testSuite.addTest(new ChangeSummaryTest("testPersonalMixed"));
     testSuite.addTest(new ChangeSummaryTest("testPersonal"));
     testSuite.addTest(new ChangeSummaryTest("testOldContainer"));
+    testSuite.addTest(new ChangeSummaryTest("testGetOldValues"));
     return testSuite;
-  }
-
-  protected void setUp() throws Exception
-  {
-
   }
 
   protected ExtendedMetaData registerPersonal()
@@ -678,5 +678,101 @@ public class ChangeSummaryTest extends TestCase
 
     assertNotNull(dataGraph.getChangeSummary());
     return dataGraph.createRootObject(pkg.getNsURI(), phoneClass.getName());
+  }
+  
+  /*
+   * Bugzillas: 106020, 106047
+   */
+  public void testGetOldValues() throws Exception
+  {
+    EClass employeeClass = EcoreFactory.eINSTANCE.createEClass();
+    employeeClass.setName("Employee");
+
+    // name
+    EAttribute employeeNameFeature = EcoreFactory.eINSTANCE.createEAttribute();
+    employeeNameFeature.setName("name");
+    employeeNameFeature.setEType(EcorePackage.eINSTANCE.getEString());
+    employeeClass.getEStructuralFeatures().add(employeeNameFeature);
+
+    // employees (that the employee manages)
+    EReference employeeEmployeesFeature = EcoreFactory.eINSTANCE.createEReference();
+    employeeEmployeesFeature.setName("employees");
+    employeeEmployeesFeature.setEType(employeeClass);
+    employeeEmployeesFeature.setUpperBound(EStructuralFeature.UNBOUNDED_MULTIPLICITY);
+    employeeEmployeesFeature.setContainment(true); // must be true so that
+    // nested employees will
+    // be in the graph
+    employeeClass.getEStructuralFeatures().add(employeeEmployeesFeature);
+
+    EPackage employeePackage = EcoreFactory.eINSTANCE.createEPackage();
+    employeePackage.setName("company");
+    employeePackage.setNsPrefix("company");
+    employeePackage.setNsURI("http://com.example.company.ecore");
+    employeePackage.getEClassifiers().add(employeeClass);
+
+    // Have the factory for this package build SDO Objects
+    employeePackage.setEFactoryInstance(new DynamicEDataObjectImpl.FactoryImpl());
+    
+
+    EDataObject boss = (EDataObject)EcoreUtil.create(employeeClass);
+    boss.eSet(employeeNameFeature, "Boss");
+    EDataObject employeeA = (EDataObject)EcoreUtil.create(employeeClass);
+    employeeA.eSet(employeeNameFeature, "employeeA");
+    ((List)boss.eGet(employeeEmployeesFeature)).add(employeeA);
+    EDataObject employeeB = (EDataObject)EcoreUtil.create(employeeClass);
+    employeeB.eSet(employeeNameFeature, "employeeB");
+    ((List)boss.eGet(employeeEmployeesFeature)).add(employeeB);
+    EDataObject employeeC = (EDataObject)EcoreUtil.create(employeeClass);
+    employeeC.eSet(employeeNameFeature, "employeeC");
+    
+    
+    EDataGraph employeeGraph = SDOFactory.eINSTANCE.createEDataGraph();
+    employeeGraph.setERootObject(boss);
+    employeeGraph.getChangeSummary().beginLogging();
+    
+    ((List)boss.eGet(employeeEmployeesFeature)).add(employeeC);
+    ((List)boss.eGet(employeeEmployeesFeature)).remove(0); //remove employeeA
+    
+    EChangeSummary eChangeSummary = employeeGraph.getEChangeSummary();
+    eChangeSummary.endLogging();
+    
+    assertTrue(eChangeSummary.isDeleted(employeeA));
+    assertTrue(eChangeSummary.isCreated(employeeC));
+    
+    assertTrue(eChangeSummary.getOldValues(employeeA).isEmpty());
+    assertTrue(eChangeSummary.getOldValues(employeeB).isEmpty());
+    assertTrue(eChangeSummary.getOldValues(employeeC).isEmpty());
+    
+    List changeSummarySettings = eChangeSummary.getOldValues(boss);
+    assertEquals(1, changeSummarySettings.size());
+    ChangeSummary.Setting setting = (ChangeSummary.Setting)changeSummarySettings.get(0);
+    assertEquals(employeeEmployeesFeature, ((EChangeSummarySetting)setting).getFeature());
+    List value = (List)((EChangeSummarySetting)setting).getValue();
+    assertEquals(2, value.size());
+    assertTrue(value.contains(employeeA));
+    assertTrue(value.contains(employeeB));
+
+    //
+    
+    employeeGraph.getChangeSummary().beginLogging();
+    ((List)boss.eGet(employeeEmployeesFeature)).remove(1); //remove employeeC
+    
+    eChangeSummary = employeeGraph.getEChangeSummary();
+    eChangeSummary.endLogging();
+
+    assertTrue(eChangeSummary.isDeleted(employeeC));
+
+    assertTrue(eChangeSummary.getOldValues(employeeA).isEmpty());
+    assertTrue(eChangeSummary.getOldValues(employeeB).isEmpty());
+    assertTrue(eChangeSummary.getOldValues(employeeC).isEmpty());
+    
+    changeSummarySettings = eChangeSummary.getOldValues(boss);
+    assertEquals(1, changeSummarySettings.size());
+    setting = (ChangeSummary.Setting)changeSummarySettings.get(0);
+    assertEquals(employeeEmployeesFeature, ((EChangeSummarySetting)setting).getFeature());
+    value = (List)((EChangeSummarySetting)setting).getValue();
+    assertEquals(2, value.size());
+    assertTrue(value.contains(employeeB));
+    assertTrue(value.contains(employeeC));
   }
 }
