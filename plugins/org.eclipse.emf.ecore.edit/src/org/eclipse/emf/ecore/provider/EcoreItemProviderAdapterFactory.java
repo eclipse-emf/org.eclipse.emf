@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreItemProviderAdapterFactory.java,v 1.4 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EcoreItemProviderAdapterFactory.java,v 1.5 2005/08/04 15:38:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -425,11 +425,11 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public boolean isFactoryForType(Object type)
   {
-    return supportedTypes.contains(type) || super.isFactoryForType(type);
+    return supportedTypes.contains(type) || type == modelPackage;
   }
 
   /**
