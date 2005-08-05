@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEMap.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EcoreEMap.java,v 1.4 2005/08/05 17:19:25 emerks Exp $
  */
 package  org.eclipse.emf.ecore.util;
 
@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 
-public class EcoreEMap extends BasicEMap implements InternalEList, EStructuralFeature.Setting
+public class EcoreEMap extends BasicEMap implements InternalEList.Unsettable, EStructuralFeature.Setting
 {
   protected EClass entryEClass;
   protected Class entryClass;
