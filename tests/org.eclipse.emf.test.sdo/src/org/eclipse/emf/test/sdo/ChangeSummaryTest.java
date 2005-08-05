@@ -5,14 +5,14 @@
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html 
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: ChangeSummaryTest.java,v 1.7.2.1 2005/08/05 22:33:33 nickb Exp $
+ * $Id: ChangeSummaryTest.java,v 1.7.2.2 2005/08/05 22:45:16 nickb Exp $
  */
 package org.eclipse.emf.test.sdo;
 
