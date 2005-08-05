@@ -6,36 +6,51 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.1 2004/03/06 17:31:33 marcelop Exp $
+ * $Id: feature.xml,v 1.25.2.1 2005/08/05 20:42:25 nickb Exp $
  */
 -->
 
 <feature
       id="org.eclipse.emf.tests"
-      label="Tests for Eclipse Modeling Framework"
-      version="2.0.0"
+      label="%featureName"
+      version="2.1.0"
       image= "eclipse_update_120.jpg"
-      provider-name="Eclipse.org">
+      provider-name="%providerName">
+
+   <description>
+      %description
+   </description>
+
+   <copyright>
+      Copyright (c) 2004 IBM Corporation and others.
+All rights reserved.   This program and the accompanying materials
+are made available under the terms of the Eclipse Public License
+v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+   </copyright>
 
    <license url="%licenseURL">
-
+      %license
    </license>
 
    <url>
-      <update url="http://update.eclipse.org/updates" label="%updateSiteName"/>
+<!--      <update label="%updateSiteName" url="http://update.eclipse.org/updates/3.0"/> -->
+      <update label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
+      <discovery label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
    </url>
 
    <requires>
-      <import feature="org.eclipse.emf" version="2.0.0"/>
+      <import feature="org.eclipse.emf" version="2.1.0"/>
    </requires>
 
    <!-- Required Eclipse plugins -->
@@ -44,13 +59,26 @@
          id="org.eclipse.test"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="3.1.0"/>
+
+   <plugin
+         id="org.eclipse.test.performance"
+         download-size="0"
+         install-size="0"
+         version="3.1.0"/>
+
+   <plugin
+         id="org.eclipse.test.performance.win32"
+         download-size="0"
+         install-size="0"
+         version="3.1.0"
+         fragment="true"/>
 
    <plugin
          id="org.eclipse.ant.optional.junit"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.1.0"
          fragment="true"/>
 
    <!-- End of required Eclipse plugins -->
@@ -59,14 +87,47 @@
          id="org.eclipse.emf.tests"
          download-size="0"
          install-size="0"
-         version="2.0.0">
-   </plugin>
+         version="2.1.0"/>
+
+   <plugin
+         id="org.eclipse.emf.test.performance"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"/>
+
+   <plugin
+         id="org.eclipse.emf.test.build"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"/>
 
    <plugin
          id="org.eclipse.emf.test.core"
          download-size="0"
          install-size="0"
-         version="2.0.0">
-   </plugin>
-    
+         version="2.1.0"/>
+   
+   <plugin
+         id="org.eclipse.emf.test.edit"
+         download-size="0"
+         install-size="0"
+         version="2.1.1"/>
+
+   <plugin
+         id="org.eclipse.emf.test.sdo"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"/>
+
+   <plugin
+         id="org.eclipse.emf.test.tools"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"/>
+
+   <plugin
+         id="org.eclipse.emf.test.xml"
+         download-size="0"
+         install-size="0"
+         version="2.1.0"/>
 </feature>
