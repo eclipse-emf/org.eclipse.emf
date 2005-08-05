@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: EcoreItemProviderAdapterFactory.java,v 1.1 2004/03/06 17:31:32 marcelop Exp $
+ * $Id: EcoreItemProviderAdapterFactory.java,v 1.4.2.1 2005/08/05 22:25:42 nickb Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
+import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -46,7 +47,7 @@ import org.eclipse.emf.edit.provider.ReflectiveItemProvider;
  * <!-- end-user-doc -->
  * @generated
  */
-public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier
+public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable
 {
   /**
    * This keeps track of the root adapter factory that delegates to this adapter factory.
@@ -80,11 +81,11 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    */
   public EcoreItemProviderAdapterFactory()
   {
+    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
-    supportedTypes.add(IItemPropertySource.class);
-    supportedTypes.add(IEditingDomainItemProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
+    supportedTypes.add(IItemPropertySource.class);		
   }
 
   /**
@@ -261,7 +262,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected Adapter eObjectItemProvider;
+  protected ReflectiveItemProvider eObjectItemProvider;
 
   /**
    * This creates an adapter for a {@link org.eclipse.emf.ecore.EObject}.
@@ -424,11 +425,11 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public boolean isFactoryForType(Object type)
   {
-    return supportedTypes.contains(type) || super.isFactoryForType(type);
+    return supportedTypes.contains(type) || type == modelPackage;
   }
 
   /**
@@ -497,6 +498,29 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
     {
       parentAdapterFactory.fireNotifyChanged(notification);
     }
+  }
+
+  /**
+   * This disposes all of the item providers created by this factory. 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void dispose()
+  {
+    if (eAttributeItemProvider != null) eAttributeItemProvider.dispose();
+    if (eAnnotationItemProvider != null) eAnnotationItemProvider.dispose();
+    if (eClassItemProvider != null) eClassItemProvider.dispose();
+    if (eDataTypeItemProvider != null) eDataTypeItemProvider.dispose();
+    if (eEnumItemProvider != null) eEnumItemProvider.dispose();
+    if (eEnumLiteralItemProvider != null) eEnumLiteralItemProvider.dispose();
+    if (eFactoryItemProvider != null) eFactoryItemProvider.dispose();
+    if (eObjectItemProvider != null) eObjectItemProvider.dispose();
+    if (eOperationItemProvider != null) eOperationItemProvider.dispose();
+    if (ePackageItemProvider != null) ePackageItemProvider.dispose();
+    if (eParameterItemProvider != null) eParameterItemProvider.dispose();
+    if (eReferenceItemProvider != null) eReferenceItemProvider.dispose();
+    if (eStringToStringMapEntryItemProvider != null) eStringToStringMapEntryItemProvider.dispose();
   }
 
 }
