@@ -273,7 +273,9 @@ public class ModelDetailPage extends ModelImporterPage
 
   protected String getModelLocationTextLabel()
   {
-    return ImporterPlugin.INSTANCE.getString("_UI_ModelLocation_label");
+    return supportMultipleModelLocation() ?
+      ImporterPlugin.INSTANCE.getString("_UI_ModelLocations_label") :
+      ImporterPlugin.INSTANCE.getString("_UI_ModelLocation_label");
   }
 
   protected String getBrowseFileSystemButtonLabel()
