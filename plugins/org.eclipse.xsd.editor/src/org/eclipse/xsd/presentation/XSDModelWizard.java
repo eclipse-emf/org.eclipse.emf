@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelWizard.java,v 1.3 2005/06/12 12:33:47 emerks Exp $
+ * $Id: XSDModelWizard.java,v 1.4 2005/08/05 14:44:35 marcelop Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -35,6 +35,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -352,6 +354,8 @@ public class XSDModelWizard extends Wizard implements INewWizard
      */
     protected Text schemaNamespaceText;
 
+    protected boolean isCustomSchemaNamespace = false; 
+
     /**
      */
     public XSDModelWizardInitialObjectCreationPage(String pageId)
@@ -410,7 +414,17 @@ public class XSDModelWizard extends Wizard implements INewWizard
         data.horizontalAlignment = GridData.FILL;
         data.grabExcessHorizontalSpace = true;
         schemaNamespaceText.setLayoutData(data);
-        schemaNamespaceText.setText("http://" + getModelFile().getFullPath());
+        schemaNamespaceText.addKeyListener(new KeyListener()
+          {
+            public void keyReleased(KeyEvent e)
+            {
+              isCustomSchemaNamespace = true;
+            }
+        
+            public void keyPressed(KeyEvent e)
+            {
+            }
+          });
       }
 
       Label schemaForSchemaPrefixLabel = new Label(composite, SWT.LEFT);
@@ -453,14 +467,6 @@ public class XSDModelWizard extends Wizard implements INewWizard
     }
 
     /**
-     * The framework calls this to see if the file is correct.
-     */
-    public boolean isPageComplete()
-    {
-      return super.isPageComplete();
-    }
-
-    /**
      * Store the dialog field settings upon completion.
      */
     public boolean performFinish()
@@ -481,6 +487,15 @@ public class XSDModelWizard extends Wizard implements INewWizard
         map.put(schemaPrefixText.getText(), schemaNamespaceText.getText());
       }
       return xsdSchema;
+    }
+
+    public void setVisible(boolean visible)
+    {
+      if (visible && !isCustomSchemaNamespace)
+      {
+        schemaNamespaceText.setText("http://" + getModelFile().getFullPath());
+      }
+      super.setVisible(visible);
     }
   }
 
