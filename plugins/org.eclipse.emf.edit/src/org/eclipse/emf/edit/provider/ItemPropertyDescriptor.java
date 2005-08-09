@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.18 2005/07/08 02:57:52 davidms Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.19 2005/08/09 04:40:44 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1173,7 +1173,8 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
           }
           else
           {
-            editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, getCommandOwner(eObject), parentReference, null));
+            editingDomain.getCommandStack().execute
+              (SetCommand.create(editingDomain, getCommandOwner(eObject), parentReference, SetCommand.UNSET_VALUE));
           }
           break;
         }
@@ -1185,13 +1186,9 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       {
         eObject.eUnset(feature);
       }
-      else if (feature.isMany())
-      {
-        editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, getCommandOwner(eObject), feature, Collections.EMPTY_LIST));
-      }
       else
       {
-        editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, getCommandOwner(eObject), feature, null));
+        editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, getCommandOwner(eObject), feature, SetCommand.UNSET_VALUE));
       }
     }
   }
