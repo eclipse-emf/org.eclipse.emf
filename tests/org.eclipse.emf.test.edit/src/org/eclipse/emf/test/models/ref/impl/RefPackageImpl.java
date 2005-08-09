@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RefPackageImpl.java,v 1.3 2005/07/14 19:35:16 davidms Exp $
+ * $Id: RefPackageImpl.java,v 1.4 2005/08/09 04:43:10 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -19,6 +19,10 @@ import org.eclipse.emf.test.models.ext.impl.ExtPackageImpl;
 
 import org.eclipse.emf.test.models.ref.RefFactory;
 import org.eclipse.emf.test.models.ref.RefPackage;
+
+import org.eclipse.emf.test.models.ref.unsettable.URefPackage;
+
+import org.eclipse.emf.test.models.ref.unsettable.impl.URefPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -150,14 +154,17 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
     isInited = true;
 
     // Obtain or create and register interdependencies
+    URefPackageImpl theURefPackage = (URefPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(URefPackage.eNS_URI) instanceof URefPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(URefPackage.eNS_URI) : URefPackage.eINSTANCE);
     ExtPackageImpl theExtPackage = (ExtPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ExtPackage.eNS_URI) instanceof ExtPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ExtPackage.eNS_URI) : ExtPackage.eINSTANCE);
 
     // Create package meta-data objects
     theRefPackage.createPackageContents();
+    theURefPackage.createPackageContents();
     theExtPackage.createPackageContents();
 
     // Initialize created meta-data
     theRefPackage.initializePackageContents();
+    theURefPackage.initializePackageContents();
     theExtPackage.initializePackageContents();
 
     // Mark meta-data to indicate it can't be changed
@@ -581,6 +588,12 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
     setName(eNAME);
     setNsPrefix(eNS_PREFIX);
     setNsURI(eNS_URI);
+
+    // Obtain other dependent packages
+    URefPackageImpl theURefPackage = (URefPackageImpl)EPackage.Registry.INSTANCE.getEPackage(URefPackage.eNS_URI);
+
+    // Add subpackages
+    getESubpackages().add(theURefPackage);
 
     // Add supertypes to classes
 

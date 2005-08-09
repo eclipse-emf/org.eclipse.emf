@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ExtEItemProvider.java,v 1.1 2005/07/14 19:35:16 davidms Exp $
+ * $Id: ExtEItemProvider.java,v 1.2 2005/08/09 04:43:09 davidms Exp $
  */
 package org.eclipse.emf.test.models.ext.provider;
 
@@ -110,17 +110,6 @@ public class ExtEItemProvider
       childrenFeatures.add(ExtPackage.eINSTANCE.getExtE_F());
     }
     return childrenFeatures;
-  }
-
-  /**
-   * This returns ExtE.gif.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object getImage(Object object)
-  {
-    return getResourceLocator().getImage("full/obj16/ExtE");
   }
 
   /**

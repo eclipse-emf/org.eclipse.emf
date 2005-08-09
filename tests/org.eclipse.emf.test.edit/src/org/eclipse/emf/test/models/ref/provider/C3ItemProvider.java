@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: C3ItemProvider.java,v 1.1 2005/07/08 02:16:32 davidms Exp $
+ * $Id: C3ItemProvider.java,v 1.2 2005/08/09 04:43:09 davidms Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -100,17 +100,6 @@ public class C3ItemProvider
     // adding (see {@link AddCommand}) it as a child.
 
     return super.getChildFeature(object, child);
-  }
-
-  /**
-   * This returns C3.gif.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object getImage(Object object)
-  {
-    return getResourceLocator().getImage("full/obj16/C3");
   }
 
   /**

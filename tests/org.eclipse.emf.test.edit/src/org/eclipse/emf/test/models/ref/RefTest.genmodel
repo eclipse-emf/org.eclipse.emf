@@ -42,22 +42,65 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTest.ecore#//E/labels"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//E/d"/>
     </genClasses>
-    <genClasses ecoreClass="RefTest.ecore#//C4">
+    <genClasses image="false" ecoreClass="RefTest.ecore#//C4">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//C4/c"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//C4/d"/>
     </genClasses>
-    <genClasses ecoreClass="RefTest.ecore#//C3">
+    <genClasses image="false" ecoreClass="RefTest.ecore#//C3">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//C3/d"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//C3/c"/>
     </genClasses>
+    <nestedGenPackages prefix="URef" disposableProviderFactory="true" ecorePackage="RefTest.ecore#//unsettable">
+      <genClasses image="false" ecoreClass="RefTest.ecore#//unsettable/C1U">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/C1U/au"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/C1U/bu"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="RefTest.ecore#//unsettable/C2U">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/C2U/au"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/C2U/bu"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="RefTest.ecore#//unsettable/AU">
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/AU/bu"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/AU/c2u"/>
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/AU/cu"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="RefTest.ecore#//unsettable/BU">
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/BU/au"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/BU/c2u"/>
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/BU/du"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="RefTest.ecore#//unsettable/CU">
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/CU/du"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/CU/c4u"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="RefTest.ecore#//unsettable/DU">
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/DU/cu"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/DU/c4u"/>
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/DU/eu"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="RefTest.ecore#//unsettable/C4U">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/C4U/cu"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/C4U/du"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="RefTest.ecore#//unsettable/C3U">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/C3U/cu"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/C3U/du"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="RefTest.ecore#//unsettable/EU">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTest.ecore#//unsettable/EU/name"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTest.ecore#//unsettable/EU/ids"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTest.ecore#//unsettable/EU/labels"/>
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/EU/du"/>
+      </genClasses>
+    </nestedGenPackages>
   </genPackages>
   <genPackages prefix="Ext" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
       ecorePackage="RefTestExt.ecore#/">
-    <genClasses ecoreClass="RefTestExt.ecore#//ExtE">
+    <genClasses image="false" ecoreClass="RefTestExt.ecore#//ExtE">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTestExt.ecore#//ExtE/value"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTestExt.ecore#//ExtE/f"/>
     </genClasses>
-    <genClasses ecoreClass="RefTestExt.ecore#//F">
+    <genClasses image="false" ecoreClass="RefTestExt.ecore#//F">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RefTestExt.ecore#//F/id"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RefTestExt.ecore#//F/e"/>
     </genClasses>

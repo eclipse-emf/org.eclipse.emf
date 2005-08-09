@@ -63,4 +63,73 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="c" lowerBound="1" eType="#//C"
         containment="true"/>
   </eClassifiers>
+  <eSubpackages name="unsettable" nsURI="http:///org/eclipse/emf/test/models/ref/unsettable.ecore"
+      nsPrefix="org.eclipse.emf.test.models.ref.unsettable">
+    <eClassifiers xsi:type="ecore:EClass" name="C1U">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="au" lowerBound="1" eType="#//unsettable/AU"
+          unsettable="true" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bu" upperBound="-1" eType="#//unsettable/BU"
+          unsettable="true" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="C2U">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="au" lowerBound="1" eType="#//unsettable/AU"
+          unsettable="true" containment="true" eOpposite="#//unsettable/AU/c2u"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bu" upperBound="-1" eType="#//unsettable/BU"
+          unsettable="true" containment="true" eOpposite="#//unsettable/BU/c2u"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AU">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bu" lowerBound="1" eType="#//unsettable/BU"
+          unsettable="true" eOpposite="#//unsettable/BU/au"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="c2u" lowerBound="1" eType="#//unsettable/C2U"
+          transient="true" unsettable="true" eOpposite="#//unsettable/C2U/au"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cu" lowerBound="1" eType="#//unsettable/CU"
+          unsettable="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BU">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="au" lowerBound="1" eType="#//unsettable/AU"
+          unsettable="true" eOpposite="#//unsettable/AU/bu"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="c2u" lowerBound="1" eType="#//unsettable/C2U"
+          transient="true" unsettable="true" eOpposite="#//unsettable/C2U/bu"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="du" upperBound="-1" eType="#//unsettable/DU"
+          unsettable="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CU">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="du" upperBound="-1" eType="#//unsettable/DU"
+          unsettable="true" eOpposite="#//unsettable/DU/cu"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="c4u" lowerBound="1" eType="#//unsettable/C4U"
+          transient="true" unsettable="true" eOpposite="#//unsettable/C4U/cu"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DU">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cu" lowerBound="1" eType="#//unsettable/CU"
+          unsettable="true" eOpposite="#//unsettable/CU/du"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="c4u" lowerBound="1" eType="#//unsettable/C4U"
+          transient="true" unsettable="true" eOpposite="#//unsettable/C4U/du"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="eu" upperBound="-1" eType="#//unsettable/EU"
+          unsettable="true" eOpposite="#//unsettable/EU/du"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="C4U">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cu" lowerBound="1" eType="#//unsettable/CU"
+          unsettable="true" containment="true" eOpposite="#//unsettable/CU/c4u"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="du" upperBound="-1" eType="#//unsettable/DU"
+          unsettable="true" containment="true" eOpposite="#//unsettable/DU/c4u"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="C3U">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cu" lowerBound="1" eType="#//unsettable/CU"
+          unsettable="true" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="du" upperBound="-1" eType="#//unsettable/DU"
+          unsettable="true" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EU">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          unsettable="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ids" upperBound="-1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          unsettable="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="labels" upperBound="-1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          unsettable="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="du" upperBound="-1" eType="#//unsettable/DU"
+          unsettable="true" eOpposite="#//unsettable/DU/eu"/>
+    </eClassifiers>
+  </eSubpackages>
 </ecore:EPackage>

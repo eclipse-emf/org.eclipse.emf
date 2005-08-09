@@ -2,9 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: FItemProvider.java,v 1.2 2005/08/09 04:43:10 davidms Exp $
+ * $Id: DUItemProvider.java,v 1.1 2005/08/09 04:43:09 davidms Exp $
  */
-package org.eclipse.emf.test.models.ext.provider;
+package org.eclipse.emf.test.models.ref.unsettable.provider;
 
 
 import java.util.List;
@@ -20,22 +20,19 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
-import org.eclipse.emf.edit.provider.ViewerNotification;
-
-import org.eclipse.emf.test.models.ext.ExtPackage;
-import org.eclipse.emf.test.models.ext.F;
 
 import org.eclipse.emf.test.models.ref.provider.RefTestEditPlugin;
 
+import org.eclipse.emf.test.models.ref.unsettable.URefPackage;
+
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.test.models.ext.F} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.test.models.ref.unsettable.DU} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class FItemProvider
+public class DUItemProvider
   extends ItemProviderAdapter
   implements	
     IEditingDomainItemProvider,	
@@ -50,7 +47,7 @@ public class FItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public FItemProvider(AdapterFactory adapterFactory)
+  public DUItemProvider(AdapterFactory adapterFactory)
   {
     super(adapterFactory);
   }
@@ -67,28 +64,50 @@ public class FItemProvider
     {
       super.getPropertyDescriptors(object);
 
-      addIdPropertyDescriptor(object);
+      addCuPropertyDescriptor(object);
+      addEuPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
 
   /**
-   * This adds a property descriptor for the Id feature.
+   * This adds a property descriptor for the Cu feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void addIdPropertyDescriptor(Object object)
+  protected void addCuPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
       (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
-         getString("_UI_F_id_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_F_id_feature", "_UI_F_type"),
-         ExtPackage.eINSTANCE.getF_Id(),
+         getString("_UI_DU_cu_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_DU_cu_feature", "_UI_DU_type"),
+         URefPackage.eINSTANCE.getDU_Cu(),
          true,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null,
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Eu feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addEuPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_DU_eu_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_DU_eu_feature", "_UI_DU_type"),
+         URefPackage.eINSTANCE.getDU_Eu(),
+         true,
+         null,
          null,
          null));
   }
@@ -101,10 +120,7 @@ public class FItemProvider
    */
   public String getText(Object object)
   {
-    String label = ((F)object).getId();
-    return label == null || label.length() == 0 ?
-      getString("_UI_F_type") :
-      getString("_UI_F_type") + " " + label;
+    return getString("_UI_DU_type");
   }
 
   /**
@@ -117,13 +133,6 @@ public class FItemProvider
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
-
-    switch (notification.getFeatureID(F.class))
-    {
-      case ExtPackage.F__ID:
-        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-        return;
-    }
     super.notifyChanged(notification);
   }
 
