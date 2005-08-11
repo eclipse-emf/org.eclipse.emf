@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.27 2005/07/21 20:47:29 nickb Exp $
+ * $Id: feature.xml,v 1.28 2005/08/11 15:02:19 nickb Exp $
  */
 -->
 
@@ -105,7 +105,7 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.test.core"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.2.0"/>
    
    <plugin
          id="org.eclipse.emf.test.edit"
