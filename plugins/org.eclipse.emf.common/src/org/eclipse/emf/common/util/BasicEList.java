@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.10 2005/06/12 13:24:00 emerks Exp $
+ * $Id: BasicEList.java,v 1.11 2005/08/11 05:08:41 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -655,13 +655,14 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
   {
     // ++modCount
     //
-    grow(size + 1);  
-
+    grow(size + 1);
+    
+    Object validatedObject = validate(index, object);
     if (index != size)
     {
       System.arraycopy(data, index, data, index + 1, size - index);
     }
-    assign(index, validate(index, object));
+    assign(index, validatedObject);
     ++size;
     didAdd(index, object);
     didChange();
