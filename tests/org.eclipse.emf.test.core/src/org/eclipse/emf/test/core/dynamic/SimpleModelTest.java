@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.12 2005/07/05 22:59:32 marcelop Exp $
+ * $Id: SimpleModelTest.java,v 1.13 2005/08/11 05:08:58 marcelop Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -85,6 +85,7 @@ public class SimpleModelTest extends TestCase
     ts.addTest(new SimpleModelTest("testSaveAndLoadZip"));
     ts.addTest(new SimpleModelTest("testProxy"));
     ts.addTest(new SimpleModelTest("testTrackingModificaiton"));
+    ts.addTest(new SimpleModelTest("testAddingDuplicates"));
     return ts;
   }
 
@@ -547,5 +548,38 @@ public class SimpleModelTest extends TestCase
     assertEquals(resource, employee1.eResource());
     assertFalse(resource.isTrackingModification());
     assertFalse(resource.isModified());    
+  }
+  
+  /*
+   * Bugzilla 106702
+   */
+  public void testAddingDuplicates() throws Exception
+  {
+    EFactory companyFactory = companyPackage.getEFactoryInstance();
+
+    EObject department1 = companyFactory.create(departmentClass);
+    List department1Employees = (List)department1.eGet(departmentEmployees);
+    assertEquals(0, department1Employees.size());
+
+    EObject employee1 = companyFactory.create(employeeClass);
+    department1Employees.add(employee1);
+    
+    Exception exception = null;
+    try
+    {    
+      department1Employees.add(0, null);
+    }
+    catch(IllegalArgumentException iae)
+    {
+      exception = iae;
+    }
+    assertNotNull(exception);
+      
+    assertEquals(1, department1Employees.size());
+    assertEquals(0, department1Employees.indexOf(employee1));
+    
+    Object[] data = ((BasicEList)department1Employees).data();
+    assertEquals(employee1, data[0]);
+    assertNull(data[1]);
   }
 }
