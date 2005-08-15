@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.18 2005/06/12 12:38:14 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.19 2005/08/15 19:02:25 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1373,6 +1373,10 @@ public class XSDSchemaImpl
         getBlockDefault().removeAll(oldContents);
         setListContentAndOrder(getBlockDefault(), newBlockDefault);
       }
+      else if (newBlockDefault.isEmpty() && !isSetBlockDefault())
+      {
+        getBlockDefault().clear();
+      }
     }
   }
 
@@ -1433,6 +1437,10 @@ public class XSDSchemaImpl
         oldContents.removeAll(newFinalDefault);
         getFinalDefault().removeAll(oldContents);
         setListContentAndOrder(getFinalDefault(), newFinalDefault);
+      }
+      else if (newFinalDefault.isEmpty() && !isSetFinalDefault())
+      {
+        getFinalDefault().clear();
       }
     }
   }

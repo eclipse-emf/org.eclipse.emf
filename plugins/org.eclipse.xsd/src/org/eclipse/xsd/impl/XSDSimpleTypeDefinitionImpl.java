@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.10 2005/07/05 18:14:04 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.11 2005/08/15 19:02:25 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -3376,6 +3376,10 @@ public class XSDSimpleTypeDefinitionImpl
           getLexicalFinal().removeAll(oldContents);
         }
         setListContentAndOrder(getLexicalFinal(), newLexicalFinal);
+      }
+      else if (newLexicalFinal.isEmpty() && !isSetLexicalFinal())
+      {
+        getLexicalFinal().clear();
       }
     }
   }

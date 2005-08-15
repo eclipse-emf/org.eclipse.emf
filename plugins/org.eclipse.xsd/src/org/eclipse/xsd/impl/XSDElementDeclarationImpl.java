@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.9 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.10 2005/08/15 19:02:25 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1587,6 +1587,10 @@ public class XSDElementDeclarationImpl
         }
         setListContentAndOrder(getLexicalFinal(), newLexicalFinal);
       }
+      else if (newLexicalFinal.isEmpty() && !isSetLexicalFinal())
+      {
+        getLexicalFinal().clear();
+      }
     }
   }
 
@@ -1650,6 +1654,10 @@ public class XSDElementDeclarationImpl
           getBlock().removeAll(oldContents);
         }
         setListContentAndOrder(getBlock(), newBlock);
+      }
+      else if (newBlock.isEmpty() && !isSetBlock())
+      {
+        getBlock().clear();
       }
     }
   }

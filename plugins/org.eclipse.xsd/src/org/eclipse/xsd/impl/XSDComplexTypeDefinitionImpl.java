@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.12 2005/06/25 13:31:08 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.13 2005/08/15 19:02:25 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -3355,6 +3355,10 @@ public class XSDComplexTypeDefinitionImpl
         }
         setListContentAndOrder(getLexicalFinal(), newLexicalFinal);
       }
+      else if (newLexicalFinal.isEmpty() && !isSetLexicalFinal())
+      {
+        getLexicalFinal().clear();
+      }
     }
   }
 
@@ -3434,6 +3438,10 @@ public class XSDComplexTypeDefinitionImpl
           getBlock().removeAll(oldContents);
         }
         setListContentAndOrder(getBlock(), newBlock);
+      }
+      else if (newBlock.isEmpty() && !isSetBlock())
+      {
+        getBlock().clear();
       }
     }
   }
