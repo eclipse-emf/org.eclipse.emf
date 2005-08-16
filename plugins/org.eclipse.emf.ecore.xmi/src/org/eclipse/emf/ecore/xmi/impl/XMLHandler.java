@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.36 2005/08/02 16:40:18 elena Exp $
+ * $Id: XMLHandler.java,v 1.37 2005/08/16 21:34:34 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -790,7 +790,7 @@ public abstract class XMLHandler
     {
       processTopObject(newObject);
       // check for simple feature
-      if (extendedMetaData != null)
+      if (extendedMetaData != null && newObject != null)
       {
         EStructuralFeature simpleFeature = extendedMetaData.getSimpleFeature(newObject.eClass());
         if (simpleFeature != null)
@@ -1132,11 +1132,11 @@ public abstract class XMLHandler
           text = new StringBuffer();
         }
       }
-      else if (extendedMetaData != null && extendedMetaData.getFeatureKind(feature) != ExtendedMetaData.UNSPECIFIED_FEATURE)
+      else if (extendedMetaData != null)
       {
         EReference eReference = (EReference)feature;
-        boolean isContainment = eReference.isContainment();
-        if (!isContainment && !eReference.isResolveProxies())
+        boolean isContainment = eReference.isContainment();      
+        if (!isContainment && !eReference.isResolveProxies() && extendedMetaData.getFeatureKind(feature) != ExtendedMetaData.UNSPECIFIED_FEATURE)
         {
           isIDREF = true;
           objects.push(null);
@@ -1163,7 +1163,7 @@ public abstract class XMLHandler
                 text = new StringBuffer();
               }
             }
-            else
+            else if (!childObject.eIsProxy())
             {
               text = new StringBuffer();
             }
@@ -1337,10 +1337,11 @@ public abstract class XMLHandler
       else
       {
         createObjectFromFeatureType(peekObject, feature);
-        if (extendedMetaData != null && !((EReference)feature).isContainment())
+        // This check is redundant -- see handleFeature method (EL)
+        /*if (extendedMetaData != null && !((EReference)feature).isContainment())
         {
           text = new StringBuffer();
-        }
+        }*/
         if (xmlMap != null && !((EReference)feature).isContainment())
         {
           XMLResource.XMLInfo info = xmlMap.getInfo(feature);
