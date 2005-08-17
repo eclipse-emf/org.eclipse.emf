@@ -345,7 +345,7 @@ public class ArchiveURLConnection extends URLConnection
     
     // System.out.println("archive: -> " + urlString.substring(start, archiveSeparator) + " -> " + urlString.substring(archiveSeparator + 2));
     
-    // Create the delegate URL
+    // Create the delegate URL
     //
     final String nestedURL = urlString.substring(start, archiveSeparator);
     
@@ -363,7 +363,14 @@ public class ArchiveURLConnection extends URLConnection
       // Create the output stream to the temporary file and the input stream for the delegate URL.
       //
       tempOutputStream = new FileOutputStream(tempFile);
-      sourceInputStream =  createInputStream(nestedURL);
+      try
+      {
+        sourceInputStream =  createInputStream(nestedURL);
+      }
+      catch (IOException exception)
+      {
+        // Continue processing if the file doesn't exist so that we try create a new empty one.
+      }
       
       // Record them as generic streams to record state during the loop that emulates recursion.
       //
@@ -401,12 +408,12 @@ public class ArchiveURLConnection extends URLConnection
         
         // Wrap the current input as a zip stream, and record it for loop-based recursion.
         //
-        ZipInputStream zipInputStream = new ZipInputStream(inputStream);
+        ZipInputStream zipInputStream = inputStream == null ? null : new ZipInputStream(inputStream);
         inputStream = zipInputStream;
         
         // Loop over the entries in the zip stream.
         //
-        while (zipInputStream.available() >= 0)
+        while (zipInputStream != null && zipInputStream.available() >= 0)
         {
           // If this entry isn't the end marker 
           // and isn't the matching one that we are replacing...
@@ -445,6 +452,7 @@ public class ArchiveURLConnection extends URLConnection
       
       // Wrap the deepest result so that on close, the results are finally transferred.
       //
+      final boolean deleteRequired = sourceInputStream != null;
       return
         new FilterOutputStream(zipOutputStream)
         {
@@ -462,25 +470,27 @@ public class ArchiveURLConnection extends URLConnection
               //
               super.close();
               
+              boolean useRenameTo = nestedURL.startsWith("file:");
+              
               // If the delegate URI can be handled as a file, 
               // we'll hope that renaming it will be really efficient.
               //
-              if (nestedURL.startsWith("file:"))
+              if (useRenameTo)
               {
                 File targetFile = new File(nestedURL.substring(5));
-                if (!targetFile.delete())
+                if (deleteRequired && !targetFile.delete())
                 {
                   throw new IOException("cannot delete " + targetFile.getPath());
                 }
                 else if (!tempFile.renameTo(targetFile))
                 {
-                  throw new IOException("cannot rename " + tempFile.getPath() + " to " + targetFile.getPath());
+                  useRenameTo = false;
                 }
               }
-              else
+              if (!useRenameTo)
               {
                 // Try to transfer it by reading the contents of the temporary file 
-                // and writingt hem to the output stream of the delegate.
+                // and writing them to the output stream of the delegate.
                 //
                 InputStream inputStream = null;
                 OutputStream outputStream = null;
