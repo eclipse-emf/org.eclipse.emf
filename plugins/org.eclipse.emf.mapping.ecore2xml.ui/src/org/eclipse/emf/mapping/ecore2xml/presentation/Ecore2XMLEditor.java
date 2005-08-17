@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.4 2005/06/21 16:16:58 khussey Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.5 2005/08/17 17:38:54 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -50,6 +50,8 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+
+import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
@@ -118,7 +120,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -1101,15 +1102,6 @@ public class Ecore2XMLEditor
   {
     super.pageChange(pageIndex);
 
-    // This is a temporary workaround... EATM
-    //
-    Control control = getControl(pageIndex);
-    if (control != null)
-    {
-      control.setVisible(true);
-      control.setFocus();
-    }
-
     if (contentOutlinePage != null)
     {
       handleContentOutlineSelection(contentOutlinePage.getSelection());
@@ -1225,11 +1217,12 @@ public class Ecore2XMLEditor
     if (propertySheetPage == null)
     {
       propertySheetPage =
-        new PropertySheetPage()
+        new ExtendedPropertySheetPage(editingDomain)
         {
-          public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
+          public void setSelectionToViewer(List selection)
           {
-            super.makeContributions(menuManager, toolBarManager, statusLineManager);
+            Ecore2XMLEditor.this.setSelectionToViewer(selection);
+            Ecore2XMLEditor.this.setFocus();
           }
 
           public void setActionBars(IActionBars actionBars)
@@ -1453,7 +1446,14 @@ public class Ecore2XMLEditor
    */
   public void setFocus()
   {
-    getControl(getActivePage()).setFocus();
+    if (currentViewerPane != null)
+    {
+      currentViewerPane.setFocus();
+    }
+    else
+    {
+      getControl(getActivePage()).setFocus();
+    }
   }
 
   /**

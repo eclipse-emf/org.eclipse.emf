@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.13 2005/06/12 13:37:40 emerks Exp $
+ * $Id: JavaEditor.java,v 1.14 2005/08/17 17:39:06 davidms Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -77,7 +77,6 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -132,6 +131,8 @@ import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
+
 import org.eclipse.emf.java.JCompilationUnit;
 import org.eclipse.emf.java.provider.JavaItemProviderAdapterFactory;
 import org.eclipse.emf.java.util.JavaPackageResourceFactoryImpl;
@@ -1190,15 +1191,6 @@ public class JavaEditor
   {
     super.pageChange(pageIndex);
 
-    // This is a temporary workaround... EATM
-    //
-    Control control = getControl(pageIndex);
-    if (control != null)
-    {
-      control.setVisible(true);
-      control.setFocus();
-    }
-
     if (contentOutlinePage != null)
     {
       handleContentOutlineSelection(contentOutlinePage.getSelection());
@@ -1314,11 +1306,12 @@ public class JavaEditor
     if (propertySheetPage == null)
     {
       propertySheetPage =
-        new PropertySheetPage()
+        new ExtendedPropertySheetPage(editingDomain)
         {
-          public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
+          public void setSelectionToViewer(List selection)
           {
-            super.makeContributions(menuManager, toolBarManager, statusLineManager);
+            JavaEditor.this.setSelectionToViewer(selection);
+            JavaEditor.this.setFocus();
           }
 
           public void setActionBars(IActionBars actionBars)
@@ -1542,7 +1535,14 @@ public class JavaEditor
    */
   public void setFocus()
   {
-    getControl(getActivePage()).setFocus();
+    if (currentViewerPane != null)
+    {
+      currentViewerPane.setFocus();
+    }
+    else
+    {
+      getControl(getActivePage()).setFocus();
+    }
   }
 
   /**

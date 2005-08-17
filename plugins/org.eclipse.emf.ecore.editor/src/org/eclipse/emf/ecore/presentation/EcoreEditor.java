@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.20 2005/08/02 19:35:54 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.21 2005/08/17 17:38:54 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -69,7 +69,6 @@ import org.eclipse.swt.graphics.Point;
 //import org.eclipse.swt.layout.FillLayout;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 //import org.eclipse.swt.widgets.Table;
 //import org.eclipse.swt.widgets.TableColumn;
@@ -127,6 +126,7 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 
+import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 /**
  * This is an example of a Ecore model editor.
@@ -927,15 +927,6 @@ public class EcoreEditor
   {
     super.pageChange(pageIndex);
 
-    // This is a temporary workaround... EATM
-    //
-    Control control = getControl(pageIndex);
-    if (control != null)
-    {
-      control.setVisible(true);
-      control.setFocus();
-    }
-
     if (contentOutlinePage != null)
     {
       handleContentOutlineSelection(contentOutlinePage.getSelection());
@@ -1051,11 +1042,12 @@ public class EcoreEditor
     if (propertySheetPage == null)
     {
       propertySheetPage =
-        new PropertySheetPage()
+        new ExtendedPropertySheetPage(editingDomain)
         {
-          public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
+          public void setSelectionToViewer(List selection)
           {
-            super.makeContributions(menuManager, toolBarManager, statusLineManager);
+            EcoreEditor.this.setSelectionToViewer(selection);
+            EcoreEditor.this.setFocus();
           }
 
           public void setActionBars(IActionBars actionBars)
@@ -1305,7 +1297,14 @@ public class EcoreEditor
    */
   public void setFocus()
   {
-    getControl(getActivePage()).setFocus();
+    if (currentViewerPane != null)
+    {
+      currentViewerPane.setFocus();
+    }
+    else
+    {
+      getControl(getActivePage()).setFocus();
+    }
   }
 
   /**
