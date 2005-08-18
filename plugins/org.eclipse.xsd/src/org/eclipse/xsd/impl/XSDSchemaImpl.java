@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.19 2005/08/15 19:02:25 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.20 2005/08/18 16:06:50 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -743,6 +743,10 @@ public class XSDSchemaImpl
         {
           if (result != null)
           {
+            if (key == null)
+            {
+              key = "xmlns";
+            }
             Element theElement = getElement();
             if (theElement != null &&
                   theElement.hasAttributeNS(XSDConstants.XMLNS_URI_2000, (String)key))
