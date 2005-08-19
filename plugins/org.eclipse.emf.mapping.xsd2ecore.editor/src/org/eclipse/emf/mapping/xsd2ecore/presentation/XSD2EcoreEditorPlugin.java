@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreEditorPlugin.java,v 1.4 2005/06/08 06:23:48 nickb Exp $
+ * $Id: XSD2EcoreEditorPlugin.java,v 1.5 2005/08/19 16:48:25 davidms Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.presentation;
 
 
 import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.ui.EclipseUIPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 import org.eclipse.emf.mapping.MappingPlugin;
@@ -93,7 +94,7 @@ public final class XSD2EcoreEditorPlugin extends EMFPlugin
    * <!-- end-user-doc -->
    * @generated
    */
-  public static class Implementation extends EMFPlugin.EclipsePlugin
+  public static class Implementation extends EclipseUIPlugin
   {
     /**
      * Creates an instance.
