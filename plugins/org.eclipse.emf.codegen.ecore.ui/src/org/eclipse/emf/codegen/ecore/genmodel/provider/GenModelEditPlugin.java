@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditPlugin.java,v 1.7 2005/08/19 16:48:39 davidms Exp $
+ * $Id: GenModelEditPlugin.java,v 1.8 2005/08/19 16:56:43 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -88,7 +88,7 @@ public final class GenModelEditPlugin extends EMFPlugin
    * The actual implementation of the Eclipse <b>Plugin</b>.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public static class Implementation extends EclipseUIPlugin
   {
