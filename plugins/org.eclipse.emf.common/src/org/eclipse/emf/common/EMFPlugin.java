@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.10 2005/06/15 12:50:35 emerks Exp $
+ * $Id: EMFPlugin.java,v 1.11 2005/08/19 16:37:39 davidms Exp $
  */
 package org.eclipse.emf.common;
 
@@ -28,6 +28,9 @@ import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import org.osgi.framework.Bundle;
+
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
@@ -502,8 +505,11 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
    */
   public static abstract class EclipsePlugin extends Plugin implements ResourceLocator, Logger
   {
-    protected ResourceBundle resourceBundle;
-    protected ResourceBundle untranslatedResourceBundle;
+    /**
+     * The EMF plug-in APIs are all delegated to this helper, so that code can be shared by plug-in
+     * implementations with a different platform base class (e.g. AbstractUIPlugin).
+     */
+    protected InternalHelper helper;
     
     /**
      * Creates an instance.
@@ -511,6 +517,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
     public EclipsePlugin()
     {
       super();
+      helper = new InternalHelper(this);
     }
 
     /**
@@ -521,6 +528,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
     public EclipsePlugin(org.eclipse.core.runtime.IPluginDescriptor descriptor)
     {
       super(descriptor);
+      helper = new InternalHelper(this);
     }
 
     /**
@@ -528,7 +536,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
      */
     public String getSymbolicName()
     {
-      return getBundle().getSymbolicName();
+      return helper.getSymbolicName();
     }
 
     /*
@@ -536,7 +544,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
      */
     public URL getBaseURL()
     {
-      return getBundle().getEntry("/");
+      return helper.getBaseURL();
     }
 
     /*
@@ -571,23 +579,87 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
      */
     protected Object doGetImage(String key) throws IOException
     {
+      return helper.getImage(key);
+    }
+
+    public String getString(String key)
+    {
+      return helper.getString(key, true);
+    }
+    
+    public String getString(String key, boolean translate)
+    {
+      return helper.getString(key, translate);
+    }
+
+    public String getString(String key, Object [] substitutions)
+    {
+      return helper.getString(key, substitutions, true);
+    }
+
+    public String getString(String key, Object [] substitutions, boolean translate)
+    {
+      return helper.getString(key, substitutions, translate);
+    }
+
+    public void log(Object logEntry)
+    {
+      helper.log(logEntry);
+    }
+  }
+
+  /**
+   * This just provides a common delegate for non-UI and UI plug-in classes.
+   * It is not considered API and should not be used by clients.
+   */
+  public static class InternalHelper
+  {
+    protected Plugin plugin;
+    protected ResourceBundle resourceBundle;
+    protected ResourceBundle untranslatedResourceBundle;
+
+    public InternalHelper(Plugin plugin)
+    {
+      this.plugin = plugin;
+    }
+
+    protected Bundle getBundle()
+    {
+      return plugin.getBundle();
+    }
+
+    protected ILog getLog()
+    {
+      return plugin.getLog();
+    }
+    
+    /**
+     * Return the plugin ID.
+     */
+    public String getSymbolicName()
+    {
+      return getBundle().getSymbolicName();
+    }
+
+    public URL getBaseURL()
+    {
+      return getBundle().getEntry("/");
+    }
+
+    /**
+     * Fetches the image associated with the given key. It ensures that the image exists.
+     * @param key the key of the image to fetch.
+     * @exception IOException if an image doesn't exist.
+     * @return the description of the image associated with the key.
+     */
+    public Object getImage(String key) throws IOException
+    {
       URL url = new URL(getBaseURL() + "icons/" + key + ".gif");
       InputStream inputStream = url.openStream(); 
       inputStream.close();
       return url;
     }
 
-    /*
-     * Javadoc copied from interface.
-     */
-    public String getString(String key)
-    {
-      return getString(key, true);
-    }
-    
-    /*
-     * Javadoc copied from interface.
-     */
     public String getString(String key, boolean translate)
     {
       ResourceBundle bundle = translate ? resourceBundle : untranslatedResourceBundle;
@@ -615,25 +687,11 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
       return bundle.getString(key);
     }
 
-    /*
-     * Javadoc copied from interface.
-     */
-    public String getString(String key, Object [] substitutions)
-    {
-      return getString(key, substitutions, true);
-    }
-
-    /*
-     * Javadoc copied from interface.
-     */
     public String getString(String key, Object [] substitutions, boolean translate)
     {
       return MessageFormat.format(getString(key, translate), substitutions);
     }
 
-    /*
-     * Javadoc copied from interface.
-     */
     public void log(Object logEntry)
     {
       IStatus status;
@@ -646,7 +704,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
       {
         if (logEntry == null)
         {
-          logEntry = new RuntimeException(getString("_UI_NullLogEntry_exception")).fillInStackTrace();
+          logEntry = new RuntimeException(getString("_UI_NullLogEntry_exception", true)).fillInStackTrace();
         }
 
         if (logEntry instanceof Throwable)
@@ -672,6 +730,6 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
           getLog().log (new Status (IStatus.WARNING, getBundle().getSymbolicName(), 0, logEntry.toString(), null));
         }
       }
-    }
+    } 
   }
 }
