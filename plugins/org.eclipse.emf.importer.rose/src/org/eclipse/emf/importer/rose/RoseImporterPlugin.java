@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterPlugin.java,v 1.2 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseImporterPlugin.java,v 1.3 2005/08/19 16:48:35 davidms Exp $
  */
 package org.eclipse.emf.importer.rose;
 
 import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.ui.EclipseUIPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.importer.ImporterPlugin;
 
@@ -65,7 +66,7 @@ public final class RoseImporterPlugin extends EMFPlugin
   /**
    * The actual implementation of the Eclipse <b>Plugin</b>.
    */
-  public static class Implementation extends EclipsePlugin
+  public static class Implementation extends EclipseUIPlugin
   {
     /**
      * Creates an instance.

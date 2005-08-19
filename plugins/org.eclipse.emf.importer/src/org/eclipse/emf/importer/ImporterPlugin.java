@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ImporterPlugin.java,v 1.3 2005/06/08 06:11:55 nickb Exp $
+ * $Id: ImporterPlugin.java,v 1.4 2005/08/19 16:48:21 davidms Exp $
  */
 package org.eclipse.emf.importer;
 
 import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.ui.EclipseUIPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
 
@@ -70,7 +71,7 @@ public final class ImporterPlugin extends EMFPlugin
   /**
    * The actual implementation of the Eclipse <b>Plugin</b>.
    */
-  public static class Implementation extends EMFPlugin.EclipsePlugin
+  public static class Implementation extends EclipseUIPlugin
   {
     /**
      * Creates an instance.

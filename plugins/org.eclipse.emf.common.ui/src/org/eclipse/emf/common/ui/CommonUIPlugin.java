@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonUIPlugin.java,v 1.4 2005/06/08 06:24:33 nickb Exp $
+ * $Id: CommonUIPlugin.java,v 1.5 2005/08/19 16:48:37 davidms Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -73,7 +73,7 @@ public final class CommonUIPlugin extends EMFPlugin
   /**
    * The actual implementation of the Eclipse <b>Plugin</b>.
    */
-  public static class Implementation extends EclipsePlugin 
+  public static class Implementation extends EclipseUIPlugin 
   {
     /**
      * Creates an instance.

@@ -12,11 +12,13 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLUIPlugin.java,v 1.1 2005/03/18 21:04:26 khussey Exp $
+ * $Id: Ecore2XMLUIPlugin.java,v 1.2 2005/08/19 16:48:11 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.ui;
 
 import org.eclipse.emf.common.EMFPlugin;
+
+import org.eclipse.emf.common.ui.EclipseUIPlugin;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
@@ -91,7 +93,7 @@ public final class Ecore2XMLUIPlugin extends EMFPlugin
    * <!-- end-user-doc -->
    * @generated
    */
-  public static class Implementation extends EclipsePlugin
+  public static class Implementation extends EclipseUIPlugin
   {
     /**
      * Creates an instance.

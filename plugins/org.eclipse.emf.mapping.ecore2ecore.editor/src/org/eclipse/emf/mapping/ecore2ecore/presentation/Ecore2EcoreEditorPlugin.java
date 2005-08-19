@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreEditorPlugin.java,v 1.5 2005/06/08 06:23:41 nickb Exp $
+ * $Id: Ecore2EcoreEditorPlugin.java,v 1.6 2005/08/19 16:48:23 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
 
 import org.eclipse.emf.common.EMFPlugin;
+
+import org.eclipse.emf.common.ui.EclipseUIPlugin;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
@@ -96,7 +98,7 @@ public final class Ecore2EcoreEditorPlugin extends EMFPlugin
    * <!-- end-user-doc -->
    * @generated
    */
-  public static class Implementation extends EclipsePlugin
+  public static class Implementation extends EclipseUIPlugin
   {
     /**
      * Creates an instance.
