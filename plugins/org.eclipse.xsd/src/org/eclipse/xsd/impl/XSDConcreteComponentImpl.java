@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.7 2005/06/12 12:38:14 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.8 2005/08/22 18:50:06 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1803,7 +1803,7 @@ public abstract class XSDConcreteComponentImpl
 
       String qualifier = "Q";
       int count = 1;
-      while (schemaElement.hasAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns:" + qualifier + count))
+      while (schemaElement.hasAttributeNS(XSDConstants.XMLNS_URI_2000, qualifier + count))
       {
         ++count;
       }
