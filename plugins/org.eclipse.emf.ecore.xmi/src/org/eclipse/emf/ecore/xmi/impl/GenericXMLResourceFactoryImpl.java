@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenericXMLResourceFactoryImpl.java,v 1.3 2005/07/21 19:47:33 elena Exp $
+ * $Id: GenericXMLResourceFactoryImpl.java,v 1.4 2005/08/23 20:02:55 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -52,6 +52,8 @@ public class GenericXMLResourceFactoryImpl extends ResourceFactoryImpl
     xmlOptions.setProcessAnyXML(true);
 
     xmlOptions.setProcessSchemaLocations(true);
+    
+    result.getDefaultLoadOptions().put(XMLResource.OPTION_XML_OPTIONS, xmlOptions);
 
     return result;
   }
