@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedPropertySheetPage.java,v 1.1 2005/08/12 22:34:04 davidms Exp $
+ * $Id: ExtendedPropertySheetPage.java,v 1.2 2005/08/23 21:32:56 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.view;
 
@@ -111,7 +111,6 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
                 Object realValue = ((IItemPropertySource)value).getEditableValue(null);
                 if (realValue instanceof Collection)
                 {
-                  Collection c = (Collection)realValue;
                   for (Iterator iter = ((Collection)realValue).iterator(); iter.hasNext(); )
                   {
                     addObjectToSelect(iter.next());
