@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PackageInterface" version="$Id: PackageInterface.javajet,v 1.7 2005/06/22 19:54:27 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PackageInterface" version="$Id: PackageInterface.javajet,v 1.8 2005/08/23 14:22:17 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -135,7 +135,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 
     <%}%>
 	/**
-	 * The number of structural features of the the '<em><%=genClass.getFormattedName()%></em>' class.
+	 * The number of structural features of the '<em><%=genClass.getFormattedName()%></em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

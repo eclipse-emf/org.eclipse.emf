@@ -69,7 +69,7 @@ public class PackageInterface
   protected final String TEXT_52 = "." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t * @ordered" + NL + "\t */" + NL + "\tint ";
   protected final String TEXT_53 = " = ";
   protected final String TEXT_54 = ";" + NL;
-  protected final String TEXT_55 = NL + "\t/**" + NL + "\t * The number of structural features of the the '<em>";
+  protected final String TEXT_55 = NL + "\t/**" + NL + "\t * The number of structural features of the '<em>";
   protected final String TEXT_56 = "</em>' class." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t * @ordered" + NL + "\t */" + NL + "\tint ";
   protected final String TEXT_57 = " = ";
   protected final String TEXT_58 = ";" + NL;
