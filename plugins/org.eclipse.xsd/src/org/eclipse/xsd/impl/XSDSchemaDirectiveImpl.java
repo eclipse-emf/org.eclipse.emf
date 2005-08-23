@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.7 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.8 2005/08/23 11:07:04 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -403,6 +403,16 @@ public abstract class XSDSchemaDirectiveImpl
                   // If a resource is actually created, 
                   // which happens only when we can create an input stream,
                   // then it's an error if it's not a good schema
+                }
+              }
+              else if (!resolvedResource.isLoaded())
+              {
+                try
+                {
+                  resolvedResource.load(resourceSet.getLoadOptions());
+                }
+                catch (IOException exception)
+                {
                 }
               }
   
