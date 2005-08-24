@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackage.java,v 1.3 2005/06/22 20:00:47 davidms Exp $
+ * $Id: XSDPackage.java,v 1.4 2005/08/24 13:41:58 marcelop Exp $
  */
 package org.eclipse.xsd;
 
@@ -40,8 +40,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface XSDPackage extends EPackage
-{
+public interface XSDPackage extends EPackage{
   /**
    * The package name.
    * @generated
@@ -222,7 +221,7 @@ public interface XSDPackage extends EPackage
   int XSD_CONCRETE_COMPONENT__DIAGNOSTICS = 4;
 
   /**
-   * The number of structural features of the the '<em>Concrete Component</em>' class.
+   * The number of structural features of the '<em>Concrete Component</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -276,7 +275,7 @@ public interface XSDPackage extends EPackage
   int XSD_COMPONENT__DIAGNOSTICS = XSD_CONCRETE_COMPONENT__DIAGNOSTICS;
 
   /**
-   * The number of structural features of the the '<em>Component</em>' class.
+   * The number of structural features of the '<em>Component</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -357,7 +356,7 @@ public interface XSDPackage extends EPackage
   int XSD_ANNOTATION__ATTRIBUTES = XSD_COMPONENT_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the the '<em>Annotation</em>' class.
+   * The number of structural features of the '<em>Annotation</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -705,7 +704,7 @@ public interface XSDPackage extends EPackage
   int XSD_NAMED_COMPONENT__QNAME = XSD_COMPONENT_FEATURE_COUNT + 5;
 
   /**
-   * The number of structural features of the the '<em>Named Component</em>' class.
+   * The number of structural features of the '<em>Named Component</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -894,7 +893,7 @@ public interface XSDPackage extends EPackage
   int XSD_FEATURE__TYPE = XSD_NAMED_COMPONENT_FEATURE_COUNT + 8;
 
   /**
-   * The number of structural features of the the '<em>Feature</em>' class.
+   * The number of structural features of the '<em>Feature</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1128,7 +1127,7 @@ public interface XSDPackage extends EPackage
   int XSD_ATTRIBUTE_DECLARATION__RESOLVED_ATTRIBUTE_DECLARATION = XSD_FEATURE_FEATURE_COUNT + 4;
 
   /**
-   * The number of structural features of the the '<em>Attribute Declaration</em>' class.
+   * The number of structural features of the '<em>Attribute Declaration</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1182,7 +1181,7 @@ public interface XSDPackage extends EPackage
   int XSD_ATTRIBUTE_GROUP_CONTENT__DIAGNOSTICS = XSD_CONCRETE_COMPONENT__DIAGNOSTICS;
 
   /**
-   * The number of structural features of the the '<em>Attribute Group Content</em>' class.
+   * The number of structural features of the '<em>Attribute Group Content</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1369,7 +1368,7 @@ public interface XSDPackage extends EPackage
   int XSD_REDEFINABLE_COMPONENT__CIRCULAR = XSD_NAMED_COMPONENT_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Redefinable Component</em>' class.
+   * The number of structural features of the '<em>Redefinable Component</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1558,7 +1557,7 @@ public interface XSDPackage extends EPackage
   int XSD_ATTRIBUTE_GROUP_DEFINITION__SYNTHETIC_WILDCARD = XSD_REDEFINABLE_COMPONENT_FEATURE_COUNT + 7;
 
   /**
-   * The number of structural features of the the '<em>Attribute Group Definition</em>' class.
+   * The number of structural features of the '<em>Attribute Group Definition</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1675,7 +1674,7 @@ public interface XSDPackage extends EPackage
   int XSD_ATTRIBUTE_USE__CONTENT = XSD_COMPONENT_FEATURE_COUNT + 6;
 
   /**
-   * The number of structural features of the the '<em>Attribute Use</em>' class.
+   * The number of structural features of the '<em>Attribute Use</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1774,7 +1773,7 @@ public interface XSDPackage extends EPackage
   int XSD_FACET__SIMPLE_TYPE_DEFINITION = XSD_COMPONENT_FEATURE_COUNT + 4;
 
   /**
-   * The number of structural features of the the '<em>Facet</em>' class.
+   * The number of structural features of the '<em>Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1873,7 +1872,7 @@ public interface XSDPackage extends EPackage
   int XSD_FUNDAMENTAL_FACET__SIMPLE_TYPE_DEFINITION = XSD_FACET__SIMPLE_TYPE_DEFINITION;
 
   /**
-   * The number of structural features of the the '<em>Fundamental Facet</em>' class.
+   * The number of structural features of the '<em>Fundamental Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1981,7 +1980,7 @@ public interface XSDPackage extends EPackage
   int XSD_BOUNDED_FACET__VALUE = XSD_FUNDAMENTAL_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Bounded Facet</em>' class.
+   * The number of structural features of the '<em>Bounded Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -2089,7 +2088,7 @@ public interface XSDPackage extends EPackage
   int XSD_CARDINALITY_FACET__VALUE = XSD_FUNDAMENTAL_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Cardinality Facet</em>' class.
+   * The number of structural features of the '<em>Cardinality Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -2143,7 +2142,7 @@ public interface XSDPackage extends EPackage
   int XSD_COMPLEX_TYPE_CONTENT__DIAGNOSTICS = XSD_COMPONENT__DIAGNOSTICS;
 
   /**
-   * The number of structural features of the the '<em>Complex Type Content</em>' class.
+   * The number of structural features of the '<em>Complex Type Content</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -2443,7 +2442,7 @@ public interface XSDPackage extends EPackage
   int XSD_TYPE_DEFINITION__COMPLEX_TYPE = XSD_REDEFINABLE_COMPONENT_FEATURE_COUNT + 6;
 
   /**
-   * The number of structural features of the the '<em>Type Definition</em>' class.
+   * The number of structural features of the '<em>Type Definition</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -2794,7 +2793,7 @@ public interface XSDPackage extends EPackage
   int XSD_COMPLEX_TYPE_DEFINITION__SYNTHETIC_WILDCARD = XSD_TYPE_DEFINITION_FEATURE_COUNT + 18;
 
   /**
-   * The number of structural features of the the '<em>Complex Type Definition</em>' class.
+   * The number of structural features of the '<em>Complex Type Definition</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -2893,7 +2892,7 @@ public interface XSDPackage extends EPackage
   int XSD_CONSTRAINING_FACET__SIMPLE_TYPE_DEFINITION = XSD_FACET__SIMPLE_TYPE_DEFINITION;
 
   /**
-   * The number of structural features of the the '<em>Constraining Facet</em>' class.
+   * The number of structural features of the '<em>Constraining Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -3028,7 +3027,7 @@ public interface XSDPackage extends EPackage
   int XSD_DIAGNOSTIC__PRIMARY_COMPONENT = XSD_CONCRETE_COMPONENT_FEATURE_COUNT + 8;
 
   /**
-   * The number of structural features of the the '<em>Diagnostic</em>' class.
+   * The number of structural features of the '<em>Diagnostic</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -3352,7 +3351,7 @@ public interface XSDPackage extends EPackage
   int XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP = XSD_FEATURE_FEATURE_COUNT + 14;
 
   /**
-   * The number of structural features of the the '<em>Element Declaration</em>' class.
+   * The number of structural features of the '<em>Element Declaration</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -3460,7 +3459,7 @@ public interface XSDPackage extends EPackage
   int XSD_REPEATABLE_FACET__ANNOTATIONS = XSD_CONSTRAINING_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Repeatable Facet</em>' class.
+   * The number of structural features of the '<em>Repeatable Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -3577,7 +3576,7 @@ public interface XSDPackage extends EPackage
   int XSD_ENUMERATION_FACET__VALUE = XSD_REPEATABLE_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Enumeration Facet</em>' class.
+   * The number of structural features of the '<em>Enumeration Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -3685,7 +3684,7 @@ public interface XSDPackage extends EPackage
   int XSD_FIXED_FACET__FIXED = XSD_CONSTRAINING_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Fixed Facet</em>' class.
+   * The number of structural features of the '<em>Fixed Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -3802,7 +3801,7 @@ public interface XSDPackage extends EPackage
   int XSD_FRACTION_DIGITS_FACET__VALUE = XSD_FIXED_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Fraction Digits Facet</em>' class.
+   * The number of structural features of the '<em>Fraction Digits Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -3955,7 +3954,7 @@ public interface XSDPackage extends EPackage
   int XSD_IDENTITY_CONSTRAINT_DEFINITION__FIELDS = XSD_NAMED_COMPONENT_FEATURE_COUNT + 4;
 
   /**
-   * The number of structural features of the the '<em>Identity Constraint Definition</em>' class.
+   * The number of structural features of the '<em>Identity Constraint Definition</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -4009,7 +4008,7 @@ public interface XSDPackage extends EPackage
   int XSD_SCHEMA_CONTENT__DIAGNOSTICS = XSD_CONCRETE_COMPONENT__DIAGNOSTICS;
 
   /**
-   * The number of structural features of the the '<em>Schema Content</em>' class.
+   * The number of structural features of the '<em>Schema Content</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -4081,7 +4080,7 @@ public interface XSDPackage extends EPackage
   int XSD_SCHEMA_DIRECTIVE__RESOLVED_SCHEMA = XSD_SCHEMA_CONTENT_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>Schema Directive</em>' class.
+   * The number of structural features of the '<em>Schema Directive</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -4171,7 +4170,7 @@ public interface XSDPackage extends EPackage
   int XSD_IMPORT__ANNOTATION = XSD_SCHEMA_DIRECTIVE_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>Import</em>' class.
+   * The number of structural features of the '<em>Import</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -4252,7 +4251,7 @@ public interface XSDPackage extends EPackage
   int XSD_SCHEMA_COMPOSITOR__INCORPORATED_SCHEMA = XSD_SCHEMA_DIRECTIVE_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Schema Compositor</em>' class.
+   * The number of structural features of the '<em>Schema Compositor</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -4342,7 +4341,7 @@ public interface XSDPackage extends EPackage
   int XSD_INCLUDE__ANNOTATION = XSD_SCHEMA_COMPOSITOR_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Include</em>' class.
+   * The number of structural features of the '<em>Include</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -4459,7 +4458,7 @@ public interface XSDPackage extends EPackage
   int XSD_LENGTH_FACET__VALUE = XSD_FIXED_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Length Facet</em>' class.
+   * The number of structural features of the '<em>Length Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -4594,7 +4593,7 @@ public interface XSDPackage extends EPackage
   int XSD_MAX_FACET__EXCLUSIVE = XSD_FIXED_FACET_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the the '<em>Max Facet</em>' class.
+   * The number of structural features of the '<em>Max Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -4729,7 +4728,7 @@ public interface XSDPackage extends EPackage
   int XSD_MAX_EXCLUSIVE_FACET__EXCLUSIVE = XSD_MAX_FACET__EXCLUSIVE;
 
   /**
-   * The number of structural features of the the '<em>Max Exclusive Facet</em>' class.
+   * The number of structural features of the '<em>Max Exclusive Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -4864,7 +4863,7 @@ public interface XSDPackage extends EPackage
   int XSD_MAX_INCLUSIVE_FACET__EXCLUSIVE = XSD_MAX_FACET__EXCLUSIVE;
 
   /**
-   * The number of structural features of the the '<em>Max Inclusive Facet</em>' class.
+   * The number of structural features of the '<em>Max Inclusive Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -4981,7 +4980,7 @@ public interface XSDPackage extends EPackage
   int XSD_MAX_LENGTH_FACET__VALUE = XSD_FIXED_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Max Length Facet</em>' class.
+   * The number of structural features of the '<em>Max Length Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -5116,7 +5115,7 @@ public interface XSDPackage extends EPackage
   int XSD_MIN_FACET__EXCLUSIVE = XSD_FIXED_FACET_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the the '<em>Min Facet</em>' class.
+   * The number of structural features of the '<em>Min Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -5251,7 +5250,7 @@ public interface XSDPackage extends EPackage
   int XSD_MIN_EXCLUSIVE_FACET__EXCLUSIVE = XSD_MIN_FACET__EXCLUSIVE;
 
   /**
-   * The number of structural features of the the '<em>Min Exclusive Facet</em>' class.
+   * The number of structural features of the '<em>Min Exclusive Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -5386,7 +5385,7 @@ public interface XSDPackage extends EPackage
   int XSD_MIN_INCLUSIVE_FACET__EXCLUSIVE = XSD_MIN_FACET__EXCLUSIVE;
 
   /**
-   * The number of structural features of the the '<em>Min Inclusive Facet</em>' class.
+   * The number of structural features of the '<em>Min Inclusive Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -5503,7 +5502,7 @@ public interface XSDPackage extends EPackage
   int XSD_MIN_LENGTH_FACET__VALUE = XSD_FIXED_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Min Length Facet</em>' class.
+   * The number of structural features of the '<em>Min Length Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -5557,7 +5556,7 @@ public interface XSDPackage extends EPackage
   int XSD_TERM__DIAGNOSTICS = XSD_COMPONENT__DIAGNOSTICS;
 
   /**
-   * The number of structural features of the the '<em>Term</em>' class.
+   * The number of structural features of the '<em>Term</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -5647,7 +5646,7 @@ public interface XSDPackage extends EPackage
   int XSD_MODEL_GROUP__PARTICLES = XSD_TERM_FEATURE_COUNT + 3;
 
   /**
-   * The number of structural features of the the '<em>Model Group</em>' class.
+   * The number of structural features of the '<em>Model Group</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -5800,7 +5799,7 @@ public interface XSDPackage extends EPackage
   int XSD_MODEL_GROUP_DEFINITION__RESOLVED_MODEL_GROUP_DEFINITION = XSD_REDEFINABLE_COMPONENT_FEATURE_COUNT + 3;
 
   /**
-   * The number of structural features of the the '<em>Model Group Definition</em>' class.
+   * The number of structural features of the '<em>Model Group Definition</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -5935,7 +5934,7 @@ public interface XSDPackage extends EPackage
   int XSD_NOTATION_DECLARATION__ANNOTATION = XSD_NAMED_COMPONENT_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the the '<em>Notation Declaration</em>' class.
+   * The number of structural features of the '<em>Notation Declaration</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -6043,7 +6042,7 @@ public interface XSDPackage extends EPackage
   int XSD_NUMERIC_FACET__VALUE = XSD_FUNDAMENTAL_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Numeric Facet</em>' class.
+   * The number of structural features of the '<em>Numeric Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -6151,7 +6150,7 @@ public interface XSDPackage extends EPackage
   int XSD_ORDERED_FACET__VALUE = XSD_FUNDAMENTAL_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Ordered Facet</em>' class.
+   * The number of structural features of the '<em>Ordered Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -6241,7 +6240,7 @@ public interface XSDPackage extends EPackage
   int XSD_PARTICLE__TERM = XSD_COMPLEX_TYPE_CONTENT_FEATURE_COUNT + 3;
 
   /**
-   * The number of structural features of the the '<em>Particle</em>' class.
+   * The number of structural features of the '<em>Particle</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -6295,7 +6294,7 @@ public interface XSDPackage extends EPackage
   int XSD_PARTICLE_CONTENT__DIAGNOSTICS = XSD_CONCRETE_COMPONENT__DIAGNOSTICS;
 
   /**
-   * The number of structural features of the the '<em>Particle Content</em>' class.
+   * The number of structural features of the '<em>Particle Content</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -6412,7 +6411,7 @@ public interface XSDPackage extends EPackage
   int XSD_PATTERN_FACET__VALUE = XSD_REPEATABLE_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Pattern Facet</em>' class.
+   * The number of structural features of the '<em>Pattern Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -6466,7 +6465,7 @@ public interface XSDPackage extends EPackage
   int XSD_REDEFINE_CONTENT__DIAGNOSTICS = XSD_SCHEMA_CONTENT__DIAGNOSTICS;
 
   /**
-   * The number of structural features of the the '<em>Redefine Content</em>' class.
+   * The number of structural features of the '<em>Redefine Content</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -6565,7 +6564,7 @@ public interface XSDPackage extends EPackage
   int XSD_REDEFINE__CONTENTS = XSD_SCHEMA_COMPOSITOR_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>Redefine</em>' class.
+   * The number of structural features of the '<em>Redefine</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -6619,7 +6618,7 @@ public interface XSDPackage extends EPackage
   int XSD_SCOPE__DIAGNOSTICS = XSD_COMPONENT__DIAGNOSTICS;
 
   /**
-   * The number of structural features of the the '<em>Scope</em>' class.
+   * The number of structural features of the '<em>Scope</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -6880,7 +6879,7 @@ public interface XSDPackage extends EPackage
   int XSD_SCHEMA__SCHEMA_FOR_SCHEMA = XSD_SCOPE_FEATURE_COUNT + 22;
 
   /**
-   * The number of structural features of the the '<em>Schema</em>' class.
+   * The number of structural features of the '<em>Schema</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -7438,7 +7437,7 @@ public interface XSDPackage extends EPackage
   int XSD_SIMPLE_TYPE_DEFINITION__SYNTHETIC_FACETS = XSD_TYPE_DEFINITION_FEATURE_COUNT + 41;
 
   /**
-   * The number of structural features of the the '<em>Simple Type Definition</em>' class.
+   * The number of structural features of the '<em>Simple Type Definition</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -7555,7 +7554,7 @@ public interface XSDPackage extends EPackage
   int XSD_TOTAL_DIGITS_FACET__VALUE = XSD_FIXED_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Total Digits Facet</em>' class.
+   * The number of structural features of the '<em>Total Digits Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -7682,7 +7681,7 @@ public interface XSDPackage extends EPackage
   int XSD_WHITE_SPACE_FACET__VALUE = XSD_FIXED_FACET_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>White Space Facet</em>' class.
+   * The number of structural features of the '<em>White Space Facet</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -7800,7 +7799,7 @@ public interface XSDPackage extends EPackage
   int XSD_WILDCARD__ANNOTATIONS = XSD_TERM_FEATURE_COUNT + 5;
 
   /**
-   * The number of structural features of the the '<em>Wildcard</em>' class.
+   * The number of structural features of the '<em>Wildcard</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -7891,7 +7890,7 @@ public interface XSDPackage extends EPackage
   int XSD_XPATH_DEFINITION__ANNOTATION = XSD_COMPONENT_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the the '<em>XPath Definition</em>' class.
+   * The number of structural features of the '<em>XPath Definition</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

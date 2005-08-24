@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePackage.java,v 1.3 2005/06/22 20:00:34 davidms Exp $
+ * $Id: XSD2EcorePackage.java,v 1.4 2005/08/24 13:41:57 marcelop Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore;
 
@@ -37,8 +37,7 @@ import org.eclipse.emf.mapping.MappingPackage;
  * @model kind="package"
  * @generated
  */
-public interface XSD2EcorePackage extends EPackage
-{
+public interface XSD2EcorePackage extends EPackage{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -163,7 +162,7 @@ public interface XSD2EcorePackage extends EPackage
   int XSD2_ECORE_MAPPING_ROOT__COMMAND_STACK = MappingPackage.MAPPING_ROOT__COMMAND_STACK;
 
   /**
-   * The number of structural features of the the '<em>Mapping Root</em>' class.
+   * The number of structural features of the '<em>Mapping Root</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
