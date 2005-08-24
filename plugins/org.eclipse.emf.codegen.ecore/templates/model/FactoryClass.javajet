@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.13 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.14 2005/08/24 19:35:20 elena Exp $" %>
 <%
 /**
  * <copyright>
@@ -165,23 +165,25 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 		}
 		return result;
     <%} else if (!genDataType.getMemberTypes().isEmpty()) {%>
+		<%=genDataType.getObjectInstanceClassName()%> result = null;
+		RuntimeException exception = null;
       <%for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();%>
-        <%if (j.hasNext()) {%>
 		try
 		{
-			<%=genDataType.getObjectInstanceClassName()%> result = (<%=genDataType.getObjectInstanceClassName()%>)<%=genMemberType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), initialValue);
-			if (result != null)
+			result = (<%=genDataType.getObjectInstanceClassName()%>)<%=genMemberType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), initialValue);
+			if (result != null && <%=genModel.getImportedName("org.eclipse.emf.ecore.util.Diagnostician")%>.INSTANCE.validate(eDataType, result, null, null))
 			{
 				return result;
 			}
 		}
-		catch (RuntimeException exception)
+		catch (RuntimeException e)
 		{
+			exception = e;
 		}
-        <%} else {%>
-		return (<%=genDataType.getObjectInstanceClassName()%>)<%=genMemberType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), initialValue);
-        <%}%>
       <%}%>
+		if (result != null || exception == null) return result;
+    
+		throw exception;
     <%} else {%>
 		return (<%=genDataType.getObjectInstanceClassName()%>)super.createFromString(eDataType, initialValue);
     <%}%>
