@@ -187,8 +187,8 @@ public class ValidatorClass
   protected final String TEXT_170 = ", tempDiagnostics, ";
   protected final String TEXT_171 = ")) return true;" + NL + "\t\t\t}     \t\t";
   protected final String TEXT_172 = NL + "\t\t\t";
-  protected final String TEXT_173 = " children = tempDiagnostics.getChildren();" + NL + "\t\t\tfor (int i = 0; i < children.size(); i++)" + NL + "      \t\t{" + NL + "        \t\tdiagnostics.add((";
-  protected final String TEXT_174 = ")children.get(i));" + NL + "      \t\t}\t" + NL + "\t\t}" + NL + "\t\telse" + NL + "\t\t{";
+  protected final String TEXT_173 = " children = tempDiagnostics.getChildren();" + NL + "\t\t\tfor (int i = 0; i < children.size(); i++)" + NL + "\t\t\t{" + NL + "\t\t\t\tdiagnostics.add((";
+  protected final String TEXT_174 = ")children.get(i));" + NL + "\t\t\t}\t" + NL + "\t\t}" + NL + "\t\telse" + NL + "\t\t{";
   protected final String TEXT_175 = "\t\t\t\t" + NL + "\t\t\tif (";
   protected final String TEXT_176 = ".eINSTANCE.get";
   protected final String TEXT_177 = "().isInstance(";
