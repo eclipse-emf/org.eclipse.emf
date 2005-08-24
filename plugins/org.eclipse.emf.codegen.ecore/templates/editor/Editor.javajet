@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.23 2005/08/17 14:49:20 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.24 2005/08/24 13:49:22 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -1440,7 +1440,7 @@ public class <%=genPackage.getEditorClassName()%>
 	protected void doSaveAs(URI uri, IEditorInput editorInput)
 	{
 		((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
-		setInput(editorInput);
+		setInputWithNotify(editorInput);
 		setPartName(editorInput.getName());
 		IProgressMonitor progressMonitor =
 			getActionBars().getStatusLineManager() != null ?
@@ -1489,7 +1489,7 @@ public class <%=genPackage.getEditorClassName()%>
 	public void init(IEditorSite site, IEditorInput editorInput)
 	{
 		setSite(site);
-		setInput(editorInput);
+		setInputWithNotify(editorInput);
 		setPartName(editorInput.getName());
 		site.setSelectionProvider(this);
 		site.getPage().addPartListener(partListener);
