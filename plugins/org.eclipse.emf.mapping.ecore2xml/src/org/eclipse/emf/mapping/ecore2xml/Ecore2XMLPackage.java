@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLPackage.java,v 1.3 2005/06/22 20:00:38 davidms Exp $
+ * $Id: Ecore2XMLPackage.java,v 1.4 2005/08/24 13:41:59 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -36,8 +36,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface Ecore2XMLPackage extends EPackage
-{
+public interface Ecore2XMLPackage extends EPackage{
 
   /**
    * The package name.
@@ -109,7 +108,7 @@ public interface Ecore2XMLPackage extends EPackage
   int XML_INFO__XML_REPRESENTATION = 2;
 
   /**
-   * The number of structural features of the the '<em>XML Info</em>' class.
+   * The number of structural features of the '<em>XML Info</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -155,7 +154,7 @@ public interface Ecore2XMLPackage extends EPackage
   int XML_MAP__NO_NAMESPACE_PACKAGE = 2;
 
   /**
-   * The number of structural features of the the '<em>XML Map</em>' class.
+   * The number of structural features of the '<em>XML Map</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -192,7 +191,7 @@ public interface Ecore2XMLPackage extends EPackage
   int ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE = 1;
 
   /**
-   * The number of structural features of the the '<em>ENamed Element To XML Info Map Entry</em>' class.
+   * The number of structural features of the '<em>ENamed Element To XML Info Map Entry</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

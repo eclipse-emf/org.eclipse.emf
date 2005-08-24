@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingPackage.java,v 1.3 2005/06/22 20:00:43 davidms Exp $
+ * $Id: MappingPackage.java,v 1.4 2005/08/24 13:41:56 marcelop Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -38,8 +38,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface MappingPackage extends EPackage
-{
+public interface MappingPackage extends EPackage{
 
   /**
    * The package name.
@@ -112,7 +111,7 @@ public interface MappingPackage extends EPackage
   int MAPPING_HELPER__NESTED = 3;
 
   /**
-   * The number of structural features of the the '<em>Helper</em>' class.
+   * The number of structural features of the '<em>Helper</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -185,7 +184,7 @@ public interface MappingPackage extends EPackage
   int MAPPING__TYPE_MAPPING = 5;
 
   /**
-   * The number of structural features of the the '<em>Mapping</em>' class.
+   * The number of structural features of the '<em>Mapping</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -240,7 +239,7 @@ public interface MappingPackage extends EPackage
   int TYPE_CONVERTER__NESTED = MAPPING_HELPER__NESTED;
 
   /**
-   * The number of structural features of the the '<em>Type Converter</em>' class.
+   * The number of structural features of the '<em>Type Converter</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -313,7 +312,7 @@ public interface MappingPackage extends EPackage
   int FUNCTION_PAIR__OUT2IN = TYPE_CONVERTER_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>Function Pair</em>' class.
+   * The number of structural features of the '<em>Function Pair</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -386,7 +385,7 @@ public interface MappingPackage extends EPackage
   int FUNCTION_NAME_PAIR__OUT2IN = TYPE_CONVERTER_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>Function Name Pair</em>' class.
+   * The number of structural features of the '<em>Function Name Pair</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -441,7 +440,7 @@ public interface MappingPackage extends EPackage
   int MAPPING_STRATEGY__NESTED = MAPPING_HELPER__NESTED;
 
   /**
-   * The number of structural features of the the '<em>Strategy</em>' class.
+   * The number of structural features of the '<em>Strategy</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -541,7 +540,7 @@ public interface MappingPackage extends EPackage
   int MAPPING_ROOT__COMMAND_STACK = MAPPING_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the the '<em>Root</em>' class.
+   * The number of structural features of the '<em>Root</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -614,7 +613,7 @@ public interface MappingPackage extends EPackage
   int COMPLEX_TYPE_CONVERTER__OUT2IN = TYPE_CONVERTER_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>Complex Type Converter</em>' class.
+   * The number of structural features of the '<em>Complex Type Converter</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

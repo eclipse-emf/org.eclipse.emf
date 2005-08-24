@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackage.java,v 1.3 2005/07/06 19:45:14 davidms Exp $
+ * $Id: JavaPackage.java,v 1.4 2005/08/24 13:37:44 marcelop Exp $
  */
 package org.eclipse.emf.java;
 
@@ -103,7 +103,7 @@ public interface JavaPackage extends EPackage{
   int JMODEL_ELEMENT__JNODE = 1;
 
   /**
-   * The number of structural features of the the '<em>JModel Element</em>' class.
+   * The number of structural features of the '<em>JModel Element</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -176,7 +176,7 @@ public interface JavaPackage extends EPackage{
   int JMEMBER__CONTAINING_TYPE = JMODEL_ELEMENT_FEATURE_COUNT + 3;
 
   /**
-   * The number of structural features of the the '<em>JMember</em>' class.
+   * The number of structural features of the '<em>JMember</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -411,7 +411,7 @@ public interface JavaPackage extends EPackage{
   int JCLASS__ALL_TYPES = JMEMBER_FEATURE_COUNT + 17;
 
   /**
-   * The number of structural features of the the '<em>JClass</em>' class.
+   * The number of structural features of the '<em>JClass</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -502,7 +502,7 @@ public interface JavaPackage extends EPackage{
   int JCOMPILATION_UNIT__PACKAGE = JMODEL_ELEMENT_FEATURE_COUNT + 5;
 
   /**
-   * The number of structural features of the the '<em>JCompilation Unit</em>' class.
+   * The number of structural features of the '<em>JCompilation Unit</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -629,7 +629,7 @@ public interface JavaPackage extends EPackage{
   int JFIELD__TYPE = JMEMBER_FEATURE_COUNT + 5;
 
   /**
-   * The number of structural features of the the '<em>JField</em>' class.
+   * The number of structural features of the '<em>JField</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -711,7 +711,7 @@ public interface JavaPackage extends EPackage{
   int JINITIALIZER__BODY = JMEMBER_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>JInitializer</em>' class.
+   * The number of structural features of the '<em>JInitializer</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -883,7 +883,7 @@ public interface JavaPackage extends EPackage{
   int JMETHOD__RETURN_TYPE = JMEMBER_FEATURE_COUNT + 10;
 
   /**
-   * The number of structural features of the the '<em>JMethod</em>' class.
+   * The number of structural features of the '<em>JMethod</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -948,7 +948,7 @@ public interface JavaPackage extends EPackage{
   int JPACKAGE__TYPES = JMODEL_ELEMENT_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>JPackage</em>' class.
+   * The number of structural features of the '<em>JPackage</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1002,7 +1002,7 @@ public interface JavaPackage extends EPackage{
   int JPARAMETER__TYPE = JMODEL_ELEMENT_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the the '<em>JParameter</em>' class.
+   * The number of structural features of the '<em>JParameter</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

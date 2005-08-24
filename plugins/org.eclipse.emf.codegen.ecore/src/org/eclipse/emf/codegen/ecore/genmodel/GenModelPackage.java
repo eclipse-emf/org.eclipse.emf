@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.20 2005/06/22 20:03:13 davidms Exp $
+ * $Id: GenModelPackage.java,v 1.21 2005/08/24 13:35:45 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -87,7 +87,7 @@ public interface GenModelPackage extends EPackage
   int GEN_BASE = 4;
 
   /**
-   * The number of structural features of the the '<em>Gen Base</em>' class.
+   * The number of structural features of the '<em>Gen Base</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -484,7 +484,7 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 41;
 
   /**
-   * The number of structural features of the the '<em>Gen Model</em>' class.
+   * The number of structural features of the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -683,7 +683,7 @@ public interface GenModelPackage extends EPackage
   int GEN_PACKAGE__GEN_CLASSIFIERS = GEN_BASE_FEATURE_COUNT + 19;
 
   /**
-   * The number of structural features of the the '<em>Gen Package</em>' class.
+   * The number of structural features of the '<em>Gen Package</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -711,7 +711,7 @@ public interface GenModelPackage extends EPackage
   int GEN_CLASSIFIER__GEN_PACKAGE = GEN_BASE_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Gen Classifier</em>' class.
+   * The number of structural features of the '<em>Gen Classifier</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -793,7 +793,7 @@ public interface GenModelPackage extends EPackage
   int GEN_CLASS__LABEL_FEATURE = GEN_CLASSIFIER_FEATURE_COUNT + 5;
 
   /**
-   * The number of structural features of the the '<em>Gen Class</em>' class.
+   * The number of structural features of the '<em>Gen Class</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -812,7 +812,7 @@ public interface GenModelPackage extends EPackage
   int GEN_TYPED_ELEMENT = 11;
 
   /**
-   * The number of structural features of the the '<em>Gen Typed Element</em>' class.
+   * The number of structural features of the '<em>Gen Typed Element</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -912,7 +912,7 @@ public interface GenModelPackage extends EPackage
   int GEN_FEATURE__ECORE_FEATURE = GEN_TYPED_ELEMENT_FEATURE_COUNT + 8;
 
   /**
-   * The number of structural features of the the '<em>Gen Feature</em>' class.
+   * The number of structural features of the '<em>Gen Feature</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -949,7 +949,7 @@ public interface GenModelPackage extends EPackage
   int GEN_DATA_TYPE__ECORE_DATA_TYPE = GEN_CLASSIFIER_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Gen Data Type</em>' class.
+   * The number of structural features of the '<em>Gen Data Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1004,7 +1004,7 @@ public interface GenModelPackage extends EPackage
   int GEN_ENUM__GEN_ENUM_LITERALS = GEN_DATA_TYPE_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>Gen Enum</em>' class.
+   * The number of structural features of the '<em>Gen Enum</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1041,7 +1041,7 @@ public interface GenModelPackage extends EPackage
   int GEN_ENUM_LITERAL__ECORE_ENUM_LITERAL = GEN_BASE_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>Gen Enum Literal</em>' class.
+   * The number of structural features of the '<em>Gen Enum Literal</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1087,7 +1087,7 @@ public interface GenModelPackage extends EPackage
   int GEN_OPERATION__GEN_PARAMETERS = GEN_TYPED_ELEMENT_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the the '<em>Gen Operation</em>' class.
+   * The number of structural features of the '<em>Gen Operation</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1124,7 +1124,7 @@ public interface GenModelPackage extends EPackage
   int GEN_PARAMETER__ECORE_PARAMETER = GEN_TYPED_ELEMENT_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>Gen Parameter</em>' class.
+   * The number of structural features of the '<em>Gen Parameter</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

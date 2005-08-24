@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcorePackage.java,v 1.4 2005/06/22 20:00:44 davidms Exp $
+ * $Id: Ecore2EcorePackage.java,v 1.5 2005/08/24 13:42:00 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore;
 
@@ -38,8 +38,7 @@ import org.eclipse.emf.mapping.MappingPackage;
  * @model kind="package"
  * @generated
  */
-public interface Ecore2EcorePackage extends EPackage
-{
+public interface Ecore2EcorePackage extends EPackage{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -164,7 +163,7 @@ public interface Ecore2EcorePackage extends EPackage
   int ECORE2_ECORE_MAPPING_ROOT__COMMAND_STACK = MappingPackage.MAPPING_ROOT__COMMAND_STACK;
 
   /**
-   * The number of structural features of the the '<em>Mapping Root</em>' class.
+   * The number of structural features of the '<em>Mapping Root</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

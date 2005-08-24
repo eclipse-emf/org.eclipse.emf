@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackage.java,v 1.6 2005/06/22 20:00:42 davidms Exp $
+ * $Id: ChangePackage.java,v 1.7 2005/08/24 13:37:42 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -120,7 +120,7 @@ public interface ChangePackage extends EPackage
   int CHANGE_DESCRIPTION__RESOURCE_CHANGES = 3;
 
   /**
-   * The number of structural features of the the '<em>Description</em>' class.
+   * The number of structural features of the '<em>Description</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -157,7 +157,7 @@ public interface ChangePackage extends EPackage
   int EOBJECT_TO_CHANGES_MAP_ENTRY__VALUE = 1;
 
   /**
-   * The number of structural features of the the '<em>EObject To Changes Map Entry</em>' class.
+   * The number of structural features of the '<em>EObject To Changes Map Entry</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -239,7 +239,7 @@ public interface ChangePackage extends EPackage
   int FEATURE_CHANGE__LIST_CHANGES = 6;
 
   /**
-   * The number of structural features of the the '<em>Feature Change</em>' class.
+   * The number of structural features of the '<em>Feature Change</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -330,7 +330,7 @@ public interface ChangePackage extends EPackage
   int LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES = 7;
 
   /**
-   * The number of structural features of the the '<em>List Change</em>' class.
+   * The number of structural features of the '<em>List Change</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -385,7 +385,7 @@ public interface ChangePackage extends EPackage
   int RESOURCE_CHANGE__LIST_CHANGES = 3;
 
   /**
-   * The number of structural features of the the '<em>Resource Change</em>' class.
+   * The number of structural features of the '<em>Resource Change</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -449,7 +449,7 @@ public interface ChangePackage extends EPackage
   int FEATURE_MAP_ENTRY__REFERENCE_VALUE = 4;
 
   /**
-   * The number of structural features of the the '<em>Feature Map Entry</em>' class.
+   * The number of structural features of the '<em>Feature Map Entry</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
