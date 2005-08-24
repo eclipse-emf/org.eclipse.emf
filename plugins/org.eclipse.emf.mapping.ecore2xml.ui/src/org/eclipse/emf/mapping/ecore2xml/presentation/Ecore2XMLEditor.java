@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.5 2005/08/17 17:38:54 davidms Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.6 2005/08/24 13:52:07 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -1385,7 +1385,7 @@ public class Ecore2XMLEditor
   protected void doSaveAs(URI uri, IEditorInput editorInput)
   {
     ((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
-    setInput(editorInput);
+    setInputWithNotify(editorInput);
     setPartName(editorInput.getName());
     IProgressMonitor progressMonitor =
       getActionBars().getStatusLineManager() != null ?
@@ -1432,7 +1432,7 @@ public class Ecore2XMLEditor
   public void init(IEditorSite site, IEditorInput editorInput)
   {
     setSite(site);
-    setInput(editorInput);
+    setInputWithNotify(editorInput);
     setPartName(editorInput.getName());
     site.setSelectionProvider(this);
     site.getPage().addPartListener(partListener);

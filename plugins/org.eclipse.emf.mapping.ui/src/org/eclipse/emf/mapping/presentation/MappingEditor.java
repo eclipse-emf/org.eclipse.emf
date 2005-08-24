@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingEditor.java,v 1.7 2005/06/12 13:39:41 emerks Exp $
+ * $Id: MappingEditor.java,v 1.8 2005/08/24 13:52:08 marcelop Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -1944,7 +1944,7 @@ public abstract class MappingEditor
       {
         mappingRoot.eResource().setURI(URI.createURI(getURIFromFile(file)));
         modelFile = new FileEditorInput(file);
-        setInput(modelFile);
+        setInputWithNotify(modelFile);
         setPartName(file.getName());
         doSaveHelper(file);
       }
@@ -1960,7 +1960,7 @@ public abstract class MappingEditor
     if (editorInput instanceof IFileEditorInput)
     {
       setSite(site);
-      setInput(editorInput);
+      setInputWithNotify(editorInput);
       site.setSelectionProvider(this);
 
       site.getPage().addPartListener(partListener);

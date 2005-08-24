@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.14 2005/08/17 17:39:06 davidms Exp $
+ * $Id: JavaEditor.java,v 1.15 2005/08/24 13:52:06 marcelop Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -1474,7 +1474,7 @@ public class JavaEditor
   protected void doSaveAs(URI uri, IEditorInput editorInput)
   {
     ((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
-    setInput(editorInput);
+    setInputWithNotify(editorInput);
     setPartName(editorInput.getName());
     IProgressMonitor progressMonitor =
       getActionBars().getStatusLineManager() != null ?
@@ -1521,7 +1521,7 @@ public class JavaEditor
   public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException, PartInitException, PartInitException, PartInitException, PartInitException
   {
     setSite(site);
-    setInput(editorInput);
+    setInputWithNotify(editorInput);
     setPartName(editorInput.getName());
     site.setSelectionProvider(this);
     site.getPage().addPartListener(partListener);

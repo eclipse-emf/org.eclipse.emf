@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.21 2005/08/17 17:38:54 davidms Exp $
+ * $Id: EcoreEditor.java,v 1.22 2005/08/24 13:52:09 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1221,7 +1221,7 @@ public class EcoreEditor
         }
 
         IFileEditorInput modelFile = new FileEditorInput(file);
-        setInput(modelFile);
+        setInputWithNotify(modelFile);
         setPartName(file.getName());
         doSave(getActionBars().getStatusLineManager().getProgressMonitor());
       }
@@ -1236,7 +1236,7 @@ public class EcoreEditor
   protected void doSaveAs(URI uri, IEditorInput editorInput)
   {
     ((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
-    setInput(editorInput);
+    setInputWithNotify(editorInput);
     setPartName(editorInput.getName());
     IProgressMonitor progressMonitor =
       getActionBars().getStatusLineManager() != null ?
@@ -1283,7 +1283,7 @@ public class EcoreEditor
   public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException, PartInitException
   {
     setSite(site);
-    setInput(editorInput);
+    setInputWithNotify(editorInput);
     setPartName(editorInput.getName());
     site.setSelectionProvider(this);
     site.getPage().addPartListener(partListener);
