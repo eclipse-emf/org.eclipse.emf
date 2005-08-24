@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.11 2005/06/12 13:21:59 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.12 2005/08/24 19:39:26 elena Exp $" %>
 <%
 /**
  * <copyright>
@@ -291,14 +291,31 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 		}
 	  return result;
 <%} else if (constraint.equals("MemberTypes") && !genDataType.getMemberTypes().isEmpty()) {%>
-		boolean <%=result%> = true;
-<%for (ListIterator k = genDataType.getMemberTypes().listIterator(); k.hasNext(); ) { GenDataType memberType = (GenDataType)k.next(); String memberDelegate = memberType.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(memberType.getGenPackage()) + "Validator.";%>
-		<%if (k.previousIndex() != 0){%>else <%}%>if (<%=memberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=memberType.getClassifierAccessorName()%>().isInstance(<%=genClassifier.getSafeUncapName()%>))
+		if (diagnostics != null)
 		{
-			result &= <%=memberDelegate%>validate<%=memberType.getName()%>(<%if (memberType.isPrimitiveType()) {%>(<%}%>(<%=memberType.getObjectInstanceClassName()%>)<%=genClassifier.getSafeUncapName()%><%if (memberType.isPrimitiveType()) {%>).<%=memberType.getPrimitiveValueFunction()%>()<%}%>, <%=diagnostics%>, <%=context%>);
-		}
+			<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic")%> tempDiagnostics = new BasicDiagnostic();
+<%for (ListIterator k = genDataType.getMemberTypes().listIterator(); k.hasNext(); ) { GenDataType memberType = (GenDataType)k.next(); String memberDelegate = memberType.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(memberType.getGenPackage()) + "Validator.";%>		
+			if (<%=memberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=memberType.getClassifierAccessorName()%>().isInstance(<%=genClassifier.getSafeUncapName()%>))
+			{
+				if (<%=memberDelegate%>validate<%=memberType.getName()%>(<%if (memberType.isPrimitiveType()) {%>(<%}%>(<%=memberType.getObjectInstanceClassName()%>)<%=genClassifier.getSafeUncapName()%><%if (memberType.isPrimitiveType()) {%>).<%=memberType.getPrimitiveValueFunction()%>()<%}%>, tempDiagnostics, <%=context%>)) return true;
+			}     		
 <%}%>
-	  return result;
+			<%=genModel.getImportedName("java.util.List")%> children = tempDiagnostics.getChildren();
+			for (int i = 0; i < children.size(); i++)
+      		{
+        		diagnostics.add((<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>)children.get(i));
+      		}	
+		}
+		else
+		{
+<%for (ListIterator k = genDataType.getMemberTypes().listIterator(); k.hasNext(); ) { GenDataType memberType = (GenDataType)k.next(); String memberDelegate = memberType.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(memberType.getGenPackage()) + "Validator.";%>				
+			if (<%=memberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=memberType.getClassifierAccessorName()%>().isInstance(<%=genClassifier.getSafeUncapName()%>))
+			{
+				if (<%=memberDelegate%>validate<%=memberType.getName()%>(<%if (memberType.isPrimitiveType()) {%>(<%}%>(<%=memberType.getObjectInstanceClassName()%>)<%=genClassifier.getSafeUncapName()%><%if (memberType.isPrimitiveType()) {%>).<%=memberType.getPrimitiveValueFunction()%>()<%}%>, null, <%=context%>)) return true;
+			}		
+<%}%>
+		}
+	  return false;
 <%} else if (constraint.equals("Pattern") && !genDataType.getPatterns().isEmpty()) {%>
 		return validatePattern(<%=genDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genDataType.getClassifierAccessorName()%>(), <%if (genDataType.isPrimitiveType()) {%>new <%=genDataType.getObjectInstanceClassName()%>(<%}%><%=genDataType.getSafeUncapName()%><%if (genDataType.isPrimitiveType()) {%>)<%}%>, <%=constant%>__VALUES, <%=diagnostics%>, <%=context%>);
 <%} else if (constraint.equals("Enumeration") && !genDataType.getEnumerationLiterals().isEmpty()) { String variable = genDataType.getSafeUncapName();%>

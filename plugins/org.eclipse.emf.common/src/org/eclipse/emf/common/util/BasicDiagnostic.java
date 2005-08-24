@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicDiagnostic.java,v 1.3 2005/06/08 06:19:08 nickb Exp $
+ * $Id: BasicDiagnostic.java,v 1.4 2005/08/24 19:39:26 elena Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -66,6 +66,13 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
    * @see #getCode
    */
   protected int code;
+  
+  /**
+   * Default Constructor (no initialization for local parameters)
+   */
+  public BasicDiagnostic()
+  {
+  }
 
   public BasicDiagnostic(String source, int code, String message, Object[] data) 
   {
