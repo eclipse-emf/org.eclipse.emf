@@ -29,6 +29,10 @@
             (object Attribute
                 tool       	"Ecore"
                 name       	"prefix"
+                value      	"")
+            (object Attribute
+                tool       	"Ecore"
+                name       	"annotation"
                 value      	"")))
     (object Attribute
         tool       	"Ecore"
@@ -37,7 +41,51 @@
             (object Attribute
                 tool       	"Ecore"
                 name       	"classifierName"
-                value      	"")))
+                value      	"")
+            (object Attribute
+                tool       	"Ecore"
+                name       	"constraints"
+                value      	"")
+            (object Attribute
+                tool        "Ecore"
+                name        "xmlName"
+                value       "")
+
+            (object Attribute
+                tool        "Ecore"
+                name        "xmlContentKind"
+                value       ("ContentKind" 0))
+
+            (object Attribute
+                tool        "Ecore"
+                name        "ContentKind"
+                value       (list Attribute_Set
+
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Unspecified"
+                  value       0)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Empty"
+                  value       1)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Simple"
+                  value       2)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Mixed"
+                  value       3)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "ElementOnly"
+                  value       4)))
+
+              (object Attribute
+                  tool       	"Ecore"
+                  name       	"annotation"
+                  value      	"")))
     (object Attribute
         tool       	"Ecore"
         name       	"default__Operation"
@@ -45,6 +93,14 @@
             (object Attribute
                 tool       	"Ecore"
                 name       	"operationName"
+                value      	"")
+            (object Attribute
+                tool       	"Ecore"
+                name       	"isUnique"
+                value      	TRUE)
+            (object Attribute
+                tool       	"Ecore"
+                name       	"annotation"
                 value      	"")))
     (object Attribute
         tool       	"Ecore"
@@ -77,7 +133,75 @@
             (object Attribute
                 tool       	"Ecore"
                 name       	"isID"
-                value      	FALSE)))
+                value      	FALSE)
+            (object Attribute
+                tool       	"Ecore"
+                name       	"visibility"
+                value      	("VisibilityKind" 0))
+            (object Attribute
+                tool       	"Ecore"
+                name       	"VisibilityKind"
+                value      	(list Attribute_Set
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Unspecified"
+                  value       0)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "None"
+                  value       1)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-only"
+                  value       2)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-write"
+                  value       3)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-only unsettable"
+                  value       4)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-write unsettable"
+                  value       5)))
+            (object Attribute
+                tool       	"Ecore"
+                name       	"xmlName"
+                value      	"")
+            (object Attribute
+                tool       	"Ecore"
+                name       	"xmlNamespace"
+                value      	"")
+            (object Attribute
+                tool       	"Ecore"
+                name       	"xmlFeatureKind"
+                value      	("FeatureKind" 0))
+            (object Attribute
+                tool       	"Ecore"
+                name       	"FeatureKind"
+                value      	(list Attribute_Set
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Unspecified"
+                  value       0)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Simple"
+                  value       1)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Attribute"
+                  value       2)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Element"
+                  value       4)))
+            (object Attribute
+                tool       	"Ecore"
+                name       	"annotation"
+                value      	"")))
     (object Attribute
         tool       	"Ecore"
         name       	"default__Role"
@@ -105,5 +229,72 @@
             (object Attribute
                 tool       	"Ecore"
                 name       	"isResolveProxies"
-                value      	TRUE)))
-)
+                value      	TRUE)
+            (object Attribute
+                tool       	"Ecore"
+                name       	"visibility"
+                value      	("VisibilityKind" 0))
+            (object Attribute
+                tool       	"Ecore"
+                name       	"VisibilityKind"
+                value      	(list Attribute_Set
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Unspecified"
+                  value       0)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "None"
+                  value       1)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-only"
+                  value       2)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-write"
+                  value       3)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-only unsettable"
+                  value       4)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Read-write unsettable"
+                  value       5)))
+            (object Attribute
+                tool        "Ecore"
+                name        "xmlName"
+                value       "")
+            (object Attribute
+                tool        "Ecore"
+                name        "xmlNamespace"
+                value       "")
+            (object Attribute
+                tool        "Ecore"
+                name        "xmlFeatureKind"
+                value       ("FeatureKind" 0))
+            (object Attribute
+                tool        "Ecore"
+                name        "FeatureKind"
+                value       (list Attribute_Set
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Unspecified"
+                  value       0)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Simple"
+                  value       1)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Attribute"
+                  value       2)
+              (object Attribute
+                  tool        "Ecore"
+                  name        "Element"
+                  value       4)))
+            (object Attribute
+                tool       	"Ecore"
+                name       	"annotation"
+                value      	""))))
