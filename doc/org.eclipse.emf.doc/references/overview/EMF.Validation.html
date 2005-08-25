@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" href="images/../../../css/book.css" type="text/css"/>
+<link rel="stylesheet" href="images/../../../css/emf-book.css" type="text/css"/>
+
+<title>The Eclipse Modeling Framework (EMF) Validation Framework Overview</title>
+</head>
+<body lang="EN-US" xml:lang="EN-US">
+<h1>The Eclipse Modeling Framework (EMF) Validation Framework Overview</h1>
+<p>
+Last updated: June 23, 2005
+</p>
+<p>
+This paper presents a basic overview of EMF's Validation Framework and gives a few code samples to ease implementation. For 
+a more complete description of all the features of EMF, refer to
+<a href="http://www.awprofessional.com/titles/0131425420">Eclipse Modeling
+Framework</a>, Second Edition (Addison Wesley, 2006 - forthcoming!) or to the Javadoc for the framework
+classes themselves.
+</p>
+<h2>Introduction</h2>
+
+<p>Want to ensure your model's data conforms to constraints placed on that data? In three quick steps, this overview will give you an idea of how EMF's Validation Framework will let you do just that.</p>
+
+<hr/>
+
+<h2>Definitions</h2>
+
+<table><tr valign="top"><td>
+
+<p><b>Invariant</b> - Implemented as class method, defined on the model. Considered a "stronger" statement about validity than a constraint. Eg., <tt class="code">hasUSState()</tt></p>
+
+<p><a name="fig1"></a><img src="images/EMF.Validation/image001.gif" width="131" height="51" border="0" alt="Rose Model - Invariant"/><br/>
+<i>Figure 1. Rose Model - Invariant</i></p>
+
+</td>
+<td bgcolor="" width="1"><img src="http://eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
+<td bgcolor="black" width="1"><img src="http://eclipse.org/emf/images/c.gif" width="1" height="5"/></td>
+<td bgcolor="" width="1"><img src="http://eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
+<td>
+
+<p><b>Named Constraint</b> - Implemented as a method on an external validator class, not on the model itself. Considered a "weaker" statement about validity than an invariant. Eg., <tt class="code">NonNegativeQuantity</tt>, <tt class="code">ValidShipDate</tt></p>
+
+<p><a name="fig2"></a><img src="images/EMF.Validation/image002.gif" width="242" height="300" border="0" alt="Rose Model - Constraint"/><br/>
+<i>Figure 2. Rose Model - Constraint</i></p>
+
+</td>
+<td bgcolor="" width="1"><img src="http://eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
+<td bgcolor="black" width="1"><img src="http://eclipse.org/emf/images/c.gif" width="1" height="5"/></td>
+<td bgcolor="" width="1"><img src="http://eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
+<td>
+
+<p><b>Schema Based Constraint</b> - as with Named Constraint, but defined within schema. Eg., '<tt class="code">quantity</tt> must be an <tt class="code">int</tt> between 0 and 100'. Since these types of constraints have known behaviours, no additional work is required to implement them: all simple type constraints will be automatically implemented by the code generator.</p>
+
+<p><pre class="code">
+  &lt;xsd:element name="quantity"&gt;
+    &lt;xsd:simpleType&gt;
+      &lt;xsd:restriction base="xsd:int"&gt;
+        &lt;xsd:minInclusive value="0"/&gt;
+        &lt;xsd:maxInclusive value="100"/&gt;
+      &lt;/xsd:restriction&gt;
+    &lt;/xsd:simpleType&gt;
+  &lt;/xsd:element&gt;</pre></p>
+
+</td></tr></table>
+
+<hr/>
+
+<h2>Contents<a id="contents" name="contents">&nbsp;</a></h2>
+
+<table border="0" cellspacing="2" cellpadding="2">
+<tr>
+<td valign="top">Step 1:</td>
+<td valign="top"><a href="#step1">Create Constraints in the Model</a>
+</td>
+</tr>
+
+<tr>
+<td valign="top">Step 2:</td>
+<td valign="top"><a href="#step2">Define Constraints</a>
+</td>
+</tr>
+
+<tr>
+<td valign="top">Step 3:</td>
+<td valign="top"><a href="#step3">Generate &amp; Run</a> </td>
+</tr>
+
+<tr>
+<td valign="top">Appendix:</td>
+<td valign="top"><a href="#appendix">Advanced Topics</a> </td>
+</tr>
+
+</table>
+
+<hr/>
+<p style="text-align: right"><a id="step1" name="step1">&nbsp;</a><a href="#contents">contents</a></p>
+
+<h3>Step 1: Create Constraints in the Model</h3>
+
+<p>As with all EMF development, you can start from annotated Java, XML Schema, or Rose models. The method for defining constraints depends on your model source.</p>
+
+<p>For Rose, the <tt class="code">&lt;&lt;inv&gt;&gt;</tt> stereotype on an operation represents an invariant. For an example of this, see <a href="#fig1">Figure 1</a> above. </p>
+
+<p>To add a constraint using Rose 98, open your model, then select a class (such as "Item" in the example discussed here). Right-click and select "Open Specification" (or double-click "Item"). Then select the "Ecore" tab and click the constraints field to add them, as in <a href="#fig2">Figure 2</a> above.</p>
+
+<p>For Schema, you can define a <tt class="code">&lt;xsd:restriction/&gt;</tt> (as above) or named constraint:</p>
+
+<p><pre class="code">
+  &lt;xsd:complexType name="Item"&gt;
+    &lt;xsd:annotation&gt;
+       &lt;xsd:appinfo source="http://www.eclipse.org/emf/2002/Ecore" 
+       ecore:key="constraints"&gt;
+         NonNegativeQuantity ValidShipDate
+       &lt;/xsd:appinfo&gt;
+    &lt;/xsd:annotation&gt;
+  ...
+  &lt;/xsd:complexType&gt;</pre></p>
+
+<p>For annotated Java, you can define invariants and constraints like this: </p>
+
+<table><tr valign="top"><td>
+
+<p><b>Invariant</b></p>
+
+<p><pre class="code">
+  /**
+    * @model
+    */
+    public interface USAddress
+    {
+      ...
+      /**
+       * @model
+       */
+      boolean hasUSState(
+        DiagnosticChain diagnostics, 
+        Map context);
+      ...
+    }</pre></p>
+
+</td>
+
+<td bgcolor="" width="1"><img src="http://eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
+<td bgcolor="black" width="1"><img src="http://eclipse.org/emf/images/c.gif" width="1" height="5"/></td>
+<td bgcolor="" width="1"><img src="http://eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
+<td>
+
+<p><b>Constraint</b></p>
+
+<p><pre class="code">
+  /**
+   * @model 
+  annotation="http://www.eclipse.org/emf/2002/Ecore 
+  constraints='NonNegativeQuantity ValidShipDate'"
+   */
+    public interface Item
+    {
+       ...
+    }</pre></p>
+
+</td></tr></table>
+
+<hr/>
+<p style="text-align: right"><a id="step2" name="step2">&nbsp;</a><a href="#contents">contents</a></p>
+
+<h3>Step 2: Define Constraints</h3>
+
+<p>Import your model into EMF, then generate code as in <a href="http://eclipse.org/emf/docs.php?doc=tutorials/clibmod/clibmod.html#step2">Steps 2 - 3 of the Generating an EMF Model tutorial</a></p>
+
+<p>Generated code will look something like this:</p>
+
+<p><table><tr valign="top"><td>
+
+<p><b>Invariant</b>, com.example.ppo.impl.USAddressImpl</p>
+
+<p><pre class="code">  public boolean hasUSState(
+    DiagnosticChain diagnostics, 
+    Map context)
+  {
+    // TODO: implement this method
+    // -> specify the condition that violates 
+    //    the invariant
+    // -> verify the details of the diagnostic, 
+    //    including severity and message
+    // Ensure that you remove @generated or 
+    // mark it @generated NOT
+    <tt class="code" style="background-color:yellow">if (false)</tt>
+    {
+      if (diagnostics != null)
+      {
+        diagnostics.add(
+          new BasicDiagnostic(
+             Diagnostic.ERROR,
+             PPOValidator.DIAGNOSTIC_SOURCE,
+             PPOValidator.US_ADDRESS__HAS_US_STATE,
+             EcorePlugin.INSTANCE.getString(
+               "_UI_GenericInvariant_diagnostic", 
+               new Object[] {
+                 "hasUSState",
+                 EObjectValidator.getObjectLabel(this, 
+                   context)}),
+             new Object [] { this }));
+      }
+      return false;
+    }
+    return true;
+  }</pre></p>
+
+</td>
+
+<td bgcolor="" width="1"><img src="http://eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
+<td bgcolor="black" width="1"><img src="http://eclipse.org/emf/images/c.gif" width="1" height="5"/></td>
+<td bgcolor="" width="1"><img src="http://eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
+<td>
+
+<p><b>Constraint</b>, com.example.ppo.util.PPOValidator</p>
+
+<p><pre class="code">  public boolean validateItem_ValidShipDate(
+    Item item, DiagnosticChain diagnostics, 
+    Map context)
+  {
+    // TODO implement the constraint
+    // -> specify the condition that violates 
+    //    the constraint
+    // -> verify the diagnostic details, 
+    //    including severity, code, and message
+    // Ensure that you remove @generated or 
+    // mark it @generated NOT
+    <tt class="code" style="background-color:yellow">if (false)</tt>
+    {
+      if (diagnostics != null)
+      {
+        diagnostics.add(
+          new BasicDiagnostic(
+            Diagnostic.ERROR,
+            DIAGNOSTIC_SOURCE,
+            0,
+            EcorePlugin.INSTANCE.getString(
+              "_UI_GenericConstraint_diagnostic",
+              new Object[] {
+                "ValidShipDate", 
+                getObjectLabel(item, context) }),
+            new Object[] { item }));
+      }
+      return false;
+    }
+    return true;
+  }</pre></p>
+
+</td></tr></table></p>
+
+<p>Code is also generated in the validator, eg., in com.example.ppo.util.PPOValidator, for each defined invariant, but these method(s) simply delegate to the invariant method(s) on the objects themselves, eg.:</p>
+
+<p><pre class="code">  public boolean validateUSAddress_hasUSState(USAddress usAddress, 
+    DiagnosticChain diagnostics, Map context)
+  {
+    return usAddress.hasUSState(diagnostics, context);
+  }</pre></p>
+
+<p>In both cases, generated code must be modified by hand in order to explain to EMF how to implement the invariant or constraint. For the first case, change the first line from:</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<tt class="code" style="background-color:yellow">if (false)</tt></p>
+
+<p>to</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<tt class="code" style="background-color:yellow">if ("US".equals(getCountry()) &amp;&amp; getState() == null)</tt>.</p>
+
+<hr/>
+<p style="text-align: right"><a id="step3" name="step3">&nbsp;</a><a href="#contents">contents</a></p>
+
+<h3>Step 3: Generate &amp; Run</h3>
+
+<p>Once you're done defining constraints, launch a new workspace. For details, see <a href="http://eclipse.org/emf/docs.php?doc=tutorials/clibmod/clibmod.html#step4">Step 4 of the Generating an EMF Model tutorial</a>.</p>
+
+<p>Your model will now have a 'Validate' item on its editor menu.</p>
+
+<p><img src="images/EMF.Validation/image003.gif" width="397" height="227" border="0" alt="Start Validation from UI"/><br/>
+<i>Figure 3. Start Validation from UI</i></p>
+
+<p>With invalid data in the model, validation fails with a dialog like that in Figure 4.</p>
+
+<p><img src="images/EMF.Validation/image004.gif" width="349" height="246" border="0" alt="Validation Problems Dialog"/><br/>
+<i>Figure 4. Validation Problems Dialog</i></p>
+
+<p>Selecting one of the diagnostics in the dialog before clicking the OK button will cause the object that caused the violation to be selected in the editor.  Markers for these diagnostics will also appear in Eclipse's Problems view.</p>
+
+<hr/>
+<p style="text-align: right"><a id="appendix" name="appendix">&nbsp;</a><a href="#contents">contents</a></p>
+
+<h3>Advanced Topics</h3>
+
+<p>To implement validation in another way, such as when saving or opening a file, you need only do something like:</p>
+
+<p><pre class="code">  public static boolean validateObject(EObject eObject)
+  {
+    Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
+    return diagnostic.getSeverity() == Diagnostic.OK;
+  }</pre></p>
+
+<p>Using a <tt class="code">Diagnostician</tt>, the result of the evaluation is calculated based on a <tt class="code">Diagnostic</tt>, not a simple boolean return.  This allows you to decide which severity represents a failure, and to expose the information about the constraints and invariants that were not satisfied.  As an example, if you were interested only in errors and warnings, you could do something like this:</p>
+
+<p><pre class="code">  public static boolean validateObject(EObject eObject)
+  {
+    Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
+    if (diagnostic.getSeverity() == Diagnostic.ERROR || 
+      diagnostic.getSeverity() == Diagnostic.WARNING)
+    {
+      System.err.println(diagnostic.getMessage());
+      for (Iterator i=diagnostic.getChildren().iterator(); i.hasNext();)
+      {
+        Diagnostic childDiagnostic = (Diagnostic)i.next();
+        switch (childDiagnostic.getSeverity())
+        {
+          case Diagnostic.ERROR:
+          case Diagnostic.WARNING:
+            System.err.println("\t" + childDiagnostic.getMessage());
+        }
+      }
+      return false;
+    }
+    return true;
+  }</pre></p>
+
+
+<p>Note that under the covers using <tt class="code">Diagnostician.INSTANCE.validate()</tt>, you get some intrinsic <tt class="code">Ecore</tt> constraint validation thanks to <tt class="code">EObjectValidator</tt>, the base for all generated package validator classes. These include:</p>
+
+<p><ul>
+<li>The actual multiplicities of the attributes and references match the bounds defined in the model.</li>
+<li>The defined data type of the attributes is respected.</li>
+<li>Any cross referenced objects are contained in resources.</li>
+<li>Every proxy is properly resolved.</li>
+</ul></p>
+
+<p>&nbsp;</p>
+
+</body>
+</html>
