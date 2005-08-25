@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackage.java,v 1.5 2005/06/22 20:00:41 davidms Exp $
+ * $Id: XMLNamespacePackage.java,v 1.6 2005/08/25 03:33:29 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -40,8 +40,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface XMLNamespacePackage extends EPackage
-{
+public interface XMLNamespacePackage extends EPackage{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -148,7 +147,7 @@ public interface XMLNamespacePackage extends EPackage
   int XML_NAMESPACE_DOCUMENT_ROOT__SPACE = 6;
 
   /**
-   * The number of structural features of the the '<em>Document Root</em>' class.
+   * The number of structural features of the '<em>Document Root</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

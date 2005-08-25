@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackage.java,v 1.6 2005/06/22 20:00:41 davidms Exp $
+ * $Id: XMLTypePackage.java,v 1.7 2005/08/25 03:33:29 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -39,8 +39,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface XMLTypePackage extends EPackage
-{
+public interface XMLTypePackage extends EPackage{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -111,7 +110,7 @@ public interface XMLTypePackage extends EPackage
   int ANY_TYPE__ANY_ATTRIBUTE = 2;
 
   /**
-   * The number of structural features of the the '<em>Any Type</em>' class.
+   * The number of structural features of the '<em>Any Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -184,7 +183,7 @@ public interface XMLTypePackage extends EPackage
   int SIMPLE_ANY_TYPE__INSTANCE_TYPE = ANY_TYPE_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the the '<em>Simple Any Type</em>' class.
+   * The number of structural features of the '<em>Simple Any Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -257,7 +256,7 @@ public interface XMLTypePackage extends EPackage
   int XML_TYPE_DOCUMENT_ROOT__TEXT = 5;
 
   /**
-   * The number of structural features of the the '<em>Document Root</em>' class.
+   * The number of structural features of the '<em>Document Root</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
