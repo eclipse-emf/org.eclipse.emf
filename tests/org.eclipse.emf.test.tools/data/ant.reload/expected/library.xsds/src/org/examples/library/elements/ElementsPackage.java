@@ -116,7 +116,7 @@ public interface ElementsPackage extends EPackage{
   int BOOK__AUTHOR = 3;
 
   /**
-   * The number of structural features of the the '<em>Book</em>' class.
+   * The number of structural features of the '<em>Book</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -162,7 +162,7 @@ public interface ElementsPackage extends EPackage{
   int WRITER__BOOKS = HrPackage.PERSON_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Writer</em>' class.
+   * The number of structural features of the '<em>Writer</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

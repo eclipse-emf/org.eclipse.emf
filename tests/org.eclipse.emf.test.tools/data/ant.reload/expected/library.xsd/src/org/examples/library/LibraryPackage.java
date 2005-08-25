@@ -115,7 +115,7 @@ public interface LibraryPackage extends EPackage{
   int BOOK__AUTHOR = 3;
 
   /**
-   * The number of structural features of the the '<em>Book</em>' class.
+   * The number of structural features of the '<em>Book</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -170,7 +170,7 @@ public interface LibraryPackage extends EPackage{
   int LIBRARY__BOOKS = 3;
 
   /**
-   * The number of structural features of the the '<em>Library</em>' class.
+   * The number of structural features of the '<em>Library</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -207,7 +207,7 @@ public interface LibraryPackage extends EPackage{
   int WRITER__BOOKS = 1;
 
   /**
-   * The number of structural features of the the '<em>Writer</em>' class.
+   * The number of structural features of the '<em>Writer</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

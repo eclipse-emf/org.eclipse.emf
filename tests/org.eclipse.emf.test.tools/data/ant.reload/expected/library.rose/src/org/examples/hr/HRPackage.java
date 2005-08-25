@@ -96,7 +96,7 @@ public interface HRPackage extends EPackage
   int PERSON__LIBRARY = 1;
 
   /**
-   * The number of structural features of the the '<em>Person</em>' class.
+   * The number of structural features of the '<em>Person</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

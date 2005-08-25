@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryPackage.java,v 1.3 2005/06/22 19:57:53 davidms Exp $
+ * $Id: LibraryPackage.java,v 1.4 2005/08/25 03:27:47 marcelop Exp $
  */
 package org.examples.library;
 
@@ -105,7 +105,7 @@ public interface LibraryPackage extends EPackage
   int LIBRARY__BOOKS = 2;
 
   /**
-   * The number of structural features of the the '<em>Library</em>' class.
+   * The number of structural features of the '<em>Library</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

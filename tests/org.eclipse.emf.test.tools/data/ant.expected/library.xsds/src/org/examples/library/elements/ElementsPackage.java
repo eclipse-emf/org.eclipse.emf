@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsPackage.java,v 1.3 2005/06/22 19:57:53 davidms Exp $
+ * $Id: ElementsPackage.java,v 1.4 2005/08/25 03:27:47 marcelop Exp $
  */
 package org.examples.library.elements;
 
@@ -115,7 +115,7 @@ public interface ElementsPackage extends EPackage
   int BOOK__AUTHOR = 3;
 
   /**
-   * The number of structural features of the the '<em>Book</em>' class.
+   * The number of structural features of the '<em>Book</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -152,7 +152,7 @@ public interface ElementsPackage extends EPackage
   int WRITER__BOOKS = 1;
 
   /**
-   * The number of structural features of the the '<em>Writer</em>' class.
+   * The number of structural features of the '<em>Writer</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

@@ -113,7 +113,7 @@ public interface LibraryPackage extends EPackage{
   int LIBRARY__EMPLOYEES = 3;
 
   /**
-   * The number of structural features of the the '<em>Library</em>' class.
+   * The number of structural features of the '<em>Library</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
