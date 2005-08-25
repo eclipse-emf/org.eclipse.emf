@@ -170,10 +170,10 @@ public class ValidatorClass
   protected final String TEXT_153 = ".eINSTANCE.get";
   protected final String TEXT_154 = "(), item, ";
   protected final String TEXT_155 = ", ";
-  protected final String TEXT_156 = ");" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t  return result;";
+  protected final String TEXT_156 = ");" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn result;";
   protected final String TEXT_157 = NL + "\t\tif (diagnostics != null)" + NL + "\t\t{" + NL + "\t\t\t";
   protected final String TEXT_158 = " tempDiagnostics = new BasicDiagnostic();";
-  protected final String TEXT_159 = "\t\t" + NL + "\t\t\tif (";
+  protected final String TEXT_159 = NL + "\t\t\tif (";
   protected final String TEXT_160 = ".eINSTANCE.get";
   protected final String TEXT_161 = "().isInstance(";
   protected final String TEXT_162 = "))" + NL + "\t\t\t{" + NL + "\t\t\t\tif (";
@@ -185,11 +185,11 @@ public class ValidatorClass
   protected final String TEXT_168 = ").";
   protected final String TEXT_169 = "()";
   protected final String TEXT_170 = ", tempDiagnostics, ";
-  protected final String TEXT_171 = ")) return true;" + NL + "\t\t\t}     \t\t";
+  protected final String TEXT_171 = ")) return true;" + NL + "\t\t\t}";
   protected final String TEXT_172 = NL + "\t\t\t";
   protected final String TEXT_173 = " children = tempDiagnostics.getChildren();" + NL + "\t\t\tfor (int i = 0; i < children.size(); i++)" + NL + "\t\t\t{" + NL + "\t\t\t\tdiagnostics.add((";
-  protected final String TEXT_174 = ")children.get(i));" + NL + "\t\t\t}\t" + NL + "\t\t}" + NL + "\t\telse" + NL + "\t\t{";
-  protected final String TEXT_175 = "\t\t\t\t" + NL + "\t\t\tif (";
+  protected final String TEXT_174 = ")children.get(i));" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\telse" + NL + "\t\t{";
+  protected final String TEXT_175 = NL + "\t\t\tif (";
   protected final String TEXT_176 = ".eINSTANCE.get";
   protected final String TEXT_177 = "().isInstance(";
   protected final String TEXT_178 = "))" + NL + "\t\t\t{" + NL + "\t\t\t\tif (";
@@ -201,8 +201,8 @@ public class ValidatorClass
   protected final String TEXT_184 = ").";
   protected final String TEXT_185 = "()";
   protected final String TEXT_186 = ", null, ";
-  protected final String TEXT_187 = ")) return true;" + NL + "\t\t\t}\t\t";
-  protected final String TEXT_188 = NL + "\t\t}" + NL + "\t  return false;";
+  protected final String TEXT_187 = ")) return true;" + NL + "\t\t\t}";
+  protected final String TEXT_188 = NL + "\t\t}" + NL + "\t\treturn false;";
   protected final String TEXT_189 = NL + "\t\treturn validatePattern(";
   protected final String TEXT_190 = ".eINSTANCE.get";
   protected final String TEXT_191 = "(), ";
