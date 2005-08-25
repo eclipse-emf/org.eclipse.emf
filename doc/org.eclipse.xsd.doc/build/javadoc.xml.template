@@ -12,7 +12,7 @@
 	<available property="platformJavadocExists" file="${javadoc.link.location}/platform/"/>
 
 	<target name="extractPlatformJavadoc" unless="platformJavadocExists">
-		<unzip src="${eclipseDir}/plugins/org.eclipse.platform.doc.isv/doc.zip" dest="${javadoc.link.location}/platform/"/>
+		<unzip src="${eclipseDir}/plugins/org.eclipse.platform.doc.isv.jar" dest="${javadoc.link.location}/platform/"/>
 	</target>
 	
 	<target name="javadoc" depends="extractPlatformJavadoc">
