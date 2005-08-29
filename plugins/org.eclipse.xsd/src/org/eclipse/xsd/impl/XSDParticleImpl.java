@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.6 2005/06/12 12:38:14 emerks Exp $
+ * $Id: XSDParticleImpl.java,v 1.7 2005/08/29 13:50:45 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1571,6 +1571,45 @@ public class XSDParticleImpl
       while (!minimal);
     }
 
+    protected XSDElementDeclaration [] xsdElementDeclarations;
+
+    public int checksum()
+    {
+      int result = 0;
+      if (xsdElementDeclarations != null)
+      {
+        for (int i = 0, length = xsdElementDeclarations.length; i < length; ++i)
+        {
+          result += xsdElementDeclarations[i].getSubstitutionGroup().size();
+        }
+      }
+      else
+      {
+        List elements = new UniqueEList.FastCompare();
+        for (int i = 0, iSize = states.size(); i < iSize; ++i)
+        {
+          State state = (State)states.get(i);
+          List theTransitions = state.getTransitions();
+          for (int j = 0, jSize = theTransitions.size(); j < jSize; ++j)
+          {
+            Transition transition = (Transition)theTransitions.get(j);
+            XSDTerm xsdTerm = transition.getParticle().getTerm();
+            if (xsdTerm instanceof XSDElementDeclaration)
+            {
+              XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)xsdTerm;
+              if (elements.add(xsdElementDeclaration))
+              {
+                result += xsdElementDeclaration.getSubstitutionGroup().size();
+              }
+            }
+          }
+        }
+        xsdElementDeclarations = new XSDElementDeclaration[elements.size()];
+        elements.toArray(xsdElementDeclarations);
+      }
+      return result;
+    }
+
     public void determinize()
     {
       Set stateSubsets = new HashSet();
@@ -1841,10 +1880,11 @@ public class XSDParticleImpl
   public static final boolean debug = false;
 
   protected XSDNFA xsdNFA;
+  protected int xsdNFACheckSum;
 
   public XSDParticle.DFA getDFA()
   {
-    if (xsdNFA == null)
+    if (xsdNFA == null || xsdNFACheckSum != xsdNFA.checksum())
     {
       xsdNFA = new XSDNFA(this, false);
       if (xsdNFA.getStates().size() > MAXIMUM_STATES)
