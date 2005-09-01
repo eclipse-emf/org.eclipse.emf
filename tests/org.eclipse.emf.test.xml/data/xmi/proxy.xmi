@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy:ProxyRoot xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:proxy="http://proxy">
+ <context href="http://some-proxy">dummy-content</context>
+</proxy:ProxyRoot>

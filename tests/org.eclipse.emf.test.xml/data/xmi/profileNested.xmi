@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<defaultprofile:Classification xmlns:defaultprofile="http:///profile.ecore">
+  <descriptorGroup>
+    <description>This description does not load at all.</description>
+  </descriptorGroup>
+</defaultprofile:Classification>
