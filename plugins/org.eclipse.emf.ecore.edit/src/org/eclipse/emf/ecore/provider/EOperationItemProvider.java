@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationItemProvider.java,v 1.7 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EOperationItemProvider.java,v 1.8 2005/09/06 23:01:28 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -180,7 +180,7 @@ public class EOperationItemProvider
    * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void notifyChanged(Notification notification)
   {
@@ -188,8 +188,10 @@ public class EOperationItemProvider
 
     switch (notification.getFeatureID(EOperation.class))
     {
+      // Changes to the parameters should also update the label.
+      //
       case EcorePackage.EOPERATION__EPARAMETERS:
-        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, true));
         return;
     }
     super.notifyChanged(notification);

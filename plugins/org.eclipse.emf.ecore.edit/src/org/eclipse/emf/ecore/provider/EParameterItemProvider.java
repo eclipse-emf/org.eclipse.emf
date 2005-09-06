@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterItemProvider.java,v 1.5 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EParameterItemProvider.java,v 1.6 2005/09/06 23:01:28 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -23,12 +23,15 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 
 /**
@@ -104,11 +107,27 @@ public class EParameterItemProvider
    * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
+
+    switch (notification.getFeatureID(EParameter.class))
+    {
+      // Changes to parameter types should also update the operation's label.
+      //
+      case EcorePackage.EPARAMETER__ETYPE:
+      {
+        EParameter eParameter = (EParameter)notification.getNotifier();
+        EOperation eOperation = eParameter.getEOperation();
+        if (eOperation != null)
+        {
+          fireNotifyChanged(new ViewerNotification(notification, eOperation, false, true));
+        }
+        //return;
+      }
+    }
     super.notifyChanged(notification);
   }
 
