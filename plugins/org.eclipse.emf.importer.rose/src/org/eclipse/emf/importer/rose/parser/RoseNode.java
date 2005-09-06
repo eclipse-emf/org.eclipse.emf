@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseNode.java,v 1.3 2005/06/12 13:36:38 emerks Exp $
+ * $Id: RoseNode.java,v 1.4 2005/09/06 16:24:48 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -743,38 +743,41 @@ public class RoseNode
       if (defaultProperties != null)
       {
         RoseNode attributes = defaultProperties.findNodeWithKey(RoseStrings.ATTRIBUTES);
-        for (Iterator i = attributes.getNodes().iterator(); i.hasNext();)
+        if (attributes != null)
         {
-          RoseNode attribute = (RoseNode)i.next();
-          RoseNode toolNode = attribute.findNodeWithKey(RoseStrings.TOOL);
-          if (toolNode != null && Util.trimQuotes(toolNode.getValue()).equals(tool))
+          for (Iterator i = attributes.getNodes().iterator(); i.hasNext();)
           {
-            RoseNode nameNode = attribute.findNodeWithKey(RoseStrings.NAME);
-            String theName = Util.trimQuotes(nameNode.getValue());
-            if (objectType.equals(RoseStrings.CLASSATTRIBUTE) && theName.equals(RoseStrings.DEFAULT_ATTRIBUTE))
+            RoseNode attribute = (RoseNode)i.next();
+            RoseNode toolNode = attribute.findNodeWithKey(RoseStrings.TOOL);
+            if (toolNode != null && Util.trimQuotes(toolNode.getValue()).equals(tool))
             {
-              attributeListNode = attribute.findNodeWithKey(RoseStrings.VALUE);
-              break;
-            }
-            else if (objectType.equals(RoseStrings.CLASS) && theName.equals(RoseStrings.DEFAULT_CLASS))
-            {
-              attributeListNode = attribute.findNodeWithKey(RoseStrings.VALUE);
-              break;
-            }
-            else if (objectType.equals(RoseStrings.CLASS_CATEGORY) && theName.equals(RoseStrings.DEFAULT_CATEGORY))
-            {
-              attributeListNode = attribute.findNodeWithKey(RoseStrings.VALUE);
-              break;
-            }
-            else if (objectType.equals(RoseStrings.OPERATION) && theName.equals(RoseStrings.DEFAULT_OPERATION))
-            {
-              attributeListNode = attribute.findNodeWithKey(RoseStrings.VALUE);
-              break;
-            }
-            else if (objectType.equals(RoseStrings.ROLE) && theName.equals(RoseStrings.DEFAULT_ROLE))
-            {
-              attributeListNode = attribute.findNodeWithKey(RoseStrings.VALUE);
-              break;
+              RoseNode nameNode = attribute.findNodeWithKey(RoseStrings.NAME);
+              String theName = Util.trimQuotes(nameNode.getValue());
+              if (objectType.equals(RoseStrings.CLASSATTRIBUTE) && theName.equals(RoseStrings.DEFAULT_ATTRIBUTE))
+              {
+                attributeListNode = attribute.findNodeWithKey(RoseStrings.VALUE);
+                break;
+              }
+              else if (objectType.equals(RoseStrings.CLASS) && theName.equals(RoseStrings.DEFAULT_CLASS))
+              {
+                attributeListNode = attribute.findNodeWithKey(RoseStrings.VALUE);
+                break;
+              }
+              else if (objectType.equals(RoseStrings.CLASS_CATEGORY) && theName.equals(RoseStrings.DEFAULT_CATEGORY))
+              {
+                attributeListNode = attribute.findNodeWithKey(RoseStrings.VALUE);
+                break;
+              }
+              else if (objectType.equals(RoseStrings.OPERATION) && theName.equals(RoseStrings.DEFAULT_OPERATION))
+              {
+                attributeListNode = attribute.findNodeWithKey(RoseStrings.VALUE);
+                break;
+              }
+              else if (objectType.equals(RoseStrings.ROLE) && theName.equals(RoseStrings.DEFAULT_ROLE))
+              {
+                attributeListNode = attribute.findNodeWithKey(RoseStrings.VALUE);
+                break;
+              }
             }
           }
         }
