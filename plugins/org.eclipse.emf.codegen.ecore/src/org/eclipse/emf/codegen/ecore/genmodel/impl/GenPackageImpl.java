@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.36 2005/07/21 20:00:38 elena Exp $
+ * $Id: GenPackageImpl.java,v 1.37 2005/09/07 18:48:50 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -928,7 +928,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated modifiable
+   * @generated NOT
    */
   public EList getGenClassifiers()
   {
@@ -936,7 +936,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.addAll(getGenClasses());
     result.addAll(getGenEnums());
     result.addAll(getGenDataTypes());
-    return result;
+    return new BasicEList.UnmodifiableEList(result.size(), result.toArray());
   }
 
   /**
@@ -3182,10 +3182,28 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
     else
     {
-      for (Iterator i = getGenClassifiers().iterator(); i.hasNext(); )
+      for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
       {
-        GenClassifier genClassifier = (GenClassifier)i.next();
-        if (!genClassifier.reconcile())
+        GenClass genClass = (GenClass)i.next();
+        if (!genClass.reconcile())
+        {
+          i.remove();
+        }
+      }
+      
+      for (Iterator i = getGenEnums().iterator(); i.hasNext(); )
+      {
+        GenEnum genEnum = (GenEnum)i.next();
+        if (!genEnum.reconcile())
+        {
+          i.remove();
+        }
+      }
+      
+      for (Iterator i = getGenDataTypes().iterator(); i.hasNext(); )
+      {
+        GenDataType genDataType = (GenDataType)i.next();
+        if (!genDataType.reconcile())
         {
           i.remove();
         }
