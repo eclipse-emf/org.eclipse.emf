@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.37 2005/08/16 21:34:34 elena Exp $
+ * $Id: XMLHandler.java,v 1.38 2005/09/13 14:07:16 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -328,7 +328,7 @@ public abstract class XMLHandler
     XMLOptions xmlOptions = (XMLOptions)options.get(XMLResource.OPTION_XML_OPTIONS);
     if (xmlOptions != null)
     {
-      processSchemaLocations = xmlOptions.getProcessSchemaLocations();
+      processSchemaLocations = xmlOptions.isProcessSchemaLocations();
       externalURIToLocations = xmlOptions.getExternalSchemaLocations();
 
       if (processSchemaLocations || externalURIToLocations != null)
@@ -343,7 +343,7 @@ public abstract class XMLHandler
           ecoreBuilder = new DefaultEcoreBuilder(extendedMetaData);
         }
       }
-      processAnyXML = xmlOptions.getProcessAnyXML();
+      processAnyXML = xmlOptions.isProcessAnyXML();
       if (processAnyXML && extendedMetaData == null)
       {
         setExtendedMetaDataOption(Boolean.TRUE);

@@ -9,13 +9,13 @@ import org.eclipse.emf.ecore.xmi.XMLOptions;
 
 public class XMLOptionsImpl implements XMLOptions
 {
-  EcoreBuilder ecoreBuilder = null;
+  protected EcoreBuilder ecoreBuilder;
 
-  Map externalSchemaLocation = null;
+  protected Map externalSchemaLocation;
 
-  boolean anyXML = false;
+  protected boolean anyXML;
 
-  private boolean processSchemaLocations = false;
+  protected boolean processSchemaLocations;
 
   public EcoreBuilder getEcoreBuilder()
   {
@@ -27,12 +27,12 @@ public class XMLOptionsImpl implements XMLOptions
     return externalSchemaLocation;
   }
 
-  public boolean getProcessAnyXML()
+  public boolean isProcessAnyXML()
   {
     return anyXML;
   }
 
-  public boolean getProcessSchemaLocations()
+  public boolean isProcessSchemaLocations()
   {
     return processSchemaLocations;
   }
@@ -55,7 +55,6 @@ public class XMLOptionsImpl implements XMLOptions
   public void setProcessSchemaLocations(boolean processSchemaLocations)
   {
     this.processSchemaLocations = processSchemaLocations;
-
   }
 
 }

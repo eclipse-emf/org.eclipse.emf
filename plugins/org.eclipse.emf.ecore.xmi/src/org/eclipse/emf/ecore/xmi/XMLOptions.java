@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLOptions.java,v 1.1 2005/07/21 19:47:33 elena Exp $
+ * $Id: XMLOptions.java,v 1.2 2005/09/13 14:07:16 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -38,13 +38,13 @@ public interface XMLOptions
   /**
    * @return processAnyXML value
    */
-  boolean getProcessAnyXML();
+  boolean isProcessAnyXML();
 
   /**
    * This option allows the user to specify implementation of <code>EcoreBuilder</code> that will be used to process
    * schema locations to build Ecore dynamically.
    * If this option is not set and either 
-   * {@link #getExternalSchemaLocations} is set or {@link #getProcessSchemaLocations()} returns <code>true</code> 
+   * {@link #getExternalSchemaLocations} is set or {@link #isProcessSchemaLocations()} returns <code>true</code> 
    * default <code>EcoreBuilder</code> will be created.
    * @see org.eclipse.emf.ecore.xmi.EcoreBuilder
    */
@@ -86,6 +86,6 @@ public interface XMLOptions
   /**
    * @return processSchemaLocations
    */
-  boolean getProcessSchemaLocations();
+  boolean isProcessSchemaLocations();
 
 }
