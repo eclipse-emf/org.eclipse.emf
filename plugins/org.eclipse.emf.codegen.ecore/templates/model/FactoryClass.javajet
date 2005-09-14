@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.14 2005/08/24 19:35:20 elena Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.15 2005/09/14 19:57:15 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -84,15 +84,7 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 <%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
   <%if (genDataType.isSerializable()) {%>
 			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genDataType.getClassifierID()%>:
-    <%if (genDataType instanceof GenEnum) {%>
-			{
-				<%=((GenEnum)genDataType).getImportedName()%> result = <%=((GenEnum)genDataType).getImportedName()%>.get(initialValue);
-				if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%>
-				return result;
-			}
-    <%} else {%>
 				return create<%=genDataType.getName()%>FromString(eDataType, initialValue);
-    <%}%>
   <%}%>
 <%}%>
 			default:
@@ -112,11 +104,7 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 <%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
   <%if (genDataType.isSerializable()) {%>
 			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genDataType.getClassifierID()%>:
-    <%if (genDataType instanceof GenEnum) {%>
-				return instanceValue == null ? null : instanceValue.toString();
-    <%} else {%>
 				return convert<%=genDataType.getName()%>ToString(eDataType, instanceValue);
-    <%}%>
   <%}%>
 <%}%>
 			default:
@@ -140,7 +128,7 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 <%}%>
 <%}%>
 <%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
-  <%if (!(genDataType instanceof GenEnum) && genDataType.isSerializable()) {%>
+  <%if (genDataType.isSerializable()) {%>
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -149,19 +137,31 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 	 */
 	public <%=genDataType.getObjectInstanceClassName()%> create<%=genDataType.getName()%>FromString(<%=genModel.getImportedName("org.eclipse.emf.ecore.EDataType")%> eDataType, String initialValue)
 	{
-    <%if (genDataType.isArrayType()) {%>
+    <%if (genDataType instanceof GenEnum) {%>
+		<%=((GenEnum)genDataType).getImportedName()%> result = <%=((GenEnum)genDataType).getImportedName()%>.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%>
+		return result;
+    <%} else if (genDataType.isArrayType()) {%>
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new <%=genModel.getImportedName("java.lang.UnsupportedOperationException")%>();
     <%} else if (genDataType.getBaseType() != null) { GenDataType genBaseType = genDataType.getBaseType(); %>
+      <%if (genBaseType.getGenPackage() == genPackage) {%>
+		return (<%=genDataType.getObjectInstanceClassName()%>)create<%=genBaseType.getName()%>FromString(<%=genBaseType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genBaseType.getClassifierAccessorName()%>(), initialValue);
+      <%} else {%>
 		return (<%=genDataType.getObjectInstanceClassName()%>)<%=genBaseType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=genBaseType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genBaseType.getClassifierAccessorName()%>(), initialValue);
+      <%}%>
     <%} else if (genDataType.getItemType() != null) { GenDataType genItemType = genDataType.getItemType(); %>
 		if (initialValue == null) return null;
 		<%=genModel.getImportedName("java.util.List")%> result = new <%=genModel.getImportedName("java.util.ArrayList")%>();
 		for (<%=genModel.getImportedName("java.util.StringTokenizer")%> stringTokenizer = new <%=genModel.getImportedName("java.util.StringTokenizer")%>(initialValue); stringTokenizer.hasMoreTokens(); )
 		{
 			String item = stringTokenizer.nextToken();
+      <%if (genItemType.getGenPackage() == genPackage) {%>
+			result.add(create<%=genItemType.getName()%>FromString(<%=genItemType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genItemType.getClassifierAccessorName()%>(), item));
+      <%} else {%>
 			result.add(<%=genItemType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=genItemType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genItemType.getClassifierAccessorName()%>(), item));
+      <%}%>
 		}
 		return result;
     <%} else if (!genDataType.getMemberTypes().isEmpty()) {%>
@@ -170,7 +170,11 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
       <%for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();%>
 		try
 		{
+      <%if (genMemberType.getGenPackage() == genPackage) {%>
+			result = (<%=genDataType.getObjectInstanceClassName()%>)create<%=genMemberType.getName()%>FromString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), initialValue);
+      <%} else {%>
 			result = (<%=genDataType.getObjectInstanceClassName()%>)<%=genMemberType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), initialValue);
+      <%}%>
 			if (result != null && <%=genModel.getImportedName("org.eclipse.emf.ecore.util.Diagnostician")%>.INSTANCE.validate(eDataType, result, null, null))
 			{
 				return result;
@@ -196,12 +200,18 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 	 */
 	public String convert<%=genDataType.getName()%>ToString(<%=genModel.getImportedName("org.eclipse.emf.ecore.EDataType")%> eDataType, Object instanceValue)
 	{
-    <%if (genDataType.isArrayType()) {%>
+    <%if (genDataType instanceof GenEnum) {%>
+		return instanceValue == null ? null : instanceValue.toString();
+    <%} else if (genDataType.isArrayType()) {%>
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new <%=genModel.getImportedName("java.lang.UnsupportedOperationException")%>();
     <%} else if (genDataType.getBaseType() != null) { GenDataType genBaseType = genDataType.getBaseType(); %>
+      <%if (genBaseType.getGenPackage() == genPackage) {%>
+		return convert<%=genBaseType.getName()%>ToString(<%=genBaseType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genBaseType.getClassifierAccessorName()%>(), instanceValue);
+      <%} else {%>
 		return <%=genBaseType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.convertToString(<%=genBaseType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genBaseType.getClassifierAccessorName()%>(), instanceValue);
+      <%}%>
     <%} else if (genDataType.getItemType() != null) { GenDataType genItemType = genDataType.getItemType(); %>
 		if (instanceValue == null) return null;
 		<%=genModel.getImportedName("java.util.List")%> list = (<%=genModel.getImportedName("java.util.List")%>)instanceValue;
@@ -209,7 +219,11 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 		<%=genModel.getImportedName("java.lang.StringBuffer")%> result = new <%=genModel.getImportedName("java.lang.StringBuffer")%>();
 		for (<%=genModel.getImportedName("java.util.Iterator")%> i = list.iterator(); i.hasNext(); )
 		{
+      <%if (genItemType.getGenPackage() == genPackage) {%>
+			result.append(convert<%=genItemType.getName()%>ToString(<%=genItemType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genItemType.getClassifierAccessorName()%>(), i.next()));
+      <%} else {%>
 			result.append(<%=genItemType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.convertToString(<%=genItemType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genItemType.getClassifierAccessorName()%>(), i.next()));
+      <%}%>
 			result.append(' ');
 		}
 		return result.substring(0, result.length() - 1);
@@ -219,7 +233,11 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 		{
 			try
 			{
+      <%if (genMemberType.getGenPackage() == genPackage) {%>
+				String value = convert<%=genMemberType.getName()%>ToString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), instanceValue);
+      <%} else {%>
 				String value = <%=genMemberType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.convertToString(<%=genMemberType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genMemberType.getClassifierAccessorName()%>(), instanceValue);
+      <%}%>
 				if (value != null) return value;
 			}
 			catch (Exception e)
