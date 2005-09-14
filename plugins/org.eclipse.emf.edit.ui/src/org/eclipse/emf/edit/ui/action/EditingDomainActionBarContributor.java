@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainActionBarContributor.java,v 1.9 2005/07/08 02:09:28 davidms Exp $
+ * $Id: EditingDomainActionBarContributor.java,v 1.10 2005/09/14 14:52:15 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -248,19 +248,27 @@ public class EditingDomainActionBarContributor
       loadResourceAction.setActiveWorkbenchPart(null);
     }
 
+    if (validateAction != null)
+    {
+      validateAction.setActiveWorkbenchPart(null);
+    }
+
     ISelectionProvider selectionProvider = 
       activeEditor instanceof ISelectionProvider ?
         (ISelectionProvider)activeEditor :
         activeEditor.getEditorSite().getSelectionProvider();
-    selectionProvider.removeSelectionChangedListener(deleteAction);
-    selectionProvider.removeSelectionChangedListener(cutAction);
-    selectionProvider.removeSelectionChangedListener(copyAction);
-    selectionProvider.removeSelectionChangedListener(pasteAction);
 
-    if (validateAction != null)
+    if (selectionProvider != null)
     {
-      validateAction.setActiveWorkbenchPart(null);
-      selectionProvider.removeSelectionChangedListener(validateAction);
+      selectionProvider.removeSelectionChangedListener(deleteAction);
+      selectionProvider.removeSelectionChangedListener(cutAction);
+      selectionProvider.removeSelectionChangedListener(copyAction);
+      selectionProvider.removeSelectionChangedListener(pasteAction);
+
+      if (validateAction != null)
+      {
+        selectionProvider.removeSelectionChangedListener(validateAction);
+      }
     }
   }
 
@@ -280,19 +288,27 @@ public class EditingDomainActionBarContributor
       loadResourceAction.setActiveWorkbenchPart(activeEditor);
     }
 
+    if (validateAction != null)
+    {
+      validateAction.setActiveWorkbenchPart(activeEditor);
+    }
+
     ISelectionProvider selectionProvider = 
       activeEditor instanceof ISelectionProvider ?
         (ISelectionProvider)activeEditor :
         activeEditor.getEditorSite().getSelectionProvider();
-    selectionProvider.addSelectionChangedListener(deleteAction);
-    selectionProvider.addSelectionChangedListener(cutAction);
-    selectionProvider.addSelectionChangedListener(copyAction);
-    selectionProvider.addSelectionChangedListener(pasteAction);
 
-    if (validateAction != null)
+    if (selectionProvider != null)
     {
-      validateAction.setActiveWorkbenchPart(activeEditor);
-      selectionProvider.addSelectionChangedListener(validateAction);
+      selectionProvider.addSelectionChangedListener(deleteAction);
+      selectionProvider.addSelectionChangedListener(cutAction);
+      selectionProvider.addSelectionChangedListener(copyAction);
+      selectionProvider.addSelectionChangedListener(pasteAction);
+
+      if (validateAction != null)
+      {
+        selectionProvider.addSelectionChangedListener(validateAction);
+      }
     }
 
     update();
@@ -304,25 +320,30 @@ public class EditingDomainActionBarContributor
       activeEditor instanceof ISelectionProvider ?
         (ISelectionProvider)activeEditor :
         activeEditor.getEditorSite().getSelectionProvider();
-    ISelection selection = selectionProvider.getSelection();
-    IStructuredSelection structuredSelection =
-      selection instanceof IStructuredSelection ?  (IStructuredSelection)selection : StructuredSelection.EMPTY;
 
-    deleteAction.updateSelection(structuredSelection);
-    cutAction.updateSelection(structuredSelection);
-    copyAction.updateSelection(structuredSelection);
-    pasteAction.updateSelection(structuredSelection);
+    if (selectionProvider != null)
+    {
+      ISelection selection = selectionProvider.getSelection();
+      IStructuredSelection structuredSelection =
+        selection instanceof IStructuredSelection ?  (IStructuredSelection)selection : StructuredSelection.EMPTY;
+
+      deleteAction.updateSelection(structuredSelection);
+      cutAction.updateSelection(structuredSelection);
+      copyAction.updateSelection(structuredSelection);
+      pasteAction.updateSelection(structuredSelection);
+
+      if (validateAction != null)
+      {
+        validateAction.updateSelection(structuredSelection);
+      }
+    }
+
     undoAction.update();
     redoAction.update();
 
     if (loadResourceAction != null)
     {
       loadResourceAction.update();
-    }
-
-    if (validateAction != null)
-    {
-      validateAction.updateSelection(structuredSelection);
     }
   }
 
