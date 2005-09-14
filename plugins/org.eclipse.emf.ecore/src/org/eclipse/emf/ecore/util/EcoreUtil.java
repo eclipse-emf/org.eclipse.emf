@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.29 2005/08/04 16:09:49 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.30 2005/09/14 11:31:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -378,6 +378,27 @@ public class EcoreUtil
   public static class Copier extends HashMap
   {
     /**
+     * Whether proxies should be resolved during copying.
+     */
+    protected boolean resolveProxies = true;
+    
+    /**
+     * Creates an instance.
+     */
+    public Copier()
+    {
+    }
+    
+    /**
+     * Creates an instance that resolves proxies or not as specified.
+     * @param resolveProxies whether proxies should be resolved while copying.
+     */
+    public Copier(boolean resolveProxies)
+    {
+      this.resolveProxies = resolveProxies;
+    }
+     
+    /**
      * Returns a collection containing a copy of each EObject in the given collection.
      * @param eObjects the collection of objects to copy.
      * @return the collection of copies.
@@ -600,7 +621,7 @@ public class EcoreUtil
       {
         if (eReference.isMany())
         {
-          List source = (List)eObject.eGet(eReference);
+          InternalEList source = (InternalEList)eObject.eGet(eReference);
           InternalEList target = (InternalEList)copyEObject.eGet(getTarget(eReference));
           if (source.isEmpty())
           {
@@ -610,7 +631,7 @@ public class EcoreUtil
           {
             boolean isBidirectional = eReference.getEOpposite() != null;
             int index = 0;
-            for (Iterator k = source.iterator(); k.hasNext();)
+            for (Iterator k = resolveProxies ? source.iterator() : source.basicIterator(); k.hasNext();)
             {
               Object referencedEObject = k.next();
               Object copyReferencedEObject = get(referencedEObject);
@@ -647,7 +668,7 @@ public class EcoreUtil
         }
         else
         {
-          Object referencedEObject = eObject.eGet(eReference);
+          Object referencedEObject = eObject.eGet(eReference, resolveProxies);
           if (referencedEObject == null)
           {
             copyEObject.eSet(getTarget(eReference), null);
