@@ -67,11 +67,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
     switch (eDataType.getClassifierID())
     {
       case LibraryPackage.BOOK_CATEGORY:
-      {
-        BookCategory result = BookCategory.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createBookCategoryFromString(eDataType, initialValue);
       case LibraryPackage.BOOK_CATEGORY_OBJECT:
         return createBookCategoryObjectFromString(eDataType, initialValue);
       default:
@@ -89,7 +85,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
     switch (eDataType.getClassifierID())
     {
       case LibraryPackage.BOOK_CATEGORY:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertBookCategoryToString(eDataType, instanceValue);
       case LibraryPackage.BOOK_CATEGORY_OBJECT:
         return convertBookCategoryObjectToString(eDataType, instanceValue);
       default:
@@ -135,9 +131,31 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public BookCategory createBookCategoryFromString(EDataType eDataType, String initialValue)
+  {
+    BookCategory result = BookCategory.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertBookCategoryToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public BookCategory createBookCategoryObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (BookCategory)LibraryFactory.eINSTANCE.createFromString(LibraryPackage.eINSTANCE.getBookCategory(), initialValue);
+    return (BookCategory)createBookCategoryFromString(LibraryPackage.eINSTANCE.getBookCategory(), initialValue);
   }
 
   /**
@@ -147,7 +165,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    */
   public String convertBookCategoryObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return LibraryFactory.eINSTANCE.convertToString(LibraryPackage.eINSTANCE.getBookCategory(), instanceValue);
+    return convertBookCategoryToString(LibraryPackage.eINSTANCE.getBookCategory(), instanceValue);
   }
 
   /**

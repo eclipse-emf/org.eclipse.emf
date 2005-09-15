@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsFactoryImpl.java,v 1.3 2005/04/01 17:57:37 marcelop Exp $
+ * $Id: ElementsFactoryImpl.java,v 1.4 2005/09/15 14:54:03 davidms Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -66,11 +66,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
     switch (eDataType.getClassifierID())
     {
       case ElementsPackage.BOOK_CATEGORY:
-      {
-        BookCategory result = BookCategory.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createBookCategoryFromString(eDataType, initialValue);
       case ElementsPackage.BOOK_CATEGORY_OBJECT:
         return createBookCategoryObjectFromString(eDataType, initialValue);
       default:
@@ -88,7 +84,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
     switch (eDataType.getClassifierID())
     {
       case ElementsPackage.BOOK_CATEGORY:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertBookCategoryToString(eDataType, instanceValue);
       case ElementsPackage.BOOK_CATEGORY_OBJECT:
         return convertBookCategoryObjectToString(eDataType, instanceValue);
       default:
@@ -123,9 +119,31 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public BookCategory createBookCategoryFromString(EDataType eDataType, String initialValue)
+  {
+    BookCategory result = BookCategory.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertBookCategoryToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public BookCategory createBookCategoryObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (BookCategory)ElementsFactory.eINSTANCE.createFromString(ElementsPackage.eINSTANCE.getBookCategory(), initialValue);
+    return (BookCategory)createBookCategoryFromString(ElementsPackage.eINSTANCE.getBookCategory(), initialValue);
   }
 
   /**
@@ -135,7 +153,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
    */
   public String convertBookCategoryObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return ElementsFactory.eINSTANCE.convertToString(ElementsPackage.eINSTANCE.getBookCategory(), instanceValue);
+    return convertBookCategoryToString(ElementsPackage.eINSTANCE.getBookCategory(), instanceValue);
   }
 
   /**

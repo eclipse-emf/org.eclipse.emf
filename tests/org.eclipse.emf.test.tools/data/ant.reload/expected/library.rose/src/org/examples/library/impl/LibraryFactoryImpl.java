@@ -67,11 +67,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
     switch (eDataType.getClassifierID())
     {
       case LibraryPackage.BOOK_CATEGORY:
-      {
-        BookCategory result = BookCategory.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createBookCategoryFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -87,7 +83,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
     switch (eDataType.getClassifierID())
     {
       case LibraryPackage.BOOK_CATEGORY:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertBookCategoryToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -124,6 +120,28 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
   {
     WriterImpl writer = new WriterImpl();
     return writer;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public BookCategory createBookCategoryFromString(EDataType eDataType, String initialValue)
+  {
+    BookCategory result = BookCategory.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertBookCategoryToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
