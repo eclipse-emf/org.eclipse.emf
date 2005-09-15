@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.11 2005/08/15 19:02:25 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.12 2005/09/15 11:33:24 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -44,6 +44,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
+import org.eclipse.emf.ecore.util.EcoreEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.xsd.XSDAnnotation;
@@ -1041,9 +1042,21 @@ public class XSDSimpleTypeDefinitionImpl
 
     if (newValidFacets == null)
     {
-      newValidFacets = new BasicEList();
+      if (!getValidFacets().isEmpty())
+      {
+        getValidFacets().clear();
+      }
     }
-    validFacets = newValidFacets;
+    else
+    {
+      List remainingValidFacets = new ArrayList(getValidFacets());
+      remainingValidFacets.removeAll(newValidFacets);
+      getValidFacets().removeAll(remainingValidFacets);
+      if (!newValidFacets.isEmpty())
+      {
+        setListContentAndOrder(getValidFacets(), newValidFacets);
+      }
+    }
   }
 
   public void validate()
@@ -2871,7 +2884,9 @@ public class XSDSimpleTypeDefinitionImpl
         result.add(facet);
       }
     }
-    return result;
+    return 
+      new EcoreEList.UnmodifiableEList.FastCompare
+        (this, XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_EnumerationFacets(), result.size(), result.toArray());
   }
 
   public XSDEnumerationFacet getEffectiveEnumerationFacet()
@@ -2898,7 +2913,9 @@ public class XSDSimpleTypeDefinitionImpl
         result.add(facet);
       }
     }
-    return result;
+    return 
+      new EcoreEList.UnmodifiableEList.FastCompare
+        (this, XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_PatternFacets(), result.size(), result.toArray());
   }
 
   public XSDPatternFacet getEffectivePatternFacet()
