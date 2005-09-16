@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.20 2005/06/08 06:20:10 nickb Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.21 2005/09/16 20:00:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -110,16 +110,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   public EClassifier getType(EPackage ePackage, String name)
   {
-    List eClassifiers = ePackage.getEClassifiers();
-    for (int i = 0, size = eClassifiers.size(); i < size; ++i)
-    {
-      EClassifier eClassifier = (EClassifier)eClassifiers.get(i);
-      if (name.equals(getName(eClassifier)))
-      {
-        return eClassifier;
-      }
-    }
-    return null;
+    return getExtendedMetaData(ePackage).getType(name);
   }
 
   public EPackage getPackage(String namespace)
@@ -1971,6 +1962,8 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
     boolean isQualified();
     void setQualified(boolean isQualified);
+
+    EClassifier getType(String name);
   }
 
   public class EPackageExtendedMetaDataImpl implements EPackageExtendedMetaData
@@ -1978,6 +1971,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     protected EPackage ePackage;
     protected boolean isInitialized;
     protected boolean isQualified;
+    protected Map nameToClassifierMap;
 
     public EPackageExtendedMetaDataImpl(EPackage ePackage)
     {
@@ -1997,6 +1991,30 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     {
       this.isQualified = isQualified;
       isInitialized = true;
+    }
+    
+    public EClassifier getType(String name)
+    {
+      if (nameToClassifierMap == null)
+      {
+        nameToClassifierMap = new HashMap();
+      }
+      
+      // For demand created created packages we allow the list of classifiers to grow 
+      // so this should handle those additional instances.
+      //
+      List eClassifiers = ePackage.getEClassifiers();
+      for (int i = nameToClassifierMap.size(), size = eClassifiers.size(); i < size; ++i)
+      {
+        EClassifier eClassifier = (EClassifier)eClassifiers.get(i);
+        nameToClassifierMap.put(getName(eClassifier), eClassifier);
+        if (name.equals(getName(eClassifier)))
+        {
+          return eClassifier;
+        }
+      }
+      
+      return (EClassifier)nameToClassifierMap.get(name);
     }
   }
 
