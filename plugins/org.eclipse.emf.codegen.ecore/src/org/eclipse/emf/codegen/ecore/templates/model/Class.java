@@ -121,8 +121,8 @@ public class Class
   protected final String TEXT_104 = " old";
   protected final String TEXT_105 = " = ";
   protected final String TEXT_106 = ";" + NL + "\t\t\t";
-  protected final String TEXT_107 = " = (";
-  protected final String TEXT_108 = ")eResolveProxy((";
+  protected final String TEXT_107 = " = ";
+  protected final String TEXT_108 = "eResolveProxy((";
   protected final String TEXT_109 = ")";
   protected final String TEXT_110 = ");" + NL + "\t\t\tif (";
   protected final String TEXT_111 = " != old";
@@ -141,8 +141,8 @@ public class Class
   protected final String TEXT_124 = " ";
   protected final String TEXT_125 = " = basicGet";
   protected final String TEXT_126 = "();" + NL + "\t\treturn ";
-  protected final String TEXT_127 = " == null ? null : (";
-  protected final String TEXT_128 = ")eResolveProxy((";
+  protected final String TEXT_127 = " == null ? null : ";
+  protected final String TEXT_128 = "eResolveProxy((";
   protected final String TEXT_129 = ")";
   protected final String TEXT_130 = ");";
   protected final String TEXT_131 = NL + "\t\treturn new ";
@@ -1101,7 +1101,7 @@ public class Class
     stringBuffer.append(TEXT_106);
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_107);
-    stringBuffer.append(genFeature.getImportedInternalType());
+    stringBuffer.append(genFeature.getNonEObjectInternalTypeCast());
     stringBuffer.append(TEXT_108);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject"));
     stringBuffer.append(TEXT_109);
@@ -1145,7 +1145,7 @@ public class Class
     stringBuffer.append(TEXT_126);
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_127);
-    stringBuffer.append(genFeature.getImportedInternalType());
+    stringBuffer.append(genFeature.getNonEObjectInternalTypeCast());
     stringBuffer.append(TEXT_128);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject"));
     stringBuffer.append(TEXT_129);

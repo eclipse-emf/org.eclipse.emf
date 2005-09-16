@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenTypedElement.java,v 1.2 2005/06/01 19:30:50 davidms Exp $
+ * $Id: GenTypedElement.java,v 1.3 2005/09/16 22:01:51 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -69,6 +69,7 @@ public interface GenTypedElement extends GenBase
 
   String getEObjectCast(); // this returns either "(EObject)", "(org.eclipse.emf.ecore.EObject)", or "" as needed for the reference type.
   String getInternalTypeCast(); // this returns either "(EObject)", "(org.eclipse.emf.ecore.EObject)", or "" as needed for the reference type.
+  String getNonEObjectInternalTypeCast(); // this returns either a cast to the internal type, or "" if it is EObject.
 
   boolean isPrimitiveType();
   String getPrimitiveValueFunction();
