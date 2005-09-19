@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreXMLSchemaBuilder.java,v 1.7 2005/06/08 06:23:01 nickb Exp $
+ * $Id: EcoreXMLSchemaBuilder.java,v 1.8 2005/09/19 13:31:03 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -318,6 +318,10 @@ public class EcoreXMLSchemaBuilder extends MapBuilder
   {
     XSDComplexTypeDefinition xsdComplexTypeDefinition = XSDFactory.eINSTANCE.createXSDComplexTypeDefinition();
     xsdComplexTypeDefinition.setName(getName(eClass));
+    if (eClass.isAbstract())
+    {
+      xsdComplexTypeDefinition.setAbstract(true);
+    }
     List superClasses = eClass.getESuperTypes();
 
     if (superClasses.size() > 0)
