@@ -2517,6 +2517,7 @@ public class Class
     }
     }
     stringBuffer.append(TEXT_756);
+    //Class/eIsSet.override.javajetinc
     }
     if (!genClass.getMixinGenFeatures().isEmpty()) {
     stringBuffer.append(TEXT_757);

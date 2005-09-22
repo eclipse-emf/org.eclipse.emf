@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.22 2005/09/16 22:01:51 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.23 2005/09/22 19:40:45 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -905,6 +905,8 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 
 <%}%>
 <%if (!genModel.isReflectiveDelegation() && !genClass.getAllGenFeatures().isEmpty()) {%>
+<%@ include file="Class/eIsSet.override.javajetinc" fail="alternative" %>
+<%@ start %>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -966,6 +968,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 		return eDynamicIsSet(eFeature);
 	}
 
+<%@ end %><%//Class/eIsSet.override.javajetinc%>
 <%}%>
 <%if (!genClass.getMixinGenFeatures().isEmpty()) {%>
 	/**
