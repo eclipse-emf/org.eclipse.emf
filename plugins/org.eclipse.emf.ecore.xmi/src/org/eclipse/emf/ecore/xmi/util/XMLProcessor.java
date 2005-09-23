@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLProcessor.java,v 1.1 2005/07/21 19:47:33 elena Exp $
+ * $Id: XMLProcessor.java,v 1.2 2005/09/23 22:49:07 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -167,6 +167,25 @@ public class XMLProcessor
     }
 
     return registrations;
+  }
+
+  /**
+   * @return a map of namespace URI to EPackage. This registry should be treated as read-only. The registry
+   * does not include packages loaded on demand (@see #getExtendedMetaData to retrieve demand loaded packages)
+   */
+  public EPackage.Registry getEPackageRegistry()
+  {
+    return registry;
+  }
+
+  /**
+   * @return The ExtendedMetaData used by XMLProcessor to register all Ecore packages. 
+   * The ExtendedMetaData can be used to retieve information about the model (e.g. @see ExtendedMetaData#getElement(String, String)).
+   * The ExtendedMetaData should be treated as read-only.
+   */
+  public ExtendedMetaData getExtendedMetaData()
+  {
+    return extendedMetaData;
   }
 
   public Resource load(String systemId, Map options) throws IOException
