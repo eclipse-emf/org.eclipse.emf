@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackageImpl.java,v 1.9 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLNamespacePackageImpl.java,v 1.10 2005/09/23 17:46:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -23,11 +23,13 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.namespace.SpaceType;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespaceFactory;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
+import org.eclipse.emf.ecore.xml.namespace.util.XMLNamespaceValidator;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
@@ -53,6 +55,20 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * @generated
    */
   private EEnum spaceTypeEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EDataType langTypeEDataType = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EDataType langTypeNullEDataType = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -127,6 +143,17 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
 
     // Initialize created meta-data
     theXMLNamespacePackage.initializePackageContents();
+
+    // Register package validator
+    EValidator.Registry.INSTANCE.put
+      (theXMLNamespacePackage, 
+       new EValidator.Descriptor()
+       {
+         public EValidator getEValidator()
+         {
+           return XMLNamespaceValidator.INSTANCE;
+         }
+       });
 
     // Mark meta-data to indicate it can't be changed
     theXMLNamespacePackage.freeze();
@@ -229,6 +256,26 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EDataType getLangType()
+  {
+    return langTypeEDataType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EDataType getLangTypeNull()
+  {
+    return langTypeNullEDataType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EDataType getSpaceTypeObject()
   {
     return spaceTypeObjectEDataType;
@@ -277,6 +324,8 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     spaceTypeEEnum = createEEnum(SPACE_TYPE);
 
     // Create data types
+    langTypeEDataType = createEDataType(LANG_TYPE);
+    langTypeNullEDataType = createEDataType(LANG_TYPE_NULL);
     spaceTypeObjectEDataType = createEDataType(SPACE_TYPE_OBJECT);
   }
 
@@ -316,7 +365,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     initEReference(getXMLNamespaceDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXMLNamespaceDocumentRoot_Base(), theXMLTypePackage.getAnyURI(), "base", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXMLNamespaceDocumentRoot_Id(), theXMLTypePackage.getID(), "id", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getXMLNamespaceDocumentRoot_Lang(), theXMLTypePackage.getLanguage(), "lang", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXMLNamespaceDocumentRoot_Lang(), this.getLangType(), "lang", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXMLNamespaceDocumentRoot_Space(), this.getSpaceType(), "space", "preserve", 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
@@ -325,6 +374,8 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     addEEnumLiteral(spaceTypeEEnum, SpaceType.PRESERVE_LITERAL);
 
     // Initialize data types
+    initEDataType(langTypeEDataType, String.class, "LangType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(langTypeNullEDataType, String.class, "LangTypeNull", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(spaceTypeObjectEDataType, SpaceType.class, "SpaceTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
@@ -344,6 +395,23 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
   protected void createExtendedMetaDataAnnotations()
   {
     String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    addAnnotation
+      (langTypeEDataType, 
+       source, 
+       new String[] 
+       {
+       "name", "lang_._1_._type",
+       "memberTypes", "http://www.eclipse.org/emf/2003/XMLType#language lang_._1_._type_._member_._1"
+       });		
+    addAnnotation
+      (langTypeNullEDataType, 
+       source, 
+       new String[] 
+       {
+       "name", "lang_._1_._type_._member_._1",
+       "baseType", "http://www.eclipse.org/emf/2003/XMLType#string",
+       "enumeration", ""
+       });		
     addAnnotation
       (spaceTypeEEnum, 
        source, 

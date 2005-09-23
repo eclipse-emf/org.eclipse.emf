@@ -8,7 +8,16 @@
   ecore:nsPrefix="xml"
   ecore:package="org.eclipse.emf.ecore.xml.namespace">
 
- <xs:attribute name="lang" type="xs:language">
+ <xs:attribute name="lang">
+  <xs:simpleType>
+   <xs:union memberTypes="xs:language">
+    <xs:simpleType ecore:name="LangTypeNull">
+     <xs:restriction base="xs:string">
+      <xs:enumeration value=""/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:union>
+  </xs:simpleType>
  </xs:attribute>
 
  <xs:attribute name="space" default="preserve">

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackage.java,v 1.6 2005/08/25 03:33:29 marcelop Exp $
+ * $Id: XMLNamespacePackage.java,v 1.7 2005/09/23 17:46:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -40,7 +40,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface XMLNamespacePackage extends EPackage{
+public interface XMLNamespacePackage extends EPackage
+{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -166,6 +167,26 @@ public interface XMLNamespacePackage extends EPackage{
   int SPACE_TYPE = 1;
 
   /**
+   * The meta object id for the '<em>Lang Type</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see java.lang.String
+   * @see org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespacePackageImpl#getLangType()
+   * @generated
+   */
+  int LANG_TYPE = 2;
+
+  /**
+   * The meta object id for the '<em>Lang Type Null</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see java.lang.String
+   * @see org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespacePackageImpl#getLangTypeNull()
+   * @generated
+   */
+  int LANG_TYPE_NULL = 3;
+
+  /**
    * The meta object id for the '<em>Space Type Object</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -173,7 +194,7 @@ public interface XMLNamespacePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespacePackageImpl#getSpaceTypeObject()
    * @generated
    */
-  int SPACE_TYPE_OBJECT = 2;
+  int SPACE_TYPE_OBJECT = 4;
 
 
   /**
@@ -272,6 +293,30 @@ public interface XMLNamespacePackage extends EPackage{
    * @generated
    */
   EEnum getSpaceType();
+
+  /**
+   * Returns the meta object for data type '{@link java.lang.String <em>Lang Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for data type '<em>Lang Type</em>'.
+   * @see java.lang.String
+   * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='lang_._1_._type' memberTypes='http://www.eclipse.org/emf/2003/XMLType#language lang_._1_._type_._member_._1'" 
+   * @generated
+   */
+  EDataType getLangType();
+
+  /**
+   * Returns the meta object for data type '{@link java.lang.String <em>Lang Type Null</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for data type '<em>Lang Type Null</em>'.
+   * @see java.lang.String
+   * @model instanceClass="java.lang.String"
+   *        extendedMetaData="name='lang_._1_._type_._member_._1' baseType='http://www.eclipse.org/emf/2003/XMLType#string' enumeration=''" 
+   * @generated
+   */
+  EDataType getLangTypeNull();
 
   /**
    * Returns the meta object for data type '{@link org.eclipse.emf.ecore.xml.namespace.SpaceType <em>Space Type Object</em>}'.

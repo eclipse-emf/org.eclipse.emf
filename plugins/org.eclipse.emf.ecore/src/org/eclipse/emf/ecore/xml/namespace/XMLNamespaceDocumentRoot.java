@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRoot.java,v 1.5 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLNamespaceDocumentRoot.java,v 1.6 2005/09/23 17:46:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -164,7 +164,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @return the value of the '<em>Lang</em>' attribute.
    * @see #setLang(String)
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Lang()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Language"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.namespace.LangType"
    *        extendedMetaData="kind='attribute' name='lang' namespace='##targetNamespace'"
    * @generated
    */
