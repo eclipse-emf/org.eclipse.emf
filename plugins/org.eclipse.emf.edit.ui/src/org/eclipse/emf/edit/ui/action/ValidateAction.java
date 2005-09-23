@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.14 2005/06/12 13:33:17 emerks Exp $
+ * $Id: ValidateAction.java,v 1.15 2005/09/23 22:07:48 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -275,21 +275,28 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
   protected void handleDiagnostic(Diagnostic diagnostic)
   {
-    int result = 
-      ErrorDialog.openError
-        (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_title"),
-         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_message"),
-         BasicDiagnostic.toIStatus(diagnostic));
+    int severity = diagnostic.getSeverity();
+    String title = null;
+    String message = null;
+
+    if (severity == Diagnostic.ERROR || severity == Diagnostic.WARNING)
+    {
+      title = EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_title");
+      message = EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationProblems_message");
+    }
+    else
+    {
+      title = EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationResults_title");
+      message = EMFEditUIPlugin.INSTANCE.getString(severity == Diagnostic.OK ? "_UI_ValidationOK_message" : "_UI_ValidationResults_message");
+    }
+    int result = ErrorDialog.openError
+        (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, message, BasicDiagnostic.toIStatus(diagnostic));
 
     // No error dialog is displayed if the status severity is OK; pop up a dialog so the user knows something happened.
     //
     if (diagnostic.getSeverity() == Diagnostic.OK)
     {
-      MessageDialog.openInformation
-        (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationOK_title"),
-         EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationOK_message"));
+      MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, message);
       result = Window.CANCEL;
     }
 
