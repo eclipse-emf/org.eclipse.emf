@@ -149,7 +149,7 @@ public abstract class ModelImporterPage extends WizardPage implements Listener
       case IStatus.INFO:
       {
         messageType = IMessageProvider.INFORMATION;
-        if (dialogTitle == null) ImporterPlugin.INSTANCE.getString("_UI_DialogInformation_title");
+        if (dialogTitle == null) dialogTitle = ImporterPlugin.INSTANCE.getString("_UI_DialogInformation_title");
         break;
       }
       case IStatus.WARNING:
