@@ -270,14 +270,13 @@ public class PackageClass
   protected final String TEXT_251 = " uri = ";
   protected final String TEXT_252 = ".createURI(url.toString());" + NL + "\t\t";
   protected final String TEXT_253 = " resource = new ";
-  protected final String TEXT_254 = "().createResource(";
-  protected final String TEXT_255 = ".createURI(url.toString()));" + NL + "\t\ttry" + NL + "\t\t{" + NL + "\t\t\tresource.load(null);" + NL + "\t\t}" + NL + "\t\tcatch (";
-  protected final String TEXT_256 = " exception)" + NL + "\t\t{" + NL + "\t\t\tthrow new ";
-  protected final String TEXT_257 = "(exception);" + NL + "\t\t}" + NL + "\t\tinitializeFromLoadedEPackage(this, (";
-  protected final String TEXT_258 = ")resource.getContents().get(0));" + NL + "\t\tcreateResource(eNS_URI);" + NL + "\t}" + NL;
-  protected final String TEXT_259 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate boolean isFixed = false;" + NL + "" + NL + "\t/**" + NL + "\t * Fixes up the loaded package, to make it appear as if it had been programmatically built." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void fixPackageContents()" + NL + "\t{" + NL + "\t\tif (isFixed) return;" + NL + "\t\tisFixed = true;" + NL + "\t\tfixEClassifiers();" + NL + "\t}";
-  protected final String TEXT_260 = NL + "} //";
-  protected final String TEXT_261 = NL;
+  protected final String TEXT_254 = "().createResource(uri);" + NL + "\t\ttry" + NL + "\t\t{" + NL + "\t\t\tresource.load(null);" + NL + "\t\t}" + NL + "\t\tcatch (";
+  protected final String TEXT_255 = " exception)" + NL + "\t\t{" + NL + "\t\t\tthrow new ";
+  protected final String TEXT_256 = "(exception);" + NL + "\t\t}" + NL + "\t\tinitializeFromLoadedEPackage(this, (";
+  protected final String TEXT_257 = ")resource.getContents().get(0));" + NL + "\t\tcreateResource(eNS_URI);" + NL + "\t}" + NL;
+  protected final String TEXT_258 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate boolean isFixed = false;" + NL + "" + NL + "\t/**" + NL + "\t * Fixes up the loaded package, to make it appear as if it had been programmatically built." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void fixPackageContents()" + NL + "\t{" + NL + "\t\tif (isFixed) return;" + NL + "\t\tisFixed = true;" + NL + "\t\tfixEClassifiers();" + NL + "\t}";
+  protected final String TEXT_259 = NL + "} //";
+  protected final String TEXT_260 = NL;
 
   public String generate(Object argument)
   {
@@ -286,7 +285,7 @@ public class PackageClass
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -875,21 +874,19 @@ public class PackageClass
     stringBuffer.append(TEXT_253);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl"));
     stringBuffer.append(TEXT_254);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.URI"));
-    stringBuffer.append(TEXT_255);
     stringBuffer.append(genModel.getImportedName("java.io.IOException"));
-    stringBuffer.append(TEXT_256);
+    stringBuffer.append(TEXT_255);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.WrappedException"));
-    stringBuffer.append(TEXT_257);
+    stringBuffer.append(TEXT_256);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EPackage"));
+    stringBuffer.append(TEXT_257);
+    }
     stringBuffer.append(TEXT_258);
     }
     stringBuffer.append(TEXT_259);
-    }
-    stringBuffer.append(TEXT_260);
     stringBuffer.append(genPackage.getPackageClassName());
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_261);
+    stringBuffer.append(TEXT_260);
     return stringBuffer.toString();
   }
 }
