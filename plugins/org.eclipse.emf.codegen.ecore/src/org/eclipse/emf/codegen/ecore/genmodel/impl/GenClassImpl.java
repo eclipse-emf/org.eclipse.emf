@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.34 2005/06/15 20:09:00 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.35 2005/09/28 20:48:13 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2051,13 +2051,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public List getGenConstraints()
   {
     List result = new UniqueEList(super.getGenConstraints());
-    for (Iterator i = getGenOperations().iterator(); i.hasNext(); )
+    for (Iterator i = getInvariantOperations().iterator(); i.hasNext(); )
     {
       GenOperation genOperation = (GenOperation)i.next();
-      if (genOperation.isInvariant())
-      {
-        result.add(genOperation.getName());
-      }
+      result.add(genOperation.getName());
     }
 
     return result;
@@ -2134,12 +2131,23 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return true;
   }
 
+  public List getInvariantOperations()
+  {
+    return collectGenOperations(null, getGenOperations(), new GenOperationFilter()
+      {
+        public boolean accept(GenOperation genOperation)
+        {
+          return genOperation.isInvariant();
+        }
+      });
+  }
+
   public GenOperation getInvariantOperation(String constraint)
   {
-    for (Iterator j = getGenOperations().iterator(); j.hasNext(); )
+    for (Iterator j = getInvariantOperations().iterator(); j.hasNext(); )
     {
       GenOperation genOperation = (GenOperation)j.next();
-      if (genOperation.getName().equals(constraint) && genOperation.isInvariant())
+      if (genOperation.getName().equals(constraint))
       {
         return genOperation;
       }

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.14 2005/08/25 13:23:55 elena Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.15 2005/09/28 20:48:13 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -65,8 +65,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	public static final String DIAGNOSTIC_SOURCE = "<%=genPackage.getInterfacePackageName()%>";<%=genModel.getNonNLS()%>
 
 <%int count = 0; for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
-<%for (Iterator j=genClass.getGenOperations().iterator(); j.hasNext();) { GenOperation genOperation = (GenOperation)j.next();%>
-<%if (genOperation.isInvariant()) {%>
+<%for (Iterator j=genClass.getInvariantOperations().iterator(); j.hasNext();) { GenOperation genOperation = (GenOperation)j.next();%>
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint '<%=genClass.format(genOperation.getName(), ' ', null, true)%>' of '<%=genClass.getFormattedName()%>'.
 	 * <!-- begin-user-doc -->
@@ -75,7 +74,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	 */
 	public static final int <%=genClass.getOperationID(genOperation)%> = <%=++count%>;
 
-<%}}}%>
+<%}}%>
 	/**
 	 * A constant with a fixed name that can be used as the base value for additional hand written constants.
 	 * <!-- begin-user-doc -->

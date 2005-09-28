@@ -544,8 +544,7 @@ public class ValidatorClass
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_18);
     int count = 0; for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
-    for (Iterator j=genClass.getGenOperations().iterator(); j.hasNext();) { GenOperation genOperation = (GenOperation)j.next();
-    if (genOperation.isInvariant()) {
+    for (Iterator j=genClass.getInvariantOperations().iterator(); j.hasNext();) { GenOperation genOperation = (GenOperation)j.next();
     stringBuffer.append(TEXT_19);
     stringBuffer.append(genClass.format(genOperation.getName(), ' ', null, true));
     stringBuffer.append(TEXT_20);
@@ -555,7 +554,7 @@ public class ValidatorClass
     stringBuffer.append(TEXT_22);
     stringBuffer.append(++count);
     stringBuffer.append(TEXT_23);
-    }}}
+    }}
     stringBuffer.append(TEXT_24);
     stringBuffer.append(count);
     stringBuffer.append(TEXT_25);
