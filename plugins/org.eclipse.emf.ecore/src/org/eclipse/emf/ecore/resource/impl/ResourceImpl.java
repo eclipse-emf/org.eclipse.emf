@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.9 2005/06/08 06:20:10 nickb Exp $
+ * $Id: ResourceImpl.java,v 1.10 2005/09/30 11:52:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -517,7 +517,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   {
     List contents = getContents();
     return contents.size() > 1 ?
-      Integer.toString(getContents().indexOf(eObject)) :
+      Integer.toString(contents.indexOf(eObject)) :
       "";
   }
 
