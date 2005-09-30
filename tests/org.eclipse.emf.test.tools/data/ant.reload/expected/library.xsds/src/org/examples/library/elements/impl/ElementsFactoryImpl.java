@@ -12,6 +12,9 @@ import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+
 import org.examples.library.elements.*;
 
 /**
@@ -69,6 +72,8 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
         return createBookCategoryFromString(eDataType, initialValue);
       case ElementsPackage.BOOK_CATEGORY_OBJECT:
         return createBookCategoryObjectFromString(eDataType, initialValue);
+      case ElementsPackage.UUID:
+        return createUUIDFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -87,6 +92,8 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
         return convertBookCategoryToString(eDataType, instanceValue);
       case ElementsPackage.BOOK_CATEGORY_OBJECT:
         return convertBookCategoryObjectToString(eDataType, instanceValue);
+      case ElementsPackage.UUID:
+        return convertUUIDToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -154,6 +161,26 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
   public String convertBookCategoryObjectToString(EDataType eDataType, Object instanceValue)
   {
     return convertBookCategoryToString(ElementsPackage.eINSTANCE.getBookCategory(), instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public byte[] createUUIDFromString(EDataType eDataType, String initialValue)
+  {
+    return (byte[])XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getHexBinary(), initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertUUIDToString(EDataType eDataType, Object instanceValue)
+  {
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getHexBinary(), instanceValue);
   }
 
   /**

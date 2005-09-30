@@ -16,11 +16,13 @@
       <genEnumLiterals ecoreEnumLiteral="elements.ecore#//BookCategory/IT"/>
     </genEnums>
     <genDataTypes ecoreDataType="elements.ecore#//BookCategoryObject"/>
+    <genDataTypes ecoreDataType="elements.ecore#//UUID"/>
     <genClasses ecoreClass="elements.ecore#//Book">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/title"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/pages"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/category"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/author"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/uuid"/>
     </genClasses>
     <genClasses ecoreClass="elements.ecore#//Writer">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Writer/books"/>

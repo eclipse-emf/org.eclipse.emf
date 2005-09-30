@@ -12,6 +12,8 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.EValidator;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -25,6 +27,8 @@ import org.examples.library.elements.BookCategory;
 import org.examples.library.elements.ElementsFactory;
 import org.examples.library.elements.ElementsPackage;
 import org.examples.library.elements.Writer;
+
+import org.examples.library.elements.util.ElementsValidator;
 
 import org.examples.library.hr.HrPackage;
 
@@ -74,6 +78,13 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
    * @generated
    */
   private EDataType bookCategoryObjectEDataType = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EDataType uuidEDataType = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -150,6 +161,17 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     theHrPackage.initializePackageContents();
     theLibraryPackage.initializePackageContents();
 
+    // Register package validator
+    EValidator.Registry.INSTANCE.put
+      (theElementsPackage, 
+       new EValidator.Descriptor()
+       {
+         public EValidator getEValidator()
+         {
+           return ElementsValidator.INSTANCE;
+         }
+       });
+
     // Mark meta-data to indicate it can't be changed
     theElementsPackage.freeze();
 
@@ -211,6 +233,16 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getBook_Uuid()
+  {
+    return (EAttribute)bookEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getWriter()
   {
     return writerEClass;
@@ -251,6 +283,16 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EDataType getUUID()
+  {
+    return uuidEDataType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public ElementsFactory getElementsFactory()
   {
     return (ElementsFactory)getEFactoryInstance();
@@ -281,6 +323,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     createEAttribute(bookEClass, BOOK__PAGES);
     createEAttribute(bookEClass, BOOK__CATEGORY);
     createEAttribute(bookEClass, BOOK__AUTHOR);
+    createEAttribute(bookEClass, BOOK__UUID);
 
     writerEClass = createEClass(WRITER);
     createEAttribute(writerEClass, WRITER__BOOKS);
@@ -290,6 +333,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
 
     // Create data types
     bookCategoryObjectEDataType = createEDataType(BOOK_CATEGORY_OBJECT);
+    uuidEDataType = createEDataType(UUID);
   }
 
   /**
@@ -329,6 +373,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     initEAttribute(getBook_Pages(), theXMLTypePackage.getInt(), "pages", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getBook_Category(), this.getBookCategory(), "category", "Mystery", 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getBook_Author(), theXMLTypePackage.getAnyURI(), "author", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getBook_Uuid(), this.getUUID(), "uuid", null, 0, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(writerEClass, Writer.class, "Writer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getWriter_Books(), theXMLTypePackage.getAnyURI(), "books", null, 0, -1, Writer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -342,6 +387,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
 
     // Initialize data types
     initEDataType(bookCategoryObjectEDataType, BookCategory.class, "BookCategoryObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(uuidEDataType, byte[].class, "UUID", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);
@@ -401,6 +447,14 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        "name", "author"
        });		
     addAnnotation
+      (getBook_Uuid(), 
+       source, 
+       new String[] 
+       {
+       "kind", "attribute",
+       "name", "uuid"
+       });		
+    addAnnotation
       (bookCategoryEEnum, 
        source, 
        new String[] 
@@ -414,6 +468,15 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
        {
        "name", "BookCategory:Object",
        "baseType", "BookCategory"
+       });		
+    addAnnotation
+      (uuidEDataType, 
+       source, 
+       new String[] 
+       {
+       "name", "UUID",
+       "baseType", "http://www.eclipse.org/emf/2003/XMLType#hexBinary",
+       "length", "16"
        });		
     addAnnotation
       (writerEClass, 

@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.examples.library.elements.Book#getPages <em>Pages</em>}</li>
  *   <li>{@link org.examples.library.elements.Book#getCategory <em>Category</em>}</li>
  *   <li>{@link org.examples.library.elements.Book#getAuthor <em>Author</em>}</li>
+ *   <li>{@link org.examples.library.elements.Book#getUuid <em>Uuid</em>}</li>
  * </ul>
  * </p>
  *
@@ -27,8 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='Book' kind='elementOnly'"
  * @generated
  */
-public interface Book extends EObject
-{
+public interface Book extends EObject{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -201,5 +201,32 @@ public interface Book extends EObject
    * @generated
    */
   void setAuthor(String value);
+
+  /**
+   * Returns the value of the '<em><b>Uuid</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Uuid</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Uuid</em>' attribute.
+   * @see #setUuid(byte[])
+   * @see org.examples.library.elements.ElementsPackage#getBook_Uuid()
+   * @model unique="false" dataType="org.examples.library.elements.UUID"
+   *        extendedMetaData="kind='attribute' name='uuid'"
+   * @generated
+   */
+  byte[] getUuid();
+
+  /**
+   * Sets the value of the '{@link org.examples.library.elements.Book#getUuid <em>Uuid</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Uuid</em>' attribute.
+   * @see #getUuid()
+   * @generated
+   */
+  void setUuid(byte[] value);
 
 } // Book

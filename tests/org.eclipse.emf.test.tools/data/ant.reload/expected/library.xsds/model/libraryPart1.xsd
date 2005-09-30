@@ -16,6 +16,7 @@
       <xsd:element name="author" type="xsd:anyURI"
           ecore:reference="lib:Writer" ecore:opposite="books"/>
     </xsd:sequence>
+    <xsd:attribute name="uuid" type="lib1:UUID"/>
   </xsd:complexType>
   <xsd:complexType name="Writer">
     <xsd:complexContent>
@@ -33,6 +34,11 @@
       <xsd:enumeration value="ScienceFiction"/>
       <xsd:enumeration value="Biography"/>
       <xsd:enumeration value="IT"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="UUID">
+    <xsd:restriction base="xsd:hexBinary">
+      <xsd:length value="16"/>
     </xsd:restriction>
   </xsd:simpleType>
 </xsd:schema>

@@ -116,13 +116,22 @@ public interface ElementsPackage extends EPackage{
   int BOOK__AUTHOR = 3;
 
   /**
+   * The feature id for the '<em><b>Uuid</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int BOOK__UUID = 4;
+
+  /**
    * The number of structural features of the '<em>Book</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int BOOK_FEATURE_COUNT = 4;
+  int BOOK_FEATURE_COUNT = 5;
 
   /**
    * The meta object id for the '{@link org.examples.library.elements.impl.WriterImpl <em>Writer</em>}' class.
@@ -192,6 +201,16 @@ public interface ElementsPackage extends EPackage{
 
 
   /**
+   * The meta object id for the '<em>UUID</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.examples.library.elements.impl.ElementsPackageImpl#getUUID()
+   * @generated
+   */
+  int UUID = 4;
+
+
+  /**
    * Returns the meta object for class '{@link org.examples.library.elements.Book <em>Book</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -246,6 +265,17 @@ public interface ElementsPackage extends EPackage{
   EAttribute getBook_Author();
 
   /**
+   * Returns the meta object for the attribute '{@link org.examples.library.elements.Book#getUuid <em>Uuid</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Uuid</em>'.
+   * @see org.examples.library.elements.Book#getUuid()
+   * @see #getBook()
+   * @generated
+   */
+  EAttribute getBook_Uuid();
+
+  /**
    * Returns the meta object for class '{@link org.examples.library.elements.Writer <em>Writer</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -287,6 +317,17 @@ public interface ElementsPackage extends EPackage{
    * @generated
    */
   EDataType getBookCategoryObject();
+
+  /**
+   * Returns the meta object for data type '<em>UUID</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for data type '<em>UUID</em>'.
+   * @model instanceClass="byte[]"
+   *        extendedMetaData="name='UUID' baseType='http://www.eclipse.org/emf/2003/XMLType#hexBinary' length='16'" 
+   * @generated
+   */
+  EDataType getUUID();
 
   /**
    * Returns the factory that creates the instances of the model.

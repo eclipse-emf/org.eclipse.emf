@@ -29,6 +29,7 @@ import org.examples.library.elements.ElementsPackage;
  *   <li>{@link org.examples.library.elements.impl.BookImpl#getPages <em>Pages</em>}</li>
  *   <li>{@link org.examples.library.elements.impl.BookImpl#getCategory <em>Category</em>}</li>
  *   <li>{@link org.examples.library.elements.impl.BookImpl#getAuthor <em>Author</em>}</li>
+ *   <li>{@link org.examples.library.elements.impl.BookImpl#getUuid <em>Uuid</em>}</li>
  * </ul>
  * </p>
  *
@@ -140,6 +141,26 @@ public class BookImpl extends EObjectImpl implements Book
    * @ordered
    */
   protected String author = AUTHOR_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getUuid() <em>Uuid</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getUuid()
+   * @generated
+   * @ordered
+   */
+  protected static final byte[] UUID_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getUuid() <em>Uuid</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getUuid()
+   * @generated
+   * @ordered
+   */
+  protected byte[] uuid = UUID_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -312,6 +333,29 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  public byte[] getUuid()
+  {
+    return uuid;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setUuid(byte[] newUuid)
+  {
+    byte[] oldUuid = uuid;
+    uuid = newUuid;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ElementsPackage.BOOK__UUID, oldUuid, uuid));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public Object eGet(EStructuralFeature eFeature, boolean resolve)
   {
     switch (eDerivedStructuralFeatureID(eFeature))
@@ -324,6 +368,8 @@ public class BookImpl extends EObjectImpl implements Book
         return getCategory();
       case ElementsPackage.BOOK__AUTHOR:
         return getAuthor();
+      case ElementsPackage.BOOK__UUID:
+        return getUuid();
     }
     return eDynamicGet(eFeature, resolve);
   }
@@ -348,6 +394,9 @@ public class BookImpl extends EObjectImpl implements Book
         return;
       case ElementsPackage.BOOK__AUTHOR:
         setAuthor((String)newValue);
+        return;
+      case ElementsPackage.BOOK__UUID:
+        setUuid((byte[])newValue);
         return;
     }
     eDynamicSet(eFeature, newValue);
@@ -374,6 +423,9 @@ public class BookImpl extends EObjectImpl implements Book
       case ElementsPackage.BOOK__AUTHOR:
         setAuthor(AUTHOR_EDEFAULT);
         return;
+      case ElementsPackage.BOOK__UUID:
+        setUuid(UUID_EDEFAULT);
+        return;
     }
     eDynamicUnset(eFeature);
   }
@@ -395,6 +447,8 @@ public class BookImpl extends EObjectImpl implements Book
         return isSetCategory();
       case ElementsPackage.BOOK__AUTHOR:
         return AUTHOR_EDEFAULT == null ? author != null : !AUTHOR_EDEFAULT.equals(author);
+      case ElementsPackage.BOOK__UUID:
+        return UUID_EDEFAULT == null ? uuid != null : !UUID_EDEFAULT.equals(uuid);
     }
     return eDynamicIsSet(eFeature);
   }
@@ -417,6 +471,8 @@ public class BookImpl extends EObjectImpl implements Book
     if (categoryESet) result.append(category); else result.append("<unset>");
     result.append(", author: ");
     result.append(author);
+    result.append(", uuid: ");
+    result.append(uuid);
     result.append(')');
     return result.toString();
   }
