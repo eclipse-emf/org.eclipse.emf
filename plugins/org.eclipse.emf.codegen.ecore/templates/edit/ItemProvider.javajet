@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.18 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.19 2005/09/30 21:43:37 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -194,10 +194,14 @@ public class <%=genClass.getProviderClassName()%>
 		<%=genClass.getImportedInterfaceName()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%>)object;
 		return getString("_UI_<%=genClass.getName()%>_type") + " " + <%=genClass.getSafeUncapName()%>.<%=genClass.getLabelFeature().getGetAccessor()%>();<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
   <%} else {%>
-    <%if (labelFeature.isStringType()) {%>
+    <%if (labelFeature.isStringType() && !genClass.isExternalInterface()) {%>
 		String label = ((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>();
     <%} else {%>
+      <%if (genClass.isExternalInterface()) {%>
+		<%=genModel.getImportedName("java.lang.Object")%> labelValue = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)object).eGet(<%=labelFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=labelFeature.getFeatureAccessorName()%>());
+      <%} else {%>
 		<%=labelFeature.getImportedType()%> labelValue = ((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>();
+      <%}%>
 		String label = labelValue == null ? null : labelValue.toString();
     <%}%>
 		return label == null || label.length() == 0 ?
