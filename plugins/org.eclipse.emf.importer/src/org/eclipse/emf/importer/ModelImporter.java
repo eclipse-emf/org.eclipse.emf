@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.18 2005/06/28 23:55:17 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.19 2005/10/03 14:02:15 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -744,7 +744,19 @@ public abstract class ModelImporter
       {
         namePackage = basePackage + "." + namePackage;
       }
-      ePackageInfo.setBasePackage(namePackage);
+
+      StringBuffer basePackageName = new StringBuffer();
+      for (StringTokenizer stringTokenizer = new StringTokenizer(namePackage, "."); stringTokenizer.hasMoreTokens(); )
+      {
+        String packageName = stringTokenizer.nextToken();
+        basePackageName.append(CodeGenUtil.safeName(packageName));
+        if (stringTokenizer.hasMoreTokens())
+        {
+          basePackageName.append('.');
+        }
+      }
+
+      ePackageInfo.setBasePackage(basePackageName.toString());
       ePackage.setName(name);
     }
 
