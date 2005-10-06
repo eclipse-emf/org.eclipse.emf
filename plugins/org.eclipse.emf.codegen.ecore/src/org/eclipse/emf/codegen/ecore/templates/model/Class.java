@@ -1253,7 +1253,7 @@ public class Class
     stringBuffer.append(TEXT_174);
     //Class/getGenFeature.override.javajetinc
     }
-    if (genFeature.isBasicGet()) {
+    if (!genModel.isReflectiveDelegation() && genFeature.isBasicGet()) {
     stringBuffer.append(TEXT_175);
     stringBuffer.append(genFeature.getImportedType());
     stringBuffer.append(TEXT_176);
@@ -1294,7 +1294,7 @@ public class Class
     stringBuffer.append(TEXT_192);
     //Class/basicGetGenFeature.override.javajetinc
     }
-    if (genFeature.isBasicSet()) {
+    if (!genModel.isReflectiveDelegation() && genFeature.isBasicSet()) {
     stringBuffer.append(TEXT_193);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_194);
@@ -1746,7 +1746,7 @@ public class Class
     stringBuffer.append(TEXT_404);
     //Class/setGenFeature.override.javajetinc
     }
-    if (genFeature.isBasicUnset()) {
+    if (!genModel.isReflectiveDelegation() && genFeature.isBasicUnset()) {
     stringBuffer.append(TEXT_405);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_406);

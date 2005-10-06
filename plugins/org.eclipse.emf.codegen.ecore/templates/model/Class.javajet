@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.24 2005/10/04 21:23:59 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.25 2005/10/06 16:45:58 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -279,7 +279,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 
 <%@ end %><%//Class/getGenFeature.override.javajetinc%>
   <%}%>
-  <%if (genFeature.isBasicGet()) {%>
+  <%if (!genModel.isReflectiveDelegation() && genFeature.isBasicGet()) {%>
 <%@ include file="Class/basicGetGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
 	/**
@@ -311,7 +311,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 
 <%@ end %><%//Class/basicGetGenFeature.override.javajetinc%>
   <%}%>
-  <%if (genFeature.isBasicSet()) {%>
+  <%if (!genModel.isReflectiveDelegation() && genFeature.isBasicSet()) {%>
 <%@ include file="Class/basicSetGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
 	/**
@@ -475,7 +475,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 
 <%@ end %><%//Class/setGenFeature.override.javajetinc%>
   <%}%>
-  <%if (genFeature.isBasicUnset()) {%>
+  <%if (!genModel.isReflectiveDelegation() && genFeature.isBasicUnset()) {%>
 <%@ include file="Class/basicUnsetGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
 	/**
