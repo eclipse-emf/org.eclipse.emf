@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.19 2005/10/03 14:02:15 emerks Exp $
+ * $Id: ModelImporter.java,v 1.20 2005/10/07 19:40:24 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -34,6 +34,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -236,7 +237,7 @@ public abstract class ModelImporter
     this.usePlatformURI = usePlatformURI;
   }
 
-  public void defineOriginalGenModelPath(IPath path)
+  public void defineOriginalGenModelPath(IPath path) throws CoreException
   {
     if (getOriginalGenModelPath() == null)
     {
@@ -638,7 +639,7 @@ public abstract class ModelImporter
     return ImporterUtil.createResourceSet();
   }
 
-  protected void loadOriginalGenModel(URI genModelURI)
+  protected void loadOriginalGenModel(URI genModelURI) throws CoreException
   {
     Resource resource = createResourceSet().getResource(genModelURI, true);
     originalGenModel = (GenModel)resource.getContents().get(0);
@@ -646,6 +647,13 @@ public abstract class ModelImporter
     if (getOriginalGenModel() != null)
     {
       getOriginalGenModel().reconcile();
+
+      IStatus status = getOriginalGenModel().validate();
+      if (!status.isOK())
+      {
+        throw new CoreException(status);
+      }
+
       setGenModelFileName(getOriginalGenModelPath().lastSegment());
       setGenModelContainerPath(getOriginalGenModelPath().removeLastSegments(1));
       genModelPath = getOriginalGenModelPath();
