@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.46 2005/07/21 20:00:38 elena Exp $
+ * $Id: GenModelImpl.java,v 1.47 2005/10/07 19:39:21 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1603,14 +1603,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         for (Iterator j = ((List)entry.getValue()).iterator(); j.hasNext(); )
         {
           EStructuralFeature.Setting setting = (EStructuralFeature.Setting)j.next();
-          nestedStatus.add
-            (new Status
-              (IStatus.ERROR,
-                  CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
-               0,
-               CodeGenEcorePlugin.INSTANCE.getString
-                 ("_UI_ItsUseIsBy_message", new Object [] { EcoreUtil.getURI(setting.getEObject()) }),
-               null));
+          if (!setting.getEStructuralFeature().isDerived())
+          {
+            nestedStatus.add
+              (new Status
+                (IStatus.ERROR,
+                    CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
+                 0,
+                 CodeGenEcorePlugin.INSTANCE.getString
+                   ("_UI_ItsUseIsBy_message", new Object [] { EcoreUtil.getURI(setting.getEObject()) }),
+                 null));
+          }
         }
 
         status.add(nestedStatus);
