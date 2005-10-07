@@ -23,6 +23,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IPageChangeProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
@@ -42,6 +43,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
+import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
@@ -193,7 +195,19 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
     if (originalGenModelFile != null)
     {
       setWindowTitle(ImporterPlugin.INSTANCE.getString("_UI_ReloadWizard_title"));
-      getModelImporter().defineOriginalGenModelPath(originalGenModelFile.getFullPath());
+      try
+      {
+        getModelImporter().defineOriginalGenModelPath(originalGenModelFile.getFullPath());
+      }
+      catch (CoreException exception)
+      {
+        IStatus status = exception.getStatus();
+        ErrorDialog.openError
+          (getShell(),
+           GenModelEditPlugin.INSTANCE.getString("_UI_ModelProblems_title"),
+           ImporterPlugin.INSTANCE.getString("_UI_InvalidModel_message"),
+           status);
+      }
     }
   }
   
