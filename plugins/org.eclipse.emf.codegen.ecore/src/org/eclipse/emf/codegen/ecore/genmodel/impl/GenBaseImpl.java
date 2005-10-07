@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.31 2005/06/12 13:23:06 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.32 2005/10/07 19:38:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -816,13 +816,16 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       return xmlNamespaceGenPackage;
     }
 
-    for (Iterator pIter = getAllGenPackages().iterator(); pIter.hasNext(); )
+    if (ePackage != null)
     {
-      GenPackage genPackage = (GenPackage)pIter.next();
-      GenPackage resultGenPackage = findGenPackageHelper(genPackage, ePackage);
-      if (resultGenPackage != null)
+      for (Iterator pIter = getAllGenPackages().iterator(); pIter.hasNext(); )
       {
-        return resultGenPackage;
+        GenPackage genPackage = (GenPackage)pIter.next();
+        GenPackage resultGenPackage = findGenPackageHelper(genPackage, ePackage);
+        if (resultGenPackage != null)
+        {
+          return resultGenPackage;
+        }
       }
     }
 
