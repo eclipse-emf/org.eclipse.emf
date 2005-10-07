@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XSDImporter.java,v 1.5 2005/06/08 06:21:26 nickb Exp $
+ * $Id: XSDImporter.java,v 1.6 2005/10/07 19:43:33 emerks Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -217,7 +218,7 @@ public class XSDImporter extends ModelImporter
     return resources;
   }
 
-  protected void loadOriginalGenModel(URI genModelURI)
+  protected void loadOriginalGenModel(URI genModelURI) throws CoreException
   {
     super.loadOriginalGenModel(genModelURI);
 
