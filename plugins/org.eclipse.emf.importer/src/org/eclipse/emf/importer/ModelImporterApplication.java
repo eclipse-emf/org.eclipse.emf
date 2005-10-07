@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.10 2005/06/08 06:11:55 nickb Exp $
+ * $Id: ModelImporterApplication.java,v 1.11 2005/10/07 19:41:12 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -333,7 +333,14 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     ModelImporter modelImporter = getModelImporter();
     if (reload)
     {
-      modelImporter.defineOriginalGenModelPath(genModelFullPath);
+      try
+      {
+        modelImporter.defineOriginalGenModelPath(genModelFullPath);
+      }
+      catch (CoreException exception)
+      {
+        throw new RuntimeException(exception);
+      }
     }
     else
     {
