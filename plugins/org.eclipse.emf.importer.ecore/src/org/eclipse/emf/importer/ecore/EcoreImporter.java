@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporter.java,v 1.5 2005/06/29 00:21:39 marcelop Exp $
+ * $Id: EcoreImporter.java,v 1.6 2005/10/07 19:43:30 emerks Exp $
  */
 package org.eclipse.emf.importer.ecore;
 
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -101,7 +102,7 @@ public class EcoreImporter extends ModelImporter
     }
   }
 
-  protected void loadOriginalGenModel(URI genModelURI)
+  protected void loadOriginalGenModel(URI genModelURI) throws CoreException
   {
     super.loadOriginalGenModel(genModelURI);
 

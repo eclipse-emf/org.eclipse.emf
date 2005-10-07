@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.9 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseImporter.java,v 1.10 2005/10/07 19:43:32 emerks Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -379,7 +380,7 @@ public class RoseImporter extends ModelImporter
     }
   }
 
-  protected void loadOriginalGenModel(URI genModelURI)
+  protected void loadOriginalGenModel(URI genModelURI) throws CoreException
   {
     super.loadOriginalGenModel(genModelURI);
 
