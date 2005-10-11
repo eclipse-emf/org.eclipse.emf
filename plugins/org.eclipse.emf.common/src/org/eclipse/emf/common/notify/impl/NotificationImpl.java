@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationImpl.java,v 1.4 2005/06/08 06:19:08 nickb Exp $
+ * $Id: NotificationImpl.java,v 1.5 2005/10/11 12:16:48 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -980,7 +980,7 @@ public class NotificationImpl implements Notification, NotificationChain
       }
       case Notification.REMOVING_ADAPTER:
       {
-        result.append("REMOVING_ADPATER");
+        result.append("REMOVING_ADAPTER");
         break;
       }
       case Notification.RESOLVE:
