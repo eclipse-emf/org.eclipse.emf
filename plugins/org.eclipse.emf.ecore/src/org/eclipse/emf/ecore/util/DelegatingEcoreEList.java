@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.7 2005/06/12 13:29:22 emerks Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.8 2005/10/17 13:01:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -126,11 +126,16 @@ public abstract class DelegatingEcoreEList
   protected Object validate(int index, Object object)
   {
     super.validate(index, object);
-    if (object != null && !getFeatureType().isInstance(object))
+    if (object != null && !isInstance(object))
     {
       throw new ArrayStoreException();
     }
     return object;
+  }
+
+  protected boolean isInstance(Object object)
+  {
+    return getFeatureType().isInstance(object);
   }
 
   public Object getNotifier()
@@ -405,9 +410,12 @@ public abstract class DelegatingEcoreEList
       int size = size();
       if (size > 4)
       {
-        if (isContainment())
+        if (!isInstance(object)) 
         {
-          if (!(object instanceof EObject)) return false;
+          return false;
+        }
+        else if (isContainment())
+        {
           InternalEObject eObject = (InternalEObject)object;
           return 
             eObject.eContainer() == owner && 
@@ -419,7 +427,7 @@ public abstract class DelegatingEcoreEList
         //
         else if (hasNavigableInverse() && !hasManyInverse())
         {
-          return object instanceof EObject && ((EObject)object).eGet(getInverseEReference()) == owner;
+          return ((EObject)object).eGet(getInverseEReference()) == owner;
         }
       }
 

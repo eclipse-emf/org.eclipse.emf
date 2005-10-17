@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEList.java,v 1.6 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EcoreEList.java,v 1.7 2005/10/17 13:01:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -57,11 +57,16 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
   protected Object validate(int index, Object object)
   {
     super.validate(index, object);
-    if (!hasInstanceClass() && object != null && !getFeatureType().isInstance(object))
+    if (!hasInstanceClass() && object != null && !isInstance(object))
     {
       throw new ArrayStoreException();
     }
     return object;
+  }
+
+  protected boolean isInstance(Object object)
+  {
+    return dataClass.isInstance(object);
   }
 
   public Object getNotifier()
@@ -300,9 +305,12 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     {
       if (size > 4)
       {
-        if (isContainment())
+        if (!isInstance(object))
         {
-          if (!(object instanceof EObject)) return false;
+          return false;
+        }
+        else if (isContainment())
+        {
           InternalEObject eObject = (InternalEObject)object;
           return 
             eObject.eContainer() == owner && 
@@ -314,7 +322,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
         //
         else if (hasNavigableInverse() && !hasManyInverse())
         {
-          return object instanceof EObject && ((EObject)object).eGet(getInverseEReference()) == owner;
+          return ((EObject)object).eGet(getInverseEReference()) == owner;
         }
       }
 
@@ -665,6 +673,11 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     protected boolean hasInstanceClass()
     {
       return (kind & HAS_INSTANCE_CLASS) != 0;
+    }
+
+    protected boolean isInstance(Object object)
+    {
+      return dataClass == null ? getFeatureType().isInstance(object) : super.isInstance(object);
     }
 
     protected boolean isContainer()
