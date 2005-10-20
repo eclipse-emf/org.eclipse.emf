@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.21 2005/09/16 20:00:19 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.22 2005/10/20 10:27:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -298,6 +298,11 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     EAnnotation eAnnotation = getAnnotation(eClassifier, true);
     eAnnotation.getDetails().put("name", name);
     getExtendedMetaData(eClassifier).setName(name);
+    EPackage ePackage = eClassifier.getEPackage();
+    if (ePackage != null)
+    {
+      getExtendedMetaData(ePackage).rename(eClassifier, name);
+    }
   }
 
   public boolean isAnonymous(EClassifier eClassifier)
@@ -1964,6 +1969,8 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     void setQualified(boolean isQualified);
 
     EClassifier getType(String name);
+
+    void rename(EClassifier eClassifier, String newName);
   }
 
   public class EPackageExtendedMetaDataImpl implements EPackageExtendedMetaData
@@ -2015,6 +2022,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       }
       
       return (EClassifier)nameToClassifierMap.get(name);
+    }
+
+    public void rename(EClassifier eClassifier, String newName)
+    {
+      if (nameToClassifierMap != null)
+      {
+        nameToClassifierMap.values().remove(eClassifier);
+        nameToClassifierMap.put(newName, eClassifier);
+      }
     }
   }
 
