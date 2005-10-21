@@ -65,7 +65,7 @@ public class CodeGenUtil
   private static Set javaReservedWords;
 
   /**
-   * Returns the set of all Java's keywords and textual literals, as of Java 1.4.
+   * Returns the set of all Java's keywords and textual literals, as of Java 1.4, plus enum from 5.0.
    */
   public static Set getJavaReservedWords()
   {
@@ -87,6 +87,7 @@ public class CodeGenUtil
       result.add("do");
       result.add("double");
       result.add("else");
+      result.add("enum");
       result.add("extends");
       result.add("false");
       result.add("final");
