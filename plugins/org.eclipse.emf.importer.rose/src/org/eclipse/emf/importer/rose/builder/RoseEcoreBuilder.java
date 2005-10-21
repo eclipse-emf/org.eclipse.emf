@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.6 2005/06/12 13:36:38 emerks Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.7 2005/10/21 21:34:54 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -464,8 +464,7 @@ public class RoseEcoreBuilder implements RoseVisitor
         stereoTypeValue = stereoTypeValue.substring(1, stereoTypeValue.length() - 1);
       }
 
-      if ((parent instanceof EDataType || (parent instanceof EClass && ((EClass)parent).isInterface()))
-        && "javaclass".equalsIgnoreCase(stereoTypeValue))
+      if ((parent instanceof EDataType || parent instanceof EClass) && "javaclass".equalsIgnoreCase(stereoTypeValue))
       {
         roseUtil.typeTable.remove(parent);
         ((EClassifier)parent).setInstanceClassName(objectName);
