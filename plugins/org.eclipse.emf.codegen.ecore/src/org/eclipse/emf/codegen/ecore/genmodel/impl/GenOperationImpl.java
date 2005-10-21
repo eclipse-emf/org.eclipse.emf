@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.15 2005/06/22 19:56:46 davidms Exp $
+ * $Id: GenOperationImpl.java,v 1.16 2005/10/21 21:44:15 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -833,5 +833,28 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     }
 
     return parameterNames.toString();
+  }
+
+  public boolean isOverrideOf(GenOperation genOperation)
+  {
+    if (genOperation.getName().equals(getName()))
+    {
+      List parameters = getGenParameters();
+      List otherParameters = genOperation.getGenParameters();
+      if (parameters.size() == otherParameters.size())
+      {
+        for (Iterator i = parameters.iterator(), j = otherParameters.iterator(); i.hasNext(); )
+        {
+          GenParameter genParameter = (GenParameter)i.next();
+          GenParameter otherGenParameter = (GenParameter)j.next();
+          if (!genParameter.getType().equals(otherGenParameter.getType()))
+          {
+            return false;
+          }
+        }
+        return true;
+      }
+    }
+    return false;
   }
 }

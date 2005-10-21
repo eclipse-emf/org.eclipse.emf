@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.9 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenOperation.java,v 1.10 2005/10/21 21:44:15 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -170,4 +170,6 @@ public interface GenOperation extends GenTypedElement {
   String getThrows();
 
   boolean isInvariant();
+
+  boolean isOverrideOf(GenOperation genOperation);
 }
