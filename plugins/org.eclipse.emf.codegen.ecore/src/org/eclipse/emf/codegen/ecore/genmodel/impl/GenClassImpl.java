@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.36 2005/09/30 21:42:37 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.37 2005/10/21 21:45:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -744,6 +744,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
     else
     {
+      if (isExternalInterface())
+      {
+        return false;
+      }
+
       for (Iterator iter = getAllBaseGenClasses().iterator(); iter.hasNext(); )
       {
         GenClass genClass = (GenClass)iter.next();
@@ -2336,6 +2341,20 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public class CollidingGenOperationFilter implements GenOperationFilter
   {
     protected List allGenFeatures = getAllGenFeatures();
+    protected List extendsGenClassOperations;
+    
+    public CollidingGenOperationFilter()
+    {
+      GenClass extendsClass = getClassExtendsGenClass();
+      if (extendsClass != null)
+      {
+        extendsGenClassOperations = extendsClass.getAllGenOperations();
+      }
+      else
+      {
+        extendsGenClassOperations = Collections.EMPTY_LIST;
+      }
+    }
 
     public boolean accept(GenOperation genOperation)
     {
@@ -2388,6 +2407,16 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           }
         }
       }
+
+      for (Iterator i = extendsGenClassOperations.iterator(); i.hasNext();)
+      {
+        GenOperation baseOperation = (GenOperation)i.next();
+        if (baseOperation.isOverrideOf(genOperation))
+        {
+          return false;
+        }
+      }
+
       return !genOperation.getGenClass().isEObject();
     }
   }
