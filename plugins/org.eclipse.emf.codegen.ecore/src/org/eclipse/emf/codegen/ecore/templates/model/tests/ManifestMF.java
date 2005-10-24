@@ -28,7 +28,7 @@ public class ManifestMF
   protected final String TEXT_11 = ",";
   protected final String TEXT_12 = NL + " ";
   protected final String TEXT_13 = ";visibility:=reexport";
-  protected final String TEXT_14 = NL + "Eclipse-AutoStart: true";
+  protected final String TEXT_14 = NL + "Eclipse-LazyStart: true";
   protected final String TEXT_15 = NL;
 
   public String generate(Object argument)
