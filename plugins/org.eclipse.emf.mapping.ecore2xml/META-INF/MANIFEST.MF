@@ -11,4 +11,4 @@ Export-Package: org.eclipse.emf.mapping.ecore2xml,
  org.eclipse.emf.mapping.ecore2xml.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi;visibility:=reexport
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

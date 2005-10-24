@@ -3,8 +3,6 @@
 	<name>org.eclipse.emf.mapping</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.emf.edit</project>
-		<project>org.eclipse.core.resources</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

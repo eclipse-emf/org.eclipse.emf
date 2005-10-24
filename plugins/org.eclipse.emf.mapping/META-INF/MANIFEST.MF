@@ -15,4 +15,4 @@ Export-Package: org.eclipse.emf.mapping,
  org.eclipse.emf.mapping.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.edit;visibility:=reexport
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

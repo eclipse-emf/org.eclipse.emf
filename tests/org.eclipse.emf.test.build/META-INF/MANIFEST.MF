@@ -16,4 +16,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.test.sdo,
  org.eclipse.emf.test.xml,
  org.eclipse.emf.test.performance
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

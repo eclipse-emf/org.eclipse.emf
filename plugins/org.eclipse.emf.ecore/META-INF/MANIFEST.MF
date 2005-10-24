@@ -23,4 +23,4 @@ Export-Package: org.eclipse.emf.ecore,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.common;visibility:=reexport,
  org.eclipse.core.resources;resolution:=optional
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

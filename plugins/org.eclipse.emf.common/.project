@@ -3,7 +3,6 @@
     <name>org.eclipse.emf.common</name>
     <comment></comment>
     <projects>
-        <project>org.eclipse.core.runtime</project>
     </projects>
     <buildSpec>
         <buildCommand>

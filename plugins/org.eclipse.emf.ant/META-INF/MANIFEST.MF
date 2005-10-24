@@ -18,4 +18,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.common,
  org.eclipse.emf.codegen,
  org.eclipse.emf.codegen.ecore;resolution:=optional
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

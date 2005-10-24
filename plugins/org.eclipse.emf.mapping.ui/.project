@@ -3,10 +3,6 @@
 	<name>org.eclipse.emf.mapping.ui</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.emf.mapping</project>
-		<project>org.eclipse.emf.edit.ui</project>
-		<project>org.eclipse.emf.ecore</project>
-		<project>org.eclipse.emf.common</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

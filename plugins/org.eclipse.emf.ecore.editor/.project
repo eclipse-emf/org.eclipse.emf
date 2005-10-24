@@ -3,9 +3,6 @@
 	<name>org.eclipse.emf.ecore.editor</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.emf.ecore.xmi</project>
-		<project>org.eclipse.emf.ecore.edit</project>
-		<project>org.eclipse.emf.edit.ui</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

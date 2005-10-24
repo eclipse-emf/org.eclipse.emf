@@ -14,4 +14,4 @@ Export-Package: org.eclipse.emf.common,
  org.eclipse.emf.common.notify.impl,
  org.eclipse.emf.common.util
 Require-Bundle: org.eclipse.core.runtime
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

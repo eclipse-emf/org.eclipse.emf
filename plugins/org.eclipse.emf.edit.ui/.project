@@ -3,10 +3,6 @@
 	<name>org.eclipse.emf.edit.ui</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.ui.views</project>
-		<project>org.eclipse.ui.ide</project>
-		<project>org.eclipse.emf.edit</project>
-		<project>org.eclipse.emf.common.ui</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

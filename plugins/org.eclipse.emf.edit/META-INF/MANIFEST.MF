@@ -19,4 +19,4 @@ Export-Package: org.eclipse.emf.edit,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.common;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

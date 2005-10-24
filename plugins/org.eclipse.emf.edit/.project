@@ -3,9 +3,6 @@
 	<name>org.eclipse.emf.edit</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.emf.common</project>
-		<project>org.eclipse.emf.ecore</project>
-		<project>org.eclipse.core.resources</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

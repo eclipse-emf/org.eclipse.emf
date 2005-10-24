@@ -3,7 +3,6 @@
 	<name>org.eclipse.emf.ecore.change</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.emf.ecore</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

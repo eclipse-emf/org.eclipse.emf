@@ -3,9 +3,6 @@
 	<name>org.eclipse.emf.mapping.ecore2ecore.editor</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.emf.ecore_2.0.0</project>
-		<project>org.eclipse.emf.mapping.ecore2ecore_2.0.0</project>
-		<project>org.eclipse.emf.mapping_2.0.0</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

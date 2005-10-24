@@ -19,4 +19,4 @@ Require-Bundle: org.apache.ant,
  org.eclipse.emf.importer,
  org.eclipse.jdt.core,
  org.junit
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

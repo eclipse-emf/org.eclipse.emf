@@ -14,4 +14,4 @@ Export-Package: org.eclipse.emf.common.ui,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui;visibility:=reexport,
  org.eclipse.emf.common
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

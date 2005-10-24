@@ -18,4 +18,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.edit,
  org.junit
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

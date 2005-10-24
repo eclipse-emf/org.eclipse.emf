@@ -12,4 +12,4 @@ Export-Package: org.eclipse.emf.ecore.change,
  org.eclipse.emf.ecore.change.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true
