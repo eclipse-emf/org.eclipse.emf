@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.4 2005/06/08 06:19:08 nickb Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.5 2005/10/24 15:51:46 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -606,6 +606,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
                 }
                 positions[count++] = i.previousIndex();
                 resultList.add(objects[j]);
+                break;
               }
             }
           }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.5 2005/06/08 06:19:08 nickb Exp $
+ * $Id: NotifyingListImpl.java,v 1.6 2005/10/24 15:51:46 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -615,6 +615,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
                 }
                 positions[count++] = i;
                 resultList.add(objects[j]);
+                break;
               }
             }
           }
