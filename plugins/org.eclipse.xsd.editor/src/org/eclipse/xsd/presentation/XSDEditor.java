@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.17 2005/06/12 12:34:09 emerks Exp $
+ * $Id: XSDEditor.java,v 1.18 2005/10/24 17:28:53 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -1581,7 +1581,10 @@ public class XSDEditor
       control.setFocus();
     }
 
-    handleContentOutlineSelection(contentOutlinePage.getSelection());
+    if (contentOutlinePage != null)
+    {
+      handleContentOutlineSelection(contentOutlinePage.getSelection());
+    }
   }
 
   /**
