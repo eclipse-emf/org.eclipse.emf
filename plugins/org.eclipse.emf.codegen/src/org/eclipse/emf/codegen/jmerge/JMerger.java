@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.12 2005/06/29 21:13:11 davidms Exp $
+ * $Id: JMerger.java,v 1.13 2005/10/24 17:23:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -710,7 +710,6 @@ public class JMerger implements IPlatformRunnable
   {
     try
     {
-      LOOP:
       for (Iterator pullRules = jControlModel.getPullRules().iterator(); pullRules.hasNext(); )
       {
         JControlModel.PullRule pullRule = (JControlModel.PullRule)pullRules.next();
@@ -984,7 +983,6 @@ public class JMerger implements IPlatformRunnable
 
   public void applySortRules(IDOMNode sourceNode)
   {
-    LOOP:
     for (Iterator sortRules = jControlModel.getSortRules().iterator(); sortRules.hasNext(); )
     {
       JControlModel.SortRule sortRule = (JControlModel.SortRule)sortRules.next();
@@ -1021,7 +1019,6 @@ public class JMerger implements IPlatformRunnable
 
   protected void applySweepRules(IDOMNode targetNode)
   {
-    LOOP:
     for (Iterator sweepRules = jControlModel.getSweepRules().iterator(); sweepRules.hasNext(); )
     {
       JControlModel.SweepRule sweepRule = (JControlModel.SweepRule)sweepRules.next();

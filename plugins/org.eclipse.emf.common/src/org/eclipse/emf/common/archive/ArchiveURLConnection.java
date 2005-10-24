@@ -391,7 +391,6 @@ public class ArchiveURLConnection extends URLConnection
               
       // We expect there to be at least one archive path.
       //
-      LOOP:
       do
       {
         // The name that will be used as the archive entry.
