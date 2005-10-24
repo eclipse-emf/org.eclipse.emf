@@ -3,12 +3,6 @@
 	<name>org.eclipse.emf.mapping.xsd2ecore</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.emf.ecore.edit</project>
-		<project>org.eclipse.emf.ecore.xmi</project>
-		<project>org.eclipse.emf.mapping</project>
-		<project>org.eclipse.xsd</project>
-		<project>org.eclipse.xsd.edit</project>
-		<project>org.eclipse.xsdP</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

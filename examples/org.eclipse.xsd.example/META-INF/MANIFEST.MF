@@ -9,4 +9,4 @@ Bundle-Localization: plugin
 Export-Package: org.eclipse.xsd.example
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xsd;visibility:=reexport
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true

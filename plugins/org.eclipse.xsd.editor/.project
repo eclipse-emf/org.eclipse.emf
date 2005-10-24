@@ -3,9 +3,6 @@
 	<name>org.eclipse.xsd.editor</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.emf.ecore.xmi</project>
-		<project>org.eclipse.emf.edit.ui</project>
-		<project>org.eclipse.xsd.edit</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -3,9 +3,6 @@
 	<name>org.eclipse.emf.mapping.xsd2ecore.editor</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.emf.mapping.ui</project>
-		<project>org.eclipse.emf.mapping.xsd2ecore</project>
-		<project>org.eclipse.xsd.edit</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -3,9 +3,6 @@
 	<name>org.eclipse.xsd.edit</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.emf.edit</project>
-		<project>org.eclipse.xsd</project>
-		<project>org.eclipse.xsdP</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -14,4 +14,4 @@ Export-Package: org.eclipse.xsd,
  org.eclipse.xsd.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true
