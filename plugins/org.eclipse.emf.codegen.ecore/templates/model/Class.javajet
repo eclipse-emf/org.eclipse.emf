@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.25 2005/10/06 16:45:58 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.26 2005/10/26 10:13:38 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -696,7 +696,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 <%@ include file="Class/implementedGenOperation.insert.javajetinc" fail="silent" %>
 <%@ end %><%//Class/implementedGenOperation.override.javajetinc%>
 <%}//for%>
-<%if (!genModel.isReflectiveDelegation() && !genClass.getEInverseAddGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEInverseAddGenFeatures())) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -740,7 +740,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	}
 
 <%}%>
-<%if (!genModel.isReflectiveDelegation() && !genClass.getEInverseRemoveGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEInverseRemoveGenFeatures())) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -778,7 +778,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	}
 
 <%}%>
-<%if (!genModel.isReflectiveDelegation() && !genClass.getEBasicRemoveFromContainerGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEBasicRemoveFromContainerGenFeatures())) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -803,7 +803,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	}
 
 <%}%>
-<%if (!genModel.isReflectiveDelegation() && !genClass.getAllGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && !genClass.getImplementedGenFeatures().isEmpty()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -837,7 +837,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	}
 
 <%}%>
-<%if (!genModel.isReflectiveDelegation() && !genClass.getESetGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getESetGenFeatures())) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -904,7 +904,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	}
 
 <%}%>
-<%if (!genModel.isReflectiveDelegation() && !genClass.getAllGenFeatures().isEmpty()) {%>
+<%if (!genModel.isReflectiveDelegation() && !genClass.getImplementedGenFeatures().isEmpty()) {%>
 <%@ include file="Class/eIsSet.override.javajetinc" fail="alternative" %>
 <%@ start %>
 	/**

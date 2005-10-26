@@ -2134,7 +2134,7 @@ public class Class
     stringBuffer.append(TEXT_582);
     //Class/implementedGenOperation.override.javajetinc
     }//for
-    if (!genModel.isReflectiveDelegation() && !genClass.getEInverseAddGenFeatures().isEmpty()) {
+    if (!genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEInverseAddGenFeatures())) {
     stringBuffer.append(TEXT_583);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_584);
@@ -2198,7 +2198,7 @@ public class Class
     }
     stringBuffer.append(TEXT_612);
     }
-    if (!genModel.isReflectiveDelegation() && !genClass.getEInverseRemoveGenFeatures().isEmpty()) {
+    if (!genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEInverseRemoveGenFeatures())) {
     stringBuffer.append(TEXT_613);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_614);
@@ -2250,7 +2250,7 @@ public class Class
     }
     stringBuffer.append(TEXT_636);
     }
-    if (!genModel.isReflectiveDelegation() && !genClass.getEBasicRemoveFromContainerGenFeatures().isEmpty()) {
+    if (!genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEBasicRemoveFromContainerGenFeatures())) {
     stringBuffer.append(TEXT_637);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_638);
@@ -2268,7 +2268,7 @@ public class Class
     }
     stringBuffer.append(TEXT_644);
     }
-    if (!genModel.isReflectiveDelegation() && !genClass.getAllGenFeatures().isEmpty()) {
+    if (!genModel.isReflectiveDelegation() && !genClass.getImplementedGenFeatures().isEmpty()) {
     stringBuffer.append(TEXT_645);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature"));
     stringBuffer.append(TEXT_646);
@@ -2314,7 +2314,7 @@ public class Class
     }
     stringBuffer.append(TEXT_665);
     }
-    if (!genModel.isReflectiveDelegation() && !genClass.getESetGenFeatures().isEmpty()) {
+    if (!genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getESetGenFeatures())) {
     stringBuffer.append(TEXT_666);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature"));
     stringBuffer.append(TEXT_667);
@@ -2414,7 +2414,7 @@ public class Class
     }
     stringBuffer.append(TEXT_712);
     }
-    if (!genModel.isReflectiveDelegation() && !genClass.getAllGenFeatures().isEmpty()) {
+    if (!genModel.isReflectiveDelegation() && !genClass.getImplementedGenFeatures().isEmpty()) {
     stringBuffer.append(TEXT_713);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature"));
     stringBuffer.append(TEXT_714);
