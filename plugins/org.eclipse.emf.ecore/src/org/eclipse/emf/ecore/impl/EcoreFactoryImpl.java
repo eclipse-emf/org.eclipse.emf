@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.8 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.9 2005/10/26 21:45:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -25,8 +25,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.*;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.util.FeatureMap;
 
 /**
@@ -46,6 +45,30 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
   public EcoreFactoryImpl()
   {
     super();
+  }
+
+  /**
+   * Creates the default Ecore factory {@link EcoreFactory#INSTANCE instance}.
+   */
+  public static EcoreFactory init()
+  {
+    try
+    {
+      String className = System.getProperty("org.eclipse.emf.ecore.EcoreFactory.INSTANCE");
+      if (className == null)
+      {
+        return new EcoreFactoryImpl();
+      }
+      else
+      {
+        return (EcoreFactory)Class.forName(className).newInstance();
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+      return new EcoreFactoryImpl();
+    }
   }
 
   /**

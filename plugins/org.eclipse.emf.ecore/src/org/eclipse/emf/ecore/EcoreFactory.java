@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactory.java,v 1.2 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EcoreFactory.java,v 1.3 2005/10/26 21:45:40 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -30,9 +30,9 @@ public interface EcoreFactory extends EFactory
 {
   /**
    * The singleton instance of the factory.
-   * @generated
+   * @generated NOT
    */
-  EcoreFactory eINSTANCE = new org.eclipse.emf.ecore.impl.EcoreFactoryImpl();
+  EcoreFactory eINSTANCE = org.eclipse.emf.ecore.impl.EcoreFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>EObject</em>'.
