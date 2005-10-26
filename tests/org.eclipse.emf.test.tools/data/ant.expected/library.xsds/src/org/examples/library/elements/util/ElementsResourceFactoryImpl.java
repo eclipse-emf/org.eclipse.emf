@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsResourceFactoryImpl.java,v 1.4 2005/06/10 17:07:17 marcelop Exp $
+ * $Id: ElementsResourceFactoryImpl.java,v 1.5 2005/10/26 19:59:51 elena Exp $
  */
 package org.examples.library.elements.util;
 
@@ -54,6 +54,8 @@ public class ElementsResourceFactoryImpl extends ResourceFactoryImpl
     result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+
+    result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
     result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);

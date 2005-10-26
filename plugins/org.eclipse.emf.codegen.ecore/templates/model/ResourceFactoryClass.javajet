@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ResourceFactoryClass" version="$Id: ResourceFactoryClass.javajet,v 1.7 2005/06/10 11:14:07 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ResourceFactoryClass" version="$Id: ResourceFactoryClass.javajet,v 1.8 2005/10/26 19:55:24 elena Exp $" %>
 <%
 /**
  * <copyright>
@@ -91,6 +91,8 @@ public class <%=genPackage.getResourceFactoryClassName()%> extends <%=genPackage
 		result.getDefaultLoadOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_EXTENDED_META_DATA, <%if (genPackage.hasTargetNamespace()){%>Boolean.TRUE<%}else{%>extendedMetaData<%}%>);
 
 		result.getDefaultSaveOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+
+		result.getDefaultLoadOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 		result.getDefaultSaveOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
 		result.getDefaultLoadOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
