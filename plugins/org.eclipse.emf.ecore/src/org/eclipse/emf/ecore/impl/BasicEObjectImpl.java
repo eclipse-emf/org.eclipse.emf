@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.6 2005/06/08 06:20:10 nickb Exp $
+ * $Id: BasicEObjectImpl.java,v 1.7 2005/10/26 10:31:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -473,9 +473,14 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       notifications = eBasicSetContainer(null, -1, notifications);
     }
 
-    eProperties().setEResource(resource);
+    eSetDirectResource(resource);
 
     return notifications;
+  }
+
+  protected void eSetDirectResource(Resource.Internal resource)
+  {
+    eProperties().setEResource(resource);
   }
 
   public Object eGet(EStructuralFeature eFeature)
@@ -633,7 +638,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     if (oldResource != null)
     {
       msgs = ((InternalEList)oldResource.getContents()).basicRemove(this, msgs);
-      eBasicProperties().setEResource(oldResource = null);
+      eSetDirectResource(oldResource = null);
     }
     else
     {
