@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.37 2005/10/21 21:45:06 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.38 2005/10/26 10:13:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2419,5 +2419,22 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
       return !genOperation.getGenClass().isEObject();
     }
+  }
+
+  // Returns whether this class implements any of the given features.
+  public boolean implementsAny(Collection genFeatures)
+  {
+    List implementedGenFeatures = getImplementedGenFeatures();
+    if (!implementedGenFeatures.isEmpty())
+    {  
+      for (Iterator i = genFeatures.iterator(); i.hasNext(); )
+      {
+        if (implementedGenFeatures.contains(i.next()))
+        {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }
