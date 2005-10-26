@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.7 2005/08/29 13:50:45 emerks Exp $
+ * $Id: XSDParticleImpl.java,v 1.8 2005/10/26 20:33:06 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1797,7 +1797,7 @@ public class XSDParticleImpl
         if (getStates().size() > MAXIMUM_STATES)
         {
           XSDDiagnostic xsdDiagnostic = XSDFactory.eINSTANCE.createXSDDiagnostic();
-          xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.ERROR_LITERAL);
+          xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.WARNING_LITERAL);
           xsdDiagnostic.setMessage
             (XSDPlugin.INSTANCE.getString
                ("_UI_XSDError_message", 
@@ -1921,6 +1921,23 @@ public class XSDParticleImpl
         if (debug)
         {
           xsdNFA.dump(System.out);
+        }
+      }
+      else
+      {
+        // Clean up bad transitions.
+        //
+        for (Iterator i = xsdNFA.getStates().iterator(); i.hasNext(); )
+        {
+          DFA.State state = (DFA.State)i.next();
+          for (Iterator j = state.getTransitions().iterator(); j.hasNext(); )
+          {
+            DFA.Transition transition = (DFA.Transition)j.next();
+            if (transition.getParticle() == null)
+            {
+              j.remove();
+            }
+          }
         }
       }
     }
