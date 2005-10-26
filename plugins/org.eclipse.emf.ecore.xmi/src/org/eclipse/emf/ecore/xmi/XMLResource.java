@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.28 2005/07/21 19:47:33 elena Exp $
+ * $Id: XMLResource.java,v 1.29 2005/10/26 19:56:49 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -149,6 +149,8 @@ public interface XMLResource extends Resource
   /**
    * All EObject references will be uniformly encoded as one or more QName URI pairs,
    * where the QName is optional depending on whether the referenced object's type is not identicle to that of the feature.
+   * This option on save and load means the same: if it is set to true, "href" attributes will be treated as actual data - 
+   * i.e. as if your model had a feature named "href".
    */
   String OPTION_USE_ENCODED_ATTRIBUTE_STYLE = "USE_ENCODED_ATTRIBUTE_STYLE";
 

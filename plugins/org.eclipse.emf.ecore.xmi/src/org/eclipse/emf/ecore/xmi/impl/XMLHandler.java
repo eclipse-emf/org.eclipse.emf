@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.38 2005/09/13 14:07:16 elena Exp $
+ * $Id: XMLHandler.java,v 1.39 2005/10/26 19:56:49 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -378,7 +378,7 @@ public abstract class XMLHandler
     
     hrefAttribute = XMLResource.HREF;
     
-    if (Boolean.FALSE.equals(options.get(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE)))
+    if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE)))
     {
       hrefAttribute = null;
     }

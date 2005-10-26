@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLProcessor.java,v 1.2 2005/09/23 22:49:07 elena Exp $
+ * $Id: XMLProcessor.java,v 1.3 2005/10/26 19:56:49 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -124,6 +124,10 @@ public class XMLProcessor
   public XMLProcessor(Collection schemaURIs) throws SAXException
   {
     this(new EPackageRegistryImpl());
+    loadOptions.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+    loadOptions.put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
+    saveOptions.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE); 
+    saveOptions.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
     try
     {
       Collection result = ecoreBuilder.generate(schemaURIs);
@@ -188,10 +192,21 @@ public class XMLProcessor
     return extendedMetaData;
   }
 
+  /**
+   * Given a system identifier and option, this methods creates an EMF Resource 
+   * (using URI#createURI method) and loads the resource data.
+   * @param systemId - system identifier
+   * @param options - options map
+   * @return Loaded resource
+   * @throws IOException
+   * @see org.eclipse.emf.ecore.resource.Resource
+   * @see org.eclipse.emf.common.util.URI
+   */
+  
   public Resource load(String systemId, Map options) throws IOException
   {
     ResourceSet resourceSet = createResourceSet();
-    XMLResource resource = (XMLResource)resourceSet.createResource(URI.createFileURI(systemId));
+    XMLResource resource = (XMLResource)resourceSet.createResource(URI.createURI(systemId));
     InputSource inputSource = new InputSource();
     inputSource.setSystemId(systemId);
     if (options != null)
@@ -272,7 +287,7 @@ public class XMLProcessor
     }
     else
     {
-      resource.save(outputStream, loadOptions);
+      resource.save(outputStream, saveOptions);
     }
   }
 
@@ -286,7 +301,7 @@ public class XMLProcessor
     }
     else
     {
-      ((XMLResource)resource).save(document, loadOptions, handler);
+      ((XMLResource)resource).save(document, saveOptions, handler);
     }
   }
   
@@ -302,7 +317,7 @@ public class XMLProcessor
     }
     else
     {
-      ((XMLResource)resource).save(os, loadOptions);
+      ((XMLResource)resource).save(os, saveOptions);
     }
     return os.toString();
   }
