@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * ImportManager.java,v 1.1 2005/05/16 18:37:55 marcelop Exp
+ * ImportManager.java,v 1.3 2005/10/27 15:24:24 davidms Exp
  */
 package org.eclipse.emf.codegen.util;
 
