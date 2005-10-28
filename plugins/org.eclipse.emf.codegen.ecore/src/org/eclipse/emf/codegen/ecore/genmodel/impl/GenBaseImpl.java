@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.32 2005/10/07 19:38:54 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.33 2005/10/28 13:49:28 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -719,9 +719,20 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return contents;
   }
 
+  /**
+   * @deprecated in 2.2. Please use {@link #format(String, char, String, boolean, boolean) instead.
+   */
   public String format(String name, char separator, String prefix, boolean includePrefix)
   {
     return CodeGenUtil.format(name, separator, prefix, includePrefix);
+  }
+
+  /**
+   * @since 2.2.
+   */
+  protected String format(String name, char separator, String prefix, boolean includePrefix, boolean includeLeadingSeparator)
+  {
+    return CodeGenUtil.format(name, separator, prefix, includePrefix, includeLeadingSeparator);
   }
 
   /**
