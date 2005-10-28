@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralItemProvider.java,v 1.7 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EEnumLiteralItemProvider.java,v 1.8 2005/10/28 14:03:49 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -72,6 +72,7 @@ public class EEnumLiteralItemProvider
 
       addValuePropertyDescriptor(object);
       addInstancePropertyDescriptor(object);
+      addLiteralPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -112,6 +113,27 @@ public class EEnumLiteralItemProvider
          getString("_UI_EEnumLiteral_instance_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EEnumLiteral_instance_feature", "_UI_EEnumLiteral_type"),
          EcorePackage.eINSTANCE.getEEnumLiteral_Instance(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Literal feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addLiteralPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_EEnumLiteral_literal_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_EEnumLiteral_literal_feature", "_UI_EEnumLiteral_type"),
+         EcorePackage.eINSTANCE.getEEnumLiteral_Literal(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -160,6 +182,7 @@ public class EEnumLiteralItemProvider
     {
       case EcorePackage.EENUM_LITERAL__VALUE:
       case EcorePackage.EENUM_LITERAL__INSTANCE:
+      case EcorePackage.EENUM_LITERAL__LITERAL:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
     }
