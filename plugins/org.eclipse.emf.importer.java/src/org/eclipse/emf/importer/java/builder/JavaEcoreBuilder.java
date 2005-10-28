@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.8 2005/07/14 19:59:34 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.9 2005/10/28 14:12:01 davidms Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1313,17 +1313,33 @@ public class JavaEcoreBuilder
     {
       // Allow a mixed case version of the name to be provided.
       //
-      String literalName = getModelAnnotationAttribute(modelAnnotation, "name");
-      if (literalName == null)
+      String name = getModelAnnotationAttribute(modelAnnotation, "name");
+
+      // But, if name doesn't expand into field name, ignore it.
+      //
+      String fieldName = field.getName();
+      if (name == null || !CodeGenUtil.format(name, '_', null, false, true).toUpperCase().equals(fieldName))
       {
-        literalName = field.getName();
+          if (name != null)
+          {
+            warning(JavaImporterPlugin.INSTANCE.getString("_UI_InvalidLiteralNameForField", new Object[] { name, fieldName }));
+          }
+          name = fieldName;
       }
+
+      // Allow a distinct literal value to be provided, too.
+      //
+      String literal = getModelAnnotationAttribute(modelAnnotation, "literal");
 
       // Create one and set the name and value.
       //
       EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
       eModelElementToIDOMNodeMap.put(eEnumLiteral, field);
-      eEnumLiteral.setName(literalName);
+      eEnumLiteral.setName(name);
+      if (literal != null)
+      {
+        eEnumLiteral.setLiteral(literal);
+      }
       eEnumLiteral.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
       EcoreUtil.setDocumentation(eEnumLiteral, getModelDocumentation(field.getComment()));
       if (field.getInitializer() != null)
@@ -1903,7 +1919,7 @@ public class JavaEcoreBuilder
       {
         String prefix = (String)ePackageToPrefixMap.get(eNamedElement.eContainer());
         String name = eNamedElement.getName();
-        String id = CodeGenUtil.format(name, '_', prefix, true).toUpperCase();
+        String id = CodeGenUtil.format(name, '_', prefix, true, true).toUpperCase();
         result = (Integer)nameToIDMap.get(id);
       }
       else
@@ -1911,8 +1927,8 @@ public class JavaEcoreBuilder
         String prefix = (String)ePackageToPrefixMap.get(eNamedElement.eContainer().eContainer());
         String eClassName = ((ENamedElement)eNamedElement.eContainer()).getName();
         String eFeatureName = eNamedElement.getName();
-        String id = CodeGenUtil.format(eClassName, '_', prefix, true).toUpperCase() + "__"
-          + CodeGenUtil.format(eFeatureName, '_', prefix, true).toUpperCase();
+        String id = CodeGenUtil.format(eClassName, '_', prefix, true, true).toUpperCase() + "__"
+          + CodeGenUtil.format(eFeatureName, '_', prefix, true, false).toUpperCase();
         result = (Integer)nameToIDMap.get(id);
       }
       if (result != null)
