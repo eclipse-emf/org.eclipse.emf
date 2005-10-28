@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.15 2005/09/28 20:48:13 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.16 2005/10/28 13:56:32 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -67,7 +67,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 <%int count = 0; for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
 <%for (Iterator j=genClass.getInvariantOperations().iterator(); j.hasNext();) { GenOperation genOperation = (GenOperation)j.next();%>
 	/**
-	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint '<%=genClass.format(genOperation.getName(), ' ', null, true)%>' of '<%=genClass.getFormattedName()%>'.
+	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint '<%=genOperation.getFormattedName()%>' of '<%=genClass.getFormattedName()%>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -186,7 +186,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 <%for (Iterator j=genClassifier.getGenConstraints().iterator(); j.hasNext();) 
 { String constraint = (String)j.next();
   GenClassifier constraintDelegate = genClassifier.getConstraintDelegate(constraint); 
-  String constant = genClassifier.getClassifierID() + "__" + genClassifier.format(constraint, '_', null, false).toUpperCase();
+  String constant = genClassifier.getClassifierID() + "__" + CodeGenUtil.format(constraint, '_', null, false, false).toUpperCase();
   String delegate = constraintDelegate == null || constraintDelegate.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(constraintDelegate.getGenPackage()) + "Validator."; 
   String cast = constraintDelegate == null && genClassifier instanceof GenClass && !((GenClass)genClassifier).isEObjectExtension() ? "(" + genModel.getImportedName("org.eclipse.emf.ecore.EObject") + ")" : "";
   String accessor = constraintDelegate != null && genClassifier instanceof GenDataType && !((GenDataType)genClassifier).isPrimitiveType() && ((GenDataType)constraintDelegate).isPrimitiveType() ? "." + ((GenDataType)constraintDelegate).getPrimitiveValueFunction() + "()" : "";%>
