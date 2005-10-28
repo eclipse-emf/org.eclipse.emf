@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Enumerator.java,v 1.2 2005/06/08 06:19:08 nickb Exp $
+ * $Id: Enumerator.java,v 1.3 2005/10/28 13:57:55 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -33,4 +33,10 @@ public interface Enumerator
    * @return the value.
    */
   int getValue();
+  
+  /**
+   * Returns the literal value of the enumerator.
+   * @return the literal.
+   */
+  String getLiteral();
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractEnumerator.java,v 1.2 2005/06/08 06:19:08 nickb Exp $
+ * $Id: AbstractEnumerator.java,v 1.3 2005/10/28 13:57:55 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -31,16 +31,34 @@ public abstract class AbstractEnumerator implements Enumerator
    * The <code>int</code> value of the enumerator.
    */
   private final int value;
+  
+  /**
+   * The literal value of the enumerator.
+   */
+  private final String literal;
 
   /**
    * Creates an initialized instance.
    * @param value the <code>int</code> value of the enumerator.
-   * @param name the name of the enumerator.
+   * @param name the name of the enumerator, which is also used as the literal value.
    */
   protected AbstractEnumerator(int value, String name)
   {
+    this.name = literal = name;
+    this.value = value;
+  }
+  
+  /**
+   * Creates an initialized instance.
+   * @param value the <code>int</code> value of the enumerator.
+   * @param name the name of the enumerator.
+   * @param literal the literal value of the enumerator.
+   */
+  protected AbstractEnumerator(int value, String name, String literal)
+  {
     this.name = name;
     this.value = value;
+    this.literal = literal;
   }
 
   /**
@@ -60,13 +78,22 @@ public abstract class AbstractEnumerator implements Enumerator
   {
     return value;
   }
+  
+  /**
+   * Returns the literal value of the enumerator.
+   * @return the literal.
+   */
+  public final String getLiteral()
+  {
+    return literal;
+  }
 
   /**
-   * Returns the name of the enumerator.
-   * @return the name.
+   * Returns the literal value of the enumerator, which is its string representation.
+   * @return the literal.
    */
   public final String toString()
   {
-    return name;
+    return literal;
   }
 }
