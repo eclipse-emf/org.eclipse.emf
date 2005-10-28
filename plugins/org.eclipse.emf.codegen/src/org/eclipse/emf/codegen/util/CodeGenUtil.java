@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * CodeGenUtil.java,v 1.1 2005/05/16 18:39:08 marcelop Exp
+ * CodeGenUtil.java,v 1.7 2005/10/28 13:34:40 davidms Exp
  */
 package org.eclipse.emf.codegen.util;
 
@@ -65,7 +65,7 @@ public class CodeGenUtil
   private static Set javaReservedWords;
 
   /**
-   * Returns the set of all Java's keywords and textual literals, as of Java 1.4, plus enum from 5.0.
+   * Returns the set of all Java's keywords and textual literals, as of Java 5.0.
    */
   public static Set getJavaReservedWords()
   {
@@ -416,7 +416,7 @@ public class CodeGenUtil
           break;
         }
       }
-      if (i > 1 && i < name.length()) 
+      if (i > 1 && i < name.length() && !Character.isDigit(name.charAt(i))) 
       {
         --i;
       }
@@ -435,11 +435,27 @@ public class CodeGenUtil
     if (CodeGenUtil.isJavaReservedWord(name)) return name + "_";
     return name;
   }
-  
+
+  /**
+   * @deprecated In 2.2. Please use {@link #format(String, char, String, boolean, boolean) instead.
+   */
   public static String format(String name, char separator, String prefix, boolean includePrefix)
   {
-    List parsedName = new ArrayList();
+    return format(name, separator, prefix, includePrefix, false);
+  }
 
+  /**
+   * @since 2.2
+   */
+  public static String format(String name, char separator, String prefix, boolean includePrefix, boolean includeLeadingSeparator)
+  {
+    String leadingSeparators = includeLeadingSeparator ? getLeadingSeparators(name, '_') : null;
+    if (leadingSeparators != null)
+    {
+      name = name.substring(leadingSeparators.length());
+    }
+
+    List parsedName = new ArrayList();
     if (prefix != null && 
           name.startsWith(prefix) && 
           name.length() > prefix.length() && Character.isUpperCase(name.charAt(prefix.length())))
@@ -454,7 +470,7 @@ public class CodeGenUtil
     if (name.length() != 0) parsedName.addAll(parseName(name, '_'));
 
     StringBuffer result = new StringBuffer();
-
+    
     for (Iterator nameIter = parsedName.iterator(); nameIter.hasNext(); )
     {
       String nameComponent = (String)nameIter.next();
@@ -466,55 +482,67 @@ public class CodeGenUtil
       }
     }
 
-    return result.length() == 0 && prefix != null ? prefix : result.toString();
+    if (result.length() == 0 && prefix != null)
+    {
+      result.append(prefix);
+    }
+    return leadingSeparators != null ? "_" + result.toString() : result.toString();
+  }
+
+  private static String getLeadingSeparators(String name, char separator)
+  {
+    int i = 0;
+    for (int len = name.length(); i < len && name.charAt(i) == separator; i++);
+    return i != 0 ? name.substring(0, i) : null;
   }
 
   /**
-   * This method breaks sourceName into words delimited by sourceSeparator and/or mixed-case naming.
+   * This method breaks sourceName into words delimited by separator and/or mixed-case naming.
    */
-  public static List parseName(String sourceName, char sourceSeparator)
+  public static List parseName(String sourceName, char separator)
   {
     List result = new ArrayList();
-    StringBuffer currentWord = new StringBuffer();
-
-    int length = sourceName.length();
-    boolean lastIsLower = false;
-
-    for (int index=0; index<length; index++)
+    if (sourceName != null)
     {
-      char curChar = sourceName.charAt(index);
-      if (Character.isUpperCase(curChar) || (!lastIsLower && Character.isDigit(curChar)) || curChar == sourceSeparator)
+      StringBuffer currentWord = new StringBuffer();
+      boolean lastIsLower = false;
+      for (int index = 0, length = sourceName.length(); index < length; ++index)
       {
-        if (lastIsLower || curChar == sourceSeparator)
+        char curChar = sourceName.charAt(index);
+        if (Character.isUpperCase(curChar) || (!lastIsLower && Character.isDigit(curChar)) || curChar == separator)
         {
-          result.add(currentWord.toString());
-          currentWord = new StringBuffer();
-        }
-        lastIsLower = false;
-      }
-      else
-      {
-        if (!lastIsLower)
-        {
-          int currentWordLength = currentWord.length();
-          if (currentWordLength > 1)
+          if (lastIsLower && currentWord.length() > 1 || curChar == separator && currentWord.length() > 0)
           {
-            char lastChar = currentWord.charAt(--currentWordLength);
-            currentWord.setLength(currentWordLength);
             result.add(currentWord.toString());
             currentWord = new StringBuffer();
-            currentWord.append(lastChar);
           }
+          lastIsLower = false;
         }
-        lastIsLower = true;
-      }
-      if (curChar != sourceSeparator)
-      {
-        currentWord.append(curChar);
-      }
-    }
+        else
+        {
+          if (!lastIsLower)
+          {
+            int currentWordLength = currentWord.length();
+            if (currentWordLength > 1)
+            {
+              char lastChar = currentWord.charAt(--currentWordLength);
+              currentWord.setLength(currentWordLength);
+              result.add(currentWord.toString());
+              currentWord = new StringBuffer();
+              currentWord.append(lastChar);
+            }
+          }
+          lastIsLower = true;
+        }
 
-    result.add(currentWord.toString());
+        if (curChar != separator)
+        {
+          currentWord.append(curChar);
+        }
+      }
+  
+      result.add(currentWord.toString());
+    }
     return result;
   }  
   
