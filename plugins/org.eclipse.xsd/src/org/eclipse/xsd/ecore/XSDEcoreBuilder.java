@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.37 2005/06/12 12:38:14 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.38 2005/10/28 15:12:33 davidms Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -597,76 +597,48 @@ public class XSDEcoreBuilder extends MapBuilder
 
   protected EEnum computeEEnum(XSDSimpleTypeDefinition xsdSimpleTypeDefinition)
   {
-    // If it has enumerators and each one is a valid Java identifier.
+    // If a simple type has enumeration facets, map it to an EEnum.
     //
     if (!xsdSimpleTypeDefinition.getEnumerationFacets().isEmpty())
     {
-      List enumerators = new ArrayList();
-      LOOP:
-      for (Iterator i = xsdSimpleTypeDefinition.getEnumerationFacets().iterator(); 
-           i.hasNext(); )
+      EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
+      setAnnotations(eEnum, xsdSimpleTypeDefinition);
+
+      String name = getEcoreAttribute(xsdSimpleTypeDefinition, "name");
+      if (name == null)
+      {
+        name = validName(xsdSimpleTypeDefinition.getAliasName(), true);
+      }
+      eEnum.setName(name);
+      extendedMetaData.setName(eEnum, xsdSimpleTypeDefinition.getAliasName());
+
+      EPackage ePackage = getEPackage(xsdSimpleTypeDefinition);
+      addToSortedList(ePackage.getEClassifiers(), eEnum);
+
+      for (ListIterator i = xsdSimpleTypeDefinition.getEnumerationFacets().listIterator();  i.hasNext(); )
       {
         XSDEnumerationFacet xsdEnumerationFacet = (XSDEnumerationFacet)i.next();
-        String enumerator = xsdEnumerationFacet.getLexicalValue();
-        if (enumerator != null && enumerator.length() != 0)
+        String literal = xsdEnumerationFacet.getLexicalValue();
+        if (literal != null)
         {
-          if (Character.isJavaIdentifierStart(enumerator.charAt(0)))
-          {
-            for (int j = enumerator.length() - 1; j > 0; --j)
-            {
-              if (!Character.isJavaIdentifierPart(enumerator.charAt(j)))
-              {
-                enumerators.clear();
-                break LOOP;
-              }
-            }
-          }
-          else
-          {
-            enumerators.clear();
-            break;
-          }
-
-          enumerators.add(xsdEnumerationFacet);
-          continue;
-        }
-
-        enumerators.clear();
-        break;
-      }
-
-      if (!enumerators.isEmpty())
-      {
-        EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
-        setAnnotations(eEnum, xsdSimpleTypeDefinition);
-
-        String name = getEcoreAttribute(xsdSimpleTypeDefinition, "name");
-        if (name == null)
-        {
-          name = validName(xsdSimpleTypeDefinition.getAliasName(), true);
-        }
-        eEnum.setName(name);
-        extendedMetaData.setName(eEnum, xsdSimpleTypeDefinition.getAliasName());
-
-        EPackage ePackage = getEPackage(xsdSimpleTypeDefinition);
-        addToSortedList(ePackage.getEClassifiers(), eEnum);
-
-        for (ListIterator i = enumerators.listIterator(); i.hasNext(); )
-        {
-          XSDEnumerationFacet xsdEnumerationFacet = (XSDEnumerationFacet)i.next();
-          String enumerator = xsdEnumerationFacet.getLexicalValue();
           EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
           setAnnotations(eEnumLiteral, xsdEnumerationFacet);
-          eEnumLiteral.setName(enumerator);
+          String literalName = getEcoreAttribute(xsdEnumerationFacet, "name");
+          literalName = validName(literalName != null ? literalName : literal, UNCHANGED_CASE, "_");
+          eEnumLiteral.setName(literalName);
           eEnumLiteral.setValue(i.previousIndex());
+          if (!literalName.equals(literal))
+          {
+            eEnumLiteral.setLiteral(literal);
+          }
           eEnum.getELiterals().add(eEnumLiteral);
           map(xsdEnumerationFacet, eEnumLiteral);
         }
-
-        checkForPrimitive(eEnum);
-
-        return eEnum;
       }
+
+      checkForPrimitive(eEnum);
+
+      return eEnum;
     }
 
     return null;
@@ -1856,6 +1828,16 @@ public class XSDEcoreBuilder extends MapBuilder
             eFeatureMap.put(eStructuralFeature.getName().toLowerCase(), eStructuralFeature);
           }
         }
+        else if (eClassifier instanceof EEnum)
+        {
+          Map eLiteralMap = new HashMap();
+          for (Iterator k = ((EEnum)eClassifier).getELiterals().iterator(); k.hasNext(); )
+          {
+            EEnumLiteral eEnumLiteral = (EEnumLiteral)k.next();
+            resolveNameConflict(eLiteralMap, eEnumLiteral, "");
+            eLiteralMap.put(eEnumLiteral.getName().toLowerCase(), eEnumLiteral);
+          }
+        }
       }
     }
   }
@@ -2212,6 +2194,20 @@ public class XSDEcoreBuilder extends MapBuilder
 
   protected String validName(String name, boolean isUpperCase)
   {
+    return validName(name, isUpperCase, "_"); 
+  }
+  
+  protected String validName(String name, boolean isUpperCase, String prefix)
+  {
+    return validName(name, isUpperCase ? UPPER_CASE : LOWER_CASE, prefix);
+  }
+
+  protected static final int UNCHANGED_CASE = 0;
+  protected static final int UPPER_CASE = 1;
+  protected static final int LOWER_CASE = 2;
+
+  protected String validName(String name, int casing, String prefix)
+  {
     List parsedName = parseName(name, '_');
     StringBuffer result = new StringBuffer();
     for (Iterator i = parsedName.iterator(); i.hasNext(); )
@@ -2219,7 +2215,7 @@ public class XSDEcoreBuilder extends MapBuilder
       String nameComponent = (String)i.next();
       if (nameComponent.length() > 0)
       {
-        if (result.length() > 0 || isUpperCase)
+        if (result.length() > 0 || casing == UPPER_CASE)
         {
           result.append(Character.toUpperCase(nameComponent.charAt(0)));
           result.append(nameComponent.substring(1));
@@ -2233,14 +2229,18 @@ public class XSDEcoreBuilder extends MapBuilder
 
     return
       result.length() == 0 ?
-        "_" :
+        prefix :
         Character.isJavaIdentifierStart(result.charAt(0)) ?
-          isUpperCase ?
-            result.toString() :
+          casing == LOWER_CASE ?
             uncapName(result.toString()) :
-          "_" + result;
+            result.toString() :
+          prefix + result;
   }
 
+  // This behaves like CodeGenUtil.parseName(), which isn't available here,
+  // except it also removes invalid indentifier characters.
+  // The two methods should be kept in synch. 
+  //
   protected List parseName(String sourceName, char separator)
   {
     List result = new ArrayList();
@@ -2292,6 +2292,10 @@ public class XSDEcoreBuilder extends MapBuilder
     return result;
   }
 
+  // This behaves like CodeGenUtil.uncapPrefixedName(), which isn't available here,
+  // except without the forceDifferent option.
+  // The two methods should be kept in synch. 
+  //
   public String uncapName(String name)
   {
     if (name.length() == 0)
@@ -2309,7 +2313,7 @@ public class XSDEcoreBuilder extends MapBuilder
           break;
         }
       }
-      if (i > 1 && i < name.length())
+      if (i > 1 && i < name.length() && !Character.isDigit(name.charAt(i)))
       {
         --i;
       }
