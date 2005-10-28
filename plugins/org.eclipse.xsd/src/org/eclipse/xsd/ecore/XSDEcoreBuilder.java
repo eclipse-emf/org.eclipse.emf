@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.38 2005/10/28 15:12:33 davidms Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.39 2005/10/28 15:23:22 davidms Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -618,21 +618,24 @@ public class XSDEcoreBuilder extends MapBuilder
       for (ListIterator i = xsdSimpleTypeDefinition.getEnumerationFacets().listIterator();  i.hasNext(); )
       {
         XSDEnumerationFacet xsdEnumerationFacet = (XSDEnumerationFacet)i.next();
-        String literal = xsdEnumerationFacet.getLexicalValue();
-        if (literal != null)
+        if (!"true".equalsIgnoreCase(getEcoreAttribute(xsdEnumerationFacet, "ignore")))
         {
-          EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
-          setAnnotations(eEnumLiteral, xsdEnumerationFacet);
-          String literalName = getEcoreAttribute(xsdEnumerationFacet, "name");
-          literalName = validName(literalName != null ? literalName : literal, UNCHANGED_CASE, "_");
-          eEnumLiteral.setName(literalName);
-          eEnumLiteral.setValue(i.previousIndex());
-          if (!literalName.equals(literal))
+          String literal = xsdEnumerationFacet.getLexicalValue();
+          if (literal != null && eEnum.getEEnumLiteralByLiteral(literal) == null)
           {
-            eEnumLiteral.setLiteral(literal);
+            EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
+            setAnnotations(eEnumLiteral, xsdEnumerationFacet);
+            String literalName = getEcoreAttribute(xsdEnumerationFacet, "name");
+            literalName = validName(literalName != null ? literalName : literal, UNCHANGED_CASE, "_");
+            eEnumLiteral.setName(literalName);
+            eEnumLiteral.setValue(i.previousIndex());
+            if (!literalName.equals(literal))
+            {
+              eEnumLiteral.setLiteral(literal);
+            }
+            eEnum.getELiterals().add(eEnumLiteral);
+            map(xsdEnumerationFacet, eEnumLiteral);
           }
-          eEnum.getELiterals().add(eEnumLiteral);
-          map(xsdEnumerationFacet, eEnumLiteral);
         }
       }
 
