@@ -2,6 +2,7 @@ package org.eclipse.emf.codegen.ecore.templates.model;
 
 import java.util.*;
 import org.eclipse.emf.codegen.ecore.genmodel.*;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 
 public class ValidatorClass
 {
@@ -546,7 +547,7 @@ public class ValidatorClass
     int count = 0; for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
     for (Iterator j=genClass.getInvariantOperations().iterator(); j.hasNext();) { GenOperation genOperation = (GenOperation)j.next();
     stringBuffer.append(TEXT_19);
-    stringBuffer.append(genClass.format(genOperation.getName(), ' ', null, true));
+    stringBuffer.append(genOperation.getFormattedName());
     stringBuffer.append(TEXT_20);
     stringBuffer.append(genClass.getFormattedName());
     stringBuffer.append(TEXT_21);
@@ -694,7 +695,7 @@ public class ValidatorClass
     for (Iterator j=genClassifier.getGenConstraints().iterator(); j.hasNext();) 
 { String constraint = (String)j.next();
   GenClassifier constraintDelegate = genClassifier.getConstraintDelegate(constraint); 
-  String constant = genClassifier.getClassifierID() + "__" + genClassifier.format(constraint, '_', null, false).toUpperCase();
+  String constant = genClassifier.getClassifierID() + "__" + CodeGenUtil.format(constraint, '_', null, false, false).toUpperCase();
   String delegate = constraintDelegate == null || constraintDelegate.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(constraintDelegate.getGenPackage()) + "Validator."; 
   String cast = constraintDelegate == null && genClassifier instanceof GenClass && !((GenClass)genClassifier).isEObjectExtension() ? "(" + genModel.getImportedName("org.eclipse.emf.ecore.EObject") + ")" : "";
   String accessor = constraintDelegate != null && genClassifier instanceof GenDataType && !((GenDataType)genClassifier).isPrimitiveType() && ((GenDataType)constraintDelegate).isPrimitiveType() ? "." + ((GenDataType)constraintDelegate).getPrimitiveValueFunction() + "()" : "";
