@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBase.java,v 1.5 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenBase.java,v 1.6 2005/10/28 13:48:19 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -39,6 +39,10 @@ public interface GenBase extends EObject{
   String uncapName(String name);
   String uncapPrefixedName(String in);
   String safeName(String name);
+
+  /**
+   * @deprecated in 2.2. Please use {@link org.eclipse.emf.codegen.util.CodeGenUtil#format(String, char, String, boolean, boolean)} instead.
+   */
   String format(String name, char separator, String prefix, boolean includePrefix);
 
   boolean canGenerate();
