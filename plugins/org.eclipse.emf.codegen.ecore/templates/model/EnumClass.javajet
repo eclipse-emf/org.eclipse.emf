@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.6 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.7 2005/10/28 14:08:39 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -89,7 +89,7 @@ public final class <%=genEnum.getName()%> extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final <%=genEnum.getName()%> <%=genEnumLiteral.getEnumLiteralID()%>_LITERAL = new <%=genEnum.getName()%>(<%=genEnumLiteral.getEnumLiteralID()%>, "<%=genEnumLiteral.getName()%>");<%=genModel.getNonNLS()%>
+	public static final <%=genEnum.getName()%> <%=genEnumLiteral.getEnumLiteralID()%>_LITERAL = new <%=genEnum.getName()%>(<%=genEnumLiteral.getEnumLiteralID()%>, "<%=genEnumLiteral.getName()%>", "<%=genEnumLiteral.getLiteral()%>");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 
 <%}%>
 	/**
@@ -115,17 +115,17 @@ public final class <%=genEnum.getName()%> extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b><%=genEnum.getFormattedName()%></b></em>' literal with the specified name.
+	 * Returns the '<em><b><%=genEnum.getFormattedName()%></b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static <%=genEnum.getName()%> get(<%=genModel.getImportedName("java.lang.String")%> name)
+	public static <%=genEnum.getName()%> get(<%=genModel.getImportedName("java.lang.String")%> literal)
 	{
 		for (int i = 0; i < VALUES_ARRAY.length; ++i)
 		{
 			<%=genEnum.getName()%> result = VALUES_ARRAY[i];
-			if (result.toString().equals(name))
+			if (result.toString().equals(literal))
 			{
 				return result;
 			}
@@ -134,7 +134,26 @@ public final class <%=genEnum.getName()%> extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b><%=genEnum.getFormattedName()%></b></em>' literal with the specified value.
+	 * Returns the '<em><b><%=genEnum.getFormattedName()%></b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static <%=genEnum.getName()%> getByName(<%=genModel.getImportedName("java.lang.String")%> name)
+	{
+		for (int i = 0; i < VALUES_ARRAY.length; ++i)
+		{
+			<%=genEnum.getName()%> result = VALUES_ARRAY[i];
+			if (result.getName().equals(name))
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b><%=genEnum.getFormattedName()%></b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -156,9 +175,9 @@ public final class <%=genEnum.getName()%> extends AbstractEnumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private <%=genEnum.getName()%>(int value, <%=genModel.getImportedName("java.lang.String")%> name)
+	private <%=genEnum.getName()%>(int value, <%=genModel.getImportedName("java.lang.String")%> name, <%=genModel.getImportedName("java.lang.String")%> literal)
 	{
-		super(value, name);
+		super(value, name, literal);
 	}
 
 } //<%=genEnum.getName()%>
