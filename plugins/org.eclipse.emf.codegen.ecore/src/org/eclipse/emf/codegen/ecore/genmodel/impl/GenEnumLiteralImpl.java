@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.4 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.5 2005/10/28 14:06:20 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -306,10 +306,15 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
   {
     return capName(getName());
   }
+  
+  public String getLiteral()
+  {
+    return getEcoreEnumLiteral().getLiteral();
+  }
 
   public String getFormattedName()
   {
-    return format(getCapName(), ' ', null, false);
+    return format(getCapName(), ' ', null, false, false);
   }
 
   public int getValue()
@@ -319,7 +324,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
 
   public String getEnumLiteralID()
   {
-    return format(getName(), '_', null, false).toUpperCase();
+    return format(getName(), '_', null, false, true).toUpperCase();
   }
 
   public GenPackage getGenPackage()
@@ -342,14 +347,14 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
     StringBuffer result = new StringBuffer();
     if (!getEnumLiteralID().equals(getName()))
     {
-      result.append("name=\"");
-      result.append(getName());
-      result.append('"');
+      appendModelSetting(result, "name", getName());
     }
-
+    if (!getName().equals(getLiteral()))
+    {
+      appendModelSetting(result, "literal", getLiteral());
+    }
     appendAnnotationInfo(result, getEcoreEnumLiteral());
-
-    return result.toString();
+    return result.toString().trim();
   }
 
   public boolean reconcile(GenEnumLiteral oldGenEnumLiteralVersion)
