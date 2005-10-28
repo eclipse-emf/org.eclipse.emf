@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.23 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenFeatureImpl.java,v 1.24 2005/10/28 13:51:48 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -831,12 +831,12 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 
   public String getFormattedName()
   {
-    return format(getCapName(), ' ', null, false);
+    return format(getCapName(), ' ', null, false, false);
   }
 
   public String getUpperName()
   {
-    return format(getName(), '_', null, false).toUpperCase();
+    return format(getName(), '_', null, false, true).toUpperCase();
   }
 
   public String getUncapName()

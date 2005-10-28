@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.16 2005/10/21 21:44:15 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.17 2005/10/28 13:51:49 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -364,7 +364,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   public String getFormattedName()
   {
-    return format(getCapName(), ' ', null, false);
+    return format(getCapName(), ' ', null, false, false);
   }
 
   // Many inherited methods must be overridden to handle this case.
