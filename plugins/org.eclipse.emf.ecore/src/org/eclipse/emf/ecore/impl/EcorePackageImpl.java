@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.9 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EcorePackageImpl.java,v 1.10 2005/10/28 14:03:08 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1446,9 +1446,19 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getEEnumLiteral_Literal()
+  {
+    return (EAttribute)eEnumLiteralEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getEEnumLiteral_EEnum()
   {
-    return (EReference)eEnumLiteralEClass.getEStructuralFeatures().get(2);
+    return (EReference)eEnumLiteralEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -1723,6 +1733,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     eEnumLiteralEClass = createEClass(EENUM_LITERAL);
     createEAttribute(eEnumLiteralEClass, EENUM_LITERAL__VALUE);
     createEAttribute(eEnumLiteralEClass, EENUM_LITERAL__INSTANCE);
+    createEAttribute(eEnumLiteralEClass, EENUM_LITERAL__LITERAL);
     createEReference(eEnumLiteralEClass, EENUM_LITERAL__EENUM);
 
     eFactoryEClass = createEClass(EFACTORY);
@@ -1924,9 +1935,13 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     op = addEOperation(eEnumEClass, this.getEEnumLiteral(), "getEEnumLiteral");
     addEParameter(op, ecorePackage.getEInt(), "value");
 
+    op = addEOperation(eEnumEClass, this.getEEnumLiteral(), "getEEnumLiteralByLiteral");
+    addEParameter(op, ecorePackage.getEString(), "literal");
+
     initEClass(eEnumLiteralEClass, EEnumLiteral.class, "EEnumLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEEnumLiteral_Value(), ecorePackage.getEInt(), "value", null, 0, 1, EEnumLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getEEnumLiteral_Instance(), this.getEEnumerator(), "instance", null, 0, 1, EEnumLiteral.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getEEnumLiteral_Literal(), ecorePackage.getEString(), "literal", null, 0, 1, EEnumLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEEnumLiteral_EEnum(), this.getEEnum(), this.getEEnum_ELiterals(), "eEnum", null, 0, 1, EEnumLiteral.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(eFactoryEClass, EFactory.class, "EFactory", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

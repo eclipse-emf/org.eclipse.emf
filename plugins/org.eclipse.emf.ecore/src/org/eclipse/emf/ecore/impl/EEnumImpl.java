@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumImpl.java,v 1.6 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EEnumImpl.java,v 1.7 2005/10/28 14:03:08 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -287,14 +287,14 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
   }
 
   /**
-   * @generated modifiable
+   * @generated NOT
    */
-  public EEnumLiteral getEEnumLiteral(String stringValue)
+  public EEnumLiteral getEEnumLiteral(String name)
   {
     for (Iterator i = getELiterals().iterator(); i.hasNext(); )
     {
       EEnumLiteral eEnumLiteral = (EEnumLiteral) i.next();
-      if (eEnumLiteral.getName().equals(stringValue))
+      if (eEnumLiteral.getName().equals(name))
       {
         return eEnumLiteral;
       }
@@ -303,7 +303,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
   }
 
   /**
-   * @generated modifiable
+   * @generated NOT
    */
   public EEnumLiteral getEEnumLiteral(int intValue)
   {
@@ -311,6 +311,22 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
     {
       EEnumLiteral eEnumLiteral = (EEnumLiteral) i.next();
       if (eEnumLiteral.getValue() == intValue)
+      {
+        return eEnumLiteral;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @generated NOT
+   */
+  public EEnumLiteral getEEnumLiteralByLiteral(String literal)
+  {
+    for (Iterator i = getELiterals().iterator(); i.hasNext(); )
+    {
+      EEnumLiteral eEnumLiteral = (EEnumLiteral) i.next();
+      if (eEnumLiteral.getLiteral().equals(literal))
       {
         return eEnumLiteral;
       }

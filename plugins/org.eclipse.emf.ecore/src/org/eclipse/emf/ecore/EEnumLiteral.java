@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteral.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EEnumLiteral.java,v 1.4 2005/10/28 14:03:08 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.EEnumLiteral#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EEnumLiteral#getInstance <em>Instance</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.EEnumLiteral#getLiteral <em>Literal</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EEnumLiteral#getEEnum <em>EEnum</em>}</li>
  * </ul>
  * </p>
@@ -90,6 +91,33 @@ public interface EEnumLiteral extends ENamedElement, Enumerator
    * @generated
    */
   void setInstance(Enumerator value);
+
+  /**
+   * Returns the value of the '<em><b>Literal</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * This is the literal, string value that represents this enumerator value.
+   * This is used in persisting instances of enumerated type.
+   * If set to <code>null<code>, it will return the {@link ENamedElement#getName name}, instead.
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Literal</em>' attribute.
+   * @see #setLiteral(String)
+   * @see org.eclipse.emf.ecore.EcorePackage#getEEnumLiteral_Literal()
+   * @model
+   * @generated
+   */
+  String getLiteral();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.ecore.EEnumLiteral#getLiteral <em>Literal</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Literal</em>' attribute.
+   * @see #getLiteral()
+   * @generated
+   */
+  void setLiteral(String value);
 
   /**
    * Returns the value of the '<em><b>EEnum</b></em>' container reference.

@@ -3,8 +3,7 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.ecore/src"
     modelPluginID="org.eclipse.emf.ecore" runtimeJar="true" modelName="Ecore" updateClasspath="false"
-    runtimeCompatibility="false" testsDirectory="" booleanFlagsField="eFlags" booleanFlagsReservedBits="8"
-    importerID="org.eclipse.emf.importer.rose">
+    testsDirectory="" booleanFlagsField="eFlags" booleanFlagsReservedBits="8" importerID="org.eclipse.emf.importer.rose">
   <foreignModel>Ecore.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
@@ -103,10 +102,14 @@
       <genOperations ecoreOperation="Ecore.ecore#//EEnum/getEEnumLiteral.1">
         <genParameters ecoreParameter="Ecore.ecore#//EEnum/getEEnumLiteral.1/value"/>
       </genOperations>
+      <genOperations ecoreOperation="Ecore.ecore#//EEnum/getEEnumLiteralByLiteral">
+        <genParameters ecoreParameter="Ecore.ecore#//EEnum/getEEnumLiteralByLiteral/literal"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EEnumLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EEnumLiteral/value"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EEnumLiteral/instance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EEnumLiteral/literal"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EEnumLiteral/eEnum"/>
     </genClasses>
     <genClasses ecoreClass="Ecore.ecore#//EFactory">

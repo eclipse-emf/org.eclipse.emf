@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralImpl.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EEnumLiteralImpl.java,v 1.5 2005/10/28 14:03:08 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.EEnumLiteralImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EEnumLiteralImpl#getInstance <em>Instance</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.EEnumLiteralImpl#getLiteral <em>Literal</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EEnumLiteralImpl#getEEnum <em>EEnum</em>}</li>
  * </ul>
  * </p>
@@ -87,6 +88,26 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * @ordered
    */
   protected Enumerator instance = INSTANCE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getLiteral() <em>Literal</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getLiteral()
+   * @generated
+   * @ordered
+   */
+  protected static final String LITERAL_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getLiteral() <em>Literal</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getLiteral()
+   * @generated
+   * @ordered
+   */
+  protected String literal = LITERAL_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -162,12 +183,43 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
     {
       setName(null);
       setValue(0);
+      setLiteral(null);
     }
     else if (newInstance != this)
     {
       setName(newInstance.getName());
       setValue(newInstance.getValue());
+      setLiteral(newInstance.getLiteral());
     }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteralGen()
+  {
+    return literal;
+  }
+
+  public String getLiteral()
+  {
+    String result = getLiteralGen();
+    return result == null ? getName() : result;
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setLiteral(String newLiteral)
+  {
+    String oldLiteral = literal;
+    literal = newLiteral;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EENUM_LITERAL__LITERAL, oldLiteral, literal));
   }
 
   /**
@@ -265,6 +317,8 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
         return new Integer(getValue());
       case EcorePackage.EENUM_LITERAL__INSTANCE:
         return getInstance();
+      case EcorePackage.EENUM_LITERAL__LITERAL:
+        return getLiteral();
       case EcorePackage.EENUM_LITERAL__EENUM:
         return getEEnum();
     }
@@ -288,6 +342,8 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
         return value != VALUE_EDEFAULT;
       case EcorePackage.EENUM_LITERAL__INSTANCE:
         return INSTANCE_EDEFAULT == null ? instance != null : !INSTANCE_EDEFAULT.equals(instance);
+      case EcorePackage.EENUM_LITERAL__LITERAL:
+        return LITERAL_EDEFAULT == null ? literal != null : !LITERAL_EDEFAULT.equals(literal);
       case EcorePackage.EENUM_LITERAL__EENUM:
         return getEEnum() != null;
     }
@@ -316,6 +372,9 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
       case EcorePackage.EENUM_LITERAL__INSTANCE:
         setInstance((Enumerator)newValue);
         return;
+      case EcorePackage.EENUM_LITERAL__LITERAL:
+        setLiteral((String)newValue);
+        return;
     }
     eDynamicSet(eFeature, newValue);
   }
@@ -341,13 +400,16 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
       case EcorePackage.EENUM_LITERAL__INSTANCE:
         setInstance(INSTANCE_EDEFAULT);
         return;
+      case EcorePackage.EENUM_LITERAL__LITERAL:
+        setLiteral(LITERAL_EDEFAULT);
+        return;
     }
     eDynamicUnset(eFeature);
   }
 
   public String toString()
   {
-    return getName();
+    return getLiteral();
   }
 
   /**
@@ -364,6 +426,8 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
     result.append(value);
     result.append(", instance: ");
     result.append(instance);
+    result.append(", literal: ");
+    result.append(literal);
     result.append(')');
     return result.toString();
   }

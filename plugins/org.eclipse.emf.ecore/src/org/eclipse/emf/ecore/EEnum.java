@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnum.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EEnum.java,v 1.5 2005/10/28 14:03:08 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -77,5 +77,16 @@ public interface EEnum extends EDataType
    * @generated
    */
   EEnumLiteral getEEnumLiteral(int value);
+
+  /**
+   * <!-- begin-user-doc -->
+   * Returns the enum literal with the given literal value, or <code>null</code>.
+   * @param literal literal in question.
+   * @return the enum literal with the given literal value, or <code>null</code>.
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  EEnumLiteral getEEnumLiteralByLiteral(String literal);
 
 }

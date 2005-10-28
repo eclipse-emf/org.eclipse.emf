@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.6 2005/06/22 20:00:41 davidms Exp $
+ * $Id: EcorePackage.java,v 1.7 2005/10/28 14:03:08 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -73,7 +73,7 @@ public interface EcorePackage extends EPackage
   int EOBJECT = 10;
 
   /**
-   * The number of structural features of the the '<em>EObject</em>' class.
+   * The number of structural features of the '<em>EObject</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -101,7 +101,7 @@ public interface EcorePackage extends EPackage
   int EMODEL_ELEMENT__EANNOTATIONS = EOBJECT_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>EModel Element</em>' class.
+   * The number of structural features of the '<em>EModel Element</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -138,7 +138,7 @@ public interface EcorePackage extends EPackage
   int ENAMED_ELEMENT__NAME = EMODEL_ELEMENT_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>ENamed Element</em>' class.
+   * The number of structural features of the '<em>ENamed Element</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -348,7 +348,7 @@ public interface EcorePackage extends EPackage
   int ETYPED_ELEMENT__ETYPE = ENAMED_ELEMENT_FEATURE_COUNT + 6;
 
   /**
-   * The number of structural features of the the '<em>ETyped Element</em>' class.
+   * The number of structural features of the '<em>ETyped Element</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -510,7 +510,7 @@ public interface EcorePackage extends EPackage
   int ESTRUCTURAL_FEATURE__ECONTAINING_CLASS = ETYPED_ELEMENT_FEATURE_COUNT + 7;
 
   /**
-   * The number of structural features of the the '<em>EStructural Feature</em>' class.
+   * The number of structural features of the '<em>EStructural Feature</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -690,7 +690,7 @@ public interface EcorePackage extends EPackage
   int EATTRIBUTE__EATTRIBUTE_TYPE = ESTRUCTURAL_FEATURE_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>EAttribute</em>' class.
+   * The number of structural features of the '<em>EAttribute</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -763,7 +763,7 @@ public interface EcorePackage extends EPackage
   int EANNOTATION__REFERENCES = EMODEL_ELEMENT_FEATURE_COUNT + 4;
 
   /**
-   * The number of structural features of the the '<em>EAnnotation</em>' class.
+   * The number of structural features of the '<em>EAnnotation</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -836,7 +836,7 @@ public interface EcorePackage extends EPackage
   int ECLASSIFIER__EPACKAGE = ENAMED_ELEMENT_FEATURE_COUNT + 3;
 
   /**
-   * The number of structural features of the the '<em>EClassifier</em>' class.
+   * The number of structural features of the '<em>EClassifier</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1025,7 +1025,7 @@ public interface EcorePackage extends EPackage
   int ECLASS__ESTRUCTURAL_FEATURES = ECLASSIFIER_FEATURE_COUNT + 13;
 
   /**
-   * The number of structural features of the the '<em>EClass</em>' class.
+   * The number of structural features of the '<em>EClass</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1097,7 +1097,7 @@ public interface EcorePackage extends EPackage
   int EDATA_TYPE__SERIALIZABLE = ECLASSIFIER_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>EData Type</em>' class.
+   * The number of structural features of the '<em>EData Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1178,7 +1178,7 @@ public interface EcorePackage extends EPackage
   int EENUM__ELITERALS = EDATA_TYPE_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>EEnum</em>' class.
+   * The number of structural features of the '<em>EEnum</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1223,22 +1223,31 @@ public interface EcorePackage extends EPackage
   int EENUM_LITERAL__INSTANCE = ENAMED_ELEMENT_FEATURE_COUNT + 1;
 
   /**
+   * The feature id for the '<em><b>Literal</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EENUM_LITERAL__LITERAL = ENAMED_ELEMENT_FEATURE_COUNT + 2;
+
+  /**
    * The feature id for the '<em><b>EEnum</b></em>' container reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EENUM_LITERAL__EENUM = ENAMED_ELEMENT_FEATURE_COUNT + 2;
+  int EENUM_LITERAL__EENUM = ENAMED_ELEMENT_FEATURE_COUNT + 3;
 
   /**
-   * The number of structural features of the the '<em>EEnum Literal</em>' class.
+   * The number of structural features of the '<em>EEnum Literal</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EENUM_LITERAL_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 3;
+  int EENUM_LITERAL_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 4;
 
   /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -1259,7 +1268,7 @@ public interface EcorePackage extends EPackage
   int EFACTORY__EPACKAGE = EMODEL_ELEMENT_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>EFactory</em>' class.
+   * The number of structural features of the '<em>EFactory</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1376,7 +1385,7 @@ public interface EcorePackage extends EPackage
   int EOPERATION__EEXCEPTIONS = ETYPED_ELEMENT_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the the '<em>EOperation</em>' class.
+   * The number of structural features of the '<em>EOperation</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1457,7 +1466,7 @@ public interface EcorePackage extends EPackage
   int EPACKAGE__ESUPER_PACKAGE = ENAMED_ELEMENT_FEATURE_COUNT + 5;
 
   /**
-   * The number of structural features of the the '<em>EPackage</em>' class.
+   * The number of structural features of the '<em>EPackage</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1556,7 +1565,7 @@ public interface EcorePackage extends EPackage
   int EPARAMETER__EOPERATION = ETYPED_ELEMENT_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>EParameter</em>' class.
+   * The number of structural features of the '<em>EParameter</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1763,7 +1772,7 @@ public interface EcorePackage extends EPackage
   int EREFERENCE__EREFERENCE_TYPE = ESTRUCTURAL_FEATURE_FEATURE_COUNT + 4;
 
   /**
-   * The number of structural features of the the '<em>EReference</em>' class.
+   * The number of structural features of the '<em>EReference</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1800,7 +1809,7 @@ public interface EcorePackage extends EPackage
   int ESTRING_TO_STRING_MAP_ENTRY__VALUE = 1;
 
   /**
-   * The number of structural features of the the '<em>EString To String Map Entry</em>' class.
+   * The number of structural features of the '<em>EString To String Map Entry</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -2457,6 +2466,17 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EAttribute getEEnumLiteral_Instance();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.EEnumLiteral#getLiteral <em>Literal</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Literal</em>'.
+   * @see org.eclipse.emf.ecore.EEnumLiteral#getLiteral()
+   * @see #getEEnumLiteral()
+   * @generated
+   */
+  EAttribute getEEnumLiteral_Literal();
 
   /**
    * Returns the meta object for the container reference '{@link org.eclipse.emf.ecore.EEnumLiteral#getEEnum <em>EEnum</em>}'.

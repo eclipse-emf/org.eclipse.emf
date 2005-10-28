@@ -91,6 +91,9 @@
     <eOperations name="getEEnumLiteral" eType="#//EEnumLiteral">
       <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
+    <eOperations name="getEEnumLiteralByLiteral" eType="#//EEnumLiteral">
+      <eParameters name="literal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eLiterals" upperBound="-1"
         eType="#//EEnumLiteral" containment="true" eOpposite="#//EEnumLiteral/eEnum"/>
   </eClassifiers>
@@ -98,6 +101,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="instance" eType="#//EEnumerator"
         transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="literal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eEnum" eType="#//EEnum"
         changeable="false" transient="true" eOpposite="#//EEnum/eLiterals"/>
   </eClassifiers>
