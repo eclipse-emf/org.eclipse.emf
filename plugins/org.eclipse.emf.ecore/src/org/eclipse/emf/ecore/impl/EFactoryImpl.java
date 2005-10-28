@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.13 2005/06/12 13:29:22 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.14 2005/10/28 14:00:47 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -238,7 +238,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
 
     if (eDataType instanceof EEnum)
     {
-      return ((EEnum)eDataType).getEEnumLiteral(stringValue);
+      return ((EEnum)eDataType).getEEnumLiteralByLiteral(stringValue);
     }
 
     switch (ExtendedMetaData.INSTANCE.getWhiteSpaceFacet(eDataType))
