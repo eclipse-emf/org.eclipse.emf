@@ -108,7 +108,7 @@ public class PluginProperties
     stringBuffer.append(TEXT_19);
     stringBuffer.append(genEnumLiteral.getName());
     stringBuffer.append(TEXT_20);
-    stringBuffer.append(genEnumLiteral.getName());
+    stringBuffer.append(genEnumLiteral.getLiteral());
     }
     }
     }
