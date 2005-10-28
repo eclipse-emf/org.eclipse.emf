@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BookCategory.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
+ * $Id: BookCategory.java,v 1.3 2005/10/28 14:13:06 davidms Exp $
  */
 package org.examples.library.elements;
 
@@ -83,7 +83,7 @@ public final class BookCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final BookCategory MYSTERY_LITERAL = new BookCategory(MYSTERY, "Mystery");
+  public static final BookCategory MYSTERY_LITERAL = new BookCategory(MYSTERY, "Mystery", "Mystery");
 
   /**
    * The '<em><b>Science Fiction</b></em>' literal object.
@@ -93,7 +93,7 @@ public final class BookCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final BookCategory SCIENCE_FICTION_LITERAL = new BookCategory(SCIENCE_FICTION, "ScienceFiction");
+  public static final BookCategory SCIENCE_FICTION_LITERAL = new BookCategory(SCIENCE_FICTION, "ScienceFiction", "ScienceFiction");
 
   /**
    * The '<em><b>Biography</b></em>' literal object.
@@ -103,7 +103,7 @@ public final class BookCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final BookCategory BIOGRAPHY_LITERAL = new BookCategory(BIOGRAPHY, "Biography");
+  public static final BookCategory BIOGRAPHY_LITERAL = new BookCategory(BIOGRAPHY, "Biography", "Biography");
 
   /**
    * An array of all the '<em><b>Book Category</b></em>' enumerators.
@@ -128,17 +128,17 @@ public final class BookCategory extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Book Category</b></em>' literal with the specified name.
+   * Returns the '<em><b>Book Category</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static BookCategory get(String name)
+  public static BookCategory get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       BookCategory result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -147,7 +147,26 @@ public final class BookCategory extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Book Category</b></em>' literal with the specified value.
+   * Returns the '<em><b>Book Category</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static BookCategory getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      BookCategory result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Book Category</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -169,9 +188,9 @@ public final class BookCategory extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private BookCategory(int value, String name)
+  private BookCategory(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 } //BookCategory
