@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.9 2005/10/28 14:12:01 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.10 2005/10/29 14:31:37 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -282,6 +282,7 @@ public class JavaEcoreBuilder
         eAttribute.getEAnnotations().addAll(eTypedElement.getEAnnotations());
         container.getEStructuralFeatures().remove(eTypedElement);
         eTypedElement = eAttribute;
+        eReferenceToOppositeNameMap.remove(eReference);
       }
 
       String instanceClassName = (String)eTypedElementToInstanceTypeNameMap.get(eTypedElement);
