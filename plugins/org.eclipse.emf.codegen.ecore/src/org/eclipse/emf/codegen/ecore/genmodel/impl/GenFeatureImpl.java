@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.24 2005/10/28 13:51:48 davidms Exp $
+ * $Id: GenFeatureImpl.java,v 1.25 2005/10/31 19:31:50 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -940,7 +940,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   public String getDefaultValue()
   {
     if (!isSetDefaultValue()) return null;
-    return "\"" + getEcoreFeature().getDefaultValueLiteral() + "\"";
+    return Literals.toStringLiteral(getEcoreFeature().getDefaultValueLiteral(), getGenModel());
   }
 
   public String getStaticDefaultValue()
@@ -1435,7 +1435,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         EAttribute attribute = (EAttribute) eStructuralFeature;
         if (eStructuralFeature.getDefaultValueLiteral() != null)
         {
-          appendModelSetting(result, qualified, "default", eStructuralFeature.getDefaultValueLiteral());
+          String literal = Literals.toStringLiteral(eStructuralFeature.getDefaultValueLiteral(), getGenModel());
+          appendModelSetting(result, qualified, "default", literal.substring(1, literal.length() - 1));
         }
         if (!eStructuralFeature.isUnique())
         {
