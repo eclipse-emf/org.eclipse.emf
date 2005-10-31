@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.16 2005/08/02 19:35:57 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.17 2005/10/31 12:36:41 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -363,14 +363,9 @@ public class GenModelEditor
     {
       editingDomain.getCommandStack().flush();
       Resource mainResource = (Resource)editingDomain.getResourceSet().getResources().get(0);
-      boolean reload = false;
       for (Iterator i = changedResources.iterator(); i.hasNext(); )
       {
         Resource resource = (Resource)i.next();
-        if (resource == mainResource)
-        {
-          reload = true;
-        }
         if (resource.isLoaded())
         {
           resource.unload();
@@ -385,12 +380,9 @@ public class GenModelEditor
         }
       }
 
-      if (reload)
-      {
-        GenModel genModel = (GenModel)mainResource.getContents().get(0);
-        initialize(genModel);
-        currentViewer.setInput(mainResource);
-      }
+      currentViewer.setInput(mainResource);
+      GenModel genModel = (GenModel)mainResource.getContents().get(0);
+      initialize(genModel);
     }
   }
 
