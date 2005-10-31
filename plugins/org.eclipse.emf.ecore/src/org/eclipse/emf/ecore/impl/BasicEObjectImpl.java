@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.7 2005/10/26 10:31:42 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.8 2005/10/31 13:35:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -634,15 +634,16 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public NotificationChain eBasicSetContainer(InternalEObject newContainer, int newContainerFeatureID, NotificationChain msgs)
   {
+    InternalEObject oldContainer = eInternalContainer();
     Resource.Internal oldResource = this.eDirectResource();
     if (oldResource != null)
     {
       msgs = ((InternalEList)oldResource.getContents()).basicRemove(this, msgs);
       eSetDirectResource(oldResource = null);
     }
-    else
+    else if (oldContainer != null)
     {
-      oldResource = this.eInternalResource();
+      oldResource = oldContainer.eInternalResource();
     }
 
     Resource.Internal newResource = newContainer == null ? null : newContainer.eInternalResource();
@@ -651,7 +652,6 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       oldResource.detached(this);
     }
 
-    EObject oldContainer = eContainer();
     int oldContainerFeatureID = eContainerFeatureID();
     eBasicSetContainer(newContainer, newContainerFeatureID);
 
