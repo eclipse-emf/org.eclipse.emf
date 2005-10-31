@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.9 2005/06/12 13:29:22 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.10 2005/10/31 13:31:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -126,14 +126,18 @@ public class EcorePlugin  extends EMFPlugin
    */
   public static URI resolvePlatformResourcePath(String platformResourcePath)
   {
-    int index = platformResourcePath.indexOf("/", 1);
-    String rootContainerName = platformResourcePath.substring(1, index);
-    String relativeName = platformResourcePath.substring(index + 1);
-    URI rootContainerLocation = (URI)platformResourceMap.get(rootContainerName);
-    return 
-      rootContainerLocation != null ?
-        URI.createURI(relativeName).resolve(rootContainerLocation) :
-         null;
+    if (platformResourceMap != null)
+    {
+      int index = platformResourcePath.indexOf("/", 1);
+      String rootContainerName = platformResourcePath.substring(1, index);
+      String relativeName = platformResourcePath.substring(index + 1);
+      URI rootContainerLocation = (URI)getPlatformResourceMap().get(rootContainerName);
+      if (rootContainerLocation != null)
+      {
+        return URI.createURI(relativeName).resolve(rootContainerLocation);
+      }
+    }
+    return null;
   }
 
   /**
