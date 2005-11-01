@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.w3.org/2005/Atom"
+	xmlns:atom="http://www.w3.org/2005/Atom">
+
+  <xsd:element name="feed">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="atom:title"/>
+        <xsd:element ref="atom:link"/>
+        <xsd:element ref="atom:updated"/>
+        <xsd:element ref="atom:author"/>
+        <xsd:element ref="atom:id"/>
+        <xsd:element ref="atom:entry" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="author">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="atom:name"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="name" type="xsd:string"/>
+  <xsd:element name="entry">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="atom:title"/>
+        <xsd:element ref="atom:link"/>
+        <xsd:element ref="atom:id"/>
+        <xsd:element ref="atom:updated"/>
+        <xsd:element ref="atom:summary"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="summary" type="xsd:string"/>
+  <xsd:element name="title" type="xsd:string"/>
+
+  <xsd:element name="link">
+    <xsd:complexType>
+      <xsd:sequence/>
+      <xsd:attribute name="href" use="required" type="xsd:anyURI"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="updated" type="xsd:NMTOKEN"/>
+  <xsd:element name="id" type="xsd:anyURI"/>
+</xsd:schema>

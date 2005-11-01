@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RSSTests.java,v 1.1 2005/11/01 22:05:13 nickb Exp $
+ * $Id: RSSTests.java,v 1.2 2005/11/01 22:07:45 nickb Exp $
  */
 package org.eclipse.emf.test.xml.rss;
 
@@ -105,7 +105,9 @@ public class RSSTests extends TestCase
    */
   public void testLoadEMF22_XMLProcessor_AtomRSS10v11() throws Exception
   {
-    loadAndSaveEMF22_XMLProcessor("atom10v11_simple.xsd", "atom10v11_sample.xml");
+    String schema = "atom10v11_simple.xsd";
+    schemaURI = URI.createURI(BASE_RSS_URI + schema);
+    loadAndSaveEMF22_XMLProcessor(schema, "atom10v11_sample.xml");
   }
 
   protected void validateSchema(String schema) throws Exception {
