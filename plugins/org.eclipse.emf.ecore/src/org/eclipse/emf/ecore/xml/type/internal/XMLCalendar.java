@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.5 2005/06/08 20:47:39 bportier Exp $
+ * $Id: XMLCalendar.java,v 1.6 2005/11/01 22:19:59 elena Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -150,12 +150,17 @@ public final class XMLCalendar
   protected static final DateFormat [] EDATE_FORMATS =
   {
     new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'S'Z'"),
-    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
-    new SafeSimpleDateFormat("yyyy-MM-dd")
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'S"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
+    new SafeSimpleDateFormat("yyyy-MM-dd"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'Z'")
   };
 
   {
     EDATE_FORMATS[0].setTimeZone(TimeZone.getTimeZone("GMT"));
+    EDATE_FORMATS[2].setTimeZone(TimeZone.getTimeZone("GMT"));
+    EDATE_FORMATS[5].setTimeZone(TimeZone.getTimeZone("GMT"));
   }
 
   public XMLCalendar(String value, short datatype)
@@ -272,7 +277,7 @@ public final class XMLCalendar
   {
     if (dateValue == null)
     {
-      dateValue = parseDateTime(XMLCalendar.EDATE_FORMATS[1].format(date));
+      dateValue = parseDateTime(XMLCalendar.EDATE_FORMATS[2].format(date));
     }
     return dateValue;
   }
@@ -285,11 +290,39 @@ public final class XMLCalendar
       {
         if (dataType == XMLCalendar.DATETIME)
         {
-          date = XMLCalendar.EDATE_FORMATS[0].parse(dateTimeToString());
+          try
+          {
+            date = XMLCalendar.EDATE_FORMATS[0].parse(dateTimeToString());
+          }
+          catch (Exception e)
+          {
+            try
+            {
+              date = XMLCalendar.EDATE_FORMATS[1].parse(dateTimeToString());
+            }
+            catch (Exception e2)
+            {
+              try
+              {
+                date = XMLCalendar.EDATE_FORMATS[2].parse(dateTimeToString());
+              }
+              catch (Exception e3)
+              {
+                date = XMLCalendar.EDATE_FORMATS[3].parse(dateTimeToString());
+              }
+            }
+          }
         }
         else if (dataType == XMLCalendar.DATE)
         {
-          date = XMLCalendar.EDATE_FORMATS[2].parse(dateToString());
+          try
+          {
+            date = XMLCalendar.EDATE_FORMATS[4].parse(dateToString());
+          }
+          catch (Exception e)
+          {
+            date = XMLCalendar.EDATE_FORMATS[5].parse(dateToString());
+          }
         }
       }
       catch (Exception e)
@@ -950,7 +983,7 @@ public final class XMLCalendar
   {
     if (date != null)
     {
-      return XMLCalendar.EDATE_FORMATS[1].format(date);
+      return XMLCalendar.EDATE_FORMATS[2].format(date);
     }
     StringBuffer message = new StringBuffer(25);
     append(message, dateValue[CY], 4);
@@ -964,8 +997,11 @@ public final class XMLCalendar
     append(message, dateValue[m], 2);
     message.append(':');
     append(message, dateValue[s], 2);
-    message.append('.');
-    message.append(dateValue[ms]);
+    if (dateValue[ms] > 0)
+    {
+        message.append('.');
+        message.append(dateValue[ms]);
+    }
     append(message, (char)dateValue[utc], 0);
     return message.toString();
   }
