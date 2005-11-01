@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.43 2005/07/21 19:47:33 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.44 2005/11/01 18:08:41 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -843,9 +843,10 @@ public class XMLSaveImpl implements XMLSave
         return;
       }
     }
-
+    boolean isAnyType = false;
     if (o instanceof AnyType)
     {
+      isAnyType = true;
       helper.pushContext();
       for (Iterator i = ((AnyType)o).getAnyAttribute().iterator(); i.hasNext(); )
       {
@@ -892,6 +893,10 @@ public class XMLSaveImpl implements XMLSave
     }
 
     saveElementID(o);
+    if (isAnyType)
+    {
+      helper.popContext();
+    }
   }
 
   protected void saveTypeAttribute(EClass eClass)
@@ -1294,10 +1299,6 @@ public class XMLSaveImpl implements XMLSave
   {
     if (processElementExtensions(o))
     {
-      if (o instanceof AnyType)
-      {       
-        helper.popContext();
-      }
       if (!toDOM)
       {
         doc.endElement();
@@ -1325,10 +1326,6 @@ public class XMLSaveImpl implements XMLSave
         }
         default:
         {
-          if (o instanceof AnyType)
-          {       
-            helper.popContext();
-          }
           if (!toDOM)
           {
             doc.endElement();
