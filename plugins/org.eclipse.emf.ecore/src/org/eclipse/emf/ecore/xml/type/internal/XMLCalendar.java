@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.6 2005/11/01 22:19:59 elena Exp $
+ * $Id: XMLCalendar.java,v 1.7 2005/11/02 22:58:33 elena Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -76,7 +76,6 @@ package org.eclipse.emf.ecore.xml.type.internal;
 
 
 import java.text.DateFormat;
-import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -146,21 +145,20 @@ public final class XMLCalendar
   final short dataType;
 
   private Date date;
-
+  
   protected static final DateFormat [] EDATE_FORMATS =
   {
-    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'S'Z'"),
-    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'S"),
     new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
     new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
-    new SafeSimpleDateFormat("yyyy-MM-dd"),
-    new SafeSimpleDateFormat("yyyy-MM-dd'Z'")
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'S"), 
+    new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'S'Z'"),
+    new SafeSimpleDateFormat("yyyy-MM-dd'Z'"),
+    new SafeSimpleDateFormat("yyyy-MM-dd")
   };
 
   {
     EDATE_FORMATS[0].setTimeZone(TimeZone.getTimeZone("GMT"));
-    EDATE_FORMATS[2].setTimeZone(TimeZone.getTimeZone("GMT"));
-    EDATE_FORMATS[5].setTimeZone(TimeZone.getTimeZone("GMT"));
+    EDATE_FORMATS[3].setTimeZone(TimeZone.getTimeZone("GMT"));    
   }
 
   public XMLCalendar(String value, short datatype)
@@ -277,7 +275,7 @@ public final class XMLCalendar
   {
     if (dateValue == null)
     {
-      dateValue = parseDateTime(XMLCalendar.EDATE_FORMATS[2].format(date));
+      dateValue = parseDateTime(XMLCalendar.EDATE_FORMATS[0].format(date));
     }
     return dateValue;
   }
@@ -981,10 +979,7 @@ public final class XMLCalendar
 
   private String dateTimeToString()
   {
-    if (date != null)
-    {
-      return XMLCalendar.EDATE_FORMATS[2].format(date);
-    }
+    int[] dateValue = getDateValue();
     StringBuffer message = new StringBuffer(25);
     append(message, dateValue[CY], 4);
     message.append('-');
@@ -1376,6 +1371,7 @@ public final class XMLCalendar
     }
     return date;
   }
+  
 
   private static class SafeSimpleDateFormat extends SimpleDateFormat
   {
@@ -1387,13 +1383,6 @@ public final class XMLCalendar
     public synchronized Date parse(String source) throws ParseException
     {
       return super.parse(source);
-    }
-
-    public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition pos)
-    {
-      StringBuffer result = super.format(date, toAppendTo, pos);
-      result.insert(result.length() - 2, ":");
-      return result;
     }
   }
 
