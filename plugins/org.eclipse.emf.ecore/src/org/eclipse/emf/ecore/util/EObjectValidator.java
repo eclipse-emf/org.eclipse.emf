@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.11 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EObjectValidator.java,v 1.12 2005/11/02 12:43:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.ResourceLocator;
 
 import org.eclipse.emf.ecore.EValidator;
 
@@ -226,7 +227,7 @@ public class EObjectValidator implements EValidator
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  EOBJECT__EVERY_MULTIPCITY_CONFORMS,
-                 EcorePlugin.INSTANCE.getString
+                 getEcoreResourceLocator().getString
                    ("_UI_FeatureHasTooFewValues_diagnostic",
                     new Object []
                       {
@@ -249,7 +250,7 @@ public class EObjectValidator implements EValidator
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  EOBJECT__EVERY_MULTIPCITY_CONFORMS,
-                 EcorePlugin.INSTANCE.getString
+                 getEcoreResourceLocator().getString
                    ("_UI_FeatureHasTooManyValues_diagnostic",
                     new Object []
                       {
@@ -278,7 +279,7 @@ public class EObjectValidator implements EValidator
                   (Diagnostic.ERROR,
                    DIAGNOSTIC_SOURCE,
                    EOBJECT__EVERY_MULTIPCITY_CONFORMS,
-                   EcorePlugin.INSTANCE.getString
+                   getEcoreResourceLocator().getString
                      ("_UI_FeatureHasTooManyValues_diagnostic",
                       new Object []
                         {
@@ -305,7 +306,7 @@ public class EObjectValidator implements EValidator
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                EOBJECT__EVERY_MULTIPCITY_CONFORMS,
-               EcorePlugin.INSTANCE.getString
+               getEcoreResourceLocator().getString
                  ("_UI_RequiredFeatureMustBeSet_diagnostic",
                   new Object [] { getFeatureLabel(eStructuralFeature, context), getObjectLabel(eObject, context) }),
                new Object [] { eObject, eStructuralFeature }));
@@ -332,7 +333,7 @@ public class EObjectValidator implements EValidator
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                EOBJECT__EVERY_PROXY_RESOLVES,
-               EcorePlugin.INSTANCE.getString
+               getEcoreResourceLocator().getString
                  ("_UI_UnresolvedProxy_diagnostic",
                   new Object []
                     {
@@ -367,7 +368,7 @@ public class EObjectValidator implements EValidator
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                EOBJECT__EVERY_REFERENCE_IS_CONTAINED,
-               EcorePlugin.INSTANCE.getString
+               getEcoreResourceLocator().getString
                  ("_UI_DanglingReference_diagnostic",
                   new Object []
                     {
@@ -484,7 +485,7 @@ public class EObjectValidator implements EValidator
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          EOBJECT__EVERY_DATA_VALUE_CONFORMS,
-         EcorePlugin.INSTANCE.getString
+         getEcoreResourceLocator().getString
            ("_UI_BadDataValue_diagnostic",
             new Object []
               {
@@ -886,7 +887,7 @@ public class EObjectValidator implements EValidator
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__VALUE_IN_RANGE,
-         EcorePlugin.INSTANCE.getString
+         getEcoreResourceLocator().getString
            (isInclusive ? "_UI_MinInclusiveConstraint_diagnostic" : "_UI_MinExclusiveConstraint_diagnostic",
             new Object []
               {
@@ -905,7 +906,7 @@ public class EObjectValidator implements EValidator
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__VALUE_IN_RANGE,
-         EcorePlugin.INSTANCE.getString
+         getEcoreResourceLocator().getString
            (isInclusive ? "_UI_MaxInclusiveConstraint_diagnostic" : "_UI_MaxExclusiveConstraint_diagnostic",
             new Object []
               {
@@ -924,7 +925,7 @@ public class EObjectValidator implements EValidator
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__LENGTH_IN_RANGE,
-         EcorePlugin.INSTANCE.getString
+         getEcoreResourceLocator().getString
            ("_UI_MinLengthConstraint_diagnostic",
             new Object []
               {
@@ -943,7 +944,7 @@ public class EObjectValidator implements EValidator
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__LENGTH_IN_RANGE,
-         EcorePlugin.INSTANCE.getString
+         getEcoreResourceLocator().getString
            ("_UI_MaxLengthConstraint_diagnostic",
             new Object []
               {
@@ -962,7 +963,7 @@ public class EObjectValidator implements EValidator
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__TOTAL_DIGITS_IN_RANGE,
-         EcorePlugin.INSTANCE.getString
+         getEcoreResourceLocator().getString
            ("_UI_TotalDigitsConstraint_diagnostic",
             new Object []
               {
@@ -980,7 +981,7 @@ public class EObjectValidator implements EValidator
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__TOTAL_DIGITS_IN_RANGE,
-         EcorePlugin.INSTANCE.getString
+         getEcoreResourceLocator().getString
            ("_UI_FractionDigitsConstraint_diagnostic",
             new Object []
               {
@@ -998,11 +999,11 @@ public class EObjectValidator implements EValidator
     if (i.hasNext())
     {
       valueLiterals =
-        EcorePlugin.INSTANCE.getString("_UI_ListHead_composition", new Object [] { getValueLabel(eDataType, i.next(), context) });
+        getEcoreResourceLocator().getString("_UI_ListHead_composition", new Object [] { getValueLabel(eDataType, i.next(), context) });
       while (i.hasNext())
       {
         valueLiterals =
-          EcorePlugin.INSTANCE.getString
+          getEcoreResourceLocator().getString
             ("_UI_ListTail_composition",
              new Object [] { valueLiterals, getValueLabel(eDataType, i.next(), context) });
       }
@@ -1012,7 +1013,7 @@ public class EObjectValidator implements EValidator
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__VALUE_IN_ENUMERATION,
-         EcorePlugin.INSTANCE.getString
+         getEcoreResourceLocator().getString
            ("_UI_EnumerationConstraint_diagnostic",
             new Object []
               {
@@ -1028,10 +1029,10 @@ public class EObjectValidator implements EValidator
     String patternLiterals = "";
     if (patterns.length > 0)
     {
-      patternLiterals = EcorePlugin.INSTANCE.getString("_UI_ListHead_composition", new Object [] { patterns[0] });
+      patternLiterals = getEcoreResourceLocator().getString("_UI_ListHead_composition", new Object [] { patterns[0] });
       for (int i = 1; i < patterns.length; ++i)
       {
-        patternLiterals = EcorePlugin.INSTANCE.getString("_UI_ListTail_composition", new Object [] { patternLiterals, patterns[i] });
+        patternLiterals = getEcoreResourceLocator().getString("_UI_ListTail_composition", new Object [] { patternLiterals, patterns[i] });
       }
     }
 
@@ -1040,7 +1041,7 @@ public class EObjectValidator implements EValidator
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__MATCHES_PATTERN,
-         EcorePlugin.INSTANCE.getString
+         getEcoreResourceLocator().getString
            ("_UI_PatternConstraint_diagnostic",
             new Object []
               {
@@ -1058,7 +1059,7 @@ public class EObjectValidator implements EValidator
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__TYPE_CORRECT,
-         EcorePlugin.INSTANCE.getString
+         getEcoreResourceLocator().getString
            ("_UI_BadDataValueType_diagnostic",
             new Object []
               {
@@ -1072,5 +1073,13 @@ public class EObjectValidator implements EValidator
   protected static Collection wrapEnumerationValues(Object [] values)
   {
     return java.util.Arrays.asList(values);
+  }
+  
+  /**
+   * @since 2.2
+   */
+  protected ResourceLocator getEcoreResourceLocator()
+  {
+    return EcorePlugin.INSTANCE;
   }
 }
