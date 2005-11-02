@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralImpl.java,v 1.5 2005/10/28 14:03:08 davidms Exp $
+ * $Id: EEnumLiteralImpl.java,v 1.6 2005/11/02 20:16:43 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -189,7 +189,8 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
     {
       setName(newInstance.getName());
       setValue(newInstance.getValue());
-      setLiteral(newInstance.getLiteral());
+      String literal = newInstance.getLiteral();
+      setLiteral(literal == null || literal.equals(newInstance.getName()) ? null : literal);
     }
   }
 
