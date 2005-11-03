@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.39 2005/10/26 19:56:49 elena Exp $
+ * $Id: XMLHandler.java,v 1.40 2005/11/03 20:32:22 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -748,7 +748,8 @@ public abstract class XMLHandler
     }
 
     EFactory eFactory = getFactoryForPrefix(prefix);
-    if (eFactory == null && prefix.equals("") && helper.getURI(prefix) == null)
+    String uri =  helper.getURI(prefix);
+    if (eFactory == null && prefix.equals("") && uri == null)
     {
       EPackage ePackage = handleMissingPackage(null);
       if (ePackage == null)
@@ -765,24 +766,9 @@ public abstract class XMLHandler
         eFactory = ePackage.getEFactoryInstance();
       }
     }
-
-    if (extendedMetaData != null && eFactory != null)
-    {
-      EClass eClass = extendedMetaData.getDocumentRoot(eFactory.getEPackage());
-      if (eClass != null)
-      {
-        // EATM Kind of hacky.
-        String typeName = extendedMetaData.getName(eClass);
-        EObject newObject = helper.createObject(eFactory, typeName);
-        validateCreateObjectFromFactory(eFactory, typeName, newObject);
-        if (top)
-        {
-          processTopObject(newObject);
-          handleFeature(prefix, name);
-        }
-        return newObject;
-      }
-    }
+    EObject documentRoot= createDocumentRoot(prefix, uri, name, eFactory, top);
+    
+    if (documentRoot != null) return documentRoot;
 
     EObject newObject = createObjectFromFactory(eFactory, name);
     validateCreateObjectFromFactory(eFactory, name, newObject);
@@ -805,6 +791,28 @@ public abstract class XMLHandler
       }
     }
     return newObject;
+  }
+  
+  protected EObject createDocumentRoot(String prefix, String uri, String name, EFactory eFactory, boolean top)
+  {
+    if (extendedMetaData != null && eFactory != null)
+    {
+      EClass eClass = extendedMetaData.getDocumentRoot(eFactory.getEPackage());
+      if (eClass != null)
+      {
+        // EATM Kind of hacky.
+        String typeName = extendedMetaData.getName(eClass);
+        EObject newObject = helper.createObject(eFactory, typeName);
+        validateCreateObjectFromFactory(eFactory, typeName, newObject);
+        if (top)
+        {
+          processTopObject(newObject);
+          handleFeature(prefix, name);
+        }
+        return newObject;
+      }
+    }
+    return null;
   }
 
   protected void createTopObject(String prefix, String name)
