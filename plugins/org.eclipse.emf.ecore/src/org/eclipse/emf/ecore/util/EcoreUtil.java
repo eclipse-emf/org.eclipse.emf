@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.30 2005/09/14 11:31:49 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.31 2005/11/04 18:54:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1602,13 +1602,7 @@ public class EcoreUtil
         EStructuralFeature feature = eClass.getEStructuralFeature(i);
         if (!feature.isDerived())
         {
-          // If the set states aren't the same, or the values of the feature are not the structurally equal, they aren't equal.
-          //
-          boolean eIsSet = eObject1.eIsSet(feature);
-          if (eIsSet != eObject2.eIsSet(feature) ||
-                (feature instanceof EReference ?
-                  !haveEqualReference(eObject1, eObject2, (EReference)feature) :
-                  !haveEqualAttribute(eObject1, eObject2, (EAttribute)feature)))
+          if (!haveEqualFeature(eObject1, eObject2, feature))
           {
             return false;
           }
@@ -1619,7 +1613,7 @@ public class EcoreUtil
       //
       return true;
     }
-
+    
     /**
      * Returns whether <code>list1</code> and <code>list2</code> contain 
      * {@link #equals(EObject, EObject) equal} {@link EObject}s at the same index.
@@ -1646,6 +1640,25 @@ public class EcoreUtil
       }
 
       return true;
+    }
+
+    /**
+     * Returns whether the two objects have {@link EqualityHelper equal} 
+     * {@link EObject#eIsSet(EStructuralFeature) isSet} states and {@link EObject#eGet(EStructuralFeature) value}s for the feature.
+     * @return whether the two objects have equal isSet states and values for the feature.
+     * @since 2.2.0
+     * @see #equals(EObject, EObject)
+     * @see #equals(List, List)
+     */
+    protected boolean haveEqualFeature(EObject eObject1, EObject eObject2, EStructuralFeature feature)
+    {
+      // If the set states are the same, and the values of the feature are the structurally equal, they are equal.
+      //
+      return 
+        eObject1.eIsSet(feature) == eObject2.eIsSet(feature)&& 
+          (feature instanceof EReference ?
+             haveEqualReference(eObject1, eObject2, (EReference)feature) :
+             haveEqualAttribute(eObject1, eObject2, (EAttribute)feature));
     }
 
     /**
@@ -1740,19 +1753,8 @@ public class EcoreUtil
         Object value1 = featureMap1.getValue(i);
         Object value2 = featureMap2.getValue(i);
 
-        if (feature instanceof EReference)
-        { 
-          // If the referenced EObjects aren't equal, the feature maps aren't equal.
-          //
-          if (!equals((EObject)value1, (EObject)value2))
-          {
-            return false;
-          }
-        }
-        // If the values aren't Java equal, the feature maps aren't equal.
-        //
-        else if (value1 == null ? value2 != null : !value1.equals(value2))
-        { 
+        if (!equalFeatureMapValues(value1, value2, feature))
+        {
           return false;
         }
       }
@@ -1761,6 +1763,28 @@ public class EcoreUtil
       //
       return true;
     }
+    
+    /**
+     * Returns whether the two values of a feature map are {@link EqualityHelper equal}.
+     * @return whether the two values of a feature map are equal.
+     * @since 2.2.0
+     */
+    protected boolean equalFeatureMapValues(Object value1, Object value2, EStructuralFeature feature)
+    {
+      if (feature instanceof EReference)
+      {
+        // If the referenced EObjects aren't equal, the feature maps aren't equal.
+        //
+        return equals((EObject)value1, (EObject)value2);
+      }
+      else
+      {
+        // If the values aren't Java equal, the feature maps aren't equal.
+        //
+        return value1 == null ? value2 == null : value1.equals(value2);
+      }
+    }
+    
   } // EqualityHelper
 
   /**
