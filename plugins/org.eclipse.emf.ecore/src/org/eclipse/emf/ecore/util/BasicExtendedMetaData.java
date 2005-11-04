@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.22 2005/10/20 10:27:38 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.23 2005/11/04 19:00:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.emf.ecore.xml.type.internal.DataValue;
 
 
 /**
@@ -1845,7 +1846,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
              namespace.equals(ExtendedMetaData.XML_URI) ?
                "xml" : 
                "xmlns" : 
-             "_");
+             computePrefix(namespace));
       }
       demandRegistry.put(namespace, ePackage);
 
@@ -1858,6 +1859,50 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       setDocumentRoot(documentRootEClass);
     }
     return ePackage;
+  }
+  
+  protected String computePrefix(String namespace)
+  {
+    int index = namespace.length();
+    boolean containsLetter = false;
+    StringBuffer prefix = new StringBuffer(index);
+    while (--index >= 0)
+    {
+      char character = namespace.charAt(index);
+      if (DataValue.XMLChar.isNCName(character))
+      {
+        prefix.append(character);
+        containsLetter = Character.isLetter(character);
+        break;
+      }
+    }
+    while (--index >= 0)
+    {
+      char character = namespace.charAt(index);
+      if (DataValue.XMLChar.isNCName(character))
+      {
+        prefix.append(character);
+        if (!containsLetter)
+        {
+          containsLetter = Character.isLetter(character);
+        }
+      }
+      else if (!containsLetter)
+      {
+        prefix.append('_');
+      }
+      else
+      {
+        break;
+      }
+    }
+    
+    int length = prefix.length();
+    if (length == 0 || !DataValue.XMLChar.isNCNameStart(prefix.charAt(length - 1)))
+    {
+      prefix.append('_');
+    }
+    return prefix.reverse().toString();
   }
 
   public EClassifier demandType(String namespace, String name)
