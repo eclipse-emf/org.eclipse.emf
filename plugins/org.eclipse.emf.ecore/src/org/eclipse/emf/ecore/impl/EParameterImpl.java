@@ -12,16 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EParameterImpl.java,v 1.5 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EParameterImpl.java,v 1.6 2005/11/07 21:59:29 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -208,75 +205,6 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
         return getEOperation() != null;
     }
     return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EPARAMETER__EANNOTATIONS:
-        getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
-        return;
-      case EcorePackage.EPARAMETER__NAME:
-        setName((String)newValue);
-        return;
-      case EcorePackage.EPARAMETER__ORDERED:
-        setOrdered(((Boolean)newValue).booleanValue());
-        return;
-      case EcorePackage.EPARAMETER__UNIQUE:
-        setUnique(((Boolean)newValue).booleanValue());
-        return;
-      case EcorePackage.EPARAMETER__LOWER_BOUND:
-        setLowerBound(((Integer)newValue).intValue());
-        return;
-      case EcorePackage.EPARAMETER__UPPER_BOUND:
-        setUpperBound(((Integer)newValue).intValue());
-        return;
-      case EcorePackage.EPARAMETER__ETYPE:
-        setEType((EClassifier)newValue);
-        return;
-    }
-    eDynamicSet(eFeature, newValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eUnset(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EPARAMETER__EANNOTATIONS:
-        getEAnnotations().clear();
-        return;
-      case EcorePackage.EPARAMETER__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case EcorePackage.EPARAMETER__ORDERED:
-        setOrdered(ORDERED_EDEFAULT);
-        return;
-      case EcorePackage.EPARAMETER__UNIQUE:
-        setUnique(UNIQUE_EDEFAULT);
-        return;
-      case EcorePackage.EPARAMETER__LOWER_BOUND:
-        setLowerBound(LOWER_BOUND_EDEFAULT);
-        return;
-      case EcorePackage.EPARAMETER__UPPER_BOUND:
-        setUpperBound(UPPER_BOUND_EDEFAULT);
-        return;
-      case EcorePackage.EPARAMETER__ETYPE:
-        setEType((EClassifier)null);
-        return;
-    }
-    eDynamicUnset(eFeature);
   }
 
 } //EParameterImpl
