@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElement.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: ETypedElement.java,v 1.4 2005/11/07 21:59:01 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -168,7 +168,7 @@ public interface ETypedElement extends ENamedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many</em>' attribute.
    * @see org.eclipse.emf.ecore.EcorePackage#getETypedElement_Many()
-   * @model transient="true" changeable="false" volatile="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   boolean isMany();
@@ -182,7 +182,7 @@ public interface ETypedElement extends ENamedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Required</em>' attribute.
    * @see org.eclipse.emf.ecore.EcorePackage#getETypedElement_Required()
-   * @model transient="true" changeable="false" volatile="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   boolean isRequired();
