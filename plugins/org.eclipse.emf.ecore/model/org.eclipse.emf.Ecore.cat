@@ -186,7 +186,8 @@
 			    value      	FALSE))
 		    quid       	"3CA8BD1C01FA"
 		    type       	"EJavaClass"
-		    exportControl 	"Public")
+		    exportControl 	"Public"
+		    derived    	TRUE)
 		(object ClassAttribute "defaultValue"
 		    attributes 	(list Attribute_Set
 			(object Attribute
@@ -203,7 +204,8 @@
 			    value      	TRUE))
 		    quid       	"3D3C1AEE014B"
 		    type       	"EJavaObject"
-		    exportControl 	"Public"))
+		    exportControl 	"Public"
+		    derived    	TRUE))
 	    abstract   	TRUE)
 	(object Class "EDataType"
 	    attributes 	(list Attribute_Set
@@ -579,7 +581,8 @@
 			    value      	FALSE))
 		    quid       	"3D5D254701DE"
 		    type       	"boolean"
-		    exportControl 	"Public")
+		    exportControl 	"Public"
+		    derived    	TRUE)
 		(object ClassAttribute "resolveProxies"
 		    quid       	"3D073A660351"
 		    type       	"boolean"
@@ -649,7 +652,8 @@
 			    value      	FALSE))
 		    quid       	"3CA44568000B"
 		    type       	"EJavaObject"
-		    exportControl 	"Public")
+		    exportControl 	"Public"
+		    derived    	TRUE)
 		(object ClassAttribute "unsettable"
 		    quid       	"3E37C5F603D4"
 		    type       	"boolean"
@@ -710,7 +714,8 @@
 			    value      	FALSE))
 		    quid       	"3F5E13FC0150"
 		    type       	"boolean"
-		    exportControl 	"Public")
+		    exportControl 	"Public"
+		    derived    	TRUE)
 		(object ClassAttribute "required"
 		    attributes 	(list Attribute_Set
 			(object Attribute
@@ -727,7 +732,8 @@
 			    value      	FALSE))
 		    quid       	"3F5E14050212"
 		    type       	"boolean"
-		    exportControl 	"Public"))
+		    exportControl 	"Public"
+		    derived    	TRUE))
 	    module     	"::Core::TypedElement"
 	    quidu      	"3905C18303A1"
 	    language   	"Java"
@@ -2408,7 +2414,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	4
-			max_width  	1056)
+			max_width  	1065)
 		    width      	1075
 		    height     	300
 		    annotation 	8)
