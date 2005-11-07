@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReference.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EReference.java,v 1.4 2005/11/07 21:58:06 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -72,7 +72,7 @@ public interface EReference extends EStructuralFeature
    * <!-- end-user-doc -->
    * @return the value of the '<em>Container</em>' attribute.
    * @see org.eclipse.emf.ecore.EcorePackage#getEReference_Container()
-   * @model transient="true" changeable="false" volatile="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   boolean isContainer();
