@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLProcessor.java,v 1.3 2005/10/26 19:56:49 elena Exp $
+ * $Id: XMLProcessor.java,v 1.4 2005/11/07 14:44:15 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -155,18 +155,7 @@ public class XMLProcessor
     if (registrations == null)
     {
       Map result = new HashMap();
-      ResourceSet resourceSet = new ResourceSetImpl();
-
-      if (resourceSet.getResourceFactoryRegistry().getFactory(URI.createURI(XML_EXTENSION)) == null)
-      {
-        result.put(XML_EXTENSION, new XMLResourceFactoryImpl());
-      }
-
-      if (resourceSet.getResourceFactoryRegistry().getFactory(URI.createURI(STAR_EXTENSION)) == null)
-      {
-        result.put(STAR_EXTENSION, new XMLResourceFactoryImpl());
-      }
-
+      result.put(STAR_EXTENSION, new XMLResourceFactoryImpl());
       registrations = result;
     }
 
