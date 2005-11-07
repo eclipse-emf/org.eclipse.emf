@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.39 2005/10/28 15:23:22 davidms Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.40 2005/11/07 11:44:24 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1449,7 +1449,11 @@ public class XSDEcoreBuilder extends MapBuilder
     XSDTypeDefinition elementTypeDefinition = xsdElementDeclaration.getTypeDefinition();
     EClassifier eClassifier = getEClassifier(elementTypeDefinition);
   
-    XSDTypeDefinition referenceType = getEcoreTypeQNameAttribute(xsdElementDeclaration, "reference");
+    XSDTypeDefinition referenceType = getEcoreTypeQNameAttribute(xsdComponent, "reference");
+    if (referenceType == null)
+    {
+      referenceType = getEcoreTypeQNameAttribute(xsdElementDeclaration, "reference");
+    }
     if (referenceType != null)
     {
       EClassifier referenceClassifier = getEClassifier(referenceType);
@@ -1525,7 +1529,11 @@ public class XSDEcoreBuilder extends MapBuilder
   {
     XSDSimpleTypeDefinition attributeTypeDefinition = xsdAttributeDeclaration.getTypeDefinition();
   
-    XSDTypeDefinition referenceType = getEcoreTypeQNameAttribute(xsdAttributeDeclaration, "reference");
+    XSDTypeDefinition referenceType = getEcoreTypeQNameAttribute(xsdComponent, "reference");
+    if (referenceType == null)
+    {
+      referenceType = getEcoreTypeQNameAttribute(xsdAttributeDeclaration, "reference");
+    }
     if (referenceType != null)
     {
       int lowerBound = isRequired ? 1 : 0;
