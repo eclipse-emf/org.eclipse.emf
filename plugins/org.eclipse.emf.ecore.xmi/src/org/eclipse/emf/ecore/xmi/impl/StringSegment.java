@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StringSegment.java,v 1.4 2005/06/08 06:16:07 nickb Exp $
+ * $Id: StringSegment.java,v 1.5 2005/11/07 21:27:36 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -367,8 +367,19 @@ public class StringSegment extends BasicEList
       new File(temporaryFileName).delete();
     }
   }
-
+  
+  /**
+   * @deprecated since 2.2 - Instead use #write(Writer, int)
+   * @param os
+   * @param flushThreshold
+   * @throws IOException
+   */
   public void write(OutputStreamWriter os, int flushThreshold) throws IOException
+  {
+    write((Writer)os, flushThreshold);
+  }
+
+  public void write(Writer os, int flushThreshold) throws IOException
   {
     Element[] elements = (Element[])data;
     int position = 0;

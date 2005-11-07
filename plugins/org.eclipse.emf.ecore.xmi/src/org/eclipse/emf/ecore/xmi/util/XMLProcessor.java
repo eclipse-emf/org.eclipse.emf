@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLProcessor.java,v 1.4 2005/11/07 14:44:15 elena Exp $
+ * $Id: XMLProcessor.java,v 1.5 2005/11/07 21:27:36 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -277,6 +278,20 @@ public class XMLProcessor
     else
     {
       resource.save(outputStream, saveOptions);
+    }
+  }
+  
+  public void save(Writer writer, Resource resource, Map options) throws IOException
+  {
+    if (options != null)
+    {
+      Map mergedOptions = new HashMap(saveOptions);
+      mergedOptions.putAll(options);
+      ((XMLResource)resource).save(writer, mergedOptions);
+    }
+    else
+    {
+      ((XMLResource)resource).save(writer, saveOptions);
     }
   }
 

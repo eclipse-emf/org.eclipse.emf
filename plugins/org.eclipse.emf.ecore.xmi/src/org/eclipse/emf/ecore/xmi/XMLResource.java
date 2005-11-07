@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.29 2005/10/26 19:56:49 elena Exp $
+ * $Id: XMLResource.java,v 1.30 2005/11/07 21:27:36 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
@@ -280,7 +281,8 @@ public interface XMLResource extends Resource
   String OPTION_DEFER_IDREF_RESOLUTION = "DEFER_IDREF_RESOLUTION";
   
   /**
-   * Implementations can register the resource handler to receive call backs for loading or saving resources.
+   * Implementations can register the resource handler to receive call backs for loading from InputStream 
+   * or saving to OutputStream resources.
    * The value of this option must be a class that extends the BasicResourceHandler class. 
    * @see org.eclipse.emf.ecore.xmi.XMLResource.ResourceHandler
    * @see org.eclipse.emf.ecore.xmi.impl.BasicResourceHandler
@@ -398,6 +400,13 @@ public interface XMLResource extends Resource
    * @since 2.1.0
    */
   Document save(Document document, Map options, DOMHandler handler);
+  
+  /**
+   * Saves the resource to the writer using the specified options.
+   * @param writer the writer
+   * @param options the save options.
+   */
+  void save(Writer writer, Map options) throws IOException;
     
   /**
    * Returns the {@link DOMHelper} 

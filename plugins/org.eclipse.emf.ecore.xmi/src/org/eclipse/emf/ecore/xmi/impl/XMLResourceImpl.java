@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.10 2005/07/21 19:47:33 elena Exp $
+ * $Id: XMLResourceImpl.java,v 1.11 2005/11/07 21:27:36 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.ecore.xmi.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import java.util.WeakHashMap;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -199,6 +201,48 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       handler.postSave(this, outputStream, options);
     }
   }
+  
+  /**
+   * Saves the resource to the writer using the specified options.
+   * <p>
+   * This implementation is <code>final</code>;
+   * clients should override {@link #doSave doSave}.
+   * </p>
+   * @param writer the writer
+   * @param options the save options.
+   * @see #doSave(Writer, Map)
+   */
+  public final void save(Writer writer, Map options) throws IOException
+  {   
+    if (defaultSaveOptions == null || defaultSaveOptions.isEmpty())
+    {
+      doSave(writer, options);
+    }
+    else if (options == null)
+    {
+      doSave(writer, defaultSaveOptions);
+    }
+    else
+    {
+      Map mergedOptions = new HashMap(defaultSaveOptions);
+      mergedOptions.putAll(options);
+      doSave(writer, mergedOptions);
+    }
+
+    setModified(false);
+  }
+  
+  public void doSave(Writer writer, Map options) throws IOException
+  {
+    XMLSave xmlSave = createXMLSave();
+
+    if (options == null)
+    {
+      options = Collections.EMPTY_MAP;
+    }
+
+    xmlSave.save(this, writer, options);
+  }
 
   public Document save(Document doc, Map options, DOMHandler handler)
   {
@@ -235,7 +279,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       return xmlSave.save(this, document, mergedOptions, domHandler);
     }
   }
-
+  
   public DOMHelper getDOMHelper()
   {
     return domHandler.getDOMHelper();
@@ -477,11 +521,57 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
     return result.toString();
   }
+  
+  public final void load(Node node, Map options) throws IOException
+  {
+    if (!isLoaded)
+    {
+      Notification notification = setLoaded(true);
+
+      if (errors != null)
+      {
+        errors.clear();
+      }
+
+      if (warnings != null)
+      {
+        warnings.clear();
+      }
+
+      try
+      {
+        if (defaultLoadOptions == null || defaultLoadOptions.isEmpty())
+        {
+          doLoad(node, options);
+        }
+        else if (options == null)
+        {
+          doLoad(node, defaultLoadOptions);
+        }
+        else
+        {
+          Map mergedOptions = new HashMap(defaultLoadOptions);
+          mergedOptions.putAll(options);
+  
+          doLoad(node, mergedOptions);
+        }
+      }
+      finally
+      {
+        if (notification != null)
+        {
+          eNotify(notification);
+        }
+  
+        setModified(false);
+      } 
+    }
+  }
 
   /* (non-Javadoc)
    * @see org.eclipse.emf.ecore.xmi.XMLResource#load(org.w3c.dom.Node, java.util.Map)
    */
-  public void load(Node node, Map options) throws IOException
+  public void doLoad(Node node, Map options) throws IOException
   {
     XMLLoad xmlLoad = createXMLLoad();
 
@@ -490,24 +580,56 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       options = Collections.EMPTY_MAP;
     }
     
-    if (defaultLoadOptions == null || defaultLoadOptions.isEmpty())
-    {
-      xmlLoad.load(this, node, options);
-    }
-    else if (options == null)
-    {
-      xmlLoad.load(this, node, defaultLoadOptions);
-    }
-    else
-    {
-      Map mergedOptions = new HashMap(defaultLoadOptions);
-      mergedOptions.putAll(options);
-
-      xmlLoad.load(this, node, mergedOptions);
-    }    
+    xmlLoad.load(this, node, options); 
   }
   
-  public void load(InputSource inputSource, Map options) throws IOException
+  public final void load(InputSource inputSource, Map options) throws IOException
+  {
+    if (!isLoaded)
+    {
+      Notification notification = setLoaded(true);
+
+      if (errors != null)
+      {
+        errors.clear();
+      }
+
+      if (warnings != null)
+      {
+        warnings.clear();
+      }
+
+      try
+      {
+        if (defaultLoadOptions == null || defaultLoadOptions.isEmpty())
+        {
+          doLoad(inputSource, options);
+        }
+        else if (options == null)
+        {
+          doLoad(inputSource, defaultLoadOptions);
+        }
+        else
+        {
+          Map mergedOptions = new HashMap(defaultLoadOptions);
+          mergedOptions.putAll(options);
+  
+          doLoad(inputSource, mergedOptions);
+        }
+      }
+      finally
+      {
+        if (notification != null)
+        {
+          eNotify(notification);
+        }
+  
+        setModified(false);
+      } 
+    }
+  }
+  
+  public void doLoad(InputSource inputSource, Map options) throws IOException
   {
     XMLLoad xmlLoad = createXMLLoad();
 
@@ -515,23 +637,6 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     {
       options = Collections.EMPTY_MAP;
     }
-    
-    if (defaultLoadOptions == null || defaultLoadOptions.isEmpty())
-    {
-      xmlLoad.load(this, inputSource, options);
-    }
-    else if (options == null)
-    {
-      xmlLoad.load(this, inputSource, defaultLoadOptions);
-    }
-    else
-    {
-      Map mergedOptions = new HashMap(defaultLoadOptions);
-      mergedOptions.putAll(options);
-
-      xmlLoad.load(this, inputSource, mergedOptions);
-    }
-
-    
+    xmlLoad.load(this, inputSource, options);
   }
 }

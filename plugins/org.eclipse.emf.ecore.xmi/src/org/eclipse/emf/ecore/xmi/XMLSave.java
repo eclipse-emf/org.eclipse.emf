@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XMLSave.java,v 1.6 2005/06/15 21:16:49 elena Exp $
+ * $Id: XMLSave.java,v 1.7 2005/11/07 21:27:36 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
@@ -78,4 +79,12 @@ public interface XMLSave
    * @since 2.1.0
    */
   Document save(XMLResource resource, Document document, Map options, DOMHandler handler);
+  
+  /** Saves the resource to the writer using the specified options.
+   * @param resource
+   * @param writer
+   * @param options
+   * @throws IOException
+   */
+  void save(XMLResource resource, Writer writer, Map options) throws IOException;
 }

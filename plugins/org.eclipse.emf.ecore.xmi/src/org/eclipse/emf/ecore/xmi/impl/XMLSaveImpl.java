@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.44 2005/11/01 18:08:41 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.45 2005/11/07 21:27:36 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -174,29 +175,29 @@ public class XMLSaveImpl implements XMLSave
     init(resource, options);
     List contents = resource.getContents();
     traverse(contents);
-    if (extendedMetaData != null && contents.size() >= 1)
+    
+    try
     {
-      EObject root = (EObject)contents.get(0);
-      EClass eClass = root.eClass();
-
-      EReference xmlnsPrefixMapFeature = extendedMetaData.getXMLNSPrefixMapFeature(eClass);
-      if (xmlnsPrefixMapFeature != null)
-      {
-        EMap xmlnsPrefixMap = (EMap)root.eGet(xmlnsPrefixMapFeature);
-        for (Iterator i = helper.getPrefixToNamespaceMap().iterator(); i.hasNext(); )
-        {
-          Map.Entry entry = (Map.Entry)i.next();
-          Object key = entry.getKey();
-          Object value = entry.getValue();
-          Object currentValue = xmlnsPrefixMap.get(key);
-          if (currentValue == null ? value != null : !currentValue.equals(value))
-          {
-            xmlnsPrefixMap.put(key, value);
-          }
-        }
-      }
+      endSave(contents);
     }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+    
     return document;
+  }
+  
+  public void save(XMLResource resource, Writer writer, Map options) throws IOException
+  {
+    init(resource, options);
+    List contents = resource.getContents();
+    traverse(contents);
+    
+    write(writer);
+    writer.flush();
+
+    endSave(contents);
   }
 
   public void save(XMLResource resource, OutputStream outputStream, Map options) throws IOException
@@ -217,6 +218,11 @@ public class XMLSaveImpl implements XMLSave
       outputStreamWriter.flush();
     }
 
+    endSave(contents);
+  }
+
+  private void endSave(List contents) throws IOException
+  {
     if (extendedMetaData != null && contents.size() >= 1)
     {
       EObject root = (EObject)contents.get(0);
@@ -264,7 +270,6 @@ public class XMLSaveImpl implements XMLSave
     doc = null;
     helper = null;
   }
-
   
   protected void init(XMLResource resource, Map options)
   {
@@ -762,7 +767,17 @@ public class XMLSaveImpl implements XMLSave
     return false;
   }
 
+  /**
+   * @deprecated since 2.2 - instead use #write(Writer)
+   * @param os
+   * @throws IOException
+   */
   public void write(OutputStreamWriter os) throws IOException
+  {
+    write((Writer)os);
+  }
+  
+  public void write(Writer os) throws IOException
   {
     doc.write(os, flushThreshold);
     os.flush();
