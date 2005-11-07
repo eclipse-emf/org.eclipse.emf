@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.6 2005/06/22 20:00:41 davidms Exp $
+ * $Id: EStructuralFeature.java,v 1.7 2005/11/07 21:58:41 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -155,7 +155,7 @@ public interface EStructuralFeature extends ETypedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Default Value</em>' attribute.
    * @see org.eclipse.emf.ecore.EcorePackage#getEStructuralFeature_DefaultValue()
-   * @model transient="true" changeable="false" volatile="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   Object getDefaultValue();
