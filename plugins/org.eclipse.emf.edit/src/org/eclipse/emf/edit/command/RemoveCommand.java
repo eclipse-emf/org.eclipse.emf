@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RemoveCommand.java,v 1.5 2005/06/08 06:17:05 nickb Exp $
+ * $Id: RemoveCommand.java,v 1.6 2005/11/07 13:35:45 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -278,6 +278,11 @@ public class RemoveCommand extends AbstractOverrideableCommand
         //
         identityIndices[i++] = ownedObjects.previousIndex();
       }
+    }
+
+    while (i < identityIndices.length)
+    {
+      identityIndices[i++] = -1;
     }
 
     // Second pass: match by value equality.
