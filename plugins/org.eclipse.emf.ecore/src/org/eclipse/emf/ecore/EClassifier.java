@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifier.java,v 1.4 2005/06/22 20:00:41 davidms Exp $
+ * $Id: EClassifier.java,v 1.5 2005/11/07 21:57:40 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -77,7 +77,7 @@ public interface EClassifier extends ENamedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Instance Class</em>' attribute.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClassifier_InstanceClass()
-   * @model transient="true" changeable="false" volatile="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   Class getInstanceClass();
@@ -101,7 +101,7 @@ public interface EClassifier extends ENamedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Default Value</em>' attribute.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClassifier_DefaultValue()
-   * @model transient="true" changeable="false" volatile="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   Object getDefaultValue();
