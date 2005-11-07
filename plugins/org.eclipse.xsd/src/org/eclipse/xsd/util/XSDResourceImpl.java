@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.9 2005/06/24 23:05:52 emerks Exp $
+ * $Id: XSDResourceImpl.java,v 1.10 2005/11/07 21:34:09 elena Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -20,6 +20,7 @@ package org.eclipse.xsd.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -48,6 +49,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -129,6 +131,11 @@ public class XSDResourceImpl extends ResourceImpl
   {
     doSerialize(outputStream, element, null);
   }
+  
+  protected static void doSerialize(Writer writer, Element element) throws IOException
+  {
+    doSerialize(writer, element, null);
+  }
 
   protected static void doSerialize(OutputStream outputStream, Element element, String encoding) throws IOException
   {
@@ -159,6 +166,36 @@ public class XSDResourceImpl extends ResourceImpl
       XSDPlugin.INSTANCE.log(exception);
     }
   }
+  
+  protected static void doSerialize(Writer writer, Element element, String encoding) throws IOException
+  {
+    try
+    {
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      Transformer transformer = transformerFactory.newTransformer();
+
+      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+
+      // Unless a width is set, there will be only line breaks but no indentation.
+      // The IBM JDK and the Sun JDK don't agree on the property name,
+      // so we set them both.
+      //
+      transformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", "2");
+      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+      if (encoding != null)
+      {
+        transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
+      }
+
+      transformer.transform(new DOMSource(element), new StreamResult(writer));
+    }
+    catch (TransformerException exception)
+    {
+      XSDPlugin.INSTANCE.log(exception);
+    }
+  }
 
   public static void serialize(OutputStream outputStream, Document document)
   {
@@ -180,6 +217,11 @@ public class XSDResourceImpl extends ResourceImpl
   protected static void doSerialize(OutputStream outputStream, Document document) throws IOException
   {
     doSerialize(outputStream, document, null);
+  }
+
+  protected static void doSerialize(Writer writer, Document document) throws IOException
+  {
+    doSerialize(writer, document, null);
   }
 
   protected static void doSerialize(OutputStream outputStream, Document document, String encoding) throws IOException
@@ -205,6 +247,36 @@ public class XSDResourceImpl extends ResourceImpl
       }
 
       transformer.transform(new DOMSource(document), new StreamResult(outputStream));
+    }
+    catch (TransformerException exception)
+    {
+      XSDPlugin.INSTANCE.log(exception);
+    }
+  }
+  
+  protected static void doSerialize(Writer writer, Document document, String encoding) throws IOException
+  {
+    try
+    {
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      Transformer transformer = transformerFactory.newTransformer();
+
+      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+
+      // Unless a width is set, there will be only line breaks but no indentation.
+      // The IBM JDK and the Sun JDK don't agree on the property name,
+      // so we set them both.
+      //
+      transformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", "2");
+      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+      if (encoding != null)
+      {
+        transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
+      }
+
+      transformer.transform(new DOMSource(document), new StreamResult(writer));
     }
     catch (TransformerException exception)
     {
@@ -357,7 +429,54 @@ public class XSDResourceImpl extends ResourceImpl
       doSerialize(os, document, options == null ? null : (String)options.get(XSD_ENCODING));
     }
   }
+  
+  
+  /**
+   * Saves the resource to the writer using the specified options.
+   * @param writer the writer
+   * @param options the save options.
+   */
+  public final void save(Writer writer, Map options) throws IOException
+  {
+    if (defaultSaveOptions == null || defaultSaveOptions.isEmpty())
+    {
+      doSave(writer, options);
+    }
+    else if (options == null)
+    {
+      doSave(writer, defaultSaveOptions);
+    }
+    else
+    {
+      Map mergedOptions = new HashMap(defaultSaveOptions);
+      mergedOptions.putAll(options);
+      doSave(writer, mergedOptions);
+    }
+    setModified(false);
+  }
 
+  
+  protected void doSave(Writer writer, Map options) throws IOException
+  {
+    XSDSchema xsdSchema = getSchema();
+    if (xsdSchema != null)
+    {
+      Document document = xsdSchema.getDocument();
+      if (document == null)
+      {
+        xsdSchema.updateDocument();
+        document = xsdSchema.getDocument();
+      }
+
+      if (xsdSchema.getElement() == null)
+      {
+        xsdSchema.updateElement();
+      }
+
+      doSerialize(writer, document, options == null ? null : (String)options.get(XSD_ENCODING));
+    }
+  }
+  
   /**
    * This gets the resource's schema.
    */
@@ -368,14 +487,54 @@ public class XSDResourceImpl extends ResourceImpl
         (XSDSchema)getContents().get(0) :
         null;
   }
+  
+  public final void load(InputSource inputSource, Map options) throws IOException
+  {
+    if (!isLoaded)
+    {
+      Notification notification = setLoaded(true);
 
-  /**
-   * Loads a new {@link XSDResourceImpl} into the resource set.
-   * @param inputStream the contents of the new resource.
-   * @param options any options to influence loading behavior.
-   * @return a new XSDResourceImpl.
-   */
-  protected void doLoad(InputStream inputStream, Map options) throws IOException
+      if (errors != null)
+      {
+        errors.clear();
+      }
+
+      if (warnings != null)
+      {
+        warnings.clear();
+      }
+
+      try
+      {
+        if (defaultLoadOptions == null || defaultLoadOptions.isEmpty())
+        {
+          doLoad(inputSource, options);
+        }
+        else if (options == null)
+        {
+          doLoad(inputSource, defaultLoadOptions);
+        }
+        else
+        {
+          Map mergedOptions = new HashMap(defaultLoadOptions);
+          mergedOptions.putAll(options);
+  
+          doLoad(inputSource, mergedOptions);
+        }
+      }
+      finally
+      {
+        if (notification != null)
+        {
+          eNotify(notification);
+        }
+  
+        setModified(false);
+      } 
+    }
+  }
+  
+  protected void doLoad(InputSource inputSource, Map options) throws IOException
   {
     attachedSchemas = new ArrayList();
 
@@ -392,16 +551,11 @@ public class XSDResourceImpl extends ResourceImpl
     }
 
     XSDParser xsdParser = new XSDParser();
+    
     try
     {
       Document document;
-      InputSource inputSource = new InputSource(inputStream);
-      if (getURI() != null)
-      {
-        String id = getURI().toString();
-        inputSource.setPublicId(id);
-        inputSource.setSystemId(id);
-      }
+
       if (options != null && Boolean.TRUE.equals(options.get("XSD_TRACK_LOCATION")))
       {
         xsdParser.parse(inputSource);
@@ -493,6 +647,24 @@ public class XSDResourceImpl extends ResourceImpl
     {
       progressMonitor.worked(1);
     }
+  }
+
+  /**
+   * Loads a new {@link XSDResourceImpl} into the resource set.
+   * @param inputStream the contents of the new resource.
+   * @param options any options to influence loading behavior.
+   * @return a new XSDResourceImpl.
+   */
+  protected void doLoad(InputStream inputStream, Map options) throws IOException
+  {
+    InputSource inputSource = new InputSource(inputStream);
+    if (getURI() != null)
+    {
+      String id = getURI().toString();
+      inputSource.setPublicId(id);
+      inputSource.setSystemId(id);
+    }
+    doLoad(inputSource, options);
   }
 
   protected boolean findSchemas(Element element)
