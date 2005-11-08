@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePackageImpl.java,v 1.6 2005/06/08 06:18:57 nickb Exp $
+ * $Id: XSD2EcorePackageImpl.java,v 1.7 2005/11/08 14:24:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
@@ -41,7 +41,7 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass xsD2EcoreMappingRootEClass = null;
+  private EClass xsd2EcoreMappingRootEClass = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -124,7 +124,7 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
    */
   public EClass getXSD2EcoreMappingRoot()
   {
-    return xsD2EcoreMappingRootEClass;
+    return xsd2EcoreMappingRootEClass;
   }
 
   /**
@@ -157,7 +157,7 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
     isCreated = true;
 
     // Create classes and their features
-    xsD2EcoreMappingRootEClass = createEClass(XSD2_ECORE_MAPPING_ROOT);
+    xsd2EcoreMappingRootEClass = createEClass(XSD2_ECORE_MAPPING_ROOT);
   }
 
   /**
@@ -188,10 +188,10 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
     MappingPackageImpl theMappingPackage = (MappingPackageImpl)EPackage.Registry.INSTANCE.getEPackage(MappingPackage.eNS_URI);
 
     // Add supertypes to classes
-    xsD2EcoreMappingRootEClass.getESuperTypes().add(theMappingPackage.getMappingRoot());
+    xsd2EcoreMappingRootEClass.getESuperTypes().add(theMappingPackage.getMappingRoot());
 
     // Initialize classes and features; add operations and parameters
-    initEClass(xsD2EcoreMappingRootEClass, XSD2EcoreMappingRoot.class, "XSD2EcoreMappingRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEClass(xsd2EcoreMappingRootEClass, XSD2EcoreMappingRoot.class, "XSD2EcoreMappingRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);

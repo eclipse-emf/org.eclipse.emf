@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreItemProviderAdapterFactory.java,v 1.4 2005/07/06 19:45:17 davidms Exp $
+ * $Id: XSD2EcoreItemProviderAdapterFactory.java,v 1.5 2005/11/08 14:24:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.provider;
 
@@ -93,7 +93,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  protected XSD2EcoreMappingRootItemProvider xsD2EcoreMappingRootItemProvider;
+  protected XSD2EcoreMappingRootItemProvider xsd2EcoreMappingRootItemProvider;
 
   /**
    * This creates an adapter for a {@link org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMappingRoot}.
@@ -103,12 +103,12 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    */
   public Adapter createXSD2EcoreMappingRootAdapter()
   {
-    if (xsD2EcoreMappingRootItemProvider == null)
+    if (xsd2EcoreMappingRootItemProvider == null)
     {
-      xsD2EcoreMappingRootItemProvider = new XSD2EcoreMappingRootItemProvider(this);
+      xsd2EcoreMappingRootItemProvider = new XSD2EcoreMappingRootItemProvider(this);
     }
 
-    return xsD2EcoreMappingRootItemProvider;
+    return xsd2EcoreMappingRootItemProvider;
   }
 
   /**
@@ -219,7 +219,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    */
   public void dispose()
   {
-    if (xsD2EcoreMappingRootItemProvider != null) xsD2EcoreMappingRootItemProvider.dispose();
+    if (xsd2EcoreMappingRootItemProvider != null) xsd2EcoreMappingRootItemProvider.dispose();
   }
 
 }

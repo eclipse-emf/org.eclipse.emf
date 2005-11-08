@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreSwitch.java,v 1.5 2005/06/08 06:18:57 nickb Exp $
+ * $Id: XSD2EcoreSwitch.java,v 1.6 2005/11/08 14:24:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.util;
 
@@ -109,10 +109,10 @@ public class XSD2EcoreSwitch {
     {
       case XSD2EcorePackage.XSD2_ECORE_MAPPING_ROOT:
       {
-        XSD2EcoreMappingRoot xsD2EcoreMappingRoot = (XSD2EcoreMappingRoot)theEObject;
-        Object result = caseXSD2EcoreMappingRoot(xsD2EcoreMappingRoot);
-        if (result == null) result = caseMappingRoot(xsD2EcoreMappingRoot);
-        if (result == null) result = caseMapping(xsD2EcoreMappingRoot);
+        XSD2EcoreMappingRoot xsd2EcoreMappingRoot = (XSD2EcoreMappingRoot)theEObject;
+        Object result = caseXSD2EcoreMappingRoot(xsd2EcoreMappingRoot);
+        if (result == null) result = caseMappingRoot(xsd2EcoreMappingRoot);
+        if (result == null) result = caseMapping(xsd2EcoreMappingRoot);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }

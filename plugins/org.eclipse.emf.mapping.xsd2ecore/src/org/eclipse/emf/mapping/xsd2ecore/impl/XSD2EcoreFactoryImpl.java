@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreFactoryImpl.java,v 1.5 2005/06/08 06:18:57 nickb Exp $
+ * $Id: XSD2EcoreFactoryImpl.java,v 1.6 2005/11/08 14:24:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
@@ -64,8 +64,8 @@ public class XSD2EcoreFactoryImpl extends EFactoryImpl implements XSD2EcoreFacto
    */
   public XSD2EcoreMappingRoot createXSD2EcoreMappingRoot()
   {
-    XSD2EcoreMappingRootImpl xsD2EcoreMappingRoot = new XSD2EcoreMappingRootImpl();
-    return xsD2EcoreMappingRoot;
+    XSD2EcoreMappingRootImpl xsd2EcoreMappingRoot = new XSD2EcoreMappingRootImpl();
+    return xsd2EcoreMappingRoot;
   }
 
   /**
