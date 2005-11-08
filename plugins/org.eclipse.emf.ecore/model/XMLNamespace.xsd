@@ -11,7 +11,7 @@
  <xs:attribute name="lang">
   <xs:simpleType>
    <xs:union memberTypes="xs:language">
-    <xs:simpleType ecore:name="LangTypeNull">
+    <xs:simpleType ecore:name="LangTypeNull" ecore:enum="false">
      <xs:restriction base="xs:string">
       <xs:enumeration value=""/>
      </xs:restriction>
