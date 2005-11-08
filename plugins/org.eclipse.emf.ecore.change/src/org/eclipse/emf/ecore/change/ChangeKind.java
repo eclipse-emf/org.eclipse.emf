@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeKind.java,v 1.3 2005/06/08 06:16:16 nickb Exp $
+ * $Id: ChangeKind.java,v 1.4 2005/11/08 14:07:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -80,7 +80,7 @@ public final class ChangeKind extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final ChangeKind ADD_LITERAL = new ChangeKind(ADD, "ADD");
+  public static final ChangeKind ADD_LITERAL = new ChangeKind(ADD, "ADD", "ADD");
 
   /**
    * The '<em><b>REMOVE</b></em>' literal object.
@@ -94,7 +94,7 @@ public final class ChangeKind extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final ChangeKind REMOVE_LITERAL = new ChangeKind(REMOVE, "REMOVE");
+  public static final ChangeKind REMOVE_LITERAL = new ChangeKind(REMOVE, "REMOVE", "REMOVE");
 
   /**
    * The '<em><b>MOVE</b></em>' literal object.
@@ -108,7 +108,7 @@ public final class ChangeKind extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final ChangeKind MOVE_LITERAL = new ChangeKind(MOVE, "MOVE");
+  public static final ChangeKind MOVE_LITERAL = new ChangeKind(MOVE, "MOVE", "MOVE");
 
   /**
    * An array of all the '<em><b>Kind</b></em>' enumerators.
@@ -133,17 +133,17 @@ public final class ChangeKind extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Kind</b></em>' literal with the specified name.
+   * Returns the '<em><b>Kind</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static ChangeKind get(String name)
+  public static ChangeKind get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       ChangeKind result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -152,7 +152,26 @@ public final class ChangeKind extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Kind</b></em>' literal with the specified value.
+   * Returns the '<em><b>Kind</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static ChangeKind getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      ChangeKind result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Kind</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -174,9 +193,9 @@ public final class ChangeKind extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private ChangeKind(int value, String name)
+  private ChangeKind(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 } //ChangeKind
