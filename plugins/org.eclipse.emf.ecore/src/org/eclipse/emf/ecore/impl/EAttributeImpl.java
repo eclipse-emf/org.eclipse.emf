@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeImpl.java,v 1.7 2005/11/07 21:59:29 davidms Exp $
+ * $Id: EAttributeImpl.java,v 1.8 2005/11/08 12:19:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -27,6 +27,8 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
+
+//import org.eclipse.emf.ecore.InternalEObject;
 
 
 /**
@@ -164,7 +166,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated modifiable
+   * @generated NOT
    */
   public EDataType getEAttributeType()
   {
@@ -174,7 +176,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated modifiable
+   * @generated NOT
    */
   public EDataType basicGetEAttributeType()
   {
