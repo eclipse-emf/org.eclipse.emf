@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.17 2005/10/26 20:02:20 elena Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.18 2005/11/08 12:40:51 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -161,7 +161,7 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 		}
 		return result;
     <%} else if (!genDataType.getMemberTypes().isEmpty()) {%>
-        if (initialValue == null) return null;
+		if (initialValue == null) return null;
 		<%=genDataType.getObjectInstanceClassName()%> result = null;
 		RuntimeException exception = null;
       <%for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();%>

@@ -91,7 +91,7 @@ public class FactoryClass
   protected final String TEXT_74 = ".eINSTANCE.get";
   protected final String TEXT_75 = "(), item));";
   protected final String TEXT_76 = NL + "\t\t}" + NL + "\t\treturn result;";
-  protected final String TEXT_77 = NL + "        if (initialValue == null) return null;" + NL + "\t\t";
+  protected final String TEXT_77 = NL + "\t\tif (initialValue == null) return null;" + NL + "\t\t";
   protected final String TEXT_78 = " result = null;" + NL + "\t\tRuntimeException exception = null;";
   protected final String TEXT_79 = NL + "\t\ttry" + NL + "\t\t{";
   protected final String TEXT_80 = NL + "\t\t\tresult = (";
