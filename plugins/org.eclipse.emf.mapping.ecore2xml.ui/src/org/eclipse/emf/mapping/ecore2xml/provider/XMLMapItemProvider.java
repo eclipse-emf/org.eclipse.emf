@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapItemProvider.java,v 1.4 2005/06/21 16:16:58 khussey Exp $
+ * $Id: XMLMapItemProvider.java,v 1.5 2005/11/08 14:22:57 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -188,7 +188,7 @@ public class XMLMapItemProvider
 
     switch (notification.getFeatureID(XMLMap.class))
     {
-      case Ecore2XMLPackage.XML_MAP__IDATTRIBUTE_NAME:
+      case Ecore2XMLPackage.XML_MAP__ID_ATTRIBUTE_NAME:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO:

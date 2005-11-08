@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLPackage.java,v 1.4 2005/08/24 13:41:59 marcelop Exp $
+ * $Id: Ecore2XMLPackage.java,v 1.5 2005/11/08 14:22:25 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -133,7 +133,7 @@ public interface Ecore2XMLPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int XML_MAP__IDATTRIBUTE_NAME = 0;
+  int XML_MAP__ID_ATTRIBUTE_NAME = 0;
 
   /**
    * The feature id for the '<em><b>Ecore To XML Info</b></em>' map.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapImpl.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
+ * $Id: XMLMapImpl.java,v 1.3 2005/11/08 14:22:25 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -68,8 +68,8 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * @generated
    * @ordered
    */
-  protected static final String IDATTRIBUTE_NAME_EDEFAULT = null;
-  
+  protected static final String ID_ATTRIBUTE_NAME_EDEFAULT = null;
+
   /**
    * The cached value of the '{@link #getEcoreToXMLInfo() <em>Ecore To XML Info</em>}' map.
    * <!-- begin-user-doc -->
@@ -120,7 +120,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
     String oldIDAttributeName = delegateXMLMap.getIDAttributeName();
     delegateXMLMap.setIDAttributeName(newIDAttributeName);
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, Ecore2XMLPackage.XML_MAP__IDATTRIBUTE_NAME, oldIDAttributeName, newIDAttributeName));
+      eNotify(new ENotificationImpl(this, Notification.SET, Ecore2XMLPackage.XML_MAP__ID_ATTRIBUTE_NAME, oldIDAttributeName, newIDAttributeName));
   }
   
   /**
@@ -145,7 +145,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   public EPackage getNoNamespacePackage()
   {
     EPackage noNamespacePackage = basicGetNoNamespacePackage();
-    return noNamespacePackage == null ? null : (EPackage)eResolveProxy((InternalEObject)noNamespacePackage);
+    return noNamespacePackage == null ? null : (noNamespacePackage.eIsProxy() ? (EPackage)eResolveProxy((InternalEObject)noNamespacePackage) : noNamespacePackage);
   }
 
   /**
@@ -200,7 +200,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
-      case Ecore2XMLPackage.XML_MAP__IDATTRIBUTE_NAME:
+      case Ecore2XMLPackage.XML_MAP__ID_ATTRIBUTE_NAME:
         return getIDAttributeName();
       case Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO:
         return getEcoreToXMLInfo();
@@ -220,7 +220,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
-      case Ecore2XMLPackage.XML_MAP__IDATTRIBUTE_NAME:
+      case Ecore2XMLPackage.XML_MAP__ID_ATTRIBUTE_NAME:
         setIDAttributeName((String)newValue);
         return;
       case Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO:
@@ -243,8 +243,8 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
-      case Ecore2XMLPackage.XML_MAP__IDATTRIBUTE_NAME:
-        setIDAttributeName(IDATTRIBUTE_NAME_EDEFAULT);
+      case Ecore2XMLPackage.XML_MAP__ID_ATTRIBUTE_NAME:
+        setIDAttributeName(ID_ATTRIBUTE_NAME_EDEFAULT);
         return;
       case Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO:
         getEcoreToXMLInfo().clear();
@@ -265,8 +265,8 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   {
     switch (eDerivedStructuralFeatureID(eFeature))
     {
-      case Ecore2XMLPackage.XML_MAP__IDATTRIBUTE_NAME:
-        return IDATTRIBUTE_NAME_EDEFAULT == null ? getIDAttributeName() != null : !IDATTRIBUTE_NAME_EDEFAULT.equals(getIDAttributeName());
+      case Ecore2XMLPackage.XML_MAP__ID_ATTRIBUTE_NAME:
+        return ID_ATTRIBUTE_NAME_EDEFAULT == null ? getIDAttributeName() != null : !ID_ATTRIBUTE_NAME_EDEFAULT.equals(getIDAttributeName());
       case Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO:
         return ecoreToXMLInfo != null && !ecoreToXMLInfo.isEmpty();
       case Ecore2XMLPackage.XML_MAP__NO_NAMESPACE_PACKAGE:

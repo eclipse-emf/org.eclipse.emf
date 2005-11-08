@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLPackageImpl.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
+ * $Id: Ecore2XMLPackageImpl.java,v 1.3 2005/11/08 14:22:25 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -280,7 +280,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
     createEAttribute(xmlInfoEClass, XML_INFO__XML_REPRESENTATION);
 
     xmlMapEClass = createEClass(XML_MAP);
-    createEAttribute(xmlMapEClass, XML_MAP__IDATTRIBUTE_NAME);
+    createEAttribute(xmlMapEClass, XML_MAP__ID_ATTRIBUTE_NAME);
     createEReference(xmlMapEClass, XML_MAP__ECORE_TO_XML_INFO);
     createEReference(xmlMapEClass, XML_MAP__NO_NAMESPACE_PACKAGE);
 
