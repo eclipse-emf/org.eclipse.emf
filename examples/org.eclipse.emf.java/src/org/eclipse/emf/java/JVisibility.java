@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JVisibility.java,v 1.2 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JVisibility.java,v 1.3 2005/11/08 14:14:40 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -91,7 +91,7 @@ public final class JVisibility extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final JVisibility PUBLIC_LITERAL = new JVisibility(PUBLIC, "public");
+  public static final JVisibility PUBLIC_LITERAL = new JVisibility(PUBLIC, "public", "public");
 
   /**
    * The '<em><b>Protected</b></em>' literal object.
@@ -105,7 +105,7 @@ public final class JVisibility extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final JVisibility PROTECTED_LITERAL = new JVisibility(PROTECTED, "protected");
+  public static final JVisibility PROTECTED_LITERAL = new JVisibility(PROTECTED, "protected", "protected");
 
   /**
    * The '<em><b>Private</b></em>' literal object.
@@ -119,7 +119,7 @@ public final class JVisibility extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final JVisibility PRIVATE_LITERAL = new JVisibility(PRIVATE, "private");
+  public static final JVisibility PRIVATE_LITERAL = new JVisibility(PRIVATE, "private", "private");
 
   /**
    * The '<em><b>Package</b></em>' literal object.
@@ -133,7 +133,7 @@ public final class JVisibility extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final JVisibility PACKAGE_LITERAL = new JVisibility(PACKAGE, "package");
+  public static final JVisibility PACKAGE_LITERAL = new JVisibility(PACKAGE, "package", "package");
 
   /**
    * An array of all the '<em><b>JVisibility</b></em>' enumerators.
@@ -159,17 +159,17 @@ public final class JVisibility extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>JVisibility</b></em>' literal with the specified name.
+   * Returns the '<em><b>JVisibility</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static JVisibility get(String name)
+  public static JVisibility get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       JVisibility result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -178,7 +178,26 @@ public final class JVisibility extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>JVisibility</b></em>' literal with the specified value.
+   * Returns the '<em><b>JVisibility</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static JVisibility getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      JVisibility result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>JVisibility</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
@@ -197,13 +216,13 @@ public final class JVisibility extends AbstractEnumerator
 
   /**
    * Only this class can construct instances.
-   * <!-- begin-user-doc --> 
-   * <!-- end-user-doc --> 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  private JVisibility(int value, String name)
+  private JVisibility(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 } //JVisibility
