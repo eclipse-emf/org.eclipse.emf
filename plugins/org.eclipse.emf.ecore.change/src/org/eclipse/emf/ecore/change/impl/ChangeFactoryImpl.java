@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeFactoryImpl.java,v 1.6 2005/06/08 06:16:16 nickb Exp $
+ * $Id: ChangeFactoryImpl.java,v 1.7 2005/11/08 14:08:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -78,11 +78,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
     switch (eDataType.getClassifierID())
     {
       case ChangePackage.CHANGE_KIND:
-      {
-        ChangeKind result = ChangeKind.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createChangeKindFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -98,7 +94,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
     switch (eDataType.getClassifierID())
     {
       case ChangePackage.CHANGE_KIND:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertChangeKindToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -180,6 +176,28 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
   {
     FeatureMapEntryImpl featureMapEntry = new FeatureMapEntryImpl();
     return featureMapEntry;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ChangeKind createChangeKindFromString(EDataType eDataType, String initialValue)
+  {
+    ChangeKind result = ChangeKind.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertChangeKindToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   public FeatureMapEntry createFeatureMapEntry(EStructuralFeature feature, Object value)

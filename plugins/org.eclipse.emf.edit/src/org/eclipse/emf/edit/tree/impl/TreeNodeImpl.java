@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeImpl.java,v 1.3 2005/06/08 06:17:06 nickb Exp $
+ * $Id: TreeNodeImpl.java,v 1.4 2005/11/08 14:13:34 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -150,7 +150,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
     if (data != null && data.eIsProxy())
     {
       EObject oldData = data;
-      data = (EObject)eResolveProxy((InternalEObject)data);
+      data = eResolveProxy((InternalEObject)data);
       if (data != oldData)
       {
         if (eNotificationRequired())
