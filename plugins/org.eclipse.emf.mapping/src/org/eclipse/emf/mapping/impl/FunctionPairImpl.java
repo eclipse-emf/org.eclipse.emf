@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FunctionPairImpl.java,v 1.3 2005/06/08 06:21:43 nickb Exp $
+ * $Id: FunctionPairImpl.java,v 1.4 2005/11/08 14:18:51 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -20,14 +20,12 @@ package org.eclipse.emf.mapping.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.mapping.FunctionPair;
 import org.eclipse.emf.mapping.Mapping;
 import org.eclipse.emf.mapping.MappingHelper;
@@ -174,82 +172,6 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
     out2in = newOut2in;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, MappingPackage.FUNCTION_PAIR__OUT2IN, oldOut2in, out2in));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case MappingPackage.FUNCTION_PAIR__MAPPER:
-          if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, MappingPackage.FUNCTION_PAIR__MAPPER, msgs);
-        case MappingPackage.FUNCTION_PAIR__NESTED_IN:
-          if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, MappingPackage.FUNCTION_PAIR__NESTED_IN, msgs);
-        case MappingPackage.FUNCTION_PAIR__NESTED:
-          return ((InternalEList)getNested()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case MappingPackage.FUNCTION_PAIR__MAPPER:
-          return eBasicSetContainer(null, MappingPackage.FUNCTION_PAIR__MAPPER, msgs);
-        case MappingPackage.FUNCTION_PAIR__NESTED_IN:
-          return eBasicSetContainer(null, MappingPackage.FUNCTION_PAIR__NESTED_IN, msgs);
-        case MappingPackage.FUNCTION_PAIR__NESTED:
-          return ((InternalEList)getNested()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
-  {
-    if (eContainerFeatureID >= 0)
-    {
-      switch (eContainerFeatureID)
-      {
-        case MappingPackage.FUNCTION_PAIR__MAPPER:
-          return eContainer.eInverseRemove(this, MappingPackage.MAPPING__HELPER, Mapping.class, msgs);
-        case MappingPackage.FUNCTION_PAIR__NESTED_IN:
-          return eContainer.eInverseRemove(this, MappingPackage.MAPPING_HELPER__NESTED, MappingHelper.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
-    }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

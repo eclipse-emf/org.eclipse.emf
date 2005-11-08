@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodImpl.java,v 1.4 2005/06/12 13:37:24 emerks Exp $
+ * $Id: JMethodImpl.java,v 1.5 2005/11/08 14:15:26 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -582,26 +582,6 @@ public class JMethodImpl extends JMemberImpl implements JMethod
       }
     }
     return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
-  {
-    if (eContainerFeatureID >= 0)
-    {
-      switch (eContainerFeatureID)
-      {
-        case JavaPackage.JMETHOD__CONTAINING_TYPE:
-          return eContainer.eInverseRemove(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
-    }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

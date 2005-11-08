@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JFieldImpl.java,v 1.3 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JFieldImpl.java,v 1.4 2005/11/08 14:15:25 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -24,7 +24,6 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.jdom.IDOMField;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -342,70 +341,6 @@ public class JFieldImpl extends JMemberImpl implements JField
     type = newType;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, JavaPackage.JFIELD__TYPE, oldType, type));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JFIELD__CONTAINING_TYPE:
-          if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, JavaPackage.JFIELD__CONTAINING_TYPE, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JFIELD__CONTAINING_TYPE:
-          return eBasicSetContainer(null, JavaPackage.JFIELD__CONTAINING_TYPE, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
-  {
-    if (eContainerFeatureID >= 0)
-    {
-      switch (eContainerFeatureID)
-      {
-        case JavaPackage.JFIELD__CONTAINING_TYPE:
-          return eContainer.eInverseRemove(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
-    }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

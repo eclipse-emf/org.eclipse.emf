@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootImpl.java,v 1.5 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingRootImpl.java,v 1.6 2005/11/08 14:18:51 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -26,7 +26,6 @@ import java.util.Iterator;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -38,7 +37,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.Disposable;
 import org.eclipse.emf.edit.provider.IDisposable;
@@ -237,80 +235,6 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     commandStack = newCommandStack;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, MappingPackage.MAPPING_ROOT__COMMAND_STACK, oldCommandStack, commandStack));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case MappingPackage.MAPPING_ROOT__HELPER:
-          if (helper != null)
-            msgs = ((InternalEObject)helper).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MappingPackage.MAPPING_ROOT__HELPER, null, msgs);
-          return basicSetHelper((MappingHelper)otherEnd, msgs);
-        case MappingPackage.MAPPING_ROOT__NESTED:
-          return ((InternalEList)getNested()).basicAdd(otherEnd, msgs);
-        case MappingPackage.MAPPING_ROOT__NESTED_IN:
-          if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, MappingPackage.MAPPING_ROOT__NESTED_IN, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case MappingPackage.MAPPING_ROOT__HELPER:
-          return basicSetHelper(null, msgs);
-        case MappingPackage.MAPPING_ROOT__NESTED:
-          return ((InternalEList)getNested()).basicRemove(otherEnd, msgs);
-        case MappingPackage.MAPPING_ROOT__NESTED_IN:
-          return eBasicSetContainer(null, MappingPackage.MAPPING_ROOT__NESTED_IN, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
-  {
-    if (eContainerFeatureID >= 0)
-    {
-      switch (eContainerFeatureID)
-      {
-        case MappingPackage.MAPPING_ROOT__NESTED_IN:
-          return eContainer.eInverseRemove(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
-    }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaFactoryImpl.java,v 1.5 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JavaFactoryImpl.java,v 1.6 2005/11/08 14:15:25 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -75,11 +75,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
     switch (eDataType.getClassifierID())
     {
       case JavaPackage.JVISIBILITY:
-      {
-        JVisibility result = JVisibility.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createJVisibilityFromString(eDataType, initialValue);
       case JavaPackage.JAVA_PACKAGE:
         return createJavaPackageFromString(eDataType, initialValue);
       default:
@@ -97,7 +93,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
     switch (eDataType.getClassifierID())
     {
       case JavaPackage.JVISIBILITY:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertJVisibilityToString(eDataType, instanceValue);
       case JavaPackage.JAVA_PACKAGE:
         return convertJavaPackageToString(eDataType, instanceValue);
       default:
@@ -169,6 +165,28 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
   {
     JParameterImpl jParameter = new JParameterImpl();
     return jParameter;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public JVisibility createJVisibilityFromString(EDataType eDataType, String initialValue)
+  {
+    JVisibility result = JVisibility.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertJVisibilityToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
