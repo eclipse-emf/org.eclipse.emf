@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDCardinality.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDCardinality.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -72,7 +72,7 @@ public final class XSDCardinality extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDCardinality FINITE_LITERAL = new XSDCardinality(FINITE, "finite");
+  public static final XSDCardinality FINITE_LITERAL = new XSDCardinality(FINITE, "finite", "finite");
 
   /**
    * The '<em><b>Countably Infinite</b></em>' literal object.
@@ -84,7 +84,7 @@ public final class XSDCardinality extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDCardinality COUNTABLY_INFINITE_LITERAL = new XSDCardinality(COUNTABLY_INFINITE, "countablyInfinite");
+  public static final XSDCardinality COUNTABLY_INFINITE_LITERAL = new XSDCardinality(COUNTABLY_INFINITE, "countablyInfinite", "countablyInfinite");
 
   /**
    * An array of all the '<em><b>Cardinality</b></em>' enumerators.
@@ -108,17 +108,17 @@ public final class XSDCardinality extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Cardinality</b></em>' literal with the specified name.
+   * Returns the '<em><b>Cardinality</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static XSDCardinality get(String name)
+  public static XSDCardinality get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       XSDCardinality result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -127,7 +127,26 @@ public final class XSDCardinality extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Cardinality</b></em>' literal with the specified value.
+   * Returns the '<em><b>Cardinality</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XSDCardinality getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      XSDCardinality result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Cardinality</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
@@ -144,13 +163,13 @@ public final class XSDCardinality extends AbstractEnumerator
 
   /**
    * Only this class can construct instances.
-   * <!-- begin-user-doc --> 
-   * <!-- end-user-doc --> 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  private XSDCardinality(int value, String name)
+  private XSDCardinality(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 }

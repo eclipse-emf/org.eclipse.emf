@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseCategory.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDAttributeUseCategory.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -88,7 +88,7 @@ public final class XSDAttributeUseCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDAttributeUseCategory OPTIONAL_LITERAL = new XSDAttributeUseCategory(OPTIONAL, "optional");
+  public static final XSDAttributeUseCategory OPTIONAL_LITERAL = new XSDAttributeUseCategory(OPTIONAL, "optional", "optional");
 
   /**
    * The '<em><b>Prohibited</b></em>' literal object.
@@ -100,7 +100,7 @@ public final class XSDAttributeUseCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDAttributeUseCategory PROHIBITED_LITERAL = new XSDAttributeUseCategory(PROHIBITED, "prohibited");
+  public static final XSDAttributeUseCategory PROHIBITED_LITERAL = new XSDAttributeUseCategory(PROHIBITED, "prohibited", "prohibited");
 
   /**
    * The '<em><b>Required</b></em>' literal object.
@@ -112,7 +112,7 @@ public final class XSDAttributeUseCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDAttributeUseCategory REQUIRED_LITERAL = new XSDAttributeUseCategory(REQUIRED, "required");
+  public static final XSDAttributeUseCategory REQUIRED_LITERAL = new XSDAttributeUseCategory(REQUIRED, "required", "required");
 
   /**
    * An array of all the '<em><b>Attribute Use Category</b></em>' enumerators.
@@ -137,17 +137,17 @@ public final class XSDAttributeUseCategory extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Attribute Use Category</b></em>' literal with the specified name.
+   * Returns the '<em><b>Attribute Use Category</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static XSDAttributeUseCategory get(String name)
+  public static XSDAttributeUseCategory get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       XSDAttributeUseCategory result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -156,7 +156,26 @@ public final class XSDAttributeUseCategory extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Attribute Use Category</b></em>' literal with the specified value.
+   * Returns the '<em><b>Attribute Use Category</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XSDAttributeUseCategory getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      XSDAttributeUseCategory result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Attribute Use Category</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
@@ -174,13 +193,13 @@ public final class XSDAttributeUseCategory extends AbstractEnumerator
 
   /**
    * Only this class can construct instances.
-   * <!-- begin-user-doc --> 
-   * <!-- end-user-doc --> 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  private XSDAttributeUseCategory(int value, String name)
+  private XSDAttributeUseCategory(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 } //XSDAttributeUseCategory

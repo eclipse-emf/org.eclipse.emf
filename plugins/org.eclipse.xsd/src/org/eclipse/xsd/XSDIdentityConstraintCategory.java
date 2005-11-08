@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintCategory.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDIdentityConstraintCategory.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -89,7 +89,7 @@ public final class XSDIdentityConstraintCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDIdentityConstraintCategory KEY_LITERAL = new XSDIdentityConstraintCategory(KEY, "key");
+  public static final XSDIdentityConstraintCategory KEY_LITERAL = new XSDIdentityConstraintCategory(KEY, "key", "key");
 
   /**
    * The '<em><b>Keyref</b></em>' literal object.
@@ -101,7 +101,7 @@ public final class XSDIdentityConstraintCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDIdentityConstraintCategory KEYREF_LITERAL = new XSDIdentityConstraintCategory(KEYREF, "keyref");
+  public static final XSDIdentityConstraintCategory KEYREF_LITERAL = new XSDIdentityConstraintCategory(KEYREF, "keyref", "keyref");
 
   /**
    * The '<em><b>Unique</b></em>' literal object.
@@ -113,7 +113,7 @@ public final class XSDIdentityConstraintCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDIdentityConstraintCategory UNIQUE_LITERAL = new XSDIdentityConstraintCategory(UNIQUE, "unique");
+  public static final XSDIdentityConstraintCategory UNIQUE_LITERAL = new XSDIdentityConstraintCategory(UNIQUE, "unique", "unique");
 
   /**
    * An array of all the '<em><b>Identity Constraint Category</b></em>' enumerators.
@@ -138,17 +138,17 @@ public final class XSDIdentityConstraintCategory extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Identity Constraint Category</b></em>' literal with the specified name.
+   * Returns the '<em><b>Identity Constraint Category</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static XSDIdentityConstraintCategory get(String name)
+  public static XSDIdentityConstraintCategory get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       XSDIdentityConstraintCategory result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -157,7 +157,26 @@ public final class XSDIdentityConstraintCategory extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Identity Constraint Category</b></em>' literal with the specified value.
+   * Returns the '<em><b>Identity Constraint Category</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XSDIdentityConstraintCategory getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      XSDIdentityConstraintCategory result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Identity Constraint Category</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
@@ -175,13 +194,13 @@ public final class XSDIdentityConstraintCategory extends AbstractEnumerator
 
   /**
    * Only this class can construct instances.
-   * <!-- begin-user-doc --> 
-   * <!-- end-user-doc --> 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  private XSDIdentityConstraintCategory(int value, String name)
+  private XSDIdentityConstraintCategory(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 }

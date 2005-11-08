@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDContentTypeCategory.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDContentTypeCategory.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -100,7 +100,7 @@ public final class XSDContentTypeCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDContentTypeCategory EMPTY_LITERAL = new XSDContentTypeCategory(EMPTY, "empty");
+  public static final XSDContentTypeCategory EMPTY_LITERAL = new XSDContentTypeCategory(EMPTY, "empty", "empty");
 
   /**
    * The '<em><b>Simple</b></em>' literal object.
@@ -112,7 +112,7 @@ public final class XSDContentTypeCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDContentTypeCategory SIMPLE_LITERAL = new XSDContentTypeCategory(SIMPLE, "simple");
+  public static final XSDContentTypeCategory SIMPLE_LITERAL = new XSDContentTypeCategory(SIMPLE, "simple", "simple");
 
   /**
    * The '<em><b>Mixed</b></em>' literal object.
@@ -124,7 +124,7 @@ public final class XSDContentTypeCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDContentTypeCategory MIXED_LITERAL = new XSDContentTypeCategory(MIXED, "mixed");
+  public static final XSDContentTypeCategory MIXED_LITERAL = new XSDContentTypeCategory(MIXED, "mixed", "mixed");
 
   /**
    * The '<em><b>Element Only</b></em>' literal object.
@@ -136,7 +136,7 @@ public final class XSDContentTypeCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDContentTypeCategory ELEMENT_ONLY_LITERAL = new XSDContentTypeCategory(ELEMENT_ONLY, "elementOnly");
+  public static final XSDContentTypeCategory ELEMENT_ONLY_LITERAL = new XSDContentTypeCategory(ELEMENT_ONLY, "elementOnly", "elementOnly");
 
   /**
    * An array of all the '<em><b>Content Type Category</b></em>' enumerators.
@@ -162,17 +162,17 @@ public final class XSDContentTypeCategory extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Content Type Category</b></em>' literal with the specified name.
+   * Returns the '<em><b>Content Type Category</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static XSDContentTypeCategory get(String name)
+  public static XSDContentTypeCategory get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       XSDContentTypeCategory result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -181,7 +181,26 @@ public final class XSDContentTypeCategory extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Content Type Category</b></em>' literal with the specified value.
+   * Returns the '<em><b>Content Type Category</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XSDContentTypeCategory getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      XSDContentTypeCategory result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Content Type Category</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
@@ -200,13 +219,13 @@ public final class XSDContentTypeCategory extends AbstractEnumerator
 
   /**
    * Only this class can construct instances.
-   * <!-- begin-user-doc --> 
-   * <!-- end-user-doc --> 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  private XSDContentTypeCategory(int value, String name)
+  private XSDContentTypeCategory(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 } 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDCompositor.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDCompositor.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -86,7 +86,7 @@ public final class XSDCompositor extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDCompositor ALL_LITERAL = new XSDCompositor(ALL, "all");
+  public static final XSDCompositor ALL_LITERAL = new XSDCompositor(ALL, "all", "all");
 
   /**
    * The '<em><b>Choice</b></em>' literal object.
@@ -98,7 +98,7 @@ public final class XSDCompositor extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDCompositor CHOICE_LITERAL = new XSDCompositor(CHOICE, "choice");
+  public static final XSDCompositor CHOICE_LITERAL = new XSDCompositor(CHOICE, "choice", "choice");
 
   /**
    * The '<em><b>Sequence</b></em>' literal object.
@@ -110,7 +110,7 @@ public final class XSDCompositor extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDCompositor SEQUENCE_LITERAL = new XSDCompositor(SEQUENCE, "sequence");
+  public static final XSDCompositor SEQUENCE_LITERAL = new XSDCompositor(SEQUENCE, "sequence", "sequence");
 
   /**
    * An array of all the '<em><b>Compositor</b></em>' enumerators.
@@ -135,17 +135,17 @@ public final class XSDCompositor extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Compositor</b></em>' literal with the specified name.
+   * Returns the '<em><b>Compositor</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static XSDCompositor get(String name)
+  public static XSDCompositor get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       XSDCompositor result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -154,7 +154,26 @@ public final class XSDCompositor extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Compositor</b></em>' literal with the specified value.
+   * Returns the '<em><b>Compositor</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XSDCompositor getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      XSDCompositor result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Compositor</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
@@ -172,13 +191,13 @@ public final class XSDCompositor extends AbstractEnumerator
 
   /**
    * Only this class can construct instances.
-   * <!-- begin-user-doc --> 
-   * <!-- end-user-doc --> 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  private XSDCompositor(int value, String name)
+  private XSDCompositor(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 } 

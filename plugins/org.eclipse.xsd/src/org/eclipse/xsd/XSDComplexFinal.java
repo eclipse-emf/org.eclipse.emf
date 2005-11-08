@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexFinal.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDComplexFinal.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -88,7 +88,7 @@ public final class XSDComplexFinal extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDComplexFinal EXTENSION_LITERAL = new XSDComplexFinal(EXTENSION, "extension");
+  public static final XSDComplexFinal EXTENSION_LITERAL = new XSDComplexFinal(EXTENSION, "extension", "extension");
 
   /**
    * The '<em><b>Restriction</b></em>' literal object.
@@ -100,7 +100,7 @@ public final class XSDComplexFinal extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDComplexFinal RESTRICTION_LITERAL = new XSDComplexFinal(RESTRICTION, "restriction");
+  public static final XSDComplexFinal RESTRICTION_LITERAL = new XSDComplexFinal(RESTRICTION, "restriction", "restriction");
 
   /**
    * The '<em><b>All</b></em>' literal object.
@@ -112,7 +112,7 @@ public final class XSDComplexFinal extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDComplexFinal ALL_LITERAL = new XSDComplexFinal(ALL, "all");
+  public static final XSDComplexFinal ALL_LITERAL = new XSDComplexFinal(ALL, "all", "all");
 
   /**
    * An array of all the '<em><b>Complex Final</b></em>' enumerators.
@@ -137,17 +137,17 @@ public final class XSDComplexFinal extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Complex Final</b></em>' literal with the specified name.
+   * Returns the '<em><b>Complex Final</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static XSDComplexFinal get(String name)
+  public static XSDComplexFinal get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       XSDComplexFinal result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -156,7 +156,26 @@ public final class XSDComplexFinal extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Complex Final</b></em>' literal with the specified value.
+   * Returns the '<em><b>Complex Final</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XSDComplexFinal getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      XSDComplexFinal result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Complex Final</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
@@ -174,13 +193,13 @@ public final class XSDComplexFinal extends AbstractEnumerator
 
   /**
    * Only this class can construct instances.
-   * <!-- begin-user-doc --> 
-   * <!-- end-user-doc --> 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  private XSDComplexFinal(int value, String name)
+  private XSDComplexFinal(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 }

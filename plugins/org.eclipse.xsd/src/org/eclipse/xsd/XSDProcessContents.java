@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDProcessContents.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDProcessContents.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -86,7 +86,7 @@ public final class XSDProcessContents extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDProcessContents STRICT_LITERAL = new XSDProcessContents(STRICT, "strict");
+  public static final XSDProcessContents STRICT_LITERAL = new XSDProcessContents(STRICT, "strict", "strict");
 
   /**
    * The '<em><b>Lax</b></em>' literal object.
@@ -98,7 +98,7 @@ public final class XSDProcessContents extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDProcessContents LAX_LITERAL = new XSDProcessContents(LAX, "lax");
+  public static final XSDProcessContents LAX_LITERAL = new XSDProcessContents(LAX, "lax", "lax");
 
   /**
    * The '<em><b>Skip</b></em>' literal object.
@@ -110,7 +110,7 @@ public final class XSDProcessContents extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDProcessContents SKIP_LITERAL = new XSDProcessContents(SKIP, "skip");
+  public static final XSDProcessContents SKIP_LITERAL = new XSDProcessContents(SKIP, "skip", "skip");
 
   /**
    * An array of all the '<em><b>Process Contents</b></em>' enumerators.
@@ -135,17 +135,17 @@ public final class XSDProcessContents extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Process Contents</b></em>' literal with the specified name.
+   * Returns the '<em><b>Process Contents</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static XSDProcessContents get(String name)
+  public static XSDProcessContents get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       XSDProcessContents result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -154,7 +154,26 @@ public final class XSDProcessContents extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Process Contents</b></em>' literal with the specified value.
+   * Returns the '<em><b>Process Contents</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XSDProcessContents getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      XSDProcessContents result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Process Contents</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
@@ -172,13 +191,13 @@ public final class XSDProcessContents extends AbstractEnumerator
 
   /**
    * Only this class can construct instances.
-   * <!-- begin-user-doc --> 
-   * <!-- end-user-doc --> 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  private XSDProcessContents(int value, String name)
+  private XSDProcessContents(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 }

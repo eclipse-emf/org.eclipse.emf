@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDVariety.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDVariety.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -86,7 +86,7 @@ public final class XSDVariety extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDVariety ATOMIC_LITERAL = new XSDVariety(ATOMIC, "atomic");
+  public static final XSDVariety ATOMIC_LITERAL = new XSDVariety(ATOMIC, "atomic", "atomic");
 
   /**
    * The '<em><b>List</b></em>' literal object.
@@ -98,7 +98,7 @@ public final class XSDVariety extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDVariety LIST_LITERAL = new XSDVariety(LIST, "list");
+  public static final XSDVariety LIST_LITERAL = new XSDVariety(LIST, "list", "list");
 
   /**
    * The '<em><b>Union</b></em>' literal object.
@@ -110,7 +110,7 @@ public final class XSDVariety extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDVariety UNION_LITERAL = new XSDVariety(UNION, "union");
+  public static final XSDVariety UNION_LITERAL = new XSDVariety(UNION, "union", "union");
 
   /**
    * An array of all the '<em><b>Variety</b></em>' enumerators.
@@ -135,17 +135,17 @@ public final class XSDVariety extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Variety</b></em>' literal with the specified name.
+   * Returns the '<em><b>Variety</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static XSDVariety get(String name)
+  public static XSDVariety get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       XSDVariety result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -154,7 +154,26 @@ public final class XSDVariety extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Variety</b></em>' literal with the specified value.
+   * Returns the '<em><b>Variety</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XSDVariety getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      XSDVariety result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Variety</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
@@ -172,13 +191,13 @@ public final class XSDVariety extends AbstractEnumerator
 
   /**
    * Only this class can construct instances.
-   * <!-- begin-user-doc --> 
-   * <!-- end-user-doc --> 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  private XSDVariety(int value, String name)
+  private XSDVariety(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 } 

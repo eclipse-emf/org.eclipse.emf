@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNamespaceConstraintCategory.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDNamespaceConstraintCategory.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -87,7 +87,7 @@ public final class XSDNamespaceConstraintCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDNamespaceConstraintCategory ANY_LITERAL = new XSDNamespaceConstraintCategory(ANY, "any");
+  public static final XSDNamespaceConstraintCategory ANY_LITERAL = new XSDNamespaceConstraintCategory(ANY, "any", "any");
 
   /**
    * The '<em><b>Not</b></em>' literal object.
@@ -99,7 +99,7 @@ public final class XSDNamespaceConstraintCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDNamespaceConstraintCategory NOT_LITERAL = new XSDNamespaceConstraintCategory(NOT, "not");
+  public static final XSDNamespaceConstraintCategory NOT_LITERAL = new XSDNamespaceConstraintCategory(NOT, "not", "not");
 
   /**
    * The '<em><b>Set</b></em>' literal object.
@@ -111,7 +111,7 @@ public final class XSDNamespaceConstraintCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDNamespaceConstraintCategory SET_LITERAL = new XSDNamespaceConstraintCategory(SET, "set");
+  public static final XSDNamespaceConstraintCategory SET_LITERAL = new XSDNamespaceConstraintCategory(SET, "set", "set");
 
   /**
    * An array of all the '<em><b>Namespace Constraint Category</b></em>' enumerators.
@@ -136,17 +136,17 @@ public final class XSDNamespaceConstraintCategory extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Namespace Constraint Category</b></em>' literal with the specified name.
+   * Returns the '<em><b>Namespace Constraint Category</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static XSDNamespaceConstraintCategory get(String name)
+  public static XSDNamespaceConstraintCategory get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       XSDNamespaceConstraintCategory result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -155,7 +155,26 @@ public final class XSDNamespaceConstraintCategory extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Namespace Constraint Category</b></em>' literal with the specified value.
+   * Returns the '<em><b>Namespace Constraint Category</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XSDNamespaceConstraintCategory getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      XSDNamespaceConstraintCategory result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Namespace Constraint Category</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
@@ -173,13 +192,13 @@ public final class XSDNamespaceConstraintCategory extends AbstractEnumerator
 
   /**
    * Only this class can construct instances.
-   * <!-- begin-user-doc --> 
-   * <!-- end-user-doc --> 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  private XSDNamespaceConstraintCategory(int value, String name)
+  private XSDNamespaceConstraintCategory(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 } 

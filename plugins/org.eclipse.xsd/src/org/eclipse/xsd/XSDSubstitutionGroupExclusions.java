@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSubstitutionGroupExclusions.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDSubstitutionGroupExclusions.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -74,7 +74,7 @@ public final class XSDSubstitutionGroupExclusions extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDSubstitutionGroupExclusions EXTENSION_LITERAL = new XSDSubstitutionGroupExclusions(EXTENSION, "extension");
+  public static final XSDSubstitutionGroupExclusions EXTENSION_LITERAL = new XSDSubstitutionGroupExclusions(EXTENSION, "extension", "extension");
 
   /**
    * The '<em><b>Restriction</b></em>' literal object.
@@ -86,7 +86,7 @@ public final class XSDSubstitutionGroupExclusions extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final XSDSubstitutionGroupExclusions RESTRICTION_LITERAL = new XSDSubstitutionGroupExclusions(RESTRICTION, "restriction");
+  public static final XSDSubstitutionGroupExclusions RESTRICTION_LITERAL = new XSDSubstitutionGroupExclusions(RESTRICTION, "restriction", "restriction");
 
   /**
    * An array of all the '<em><b>Substitution Group Exclusions</b></em>' enumerators.
@@ -110,17 +110,17 @@ public final class XSDSubstitutionGroupExclusions extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Substitution Group Exclusions</b></em>' literal with the specified name.
+   * Returns the '<em><b>Substitution Group Exclusions</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static XSDSubstitutionGroupExclusions get(String name)
+  public static XSDSubstitutionGroupExclusions get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       XSDSubstitutionGroupExclusions result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -129,7 +129,26 @@ public final class XSDSubstitutionGroupExclusions extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Substitution Group Exclusions</b></em>' literal with the specified value.
+   * Returns the '<em><b>Substitution Group Exclusions</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XSDSubstitutionGroupExclusions getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      XSDSubstitutionGroupExclusions result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Substitution Group Exclusions</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
@@ -146,13 +165,13 @@ public final class XSDSubstitutionGroupExclusions extends AbstractEnumerator
 
   /**
    * Only this class can construct instances.
-   * <!-- begin-user-doc --> 
-   * <!-- end-user-doc --> 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  private XSDSubstitutionGroupExclusions(int value, String name)
+  private XSDSubstitutionGroupExclusions(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 }
