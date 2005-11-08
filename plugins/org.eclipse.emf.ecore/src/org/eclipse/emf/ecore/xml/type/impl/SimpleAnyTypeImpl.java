@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleAnyTypeImpl.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: SimpleAnyTypeImpl.java,v 1.4 2005/11/08 13:02:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -20,15 +20,12 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -173,30 +170,6 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
     instanceType = newInstanceType;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XMLTypePackage.SIMPLE_ANY_TYPE__INSTANCE_TYPE, oldInstanceType, instanceType));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XMLTypePackage.SIMPLE_ANY_TYPE__MIXED:
-          return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
-        case XMLTypePackage.SIMPLE_ANY_TYPE__ANY:
-          return ((InternalEList)getAny()).basicRemove(otherEnd, msgs);
-        case XMLTypePackage.SIMPLE_ANY_TYPE__ANY_ATTRIBUTE:
-          return ((InternalEList)getAnyAttribute()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
   }
 
   /**
