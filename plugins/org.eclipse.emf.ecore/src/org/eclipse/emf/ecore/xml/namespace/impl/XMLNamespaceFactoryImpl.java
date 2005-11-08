@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceFactoryImpl.java,v 1.6 2005/09/23 17:46:24 emerks Exp $
+ * $Id: XMLNamespaceFactoryImpl.java,v 1.7 2005/11/08 13:00:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -145,6 +145,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    */
   public String createLangTypeFromString(EDataType eDataType, String initialValue)
   {
+    if (initialValue == null) return null;
     String result = null;
     RuntimeException exception = null;
     try
@@ -183,6 +184,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    */
   public String convertLangTypeToString(EDataType eDataType, Object instanceValue)
   {
+    if (instanceValue == null) return null;
     if (XMLTypePackage.eINSTANCE.getLanguage().isInstance(instanceValue))
     {
       try
