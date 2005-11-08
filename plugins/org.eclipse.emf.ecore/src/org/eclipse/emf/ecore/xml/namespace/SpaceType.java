@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpaceType.java,v 1.2 2005/06/08 06:20:10 nickb Exp $
+ * $Id: SpaceType.java,v 1.3 2005/11/08 12:59:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -67,7 +67,7 @@ public final class SpaceType extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final SpaceType DEFAULT_LITERAL = new SpaceType(DEFAULT, "default");
+  public static final SpaceType DEFAULT_LITERAL = new SpaceType(DEFAULT, "default", "default");
 
   /**
    * The '<em><b>Preserve</b></em>' literal object.
@@ -81,7 +81,7 @@ public final class SpaceType extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final SpaceType PRESERVE_LITERAL = new SpaceType(PRESERVE, "preserve");
+  public static final SpaceType PRESERVE_LITERAL = new SpaceType(PRESERVE, "preserve", "preserve");
 
   /**
    * An array of all the '<em><b>Space Type</b></em>' enumerators.
@@ -105,17 +105,17 @@ public final class SpaceType extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Space Type</b></em>' literal with the specified name.
+   * Returns the '<em><b>Space Type</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static SpaceType get(String name)
+  public static SpaceType get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       SpaceType result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -124,7 +124,26 @@ public final class SpaceType extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Space Type</b></em>' literal with the specified value.
+   * Returns the '<em><b>Space Type</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static SpaceType getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      SpaceType result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Space Type</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -145,9 +164,9 @@ public final class SpaceType extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private SpaceType(int value, String name)
+  private SpaceType(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 } //SpaceType
