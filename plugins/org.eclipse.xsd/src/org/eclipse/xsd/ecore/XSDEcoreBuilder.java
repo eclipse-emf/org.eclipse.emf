@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.40 2005/11/07 11:44:24 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.41 2005/11/08 12:37:56 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -599,7 +599,7 @@ public class XSDEcoreBuilder extends MapBuilder
   {
     // If a simple type has enumeration facets, map it to an EEnum.
     //
-    if (!xsdSimpleTypeDefinition.getEnumerationFacets().isEmpty())
+    if (!xsdSimpleTypeDefinition.getEnumerationFacets().isEmpty() && !"false".equals(getEcoreAttribute(xsdSimpleTypeDefinition, "enum")))
     {
       EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
       setAnnotations(eEnum, xsdSimpleTypeDefinition);
