@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.17 2005/07/06 19:45:15 davidms Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.18 2005/11/08 13:01:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -853,7 +853,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
     {
       String item = stringTokenizer.nextToken();
-      result.add(XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getENTITY(), item));
+      result.add(createENTITYFromString(XMLTypePackage.eINSTANCE.getENTITY(), item));
     }
     return result;
   }
@@ -871,7 +871,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     StringBuffer result = new StringBuffer();
     for (Iterator i = list.iterator(); i.hasNext(); )
     {
-      result.append(XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getENTITY(), i.next()));
+      result.append(convertENTITYToString(XMLTypePackage.eINSTANCE.getENTITY(), i.next()));
       result.append(' ');
     }
     return result.substring(0, result.length() - 1);
@@ -986,7 +986,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public List createENTITIESFromString(EDataType eDataType, String initialValue)
   {
-    return (List)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getENTITIESBase(), initialValue);
+    return (List)createENTITIESBaseFromString(XMLTypePackage.eINSTANCE.getENTITIESBase(), initialValue);
   }
 
   /**
@@ -996,7 +996,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertENTITIESToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getENTITIESBase(), instanceValue);
+    return convertENTITIESBaseToString(XMLTypePackage.eINSTANCE.getENTITIESBase(), instanceValue);
   }
 
   /**
@@ -1173,7 +1173,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createIDFromString(EDataType eDataType, String initialValue)
   {
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNCName(), initialValue);
+    return (String)createNCNameFromString(XMLTypePackage.eINSTANCE.getNCName(), initialValue);
   }
 
   /**
@@ -1193,7 +1193,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createIDREFFromString(EDataType eDataType, String initialValue)
   {
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNCName(), initialValue);
+    return (String)createNCNameFromString(XMLTypePackage.eINSTANCE.getNCName(), initialValue);
   }
 
   /**
@@ -1218,7 +1218,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
     {
       String item = stringTokenizer.nextToken();
-      result.add(XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getIDREF(), item));
+      result.add(createIDREFFromString(XMLTypePackage.eINSTANCE.getIDREF(), item));
     }
     return result;
   }
@@ -1236,7 +1236,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     StringBuffer result = new StringBuffer();
     for (Iterator i = list.iterator(); i.hasNext(); )
     {
-      result.append(XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getIDREF(), i.next()));
+      result.append(convertIDREFToString(XMLTypePackage.eINSTANCE.getIDREF(), i.next()));
       result.append(' ');
     }
     return result.substring(0, result.length() - 1);
@@ -1249,7 +1249,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public List createIDREFSFromString(EDataType eDataType, String initialValue)
   {
-    return (List)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getIDREFSBase(), initialValue);
+    return (List)createIDREFSBaseFromString(XMLTypePackage.eINSTANCE.getIDREFSBase(), initialValue);
   }
 
   /**
@@ -1259,7 +1259,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertIDREFSToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getIDREFSBase(), instanceValue);
+    return convertIDREFSBaseToString(XMLTypePackage.eINSTANCE.getIDREFSBase(), instanceValue);
   }
 
   /**
@@ -1309,7 +1309,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigInteger createNegativeIntegerFromString(EDataType eDataType, String initialValue)
   {
-    return (BigInteger)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNonPositiveInteger(), initialValue);
+    return (BigInteger)createNonPositiveIntegerFromString(XMLTypePackage.eINSTANCE.getNonPositiveInteger(), initialValue);
   }
 
   /**
@@ -1319,7 +1319,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertNegativeIntegerToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getNonPositiveInteger(), instanceValue);
+    return convertNonPositiveIntegerToString(XMLTypePackage.eINSTANCE.getNonPositiveInteger(), instanceValue);
   }
 
   /**
@@ -1359,7 +1359,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
     {
       String item = stringTokenizer.nextToken();
-      result.add(XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNMTOKEN(), item));
+      result.add(createNMTOKENFromString(XMLTypePackage.eINSTANCE.getNMTOKEN(), item));
     }
     return result;
   }
@@ -1377,7 +1377,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     StringBuffer result = new StringBuffer();
     for (Iterator i = list.iterator(); i.hasNext(); )
     {
-      result.append(XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getNMTOKEN(), i.next()));
+      result.append(convertNMTOKENToString(XMLTypePackage.eINSTANCE.getNMTOKEN(), i.next()));
       result.append(' ');
     }
     return result.substring(0, result.length() - 1);
@@ -1390,7 +1390,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public List createNMTOKENSFromString(EDataType eDataType, String initialValue)
   {
-    return (List)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNMTOKENSBase(), initialValue);
+    return (List)createNMTOKENSBaseFromString(XMLTypePackage.eINSTANCE.getNMTOKENSBase(), initialValue);
   }
 
   /**
@@ -1400,7 +1400,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertNMTOKENSToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getNMTOKENSBase(), instanceValue);
+    return convertNMTOKENSBaseToString(XMLTypePackage.eINSTANCE.getNMTOKENSBase(), instanceValue);
   }
 
   /**
@@ -1450,7 +1450,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigInteger createPositiveIntegerFromString(EDataType eDataType, String initialValue)
   {
-    return (BigInteger)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNonNegativeInteger(), initialValue);
+    return (BigInteger)createNonNegativeIntegerFromString(XMLTypePackage.eINSTANCE.getNonNegativeInteger(), initialValue);
   }
 
   /**
@@ -1460,7 +1460,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertPositiveIntegerToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getNonNegativeInteger(), instanceValue);
+    return convertNonNegativeIntegerToString(XMLTypePackage.eINSTANCE.getNonNegativeInteger(), instanceValue);
   }
 
   /**
@@ -1510,7 +1510,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigInteger createUnsignedLongFromString(EDataType eDataType, String initialValue)
   {
-    return (BigInteger)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNonNegativeInteger(), initialValue);
+    return (BigInteger)createNonNegativeIntegerFromString(XMLTypePackage.eINSTANCE.getNonNegativeInteger(), initialValue);
   }
 
   /**
@@ -1520,7 +1520,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertUnsignedLongToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getNonNegativeInteger(), instanceValue);
+    return convertNonNegativeIntegerToString(XMLTypePackage.eINSTANCE.getNonNegativeInteger(), instanceValue);
   }
 
   /**
