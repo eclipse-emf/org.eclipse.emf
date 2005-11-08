@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEnumerationFacetImpl.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDEnumerationFacetImpl.java,v 1.5 2005/11/08 14:05:36 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -23,14 +23,11 @@ import java.util.Iterator;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDConcreteComponent;
@@ -112,28 +109,6 @@ public class XSDEnumerationFacetImpl
       value = new EDataTypeUniqueEList(Object.class, this, XSDPackage.XSD_ENUMERATION_FACET__VALUE);
     }
     return value;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_ENUMERATION_FACET__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_ENUMERATION_FACET__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
   }
 
   /**

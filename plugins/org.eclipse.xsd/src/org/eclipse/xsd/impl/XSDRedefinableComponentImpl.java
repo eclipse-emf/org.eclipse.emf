@@ -12,20 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefinableComponentImpl.java,v 1.5 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDRedefinableComponentImpl.java,v 1.6 2005/11/08 14:05:36 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
-import java.util.Collection;
-
-import org.w3c.dom.Element;
-
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDRedefinableComponent;
@@ -103,26 +96,6 @@ public abstract class XSDRedefinableComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_REDEFINABLE_COMPONENT__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public Object eGet(EStructuralFeature eFeature, boolean resolve)
   {
     switch (eDerivedStructuralFeatureID(eFeature))
@@ -153,57 +126,6 @@ public abstract class XSDRedefinableComponentImpl
         return isCircular() ? Boolean.TRUE : Boolean.FALSE;
     }
     return eDynamicGet(eFeature, resolve);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__NAME:
-        setName((String)newValue);
-        return;
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__TARGET_NAMESPACE:
-        setTargetNamespace((String)newValue);
-        return;
-    }
-    eDynamicSet(eFeature, newValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eUnset(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__TARGET_NAMESPACE:
-        setTargetNamespace(TARGET_NAMESPACE_EDEFAULT);
-        return;
-    }
-    eDynamicUnset(eFeature);
   }
 
   /**

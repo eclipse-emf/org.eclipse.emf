@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.8 2005/08/23 11:07:04 emerks Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.9 2005/11/08 14:05:35 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -24,17 +24,14 @@ import java.util.Collection;
 import org.w3c.dom.Element;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDPackage;
@@ -165,26 +162,6 @@ public abstract class XSDSchemaDirectiveImpl
     resolvedSchema = newResolvedSchema;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_SCHEMA_DIRECTIVE__RESOLVED_SCHEMA, oldResolvedSchema, resolvedSchema));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_SCHEMA_DIRECTIVE__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
   }
 
   /**

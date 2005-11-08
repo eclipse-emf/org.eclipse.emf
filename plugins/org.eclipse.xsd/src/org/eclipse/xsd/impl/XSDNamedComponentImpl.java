@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNamedComponentImpl.java,v 1.5 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDNamedComponentImpl.java,v 1.6 2005/11/08 14:05:36 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -28,13 +28,10 @@ import java.util.ListIterator;
 import org.w3c.dom.Element;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDConcreteComponent;
@@ -560,26 +557,6 @@ public abstract class XSDNamedComponentImpl
   public String getQName()
   {
     return getQName(this);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_NAMED_COMPONENT__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDBoundedFacetImpl.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDBoundedFacetImpl.java,v 1.5 2005/11/08 14:05:36 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -22,12 +22,9 @@ import java.util.Collection;
 import org.w3c.dom.Element;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDBoundedFacet;
@@ -112,28 +109,6 @@ public class XSDBoundedFacetImpl
     if (newValue) eFlags |= VALUE_EFLAG; else eFlags &= ~VALUE_EFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_BOUNDED_FACET__VALUE, oldValue, newValue));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_BOUNDED_FACET__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_BOUNDED_FACET__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFactoryImpl.java,v 1.5 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDFactoryImpl.java,v 1.6 2005/11/08 14:05:36 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -108,125 +108,45 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
     switch (eDataType.getClassifierID())
     {
       case XSDPackage.XSD_ATTRIBUTE_USE_CATEGORY:
-      {
-        XSDAttributeUseCategory result = XSDAttributeUseCategory.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDAttributeUseCategoryFromString(eDataType, initialValue);
       case XSDPackage.XSD_CARDINALITY:
-      {
-        XSDCardinality result = XSDCardinality.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDCardinalityFromString(eDataType, initialValue);
       case XSDPackage.XSD_COMPLEX_FINAL:
-      {
-        XSDComplexFinal result = XSDComplexFinal.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDComplexFinalFromString(eDataType, initialValue);
       case XSDPackage.XSD_COMPOSITOR:
-      {
-        XSDCompositor result = XSDCompositor.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDCompositorFromString(eDataType, initialValue);
       case XSDPackage.XSD_CONSTRAINT:
-      {
-        XSDConstraint result = XSDConstraint.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDConstraintFromString(eDataType, initialValue);
       case XSDPackage.XSD_CONTENT_TYPE_CATEGORY:
-      {
-        XSDContentTypeCategory result = XSDContentTypeCategory.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDContentTypeCategoryFromString(eDataType, initialValue);
       case XSDPackage.XSD_DERIVATION_METHOD:
-      {
-        XSDDerivationMethod result = XSDDerivationMethod.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDDerivationMethodFromString(eDataType, initialValue);
       case XSDPackage.XSD_DIAGNOSTIC_SEVERITY:
-      {
-        XSDDiagnosticSeverity result = XSDDiagnosticSeverity.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDDiagnosticSeverityFromString(eDataType, initialValue);
       case XSDPackage.XSD_DISALLOWED_SUBSTITUTIONS:
-      {
-        XSDDisallowedSubstitutions result = XSDDisallowedSubstitutions.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDDisallowedSubstitutionsFromString(eDataType, initialValue);
       case XSDPackage.XSD_FORM:
-      {
-        XSDForm result = XSDForm.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDFormFromString(eDataType, initialValue);
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_CATEGORY:
-      {
-        XSDIdentityConstraintCategory result = XSDIdentityConstraintCategory.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDIdentityConstraintCategoryFromString(eDataType, initialValue);
       case XSDPackage.XSD_NAMESPACE_CONSTRAINT_CATEGORY:
-      {
-        XSDNamespaceConstraintCategory result = XSDNamespaceConstraintCategory.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDNamespaceConstraintCategoryFromString(eDataType, initialValue);
       case XSDPackage.XSD_ORDERED:
-      {
-        XSDOrdered result = XSDOrdered.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDOrderedFromString(eDataType, initialValue);
       case XSDPackage.XSD_PROCESS_CONTENTS:
-      {
-        XSDProcessContents result = XSDProcessContents.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDProcessContentsFromString(eDataType, initialValue);
       case XSDPackage.XSD_PROHIBITED_SUBSTITUTIONS:
-      {
-        XSDProhibitedSubstitutions result = XSDProhibitedSubstitutions.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDProhibitedSubstitutionsFromString(eDataType, initialValue);
       case XSDPackage.XSD_SIMPLE_FINAL:
-      {
-        XSDSimpleFinal result = XSDSimpleFinal.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDSimpleFinalFromString(eDataType, initialValue);
       case XSDPackage.XSD_SUBSTITUTION_GROUP_EXCLUSIONS:
-      {
-        XSDSubstitutionGroupExclusions result = XSDSubstitutionGroupExclusions.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDSubstitutionGroupExclusionsFromString(eDataType, initialValue);
       case XSDPackage.XSD_VARIETY:
-      {
-        XSDVariety result = XSDVariety.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDVarietyFromString(eDataType, initialValue);
       case XSDPackage.XSD_WHITE_SPACE:
-      {
-        XSDWhiteSpace result = XSDWhiteSpace.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDWhiteSpaceFromString(eDataType, initialValue);
       case XSDPackage.XSD_XPATH_VARIETY:
-      {
-        XSDXPathVariety result = XSDXPathVariety.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createXSDXPathVarietyFromString(eDataType, initialValue);
       case XSDPackage.DOM_ATTR:
         return createDOMAttrFromString(eDataType, initialValue);
       case XSDPackage.DOM_DOCUMENT:
@@ -252,45 +172,45 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
     switch (eDataType.getClassifierID())
     {
       case XSDPackage.XSD_ATTRIBUTE_USE_CATEGORY:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDAttributeUseCategoryToString(eDataType, instanceValue);
       case XSDPackage.XSD_CARDINALITY:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDCardinalityToString(eDataType, instanceValue);
       case XSDPackage.XSD_COMPLEX_FINAL:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDComplexFinalToString(eDataType, instanceValue);
       case XSDPackage.XSD_COMPOSITOR:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDCompositorToString(eDataType, instanceValue);
       case XSDPackage.XSD_CONSTRAINT:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDConstraintToString(eDataType, instanceValue);
       case XSDPackage.XSD_CONTENT_TYPE_CATEGORY:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDContentTypeCategoryToString(eDataType, instanceValue);
       case XSDPackage.XSD_DERIVATION_METHOD:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDDerivationMethodToString(eDataType, instanceValue);
       case XSDPackage.XSD_DIAGNOSTIC_SEVERITY:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDDiagnosticSeverityToString(eDataType, instanceValue);
       case XSDPackage.XSD_DISALLOWED_SUBSTITUTIONS:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDDisallowedSubstitutionsToString(eDataType, instanceValue);
       case XSDPackage.XSD_FORM:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDFormToString(eDataType, instanceValue);
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_CATEGORY:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDIdentityConstraintCategoryToString(eDataType, instanceValue);
       case XSDPackage.XSD_NAMESPACE_CONSTRAINT_CATEGORY:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDNamespaceConstraintCategoryToString(eDataType, instanceValue);
       case XSDPackage.XSD_ORDERED:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDOrderedToString(eDataType, instanceValue);
       case XSDPackage.XSD_PROCESS_CONTENTS:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDProcessContentsToString(eDataType, instanceValue);
       case XSDPackage.XSD_PROHIBITED_SUBSTITUTIONS:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDProhibitedSubstitutionsToString(eDataType, instanceValue);
       case XSDPackage.XSD_SIMPLE_FINAL:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDSimpleFinalToString(eDataType, instanceValue);
       case XSDPackage.XSD_SUBSTITUTION_GROUP_EXCLUSIONS:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDSubstitutionGroupExclusionsToString(eDataType, instanceValue);
       case XSDPackage.XSD_VARIETY:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDVarietyToString(eDataType, instanceValue);
       case XSDPackage.XSD_WHITE_SPACE:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDWhiteSpaceToString(eDataType, instanceValue);
       case XSDPackage.XSD_XPATH_VARIETY:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertXSDXPathVarietyToString(eDataType, instanceValue);
       case XSDPackage.DOM_ATTR:
         return convertDOMAttrToString(eDataType, instanceValue);
       case XSDPackage.DOM_DOCUMENT:
@@ -689,6 +609,446 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
   {
     XSDXPathDefinitionImpl xsdxPathDefinition = new XSDXPathDefinitionImpl();
     return xsdxPathDefinition;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDAttributeUseCategory createXSDAttributeUseCategoryFromString(EDataType eDataType, String initialValue)
+  {
+    XSDAttributeUseCategory result = XSDAttributeUseCategory.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDAttributeUseCategoryToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDCardinality createXSDCardinalityFromString(EDataType eDataType, String initialValue)
+  {
+    XSDCardinality result = XSDCardinality.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDCardinalityToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDComplexFinal createXSDComplexFinalFromString(EDataType eDataType, String initialValue)
+  {
+    XSDComplexFinal result = XSDComplexFinal.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDComplexFinalToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDCompositor createXSDCompositorFromString(EDataType eDataType, String initialValue)
+  {
+    XSDCompositor result = XSDCompositor.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDCompositorToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDConstraint createXSDConstraintFromString(EDataType eDataType, String initialValue)
+  {
+    XSDConstraint result = XSDConstraint.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDConstraintToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDContentTypeCategory createXSDContentTypeCategoryFromString(EDataType eDataType, String initialValue)
+  {
+    XSDContentTypeCategory result = XSDContentTypeCategory.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDContentTypeCategoryToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDDerivationMethod createXSDDerivationMethodFromString(EDataType eDataType, String initialValue)
+  {
+    XSDDerivationMethod result = XSDDerivationMethod.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDDerivationMethodToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDDiagnosticSeverity createXSDDiagnosticSeverityFromString(EDataType eDataType, String initialValue)
+  {
+    XSDDiagnosticSeverity result = XSDDiagnosticSeverity.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDDiagnosticSeverityToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDDisallowedSubstitutions createXSDDisallowedSubstitutionsFromString(EDataType eDataType, String initialValue)
+  {
+    XSDDisallowedSubstitutions result = XSDDisallowedSubstitutions.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDDisallowedSubstitutionsToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDForm createXSDFormFromString(EDataType eDataType, String initialValue)
+  {
+    XSDForm result = XSDForm.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDFormToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDIdentityConstraintCategory createXSDIdentityConstraintCategoryFromString(EDataType eDataType, String initialValue)
+  {
+    XSDIdentityConstraintCategory result = XSDIdentityConstraintCategory.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDIdentityConstraintCategoryToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDNamespaceConstraintCategory createXSDNamespaceConstraintCategoryFromString(EDataType eDataType, String initialValue)
+  {
+    XSDNamespaceConstraintCategory result = XSDNamespaceConstraintCategory.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDNamespaceConstraintCategoryToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDOrdered createXSDOrderedFromString(EDataType eDataType, String initialValue)
+  {
+    XSDOrdered result = XSDOrdered.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDOrderedToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDProcessContents createXSDProcessContentsFromString(EDataType eDataType, String initialValue)
+  {
+    XSDProcessContents result = XSDProcessContents.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDProcessContentsToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDProhibitedSubstitutions createXSDProhibitedSubstitutionsFromString(EDataType eDataType, String initialValue)
+  {
+    XSDProhibitedSubstitutions result = XSDProhibitedSubstitutions.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDProhibitedSubstitutionsToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDSimpleFinal createXSDSimpleFinalFromString(EDataType eDataType, String initialValue)
+  {
+    XSDSimpleFinal result = XSDSimpleFinal.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDSimpleFinalToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDSubstitutionGroupExclusions createXSDSubstitutionGroupExclusionsFromString(EDataType eDataType, String initialValue)
+  {
+    XSDSubstitutionGroupExclusions result = XSDSubstitutionGroupExclusions.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDSubstitutionGroupExclusionsToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDVariety createXSDVarietyFromString(EDataType eDataType, String initialValue)
+  {
+    XSDVariety result = XSDVariety.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDVarietyToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDWhiteSpace createXSDWhiteSpaceFromString(EDataType eDataType, String initialValue)
+  {
+    XSDWhiteSpace result = XSDWhiteSpace.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDWhiteSpaceToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public XSDXPathVariety createXSDXPathVarietyFromString(EDataType eDataType, String initialValue)
+  {
+    XSDXPathVariety result = XSDXPathVariety.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertXSDXPathVarietyToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
