@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf"
       label="%featureName"
-      version="2.1.1"
+      version="2.1.2"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -35,7 +35,7 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf"
          download-size="0"
          install-size="0"
-         version="2.1.1"
+         version="2.1.2"
          unpack="false"/>
 
    <plugin
@@ -196,14 +196,14 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.importer.ecore"
          download-size="0"
          install-size="0"
-         version="2.1.0"
+         version="2.1.2"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.importer.java"
          download-size="0"
          install-size="0"
-         version="2.1.1"
+         version="2.1.2"
          unpack="false"/>
 
    <plugin
