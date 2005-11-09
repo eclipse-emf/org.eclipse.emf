@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.12 2005/11/02 12:43:12 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.13 2005/11/09 19:14:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -189,6 +189,10 @@ public class EObjectValidator implements EValidator
     {
       result &= validate_EveryDataValueConforms(object, theDiagnostics, context);
     }
+    if (result || theDiagnostics != null)
+    {
+      result &= validate_UniqueID(object, theDiagnostics, context);
+    }
     return result;
   }
 
@@ -206,7 +210,7 @@ public class EObjectValidator implements EValidator
     }
     return result;
   }
-
+  
   protected boolean validate_MultiplicityConforms
     (EObject eObject, EStructuralFeature eStructuralFeature, DiagnosticChain diagnostics, Map context)
   {
@@ -1073,6 +1077,42 @@ public class EObjectValidator implements EValidator
   protected static Collection wrapEnumerationValues(Object [] values)
   {
     return java.util.Arrays.asList(values);
+  }
+  
+  /**
+   * @since 2.2
+   */
+  public boolean validate_UniqueID(EObject eObject, DiagnosticChain diagnostics, Map context)
+  {
+    boolean result = true;
+    String id = EcoreUtil.getID(eObject);
+    if (id != null)
+    {
+      Resource resource = eObject.eResource();
+      if (resource != null)
+      {
+        EObject otherEObject = resource.getEObject(id);
+        if (eObject != otherEObject && otherEObject != null)
+        {
+          // ...
+          diagnostics.add
+            (new BasicDiagnostic
+              (Diagnostic.ERROR,
+               DIAGNOSTIC_SOURCE,
+               EOBJECT__EVERY_MULTIPCITY_CONFORMS,
+               getEcoreResourceLocator().getString
+                 ("_UI_DuplicateID_diagnostic",
+                  new Object []
+                    {
+                      id,
+                      getObjectLabel(eObject, context),
+                      getObjectLabel(otherEObject, context)
+                    }),
+               new Object [] { eObject, otherEObject, id }));
+        }
+      }
+    }
+    return result;
   }
   
   /**
