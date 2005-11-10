@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http:///org/eclipse/emf/examples/library/extlibrary.ecore/1.0.0" 
+       class = "org.eclipse.emf.examples.extlibrary.EXTLibraryPackage"
+       genModel = "model/extlibrary.genmodel" /> 
+  </extension>
+
+  <extension
+    point="org.eclipse.core.runtime.contentTypes">
+    <content-type
+      base-type="org.eclipse.core.runtime.xml"
+      default-charset="UTF-8"
+      file-extensions="extlibrary"
+      id="extendedLibrary"
+      name="%extendedLibrary"
+      priority="high"/>
+  </extension>
+</plugin>
+

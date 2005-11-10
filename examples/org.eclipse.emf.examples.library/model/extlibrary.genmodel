@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.examples.library/src"
+    editDirectory="/org.eclipse.emf.examples.library.edit/src" editorDirectory="/org.eclipse.emf.examples.library.editor/src"
+    modelPluginID="org.eclipse.emf.examples.library" runtimeJar="true" modelName="EXTLibrary"
+    editPluginClass="org.eclipse.emf.examples.extlibrary.provider.EXTLibraryEditPlugin"
+    editorPluginClass="org.eclipse.emf.examples.extlibrary.presentation.EXTLibraryEditorPlugin"
+    nonNLSMarkers="true" testsDirectory="/org.eclipse.emf.examples.library.tests/src"
+    booleanFlagsField="eFlags" booleanFlagsReservedBits="8" importerID="org.eclipse.emf.importer.ecore">
+  <foreignModel>extlibrary.ecore</foreignModel>
+  <genPackages prefix="EXTLibrary" basePackage="org.eclipse.emf.examples" disposableProviderFactory="true"
+      ecorePackage="extlibrary.ecore#/">
+    <genEnums ecoreEnum="extlibrary.ecore#//BookCategory">
+      <genEnumLiterals ecoreEnumLiteral="extlibrary.ecore#//BookCategory/Mystery"/>
+      <genEnumLiterals ecoreEnumLiteral="extlibrary.ecore#//BookCategory/ScienceFiction"/>
+      <genEnumLiterals ecoreEnumLiteral="extlibrary.ecore#//BookCategory/Biography"/>
+    </genEnums>
+    <genClasses ecoreClass="extlibrary.ecore#//Book" labelFeature="#//extlibrary/Book/title">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Book/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Book/pages"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Book/category"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//Book/author"/>
+    </genClasses>
+    <genClasses ecoreClass="extlibrary.ecore#//Library">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Library/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extlibrary.ecore#//Library/writers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extlibrary.ecore#//Library/employees"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extlibrary.ecore#//Library/borrowers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extlibrary.ecore#//Library/stock"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//Library/books"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference extlibrary.ecore#//Library/branches"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//Library/parentBranch"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Library/people"/>
+    </genClasses>
+    <genClasses ecoreClass="extlibrary.ecore#//Writer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Writer/name"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//Writer/books"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="extlibrary.ecore#//Item">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Item/publicationDate"/>
+    </genClasses>
+    <genClasses ecoreClass="extlibrary.ecore#//Lendable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Lendable/copies"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//Lendable/borrowers"/>
+    </genClasses>
+    <genClasses ecoreClass="extlibrary.ecore#//CirculatingItem"/>
+    <genClasses image="false" ecoreClass="extlibrary.ecore#//Periodical" labelFeature="#//extlibrary/Periodical/title">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Periodical/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Periodical/issuesPerYear"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="extlibrary.ecore#//AudoVisualItem" labelFeature="#//extlibrary/AudoVisualItem/title">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//AudoVisualItem/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//AudoVisualItem/minutesLength"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//AudoVisualItem/damaged"/>
+    </genClasses>
+    <genClasses ecoreClass="extlibrary.ecore#//BookOnTape" labelFeature="#//extlibrary/AudoVisualItem/title">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//BookOnTape/reader"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//BookOnTape/author"/>
+    </genClasses>
+    <genClasses ecoreClass="extlibrary.ecore#//VideoCassette" labelFeature="#//extlibrary/AudoVisualItem/title">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//VideoCassette/cast"/>
+    </genClasses>
+    <genClasses ecoreClass="extlibrary.ecore#//Borrower" labelFeature="#//extlibrary/Person/lastName">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//Borrower/borrowed"/>
+    </genClasses>
+    <genClasses ecoreClass="extlibrary.ecore#//Person" labelFeature="#//extlibrary/Person/lastName">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Person/firstName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Person/lastName"/>
+    </genClasses>
+    <genClasses ecoreClass="extlibrary.ecore#//Employee" labelFeature="#//extlibrary/Person/lastName">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//Employee/manager"/>
+    </genClasses>
+    <genClasses ecoreClass="extlibrary.ecore#//Addressable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Addressable/address"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
