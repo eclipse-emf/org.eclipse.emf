@@ -1,2 +1,0 @@
--group "Ecore to Ecore Mapping Model"  org.eclipse.emf.mapping.ecore2ecore:org.eclipse.emf.mapping.ecore2ecore.impl:org.eclipse.emf.mapping.ecore2ecore.util
--group "Ecore to Ecore Mapping Edit"  org.eclipse.emf.mapping.ecore2ecore.provider

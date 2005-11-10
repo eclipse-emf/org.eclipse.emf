@@ -1,5 +1,0 @@
--group "Notification" org.eclipse.emf.common.notify:org.eclipse.emf.common.notify.impl
--group "Command"   org.eclipse.emf.common.command
--group "Utilities" org.eclipse.emf.common.util
--group "Common"  org.eclipse.emf.common
--overview build/overview.html

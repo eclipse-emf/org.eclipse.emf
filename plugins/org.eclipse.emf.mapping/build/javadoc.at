@@ -1,2 +1,0 @@
--group "Mapping Model"   org.eclipse.emf.mapping:org.eclipse.emf.mapping.impl:org.eclipse.emf.mapping.util
--group "Mapping Edit"    org.eclipse.emf.mapping.command:org.eclipse.emf.mapping.domain:org.eclipse.emf.mapping.provider

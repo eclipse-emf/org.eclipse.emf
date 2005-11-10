@@ -1,3 +1,0 @@
--group "Change Model"   org.eclipse.emf.ecore.change:org.eclipse.emf.ecore.change.impl
--group "Change Utilities" org.eclipse.emf.ecore.change.util
--overview build/overview.html

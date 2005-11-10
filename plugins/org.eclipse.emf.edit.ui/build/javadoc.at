@@ -1,5 +1,0 @@
--group "Editing Domain" org.eclipse.emf.edit.domain
--group "EMF Command" org.eclipse.emf.edit.command
--group "Provider" org.eclipse.emf.edit.provider
--group "Action" org.eclipse.emf.edit.action
--overview build/overview.html
