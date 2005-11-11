@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * ModelDetailPage.java,v 1.1 2005/05/12 17:10:24 marcelop Exp
+ * ModelDetailPage.java,v 1.12 2005/11/11 16:57:18 marcelop Exp
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * ImporterUtil.java,v 1.1 2005/05/16 14:19:18 marcelop Exp
+ * ImporterUtil.java,v 1.7 2005/11/11 16:57:18 marcelop Exp
  */
 package org.eclipse.emf.importer.util;
 
