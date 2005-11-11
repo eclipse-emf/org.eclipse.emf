@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URITest.java,v 1.10 2005/06/12 13:58:08 emerks Exp $
+ * $Id: URITest.java,v 1.11 2005/11/11 21:56:29 davidms Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -582,5 +582,20 @@ public class URITest extends TestCase
     //  URI uri = URI.createPlatformResourceURI(path);
     //  assertEquals("Bad platform resource encode: " + path, encodedURIStrings[i], uri.toString());
     //}
+
+    // Bugzilla 116074
+    String unencoded = "platform://resource/a#b/c#d#e";
+    String encodedWithNoFragment = "platform://resource/a%23b/c%23d%23e";
+    String encodedWithFragmentFirst = "platform://resource/a#b/c%23d%23e";
+    String encodedWithFragmentLast = "platform://resource/a%23b/c%23d#e";
+
+    assertEquals("Bad URI encode: " + unencoded, encodedWithNoFragment, URI.createURI(unencoded, false, URI.FRAGMENT_NONE).toString());
+    assertEquals("Bad URI decode: " + encodedWithNoFragment, unencoded, URI.decode(encodedWithNoFragment.toString()));
+
+    assertEquals("Bad URI encode: " + unencoded, encodedWithFragmentFirst, URI.createURI(unencoded, false, URI.FRAGMENT_FIRST_SEPARATOR).toString());
+    assertEquals("Bad URI decode: " + encodedWithFragmentFirst, unencoded, URI.decode(encodedWithFragmentFirst.toString()));
+
+    assertEquals("Bad URI encode: " + unencoded, encodedWithFragmentLast, URI.createURI(unencoded, false, URI.FRAGMENT_LAST_SEPARATOR).toString());
+    assertEquals("Bad URI decode: " + encodedWithFragmentLast, unencoded, URI.decode(encodedWithFragmentLast.toString()));
   }
 }
