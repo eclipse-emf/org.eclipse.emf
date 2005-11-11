@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.18 2005/06/08 06:19:08 nickb Exp $
+ * $Id: URI.java,v 1.19 2005/11/11 21:56:05 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -516,7 +516,61 @@ public final class URI
    */
   public static URI createURI(String uri, boolean ignoreEscaped)
   {
-    return createURIWithCache(encodeURI(uri, ignoreEscaped));
+    return createURIWithCache(encodeURI(uri, ignoreEscaped, FRAGMENT_LAST_SEPARATOR));
+  }
+
+  /**
+   * When specified as the last argument to {@link #createURI(String, boolean, int)
+   * createURI}, indicates that there is no fragment, so any <code>#</code> characters
+   * should be encoded.
+   * @see #createURI(String, boolean, int)
+   */
+  public static final int FRAGMENT_NONE = 0;
+
+  /**
+   * When specified as the last argument to {@link #createURI(String, boolean, int)
+   * createURI}, indicates that the first <code>#</code> character should be taken as
+   * the fragment separator, and any others should be encoded.
+   * @see #createURI(String, boolean, int)
+   */
+  public static final int FRAGMENT_FIRST_SEPARATOR = 1;
+
+  /**
+   * When specified as the last argument to {@link #createURI(String, boolean, int)
+   * createURI}, indicates that the last <code>#</code> character should be taken as
+   * the fragment separator, and any others should be encoded.
+   * @see #createURI(String, boolean, int)
+   */
+  public static final int FRAGMENT_LAST_SEPARATOR = 2; 
+
+  /**
+   * Static factory method that encodes and parses the given URI string.
+   * Appropriate encoding is performed for each component of the URI.
+   * Control is provided over which, if any, <code>#</code> should be 
+   * taken as the fragment separator and which should be encoded.
+   *  
+   * @param ignoreEscaped <code>true</code> to leave <code>%</code> characters
+   * unescaped if they already begin a valid three-character escape sequence;
+   * <code>false</code> to encode all <code>%</code> characters.  Note that
+   * if a <code>%</code> is not followed by 2 hex digits, it will always be
+   * escaped. 
+   * 
+   * @param fragmentLocationStyle one of {@link #FRAGMENT_NONE},
+   * {@link #FRAGMENT_FIRST_SEPARATOR}, or {@link #FRAGMENT_LAST_SEPARATOR},
+   * indicating which, if any, of the <code>#</code> characters should be
+   * considered the fragment separator. Any others will be encoded.
+   *
+   * @exception java.lang.IllegalArgumentException if any component parsed
+   * from <code>uri</code> is not valid according to {@link #validScheme
+   * validScheme}, {@link #validOpaquePart validOpaquePart}, {@link
+   * #validAuthority validAuthority}, {@link #validArchiveAuthority
+   * validArchiveAuthority}, {@link #validDevice validDevice}, {@link
+   * #validSegments validSegments}, {@link #validQuery validQuery}, or {@link
+   * #validFragment validFragment}, as appropriate.
+   */
+  public static URI createURI(String uri, boolean ignoreEscaped, int fragmentLocationStyle)
+  {
+    return createURIWithCache(encodeURI(uri, ignoreEscaped, fragmentLocationStyle));
   }
 
   /**
@@ -2667,9 +2721,9 @@ public final class URI
   }
 
   // Encodes a complete URI, optionally leaving % characters unescaped when
-  // beginning a valid three-character escape sequence.  We assume that the
-  // last # begins the fragment.
-  private static String encodeURI(String uri, boolean ignoreEscaped)
+  // beginning a valid three-character escape sequence.  We can either treat
+  // the first or # as a fragment separator, or encode them all.
+  private static String encodeURI(String uri, boolean ignoreEscaped, int fragmentLocationStyle)
   {
     if (uri == null) return null;
 
@@ -2683,7 +2737,10 @@ public final class URI
       result.append(SCHEME_SEPARATOR);
     }
     
-    int j = uri.lastIndexOf(FRAGMENT_SEPARATOR);
+    int j =
+      fragmentLocationStyle == FRAGMENT_FIRST_SEPARATOR ? uri.indexOf(FRAGMENT_SEPARATOR) :
+        fragmentLocationStyle == FRAGMENT_LAST_SEPARATOR ? uri.lastIndexOf(FRAGMENT_SEPARATOR) : -1;
+
     if (j != -1)
     {
       String sspart = uri.substring(++i, j);
