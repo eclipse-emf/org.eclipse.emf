@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryInterface" version="$Id: FactoryInterface.javajet,v 1.4 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryInterface" version="$Id: FactoryInterface.javajet,v 1.5 2005/11/14 20:46:11 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -17,7 +17,7 @@
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
 <%@ include file="../Header.javajetinc"%>
-package <%=genPackage.getInterfacePackageName()%>;
+package <%=genPackage.getReflectionPackageName()%>;
 
 <%genModel.markImportLocation(stringBuffer, genPackage);%>
 
@@ -46,7 +46,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%> extends <%=genModel.g
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	<%=genPackage.getFactoryInterfaceName()%> eINSTANCE = new <%=genPackage.getQualifiedFactoryClassName()%>();
+	<%=genPackage.getFactoryInterfaceName()%> eINSTANCE = <%=genPackage.getQualifiedFactoryClassName()%>.init();
 
 <%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
 <%if (!genClass.isAbstract() && !genClass.isMapEntry()) {%>

@@ -29,8 +29,8 @@ public class FactoryInterface
   protected final String TEXT_12 = "\";";
   protected final String TEXT_13 = NL;
   protected final String TEXT_14 = NL + "\t/**" + NL + "\t * The singleton instance of the factory." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t";
-  protected final String TEXT_15 = " eINSTANCE = new ";
-  protected final String TEXT_16 = "();" + NL;
+  protected final String TEXT_15 = " eINSTANCE = ";
+  protected final String TEXT_16 = ".init();" + NL;
   protected final String TEXT_17 = NL + "\t/**" + NL + "\t * Returns a new object of class '<em>";
   protected final String TEXT_18 = "</em>'." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return a new object of class '<em>";
   protected final String TEXT_19 = "</em>'." + NL + "\t * @generated" + NL + "\t */" + NL + "\t";
@@ -67,7 +67,7 @@ public class FactoryInterface
     stringBuffer.append(TEXT_3);
     stringBuffer.append("$");
     stringBuffer.append(TEXT_4);
-    stringBuffer.append(genPackage.getInterfacePackageName());
+    stringBuffer.append(genPackage.getReflectionPackageName());
     stringBuffer.append(TEXT_5);
     genModel.markImportLocation(stringBuffer, genPackage);
     stringBuffer.append(TEXT_6);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackage.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EPackage.java,v 1.5 2005/11/14 20:45:44 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -55,6 +55,12 @@ public interface EPackage extends ENamedElement
      * @return the package.
      */
     EPackage getEPackage();
+
+    /**
+     * Returns the factory.
+     * @return the factory.
+     */
+    EFactory getEFactory();
   }
 
   /**
@@ -66,6 +72,11 @@ public interface EPackage extends ENamedElement
      * Looks up the value in the map, converting <code>EPackage.Descriptor</code> objects to <code>EPackage</code> objects on demand.
      */
     EPackage getEPackage(String nsURI);
+
+    /**
+     * Looks up the value in the map, converting <code>EPackage.Descriptor</code> objects to <code>EFactory</code> objects on demand.
+     */
+    EFactory getEFactory(String nsURI);
 
     Registry INSTANCE = org.eclipse.emf.ecore.impl.EPackageRegistryImpl.createGlobalRegistry();
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegistryReader.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: RegistryReader.java,v 1.5 2005/11/14 20:45:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -176,6 +177,50 @@ public abstract class RegistryReader
         throw new WrappedException(e);
       }
       catch (NoSuchFieldException e)
+      {
+        throw new WrappedException(e);
+      }
+    }
+    
+    public EFactory getEFactory()
+    {
+      return null;
+    }
+  }
+  
+  static class EFactoryDescriptor extends PluginClassDescriptor implements EPackage.Descriptor
+  {
+    protected EPackage.Descriptor overridenDescriptor;
+    
+    public EFactoryDescriptor(IConfigurationElement element, String attributeName, EPackage.Descriptor overridenDescriptor)
+    {
+      super(element, attributeName);
+      this.overridenDescriptor = overridenDescriptor;
+    }
+
+    public EPackage getEPackage()
+    {
+      return overridenDescriptor.getEPackage();
+    }
+    
+    public EFactory getEFactory()
+    {
+      // First try to see if this class has an eInstance 
+      //
+      try
+      {
+        Class javaClass = Platform.getBundle(element.getDeclaringExtension().getNamespace()).loadClass(element.getAttribute(attributeName));
+        return (EFactory)javaClass.newInstance();
+      }
+      catch (ClassNotFoundException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (IllegalAccessException e)
+      {
+        throw new WrappedException(e);
+      }
+      catch (InstantiationException e)
       {
         throw new WrappedException(e);
       }

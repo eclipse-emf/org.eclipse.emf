@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.10 2005/11/07 21:59:29 davidms Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.11 2005/11/14 20:45:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -40,6 +40,29 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
 {
   /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static EcoreFactory init()
+  {
+    try
+    {
+      EcoreFactory theEcoreFactory = (EcoreFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/Ecore"); 
+      if (theEcoreFactory != null)
+      {
+        return theEcoreFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new EcoreFactoryImpl();
+  }
+
+  /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -48,30 +71,6 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
   public EcoreFactoryImpl()
   {
     super();
-  }
-
-  /**
-   * Creates the default Ecore factory {@link EcoreFactory#INSTANCE instance}.
-   */
-  public static EcoreFactory init()
-  {
-    try
-    {
-      String className = System.getProperty("org.eclipse.emf.ecore.EcoreFactory.INSTANCE");
-      if (className == null)
-      {
-        return new EcoreFactoryImpl();
-      }
-      else
-      {
-        return (EcoreFactory)Class.forName(className).newInstance();
-      }
-    }
-    catch (Exception exception)
-    {
-      EcorePlugin.INSTANCE.log(exception);
-      return new EcoreFactoryImpl();
-    }
   }
 
   /**

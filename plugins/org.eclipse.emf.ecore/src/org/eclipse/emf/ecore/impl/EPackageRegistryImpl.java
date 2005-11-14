@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageRegistryImpl.java,v 1.8 2005/06/20 21:05:41 khussey Exp $
+ * $Id: EPackageRegistryImpl.java,v 1.9 2005/11/14 20:45:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -118,6 +119,33 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
     }
   }
 
+  /*
+   * Javadoc copied from interface.
+   */
+  public EFactory getEFactory(String nsURI)
+  {
+    Object ePackage = get(nsURI);
+    if (ePackage instanceof EPackage)
+    {
+      EPackage result = (EPackage)ePackage;
+      if (result.getNsURI() == null)
+      {
+        initialize(result);
+      }
+      return result.getEFactoryInstance();
+    }
+    else if (ePackage instanceof EPackage.Descriptor)
+    {
+      EPackage.Descriptor ePackageDescriptor = (EPackage.Descriptor)ePackage;
+      EFactory result = ePackageDescriptor.getEFactory();
+      return result;
+    }
+    else
+    {
+      return delegatedGetEFactory(nsURI);
+    }
+  }
+
   /**
    * Creates a delegating instance.
    */
@@ -134,6 +162,20 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
     if (delegateRegistry != null)
     {
       return delegateRegistry.getEPackage(nsURI);
+    }
+
+    return null;
+  }
+
+  /**
+   * Returns the factory from the delegate registry, if there is one.
+   * @return the factory from the delegate registry.
+   */
+  protected EFactory delegatedGetEFactory(String nsURI)
+  {
+    if (delegateRegistry != null)
+    {
+      return delegateRegistry.getEFactory(nsURI);
     }
 
     return null;
@@ -197,6 +239,11 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
     public EPackage getEPackage(String key)
     {
       return delegateRegistry().getEPackage(key);
+    }
+
+    public EFactory getEFactory(String key)
+    {
+      return delegateRegistry().getEFactory(key);
     }
 
     public int size()

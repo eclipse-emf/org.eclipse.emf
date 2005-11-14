@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.10 2005/10/31 13:31:09 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.11 2005/11/14 20:45:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -505,6 +505,7 @@ public class EcorePlugin  extends EMFPlugin
       }
 
       new GeneratedPackageRegistryReader(getEPackageNsURIToGenModelLocationMap()).readRegistry();
+      new FactoryOverrideRegistryReader().readRegistry();
       new ExtensionParserRegistryReader().readRegistry();
       new ProtocolParserRegistryReader().readRegistry();
       new URIMappingRegistryReader().readRegistry();
@@ -541,6 +542,7 @@ public class EcorePlugin  extends EMFPlugin
   }
 
   static final String GENERATED_PACKAGE_PPID = "generated_package";
+  static final String FACTORY_OVERRIDE_PPID = "factory_override";
   static final String EXTENSION_PARSER_PPID = "extension_parser";
   static final String PROTOCOL_PARSER_PPID = "protocol_parser";
   static final String SCHEME_PARSER_PPID = "scheme_parser";

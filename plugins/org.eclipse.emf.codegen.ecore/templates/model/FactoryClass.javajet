@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.18 2005/11/08 12:40:51 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.19 2005/11/14 20:46:11 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -41,6 +41,29 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 	public static final <%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
 
 <%}%>
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static <%=genPackage.getImportedFactoryInterfaceName()%> init()
+	{
+		try
+		{
+			<%=genPackage.getImportedFactoryInterfaceName()%> the<%=genPackage.getFactoryInterfaceName()%> = (<%=genPackage.getImportedFactoryInterfaceName()%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEFactory("<%=genPackage.getNSURI()%>");<%=genModel.getNonNLS()%> 
+			if (the<%=genPackage.getFactoryInterfaceName()%> != null)
+			{
+				return the<%=genPackage.getFactoryInterfaceName()%>;
+			}
+		}
+		catch (Exception exception)
+		{
+			<%=genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin")%>.INSTANCE.log(exception);
+		}
+		return new <%=genPackage.getFactoryClassName()%>();
+	}
+
 	/**
 	 * Creates an instance of the factory.
 	 * <!-- begin-user-doc -->
