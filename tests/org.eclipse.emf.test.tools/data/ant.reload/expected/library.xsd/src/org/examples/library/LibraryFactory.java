@@ -31,7 +31,7 @@ public interface LibraryFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  LibraryFactory eINSTANCE = new org.examples.library.impl.LibraryFactoryImpl();
+  LibraryFactory eINSTANCE = org.examples.library.impl.LibraryFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Book</em>'.

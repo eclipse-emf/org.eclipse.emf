@@ -8,8 +8,11 @@ package org.examples.library.hr.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.examples.library.hr.*;
 
@@ -27,6 +30,29 @@ public class HrFactoryImpl extends EFactoryImpl implements HrFactory
    * @generated
    */
   public static final String copyright = "This is my code.";
+
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static HrFactory init()
+  {
+    try
+    {
+      HrFactory theHrFactory = (HrFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.eclipse.org/Library3"); 
+      if (theHrFactory != null)
+      {
+        return theHrFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new HrFactoryImpl();
+  }
 
   /**
    * Creates an instance of the factory.

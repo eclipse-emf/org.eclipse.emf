@@ -2,15 +2,18 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsFactoryImpl.java,v 1.4 2005/09/15 14:54:03 davidms Exp $
+ * $Id: ElementsFactoryImpl.java,v 1.5 2005/11/14 20:44:47 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.examples.library.elements.*;
 
@@ -28,6 +31,29 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
    * @generated
    */
   public static final String copyright = "This is my code.";
+
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static ElementsFactory init()
+  {
+    try
+    {
+      ElementsFactory theElementsFactory = (ElementsFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.eclipse.org/Library1"); 
+      if (theElementsFactory != null)
+      {
+        return theElementsFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new ElementsFactoryImpl();
+  }
 
   /**
    * Creates an instance of the factory.

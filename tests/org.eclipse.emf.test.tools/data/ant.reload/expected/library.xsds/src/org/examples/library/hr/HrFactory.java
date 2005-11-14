@@ -31,7 +31,7 @@ public interface HrFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  HrFactory eINSTANCE = new org.examples.library.hr.impl.HrFactoryImpl();
+  HrFactory eINSTANCE = org.examples.library.hr.impl.HrFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Person</em>'.

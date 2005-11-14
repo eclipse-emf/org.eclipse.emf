@@ -8,8 +8,11 @@ package org.examples.library.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.examples.library.*;
 
@@ -27,6 +30,29 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * @generated
    */
   public static final String copyright = "This is my code.";
+
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static LibraryFactory init()
+  {
+    try
+    {
+      LibraryFactory theLibraryFactory = (LibraryFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.eclipse.org/Library2"); 
+      if (theLibraryFactory != null)
+      {
+        return theLibraryFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new LibraryFactoryImpl();
+  }
 
   /**
    * Creates an instance of the factory.

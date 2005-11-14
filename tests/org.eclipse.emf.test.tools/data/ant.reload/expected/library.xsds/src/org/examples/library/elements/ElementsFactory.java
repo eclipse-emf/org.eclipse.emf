@@ -31,7 +31,7 @@ public interface ElementsFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  ElementsFactory eINSTANCE = new org.examples.library.elements.impl.ElementsFactoryImpl();
+  ElementsFactory eINSTANCE = org.examples.library.elements.impl.ElementsFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Book</em>'.

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsFactory.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
+ * $Id: ElementsFactory.java,v 1.3 2005/11/14 20:44:48 emerks Exp $
  */
 package org.examples.library.elements;
 
@@ -31,7 +31,7 @@ public interface ElementsFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  ElementsFactory eINSTANCE = new org.examples.library.elements.impl.ElementsFactoryImpl();
+  ElementsFactory eINSTANCE = org.examples.library.elements.impl.ElementsFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Book</em>'.

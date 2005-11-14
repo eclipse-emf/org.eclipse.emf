@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryFactory.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
+ * $Id: LibraryFactory.java,v 1.3 2005/11/14 20:44:47 emerks Exp $
  */
 package org.examples.library;
 
@@ -31,7 +31,7 @@ public interface LibraryFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  LibraryFactory eINSTANCE = new org.examples.library.impl.LibraryFactoryImpl();
+  LibraryFactory eINSTANCE = org.examples.library.impl.LibraryFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Book</em>'.
