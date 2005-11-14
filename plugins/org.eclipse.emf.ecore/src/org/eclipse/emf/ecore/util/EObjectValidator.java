@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.13 2005/11/09 19:14:03 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.14 2005/11/14 13:35:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -70,6 +70,7 @@ public class EObjectValidator implements EValidator
   public static final int DATA_VALUE__MATCHES_PATTERN = 9;
   public static final int DATA_VALUE__TOTAL_DIGITS_IN_RANGE = 10;
   public static final int DATA_VALUE__FRACTION_DIGITS_IN_RANGE = 11;
+  public static final int EOBJECT__UNIQUE_ID = 12;
 
   /**
    * @since 2.1.0
@@ -1099,7 +1100,7 @@ public class EObjectValidator implements EValidator
             (new BasicDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
-               EOBJECT__EVERY_MULTIPCITY_CONFORMS,
+               EOBJECT__UNIQUE_ID,
                getEcoreResourceLocator().getString
                  ("_UI_DuplicateID_diagnostic",
                   new Object []
