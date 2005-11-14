@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.39 2005/10/28 13:51:49 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.40 2005/11/14 16:47:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -35,6 +35,7 @@ import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
@@ -986,7 +987,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          {
            public boolean accept(GenFeature genFeature)
            {
-             return isField(genFeature) && !genFeature.isReferenceType();
+             return genFeature.isField() && !genFeature.isReferenceType();
            }
          });
   }
@@ -2316,26 +2317,26 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public boolean isFlag(GenFeature genFeature)
   {
-    return (getImplementedGenFeatures().contains(genFeature) ? getGenModel().isBooleanFlagsEnabled()
-      : genFeature.getGenModel().isBooleanFlagsEnabled()) && genFeature.isFlag();
+    GenModel genModel = getImplementedGenFeatures().contains(genFeature) ? getGenModel() : genFeature.getGenModel();
+    return genModel.isBooleanFlagsEnabled() && genFeature.isFlag();
   }
 
   public boolean isESetFlag(GenFeature genFeature)
   {
-    return (getImplementedGenFeatures().contains(genFeature) ? getGenModel().isBooleanFlagsEnabled()
-      : genFeature.getGenModel().isBooleanFlagsEnabled()) && genFeature.isESetFlag();
+    GenModel genModel = getImplementedGenFeatures().contains(genFeature) ? getGenModel() : genFeature.getGenModel();
+    return (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) && genModel.isBooleanFlagsEnabled() && genFeature.isESetFlag();
   }
 
   public boolean isField(GenFeature genFeature)
   {
-    return !(getImplementedGenFeatures().contains(genFeature) ? getGenModel().isReflectiveDelegation()
-      : genFeature.getGenModel().isReflectiveDelegation()) && genFeature.isField();
+    GenModel genModel = getImplementedGenFeatures().contains(genFeature) ? getGenModel() : genFeature.getGenModel();
+    return !genModel.isReflectiveDelegation() && (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) && genFeature.isField();
   }
 
   public boolean isESetField(GenFeature genFeature)
   {
-    return !(getImplementedGenFeatures().contains(genFeature) ? getGenModel().isReflectiveDelegation()
-      : genFeature.getGenModel().isReflectiveDelegation()) && genFeature.isESetField();
+    GenModel genModel = getImplementedGenFeatures().contains(genFeature) ? getGenModel() : genFeature.getGenModel();
+    return !genModel.isReflectiveDelegation() && (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) && genFeature.isESetField();
   }
 
   public class CollidingGenOperationFilter implements GenOperationFilter
@@ -2436,5 +2437,54 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
     }
     return false;
+  }
+
+  protected int getNonPrimitiveFeatureCount()
+  {
+    return 
+    collectGenFeatures
+      (getAllBaseGenClasses(), 
+       getGenFeatures(), 
+       new GenFeatureFilter() 
+       {
+         public boolean accept(GenFeature genFeature) 
+         {
+           return !genFeature.isPrimitiveType();
+         }
+       }).size();
+  }
+
+  public String getEVirtualValuesField()
+  {
+    String eVirtualValuesField = null;
+
+    for (GenClass classExtendsGenClass = getClassExtendsGenClass(); eVirtualValuesField == null && classExtendsGenClass != null; classExtendsGenClass = classExtendsGenClass.getClassExtendsGenClass())
+    {
+      eVirtualValuesField = classExtendsGenClass.getEVirtualValuesField();
+    }
+
+    return eVirtualValuesField == null && getGenModel().isVirtualDelegation() && getNonPrimitiveFeatureCount() > 0 ? "eVirtualValues" : null;
+  }
+
+  public List getEVirtualIndexBitFields(List eVirtualIndexBitFields)
+  {
+    if (getGenModel().isVirtualDelegation() && getNonPrimitiveFeatureCount() > 0)
+    {
+      GenClass classExtendsGenClass = getClassExtendsGenClass();
+
+      for (int i = (classExtendsGenClass == null ? 0 : classExtendsGenClass.getAllEVirtualIndexBitFields(new ArrayList()).size()); i < (getFeatureCount() / 32) + 1; i++)
+      {
+        eVirtualIndexBitFields.add("eVirtualIndexBits" + i);
+      }
+    }
+
+    return eVirtualIndexBitFields;
+  }
+
+  public List getAllEVirtualIndexBitFields(List allEVirtualIndexBitFields)
+  {
+    GenClass classExtendsGenClass = getClassExtendsGenClass();
+    return getEVirtualIndexBitFields(classExtendsGenClass == null
+      ? allEVirtualIndexBitFields : classExtendsGenClass.getAllEVirtualIndexBitFields(allEVirtualIndexBitFields));
   }
 }

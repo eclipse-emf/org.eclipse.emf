@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.47 2005/10/07 19:39:21 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.48 2005/11/14 16:47:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.codegen.ecore.genmodel.impl;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -130,6 +131,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getBooleanFlagsReservedBits <em>Boolean Flags Reserved Bits</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getImporterID <em>Importer ID</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isBundleManifest <em>Bundle Manifest</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFeatureDelegation <em>Feature Delegation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -796,16 +798,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected static final boolean REFLECTIVE_DELEGATION_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isReflectiveDelegation() <em>Reflective Delegation</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isReflectiveDelegation()
-   * @generated
-   * @ordered
-   */
-  protected boolean reflectiveDelegation = REFLECTIVE_DELEGATION_EDEFAULT;
-
-  /**
    * The default value of the '{@link #isCodeFormatting() <em>Code Formatting</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -962,6 +954,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean bundleManifest = BUNDLE_MANIFEST_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getFeatureDelegation() <em>Feature Delegation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFeatureDelegation()
+   * @generated
+   * @ordered
+   */
+  protected static final GenDelegationKind FEATURE_DELEGATION_EDEFAULT = GenDelegationKind.NONE_LITERAL;
+
+  /**
+   * The cached value of the '{@link #getFeatureDelegation() <em>Feature Delegation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFeatureDelegation()
+   * @generated
+   * @ordered
+   */
+  protected GenDelegationKind featureDelegation = FEATURE_DELEGATION_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -3413,24 +3425,21 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public boolean isReflectiveDelegation()
   {
-    return reflectiveDelegation;
+    return getFeatureDelegation() == GenDelegationKind.REFLECTIVE_LITERAL;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void setReflectiveDelegation(boolean newReflectiveDelegation)
   {
-    boolean oldReflectiveDelegation = reflectiveDelegation;
-    reflectiveDelegation = newReflectiveDelegation;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION, oldReflectiveDelegation, reflectiveDelegation));
+    setFeatureDelegation(newReflectiveDelegation ? GenDelegationKind.REFLECTIVE_LITERAL : GenDelegationKind.NONE_LITERAL);
   }
 
   /**
@@ -3669,6 +3678,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public GenDelegationKind getFeatureDelegation()
+  {
+    return featureDelegation;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setFeatureDelegation(GenDelegationKind newFeatureDelegation)
+  {
+    GenDelegationKind oldFeatureDelegation = featureDelegation;
+    featureDelegation = newFeatureDelegation == null ? FEATURE_DELEGATION_EDEFAULT : newFeatureDelegation;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__FEATURE_DELEGATION, oldFeatureDelegation, featureDelegation));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getGenPackages()
   {
     if (genPackages == null)
@@ -3854,6 +3886,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getImporterID();
       case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
         return isBundleManifest() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
+        return getFeatureDelegation();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3936,7 +3970,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
         return richClientPlatform != RICH_CLIENT_PLATFORM_EDEFAULT;
       case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
-        return reflectiveDelegation != REFLECTIVE_DELEGATION_EDEFAULT;
+        return isReflectiveDelegation() != REFLECTIVE_DELEGATION_EDEFAULT;
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
         return codeFormatting != CODE_FORMATTING_EDEFAULT;
       case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
@@ -3951,6 +3985,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return IMPORTER_ID_EDEFAULT == null ? importerID != null : !IMPORTER_ID_EDEFAULT.equals(importerID);
       case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
         return bundleManifest != BUNDLE_MANIFEST_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
+        return featureDelegation != FEATURE_DELEGATION_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -4090,6 +4126,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
         setBundleManifest(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
+        setFeatureDelegation((GenDelegationKind)newValue);
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -4232,6 +4271,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
         setBundleManifest(BUNDLE_MANIFEST_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
+        setFeatureDelegation(FEATURE_DELEGATION_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -4316,8 +4358,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(runtimeCompatibility);
     result.append(", richClientPlatform: ");
     result.append(richClientPlatform);
-    result.append(", reflectiveDelegation: ");
-    result.append(reflectiveDelegation);
     result.append(", codeFormatting: ");
     result.append(codeFormatting);
     result.append(", testsDirectory: ");
@@ -4332,6 +4372,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(importerID);
     result.append(", bundleManifest: ");
     result.append(bundleManifest);
+    result.append(", featureDelegation: ");
+    result.append(featureDelegation);
     result.append(')');
     return result.toString();
   }
@@ -5114,6 +5156,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         
     setBooleanFlagsField(oldGenModelVersion.getBooleanFlagsField());
     setBooleanFlagsReservedBits(oldGenModelVersion.getBooleanFlagsReservedBits());
+    
+    setFeatureDelegation(oldGenModelVersion.getFeatureDelegation());
   }
 
   public boolean reconcile()
@@ -5422,6 +5466,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public String getPropertyCategoryKey(String category)
   {
     return "_UI_" + CodeGenUtil.validJavaIdentifier(category) + "PropertyCategory";
+  }
+
+  public boolean isVirtualDelegation()
+  {
+    return getFeatureDelegation() == GenDelegationKind.VIRTUAL_LITERAL;
   }
 
 } //GenModelImpl

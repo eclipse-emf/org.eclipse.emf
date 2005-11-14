@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.17 2005/10/26 10:13:06 emerks Exp $
+ * $Id: GenClass.java,v 1.18 2005/11/14 16:47:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -367,4 +367,8 @@ public interface GenClass extends GenClassifier
   boolean isESetField(GenFeature genFeature);  
 
   boolean hasTests();
+
+  String getEVirtualValuesField();
+  List/*of String*/ getEVirtualIndexBitFields(List eVirtualIndexBitFields);
+  List/*of String*/ getAllEVirtualIndexBitFields(List allEVirtualIndexBitFields);
 }

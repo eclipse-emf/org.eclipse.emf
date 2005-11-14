@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenResourceKind.java,v 1.3 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenResourceKind.java,v 1.4 2005/11/14 16:47:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -89,7 +89,7 @@ public final class GenResourceKind extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final GenResourceKind NONE_LITERAL = new GenResourceKind(NONE, "None");
+  public static final GenResourceKind NONE_LITERAL = new GenResourceKind(NONE, "None", "None");
 
   /**
    * The '<em><b>Basic</b></em>' literal object.
@@ -103,7 +103,7 @@ public final class GenResourceKind extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final GenResourceKind BASIC_LITERAL = new GenResourceKind(BASIC, "Basic");
+  public static final GenResourceKind BASIC_LITERAL = new GenResourceKind(BASIC, "Basic", "Basic");
 
   /**
    * The '<em><b>XMI</b></em>' literal object.
@@ -117,7 +117,7 @@ public final class GenResourceKind extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final GenResourceKind XMI_LITERAL = new GenResourceKind(XMI, "XMI");
+  public static final GenResourceKind XMI_LITERAL = new GenResourceKind(XMI, "XMI", "XMI");
 
   /**
    * The '<em><b>XML</b></em>' literal object.
@@ -131,7 +131,7 @@ public final class GenResourceKind extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final GenResourceKind XML_LITERAL = new GenResourceKind(XML, "XML");
+  public static final GenResourceKind XML_LITERAL = new GenResourceKind(XML, "XML", "XML");
 
   /**
    * An array of all the '<em><b>Gen Resource Kind</b></em>' enumerators.
@@ -157,17 +157,17 @@ public final class GenResourceKind extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Gen Resource Kind</b></em>' literal with the specified name.
+   * Returns the '<em><b>Gen Resource Kind</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static GenResourceKind get(String name)
+  public static GenResourceKind get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       GenResourceKind result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -176,7 +176,26 @@ public final class GenResourceKind extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Gen Resource Kind</b></em>' literal with the specified value.
+   * Returns the '<em><b>Gen Resource Kind</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static GenResourceKind getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      GenResourceKind result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Gen Resource Kind</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -199,9 +218,9 @@ public final class GenResourceKind extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private GenResourceKind(int value, String name)
+  private GenResourceKind(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 } //GenResourceKind

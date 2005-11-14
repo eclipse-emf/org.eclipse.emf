@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenPropertyKind.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: GenPropertyKind.java,v 1.2 2005/11/14 16:47:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -68,7 +68,7 @@ public final class GenPropertyKind extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final GenPropertyKind EDITABLE_LITERAL = new GenPropertyKind(EDITABLE, "Editable");
+  public static final GenPropertyKind EDITABLE_LITERAL = new GenPropertyKind(EDITABLE, "Editable", "Editable");
 
   /**
    * The '<em><b>Readonly</b></em>' literal object.
@@ -82,7 +82,7 @@ public final class GenPropertyKind extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final GenPropertyKind READONLY_LITERAL = new GenPropertyKind(READONLY, "Readonly");
+  public static final GenPropertyKind READONLY_LITERAL = new GenPropertyKind(READONLY, "Readonly", "Readonly");
 
   /**
    * The '<em><b>None</b></em>' literal object.
@@ -96,7 +96,7 @@ public final class GenPropertyKind extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final GenPropertyKind NONE_LITERAL = new GenPropertyKind(NONE, "None");
+  public static final GenPropertyKind NONE_LITERAL = new GenPropertyKind(NONE, "None", "None");
 
   /**
    * An array of all the '<em><b>Gen Property Kind</b></em>' enumerators.
@@ -121,17 +121,17 @@ public final class GenPropertyKind extends AbstractEnumerator
   public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Gen Property Kind</b></em>' literal with the specified name.
+   * Returns the '<em><b>Gen Property Kind</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static GenPropertyKind get(String name)
+  public static GenPropertyKind get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       GenPropertyKind result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -140,7 +140,26 @@ public final class GenPropertyKind extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Gen Property Kind</b></em>' literal with the specified value.
+   * Returns the '<em><b>Gen Property Kind</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static GenPropertyKind getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      GenPropertyKind result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Gen Property Kind</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
    * @generated
@@ -158,13 +177,13 @@ public final class GenPropertyKind extends AbstractEnumerator
 
   /**
    * Only this class can construct instances.
-   * <!-- begin-user-doc --> 
-   * <!-- end-user-doc --> 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  private GenPropertyKind(int value, String name)
+  private GenPropertyKind(int value, String name, String literal)
   {
-    super(value, name);
+    super(value, name, literal);
   }
 
 } //GenPropertyKind

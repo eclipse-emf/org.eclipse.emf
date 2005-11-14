@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.27 2005/07/21 20:00:38 elena Exp $
+ * $Id: GenModel.java,v 1.28 2005/11/14 16:47:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -80,6 +80,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getBooleanFlagsReservedBits <em>Boolean Flags Reserved Bits</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getImporterID <em>Importer ID</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isBundleManifest <em>Bundle Manifest</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureDelegation <em>Feature Delegation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1002,10 +1003,13 @@ public interface GenModel extends GenBase{
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @deprecated
+   * <!-- end-model-doc -->
    * @return the value of the '<em>Reflective Delegation</em>' attribute.
    * @see #setReflectiveDelegation(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ReflectiveDelegation()
-   * @model
+   * @model volatile="true" derived="true"
    * @generated
    */
   boolean isReflectiveDelegation();
@@ -1013,6 +1017,7 @@ public interface GenModel extends GenBase{
   /**
    * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isReflectiveDelegation <em>Reflective Delegation</em>}' attribute.
    * <!-- begin-user-doc -->
+   * @deprecated
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Reflective Delegation</em>' attribute.
    * @see #isReflectiveDelegation()
@@ -1258,6 +1263,35 @@ public interface GenModel extends GenBase{
   void setBundleManifest(boolean value);
 
   /**
+   * Returns the value of the '<em><b>Feature Delegation</b></em>' attribute.
+   * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Feature Delegation</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Feature Delegation</em>' attribute.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind
+   * @see #setFeatureDelegation(GenDelegationKind)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_FeatureDelegation()
+   * @model
+   * @generated
+   */
+  GenDelegationKind getFeatureDelegation();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureDelegation <em>Feature Delegation</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Feature Delegation</em>' attribute.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind
+   * @see #getFeatureDelegation()
+   * @generated
+   */
+  void setFeatureDelegation(GenDelegationKind value);
+
+  /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
@@ -1487,4 +1521,6 @@ public interface GenModel extends GenBase{
   ExtendedMetaData getExtendedMetaData();
   
   List computeMissingUsedGenPackages();
+
+  boolean isVirtualDelegation();
 }

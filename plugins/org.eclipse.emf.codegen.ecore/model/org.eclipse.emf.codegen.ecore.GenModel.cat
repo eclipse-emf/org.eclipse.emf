@@ -201,9 +201,16 @@
 		    type       	"boolean"
 		    exportControl 	"Public")
 		(object ClassAttribute "reflectiveDelegation"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE))
 		    quid       	"40B62BDD009C"
+		    documentation 	"@deprecated"
 		    type       	"boolean"
-		    exportControl 	"Public")
+		    exportControl 	"Public"
+		    derived    	TRUE)
 		(object ClassAttribute "codeFormatting"
 		    quid       	"4183EA7E005D"
 		    type       	"boolean"
@@ -243,6 +250,10 @@
 		    quid       	"429FD2E60379"
 		    type       	"boolean"
 		    initv      	"true"
+		    exportControl 	"Public")
+		(object ClassAttribute "featureDelegation"
+		    quid       	"436785A00098"
+		    type       	"GenDelegationKind"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -480,6 +491,19 @@
 		    supplier   	"Logical View::genmodel::GenBase"
 		    quidu      	"3C176A0701D7"))
 	    abstract   	TRUE)
+	(object Class "GenDelegationKind"
+	    quid       	"4373999700A7"
+	    stereotype 	"enumeration"
+	    class_attributes 	(list class_attribute_list
+		(object ClassAttribute "None"
+		    quid       	"437399A602D9"
+		    exportControl 	"Public")
+		(object ClassAttribute "Reflective"
+		    quid       	"437399A90045"
+		    exportControl 	"Public")
+		(object ClassAttribute "Virtual"
+		    quid       	"437399AB017C"
+		    exportControl 	"Public")))
 	(object Association "$UNNAMED$0"
 	    quid       	"3C1758BB00D4"
 	    roles      	(list role_list
@@ -1537,31 +1561,31 @@
 				height     	48
 				orientation 	1))))
 		(object AssociationViewNew "$UNNAMED$12" @56
-		    location   	(690, 279)
+		    location   	(690, 280)
 		    stereotype 	TRUE
 		    quidu      	"3C45AEB6027F"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$13" @57
 			    Parent_View 	@56
-			    location   	(-78, -265)
+			    location   	(-78, -264)
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"3C45AEB80047"
 			    client     	@56
 			    supplier   	@12
 			    vertices   	(list Points
-				(690, 279)
+				(690, 280)
 				(690, 137)
 				(779, 137))
 			    line_style 	3
-			    origin_attachment 	(690, 279)
+			    origin_attachment 	(690, 280)
 			    terminal_attachment 	(779, 137))
 			(object RoleView "usedGenPackages" @58
 			    Parent_View 	@56
-			    location   	(-78, -265)
+			    location   	(-78, -264)
 			    label      	(object SegLabel @59
 				Parent_View 	@58
-				location   	(494, 353)
+				location   	(494, 354)
 				anchor     	1
 				anchor_loc 	1
 				nlines     	1
@@ -1577,11 +1601,11 @@
 			    client     	@56
 			    supplier   	@43
 			    vertices   	(list Points
-				(690, 279)
+				(690, 280)
 				(690, 447)
 				(754, 447))
 			    line_style 	3
-			    origin_attachment 	(690, 279)
+			    origin_attachment 	(690, 280)
 			    terminal_attachment 	(754, 447)
 			    label      	(object SegLabel @60
 				Parent_View 	@58
@@ -2484,10 +2508,10 @@
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
-		    location   	(912, 960)
+		    location   	(656, 960)
 		    label      	(object ItemLabel
 			Parent_View 	@136
-			location   	(775, 909)
+			location   	(519, 909)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	274
@@ -2524,10 +2548,10 @@
 		(object ClassView "Class" "Logical View::genmodel::GenClass" @138
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeOperation 	TRUE
-		    location   	(624, 960)
+		    location   	(944, 960)
 		    label      	(object ItemLabel
 			Parent_View 	@138
-			location   	(517, 908)
+			location   	(837, 908)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	214
@@ -2545,10 +2569,10 @@
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
-		    location   	(912, 1248)
+		    location   	(656, 1264)
 		    label      	(object ItemLabel
 			Parent_View 	@139
-			location   	(805, 1197)
+			location   	(549, 1213)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	214
@@ -2641,13 +2665,13 @@
 		    supplier   	@136
 		    line_style 	0)
 		(object InheritTreeView "" @145
-		    location   	(875, 775)
+		    location   	(825, 784)
 		    line_color 	8421504
 		    fill_color 	13434879
 		    supplier   	@135
 		    vertices   	(list Points
-			(875, 775)
-			(875, 623)))
+			(825, 784)
+			(825, 623)))
 		(object InheritView "" @146
 		    stereotype 	TRUE
 		    line_color 	8421504
@@ -2666,7 +2690,7 @@
 		    location   	(2704, 1664)
 		    label      	(object ItemLabel
 			Parent_View 	@147
-			location   	(2065, 633)
+			location   	(2065, 583)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	1278
@@ -2678,12 +2702,12 @@
 		    quidu      	"3C175881028E"
 		    compartment 	(object Compartment
 			Parent_View 	@147
-			location   	(2065, 693)
+			location   	(2065, 643)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	41
-			max_width  	0
+			nlines     	42
+			max_width  	1275
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
 			    "+ modelDirectory : String"
@@ -2710,7 +2734,7 @@
 			    "+ featureMapWrapperInternalInterface : String"
 			    "+ featureMapWrapperClass : String"))
 		    width      	1296
-		    height     	2086
+		    height     	2186
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenPackage" @148
@@ -2719,7 +2743,7 @@
 		    location   	(336, 672)
 		    label      	(object ItemLabel
 			Parent_View 	@148
-			location   	(25, 516)
+			location   	(25, 491)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	622
@@ -2731,19 +2755,20 @@
 		    quidu      	"3C17589A01D3"
 		    compartment 	(object Compartment
 			Parent_View 	@148
-			location   	(25, 576)
+			location   	(25, 551)
 			icon_style 	"Icon"
 			fill_color 	16777215
 			anchor     	2
-			nlines     	5
-			max_width  	0
+			nlines     	6
+			max_width  	619
 			compartmentItems 	(list Compartment
 			    "+ prefix : String"
 			    "+ basePackage : String"
 			    "+ adapterFactory : boolean = true"
-			    "+ loadInitialization : boolean"))
+			    "+ loadInitialization : boolean"
+			    "+ resource : GenResourceKind"))
 		    width      	640
-		    height     	336
+		    height     	386
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object InheritView "" @149
@@ -2753,40 +2778,20 @@
 		    client     	@148
 		    supplier   	@134
 		    line_style 	3
-		    origin_attachment 	(316, 504)
+		    origin_attachment 	(316, 479)
 		    terminal_attachment 	(316, 387)
 		    drawSupplier 	@143)
 		(object InheritView "" @150
-		    stereotype 	TRUE
-		    line_color 	8421504
-		    quidu      	"3D2B27E10352"
-		    client     	@136
-		    supplier   	@135
-		    line_style 	3
-		    origin_attachment 	(909, 897)
-		    terminal_attachment 	(909, 775)
-		    drawSupplier 	@145)
-		(object InheritView "" @151
 		    stereotype 	TRUE
 		    line_color 	8421504
 		    quidu      	"3FBF8EA802D4"
 		    client     	@147
 		    supplier   	@134
 		    line_style 	3
-		    origin_attachment 	(2715, 621)
+		    origin_attachment 	(2715, 571)
 		    terminal_attachment 	(2715, 387)
 		    drawSupplier 	@143)
-		(object InheritView "" @152
-		    stereotype 	TRUE
-		    line_color 	8421504
-		    quidu      	"3D2B269203A0"
-		    client     	@138
-		    supplier   	@135
-		    line_style 	3
-		    origin_attachment 	(703, 896)
-		    terminal_attachment 	(703, 775)
-		    drawSupplier 	@145)
-		(object ClassView "Class" "Logical View::genmodel::GenTypedElement" @153
+		(object ClassView "Class" "Logical View::genmodel::GenTypedElement" @151
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
@@ -2794,7 +2799,7 @@
 		    font       	(object Font
 			italics    	TRUE)
 		    label      	(object ItemLabel
-			Parent_View 	@153
+			Parent_View 	@151
 			location   	(1498, 509)
 			fill_color 	13434879
 			nlines     	1
@@ -2809,35 +2814,25 @@
 		    height     	126
 		    annotation 	8
 		    autoResize 	TRUE)
-		(object InheritTreeView "" @154
+		(object InheritTreeView "" @152
 		    location   	(1675, 775)
 		    line_color 	8421504
 		    fill_color 	13434879
-		    supplier   	@153
+		    supplier   	@151
 		    vertices   	(list Points
 			(1675, 775)
 			(1675, 623)))
-		(object InheritView "" @155
+		(object InheritView "" @153
 		    stereotype 	TRUE
 		    line_color 	8421504
 		    quidu      	"4291FBFE0112"
 		    client     	@142
-		    supplier   	@153
+		    supplier   	@151
 		    line_style 	3
 		    origin_attachment 	(1872, 897)
 		    terminal_attachment 	(1872, 775)
-		    drawSupplier 	@154)
-		(object InheritView "" @156
-		    stereotype 	TRUE
-		    line_color 	8421504
-		    quidu      	"4291FBF6005D"
-		    client     	@137
-		    supplier   	@153
-		    line_style 	3
-		    origin_attachment 	(1225, 898)
-		    terminal_attachment 	(1225, 775)
-		    drawSupplier 	@154)
-		(object InheritView "" @157
+		    drawSupplier 	@152)
+		(object InheritView "" @154
 		    stereotype 	TRUE
 		    line_color 	8421504
 		    quidu      	"3C1FB07502B7"
@@ -2847,26 +2842,132 @@
 		    origin_attachment 	(1269, 497)
 		    terminal_attachment 	(1269, 387)
 		    drawSupplier 	@143)
-		(object InheritView "" @158
+		(object InheritView "" @155
 		    stereotype 	TRUE
 		    line_color 	8421504
 		    quidu      	"4291FC8A0181"
-		    client     	@153
+		    client     	@151
 		    supplier   	@134
 		    line_style 	3
 		    origin_attachment 	(1681, 497)
 		    terminal_attachment 	(1681, 387)
 		    drawSupplier 	@143)
-		(object InheritView "" @159
+		(object InheritView "" @156
 		    stereotype 	TRUE
 		    line_color 	8421504
 		    quidu      	"4291FBFA0314"
 		    client     	@141
-		    supplier   	@153
+		    supplier   	@151
 		    line_style 	3
 		    origin_attachment 	(1556, 897)
 		    terminal_attachment 	(1556, 775)
-		    drawSupplier 	@154)))
+		    drawSupplier 	@152)
+		(object ClassView "Class" "Logical View::genmodel::GenDelegationKind" @157
+		    ShowCompartmentStereotypes 	TRUE
+		    SuppressOperation 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(1776, 1328)
+		    label      	(object ItemLabel
+			Parent_View 	@157
+			location   	(1585, 1244)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	382
+			justify    	0
+			label      	"GenDelegationKind")
+		    stereotype 	(object ItemLabel
+			Parent_View 	@157
+			location   	(1585, 1194)
+			fill_color 	13434879
+			anchor     	10
+			nlines     	1
+			max_width  	382
+			justify    	0
+			label      	"<<enumeration>>")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	7778803
+		    quidu      	"4373999700A7"
+		    compartment 	(object Compartment
+			Parent_View 	@157
+			location   	(1585, 1304)
+			icon_style 	"Icon"
+			fill_color 	13434879
+			anchor     	2
+			nlines     	3
+			max_width  	172)
+		    width      	400
+		    height     	292
+		    autoResize 	TRUE)
+		(object ClassView "Class" "Logical View::genmodel::GenResourceKind" @158
+		    ShowCompartmentStereotypes 	TRUE
+		    SuppressOperation 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(1296, 1344)
+		    label      	(object ItemLabel
+			Parent_View 	@158
+			location   	(1115, 1235)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	362
+			justify    	0
+			label      	"GenResourceKind")
+		    stereotype 	(object ItemLabel
+			Parent_View 	@158
+			location   	(1115, 1185)
+			fill_color 	13434879
+			anchor     	10
+			nlines     	1
+			max_width  	362
+			justify    	0
+			label      	"<<enumeration>>")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	7778803
+		    quidu      	"3D9D6E110209"
+		    compartment 	(object Compartment
+			Parent_View 	@158
+			location   	(1115, 1295)
+			icon_style 	"Icon"
+			fill_color 	13434879
+			anchor     	2
+			nlines     	4
+			max_width  	103)
+		    width      	380
+		    height     	342
+		    autoResize 	TRUE)
+		(object InheritView "" @159
+		    stereotype 	TRUE
+		    line_color 	8421504
+		    quidu      	"4291FBF6005D"
+		    client     	@137
+		    supplier   	@151
+		    line_style 	3
+		    origin_attachment 	(1228, 898)
+		    terminal_attachment 	(1228, 775)
+		    drawSupplier 	@152)
+		(object InheritView "" @160
+		    stereotype 	TRUE
+		    line_color 	8421504
+		    quidu      	"3D2B27E10352"
+		    client     	@136
+		    supplier   	@135
+		    line_style 	3
+		    origin_attachment 	(697, 897)
+		    terminal_attachment 	(697, 784)
+		    drawSupplier 	@145)
+		(object InheritView "" @161
+		    stereotype 	TRUE
+		    line_color 	8421504
+		    quidu      	"3D2B269203A0"
+		    client     	@138
+		    supplier   	@135
+		    line_style 	3
+		    origin_attachment 	(940, 896)
+		    terminal_attachment 	(940, 784)
+		    drawSupplier 	@145)))
 	(object ClassDiagram "GenModel Edit Relations and Attributes"
 	    quid       	"3D2B33D8036E"
 	    title      	"GenModel Edit Relations and Attributes"
@@ -2876,13 +2977,13 @@
 	    origin_x   	0
 	    origin_y   	0
 	    items      	(list diagram_item_list
-		(object ClassView "Class" "Logical View::genmodel::GenProviderKind" @160
+		(object ClassView "Class" "Logical View::genmodel::GenProviderKind" @162
 		    ShowCompartmentStereotypes 	TRUE
 		    SuppressOperation 	TRUE
 		    IncludeAttribute 	TRUE
 		    location   	(1872, 272)
 		    label      	(object ItemLabel
-			Parent_View 	@160
+			Parent_View 	@162
 			location   	(1706, 188)
 			fill_color 	13434879
 			nlines     	1
@@ -2890,7 +2991,7 @@
 			justify    	0
 			label      	"GenProviderKind")
 		    stereotype 	(object ItemLabel
-			Parent_View 	@160
+			Parent_View 	@162
 			location   	(1706, 138)
 			fill_color 	13434879
 			anchor     	10
@@ -2902,18 +3003,26 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D8C92B10303"
+		    compartment 	(object Compartment
+			Parent_View 	@162
+			location   	(1706, 248)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	3
+			max_width  	228)
 		    width      	350
 		    height     	292
 		    annotation 	8
 		    autoResize 	TRUE)
-		(object ClassView "Class" "Logical View::genmodel::GenPropertyKind" @161
+		(object ClassView "Class" "Logical View::genmodel::GenPropertyKind" @163
 		    ShowCompartmentStereotypes 	TRUE
 		    SuppressOperation 	TRUE
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
 		    location   	(1872, 752)
 		    label      	(object ItemLabel
-			Parent_View 	@161
+			Parent_View 	@163
 			location   	(1700, 668)
 			fill_color 	13434879
 			nlines     	1
@@ -2921,7 +3030,7 @@
 			justify    	0
 			label      	"GenPropertyKind")
 		    stereotype 	(object ItemLabel
-			Parent_View 	@161
+			Parent_View 	@163
 			location   	(1700, 618)
 			fill_color 	13434879
 			anchor     	10
@@ -2933,46 +3042,24 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D8C9D820115"
+		    compartment 	(object Compartment
+			Parent_View 	@163
+			location   	(1700, 728)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	3
+			max_width  	228)
 		    width      	362
 		    height     	292
 		    annotation 	8
 		    autoResize 	TRUE)
-		(object ClassView "Class" "Logical View::genmodel::GenResourceKind" @162
-		    ShowCompartmentStereotypes 	TRUE
-		    IncludeAttribute 	TRUE
-		    IncludeOperation 	TRUE
-		    location   	(288, 1136)
-		    label      	(object ItemLabel
-			Parent_View 	@162
-			location   	(108, 1002)
-			fill_color 	13434879
-			nlines     	1
-			max_width  	360
-			justify    	0
-			label      	"GenResourceKind")
-		    stereotype 	(object ItemLabel
-			Parent_View 	@162
-			location   	(108, 952)
-			fill_color 	13434879
-			anchor     	10
-			nlines     	1
-			max_width  	360
-			justify    	0
-			label      	"<<enumeration>>")
-		    icon_style 	"Icon"
-		    line_color 	3342489
-		    fill_color 	7778803
-		    quidu      	"3D9D6E110209"
-		    width      	378
-		    height     	392
-		    annotation 	8
-		    autoResize 	TRUE)
-		(object ClassView "Class" "Logical View::genmodel::GenModel" @163
+		(object ClassView "Class" "Logical View::genmodel::GenModel" @164
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeOperation 	TRUE
 		    location   	(464, 352)
 		    label      	(object ItemLabel
-			Parent_View 	@163
+			Parent_View 	@164
 			location   	(114, 121)
 			fill_color 	13434879
 			nlines     	1
@@ -2984,13 +3071,13 @@
 		    fill_color 	13434879
 		    quidu      	"3C175881028E"
 		    compartment 	(object Compartment
-			Parent_View 	@163
+			Parent_View 	@164
 			location   	(114, 181)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
 			nlines     	8
-			max_width  	0
+			max_width  	697
 			compartmentItems 	(list Compartment
 			    "+ creationCommands : boolean = true"
 			    "+ editDirectory : String"
@@ -3003,13 +3090,13 @@
 		    height     	486
 		    annotation 	8
 		    autoResize 	TRUE)
-		(object ClassView "Class" "Logical View::genmodel::GenFeature" @164
+		(object ClassView "Class" "Logical View::genmodel::GenFeature" @165
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
 		    location   	(1248, 752)
 		    label      	(object ItemLabel
-			Parent_View 	@164
+			Parent_View 	@165
 			location   	(894, 521)
 			fill_color 	13434879
 			nlines     	1
@@ -3020,17 +3107,25 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3C1759CD00A1"
+		    compartment 	(object Compartment
+			Parent_View 	@165
+			location   	(894, 581)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	8
+			max_width  	715)
 		    width      	726
 		    height     	486
 		    annotation 	8
 		    autoResize 	TRUE)
-		(object ClassView "Class" "Logical View::genmodel::GenClass" @165
+		(object ClassView "Class" "Logical View::genmodel::GenClass" @166
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
 		    location   	(1248, 224)
 		    label      	(object ItemLabel
-			Parent_View 	@165
+			Parent_View 	@166
 			location   	(984, 118)
 			fill_color 	13434879
 			nlines     	1
@@ -3041,20 +3136,28 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3C1759410016"
+		    compartment 	(object Compartment
+			Parent_View 	@166
+			location   	(984, 178)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	3
+			max_width  	534)
 		    width      	546
 		    height     	236
 		    annotation 	8
 		    autoResize 	TRUE)
-		(object AssociationViewNew "$UNNAMED$25" @166
+		(object AssociationViewNew "$UNNAMED$25" @167
 		    location   	(1248, 425)
 		    stereotype 	TRUE
 		    quidu      	"3D2C53A600A6"
 		    roleview_list 	(list RoleViews
-			(object RoleView "labelFeature" @167
-			    Parent_View 	@166
+			(object RoleView "labelFeature" @168
+			    Parent_View 	@167
 			    location   	(912, 249)
-			    label      	(object SegLabel @168
-				Parent_View 	@167
+			    label      	(object SegLabel @169
+				Parent_View 	@168
 				location   	(1416, 469)
 				anchor     	1
 				anchor_loc 	1
@@ -3068,11 +3171,11 @@
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"3D2C53A602D7"
-			    client     	@166
-			    supplier   	@164
+			    client     	@167
+			    supplier   	@165
 			    line_style 	0
-			    label      	(object SegLabel @169
-				Parent_View 	@167
+			    label      	(object SegLabel @170
+				Parent_View 	@168
 				location   	(1172, 471)
 				anchor     	2
 				anchor_loc 	1
@@ -3083,22 +3186,22 @@
 				pctDist    	0.568493
 				height     	77
 				orientation 	1))
-			(object RoleView "$UNNAMED$26" @170
-			    Parent_View 	@166
+			(object RoleView "$UNNAMED$26" @171
+			    Parent_View 	@167
 			    location   	(912, 249)
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"3D2C53A602E1"
-			    client     	@166
-			    supplier   	@165
+			    client     	@167
+			    supplier   	@166
 			    line_style 	0)))
-		(object ClassView "Class" "Logical View::genmodel::GenPackage" @171
+		(object ClassView "Class" "Logical View::genmodel::GenPackage" @172
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeOperation 	TRUE
 		    location   	(464, 768)
 		    label      	(object ItemLabel
-			Parent_View 	@171
-			location   	(111, 662)
+			Parent_View 	@172
+			location   	(111, 687)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	706
@@ -3109,17 +3212,16 @@
 		    fill_color 	13434879
 		    quidu      	"3C17589A01D3"
 		    compartment 	(object Compartment
-			Parent_View 	@171
-			location   	(111, 722)
+			Parent_View 	@172
+			location   	(111, 747)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	3
-			max_width  	0
+			nlines     	2
+			max_width  	703
 			compartmentItems 	(list Compartment
-			    "+ resource : GenResourceKind"
 			    "+ disposableProviderFactory : boolean"))
 		    width      	724
-		    height     	236
+		    height     	186
 		    annotation 	8
 		    autoResize 	TRUE)))))

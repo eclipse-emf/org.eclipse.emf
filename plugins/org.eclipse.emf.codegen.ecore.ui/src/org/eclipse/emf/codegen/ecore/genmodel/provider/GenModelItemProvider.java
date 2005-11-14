@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.19 2005/06/08 20:27:39 marcelop Exp $
+ * $Id: GenModelItemProvider.java,v 1.20 2005/11/14 16:47:27 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -102,13 +102,13 @@ public class GenModelItemProvider
       addFeatureMapWrapperClassPropertyDescriptor(object);
       addRuntimeCompatibilityPropertyDescriptor(object);
       addRichClientPlatformPropertyDescriptor(object);
-      addReflectiveDelegationPropertyDescriptor(object);
       addCodeFormattingPropertyDescriptor(object);
       addTestsDirectoryPropertyDescriptor(object);
       addTestSuiteClassPropertyDescriptor(object);
       addBooleanFlagsFieldPropertyDescriptor(object);
       addBooleanFlagsReservedBitsPropertyDescriptor(object);
       addBundleManifestPropertyDescriptor(object);
+      addFeatureDelegationPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -744,27 +744,6 @@ public class GenModelItemProvider
   }
 
   /**
-   * This adds a property descriptor for the Reflective Delegation feature.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected void addReflectiveDelegationPropertyDescriptor(Object object)
-  {
-    itemPropertyDescriptors.add
-      (createItemPropertyDescriptor
-        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         getResourceLocator(),
-         getString("_UI_GenModel_reflectiveDelegation_feature"),
-         getString("_UI_GenModel_reflectiveDelegation_description"),
-         GenModelPackage.eINSTANCE.getGenModel_ReflectiveDelegation(),
-         true,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         getString("_UI_ModelPropertyCategory"),
-         null));
-  }
-
-  /**
    * This adds a property descriptor for the Code Formatting feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -891,6 +870,27 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Feature Delegation feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addFeatureDelegationPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_featureDelegation_feature"),
+         getString("_UI_GenModel_featureDelegation_description"),
+         GenModelPackage.eINSTANCE.getGenModel_FeatureDelegation(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -991,6 +991,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
       case GenModelPackage.GEN_MODEL__IMPORTER_ID:
       case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
+      case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:

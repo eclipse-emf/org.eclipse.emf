@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelFactoryImpl.java,v 1.5 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenModelFactoryImpl.java,v 1.6 2005/11/14 16:47:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -76,23 +76,13 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
     switch (eDataType.getClassifierID())
     {
       case GenModelPackage.GEN_PROVIDER_KIND:
-      {
-        GenProviderKind result = GenProviderKind.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createGenProviderKindFromString(eDataType, initialValue);
       case GenModelPackage.GEN_PROPERTY_KIND:
-      {
-        GenPropertyKind result = GenPropertyKind.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createGenPropertyKindFromString(eDataType, initialValue);
       case GenModelPackage.GEN_RESOURCE_KIND:
-      {
-        GenResourceKind result = GenResourceKind.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createGenResourceKindFromString(eDataType, initialValue);
+      case GenModelPackage.GEN_DELEGATION_KIND:
+        return createGenDelegationKindFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -108,11 +98,13 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
     switch (eDataType.getClassifierID())
     {
       case GenModelPackage.GEN_PROVIDER_KIND:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertGenProviderKindToString(eDataType, instanceValue);
       case GenModelPackage.GEN_PROPERTY_KIND:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertGenPropertyKindToString(eDataType, instanceValue);
       case GenModelPackage.GEN_RESOURCE_KIND:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertGenResourceKindToString(eDataType, instanceValue);
+      case GenModelPackage.GEN_DELEGATION_KIND:
+        return convertGenDelegationKindToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -215,6 +207,94 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
   {
     GenParameterImpl genParameter = new GenParameterImpl();
     return genParameter;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public GenProviderKind createGenProviderKindFromString(EDataType eDataType, String initialValue)
+  {
+    GenProviderKind result = GenProviderKind.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertGenProviderKindToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public GenPropertyKind createGenPropertyKindFromString(EDataType eDataType, String initialValue)
+  {
+    GenPropertyKind result = GenPropertyKind.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertGenPropertyKindToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public GenResourceKind createGenResourceKindFromString(EDataType eDataType, String initialValue)
+  {
+    GenResourceKind result = GenResourceKind.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertGenResourceKindToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public GenDelegationKind createGenDelegationKindFromString(EDataType eDataType, String initialValue)
+  {
+    GenDelegationKind result = GenDelegationKind.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertGenDelegationKindToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**

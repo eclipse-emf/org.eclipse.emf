@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.8 2005/10/31 13:35:21 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.9 2005/11/14 16:46:47 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -890,6 +890,183 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   public void eSetStore(InternalEObject.EStore store)
   {
     throw new UnsupportedOperationException();
+  }
+
+  protected Object[] eVirtualValues()
+  {
+    throw new UnsupportedOperationException();
+    //return eVirtualValues;
+  }
+
+  protected void eSetVirtualValues(Object[] newValues)
+  {
+    throw new UnsupportedOperationException();
+    //eVirtualValues = newValues;
+  }
+
+  protected static int eVirtualBitCount(int value)
+  {
+    value -= value >>> 1 & 0x55555555;
+    value = (value & 0x33333333) + (value >>> 2 & 0x33333333);
+    value = (value + (value >>> 4)) & 0x0F0F0F0F;
+    value += value >>> 8;
+    value += value >>> 16;
+    return value & 0x3F;
+  }
+
+  protected static final int EVIRTUAL_SET = 0;
+
+  protected static final int EVIRTUAL_UNSET = 1;
+
+  protected static final int EVIRTUAL_GET = 2;
+
+  protected static final int EVIRTUAL_IS_SET = 3;
+
+  protected int eVirtualIndexBits(int offset)
+  {
+    throw new UnsupportedOperationException();
+    //return eVirtualIndexBits[offset];
+  }
+
+  protected void eSetVirtualIndexBits(int offset, int newIndexBits)
+  {
+    throw new UnsupportedOperationException();
+    //eVirtualIndexBits[offset] = newIndexBits;
+  }
+
+  protected int eVirtualIndex(int eDerivedStructuralFeatureID, int action)
+  {
+    int offset = eDerivedStructuralFeatureID >>> 5;
+    int bits = eVirtualIndexBits(offset);
+    int bitIndex = eDerivedStructuralFeatureID & 31;
+    int bit = bits >>> bitIndex & 1;
+
+    switch (action)
+    {
+      case EVIRTUAL_IS_SET:
+      {
+        return bit;
+      }
+      case EVIRTUAL_GET:
+      case EVIRTUAL_UNSET:
+      {
+        if (bit == 0)
+        {
+          return 0;
+        }
+      }
+      case EVIRTUAL_SET:
+      default:
+      {
+        if (bit == action)
+        {
+          eSetVirtualIndexBits(offset, bits ^ (1 << bitIndex));
+        }
+
+        int result = eVirtualBitCount(bits << 31 - bitIndex);
+
+        for (int i = 0; i < offset; i++)
+        {
+          result += eVirtualBitCount(eVirtualIndexBits(i));
+        }
+
+        return (result << 1) - bit;
+      }
+    }
+  }
+
+  protected Object eVirtualGet(int eDerivedStructuralFeatureID)
+  {
+    int index = eVirtualIndex(eDerivedStructuralFeatureID, EVIRTUAL_GET);
+    return (index & 1) == 0 ? null : eVirtualValues()[index >>> 1];
+  }
+
+  protected boolean eVirtualIsSet(int eDerivedStructuralFeatureID)
+  {
+    return (eVirtualIndex(eDerivedStructuralFeatureID, EVIRTUAL_IS_SET) & 1) != 0;
+  }
+
+  protected static final Object EVIRTUAL_NO_VALUE = new Object();
+
+  protected Object eVirtualSet(int eDerivedStructuralFeatureID, Object value)
+  {
+    int index = eVirtualIndex(eDerivedStructuralFeatureID, EVIRTUAL_SET);
+    int position = index >>> 1;
+    Object[] values = eVirtualValues();
+
+    if ((index & 1) != 0)
+    {
+      Object oldValue = values[position];
+      values[position] = value;
+      return oldValue;
+    }
+    else
+    {
+      if (values == null)
+      {
+        eSetVirtualValues(new Object []{ value });
+      }
+      else
+      {
+        int length = values.length;
+        Object[] newValues = new Object [length + 1];
+
+        if (position > 0)
+        {
+          System.arraycopy(values, 0, newValues, 0, position);
+        }
+
+        if (position < length)
+        {
+          System.arraycopy(values, position, newValues, position + 1, length - position);
+        }
+
+        newValues[position] = value;
+        eSetVirtualValues(newValues);
+      }
+
+      return EVIRTUAL_NO_VALUE;
+    }
+  }
+
+  protected Object eVirtualUnset(int eDerivedStructuralFeatureID)
+  {
+    int index = eVirtualIndex(eDerivedStructuralFeatureID, EVIRTUAL_UNSET);
+
+    if ((index & 1) == 0)
+    {
+      return EVIRTUAL_NO_VALUE;
+    }
+    else
+    {
+      int position = index >>> 1;
+      Object[] values = eVirtualValues();
+      Object oldValue = values[position];
+      int length = values.length - 1;
+
+      if (length == 0)
+      {
+        eSetVirtualValues(null);
+      }
+      else
+      {
+        Object[] newValues = new Object [length];
+
+        if (position > 0)
+        {
+          System.arraycopy(values, 0, newValues, 0, position);
+        }
+
+        if (position < length)
+        {
+          System.arraycopy(values, position + 1, newValues, position, length - position);
+        }
+
+        eSetVirtualValues(newValues);
+      }
+
+      return oldValue;
+    }
   }
 
   public String toString()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.21 2005/08/24 13:35:45 marcelop Exp $
+ * $Id: GenModelPackage.java,v 1.22 2005/11/14 16:47:10 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -42,8 +42,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface GenModelPackage extends EPackage
-{
+public interface GenModelPackage extends EPackage{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -466,13 +465,22 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__BUNDLE_MANIFEST = GEN_BASE_FEATURE_COUNT + 39;
 
   /**
+   * The feature id for the '<em><b>Feature Delegation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__FEATURE_DELEGATION = GEN_BASE_FEATURE_COUNT + 40;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 40;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 41;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -481,7 +489,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 41;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 42;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -490,7 +498,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 42;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 43;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -1166,6 +1174,17 @@ public interface GenModelPackage extends EPackage
 
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind <em>Gen Delegation Kind</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenDelegationKind()
+   * @generated
+   */
+  int GEN_DELEGATION_KIND = 15;
+
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel <em>Gen Model</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1614,6 +1633,17 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EAttribute getGenModel_BundleManifest();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureDelegation <em>Feature Delegation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Feature Delegation</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureDelegation()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_FeatureDelegation();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
@@ -2282,6 +2312,16 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EEnum getGenResourceKind();
+
+  /**
+   * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind <em>Gen Delegation Kind</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Gen Delegation Kind</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind
+   * @generated
+   */
+  EEnum getGenDelegationKind();
 
   /**
    * Returns the factory that creates the instances of the model.

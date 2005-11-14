@@ -5,8 +5,8 @@
     creationCommands="false" editDirectory="/org.eclipse.emf.codegen.ecore.ui/src"
     editorDirectory="" modelPluginID="org.eclipse.emf.codegen.ecore" runtimeJar="true"
     modelName="GenModel" editPluginClass="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin"
-    editorPluginClass="" updateClasspath="false" runtimeCompatibility="false" testsDirectory=""
-    importerID="org.eclipse.emf.importer.rose" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    editorPluginClass="" updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
+    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>GenModel.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
@@ -27,6 +27,11 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenResourceKind/Basic"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenResourceKind/XMI"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenResourceKind/XML"/>
+    </genEnums>
+    <genEnums ecoreEnum="GenModel.ecore#//GenDelegationKind">
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenDelegationKind/None"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenDelegationKind/Reflective"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenDelegationKind/Virtual"/>
     </genEnums>
     <genClasses ecoreClass="GenModel.ecore#//GenModel">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="A copyright string to appear as a member of each generated class"
@@ -91,7 +96,7 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/runtimeCompatibility"/>
       <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="Whether to generate for Rich Client Platform"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/richClientPlatform"/>
-      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether the generated accessor methods should delegate to the reflective methods"
+      <genFeatures property="None" createChild="false" propertyCategory="Model" propertyDescription="Whether the generated accessor methods should delegate to the reflective methods"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/reflectiveDelegation"/>
       <genFeatures createChild="false" propertyCategory="JET" propertyDescription="Whether to fully format generated Java files with the JDT code formatter"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/codeFormatting"/>
@@ -106,6 +111,8 @@
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/importerID"/>
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="Whether to generate the OSGi bundle manifest"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/bundleManifest"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Delegation pattern to use for feature accessors"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/featureDelegation"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>
