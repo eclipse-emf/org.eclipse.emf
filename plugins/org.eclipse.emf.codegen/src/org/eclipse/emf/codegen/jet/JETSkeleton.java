@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETSkeleton.java,v 1.5 2005/06/08 06:15:57 nickb Exp $
+ * $Id: JETSkeleton.java,v 1.6 2005/11/14 12:54:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -20,6 +20,8 @@ package org.eclipse.emf.codegen.jet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jdt.core.jdom.DOMFactory;
 import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
@@ -70,7 +72,7 @@ public class JETSkeleton
 
   public void setCompilationUnitContents(String contents)
   {
-    compilationUnit = jdomFactory.createCompilationUnit(contents, "CLASS");
+    compilationUnit = jdomFactory.createCompilationUnit(convertLineFeed(contents), "CLASS");
   }
 
   public String getNLString()
@@ -151,7 +153,7 @@ public class JETSkeleton
       {
         String line = (String)i.next();
         body.append("    ");
-        body.append(line);
+        body.append(convertLineFeed(line));
         body.append(NL);
       }
       body.append(STRING_BUFFER_RETURN);
@@ -159,6 +161,23 @@ public class JETSkeleton
 
       method.setBody(body.toString());
     }
+  }
+
+  protected static final Pattern NL_PATTERN = Pattern.compile("([\\n][\\r]?|[\\r][\\n]?)", Pattern.MULTILINE);
+  
+  public String convertLineFeed(String value)
+  {
+    Matcher matcher = NL_PATTERN.matcher(value);
+    if (matcher.find())
+    {
+      String nl = matcher.group(1);  
+      if (!NL.equals(nl))
+      {
+        return value.replaceAll(nl, NL);
+      }
+    }
+    
+    return value;
   }
 
   public String getMethodName() 
