@@ -144,7 +144,7 @@ public class PackageInterface
     stringBuffer.append(TEXT_3);
     stringBuffer.append("$");
     stringBuffer.append(TEXT_4);
-    stringBuffer.append(genPackage.getInterfacePackageName());
+    stringBuffer.append(genPackage.getReflectionPackageName());
     stringBuffer.append(TEXT_5);
     genModel.markImportLocation(stringBuffer, genPackage);
     stringBuffer.append(TEXT_6);

@@ -295,6 +295,13 @@
 |""
 		    
 		    exportControl 	"Public")
+		(object ClassAttribute "reflectionPackageSuffix"
+		    quid       	"4294D7180102"
+		    type       	"String"
+		    initv      	
+|""
+		    
+		    exportControl 	"Public")
 		(object ClassAttribute "classPackageSuffix"
 		    quid       	"4294D78E002E"
 		    type       	"String"

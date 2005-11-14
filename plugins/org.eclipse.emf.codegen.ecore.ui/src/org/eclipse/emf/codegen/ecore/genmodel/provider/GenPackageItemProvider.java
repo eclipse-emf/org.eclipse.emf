@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.14 2005/06/08 06:17:51 nickb Exp $
+ * $Id: GenPackageItemProvider.java,v 1.15 2005/11/14 20:48:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -79,6 +79,7 @@ public class GenPackageItemProvider
       addAdapterFactoryPropertyDescriptor(object);
       addLoadInitializationPropertyDescriptor(object);
       addInterfacePackageSuffixPropertyDescriptor(object);
+      addReflectionPackageSuffixPropertyDescriptor(object);
       addClassPackageSuffixPropertyDescriptor(object);
       addUtilityPackageSuffixPropertyDescriptor(object);
       addProviderPackageSuffixPropertyDescriptor(object);
@@ -231,6 +232,27 @@ public class GenPackageItemProvider
          getString("_UI_GenPackage_interfacePackageSuffix_feature"),
          getString("_UI_GenPackage_interfacePackageSuffix_description"),
          GenModelPackage.eINSTANCE.getGenPackage_InterfacePackageSuffix(),
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_PackageSuffixesPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Reflection Package Suffix feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addReflectionPackageSuffixPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_reflectionPackageSuffix_feature"),
+         getString("_UI_GenPackage_reflectionPackageSuffix_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_ReflectionPackageSuffix(),
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_PackageSuffixesPropertyCategory"),
@@ -459,6 +481,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
       case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
+      case GenModelPackage.GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX:
       case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
       case GenModelPackage.GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX:
       case GenModelPackage.GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX:

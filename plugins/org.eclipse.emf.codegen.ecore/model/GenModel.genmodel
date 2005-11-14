@@ -131,6 +131,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/loadInitialization"/>
       <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the package for interfaces"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/interfacePackageSuffix"/>
+      <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the package for generated factory and package interfaces"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/reflectionPackageSuffix"/>
       <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the package for implementation classes"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/classPackageSuffix"/>
       <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the utility package"

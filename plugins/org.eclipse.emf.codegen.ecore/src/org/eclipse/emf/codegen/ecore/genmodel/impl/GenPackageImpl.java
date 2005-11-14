@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.38 2005/09/30 19:56:26 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.39 2005/11/14 20:48:12 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -103,6 +103,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isAdapterFactory <em>Adapter Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isLoadInitialization <em>Load Initialization</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getInterfacePackageSuffix <em>Interface Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getReflectionPackageSuffix <em>Reflection Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getClassPackageSuffix <em>Class Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getUtilityPackageSuffix <em>Utility Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getProviderPackageSuffix <em>Provider Package Suffix</em>}</li>
@@ -264,6 +265,26 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected String interfacePackageSuffix = INTERFACE_PACKAGE_SUFFIX_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getReflectionPackageSuffix() <em>Reflection Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getReflectionPackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected static final String REFLECTION_PACKAGE_SUFFIX_EDEFAULT = "";
+
+  /**
+   * The cached value of the '{@link #getReflectionPackageSuffix() <em>Reflection Package Suffix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getReflectionPackageSuffix()
+   * @generated
+   * @ordered
+   */
+  protected String reflectionPackageSuffix = REFLECTION_PACKAGE_SUFFIX_EDEFAULT;
 
   /**
    * The default value of the '{@link #getClassPackageSuffix() <em>Class Package Suffix</em>}' attribute.
@@ -636,6 +657,29 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     interfacePackageSuffix = newInterfacePackageSuffix;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX, oldInterfacePackageSuffix, interfacePackageSuffix));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getReflectionPackageSuffix()
+  {
+    return reflectionPackageSuffix;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setReflectionPackageSuffix(String newReflectionPackageSuffix)
+  {
+    String oldReflectionPackageSuffix = reflectionPackageSuffix;
+    reflectionPackageSuffix = newReflectionPackageSuffix;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX, oldReflectionPackageSuffix, reflectionPackageSuffix));
   }
 
   /**
@@ -1034,6 +1078,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return isLoadInitialization() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
         return getInterfacePackageSuffix();
+      case GenModelPackage.GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX:
+        return getReflectionPackageSuffix();
       case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
         return getClassPackageSuffix();
       case GenModelPackage.GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX:
@@ -1088,6 +1134,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return loadInitialization != LOAD_INITIALIZATION_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
         return INTERFACE_PACKAGE_SUFFIX_EDEFAULT == null ? interfacePackageSuffix != null : !INTERFACE_PACKAGE_SUFFIX_EDEFAULT.equals(interfacePackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX:
+        return REFLECTION_PACKAGE_SUFFIX_EDEFAULT == null ? reflectionPackageSuffix != null : !REFLECTION_PACKAGE_SUFFIX_EDEFAULT.equals(reflectionPackageSuffix);
       case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
         return CLASS_PACKAGE_SUFFIX_EDEFAULT == null ? classPackageSuffix != null : !CLASS_PACKAGE_SUFFIX_EDEFAULT.equals(classPackageSuffix);
       case GenModelPackage.GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX:
@@ -1147,6 +1195,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return;
       case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
         setInterfacePackageSuffix((String)newValue);
+        return;
+      case GenModelPackage.GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX:
+        setReflectionPackageSuffix((String)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
         setClassPackageSuffix((String)newValue);
@@ -1222,6 +1273,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
         setInterfacePackageSuffix(INTERFACE_PACKAGE_SUFFIX_EDEFAULT);
         return;
+      case GenModelPackage.GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX:
+        setReflectionPackageSuffix(REFLECTION_PACKAGE_SUFFIX_EDEFAULT);
+        return;
       case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
         setClassPackageSuffix(CLASS_PACKAGE_SUFFIX_EDEFAULT);
         return;
@@ -1286,6 +1340,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(loadInitialization);
     result.append(", interfacePackageSuffix: ");
     result.append(interfacePackageSuffix);
+    result.append(", reflectionPackageSuffix: ");
+    result.append(reflectionPackageSuffix);
     result.append(", classPackageSuffix: ");
     result.append(classPackageSuffix);
     result.append(", utilityPackageSuffix: ");
@@ -1315,6 +1371,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   public String getInterfacePackageName()
   {
     return getQualifiedPackageName(getInterfacePackageSuffix());
+  }
+  
+  public String getReflectionPackageName()
+  {
+    return getQualifiedPackageName(getReflectionPackageSuffix());
   }
 
   public String getClassPackageName()
@@ -1354,7 +1415,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getQualifiedPackageInterfaceName()
   {
-    return getInterfacePackageName() + "." + getPackageInterfaceName();
+    return getReflectionPackageName() + "." + getPackageInterfaceName();
   }
 
   public String getImportedPackageInterfaceName()
@@ -1389,7 +1450,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getQualifiedFactoryInterfaceName()
   {
-    return getInterfacePackageName() + "." + getFactoryInterfaceName();
+    return getReflectionPackageName() + "." + getFactoryInterfaceName();
   }
 
   public String getImportedFactoryInterfaceName()
@@ -2205,13 +2266,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
         progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
-             ("_UI_GeneratingJavaInterface_message", new Object [] { getInterfacePackageName() + "." + getPackageInterfaceName() }));
+             ("_UI_GeneratingJavaInterface_message", new Object [] { getQualifiedPackageInterfaceName() }));
         generate
           (new SubProgressMonitor(progressMonitor, 1), 
            Generator.EMF_MODEL_PROJECT_STYLE,
            getGenModel().getEffectiveModelPluginVariables(),
            getGenModel().getModelDirectory(),
-           getInterfacePackageName(), 
+           getReflectionPackageName(), 
            getPackageInterfaceName(), 
            getGenModel().getPackageInterfaceEmitter());
   
@@ -2229,13 +2290,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   
         progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
-            ("_UI_GeneratingJavaInterface_message", new Object [] { getInterfacePackageName() + "." + getFactoryInterfaceName() }));
+            ("_UI_GeneratingJavaInterface_message", new Object [] { getQualifiedFactoryInterfaceName() }));
         generate
           (new SubProgressMonitor(progressMonitor, 1), 
            Generator.EMF_MODEL_PROJECT_STYLE,
            getGenModel().getEffectiveModelPluginVariables(),
            getGenModel().getModelDirectory(),
-           getInterfacePackageName(), 
+           getReflectionPackageName(), 
            getFactoryInterfaceName(), 
            getGenModel().getFactoryInterfaceEmitter());
   
@@ -3166,6 +3227,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     setDisposableProviderFactory(oldGenPackageVersion.isDisposableProviderFactory());
     
     setInterfacePackageSuffix(oldGenPackageVersion.getInterfacePackageSuffix());
+    setReflectionPackageSuffix(oldGenPackageVersion.getReflectionPackageSuffix());
     setClassPackageSuffix(oldGenPackageVersion.getClassPackageSuffix());
     setUtilityPackageSuffix(oldGenPackageVersion.getUtilityPackageSuffix());
     setProviderPackageSuffix(oldGenPackageVersion.getProviderPackageSuffix());

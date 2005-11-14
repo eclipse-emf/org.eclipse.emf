@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelFactory.java,v 1.3 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenModelFactory.java,v 1.4 2005/11/14 20:48:12 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -33,7 +33,7 @@ public interface GenModelFactory extends EFactory{
    * The singleton instance of the factory.
    * @generated
    */
-  GenModelFactory eINSTANCE = new org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelFactoryImpl();
+  GenModelFactory eINSTANCE = org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Gen Model</em>'.

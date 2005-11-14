@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelFactoryImpl.java,v 1.6 2005/11/14 16:47:10 khussey Exp $
+ * $Id: GenModelFactoryImpl.java,v 1.7 2005/11/14 20:48:12 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -21,8 +21,12 @@ import org.eclipse.emf.codegen.ecore.genmodel.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,6 +36,29 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
  */
 public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static GenModelFactory init()
+  {
+    try
+    {
+      GenModelFactory theGenModelFactory = (GenModelFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/GenModel"); 
+      if (theGenModelFactory != null)
+      {
+        return theGenModelFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new GenModelFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->

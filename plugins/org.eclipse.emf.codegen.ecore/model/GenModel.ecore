@@ -88,6 +88,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="loadInitialization" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfacePackageSuffix"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reflectionPackageSuffix"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral=""/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="classPackageSuffix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="impl"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="utilityPackageSuffix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"

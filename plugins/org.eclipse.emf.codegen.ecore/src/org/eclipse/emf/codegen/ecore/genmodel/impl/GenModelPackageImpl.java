@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.24 2005/11/14 16:47:10 khussey Exp $
+ * $Id: GenModelPackageImpl.java,v 1.25 2005/11/14 20:48:12 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -764,7 +764,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenPackage_ClassPackageSuffix()
+  public EAttribute getGenPackage_ReflectionPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(7);
   }
@@ -774,7 +774,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenPackage_UtilityPackageSuffix()
+  public EAttribute getGenPackage_ClassPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(8);
   }
@@ -784,7 +784,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenPackage_ProviderPackageSuffix()
+  public EAttribute getGenPackage_UtilityPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(9);
   }
@@ -794,7 +794,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenPackage_PresentationPackageSuffix()
+  public EAttribute getGenPackage_ProviderPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(10);
   }
@@ -804,7 +804,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenPackage_TestsPackageSuffix()
+  public EAttribute getGenPackage_PresentationPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(11);
   }
@@ -814,7 +814,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenPackage_GenerateExampleClass()
+  public EAttribute getGenPackage_TestsPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(12);
   }
@@ -824,9 +824,9 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_EcorePackage()
+  public EAttribute getGenPackage_GenerateExampleClass()
   {
-    return (EReference)genPackageEClass.getEStructuralFeatures().get(13);
+    return (EAttribute)genPackageEClass.getEStructuralFeatures().get(13);
   }
 
   /**
@@ -834,7 +834,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenModel()
+  public EReference getGenPackage_EcorePackage()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(14);
   }
@@ -844,7 +844,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenEnums()
+  public EReference getGenPackage_GenModel()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(15);
   }
@@ -854,7 +854,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenDataTypes()
+  public EReference getGenPackage_GenEnums()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(16);
   }
@@ -864,7 +864,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenClasses()
+  public EReference getGenPackage_GenDataTypes()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(17);
   }
@@ -874,7 +874,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_NestedGenPackages()
+  public EReference getGenPackage_GenClasses()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(18);
   }
@@ -884,9 +884,19 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenClassifiers()
+  public EReference getGenPackage_NestedGenPackages()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(19);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getGenPackage_GenClassifiers()
+  {
+    return (EReference)genPackageEClass.getEStructuralFeatures().get(20);
   }
 
   /**
@@ -1372,6 +1382,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genPackageEClass, GEN_PACKAGE__ADAPTER_FACTORY);
     createEAttribute(genPackageEClass, GEN_PACKAGE__LOAD_INITIALIZATION);
     createEAttribute(genPackageEClass, GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX);
+    createEAttribute(genPackageEClass, GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX);
     createEAttribute(genPackageEClass, GEN_PACKAGE__CLASS_PACKAGE_SUFFIX);
     createEAttribute(genPackageEClass, GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX);
     createEAttribute(genPackageEClass, GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX);
@@ -1533,6 +1544,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenPackage_AdapterFactory(), ecorePackage.getEBoolean(), "adapterFactory", "true", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_LoadInitialization(), ecorePackage.getEBoolean(), "loadInitialization", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_InterfacePackageSuffix(), ecorePackage.getEString(), "interfacePackageSuffix", "", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenPackage_ReflectionPackageSuffix(), ecorePackage.getEString(), "reflectionPackageSuffix", "", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_ClassPackageSuffix(), ecorePackage.getEString(), "classPackageSuffix", "impl", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_UtilityPackageSuffix(), ecorePackage.getEString(), "utilityPackageSuffix", "util", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_ProviderPackageSuffix(), ecorePackage.getEString(), "providerPackageSuffix", "provider", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
