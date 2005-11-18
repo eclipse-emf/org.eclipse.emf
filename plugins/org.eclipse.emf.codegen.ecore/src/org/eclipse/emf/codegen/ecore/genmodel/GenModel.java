@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.28 2005/11/14 16:47:10 khussey Exp $
+ * $Id: GenModel.java,v 1.29 2005/11/18 12:07:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.IStatus;
 
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jmerge.JControlModel;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -1479,6 +1480,7 @@ public interface GenModel extends GenBase{
   boolean hasXMLDependency();
 
   IStatus validate();
+  Diagnostic diagnose();
 
   String getXMLEncodingChoices();
 

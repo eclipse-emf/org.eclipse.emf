@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: GenBase.java,v 1.6 2005/10/28 13:48:19 davidms Exp $
+ * $Id: GenBase.java,v 1.7 2005/11/18 12:07:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.ecore.EObject;
 
 
@@ -32,7 +33,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface GenBase extends EObject{
+public interface GenBase extends EObject
+{
   GenModel getGenModel();
 
   String capName(String name);
@@ -46,21 +48,31 @@ public interface GenBase extends EObject{
   String format(String name, char separator, String prefix, boolean includePrefix);
 
   boolean canGenerate();
+  void generate(Monitor progressMonitor);
+  void gen(Monitor progressMonitor);
   void generate(IProgressMonitor progressMonitor);
 
   //
   // EMFEdit generation
   //
   boolean canGenerateEdit();
+  void generateEdit(Monitor progressMonitor);
+  void genEdit(Monitor progressMonitor);
   void generateEdit(IProgressMonitor progressMonitor);
 
   boolean canGenerateEditor();
+  void generateEditor(Monitor progressMonitor);
+  void genEditor(Monitor progressMonitor);
   void generateEditor(IProgressMonitor progressMonitor);
 
   boolean canGenerateSchema();
+  void generateSchema(Monitor progressMonitor);
+  void genSchema(Monitor progressMonitor);
   void generateSchema(IProgressMonitor progressMonitor);
 
   boolean canGenerateTests();
+  void generateTests(Monitor progressMonitor);
+  void genTests(Monitor progressMonitor);
   void generateTests(IProgressMonitor progressMonitor);
 
   boolean reconcile();
