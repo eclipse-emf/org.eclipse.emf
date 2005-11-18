@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.10 2005/11/18 19:05:55 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.11 2005/11/18 19:43:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -511,7 +511,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       }
     }
 
-    eProperties().setEResource(resource);
+    eSetDirectResource(resource);
 
     return notifications;
   }
@@ -680,7 +680,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       if (!eContainmentFeature(this, newContainer, newContainerFeatureID).isResolveProxies())
       {
         msgs = ((InternalEList)oldResource.getContents()).basicRemove(this, msgs);
-        eBasicProperties().setEResource(null);
+        eSetDirectResource(null);
         if (newContainer != null)
         {
           newResource = newContainer.eInternalResource();
