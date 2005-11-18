@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.23 2005/11/14 20:48:12 emerks Exp $
+ * $Id: GenModelPackage.java,v 1.24 2005/11/18 19:10:10 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -474,13 +474,22 @@ public interface GenModelPackage extends EPackage{
   int GEN_MODEL__FEATURE_DELEGATION = GEN_BASE_FEATURE_COUNT + 40;
 
   /**
+   * The feature id for the '<em><b>Containment Proxies</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__CONTAINMENT_PROXIES = GEN_BASE_FEATURE_COUNT + 41;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 41;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 42;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -489,7 +498,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 42;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 43;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -498,7 +507,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 43;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 44;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -1653,6 +1662,17 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   EAttribute getGenModel_FeatureDelegation();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isContainmentProxies <em>Containment Proxies</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Containment Proxies</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isContainmentProxies()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_ContainmentProxies();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.

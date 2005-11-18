@@ -254,6 +254,10 @@
 		(object ClassAttribute "featureDelegation"
 		    quid       	"436785A00098"
 		    type       	"GenDelegationKind"
+		    exportControl 	"Public")
+		(object ClassAttribute "containmentProxies"
+		    quid       	"437DFFEA009F"
+		    type       	"boolean"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"

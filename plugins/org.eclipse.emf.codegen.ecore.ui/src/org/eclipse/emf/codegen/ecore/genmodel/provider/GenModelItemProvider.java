@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.20 2005/11/14 16:47:27 khussey Exp $
+ * $Id: GenModelItemProvider.java,v 1.21 2005/11/18 19:10:22 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -109,6 +109,7 @@ public class GenModelItemProvider
       addBooleanFlagsReservedBitsPropertyDescriptor(object);
       addBundleManifestPropertyDescriptor(object);
       addFeatureDelegationPropertyDescriptor(object);
+      addContainmentProxiesPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -891,6 +892,27 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Containment Proxies feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addContainmentProxiesPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_containmentProxies_feature"),
+         getString("_UI_GenModel_containmentProxies_description"),
+         GenModelPackage.eINSTANCE.getGenModel_ContainmentProxies(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -992,6 +1014,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__IMPORTER_ID:
       case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
       case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
+      case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
