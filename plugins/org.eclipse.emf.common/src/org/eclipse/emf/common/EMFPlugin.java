@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.11 2005/08/19 16:37:39 davidms Exp $
+ * $Id: EMFPlugin.java,v 1.12 2005/11/18 11:59:32 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -105,13 +105,14 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
 
   public String getSymbolicName()
   {
-    if (getPluginResourceLocator() instanceof EclipsePlugin)
+    if (getPluginResourceLocator() != null && getPluginResourceLocator() instanceof EclipsePlugin)
     {
       return ((EclipsePlugin)getPluginResourceLocator()).getSymbolicName();
     }
     else
     {
-      throw new UnsupportedOperationException("Plugin ID not available " + this);
+      String result = getClass().getName();
+      return result.substring(0, result.lastIndexOf('.'));
     }
   }
 
