@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.12 2005/06/12 13:29:22 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.13 2005/11/18 19:06:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -809,24 +809,51 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
             {
               if (dataClass == null)
               {
-                settingDelegate = 
-                  new InternalSettingDelegateMany
-                    (InternalSettingDelegateMany.CONTAINMENT_UNSETTABLE_DYNAMIC, this);
+                if (isResolveProxies())
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_UNSETTABLE_DYNAMIC_RESOLVE, this);
+                }
+                else
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_UNSETTABLE_DYNAMIC, this);
+                }
               }
               else
               {
-                settingDelegate = 
-                  new InternalSettingDelegateMany
+                if (isResolveProxies())
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                    (InternalSettingDelegateMany.CONTAINMENT_UNSETTABLE_RESOLVE, dataClass, this);
+                }
+                else
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
                     (InternalSettingDelegateMany.CONTAINMENT_UNSETTABLE, dataClass, this);
+                }
               }
             }
             else
             {
               if (dataClass == null)
               {
-                settingDelegate = 
-                  new InternalSettingDelegateMany
-                    (InternalSettingDelegateMany.CONTAINMENT_DYNAMIC, this);
+                if (isResolveProxies())
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_DYNAMIC, this);
+                }
+                else
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_DYNAMIC_RESOLVE, this);
+                }
               }
               else if (dataClass == Map.Entry.class)
               {
@@ -848,30 +875,67 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
             {
               if (dataClass == null)
               {
-                settingDelegate = 
-                  new InternalSettingDelegateMany
-                    (InternalSettingDelegateMany.CONTAINMENT_INVERSE_UNSETTABLE_DYNAMIC, this, eOpposite);
+                if (isResolveProxies())
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_INVERSE_UNSETTABLE_DYNAMIC_RESOLVE, this, eOpposite);
+                }   
+                else
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_INVERSE_UNSETTABLE_DYNAMIC, this, eOpposite);
+                }   
               }
               else
               {
-                settingDelegate = 
-                  new InternalSettingDelegateMany
-                    (InternalSettingDelegateMany.CONTAINMENT_INVERSE_UNSETTABLE, dataClass, this, eOpposite);
+                if (isResolveProxies())
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_INVERSE_UNSETTABLE_RESOLVE, dataClass, this, eOpposite);
+                }
+                else
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_INVERSE_UNSETTABLE, dataClass, this, eOpposite);
+                }
               }
             }
             else
             {
               if (dataClass == null)
               {
-                settingDelegate = 
-                  new InternalSettingDelegateMany
-                    (InternalSettingDelegateMany.CONTAINMENT_INVERSE_DYNAMIC, this, eOpposite);
+                if (isResolveProxies())
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_INVERSE_DYNAMIC_RESOLVE, this, eOpposite);
+                }
+                else
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_INVERSE_DYNAMIC, this, eOpposite);
+                }
               }
+              
               else
               {
-                settingDelegate = 
-                  new InternalSettingDelegateMany
-                    (InternalSettingDelegateMany.CONTAINMENT_INVERSE, dataClass, this, eOpposite);
+                if (isResolveProxies())
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_INVERSE_RESOLVE, dataClass, this, eOpposite);
+                }
+                else
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_INVERSE, dataClass, this, eOpposite);
+                }
               }
             }
           }
@@ -1161,7 +1225,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       }
       else if (isContainer())
       {
-        settingDelegate = new InternalSettingDelegateSingleContainer((EClass)eType, this, eOpposite);
+        if (isResolveProxies())
+        {
+          settingDelegate = new InternalSettingDelegateSingleContainerResolving((EClass)eType, this, eOpposite);
+        }
+        else
+        {
+          settingDelegate = new InternalSettingDelegateSingleContainer((EClass)eType, this, eOpposite);
+        }
       }
       else if (eType instanceof EDataType)
       {
@@ -1200,22 +1271,50 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         {
           if (isUnsettable())
           {
-            settingDelegate = new InternalSettingDelegateSingleEObjectContainmentUnsettable((EClass)eType, this);
+            if (isResolveProxies())
+            {
+              settingDelegate = new InternalSettingDelegateSingleEObjectContainmentUnsettableResolving((EClass)eType, this);
+            }
+            else
+            {
+              settingDelegate = new InternalSettingDelegateSingleEObjectContainmentUnsettable((EClass)eType, this);
+            }
           }
           else
           {
-            settingDelegate = new InternalSettingDelegateSingleEObjectContainment((EClass)eType, this);
+            if (isResolveProxies())
+            {
+              settingDelegate = new InternalSettingDelegateSingleEObjectContainmentResolving((EClass)eType, this);
+            }
+            else
+            {
+              settingDelegate = new InternalSettingDelegateSingleEObjectContainment((EClass)eType, this);
+            }
           }
         }
         else
         {
           if (isUnsettable())
           {
-            settingDelegate = new InternalSettingDelegateSingleEObjectContainmentWithInverseUnsettable((EClass)eType, this, eOpposite);
+            if (isResolveProxies())
+            {
+              settingDelegate = new InternalSettingDelegateSingleEObjectContainmentWithInverseUnsettableResolving((EClass)eType, this, eOpposite);
+            }
+            else
+            {
+              settingDelegate = new InternalSettingDelegateSingleEObjectContainmentWithInverseUnsettable((EClass)eType, this, eOpposite);
+            }
           }
           else
           {
-            settingDelegate = new InternalSettingDelegateSingleEObjectContainmentWithInverse((EClass)eType, this, eOpposite);
+            if (isResolveProxies())
+            {
+              settingDelegate = new InternalSettingDelegateSingleEObjectContainmentWithInverseResolving((EClass)eType, this, eOpposite);
+            }
+            else
+            {
+              settingDelegate = new InternalSettingDelegateSingleEObjectContainmentWithInverse((EClass)eType, this, eOpposite);
+            }
           }
         }
       }
@@ -1383,6 +1482,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     public static final int INVERSE = 39;
     public static final int FEATURE_MAP = 40;
     public static final int EMAP = 41;
+    public static final int CONTAINMENT_UNSETTABLE_DYNAMIC_RESOLVE = 42;
+    public static final int CONTAINMENT_UNSETTABLE_RESOLVE = 43;
+    public static final int CONTAINMENT_DYNAMIC_RESOLVE = 44;
+    public static final int CONTAINMENT_RESOLVE = 45;
+    public static final int CONTAINMENT_INVERSE_UNSETTABLE_DYNAMIC_RESOLVE = 46;
+    public static final int CONTAINMENT_INVERSE_UNSETTABLE_RESOLVE = 47;
+    public static final int CONTAINMENT_INVERSE_DYNAMIC_RESOLVE = 48;
+    public static final int CONTAINMENT_INVERSE_RESOLVE = 49;
 
     protected int style;
     protected int dynamicKind;
@@ -1430,6 +1537,10 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         case CONTAINMENT_DYNAMIC:
         case CONTAINMENT_INVERSE_UNSETTABLE_DYNAMIC:
         case CONTAINMENT_INVERSE_DYNAMIC:
+        case CONTAINMENT_UNSETTABLE_DYNAMIC_RESOLVE:
+        case CONTAINMENT_DYNAMIC_RESOLVE:
+        case CONTAINMENT_INVERSE_UNSETTABLE_DYNAMIC_RESOLVE:
+        case CONTAINMENT_INVERSE_DYNAMIC_RESOLVE:
         case DATA_UNIQUE_UNSETTABLE_DYNAMIC:
         case DATA_UNIQUE_DYNAMIC:
         case DATA_UNSETTABLE_DYNAMIC:
@@ -1449,14 +1560,22 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           return new EcoreEList.Dynamic(dynamicKind, dataClass, owner, feature);
         case CONTAINMENT_UNSETTABLE:
           return new EObjectContainmentEList.Unsettable(dataClass, owner, feature.getFeatureID());
+        case CONTAINMENT_UNSETTABLE_RESOLVE:
+          return new EObjectContainmentEList.Unsettable.Resolving(dataClass, owner, feature.getFeatureID());
         case CONTAINMENT:
           return new EObjectContainmentEList(dataClass, owner, feature.getFeatureID());
+        case CONTAINMENT_RESOLVE:
+          return new EObjectContainmentEList.Resolving(dataClass, owner, feature.getFeatureID());
         case EMAP:
           return new EcoreEMap((EClass)feature.getEType(), dataClass, owner, feature.getFeatureID());
         case CONTAINMENT_INVERSE_UNSETTABLE:
           return new EObjectContainmentWithInverseEList.Unsettable(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+        case CONTAINMENT_INVERSE_UNSETTABLE_RESOLVE:
+          return new EObjectContainmentWithInverseEList.Unsettable.Resolving(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case CONTAINMENT_INVERSE:
           return new EObjectContainmentWithInverseEList(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+        case CONTAINMENT_INVERSE_RESOLVE:
+          return new EObjectContainmentWithInverseEList.Resolving(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case DATA_UNIQUE_UNSETTABLE:
           return new EDataTypeUniqueEList.Unsettable(dataClass, owner, feature.getFeatureID());
         case DATA_UNIQUE:
@@ -1651,7 +1770,12 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
     public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, boolean resolve)
     {
-      return owner.eContainmentFeature() == inverseFeature ? owner.eContainer() : null;
+      return owner.eContainmentFeature() == inverseFeature ? isResolveProxies() && resolve ? owner.eContainer() : owner.eInternalContainer() : null;
+    }
+
+    protected boolean isResolveProxies()
+    {
+      return false;
     }
 
     public void dynamicSet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, Object newValue)
@@ -1665,7 +1789,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
                "' must be of type '" + eClass + "'");
       }
 
-      EObject eContainer = owner.eContainer();
+      EObject eContainer = owner.eInternalContainer();
       int featureID = owner.eClass().getFeatureID(feature);
       if (newValue != eContainer || (owner.eContainerFeatureID() != featureID && newValue != null))
       {
@@ -1698,7 +1822,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
     public void dynamicUnset(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index)
     {
-      EObject eContainer = owner.eContainer();
+      EObject eContainer = owner.eInternalContainer();
       if (eContainer != null)
       {
         NotificationChain notifications = null;
@@ -1720,13 +1844,13 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     public boolean dynamicIsSet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index)
     {
       int featureID = owner.eClass().getFeatureID(feature);
-      return owner.eContainer() != null && owner.eContainerFeatureID() == featureID;
+      return owner.eInternalContainer() != null && owner.eContainerFeatureID() == featureID;
     }
 
     public NotificationChain dynamicInverseAdd
       (InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, InternalEObject otherEnd, NotificationChain notifications)
     {
-      if (owner.eContainer() != null)
+      if (owner.eInternalContainer() != null)
       {
         notifications = owner.eBasicRemoveFromContainer(notifications);
       }
@@ -1737,12 +1861,25 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     public NotificationChain dynamicInverseRemove
       (InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, InternalEObject otherEnd, NotificationChain notifications)
     {
-      if (owner.eContainer() != null)
+      if (owner.eInternalContainer() != null)
       {
         notifications = owner.eBasicRemoveFromContainer(notifications);
       }
       int featureID = owner.eClass().getFeatureID(feature);
       return owner.eBasicSetContainer(null, featureID, notifications);
+    }
+  }
+  
+  public static class InternalSettingDelegateSingleContainerResolving extends InternalSettingDelegateSingleContainer
+  {
+    public InternalSettingDelegateSingleContainerResolving(EClass eClass, EStructuralFeature feature, EReference inverseFeature)
+    {
+      super(eClass, feature, inverseFeature);
+    }
+    
+    protected boolean isResolveProxies()
+    {
+      return true;
     }
   }
 
@@ -2119,7 +2256,22 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
             {
               throw new ClassCastException("The value of type '" + resolvedEObject.getClass() + "' must be of type '" + eClass + "'");
             }
+            
             settings.dynamicSet(index, result = resolvedEObject);
+            
+            if (isContainment())
+            {
+              InternalEObject newEObject = (InternalEObject)resolvedEObject;
+              NotificationChain notificationChain = dynamicInverseRemove(owner, settings, index, oldEObject, null);
+              if (newEObject.eInternalContainer() == null)
+              {
+                notificationChain = dynamicInverseAdd(owner, settings, index, newEObject, notificationChain);
+              }
+              if (notificationChain != null)
+              {
+                notificationChain.dispatch();
+              }
+            }
             if (owner.eNotificationRequired())
             {
               owner.eNotify
@@ -2449,6 +2601,19 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       return true;
     }
   }
+  
+  public static class InternalSettingDelegateSingleEObjectContainmentResolving extends InternalSettingDelegateSingleEObjectContainment 
+  {
+    public InternalSettingDelegateSingleEObjectContainmentResolving(EClass eClass, EStructuralFeature feature)
+    {
+      super(eClass, feature);
+    }
+    
+    protected boolean isResolveProxies()
+    {
+      return true;
+    }
+  }
 
   public static class InternalSettingDelegateSingleEObjectContainmentWithInverse extends InternalSettingDelegateSingleEObjectContainment
   {
@@ -2458,6 +2623,19 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     }
 
     protected boolean hasInverse()
+    {
+      return true;
+    }
+  }
+  
+  public static class InternalSettingDelegateSingleEObjectContainmentWithInverseResolving extends InternalSettingDelegateSingleEObjectContainmentWithInverse 
+  {
+    public InternalSettingDelegateSingleEObjectContainmentWithInverseResolving(EClass eClass, EStructuralFeature feature, EReference inverseFeature)
+    {
+      super(eClass, feature, inverseFeature);
+    }
+    
+    protected boolean isResolveProxies()
     {
       return true;
     }
@@ -2475,6 +2653,19 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       return true;
     }
   }
+  
+  public static class InternalSettingDelegateSingleEObjectContainmentUnsettableResolving extends InternalSettingDelegateSingleEObjectContainmentUnsettable 
+  {
+    public InternalSettingDelegateSingleEObjectContainmentUnsettableResolving(EClass eClass, EStructuralFeature feature)
+    {
+      super(eClass, feature);
+    }
+
+    protected boolean isResolveProxies()
+    {
+      return true;
+    }
+  }
 
   public static class InternalSettingDelegateSingleEObjectContainmentWithInverseUnsettable extends InternalSettingDelegateSingleEObjectContainmentWithInverse
   {
@@ -2484,6 +2675,19 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     }
 
     protected boolean isUnsettable()
+    {
+      return true;
+    }
+  }
+  
+  public static class InternalSettingDelegateSingleEObjectContainmentWithInverseUnsettableResolving extends InternalSettingDelegateSingleEObjectContainmentWithInverseUnsettable 
+  {
+    public InternalSettingDelegateSingleEObjectContainmentWithInverseUnsettableResolving(EClass eClass, EStructuralFeature feature, EReference inverseFeature)
+    {
+      super(eClass, feature, inverseFeature);
+    }
+    
+    protected boolean isResolveProxies()
     {
       return true;
     }

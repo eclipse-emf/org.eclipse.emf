@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMISaveImpl.java,v 1.9 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMISaveImpl.java,v 1.10 2005/11/18 19:09:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -75,6 +75,7 @@ public class XMISaveImpl extends XMLSaveImpl
         EClass eClass = top.eClass();
         String name = helper.getQName(eClass);
         doc.startElement(name);
+        root = top;
         saveElementID(top);
       }
 
@@ -93,6 +94,7 @@ public class XMISaveImpl extends XMLSaveImpl
         helper.populateNameInfo(nameInfo, eClass);
         currentNode = currentNode.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
         handler.recordValues(currentNode, null, null, top);
+        root = top;
         saveElementID(top);
       }
       return null;

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.10 2005/09/30 11:52:41 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.11 2005/11/18 19:06:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -50,6 +50,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.util.EcoreUtil.ContentTreeIterator;
+import org.eclipse.emf.ecore.util.EcoreUtil.ProperContentIterator;
 
 
 /**
@@ -431,6 +433,23 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         }
       };
   }
+  
+  protected TreeIterator getAllProperContents(EObject eObject)
+  {
+    return EcoreUtil.getAllProperContents(eObject, false);
+  }
+
+  protected TreeIterator getAllProperContents(List contents)
+  {
+    return  
+      new ContentTreeIterator(contents, false)
+      {
+        public Iterator getChildren(Object object)
+        {
+          return object == this.object ? ((List)object).iterator() : new ProperContentIterator(((EObject)object));
+        }
+      };
+  }
 
   /*
    * Javadoc copied from interface.
@@ -533,22 +552,34 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     }
     else
     {
-      List uriFragmentPath = new ArrayList();
-      for (EObject container = eObject.eContainer(); container != null; container = eObject.eContainer())
+      InternalEObject internalEObject = (InternalEObject)eObject;
+      if (internalEObject.eDirectResource() == this)
       {
-        uriFragmentPath.add(((InternalEObject)container).eURIFragmentSegment(eObject.eContainingFeature(), eObject));
-        eObject = container;
+        return "/" + getURIFragmentRootSegment(eObject);
       }
-
-      StringBuffer result = new StringBuffer("/");
-      result.append(getURIFragmentRootSegment(eObject));
-
-      for (ListIterator i = uriFragmentPath.listIterator(uriFragmentPath.size()); i.hasPrevious(); )
+      else
       {
-        result.append('/');
-        result.append((String)i.previous());
+        List uriFragmentPath = new ArrayList();
+        for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer())
+        {
+          uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
+          internalEObject = container;
+          if (container.eDirectResource() == this)
+          {
+            break;
+          }
+        }
+  
+        StringBuffer result = new StringBuffer("/");
+        result.append(getURIFragmentRootSegment(internalEObject));
+  
+        for (int i = uriFragmentPath.size() - 1; i >= 0; --i)
+        {
+          result.append('/');
+          result.append(uriFragmentPath.get(i));
+        }
+        return result.toString();
       }
-      return result.toString();
     }
   }
 
@@ -676,7 +707,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       }
     }
     
-    for (Iterator i = getAllContents(); i.hasNext(); )
+    for (TreeIterator i = getAllProperContents(getContents()); i.hasNext(); )
     {
       EObject eObject = (EObject)i.next();
       String eObjectId = EcoreUtil.getID(eObject);
@@ -686,7 +717,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         {
           map.put(eObjectId, eObject);
         }
-        
+          
         if (eObjectId.equals(id))
         {
           return eObject;
@@ -702,7 +733,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     if (isAttachedDetachedHelperRequired())
     {
       attachedHelper(eObject);
-      for (Iterator tree = eObject.eAllContents(); tree.hasNext(); )
+      for (TreeIterator tree = getAllProperContents(eObject); tree.hasNext(); )
       {
         attachedHelper((EObject)tree.next());
       }
@@ -749,7 +780,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     if (isAttachedDetachedHelperRequired())
     {
       detachedHelper(eObject);
-      for (Iterator tree = eObject.eAllContents(); tree.hasNext(); )
+      for (TreeIterator tree = getAllProperContents(eObject); tree.hasNext(); )
       {
         detachedHelper((EObject)tree.next());
       }
@@ -1073,7 +1104,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   protected void doUnload()
   {
-    Iterator allContents = EcoreUtil.getAllContents(new ArrayList(getContents()));
+    Iterator allContents = getAllProperContents(new ArrayList(getContents()));
 
     // This guard is needed to ensure that clear doesn't make the resource become loaded.
     //
@@ -1158,7 +1189,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         modificationTrackingAdapter = createModificationTrackingAdapter();
         
-        for (Iterator i = getAllContents(); i.hasNext(); )
+        for (TreeIterator i = getAllProperContents(getContents()); i.hasNext(); )
         {
           EObject eObject = (EObject)i.next();
           eObject.eAdapters().add(modificationTrackingAdapter);
@@ -1169,7 +1200,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         Adapter oldModificationTrackingAdapter = modificationTrackingAdapter;
         modificationTrackingAdapter = null;
         
-        for (Iterator i = getAllContents(); i.hasNext(); )
+        for (TreeIterator i = getAllProperContents(getContents()); i.hasNext(); )
         {
           EObject eObject = (EObject)i.next();
           eObject.eAdapters().remove(oldModificationTrackingAdapter);

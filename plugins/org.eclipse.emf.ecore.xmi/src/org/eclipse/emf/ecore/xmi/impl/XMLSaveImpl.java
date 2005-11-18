@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.45 2005/11/07 21:27:36 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.46 2005/11/18 19:09:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -104,6 +104,7 @@ public class XMLSaveImpl implements XMLSave
   protected Node currentNode;
   protected NameInfo nameInfo;
   protected boolean useCache;
+  protected EObject root;
   
   protected static final int SKIP = 0;
   protected static final int SAME_DOC = 1;
@@ -498,7 +499,37 @@ public class XMLSaveImpl implements XMLSave
    * INTERNAL: this is a specialized method to add attributes for a top/root element
    */
   protected void writeTopAttributes(EObject top)
-  {    
+  {
+    if (useEncodedAttributeStyle)
+    {
+      InternalEObject container = ((InternalEObject)top).eInternalContainer();
+      if (container != null)
+      {
+        EReference containmentReference = top.eContainmentFeature();
+        EReference containerReference = containmentReference.getEOpposite();
+        if (containerReference != null && !containerReference.isTransient())
+        {
+          saveEObjectSingle(top, containerReference);
+        }
+      }
+    }
+  }
+
+  protected void writeTopElements(EObject top)
+  {
+    if (!useEncodedAttributeStyle)
+    {
+      InternalEObject container = ((InternalEObject)top).eInternalContainer();
+      if (container != null)
+      {
+        EReference containmentReference = top.eContainmentFeature();
+        EReference containerReference = containmentReference.getEOpposite();
+        if (containerReference != null && !containerReference.isTransient())
+        {
+          saveHref(container, containerReference);
+        }
+      }
+    }
   }
 
   protected Object writeTopObject(EObject top)
@@ -510,14 +541,15 @@ public class XMLSaveImpl implements XMLSave
       {
         String name = helper.getQName(eClass);
         doc.startElement(name);
-        writeTopAttributes(top);
         Object mark = doc.mark();
+        root = top;
         saveElementID(top);
         return mark;
       }
       else
       {
         doc.startElement(null);
+        root = top;
         saveFeatures(top);
         return null;
       }
@@ -537,12 +569,13 @@ public class XMLSaveImpl implements XMLSave
           currentNode = currentNode.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
         }
         handler.recordValues(currentNode, null, null, top);
-        writeTopAttributes(top);
+        root = top;
         saveElementID(top);
         return null;
       }
       else
       {
+        root = top;
         saveFeatures(top);
         return null;
       }
@@ -797,6 +830,20 @@ public class XMLSaveImpl implements XMLSave
     return output;
   }
 
+  protected void saveElement(InternalEObject o, EStructuralFeature f)
+  {
+    Resource directResource = o.eDirectResource();
+    if (directResource != null && directResource != helper.getResource())
+    {
+      saveHref(o, f);
+      return;
+    }
+    else
+    {
+      saveElement((EObject)o, f);
+    }
+  }
+
   protected void saveElement(EObject o, EStructuralFeature f)
   {
     EClass eClass = o.eClass();
@@ -960,6 +1007,11 @@ public class XMLSaveImpl implements XMLSave
       }
     }
 
+    if (o == root)
+    {
+      writeTopAttributes(root);
+    }
+    
     EStructuralFeature[] features = featureTable.getFeatures(eClass);
     int[] featureKinds = featureTable.getKinds(eClass, features);
     int[] elementFeatures = null;
@@ -1192,6 +1244,11 @@ public class XMLSaveImpl implements XMLSave
         endSaveFeatures(o, CONTENT_ELEMENT, content);
         return true;
       }
+    }
+
+    if (o == root)
+    {
+      writeTopElements(root);
     }
 
     // Process XML elements
@@ -1999,7 +2056,7 @@ public class XMLSaveImpl implements XMLSave
 
   protected void saveContainedSingle(EObject o, EStructuralFeature f)
   {
-    EObject value = (EObject)helper.getValue(o, f);
+    InternalEObject value = (InternalEObject)helper.getValue(o, f);
     if (value != null)
     {
       saveElement(value, f);
@@ -2008,11 +2065,11 @@ public class XMLSaveImpl implements XMLSave
 
   protected void saveContainedMany(EObject o, EStructuralFeature f)
   {
-    List values = (List)helper.getValue(o, f);
+    List values = ((InternalEList)helper.getValue(o, f)).basicList();
     int size = values.size();
     for (int i = 0; i < size; i++)
     {
-      EObject value = (EObject)values.get(i);
+      InternalEObject value = (InternalEObject)values.get(i);
       if (value != null)
       {
         saveElement(value, f);
@@ -2045,7 +2102,7 @@ public class XMLSaveImpl implements XMLSave
           EReference referenceEntryFeature = (EReference)entryFeature;
           if (referenceEntryFeature.isContainment())
           {
-            saveElement((EObject)value, entryFeature);
+            saveElement((InternalEObject)value, entryFeature);
           }
           else if (referenceEntryFeature.isResolveProxies())
           {

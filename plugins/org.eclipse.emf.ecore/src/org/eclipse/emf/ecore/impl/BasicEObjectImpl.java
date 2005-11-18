@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.9 2005/11/14 16:46:47 khussey Exp $
+ * $Id: BasicEObjectImpl.java,v 1.10 2005/11/18 19:05:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -318,10 +318,33 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public EObject eContainer()
   {
-    return eInternalContainer();
+    InternalEObject result = eInternalContainer();
+    if (result != null) 
+    {
+      int eContainerFeatureID = eContainerFeatureID();
+      if (result.eIsProxy())
+      {
+        EObject resolved = eResolveProxy(result);
+        if (resolved != result)
+        {
+          NotificationChain notificationChain = eBasicRemoveFromContainer(null);
+          eBasicSetContainer((InternalEObject)resolved, eContainerFeatureID);
+          if (notificationChain != null)
+          {
+            notificationChain.dispatch();
+          }
+          if (eNotificationRequired() && eContainerFeatureID > EOPPOSITE_FEATURE_BASE)
+          {
+            eNotify(new ENotificationImpl(this, Notification.RESOLVE, eContainerFeatureID, result, resolved));
+          }
+          return resolved;
+        }
+      }
+    }
+    return result;
   }
 
-  protected InternalEObject eInternalContainer()
+  public InternalEObject eInternalContainer()
   {
     throw new UnsupportedOperationException();
     //return eContainer;
@@ -376,14 +399,17 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public EReference eContainmentFeature()
   {
-    EObject eContainer = eContainer();
+    return eContainmentFeature(this, eInternalContainer(), eContainerFeatureID());
+  }
+  
+  protected static EReference eContainmentFeature(EObject eObject, EObject eContainer, int eContainerFeatureID)
+  {
     if (eContainer == null)
     {
       return null;
     }
     else
     {
-      int eContainerFeatureID = eContainerFeatureID();
       if (eContainerFeatureID <= EOPPOSITE_FEATURE_BASE)
       {
         EStructuralFeature eFeature =  eContainer.eClass().getEStructuralFeature(EOPPOSITE_FEATURE_BASE - eContainerFeatureID);
@@ -396,7 +422,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
           FeatureMap featureMap = (FeatureMap)eContainer.eGet(eFeature);
           for (int i = 0, size = featureMap.size(); i < size; ++i)
           {
-            if (featureMap.getValue(i) == this)
+            if (featureMap.getValue(i) == eObject)
             {
               EStructuralFeature entryFeature = featureMap.getEStructuralFeature(i);
               if (entryFeature instanceof EReference)
@@ -414,14 +440,14 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       }
       else
       {
-        return ((EReference)eClass().getEStructuralFeature(eContainerFeatureID)).getEOpposite();
+        return ((EReference)eObject.eClass().getEStructuralFeature(eContainerFeatureID)).getEOpposite();
       }
     }
   }
 
   public EStructuralFeature eContainingFeature()
   {
-    EObject eContainer = eContainer();
+    EObject eContainer = eInternalContainer();
     if (eContainer == null)
     {
       return null;
@@ -436,7 +462,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     }
   }
 
-  protected Resource.Internal eDirectResource()
+  public Resource.Internal eDirectResource()
   {
     return eBasicProperties() == null ? null : eBasicProperties().getEResource();
   }
@@ -467,13 +493,25 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     {
       notifications = ((InternalEList)oldResource.getContents()).basicRemove(this, notifications);
     }
-    else if (eContainer() != null)
+    InternalEObject oldContainer = eInternalContainer();
+    if (oldContainer != null)
     {
-      notifications = eBasicRemoveFromContainer(notifications);
-      notifications = eBasicSetContainer(null, -1, notifications);
+      if (eContainmentFeature().isResolveProxies())
+      {
+        Resource.Internal oldContainerResource = oldContainer.eInternalResource();
+        if (oldContainerResource != null)
+        {
+          oldContainerResource.detached(this);
+        }
+      }
+      else
+      {
+        notifications = eBasicRemoveFromContainer(notifications);
+        notifications = eBasicSetContainer(null, -1, notifications);
+      }
     }
 
-    eSetDirectResource(resource);
+    eProperties().setEResource(resource);
 
     return notifications;
   }
@@ -636,18 +674,30 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   {
     InternalEObject oldContainer = eInternalContainer();
     Resource.Internal oldResource = this.eDirectResource();
+    Resource.Internal newResource = null;
     if (oldResource != null)
     {
-      msgs = ((InternalEList)oldResource.getContents()).basicRemove(this, msgs);
-      eSetDirectResource(oldResource = null);
+      if (!eContainmentFeature(this, newContainer, newContainerFeatureID).isResolveProxies())
+      {
+        msgs = ((InternalEList)oldResource.getContents()).basicRemove(this, msgs);
+        eBasicProperties().setEResource(null);
+        if (newContainer != null)
+        {
+          newResource = newContainer.eInternalResource();
+        }
+      }
+      oldResource = null;
     }
     else if (oldContainer != null)
     {
       oldResource = oldContainer.eInternalResource();
+      if (newContainer != null)
+      {
+        newResource = newContainer.eInternalResource();
+      }
     }
 
-    Resource.Internal newResource = newContainer == null ? null : newContainer.eInternalResource();
-    if (oldResource != newResource && oldResource != null) 
+    if (oldResource != newResource && oldResource != null)
     {
       oldResource.detached(this);
     }
@@ -655,7 +705,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     int oldContainerFeatureID = eContainerFeatureID();
     eBasicSetContainer(newContainer, newContainerFeatureID);
 
-    if (oldResource != newResource && newResource != null) 
+    if (oldResource != newResource && newResource != null)
     {
       newResource.attached(this);
     }
@@ -714,7 +764,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     }
     else
     {
-      if (eContainer() != null)
+      if (eInternalContainer() != null)
       {
         msgs = eBasicRemoveFromContainer(msgs);
       }
