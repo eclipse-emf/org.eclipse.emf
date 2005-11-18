@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InternalEObject.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: InternalEObject.java,v 1.4 2005/11/18 19:05:31 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -175,12 +175,29 @@ public interface InternalEObject extends EObject
   EObject eResolveProxy(InternalEObject proxy);
 
   /**
+   * Returns the internal container, or <code>null</code>.
+   * It does not resolve a proxy.
+   * @return the internal container.
+   * @see EObject#eContainer
+   * @see InternalEObject#eDirectResource
+   */
+  InternalEObject eInternalContainer();
+
+  /**
    * Returns the containing internal resource, or <code>null</code>.
    * @return the containing internal resource.
    * @see EObject#eResource
    */
   Resource.Internal eInternalResource();
 
+  /**
+   * Returns the directly containing internal resource, or <code>null</code>.
+   * @return the directly containing internal resource.
+   * @see EObject#eResource
+   * @see InternalEObject#eInternalResource
+   * @see InternalEObject#eInternalContainer
+   */
+  Resource.Internal eDirectResource();
 
   /**
    * Returns the store associated with this object.
