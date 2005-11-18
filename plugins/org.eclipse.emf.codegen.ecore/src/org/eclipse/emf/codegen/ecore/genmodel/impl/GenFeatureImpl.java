@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.25 2005/10/31 19:31:50 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.26 2005/11/18 19:12:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -464,7 +464,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   public GenClass getGenClass()
   {
     if (eContainerFeatureID != GenModelPackage.GEN_FEATURE__GEN_CLASS) return null;
-    return (GenClass)eContainer;
+    return (GenClass)eContainer();
   }
 
   /**
@@ -474,12 +474,12 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    */
   public void setGenClass(GenClass newGenClass)
   {
-    if (newGenClass != eContainer || (eContainerFeatureID != GenModelPackage.GEN_FEATURE__GEN_CLASS && newGenClass != null))
+    if (newGenClass != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_FEATURE__GEN_CLASS && newGenClass != null))
     {
       if (EcoreUtil.isAncestor(this, newGenClass))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newGenClass != null)
         msgs = ((InternalEObject)newGenClass).eInverseAdd(this, GenModelPackage.GEN_CLASS__GEN_FEATURES, GenClass.class, msgs);
@@ -499,8 +499,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   {
     if (ecoreFeature != null && ecoreFeature.eIsProxy())
     {
-      EStructuralFeature oldEcoreFeature = ecoreFeature;
-      ecoreFeature = (EStructuralFeature)eResolveProxy((InternalEObject)ecoreFeature);
+      InternalEObject oldEcoreFeature = (InternalEObject)ecoreFeature;
+      ecoreFeature = (EStructuralFeature)eResolveProxy(oldEcoreFeature);
       if (ecoreFeature != oldEcoreFeature)
       {
         if (eNotificationRequired())
@@ -545,14 +545,14 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       switch (eDerivedStructuralFeatureID(featureID, baseClass))
       {
         case GenModelPackage.GEN_FEATURE__GEN_CLASS:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, GenModelPackage.GEN_FEATURE__GEN_CLASS, msgs);
         default:
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -589,12 +589,12 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       switch (eContainerFeatureID)
       {
         case GenModelPackage.GEN_FEATURE__GEN_CLASS:
-          return eContainer.eInverseRemove(this, GenModelPackage.GEN_CLASS__GEN_FEATURES, GenClass.class, msgs);
+          return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_CLASS__GEN_FEATURES, GenClass.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
@@ -1064,7 +1064,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   public boolean isResolveProxies()
   {
     EStructuralFeature eStructuralFeature = getEcoreFeature();
-    return !isContainer() && !isContains() && 
+    return (!isContainer() && !isContains() || getGenModel().isContainmentProxies())&& 
            eStructuralFeature instanceof EReference && ((EReference)eStructuralFeature).isResolveProxies();
   }
 
