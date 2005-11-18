@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.31 2005/11/04 18:54:45 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.32 2005/11/18 19:07:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -703,6 +703,7 @@ public class EcoreUtil
    * </p>
    * @param eObject the object to get the root container for.
    * @return the root container.
+   * @see #getRootContainer(EObject, boolean)
    * @see EObject#eResource()
    * @see EObject#eContainer()
    */
@@ -715,10 +716,44 @@ public class EcoreUtil
     }
     return result;
   }
+  
+  /**
+   * Returns the root container;
+   * it may be this object itself
+   * and it will have a <code>null</code> {@link EObject#eContainer container}.
+   * Container proxies are resolved or not as specified
+   * <p>
+   * The root container must be {@link Resource#getContents directly contained} in a resource
+   * for its {@link EObject#eAllContents tree} to be {@link Resource#save(java.util.Map) serializable}.
+   * </p>
+   * @param eObject the object to get the root container for.
+   * @param resolve whether to resolve container proxies.
+   * @return the root container.
+   * @see #getRootContainer(EObject)
+   * @see EObject#eResource()
+   * @see InternalEObject#eInternalContainer()
+   */
+  public static EObject getRootContainer(EObject eObject, boolean resolve)
+  {
+    if (resolve)
+    {
+      return getRootContainer(eObject);
+    }
+    else
+    {
+      EObject result = eObject;
+      for (InternalEObject parent = (InternalEObject)eObject; parent != null; parent = parent.eInternalContainer())
+      {
+        result = parent;
+      }
+      return result;
+    }
+  }
 
   /**
    * Returns whether the second object is directly or indirectly contained by the first object,
    * i.e., whether the second object is in the {@link EObject#eContents content tree} of the first.
+   * Container proxies are not resolved.
    * @param ancestorEObject the ancestor object in question.
    * @param eObject the object to test.
    * @return whether the first object is an ancestor of the second object.
@@ -726,15 +761,23 @@ public class EcoreUtil
    */
   public static boolean isAncestor(EObject ancestorEObject, EObject eObject)
   {
-    while (eObject != null)
+    if (eObject != null)
     {
       if (eObject == ancestorEObject)
       {
         return true;
       }
-      eObject = eObject.eContainer();
+      
+      InternalEObject eContainer = ((InternalEObject)eObject).eInternalContainer();
+      while (eContainer != null)
+      {
+        if (eContainer == ancestorEObject)
+        {
+          return true;
+        }
+        eContainer = eContainer.eInternalContainer();
+      }
     }
-
     return false;
   }
 
@@ -749,7 +792,14 @@ public class EcoreUtil
    */
   public static boolean isAncestor(Resource ancestorResource, EObject eObject)
   {
-    return eObject.eResource() == ancestorResource;
+    for (InternalEObject parent = (InternalEObject)eObject; parent != null; parent = parent.eInternalContainer())
+    {
+      if (parent.eDirectResource() == ancestorResource)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -764,8 +814,15 @@ public class EcoreUtil
    */
   public static boolean isAncestor(ResourceSet ancestorResourceSet, EObject eObject)
   {
-    Resource resource = eObject.eResource();
-    return resource != null && resource.getResourceSet() == ancestorResourceSet;
+    for (InternalEObject parent = (InternalEObject)eObject; parent != null; parent = parent.eInternalContainer())
+    {
+      Resource resource = parent.eDirectResource();
+      if (resource != null && resource.getResourceSet() == ancestorResourceSet)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -776,48 +833,18 @@ public class EcoreUtil
    */
   public static boolean isAncestor(Collection ancestorEMFObjects, EObject eObject)
   {
-    // Is it directly contained
-    //
-    if (ancestorEMFObjects.contains(eObject))
+    for (InternalEObject parent = (InternalEObject)eObject; parent != null; parent = parent.eInternalContainer())
     {
-      return true;
-    }
-
-    // Is the container contained.
-    //
-    for (EObject container = eObject.eContainer(); container != null; container = container.eContainer())
-    {
-      if (ancestorEMFObjects.contains(container))
+      if (ancestorEMFObjects.contains(parent))
       {
         return true;
       }
-      eObject = container;
-    }
-
-    // Is the resource contained.
-    //
-    Resource resource = eObject.eResource();
-    if (resource != null)
-    {
-      if (ancestorEMFObjects.contains(resource))
+      Resource resource = parent.eDirectResource();
+      if (resource != null && (ancestorEMFObjects.contains(resource) || ancestorEMFObjects.contains(resource.getResourceSet())))
       {
         return true;
       }
-
-      // Is the resource set contained.
-      //
-      ResourceSet resourceSet = resource.getResourceSet();
-      if (resourceSet != null)
-      {
-        if (ancestorEMFObjects.contains(resourceSet))
-        {
-          return true;
-        }
-      }
     }
-
-    // That's it then.
-    //
     return false;
   }
 
@@ -839,6 +866,273 @@ public class EcoreUtil
   {
     return new ContentTreeIterator(emfObjects);
   }
+  
+  /**
+   * Returns a tree iterator over the content trees 
+   * recursively defined by 
+   * {@link ResourceSet#getResources()},
+   * {@link Resource#getContents()},
+   * and {@link EObject#eContents()}.
+   * It uses a special iterator for ResourceSet.getResources 
+   * that is tolerant of growth in the underlying collection 
+   * which result from demand loaded resources;
+   * the iterator will walk these additional resources.
+   * Contained proxies are resolved or not as specified.
+   * @param emfObjects the collection of objects to iterate over.
+   * @param resolve whether proxies should be resolved.
+   * @return a tree iterator over the objects and their contents.
+   * @see ContentTreeIterator
+   */
+  public static TreeIterator getAllContents(Collection emfObjects, boolean resolve)
+  {
+    return  new ContentTreeIterator(emfObjects, resolve);
+  }
+  
+  /**
+   * Returns a tree iterator that iterates over all the {@link EObject#eContents direct contents} and indirect contents of the object.
+   * @param eObject the object to iterate over.
+   * @param resolve whether proxies should be resolved.
+   * @return a tree iterator that iterates over all contents.
+   * @see EObject#eAllContents
+   * @see Resource#getAllContents
+   */
+  public static TreeIterator getAllContents(EObject eObject, boolean resolve)
+  {
+    return  
+      new ContentTreeIterator(eObject, resolve)
+      {
+        public Iterator getChildren(Object object)
+        {
+          return getEObjectChildren((EObject)object);
+        }
+      };
+  }
+  
+  /**
+   * Returns a tree iterator that iterates over all the {@link Resource#getContents direct contents} and indirect contents of the resource.
+   * @param resource the resource to iterate over.
+   * @param resolve whether proxies should be resolved.
+   * @return a tree iterator that iterates over all contents.
+   * @see EObject#eAllContents
+   * @see ResourceSet#getAllContents
+   */
+  public static TreeIterator getAllContents(Resource resource, boolean resolve)
+  {
+    return  
+      new ContentTreeIterator(resource.getContents(), resolve)
+      {
+        public Iterator getChildren(Object object)
+        {
+          return object == this.object ? ((List)this.object).iterator() : getEObjectChildren((EObject)object);
+        }
+      };
+  }
+  
+  /**
+   * Returns a tree iterator that iterates over all the {@link ResourceSet#getResources direct resources} in the resource set
+   * and over the content {@link Resource#getAllContents tree} of each. 
+   * @param resourceSet the resource set to iterate over.
+   * @param resolve whether proxies should be resolved.
+   * @return a tree iterator that iterates over all contents.
+   * @see EObject#eAllContents
+   * @see Resource#getAllContents
+   * @see org.eclipse.emf.ecore.util.EcoreUtil#getAllContents
+   */
+  public static TreeIterator getAllContents(ResourceSet resourceSet, boolean resolve)
+  {
+    return new ContentTreeIterator(resourceSet, resolve);
+  }
+  
+  /**
+   * Returns a tree iterator over the content trees 
+   * recursively defined by 
+   * {@link ResourceSet#getResources()},
+   * {@link Resource#getContents()},
+   * and {@link EObject#eContents()},
+   * skipping over any child object that's in a different resource from its parent.
+   * It uses a special iterator for ResourceSet.getResources 
+   * that is tolerant of growth in the underlying collection 
+   * which result from demand loaded resources;
+   * the iterator will walk these additional resources.
+   * Contained proxies are resolved or not as specified.
+   * @param emfObjects the collection of objects to iterate over.
+   * @param resolve whether proxies should be resolved.
+   * @return a tree iterator over the objects and their contents.
+   * @see ContentTreeIterator
+   */
+  public static TreeIterator getAllProperContents(Collection emfObjects, boolean resolve)
+  {
+    return  
+      new ContentTreeIterator(emfObjects, resolve)
+      {
+        public Iterator getEObjectChildren(EObject eObject)
+        {
+          return new ProperContentIterator(eObject, isResolveProxies());
+        }
+      };
+  }
+  
+  /**
+   * Returns a tree iterator that iterates over all the {@link EObject#eContents direct contents} and indirect contents of the object,
+   * skipping over any child object that's in a different resource from its parent.
+   * @param eObject the object to iterate over.
+   * @param resolve whether proxies should be resolved.
+   * @return a tree iterator that iterates over all contents.
+   * @see EObject#eAllContents
+   * @see Resource#getAllContents
+   */
+  public static TreeIterator getAllProperContents(EObject eObject, boolean resolve)
+  {
+    return  
+      new ContentTreeIterator(eObject, resolve)
+      {
+        public Iterator getChildren(Object object)
+        {
+          return new ProperContentIterator(((EObject)object), isResolveProxies());
+        }
+      };
+  }
+  
+  /**
+   * Returns a tree iterator that iterates over all the {@link Resource#getContents direct contents} and indirect contents of the resource,
+   * skipping over any child object that's in a different resource from its parent.
+   * @param resource the resource to iterate over.
+   * @param resolve whether proxies should be resolved.
+   * @return a tree iterator that iterates over all contents.
+   * @see EObject#eAllContents
+   * @see ResourceSet#getAllContents
+   */
+  public static TreeIterator getAllProperContents(Resource resource, boolean resolve)
+  {
+    return  
+      new ContentTreeIterator(resource.getContents(), resolve)
+      {
+        public Iterator getChildren(Object object)
+        {
+          if (object == this.object)
+          {
+            return ((Collection)object).iterator();
+          }
+          else
+          {
+            return new ProperContentIterator(((EObject)object), isResolveProxies());
+          }
+        }
+      };
+  }
+  
+  /**
+   * Returns a tree iterator that iterates over all the {@link ResourceSet#getResources direct resources} in the resource set
+   * and over the content {@link Resource#getAllContents tree} of each,
+   * skipping over any child object that's in a different resource from its parent.
+   * @param resourceSet the resource set to iterate over.
+   * @param resolve whether proxies should be resolved.
+   * @return a tree iterator that iterates over all contents.
+   * @see EObject#eAllContents
+   * @see Resource#getAllContents
+   * @see org.eclipse.emf.ecore.util.EcoreUtil#getAllContents
+   */
+  public static TreeIterator getAllProperContents(ResourceSet resourceSet, boolean resolve)
+  {
+    return  
+      new ContentTreeIterator(resourceSet, resolve)
+      {
+        public Iterator getEObjectChildren(EObject eObject)
+        {
+          return new ProperContentIterator(((EObject)object), isResolveProxies());
+        }
+      };
+  }
+  
+  /**
+   * An iterator that can skip over items in a list.
+   */
+  public static class ProperContentIterator implements Iterator
+  {
+    protected List contents;
+    protected InternalEList basicContents;
+    protected int size;
+    protected int index;
+    protected int removeIndex = -1;
+    protected Object preparedResult;
+                 
+    public ProperContentIterator(List contents)
+    {
+      this.contents = contents;
+      size = contents.size();
+    }
+    
+    public ProperContentIterator(InternalEList basicContents)
+    {
+      this.basicContents = basicContents;
+      size = basicContents.size();
+    }
+    
+    public ProperContentIterator(EObject eObject)
+    {
+      this((InternalEList)eObject.eContents());
+    }
+    
+    public ProperContentIterator(EObject eObject, boolean isResolveProxies)
+    {
+      if (isResolveProxies)
+      {
+        contents = eObject.eContents();
+        size = contents.size();
+      }
+      else
+      {
+        basicContents = (InternalEList)eObject.eContents();
+        size = basicContents.size();
+      }
+    }
+    
+    public boolean hasNext()
+    {
+      if (preparedResult == null)
+      {
+        while (index < size)
+        { 
+          preparedResult = get(index);
+          if (((InternalEObject)preparedResult).eDirectResource() == null)
+          {
+            return true;
+          }
+          else
+          {
+            ++index;
+          }
+        }
+        preparedResult = null;
+        return false;
+      }
+      else
+      {
+        return true;
+      }
+    }
+    
+    protected Object get(int index)
+    {
+      return basicContents == null ? contents.get(index) : basicContents.basicGet(index);
+    }
+ 
+    public Object next()
+    {
+      hasNext();
+      removeIndex = index;
+       ++index;
+       Object result = preparedResult;
+       preparedResult = null;
+       return result;
+     }
+ 
+     public void remove()
+     {
+       contents.remove(removeIndex);
+       removeIndex = -1;
+     }
+  }
 
   /**
    * An iterator over the tree contents of a collection of EObjects, Resources, and ResourceSets;
@@ -851,10 +1145,10 @@ public class EcoreUtil
   public static class ContentTreeIterator extends AbstractTreeIterator
   {
     /**
-     * The collection of objects being iterated over.
+     *  Whether proxies should be resolved.
      */
-    protected Collection emfObjects;
-
+    protected boolean isResolveProxies;
+    
     /**
      * The most recently created iterator over a resource set's resources.
      * This iterator needs special handling because it returns <code>true</code> for <code>hasNext()</code> 
@@ -870,9 +1164,18 @@ public class EcoreUtil
     protected ContentTreeIterator(Collection emfObjects)
     {
       super(emfObjects, false);
-      this.emfObjects = emfObjects;
     }
 
+    /**
+     * Creates an instance for the given collection of objects.
+     * @param emfObjects the collection of objects to iterate over.
+     */
+    protected ContentTreeIterator(Object object, boolean isResolveProxies)
+    {
+      super(object, false);
+      this.isResolveProxies = isResolveProxies;
+    }
+    
     /**
      * Returns an iterator over the children of the given parent object.
      * @param object the parent object.
@@ -892,9 +1195,9 @@ public class EcoreUtil
       {
         return getResourceSetChildren((ResourceSet)object);
       }
-      else if (object == emfObjects)
+      else if (object == this.object)
       {
-        return emfObjects.iterator();
+        return ((Collection)object).iterator();
       }
       else
       {
@@ -909,7 +1212,16 @@ public class EcoreUtil
      */
     protected Iterator getEObjectChildren(EObject eObject)
     {
-      return eObject.eContents().iterator();
+      return isResolveProxies() ? eObject.eContents().iterator() : ((InternalEList)eObject.eContents()).basicIterator();
+    }
+    
+    /**
+     * Returns whether proxies should resolve.
+     * @return whether proxies should resolve.
+     */
+    protected boolean isResolveProxies()
+    {
+      return isResolveProxies;
     }
 
     /**
@@ -2237,42 +2549,37 @@ public class EcoreUtil
     {
       // If it is in a resource, form the URI relative to that resource.
       //
-      EObject eRootContainer = EcoreUtil.getRootContainer(eObject);
-      Resource resource = eRootContainer.eResource();
+      Resource resource = eObject.eResource();
       if (resource != null)
       {
         return resource.getURI().appendFragment(resource.getURIFragment(eObject));
       }
       else
       {
-        // Implement the default encoding algorithm.
-        //
-        StringBuffer result = new StringBuffer("#//");
-        List uriFragmentPath = new ArrayList();
-        for (EObject container = eObject.eContainer(); container != null; container = eObject.eContainer())
+        String id = EcoreUtil.getID(eObject);
+        if (id != null)
         {
-          uriFragmentPath.add(((InternalEObject)container).eURIFragmentSegment(eObject.eContainmentFeature(), eObject));
-          eObject = container;
+          return URI.createURI("#" + id);
         }
-
-        int size = uriFragmentPath.size();
-        if (size > 0)
+        else
         {
-          for (int i = size - 1;; --i)
+          InternalEObject internalEObject = (InternalEObject)eObject;
+          List uriFragmentPath = new ArrayList();
+          for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer())
           {
-            result.append((String)uriFragmentPath.get(i));
-            if (i == 0)
-            {
-              break;
-            }
-            else
-            {
-              result.append('/');
-            }
+            uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
+            internalEObject = container;
           }
+      
+          StringBuffer result = new StringBuffer("#//");
+      
+          for (int i = uriFragmentPath.size() - 1; i >= 0; --i)
+          {
+            result.append('/');
+            result.append(uriFragmentPath.get(i));
+          }
+          return URI.createURI(result.toString());
         }
-
-        return URI.createURI(result.toString());
       }
     }
   }
@@ -2405,7 +2712,7 @@ public class EcoreUtil
    */
   public static void remove(EObject eObject)
   {
-    EObject container = eObject.eContainer();
+    EObject container = ((InternalEObject)eObject).eInternalContainer();
     if (container != null)
     {
       EReference feature = eObject.eContainmentFeature();
@@ -2437,7 +2744,7 @@ public class EcoreUtil
    */
   public static void replace(EObject eObject, EObject replacementEObject)
   {
-    EObject container = eObject.eContainer();
+    EObject container = ((InternalEObject)eObject).eInternalContainer();
     if (container != null)
     {
       EReference feature = eObject.eContainmentFeature();
