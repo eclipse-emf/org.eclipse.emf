@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.3 2005/06/08 06:15:57 nickb Exp $
+ * $Id: JControlModel.java,v 1.4 2005/11/18 12:05:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -31,6 +31,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.common.EMFPlugin;
 
 
 /**
@@ -156,11 +157,15 @@ public class JControlModel
       sourceGetFeature = new Feature(element.getAttribute("sourceGet"), noParameterTypes);
       if (sourceGetFeature != null)
       {
-        Class sourceReturnType = sourceGetFeature.getFeatureMethod().getReturnType();
-        targetPutFeature = new Feature(element.getAttribute("targetPut"), new Class [] { sourceReturnType });
-        if (targetPutFeature.getFeatureMethod() == null && sourceReturnType.isArray())
+        Method featureMethod = sourceGetFeature.getFeatureMethod();
+        if (featureMethod != null)
         {
-          targetPutFeature = new Feature(element.getAttribute("targetPut"), new Class [] { sourceReturnType.getComponentType() });
+          Class sourceReturnType = featureMethod.getReturnType();
+          targetPutFeature = new Feature(element.getAttribute("targetPut"), new Class [] { sourceReturnType });
+          if (targetPutFeature.getFeatureMethod() == null && sourceReturnType.isArray())
+          {
+            targetPutFeature = new Feature(element.getAttribute("targetPut"), new Class [] { sourceReturnType.getComponentType() });
+          }
         }
       }
       if (element.hasAttribute("sourceMarkup"))
@@ -545,7 +550,12 @@ public class JControlModel
     }
     catch (ClassNotFoundException exception)
     {
-      CodeGenPlugin.INSTANCE.log(exception);
+      //  We expect this failure when running standalone
+      //
+      if (EMFPlugin.IS_ECLIPSE_RUNNING)
+      {
+        CodeGenPlugin.INSTANCE.log(exception);
+      }
     }
     return null;
   }

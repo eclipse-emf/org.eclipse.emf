@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.13 2005/10/24 17:23:32 emerks Exp $
+ * $Id: JMerger.java,v 1.14 2005/11/18 12:05:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 import org.eclipse.core.runtime.IPlatformRunnable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.jdt.core.jdom.DOMFactory;
 import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
 import org.eclipse.jdt.core.jdom.IDOMField;
@@ -54,7 +55,7 @@ import org.eclipse.jdt.core.jdom.IDOMType;
  * This implements the method {@link #run}, 
  * which is called just like main during headless workbench invocation.
  */
-public class JMerger implements IPlatformRunnable 
+public class JMerger
 {
   protected DOMFactory jdomFactory = new DOMFactory();
   protected JControlModel jControlModel;
@@ -547,162 +548,10 @@ public class JMerger implements IPlatformRunnable
 */
     }
   }
-
-  // Platform-dependent literals for line separator character(s).
-  // Note: by using this, we assume that JETEmitter was run on same platform.
-  //
-  protected static String lineSeparator;
-  static
-  {
-    StringBuffer result = new StringBuffer();
-    String s = System.getProperty("line.separator");
-    for (int i = 0, len = s.length(); i < len; i++)
-    {
-      char c = s.charAt(i);
-      if (c == '\r') result.append("\\r");
-      else if (c == '\n') result.append("\\n");
-      else throw new RuntimeException("Unexpected line separator character");
-    }
-    lineSeparator = result.toString();
-  }
-
-  protected static Pattern braceLine = Pattern.compile("(\\s*" + lineSeparator + "\\s*\\{\\s*)" + lineSeparator); // }
-  protected static Pattern leadingTabs = Pattern.compile("^((\\t)+).*$", Pattern.MULTILINE);
-
-  public static abstract class FindAndReplace
-  {
-    protected Pattern pattern;
-    protected String string;
-    protected StringBuffer stringBuffer;
-    protected int current;
-
-    public FindAndReplace(Pattern pattern)
-    {
-      this.pattern = pattern;
-    }
-
-    public String apply(String string)
-    {
-      current = 0;
-      this.string = string;
-      this.stringBuffer = new StringBuffer();
-
-      for (int start = 0, end = string.length(); start < end; )
-      {
-        Matcher matcher = pattern.matcher(string.subSequence(start, end));
-        if (matcher.find())
-        {
-          if (!handleMatch(start, matcher))
-          {
-            break;
-          }
-          start += matcher.end();
-        }
-        else
-        {
-          break;
-        }
-      }
-
-      stringBuffer.append(string.substring(current));
-      return stringBuffer.toString();
-    }
-
-    public void replace(int begin, int end, String replacement)
-    {
-      stringBuffer.append(string.substring(current, begin));
-      stringBuffer.append(replacement);
-      current = end;
-    }
-
-    public abstract boolean handleMatch(int offset, Matcher matcher);
-  }
-
+  
   protected String applyFormatRules(String value)
   {
-    final String tabReplacement = jControlModel.getLeadingTabReplacement();
-    if (tabReplacement != null)
-    {
-      FindAndReplace findAndReplaceLeadingTabs = 
-        new FindAndReplace(leadingTabs)
-        {
-          public boolean handleMatch(int offset, Matcher matcher)
-          {
-            if (matcher.groupCount() >= 1)
-            {
-              int begin = offset + matcher.start(1);
-              int end = offset + matcher.end(1);
-              StringBuffer replacement = new StringBuffer();
-              for (int i = begin; i < end; ++i)
-              {
-                replacement.append(tabReplacement);
-              }
-              replace(begin, end, replacement.toString());
-            }
-            return true;
-          }
-        };
-      value = findAndReplaceLeadingTabs.apply(value);
-    }
-
-    if (jControlModel.convertToStandardBraceStyle())
-    {
-      FindAndReplace findAndReplaceLineWithJustABrace = 
-        new FindAndReplace(braceLine)
-        {
-          public boolean handleMatch(int offset, Matcher matcher)
-          {
-            if (matcher.groupCount() >= 1)
-            {
-              int begin = offset + matcher.start(1);
-
-              // Don't do replacement if we just did one, or if previous line
-              // ended with a semicolon.
-              //
-              if (current != 0 && (begin <= current || string.charAt(begin - 1) == ';'))
-              {
-                return true;
-              }
-
-              // Don't do replacement if previous line ended with a comment.
-              //
-              for (int i = begin - 1; i >= current; --i)
-              {
-                char character = string.charAt(i);
-                if (character == '\n' || character == '\r')
-                {
-                  boolean slash = false;
-                  while (++i < begin)
-                  {
-                    character = string.charAt(i);
-                    if (character == '/')
-                    {
-                      if (slash)
-                      {
-                        return true;
-                      }
-                      slash = true;
-                    }
-                    else
-                    {
-                      slash = false;
-                    }
-                  }
-
-                  break;
-                }
-              }
-
-              int end = offset + matcher.end(1);
-              replace(begin, end, " {"); // }
-            }
-            return true;
-          }
-        };
-      value = findAndReplaceLineWithJustABrace.apply(value);
-    }
-
-    return value;
+    return CodeGenUtil.convertFormat(jControlModel.getLeadingTabReplacement(), jControlModel.convertToStandardBraceStyle(), value);
   }
 
   protected static Object [] noArguments = new Object [0];
@@ -1200,8 +1049,6 @@ public class JMerger implements IPlatformRunnable
     targetToSourceMap.put(targetNode, sourceNode);
   }
 
-/////////////////////////////////  HEADLESS INVOCATION  /////////////////////////////////////
-
   /**
    * This is called with the command line arguments of a headless workbench invocation.
    */
@@ -1257,5 +1104,11 @@ public class JMerger implements IPlatformRunnable
     merge();
     
     return targetCompilationUnit.getContents();
+  }
+  
+/////////////////////////////////  HEADLESS INVOCATION  /////////////////////////////////////
+
+  public static class PlatformRunnable extends PropertyMerger implements IPlatformRunnable 
+  {
   }
 }
