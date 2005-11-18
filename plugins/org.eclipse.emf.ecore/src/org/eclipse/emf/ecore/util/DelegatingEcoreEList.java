@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.8 2005/10/17 13:01:45 emerks Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.9 2005/11/18 19:07:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -257,6 +257,18 @@ public abstract class DelegatingEcoreEList
         delegateSet(index, validate(index, resolved));
         didSet(index, resolved, oldObject);
 
+        if (isContainment())
+        {
+          NotificationChain notificationChain = inverseRemove(object, null);
+          if (((InternalEObject)resolved).eInternalContainer() == null)
+          {
+            notificationChain = inverseAdd(resolved, notificationChain);
+          }
+          if (notificationChain != null)
+          {
+            notificationChain.dispatch();
+          }
+        }
         if (isNotificationRequired())
         {
           owner.eNotify(createNotification(Notification.RESOLVE, object, resolved, index, false));
@@ -417,11 +429,23 @@ public abstract class DelegatingEcoreEList
         else if (isContainment())
         {
           InternalEObject eObject = (InternalEObject)object;
-          return 
-            eObject.eContainer() == owner && 
+          boolean result =
+            eObject.eInternalContainer() == owner && 
               (hasNavigableInverse() ? 
                  eObject.eContainerFeatureID() == getInverseFeatureID() :
                  InternalEObject.EOPPOSITE_FEATURE_BASE - eObject.eContainerFeatureID() == getFeatureID());
+          if (hasProxies() && !result)
+          {
+            for (int i = 0; i < size; ++i)
+            {
+              EObject containedEObject = resolveProxy((EObject)delegateGet(i));
+              if (containedEObject == object)
+              {
+                return true;
+              }
+            }
+          }
+          return result;
         }
         // We can also optimize single valued reverse. 
         //
