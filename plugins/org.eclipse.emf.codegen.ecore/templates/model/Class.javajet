@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.27 2005/11/14 16:47:10 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.28 2005/11/18 19:14:57 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -255,7 +255,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 		return <%=genFeature.getSafeName()%><%=genFeature.isMapType() && genFeature.isEffectiveSuppressEMFTypes() ? ".map()" : ""%>;
       <%} else if (genFeature.isContainer()) {%>
 		if (eContainerFeatureID != <%=genClass.getQualifiedFeatureID(genFeature)%>) return null;
-		return (<%=genFeature.getImportedType()%>)eContainer;
+		return (<%=genFeature.getImportedType()%>)eContainer();
       <%} else {%>
         <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
 		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%>);
@@ -263,11 +263,27 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
         <%if (genFeature.isResolveProxies()) {%>
 		if (<%=genFeature.getSafeName()%> != null && <%=genFeature.getSafeNameAsEObject()%>.eIsProxy())
 		{
-			<%=genFeature.getImportedType()%> old<%=genFeature.getCapName()%> = <%=genFeature.getSafeName()%>;
-			<%=genFeature.getSafeName()%> = <%=genFeature.getNonEObjectInternalTypeCast()%>eResolveProxy((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>);
+			<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%> old<%=genFeature.getCapName()%> = (<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>;
+			<%=genFeature.getSafeName()%> = <%=genFeature.getNonEObjectInternalTypeCast()%>eResolveProxy(old<%=genFeature.getCapName()%>);
 			if (<%=genFeature.getSafeName()%> != old<%=genFeature.getCapName()%>)
 			{
-          <%if (genModel.isVirtualDelegation()) {%>
+          <%if (genFeature.isContains()) {%>
+				<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%> new<%=genFeature.getCapName()%> = (<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>;
+          <%if (!genFeature.isBidirectional()) {%>
+				<%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> msgs = old<%=genFeature.getCapName()%>.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - <%=genClass.getQualifiedFeatureID(genFeature)%>, null, null);
+          <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
+				<%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> msgs =  old<%=genFeature.getCapName()%>.eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, null);
+          <%}%>
+				if (new<%=genFeature.getCapName()%>.eInternalContainer() != null)
+				{
+          <%if (!genFeature.isBidirectional()) {%>
+					msgs = new<%=genFeature.getCapName()%>.eInverseAdd(this, EOPPOSITE_FEATURE_BASE - <%=genClass.getQualifiedFeatureID(genFeature)%>, null, msgs);
+          <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
+					msgs =  new<%=genFeature.getCapName()%>.eInverseAdd(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, msgs);
+          <%}%>
+				}
+				if (msgs != null) msgs.dispatch();
+          <%} else if (genModel.isVirtualDelegation()) {%>
 				eVirtualSet(<%=genClass.getQualifiedFeatureID(genFeature)%>, <%=genFeature.getSafeName()%>);
           <%}%>
 				if (eNotificationRequired())
@@ -288,7 +304,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
     <%} else {//volatile%>
       <%if (genFeature.isResolveProxies() && !genFeature.isListType()) {%>
 		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = basicGet<%=genFeature.getAccessorName()%>();
-		return <%=genFeature.getSafeName()%> == null ? null : (<%=genFeature.getSafeName()%>.eIsProxy() ? <%=genFeature.getNonEObjectInternalTypeCast()%>eResolveProxy((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>) : <%=genFeature.getSafeName()%>);
+		return <%=genFeature.getSafeName()%> != null && <%=genFeature.getSafeName()%>.eIsProxy() ? <%=genFeature.getNonEObjectInternalTypeCast()%>eResolveProxy((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>) : <%=genFeature.getSafeName()%>;
       <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();%>
         <%if (genFeature.isFeatureMapType()) {%>
           <%if (delegateFeature.isWrappedFeatureMapType()) {%>
@@ -333,7 +349,10 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 	public <%=genFeature.getImportedType()%> basicGet<%=genFeature.getAccessorName()%>()
 	{
 <%@ include file="Class/basicGetGenFeature.pre.insert.javajetinc" fail="silent" %>
-    <%if (!genFeature.isVolatile()) {%>
+    <%if (genFeature.isContainer()) {%>
+		if (eContainerFeatureID != <%=genClass.getQualifiedFeatureID(genFeature)%>) return null;
+		return (<%=genFeature.getImportedType()%>)eInternalContainer();
+    <%} else if (!genFeature.isVolatile()) {%>
       <%if (genModel.isVirtualDelegation()) {%>
 		return (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%>);
       <%} else {%>
@@ -434,12 +453,12 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 		eSet(<%=genFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genFeature.getFeatureAccessorName()%>(), <%if (genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType()%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()) {%>)<%}%>);
     <%} else if (!genFeature.isVolatile()) {%>
       <%if (genFeature.isContainer()) { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
-		if (new<%=genFeature.getCapName()%> != eContainer || (eContainerFeatureID != <%=genClass.getQualifiedFeatureID(genFeature)%> && new<%=genFeature.getCapName()%> != null))
+		if (new<%=genFeature.getCapName()%> != eInternalContainer() || (eContainerFeatureID != <%=genClass.getQualifiedFeatureID(genFeature)%> && new<%=genFeature.getCapName()%> != null))
 		{
 			if (<%=genModel.getImportedName("org.eclipse.emf.ecore.util.EcoreUtil")%>.isAncestor(this, <%=genFeature.getEObjectCast()%>new<%=genFeature.getCapName()%>))
 				throw new <%=genModel.getImportedName("java.lang.IllegalArgumentException")%>("Recursive containment not allowed for " + toString());<%=genModel.getNonNLS()%>
 			<%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> msgs = null;
-			if (eContainer != null)
+			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (new<%=genFeature.getCapName()%> != null)
 				msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)new<%=genFeature.getCapName()%>).eInverseAdd(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, msgs);
@@ -814,7 +833,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 					return ((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList")%>)<%=genFeature.getGetAccessor()%>()).basicAdd(otherEnd, msgs);
     <%}%>
   <%} else if (genFeature.isContainer()) {%>
-					if (eContainer != null)
+					if (eInternalContainer() != null)
 						msgs = eBasicRemoveFromContainer(msgs);
 					return eBasicSetContainer(otherEnd, <%=genClass.getQualifiedFeatureID(genFeature)%>, msgs);
   <%} else {%>
@@ -834,7 +853,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
 			}
 		}
-		if (eContainer != null)
+		if (eInternalContainer() != null)
 			msgs = eBasicRemoveFromContainer(msgs);
 		return eBasicSetContainer(otherEnd, featureID, msgs);
 	}
@@ -893,13 +912,13 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 <%for (Iterator i=genClass.getEBasicRemoveFromContainerGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
   <%GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
 				case <%=genClass.getQualifiedFeatureID(genFeature)%>:
-					return eContainer.eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, msgs);
+					return eInternalContainer().eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, msgs);
 <%}%>
 				default:
 					return eDynamicBasicRemoveFromContainer(msgs);
 			}
 		}
-		return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+		return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
 	}
 
 <%}%>
