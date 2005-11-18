@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.41 2005/11/18 12:08:15 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.42 2005/11/18 19:11:50 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -236,8 +236,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     if (ecoreClass != null && ecoreClass.eIsProxy())
     {
-      EClass oldEcoreClass = ecoreClass;
-      ecoreClass = (EClass)eResolveProxy((InternalEObject)ecoreClass);
+      InternalEObject oldEcoreClass = (InternalEObject)ecoreClass;
+      ecoreClass = (EClass)eResolveProxy(oldEcoreClass);
       if (ecoreClass != oldEcoreClass)
       {
         if (eNotificationRequired())
@@ -1550,8 +1550,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     if (labelFeature != null && labelFeature.eIsProxy())
     {
-      GenFeature oldLabelFeature = labelFeature;
-      labelFeature = (GenFeature)eResolveProxy((InternalEObject)labelFeature);
+      InternalEObject oldLabelFeature = (InternalEObject)labelFeature;
+      labelFeature = (GenFeature)eResolveProxy(oldLabelFeature);
       if (labelFeature != oldLabelFeature)
       {
         if (eNotificationRequired())
@@ -1656,7 +1656,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -2205,6 +2205,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         GenFeature reverseFeature = genFeature.getReverse();
         sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList"));
         sb.append(unsettable);
+        if (genFeature.isResolveProxies())
+        {
+          sb.append(".Resolving");
+        }
         sb.append("(");
         sb.append(genFeature.getListItemType());
         sb.append(".class, this, ");
@@ -2217,6 +2221,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       {
         sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EObjectContainmentEList"));
         sb.append(unsettable);
+        if (genFeature.isResolveProxies())
+        {
+          sb.append(".Resolving");
+        }
         sb.append("(");
         sb.append(genFeature.getListItemType());
         sb.append(".class, this, ");
