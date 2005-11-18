@@ -7,7 +7,7 @@
 
   <extension id="Generator" point="org.eclipse.core.runtime.applications">
     <application>
-      <run class="org.eclipse.emf.codegen.ecore.Generator" />
+      <run class="org.eclipse.emf.codegen.ecore.Generator$PlatformRunnable" />
     </application>
   </extension>
 
