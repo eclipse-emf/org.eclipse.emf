@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.40 2005/11/18 12:08:15 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.41 2005/11/18 19:13:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -831,8 +831,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   {
     if (ecorePackage != null && ecorePackage.eIsProxy())
     {
-      EPackage oldEcorePackage = ecorePackage;
-      ecorePackage = (EPackage)eResolveProxy((InternalEObject)ecorePackage);
+      InternalEObject oldEcorePackage = (InternalEObject)ecorePackage;
+      ecorePackage = (EPackage)eResolveProxy(oldEcorePackage);
       if (ecorePackage != oldEcorePackage)
       {
         if (eNotificationRequired())
@@ -884,7 +884,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   public GenModel getGenModelGen()
   {
     if (eContainerFeatureID != GenModelPackage.GEN_PACKAGE__GEN_MODEL) return null;
-    return (GenModel)eContainer;
+    return (GenModel)eContainer();
   }
 
   /**
@@ -894,12 +894,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    */
   public void setGenModel(GenModel newGenModel)
   {
-    if (newGenModel != eContainer || (eContainerFeatureID != GenModelPackage.GEN_PACKAGE__GEN_MODEL && newGenModel != null))
+    if (newGenModel != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_PACKAGE__GEN_MODEL && newGenModel != null))
     {
       if (EcoreUtil.isAncestor(this, newGenModel))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newGenModel != null)
         msgs = ((InternalEObject)newGenModel).eInverseAdd(this, GenModelPackage.GEN_MODEL__GEN_PACKAGES, GenModel.class, msgs);
@@ -992,14 +992,14 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       switch (eDerivedStructuralFeatureID(featureID, baseClass))
       {
         case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, GenModelPackage.GEN_PACKAGE__GEN_MODEL, msgs);
         default:
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -1044,12 +1044,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       switch (eContainerFeatureID)
       {
         case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
-          return eContainer.eInverseRemove(this, GenModelPackage.GEN_MODEL__GEN_PACKAGES, GenModel.class, msgs);
+          return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_MODEL__GEN_PACKAGES, GenModel.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

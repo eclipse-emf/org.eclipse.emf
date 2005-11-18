@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.17 2005/10/28 13:51:49 davidms Exp $
+ * $Id: GenOperationImpl.java,v 1.18 2005/11/18 19:13:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -112,7 +112,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   public GenClass getGenClass()
   {
     if (eContainerFeatureID != GenModelPackage.GEN_OPERATION__GEN_CLASS) return null;
-    return (GenClass)eContainer;
+    return (GenClass)eContainer();
   }
 
   /**
@@ -122,12 +122,12 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    */
   public void setGenClass(GenClass newGenClass)
   {
-    if (newGenClass != eContainer || (eContainerFeatureID != GenModelPackage.GEN_OPERATION__GEN_CLASS && newGenClass != null))
+    if (newGenClass != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_OPERATION__GEN_CLASS && newGenClass != null))
     {
       if (EcoreUtil.isAncestor(this, newGenClass))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newGenClass != null)
         msgs = ((InternalEObject)newGenClass).eInverseAdd(this, GenModelPackage.GEN_CLASS__GEN_OPERATIONS, GenClass.class, msgs);
@@ -147,8 +147,8 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   {
     if (ecoreOperation != null && ecoreOperation.eIsProxy())
     {
-      EOperation oldEcoreOperation = ecoreOperation;
-      ecoreOperation = (EOperation)eResolveProxy((InternalEObject)ecoreOperation);
+      InternalEObject oldEcoreOperation = (InternalEObject)ecoreOperation;
+      ecoreOperation = (EOperation)eResolveProxy(oldEcoreOperation);
       if (ecoreOperation != oldEcoreOperation)
       {
         if (eNotificationRequired())
@@ -207,7 +207,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       switch (eDerivedStructuralFeatureID(featureID, baseClass))
       {
         case GenModelPackage.GEN_OPERATION__GEN_CLASS:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, GenModelPackage.GEN_OPERATION__GEN_CLASS, msgs);
         case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
@@ -216,7 +216,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -255,12 +255,12 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       switch (eContainerFeatureID)
       {
         case GenModelPackage.GEN_OPERATION__GEN_CLASS:
-          return eContainer.eInverseRemove(this, GenModelPackage.GEN_CLASS__GEN_OPERATIONS, GenClass.class, msgs);
+          return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_CLASS__GEN_OPERATIONS, GenClass.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

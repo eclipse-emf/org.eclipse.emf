@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.6 2005/11/18 12:08:15 emerks Exp $
+ * $Id: GenEnumImpl.java,v 1.7 2005/11/18 19:13:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -111,8 +111,8 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   {
     if (ecoreEnum != null && ecoreEnum.eIsProxy())
     {
-      EEnum oldEcoreEnum = ecoreEnum;
-      ecoreEnum = (EEnum)eResolveProxy((InternalEObject)ecoreEnum);
+      InternalEObject oldEcoreEnum = (InternalEObject)ecoreEnum;
+      ecoreEnum = (EEnum)eResolveProxy(oldEcoreEnum);
       if (ecoreEnum != oldEcoreEnum)
       {
         if (eNotificationRequired())
@@ -176,7 +176,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }

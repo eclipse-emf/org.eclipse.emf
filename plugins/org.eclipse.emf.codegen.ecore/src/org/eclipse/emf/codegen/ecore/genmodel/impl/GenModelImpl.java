@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.49 2005/11/18 12:08:15 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.50 2005/11/18 19:13:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -131,6 +131,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getImporterID <em>Importer ID</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isBundleManifest <em>Bundle Manifest</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFeatureDelegation <em>Feature Delegation</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isContainmentProxies <em>Containment Proxies</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -973,6 +974,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected GenDelegationKind featureDelegation = FEATURE_DELEGATION_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isContainmentProxies() <em>Containment Proxies</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isContainmentProxies()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean CONTAINMENT_PROXIES_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isContainmentProxies() <em>Containment Proxies</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isContainmentProxies()
+   * @generated
+   * @ordered
+   */
+  protected boolean containmentProxies = CONTAINMENT_PROXIES_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -3710,6 +3731,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isContainmentProxies()
+  {
+    return containmentProxies;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setContainmentProxies(boolean newContainmentProxies)
+  {
+    boolean oldContainmentProxies = containmentProxies;
+    containmentProxies = newContainmentProxies;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES, oldContainmentProxies, containmentProxies));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getGenPackages()
   {
     if (genPackages == null)
@@ -3781,7 +3825,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -3897,6 +3941,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isBundleManifest() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
         return getFeatureDelegation();
+      case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
+        return isContainmentProxies() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -3996,6 +4042,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return bundleManifest != BUNDLE_MANIFEST_EDEFAULT;
       case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
         return featureDelegation != FEATURE_DELEGATION_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
+        return containmentProxies != CONTAINMENT_PROXIES_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -4138,6 +4186,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
         setFeatureDelegation((GenDelegationKind)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
+        setContainmentProxies(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -4283,6 +4334,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
         setFeatureDelegation(FEATURE_DELEGATION_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
+        setContainmentProxies(CONTAINMENT_PROXIES_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -4383,6 +4437,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(bundleManifest);
     result.append(", featureDelegation: ");
     result.append(featureDelegation);
+    result.append(", containmentProxies: ");
+    result.append(containmentProxies);
     result.append(')');
     return result.toString();
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.6 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenParameterImpl.java,v 1.7 2005/11/18 19:13:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -89,7 +89,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
   public GenOperation getGenOperation()
   {
     if (eContainerFeatureID != GenModelPackage.GEN_PARAMETER__GEN_OPERATION) return null;
-    return (GenOperation)eContainer;
+    return (GenOperation)eContainer();
   }
 
   /**
@@ -99,12 +99,12 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    */
   public void setGenOperation(GenOperation newGenOperation)
   {
-    if (newGenOperation != eContainer || (eContainerFeatureID != GenModelPackage.GEN_PARAMETER__GEN_OPERATION && newGenOperation != null))
+    if (newGenOperation != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_PARAMETER__GEN_OPERATION && newGenOperation != null))
     {
       if (EcoreUtil.isAncestor(this, newGenOperation))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newGenOperation != null)
         msgs = ((InternalEObject)newGenOperation).eInverseAdd(this, GenModelPackage.GEN_OPERATION__GEN_PARAMETERS, GenOperation.class, msgs);
@@ -124,8 +124,8 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
   {
     if (ecoreParameter != null && ecoreParameter.eIsProxy())
     {
-      EParameter oldEcoreParameter = ecoreParameter;
-      ecoreParameter = (EParameter)eResolveProxy((InternalEObject)ecoreParameter);
+      InternalEObject oldEcoreParameter = (InternalEObject)ecoreParameter;
+      ecoreParameter = (EParameter)eResolveProxy(oldEcoreParameter);
       if (ecoreParameter != oldEcoreParameter)
       {
         if (eNotificationRequired())
@@ -170,14 +170,14 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
       switch (eDerivedStructuralFeatureID(featureID, baseClass))
       {
         case GenModelPackage.GEN_PARAMETER__GEN_OPERATION:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, GenModelPackage.GEN_PARAMETER__GEN_OPERATION, msgs);
         default:
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -214,12 +214,12 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
       switch (eContainerFeatureID)
       {
         case GenModelPackage.GEN_PARAMETER__GEN_OPERATION:
-          return eContainer.eInverseRemove(this, GenModelPackage.GEN_OPERATION__GEN_PARAMETERS, GenOperation.class, msgs);
+          return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_OPERATION__GEN_PARAMETERS, GenOperation.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

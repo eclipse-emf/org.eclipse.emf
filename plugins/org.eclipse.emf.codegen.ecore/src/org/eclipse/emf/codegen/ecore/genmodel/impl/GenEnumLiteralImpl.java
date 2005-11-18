@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.5 2005/10/28 14:06:20 davidms Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.6 2005/11/18 19:13:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -86,7 +86,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
   public GenEnum getGenEnum()
   {
     if (eContainerFeatureID != GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM) return null;
-    return (GenEnum)eContainer;
+    return (GenEnum)eContainer();
   }
 
   /**
@@ -96,12 +96,12 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    */
   public void setGenEnum(GenEnum newGenEnum)
   {
-    if (newGenEnum != eContainer || (eContainerFeatureID != GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM && newGenEnum != null))
+    if (newGenEnum != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM && newGenEnum != null))
     {
       if (EcoreUtil.isAncestor(this, newGenEnum))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newGenEnum != null)
         msgs = ((InternalEObject)newGenEnum).eInverseAdd(this, GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS, GenEnum.class, msgs);
@@ -126,8 +126,8 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
   {
     if (ecoreEnumLiteral != null && ecoreEnumLiteral.eIsProxy())
     {
-      EEnumLiteral oldEcoreEnumLiteral = ecoreEnumLiteral;
-      ecoreEnumLiteral = (EEnumLiteral)eResolveProxy((InternalEObject)ecoreEnumLiteral);
+      InternalEObject oldEcoreEnumLiteral = (InternalEObject)ecoreEnumLiteral;
+      ecoreEnumLiteral = (EEnumLiteral)eResolveProxy(oldEcoreEnumLiteral);
       if (ecoreEnumLiteral != oldEcoreEnumLiteral)
       {
         if (eNotificationRequired())
@@ -172,14 +172,14 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
       switch (eDerivedStructuralFeatureID(featureID, baseClass))
       {
         case GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM, msgs);
         default:
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -216,12 +216,12 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
       switch (eContainerFeatureID)
       {
         case GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM:
-          return eContainer.eInverseRemove(this, GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS, GenEnum.class, msgs);
+          return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS, GenEnum.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**

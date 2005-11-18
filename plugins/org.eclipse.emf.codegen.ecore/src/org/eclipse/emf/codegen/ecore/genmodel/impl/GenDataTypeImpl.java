@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.11 2005/06/20 15:10:42 davidms Exp $
+ * $Id: GenDataTypeImpl.java,v 1.12 2005/11/18 19:13:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -92,8 +92,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   {
     if (ecoreDataType != null && ecoreDataType.eIsProxy())
     {
-      EDataType oldEcoreDataType = ecoreDataType;
-      ecoreDataType = (EDataType)eResolveProxy((InternalEObject)ecoreDataType);
+      InternalEObject oldEcoreDataType = (InternalEObject)ecoreDataType;
+      ecoreDataType = (EDataType)eResolveProxy(oldEcoreDataType);
       if (ecoreDataType != oldEcoreDataType)
       {
         if (eNotificationRequired())
