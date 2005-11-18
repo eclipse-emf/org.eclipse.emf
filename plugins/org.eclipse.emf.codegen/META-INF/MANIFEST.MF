@@ -12,7 +12,7 @@ Export-Package: org.eclipse.emf.codegen,
  org.eclipse.emf.codegen.jmerge,
  org.eclipse.emf.codegen.util
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.common,
+ org.eclipse.emf.common;visibility:=reexport,
  org.eclipse.core.resources,
  org.eclipse.jdt.core,
  org.eclipse.jdt.launching,
