@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectImpl.java,v 1.7 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EObjectImpl.java,v 1.8 2005/11/18 19:06:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -189,7 +189,7 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
     return eProperties;
   }
 
-  protected InternalEObject eInternalContainer()
+  public InternalEObject eInternalContainer()
   {
     return eContainer;
   }
