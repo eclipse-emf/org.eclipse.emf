@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETTest.java,v 1.4 2005/06/08 06:24:42 nickb Exp $
+ * $Id: JETTest.java,v 1.5 2005/11/18 12:10:11 emerks Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -37,6 +37,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
 import org.eclipse.emf.codegen.jet.JETEmitter;
+import org.eclipse.emf.codegen.jet.JETException;
+import org.eclipse.emf.common.util.DiagnosticException;
 
 public class JETTest extends TestCase
 {
@@ -104,7 +106,14 @@ public class JETTest extends TestCase
     saveFile(TEMPLATE_FILE, templateHeader(lineSeparator).append(text).toString());
     
     JETEmitter emitter = new JETEmitter(TEMPLATE_FILE.getAbsolutePath());
-    emitter.generate(new NullProgressMonitor(), new Object[]{""});
+    try
+    {
+      emitter.generate(new NullProgressMonitor(), new Object[]{""});
+    }
+    catch (JETException exception)
+    {
+      throw DiagnosticException.toCoreException(exception);
+    }
     
     IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(emitter.getProjectName());
     IFile generatedJavaFile = project.getFile(new Path("src/jetTest/ATemplateGen.java"));
@@ -129,7 +138,7 @@ public class JETTest extends TestCase
   protected StringBuffer templateHeader(String lineSeparator)
   {
     StringBuffer text = new StringBuffer();
-    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.4 2005/06/08 06:24:42 nickb Exp $\"%>").append(lineSeparator);
+    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.5 2005/11/18 12:10:11 emerks Exp $\"%>").append(lineSeparator);
     
     text.append("<%").append(lineSeparator);
     text.append("/**").append(lineSeparator);

@@ -23,6 +23,8 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.jet.JETEmitter;
+import org.eclipse.emf.codegen.jet.JETException;
+import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.examples.jet.article2.TypesafeEnumPlugin;
 
 import org.eclipse.jface.action.IAction;
@@ -41,7 +43,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
  * templates.
  * 
  * @author Remko Popma
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:49 $)
+ * @version $Revision: 1.2 $ ($Date: 2005/11/18 12:09:05 $)
  */
 public class EmitAction implements IActionDelegate
 {
@@ -110,7 +112,10 @@ public class EmitAction implements IActionDelegate
           {
             String generated = emitter.generate(monitor, arguments);
             saveGenerated(generated, file, monitor);
-
+          }
+          catch (JETException exception)
+          {
+            throw DiagnosticException.toCoreException(exception);
           }
           catch (IOException ioe)
           {

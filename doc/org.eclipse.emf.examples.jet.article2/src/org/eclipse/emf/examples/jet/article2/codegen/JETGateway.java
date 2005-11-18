@@ -10,8 +10,10 @@ import org.eclipse.core.resources.ResourceAttributes;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.jet.JETEmitter;
@@ -19,13 +21,16 @@ import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.codegen.jmerge.JControlModel;
 import org.eclipse.emf.codegen.jmerge.JMerger;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.Monitor;
 
 
 /**
  * This class encapsulates access to the JET and JMerge packages.
  * 
  * @author Remko Popma
- * @version $Revision: 1.2 $ ($Date: 2005/05/25 18:42:42 $)
+ * @version $Revision: 1.3 $ ($Date: 2005/11/18 12:09:48 $)
  */
 public class JETGateway
 {
@@ -59,16 +64,22 @@ public class JETGateway
    */
   public String generate(IProgressMonitor monitor) throws CoreException
   {
-    monitor = createIfNull(monitor);
-
-    Config config = getConfig();
-    JETEmitter emitter = new JETEmitter(config.getTemplateFullUri(), getClass().getClassLoader());
-    emitter.addVariable(config.getClasspathVariable(), config.getPluginId());
-
-    IProgressMonitor sub = new SubProgressMonitor(monitor, 1);
-    String result = emitter.generate(sub, new Object []{ config.getModel() });
-    monitor.worked(1);
-    return result;
+    try
+    {
+      monitor = createIfNull(monitor);
+      Config config = getConfig();
+      JETEmitter emitter = new JETEmitter(config.getTemplateFullUri(), getClass().getClassLoader());
+      emitter.addVariable(config.getClasspathVariable(), config.getPluginId());
+  
+      Monitor sub = new BasicMonitor.EclipseSubProgress(monitor, 1);
+      String result = emitter.generate(sub, new Object []{ config.getModel() });
+      monitor.worked(1);
+      return result;
+    }
+    catch (JETException exception)
+    {
+      throw DiagnosticException.toCoreException(exception);
+    }
   }
 
   /**
@@ -97,8 +108,14 @@ public class JETGateway
     IContainer container = findOrCreateContainer(monitor, config.getTargetFolder(), config.getPackageName());
     if (container == null)
     {
-      throw new JETException("Cound not find or create container for package " + config.getPackageName() + " in "
-        + config.getTargetFolder());
+      throw 
+        new CoreException
+          (new Status
+             (IStatus.ERROR,
+              "org.eclipse.emf.examples.jet.article2",
+              0,
+              "Could not find or create container for package " + config.getPackageName() + " in " + config.getTargetFolder(),
+              null));
     }
 
     IFile targetFile = container.getFile(new Path(config.getTargetFile()));
@@ -162,8 +179,14 @@ public class JETGateway
     IContainer container = findOrCreateContainer(monitor, config.getTargetFolder(), config.getPackageName());
     if (container == null)
     {
-      throw new JETException("Cound not find or create container for package " + config.getPackageName() + " in "
-        + config.getTargetFolder());
+      throw 
+        new CoreException
+          (new Status
+             (IStatus.ERROR,
+              "org.eclipse.emf.examples.jet.article2",
+              0,
+              "Could not find or create container for package " + config.getPackageName() + " in " + config.getTargetFolder(),
+              null));
     }
     IFile targetFile = container.getFile(new Path(config.getTargetFile()));
     IFile result = getWritableTargetFile(targetFile, container, config.getTargetFile());

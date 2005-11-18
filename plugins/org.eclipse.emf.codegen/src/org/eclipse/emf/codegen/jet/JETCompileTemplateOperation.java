@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompileTemplateOperation.java,v 1.4 2005/06/08 06:15:57 nickb Exp $
+ * $Id: JETCompileTemplateOperation.java,v 1.5 2005/11/18 12:04:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -48,6 +48,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.URI;
 
 
@@ -318,6 +319,10 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
           project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new SubProgressMonitor(progressMonitor, 1));
         }
       }
+    }
+    catch (JETException exception)
+    {
+      throw DiagnosticException.toCoreException(exception);
     }
     finally
     {
