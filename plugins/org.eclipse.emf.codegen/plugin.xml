@@ -3,13 +3,13 @@
 <plugin>
   <extension id="CodeGen" point="org.eclipse.core.runtime.applications">
     <application>
-      <run class="org.eclipse.emf.codegen.CodeGen" />
+      <run class="org.eclipse.emf.codegen.CodeGen$PlatformRunnable" />
     </application>
   </extension>
 
   <extension id="JMerger" point="org.eclipse.core.runtime.applications">
     <application>
-      <run class="org.eclipse.emf.codegen.jmerge.JMerger" />
+      <run class="org.eclipse.emf.codegen.jmerge.JMerger$PlatformRunnable" />
     </application>
   </extension>
 
