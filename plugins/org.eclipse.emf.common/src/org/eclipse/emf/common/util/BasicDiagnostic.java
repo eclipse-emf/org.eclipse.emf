@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicDiagnostic.java,v 1.4 2005/08/24 19:39:26 elena Exp $
+ * $Id: BasicDiagnostic.java,v 1.5 2005/11/18 12:00:16 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -205,12 +205,18 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
   {
     protected static final IStatus [] EMPTY_CHILDREN = new IStatus [0];
 
+    protected Throwable throwable;
     protected Diagnostic diagnostic;
     protected IStatus [] wrappedChildren;
 
     public Wrapper(Diagnostic diagnostic)
     {
       this.diagnostic = diagnostic;
+    }
+    
+    public Wrapper(DiagnosticException diagnosticException)
+    {
+      throwable = diagnosticException;
     }
 
     public IStatus[] getChildren()
@@ -241,6 +247,10 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     
     public Throwable getException()
     {
+      if (throwable != null)
+      {
+        return throwable;
+      }
       for (Iterator i = diagnostic.getData().iterator(); i.hasNext(); )
       {
         Object data = i.next();
@@ -291,6 +301,11 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     {
       return new Wrapper(diagnostic);
     }
+    
+    public static IStatus create(DiagnosticException diagnosticException)
+    {
+      return new Wrapper(diagnosticException);
+    }
   }
 
   /**
@@ -299,6 +314,14 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
   public static IStatus toIStatus(Diagnostic diagnostic)
   {
     return Wrapper.create(diagnostic);
+  }
+  
+  /**
+   * Return the diagnostic exception viewed as an {@link IStatus}.
+   */
+  public static IStatus toIStatus(DiagnosticException diagnosticException)
+  {
+    return Wrapper.create(diagnosticException);
   }
 
   public String toString()
