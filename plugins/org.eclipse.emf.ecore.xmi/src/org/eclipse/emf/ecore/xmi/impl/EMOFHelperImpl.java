@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.5 2005/06/08 06:16:07 nickb Exp $
+ * $Id: EMOFHelperImpl.java,v 1.6 2005/11/18 19:08:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -185,7 +185,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
         eClass.getEStructuralFeatures().set(eClass.getEStructuralFeatures().indexOf(emofFeature), ecoreFeature);
       }
 
-      for (TreeIterator contents = EcoreUtil.getAllContents(resource.getContents()); contents.hasNext(); )
+      for (TreeIterator contents = EcoreUtil.getAllContents(resource.getContents(), false); contents.hasNext(); )
       {
         EObject eObject = (EObject)contents.next();
         for (EContentsEList.FeatureIterator featureIterator = 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.40 2005/11/03 20:32:22 elena Exp $
+ * $Id: XMLHandler.java,v 1.41 2005/11/18 19:08:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -680,7 +680,7 @@ public abstract class XMLHandler
 
     if (disableNotify) 
     {
-      for (Iterator i = xmlResource.getAllContents(); i.hasNext(); )
+      for (Iterator i = EcoreUtil.getAllContents(xmlResource.getContents(), false); i.hasNext(); )
       {
         EObject eObject = (EObject)i.next();
         eObject.eSetDeliver(true);
