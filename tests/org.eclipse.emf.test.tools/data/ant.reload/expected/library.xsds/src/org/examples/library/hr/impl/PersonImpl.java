@@ -127,8 +127,8 @@ public class PersonImpl extends EObjectImpl implements Person
   {
     if (library != null && library.eIsProxy())
     {
-      Library oldLibrary = library;
-      library = (Library)eResolveProxy((InternalEObject)library);
+      InternalEObject oldLibrary = (InternalEObject)library;
+      library = (Library)eResolveProxy(oldLibrary);
       if (library != oldLibrary)
       {
         if (eNotificationRequired())
@@ -205,7 +205,7 @@ public class PersonImpl extends EObjectImpl implements Person
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }

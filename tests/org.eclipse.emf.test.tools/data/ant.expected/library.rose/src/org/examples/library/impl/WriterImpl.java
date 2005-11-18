@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: WriterImpl.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
+ * $Id: WriterImpl.java,v 1.3 2005/11/18 19:15:47 emerks Exp $
  */
 package org.examples.library.impl;
 
@@ -154,7 +154,7 @@ public class WriterImpl extends EObjectImpl implements Writer
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }

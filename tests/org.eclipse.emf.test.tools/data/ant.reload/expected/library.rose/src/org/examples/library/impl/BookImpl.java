@@ -214,8 +214,8 @@ public class BookImpl extends EObjectImpl implements Book
   {
     if (author != null && author.eIsProxy())
     {
-      Writer oldAuthor = author;
-      author = (Writer)eResolveProxy((InternalEObject)author);
+      InternalEObject oldAuthor = (InternalEObject)author;
+      author = (Writer)eResolveProxy(oldAuthor);
       if (author != oldAuthor)
       {
         if (eNotificationRequired())
@@ -292,7 +292,7 @@ public class BookImpl extends EObjectImpl implements Book
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
