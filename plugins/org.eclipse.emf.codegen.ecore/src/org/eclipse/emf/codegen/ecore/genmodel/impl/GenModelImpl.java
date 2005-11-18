@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.48 2005/11/14 16:47:10 khussey Exp $
+ * $Id: GenModelImpl.java,v 1.49 2005/11/18 12:08:15 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -29,12 +29,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.ToolFactory;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
 
@@ -58,11 +53,15 @@ import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.codegen.jmerge.JControlModel;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.codegen.util.ImportManager;
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -1358,7 +1357,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     JETEmitter jetEmitter = 
       new JETEmitter(getTemplatePath(), relativeTemplateURI, getClass().getClassLoader())
       {
-        public void initialize(IProgressMonitor progressMonitor) throws JETException
+        public void initialize(Monitor progressMonitor) throws JETException
         {
           if (getClasspathEntries().isEmpty())
           {
@@ -1576,8 +1575,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public IStatus validate()
   {
-    MultiStatus status =
-      new MultiStatus
+    return BasicDiagnostic.toIStatus(diagnose());
+  }
+
+  public Diagnostic diagnose()
+  {
+    BasicDiagnostic status =
+      new BasicDiagnostic
         (CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
          0,
          CodeGenEcorePlugin.INSTANCE.getString("_UI_ProblemsEncounteredInTheModel_message"),
@@ -1604,8 +1608,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         Map.Entry entry = (Map.Entry)i.next();
         EObject unresolvedProxy = (EObject)entry.getKey();
 
-        MultiStatus nestedStatus =
-          new MultiStatus
+        BasicDiagnostic nestedStatus =
+          new BasicDiagnostic
             (CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
              0,
              CodeGenEcorePlugin.INSTANCE.getString
@@ -1618,8 +1622,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           if (!setting.getEStructuralFeature().isDerived())
           {
             nestedStatus.add
-              (new Status
-                (IStatus.ERROR,
+              (new BasicDiagnostic
+                (Diagnostic.ERROR,
                     CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
                  0,
                  CodeGenEcorePlugin.INSTANCE.getString
@@ -1663,8 +1667,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         if (genPackage == null)
         {
           status.add
-            (new Status
-              (IStatus.ERROR,
+            (new BasicDiagnostic
+              (Diagnostic.ERROR,
                   CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
                0,
                CodeGenEcorePlugin.INSTANCE.getString("_UI_ThePackageIsNeeded_message", new Object [] { EcoreUtil.getURI(ePackage) }),
@@ -1673,8 +1677,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         else if (genPackage.getEcorePackage() != ePackage)
         {
           status.add
-            (new Status
-              (IStatus.ERROR,
+            (new BasicDiagnostic
+              (Diagnostic.ERROR,
                   CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
                0,
                CodeGenEcorePlugin.INSTANCE.getString
@@ -1726,7 +1730,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return !isBlank(getModelPluginID());
   }
 
-  public void generate(IProgressMonitor progressMonitor)
+  public void generate(Monitor progressMonitor)
   {
     try
     {
@@ -1739,13 +1743,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
       // Force the project to be setup properly.
       //
-      if (isUpdateClasspath())
+      if (isUpdateClasspath() && EMFPlugin.IS_ECLIPSE_RUNNING)
       {
-        findOrCreateContainer
-          (new SubProgressMonitor(progressMonitor, 1), 
+        EclipseUtil.findOrCreateContainer
+          ((GenModel)this,
+           createMonitor(progressMonitor, 1), 
            Generator.EMF_MODEL_PROJECT_STYLE, 
            getEffectiveModelPluginVariables(),
-           new Path(getModelDirectory()), true);
+           getModelDirectory(), 
+           true);
       }
 
       for (Iterator iter = getGenPackages().iterator(); iter.hasNext(); )
@@ -1754,7 +1760,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
              ("_UI_GeneratingJavaPackage_message", new Object [] { genPackage.getInterfacePackageName() }));
-        genPackage.generate(new SubProgressMonitor(progressMonitor, 1));
+        genPackage.generate(createMonitor(progressMonitor, 1));
       }
 
       if (hasModelPluginClass())
@@ -1763,7 +1769,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           (CodeGenEcorePlugin.INSTANCE.getString
              ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedModelPluginClassName() }));
         generate
-          (new SubProgressMonitor(progressMonitor, 1),
+          (createMonitor(progressMonitor, 1),
            Generator.EMF_MODEL_PROJECT_STYLE,
            getEffectiveModelPluginVariables(),
            getModelDirectory(),
@@ -1780,7 +1786,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           {
             progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelManifestMF_message"));
             generate
-              (new SubProgressMonitor(progressMonitor, 1),
+              (createMonitor(progressMonitor, 1),
                Generator.EMF_MODEL_PROJECT_STYLE,
                getEffectiveModelPluginVariables(),
                getModelProjectDirectory() + "/META-INF/MANIFEST.MF",
@@ -1789,7 +1795,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           
           progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelPluginXML_message"));
           generate
-            (new SubProgressMonitor(progressMonitor, 1),
+            (createMonitor(progressMonitor, 1),
              Generator.EMF_MODEL_PROJECT_STYLE,
              getEffectiveModelPluginVariables(),
              getModelProjectDirectory() + "/plugin.xml",
@@ -1798,7 +1804,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelPluginProperties_message"));
         generate
-          (new SubProgressMonitor(progressMonitor, 1),
+          (createMonitor(progressMonitor, 1),
            Generator.EMF_MODEL_PROJECT_STYLE,
            getEffectiveModelPluginVariables(),
            getModelProjectDirectory() + "/plugin.properties",
@@ -1806,7 +1812,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelBuildProperties_message"));
         generate
-          (new SubProgressMonitor(progressMonitor, 1),
+          (createMonitor(progressMonitor, 1),
            Generator.EMF_MODEL_PROJECT_STYLE,
            getEffectiveModelPluginVariables(),
            getModelProjectDirectory() + "/build.properties",
@@ -1832,7 +1838,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return canGenerate && hasEditSupport();
   }
 
-  public void generateEdit(IProgressMonitor progressMonitor)
+  public void generateEdit(Monitor progressMonitor)
   {
     try
     {
@@ -1844,13 +1850,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
       // Force the project to be setup properly.
       //
-      if (isUpdateClasspath())
+      if (EMFPlugin.IS_ECLIPSE_RUNNING && isUpdateClasspath())
       {
-        findOrCreateContainer
-          (new SubProgressMonitor(progressMonitor, 1), 
+        EclipseUtil.findOrCreateContainer
+          ((GenModel)this,
+           createMonitor(progressMonitor, 1), 
            Generator.EMF_EDIT_PROJECT_STYLE, 
            getEffectiveModelPluginVariables(),
-           new Path(getEditDirectory()), 
+           getEditDirectory(), 
            true);
       }
 
@@ -1861,7 +1868,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
              ("_UI_GeneratingJavaPackage_message", new Object [] { genPackage.getInterfacePackageName() }));
-        genPackage.generateEdit(new SubProgressMonitor(progressMonitor, 1));
+        genPackage.generateEdit(createMonitor(progressMonitor, 1));
       }
 
       if (!sameEditEditorProject())
@@ -1870,7 +1877,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           (CodeGenEcorePlugin.INSTANCE.getString
              ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedEditPluginClassName() }));
         generate
-          (new SubProgressMonitor(progressMonitor, 1),
+          (createMonitor(progressMonitor, 1),
            Generator.EMF_EDIT_PROJECT_STYLE,
            getEffectiveModelPluginVariables(),
            getEditPluginDirectory(),
@@ -1882,7 +1889,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         {
           progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditManifestMF_message"));
           generate
-            (new SubProgressMonitor(progressMonitor, 1),
+            (createMonitor(progressMonitor, 1),
              Generator.EMF_EDIT_PROJECT_STYLE,
              getEffectiveModelPluginVariables(),
              getEditProjectDirectory() + "/META-INF/MANIFEST.MF",
@@ -1891,7 +1898,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditPluginXML_message"));
         generate
-          (new SubProgressMonitor(progressMonitor, 1),
+          (createMonitor(progressMonitor, 1),
            Generator.EMF_EDIT_PROJECT_STYLE,
            getEffectiveModelPluginVariables(),
            getEditProjectDirectory() + "/plugin.xml",
@@ -1900,7 +1907,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditPluginProperties_message"));
       generate
-        (new SubProgressMonitor(progressMonitor, 1),
+        (createMonitor(progressMonitor, 1),
          Generator.EMF_EDIT_PROJECT_STYLE,
          getEffectiveModelPluginVariables(),
          getEditProjectDirectory() + "/plugin.properties",
@@ -1908,7 +1915,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditBuildProperties_message"));
       generate
-        (new SubProgressMonitor(progressMonitor, 1),
+        (createMonitor(progressMonitor, 1),
          Generator.EMF_EDIT_PROJECT_STYLE,
          getEffectiveModelPluginVariables(),
          getEditProjectDirectory() + "/build.properties",
@@ -1933,7 +1940,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return canGenerate && hasEditorSupport();
   }
 
-  public void generateEditor(IProgressMonitor progressMonitor)
+  public void generateEditor(Monitor progressMonitor)
   {
     try
     {
@@ -1945,13 +1952,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
       // Force the project to be setup properly.
       //
-      if (isUpdateClasspath())
+      if (EMFPlugin.IS_ECLIPSE_RUNNING && isUpdateClasspath())
       {
-        findOrCreateContainer
-          (new SubProgressMonitor(progressMonitor, 1), 
+        EclipseUtil.findOrCreateContainer
+          ((GenModel)this,
+           createMonitor(progressMonitor, 1), 
            Generator.EMF_EDITOR_PROJECT_STYLE, 
            getEffectiveModelPluginVariables(),
-           new Path(getEditorDirectory()), 
+           getEditorDirectory(), 
            true);
       }
 
@@ -1962,14 +1970,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
              ("_UI_GeneratingJavaPackage_message", new Object [] { genPackage.getInterfacePackageName() }));
-        genPackage.generateEditor(new SubProgressMonitor(progressMonitor, 1));
+        genPackage.generateEditor(createMonitor(progressMonitor, 1));
       }
 
       progressMonitor.subTask
         (CodeGenEcorePlugin.INSTANCE.getString
            ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedEditorPluginClassName() }));
       generate
-        (new SubProgressMonitor(progressMonitor, 1),
+        (createMonitor(progressMonitor, 1),
          Generator.EMF_EDITOR_PROJECT_STYLE,
          getEffectiveModelPluginVariables(),
          getEditorPluginDirectory(),
@@ -1981,7 +1989,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorManifestMF_message"));
         generate
-          (new SubProgressMonitor(progressMonitor, 1),
+          (createMonitor(progressMonitor, 1),
            Generator.EMF_EDITOR_PROJECT_STYLE,
            getEffectiveModelPluginVariables(),
            getEditorProjectDirectory() + "/META-INF/MANIFEST.MF",
@@ -1990,7 +1998,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorPluginXML_message"));
       generate
-        (new SubProgressMonitor(progressMonitor, 1),
+        (createMonitor(progressMonitor, 1),
          Generator.EMF_EDITOR_PROJECT_STYLE,
          getEffectiveModelPluginVariables(),
          getEditorProjectDirectory() + "/plugin.xml",
@@ -1998,7 +2006,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
             
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorPluginProperties_message"));
       generate
-        (new SubProgressMonitor(progressMonitor, 1),
+        (createMonitor(progressMonitor, 1),
          Generator.EMF_EDITOR_PROJECT_STYLE,
          getEffectiveModelPluginVariables(),
          getEditorProjectDirectory() + "/plugin.properties",
@@ -2006,7 +2014,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorBuildProperties_message"));
       generate
-        (new SubProgressMonitor(progressMonitor, 1),
+        (createMonitor(progressMonitor, 1),
          Generator.EMF_EDITOR_PROJECT_STYLE,
          getEffectiveModelPluginVariables(),
          getEditorProjectDirectory() + "/build.properties",
@@ -2018,7 +2026,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         (CodeGenEcorePlugin.INSTANCE.getString
            ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedEditorAdvisorClassName() }));
       generate
-        (new SubProgressMonitor(progressMonitor, 1),
+        (createMonitor(progressMonitor, 1),
          Generator.EMF_EDITOR_PROJECT_STYLE,
          getEffectiveModelPluginVariables(),
          getEditorPluginDirectory(),
@@ -2038,11 +2046,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return canGenerate();
   }
   
-  public void generateSchema(IProgressMonitor progressMonitor)
+  public void generateSchema(Monitor progressMonitor)
   {
     for (Iterator i = getGenPackages().iterator(); i.hasNext();)
     {
-      ((GenPackage)i.next()).generateSchema(new SubProgressMonitor(progressMonitor, 1));
+      ((GenPackage)i.next()).generateSchema(createMonitor(progressMonitor, 1));
     }
   }
   
@@ -2056,7 +2064,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return canGenerate && hasTestSupport();
   }
 
-  public void generateTests(IProgressMonitor progressMonitor)
+  public void generateTests(Monitor progressMonitor)
   {
     try
     {
@@ -2065,14 +2073,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
       progressMonitor.beginTask("", getGenPackages().size() + 4);
 
-      if (isUpdateClasspath())
+      if (isUpdateClasspath() && EMFPlugin.IS_ECLIPSE_RUNNING)
       {
-        findOrCreateContainer(
-          new SubProgressMonitor(progressMonitor, 1),
-          Generator.EMF_TESTS_PROJECT_STYLE,
-          getEffectiveModelPluginVariables(),
-          new Path(getTestsDirectory()),
-          true);
+        EclipseUtil.findOrCreateContainer
+          ((GenModel)this,
+           createMonitor(progressMonitor, 1),
+           Generator.EMF_TESTS_PROJECT_STYLE,
+           getEffectiveModelPluginVariables(),
+           getTestsDirectory(),
+           true);
       }
 
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPackages_message"));
@@ -2082,7 +2091,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString(
           "_UI_GeneratingJavaPackage_message",
           new Object []{ genPackage.getTestsPackageName() }));
-        genPackage.generateTests(new SubProgressMonitor(progressMonitor, 1));
+        genPackage.generateTests(createMonitor(progressMonitor, 1));
       }
 
       if (!isBlank(getTestSuiteClass()))
@@ -2091,7 +2100,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           "_UI_GeneratingJavaClass_message",
           new Object []{ getQualifiedTestSuiteClassName() }));
         generate(
-          new SubProgressMonitor(progressMonitor, 1),
+          createMonitor(progressMonitor, 1),
           Generator.EMF_TESTS_PROJECT_STYLE,
           getEffectiveModelPluginVariables(),
           getTestsDirectory(),
@@ -2106,7 +2115,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         {
           progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsManifestMF_message"));
           generate
-            (new SubProgressMonitor(progressMonitor, 1),
+            (createMonitor(progressMonitor, 1),
              Generator.EMF_TESTS_PROJECT_STYLE,
              getEffectiveModelPluginVariables(),
              getTestsProjectDirectory() + "/META-INF/MANIFEST.MF",
@@ -2115,7 +2124,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPluginXML_message"));
         generate(
-          new SubProgressMonitor(progressMonitor, 1),
+          createMonitor(progressMonitor, 1),
           Generator.EMF_TESTS_PROJECT_STYLE,
           getEffectiveModelPluginVariables(),
           getTestsProjectDirectory() + "/plugin.xml",
@@ -2123,7 +2132,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPluginProperties_message"));
         generate(
-          new SubProgressMonitor(progressMonitor, 1),
+          createMonitor(progressMonitor, 1),
           Generator.EMF_TESTS_PROJECT_STYLE,
           getEffectiveModelPluginVariables(),
           getTestsProjectDirectory() + "/plugin.properties",
@@ -2131,7 +2140,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsBuildProperties_message"));
         generate(
-          new SubProgressMonitor(progressMonitor, 1),
+          createMonitor(progressMonitor, 1),
           Generator.EMF_TESTS_PROJECT_STYLE,
           getEffectiveModelPluginVariables(),
           getTestsProjectDirectory() + "/build.properties",

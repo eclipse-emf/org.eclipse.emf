@@ -27,6 +27,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
@@ -54,6 +56,9 @@ import org.eclipse.osgi.util.ManifestElement;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.codegen.jet.JETException;
+import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Monitor;
 
 /**
  * This class contains convenient static methods for EMF code generation.
@@ -348,7 +353,7 @@ public class CodeGenUtil
     {
       return name;
     }
-    else if (JavaConventions.validateIdentifier(name).isOK())
+    else if (EMFPlugin.IS_ECLIPSE_RUNNING && EclipseUtil.isValidIdentifier(name))
     {
       return name;
     }
@@ -552,22 +557,7 @@ public class CodeGenUtil
   
   public static boolean isInJavaOutput(IResource resource)
   {
-    IProject project = resource.getProject();
-    IJavaProject javaProject = JavaCore.create(project);
-    try
-    {
-      if (javaProject.exists() && project != project.getWorkspace().getRoot().findMember(javaProject.getOutputLocation())
-        && javaProject.getOutputLocation().isPrefixOf(resource.getFullPath()))
-      {
-        return true;
-      }
-    }
-    catch (JavaModelException exception)
-    {
-      CodeGenPlugin.INSTANCE.log(exception);
-    }
-
-    return false;
+    return EclipseUtil.isInJavaOutput(resource);
   }  
   
   /**
@@ -609,152 +599,39 @@ public class CodeGenUtil
       super.subTask(name);
     }
   }
-
+  
   public static IContainer findOrCreateContainer
     (IPath path, boolean forceRefresh, IPath localLocation, IProgressMonitor progressMonitor) throws CoreException
   {
-    String projectName = path.segment(0);
-    IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(projectName);
-    projectDescription.setLocation(localLocation);
-    return findOrCreateContainer(path, forceRefresh, projectDescription, progressMonitor);
+    return EclipseUtil.findOrCreateContainer(path, forceRefresh, localLocation, progressMonitor);
+  }
+  
+  public static IContainer findOrCreateContainer
+    (IPath path, boolean forceRefresh, IPath localLocation, Monitor progressMonitor) throws CoreException
+  {
+    return EclipseUtil.findOrCreateContainer(path, forceRefresh, localLocation, BasicMonitor.toIProgressMonitor(progressMonitor));
   }
 
   public static IContainer findOrCreateContainer
     (IPath path, boolean forceRefresh, IProjectDescription projectDescription, IProgressMonitor progressMonitor) throws CoreException
   {
-    try
-    {
-      String projectName = path.segment(0);
-      progressMonitor.beginTask("", path.segmentCount() + 3);
-      progressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_ExaminingProject_message", new Object [] { projectName }));
-      IWorkspace workspace = ResourcesPlugin.getWorkspace();
-      IProject project = workspace.getRoot().getProject(path.segment(0));
-
-      if (forceRefresh)
-      {
-        project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(progressMonitor, 1));
-      }
-      else
-      {
-        progressMonitor.worked(1);
-      }
-
-      if (!project.exists())
-      {
-        project.create(projectDescription, new SubProgressMonitor(progressMonitor, 1));
-        project.open(new SubProgressMonitor(progressMonitor, 1));
-      }
-      else
-      {
-        project.open(new SubProgressMonitor(progressMonitor, 2));
-      }
-
-      IContainer container = project;
-      for (int i = 1, length = path.segmentCount(); i < length; ++ i)
-      {
-        IFolder folder = container.getFolder(new Path(path.segment(i)));
-        if (!folder.exists())
-        {
-          folder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
-        }
-        else
-        {
-          progressMonitor.worked(1);
-        }
-
-        container = folder;
-      }
-
-      return container;
-    }
-    finally
-    {
-      progressMonitor.done();
-    }
+    return EclipseUtil.findOrCreateContainer(path, forceRefresh, projectDescription, progressMonitor);
+  }
+  
+  public static IContainer findOrCreateContainer
+    (IPath path, boolean forceRefresh, IProjectDescription projectDescription, Monitor progressMonitor) throws CoreException
+  {
+    return EclipseUtil.findOrCreateContainer(path, forceRefresh, projectDescription, BasicMonitor.toIProgressMonitor(progressMonitor));
   }
 
   public static List getClasspathPaths(String pluginID) throws JETException
   {
-    List result = new ArrayList();
-    try
-    {
-      Bundle bundle = Platform.getBundle(pluginID);
-      String requires = (String)bundle.getHeaders().get(Constants.BUNDLE_CLASSPATH);
-      if (requires == null)
-      {
-        requires = ".";
-      }
-      ManifestElement[] elements = ManifestElement.parseHeader(Constants.BUNDLE_CLASSPATH, requires);
-      if (elements != null)
-      {
-        for (int i = 0; i < elements.length; ++i)
-        {
-          ManifestElement element = elements[i];
-          String value = element.getValue();
-          if (".".equals(value))
-          {
-            value = "/";
-          }
-          try
-          {
-            URL url = bundle.getEntry(value);
-            if (url != null)
-            {
-              URL resolvedURL = Platform.resolve(url);
-              String resolvedURLString = resolvedURL.toString();
-              if (resolvedURLString.endsWith("!/"))
-              {
-                resolvedURLString = resolvedURL.getFile();
-                resolvedURLString = resolvedURLString.substring(0,resolvedURLString.length() - "!/".length());
-              }
-              if (resolvedURLString.startsWith("file:"))
-              {
-                result.add(resolvedURLString.substring("file:".length()));
-              }
-              else
-              {
-                result.add(Platform.asLocalURL(url).getFile());
-              }
-            }
-          }
-          catch (IOException exception)
-          {
-            throw new JETException(exception);
-          }
-          break;
-        }
-      }
-    }
-    catch (BundleException exception)
-    {
-      throw new JETException(exception);
-    }
-    return result;
+    return EclipseUtil.getClasspathPaths(pluginID);
   }
   
   public static void addClasspathEntries(Collection classpathEntries, String variableName, String pluginID) throws JETException
   {
-    for (ListIterator i = getClasspathPaths(pluginID).listIterator(); i.hasNext(); )
-    {
-      IPath path = new Path((String)i.next());
-      if (variableName == null)
-      {
-        classpathEntries.add(JavaCore.newLibraryEntry(path, null, null));
-      }
-      else
-      {
-        String mangledName = variableName + (i.previousIndex() == 0 ? "" : "_" + i.previousIndex());
-        try
-        {
-          JavaCore.setClasspathVariable(mangledName, path, null);
-        }
-        catch (JavaModelException exception)
-        {
-          throw new JETException(exception);
-        } 
-        classpathEntries.add(JavaCore.newVariableEntry(new Path(mangledName), null, null));
-      }
-    }
+    EclipseUtil.addClasspathEntries(classpathEntries, variableName, pluginID);
   }
 
   public static void addClasspathEntries(Collection classpathEntries, String pluginID) throws Exception
@@ -798,4 +675,360 @@ public class CodeGenUtil
       qualifiedClassName;
   }
   
+  public static Monitor createMonitor(Monitor monitor, int ticks)
+  {
+    return
+      EMFPlugin.IS_ECLIPSE_RUNNING ?
+        EclipseUtil.createSubProgressMonitor(monitor, ticks) :
+        monitor;
+  }
+  
+  public static Monitor createMonitor(IProgressMonitor monitor, int ticks)
+  {
+    return EclipseUtil.createSubProgressMonitor(monitor, ticks);
+  }
+  
+  protected static String lineSeparator;
+  static
+  {
+    StringBuffer result = new StringBuffer();
+    String s = System.getProperty("line.separator");
+    for (int i = 0, len = s.length(); i < len; i++)
+    {
+      char c = s.charAt(i);
+      if (c == '\r') result.append("\\r");
+      else if (c == '\n') result.append("\\n");
+      else throw new RuntimeException("Unexpected line separator character");
+    }
+    lineSeparator = result.toString();
+  }
+  protected static Pattern braceLine = Pattern.compile("(\\s*" + lineSeparator + "\\s*\\{\\s*)" + lineSeparator); // }
+  protected static Pattern leadingTabs = Pattern.compile("^((\\t)+).*$", Pattern.MULTILINE);
+  
+  public static String convertFormat(final String tabReplacement, boolean convertToStandardBraceStyle, String value)
+  {
+    if (tabReplacement != null)
+    {
+      FindAndReplace findAndReplaceLeadingTabs = 
+        new FindAndReplace(leadingTabs)
+        {
+          public boolean handleMatch(int offset, Matcher matcher)
+          {
+            if (matcher.groupCount() >= 1)
+            {
+              int begin = offset + matcher.start(1);
+              int end = offset + matcher.end(1);
+              StringBuffer replacement = new StringBuffer();
+              for (int i = begin; i < end; ++i)
+              {
+                replacement.append(tabReplacement);
+              }
+              replace(begin, end, replacement.toString());
+            }
+            return true;
+          }
+        };
+      value = findAndReplaceLeadingTabs.apply(value);
+    }
+
+    if (convertToStandardBraceStyle)
+    {
+      FindAndReplace findAndReplaceLineWithJustABrace = 
+        new FindAndReplace(braceLine)
+        {
+          public boolean handleMatch(int offset, Matcher matcher)
+          {
+            if (matcher.groupCount() >= 1)
+            {
+              int begin = offset + matcher.start(1);
+
+              // Don't do replacement if we just did one, or if previous line
+              // ended with a semicolon.
+              //
+              if (current != 0 && (begin <= current || string.charAt(begin - 1) == ';'))
+              {
+                return true;
+              }
+
+              // Don't do replacement if previous line ended with a comment.
+              //
+              for (int i = begin - 1; i >= current; --i)
+              {
+                char character = string.charAt(i);
+                if (character == '\n' || character == '\r')
+                {
+                  boolean slash = false;
+                  while (++i < begin)
+                  {
+                    character = string.charAt(i);
+                    if (character == '/')
+                    {
+                      if (slash)
+                      {
+                        return true;
+                      }
+                      slash = true;
+                    }
+                    else
+                    {
+                      slash = false;
+                    }
+                  }
+
+                  break;
+                }
+              }
+
+              int end = offset + matcher.end(1);
+              replace(begin, end, " {"); // }
+            }
+            return true;
+          }
+        };
+      value = findAndReplaceLineWithJustABrace.apply(value);
+    }
+
+    return value;
+  }
+  
+  private static abstract class FindAndReplace
+  {
+    protected Pattern pattern;
+    protected String string;
+    protected StringBuffer stringBuffer;
+    protected int current;
+
+    public FindAndReplace(Pattern pattern)
+    {
+      this.pattern = pattern;
+    }
+
+    public String apply(String string)
+    {
+      current = 0;
+      this.string = string;
+      this.stringBuffer = new StringBuffer();
+
+      for (int start = 0, end = string.length(); start < end; )
+      {
+        Matcher matcher = pattern.matcher(string.subSequence(start, end));
+        if (matcher.find())
+        {
+          if (!handleMatch(start, matcher))
+          {
+            break;
+          }
+          start += matcher.end();
+        }
+        else
+        {
+          break;
+        }
+      }
+
+      stringBuffer.append(string.substring(current));
+      return stringBuffer.toString();
+    }
+
+    public void replace(int begin, int end, String replacement)
+    {
+      stringBuffer.append(string.substring(current, begin));
+      stringBuffer.append(replacement);
+      current = end;
+    }
+
+    public abstract boolean handleMatch(int offset, Matcher matcher);
+  }
+
+  protected static class EclipseUtil
+  {
+    public static boolean isInJavaOutput(IResource resource)
+    {
+      IProject project = resource.getProject();
+      IJavaProject javaProject = JavaCore.create(project);
+      try
+      {
+        if (javaProject.exists() && project != project.getWorkspace().getRoot().findMember(javaProject.getOutputLocation())
+          && javaProject.getOutputLocation().isPrefixOf(resource.getFullPath()))
+        {
+          return true;
+        }
+      }
+      catch (JavaModelException exception)
+      {
+        CodeGenPlugin.INSTANCE.log(exception);
+      }
+  
+      return false;
+    }  
+    
+    public static List getClasspathPaths(String pluginID) throws JETException
+    {
+      List result = new ArrayList();
+      try
+      {
+        Bundle bundle = Platform.getBundle(pluginID);
+        String requires = (String)bundle.getHeaders().get(Constants.BUNDLE_CLASSPATH);
+        if (requires == null)
+        {
+          requires = ".";
+        }
+        ManifestElement[] elements = ManifestElement.parseHeader(Constants.BUNDLE_CLASSPATH, requires);
+        if (elements != null)
+        {
+          for (int i = 0; i < elements.length; ++i)
+          {
+            ManifestElement element = elements[i];
+            String value = element.getValue();
+            if (".".equals(value))
+            {
+              value = "/";
+            }
+            try
+            {
+              URL url = bundle.getEntry(value);
+              if (url != null)
+              {
+                URL resolvedURL = Platform.resolve(url);
+                String resolvedURLString = resolvedURL.toString();
+                if (resolvedURLString.endsWith("!/"))
+                {
+                  resolvedURLString = resolvedURL.getFile();
+                  resolvedURLString = resolvedURLString.substring(0,resolvedURLString.length() - "!/".length());
+                }
+                if (resolvedURLString.startsWith("file:"))
+                {
+                  result.add(resolvedURLString.substring("file:".length()));
+                }
+                else
+                {
+                  result.add(Platform.asLocalURL(url).getFile());
+                }
+              }
+            }
+            catch (IOException exception)
+            {
+              throw new JETException(exception);
+            }
+            break;
+          }
+        }
+      }
+      catch (BundleException exception)
+      {
+        throw new JETException(exception);
+      }
+      return result;
+    }
+    
+    public static void addClasspathEntries(Collection classpathEntries, String variableName, String pluginID) throws JETException
+    {
+      for (ListIterator i = getClasspathPaths(pluginID).listIterator(); i.hasNext(); )
+      {
+        IPath path = new Path((String)i.next());
+        if (variableName == null)
+        {
+          classpathEntries.add(JavaCore.newLibraryEntry(path, null, null));
+        }
+        else
+        {
+          String mangledName = variableName + (i.previousIndex() == 0 ? "" : "_" + i.previousIndex());
+          try
+          {
+            JavaCore.setClasspathVariable(mangledName, path, null);
+          }
+          catch (JavaModelException exception)
+          {
+            throw new JETException(exception);
+          } 
+          classpathEntries.add(JavaCore.newVariableEntry(new Path(mangledName), null, null));
+        }
+      }
+    }
+    
+    public static Monitor createSubProgressMonitor(Monitor monitor, int ticks)
+    {
+      if (monitor instanceof IProgressMonitor)
+      {
+        return new BasicMonitor.EclipseSubProgress((IProgressMonitor)monitor, ticks);
+      }
+      else
+      {
+        return new BasicMonitor.EclipseSubProgress(BasicMonitor.toIProgressMonitor(monitor), ticks);
+      }
+    }
+    
+    public static Monitor createSubProgressMonitor(IProgressMonitor monitor, int ticks)
+    {
+      return new BasicMonitor.EclipseSubProgress(monitor, ticks);
+    }
+    
+    public static IContainer findOrCreateContainer
+      (IPath path, boolean forceRefresh, IPath localLocation, IProgressMonitor progressMonitor) throws CoreException
+    {
+      String projectName = path.segment(0);
+      IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(projectName);
+      projectDescription.setLocation(localLocation);
+      return findOrCreateContainer(path, forceRefresh, projectDescription, progressMonitor);
+    }
+
+    public static IContainer findOrCreateContainer
+      (IPath path, boolean forceRefresh, IProjectDescription projectDescription, IProgressMonitor progressMonitor) throws CoreException
+    {
+      try
+      {
+        String projectName = path.segment(0);
+        progressMonitor.beginTask("", path.segmentCount() + 3);
+        progressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_ExaminingProject_message", new Object [] { projectName }));
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        IProject project = workspace.getRoot().getProject(path.segment(0));
+  
+        if (forceRefresh)
+        {
+          project.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(progressMonitor, 1));
+        }
+        else
+        {
+          progressMonitor.worked(1);
+        }
+  
+        if (!project.exists())
+        {
+          project.create(projectDescription, new SubProgressMonitor(progressMonitor, 1));
+          project.open(new SubProgressMonitor(progressMonitor, 1));
+        }
+        else
+        {
+          project.open(new SubProgressMonitor(progressMonitor, 2));
+        }
+  
+        IContainer container = project;
+        for (int i = 1, length = path.segmentCount(); i < length; ++ i)
+        {
+          IFolder folder = container.getFolder(new Path(path.segment(i)));
+          if (!folder.exists())
+          {
+            folder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
+          }
+          else
+          {
+            progressMonitor.worked(1);
+          }
+  
+          container = folder;
+        }
+  
+        return container;
+      }
+      finally
+      {
+        progressMonitor.done();
+      }
+    }
+    
+    public static boolean isValidIdentifier (String name)
+    {
+      return JavaConventions.validateIdentifier(name).isOK();
+    }
+  }
 }

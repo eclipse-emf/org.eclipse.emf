@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.14 2005/06/08 06:15:56 nickb Exp $
+ * $Id: JETCompiler.java,v 1.15 2005/11/18 12:04:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -31,11 +31,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-
 import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.util.URI;
 
 
 public class JETCompiler implements JETParseEventListener
@@ -674,47 +672,38 @@ public class JETCompiler implements JETParseEventListener
   protected static String[] resolveLocation(String[] templateURIPath, int start, String baseLocationURI, String locationURI)
   {
     String[] result = new String []{ locationURI, locationURI, null};
+    URI uri = URI.createURI(locationURI);
     try
     {
-      String file;
-      try
-      {
-        URL url = new URL(locationURI);
-        url = Platform.resolve(url);
-        file = url.getFile();
-      }
-      catch (MalformedURLException exception)
-      {
-        file = locationURI;
-      }
-
-      IPath path = new Path(file);
-      if (!path.isAbsolute())
-      {
-        String resolvedLocation = "";
-        int index = baseLocationURI.lastIndexOf("/");
-        if (index != -1)
-        {
-          resolvedLocation = baseLocationURI.substring(0, index + 1);
-        }
-        resolvedLocation += path;
-        result[0] = resolvedLocation;
-        if (templateURIPath != null)
-        {
-          String [] location =  findLocation(templateURIPath, start, resolvedLocation);
-          resolvedLocation = location[0];
-          result[2] = location[1];
-        }
-        if (resolvedLocation != null)
-        {
-          result[1] = resolvedLocation;
-        }
-      }
+      new URL(locationURI);
+      uri = CommonPlugin.resolve(uri);
     }
-    catch (IOException exception)
+    catch (MalformedURLException exception)
     {
     }
 
+    if (uri.isRelative() && uri.hasRelativePath())
+    {
+      String resolvedLocation = "";
+      int index = baseLocationURI.lastIndexOf("/");
+      if (index != -1)
+      {
+        resolvedLocation = baseLocationURI.substring(0, index + 1);
+      }
+      resolvedLocation += uri;
+      result[0] = resolvedLocation;
+      if (templateURIPath != null)
+      {
+        String [] location =  findLocation(templateURIPath, start, resolvedLocation);
+        resolvedLocation = location[0];
+        result[2] = location[1];
+      }
+      if (resolvedLocation != null)
+      {
+        result[1] = resolvedLocation;
+      }
+    }
+    
     return result;
   }
 
@@ -762,11 +751,12 @@ public class JETCompiler implements JETParseEventListener
   {
     try
     {
-      URL url = null;
+      URI uri = URI.createURI(locationURI);
+      URL url;
       try
       {
-        url = new URL(locationURI);
-        url = Platform.resolve(url);
+        uri = CommonPlugin.resolve(uri);
+        url = new URL(uri.toString());
       }
       catch (MalformedURLException exception)
       {

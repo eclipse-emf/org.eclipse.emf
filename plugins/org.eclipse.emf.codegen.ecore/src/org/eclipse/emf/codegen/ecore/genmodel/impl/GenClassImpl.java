@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.40 2005/11/14 16:47:10 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.41 2005/11/18 12:08:15 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -28,8 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
@@ -43,6 +41,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -1115,7 +1114,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return true;
   }
 
-  public void generate(IProgressMonitor progressMonitor)
+  public void generate(Monitor progressMonitor)
   {
     try
     {
@@ -1134,7 +1133,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
              ("_UI_GeneratingJavaInterface_message", 
               new Object [] { getGenPackage().getInterfacePackageName() + "." + getInterfaceName() }));
         generate
-          (new SubProgressMonitor(progressMonitor, 1), 
+          (createMonitor(progressMonitor, 1), 
            Generator.EMF_MODEL_PROJECT_STYLE, 
            getGenModel().getEffectiveModelPluginVariables(), 
            getGenModel().getModelDirectory(), 
@@ -1148,7 +1147,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           (CodeGenEcorePlugin.INSTANCE.getString
              ("_UI_GeneratingJavaClass_message", new Object [] { getGenPackage().getClassPackageName() + "." + getClassName() }));
         generate
-          (new SubProgressMonitor(progressMonitor, 1), 
+          (createMonitor(progressMonitor, 1), 
            Generator.EMF_MODEL_PROJECT_STYLE, 
            getGenModel().getEffectiveModelPluginVariables(), 
            getGenModel().getModelDirectory(), 
@@ -1852,7 +1851,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return false;
   }
 
-  public void generateEdit(IProgressMonitor progressMonitor)
+  public void generateEdit(Monitor progressMonitor)
   {
     try
     {
@@ -1868,7 +1867,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
            ("_UI_GeneratingJavaClass_message", 
             new Object [] { getGenPackage().getProviderPackageName() + "." + getProviderClassName() }));
       generate
-        (new SubProgressMonitor(progressMonitor, 1), 
+        (createMonitor(progressMonitor, 1), 
          Generator.EMF_EDIT_PROJECT_STYLE, 
          getGenModel().getEffectiveModelPluginVariables(), 
          getGenModel().getEditDirectory(), 
@@ -1882,7 +1881,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           (CodeGenEcorePlugin.INSTANCE.getString
              ("_UI_GeneratingItemIcon_message", new Object [] { getItemIconFileName() }));
         generate
-          (new SubProgressMonitor(progressMonitor, 1), 
+          (createMonitor(progressMonitor, 1), 
            Generator.EMF_EDIT_PROJECT_STYLE, 
            getGenModel().getEffectiveModelPluginVariables(), 
            getItemIconFileName(), 
@@ -1902,7 +1901,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
               (CodeGenEcorePlugin.INSTANCE.getString
                  ("_UI_GeneratingCreateChildIcon_message", new Object [] { getCreateChildIconFileName(feature, childClass) }));
             generate
-              (new SubProgressMonitor(progressMonitor, 1), 
+              (createMonitor(progressMonitor, 1), 
                Generator.EMF_EDIT_PROJECT_STYLE, 
                getGenModel().getEffectiveModelPluginVariables(), 
                getCreateChildIconFileName(feature, childClass), 
@@ -1942,7 +1941,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getGenModel().canGenerateTests() && !isExternalInterface();
   }
 
-  public void generateTests(IProgressMonitor progressMonitor)
+  public void generateTests(Monitor progressMonitor)
   {
     try
     {
@@ -1957,7 +1956,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         "_UI_GeneratingJavaClass_message",
         new Object []{ getGenPackage().getTestsPackageName() + "." + getInterfaceName() + "Test" }));
       generate(
-        new SubProgressMonitor(progressMonitor, 1),
+        createMonitor(progressMonitor, 1),
         Generator.EMF_TESTS_PROJECT_STYLE,
         Collections.EMPTY_LIST,
         getGenModel().getTestsDirectory(),

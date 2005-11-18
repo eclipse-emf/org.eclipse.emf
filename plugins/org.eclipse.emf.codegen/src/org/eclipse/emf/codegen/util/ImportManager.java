@@ -21,10 +21,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -150,23 +155,54 @@ public class ImportManager
 
   public void addCompilationUnitImports(String compilationUnitContents)
   {   
-    ASTParser parser = ASTParser.newParser(AST.JLS3);
-    parser.setSource(compilationUnitContents.toCharArray());
-    CompilationUnit compilationUnit = (CompilationUnit)parser.createAST(new NullProgressMonitor());
-    for (Iterator i = compilationUnit.imports().iterator(); i.hasNext();)
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
-      ImportDeclaration importDeclaration = (ImportDeclaration)i.next();
-      String qualifiedName = importDeclaration.getName().getFullyQualifiedName();
-      int lastDot = qualifiedName.lastIndexOf(".");
-      String shortName = qualifiedName.substring(lastDot + 1);
-      if (shortName.equals("*"))
+      EclipseUtil.addCompilationUnitImports(importedPackages, shortNameToImportMap, compilationUnitContents);
+    }
+    else
+    {
+      Pattern importPattern = Pattern.compile("import\\s+([^\\s;]*);\\s*", Pattern.MULTILINE | Pattern.DOTALL);
+      Matcher matcher = importPattern.matcher(compilationUnitContents);
+      while (matcher.find())
       {
-        String packageName = qualifiedName.substring(0, lastDot);
-        importedPackages.add(packageName);
+        String qualifiedName = matcher.group(1);
+        int lastDot = qualifiedName.lastIndexOf(".");
+        String shortName = qualifiedName.substring(lastDot + 1);
+        if (shortName.equals("*"))
+        {
+          String packageName = qualifiedName.substring(0, lastDot);
+          importedPackages.add(packageName);
+        }
+        else
+        {
+          shortNameToImportMap.put(shortName, qualifiedName);
+        }
       }
-      else
+    }
+  }
+  
+  protected static class EclipseUtil
+  {
+    public static void addCompilationUnitImports(Set importedPackages, Map shortNameToImportMap, String compilationUnitContents)
+    {   
+      ASTParser parser = ASTParser.newParser(AST.JLS3);
+      parser.setSource(compilationUnitContents.toCharArray());
+      CompilationUnit compilationUnit = (CompilationUnit)parser.createAST(new NullProgressMonitor());
+      for (Iterator i = compilationUnit.imports().iterator(); i.hasNext();)
       {
-        shortNameToImportMap.put(shortName, qualifiedName);
+        ImportDeclaration importDeclaration = (ImportDeclaration)i.next();
+        String qualifiedName = importDeclaration.getName().getFullyQualifiedName();
+        int lastDot = qualifiedName.lastIndexOf(".");
+        String shortName = qualifiedName.substring(lastDot + 1);
+        if (shortName.equals("*"))
+        {
+          String packageName = qualifiedName.substring(0, lastDot);
+          importedPackages.add(packageName);
+        }
+        else
+        {
+          shortNameToImportMap.put(shortName, qualifiedName);
+        }
       }
     }
   }

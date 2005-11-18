@@ -12,17 +12,19 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.33 2005/10/28 13:49:28 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.34 2005/11/18 12:07:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
-import java.io.ByteArrayInputStream;
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +48,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
@@ -69,10 +70,14 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
+import org.eclipse.emf.codegen.jmerge.JControlModel;
 import org.eclipse.emf.codegen.jmerge.JMerger;
 import org.eclipse.emf.codegen.jmerge.PropertyMerger;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.codegen.util.ImportManager;
+import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.common.util.WrappedException;
@@ -90,6 +95,7 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
@@ -178,119 +184,117 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return false;
   }
 
-  public void generate(IProgressMonitor progressMonitor)
+  public final void generate(IProgressMonitor progressMonitor)
+  {
+    generate(BasicMonitor.toMonitor(progressMonitor));
+  }
+  
+  public final void gen(Monitor progressMonitor)
+  {
+    generate(progressMonitor);
+  }
+  
+  public void generate(Monitor progressMonitor)
   {
   }
-
-  protected void generate(IProgressMonitor progressMonitor, int style, List pluginVariables, String outputFilePath, JETEmitter jetEmitter)
+  
+  protected void generate(Monitor progressMonitor, int style, List pluginVariables, String outputFilePath, JETEmitter jetEmitter)
   {
     try
     {
-      IPath outputPath = new Path(outputFilePath.substring(0, outputFilePath.lastIndexOf("/")));
+      URI outputURI = URI.createPlatformResourceURI(outputFilePath.substring(0, outputFilePath.lastIndexOf("/")));
       progressMonitor.beginTask("", 3);
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingFile_message", new Object [] { outputFilePath }));
-      IContainer container = findOrCreateContainer(new SubProgressMonitor(progressMonitor, 1), style, pluginVariables, outputPath, false);
-      if (container != null)
+      if (findOrCreateContainer(createMonitor(progressMonitor, 1), style, pluginVariables, outputURI, false))
       {
-        IFile targetFile = container.getFile(new Path(outputFilePath.substring(outputFilePath.lastIndexOf("/") + 1)));
-        if (targetFile.exists() && (outputFilePath.endsWith("/build.properties") || !outputFilePath.endsWith(".properties")))
+        URI targetFile = outputURI.appendSegment(outputFilePath.substring(outputFilePath.lastIndexOf("/") + 1));
+        if (exists(targetFile) && (outputFilePath.endsWith("/build.properties") || !outputFilePath.endsWith(".properties")))
         {
           return;
         }
-        
+          
         //We are not generating the manifest file if the plugin.xml exists.
         //
-        if (outputFilePath.endsWith("/META-INF/MANIFEST.MF") && targetFile.getParent().getParent().exists(new Path("plugin.xml")))
+        if (outputFilePath.endsWith("/META-INF/MANIFEST.MF") && exists(targetFile.trimSegments(2).appendSegment("plugin.xml")))
         {
           return;
         }
-
+  
         boolean changed = false;
         boolean isUnicodeEscapeEncoded = outputFilePath.endsWith(".properties");
-        String emitterResult = jetEmitter.generate(new SubProgressMonitor(progressMonitor, 1), new Object [] { this });
+        String emitterResult = jetEmitter.generate(createMonitor(progressMonitor, 1), new Object [] { this });
         if (isUnicodeEscapeEncoded)
         {
           emitterResult = unicodeEscapeEncode(emitterResult);
         }
-
+  
         progressMonitor.worked(1);
-        InputStream contents = new ByteArrayInputStream(emitterResult.toString().getBytes(isUnicodeEscapeEncoded ? "ISO-8859-1" : "UTF-8"));
-        if (targetFile.exists())
+        byte [] bytes = emitterResult.toString().getBytes(isUnicodeEscapeEncoded ? "ISO-8859-1" : "UTF-8");
+        if (exists(targetFile))
         {
           // Don't overwrite exising file
           PropertyMerger propertyMerger = new PropertyMerger();
           propertyMerger.setSourceProperties(emitterResult);
           progressMonitor.subTask
-            (CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object [] { targetFile.getFullPath() }));
-          String oldProperties = propertyMerger.createPropertiesForInputStream(targetFile.getContents(true));
+            (CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object [] { targetFile }));
+          String oldProperties = propertyMerger.createPropertiesForInputStream(createInputStream(targetFile));
           propertyMerger.setTargetProperties(oldProperties);
           progressMonitor.subTask
-            (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile.getFullPath() }));
+            (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile }));
           propertyMerger.merge();
           progressMonitor.worked(1);
-
+  
           String mergedResult = propertyMerger.getTargetProperties();
           changed = !mergedResult.equals(oldProperties);
           if (changed)
           {
-            if (targetFile.isReadOnly() && 
-                  targetFile.getWorkspace().validateEdit(new IFile [] { targetFile }, new SubProgressMonitor(progressMonitor, 1)).isOK())
+            if (isReadOnly(targetFile) && EclipseUtil.validateEdit(targetFile.toString(), createMonitor(progressMonitor, 1)))
             {
-              propertyMerger.setTargetProperties(propertyMerger.createPropertiesForInputStream(targetFile.getContents(true)));
+              propertyMerger.setTargetProperties(propertyMerger.createPropertiesForInputStream(createInputStream(targetFile)));
               propertyMerger.merge();
               mergedResult = propertyMerger.getTargetProperties();
             }
-
-            contents = new ByteArrayInputStream(mergedResult.getBytes(isUnicodeEscapeEncoded ? "ISO-8859-1" : "UTF-8"));
+  
+            bytes = mergedResult.getBytes(isUnicodeEscapeEncoded ? "ISO-8859-1" : "UTF-8");
           }
         }
         else
         {
           changed = true;
         }
-
+  
         if (changed)
         {
           String redirection = getGenModel().getRedirection();
           boolean redirect = redirection != null && redirection.indexOf("{0}") != -1;
-
+  
           // Use an alternate if we can't write to this one.
           //
           if (redirect)
           {
-            String baseName = MessageFormat.format(redirection, new Object [] { targetFile.getName() });
-            targetFile = container.getFile(new Path(baseName));
+            String baseName = MessageFormat.format(redirection, new Object [] { targetFile.lastSegment() });
+            targetFile = outputURI.appendSegment(baseName);
             progressMonitor.subTask
-              (CodeGenEcorePlugin.INSTANCE.getString("_UI_UsingAlternate_message", new Object [] { targetFile.getFullPath() }));
+              (CodeGenEcorePlugin.INSTANCE.getString("_UI_UsingAlternate_message", new Object [] { targetFile }));
           }
-  
-          if (targetFile.isReadOnly())
+    
+          if (isReadOnly(targetFile))
           {
             if (getGenModel().isForceOverwrite())
             {
-              ResourceAttributes resourceAttributes = targetFile.getResourceAttributes();
-              if (resourceAttributes != null)
-              {
-                resourceAttributes.setReadOnly(false);
-                targetFile.setResourceAttributes(resourceAttributes);
-              }
+              setOverwriteable(targetFile);
             }
             else
             {
-              targetFile = container.getFile(new Path("." + targetFile.getName() + ".new"));
+              targetFile = outputURI.appendSegment("." + targetFile.lastSegment() + ".new");
               progressMonitor.subTask
-                (CodeGenEcorePlugin.INSTANCE.getString("_UI_UsingDefaultAlternate_message", new Object [] { targetFile.getFullPath() }));
+                (CodeGenEcorePlugin.INSTANCE.getString("_UI_UsingDefaultAlternate_message", new Object [] { targetFile }));
             }
           }
-  
-          if (targetFile.exists())
-          {
-            targetFile.setContents(contents, true, true, new SubProgressMonitor(progressMonitor, 1));
-          }
-          else
-          {
-            targetFile.create(contents, true, new SubProgressMonitor(progressMonitor, 1));
-          }
+          
+          OutputStream outputStream = createOutputStream(targetFile);
+          outputStream.write(bytes);
+          outputStream.close();
         }
       }
     }
@@ -303,9 +307,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       progressMonitor.done();
     }
   }
-
+  
+  protected Monitor createMonitor(Monitor monitor, int ticks)
+  {
+    return CodeGenUtil.createMonitor(monitor, ticks);
+  }
+  
   protected void generate
-    (IProgressMonitor progressMonitor, 
+    (Monitor progressMonitor, 
      int style, 
      List pluginVariables,
      String outputFilePath, 
@@ -316,7 +325,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   }
 
   protected void generate
-    (IProgressMonitor progressMonitor, 
+    (Monitor progressMonitor,
      int style, 
      List pluginVariables,
      String outputFilePath, 
@@ -326,15 +335,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     try
     {
-      IPath outputPath = new Path(outputFilePath.substring(0, outputFilePath.lastIndexOf("/")));
+      URI outputURI = URI.createPlatformResourceURI(outputFilePath.substring(0, outputFilePath.lastIndexOf("/")));
       progressMonitor.beginTask("", 3);
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingImage_message", new Object [] { outputFilePath }));
-      IContainer container = 
-        findOrCreateContainer(new SubProgressMonitor(progressMonitor, 1), style, pluginVariables, outputPath, false);
-      if (container != null)
+      if (findOrCreateContainer(createMonitor(progressMonitor, 1), style, pluginVariables, outputURI, false))
       {
-        IFile targetFile = container.getFile(new Path(outputFilePath.substring(outputFilePath.lastIndexOf("/") + 1)));
-        if (targetFile.exists())
+        URI targetFile = outputURI.appendSegment(outputFilePath.substring(outputFilePath.lastIndexOf("/") + 1));
+        if (exists(targetFile))
         {
           // Don't overwrite exising file
         }
@@ -342,8 +349,9 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         {
           byte[] emitterResult = gifEmitter.generateGIF(parentKey, childKey);
           progressMonitor.worked(1);
-          InputStream contents = new ByteArrayInputStream(emitterResult);
-          targetFile.create(contents, true, new SubProgressMonitor(progressMonitor, 1));
+          OutputStream outputStream = createOutputStream(targetFile);
+          outputStream.write(emitterResult);
+          outputStream.close();
         }
       }
     }
@@ -355,7 +363,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   }
 
   protected void generate
-    (IProgressMonitor progressMonitor, 
+    (Monitor progressMonitor, 
      int style, 
      List pluginVariables,
      String targetDirectory, 
@@ -365,65 +373,86 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     try
     {
-      IPath outputPath = new Path(targetDirectory + "/" + packageName.replace('.','/'));
-      progressMonitor.beginTask("", 4);
-      IContainer container = findOrCreateContainer(new SubProgressMonitor(progressMonitor, 1), style, pluginVariables, outputPath, false);
-      if (container != null)
+      URI outputURI = URI.createPlatformResourceURI(targetDirectory).appendSegments(packageName.split("\\."));
+        
+      if (progressMonitor != null) progressMonitor.beginTask("", 4);
+        
+      if (findOrCreateContainer(createMonitor(progressMonitor, 1), style, pluginVariables, outputURI, false))
       {
         // Create an import manager for this compilation unit
         ImportManager importManager = new ImportManager(packageName);
         importManager.addMasterImport(packageName, className);
         setImportManager(importManager);
-
-        // Create a code formatter for this compilation unit, if needed
-        CodeFormatter codeFormatter = getGenModel().isCodeFormatting() ? getGenModel().createCodeFormatter() : null;
-
-        String emitterResult = jetEmitter.generate(new SubProgressMonitor(progressMonitor, 1), new Object [] { this });
+    
+        String emitterResult = jetEmitter.generate(createMonitor(progressMonitor, 1), new Object [] { this });
         progressMonitor.worked(1);
-
+    
         boolean changed = true;
-        IFile targetFile = container.getFile(new Path(className + ".java"));
-        progressMonitor.subTask
-          (CodeGenEcorePlugin.INSTANCE.getString("_UI_Generating_message", new Object [] { targetFile.getFullPath()}));
-        JMerger jMerger = new JMerger();
-        jMerger.setControlModel(getGenModel().getJControlModel());
-        jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(emitterResult));
-        String newContents = null;
-        if (targetFile.exists())
+        URI targetFile = outputURI.appendSegment(className + ".java");
+        if (progressMonitor != null)
         {
-          progressMonitor.subTask
-            (CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object [] { targetFile.getFullPath() }));
-          jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(targetFile.getContents(true)));
-          String oldContents = jMerger.getTargetCompilationUnitContents();
-
-          progressMonitor.subTask
-            (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile.getFullPath() }));
-          jMerger.merge();
-          progressMonitor.worked(1);
-
-          newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
-          changed = !oldContents.equals(newContents);
-          if (changed)
+          progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_Generating_message", new Object [] { targetFile }));
+        }
+        
+        String newContents = emitterResult;
+        JControlModel jControlModel = getGenModel().getJControlModel();
+        if (EMFPlugin.IS_ECLIPSE_RUNNING)
+        {
+          JMerger jMerger = new JMerger();
+          jMerger.setControlModel(jControlModel);
+          jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(emitterResult));
+          // Create a code formatter for this compilation unit, if needed
+          CodeFormatter codeFormatter = getGenModel().isCodeFormatting() ? getGenModel().createCodeFormatter() : null;
+      
+          if (exists(targetFile))
           {
-            if (targetFile.isReadOnly() && 
-                  targetFile.getWorkspace().validateEdit(new IFile [] { targetFile }, new SubProgressMonitor(progressMonitor, 1)).isOK())
+            progressMonitor.subTask
+              (CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object [] { targetFile }));
+            jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile)));
+            String oldContents = jMerger.getTargetCompilationUnitContents();
+      
+            progressMonitor.subTask
+              (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile }));
+            jMerger.merge();
+            progressMonitor.worked(1);
+      
+            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+            changed = !oldContents.equals(newContents);
+            if (changed)
             {
-              jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(targetFile.getContents(true)));
-              jMerger.remerge();
-              newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+              if (isReadOnly(targetFile) &&  EclipseUtil.validateEdit(targetFile.toString(), createMonitor(progressMonitor, 1)))
+              {
+                jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile)));
+                jMerger.remerge();
+                newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+              }
             }
+          }
+          else
+          {
+            changed = true;
+            progressMonitor.subTask
+              (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile }));
+            
+            jMerger.merge();
+            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
           }
         }
         else
         {
-          changed = true;
-          progressMonitor.subTask
-            (CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object [] { targetFile.getFullPath() }));
-          jMerger.merge();
-          progressMonitor.worked(1);
-          newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+          newContents = 
+            CodeGenUtil.convertFormat(jControlModel.getLeadingTabReplacement(), jControlModel.convertToStandardBraceStyle(), emitterResult);
+          if (exists(targetFile))
+          {
+            String oldContents = getContents(targetFile); 
+            changed = !oldContents.equals(newContents);
+          }
+          else
+          {
+            changed = true;
+          }
         }
-
+    
         if (changed)
         {
           //purpose: using charset from 'targetFile' to encode in-memory 
@@ -432,61 +461,43 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           //date:    Aug 25, 2004
           //action:  first get the charset from 'targetFile', then use it 
           //         to encode the 'newContents' object into bytes
-          String encoding = null;
-          try
-          {
-            encoding = targetFile.getCharset();
-          }
-          catch (CoreException ce)
-          {
-            // use no encoding
-          }
+          String encoding = getEncoding(targetFile);
           byte[] bytes = encoding == null 
             ? newContents.getBytes() 
             : newContents.getBytes(encoding);
-
-          InputStream contents = new ByteArrayInputStream(bytes);
-
+    
+          // InputStream contents = new ByteArrayInputStream(bytes);
+    
           String redirection = getGenModel().getRedirection();
           boolean redirect = redirection != null && redirection.indexOf("{0}") != -1;
-
+    
           // Use an alternate if we can't write to this one.
           //
           if (redirect)
           {
             String baseName = MessageFormat.format(redirection, new Object [] { className + ".java" });
-            targetFile = container.getFile(new Path(baseName));
+            targetFile = outputURI.appendSegment(baseName);
             progressMonitor.subTask
-              (CodeGenEcorePlugin.INSTANCE.getString("_UI_UsingAlternate_message", new Object [] { targetFile.getFullPath() }));
+              (CodeGenEcorePlugin.INSTANCE.getString("_UI_UsingAlternate_message", new Object [] { targetFile }));
           } 
-
-          if (targetFile.isReadOnly())
+    
+          if (isReadOnly(targetFile))
           {
             if (getGenModel().isForceOverwrite())
             {
-              ResourceAttributes resourceAttributes = targetFile.getResourceAttributes();
-              if (resourceAttributes != null)
-              {
-                resourceAttributes.setReadOnly(false);
-                targetFile.setResourceAttributes(resourceAttributes);
-              }
+              setOverwriteable(targetFile);
             }
             else
             {
-              targetFile = container.getFile(new Path("." + className + ".java.new"));
+              targetFile = outputURI.appendSegment("." + className + ".java.new");
               progressMonitor.subTask
-                (CodeGenEcorePlugin.INSTANCE.getString("_UI_UsingDefaultAlternate_message", new Object [] { targetFile.getFullPath() }));
+                (CodeGenEcorePlugin.INSTANCE.getString("_UI_UsingDefaultAlternate_message", new Object [] { targetFile }));
             }
           }
-
-          if (targetFile.exists())
-          {
-            targetFile.setContents(contents, true, true, new SubProgressMonitor(progressMonitor, 1));
-          }
-          else
-          {
-            targetFile.create(contents, true, new SubProgressMonitor(progressMonitor, 1));
-          }
+    
+          OutputStream outputStream = createOutputStream(targetFile);
+          outputStream.write(bytes);
+          outputStream.close();
         }
       }
     }
@@ -498,13 +509,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     {
       CodeGenEcorePlugin.INSTANCE.log(exception);
     }
-
+  
     // Clear the import manager
     setImportManager(null);
-
+  
     progressMonitor.done();
   }
-
+  
   protected ImportManager getImportManager()
   {
     return ((GenBaseImpl)getGenModel()).getImportManager();
@@ -534,161 +545,6 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
   }
 
-  protected IContainer findOrCreateContainer
-    (IProgressMonitor progressMonitor, int style, List pluginVariables, IPath outputPath, boolean forceStyle)
-  {
-    IContainer container = null;
-    try
-    {
-      progressMonitor.beginTask("", outputPath.segmentCount() + 1);
-      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_OpeningFolder_message", new Object [] { outputPath }));
-      if (outputPath.isAbsolute())
-      {
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IProject project = workspace.getRoot().getProject(outputPath.segment(0));
-        if (forceStyle || !project.exists())
-        {
-          IPath projectLocation = null;
-
-          List referencedProjects = new UniqueEList();
-          if (project.exists())
-          {
-            referencedProjects.addAll(Arrays.asList(project.getDescription().getReferencedProjects()));
-            projectLocation = project.getDescription().getLocation();
-          }
-          else
-          {
-            URI genModelURI = getGenModel().eResource().getURI();
-            if (genModelURI.toString().startsWith("platform:/resource/"))
-            {
-              IProject genModelProject = workspace.getRoot().getProject(genModelURI.segments()[1]);
-              projectLocation = genModelProject.getDescription().getLocation();
-            }
-          }
-
-          IProject modelProject = workspace.getRoot().getProject(getGenModel().getModelProjectDirectory());
-          IPath javaSource = new Path(getGenModel().getModelDirectory());
-
-          if ((style & Generator.EMF_TESTS_PROJECT_STYLE) != 0)
-          {
-            IProject testsProject = workspace.getRoot().getProject(getGenModel().getTestsProjectDirectory());
-
-            if (!getGenModel().sameModelTestsProject()) 
-            {
-              javaSource = new Path(getGenModel().getTestsDirectory());
-
-              if (testsProject.exists())
-              {
-                projectLocation = testsProject.getDescription().getLocation();
-              }
-
-              referencedProjects.add(modelProject);
-              referencedProjects.addAll(Arrays.asList(modelProject.getDescription().getReferencedProjects()));
-            }
-          }
-          else if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 && getGenModel().hasEditSupport())
-          {
-            IProject editProject = workspace.getRoot().getProject(getGenModel().getEditProjectDirectory());
-
-            if (!getGenModel().sameModelEditProject())
-            {
-              javaSource = new Path(getGenModel().getEditDirectory());
-              if (editProject.exists())
-              {
-                projectLocation = editProject.getDescription().getLocation();
-              }
-
-              referencedProjects.add(modelProject);
-            }
-
-            for (Iterator i = getGenModel().getUsedGenPackages().iterator(); i.hasNext(); )
-            {
-              GenModel otherGenModel = ((GenPackage)i.next()).getGenModel();
-              if (otherGenModel.hasEditSupport())
-              {
-                IProject otherEditProject = workspace.getRoot().getProject(otherGenModel.getEditProjectDirectory());
-                if (otherEditProject.exists())
-                {
-                  referencedProjects.add(otherEditProject);
-                  referencedProjects.addAll(Arrays.asList(otherEditProject.getDescription().getReferencedProjects()));
-                }
-              }
-            }
-
-            if ((style & Generator.EMF_EDIT_PROJECT_STYLE) == 0 && getGenModel().hasEditorSupport())
-            {
-              javaSource = new Path(getGenModel().getEditorDirectory());
-              if (!getGenModel().sameEditEditorProject())
-              {
-                referencedProjects.add(editProject);
-                referencedProjects.addAll(Arrays.asList(editProject.getDescription().getReferencedProjects()));
-              }
-            }
-          }
-
-          //  Remove any non-Java dependencies from being added.
-          //
-          for (Iterator i = referencedProjects.iterator(); i.hasNext(); )
-          {
-            IProject referencedProject = (IProject)i.next();
-            IJavaProject referencedJavaProject = JavaCore.create(referencedProject);
-            if (!referencedJavaProject.exists())
-            {
-              i.remove();
-            }
-          }
-
-          if (projectLocation != null)
-          {
-            projectLocation = projectLocation.removeLastSegments(1).append(javaSource.segment(0));
-          }
-
-          if (getGenModel().hasXMLDependency())
-          {
-            style |= Generator.EMF_XML_PROJECT_STYLE;
-          }
-
-          if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 || getGenModel().hasPluginSupport())
-          {
-            style |= Generator.EMF_PLUGIN_PROJECT_STYLE;
-          }
-
-          Generator.createEMFProject
-            (javaSource,
-             projectLocation, 
-             referencedProjects, 
-             progressMonitor, 
-             style,
-             pluginVariables);
-        }
-        else
-        {
-          if (!project.isOpen())
-          {
-            project.open(new SubProgressMonitor(progressMonitor, 1));
-          }
-        }
-
-        container = project;
-        for (int i = 1, length = outputPath.segmentCount(); i < length; ++ i)
-        {
-          IFolder folder = container.getFolder(new Path(outputPath.segment(i)));
-          if (!folder.exists())
-          {
-            folder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
-          }
-          container = folder;
-        }
-      }
-    }
-    catch (Exception exception)
-    {
-      CodeGenEcorePlugin.INSTANCE.log(exception);
-    }
-    progressMonitor.done();
-    return container;
-  }
-
   /**
    * If {@link org.eclipse.emf.codegen.ecore.GenModel#isCodeFormatting code formatting} is enabled for this model, use
    * the specified JDT code formatter to format the given compilation unit contents. If no code formatter is specified,
@@ -696,27 +552,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    */
   protected String formatCode(String contents, CodeFormatter codeFormatter)
   {
-    if (getGenModel().isCodeFormatting())
-    {
-      if (codeFormatter == null)
-      {
-        codeFormatter = getGenModel().createCodeFormatter();
-      }
-
-      IDocument doc = new Document(contents);
-      TextEdit edit = codeFormatter.format(CodeFormatter.K_COMPILATION_UNIT, doc.get(), 0, doc.get().length(), 0, null);
-
-      try
-      {
-        edit.apply(doc);
-        contents = doc.get();
-      }
-      catch (Exception exception)
-      {
-        CodeGenEcorePlugin.INSTANCE.log(exception);
-      }
-    }
-    return contents;
+    return 
+      EMFPlugin.IS_ECLIPSE_RUNNING && getGenModel().isCodeFormatting() ?
+        EclipseUtil.formatCode(contents, codeFormatter) : 
+        contents;
   }
 
   /**
@@ -1680,7 +1519,17 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return getGenModel().canGenerateEdit() && hasModelContribution();
   }
 
-  public void generateEdit(IProgressMonitor progressMonitor)
+  public final void generateEdit(IProgressMonitor progressMonitor)
+  {
+    generateEdit(BasicMonitor.toMonitor(progressMonitor));
+  }
+  
+  public final void genEdit(Monitor progressMonitor)
+  {
+    generateEdit(progressMonitor);
+  }
+  
+  public void generateEdit(Monitor progressMonitor)
   {
   }
 
@@ -1689,7 +1538,17 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return getGenModel().canGenerateEditor() && hasModelContribution();
   }
 
-  public void generateEditor(IProgressMonitor progressMonitor)
+  public final void generateEditor(IProgressMonitor progressMonitor)
+  {
+    generateEditor(BasicMonitor.toMonitor(progressMonitor));
+  }
+  
+  public final void genEditor(Monitor progressMonitor)
+  {
+    generateEditor(progressMonitor);
+  }
+  
+  public void generateEditor(Monitor progressMonitor)
   {
   }
 
@@ -1698,7 +1557,17 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return false;
   }
 
-  public void generateSchema(IProgressMonitor progressMonitor)
+  public final void generateSchema(IProgressMonitor progressMonitor)
+  {
+    generateSchema(BasicMonitor.toMonitor(progressMonitor));
+  }
+  
+  public final void genSchema(Monitor progressMonitor)
+  {
+    generateSchema(progressMonitor);
+  }
+  
+  public void generateSchema(Monitor progressMonitor)
   {
   }
 
@@ -1707,7 +1576,17 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return false;
   }
 
-  public void generateTests(IProgressMonitor progressMonitor)
+  public final void generateTests(IProgressMonitor progressMonitor)
+  {
+    generateTests(BasicMonitor.toMonitor(progressMonitor));
+  }
+  
+  public final void genTests(Monitor progressMonitor)
+  {
+    generateTests(progressMonitor);
+  }
+  
+  public void generateTests(Monitor progressMonitor)
   {
   }
 
@@ -2113,4 +1992,528 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
     }
   }
-}
+  
+  protected static class EclipseUtil
+  {
+    protected static String formatCode(String contents, CodeFormatter codeFormatter)
+    {
+      IDocument doc = new Document(contents);
+      TextEdit edit = codeFormatter.format(CodeFormatter.K_COMPILATION_UNIT, doc.get(), 0, doc.get().length(), 0, null);
+  
+      try
+      {
+        edit.apply(doc);
+        contents = doc.get();
+      }
+      catch (Exception exception)
+      {
+        CodeGenEcorePlugin.INSTANCE.log(exception);
+      }
+      
+      return contents;
+    }
+    
+    protected static IContainer findOrCreateContainer
+      (GenBaseImpl genBase, Monitor progressMonitor, int style, List pluginVariables, String outputPath, boolean forceStyle)
+    {
+      return findOrCreateContainer(genBase, progressMonitor, style, pluginVariables, new Path(outputPath), forceStyle);
+    }
+    
+    protected static IContainer findOrCreateContainer
+      (GenBaseImpl genBase, Monitor progressMonitor, int style, List pluginVariables, IPath outputPath, boolean forceStyle)
+    {
+      IContainer container = null;
+      try
+      {
+        if (progressMonitor != null)
+        {
+          progressMonitor.beginTask("", outputPath.segmentCount() + 1);
+          progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_OpeningFolder_message", new Object [] { outputPath }));
+        }
+        if (outputPath.isAbsolute())
+        {
+          IWorkspace workspace = ResourcesPlugin.getWorkspace();
+          IProject project = workspace.getRoot().getProject(outputPath.segment(0));
+          if (forceStyle || !project.exists())
+          {
+            IPath projectLocation = null;
+  
+            List referencedProjects = new UniqueEList();
+            if (project.exists())
+            {
+              referencedProjects.addAll(Arrays.asList(project.getDescription().getReferencedProjects()));
+              projectLocation = project.getDescription().getLocation();
+            }
+            else
+            {
+              URI genModelURI = genBase.getGenModel().eResource().getURI();
+              if (genModelURI.toString().startsWith("platform:/resource/"))
+              {
+                IProject genModelProject = workspace.getRoot().getProject(genModelURI.segments()[1]);
+                projectLocation = genModelProject.getDescription().getLocation();
+              }
+            }
+  
+            IProject modelProject = workspace.getRoot().getProject(genBase.getGenModel().getModelProjectDirectory());
+            IPath javaSource = new Path(genBase.getGenModel().getModelDirectory());
+  
+            if ((style & Generator.EMF_TESTS_PROJECT_STYLE) != 0)
+            {
+              IProject testsProject = workspace.getRoot().getProject(genBase.getGenModel().getTestsProjectDirectory());
+  
+              if (!genBase.getGenModel().sameModelTestsProject()) 
+              {
+                javaSource = new Path(genBase.getGenModel().getTestsDirectory());
+  
+                if (testsProject.exists())
+                {
+                  projectLocation = testsProject.getDescription().getLocation();
+                }
+  
+                referencedProjects.add(modelProject);
+                referencedProjects.addAll(Arrays.asList(modelProject.getDescription().getReferencedProjects()));
+              }
+            }
+            else if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 && genBase.getGenModel().hasEditSupport())
+            {
+              IProject editProject = workspace.getRoot().getProject(genBase.getGenModel().getEditProjectDirectory());
+  
+              if (!genBase.getGenModel().sameModelEditProject())
+              {
+                javaSource = new Path(genBase.getGenModel().getEditDirectory());
+                if (editProject.exists())
+                {
+                  projectLocation = editProject.getDescription().getLocation();
+                }
+  
+                referencedProjects.add(modelProject);
+              }
+  
+              for (Iterator i = genBase.getGenModel().getUsedGenPackages().iterator(); i.hasNext(); )
+              {
+                GenModel otherGenModel = ((GenPackage)i.next()).getGenModel();
+                if (otherGenModel.hasEditSupport())
+                {
+                  IProject otherEditProject = workspace.getRoot().getProject(otherGenModel.getEditProjectDirectory());
+                  if (otherEditProject.exists())
+                  {
+                    referencedProjects.add(otherEditProject);
+                    referencedProjects.addAll(Arrays.asList(otherEditProject.getDescription().getReferencedProjects()));
+                  }
+                }
+              }
+  
+              if ((style & Generator.EMF_EDIT_PROJECT_STYLE) == 0 && genBase.getGenModel().hasEditorSupport())
+              {
+                javaSource = new Path(genBase.getGenModel().getEditorDirectory());
+                if (!genBase.getGenModel().sameEditEditorProject())
+                {
+                  referencedProjects.add(editProject);
+                  referencedProjects.addAll(Arrays.asList(editProject.getDescription().getReferencedProjects()));
+                }
+              }
+            }
+  
+            //  Remove any non-Java dependencies from being added.
+            //
+            for (Iterator i = referencedProjects.iterator(); i.hasNext(); )
+            {
+              IProject referencedProject = (IProject)i.next();
+              IJavaProject referencedJavaProject = JavaCore.create(referencedProject);
+              if (!referencedJavaProject.exists())
+              {
+                i.remove();
+              }
+            }
+  
+            if (projectLocation != null)
+            {
+              projectLocation = projectLocation.removeLastSegments(1).append(javaSource.segment(0));
+            }
+  
+            if (genBase.getGenModel().hasXMLDependency())
+            {
+              style |= Generator.EMF_XML_PROJECT_STYLE;
+            }
+  
+            if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 || genBase.getGenModel().hasPluginSupport())
+            {
+              style |= Generator.EMF_PLUGIN_PROJECT_STYLE;
+            }
+  
+            Generator.createEMFProject
+              (javaSource,
+               projectLocation, 
+               referencedProjects, 
+               progressMonitor, 
+               style,
+               pluginVariables);
+          }
+          else
+          {
+            if (!project.isOpen())
+            {
+              project.open(BasicMonitor.toIProgressMonitor(genBase.createMonitor(progressMonitor, 1)));
+            }
+          }
+  
+          container = project;
+          for (int i = 1, length = outputPath.segmentCount(); i < length; ++ i)
+          {
+            IFolder folder = container.getFolder(new Path(outputPath.segment(i)));
+            if (!folder.exists())
+            {
+              folder.create(false, true, BasicMonitor.toIProgressMonitor(genBase.createMonitor(progressMonitor, 1)));
+            }
+            container = folder;
+          }
+        }
+      }
+      catch (Exception exception)
+      {
+        CodeGenEcorePlugin.INSTANCE.log(exception);
+      }
+      progressMonitor.done();
+      return container;
+    }
+    
+    protected static boolean findOrCreateContainer
+      (GenModel genModel, Monitor progressMonitor, int style, List pluginVariables, String output, boolean forceStyle)
+    {
+      IPath outputPath = new Path(output);
+      IContainer container = null;
+      try
+      {
+        if (progressMonitor != null)
+        {
+          progressMonitor.beginTask("", outputPath.segmentCount() + 1);
+          progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_OpeningFolder_message", new Object [] { outputPath }));
+        }
+        if (outputPath.isAbsolute())
+        {
+          IWorkspace workspace = ResourcesPlugin.getWorkspace();
+          IProject project = workspace.getRoot().getProject(outputPath.segment(0));
+          if (forceStyle || !project.exists())
+          {
+            IPath projectLocation = null;
+  
+            List referencedProjects = new UniqueEList();
+            if (project.exists())
+            {
+              referencedProjects.addAll(Arrays.asList(project.getDescription().getReferencedProjects()));
+              projectLocation = project.getDescription().getLocation();
+            }
+            else
+            {
+              URI genModelURI = genModel.eResource().getURI();
+              if (genModelURI.toString().startsWith("platform:/resource/"))
+              {
+                IProject genModelProject = workspace.getRoot().getProject(genModelURI.segments()[1]);
+                projectLocation = genModelProject.getDescription().getLocation();
+              }
+            }
+  
+            IProject modelProject = workspace.getRoot().getProject(genModel.getModelProjectDirectory());
+            IPath javaSource = new Path(genModel.getModelDirectory());
+  
+            if ((style & Generator.EMF_TESTS_PROJECT_STYLE) != 0)
+            {
+              IProject testsProject = workspace.getRoot().getProject(genModel.getTestsProjectDirectory());
+  
+              if (!genModel.sameModelTestsProject()) 
+              {
+                javaSource = new Path(genModel.getTestsDirectory());
+  
+                if (testsProject.exists())
+                {
+                  projectLocation = testsProject.getDescription().getLocation();
+                }
+  
+                referencedProjects.add(modelProject);
+                referencedProjects.addAll(Arrays.asList(modelProject.getDescription().getReferencedProjects()));
+              }
+            }
+            else if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 && genModel.hasEditSupport())
+            {
+              IProject editProject = workspace.getRoot().getProject(genModel.getEditProjectDirectory());
+  
+              if (!genModel.sameModelEditProject())
+              {
+                javaSource = new Path(genModel.getEditDirectory());
+                if (editProject.exists())
+                {
+                  projectLocation = editProject.getDescription().getLocation();
+                }
+  
+                referencedProjects.add(modelProject);
+              }
+  
+              for (Iterator i = genModel.getUsedGenPackages().iterator(); i.hasNext(); )
+              {
+                GenModel otherGenModel = ((GenPackage)i.next()).getGenModel();
+                if (otherGenModel.hasEditSupport())
+                {
+                  IProject otherEditProject = workspace.getRoot().getProject(otherGenModel.getEditProjectDirectory());
+                  if (otherEditProject.exists())
+                  {
+                    referencedProjects.add(otherEditProject);
+                    referencedProjects.addAll(Arrays.asList(otherEditProject.getDescription().getReferencedProjects()));
+                  }
+                }
+              }
+  
+              if ((style & Generator.EMF_EDIT_PROJECT_STYLE) == 0 && genModel.hasEditorSupport())
+              {
+                javaSource = new Path(genModel.getEditorDirectory());
+                if (!genModel.sameEditEditorProject())
+                {
+                  referencedProjects.add(editProject);
+                  referencedProjects.addAll(Arrays.asList(editProject.getDescription().getReferencedProjects()));
+                }
+              }
+            }
+  
+            //  Remove any non-Java dependencies from being added.
+            //
+            for (Iterator i = referencedProjects.iterator(); i.hasNext(); )
+            {
+              IProject referencedProject = (IProject)i.next();
+              IJavaProject referencedJavaProject = JavaCore.create(referencedProject);
+              if (!referencedJavaProject.exists())
+              {
+                i.remove();
+              }
+            }
+  
+            if (projectLocation != null)
+            {
+              projectLocation = projectLocation.removeLastSegments(1).append(javaSource.segment(0));
+            }
+  
+            if (genModel.hasXMLDependency())
+            {
+              style |= Generator.EMF_XML_PROJECT_STYLE;
+            }
+  
+            if ((style & Generator.EMF_MODEL_PROJECT_STYLE) == 0 || genModel.hasPluginSupport())
+            {
+              style |= Generator.EMF_PLUGIN_PROJECT_STYLE;
+            }
+  
+            Generator.createEMFProject
+              (javaSource,
+               projectLocation, 
+               referencedProjects, 
+               progressMonitor, 
+               style,
+               pluginVariables);
+          }
+          else
+          {
+            if (!project.isOpen())
+            {
+              project.open(BasicMonitor.toIProgressMonitor(CodeGenUtil.createMonitor(progressMonitor, 1)));
+            }
+          }
+  
+          container = project;
+          for (int i = 1, length = outputPath.segmentCount(); i < length; ++ i)
+          {
+            IFolder folder = container.getFolder(new Path(outputPath.segment(i)));
+            if (!folder.exists())
+            {
+              folder.create(false, true, BasicMonitor.toIProgressMonitor(CodeGenUtil.createMonitor(progressMonitor, 1)));
+            }
+            container = folder;
+          }
+        }
+      }
+      catch (Exception exception)
+      {
+        CodeGenEcorePlugin.INSTANCE.log(exception);
+      }
+      progressMonitor.done();
+      return container != null;
+    }
+    
+    public static boolean validateEdit(String path, Monitor progressMonitor)
+    {
+      IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));
+      return file.getWorkspace().validateEdit(new IFile [] { file }, progressMonitor).isOK();
+    }
+    
+    public static boolean exists(String path)
+    {
+      return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path)).exists();
+    }
+    
+    public static boolean isReadOnly(String path)
+    {
+      return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path)).isReadOnly();
+    }
+    
+    public static InputStream createInputStream(String path) throws Exception
+    {
+      return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path)).getContents(true);
+    }
+    
+    public static String getEncoding(String path)
+    {
+      try
+      {
+        return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path)).getCharset();
+      }
+      catch (CoreException exception)
+      {
+        return null;
+      }
+    }
+    
+    public static void setWriteable(String path) throws Exception
+    {
+      IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));
+      ResourceAttributes resourceAttributes = file.getResourceAttributes();
+      if (resourceAttributes != null)
+      {
+        resourceAttributes.setReadOnly(false);
+        file.setResourceAttributes(resourceAttributes);
+      }
+    }
+  }
+  
+  protected static final URI PLATFORM_RESOURCE_URI = URI.createURI("platform:/resource/");
+  protected static final URI EMPTY_URI = URI.createURI("/");
+    
+  public boolean findOrCreateContainer
+    (Monitor progressMonitor, int style, List pluginVariables, URI outputURI, boolean forceStyle)
+  {
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      URI workspacePath = outputURI.replacePrefix(PLATFORM_RESOURCE_URI, EMPTY_URI);
+      if (workspacePath != null)
+      {
+        return 
+          EclipseUtil.findOrCreateContainer
+            (getGenModel(), progressMonitor, style, pluginVariables, workspacePath.toString(), forceStyle);
+      }
+    }
+      
+    progressMonitor.done();
+    return true;
+  }
+    
+  public boolean exists(URI uri)
+  {
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      URI workspacePath = uri.replacePrefix(PLATFORM_RESOURCE_URI, EMPTY_URI);
+      if (workspacePath != null)
+      {
+        return  EclipseUtil.exists(workspacePath.toString());
+      }
+    }
+      
+    URIConverter uriConverter = eResource().getResourceSet().getURIConverter();
+    uri = uriConverter.normalize(uri);
+    if ("file".equalsIgnoreCase(uri.scheme()))
+    {
+      return new File(uri.toFileString()).exists();
+    }
+    else
+    {
+      try
+      {
+        InputStream inputStream = uriConverter.createInputStream(uri);
+        inputStream.close();
+        return true;
+      }
+      catch (IOException exception)
+      { 
+        return false;
+      }
+    }
+  }
+  
+  public boolean isReadOnly(URI uri)
+  {
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      URI workspacePath = uri.replacePrefix(PLATFORM_RESOURCE_URI, EMPTY_URI);
+      if (workspacePath != null)
+      {
+        return  EclipseUtil.isReadOnly(workspacePath.toString());
+      }
+    }
+      
+    URIConverter uriConverter = eResource().getResourceSet().getURIConverter();
+    uri = uriConverter.normalize(uri);
+    if ("file".equalsIgnoreCase(uri.scheme()))
+    {
+      File file = new File(uri.toFileString());
+      return file.exists() && !file.canWrite();
+    }
+    else
+    {
+      return false;
+    }
+  }
+    
+  public InputStream createInputStream(URI uri) throws Exception
+  {
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      URI workspacePath = uri.replacePrefix(PLATFORM_RESOURCE_URI, EMPTY_URI);
+      if (workspacePath != null)
+      {
+        return EclipseUtil.createInputStream(workspacePath.toString());
+      }
+    }
+      
+    URIConverter uriConverter = eResource().getResourceSet().getURIConverter();
+    return uriConverter.createInputStream(uri);
+  }
+  
+  public OutputStream createOutputStream(URI uri) throws Exception
+  {
+    URIConverter uriConverter = eResource().getResourceSet().getURIConverter();
+    return uriConverter.createOutputStream(uri);
+  } 
+  
+  public String getContents(URI uri) throws Exception
+  {
+    BufferedInputStream bufferedInputStream = new BufferedInputStream(createInputStream(uri));
+    byte [] input = new byte [bufferedInputStream.available()];
+    bufferedInputStream.read(input);
+    bufferedInputStream.close();
+    return new String(input);
+  }
+  
+  public String getEncoding(URI uri)
+  {
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      return EclipseUtil.getEncoding(uri.toString());
+    }
+    else
+    {
+      return null;
+    }
+  }
+  
+  public void setOverwriteable(URI uri) throws Exception
+  {
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      EclipseUtil.setWriteable(uri.toString());
+    }
+    else
+    {
+      URIConverter uriConverter = eResource().getResourceSet().getURIConverter();
+      uri = uriConverter.normalize(uri);
+      if ("file".equalsIgnoreCase(uri.scheme()))
+      {
+        new File(uri.toFileString()).delete();
+      }
+    }
+  }
+} 

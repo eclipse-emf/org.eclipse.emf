@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.5 2005/06/08 06:15:57 nickb Exp $
+ * $Id: PropertyMerger.java,v 1.6 2005/11/18 12:05:53 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -35,7 +35,7 @@ import org.eclipse.core.runtime.IPlatformRunnable;
  * This implements the method {@link #run}, 
  * which is called just like main during headless workbench invocation.
  */
-public class PropertyMerger implements IPlatformRunnable 
+public class PropertyMerger 
 {
   protected String sourceProperties;
   protected String targetProperties;
@@ -229,8 +229,6 @@ public class PropertyMerger implements IPlatformRunnable
   }
 
 
-/////////////////////////////////  HEADLESS INVOCATION  /////////////////////////////////////
-
   /**
    * This is called with the command line arguments of a headless workbench invocation.
    */
@@ -259,5 +257,11 @@ public class PropertyMerger implements IPlatformRunnable
       // exception.printStackTrace();
       return new Integer(1);
     }
+  }
+  
+/////////////////////////////////  HEADLESS INVOCATION  /////////////////////////////////////
+
+  public static class PlatformRunnable extends PropertyMerger implements IPlatformRunnable 
+  {
   }
 }

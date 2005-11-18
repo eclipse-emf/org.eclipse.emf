@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.5 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenEnumImpl.java,v 1.6 2005/11/18 12:08:15 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -24,8 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
@@ -35,6 +33,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -398,7 +397,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     return true;
   }
 
-  public void generate(IProgressMonitor progressMonitor)
+  public void generate(Monitor progressMonitor)
   {
     try
     {
@@ -412,7 +411,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
         (CodeGenEcorePlugin.INSTANCE.getString
            ("_UI_GeneratingJavaClass_message", new Object [] { getGenPackage().getInterfacePackageName() + "." + getName() }));
       generate
-        (new SubProgressMonitor(progressMonitor, 1), 
+        (createMonitor(progressMonitor, 1), 
          Generator.EMF_MODEL_PROJECT_STYLE, 
          getGenModel().getEffectiveModelPluginVariables(),
          getGenModel().getModelDirectory(), 
