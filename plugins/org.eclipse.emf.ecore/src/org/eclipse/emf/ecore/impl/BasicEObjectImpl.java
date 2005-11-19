@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.11 2005/11/18 19:43:09 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.12 2005/11/19 10:52:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -688,9 +688,12 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       }
       oldResource = null;
     }
-    else if (oldContainer != null)
+    else 
     {
-      oldResource = oldContainer.eInternalResource();
+      if (oldContainer != null)
+      {
+        oldResource = oldContainer.eInternalResource();
+      }
       if (newContainer != null)
       {
         newResource = newContainer.eInternalResource();
