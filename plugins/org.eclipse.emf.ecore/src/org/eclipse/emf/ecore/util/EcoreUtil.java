@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.33 2005/11/18 21:47:54 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.34 2005/11/19 11:58:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1049,57 +1049,43 @@ public class EcoreUtil
    */
   public static class ProperContentIterator implements Iterator
   {
-    protected List contents;
-    protected InternalEList basicContents;
-    protected int size;
-    protected int index;
-    protected int removeIndex = -1;
+    protected Iterator iterator;
     protected Object preparedResult;
                  
     public ProperContentIterator(List contents)
     {
-      this.contents = contents;
-      size = contents.size();
+      iterator = contents.iterator();
     }
     
     public ProperContentIterator(InternalEList basicContents)
     {
-      contents = this.basicContents = basicContents;
-      size = basicContents.size();
+      iterator = basicContents.basicIterator();
     }
     
     public ProperContentIterator(EObject eObject)
     {
-      this(eObject.eContents());
-      if (contents instanceof InternalEList)
-      {
-        basicContents = (InternalEList)contents;
-      }
+      this(eObject, false);
     }
     
     public ProperContentIterator(EObject eObject, boolean isResolveProxies)
     {
-      this(eObject.eContents());
-      if (!isResolveProxies && contents instanceof InternalEList)
-      {
-        basicContents = (InternalEList)contents;
-      }
+      EList contents = eObject.eContents();
+      iterator = 
+        !isResolveProxies && contents instanceof InternalEList ?
+          ((InternalEList)contents).basicIterator() :
+            contents.iterator();
     }
     
     public boolean hasNext()
     {
       if (preparedResult == null)
       {
-        while (index < size)
+        while (iterator.hasNext())
         { 
-          preparedResult = get(index);
+          preparedResult = iterator.next();
           if (((InternalEObject)preparedResult).eDirectResource() == null)
           {
             return true;
-          }
-          else
-          {
-            ++index;
           }
         }
         preparedResult = null;
@@ -1111,26 +1097,18 @@ public class EcoreUtil
       }
     }
     
-    protected Object get(int index)
-    {
-      return basicContents == null ? contents.get(index) : basicContents.basicGet(index);
-    }
- 
     public Object next()
     {
       hasNext();
-      removeIndex = index;
-       ++index;
-       Object result = preparedResult;
-       preparedResult = null;
-       return result;
-     }
+      Object result = preparedResult;
+      preparedResult = null;
+      return result;
+    }
  
-     public void remove()
-     {
-       contents.remove(removeIndex);
-       removeIndex = -1;
-     }
+    public void remove()
+    {
+      iterator.remove();
+    }
   }
 
   /**
