@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.50 2005/11/18 19:13:25 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.51 2005/11/21 20:00:45 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -5223,6 +5223,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setBooleanFlagsReservedBits(oldGenModelVersion.getBooleanFlagsReservedBits());
     
     setFeatureDelegation(oldGenModelVersion.getFeatureDelegation());
+    setContainmentProxies(oldGenModelVersion.isContainmentProxies());
   }
 
   public boolean reconcile()
