@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.11 2005/10/07 19:41:12 emerks Exp $
+ * $Id: ModelImporterApplication.java,v 1.12 2005/11/21 18:43:56 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -39,7 +39,6 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.util.CodeGenUtil.StreamProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -47,6 +46,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
 /**
@@ -488,7 +488,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       GenModel genModel = modelImporter.getGenModel();
       Resource genModelResource = genModel.eResource();
 
-      GenModel referencedGenModel = GenModelFactory.eINSTANCE.createGenModel();
+      GenModel referencedGenModel = (GenModel)EcoreUtil.create(genModel.eClass()); 
       genModelResource.getContents().add(referencedGenModel);
       referencedGenModel.initialize(referencedEPackages);
       genModel.getUsedGenPackages().addAll(referencedGenModel.getGenPackages());
@@ -517,7 +517,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
           else
           {
             i.remove();
-            GenModel ecoreGenModel = GenModelFactory.eINSTANCE.createGenModel();
+            GenModel ecoreGenModel = (GenModel)EcoreUtil.create(genModel.eClass());
             genModel.eResource().getContents().add(ecoreGenModel);
             ecoreGenModel.getGenPackages().add(genPackage);
             ecoreGenModel.setBooleanFlagsField("eFlags");
